@@ -75,6 +75,9 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   moved to the Trash loses its icon once the files it left behind move, and History doesn't put that icon back.
 - **When macOS needs more.** After a removal, Peel says when macOS keeps using what moved: an audio driver until
   you restart your Mac, and, on macOS 27, an app's login items, which macOS starts from the Trash until you empty it.
+- **A root certificate stays trusted.** Before an app such as Charles or Proxyman goes, or a tool such as mkcert,
+  Caddy, or mitmproxy is uninstalled on the Homebrew page, Peel says that the root certificate it added stays trusted
+  on this Mac, and how its maker, or Keychain Access, stops trusting it. Peel never changes a keychain.
 - **Lines that still point to what moved.** After a removal, Peel reads the files your shell runs when it starts
   (`.zshrc` and the others zsh, bash, and fish read) and names each line that still points to what moved, such as a
   `PATH` entry or an alias into the app, so a new shell stops printing an error once you edit it. Peel changes none

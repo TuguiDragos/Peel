@@ -294,11 +294,19 @@ struct HomebrewDetailView: View {
         return whatUsesIt.map { Text("\($0)\n\n\(deletesAndLeaves)") } ?? deletesAndLeaves
     }
 
-    /// What Homebrew leaves of a formula, which it says nothing of before it deletes the rest.
+    /// What Homebrew leaves of a package, which it says nothing of before it deletes the rest.
     private var whatStays: Text? {
-        guard let folders = inUse?.dataFolders, !folders.isEmpty else { return nil }
-        let places = folders.map(\.abbreviatedPath).formatted(.list(type: .and))
-        return Text("Homebrew leaves \(places), with any data or settings the formula kept there.")
+        var lines: [Text] = []
+        if let folders = inUse?.dataFolders, !folders.isEmpty {
+            let places = folders.map(\.abbreviatedPath).formatted(.list(type: .and))
+            lines.append(Text("Homebrew leaves \(places), with any data or settings the formula kept there."))
+        }
+        if let root = TrustedRoot.of(package) {
+            lines.append(Text("\(package.name) added a root certificate to the certificates this Mac trusts, and Homebrew leaves it trusted."))
+            lines.append(root.step(in: package.name))
+        }
+        guard let first = lines.first else { return nil }
+        return lines.dropFirst().reduce(first) { Text("\($0)\n\n\($1)") }
     }
 
     /// What Homebrew won't look at before it deletes a formula, said before it does.

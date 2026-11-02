@@ -228,6 +228,112 @@
         }
       }
     },
+    "%@ added a root certificate to the certificates this Mac trusts, and Homebrew leaves it trusted." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Balíček %@ přidal kořenový certifikát mezi certifikáty, kterým tento Mac důvěřuje, a Homebrew ho ponechá jako důvěryhodný."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ hat den Zertifikaten, denen dieser Mac vertraut, ein Root-Zertifikat hinzugefügt, und Homebrew entzieht diesem Zertifikat das Vertrauen nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ añadió un certificado raíz a los certificados en los que confía este Mac, y Homebrew deja que siga siendo de confianza."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ a ajouté un certificat racine aux certificats de confiance de ce Mac, et Homebrew ne l’en retire pas."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ha aggiunto un certificato root ai certificati considerati attendibili da questo Mac, e Homebrew lo lascia attendibile."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”は、このMacが信頼する証明書にルート証明書を追加しています。Homebrewでアンインストールしても、この証明書は信頼されたまま残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 이 Mac이 신뢰하는 인증서에 루트 인증서를 추가했으며, Homebrew는 이 인증서를 신뢰된 상태로 남겨 둡니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ heeft een rootcertificaat toegevoegd aan de certificaten die deze Mac vertrouwt, en Homebrew verandert daar niets aan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pakiet %@ dodał certyfikat główny do certyfikatów, którym ufa ten Mac, a Homebrew nie cofa tego zaufania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ adicionou um certificado raiz aos certificados em que este Mac confia, e o Homebrew o mantém como confiável."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ a adăugat un certificat rădăcină la certificatele în care acest Mac are încredere, iar Homebrew nu îi retrage încrederea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пакет «%@» добавил корневой сертификат к сертификатам, которым доверяет этот Mac, и Homebrew оставит его доверенным."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ har lagt till ett rotcertifikat bland de certifikat som den här datorn litar på, och Homebrew låter det förbli betrott."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, bu Mac’in güvendiği sertifikalara bir kök sertifika ekledi ve Homebrew onu güvenilir olarak bırakır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пакет «%@» додав кореневий сертифікат до сертифікатів, яким довіряє цей Mac, і Homebrew не скасує довіри до нього."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”将一个根证书添加到了这台Mac信任的证书中，而Homebrew会让它保持受信任状态。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」已將一個根憑證加入這部Mac信任的憑證中，而Homebrew會讓它繼續受信任。"
+          }
+        }
+      }
+    },
     "%@ and other apps that use it may stop working." : {
       "comment" : "In the question before a plug-in moves to the Trash. %@ is the installed app the plug-in came with.",
       "localizations" : {
@@ -10330,6 +10436,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「%@」的隱私權限未重置。%@"
+          }
+        }
+      }
+    },
+    "%@’s root certificate stays trusted on this Mac after the app goes." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kořenový certifikát aplikace %@ zůstane v tomto Macu důvěryhodný i po odstranění aplikace."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Root-Zertifikat von „%@“ bleibt auf diesem Mac vertrauenswürdig, auch nachdem die App entfernt wurde."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El certificado raíz de %@ sigue siendo de confianza en este Mac después de eliminar la app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce Mac continue de se fier au certificat racine de %@ après la disparition de l’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il certificato root di %@ resta attendibile su questo Mac anche dopo la rimozione dell’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”のルート証明書は、アプリをゴミ箱に入れた後も、このMacで信頼されたまま残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’의 루트 인증서는 앱이 제거된 후에도 이 Mac에서 계속 신뢰됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het rootcertificaat van %@ blijft vertrouwd op deze Mac nadat de app weg is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Certyfikat główny aplikacji %@ pozostanie zaufany na tym Macu także po przeniesieniu aplikacji do Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O certificado raiz do %@ continua confiável neste Mac depois que o app for removido."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Certificatul rădăcină al aplicației %@ rămâne de încredere pe acest Mac după eliminarea ei."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Корневой сертификат приложения «%@» останется доверенным на этом Mac после удаления приложения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rotcertifikatet från %@ förblir betrott på den här datorn efter att appen är borta."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulamasının kök sertifikası, uygulama gittikten sonra da bu Mac’te güvenilir olarak kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей Mac і далі довірятиме кореневому сертифікату програми «%@» після її вилучення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”的根证书在App移走后仍会在这台Mac上受信任。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」的根憑證在App移除後，仍會受到這部Mac信任。"
           }
         }
       }
@@ -212686,6 +212898,330 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「時光機」的快照會在備份時建立，並保留一段時間。macOS會在需要空間時自行刪除它們。"
+          }
+        }
+      }
+    },
+    "To stop trusting it, choose %@ in %@ first." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcete-li mu přestat důvěřovat, nejdřív v aplikaci %2$@ zvolte %1$@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um ihm das Vertrauen zu entziehen, wähle zuerst %1$@ in „%2$@“."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "To stop trusting it, choose %1$@ in %2$@ first."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para dejar de confiar en él, elige primero %1$@ en %2$@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour que ce Mac ne s’y fie plus, choisissez d’abord %@ dans %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per non considerarlo più attendibile, scegli prima %@ in %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この証明書が信頼されないようにするには、先に%2$@で%1$@と選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 인증서를 더 이상 신뢰하지 않으려면 먼저 ‘%2$@’에서 %1$@을(를) 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om het niet langer te vertrouwen, kies je eerst %@ in %@."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby przestać mu ufać, najpierw wybierz w aplikacji %2$@ polecenie %1$@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para deixar de confiar nele, escolha primeiro %@ no %@."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pentru a‑i retrage încrederea, alegeți mai întâi %@ din %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы перестать ему доверять, сначала выберите %@ в приложении «%@»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om du vill sluta lita på det väljer du först %1$@ i %2$@."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu sertifikaya artık güvenilmemesi için önce %2$@ uygulamasında %1$@ komutunu seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щоб скасувати довіру до нього, спершу виберіть %@ у програмі «%@»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要停止信任它，请先在“%2$@”中选取%1$@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要停止信任它，請先在「%2$@」中選擇%1$@。"
+          }
+        }
+      }
+    },
+    "To stop trusting it, open the certificate whose name begins with %@ in Keychain Access and change its trust settings." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcete-li mu přestat důvěřovat, otevřete v Klíčence certifikát, jehož název začíná na %@, a změňte jeho nastavení důvěryhodnosti."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um ihm das Vertrauen zu entziehen, öffne das Zertifikat, dessen Name mit „%@“ beginnt, in der Schlüsselbund­verwaltung und ändere seine Vertrauenseinstellungen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para dejar de confiar en él, abre en Acceso a Llaveros el certificado cuyo nombre empieza por %@ y modifica sus ajustes de confianza."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour que ce Mac ne s’y fie plus, ouvrez le certificat dont le nom commence par %@ dans Trousseaux d’accès, puis modifiez ses réglages de confiance."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per non considerarlo più attendibile, apri in Accesso Portachiavi il certificato il cui nome inizia con %@ e modificane le impostazioni di attendibilità."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この証明書が信頼されないようにするには、キーチェーンアクセスで名前が“%@”で始まる証明書を開き、信頼設定を変更してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 인증서를 더 이상 신뢰하지 않으려면 키체인 접근에서 이름이 ‘%@’(으)로 시작하는 인증서를 열고 신뢰 설정을 변경하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om het niet langer te vertrouwen, open je in Sleutelhanger­toegang het certificaat waarvan de naam begint met %@ en pas je de vertrouwensinstellingen ervan aan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby przestać mu ufać, otwórz w aplikacji Dostęp do pęku kluczy certyfikat, którego nazwa zaczyna się od %@, i zmień jego ustawienia zaufania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para deixar de confiar nele, abra no Acesso às Chaves o certificado cujo nome começa com %@ e altere os ajustes de confiança dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pentru a‑i retrage încrederea, deschideți în Acces portchei certificatul al cărui nume începe cu %@ și modificați‑i configurările de încredere."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы перестать ему доверять, откройте в Связке ключей сертификат, имя которого начинается с «%@», и измените его настройки доверия."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om du vill sluta lita på det öppnar du certifikatet vars namn börjar med %@ i Nyckelhanterare och ändrar dess tillförlitlighetsinställningar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu sertifikaya artık güvenilmemesi için, adı %@ ile başlayan sertifikayı Anahtar Zinciri Erişimi’nde açın ve güven ayarlarını değiştirin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щоб скасувати довіру до нього, відкрийте в програмі «Ключар» сертифікат, назва якого починається з «%@», і змініть його параметри довіри."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要停止信任它，请在“钥匙串访问”中打开名称以“%@”开头的证书，然后更改它的信任设置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要停止信任它，請用「鑰匙圈存取」打開名稱以「%@」開頭的憑證，然後更改其信任設定。"
+          }
+        }
+      }
+    },
+    "To stop trusting it, run `%@` first." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcete-li mu přestat důvěřovat, nejdřív spusťte příkaz `%@`."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um ihm das Vertrauen zu entziehen, führe zuerst `%@` aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para dejar de confiar en él, ejecuta primero `%@`."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour que ce Mac ne s’y fie plus, exécutez d’abord `%@`."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per non considerarlo più attendibile, esegui prima `%@`."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この証明書が信頼されないようにするには、先に`%@`を実行してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 인증서를 더 이상 신뢰하지 않으려면 먼저 `%@` 명령을 실행하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om het niet langer te vertrouwen, voer je eerst `%@` uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby przestać mu ufać, najpierw uruchom `%@`."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para deixar de confiar nele, execute `%@` primeiro."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pentru a‑i retrage încrederea, rulați mai întâi `%@`."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы перестать ему доверять, сначала выполните `%@`."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om du vill sluta lita på det kör du först `%@`."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu sertifikaya artık güvenilmemesi için önce `%@` komutunu çalıştırın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щоб скасувати довіру до нього, спершу виконайте `%@`."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要停止信任它，请先运行`%@`。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要停止信任它，請先執行`%@`。"
           }
         }
       }

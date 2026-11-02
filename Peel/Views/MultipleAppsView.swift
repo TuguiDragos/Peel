@@ -316,8 +316,9 @@ struct MultipleAppsView: View {
         return lines.isEmpty ? nil : lines.joined(separator: "\n\n")
     }
 
-    /// Under the question: which of the chosen apps go and which stay, the privacy reset, which History can't undo, and
-    /// Homebrew's record of an app that goes while its record stays.
+    /// Under the question: which of the chosen apps go and which stay, the privacy reset, which History can't undo, a
+    /// root certificate an app that goes leaves trusted, and Homebrew's record of an app that goes while its record
+    /// stays.
     private func note(about urls: Set<URL>) -> Text {
         let going = plan.apps.filter { urls.contains($0.url) }
         let staying = plan.apps.filter { !urls.contains($0.url) && !plan.appsInTheTrash.contains($0.url) }
@@ -332,6 +333,11 @@ struct MultipleAppsView: View {
             lines.append(Text("The selected apps’ privacy permissions are cleared first, and History can’t bring them back."))
         }
         lines += UninstallsItself.when(moving: urls, among: plan.apps).map(\.warning)
+        for app in going {
+            guard let root = TrustedRoot.of(app) else { continue }
+            lines.append(Text("\(app.name)’s root certificate stays trusted on this Mac after the app goes."))
+            lines.append(root.step(in: app.name))
+        }
         for app in going {
             let movesItsReceipt = plan.items.contains {
                 $0.kind == .homebrewReceipt && $0.apps.contains(app.reference) && urls.contains($0.url)

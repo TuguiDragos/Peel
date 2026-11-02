@@ -470,7 +470,7 @@ struct AppDetailView: View {
     }
 
     /// The confirmation's message: the privacy reset, which History can't undo, an app that uninstalls itself once
-    /// it moves, and Homebrew's own record of the app when it stays.
+    /// it moves, a root certificate it leaves trusted, and Homebrew's own record of the app when it stays.
     private var removalNote: Text? {
         let urls = plan.question.request?.urls ?? []
         var lines: [Text] = []
@@ -478,6 +478,10 @@ struct AppDetailView: View {
             lines.append(Text("The app’s privacy permissions are cleared first, and History can’t bring them back."))
         }
         lines += UninstallsItself.when(moving: urls, among: [plan.app]).map(\.warning)
+        if urls.contains(plan.app.url), let root = TrustedRoot.of(plan.app) {
+            lines.append(Text("\(plan.app.name)’s root certificate stays trusted on this Mac after the app goes."))
+            lines.append(root.step(in: plan.app.name))
+        }
         let movesItsReceipt = plan.uninstallation?.scan.leftovers.contains {
             $0.kind == .homebrewReceipt && urls.contains($0.url)
         } == true

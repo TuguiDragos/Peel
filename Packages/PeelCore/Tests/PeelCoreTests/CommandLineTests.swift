@@ -143,6 +143,25 @@ struct CommandLineTests {
         #expect(UninstallCommand.warnings(moving: [], of: mullvad, resettingPrivacy: false).isEmpty)
     }
 
+    @Test func saysWhatRootCertificateStaysTrustedOnceTheAppGoes() {
+        let proxyman = InstalledApp(
+            url: URL(filePath: "/Applications/Proxyman.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.proxyman.NSProxy", name: "Proxyman"
+        )
+        let charles = InstalledApp(
+            url: URL(filePath: "/Applications/Charles.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.xk72.Charles", name: "Charles"
+        )
+
+        #expect(UninstallCommand.warnings(moving: [proxyman.url], of: proxyman, resettingPrivacy: false) == [
+            "Proxyman's root certificate stays trusted on this Mac after the app goes. To stop trusting it, choose Certificate > Reset all Proxyman Certificates in Proxyman first.",
+        ])
+        #expect(UninstallCommand.warnings(moving: [charles.url], of: charles, resettingPrivacy: false) == [
+            "Charles's root certificate stays trusted on this Mac after the app goes. To stop trusting it, open the certificate whose name begins with Charles Proxy in Keychain Access and change its trust settings.",
+        ])
+        #expect(UninstallCommand.warnings(moving: [], of: proxyman, resettingPrivacy: false).isEmpty)
+    }
+
     /// Like the app, `peel uninstall` takes the app's icon out of the Dock once the app is in the Trash, unless told
     /// to keep it, and says so before it asks.
     @Test func takesTheAppsIconOutOfTheDockOnceItIsInTheTrash() {

@@ -142,6 +142,18 @@ extension UninstallsItself {
     }
 }
 
+extension TrustedRoot {
+    /// What stops the Mac trusting the certificate, as its maker or Apple says; `app` names the app whose menu it is.
+    func step(in app: String) -> Text {
+        switch step {
+        case .command(let command): Text("To stop trusting it, run `\(command)` first.")
+        case .menu(let menu): Text("To stop trusting it, choose \(menu) in \(app) first.")
+        case .keychainAccess:
+            Text("To stop trusting it, open the certificate whose name begins with \(certificate) in Keychain Access and change its trust settings.")
+        }
+    }
+}
+
 /// What Peel says beside a kernel extension it lists.
 enum KernelExtensionNotes {
     static func lines(onAppleSilicon: Bool = HostArchitecture.isAppleSilicon) -> [String] {

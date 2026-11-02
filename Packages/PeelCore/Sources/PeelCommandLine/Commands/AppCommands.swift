@@ -518,7 +518,8 @@ struct UninstallCommand: AsyncParsableCommand {
             ?? AppInspector.knownName(forBundleIdentifier: identifier)
     }
 
-    /// What the removal does that the Trash can't bring back, said before the question.
+    /// What the removal does that the Trash can't bring back, and a root certificate the app leaves trusted, said
+    /// before the question.
     static func warnings(
         moving urls: Set<URL>,
         of app: InstalledApp,
@@ -538,6 +539,15 @@ struct UninstallCommand: AsyncParsableCommand {
             case .removesItsComponents:
                 warnings.append("Once \(app.app.name) leaves the Applications folder, its own uninstaller opens and asks to remove the components it keeps in the system. If you continue there, it deletes them, which the Trash can't bring back.")
             }
+        }
+        if urls.contains(app.url), let root = TrustedRoot.of(app) {
+            let step = switch root.step {
+            case .command(let command): "run `\(command)` first"
+            case .menu(let menu): "choose \(menu) in \(app.name) first"
+            case .keychainAccess:
+                "open the certificate whose name begins with \(root.certificate) in Keychain Access and change its trust settings"
+            }
+            warnings.append("\(app.name)'s root certificate stays trusted on this Mac after the app goes. To stop trusting it, \(step).")
         }
         return warnings
     }
