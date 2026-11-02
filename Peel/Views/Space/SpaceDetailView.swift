@@ -170,19 +170,8 @@ struct SpaceDetailView: View {
                 )
             }
             .listRowSeparator(.hidden)
-        } header: {
-            SectionHeaderLine {
-                heading("Inside", "What is selected goes to the Trash, and History can put it back. The folders it sits in stay, since macOS expects to find them.")
-            } actions: {
-                SelectMenu(
-                    list: plan.selectableRows(canUseHelper: helper.canAct),
-                    place: Text(item.words.title),
-                    selection: space
-                )
-            }
-        } footer: {
             if !plan.appsToQuit.isEmpty || !plan.refused.isEmpty {
-                VStack(alignment: .leading, spacing: 6) {
+                ListNotes {
                     if !plan.appsToQuit.isEmpty {
                         Text("Peel doesn’t include folders an open app is still writing to: \(plan.appsToQuit.formatted(.list(type: .and))). Quit an app to include its folders. Peel can only tell a folder is an open app’s when it carries the app’s own name or identifier, not its maker’s.")
                     }
@@ -194,8 +183,16 @@ struct SpaceDetailView: View {
                         Text("Peel leaves ^[\(plan.refused.count - keepingWork) folder](inflect: true) here alone because it protects what is there, such as what iCloud keeps to stay in sync, a wallet, an app’s documents, or a library.")
                     }
                 }
-                .font(.callout)
-                .foregroundStyle(.secondary)
+            }
+        } header: {
+            SectionHeaderLine {
+                heading("Inside", "What is selected goes to the Trash, and History can put it back. The folders it sits in stay, since macOS expects to find them.")
+            } actions: {
+                SelectMenu(
+                    list: plan.selectableRows(canUseHelper: helper.canAct),
+                    place: Text(item.words.title),
+                    selection: space
+                )
             }
         }
     }

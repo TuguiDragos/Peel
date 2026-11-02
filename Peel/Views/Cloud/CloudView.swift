@@ -93,21 +93,8 @@ struct CloudView: View {
                         }
                     }
                     .listRowSeparator(.hidden)
-                } header: {
-                    SectionHeaderLine {
-                        heading(
-                            "On This Mac and in iCloud",
-                            "Once their downloads are removed, Finder still lists these files, with a cloud beside each name. Deleting a file is different: that removes it from iCloud and from your other devices, and Peel never does it here."
-                        )
-                    } actions: {
-                        SelectMenu(
-                            list: selectableRows(listed), place: Text(Tool.cloud.title), selection: cloud,
-                            removesDownloads: true
-                        )
-                    }
-                } footer: {
                     if cloud.cutShort != nil || cloud.sharedDownloads > 0 || !cloud.unreadableFolders.isEmpty {
-                        VStack(alignment: .leading, spacing: 6) {
+                        ListNotes {
                             switch cloud.cutShort {
                             case .listIsFull:
                                 Text("Peel lists the biggest downloads, up to \(CloudStorage.maximumFiles.formatted()). The next ones show once you remove some of these.")
@@ -119,8 +106,18 @@ struct CloudView: View {
                             unreadableFoldersNote
                             sharedDownloadsNote
                         }
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
+                    }
+                } header: {
+                    SectionHeaderLine {
+                        heading(
+                            "On This Mac and in iCloud",
+                            "Once their downloads are removed, Finder still lists these files, with a cloud beside each name. Deleting a file is different: that removes it from iCloud and from your other devices, and Peel never does it here."
+                        )
+                    } actions: {
+                        SelectMenu(
+                            list: selectableRows(listed), place: Text(Tool.cloud.title), selection: cloud,
+                            removesDownloads: true
+                        )
                     }
                 }
             }
