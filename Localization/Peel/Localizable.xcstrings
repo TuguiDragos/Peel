@@ -20726,6 +20726,112 @@
         }
       }
     },
+    "Another file declares the same job, and launchd didn’t say which of the two it loaded, so Peel doesn’t start, stop, enable, or disable it here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stejnou úlohu uvádí i jiný soubor a launchd nesdělil, který z obou načetl, a proto ji tu Peel nespouští, nezastavuje, nezapíná ani nevypíná."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine andere Datei definiert denselben Job, und launchd hat nicht mitgeteilt, welche der beiden Dateien geladen ist, daher startet, stoppt, aktiviert oder deaktiviert Peel ihn hier nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otro archivo declara la misma tarea, y launchd no ha indicado cuál de los dos ha cargado, así que aquí Peel no la inicia, no la detiene, no la activa ni la desactiva."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un autre fichier déclare la même tâche, et launchd n’a pas indiqué lequel des deux il a chargé : Peel ne la démarre donc pas, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un altro file dichiara lo stesso elemento, e launchd non ha indicato quale dei due ha caricato, quindi qui Peel non lo avvia, non lo interrompe, non lo abilita e non lo disabilita."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "別のファイルが同じジョブを宣言していて、launchdはそのどちらを読み込んだかを示さなかったため、Peelはここで開始、停止、有効化、無効化を行いません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 파일이 같은 작업을 지정하고 있으며 launchd가 둘 중 어느 파일을 로드했는지 알려 주지 않았으므로, Peel은 여기에서 이 항목을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een ander bestand vermeldt dezelfde taak, en launchd heeft niet gemeld welke van de twee het heeft geladen, dus Peel start het hier niet, stopt het niet en schakelt het niet in of uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inny plik deklaruje to samo zadanie, a launchd nie podał, który z tych dwóch plików wczytał, więc Peel tutaj tego zadania nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outro arquivo declara a mesma tarefa, e o launchd não disse qual dos dois carregou, por isso o Peel não a inicia, não a interrompe, não a ativa nem a desativa aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alt fișier declară aceeași sarcină, iar launchd nu a spus pe care dintre cele două fișiere l‑a încărcat, așa că Peel nu pornește, nu oprește, nu activează și nu dezactivează sarcina de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "То же задание объявлено в другом файле, и launchd не сообщил, какой из двух файлов он загрузил, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En annan fil anger samma jobb, och launchd sa inte vilken av de två som lästes in, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aynı işi başka bir dosya da tanımlıyor ve launchd ikisinden hangisini yüklediğini söylemedi, bu yüzden Peel onu burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Те саме завдання оголошує інший файл, а launchd не повідомив, який із двох завантажив, тож Peel тут його не запускає, не зупиняє, не вмикає й не вимикає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另一个文件声明了相同的任务，而launchd没有说明它载入的是两者中的哪一个，因此Peel不会在此处启动、停止、启用或停用它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另一個檔案宣告了相同的工作，而launchd沒有說明它載入的是這兩個檔案中的哪一個，因此Peel不會在這裡啟動、停止、啟用或停用它。"
+          }
+        }
+      }
+    },
     "Another file is there" : {
       "localizations" : {
         "cs" : {
@@ -141010,6 +141116,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法讀取自己的檔案。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t read launchctl’s list of the jobs turned off, so it doesn’t start, stop, enable, or disable this one here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst seznam vypnutých úloh, který vypisuje launchctl, a proto tuto úlohu zde nespouští, nezastavuje, nezapíná ani nevypíná."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte die Liste der deaktivierten Jobs von launchctl nicht lesen, daher startet, stoppt, aktiviert oder deaktiviert Peel diesen Job hier nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer la lista de tareas desactivadas de launchctl, así que aquí no inicia, no detiene, no activa ni desactiva esta tarea."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lire la liste des tâches désactivées fournie par launchctl : il ne démarre donc pas cette tâche, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere l’elenco di launchctl degli elementi disattivati, quindi qui non avvia, non interrompe, non abilita e non disabilita questo elemento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、オフにされているジョブを示すlaunchctlのリストを読み取れなかったため、ここではこのジョブの開始、停止、有効化、無効化を行いません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 launchctl의 꺼진 작업 목록을 읽을 수 없었으므로, 여기에서 이 작업을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon de lijst van launchctl met uitgeschakelde taken niet lezen, dus Peel start deze taak hier niet, stopt die niet en schakelt die niet in of uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać listy wyłączonych zadań podawanej przez launchctl, więc tutaj tego zadania nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler a lista do launchctl com as tarefas desativadas, por isso não inicia, não interrompe, não ativa nem desativa esta tarefa aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi lista launchctl cu sarcinile dezactivate, așa că nu pornește, nu oprește, nu activează și nu dezactivează această sarcină de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать список выключенных заданий, полученный от launchctl, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает это задание."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa launchctls lista över avstängda jobb, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här jobbet härifrån."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, launchctl komutunun kapatılmış işler listesini okuyamadı, bu yüzden bu işi burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося прочитати список вимкнених завдань launchctl, тож Peel тут не запускає, не зупиняє, не вмикає й не вимикає це завдання."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能读取launchctl的已停用任务列表，因此不会在此处启动、停止、启用或停用此任务。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取launchctl的已停用工作列表，因此不會在這裡啟動、停止、啟用或停用此工作。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t read launchctl’s list of the loaded jobs, so it doesn’t start, stop, enable, or disable this one here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst seznam načtených úloh, který vypisuje launchctl, a proto tuto úlohu zde nespouští, nezastavuje, nezapíná ani nevypíná."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte die Liste der geladenen Jobs von launchctl nicht lesen, daher startet, stoppt, aktiviert oder deaktiviert Peel diesen Job hier nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer la lista de tareas cargadas de launchctl, así que aquí no inicia, no detiene, no activa ni desactiva esta tarea."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lire la liste des tâches chargées fournie par launchctl : il ne démarre donc pas cette tâche, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere l’elenco di launchctl degli elementi caricati, quindi qui non avvia, non interrompe, non abilita e non disabilita questo elemento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、読み込まれているジョブを示すlaunchctlのリストを読み取れなかったため、ここではこのジョブの開始、停止、有効化、無効化を行いません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 launchctl의 로드된 작업 목록을 읽을 수 없었으므로, 여기에서 이 작업을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon de lijst van launchctl met geladen taken niet lezen, dus Peel start deze taak hier niet, stopt die niet en schakelt die niet in of uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać listy wczytanych zadań podawanej przez launchctl, więc tutaj tego zadania nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler a lista do launchctl com as tarefas carregadas, por isso não inicia, não interrompe, não ativa nem desativa esta tarefa aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi lista launchctl cu sarcinile încărcate, așa că nu pornește, nu oprește, nu activează și nu dezactivează această sarcină de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать список загруженных заданий, полученный от launchctl, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает это задание."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa launchctls lista över inlästa jobb, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här jobbet härifrån."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, launchctl komutunun yüklü işler listesini okuyamadı, bu yüzden bu işi burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося прочитати список завантажених завдань launchctl, тож Peel тут не запускає, не зупиняє, не вмикає й не вимикає це завдання."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能读取launchctl的已载入任务列表，因此不会在此处启动、停止、启用或停用此任务。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取launchctl的已載入工作列表，因此不會在這裡啟動、停止、啟用或停用此工作。"
           }
         }
       }

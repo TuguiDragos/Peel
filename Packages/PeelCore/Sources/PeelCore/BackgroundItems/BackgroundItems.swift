@@ -111,6 +111,11 @@ public enum BackgroundItems {
         let unlisted = unlistedJobFolders(in: environment, exclusions: exclusions)
         items = placing(undeclared.items, into: items, unlisted: unlisted.map { ($0.folder, $0.source) })
         items += disabledJobs(in: loaded, listed: items, ownership: ownership)
+        items = items.map { item in
+            var item = item
+            if item.state == .unknown, item.stateNotKnown == nil { item.stateNotKnown = loaded.whyNotKnown(item.kind) }
+            return item
+        }
 
         return Scan(
             items: rows(items, exclusions: exclusions),
@@ -284,6 +289,12 @@ public enum BackgroundItems {
             inTheUserDomain?.contains(label) == true
         }
 
+        /// Why the state of a job of `kind` isn't known, or nil when both lists of its domain were read.
+        func whyNotKnown(_ kind: BackgroundItem.Kind) -> BackgroundItem.StateNotKnown? {
+            if (kind == .agent ? user : system) == nil { return .jobsNotListed }
+            return overrides(kind) == nil ? .disabledNotListed : nil
+        }
+
         /// The state of the job `label` of `kind`, known only when what `launchctl` said about both the jobs and
         /// the overrides of its domain could be read.
         func state(of label: String, _ kind: BackgroundItem.Kind) -> BackgroundItem.State {
@@ -375,6 +386,7 @@ public enum BackgroundItems {
             for row in rows {
                 guard let path else {
                     settled[row].state = .unknown
+                    settled[row].stateNotKnown = .whichFileNotSaid
                     continue
                 }
                 if let plist = items[row].plistURL, PathPattern.comparablePath(of: plist) != path {

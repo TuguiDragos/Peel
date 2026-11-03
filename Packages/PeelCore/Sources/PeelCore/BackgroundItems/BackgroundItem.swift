@@ -24,8 +24,19 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
         case unknown
     }
 
+    /// Why the state is `unknown`.
+    public enum StateNotKnown: Sendable, Hashable {
+        /// `launchctl` gave no list of the jobs loaded in the job's domain that Peel could read.
+        case jobsNotListed
+        /// `launchctl` gave no list of the jobs turned off in the job's domain that Peel could read.
+        case disabledNotListed
+        /// Another file declares the same job, and launchd didn't say which of the two it loaded.
+        case whichFileNotSaid
+    }
+
     public let label: String
     public let kind: Kind
+    public internal(set) var stateNotKnown: StateNotKnown?
     public internal(set) var source: Source
     public let plistURL: URL?
     public let program: String?

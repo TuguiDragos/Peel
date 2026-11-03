@@ -973,6 +973,15 @@ struct DeclaredBackgroundItemsTests {
         #expect(otherRow?.state == .notLoaded)
         #expect(otherRow?.anotherFileIsLoaded == true)
         #expect(unknown.count == 2 && unknown.allSatisfy { $0.state == .unknown })
+        #expect(unknown.allSatisfy { $0.stateNotKnown == .whichFileNotSaid })
+    }
+
+    @Test func saysWhichListOfLaunchctlsLeftAStateUnknown() {
+        let unread = BackgroundItems.Loaded(user: nil, system: [:], userDisabled: [:], systemDisabled: nil)
+
+        #expect(unread.whyNotKnown(.agent) == .jobsNotListed)
+        #expect(unread.whyNotKnown(.daemon) == .disabledNotListed)
+        #expect(BackgroundItems.Loaded().whyNotKnown(.agent) == nil)
     }
 
     /// launchd runs a program with the arguments after it, and a program named apart from them (`Program`) takes the

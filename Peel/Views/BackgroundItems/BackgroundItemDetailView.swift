@@ -274,7 +274,7 @@ struct BackgroundItemDetailView: View {
                 Section {
                     Notice(
                         title: Text("Peel can’t tell whether this runs"),
-                        detail: Text("Peel asked macOS about it and got no answer it could read, so Peel doesn’t start, stop, enable, or disable it here."),
+                        detail: Text(Self.whyStateIsNotKnown(item.stateNotKnown)),
                         kind: .note
                     ) {}
                 }
@@ -591,5 +591,20 @@ extension BackgroundItem {
         return kind == .agent && source == .systemLibrary
             ? "Once the file is in the Trash, the item is stopped for you. Other accounts logged in now run it until they log out, and none starts it again."
             : "Once the file is in the Trash, the item is stopped."
+    }
+}
+
+extension BackgroundItemDetailView {
+    static func whyStateIsNotKnown(_ reason: BackgroundItem.StateNotKnown?) -> LocalizedStringResource {
+        switch reason {
+        case .jobsNotListed:
+            "Peel couldn’t read launchctl’s list of the loaded jobs, so it doesn’t start, stop, enable, or disable this one here."
+        case .disabledNotListed:
+            "Peel couldn’t read launchctl’s list of the jobs turned off, so it doesn’t start, stop, enable, or disable this one here."
+        case .whichFileNotSaid:
+            "Another file declares the same job, and launchd didn’t say which of the two it loaded, so Peel doesn’t start, stop, enable, or disable it here."
+        case nil:
+            "Peel asked macOS about it and got no answer it could read, so Peel doesn’t start, stop, enable, or disable it here."
+        }
     }
 }
