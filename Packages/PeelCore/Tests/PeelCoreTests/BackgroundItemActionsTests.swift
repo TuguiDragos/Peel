@@ -186,32 +186,43 @@ struct BackgroundItemActionsTests {
 
     @Test func stopWaitsForTheProcessLaunchdStillNamesToEnd() async throws {
         // `bootout` returns at once while launchd keeps a job that ignores the signal until its time runs out.
-        let directory = try TemporaryDirectory()
-        let program = try directory.runningProgram("job")
-        let job = item(state: .running(pid: program.processIdentifier), plist: nil)
+        let job = item(state: .running(pid: 4242), plist: nil)
         let printed = """
             gui/501/com.example.agent = {
             \tpath = /Users/me/Library/LaunchAgents/com.example.agent.plist
             \tstate = SIGTERMed
-            \tpid = \(program.processIdentifier)
+            \tpid = 4242
             }
             """
         let asked = Mutex<[String]>([])
-        let clock = ContinuousClock()
-        Task {
-            try? await Task.sleep(for: .milliseconds(300))
-            program.terminate()
-        }
+        let waited = Mutex<[String]>([])
 
-        let started = clock.now
-        try await BackgroundItemActions.stop(job, waitingUpTo: 5) { arguments in
+        try await BackgroundItemActions.stop(job, waitingUpTo: 30, launchctl: { arguments in
             asked.withLock { $0.append(arguments[0]) }
             return arguments[0] == "print" ? (0, printed) : (0, "")
-        }
+        }, untilEnded: { process, limit in
+            waited.withLock { $0.append("\(process) within \(Int(limit))") }
+            return true
+        })
 
         #expect(asked.withLock { $0 } == ["bootout", "print"])
-        #expect(clock.now - started >= .milliseconds(250), "Stop returned while the process still ran")
-        #expect(!ProcessEnds.isRunning(program.processIdentifier))
+        #expect(waited.withLock { $0 } == ["4242 within 30"])
+    }
+
+    @Test func stopWaitsForNothingOnceLaunchdNamesNoProcess() async throws {
+        let job = item(state: .running(pid: 4242), plist: nil)
+        let waited = Mutex(false)
+
+        for printed in [(Int32(113), "Could not find service"), (0, "gui/501/com.example.agent = {\n\tstate = not running\n}")] {
+            try await BackgroundItemActions.stop(job, waitingUpTo: 30, launchctl: { arguments in
+                arguments[0] == "print" ? printed : (0, "")
+            }, untilEnded: { _, _ in
+                waited.withLock { $0 = true }
+                return true
+            })
+        }
+
+        #expect(!waited.withLock { $0 })
     }
 
     @Test func restartsOnlyAJobPeelMayControlAndAsksLaunchdToKillAndStartIt() async {

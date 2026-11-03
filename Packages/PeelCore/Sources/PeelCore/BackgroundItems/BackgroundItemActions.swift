@@ -37,7 +37,8 @@ public enum BackgroundItemActions {
     static func stop(
         _ item: BackgroundItem,
         waitingUpTo limit: TimeInterval,
-        launchctl: ([String]) async -> (status: Int32, output: String)
+        launchctl: ([String]) async -> (status: Int32, output: String),
+        untilEnded: (pid_t, TimeInterval) async -> Bool = { await ProcessEnds.ends($0, within: $1) }
     ) async throws(Failure) {
         if let refusal = refusal(for: item) { throw refusal }
         do throws(Failure) {
@@ -54,7 +55,7 @@ public enum BackgroundItemActions {
         guard case .details(let details) = Launchctl.answer(status: printed.status, output: printed.output),
               let process = details.pid
         else { return }
-        _ = await ProcessEnds.ends(process, within: limit)
+        _ = await untilEnded(process, limit)
     }
 
     /// How an item is started: loaded from its file with `bootstrap` when launchd does not have it, or
