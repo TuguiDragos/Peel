@@ -865,11 +865,11 @@ struct OrphanScannerTests {
         let owners = OrphanOwners(url: directory.url.appending(path: "orphan-owners.json"))
         #expect(owners.load() == [:])
 
-        #expect(owners.give("org.example.Helper", to: "com.installed.app"))
-        #expect(owners.give("org.example.other", to: "com.microsoft.Word"))
+        #expect(owners.give("org.example.Helper", to: "com.installed.app") == .saved)
+        #expect(owners.give("org.example.other", to: "com.microsoft.Word") == .saved)
         #expect(owners.load() == ["org.example.helper": "com.installed.app", "org.example.other": "com.microsoft.Word"])
 
-        #expect(owners.take(["org.example.helper"]))
+        #expect(owners.take(["org.example.helper"]) == .saved)
         #expect(owners.load() == ["org.example.other": "com.microsoft.Word"])
     }
 
@@ -883,11 +883,24 @@ struct OrphanScannerTests {
 
         try directory.file("Peel/orphan-owners.json", bytes: 16)
         #expect(owners.load() == nil, "a list that can't be read read as no choices")
-        #expect(!owners.give("org.example.helper", to: "com.installed.app"))
+        #expect(owners.whyUnreadable() == .damaged)
+        #expect(owners.give("org.example.helper", to: "com.installed.app") == .notSaved(.damaged))
         #expect(owners.startOver() == .started)
         #expect(owners.load() == [:])
+        #expect(owners.whyUnreadable() == nil)
         #expect(owners.startOver() == .notNeeded)
-        #expect(owners.give("org.example.helper", to: "com.installed.app"))
+        #expect(owners.give("org.example.helper", to: "com.installed.app") == .saved)
+    }
+
+    @Test(.permissionsHold) func saysWhyWhatBelongsToAnAppCouldNotBeSaved() throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("Peel")
+        try directory.setPermissions(0o500, of: folder)
+        defer { try? directory.setPermissions(0o755, of: folder) }
+
+        let refusedWrite = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
+        let owners = OrphanOwners(url: folder.appending(path: "orphan-owners.json"))
+        #expect(owners.give("org.example.helper", to: "com.installed.app") == .notSaved(.failed(refusedWrite)))
     }
 
     /// An app installed since the scan owns what the list still calls orphaned.

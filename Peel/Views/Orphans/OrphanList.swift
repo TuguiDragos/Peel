@@ -8,7 +8,7 @@ struct OrphanList: View {
     @Environment(\.openSettings) private var openSettings
     @State private var searchText = ""
     @State private var isRescanning = false
-    @State private var notGivenTo: String?
+    @State private var notGiven: (app: String, why: FileProblem?)?
     @State private var groupToGive: OrphanGroup?
 
     var body: some View {
@@ -157,7 +157,7 @@ struct OrphanList: View {
                 // What a group belongs to is kept by the app's identifier.
                 AppChooser(apps: library.apps.filter { $0.bundleIdentifier != nil }) { app in
                     groupToGive = nil
-                    if !orphans.give(group, to: app) { notGivenTo = app.name }
+                    if case .notSaved(let why) = orphans.give(group, to: app) { notGiven = (app.name, why) }
                 }
                 HStack {
                     Spacer()
@@ -169,8 +169,8 @@ struct OrphanList: View {
             .padding(20)
         }
         .alert(
-            "Peel couldn’t save that these files belong to \(notGivenTo ?? "")",
-            isPresented: Binding(get: { notGivenTo != nil }, set: { if !$0 { notGivenTo = nil } })
+            "Peel couldn’t save that these files belong to \(notGiven?.app ?? "")",
+            isPresented: Binding(get: { notGiven != nil }, set: { if !$0 { notGiven = nil } })
         ) {
             if orphans.owners == nil {
                 Button("Open Peel Settings") { SettingsPane.exclusions.open(with: openSettings) }
@@ -178,9 +178,7 @@ struct OrphanList: View {
             Button("OK", role: .cancel) {}
                 .keyboardShortcut(.defaultAction)
         } message: {
-            orphans.owners == nil
-                ? Text("Peel can’t read its list of the orphaned files you said belong to an app, so it lists them all. Start the list over in Settings > Exclusions.")
-                : Text("Nothing changed. Check that Peel can write to its folder in Application Support, then try again.")
+            Text(verbatim: orphans.ownersNotSaved(notGiven?.why))
         }
     }
 

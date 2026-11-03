@@ -57,14 +57,6 @@ public struct AppFolders: Sendable {
         FileLock.whileReading(beside: url) { url.isMissing ? nil : readProblem() }
     }
 
-    /// What a change of the list did. A list that is there and can't be read is never written over, since that would
-    /// lose the folders it holds.
-    public enum Change: Sendable, Equatable {
-        case saved
-        /// And why, when Peel knows.
-        case notSaved(FileProblem?)
-    }
-
     /// The folders the list holds that are no longer read, and why. One Peel reads anyway, as part of an Applications
     /// folder, loses nothing.
     public func leftOut() -> [LeftOut] {
@@ -79,7 +71,7 @@ public struct AppFolders: Sendable {
     }
 
     @discardableResult
-    public func add(_ folders: [URL]) -> Change {
+    public func add(_ folders: [URL]) -> ListChange {
         change { paths in
             for path in folders.map({ PathPattern.comparablePath(of: $0) }) where !paths.contains(path) {
                 paths.append(path)
@@ -97,7 +89,7 @@ public struct AppFolders: Sendable {
     }
 
     @discardableResult
-    public func remove(_ folders: [URL]) -> Change {
+    public func remove(_ folders: [URL]) -> ListChange {
         let removed = Set(folders.map { PathPattern.comparablePath(of: $0) })
         return change { paths in
             paths.removeAll { removed.contains(PathPattern.comparablePath(of: URL(filePath: $0))) }
@@ -153,7 +145,7 @@ public struct AppFolders: Sendable {
         PathPattern.comparablePath(of: url).lowercased()
     }
 
-    private func change(_ edit: (inout [String]) -> Void) -> Change {
+    private func change(_ edit: (inout [String]) -> Void) -> ListChange {
         FileLock.whileHeld(beside: url) {
             guard var paths = saved() ?? (url.isMissing ? [] : nil) else { return .notSaved(readProblem()) }
             edit(&paths)

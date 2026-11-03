@@ -22,6 +22,12 @@ public struct OrphanOwners: Sendable {
         return FileLock.whileHeld(beside: url) { read() }
     }
 
+    /// Why the list can't be read, asked again once `load()` found it couldn't: nil when it can, or isn't there.
+    public func whyUnreadable() -> FileProblem? {
+        guard !url.isMissing else { return nil }
+        return FileLock.whileHeld(beside: url) { readProblem() }
+    }
+
     /// Sets a list that cannot be read aside, under another name, so the person can say again what belongs to what.
     @discardableResult
     public func startOver() -> StartOver {
@@ -31,30 +37,42 @@ public struct OrphanOwners: Sendable {
         }
     }
 
-    /// Records that `group` belongs to the app `bundleIdentifier`. False when the choice could not be saved, or when
-    /// the file is there and cannot be read, since writing over it would lose the choices it holds.
+    /// Records that `group` belongs to the app `bundleIdentifier`.
     @discardableResult
-    public func give(_ group: String, to bundleIdentifier: String) -> Bool {
+    public func give(_ group: String, to bundleIdentifier: String) -> ListChange {
         change { $0[group.lowercased()] = bundleIdentifier }
     }
 
     /// Forgets which app each of `groups` belongs to, so they are listed again.
     @discardableResult
-    public func take(_ groups: [String]) -> Bool {
+    public func take(_ groups: [String]) -> ListChange {
         change { owners in groups.forEach { owners[$0.lowercased()] = nil } }
     }
 
-    private func change(_ edit: (inout [String: String]) -> Void) -> Bool {
+    private func change(_ edit: (inout [String: String]) -> Void) -> ListChange {
         FileLock.whileHeld(beside: url) {
-            guard var owners = read() ?? (url.isMissing ? [:] : nil) else { return false }
+            guard var owners = read() ?? (url.isMissing ? [:] : nil) else { return .notSaved(readProblem()) }
             edit(&owners)
-            guard let data = try? JSONEncoder().encode(owners) else { return false }
-            return (try? PeelFolder.write(data, to: url)) != nil
+            do {
+                try PeelFolder.write(try JSONEncoder().encode(owners), to: url)
+                return .saved
+            } catch {
+                return .notSaved(.failed(SystemError(error)))
+            }
         }
     }
 
     private func read() -> [String: String]? {
-        guard let data = BoundedRead.data(at: url) else { return nil }
-        return try? JSONDecoder().decode([String: String].self, from: data)
+        BoundedRead.data(at: url).flatMap(decoded)
+    }
+
+    /// Why the list there can't be read, or nil when it can, for a caller that holds the lock.
+    private func readProblem() -> FileProblem? {
+        guard let data = BoundedRead.data(at: url) else { return BoundedRead.whyUnreadable(url) }
+        return decoded(data) == nil ? .damaged : nil
+    }
+
+    private func decoded(_ data: Data) -> [String: String]? {
+        try? JSONDecoder().decode([String: String].self, from: data)
     }
 }

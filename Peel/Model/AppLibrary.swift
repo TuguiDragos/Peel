@@ -314,7 +314,7 @@ final class AppLibrary {
 
     var foldersFile: URL { appFolders.url }
 
-    private func changeFolders(_ change: (AppFolders) -> AppFolders.Change) {
+    private func changeFolders(_ change: (AppFolders) -> ListChange) {
         switch change(appFolders) {
         case .saved:
             couldNotSaveFolders = false

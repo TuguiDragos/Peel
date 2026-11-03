@@ -12,7 +12,7 @@ struct ExclusionsSettingsView: View {
     @State private var selectedPaths: Set<URL> = []
     @State private var selectedApps: Set<String> = []
     @State private var selectedGroups: Set<String> = []
-    @State private var couldNotForget = false
+    @State private var notForgotten: ListChange?
 
     private var paths: [URL] {
         exclusions.exclusions.paths.sorted { $0.path(percentEncoded: false) < $1.path(percentEncoded: false) }
@@ -41,6 +41,10 @@ struct ExclusionsSettingsView: View {
 
     private var notSavedDetail: String {
         exclusions.whyNotSaved.said(after: String(localized: "Your latest changes work in Peel until it quits. When it opens again, and in the peel command, the list is as it was last saved."), about: exclusions.file)
+    }
+
+    private var ownersUnreadable: String {
+        orphans.whyOwnersUnreadable.said(after: String(localized: "Peel can’t read this list, so Orphaned Files lists these files again. Starting over keeps the old list beside a new one."), about: OrphanOwners.defaultURL)
     }
 
     private var isShowingRefusal: Binding<Bool> {
@@ -212,7 +216,7 @@ struct ExclusionsSettingsView: View {
                     }
                 } else {
                     HStack(spacing: 8) {
-                        Text("Peel can’t read this list, so Orphaned Files lists these files again. Starting over keeps the old list beside a new one.")
+                        Text(verbatim: ownersUnreadable)
                             .foregroundStyle(.secondary)
                         Spacer(minLength: 8)
                         StartOverButton(
@@ -244,12 +248,13 @@ struct ExclusionsSettingsView: View {
             guard !keeping.isEmpty else { return }
             Task { await exclusions.add(paths: keeping) }
         }
-        .alert("Peel couldn’t list these files again", isPresented: $couldNotForget) {
+        .alert(
+            "Peel couldn’t list these files again",
+            isPresented: Binding(get: { notForgotten != nil }, set: { if !$0 { notForgotten = nil } })
+        ) {
             Button("OK", role: .cancel) {}
         } message: {
-            orphans.owners == nil
-                ? Text("Peel can’t read its list of the orphaned files you said belong to an app, so it lists them all. Start the list over in Settings > Exclusions.")
-                : Text("Nothing changed. Check that Peel can write to its folder in Application Support, then try again.")
+            if case .notSaved(let why) = notForgotten { Text(verbatim: orphans.ownersNotSaved(why)) }
         }
         .alert(refused.count == 1 ? "That folder can’t be excluded." : "These folders can’t be excluded.", isPresented: isShowingRefusal) {
             Button("OK", role: .cancel) {}
@@ -266,6 +271,9 @@ extension ExclusionsSettingsView {
     private func forgetSelectedGroups() {
         let forgotten = Array(selectedGroups)
         selectedGroups = []
-        Task { couldNotForget = await !orphans.forget(forgotten, from: library) }
+        Task {
+            let change = await orphans.forget(forgotten, from: library)
+            if change != .saved { notForgotten = change }
+        }
     }
 }

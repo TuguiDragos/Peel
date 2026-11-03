@@ -298,6 +298,16 @@ extension AppLibrary {
     }
 }
 
+extension OrphanLibrary {
+    /// What an alert says when the list of orphaned files that belong to an app couldn't be changed, and why.
+    func ownersNotSaved(_ why: FileProblem?) -> String {
+        let said = owners == nil
+            ? String(localized: "Peel can’t read its list of the orphaned files you said belong to an app, so it lists them all. Start the list over in Settings > Exclusions.")
+            : String(localized: "Nothing changed.")
+        return why.said(after: said, about: OrphanOwners.defaultURL)
+    }
+}
+
 extension ExclusionsStore {
     /// That nothing moves until the list starts over, then why it couldn't be read, when Peel knows.
     var nothingMovesUntilStartedOver: String {
