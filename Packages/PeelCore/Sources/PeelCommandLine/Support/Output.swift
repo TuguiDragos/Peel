@@ -465,9 +465,12 @@ extension HoldBack {
 extension DuplicateFinder.Refusal {
     var summary: String {
         switch self {
-        case .appData: "it is app data, the Music or TV app's media folder, or something Peel protects, such as a photo library or a keychain"
+        case .protected: "Peel protects what is there, and never moves it"
+        case .library: "it is your Library, where apps keep their data"
+        case .mediaFolder(let app): "it is the folder where the \(app) app keeps its media"
+        case .readOnlyDisk: "it is on a disk that can only be read, so nothing there could move to the Trash"
         case .inAPackage: "it is an app or another package, or inside one, and what is inside belongs to it"
-        case .outsideTheHome: "it is outside your home folder and /Users/Shared, or on a disk Peel can't write to"
+        case .outsideTheHome: "it is outside your home folder, /Users/Shared, and the disks in /Volumes"
         case .insideARepository: "it is a repository, or sits inside one, and Peel leaves repositories alone"
         case .unreachable(let problem): problem.summary
         }

@@ -814,7 +814,7 @@ struct FileCommandTests {
 
         let message = PeelCommand.fullMessage(for: try #require(error), columns: 300)
 
-        #expect(message.contains("/Applications: it is outside your home folder and /Users/Shared, or on a disk Peel can't write to"))
+        #expect(message.contains("/Applications: it is outside your home folder, /Users/Shared, and the disks in /Volumes"))
         #expect(message.contains("\(finder): it is an app or another package, or inside one, and what is inside belongs to it"))
     }
 

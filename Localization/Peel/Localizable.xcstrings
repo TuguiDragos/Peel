@@ -76197,112 +76197,6 @@
         }
       }
     },
-    "It is app data, the Music or TV app’s media folder, or something Peel protects, such as a photo library or a keychain." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jsou to data aplikací, složka s médii aplikace Hudba nebo TV, nebo něco, co Peel chrání, například knihovna fotek nebo svazek klíčů."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dies sind App-Daten, der Medienordner der App „Musik“ oder „TV“ oder etwas, das Peel schützt, etwa eine Fotomediathek oder ein Schlüsselbund."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Son datos de apps, la carpeta de contenido de la app Música o de la app TV, o algo que Peel protege, como una biblioteca de fotos o un llavero."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "C’est un dossier de données d’apps, le dossier multimédia de l’app Musique ou TV, ou un élément que Peel protège, comme une bibliothèque de photos ou un trousseau."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contiene i dati di un’app, è la cartella dei file multimediali dell’app Musica o TV, oppure è qualcosa che Peel protegge, come una libreria di foto o un portachiavi."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アプリのデータ、“ミュージック”アプリや“TV”アプリのメディアフォルダ、または写真ライブラリやキーチェーンなど、Peelが保護しているものです。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "앱 데이터이거나, 음악 앱 또는 TV 앱의 미디어 폴더이거나, 사진 보관함이나 키체인처럼 Peel이 보호하는 항목입니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het zijn gegevens van een app, de map 'Media' van de app Muziek of TV, of iets wat Peel beschermt, zoals een fotobibliotheek of een sleutelhanger."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "To dane aplikacji, folder Multimedia aplikacji Muzyka lub TV albo coś, co Peel chroni, na przykład biblioteka zdjęć lub pęk kluczy."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "É uma pasta de dados de apps, a pasta de mídia do app Música ou do app TV, ou algo que o Peel protege, como uma biblioteca de fotos ou as chaves do macOS."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Este un dosar cu date ale aplicațiilor, dosarul Multimedia al aplicației Muzică sau TV, ori ceva protejat de Peel, cum ar fi o bibliotecă foto sau un portchei."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Это данные приложений, папка с медиафайлами приложения «Музыка» или «TV» либо то, что защищает Peel, например медиатека Фото или связка ключей."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det är appdata, mappen där appen Musik eller TV sparar sina medier, eller något som Peel skyddar, till exempel ett bildbibliotek eller en nyckelring."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uygulama verileri, Müzik veya TV uygulamasının ortam dosyalarını tuttuğu klasör ya da Peel’in koruduğu bir şey, örneğin bir fotoğraf arşivi veya bir anahtar zinciri."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Це дані програми, папка «Медіавміст» програми «Музика» чи «TV» або те, що захищає Peel, як-от медіатека фото чи вʼязка ключів."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它是App数据、“音乐”App或“TV”App的媒体文件夹，或者受Peel保护的项目，例如照片资料库或钥匙串。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它是App的資料、「音樂」或「TV」App的媒體檔案夾，或是受Peel保護的項目，例如照片資料庫或鑰匙圈。"
-          }
-        }
-      }
-    },
     "It is in a folder %@ syncs to your other devices (its marker is %@), which Peel leaves to that app." : {
       "localizations" : {
         "cs" : {
@@ -78335,6 +78229,112 @@
         }
       }
     },
+    "It is on a disk that can only be read, so nothing there could move to the Trash." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je na disku, který je jen pro čtení, takže by odtud nešlo nic přesunout do koše."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Ordner liegt auf einem schreibgeschützten Volume, daher ließe sich nichts darin in den Papierkorb legen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está en un disco de solo lectura, así que nada de lo que hay ahí se podría trasladar a la papelera."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il se trouve sur un disque en lecture seule : rien de ce qu’il contient ne pourrait donc être placé dans la corbeille."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si trova su un disco di sola lettura, quindi nulla di ciò che contiene potrebbe essere spostato nel Cestino."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "読み出し専用のディスク上にあるため、そこにあるものは何もゴミ箱に入れられません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "읽기 전용 디스크에 있으므로 그곳의 어떤 항목도 휴지통으로 이동할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het staat op een schijf die alleen kan worden gelezen, dus niets daarop kan naar de prullenmand worden verplaatst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Znajduje się na dysku tylko do odczytu, więc niczego stamtąd nie dałoby się przenieść do Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está em um disco que só pode ser lido, então nada ali poderia ser movido para o Lixo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se află pe un disc care poate fi doar citit, așa că nimic de acolo nu ar putea fi mutat în Coș."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта папка находится на диске, доступном только для чтения, поэтому ничего из нее нельзя переместить в Корзину."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den ligger på en skiva som bara kan läsas, så inget där skulle kunna flyttas till papperskorgen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yalnızca okunabilen bir diskte, bu yüzden oradaki hiçbir şey Çöp Sepeti’ne taşınamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка лежить на диску, доступному лише для читання, тож нічого звідти не можна було б перемістити в Смітник."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它位于只能读取的磁盘上，因此那里的任何内容都无法移到废纸篓。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它位於唯讀磁碟上，因此那裡的任何項目都無法丟到「垃圾桶」。"
+          }
+        }
+      }
+    },
     "It is outside the folders Peel’s helper may touch." : {
       "localizations" : {
         "cs" : {
@@ -78441,108 +78441,320 @@
         }
       }
     },
-    "It is outside your home folder and /Users/Shared, or on a disk Peel can’t write to." : {
+    "It is outside your home folder, /Users/Shared, and the disks in /Volumes." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je mimo vaši domovskou složku a mimo /Users/Shared, nebo na disku, na který Peel nemůže zapisovat."
+            "value" : "Je mimo vaši domovskou složku, mimo /Users/Shared a mimo disky ve složce /Volumes."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dieser Ordner liegt außerhalb deines Benutzerordners und außerhalb von /Users/Shared oder auf einem Volume, auf das Peel nicht schreiben kann."
+            "value" : "Dieser Ordner liegt außerhalb deines Benutzerordners, außerhalb von /Users/Shared und außerhalb der Volumes in /Volumes."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Está fuera de tu carpeta de inicio y de /Users/Shared, o en un disco en el que Peel no puede escribir."
+            "value" : "Está fuera de tu carpeta de inicio, de /Users/Shared y de los discos de /Volumes."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il se trouve en dehors de votre dossier de départ et de /Users/Shared, ou sur un disque sur lequel Peel ne peut pas écrire."
+            "value" : "Il se trouve en dehors de votre dossier de départ, de /Users/Shared et des disques de /Volumes."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Si trova al di fuori della tua cartella Inizio e di /Users/Shared, oppure su un disco su cui Peel non può scrivere."
+            "value" : "Si trova al di fuori della tua cartella Inizio, di /Users/Shared e dei dischi in /Volumes."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ホームフォルダと/Users/Sharedの外にあるか、Peelが書き込めないディスク上にあります。"
+            "value" : "ホームフォルダ、/Users/Shared、/Volumes内のディスクの外にあります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "홈 폴더와 /Users/Shared 밖에 있거나, Peel이 쓸 수 없는 디스크에 있습니다."
+            "value" : "홈 폴더, /Users/Shared 및 /Volumes에 있는 디스크 밖에 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het staat buiten je thuismap en /Users/Shared, of op een schijf waarop Peel niet kan schrijven."
+            "value" : "Het staat buiten je thuismap, /Users/Shared en de schijven in /Volumes."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Znajduje się poza Twoim folderem domowym i folderem /Users/Shared albo na dysku, na którym Peel nie może zapisywać."
+            "value" : "Znajduje się poza Twoim folderem domowym, folderem /Users/Shared i dyskami w /Volumes."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Está fora da sua pasta pessoal e de /Users/Shared, ou em um disco em que o Peel não consegue gravar."
+            "value" : "Está fora da sua pasta pessoal, de /Users/Shared e dos discos em /Volumes."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Se află în afara dosarului dvs. de reședință și a dosarului /Users/Shared, ori pe un disc pe care Peel nu poate scrie."
+            "value" : "Se află în afara dosarului dvs. de reședință, a dosarului /Users/Shared și a discurilor din /Volumes."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Эта папка находится вне Вашей папки пользователя и /Users/Shared либо на диске, на который Peel не может записывать."
+            "value" : "Эта папка находится вне Вашей папки пользователя, /Users/Shared и дисков в /Volumes."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Den ligger utanför din hemmapp och /Users/Shared, eller på en skiva som Peel inte kan skriva till."
+            "value" : "Den ligger utanför din hemmapp, /Users/Shared och skivorna i /Volumes."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ana klasörünüzün ve /Users/Shared klasörünün dışında ya da Peel’in yazamadığı bir diskte."
+            "value" : "Ana klasörünüzün, /Users/Shared klasörünün ve /Volumes içindeki disklerin dışında."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Папка лежить поза вашою Домівкою та поза /Users/Shared або на диску, на який Peel не може записувати."
+            "value" : "Папка лежить поза вашою Домівкою, поза /Users/Shared і поза дисками в /Volumes."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它位于你的个人文件夹和/Users/Shared之外，或者位于Peel无法写入的磁盘上。"
+            "value" : "它位于你的个人文件夹、/Users/Shared和/Volumes中的磁盘之外。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它位於你的個人專屬檔案夾和/Users/Shared之外，或位於Peel無法寫入的磁碟上。"
+            "value" : "它位於你的個人專屬檔案夾、/Users/Shared和/Volumes中的磁碟之外。"
+          }
+        }
+      }
+    },
+    "It is the folder where the %@ app keeps its media." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je to složka, ve které aplikace %@ uchovává svá média."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist der Ordner, in dem die App „%@“ ihre Medien aufbewahrt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es la carpeta donde la app %@ guarda su contenido."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’est le dossier où l’app %@ conserve ses fichiers multimédias."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È la cartella in cui l’app %@ conserva i suoi file multimediali."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”アプリがメディアを保管するフォルダです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’ 앱이 미디어를 보관하는 폴더입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is de map waarin de app %@ zijn media bewaart."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To folder, w którym aplikacja %@ przechowuje swoje multimedia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É a pasta de mídia do app %@."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este dosarul în care aplicația %@ își păstrează conținutul multimedia."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это папка, в которой приложение «%@» хранит свои медиафайлы."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är mappen där appen %@ sparar sina medier."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu, %@ uygulamasının ortam dosyalarını tuttuğu klasör."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це папка, у якій програма «%@» зберігає свій медіавміст."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是“%@”App存放媒体的文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是「%@」App存放媒體的檔案夾。"
+          }
+        }
+      }
+    },
+    "It is your Library, where apps keep their data." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je to vaše Knihovna, kde si aplikace ukládají svá data."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist deine Library, in der Apps ihre Daten speichern."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es tu carpeta Biblioteca, donde las apps guardan sus datos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’est votre Bibliothèque, où les apps conservent leurs données."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È la tua cartella Libreria, dove le app conservano i loro dati."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリがデータを保管するユーザライブラリです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱이 데이터를 보관하는 라이브러리 폴더입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is je bibliotheekmap, waarin apps hun gegevens bewaren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To Twój folder Biblioteki, w którym aplikacje przechowują swoje dane."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É a sua pasta Biblioteca, onde os apps guardam os dados deles."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este dosarul dvs. Bibliotecă, unde aplicațiile își păstrează datele."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это Ваша папка «Библиотека», в которой приложения хранят свои данные."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är din biblioteksmapp, där appar sparar sina data."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu, uygulamaların verilerini tuttuğu Kitaplık klasörünüz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це ваша папка «Бібліотека», у якій програми зберігають свої дані."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是你的“资源库”文件夹，App会将它们的数据保存在其中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是你的「資源庫」檔案夾，App會在其中存放資料。"
           }
         }
       }
@@ -147586,6 +147798,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel現在會保護該位置，因此不會將任何項目還原到那裡。你可以在Finder中將它從「垃圾桶」拖出來。"
+          }
+        }
+      }
+    },
+    "Peel protects what is there, and never moves it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel chrání, co tam je, a nikdy to nepřesouvá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel schützt, was dort liegt, und verschiebt es nie."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel protege lo que hay ahí y nunca lo traslada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel protège ce qui s’y trouve et ne le déplace jamais."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel protegge ciò che si trova lì e non lo sposta mai."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはそこにあるものを保護しており、決して移動しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 그곳에 있는 항목을 보호하며, 절대 이동하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel beschermt wat daar staat en verplaatst het nooit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel chroni to, co tam jest, i nigdy tego nie przenosi."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel protege o que há ali e nunca o move."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel protejează ce se află acolo și nu îl mută niciodată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel защищает то, что там находится, и никогда это не перемещает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel skyddar det som finns där och flyttar det aldrig."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel oradakileri korur ve onları asla taşımaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel захищає те, що там лежить, і ніколи цього не переміщує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会保护那里的内容，并且绝不会移动它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會保護那裡的內容，絕不會移動它。"
           }
         }
       }

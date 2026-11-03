@@ -305,9 +305,12 @@ extension DuplicateFinder.Refusal {
     /// Why a chosen folder isn't scanned for duplicates, shown where the folder was chosen and with the result.
     var explanation: String {
         switch self {
-        case .appData: String(localized: "It is app data, the Music or TV app’s media folder, or something Peel protects, such as a photo library or a keychain.")
+        case .protected: String(localized: "Peel protects what is there, and never moves it.")
+        case .library: String(localized: "It is your Library, where apps keep their data.")
+        case .mediaFolder(let app): String(localized: "It is the folder where the \(app) app keeps its media.")
+        case .readOnlyDisk: String(localized: "It is on a disk that can only be read, so nothing there could move to the Trash.")
         case .inAPackage: String(localized: "It is an app or another package, or inside one, and what is inside belongs to it.")
-        case .outsideTheHome: String(localized: "It is outside your home folder and /Users/Shared, or on a disk Peel can’t write to.")
+        case .outsideTheHome: String(localized: "It is outside your home folder, /Users/Shared, and the disks in /Volumes.")
         case .insideARepository: String(localized: "It is a repository, or sits inside one, and Peel leaves repositories alone.")
         case .unreachable(let problem): problem.explanation
         }

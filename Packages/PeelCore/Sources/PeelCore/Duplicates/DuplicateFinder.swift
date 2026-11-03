@@ -7,7 +7,11 @@ import UniformTypeIdentifiers
 public struct DuplicateFinder: Sendable {
     private static let suggestedFolders = ["Desktop", "Documents", "Downloads", "Pictures", "Movies", "Music"]
     /// Folders in the home folder that hold app data or files managed by the Music and TV libraries.
-    private static let managedFolders = ["Library", "Music/Music", "Music/iTunes", "Movies/TV"]
+    /// The folders of the home that apps keep, each with why it isn't scanned.
+    private static let managedFolders: [(folder: String, refusal: Refusal)] = [
+        ("Library", .library), ("Music/Music", .mediaFolder(app: "Music")), ("Music/iTunes", .mediaFolder(app: "Music")),
+        ("Movies/TV", .mediaFolder(app: "TV")),
+    ]
 
 
     private let homeDirectory: URL
@@ -49,12 +53,18 @@ public struct DuplicateFinder: Sendable {
     /// Why a chosen folder is not scanned. `refusal(of:)` answers the first three for any folder, which is what
     /// `canScan` refuses; a scan adds the last two for a chosen folder it finds so.
     public enum Refusal: Sendable, Hashable {
-        /// App data, the Music and TV apps' media folders, or a place Peel protects, such as a library or a keychain.
-        case appData
+        /// A place Peel protects, or a folder inside one, such as a photo library or a keychain.
+        case protected
+        /// The home's Library, where apps keep their data.
+        case library
+        /// The folder where the Music or TV app, named, keeps its media.
+        case mediaFolder(app: String)
         /// An app or another package, or a folder inside one: what is inside belongs to it.
         case inAPackage
-        /// Outside the home folder and `/Users/Shared`, or on a volume Peel can't write to.
+        /// Outside the home folder, `/Users/Shared`, and the disks in `/Volumes`.
         case outsideTheHome
+        /// On a disk mounted to be read only.
+        case readOnlyDisk
         /// A repository, or a folder inside one, which the scan leaves alone.
         case insideARepository
         /// A folder Peel can't reach, and why.
@@ -77,15 +87,15 @@ public struct DuplicateFinder: Sendable {
         let home = Self.path(of: homeDirectory)
         if folder.isOrIsInsideAPackage { return .inAPackage }
         let syncs = Self.isInACloudFolder(path)
-        if !syncs, ProtectedData.refuses(path, home: home) { return .appData }
+        if !syncs, ProtectedData.refuses(path, home: home) { return .protected }
         if path.isInside(home) {
-            return !syncs && Self.managedFolders.contains { path.isInside(home + "/" + $0) } ? .appData : nil
+            return syncs ? nil : Self.managedFolders.first { path.isInside(home + "/" + $0.folder) }?.refusal
         }
         guard path.isInside("/Users/Shared") || PathComponents.isPath(path, inside: "/Volumes") else {
             return .outsideTheHome
         }
         let isReadOnly = (try? folder.resourceValues(forKeys: [.volumeIsReadOnlyKey]).volumeIsReadOnly) == true
-        return isReadOnly ? .outsideTheHome : nil
+        return isReadOnly ? .readOnlyDisk : nil
     }
 
     /// Why a scan would set `folder` aside, or nil: what `refusal(of:)` refuses, a folder that is not there, or a
@@ -494,7 +504,7 @@ public struct DuplicateFinder: Sendable {
 
     static func managedPaths(home: URL) -> Set<String> {
         let home = path(of: home)
-        return Set(managedFolders.map { home + "/" + $0 })
+        return Set(managedFolders.map { home + "/" + $0.folder })
     }
 
     /// Whether `name` carries what Finder, a browser, the Keep Both option or AppKit (`"%@ copy"` in its `Common`
