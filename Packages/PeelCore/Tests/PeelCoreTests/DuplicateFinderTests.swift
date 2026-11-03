@@ -814,7 +814,7 @@ struct DuplicateFinderTests {
     @Test func saysWhyAFolderIsNotScanned() throws {
         let directory = try TemporaryDirectory()
         let home = try directory.directory("home")
-        for path in ["Documents", "Library", "Music/Music", "Movies/TV", "Pictures/Thing.app", "Synced/.stfolder"] {
+        for path in ["Documents", "Library", "Music/Music", "Music/iTunes", "Movies/TV", "Pictures/Thing.app", "Synced/.stfolder"] {
             try directory.directory("home/" + path)
         }
         let finder = DuplicateFinder(homeDirectory: home)
@@ -825,8 +825,9 @@ struct DuplicateFinderTests {
         #expect(finder.refusal(of: home.appending(path: "Library/Mobile Documents/com~apple~CloudDocs")) == nil)
         #expect(finder.refusal(of: home.appending(path: "Library/CloudStorage/Dropbox")) == nil)
         #expect(finder.refusal(of: home.appending(path: "Library")) == .library)
-        #expect(finder.refusal(of: home.appending(path: "Music/Music")) == .mediaFolder(app: "Music"))
-        #expect(finder.refusal(of: home.appending(path: "Movies/TV")) == .mediaFolder(app: "TV"))
+        #expect(finder.refusal(of: home.appending(path: "Music/Music")) == .mediaFolder(.music))
+        #expect(finder.refusal(of: home.appending(path: "Music/iTunes")) == .mediaFolder(.music))
+        #expect(finder.refusal(of: home.appending(path: "Movies/TV")) == .mediaFolder(.tv))
         #expect(finder.refusal(of: home.appending(path: "Library/Keychains")) == .protected)
         #expect(finder.refusal(of: home.appending(path: "Pictures/Thing.app")) == .inAPackage)
         #expect(finder.refusal(of: URL(filePath: "/")) == .outsideTheHome)

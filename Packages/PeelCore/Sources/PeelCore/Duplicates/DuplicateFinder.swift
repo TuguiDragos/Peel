@@ -9,8 +9,8 @@ public struct DuplicateFinder: Sendable {
     /// Folders in the home folder that hold app data or files managed by the Music and TV libraries.
     /// The folders of the home that apps keep, each with why it isn't scanned.
     private static let managedFolders: [(folder: String, refusal: Refusal)] = [
-        ("Library", .library), ("Music/Music", .mediaFolder(app: "Music")), ("Music/iTunes", .mediaFolder(app: "Music")),
-        ("Movies/TV", .mediaFolder(app: "TV")),
+        ("Library", .library), ("Music/Music", .mediaFolder(.music)), ("Music/iTunes", .mediaFolder(.music)),
+        ("Movies/TV", .mediaFolder(.tv)),
     ]
 
 
@@ -50,6 +50,11 @@ public struct DuplicateFinder: Sendable {
             .filter { FileManager.default.fileExists(atPath: $0.path(percentEncoded: false)) }
     }
 
+    /// The apps of macOS that keep their media in a folder of the home.
+    public enum MediaApp: Sendable, Hashable {
+        case music, tv
+    }
+
     /// Why a chosen folder is not scanned. `refusal(of:)` answers the first three for any folder, which is what
     /// `canScan` refuses; a scan adds the last two for a chosen folder it finds so.
     public enum Refusal: Sendable, Hashable {
@@ -57,8 +62,8 @@ public struct DuplicateFinder: Sendable {
         case protected
         /// The home's Library, where apps keep their data.
         case library
-        /// The folder where the Music or TV app, named, keeps its media.
-        case mediaFolder(app: String)
+        /// The folder where the Music or TV app keeps its media.
+        case mediaFolder(MediaApp)
         /// An app or another package, or a folder inside one: what is inside belongs to it.
         case inAPackage
         /// Outside the home folder, `/Users/Shared`, and the disks in `/Volumes`.

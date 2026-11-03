@@ -70,6 +70,12 @@ import Testing
         #expect(checker.problems.isEmpty, "\(checker.problems.map(\.description).joined(separator: "\n"))")
     }
 
+    @Test func appsOfMacOSAreNamedAsTheyNameThemselves() throws {
+        var checker = CatalogChecker(root: Self.repository, required: try Self.declaredLanguages())
+        checker.checkAppNames()
+        #expect(checker.problems.isEmpty, "\(checker.problems.map(\.description).joined(separator: "\n"))")
+    }
+
     /// The app quotes the Finder extension's menu item by name, so both catalogs have to agree on it.
     @Test func theFinderItemIsQuotedAsTranslated() throws {
         var checker = CatalogChecker(root: Self.repository, required: try Self.declaredLanguages())
@@ -467,6 +473,11 @@ struct CatalogChecker {
         ("Show in Finder", "/System/Library/ExtensionKit/Extensions/SecurityPrivacyExtension.appex/Contents/Resources/Localizable.loctable", "REVEAL_IN_FINDER"),
         ("Login Items & Extensions", "/System/Library/ExtensionKit/Extensions/LoginItems.appex/Contents/Resources/Localizable.loctable", "Login Items & Extensions"),
         ("Check the spelling or try a new search.", "/System/Library/Frameworks/SwiftUI.framework/Versions/Current/Resources/Localizable.loctable", "ContentUnavailableView_Search_Secondary_Text"),
+    ]
+    /// The sentences that name an app of macOS, each with the app whose own name it carries.
+    static let appNames: [(key: String, app: String)] = [
+        ("It is the folder where the Music app keeps its media.", "/System/Applications/Music.app"),
+        ("It is the folder where the TV app keeps its media.", "/System/Applications/TV.app"),
     ]
     /// The items Peel puts in menus SwiftUI builds, each with SwiftUI's key. Their words are SwiftUI's, whatever
     /// the English says: in Polish, About Peel reads "Peel…".
@@ -895,6 +906,32 @@ struct CatalogChecker {
                 let value = leaves(localizations[language] as? [String: Any] ?? [:]).first?.text
                 if value.map(spaced) != spaced(expected) {
                     fail("Localization/Peel/Localizable.xcstrings", word.key, language, "system", "macOS says \(expected.debugDescription)")
+                }
+            }
+        }
+    }
+
+    mutating func checkAppNames() {
+        guard let catalog = load("Localization/Peel/Localizable.xcstrings")?["strings"] as? [String: [String: Any]] else { return }
+        for sentence in Self.appNames {
+            let table = URL(filePath: sentence.app).appending(path: "Contents/Resources/InfoPlist.loctable")
+            guard let data = try? Data(contentsOf: table),
+                  let names = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any]
+            else {
+                fail("Localization/Peel/Localizable.xcstrings", sentence.key, "en", "app name", "\(sentence.app) is not on this Mac")
+                continue
+            }
+            let localizations = catalog[sentence.key]?["localizations"] as? [String: Any] ?? [:]
+            for language in required {
+                // An app's own table writes Brazilian Portuguese as pt, where a system table writes pt_BR.
+                let local = names[Self.appleLanguages[language] ?? language] ?? names[language]
+                guard let name = (local as? [String: Any])?["CFBundleDisplayName"] as? String else {
+                    fail("Localization/Peel/Localizable.xcstrings", sentence.key, language, "app name", "the app has no name in this language")
+                    continue
+                }
+                let value = leaves(localizations[language] as? [String: Any] ?? [:]).first?.text
+                if value?.contains(name) != true {
+                    fail("Localization/Peel/Localizable.xcstrings", sentence.key, language, "app name", "the app calls itself \(name.debugDescription)")
                 }
             }
         }

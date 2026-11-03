@@ -488,7 +488,8 @@ extension DuplicateFinder.Refusal {
         switch self {
         case .protected: "Peel protects what is there, and never moves it"
         case .library: "it is your Library, where apps keep their data"
-        case .mediaFolder(let app): "it is the folder where the \(app) app keeps its media"
+        case .mediaFolder(.music): "it is the folder where the Music app keeps its media"
+        case .mediaFolder(.tv): "it is the folder where the TV app keeps its media"
         case .readOnlyDisk: "it is on a disk that can only be read, so nothing there could move to the Trash"
         case .inAPackage: "it is an app or another package, or inside one, and what is inside belongs to it"
         case .outsideTheHome: "it is outside your home folder, /Users/Shared, and the disks in /Volumes"
