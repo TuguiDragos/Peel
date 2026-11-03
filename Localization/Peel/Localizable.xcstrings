@@ -190469,6 +190469,112 @@
         }
       }
     },
+    "Something other than a file, such as a folder, is where the file should be." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tam, kde má být soubor, je něco jiného než soubor, například složka."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An der Stelle der Datei liegt etwas anderes als eine Datei, etwa ein Ordner."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donde debería estar el archivo hay algo que no es un archivo, como una carpeta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autre chose qu’un fichier, un dossier par exemple, se trouve là où devrait être le fichier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dove dovrebbe trovarsi il file c’è qualcos’altro, come una cartella."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ファイルがあるべき場所に、フォルダなど、ファイル以外のものがあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파일이 있어야 할 위치에 폴더 등 파일이 아닌 항목이 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Op de plek van het bestand staat iets anders dan een bestand, zoals een map."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W miejscu, w którym powinien być plik, jest coś innego, na przykład folder."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Há algo que não é um arquivo, como uma pasta, onde o arquivo deveria estar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "În locul în care ar trebui să fie fișierul se află altceva, cum ar fi un dosar."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Там, где должен быть файл, находится что-то другое, например папка."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Något annat än en fil, till exempel en mapp, finns där filen ska ligga."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosyanın olması gereken yerde dosya olmayan bir şey, örneğin bir klasör var."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Там, де має бути файл, лежить щось інше, наприклад папка."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该文件应在的位置上是其他项目（例如文件夹），而不是文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檔案應在的位置上是檔案夾之類的其他項目，而不是檔案。"
+          }
+        }
+      }
+    },
     "Sort By" : {
       "localizations" : {
         "cs" : {
@@ -205747,6 +205853,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法將此檔案丟到「垃圾桶」，因此沒有任何變更。"
+          }
+        }
+      }
+    },
+    "The file is larger than Peel ever writes it, so Peel doesn’t read it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubor je větší, než jaký by Peel kdy zapsal, takže ho Peel nečte."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Datei ist größer, als Peel sie je schreibt, daher liest Peel sie nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El archivo ocupa más de lo que Peel escribe nunca en él, así que Peel no lo lee."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le fichier est plus volumineux que Peel ne l’écrit jamais : Peel ne le lit donc pas."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il file è più grande di qualsiasi file che Peel scriva, quindi Peel non lo legge."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このファイルは、Peelが書き込むことのあるサイズを超えているため、Peelは読み取りません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이 파일을 이렇게 크게 쓰는 일이 없으므로 이 파일을 읽지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het bestand is groter dan Peel het ooit schrijft, dus Peel leest het niet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plik jest większy niż jakikolwiek zapisywany przez Peel, więc Peel go nie odczytuje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O arquivo é maior do que o Peel jamais o gravaria, então o Peel não o lê."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierul este mai mare decât ar putea fi unul scris de Peel, așa că Peel nu îl citește."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel никогда не записывает этот файл таким большим, поэтому не читает его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filen är större än den någonsin blir när Peel skriver den, så Peel läser den inte."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosya, Peel’in hiçbir zaman yazmayacağı kadar büyük, bu yüzden Peel onu okumaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файл завеликий: Peel ніколи не записує його такого розміру, тож Peel його не читає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该文件比Peel写入的任何此类文件都大，因此Peel不会读取它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此檔案大於Peel會寫入的任何大小，因此Peel不會讀取它。"
           }
         }
       }

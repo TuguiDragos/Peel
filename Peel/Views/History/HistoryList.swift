@@ -155,24 +155,24 @@ private struct HistoryProblemNotice: View {
                     NSWorkspace.shared.activateFileViewerSelecting([setAside])
                 }
             }
-        case .unreadable:
+        case .unreadable(let why):
             Notice(
                 title: Text("The record of past removals can’t be read"),
-                detail: Text("Until it can read the record, or you start over, Peel removes nothing, because anything it moved now couldn’t be put back. Starting over keeps the old file beside a new one. Items it lists can then only be dragged back out of the Trash in Finder.")
+                detail: Text(verbatim: why.said(after: String(localized: "Until it can read the record, or you start over, Peel removes nothing, because anything it moved now couldn’t be put back. Starting over keeps the old file beside a new one. Items it lists can then only be dragged back out of the Trash in Finder."), about: history.historyFile))
             ) {
                 StartOverButton(file: history.historyFile, startedOver: "Started History over.") {
                     await history.startOver()
                 }
             }
-        case .couldNotRecord:
+        case .couldNotRecord(let why):
             Notice(
                 title: Text("The last removal couldn’t be recorded"),
-                detail: Text("The items are in the Trash. You can drag them back out in Finder.")
+                detail: Text(verbatim: why.said(after: String(localized: "The items are in the Trash. You can drag them back out in Finder."), about: history.historyFile))
             ) { EmptyView() }
-        case .couldNotUpdate:
+        case .couldNotUpdate(let why):
             Notice(
                 title: Text("History couldn’t be updated"),
-                detail: Text("What you put back or forgot may still be listed here, because the record couldn’t be saved.")
+                detail: Text(verbatim: why.said(after: String(localized: "What you put back or forgot may still be listed here, because the record couldn’t be saved."), about: history.historyFile))
             ) { EmptyView() }
         }
     }
@@ -194,19 +194,19 @@ private struct RefusalProblemNotice: View {
                     NSWorkspace.shared.activateFileViewerSelecting([setAside])
                 }
             }
-        case .unreadable:
+        case .unreadable(let why):
             Notice(
                 title: Text("The Not Moved list can’t be read"),
-                detail: Text("Until you start the list over, Peel adds nothing to it, since it is the only record of what stayed. Starting over keeps the old file beside a new one.")
+                detail: Text(verbatim: why.said(after: String(localized: "Until you start the list over, Peel adds nothing to it, since it is the only record of what stayed. Starting over keeps the old file beside a new one."), about: history.refusalsFile))
             ) {
                 StartOverButton(file: history.refusalsFile, startedOver: "Started the Not Moved list over.") {
                     await history.startOverRefusals()
                 }
             }
-        case .couldNotRecord:
+        case .couldNotRecord(let why):
             Notice(
                 title: Text("The Not Moved list couldn’t be saved"),
-                detail: Text("What stayed in the last removal is where it was, but it isn’t listed here.")
+                detail: Text(verbatim: why.said(after: String(localized: "What stayed in the last removal is where it was, but it isn’t listed here."), about: history.refusalsFile))
             ) { EmptyView() }
         }
     }

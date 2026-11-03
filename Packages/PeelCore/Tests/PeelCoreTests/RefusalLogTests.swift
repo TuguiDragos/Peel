@@ -252,7 +252,11 @@ struct RefusalLogTests {
         try directory.setPermissions(0o700, of: "Peel")
         await log.add([failure("/Users/me/b", .lastCopy)], source: "Editor", tool: "applications")
 
-        #expect(opened.problem == .couldNotRecord, "opening History read the old file and cleared it unseen")
+        let refusedWrite = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
+        #expect(
+            opened.problem == .couldNotRecord(.failed(refusedWrite)),
+            "opening History read the old file and cleared it unseen"
+        )
         #expect(await log.load().problem == nil)
     }
 
@@ -311,8 +315,9 @@ struct RefusalLogTests {
 
         try FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: url.path(percentEncoded: false))
         #expect(try Data(contentsOf: url) == Data("[]".utf8), "an unreadable record was written over")
-        #expect(problem == .unreadable)
-        #expect(outcome.problem == .unreadable && outcome.records == nil)
+        let closed = FileProblem.failed(SystemError(domain: NSPOSIXErrorDomain, code: Int(EACCES)))
+        #expect(problem == .unreadable(closed))
+        #expect(outcome.problem == .unreadable(closed) && outcome.records == nil)
     }
 
     /// A refusal that could not be written down is said, rather than lost without a word.
@@ -325,7 +330,8 @@ struct RefusalLogTests {
         let problem = await RefusalLog(url: folder.appending(path: "refusals.json"))
             .add([failure("/Users/me/a", .lastCopy)], source: "Editor", tool: "applications")
 
-        #expect(problem == .couldNotRecord)
+        let refusedWrite = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
+        #expect(problem == .couldNotRecord(.failed(refusedWrite)))
     }
 
     /// A record in a folder that cannot be searched may be there, so it is not called cleared.

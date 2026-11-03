@@ -511,9 +511,10 @@ struct HistoryCommandTests {
         let logs = logs(in: directory)
         try directory.file("Peel/refusals.json/kept.txt")
 
-        await #expect(throws: CommandFailure.self) { try await printed(["history", "--refused"], from: logs) }
+        let failure = await #expect(throws: CommandFailure.self) { try await printed(["history", "--refused"], from: logs) }
         await #expect(throws: CommandFailure.self) { try await printed(["history", "--refused", "--json"], from: logs) }
-        #expect(RefusalLogProblem.unreadable.summary.contains("`peel history --refused --clear`"))
+        #expect(failure?.description.contains("`peel history --refused --clear`") == true)
+        #expect(failure?.description.hasSuffix(" Something other than a file, such as a folder, is where the file should be.") == true)
     }
 
     @Test func putsNothingBackWhileTheExclusionsCannotBeRead() async throws {

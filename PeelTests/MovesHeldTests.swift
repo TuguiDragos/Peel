@@ -9,21 +9,21 @@ struct MovesHeldTests {
     @Test func namesWhatKeepsEveryMoveBack() {
         func reason(_ exclusions: Bool, _ history: Bool, _ writing: Bool) -> MovesHeld? {
             MovesHeld.reason(
-                exclusionsUnreadable: exclusions, historyUnreadable: history,
+                exclusionsUnreadable: exclusions, historyUnreadable: history ? .notAFile : nil,
                 historyUnwritable: writing ? Self.full : nil
             )
         }
 
         #expect(reason(false, false, false) == nil)
         #expect(reason(true, true, true) == .exclusionsUnreadable)
-        #expect(reason(false, true, true) == .historyUnreadable)
+        #expect(reason(false, true, true) == .historyUnreadable(.notAFile))
         #expect(reason(false, false, true) == .historyUnwritable(Self.full))
     }
 
     @Test func anActionHistoryDoesntRecordWaitsOnlyForTheExclusions() {
         func reason(_ exclusions: Bool, _ history: Bool, _ writing: Bool) -> MovesHeld? {
             MovesHeld.reason(
-                exclusionsUnreadable: exclusions, historyUnreadable: history,
+                exclusionsUnreadable: exclusions, historyUnreadable: history ? .notAFile : nil,
                 historyUnwritable: writing ? Self.full : nil, recordsInHistory: false
             )
         }

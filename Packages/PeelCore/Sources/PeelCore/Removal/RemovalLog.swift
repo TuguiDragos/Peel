@@ -6,12 +6,12 @@ public enum RemovalLogProblem: Sendable, Equatable {
     /// The file could not be decoded. It was set aside under this name, and a new log was started with the rows
     /// that could be read.
     case damaged(setAside: URL)
-    /// The file could not be read or set aside, so nothing new is being recorded.
-    case unreadable
+    /// The file could not be read or set aside, so nothing new is being recorded; and why, when Peel knows.
+    case unreadable(FileProblem?)
     /// The log could not be written, so the last removal is not recorded.
-    case couldNotRecord
+    case couldNotRecord(FileProblem?)
     /// The log could not be written after a Put Back or a Forget, so it still lists those records.
-    case couldNotUpdate
+    case couldNotUpdate(FileProblem?)
 }
 
 /// The result of reading or changing the log. `records` is nil when the file was left
@@ -89,7 +89,7 @@ public actor RemovalLog {
             guard !records.isEmpty else { return outcome(current()) }
             guard let existing = current() else { return outcome(nil) }
             let new = Set(records.map(\.batch))
-            guard let updated = write(existing + records, keeping: new, orNote: .couldNotRecord) else {
+            guard let updated = write(existing + records, keeping: new, orNote: RemovalLogProblem.couldNotRecord) else {
                 journal.keep(records)
                 return outcome(nil)
             }
@@ -100,7 +100,7 @@ public actor RemovalLog {
                 journal.forget(records.map(\.trashedItem))
             }
             // A removal that is recorded clears an earlier `.couldNotRecord`.
-            if problem == .couldNotRecord { problem = nil }
+            if hasUnrecordedRemoval { problem = nil }
             return outcome(updated)
         }
     }
@@ -135,7 +135,12 @@ public actor RemovalLog {
     /// Whether History at `url` can be read, known without reading it: it is not there yet, or it opens as the file
     /// it should be. A History that cannot be read is never written over, and nothing moves meanwhile.
     public static func canBeRead(at url: URL = RemovalHistory.defaultURL) -> Bool {
-        url.isMissing || BoundedRead.opens(url, maximum: maximumBytes)
+        readProblem(at: url) == nil
+    }
+
+    /// Why History at `url` can't be read, or nil when it can.
+    public static func readProblem(at url: URL = RemovalHistory.defaultURL) -> FileProblem? {
+        url.isMissing ? nil : BoundedRead.whyUnreadable(url, maximum: maximumBytes)
     }
 
     /// Why a removal couldn't be recorded in History at `url` now, or nil when it could: the folder it is written
@@ -176,7 +181,7 @@ public actor RemovalLog {
         whileNoOtherProcessWrites {
             guard let existing = current() else { return outcome(nil) }
             let updated = existing.filter { !ids.contains($0.id) }
-            return outcome(write(updated, orNote: .couldNotUpdate))
+            return outcome(write(updated, orNote: RemovalLogProblem.couldNotUpdate))
         }
     }
 
@@ -200,9 +205,13 @@ public actor RemovalLog {
     private func note(_ problem: RemovalLogProblem?) {
         if problem == nil {
             if case .damaged = self.problem { return }
-            if self.problem == .couldNotRecord { return }
+            if hasUnrecordedRemoval { return }
         }
         self.problem = problem
+    }
+
+    private var hasUnrecordedRemoval: Bool {
+        if case .couldNotRecord = problem { true } else { false }
     }
 
     /// The records on disk with every removal that stopped before recording itself taken in, or nil when the file
@@ -224,9 +233,8 @@ public actor RemovalLog {
         var updated = records
         if !interrupted.isEmpty {
             let taken = Set(interrupted.map(\.batch))
-            guard let written = write(records + interrupted, keeping: taken, orNote: .couldNotRecord) else {
-                return records
-            }
+            let written = write(records + interrupted, keeping: taken, orNote: RemovalLogProblem.couldNotRecord)
+            guard let written else { return records }
             updated = written
             RemovalTotals.change(at: totals) { $0.add(interrupted) }
         }
@@ -247,7 +255,7 @@ public actor RemovalLog {
             return kept.records
         }
         guard let read = BoundedRead.contents(at: url, maximum: readLimit) else {
-            note(.unreadable)
+            note(.unreadable(BoundedRead.whyUnreadable(url, maximum: readLimit)))
             return nil
         }
         let data = read.data
@@ -261,11 +269,13 @@ public actor RemovalLog {
         // A row this version cannot read (written by a later version, or broken by hand) must not cost the rest.
         let readable = (try? decoder.decode([Row].self, from: data))?.compactMap(\.record) ?? []
         guard let setAside = DamagedFile.setAside(url) else {
-            note(.unreadable)
+            note(.unreadable(nil))
             return nil
         }
         note(.damaged(setAside: setAside))
-        guard !readable.isEmpty, let written = write(readable, orNote: .damaged(setAside: setAside)) else { return [] }
+        guard !readable.isEmpty, let written = write(readable, orNote: { _ in .damaged(setAside: setAside) }) else {
+            return []
+        }
         return written
     }
 
@@ -281,7 +291,8 @@ public actor RemovalLog {
     /// Writes `records`, less the oldest removals beyond `maximumRecords` or what is read back, never one in
     /// `protected`, counts those it left out in the totals, and answers what it wrote, or nil when it couldn't.
     private func write(
-        _ records: [RemovalRecord], keeping protected: Set<UUID> = [], orNote failure: RemovalLogProblem
+        _ records: [RemovalRecord], keeping protected: Set<UUID> = [],
+        orNote failure: (FileProblem?) -> RemovalLogProblem
     ) -> [RemovalRecord]? {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = LogTime.encoding
@@ -301,7 +312,7 @@ public actor RemovalLog {
             return fitted.records
         } catch {
             // An unrecorded removal is the most serious problem, so a later failure never replaces it.
-            if problem != .couldNotRecord { note(failure) }
+            if !hasUnrecordedRemoval { note(failure(.failed(SystemError(error)))) }
             return nil
         }
     }

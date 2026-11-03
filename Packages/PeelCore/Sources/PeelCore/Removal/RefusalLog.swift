@@ -52,10 +52,10 @@ public enum RefusalLogProblem: Sendable, Equatable {
     /// The file could not be decoded. It was set aside under this name, and the rows that could be read were kept.
     case damaged(setAside: URL)
     /// The file could not be read or set aside, so nothing is written to it: it is the only copy of what was
-    /// refused.
-    case unreadable
+    /// refused. And why, when Peel knows.
+    case unreadable(FileProblem?)
     /// What the last removal refused could not be written down.
-    case couldNotRecord
+    case couldNotRecord(FileProblem?)
 }
 
 /// A record of what Peel was asked to move and refused, so the decisions can be read back. Only refusals of
@@ -107,8 +107,8 @@ public actor RefusalLog {
             let trimmed = Batches.trimmed(
                 every, maximum: Self.maximumRecords, batch: { $0.batch ?? $0.id }, date: \.date, keeping: [batch]
             )
-            guard write(trimmed, keeping: [batch]) else {
-                note(.couldNotRecord)
+            if let failure = write(trimmed, keeping: [batch]) {
+                note(.couldNotRecord(failure))
                 return problem
             }
             let listed = Set((kept?.records ?? trimmed).map { $0.batch ?? $0.id })
@@ -116,7 +116,7 @@ public actor RefusalLog {
             if leftOut > 0 {
                 RemovalTotals.change(at: RemovalTotals.url(beside: url)) { $0.countRefusalsNoLongerListed(leftOut) }
             }
-            if problem == .couldNotRecord { problem = nil }
+            if hasUnrecordedRefusal { problem = nil }
             return problem
         }
     }
@@ -167,7 +167,7 @@ public actor RefusalLog {
             return kept.records
         }
         guard let read = BoundedRead.contents(at: url, maximum: readLimit) else {
-            note(.unreadable)
+            note(.unreadable(BoundedRead.whyUnreadable(url, maximum: readLimit)))
             return nil
         }
         let data = read.data
@@ -181,7 +181,7 @@ public actor RefusalLog {
         // A row that a later version wrote, or that a hand edit broke, must not cost the other rows.
         let readable = (try? decoder.decode([Row].self, from: data))?.compactMap(\.record) ?? []
         guard let setAside = DamagedFile.setAside(url) else {
-            note(.unreadable)
+            note(.unreadable(nil))
             return nil
         }
         note(.damaged(setAside: setAside))
@@ -196,7 +196,7 @@ public actor RefusalLog {
     private func note(_ problem: RefusalLogProblem?) {
         if problem == nil {
             if case .damaged(let setAside) = self.problem, !setAside.isMissing { return }
-            if self.problem == .couldNotRecord { return }
+            if hasUnrecordedRefusal { return }
         }
         self.problem = problem
     }
@@ -211,19 +211,28 @@ public actor RefusalLog {
         }
     }
 
-    /// Writes `records`, less the oldest removals that wouldn't fit in what is read back, never one in `protected`.
+    private var hasUnrecordedRefusal: Bool {
+        if case .couldNotRecord = problem { true } else { false }
+    }
+
+    /// Writes `records`, less the oldest removals that wouldn't fit in what is read back, never one in `protected`,
+    /// and answers why it couldn't, or nil once it did.
     @discardableResult
-    private func write(_ records: [RefusalRecord], keeping protected: Set<UUID> = []) -> Bool {
+    private func write(_ records: [RefusalRecord], keeping protected: Set<UUID> = []) -> FileProblem? {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = LogTime.encoding
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        guard let fitted = try? Batches.fitting(
-            records, within: readLimit, batch: { $0.batch ?? $0.id }, date: \.date, keeping: protected,
-            encode: { try encoder.encode($0) }
-        ) else { return false }
-        guard (try? PeelFolder.write(fitted.data, to: url)) != nil else { return false }
-        // Every writer takes the lock, so the file here is the one just written.
-        kept = FileIdentity.of(url).map { ($0, fitted.records) }
-        return true
+        do {
+            let fitted = try Batches.fitting(
+                records, within: readLimit, batch: { $0.batch ?? $0.id }, date: \.date, keeping: protected,
+                encode: { try encoder.encode($0) }
+            )
+            try PeelFolder.write(fitted.data, to: url)
+            // Every writer takes the lock, so the file here is the one just written.
+            kept = FileIdentity.of(url).map { ($0, fitted.records) }
+            return nil
+        } catch {
+            return .failed(SystemError(error))
+        }
     }
 }

@@ -287,7 +287,7 @@ struct HistoryCommand: AsyncParsableCommand {
             return
         }
         let read = await log.load()
-        guard let records = read.records else { throw CommandFailure((read.problem ?? .unreadable).summary) }
+        guard let records = read.records else { throw CommandFailure((read.problem ?? .unreadable(nil)).summary) }
         if let problem = read.problem {
             Output.note(problem.summary)
         }

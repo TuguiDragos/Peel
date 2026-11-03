@@ -234,10 +234,10 @@ struct HomePermissionsContent: View {
                 Button("Open Peel Settings") { SettingsPane.exclusions.open(with: openSettings) }
                     .buttonStyle(.sticker(fill: Album.redFill, size: 11.5))
             }
-        } else if held == .historyUnreadable {
+        } else if case .historyUnreadable(let why) = held {
             Notice(
                 title: Text("Peel couldn’t read History"),
-                detail: Text("Peel removes nothing until you start History over, so that everything it moves can be put back."),
+                detail: Text(verbatim: why.said(after: String(localized: "Peel removes nothing until you start History over, so that everything it moves can be put back."), about: history.historyFile)),
                 isAlbum: true
             ) {
                 Button("Open History") { Navigator.shared.requestedTool = .history }

@@ -300,8 +300,9 @@ struct RemovalHistoryTests {
         try directory.setPermissions(0o500, of: "Peel")
         defer { try? directory.setPermissions(0o755, of: "Peel") }
 
-        #expect(await log.add([Self.record(batch: UUID())]).problem == .couldNotRecord)
-        #expect(await log.load().problem == .couldNotRecord, "reading the older file took the notice away")
+        let refused = FileProblem.failed(SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError))
+        #expect(await log.add([Self.record(batch: UUID())]).problem == .couldNotRecord(refused))
+        #expect(await log.load().problem == .couldNotRecord(refused), "reading the older file took the notice away")
 
         try directory.setPermissions(0o755, of: "Peel")
         #expect(await log.add([Self.record(batch: UUID())]).problem == nil, "a removal that was recorded is what ends it")
@@ -317,7 +318,10 @@ struct RemovalHistoryTests {
         try directory.setPermissions(0o500, of: "Peel")
         defer { try? directory.setPermissions(0o755, of: "Peel") }
 
-        #expect(await log.remove([record.id]).problem == .couldNotUpdate)
+        #expect(
+            await log.remove([record.id]).problem
+                == .couldNotUpdate(.failed(SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)))
+        )
     }
 
     /// A file that cannot even be read cannot be copied out of the way, so nothing is written at all.
@@ -330,7 +334,7 @@ struct RemovalHistoryTests {
         let outcome = await RemovalLog(url: url).add([Self.record(batch: UUID())])
 
         #expect(outcome.records == nil, "an unreadable log was replaced anyway")
-        #expect(outcome.problem == .unreadable)
+        #expect(outcome.problem == .unreadable(.failed(SystemError(domain: NSPOSIXErrorDomain, code: Int(EACCES)))))
     }
 
     /// Whether History can be read is known without reading it, so a removal can be refused before anything moves:
@@ -345,6 +349,7 @@ struct RemovalHistoryTests {
 
         try directory.setPermissions(0, of: "Peel/removals.json")
         #expect(!RemovalLog.canBeRead(at: url), "a file Peel cannot open")
+        #expect(RemovalLog.readProblem(at: url) == .failed(SystemError(domain: NSPOSIXErrorDomain, code: Int(EACCES))))
         try directory.setPermissions(0o644, of: "Peel/removals.json")
 
         try directory.setPermissions(0o600, of: "Peel")
@@ -358,7 +363,8 @@ struct RemovalHistoryTests {
         let url = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
         try directory.setPermissions(0, of: "Peel/removals.json")
         let log = RemovalLog(url: url)
-        #expect(await log.load().problem == .unreadable)
+        let closed = SystemError(domain: NSPOSIXErrorDomain, code: Int(EACCES))
+        #expect(await log.load().problem == .unreadable(.failed(closed)))
 
         let startedOver = await log.startOver()
 
@@ -440,7 +446,7 @@ struct RemovalHistoryTests {
         let outcome = await RemovalLog(url: url).add([Self.record(batch: UUID())])
 
         #expect(outcome.records == nil)
-        #expect(outcome.problem == .unreadable)
+        #expect(outcome.problem == .unreadable(.failed(SystemError(domain: NSPOSIXErrorDomain, code: Int(EACCES)))))
     }
 
     /// History showing "3 items" for a removal that touched twelve is worse than showing nothing: the user

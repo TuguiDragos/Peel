@@ -5,16 +5,16 @@ import SwiftUI
 /// Exclusions not read yet are none of these, since they are read as Peel starts.
 enum MovesHeld: Equatable {
     case exclusionsUnreadable
-    case historyUnreadable
+    case historyUnreadable(FileProblem)
     case historyUnwritable(HistoryWriteProblem)
 
     static func reason(
-        exclusionsUnreadable: Bool, historyUnreadable: Bool, historyUnwritable: HistoryWriteProblem?,
+        exclusionsUnreadable: Bool, historyUnreadable: FileProblem?, historyUnwritable: HistoryWriteProblem?,
         recordsInHistory: Bool = true
     ) -> MovesHeld? {
         if exclusionsUnreadable { return .exclusionsUnreadable }
         guard recordsInHistory else { return nil }
-        if historyUnreadable { return .historyUnreadable }
+        if let historyUnreadable { return .historyUnreadable(historyUnreadable) }
         return historyUnwritable.map(MovesHeld.historyUnwritable)
     }
 
@@ -23,7 +23,7 @@ enum MovesHeld: Equatable {
         exclusions: ExclusionsStore, history: RemovalHistoryStore, recordsInHistory: Bool = true
     ) -> MovesHeld? {
         reason(
-            exclusionsUnreadable: exclusions.exclusions.isUnreadable, historyUnreadable: history.isUnreadable,
+            exclusionsUnreadable: exclusions.exclusions.isUnreadable, historyUnreadable: history.readProblem,
             historyUnwritable: history.writeProblem, recordsInHistory: recordsInHistory
         )
     }
@@ -51,10 +51,10 @@ struct RemovalsHeldBanner: View {
             }
             .padding(.vertical, 6)
             .listRowSeparator(.hidden)
-        } else if held == .historyUnreadable, !isOnHistoryPage {
+        } else if case .historyUnreadable(let why) = held, !isOnHistoryPage {
             Notice(
                 title: Text("Peel couldn’t read History"),
-                detail: Text("Peel removes nothing until you start History over, so that everything it moves can be put back.")
+                detail: Text(verbatim: why.said(after: String(localized: "Peel removes nothing until you start History over, so that everything it moves can be put back."), about: history.historyFile))
             ) {
                 Button("Open History") {
                     Navigator.shared.requestedTool = .history

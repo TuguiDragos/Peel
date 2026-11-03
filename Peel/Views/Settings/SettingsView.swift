@@ -449,8 +449,8 @@ private struct GeneralSettingsView: View {
                         Text("Peel removes nothing and puts nothing back until you start the list over in Settings.")
                             .font(.callout)
                             .foregroundStyle(.secondary)
-                    } else if history.isUnreadable {
-                        Text("Peel removes nothing until you start History over, so that everything it moves can be put back.")
+                    } else if let why = history.readProblem {
+                        Text(verbatim: why.said(after: String(localized: "Peel removes nothing until you start History over, so that everything it moves can be put back."), about: history.historyFile))
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     } else if let problem = history.writeProblem {

@@ -133,7 +133,7 @@ struct RemovalHistoryStoreTests {
         await history.load()
 
         #expect(history.hasLoaded && history.batches.isEmpty)
-        #expect(history.shownProblem == .unreadable)
+        #expect(history.shownProblem == .unreadable(.notAFile))
         #expect(!history.isKnownEmpty)
     }
 
@@ -205,7 +205,8 @@ struct RemovalHistoryStoreTests {
 
         await history.restore(history.records, canUseHelper: false)
 
-        #expect(history.problem == .couldNotUpdate)
+        let refusedWrite = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
+        #expect(history.problem == .couldNotUpdate(.failed(refusedWrite)))
         #expect(history.trashLooks == looks + 1, "the page kept saying it is in the Trash")
     }
 
@@ -346,8 +347,8 @@ struct RemovalHistoryStoreTests {
         let startedOver = await history.startOver()
         let startedRefusalsOver = await history.startOverRefusals()
 
-        #expect(startedOver == .couldNotSetAside && history.shownProblem == .unreadable)
-        #expect(startedRefusalsOver == .couldNotSetAside && history.refusalProblem == .unreadable)
+        #expect(startedOver == .couldNotSetAside && history.shownProblem == .unreadable(.notAFile))
+        #expect(startedRefusalsOver == .couldNotSetAside && history.refusalProblem == .unreadable(.notAFile))
     }
 
     @Test func startsOverANotMovedListItCannotRead() async throws {
@@ -361,7 +362,7 @@ struct RemovalHistoryStoreTests {
             knowsTheExclusions: { true }
         )
         await history.load()
-        #expect(history.refusalProblem == .unreadable)
+        #expect(history.refusalProblem == .unreadable(.notAFile))
 
         await history.startOverRefusals()
 
@@ -392,7 +393,8 @@ struct RemovalHistoryStoreTests {
 
         await history.load()
 
-        #expect(history.refusalProblem == .couldNotRecord)
+        let refusedWrite = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
+        #expect(history.refusalProblem == .couldNotRecord(.failed(refusedWrite)))
     }
 
     @Test func aReadThatFindsNothingNewChangesNothing() async throws {

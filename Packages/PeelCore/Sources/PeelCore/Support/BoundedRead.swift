@@ -23,7 +23,7 @@ enum BoundedRead {
     static func contents(
         at url: URL, maximum: Int = maximumBytes, read: Read = { Darwin.read($0, $1, $2) }
     ) -> (data: Data, file: FileIdentity)? {
-        guard let (descriptor, info) = openRegularFile(at: url, maximum: maximum) else { return nil }
+        guard case .success(let (descriptor, info)) = openRegularFile(at: url, maximum: maximum) else { return nil }
         defer { close(descriptor) }
 
         var data = Data()
@@ -44,7 +44,7 @@ enum BoundedRead {
 
     /// The first `count` bytes of the regular file at `url`, or the whole file when it is shorter, whatever its size.
     static func prefix(of url: URL, count: Int) -> Data? {
-        guard let descriptor = openRegularFile(at: url, maximum: .max)?.descriptor else { return nil }
+        guard case .success(let (descriptor, _)) = openRegularFile(at: url, maximum: .max) else { return nil }
         defer { close(descriptor) }
 
         var buffer = [UInt8](repeating: 0, count: count)
@@ -64,35 +64,47 @@ enum BoundedRead {
         return Data(buffer[0..<filled])
     }
 
-    /// What macOS answers when `url` is opened to be read, or nil when it opens: why a read found nothing.
-    static func openError(of url: URL) -> SystemError? {
-        let descriptor = open(url.path(percentEncoded: false), O_RDONLY | O_NONBLOCK | O_CLOEXEC)
-        guard descriptor < 0 else {
+    /// Why `data(at:maximum:)` finds nothing at `url`, asked again: macOS's answer to opening it, or what stands
+    /// there. Nil when it opens as a regular file of at most `maximum` bytes.
+    static func whyUnreadable(_ url: URL, maximum: Int = maximumBytes) -> FileProblem? {
+        switch openRegularFile(at: url, maximum: maximum) {
+        case .success(let (descriptor, _)):
             close(descriptor)
             return nil
+        case .failure(let problem):
+            return problem
         }
-        return SystemError(domain: NSPOSIXErrorDomain, code: Int(errno))
     }
 
     /// Whether `url` opens as a regular file of at most `maximum` bytes, which is what `data(at:maximum:)` asks
     /// before it reads.
     static func opens(_ url: URL, maximum: Int = maximumBytes) -> Bool {
-        guard let descriptor = openRegularFile(at: url, maximum: maximum)?.descriptor else { return false }
-        close(descriptor)
-        return true
+        whyUnreadable(url, maximum: maximum) == nil
     }
 
     /// A descriptor for the regular file at `url` when it is at most `maximum` bytes, which the caller closes, and
-    /// what `fstat(2)` says of it.
-    private static func openRegularFile(at url: URL, maximum: Int) -> (descriptor: Int32, info: stat)? {
+    /// what `fstat(2)` says of it, or why it isn't one.
+    private static func openRegularFile(
+        at url: URL, maximum: Int
+    ) -> Result<(descriptor: Int32, info: stat), FileProblem> {
         let descriptor = open(url.path(percentEncoded: false), O_RDONLY | O_NONBLOCK | O_CLOEXEC)
-        guard descriptor >= 0 else { return nil }
-        var info = stat()
-        guard fstat(descriptor, &info) == 0, info.st_mode & S_IFMT == S_IFREG, info.st_size <= maximum else {
-            close(descriptor)
-            return nil
+        guard descriptor >= 0 else {
+            return .failure(.failed(SystemError(domain: NSPOSIXErrorDomain, code: Int(errno))))
         }
-        return (descriptor, info)
+        var info = stat()
+        let problem: FileProblem? =
+            if fstat(descriptor, &info) != 0 {
+                .failed(SystemError(domain: NSPOSIXErrorDomain, code: Int(errno)))
+            } else if info.st_mode & S_IFMT != S_IFREG {
+                .notAFile
+            } else if info.st_size > maximum {
+                .tooLarge
+            } else {
+                nil
+            }
+        guard let problem else { return .success((descriptor, info)) }
+        close(descriptor)
+        return .failure(problem)
     }
 
     static func propertyList(at url: URL, maximum: Int = maximumBytes) -> [String: Any]? {

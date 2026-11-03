@@ -287,9 +287,22 @@ extension RemovalLogProblem {
     var summary: String {
         switch self {
         case .damaged(let setAside): "History was damaged, so it was kept as \(Output.plain(Output.path(setAside))) and started again."
-        case .unreadable: "History couldn't be read, so Peel moves nothing until you start it over in the Peel app's History."
-        case .couldNotRecord: "History couldn't be saved, so the last removal isn't in it."
-        case .couldNotUpdate: "History couldn't be saved, so what was put back is still listed in it."
+        case .unreadable(let why):
+            "History couldn't be read, so Peel moves nothing until you start it over in the Peel app's History." + why.sentence
+        case .couldNotRecord(let why): "History couldn't be saved, so the last removal isn't in it." + why.sentence
+        case .couldNotUpdate(let why): "History couldn't be saved, so what was put back is still listed in it." + why.sentence
+        }
+    }
+}
+
+extension FileProblem? {
+    /// Why, as a sentence of its own after the one it explains, or nothing when it isn't known.
+    var sentence: String {
+        switch self {
+        case .notAFile: " Something other than a file, such as a folder, is where the file should be."
+        case .tooLarge: " The file is larger than Peel ever writes it, so Peel doesn't read it."
+        case .failed(let error): " macOS answered: \(Output.plain(error.localizedDescription))"
+        case nil: ""
         }
     }
 }
@@ -300,10 +313,11 @@ extension RefusalLogProblem {
         case .damaged(let setAside):
             "The list of refusals was damaged, so it was kept as \(Output.plain(Output.path(setAside)))"
                 + " and started again."
-        case .unreadable:
+        case .unreadable(let why):
             "The list of refusals couldn't be read, so Peel writes nothing to it until you clear it with"
-                + " `peel history --refused --clear` or start it over in the Peel app's History."
-        case .couldNotRecord: "The list of refusals couldn't be saved, so what stayed this time isn't in it."
+                + " `peel history --refused --clear` or start it over in the Peel app's History." + why.sentence
+        case .couldNotRecord(let why):
+            "The list of refusals couldn't be saved, so what stayed this time isn't in it." + why.sentence
         }
     }
 }

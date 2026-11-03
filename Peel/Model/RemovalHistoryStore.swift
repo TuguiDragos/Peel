@@ -167,9 +167,9 @@ final class RemovalHistoryStore {
     private var toldRefusalsNoLongerListed: Int?
     /// The count History's page said last, read from the preferences once History has left something out.
     private var toldNoLongerListed: Int?
-    /// Whether History cannot be read, which holds every removal back, as the Trash service does. Known without
-    /// reading it: at launch, when Peel comes forward, and with every read or change of History.
-    private(set) var isUnreadable = false
+    /// Why History cannot be read, which holds every removal back, as the Trash service does; nil while it can. Known
+    /// without reading it: at launch, when Peel comes forward, and with every read or change of History.
+    private(set) var readProblem: FileProblem?
     /// Why History cannot be written, as on a full disk, which holds every removal back too. Known the same way.
     private(set) var writeProblem: HistoryWriteProblem?
     private(set) var isRestoring = false
@@ -256,13 +256,17 @@ final class RemovalHistoryStore {
 
     /// Whether History was read and lists nothing. One that can't be read now isn't known to be empty.
     var isKnownEmpty: Bool {
-        hasLoaded && batches.isEmpty && refusalBatches.isEmpty && shownProblem != .unreadable
+        guard hasLoaded, batches.isEmpty, refusalBatches.isEmpty else { return false }
+        if case .unreadable = shownProblem { return false }
+        return true
     }
+
+    var isUnreadable: Bool { readProblem != nil }
 
     /// The problem History's page shows: that History cannot be read, as soon as that is known, otherwise what the
     /// last read or change of it met.
     var shownProblem: RemovalLogProblem? {
-        isUnreadable ? .unreadable : problem
+        readProblem.map { .unreadable($0) } ?? problem
     }
 
     /// How many older removals History no longer lists, while its page has not said that count yet.
@@ -294,9 +298,9 @@ final class RemovalHistoryStore {
     func checkReadability() async {
         let problem = await log.setAsideAnUnreadableJournal()
         if self.problem != problem { self.problem = problem }
-        let unreadable = !RemovalLog.canBeRead(at: log.url)
-        let writeProblem = unreadable ? nil : RemovalLog.writeProblem(at: log.url)
-        if isUnreadable != unreadable { isUnreadable = unreadable }
+        let readProblem = RemovalLog.readProblem(at: log.url)
+        let writeProblem = readProblem == nil ? RemovalLog.writeProblem(at: log.url) : nil
+        if self.readProblem != readProblem { self.readProblem = readProblem }
         if self.writeProblem != writeProblem { self.writeProblem = writeProblem }
     }
 

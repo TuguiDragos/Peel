@@ -86,7 +86,10 @@ public struct LaunchAgentFile: Sendable {
         guard info.st_uid == owner else { return .failure(.notYours) }
         guard info.st_size <= maximumBytes else { return .failure(.tooLarge) }
         guard let (data, identity) = BoundedRead.contents(at: url, maximum: maximumBytes) else {
-            return .failure(.unreadable(BoundedRead.openError(of: url)))
+            guard case .failed(let error)? = BoundedRead.whyUnreadable(url, maximum: maximumBytes) else {
+                return .failure(.unreadable(nil))
+            }
+            return .failure(.unreadable(error))
         }
         guard identity.holdsTheSameContents(as: FileIdentity(info)) else { return .failure(.changed) }
         var format = PropertyListSerialization.PropertyListFormat.xml
