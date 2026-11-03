@@ -240,8 +240,15 @@ extension TrashFailure.Reason {
 extension CouldNotShow {
     /// Why the window couldn't show this app, with its path.
     var explanation: String {
+        reason.explanation(at: url)
+    }
+}
+
+extension AppInspector.Unreadable {
+    /// Why the bundle at `url` couldn't be read as an app, with its path.
+    func explanation(at url: URL) -> String {
         let path = url.abbreviatedPath
-        return switch reason {
+        return switch self {
         case .gone: String(localized: "\(path) isn’t there anymore.")
         case .notAnApp: String(localized: "\(path) isn’t an app.")
         case .noInfo: String(localized: "\(path) has no Info.plist, the file that says what an app is, so Peel can’t read it as one.")

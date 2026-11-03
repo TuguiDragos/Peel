@@ -126,7 +126,7 @@ final class SelfUninstall {
     ) async {
         let bundleURL = Bundle.main.bundleURL
         guard let app = await AppLibrary.inspect(bundleURL) else {
-            tell(.stayed(String(localized: "Peel couldn’t read its own files.")), words)
+            tell(.stayed(AppInspector.whyUnreadable(bundleURL).explanation(at: bundleURL)), words)
             return
         }
         let exclusions = ExclusionsStore.shared.exclusions
