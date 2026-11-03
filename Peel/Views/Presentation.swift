@@ -623,8 +623,8 @@ extension OrphanConfidence {
     private func text(for reason: Reason?) -> Text {
         guard let reason else { return Text("No installed app claims these") }
         return switch reason {
-        case .running:
-            Text("Something with this identifier is running now")
+        case .running(let name):
+            Text("\(name) is running now, so these may still be in use")
         case .leadsIntoAnAppThatIsGone:
             Text("These links lead into an app that is no longer there")
         case .onlyTheName(let name):

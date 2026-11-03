@@ -366,7 +366,7 @@ struct FileCommandTests {
         var group = OrphanGroup(identifier: "com.example.gone", items: [])
         #expect(OrphansCommand.unsureNote(for: group).isEmpty)
 
-        group.confidence = OrphanConfidence(level: .unsure, reasons: [.running])
+        group.confidence = OrphanConfidence(level: .unsure, reasons: [.running("Example")])
 
         #expect(OrphansCommand.unsureNote(for: group) == ["unsure: \(group.confidence.summary)"])
     }
@@ -826,6 +826,11 @@ struct FileCommandTests {
         #expect(recent == "modified on \(Output.day(date)), so something may still use these files")
         #expect(later == "modified on \(Output.day(date)), after Peel last saw Example installed, so something may still use these files")
         #expect(OrphanConfidence(level: .certain, reasons: [.untouched(months: 7)]).summary == "not modified in 7 months")
+    }
+
+    @Test func namesWhatIsRunningUnderAnOrphanGroupsIdentifier() {
+        let running = OrphanConfidence(level: .unsure, reasons: [.running("Example Helper")]).summary
+        #expect(running == "Example Helper is running now, so these may still be in use")
     }
 
     @Test func namesTheFolderThatKeepsAProjectSearchOut() throws {

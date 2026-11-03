@@ -668,7 +668,7 @@ struct OrphanScannerTests {
         }
 
         let scan = await scanner(in: directory).scan(
-            installedApps: installed, remembered: gone, running: ["com.gone.busy"]
+            installedApps: installed, remembered: gone, running: ["com.gone.busy": "Busy"]
         )
         let paths = { (urls: [URL]) in Set(urls.map(PathPattern.comparablePath(of:))) }
         func group(_ identifier: String) -> OrphanGroup? { scan.groups.first { $0.identifier == identifier } }
@@ -680,6 +680,7 @@ struct OrphanScannerTests {
         #expect(group("com.gone.solo") == nil)
         #expect(paths(group("com.gone.coin")?.items.map(\.url) ?? []) == paths([coin]))
         #expect(paths(group("com.gone.busy")?.items.map(\.url) ?? []) == paths([busy]))
+        #expect(group("com.gone.busy")?.confidence.reasons == [.running("Busy")])
     }
 
     /// What the walk saw inside may exist nowhere else. A folder with a wallet, a signing key, or a repository

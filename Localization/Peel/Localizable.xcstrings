@@ -6570,6 +6570,112 @@
         }
       }
     },
+    "%@ is running now, so these may still be in use" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace %@ teď běží, takže se tyto soubory možná ještě používají"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ läuft gerade, daher werden diese möglicherweise noch verwendet"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ se está ejecutando ahora, así que puede que estos archivos aún estén en uso"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ est en cours d’exécution : ces fichiers sont donc peut-être encore utilisés"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ è in esecuzione ora, quindi questi file potrebbero essere ancora in uso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”は現在実行中のため、これらはまだ使用中の可能性があります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 지금 실행 중이므로 이 항목이 아직 사용 중일 수 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ is nu actief, dus deze zijn misschien nog in gebruik"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ działa teraz, więc te pliki mogą być jeszcze używane"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ está em execução agora, então estes itens podem ainda estar em uso"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ rulează acum, așa că acestea ar putea fi încă în uz"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Программа «%@» сейчас выполняется, поэтому эти файлы, возможно, еще используются"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ körs just nu, så dessa kanske fortfarande används"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ şu anda çalışıyor, bu yüzden bunlar hâlâ kullanımda olabilir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програма «%@» зараз працює, тож ці елементи, можливо, ще використовуються"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”正在运行，因此这些文件可能仍在使用中"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」正在執行，因此這些項目可能仍在使用中"
+          }
+        }
+      }
+    },
     "%@ is up to date" : {
       "localizations" : {
         "cs" : {
@@ -189611,112 +189717,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "有東西從macOS在開機時讀取的檔案夾以外的檔案載入了此項目，因此Mac重新開機時macOS就會忘記它。該檔案顯示於上方。"
-          }
-        }
-      }
-    },
-    "Something with this identifier is running now" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Něco s tímto identifikátorem teď běží"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Etwas mit dieser ID läuft gerade"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Algo con este identificador se está ejecutando ahora"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un élément portant cet identifiant est en cours d’exécution"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qualcosa con questo identificatore è in esecuzione ora"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "この識別子を持つものが現在実行中"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 식별자를 가진 무언가가 지금 실행 중임"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Er is nu iets met deze ID actief"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coś z tym identyfikatorem jest teraz uruchomione"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Algo com este identificador está em execução agora"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ceva cu acest identificator rulează acum"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сейчас выполняется что-то с этим идентификатором"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Något med den här identifieraren körs just nu"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu tanıtıcıya sahip bir şey şu anda çalışıyor"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Щось із цим ідентифікатором зараз працює"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "带有此标识符的某个程序正在运行"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "有使用此識別碼的項目正在執行"
           }
         }
       }

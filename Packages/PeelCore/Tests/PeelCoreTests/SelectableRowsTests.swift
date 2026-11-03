@@ -217,7 +217,7 @@ struct SelectableRowsTests {
             requiresPrivileges: false
         )
         var group = OrphanGroup(identifier: "org.example.Running", items: [cache])
-        group.confidence = OrphanConfidence(level: .unsure, reasons: [.running])
+        group.confidence = OrphanConfidence(level: .unsure, reasons: [.running("Example")])
 
         #expect(group.selectableRows(canUseHelper: true).selectable == [cache.url])
         #expect(group.selectableRows(canUseHelper: true).recommended.isEmpty)

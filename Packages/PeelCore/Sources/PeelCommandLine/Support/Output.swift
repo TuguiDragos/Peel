@@ -516,7 +516,7 @@ extension OrphanConfidence {
     /// The strongest reason behind the judgment, the same one the app shows, in the command line's plain English.
     var summary: String {
         switch reasons.first {
-        case .running: "something with this identifier is running now"
+        case .running(let name): "\(Output.plain(name)) is running now, so these may still be in use"
         case .leadsIntoAnAppThatIsGone: "these links lead into an app that is no longer there"
         case .onlyTheName(let name): "only the name ties these to \(Output.plain(name)), which Peel saw installed"
         case .writtenRecently(let date): "modified on \(Output.day(date)), so something may still use these files"

@@ -18,6 +18,11 @@ public enum RunningCopies {
             self.bundleURL = bundleURL
             self.mayBeQuit = mayBeQuit
         }
+
+        /// The name a person knows it by: its bundle's name as Finder shows it, else its identifier.
+        public var name: String? {
+            bundleURL.map(AppInspector.displayName) ?? bundleIdentifier
+        }
     }
 
     @MainActor

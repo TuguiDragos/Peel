@@ -61,14 +61,14 @@ public struct OrphanScanner: Sendable {
     ///
     /// `installedApps` must be the complete list: anything it does not claim can be reported as orphaned.
     /// `remembered` holds the apps Peel has seen installed before, so a group can be named after the app that
-    /// left it. `running` holds the bundle identifiers of what is running now: a helper or an agent can keep a
+    /// left it. `running` names what is running now by its bundle identifier: a helper or an agent can keep a
     /// folder that no app bundle claims, and while it runs, its group is marked unsure. `owners` are the groups the
     /// person said belong to an app (`OrphanOwners`), left out while that app is installed.
     @concurrent
     public func scan(
         installedApps: [InstalledApp],
         remembered: [RememberedApp] = [],
-        running: Set<String> = [],
+        running: [String: String] = [:],
         owners: [String: String] = [:],
         leftForAnAdministrator records: [LeftForAnAdministrator.Record] = []
     ) async -> OrphanScan {
@@ -509,7 +509,7 @@ public struct OrphanScanner: Sendable {
         _ found: [(identifier: String, item: OrphanItem)],
         remembered: [RememberedApp] = [],
         installedTeams: Set<String> = [],
-        running: Set<String> = [],
+        running: [String: String] = [:],
         now: Date = .now
     ) -> [OrphanGroup] {
         let roots = Set(found.map { groupingKey(for: $0.identifier).lowercased() }).sorted { $0.count < $1.count }

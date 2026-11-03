@@ -294,7 +294,7 @@ public enum SpaceRemoval {
         var names: [String: String] = [:]
         for process in running {
             let bundle = process.bundleURL?.deletingPathExtension().lastPathComponent
-            guard let displayed = name(of: process) else { continue }
+            guard let displayed = process.name else { continue }
             let spellings = [
                 process.bundleIdentifier,
                 process.bundleIdentifier?.split(separator: ".").last.map(String.init),
@@ -315,14 +315,10 @@ public enum SpaceRemoval {
     }
 
     /// The name a plan gives an open app, the one the person knows: Finder's, else its identifier.
-    static func name(of process: RunningCopies.Process) -> String? {
-        process.bundleURL.map(AppInspector.displayName) ?? process.bundleIdentifier
-    }
-
     /// Those of `apps`, named as a plan names them (`Plan.appsToQuit`), that `running` no longer holds.
     @concurrent
     public static func quit(of apps: [String], running: [RunningCopies.Process]) async -> [String] {
-        let open = Set(running.compactMap(name(of:)))
+        let open = Set(running.compactMap(\.name))
         return apps.filter { !open.contains($0) }
     }
 

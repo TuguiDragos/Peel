@@ -32,8 +32,8 @@ public struct OrphanConfidence: Sendable, Hashable {
         case writtenAfterItLeft(name: String, written: Date)
         /// An app by the same maker is still installed, and apps by one maker can share group folders.
         case sameMakerStillInstalled
-        /// Something with this identifier is running right now.
-        case running
+        /// Something with this identifier, by this name, is running right now.
+        case running(String)
         /// Links into an app that is gone, so they lead nowhere.
         case leadsIntoAnAppThatIsGone
         /// Only the name of an app Peel saw installed ties these files to it.
@@ -66,12 +66,15 @@ public struct OrphanConfidence: Sendable, Hashable {
     public static func judge(
         _ group: OrphanGroup,
         installedTeams: Set<String> = [],
-        running: Set<String> = [],
+        running: [String: String] = [:],
         now: Date = .now
     ) -> OrphanConfidence {
         let declared = group.rememberedApp?.bundleIdentifier.lowercased()
-        if running.contains(where: { isOneApp($0.lowercased(), group.identifier.lowercased(), declared: declared) }) {
-            return OrphanConfidence(level: .unsure, reasons: [.running])
+        let isTheGroups = { (identifier: String) in
+            isOneApp(identifier.lowercased(), group.identifier.lowercased(), declared: declared)
+        }
+        if let match = running.keys.sorted().first(where: isTheGroups) {
+            return OrphanConfidence(level: .unsure, reasons: [.running(running[match] ?? match)])
         }
         // A plug-in's row says so and isn't recommended, while what else the app left is judged by the signs below.
         if group.items.allSatisfy({ $0.heldBack == .loadedByOtherApps }) {
