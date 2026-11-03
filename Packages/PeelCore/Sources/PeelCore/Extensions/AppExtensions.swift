@@ -74,9 +74,10 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
         case changing
         /// Another copy of the same extension is the one macOS runs.
         case superseded
-        /// `pluginkit`'s `?` (an unknown election state), or a system extension state Peel doesn't recognize.
-        /// For the latter, `reportedState` holds the state as macOS printed it.
+        /// `pluginkit`'s `?`, which its manual calls an unknown user election state.
         case unknown
+        /// A system extension state Peel doesn't recognize, which `reportedState` holds as macOS printed it.
+        case unrecognized
     }
 
     public let identifier: String
@@ -535,7 +536,7 @@ public enum AppExtensions {
         case "activated_enabling", "activated_waiting_to_upgrade", "activated_waiting_to_upgrade_on_reboot",
              "terminating_for_disable", "terminating_for_disable_but_still_running",
              "terminating_for_upgrade_via_delegate", "validating", "validating_by_category": .changing
-        default: .unknown
+        default: .unrecognized
         }
     }
 

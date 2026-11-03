@@ -83,6 +83,7 @@ extension AppExtension.Election {
         case .beingRemoved: "Being removed"
         case .changing: "Changing"
         case .unknown: LocalizedStringResource("Unknown (extension state)", defaultValue: "Unknown")
+        case .unrecognized: "Unknown to Peel"
         }
     }
 
@@ -95,7 +96,8 @@ extension AppExtension.Election {
         case .waitingForApproval: "macOS won’t run this until you allow it in System Settings."
         case .beingRemoved: "macOS is removing this. Some removals finish only when the Mac restarts."
         case .changing: "macOS is partway through changing this."
-        case .unknown: "macOS doesn’t know this extension’s state, or reports one Peel doesn’t recognize."
+        case .unknown: "macOS marks this extension’s state as unknown, so it doesn’t say whether the extension is on."
+        case .unrecognized: "macOS reports a state Peel doesn’t know, shown below as macOS calls it."
         }
     }
 

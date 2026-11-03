@@ -224228,6 +224228,112 @@
         }
       }
     },
+    "Unknown to Peel" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neznámé pro Peel"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für Peel unbekannt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desconocido para Peel"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inconnu de Peel"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sconosciuta a Peel"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelには不明"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 알지 못함"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onbekend voor Peel"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieznane dla Peel"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desconhecido para o Peel"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Necunoscută pentru Peel"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неизвестно для Peel"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Okänt för Peel"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tarafından bilinmiyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Невідомо для Peel"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法识别"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法辨識"
+          }
+        }
+      }
+    },
     "Unload" : {
       "localizations" : {
         "cs" : {
@@ -260584,112 +260690,6 @@
         }
       }
     },
-    "macOS doesn’t know this extension’s state, or reports one Peel doesn’t recognize." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Systém macOS stav tohoto rozšíření nezná nebo hlásí stav, který Peel nerozpozná."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS kennt den Status dieser Erweiterung nicht oder meldet einen, den Peel nicht erkennt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS no sabe el estado de esta extensión, o indica uno que Peel no reconoce."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS ne connaît pas l’état de cette extension, ou en signale un que Peel ne reconnaît pas."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS non conosce lo stato di questa estensione, oppure ne riporta uno che Peel non riconosce."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOSがこの機能拡張の状態を把握していないか、Peelが認識できない状態を報告しています。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS가 이 확장 프로그램의 상태를 알지 못하거나, Peel이 인식하지 못하는 상태를 보고하고 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS kent de status van deze extensie niet, of meldt een status die Peel niet herkent."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS nie zna stanu tego rozszerzenia albo podaje stan, którego Peel nie rozpoznaje."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O macOS não sabe o estado desta extensão ou informa um estado que o Peel não reconhece."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS nu cunoaște starea acestei extensii sau raportează una pe care Peel nu o recunoaște."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS не знает состояния этого расширения или сообщает состояние, которое Peel не распознает."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS känner inte till läget för det här tillägget, eller rapporterar ett läge som Peel inte känner igen."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS bu genişletmenin durumunu bilmiyor veya Peel’in tanımadığı bir durum bildiriyor."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS не знає стану цього розширення або повідомляє стан, якого Peel не розпізнає."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS不知道此扩展的状态，或者报告了Peel无法识别的状态。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS不知道此延伸功能的狀態，或回報了Peel無法辨識的狀態。"
-          }
-        }
-      }
-    },
     "macOS doesn’t turn widgets on or off: they are added and removed with Edit Widgets, at the bottom of Notification Center or when you Control-click the wallpaper. Removing one for good means removing the app it came with." : {
       "localizations" : {
         "cs" : {
@@ -264001,6 +264001,112 @@
         }
       }
     },
+    "macOS marks this extension’s state as unknown, so it doesn’t say whether the extension is on." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS označuje stav tohoto rozšíření jako neznámý, takže neuvádí, zda je rozšíření zapnuté."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kennzeichnet den Status dieser Erweiterung als unbekannt und gibt daher nicht an, ob die Erweiterung aktiviert ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS marca el estado de esta extensión como desconocido, así que no indica si la extensión está activada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS indique que l’état de cette extension est inconnu : il ne précise donc pas si elle est activée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS segna come sconosciuto lo stato di questa estensione, quindi non dice se l’estensione è attiva."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSはこの機能拡張の状態を不明としているため、機能拡張がオンかどうかを示していません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 이 확장 프로그램의 상태를 알 수 없는 것으로 표시하므로, 확장 프로그램이 켜져 있는지 알려 주지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS markeert de status van deze extensie als onbekend en meldt dus niet of de extensie is ingeschakeld."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS oznacza stan tego rozszerzenia jako nieznany, więc nie podaje, czy rozszerzenie jest włączone."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS marca o estado desta extensão como desconhecido, então não informa se a extensão está ativada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS marchează starea acestei extensii ca necunoscută, așa că nu spune dacă extensia este activată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS отмечает состояние этого расширения как неизвестное и поэтому не сообщает, включено ли оно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS anger läget för det här tillägget som okänt, så det framgår inte om tillägget är påslaget."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bu genişletmenin durumunu bilinmiyor olarak işaretliyor, bu yüzden genişletmenin açık olup olmadığını söylemiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS позначає стан цього розширення як невідомий, тож не повідомляє, чи увімкнено розширення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS将此扩展的状态标记为未知，因此没有说明此扩展是否已打开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS將此延伸功能的狀態標示為未知，因此沒有說明此延伸功能是否已開啟。"
+          }
+        }
+      }
+    },
     "macOS no longer loads Quick Look generators like this one, so moving it changes nothing." : {
       "localizations" : {
         "cs" : {
@@ -265185,6 +265291,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS回報：%@"
+          }
+        }
+      }
+    },
+    "macOS reports a state Peel doesn’t know, shown below as macOS calls it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS hlásí stav, který Peel nezná a který je níže uvedený tak, jak ho nazývá macOS."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS meldet einen Status, den Peel nicht kennt. Er wird unten so angezeigt, wie macOS ihn nennt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS indica un estado que Peel no conoce, y abajo se muestra tal como lo llama macOS."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS signale un état que Peel ne connaît pas, affiché ci-dessous tel que macOS le nomme."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS riporta uno stato che Peel non conosce, mostrato qui sotto con il nome che gli dà macOS."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSが、Peelの知らない状態を報告しています。下に、macOSでの呼び名のまま表示しています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 Peel이 알지 못하는 상태를 보고하고 있으며, 이 상태는 아래에 macOS가 부르는 이름 그대로 표시됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS meldt een status die Peel niet kent, hieronder weergegeven zoals macOS die noemt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS podaje stan, którego Peel nie zna, pokazany poniżej tak, jak nazywa go macOS."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS informa um estado que o Peel não conhece, mostrado abaixo como o macOS o chama."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS raportează o stare pe care Peel nu o cunoaște, afișată mai jos așa cum o numește macOS."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS сообщает состояние, которое Peel не знает, и ниже оно показано так, как его называет macOS."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS rapporterar ett läge som Peel inte känner till, och det visas nedan så som macOS kallar det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, Peel’in bilmediği bir durum bildiriyor; bu durum aşağıda macOS’in verdiği adla gösteriliyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS повідомляє стан, якого Peel не знає, і нижче він показаний так, як його називає macOS."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS报告了一个Peel无法识别的状态，下方以macOS所用的名称显示。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS回報了Peel無法辨識的狀態，下方會以macOS使用的名稱顯示。"
           }
         }
       }

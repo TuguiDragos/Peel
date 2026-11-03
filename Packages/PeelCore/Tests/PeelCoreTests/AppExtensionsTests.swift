@@ -321,7 +321,7 @@ struct AppExtensionsTests {
         #expect(AppExtensions.election(forSystemExtensionState: "uninstalling") == .beingRemoved)
         #expect(AppExtensions.election(forSystemExtensionState: "activated enabling") == .changing)
         #expect(AppExtensions.election(forSystemExtensionState: "activated waiting to upgrade") == .changing)
-        #expect(AppExtensions.election(forSystemExtensionState: "something macOS added later") == .unknown)
+        #expect(AppExtensions.election(forSystemExtensionState: "something macOS added later") == .unrecognized)
     }
 
     /// Reads the system extensions of the Mac the test runs on, so it runs only when asked for
