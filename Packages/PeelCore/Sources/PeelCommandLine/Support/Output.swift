@@ -301,6 +301,7 @@ extension FileProblem? {
         switch self {
         case .notAFile: " Something other than a file, such as a folder, is where the file should be."
         case .tooLarge: " The file is larger than Peel ever writes it, so Peel doesn't read it."
+        case .damaged: " The file's contents aren't in a form Peel can read."
         case .failed(let error): " macOS answered: \(Output.plain(error.localizedDescription))"
         case nil: ""
         }

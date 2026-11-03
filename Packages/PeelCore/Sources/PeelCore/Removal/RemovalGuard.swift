@@ -82,6 +82,7 @@ struct RemovalGuard: Sendable {
     private let syncKeeper: @Sendable (URL) -> SyncKeeper?
 
     var knowsTheExclusions: Bool { exclusions.isKnown }
+    var whyExclusionsAreUnreadable: FileProblem? { exclusions.whyUnreadable }
 
     func excludes(_ app: InstalledApp) -> Bool { exclusions.excludes(app) }
     func excludes(ownerOf item: BackgroundItem) -> Bool { item.isOfAnApp(excludedBy: exclusions) }

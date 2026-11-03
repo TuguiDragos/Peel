@@ -35,6 +35,14 @@ struct ExclusionsSettingsView: View {
         }
     }
 
+    private var unreadableDetail: String {
+        exclusions.exclusions.whyUnreadable.said(after: String(localized: "Until it can read them, or you start over, Peel removes nothing and puts nothing back, because it can’t tell what you asked it to leave alone. Adding or removing an entry below starts over too: the old file is kept beside the new one, but nothing in it counts anymore."), about: exclusions.file)
+    }
+
+    private var notSavedDetail: String {
+        exclusions.whyNotSaved.said(after: String(localized: "Your latest changes work in Peel until it quits. When it opens again, and in the peel command, the list is as it was last saved."), about: exclusions.file)
+    }
+
     private var isShowingRefusal: Binding<Bool> {
         Binding(get: { !refused.isEmpty }, set: { if !$0 { refused = [] } })
     }
@@ -44,7 +52,7 @@ struct ExclusionsSettingsView: View {
             if exclusions.exclusions.isUnreadable {
                 Notice(
                     title: Text("Peel couldn’t read your exclusions"),
-                    detail: Text("Until it can read them, or you start over, Peel removes nothing and puts nothing back, because it can’t tell what you asked it to leave alone. Adding or removing an entry below starts over too: the old file is kept beside the new one, but nothing in it counts anymore.")
+                    detail: Text(verbatim: unreadableDetail)
                 ) {
                     StartOverButton(file: ExclusionStore.defaultURL, startedOver: "Started the list of exclusions over.") {
                         await exclusions.startOver()
@@ -54,7 +62,7 @@ struct ExclusionsSettingsView: View {
             if exclusions.couldNotSave {
                 Notice(
                     title: Text("Your exclusions couldn’t be saved"),
-                    detail: Text("Your latest changes work in Peel until it quits. When it opens again, and in the peel command, the list is as it was last saved.")
+                    detail: Text(verbatim: notSavedDetail)
                 ) {}
             }
             Section {

@@ -264,6 +264,7 @@ extension FileProblem {
         let why = switch self {
         case .notAFile: String(localized: "Something other than a file, such as a folder, is where the file should be.")
         case .tooLarge: String(localized: "The file is larger than Peel ever writes it, so Peel doesn’t read it.")
+        case .damaged: String(localized: "The file’s contents aren’t in a form Peel can read.")
         case .failed(let error): String(localized: "macOS answered: \(error.description(of: url))")
         }
         return [sentence, why].joined(separator: " ")
@@ -274,6 +275,13 @@ extension FileProblem? {
     /// `sentence`, then why the file at `url` couldn't be read or saved, when that is known.
     func said(after sentence: String, about url: URL) -> String {
         self?.said(after: sentence, about: url) ?? sentence
+    }
+}
+
+extension ExclusionsStore {
+    /// That nothing moves until the list starts over, then why it couldn't be read, when Peel knows.
+    var nothingMovesUntilStartedOver: String {
+        exclusions.whyUnreadable.said(after: String(localized: "Peel removes nothing and puts nothing back until you start the list over in Settings."), about: file)
     }
 }
 

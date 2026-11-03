@@ -168,7 +168,7 @@ struct SavedSettingsSection: View {
         case .exclusionsNotKnown:
             failure = Failure(
                 title: String(localized: "Peel couldn’t read your exclusions"),
-                message: String(localized: "Peel removes nothing and puts nothing back until you start the list over in Settings.")
+                message: exclusions.nothingMovesUntilStartedOver
             )
         case .excluded:
             failure = Failure(

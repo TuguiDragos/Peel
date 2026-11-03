@@ -368,7 +368,9 @@ struct RestoreCommand: AsyncParsableCommand {
 
     func run(in log: RemovalLog, using service: TrashService) async throws {
         guard service.knowsTheExclusions else {
-            throw AppLookup.Failure.exclusionsUnreadable(ExclusionStore.defaultURL.path(percentEncoded: false))
+            throw AppLookup.Failure.exclusionsUnreadable(
+                ExclusionStore.defaultURL.path(percentEncoded: false), service.whyExclusionsAreUnreadable
+            )
         }
         let outcome = await log.load()
         guard let records = outcome.records else {

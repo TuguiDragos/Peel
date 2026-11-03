@@ -244,7 +244,7 @@ struct ExclusionCommandTests {
         let store = store(in: directory)
         try directory.file("Peel/exclusions.json", contents: Data("not json".utf8))
 
-        await #expect(throws: CommandFailure.self) {
+        let added = await #expect(throws: CommandFailure.self) {
             try await add(["/Users/me/thing"], in: store)
         }
         await #expect(throws: CommandFailure.self) {
@@ -253,8 +253,10 @@ struct ExclusionCommandTests {
         let failure = await #expect(throws: CommandFailure.self) {
             try await list(in: store)
         }
+        #expect(added?.description.hasSuffix(" The file's contents aren't in a form Peel can read.") == true)
         #expect(failure?.description.contains("won't change it") == false, "nobody asked for a change")
         #expect(failure?.description.contains("Start Over") == true)
+        #expect(failure?.description.hasSuffix(" The file's contents aren't in a form Peel can read.") == true)
         #expect(try Data(contentsOf: store.url) == Data("not json".utf8))
     }
 
@@ -270,9 +272,10 @@ struct ExclusionCommandTests {
             )
         }
 
-        await #expect(throws: CommandFailure.self) {
+        let failure = await #expect(throws: CommandFailure.self) {
             try await add(["/Users/me/thing"], in: store)
         }
+        #expect(failure?.description.contains("nothing changed. macOS answered: ") == true)
     }
 
     /// The listing has one row per item, paths before apps, each path written in full without a trailing slash.

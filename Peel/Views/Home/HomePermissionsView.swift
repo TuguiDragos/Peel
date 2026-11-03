@@ -228,7 +228,7 @@ struct HomePermissionsContent: View {
         if held == .exclusionsUnreadable {
             Notice(
                 title: Text("Peel couldn’t read your exclusions"),
-                detail: Text("Peel removes nothing and puts nothing back until you start the list over in Settings."),
+                detail: Text(verbatim: exclusions.nothingMovesUntilStartedOver),
                 isAlbum: true
             ) {
                 Button("Open Peel Settings") { SettingsPane.exclusions.open(with: openSettings) }

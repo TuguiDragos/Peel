@@ -10,9 +10,10 @@ enum UnreadableExclusions {
     ) -> String? {
         guard exclusions.isUnreadable else { return nil }
         let place = Output.plain(url.path(percentEncoded: false))
-        return listsEverything
+        let said = listsEverything
             ? "Peel couldn't read your exclusions at \(place), so this may list what you asked it to leave alone, and nothing will be moved. Open Peel and click Start Over in Settings > Exclusions."
             : "Peel couldn't read your exclusions at \(place). Open Peel and click Start Over in Settings > Exclusions."
+        return said + exclusions.whyUnreadable.sentence
     }
 
     static func load(from store: ExclusionStore = ExclusionStore(), listsEverything: Bool = true) async -> Exclusions {

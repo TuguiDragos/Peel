@@ -14,6 +14,8 @@ final class ExclusionsStore {
     private(set) var revision = 0
     /// The last change could not be written, so it will not be there after a relaunch.
     private(set) var couldNotSave = false
+    /// Why the last change could not be written, when Peel knows.
+    private(set) var whyNotSaved: FileProblem?
     /// The changes that could not be written. They stay in force until Peel quits, as Settings says, laid again
     /// over the list each time it is read, and the next change that is written takes them with it.
     @ObservationIgnored private var unsaved: [@Sendable (inout Exclusions) -> Void] = []
@@ -26,6 +28,8 @@ final class ExclusionsStore {
     init(store: ExclusionStore = ExclusionStore()) {
         self.store = store
     }
+
+    var file: URL { store.url }
 
     func needsRescan(_ page: String) -> Bool {
         scanned.needsRescan(page, at: revision)
@@ -66,6 +70,7 @@ final class ExclusionsStore {
             if answer == .started {
                 unsaved = []
                 couldNotSave = false
+                whyNotSaved = nil
             }
             show(withUnsaved(await store.load()))
             return answer
@@ -81,13 +86,15 @@ final class ExclusionsStore {
             case .saved(let saved):
                 unsaved = []
                 couldNotSave = false
+                whyNotSaved = nil
                 show(saved)
-            case .notSaved(let changed):
+            case .notSaved(let changed, let why):
                 unsaved.append(transform)
                 couldNotSave = true
+                whyNotSaved = why
                 show(changed)
-            case .unreadable:
-                show(.unreadable)
+            case .unreadable(let why):
+                show(.unreadable(because: why))
             }
         }
     }

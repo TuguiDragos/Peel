@@ -205963,6 +205963,112 @@
         }
       }
     },
+    "The file’s contents aren’t in a form Peel can read." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obsah souboru není ve formátu, který by Peel dokázal přečíst."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Inhalt der Datei liegt nicht in einer Form vor, die Peel lesen kann."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El contenido del archivo no está en un formato que Peel pueda leer."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le contenu du fichier n’est pas dans un format que Peel peut lire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il contenuto del file non è in un formato che Peel possa leggere."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このファイルの内容は、Peelが読み取れる形式ではありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파일의 내용이 Peel이 읽을 수 있는 형식이 아닙니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De inhoud van het bestand heeft geen indeling die Peel kan lezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zawartość pliku nie jest w formie, którą Peel może odczytać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O conteúdo do arquivo não está em um formato que o Peel consiga ler."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conținutul fișierului nu este într‑un format pe care Peel să îl poată citi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Содержимое файла имеет формат, который Peel не может прочитать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filens innehåll är inte i ett format som Peel kan läsa."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosyanın içeriği Peel’in okuyabileceği bir biçimde değil."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вміст файлу має формат, якого Peel не може прочитати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该文件的内容不是Peel可以读取的格式。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此檔案的內容不是Peel能讀取的格式。"
+          }
+        }
+      }
+    },
     "The filters you chose may leave out what you’re looking for." : {
       "localizations" : {
         "cs" : {

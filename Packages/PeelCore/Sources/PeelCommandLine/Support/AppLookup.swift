@@ -7,7 +7,7 @@ enum AppLookup {
         case ambiguous(String, [String])
         case notAnApp(String)
         case excluded(String)
-        case exclusionsUnreadable(String)
+        case exclusionsUnreadable(String, FileProblem?)
 
         var description: String {
             switch self {
@@ -19,8 +19,8 @@ enum AppLookup {
                 "\(Output.plain(path)) isn't an app."
             case .excluded(let name):
                 "\(Output.plain(name)) is excluded in Peel's settings, so Peel leaves it alone."
-            case .exclusionsUnreadable(let path):
-                "Peel couldn't read your exclusions at \(Output.plain(path)), so it left everything alone. Open Peel and click Start Over in Settings > Exclusions."
+            case .exclusionsUnreadable(let path, let why):
+                "Peel couldn't read your exclusions at \(Output.plain(path)), so it left everything alone. Open Peel and click Start Over in Settings > Exclusions." + why.sentence
             }
         }
     }
@@ -40,7 +40,9 @@ enum AppLookup {
         by exclusions: Exclusions,
         savedAt url: URL = ExclusionStore.defaultURL
     ) -> Failure? {
-        guard !exclusions.isUnreadable else { return .exclusionsUnreadable(url.path(percentEncoded: false)) }
+        guard !exclusions.isUnreadable else {
+            return .exclusionsUnreadable(url.path(percentEncoded: false), exclusions.whyUnreadable)
+        }
         return exclusions.excludes(app) ? .excluded(app.name) : nil
     }
 

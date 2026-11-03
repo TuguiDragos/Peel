@@ -87,7 +87,9 @@ struct Cleanup {
         }
         // The guard then refuses everything, which says nothing of the items, so no refusal is recorded.
         guard service.knowsTheExclusions else {
-            throw AppLookup.Failure.exclusionsUnreadable(ExclusionStore.defaultURL.path(percentEncoded: false))
+            throw AppLookup.Failure.exclusionsUnreadable(
+                ExclusionStore.defaultURL.path(percentEncoded: false), service.whyExclusionsAreUnreadable
+            )
         }
         // Refused items never reach the move, so their failures are built here and recorded, just as the app
         // records the refusals its service reports.

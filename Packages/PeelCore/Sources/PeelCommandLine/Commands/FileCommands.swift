@@ -821,7 +821,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
     /// Comparing reads files, so nothing is compared while the exclusions can't be read.
     static func refusal(for exclusions: Exclusions, savedAt url: URL) -> CommandFailure? {
         guard exclusions.isUnreadable else { return nil }
-        return CommandFailure("Peel couldn't read your exclusions at \(Output.plain(url.path(percentEncoded: false))), so it compares nothing, since it would read what you asked it to leave alone. Open Peel and click Start Over in Settings > Exclusions.")
+        return CommandFailure("Peel couldn't read your exclusions at \(Output.plain(url.path(percentEncoded: false))), so it compares nothing, since it would read what you asked it to leave alone. Open Peel and click Start Over in Settings > Exclusions." + exclusions.whyUnreadable.sentence)
     }
 
     func run() async throws {

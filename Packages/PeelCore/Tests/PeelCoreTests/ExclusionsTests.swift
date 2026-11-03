@@ -388,7 +388,7 @@ struct ExclusionsTests {
 
         let outcome = await ExclusionStore(url: file).change { $0.bundleIdentifiers.insert("com.example.app") }
 
-        #expect(outcome == .unreadable)
+        #expect(outcome == .unreadable(.damaged))
         #expect(try String(contentsOf: file, encoding: .utf8) == "not json")
     }
 
@@ -426,7 +426,9 @@ struct ExclusionsTests {
 
         let outcome = await store.change { $0.paths.insert(URL(filePath: "/Users/x/Added")) }
 
-        #expect(outcome == .notSaved(Exclusions(paths: [URL(filePath: "/Users/x/Kept"), URL(filePath: "/Users/x/Added")])))
+        let refusedWrite = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
+        let wouldHaveSaved = Exclusions(paths: [URL(filePath: "/Users/x/Kept"), URL(filePath: "/Users/x/Added")])
+        #expect(outcome == .notSaved(wouldHaveSaved, .failed(refusedWrite)))
         #expect(await store.load().paths == [URL(filePath: "/Users/x/Kept")])
     }
 
@@ -447,11 +449,14 @@ struct ExclusionsTests {
         let directory = try TemporaryDirectory()
         let broken = try directory.file("broken.json", contents: Data(#"{"paths":["file:///Users/x/Vault/""#.utf8))
         let locked = try directory.file("locked.json", contents: Data(#"{"paths":[]}"#.utf8))
+        let folder = try directory.directory("folder.json")
         try directory.setPermissions(0, of: "locked.json")
         defer { try? directory.setPermissions(0o644, of: "locked.json") }
 
-        #expect(await ExclusionStore(url: broken).load().isUnreadable)
-        #expect(await ExclusionStore(url: locked).load().isUnreadable)
+        let closed = SystemError(domain: NSPOSIXErrorDomain, code: Int(EACCES))
+        #expect(await ExclusionStore(url: broken).load() == .unreadable(because: .damaged))
+        #expect(await ExclusionStore(url: locked).load() == .unreadable(because: .failed(closed)))
+        #expect(await ExclusionStore(url: folder).load() == .unreadable(because: .notAFile))
         #expect(await ExclusionStore(url: directory.url.appending(path: "missing.json")).load() == .none)
     }
 
@@ -480,8 +485,10 @@ struct ExclusionsTests {
         try directory.setPermissions(0o600, of: "Peel")
         defer { try? directory.setPermissions(0o755, of: "Peel") }
 
-        #expect(await ExclusionStore(url: file).load().isUnreadable)
-        #expect(await ExclusionStore(url: link).load().isUnreadable)
+        let closed = SystemError(domain: NSPOSIXErrorDomain, code: Int(EACCES))
+        let nothingThere = SystemError(domain: NSPOSIXErrorDomain, code: Int(ENOENT))
+        #expect(await ExclusionStore(url: file).load() == .unreadable(because: .failed(closed)))
+        #expect(await ExclusionStore(url: link).load() == .unreadable(because: .failed(nothingThere)))
     }
 
     /// Until the app has read the saved list, what the user excluded is not known, so nothing moves, as for a list

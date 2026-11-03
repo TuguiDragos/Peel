@@ -19,6 +19,8 @@ public struct Exclusions: Sendable, Codable, Hashable {
     /// True when the saved list exists but could not be read, so what the user excluded is unknown. Nothing is
     /// moved while this is true.
     public private(set) var isUnreadable = false
+    /// Why the saved list could not be read, when Peel knows.
+    public private(set) var whyUnreadable: FileProblem?
     /// False until the saved list has been read. Nothing is moved before, as for a list that cannot be read.
     public private(set) var hasBeenRead = true
 
@@ -26,11 +28,14 @@ public struct Exclusions: Sendable, Codable, Hashable {
     public var isKnown: Bool { hasBeenRead && !isUnreadable }
 
     public static let none = Exclusions()
-    public static let unreadable: Exclusions = {
+    public static let unreadable = Exclusions.unreadable(because: nil)
+
+    public static func unreadable(because why: FileProblem?) -> Exclusions {
         var exclusions = Exclusions()
         exclusions.isUnreadable = true
+        exclusions.whyUnreadable = why
         return exclusions
-    }()
+    }
     /// The list before the saved one has been read.
     public static let notYetRead: Exclusions = {
         var exclusions = Exclusions()
@@ -46,7 +51,7 @@ public struct Exclusions: Sendable, Codable, Hashable {
     /// Compares what is excluded. `spellings` and `appFolderNames` are left out, since they are worked out.
     public static func == (one: Exclusions, other: Exclusions) -> Bool {
         one.paths == other.paths && one.bundleIdentifiers == other.bundleIdentifiers
-            && one.isUnreadable == other.isUnreadable
+            && one.isUnreadable == other.isUnreadable && one.whyUnreadable == other.whyUnreadable
             && one.hasBeenRead == other.hasBeenRead
     }
 
@@ -54,6 +59,7 @@ public struct Exclusions: Sendable, Codable, Hashable {
         hasher.combine(paths)
         hasher.combine(bundleIdentifiers)
         hasher.combine(isUnreadable)
+        hasher.combine(whyUnreadable)
         hasher.combine(hasBeenRead)
     }
 
@@ -356,11 +362,11 @@ public struct ExclusionStore: Sendable {
     public enum Outcome: Sendable, Equatable {
         /// The list as it was saved.
         case saved(Exclusions)
-        /// The saved list cannot be read, so it was left as it is.
-        case unreadable
+        /// The saved list cannot be read, so it was left as it is; and why, when Peel knows.
+        case unreadable(FileProblem?)
         /// The list could not be written. It carries what the list would have been, which the app keeps until it
-        /// quits.
-        case notSaved(Exclusions)
+        /// quits, and why, when Peel knows.
+        case notSaved(Exclusions, FileProblem?)
     }
 
     /// Loads the saved list. No file means an empty list. A file that cannot be read or reached gives `.unreadable`,
@@ -391,28 +397,33 @@ public struct ExclusionStore: Sendable {
         FileLock.whileHeld(beside: url) {
             var exclusions = read()
             if exclusions.isUnreadable {
-                guard startsOver else { return .unreadable }
+                guard startsOver else { return .unreadable(exclusions.whyUnreadable) }
                 exclusions = .none
             }
             transform(&exclusions)
-            return write(exclusions) ? .saved(exclusions) : .notSaved(exclusions)
+            return save(exclusions)
         }
     }
 
     private func read() -> Exclusions {
         guard !url.isMissing else { return .none }
-        guard let data = BoundedRead.data(at: url), let saved = try? JSONDecoder().decode(Exclusions.self, from: data)
-        else {
-            return .unreadable
+        guard let data = BoundedRead.data(at: url) else { return .unreadable(because: BoundedRead.whyUnreadable(url)) }
+        guard let saved = try? JSONDecoder().decode(Exclusions.self, from: data) else {
+            return .unreadable(because: .damaged)
         }
         return saved
     }
 
-    private func write(_ exclusions: Exclusions) -> Bool {
+    private func save(_ exclusions: Exclusions) -> Outcome {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        guard let data = try? encoder.encode(exclusions) else { return false }
-        if read().isUnreadable, DamagedFile.setAside(url) == nil { return false }
-        return (try? PeelFolder.write(data, to: url)) != nil
+        do {
+            let data = try encoder.encode(exclusions)
+            if read().isUnreadable, DamagedFile.setAside(url) == nil { return .notSaved(exclusions, nil) }
+            try PeelFolder.write(data, to: url)
+            return .saved(exclusions)
+        } catch {
+            return .notSaved(exclusions, .failed(SystemError(error)))
+        }
     }
 }

@@ -16,12 +16,14 @@ struct ExclusionsStoreTests {
         await exclusions.add(paths: [URL(filePath: "/Users/x/Kept")])
         try FileManager.default.setAttributes([.posixPermissions: 0o500], ofItemAtPath: path)
         await exclusions.add(paths: [URL(filePath: "/Users/x/Unsaved")])
-        #expect(exclusions.couldNotSave)
+        let refusedWrite = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
+        #expect(exclusions.couldNotSave && exclusions.whyNotSaved == .failed(refusedWrite))
 
         let answer = await exclusions.startOver()
 
         #expect(answer == .notNeeded)
         #expect(exclusions.couldNotSave, "a change still unsaved was no longer said")
+        #expect(exclusions.whyNotSaved == .failed(refusedWrite))
         #expect(exclusions.exclusions.paths.count == 2)
     }
 }

@@ -427,6 +427,7 @@ public struct TrashService: Sendable {
 
     /// False while the saved exclusions are not read yet or cannot be read, when nothing moves.
     public var knowsTheExclusions: Bool { removalGuard.knowsTheExclusions }
+    public var whyExclusionsAreUnreadable: FileProblem? { removalGuard.whyExclusionsAreUnreadable }
 
     func excludes(_ app: InstalledApp) -> Bool { removalGuard.excludes(app) }
     func excludes(ownerOf item: BackgroundItem) -> Bool { removalGuard.excludes(ownerOf: item) }

@@ -404,7 +404,7 @@ struct ResetSheet: View {
         case .exclusionsNotKnown:
             VStack(alignment: .leading, spacing: 2) {
                 StatusLabel(title: Text("Peel couldn’t read your exclusions"), tint: .red)
-                Text("Peel removes nothing and puts nothing back until you start the list over in Settings.")
+                Text(verbatim: exclusions.nothingMovesUntilStartedOver)
             }
             .font(.callout)
             .foregroundStyle(.secondary)

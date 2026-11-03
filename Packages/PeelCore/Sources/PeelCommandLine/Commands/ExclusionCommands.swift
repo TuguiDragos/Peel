@@ -15,7 +15,7 @@ struct ExclusionsCommand: AsyncParsableCommand {
     /// file aside and silently drop what the user chose. Only the app starts a new list, after warning the user.
     static func current(in store: ExclusionStore, whenUnreadable said: String = unreadable) async throws -> Exclusions {
         let exclusions = await store.load()
-        guard !exclusions.isUnreadable else { throw CommandFailure(said) }
+        guard !exclusions.isUnreadable else { throw CommandFailure(said + exclusions.whyUnreadable.sentence) }
         return exclusions
     }
 
@@ -33,10 +33,10 @@ struct ExclusionsCommand: AsyncParsableCommand {
         switch await store.change(transform) {
         case .saved:
             return
-        case .unreadable:
-            throw CommandFailure(unreadable)
-        case .notSaved:
-            throw CommandFailure("Peel couldn't write its exclusions, so nothing changed.")
+        case .unreadable(let why):
+            throw CommandFailure(unreadable + why.sentence)
+        case .notSaved(_, let why):
+            throw CommandFailure("Peel couldn't write its exclusions, so nothing changed." + why.sentence)
         }
     }
 
