@@ -213,7 +213,7 @@ private struct ProjectRow: View {
             case .notKnown:
                 Text("Too large to tell when it last changed")
             case .notReadInTime:
-                Text("Couldn’t read in time when it last changed")
+                Text("Took too long to tell when it last changed")
             case .none:
                 EmptyView()
             }
