@@ -753,7 +753,9 @@ struct UninstallCommand: AsyncParsableCommand {
         let (reset, result, recorded) = await Uninterrupted.run {
             // The privacy reset comes before the move, because `tccutil` only finds an app that is still in place.
             let reset = resetPrivacy ? await PrivacyReset.reset([target], beforeMovingWith: service).first?.result : nil
-            let result = await plan.move(using: service)
+            let result = await RecordedRemoval.$current.withValue(plan.recordedAs(target.name)) {
+                await plan.move(using: service)
+            }
             let recorded = await plan.record(result, from: target.name)
             await LeftForAnAdministrator().record(uninstallation.leftForAnAdministrator(after: result))
             return (reset, result, recorded)

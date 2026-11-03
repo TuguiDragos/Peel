@@ -84,6 +84,19 @@ struct UninstallPlan {
         )
     }
 
+    /// The removal `move(using:)` goes into, with what was measured, so one cut short comes back into History named and
+    /// sized as `record(_:from:)` would have written it.
+    func recordedAs(_ source: String) -> RecordedRemoval {
+        RecordedRemoval(
+            batch: UUID(), part: RemovalPart(source: source, sourceKey: nil, tool: "applications"), sizes: sizes,
+            sharingStorage: appSharesStorage ? [app] : []
+        )
+    }
+
+    private var sizes: [URL: Int64] {
+        [URL: Int64](measured: items.map { ($0.url, $0.size) })
+    }
+
     /// Writes `result` into History, with what the removal guard refused before the move beside what the move
     /// reports, as `Cleanup` does, so `peel history --refused` and the app's Not Moved list it. False when History
     /// could not be written.
@@ -98,7 +111,7 @@ struct UninstallPlan {
         return await Removals.record(
             result,
             from: source,
-            sizes: [URL: Int64](measured: items.map { ($0.url, $0.size) }),
+            sizes: sizes,
             sharingStorage: appSharesStorage ? [app] : [],
             tool: "applications",
             in: log,

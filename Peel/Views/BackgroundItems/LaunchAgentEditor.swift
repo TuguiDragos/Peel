@@ -107,7 +107,7 @@ struct LaunchAgentEditor: View {
             // Read before the move: afterwards nothing is at that path to measure.
             var sizes: [URL: Int64] = [:]
             sizes[file.url] = await FileSize.reclaimableSize(of: file.url)
-            let outcome = await history.moving(tool: .backgroundItems, source: item.label) {
+            let outcome = await history.moving(tool: .backgroundItems, source: item.label, sizes: sizes) {
                 await backgroundItems.save(text, editing: file, of: item) { moved in
                     await history.record(moved, tool: .backgroundItems, source: item.label, sizes: sizes)
                 }

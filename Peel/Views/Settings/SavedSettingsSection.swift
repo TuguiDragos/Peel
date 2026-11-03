@@ -185,7 +185,10 @@ struct SavedSettingsSection: View {
         let size = await FileSize.reclaimableSize(of: copy.folder)
         await QuitGuard.shared.run {
             let source = "Settings Saved for \(name)"
-            let result = await history.moving(tool: .applications, source: source, sourceKey: "savedSettings.\(name)") {
+            let measured = [URL: Int64](measured: [(copy.folder, size)])
+            let result = await history.moving(
+                tool: .applications, source: source, sourceKey: "savedSettings.\(name)", sizes: measured
+            ) {
                 await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash([copy.folder])
             }
             if let reason = result.failures.first?.reason {
@@ -196,7 +199,7 @@ struct SavedSettingsSection: View {
                 tool: .applications,
                 source: source,
                 sourceKey: "savedSettings.\(name)",
-                sizes: [URL: Int64](measured: [(copy.folder, size)])
+                sizes: measured
             )
         }
         SavedSettings.shared.reload()

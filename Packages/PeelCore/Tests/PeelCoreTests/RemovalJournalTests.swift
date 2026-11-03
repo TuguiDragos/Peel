@@ -95,6 +95,64 @@ struct RemovalJournalTests {
         #expect(removals.first?.parts == [developer, space])
     }
 
+    @Test func aRemovalCutShortKeepsTheSizesItsPageMeasured() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        let measured = try directory.file("home/Library/Caches/com.example.one/cache.db").deletingLastPathComponent()
+        let shared = try directory.file("home/Library/Caches/com.example.two/cache.db").deletingLastPathComponent()
+        let service = service(in: directory, journal: journal) { url in
+            directory.url.appending(path: "home/.Trash/\(url.lastPathComponent)")
+        }
+        let part = RemovalPart(source: "App Caches", sourceKey: "space.appCaches", tool: "space")
+        let recorded = RecordedRemoval(batch: UUID(), part: part, sizes: [measured: 4_000], sharingStorage: [shared])
+        _ = await RecordedRemoval.$current.withValue(recorded) { await service.trash([measured, shared]) }
+
+        // The process stops before it records the part.
+        let left = journal.entries()
+        journal.forget(Set(left))
+        for entry in left {
+            journal.note([entry.item], batch: entry.batch, recordedAs: recorded, by: try endedProcess())
+        }
+
+        let records = try #require(await RemovalLog(url: history).load().records)
+        let byPlace = Dictionary(uniqueKeysWithValues: records.map { ($0.originalURL.lastPathComponent, $0) })
+        #expect(byPlace["com.example.one"]?.size == 4_000)
+        #expect(byPlace["com.example.two"]?.size == nil)
+        #expect(byPlace["com.example.two"]?.sharedStorage == true)
+        #expect(byPlace["com.example.one"]?.sharedStorage == nil)
+    }
+
+    @Test func aMakersFolderLeftEmptyIsJournaledAsFreeingNothing() async throws {
+        let directory = try TemporaryDirectory()
+        let journal = RemovalJournal(beside: directory.url.appending(path: "Peel/removals.json"))
+        let product = try directory.file("home/Library/Application Support/Example/Notes/notes.db")
+            .deletingLastPathComponent()
+        let trash = try directory.directory("home/.Trash")
+        let service = service(in: directory, journal: journal) { url in
+            let target = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: target)
+            return target
+        }
+        let app = InstalledApp(url: URL(filePath: "/Applications/Notes.app"), bundleIdentifier: "org.example.notes", name: "Notes")
+        let part = RemovalPart(source: "Notes", sourceKey: nil, tool: "applications")
+        let recorded = RecordedRemoval(batch: UUID(), part: part, sizes: [product: 2_000])
+
+        let result = await RecordedRemoval.$current.withValue(recorded) {
+            await service.trash(
+                apps: [], thenFiles: { _ in [product] }, usingHelperFor: [], lettingTheirProgramsRun: [],
+                emptiedFoldersNamed: MakersFolders.names(of: [app])
+            )
+        }
+
+        #expect(result.emptied.map(\.lastPathComponent) == ["Example"])
+        let sizes = Dictionary(
+            uniqueKeysWithValues: journal.entries().map { ($0.item.originalURL.lastPathComponent, $0.size) }
+        )
+        #expect(sizes["Notes"] == .some(2_000))
+        #expect(sizes["Example"] == .some(0))
+    }
+
     /// While the process that moved an item still runs, it records the item itself, in its own words: a read of
     /// History meanwhile, from the app or from `peel`, leaves the journal alone.
     @Test func aRemovalStillUnderWayIsLeftToRecordItself() async throws {

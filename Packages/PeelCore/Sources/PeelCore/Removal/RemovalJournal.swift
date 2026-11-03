@@ -7,14 +7,26 @@ internal import PeelPrivileged
 public struct RecordedRemoval: Sendable {
     public let batch: UUID
     public let part: RemovalPart
+    /// What the page measured of each item, and the items that share most of their storage, as History records them.
+    public let sizes: [URL: Int64]
+    public let sharingStorage: Set<URL>
 
-    public init(batch: UUID, part: RemovalPart) {
+    public init(batch: UUID, part: RemovalPart, sizes: [URL: Int64] = [:], sharingStorage: Set<URL> = []) {
         self.batch = batch
         self.part = part
+        self.sizes = sizes
+        self.sharingStorage = sharingStorage
     }
 
     /// The removal the moves in the current task go into, set by whoever records them.
     @TaskLocal public static var current: RecordedRemoval?
+
+    /// The same removal, with the sizes of `more` known too.
+    public func measuring(_ more: [URL: Int64]) -> RecordedRemoval {
+        RecordedRemoval(
+            batch: batch, part: part, sizes: sizes.merging(more) { _, new in new }, sharingStorage: sharingStorage
+        )
+    }
 }
 
 /// What a removal moved, written down item by item as it moves, beside History. History takes each item over once
@@ -54,15 +66,17 @@ struct RemovalJournal: Sendable {
         var part: RemovalPart? = nil
         /// The disk the item moved on, read then: that disk may be gone when the line is taken in.
         var disk: TrashedDisk? = nil
+        var size: Int64? = nil
+        var sharedStorage: Bool? = nil
 
-        /// History's record of the item: the one kept here, or else one of its part, its size not known, or else
-        /// that of an interrupted removal, which names no tool, since which tool moved the item is not known.
+        /// History's record of the item: the one kept here, or else one of its part, with the size its page measured,
+        /// or else that of an interrupted removal, which names no tool, since which tool moved the item is not known.
         var recordToTakeIn: RemovalRecord {
             if let record { return record }
             let part = part ?? RemovalPart(source: "Interrupted removal", sourceKey: "interrupted", tool: "")
             return RemovalRecord(
-                batch: batch, item: item, size: nil, source: part.source, sourceKey: part.sourceKey, tool: part.tool,
-                disk: disk
+                batch: batch, item: item, size: size, source: part.source, sourceKey: part.sourceKey, tool: part.tool,
+                sharedStorage: sharedStorage, disk: disk
             )
         }
     }
@@ -132,10 +146,11 @@ struct RemovalJournal: Sendable {
         by writer: Writer = .current
     ) {
         let journal = url.path(percentEncoded: false)
-        let entry = { item in
+        let entry = { (item: TrashedItem) in
             Entry(
                 writer: writer, batch: recorded?.batch ?? batch, item: item, part: recorded?.part,
-                disk: TrashedDisk(of: item)
+                disk: TrashedDisk(of: item), size: recorded?.sizes[item.originalURL],
+                sharedStorage: recorded?.sharingStorage.contains(item.originalURL) == true ? true : nil
             )
         }
         let lines = items

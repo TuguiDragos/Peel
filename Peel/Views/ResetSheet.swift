@@ -42,7 +42,8 @@ struct ResetSheet: View {
                 Task {
                     await QuitGuard.shared.run {
                         let result = await history.moving(
-                            tool: .applications, source: "Reset of \(plan.app.name)", sourceKey: "reset.\(plan.app.name)"
+                            tool: .applications, source: "Reset of \(plan.app.name)", sourceKey: "reset.\(plan.app.name)",
+                            sizes: sizes
                         ) {
                             await plan.performReset()
                         }

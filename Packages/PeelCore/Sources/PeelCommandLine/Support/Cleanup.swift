@@ -107,8 +107,10 @@ struct Cleanup {
         try await checkingAgain()
 
         let (result, recorded) = await Uninterrupted.run {
-            let result = await move(service, moving.map(\.url))
             let sizes = [URL: Int64](measured: items.map { ($0.url, $0.size) })
+            let part = RemovalPart(source: source, sourceKey: sourceKey, tool: tool)
+            let recordedAs = RecordedRemoval(batch: UUID(), part: part, sizes: sizes)
+            let result = await RecordedRemoval.$current.withValue(recordedAs) { await move(service, moving.map(\.url)) }
             let recorded = await Removals.record(
                 TrashResult(trashed: result.trashed, failures: result.failures + refused),
                 from: source,

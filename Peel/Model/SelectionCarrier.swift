@@ -114,7 +114,9 @@ final class SelectionCarrier {
                     await CarriedSelection.pass(parts) { part in
                         // What a part moves is written down with the removal and the part, so a stop before the part is
                         // recorded leaves one removal in History, not two.
-                        let recorded = RecordedRemoval(batch: removal.batch, part: part.removalPart)
+                        let recorded = RecordedRemoval(
+                            batch: removal.batch, part: part.removalPart, sizes: part.measuredSizes
+                        )
                         guard let tool = tool(of: part),
                               let result = await RecordedRemoval.$current.withValue(recorded, operation: {
                                   await tool.move(part, apps: apps)

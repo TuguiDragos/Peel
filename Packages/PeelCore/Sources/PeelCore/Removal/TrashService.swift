@@ -658,8 +658,11 @@ public struct TrashService: Sendable {
         where MakersFolders.isEmpty(folder) {
             let path = PathPattern.comparablePath(of: folder)
             let helper: Set<URL> = throughHelper.contains { PathComponents.isPath($0, inside: path) } ? [folder] : []
+            // What the files leave empty frees nothing, as History records it.
             let moved = await MoveCount.$current.withValue(nil) {
-                await trash([folder], usingHelperFor: helper, removal: removal, lettingTheirProgramsRun: []).trashed
+                await RecordedRemoval.$current.withValue(RecordedRemoval.current?.measuring([folder: 0])) {
+                    await trash([folder], usingHelperFor: helper, removal: removal, lettingTheirProgramsRun: []).trashed
+                }
             }
             if !helper.isEmpty, !moved.isEmpty { throughHelper.append(path) }
             result.trashed += moved

@@ -528,7 +528,10 @@ struct AppDetailView: View {
                 // The one step that goes before the move: `tccutil` only finds an app that is still in its place.
                 let service = TrashService(exclusions: ExclusionsStore.shared.exclusions)
                 let privacy = await PrivacyReset.reset(resetting(request.urls), beforeMovingWith: service)
-                let result = await history.moving(tool: .applications, source: plan.app.name) {
+                let result = await history.moving(
+                    tool: .applications, source: plan.app.name, sizes: request.sizes,
+                    sharingStorage: request.sharingStorage
+                ) {
                     await plan.move(request)
                 }
                 let keptItsFiles = plan.uninstallation?.keptItsFiles(after: result, selection: request.urls) == true

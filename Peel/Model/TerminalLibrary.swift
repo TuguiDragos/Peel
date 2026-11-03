@@ -117,7 +117,9 @@ final class TerminalLibrary {
         let file = HushLogin.url(in: home)
         let sizes = [URL: Int64](measured: [(file, await FileSize.reclaimableSize(of: file))])
         let result = await QuitGuard.shared.run {
-            let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash([file])
+            let result = await RecordedRemoval.$current.withValue(RecordedRemoval.current?.measuring(sizes)) {
+                await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash([file])
+            }
             await record(result, sizes)
             return result
         }

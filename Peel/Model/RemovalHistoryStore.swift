@@ -369,14 +369,23 @@ final class RemovalHistoryStore {
 
     /// Runs `move`, whose items the journal writes down under this name, so a removal a stop leaves unrecorded comes
     /// back in History as what it was and not as an interrupted removal.
-    func moving<Answer>(_ part: RemovalPart, _ move: () async -> Answer) async -> Answer {
-        await RecordedRemoval.$current.withValue(RecordedRemoval(batch: UUID(), part: part)) { await move() }
+    /// Runs `move` as one removal of `part`, whose items the journal keeps with the `sizes` the page measured, so a
+    /// removal cut short comes back into History as `record` would have written it.
+    func moving<Answer>(
+        _ part: RemovalPart, sizes: [URL: Int64] = [:], sharingStorage: Set<URL> = [], _ move: () async -> Answer
+    ) async -> Answer {
+        let recorded = RecordedRemoval(batch: UUID(), part: part, sizes: sizes, sharingStorage: sharingStorage)
+        return await RecordedRemoval.$current.withValue(recorded) { await move() }
     }
 
     func moving<Answer>(
-        tool: Tool, source: String, sourceKey: String? = nil, _ move: () async -> Answer
+        tool: Tool, source: String, sourceKey: String? = nil, sizes: [URL: Int64] = [:],
+        sharingStorage: Set<URL> = [], _ move: () async -> Answer
     ) async -> Answer {
-        await moving(RemovalPart(source: source, sourceKey: sourceKey, tool: tool.rawValue), move)
+        await moving(
+            RemovalPart(source: source, sourceKey: sourceKey, tool: tool.rawValue), sizes: sizes,
+            sharingStorage: sharingStorage, move
+        )
     }
 
     /// Records in History what one part of `removal` moved, and what it refused.
