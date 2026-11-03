@@ -267,16 +267,17 @@ struct ProjectArtifactsTests {
         let linkToExtensions = directory.url.appending(path: "Code/extensions")
         try FileManager.default.createSymbolicLink(at: linkToExtensions, withDestinationURL: extensions)
 
-        #expect(ProjectArtifacts.refusal(for: extensions, home: home) == .neverSearched)
-        #expect(ProjectArtifacts.refusal(for: installed, home: home) == .neverSearched)
-        #expect(ProjectArtifacts.refusal(for: library, home: home) == .neverSearched)
-        #expect(ProjectArtifacts.refusal(for: linkToExtensions, home: home) == .neverSearched)
+        let npm = ProjectArtifacts.Skipped.filledBy(folder: "node_modules", tool: "npm")
+        #expect(ProjectArtifacts.refusal(for: extensions, home: home) == .neverSearched(.hidden(".editor")))
+        #expect(ProjectArtifacts.refusal(for: installed, home: home) == .neverSearched(npm))
+        #expect(ProjectArtifacts.refusal(for: library, home: home) == .neverSearched(.library))
+        #expect(ProjectArtifacts.refusal(for: linkToExtensions, home: home) == .neverSearched(.hidden(".editor")))
         #expect(ProjectArtifacts.refusal(for: linkInside, home: home) == nil)
         #expect(ProjectArtifacts.refusal(for: dotted, home: home) == nil)
 
         let scan = await ProjectArtifacts.scan(roots: [extensions])
         #expect(scan.artifacts.isEmpty)
-        #expect(scan.refusedRoots.map(\.reason) == [.neverSearched])
+        #expect(scan.refusedRoots.map(\.reason) == [.neverSearched(.hidden(".editor"))])
     }
 
     private struct Kind {
@@ -1434,7 +1435,7 @@ struct ProjectArtifactsTests {
         try directory.file("Sample.app/Contents/Resources/app/package.json")
         let app = directory.url.appending(path: "Sample.app", directoryHint: .isDirectory)
 
-        #expect(ProjectArtifacts.refusal(for: kit, home: home) == .neverSearched)
+        #expect(ProjectArtifacts.refusal(for: kit, home: home) == .neverSearched(.library))
         #expect(ProjectArtifacts.refusal(for: app, home: home) == .inAPackage)
         #expect(ProjectArtifacts.refusal(for: app.appending(path: "Contents/Resources/app"), home: home) == .inAPackage)
     }

@@ -500,7 +500,12 @@ extension ProjectArtifacts.Refusal {
             "it is in a folder \(app.name) syncs to your other devices (its marker is \(Output.plain(Output.path(marker)))), which Peel leaves to that app"
         case .unreachable(let problem): problem.summary
         case .inAPackage: "it is an app or another package, or inside one, and what is inside belongs to it"
-        case .neverSearched: "it is a hidden folder, a Library, or a folder a tool fills, such as node_modules, or it sits inside one, where apps and tools keep what they install"
+        case .neverSearched(.hidden(let name)):
+            "Peel doesn't look for projects in \(Output.plain(name)) or anything inside it, since apps and tools keep their own files in hidden folders"
+        case .neverSearched(.library):
+            "Peel doesn't look for projects in a Library folder or anything inside it, since apps keep their data there"
+        case .neverSearched(.filledBy(let folder, let tool)):
+            "Peel doesn't look for projects in \(folder) or anything inside it, since \(tool) fills it with what it installs"
         case .insideAnotherFolder(let folder): "it is inside \(Output.path(folder)), which is already on the list"
         case .holdsAnotherFolder(let folder): "it holds \(Output.path(folder)), which is already on the list"
         }

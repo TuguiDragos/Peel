@@ -76733,112 +76733,6 @@
         }
       }
     },
-    "It is a hidden folder, a Library, or a folder a tool fills, such as node_modules, or it sits inside one. Apps and tools keep what they install there, so Peel doesn’t look for projects in it." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je to skrytá složka, složka Knihovna nebo složka jako node_modules, kterou plní nějaký nástroj, nebo se nachází uvnitř některé z nich. Aplikace a nástroje si tam ukládají, co instalují, a proto v ní Peel projekty nehledá."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dies ist ein ausgeblendeter Ordner, ein Library-Ordner oder ein Ordner, den ein Tool füllt, etwa node_modules, oder liegt in einem solchen. Apps und Tools bewahren dort auf, was sie installieren, daher sucht Peel darin nicht nach Projekten."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Es una carpeta oculta, una carpeta Biblioteca o una carpeta que una herramienta llena, como node_modules, o está dentro de una. Las apps y las herramientas guardan ahí lo que instalan, así que Peel no busca proyectos en ella."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "C’est un dossier masqué, un dossier Bibliothèque ou un dossier qu’un outil remplit, comme node_modules, ou il se trouve dans l’un d’eux. Les apps et les outils y conservent ce qu’ils installent : Peel n’y recherche donc pas de projets."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "È una cartella nascosta, una cartella Libreria o una cartella che uno strumento riempie, come node_modules, oppure si trova all’interno di una di esse. Le app e gli strumenti conservano lì ciò che installano, quindi Peel non cerca progetti al suo interno."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "隠しフォルダ、ライブラリフォルダ、またはツールが中身を入れるフォルダ（node_modulesなど）であるか、そのいずれかの中にあります。アプリやツールがインストールしたものをそこに保管するため、Peelはその中でプロジェクトを探しません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "숨김 폴더, 라이브러리 폴더 또는 node_modules처럼 도구가 채우는 폴더이거나 그 안에 있습니다. 앱과 도구는 설치하는 항목을 이러한 폴더에 보관하므로 Peel은 그 안에서 프로젝트를 찾지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het is een verborgen map, een bibliotheekmap of een map die door een tool wordt gevuld, zoals node_modules, of het staat in zo'n map. Apps en tools bewaren daar wat ze installeren, dus Peel zoekt er niet naar projecten."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "To ukryty folder, folder Biblioteki lub folder wypełniany przez narzędzie, taki jak node_modules, albo folder wewnątrz jednego z nich. Aplikacje i narzędzia przechowują tam to, co instalują, więc Peel nie szuka w nim projektów."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "É uma pasta oculta, uma pasta Biblioteca ou uma pasta que uma ferramenta preenche, como node_modules, ou está dentro de uma. Os apps e as ferramentas guardam ali o que instalam, então o Peel não procura projetos nela."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Este un dosar ascuns, un dosar Bibliotecă sau un dosar pe care îl umple un instrument, cum ar fi node_modules, ori se află într‑unul. Aplicațiile și instrumentele păstrează acolo ce instalează, așa că Peel nu caută proiecte în el."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Это скрытая папка, папка «Библиотека» или папка, которую заполняет инструмент, например node_modules, либо папка внутри одной из них. Приложения и инструменты хранят там то, что устанавливают, поэтому Peel не ищет в ней проекты."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det är en gömd mapp, en biblioteksmapp eller en mapp som ett verktyg fyller, till exempel node_modules, eller så ligger den i en sådan. Appar och verktyg sparar det som de installerar där, så Peel letar inte efter projekt i den."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gizli bir klasör, bir Kitaplık klasörü veya bir aracın doldurduğu, node_modules gibi bir klasör ya da bunlardan birinin içinde. Uygulamalar ve araçlar yüklediklerini orada tutar, bu yüzden Peel bunun içinde proje aramaz."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Це прихована папка, Бібліотека чи папка, яку заповнює інструмент, як-от node_modules, або папка всередині однієї з них. Програми та інструменти зберігають там те, що інсталюють, тож Peel не шукає в ній проєктів."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它是隐藏文件夹、“资源库”文件夹或由工具填充的文件夹（例如node_modules），或者位于其中。App和工具会将它们安装的内容保存在那里，因此Peel不会在其中查找项目。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它是隱藏的檔案夾、「資源庫」檔案夾或由工具填入內容的檔案夾（例如node_modules），或位於其中。App和工具會將所安裝的內容存放在那裡，因此Peel不會在其中尋找計畫案。"
-          }
-        }
-      }
-    },
     "It is a repository, or sits inside one, and Peel leaves repositories alone." : {
       "localizations" : {
         "cs" : {
@@ -142377,6 +142271,330 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會列出%lld個下載項目，它們的磁碟空間與iCloud上傳檔案後在這部Mac上保留的副本共用，或與另一個副本共用：移除這類下載項目現在不會釋放任何空間。"
+          }
+        }
+      }
+    },
+    "Peel doesn’t look for projects in %@ or anything inside it, since %@ fills it with what it installs." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nehledá projekty ve složce %1$@ ani nikde uvnitř ní, protože ji nástroj %2$@ plní tím, co instaluje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sucht in %@ und allem darin nicht nach Projekten, da %@ diesen Ordner mit dem füllt, was es installiert."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Peel doesn’t look for projects in %1$@ or anything inside it, since %2$@ fills it with what it installs."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no busca proyectos en %@ ni en nada de lo que contiene, porque %@ la llena con lo que instala."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne recherche pas de projets dans %1$@ ni dans ce qu’il contient, car %2$@ le remplit de ce qu’il installe."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non cerca progetti in %@ né in ciò che contiene, perché %@ la riempie con quello che installa."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、“%@”とその中ではプロジェクトを探しません。%@がインストールしたものをそこに入れるためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 ‘%@’ 폴더와 그 안의 어떤 항목에서도 프로젝트를 찾지 않습니다. ‘%@’이(가) 설치하는 항목으로 이 폴더를 채우기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zoekt niet naar projecten in %@ of in iets wat erin staat, omdat %@ die map vult met wat het installeert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie szuka projektów w folderze %@ ani w niczym, co się w nim znajduje, ponieważ narzędzie %@ wypełnia go tym, co instaluje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não procura projetos na pasta %@ nem em nada dentro dela, pois o %@ a preenche com o que instala."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu caută proiecte în %@ și nici în ce se află în el, deoarece %@ îl umple cu ce instalează."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не ищет проекты ни в папке %1$@, ни внутри нее, поскольку инструмент «%2$@» заполняет ее тем, что устанавливает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel letar inte efter projekt i %@ eller i något som ligger i den, eftersom %@ fyller den med det som verktyget installerar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, %@ klasöründe ve içindeki hiçbir yerde proje aramaz, çünkü %@ orayı yüklediği şeylerle doldurur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не шукає проєктів у папці «%@» і в усьому, що в ній лежить, бо %@ заповнює її тим, що інсталює."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会在“%@”及其中的任何位置查找项目，因为“%@”会用它安装的内容填充这个文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會在「%@」或其中的任何項目中尋找計畫案，因為「%@」會在其中放入它所安裝的內容。"
+          }
+        }
+      }
+    },
+    "Peel doesn’t look for projects in %@ or anything inside it, since apps and tools keep their own files in hidden folders." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nehledá projekty ve složce %@ ani nikde uvnitř ní, protože si aplikace a nástroje ve skrytých složkách ukládají vlastní soubory."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sucht in %@ und allem darin nicht nach Projekten, da Apps und Tools ihre eigenen Dateien in ausgeblendeten Ordnern aufbewahren."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no busca proyectos en %@ ni en nada de lo que contiene, porque las apps y las herramientas guardan sus propios archivos en carpetas ocultas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne recherche pas de projets dans %@ ni dans ce qu’il contient, car les apps et les outils conservent leurs propres fichiers dans des dossiers masqués."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non cerca progetti in %@ né in ciò che contiene, perché le app e gli strumenti conservano i propri file in cartelle nascoste."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、“%@”とその中ではプロジェクトを探しません。アプリやツールは、隠しフォルダに独自のファイルを保管するためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 ‘%@’ 폴더와 그 안의 어떤 항목에서도 프로젝트를 찾지 않습니다. 앱과 도구가 숨김 폴더에 자체 파일을 보관하기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zoekt niet naar projecten in %@ of in iets wat erin staat, omdat apps en tools hun eigen bestanden in verborgen mappen bewaren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie szuka projektów w folderze %@ ani w niczym, co się w nim znajduje, ponieważ aplikacje i narzędzia przechowują swoje pliki w ukrytych folderach."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não procura projetos na pasta %@ nem em nada dentro dela, pois os apps e as ferramentas guardam os próprios arquivos em pastas ocultas."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu caută proiecte în %@ și nici în ce se află în el, deoarece aplicațiile și instrumentele își păstrează propriile fișiere în dosare ascunse."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не ищет проекты ни в папке %@, ни внутри нее, поскольку приложения и инструменты хранят свои файлы в скрытых папках."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel letar inte efter projekt i %@ eller i något som ligger i den, eftersom appar och verktyg sparar sina egna filer i gömda mappar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, %@ klasöründe ve içindeki hiçbir yerde proje aramaz, çünkü uygulamalar ve araçlar kendi dosyalarını gizli klasörlerde tutar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не шукає проєктів у папці «%@» і в усьому, що в ній лежить, бо програми та інструменти зберігають власні файли в прихованих папках."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会在“%@”及其中的任何位置查找项目，因为App和工具会将自己的文件保存在隐藏文件夹中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會在「%@」或其中的任何項目中尋找計畫案，因為App和工具會將自己的檔案存放在隱藏的檔案夾中。"
+          }
+        }
+      }
+    },
+    "Peel doesn’t look for projects in a Library folder or anything inside it, since apps keep their data there." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nehledá projekty ve složce Knihovna ani nikde uvnitř ní, protože si tam aplikace ukládají svá data."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sucht in einem Library-Ordner und allem darin nicht nach Projekten, da Apps dort ihre Daten speichern."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no busca proyectos en una carpeta Biblioteca ni en nada de lo que contiene, porque las apps guardan ahí sus datos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne recherche pas de projets dans un dossier Bibliothèque ni dans ce qu’il contient, car les apps y conservent leurs données."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non cerca progetti in una cartella Libreria né in ciò che contiene, perché le app vi conservano i loro dati."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、ライブラリフォルダとその中ではプロジェクトを探しません。アプリがそこにデータを保管するためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 라이브러리 폴더와 그 안의 어떤 항목에서도 프로젝트를 찾지 않습니다. 앱이 그곳에 데이터를 보관하기 때문입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zoekt niet naar projecten in een bibliotheekmap of in iets wat erin staat, omdat apps daar hun gegevens bewaren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie szuka projektów w folderze Biblioteki ani w niczym, co się w nim znajduje, ponieważ aplikacje przechowują tam swoje dane."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não procura projetos em uma pasta Biblioteca nem em nada dentro dela, pois é ali que os apps guardam os dados deles."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu caută proiecte într‑un dosar Bibliotecă și nici în ce se află în el, deoarece aplicațiile își păstrează datele acolo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не ищет проекты ни в папках «Библиотека», ни внутри них, поскольку там хранят свои данные приложения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel letar inte efter projekt i en biblioteksmapp eller i något som ligger i den, eftersom appar sparar sina data där."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, bir Kitaplık klasöründe ve içindeki hiçbir yerde proje aramaz, çünkü uygulamalar verilerini orada tutar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не шукає проєктів у папці «Бібліотека» і в усьому, що в ній лежить, бо там програми зберігають свої дані."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会在“资源库”文件夹及其中的任何位置查找项目，因为App会将它们的数据保存在那里。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會在「資源庫」檔案夾或其中的任何項目中尋找計畫案，因為App會將資料存放在那裡。"
           }
         }
       }

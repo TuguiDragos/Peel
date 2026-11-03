@@ -295,7 +295,12 @@ extension ProjectArtifacts.Refusal {
             String(localized: "It is in a folder \(app.name) syncs to your other devices (its marker is \(marker.abbreviatedPath)), which Peel leaves to that app.")
         case .unreachable(let problem): problem.explanation
         case .inAPackage: String(localized: "It is an app or another package, or inside one, and what is inside belongs to it.")
-        case .neverSearched: String(localized: "It is a hidden folder, a Library, or a folder a tool fills, such as node_modules, or it sits inside one. Apps and tools keep what they install there, so Peel doesn’t look for projects in it.")
+        case .neverSearched(.hidden(let name)):
+            String(localized: "Peel doesn’t look for projects in \(name) or anything inside it, since apps and tools keep their own files in hidden folders.")
+        case .neverSearched(.library):
+            String(localized: "Peel doesn’t look for projects in a Library folder or anything inside it, since apps keep their data there.")
+        case .neverSearched(.filledBy(let folder, let tool)):
+            String(localized: "Peel doesn’t look for projects in \(folder) or anything inside it, since \(tool) fills it with what it installs.")
         case .insideAnotherFolder(let folder): String(localized: "It is inside \(folder.abbreviatedPath), which is already on the list.")
         case .holdsAnotherFolder(let folder): String(localized: "It holds \(folder.abbreviatedPath), which is already on the list. Remove that one first.")
         }

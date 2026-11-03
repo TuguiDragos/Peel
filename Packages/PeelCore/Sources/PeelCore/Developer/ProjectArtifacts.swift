@@ -1018,6 +1018,13 @@ public enum ProjectArtifacts {
         return result
     }
 
+    /// Why the walk never enters a folder of a name.
+    public enum Skipped: Sendable, Hashable {
+        case hidden(String)
+        case library
+        case filledBy(folder: String, tool: String)
+    }
+
     public enum Refusal: Sendable, Hashable {
         case tooBroad
         /// A folder macOS or every account uses, such as `/Applications`, `/opt`, or `/Users/Shared`.
@@ -1028,7 +1035,7 @@ public enum ProjectArtifacts {
         /// An app or another package, or a folder inside one: what is inside belongs to it.
         case inAPackage
         /// A folder the walk never enters (`isSkipped`), or one inside it: apps and tools keep what they install there.
-        case neverSearched
+        case neverSearched(Skipped)
         case insideAnotherFolder(URL)
         case holdsAnotherFolder(URL)
     }
@@ -1110,7 +1117,7 @@ public enum ProjectArtifacts {
         if let problem = FolderReach.problem(with: root) { return .unreachable(problem) }
         if let keeper = SyncedFolders().keeper(of: root) { return .inTheCloud(keeper) }
         if root.isOrIsInsideAPackage { return .inAPackage }
-        return PathComponents.of(kernelName).contains(where: isSkipped) ? .neverSearched : nil
+        return PathComponents.of(kernelName).lazy.compactMap(skipped).first.map(Refusal.neverSearched)
     }
 
     /// Walks `root` for artifacts. Each folder is read on a thread of its own, within `FileSize`'s budget, since a
@@ -1345,10 +1352,20 @@ public enum ProjectArtifacts {
     /// A hidden folder is usually a tool's own store, such as `~/.npm` with its many `node_modules`, which belong
     /// to the Developer page. A generic name like `public` is walked, since it is the person's own folder unless
     /// the file of the tool that makes it sits beside it.
-    static func isSkipped(_ name: String) -> Bool {
-        if name.hasPrefix(".") || name == "Library" { return true }
-        return definitions.contains { $0.name == name && !$0.isGeneric }
+    static func skipped(_ name: String) -> Skipped? {
+        if name.hasPrefix(".") { return .hidden(name) }
+        if name == "Library" { return .library }
+        return toolsFilling[name].map { .filledBy(folder: name, tool: $0) }
     }
+
+    static func isSkipped(_ name: String) -> Bool {
+        skipped(name) != nil
+    }
+
+    /// The tool that fills each folder the walk never enters by its name, from the first definition that names it.
+    private static let toolsFilling = Dictionary(
+        definitions.filter { !$0.isGeneric }.map { ($0.name, $0.tool) }, uniquingKeysWith: { first, _ in first }
+    )
 
     /// Files Git updates whenever the repository changes: three reads can answer for a whole repository. A worktree or
     /// a submodule keeps them in the folder its `.git` file names.

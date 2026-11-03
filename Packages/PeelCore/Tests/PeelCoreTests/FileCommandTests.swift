@@ -818,6 +818,22 @@ struct FileCommandTests {
         #expect(message.contains("\(finder): it is an app or another package, or inside one, and what is inside belongs to it"))
     }
 
+    @Test func namesTheFolderThatKeepsAProjectSearchOut() throws {
+        let directory = try TemporaryDirectory()
+        let installed = try directory.directory("Code/app/node_modules/org-example-dep")
+        let hidden = try directory.directory("Tool/.editor/extensions")
+        let error = #expect(throws: (any Error).self) {
+            try PeelCommand.parseAsRoot([
+                "projects", installed.path(percentEncoded: false), hidden.path(percentEncoded: false),
+            ])
+        }
+
+        let message = PeelCommand.fullMessage(for: try #require(error), columns: 400)
+
+        #expect(message.contains("org-example-dep: Peel doesn't look for projects in node_modules or anything inside it, since npm fills it with what it installs"))
+        #expect(message.contains("extensions: Peel doesn't look for projects in .editor or anything inside it, since apps and tools keep their own files in hidden folders"))
+    }
+
     @Test func saysThereIsNothingToMoveWhenEveryOtherCopySyncs() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)
