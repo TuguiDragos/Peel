@@ -694,6 +694,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - On macOS 27, a MacBook Neo gets the line about what Apple Intelligence may keep.
 - The notes under an area's list, such as the open apps whose folders it leaves out, show whole rather than one line
   ending in an ellipsis.
+- On macOS 27, How to free it shows an area's whole step, where it showed only the first line.
 
 #### Developer
 
