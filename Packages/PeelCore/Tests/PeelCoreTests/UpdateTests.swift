@@ -609,7 +609,9 @@ struct TeamRegistryTests {
         let path = url.path(percentEncoded: false)
         try FileManager.default.createSymbolicLink(atPath: path, withDestinationPath: "/nowhere/teams.json")
 
-        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "AAAA111111")]) == .init(changes: [], problem: .unreadable))
+        let nothingThere = FileProblem.failed(SystemError(domain: NSPOSIXErrorDomain, code: Int(ENOENT)))
+        let outcome = await TeamRegistry(url: url).check([app("com.example.app", team: "AAAA111111")])
+        #expect(outcome == .init(changes: [], problem: .unreadable(nothingThere)))
 
         let kind = try FileManager.default.attributesOfItem(atPath: path)[.type] as? FileAttributeType
         #expect(kind == .typeSymbolicLink, "the registry was written over")
@@ -707,7 +709,8 @@ struct TeamRegistryTests {
         try directory.setPermissions(0o000, of: "teams.json")
         defer { try? directory.setPermissions(0o644, of: "teams.json") }
 
-        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "BBBB222222")]) == .init(changes: [], problem: .unreadable))
+        let closed = FileProblem.failed(SystemError(domain: NSPOSIXErrorDomain, code: Int(EACCES)))
+        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "BBBB222222")]) == .init(changes: [], problem: .unreadable(closed)))
 
         try directory.setPermissions(0o644, of: "teams.json")
         #expect(try Data(contentsOf: url) == before)
@@ -721,8 +724,8 @@ struct TeamRegistryTests {
         let url = try directory.file("teams.json", contents: Data("{".utf8))
         let registry = TeamRegistry(url: url)
 
-        #expect(await registry.check([app("com.example.app", team: "AAAA111111")]) == .init(changes: [], problem: .unreadable))
-        #expect(await registry.acknowledge("com.example.app") == .unreadable)
+        #expect(await registry.check([app("com.example.app", team: "AAAA111111")]) == .init(changes: [], problem: .unreadable(.damaged)))
+        #expect(await registry.acknowledge("com.example.app") == .unreadable(.damaged))
         #expect(try Data(contentsOf: url) == Data("{".utf8))
 
         #expect(await registry.startOver() == .started)
@@ -755,7 +758,9 @@ struct TeamRegistryTests {
         try directory.setPermissions(0o555, of: "Peel")
         defer { try? directory.setPermissions(0o755, of: "Peel") }
 
-        #expect(await TeamRegistry(url: url).check([app("com.example.app", team: "AAAA111111")]) == .init(changes: [], problem: .unsaved))
+        let refusedWrite = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
+        let outcome = await TeamRegistry(url: url).check([app("com.example.app", team: "AAAA111111")])
+        #expect(outcome == .init(changes: [], problem: .unsaved(.failed(refusedWrite))))
         #expect(url.isMissing)
 
         try directory.setPermissions(0o755, of: "Peel")

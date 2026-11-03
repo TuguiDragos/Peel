@@ -11,10 +11,11 @@ public struct TeamRegistry: Sendable {
 
     /// Why the registry is not keeping its record, which the person is told, since no warning comes meanwhile.
     public enum Problem: Sendable, Equatable {
-        /// The file cannot be read, so nothing is compared or recorded until the person starts it over.
-        case unreadable
+        /// The file cannot be read, so nothing is compared or recorded until the person starts it over; and why, when
+        /// Peel knows.
+        case unreadable(FileProblem?)
         /// The file could not be written, so what the last check learned is not kept.
-        case unsaved
+        case unsaved(FileProblem)
     }
 
     public struct Outcome: Sendable, Equatable {
@@ -58,7 +59,7 @@ public struct TeamRegistry: Sendable {
     @concurrent
     public func check(_ apps: [InstalledApp], now: Date = .now) async -> Outcome {
         FileLock.whileHeld(beside: url) {
-            guard let stored = load() else { return Outcome(changes: [], problem: .unreadable) }
+            guard let stored = load() else { return Outcome(changes: [], problem: .unreadable(whyUnreadable())) }
             var entries = stored
             var changes: [Change] = []
 
@@ -82,8 +83,8 @@ public struct TeamRegistry: Sendable {
                 if let pending = entry.pending { changes.append(pending) }
             }
 
-            let isSaved = entries == stored || save(entries)
-            return Outcome(changes: changes, problem: isSaved ? nil : .unsaved)
+            let failure = entries == stored ? nil : save(entries)
+            return Outcome(changes: changes, problem: failure.map(Problem.unsaved))
         }
     }
 
@@ -91,12 +92,12 @@ public struct TeamRegistry: Sendable {
     @concurrent
     public func acknowledge(_ bundleIdentifier: String) async -> Problem? {
         FileLock.whileHeld(beside: url) {
-            guard var entries = load() else { return .unreadable }
+            guard var entries = load() else { return .unreadable(whyUnreadable()) }
             guard var entry = entries[bundleIdentifier], let pending = entry.pending else { return nil }
             entry.acknowledged = (entry.acknowledged ?? []) + [pending.current]
             entry.pending = nil
             entries[bundleIdentifier] = entry
-            return save(entries) ? nil : .unsaved
+            return save(entries).map(Problem.unsaved)
         }
     }
 
@@ -114,22 +115,31 @@ public struct TeamRegistry: Sendable {
     /// registry would silently accept any change of team made since it was last read.
     private func load() -> [String: Entry]? {
         guard !url.isMissing else { return [:] }
-        guard let data = BoundedRead.data(at: url) else { return nil }
+        return BoundedRead.data(at: url).flatMap(decoded)
+    }
+
+    /// Why `load()` found nothing, asked again by a caller that holds the lock.
+    private func whyUnreadable() -> FileProblem? {
+        guard let data = BoundedRead.data(at: url) else { return BoundedRead.whyUnreadable(url) }
+        return decoded(data) == nil ? .damaged : nil
+    }
+
+    private func decoded(_ data: Data) -> [String: Entry]? {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         return try? decoder.decode([String: Entry].self, from: data)
     }
 
-    private func save(_ entries: [String: Entry]) -> Bool {
+    /// Writes `entries`, and answers why it couldn't, or nil once it did.
+    private func save(_ entries: [String: Entry]) -> FileProblem? {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         do {
-            let data = try encoder.encode(entries)
-            try PeelFolder.write(data, to: url)
-            return true
+            try PeelFolder.write(try encoder.encode(entries), to: url)
+            return nil
         } catch {
-            return false
+            return .failed(SystemError(error))
         }
     }
 }

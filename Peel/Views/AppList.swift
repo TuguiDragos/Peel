@@ -136,19 +136,19 @@ private struct TeamRecordNotice: View {
     var body: some View {
         Group {
             switch problem {
-            case .unreadable:
+            case .unreadable(let why):
                 Notice(
                     title: Text("Peel can’t read its record of who signs your apps"),
-                    detail: Text("Until you start the record over, Peel can’t warn you when an app’s signer changes. Starting over keeps the old file beside a new one.")
+                    detail: Text(verbatim: why.said(after: String(localized: "Until you start the record over, Peel can’t warn you when an app’s signer changes. Starting over keeps the old file beside a new one."), about: library.teamRecordFile))
                 ) {
                     StartOverButton(file: library.teamRecordFile, startedOver: "Started the record of who signs your apps over.") {
                         await library.startTeamRecordOver()
                     }
                 }
-            case .unsaved:
+            case .unsaved(let why):
                 Notice(
                     title: Text("Peel couldn’t save its record of who signs your apps"),
-                    detail: Text("Until it can, Peel may not warn you when an app’s signer changes.")
+                    detail: Text(verbatim: why.said(after: String(localized: "Until it can, Peel may not warn you when an app’s signer changes."), about: library.teamRecordFile))
                 ) { EmptyView() }
             }
         }
