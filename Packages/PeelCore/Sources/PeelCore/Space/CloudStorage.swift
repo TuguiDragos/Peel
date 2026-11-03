@@ -76,8 +76,9 @@ public struct CloudRefusal: Sendable, Hashable, Identifiable {
         /// Excluded in Settings since the scan, or the exclusions are not known, so it is left as a move to the
         /// Trash would be.
         case excluded
-        /// A program holds the file, as the wallpaper is held, so macOS could not lock it to free its copy.
-        case inUse
+        /// Something holds the file, so macOS could not lock it to free its copy: the programs of this account that
+        /// hold it open, when Peel finds any.
+        case inUse(by: [String])
         /// Keep Downloaded came on for it since the scan, so iCloud would download it again.
         case keptDownloaded
         /// iCloud marked it as a download it keeps.
@@ -545,7 +546,8 @@ public enum CloudStorage {
             do {
                 values = try url.resourceValues(forKeys: keys)
             } catch {
-                done.refused.append(CloudRefusal(url: file.url, reason: url.isMissing ? .gone : reason(for: error)))
+                let why = url.isMissing ? .gone : reason(for: error, at: file.url)
+                done.refused.append(CloudRefusal(url: file.url, reason: why))
                 continue
             }
             if let notSafe = whyNotSafe(values) {
@@ -578,7 +580,7 @@ public enum CloudStorage {
                 done.freed.append(file)
                 counted?.add(1)
             } catch {
-                done.refused.append(CloudRefusal(url: file.url, reason: reason(for: error)))
+                done.refused.append(CloudRefusal(url: file.url, reason: reason(for: error, at: file.url)))
             }
         }
         return done
@@ -594,17 +596,19 @@ public enum CloudStorage {
 
     /// Why freeing a file failed, from what `NSFileProviderError.h` says of an eviction, and macOS's own message for
     /// anything else. A program holding the file answers `NSFileLockingError` or `EBUSY`.
-    static func reason(for error: any Error) -> CloudRefusal.Reason {
+    static func reason(
+        for error: any Error, at url: URL? = nil, holders: (URL) -> [String] = { OpenFiles().holders(of: $0) }
+    ) -> CloudRefusal.Reason {
         let error = error as NSError
         switch (error.domain, error.code) {
         case (NSCocoaErrorDomain, CocoaError.fileLocking.rawValue), (NSPOSIXErrorDomain, Int(EBUSY)):
-            return .inUse
+            return .inUse(by: url.map(holders) ?? [])
         case (NSFileProviderErrorDomain, NSFileProviderError.Code.unsyncedEdits.rawValue):
             return .notUploaded
         case (NSFileProviderErrorDomain, NSFileProviderError.Code.nonEvictable.rawValue):
             return .notRemovable
         case (NSFileProviderErrorDomain, NSFileProviderError.Code.nonEvictableChildren.rawValue):
-            return error.underlyingErrors.first.map(reason(for:)) ?? .notRemovable
+            return error.underlyingErrors.first.map { reason(for: $0, at: url, holders: holders) } ?? .notRemovable
         default:
             return .failed(error.localizedDescription)
         }

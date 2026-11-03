@@ -951,7 +951,7 @@ struct CloudStorageTests {
         }
 
         #expect(done.freed.map(\.url) == [files[0].url, files[1].url])
-        #expect(done.refused.map(\.reason) == [.inUse])
+        #expect(done.refused.map(\.reason) == [.inUse(by: [])])
         #expect(counted.value == 2)
     }
 
@@ -965,10 +965,12 @@ struct CloudStorageTests {
         }
     }
 
-    /// A file a program holds, as the desktop picture is held, cannot be locked, and the person is told so.
+    /// A file a program holds, as the desktop picture is held, cannot be locked, and the person is told which program.
     @Test func aFileAProgramHoldsIsRefusedAsInUse() {
         let locked = CocoaError(.fileLocking)
-        #expect(CloudStorage.reason(for: locked) == .inUse)
+        let file = URL(filePath: "/Users/someone/Library/Mobile Documents/com~apple~CloudDocs/a.bin")
+        #expect(CloudStorage.reason(for: locked) == .inUse(by: []))
+        #expect(CloudStorage.reason(for: locked, at: file, holders: { $0 == file ? ["Example"] : [] }) == .inUse(by: ["Example"]))
         let other = CocoaError(.fileWriteNoPermission)
         #expect(CloudStorage.reason(for: other) == .failed(other.localizedDescription))
     }
@@ -989,8 +991,8 @@ struct CloudStorageTests {
                 == .notUploaded
         )
         let busy = NSError(domain: NSPOSIXErrorDomain, code: Int(EBUSY))
-        #expect(CloudStorage.reason(for: busy) == .inUse)
-        #expect(CloudStorage.reason(for: refusal(.nonEvictableChildren, because: [busy])) == .inUse)
+        #expect(CloudStorage.reason(for: busy) == .inUse(by: []))
+        #expect(CloudStorage.reason(for: refusal(.nonEvictableChildren, because: [busy])) == .inUse(by: []))
     }
 
     @Test func readsKeepDownloadedFromTheFileItself() throws {

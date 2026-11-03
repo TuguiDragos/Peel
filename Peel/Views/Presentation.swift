@@ -427,7 +427,10 @@ extension CloudRefusal {
         case .syncPaused: String(localized: "Its syncing is paused, so iCloud may not have its newest version.")
         case .uploadFailed(let message): String(localized: "iCloud couldn’t upload it: \(message)")
         case .excluded: String(localized: "Excluded in Settings")
-        case .inUse: String(localized: "A program is using it, as the wallpaper is used, so macOS couldn’t remove its download. Try again once nothing uses it.")
+        case .inUse(let programs) where !programs.isEmpty:
+            String(localized: "It is in use by \(programs.formatted(.list(type: .and))), so macOS couldn’t remove its download. Try again once nothing uses it.")
+        case .inUse:
+            String(localized: "macOS says it is in use, though no program of your account has it open, so its download couldn’t be removed. Try again later.")
         case .keptDownloaded: String(localized: "Keep Downloaded is on for it in Finder, so iCloud would download it again.")
         case .notRemovable: String(localized: "iCloud keeps this download on this Mac, so it can’t be removed.")
         case .failed(let message): message

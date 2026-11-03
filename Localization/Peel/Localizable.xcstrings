@@ -13749,112 +13749,6 @@
         }
       }
     },
-    "A program is using it, as the wallpaper is used, so macOS couldn’t remove its download. Try again once nothing uses it." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tento soubor používá nějaký program, stejně jako se používá tapeta, takže systém macOS nemohl odstranit jeho staženou kopii. Zkuste to znovu, až ho nebude nic používat."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ein Programm verwendet diese Datei, so wie das Hintergrundbild verwendet wird, daher konnte macOS ihren Download nicht entfernen. Versuche es erneut, sobald nichts sie mehr verwendet."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un programa lo está usando, como ocurre con el fondo de pantalla, así que macOS no ha podido eliminar su descarga. Vuelve a intentarlo cuando nada lo esté usando."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un programme l’utilise, comme c’est le cas du fond d’écran, si bien que macOS n’a pas pu retirer son téléchargement. Réessayez une fois que plus rien ne l’utilise."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un programma lo sta usando, come succede con lo sfondo, quindi macOS non è riuscito a rimuoverne il download. Riprova quando non lo usa più nulla."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "壁紙として使われているときのように、プログラムがこのファイルを使用中のため、macOSはダウンロードしたものを削除できませんでした。使用しているものがなくなったら、もう一度やり直してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "배경화면으로 사용 중인 사진처럼 어떤 프로그램이 이 파일을 사용하고 있어 macOS가 다운로드를 제거할 수 없습니다. 이 파일을 사용하는 항목이 없을 때 다시 시도하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Een programma gebruikt dit bestand, zoals de achtergrond wordt gebruikt, dus macOS kon de download ervan niet verwijderen. Probeer het opnieuw zodra niets het meer gebruikt."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jakiś program używa tego pliku, tak jak używana jest tapeta, więc macOS nie mógł usunąć jego pobranej kopii. Spróbuj ponownie, gdy nic nie będzie go już używać."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Um programa está usando este arquivo, como acontece com a imagem de fundo, então o macOS não conseguiu remover o download dele. Tente novamente quando nada estiver usando o arquivo."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un program îl folosește, de exemplu ca fundal, așa că macOS nu i‑a putut elimina descărcarea. Încercați din nou când nimic nu îl mai folosește."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Этот файл использует какая-то программа, как это бывает с обоями, поэтому macOS не удалось удалить его загруженную копию. Повторите попытку, когда файл ничем не будет использоваться."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ett program använder filen, på samma sätt som bakgrundsbilden används, så macOS kunde inte ta bort hämtningen. Försök igen när inget använder den."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bir program bu dosyayı, duvar kâğıdının kullanıldığı gibi kullanıyor; bu yüzden macOS indirilen kopyasını kaldıramadı. Hiçbir şey onu kullanmadığında yeniden deneyin."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Цей файл використовує якась програма, як це буває зі шпалерою, тож macOS не вдалося вилучити його викачування. Спробуйте ще раз, коли його ніщо не використовуватиме."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "某个程序正在使用此文件（例如将它用作墙纸），因此macOS未能移除它的下载。请在没有程序使用它时再试一次。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "某個程式正在使用它，就像使用中的背景圖片一樣，因此macOS無法移除它的下載項目。請在沒有任何程式使用它時再試一次。"
-          }
-        }
-      }
-    },
     "A rebase puts uncommitted changes aside and brings them back when it ends." : {
       "localizations" : {
         "cs" : {
@@ -77589,6 +77483,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它正由%1$@使用中，而`brew services`為它保留了一項工作。即使如此，Homebrew仍會刪除它並留下該工作，因此請先停止它：`%2$@`"
+          }
+        }
+      }
+    },
+    "It is in use by %@, so macOS couldn’t remove its download. Try again once nothing uses it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento soubor používá %@, takže systém macOS nemohl odstranit jeho staženou kopii. Zkuste to znovu, až ho nebude nic používat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Datei wird gerade von %@ verwendet, daher konnte macOS ihren Download nicht entfernen. Versuche es erneut, sobald nichts sie mehr verwendet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está en uso por %@, así que macOS no ha podido eliminar su descarga. Vuelve a intentarlo cuando nada lo esté usando."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il est utilisé par %@, si bien que macOS n’a pas pu retirer son téléchargement. Réessayez une fois que plus rien ne l’utilise."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È in uso da %@, quindi macOS non è riuscito a rimuoverne il download. Riprova quando non lo usa più nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@で使用中のため、macOSはダウンロードしたものを削除できませんでした。使用しているものがなくなったら、もう一度やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에서 사용 중이므로 macOS가 다운로드를 제거할 수 없었습니다. 이 파일을 사용하는 항목이 없을 때 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het wordt gebruikt door %@, dus macOS kon de download ervan niet verwijderen. Probeer het opnieuw zodra niets het meer gebruikt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ten plik jest używany przez: %@, więc macOS nie mógł usunąć jego pobranej kopii. Spróbuj ponownie, gdy nic nie będzie go już używać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está em uso por %@, então o macOS não conseguiu remover o download dele. Tente novamente quando nada estiver usando o arquivo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este folosit de %@, așa că macOS nu i‑a putut elimina descărcarea. Încercați din nou când nimic nu îl mai folosește."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не удалось удалить загруженную копию этого файла, так как его использует %@. Повторите попытку, когда файл ничем не будет использоваться."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den används av %@, så macOS kunde inte ta bort hämtningen. Försök igen när inget använder den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ tarafından kullanılıyor, bu yüzden macOS indirilen kopyasını kaldıramadı. Hiçbir şey onu kullanmadığında yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей файл використовує %@, тож macOS не вдалося вилучити його викачування. Спробуйте ще раз, коли його ніщо не використовуватиме."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正在被“%@”使用，因此macOS未能移除它的下载。请在没有程序使用它时再试一次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它正由%@使用中，因此macOS無法移除它的下載項目。請在沒有任何程式使用它時再試一次。"
           }
         }
       }
@@ -266569,6 +266569,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS表示它無法刪除其中部分快照來騰出空間，因此在這些快照消失之前，它們佔用的空間無法使用。"
+          }
+        }
+      }
+    },
+    "macOS says it is in use, though no program of your account has it open, so its download couldn’t be removed. Try again later." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS hlásí, že se soubor používá, přestože ho žádný program vašeho účtu nemá otevřený, takže jeho staženou kopii nelze odstranit. Zkuste to znovu později."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laut macOS wird diese Datei verwendet, obwohl kein Programm deines Benutzeraccounts sie geöffnet hat, daher konnte ihr Download nicht entfernt werden. Versuche es später erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS indica que está en uso, aunque ningún programa de tu cuenta lo tiene abierto, así que no se ha podido eliminar su descarga. Vuelve a intentarlo más tarde."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS indique que ce fichier est utilisé, bien qu’aucun programme de votre compte ne l’ait ouvert : son téléchargement n’a donc pas pu être retiré. Réessayez plus tard."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS dice che è in uso, anche se nessun programma del tuo account lo tiene aperto, quindi non è stato possibile rimuoverne il download. Riprova più tardi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "お使いのアカウントのプログラムはどれもこれを開いていませんが、macOSが使用中と報告しているため、ダウンロードしたものを削除できませんでした。あとでやり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 계정의 어떤 프로그램도 이 파일을 열고 있지 않지만 macOS가 사용 중이라고 알려 주므로 다운로드를 제거할 수 없었습니다. 나중에 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS meldt dat het in gebruik is, hoewel geen enkel programma van je account het geopend heeft, dus de download ervan kon niet worden verwijderd. Probeer het later opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS podaje, że ten plik jest używany, choć żaden program Twojego konta nie ma go otwartego, więc nie udało się usunąć jego pobranej kopii. Spróbuj ponownie później."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS diz que o arquivo está em uso, embora nenhum programa da sua conta esteja com ele aberto, então não foi possível remover o download dele. Tente novamente mais tarde."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS spune că este în uz, deși niciun program al contului dvs. nu îl are deschis, așa că descărcarea sa nu a putut fi eliminată. Încercați din nou mai târziu."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS сообщает, что файл используется, хотя он не открыт ни в одной программе Вашей учетной записи, поэтому удалить его загруженную копию не удалось. Повторите попытку позже."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS anger att den används, trots att inget program i ditt konto har den öppen, så hämtningen kunde inte tas bort. Försök igen senare."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kullanımda olduğunu söylüyor, ancak hesabınızdaki hiçbir program onu açık tutmuyor; bu yüzden indirilen kopyası kaldırılamadı. Daha sonra yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS повідомляє, що файл використовується, хоча в жодній програмі вашого облікового запису його не відкрито, тож його викачування не вдалося вилучити. Спробуйте ще раз пізніше."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS表示它正在使用中，但你的账户中没有任何程序打开它，因此未能移除它的下载。请稍后再试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS表示它正在使用中，但你的帳號中沒有任何程式打開它，因此無法移除它的下載項目。請稍後再試一次。"
           }
         }
       }
