@@ -118031,6 +118031,112 @@
         }
       }
     },
+    "Not selected: it is open in %@ right now, which may still be using it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: tuto položku má právě teď otevřenou %@, takže ji možná stále používá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Dieses Objekt ist gerade in %@ geöffnet und wird dort möglicherweise noch verwendet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: ahora mismo está abierto en %@, y puede que aún se esté usando."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : cet élément est ouvert en ce moment dans %@ et est peut-être encore utilisé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: è aperto in %@ proprio ora, e potrebbe essere ancora in uso."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: 現在%@がこれを開いていて、まだ使用中の可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 지금 %@에서 열려 있으며, 해당 프로그램이 아직 사용하고 있을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: het is op dit moment geopend in %@ en wordt daar misschien nog gebruikt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: ta rzecz jest właśnie otwarta i może być jeszcze używana przez: %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: este item está aberto em %@ neste momento e pode ainda estar em uso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest articol este deschis chiar acum în %@ și poate fi încă în uz."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: сейчас этот объект открыт, и его, возможно, еще использует %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: %@ har det här öppet just nu och kanske fortfarande använder det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: %@ bunu şu anda açık tutuyor ve onu hâlâ kullanıyor olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: цей елемент саме зараз відкрито в %@, і його, можливо, ще використовують."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：“%@”现在已打开此项，可能仍在使用它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：%@現在正打開此項目，而且可能仍在使用它。"
+          }
+        }
+      }
+    },
     "Not selected: it is the wallpaper, which macOS keeps open while it is shown, so its download can’t be removed now." : {
       "localizations" : {
         "cs" : {

@@ -591,8 +591,11 @@ extension HoldBack {
         }
     }
 
-    /// The explanation, naming the app that keeps the item in step and its marker when one does.
-    func explanation(keptInStepBy keeper: SyncKeeper?) -> LocalizedStringResource {
+    /// The explanation, naming the app that keeps the item in step and its marker, or the programs that hold it open.
+    func explanation(keptInStepBy keeper: SyncKeeper?, openBy programs: [String] = []) -> LocalizedStringResource {
+        if self == .openInAProgram, !programs.isEmpty {
+            return "Not selected: it is open in \(programs.formatted(.list(type: .and))) right now, which may still be using it."
+        }
         guard self == .inTheCloud, case .app(let app, let marker)? = keeper else { return explanation }
         return "Left alone: this is in a folder \(app.name) syncs to your other devices (its marker is \(marker.abbreviatedPath)), and moving it to the Trash would also remove it from them."
     }

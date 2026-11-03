@@ -37,6 +37,8 @@ public struct InstallerItem: Sendable, Hashable, Identifiable {
     public var heldBack: HoldBack?
     /// What keeps it in step with the other devices, when it is held back as `inTheCloud`.
     public var syncedBy: SyncKeeper? = nil
+    /// The programs that hold it open, when it is held back as `openInAProgram`.
+    public var openBy: [String] = []
     /// The app a downloaded update is for, which has to quit before the update moves from under it.
     public var updatesApp: UpdatedApp? = nil
 
@@ -294,6 +296,7 @@ public enum Installers {
         items = items.map { item in
             var item = item
             if item.heldBack == .inTheCloud { item.syncedBy = syncKeeper(item.url) }
+            if item.heldBack == .openInAProgram { item.openBy = openFiles.holders(of: item.url) }
             guard item.requiresPrivileges, item.heldBack?.cannotBeMoved != true, reach.isBeyond(item.url) else {
                 return item
             }

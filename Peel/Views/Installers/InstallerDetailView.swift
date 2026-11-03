@@ -33,7 +33,7 @@ struct InstallerDetailView: View {
                             icon: .file(item.url),
                             detail: detail(for: item),
                             warning: item.heldBack.map {
-                                String(localized: $0.explanation(keptInStepBy: item.syncedBy))
+                                String(localized: $0.explanation(keptInStepBy: item.syncedBy, openBy: item.openBy))
                             },
                             size: item.size ?? 0,
                             isMeasured: item.size != nil,

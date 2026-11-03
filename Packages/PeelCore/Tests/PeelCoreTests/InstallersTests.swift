@@ -828,6 +828,8 @@ struct InstallersTests {
         let heldBack = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0.heldBack) })
         #expect(heldBack["Tool-1.dmg"] == .openInAProgram)
         #expect(heldBack["Other-2.dmg"] == .some(nil))
+        #expect(scan.items.first { $0.name == "Tool-1.dmg" }?.openBy == [OpenFiles.name(of: getpid())])
+        #expect(scan.items.first { $0.name == "Other-2.dmg" }?.openBy == [])
     }
 
     @Test func findsMacOSInstallersAndDeviceFirmware() async throws {
@@ -886,6 +888,7 @@ struct InstallersTests {
 
         #expect(scan.items(in: .firmware).map(\.name) == ["iPad.ipsw"])
         #expect(scan.items(in: .firmware).first?.heldBack == .openInAProgram)
+        #expect(scan.items(in: .firmware).first?.openBy == [OpenFiles.name(of: getpid())])
     }
 
     @Test func aPlaceThatLeadsIntoAnotherListsWhatIsThereOnce() async throws {
