@@ -68,8 +68,8 @@ struct GitSettingsTests {
 
     @Test func whatThePersonHadBeforeComesBack() async throws {
         let git = try await GitHome()
-        #expect(await git.config.set("pull.rebase", to: "false"))
-        #expect(await git.config.set("merge.conflictStyle", to: "diff3"))
+        #expect(await git.config.set("pull.rebase", to: "false") == nil)
+        #expect(await git.config.set("merge.conflictStyle", to: "diff3") == nil)
         var ledger = GitLedger()
         #expect(await ledger.turnOn(.rebaseOnPull, signingKey: nil, in: git.config) == .changed)
         #expect(await ledger.turnOn(.zdiff3Conflicts, signingKey: nil, in: git.config) == .changed)
@@ -117,7 +117,7 @@ struct GitSettingsTests {
         let git = try await GitHome()
         var ledger = GitLedger()
         #expect(await ledger.turnOn(.rebaseOnPull, signingKey: nil, in: git.config) == .changed)
-        #expect(await git.config.set("pull.rebase", to: "merges"))
+        #expect(await git.config.set("pull.rebase", to: "merges") == nil)
         #expect(await ledger.turnOff(.rebaseOnPull, in: git.config) == .unchanged)
         #expect(try await git.settings()["pull.rebase"] == "merges")
         #expect(ledger.written.isEmpty)
@@ -127,7 +127,7 @@ struct GitSettingsTests {
         let git = try await GitHome()
         let key = try git.publicKey("id_ed25519.pub")
         for value in GitSetting.signCommits.values(signingKey: key) {
-            #expect(await git.config.set(value.key, to: value.value))
+            #expect(await git.config.set(value.key, to: value.value) == nil)
         }
         #expect(GitSetting.signCommits.isOn(in: try await git.settings()))
         var ledger = GitLedger()
@@ -142,7 +142,7 @@ struct GitSettingsTests {
         let git = try await GitHome()
         let key = try git.publicKey("id_ed25519.pub")
         for (name, value) in [("gpg.format", "openpgp"), ("user.signingKey", "ABCDEF0123"), ("commit.gpgSign", "true")] {
-            #expect(await git.config.set(name, to: value))
+            #expect(await git.config.set(name, to: value) == nil)
         }
         var ledger = GitLedger()
         #expect(await ledger.turnOn(.signCommits, signingKey: key, in: git.config) == .changed)
@@ -180,7 +180,11 @@ struct GitSettingsTests {
 
         let outcome = await ledger.turnOn(.rebaseOnPull, signingKey: nil, in: git.config) { handed.append($0.written) }
 
-        #expect(outcome == .refused)
+        guard case .refused(.said(let words)?) = outcome else {
+            Issue.record("Git's words were lost: \(outcome)")
+            return
+        }
+        #expect(words.hasPrefix("error: could not lock config file"), "\(words)")
         #expect(handed == [["pull.rebase": "true"], [:]])
         #expect(ledger.written.isEmpty && ledger.previous.isEmpty)
     }
@@ -214,7 +218,7 @@ struct GitSettingsTests {
         try "[pull\n\trebase = false\n".write(to: git.home.appending(path: ".gitconfig"), atomically: true, encoding: .utf8)
         #expect(await git.config.settings() == nil)
         var ledger = GitLedger()
-        #expect(await ledger.turnOn(.rebaseOnPull, signingKey: nil, in: git.config) == .refused)
+        #expect(await ledger.turnOn(.rebaseOnPull, signingKey: nil, in: git.config) == .refused(nil))
         #expect(git.file == "[pull\n\trebase = false\n")
     }
 
@@ -222,7 +226,7 @@ struct GitSettingsTests {
         let git = try await GitHome()
         #expect(GitSetting.signingKey(in: [:], home: git.home) == nil)
         var ledger = GitLedger()
-        #expect(await ledger.turnOn(.signCommits, signingKey: nil, in: git.config) == .refused)
+        #expect(await ledger.turnOn(.signCommits, signingKey: nil, in: git.config) == .refused(nil))
         let rsa = try git.publicKey("id_rsa.pub")
         #expect(GitSetting.signingKey(in: [:], home: git.home) == rsa)
         let ed25519 = try git.publicKey("id_ed25519.pub")
@@ -238,8 +242,8 @@ struct GitSettingsTests {
         let git = try await GitHome()
         _ = try git.publicKey("id_ed25519.pub")
         let work = try git.publicKey("work.pub")
-        #expect(await git.config.set("gpg.format", to: "ssh"))
-        #expect(await git.config.set("user.signingKey", to: work))
+        #expect(await git.config.set("gpg.format", to: "ssh") == nil)
+        #expect(await git.config.set("user.signingKey", to: work) == nil)
         let settings = try await git.settings()
         let key = try #require(GitSetting.signingKey(in: settings, home: git.home))
         var ledger = GitLedger()

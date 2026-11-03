@@ -30,7 +30,7 @@ struct GitTab: View {
                     }
                 } else if git.wasRefused {
                     Section {
-                        StatusLabel(title: Text("Git refused it"), tint: .accentColor)
+                        StatusLabel(title: Text(verbatim: git.whyRefused.sentence), tint: .accentColor)
                     }
                 }
                 ForEach(GitSetting.Group.allCases, id: \.self) { group in

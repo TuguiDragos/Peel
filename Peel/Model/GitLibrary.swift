@@ -21,6 +21,8 @@ final class GitLibrary {
     private(set) var state: State?
     private var asked: [GitSetting: Bool] = [:]
     private(set) var wasRefused = false
+    /// What Git said when it refused, when it said something.
+    private(set) var whyRefused: GitConfig.Refusal?
     private var waiting: [GitSetting: Int] = [:]
     private var changes: Task<Void, Never>?
 
@@ -99,6 +101,7 @@ final class GitLibrary {
 
     func forgetRefusal() {
         wasRefused = false
+        whyRefused = nil
     }
 
     private func save(_ ledger: GitLedger) {
@@ -130,14 +133,19 @@ final class GitLibrary {
             await QuitGuard.shared.run {
                 var ledger = ledger
                 var refused = false
+                var why: GitConfig.Refusal?
                 for setting in settings {
                     let outcome = isOn
                         ? await ledger.turnOn(setting, signingKey: state?.signingKey, in: git) { save($0) }
                         : await ledger.turnOff(setting, in: git) { save($0) }
-                    refused = outcome == .refused || refused
+                    if case .refused(let refusal) = outcome {
+                        refused = true
+                        why = why ?? refusal
+                    }
                 }
                 self.ledger = ledger
                 wasRefused = refused
+                whyRefused = why
             }
             await read()
         }

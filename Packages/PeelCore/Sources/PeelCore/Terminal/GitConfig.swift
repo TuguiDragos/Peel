@@ -4,6 +4,14 @@ import PeelPrivileged
 /// Git's global settings, read and changed through `git config --global`, Git's own command, in the home Peel
 /// serves. `/usr/bin/git` is never run, since without the developer tools it asks macOS to install them.
 public struct GitConfig: Sendable {
+    /// What kept Git from making a change.
+    public enum Refusal: Sendable, Equatable {
+        /// What Git wrote on its standard error, in its own words.
+        case said(String)
+        /// It didn't start, didn't answer in time, or was stopped.
+        case noAnswer
+    }
+
     public let executable: URL
     let home: URL
 
@@ -101,15 +109,23 @@ public struct GitConfig: Sendable {
         return Set(output.text.split(separator: "\n").map { $0.lowercased() })
     }
 
-    public func set(_ key: String, to value: String) async -> Bool {
-        guard case .success(let output) = await run(["config", "--global", "--replace-all", key, value]) else { return false }
-        return output.status == 0
+    /// Sets `key` to `value`, and answers why Git didn't, or nil once it did.
+    public func set(_ key: String, to value: String) async -> Refusal? {
+        refusal(of: await run(["config", "--global", "--replace-all", key, value]))
     }
 
-    /// Removes every value of `key`. Git answers 5 when there is none, which is what was asked.
-    public func remove(_ key: String) async -> Bool {
-        guard case .success(let output) = await run(["config", "--global", "--unset-all", key]) else { return false }
-        return output.status == 0 || output.status == 5
+    /// Removes every value of `key`, and answers why Git didn't, or nil once it did. Git answers 5 when there is
+    /// none, which is what was asked.
+    public func remove(_ key: String) async -> Refusal? {
+        refusal(of: await run(["config", "--global", "--unset-all", key]), alsoDone: 5)
+    }
+
+    private func refusal(of run: Result<Subprocess.Output, Subprocess.Failure>, alsoDone: Int32? = nil) -> Refusal? {
+        switch run {
+        case .failure: .noAnswer
+        case .success(let output) where output.status == 0 || output.status == alsoDone: nil
+        case .success(let output): .said(output.errorText.trimmingCharacters(in: .whitespacesAndNewlines))
+        }
     }
 
     private func run(_ arguments: [String]) async -> Result<Subprocess.Output, Subprocess.Failure> {

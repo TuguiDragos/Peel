@@ -5,7 +5,9 @@ public struct GitLedger {
     public enum Outcome: Sendable, Equatable {
         case changed
         case unchanged
-        case refused
+        /// And why Git refused, when it was asked: none when it couldn't list its settings, or a key it needs is
+        /// missing.
+        case refused(GitConfig.Refusal?)
     }
 
     public private(set) var previous: [String: String]
@@ -26,7 +28,7 @@ public struct GitLedger {
         _ setting: GitSetting, signingKey: String?, in config: GitConfig, saving: (GitLedger) -> Void = { _ in }
     ) async -> Outcome {
         let values = setting.values(signingKey: signingKey)
-        guard !values.isEmpty, let settings = await config.settings() else { return .refused }
+        guard !values.isEmpty, let settings = await config.settings() else { return .refused(nil) }
         guard !setting.isSetInIncludedFiles(await config.keysSetByIncludedFiles()) else { return .unchanged }
         var outcome = Outcome.unchanged
         for wanted in values {
@@ -44,11 +46,11 @@ public struct GitLedger {
             written[name] = wanted.value
             saving(self)
             if before != .some(.some(wanted.value)) {
-                guard await config.set(wanted.key, to: wanted.value) else {
+                if let refusal = await config.set(wanted.key, to: wanted.value) {
                     previous[name] = kept.previous
                     written[name] = kept.written
                     saving(self)
-                    return .refused
+                    return .refused(refusal)
                 }
                 outcome = .changed
             }
@@ -61,26 +63,26 @@ public struct GitLedger {
     public mutating func turnOff(
         _ setting: GitSetting, in config: GitConfig, saving: (GitLedger) -> Void = { _ in }
     ) async -> Outcome {
-        guard let settings = await config.settings() else { return .refused }
+        guard let settings = await config.settings() else { return .refused(nil) }
         var outcome = Outcome.unchanged
         for key in setting.keys {
             let name = key.lowercased()
             let now = settings[name]
             if let mine = written[name] {
                 if now == .some(.some(mine)), previous[name] != mine {
-                    let restored = if let before = previous[name] {
+                    let refusal = if let before = previous[name] {
                         await config.set(key, to: before)
                     } else {
                         await config.remove(key)
                     }
-                    guard restored else { return .refused }
+                    if let refusal { return .refused(refusal) }
                     outcome = .changed
                 }
                 written.removeValue(forKey: name)
                 previous.removeValue(forKey: name)
                 saving(self)
             } else if setting.switchKeys.contains(key), now != nil {
-                guard await config.remove(key) else { return .refused }
+                if let refusal = await config.remove(key) { return .refused(refusal) }
                 outcome = .changed
             }
         }

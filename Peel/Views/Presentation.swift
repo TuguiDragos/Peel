@@ -351,6 +351,18 @@ extension PreferenceBackup.CopyUnreadable {
     }
 }
 
+extension GitConfig.Refusal? {
+    /// What the Git tab says when Git didn't make a change.
+    var sentence: String {
+        switch self {
+        case .said(let words)? where !words.isEmpty:
+            [String(localized: "Git refused the change."), String(localized: "Git said: \(words)")].joined(separator: " ")
+        case .noAnswer?: String(localized: "Git didn’t answer, so nothing changed.")
+        default: String(localized: "Git refused the change.")
+        }
+    }
+}
+
 extension HistoryWriteProblem {
     /// What keeps History from being written, and that nothing moves meanwhile, read from `bundle`, or from the main
     /// bundle when it is nil.

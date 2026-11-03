@@ -57142,6 +57142,112 @@
         }
       }
     },
+    "Git didn’t answer, so nothing changed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git neodpověděl, takže se nic nezměnilo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git hat nicht geantwortet, daher wurde nichts geändert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git no ha respondido, así que no ha cambiado nada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git n’a pas répondu : rien n’a donc changé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git non ha risposto, quindi non è cambiato nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gitから応答がなかったため、何も変更されていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git이 응답하지 않았으므로 아무것도 변경되지 않았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git gaf geen antwoord, dus er is niets gewijzigd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git nie odpowiedział, więc nic się nie zmieniło."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Git não respondeu, então nada mudou."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git nu a răspuns, așa că nu s‑a schimbat nimic."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git не ответил, поэтому ничего не изменилось."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git svarade inte, så ingenting ändrades."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git yanıt vermedi, bu yüzden hiçbir şey değişmedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git не відповів, тож нічого не змінено."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git没有回应，因此没有任何更改。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git沒有回應，因此沒有任何變更。"
+          }
+        }
+      }
+    },
     "Git isn’t installed" : {
       "localizations" : {
         "cs" : {
@@ -57248,108 +57354,108 @@
         }
       }
     },
-    "Git refused it" : {
+    "Git refused the change." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git změnu odmítl"
+            "value" : "Git změnu odmítl."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git hat es abgelehnt"
+            "value" : "Git hat die Änderung abgelehnt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git lo ha rechazado"
+            "value" : "Git ha rechazado el cambio."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Refusé par Git"
+            "value" : "Git a refusé la modification."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git l’ha rifiutato"
+            "value" : "Git ha rifiutato la modifica."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gitに拒否されました"
+            "value" : "Gitに変更を拒否されました。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git이 거부함"
+            "value" : "Git이 변경을 거부했습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git heeft het geweigerd"
+            "value" : "Git heeft de wijziging geweigerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git odmówił zmiany"
+            "value" : "Git odmówił zmiany."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recusado pelo Git"
+            "value" : "O Git recusou a alteração."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git a refuzat modificarea"
+            "value" : "Git a refuzat modificarea."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git отклонил изменение"
+            "value" : "Git отклонил изменение."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git nekade det"
+            "value" : "Git nekade ändringen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git bunu reddetti"
+            "value" : "Git değişikliği reddetti."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git не прийняв зміну"
+            "value" : "Git не прийняв зміну."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git拒绝了此更改"
+            "value" : "Git拒绝了此更改。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git拒絕了此變更"
+            "value" : "Git拒絕了此變更。"
           }
         }
       }
@@ -57456,6 +57562,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Git會記住你解決衝突的方式，下次遇到相同的衝突時以同樣方式解決。"
+          }
+        }
+      }
+    },
+    "Git said: %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git uvedl: %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git meldete: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git ha dicho: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git a indiqué : %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git ha detto: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gitからのメッセージ: %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git 응답 내용: %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git zei: %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git podał: %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Git disse: %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git a spus: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сообщение Git: %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git sa: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git’in söylediği: %@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повідомлення Git: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git表示：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git表示：%@"
           }
         }
       }
