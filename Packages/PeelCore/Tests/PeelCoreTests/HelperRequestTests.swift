@@ -13,7 +13,7 @@ struct HelperRequestTests {
     ) -> Result<HelperRequest.Caller, HelperRefusal> {
         HelperRequest.admit(version: version, items: items, paths: paths) {
             asked += 1
-            return someone
+            return .success(someone)
         }
     }
 
@@ -44,7 +44,50 @@ struct HelperRequestTests {
 
     @Test func refusesAnAccountThatIsNotAllowed() {
         #expect(throws: HelperRefusal.notAllowed) {
-            try HelperRequest.admit(version: HelperIdentity.protocolVersion) { nil }.get()
+            try HelperRequest.admit(version: HelperIdentity.protocolVersion) { .failure(.notAllowed) }.get()
+        }
+    }
+
+    @Test func servesAnAdministratorWithoutAskingForAnApproval() throws {
+        var asked = 0
+        let caller = try HelperRequest.caller(
+            user: 501, approval: Data(), isAdministrator: { _ in true },
+            isApproved: { _ in
+                asked += 1
+                return false
+            },
+            homeDirectory: { _ in "/Users/someone" }
+        ).get()
+
+        #expect(caller.user == 501)
+        #expect(asked == 0)
+    }
+
+    @Test func servesAnotherAccountOnlyWithAnAdministratorsApproval() throws {
+        let approval = Data(repeating: 7, count: 32)
+        func caller(approved: Bool) -> Result<HelperRequest.Caller, HelperRefusal> {
+            HelperRequest.caller(
+                user: 502, approval: approval, isAdministrator: { _ in false },
+                isApproved: { $0 == approval && approved }, homeDirectory: { _ in "/Users/standard" }
+            )
+        }
+
+        #expect(try caller(approved: true).get().homeDirectory == "/Users/standard")
+        #expect(throws: HelperRefusal.notAuthorized) { try caller(approved: false).get() }
+    }
+
+    @Test func refusesAConnectionWithNoAccountOrNoHome() {
+        #expect(throws: HelperRefusal.notAllowed) {
+            try HelperRequest.caller(
+                user: nil, approval: Data(), isAdministrator: { _ in true }, isApproved: { _ in true },
+                homeDirectory: { _ in "/Users/someone" }
+            ).get()
+        }
+        #expect(throws: HelperRefusal.notAllowed) {
+            try HelperRequest.caller(
+                user: 501, approval: Data(), isAdministrator: { _ in true }, isApproved: { _ in true },
+                homeDirectory: { _ in nil }
+            ).get()
         }
     }
 

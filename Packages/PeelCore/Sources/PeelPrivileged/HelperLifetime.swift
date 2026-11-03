@@ -42,18 +42,12 @@ public final class HelperLifetime: Sendable {
         scheduleExitIfIdle(generation: 0)
     }
 
-    /// Accepts a connection when `isAllowed` answers yes, and counts it until `connectionClosed()`. It is counted
-    /// before `isAllowed` is asked, since that can take a while and the helper must not exit meanwhile.
-    public func accept(_ isAllowed: () -> Bool) -> Bool {
+    /// Counts a connection until `connectionClosed()`.
+    public func connectionOpened() {
         state.withLock { state in
             state.activeConnections += 1
             state.generation += 1
         }
-        guard isAllowed() else {
-            connectionClosed()
-            return false
-        }
-        return true
     }
 
     /// Counts a request as running until `requestFinished()`. The connection count alone is not enough: a

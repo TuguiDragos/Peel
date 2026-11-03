@@ -230,7 +230,9 @@ struct HelperAnswerTests {
         let sent = Record(false)
 
         let request = await timedWhereItRuns {
-            await PrivilegedHelper.request(connecting: connecting, fallback: "unanswered") { _, finish in
+            await PrivilegedHelper.request(
+                connecting: connecting, fallback: "unanswered", refused: "refused", approval: { Data() }
+            ) { _, _, finish in
                 sent.value.withLock { $0 = true }
                 finish("answered")
             }
@@ -246,12 +248,64 @@ struct HelperAnswerTests {
         defer { helper.stop() }
 
         let answer = await PrivilegedHelper.request(
-            connecting: helper.connecting, answerWait: Self.anyWait, fallback: "unanswered"
-        ) { _, finish in
+            connecting: helper.connecting, answerWait: Self.anyWait, fallback: "unanswered", refused: "refused",
+            approval: { Data() }
+        ) { _, _, finish in
             finish("answered")
         }
 
         #expect(answer == "answered")
+    }
+
+    @Test func aRequestCarriesTheApprovalAskedForOnceTheHelperAnswers() async {
+        let helper = StandInHelper(answering: HelperIdentity.protocolVersion)
+        defer { helper.stop() }
+        let approval = Data(repeating: 7, count: 32)
+
+        let carried = await PrivilegedHelper.request(
+            connecting: helper.connecting, answerWait: Self.anyWait, fallback: Data(), refused: Data(),
+            approval: { approval }
+        ) { _, carried, finish in
+            finish(carried)
+        }
+
+        #expect(carried == approval)
+    }
+
+    @Test func nothingIsSentWithoutAnApproval() async {
+        let helper = StandInHelper(answering: HelperIdentity.protocolVersion)
+        defer { helper.stop() }
+        let sent = Record(false)
+
+        let answer = await PrivilegedHelper.request(
+            connecting: helper.connecting, answerWait: Self.anyWait, fallback: "unanswered", refused: "refused",
+            approval: { nil }
+        ) { _, _, finish in
+            sent.value.withLock { $0 = true }
+            finish("answered")
+        }
+
+        #expect(answer == "refused")
+        #expect(!sent.value.withLock { $0 })
+    }
+
+    @Test func nobodyIsAskedForAnApprovalWhenTheHelperDoesNotAnswer() async {
+        let helper = StandInHelper(answering: nil)
+        defer { helper.stop() }
+        let asked = Record(false)
+
+        let answer = await PrivilegedHelper.request(
+            connecting: helper.connecting, answerWait: 0.2, fallback: "unanswered", refused: "refused",
+            approval: {
+                asked.value.withLock { $0 = true }
+                return Data()
+            }
+        ) { _, _, finish in
+            finish("answered")
+        }
+
+        #expect(answer == "unanswered")
+        #expect(!asked.value.withLock { $0 })
     }
 
     @Test func theHelperIsAskedAtTheQualityOfItsWaitWhateverTheTaskThatAsks() async {
@@ -261,8 +315,9 @@ struct HelperAnswerTests {
         let sentAt = Record<UInt32?>(nil)
 
         _ = await Task.detached(priority: .background) {
-            await PrivilegedHelper.request(connecting: connecting, answerWait: Self.anyWait, fallback: false) {
-                _, finish in
+            await PrivilegedHelper.request(
+                connecting: connecting, answerWait: Self.anyWait, fallback: false, refused: false, approval: { Data() }
+            ) { _, _, finish in
                 sentAt.value.withLock { $0 = qos_class_self().rawValue }
                 finish(true)
             }

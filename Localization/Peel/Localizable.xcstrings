@@ -17890,6 +17890,112 @@
         }
       }
     },
+    "An administrator didn’t allow this." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Správce to nepovolil."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Administrator hat dies nicht erlaubt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ningún administrador lo ha permitido."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun administrateur n’a autorisé cette opération."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun amministratore ha consentito questa operazione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理者がこの操作を許可しませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관리자가 허용하지 않았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een beheerder heeft dit niet toegestaan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administrator na to nie pozwolił."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum administrador permitiu isto."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un administrator nu a permis acest lucru."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Администратор не разрешил это действие."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En administratör tillät inte det här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir yönetici buna izin vermedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Адміністратор цього не дозволив."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理员未允许此操作。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理者未允許此動作。"
+          }
+        }
+      }
+    },
     "An app from the same maker is still installed" : {
       "localizations" : {
         "cs" : {
@@ -124476,6 +124582,218 @@
         }
       }
     },
+    "Only an administrator can install, allow, or repair Peel’s helper. Once it works, Peel asks for an administrator’s name and password for this." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocníka Peelu může nainstalovat, povolit nebo opravit jen správce. Jakmile bude pomocník fungovat, Peel si pro tuto akci vyžádá jméno a heslo správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur ein Administrator kann das Hilfsprogramm von Peel installieren, erlauben oder reparieren. Sobald es funktioniert, fragt Peel dafür nach Namen und Passwort eines Administrators."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo un administrador puede instalar, permitir o reparar el asistente de Peel. Cuando funcione, Peel pedirá el nombre y la contraseña de un administrador para esto."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seul un administrateur peut installer, autoriser ou réparer l’utilitaire de Peel. Une fois qu’il fonctionne, Peel demande le nom et le mot de passe d’un administrateur pour cette opération."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo un amministratore può installare, autorizzare o riparare l’assistente di Peel. Quando funziona, Peel chiede il nome e la password di un amministratore per questa operazione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーのインストール、許可、修復ができるのは管理者だけです。ヘルパーが動作するようになれば、この操作の際に、Peelが管理者の名前とパスワードを求めます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관리자만 Peel 보조 프로그램을 설치, 허용 또는 복구할 수 있습니다. 보조 프로그램이 작동하면, 이 작업을 할 때 Peel이 관리자 이름 및 암호를 요청합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen een beheerder kan het hulpprogramma van Peel installeren, toestaan of herstellen. Zodra het werkt, vraagt Peel hiervoor om de naam en het wachtwoord van een beheerder."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tylko administrator może zainstalować pomocnika Peel, pozwolić na jego działanie lub go naprawić. Gdy pomocnik będzie działać, Peel będzie prosić o nazwę i hasło administratora, aby to zrobić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só um administrador pode instalar, permitir ou reparar o auxiliar do Peel. Quando ele estiver funcionando, o Peel pede o nome e a senha de um administrador para isso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar un administrator poate instala, permite sau repara instrumentul de ajutor Peel. După ce acesta funcționează, Peel cere numele și parola unui administrator pentru acest lucru."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установить, разрешить или исправить помощника Peel может только администратор. Когда помощник заработает, Peel будет запрашивать для этого имя и пароль администратора."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara en administratör kan installera, tillåta eller reparera Peels hjälpprogram. När det fungerar ber Peel om en administratörs namn och lösenord för det här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısını yalnızca bir yönetici yükleyebilir, ona izin verebilir veya onu onarabilir. Yardımcı çalışır duruma geldiğinde Peel, bunun için bir yönetici adı ve parolası ister."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інсталювати, дозволити або полагодити помічника Peel може лише адміністратор. Щойно помічник запрацює, Peel запитуватиме для цього імʼя та пароль адміністратора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有管理员才能安装、允许或修复Peel的帮助程序。帮助程序正常工作后，Peel会为此要求输入管理员名称和密码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有管理者能安裝、允許或修復Peel的輔助程式。輔助程式可以運作後，Peel就會為此要求輸入管理者的名稱和密碼。"
+          }
+        }
+      }
+    },
+    "Only an administrator can install, allow, or repair the helper. Once it works, Peel asks for an administrator’s name and password each time this account needs it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocníka může nainstalovat, povolit nebo opravit jen správce. Jakmile bude pomocník fungovat, Peel si pokaždé, když ho bude tento účet potřebovat, vyžádá jméno a heslo správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur ein Administrator kann das Hilfsprogramm installieren, erlauben oder reparieren. Sobald es funktioniert, fragt Peel jedes Mal nach Namen und Passwort eines Administrators, wenn dieser Benutzeraccount es benötigt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo un administrador puede instalar, permitir o reparar el asistente. Cuando funcione, Peel pedirá el nombre y la contraseña de un administrador cada vez que esta cuenta lo necesite."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seul un administrateur peut installer, autoriser ou réparer l’utilitaire. Une fois qu’il fonctionne, Peel demande le nom et le mot de passe d’un administrateur chaque fois que ce compte en a besoin."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo un amministratore può installare, autorizzare o riparare l’assistente. Quando funziona, Peel chiede il nome e la password di un amministratore ogni volta che questo account ne ha bisogno."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ヘルパーのインストール、許可、修復ができるのは管理者だけです。ヘルパーが動作するようになれば、このアカウントでヘルパーが必要になるたびに、Peelが管理者の名前とパスワードを求めます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관리자만 보조 프로그램을 설치, 허용 또는 복구할 수 있습니다. 보조 프로그램이 작동하면, 이 계정에서 보조 프로그램이 필요할 때마다 Peel이 관리자 이름 및 암호를 요청합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen een beheerder kan het hulpprogramma installeren, toestaan of herstellen. Zodra het werkt, vraagt Peel om de naam en het wachtwoord van een beheerder telkens wanneer deze account het nodig heeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tylko administrator może zainstalować pomocnika, pozwolić na jego działanie lub go naprawić. Gdy pomocnik będzie działać, Peel będzie prosić o nazwę i hasło administratora za każdym razem, gdy to konto będzie go potrzebować."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só um administrador pode instalar, permitir ou reparar o auxiliar. Quando ele estiver funcionando, o Peel pede o nome e a senha de um administrador sempre que esta conta precisar dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar un administrator poate instala, permite sau repara instrumentul de ajutor. După ce acesta funcționează, Peel cere numele și parola unui administrator de fiecare dată când acest cont are nevoie de el."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установить, разрешить или исправить помощника может только администратор. Когда помощник заработает, Peel будет запрашивать имя и пароль администратора каждый раз, когда он понадобится этой учетной записи."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara en administratör kan installera, tillåta eller reparera hjälpprogrammet. När det fungerar ber Peel om en administratörs namn och lösenord varje gång det här kontot behöver det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yardımcıyı yalnızca bir yönetici yükleyebilir, ona izin verebilir veya onu onarabilir. Yardımcı çalışır duruma geldiğinde Peel, bu hesap ona her ihtiyaç duyduğunda bir yönetici adı ve parolası ister."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інсталювати, дозволити або полагодити помічника може лише адміністратор. Щойно помічник запрацює, Peel щоразу запитуватиме імʼя та пароль адміністратора, коли він знадобиться цьому обліковому запису."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有管理员才能安装、允许或修复帮助程序。帮助程序正常工作后，此账户每次需要它时，Peel都会要求输入管理员名称和密码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有管理者能安裝、允許或修復輔助程式。輔助程式可以運作後，每當此帳號需要它時，Peel都會要求輸入管理者的名稱和密碼。"
+          }
+        }
+      }
+    },
     "Only an administrator can move these" : {
       "localizations" : {
         "cs" : {
@@ -124790,219 +125108,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "只有管理者能移除Peel的輔助程式，因此Peel無法從此帳號移除自己。請以管理者身分登入，並在那裡選擇「移除Peel」。"
-          }
-        }
-      }
-    },
-    "Only an administrator can use Peel’s helper, so Peel can’t do this from this account." : {
-      "comment" : "Under a banner whose title says what needs the helper, for an account that isn’t an administrator. “This” is that action.",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocníka Peelu může používat jen správce, takže Peel to z tohoto účtu udělat nemůže."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nur ein Administrator kann das Hilfsprogramm von Peel verwenden, daher kann Peel dies nicht mit diesem Benutzeraccount tun."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solo un administrador puede usar el asistente de Peel, así que Peel no puede hacer esto desde esta cuenta."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seul un administrateur peut utiliser l’utilitaire de Peel : Peel ne peut donc pas effectuer cette opération depuis ce compte."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solo un amministratore può usare l’assistente di Peel, quindi Peel non può eseguire questa operazione da questo account."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelのヘルパーを使用できるのは管理者だけのため、Peelはこのアカウントからこの操作を行えません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "관리자만 Peel 보조 프로그램을 사용할 수 있으므로, 이 계정에서는 Peel이 이 동작을 수행할 수 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alleen een beheerder kan het hulpprogramma van Peel gebruiken, dus Peel kan dit niet doen vanuit deze account."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Z pomocnika Peel może korzystać tylko administrator, więc z tego konta Peel nie może tego zrobić."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Só um administrador pode usar o auxiliar do Peel, então o Peel não pode fazer isso a partir desta conta."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Doar un administrator poate folosi instrumentul de ajutor Peel, așa că Peel nu poate face acest lucru din acest cont."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помощником Peel может пользоваться только администратор, поэтому из этой учетной записи Peel не может это сделать."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bara en administratör kan använda Peels hjälpprogram, så Peel kan inte göra det här från det här kontot."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel’in yardımcısını yalnızca bir yönetici kullanabilir, bu yüzden Peel bu işlemi bu hesaptan yapamaz."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Користуватися помічником Peel може лише адміністратор, тож із цього облікового запису Peel не може цього зробити."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只有管理员才能使用Peel的帮助程序，因此Peel无法在此账户中执行此操作。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只有管理者能使用Peel的輔助程式，因此Peel無法從此帳號執行此動作。"
-          }
-        }
-      }
-    },
-    "Only an administrator can use the helper. Log in as an administrator to remove items that need one." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocníka může používat jen správce. Chcete-li odstranit položky, které správce vyžadují, přihlaste se jako správce."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nur ein Administrator kann das Hilfsprogramm verwenden. Melde dich als Administrator an, um Objekte zu entfernen, die einen benötigen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solo un administrador puede usar el asistente. Inicia sesión como administrador para eliminar los ítems que lo necesiten."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seul un administrateur peut utiliser l’utilitaire. Ouvrez une session en tant qu’administrateur pour supprimer les éléments qui en nécessitent un."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solo un amministratore può usare l’assistente. Esegui il login come amministratore per rimuovere gli elementi che lo richiedono."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ヘルパーを使用できるのは管理者だけです。管理者が必要な項目をゴミ箱に入れるには、管理者としてログインしてください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "관리자만 보조 프로그램을 사용할 수 있습니다. 관리자가 필요한 항목을 제거하려면 관리자로 로그인하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alleen een beheerder kan het hulpprogramma gebruiken. Log in als beheerder om onderdelen te verwijderen waarvoor een beheerder nodig is."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Z pomocnika może korzystać tylko administrator. Zaloguj się jako administrator, aby przenieść do Kosza rzeczy, które tego wymagają."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Só um administrador pode usar o auxiliar. Inicie sessão como administrador para remover os itens que exigem um."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Doar un administrator poate folosi instrumentul de ajutor. Faceți login ca administrator pentru a elimina articolele care necesită unul."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пользоваться помощником может только администратор. Войдите как администратор, чтобы удалить объекты, для которых это нужно."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bara en administratör kan använda hjälpprogrammet. Logga in som administratör för att ta bort objekt som kräver det."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yardımcıyı yalnızca bir yönetici kullanabilir. Yönetici gerektiren öğeleri kaldırmak için yönetici olarak oturum açın."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Користуватися помічником може лише адміністратор. Щоб вилучити елементи, які цього потребують, увійдіть як адміністратор."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只有管理员才能使用帮助程序。若要移除需要管理员权限的项目，请以管理员身份登录。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只有管理者能使用輔助程式。請以管理者身分登入，以移除需要管理者權限的項目。"
           }
         }
       }
@@ -132446,6 +132551,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel會向每個App的更新Feed、App Store或Homebrew查詢最新版本。它絕不會自行安裝任何項目。關閉此選項後，Peel也不會檢查它自己的更新項目，除非你在「Peel」選單中選擇「檢查更新項目」。"
+          }
+        }
+      }
+    },
+    "Peel asks for an administrator’s name and password each time this account needs the helper." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel si pokaždé, když tento účet potřebuje pomocníka, vyžádá jméno a heslo správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel fragt jedes Mal nach Namen und Passwort eines Administrators, wenn dieser Benutzeraccount das Hilfsprogramm benötigt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel pide el nombre y la contraseña de un administrador cada vez que esta cuenta necesita el asistente."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel demande le nom et le mot de passe d’un administrateur chaque fois que ce compte a besoin de l’utilitaire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel chiede il nome e la password di un amministratore ogni volta che questo account ha bisogno dell’assistente."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアカウントでヘルパーが必要になるたびに、Peelは管理者の名前とパスワードを求めます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 계정에서 보조 프로그램이 필요할 때마다 Peel이 관리자 이름 및 암호를 요청합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel vraagt om de naam en het wachtwoord van een beheerder telkens wanneer deze account het hulpprogramma nodig heeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel prosi o nazwę i hasło administratora za każdym razem, gdy to konto potrzebuje pomocnika."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel pede o nome e a senha de um administrador sempre que esta conta precisar do auxiliar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel cere numele și parola unui administrator de fiecare dată când acest cont are nevoie de instrumentul de ajutor."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel запрашивает имя и пароль администратора каждый раз, когда этой учетной записи нужен помощник."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ber om en administratörs namn och lösenord varje gång det här kontot behöver hjälpprogrammet."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, bu hesap yardımcıya her ihtiyaç duyduğunda bir yönetici adı ve parolası ister."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel запитує імʼя та пароль адміністратора щоразу, коли цьому обліковому запису потрібен помічник."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此账户每次需要帮助程序时，Peel都会要求输入管理员名称和密码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每當此帳號需要使用輔助程式時，Peel都會要求輸入管理者的名稱和密碼。"
           }
         }
       }
@@ -210582,6 +210793,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此帳號無權使用Peel的輔助程式。"
+          }
+        }
+      }
+    },
+    "This account isn’t an administrator, so Peel’s helper does this only with an administrator’s approval." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento účet není účtem správce, takže to pomocník Peelu provede jen se schválením správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Benutzeraccount hat keine Administratorrechte, daher erledigt das Hilfsprogramm von Peel dies nur mit der Erlaubnis eines Administrators."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta cuenta no es de administrador, así que el asistente de Peel solo realiza esta operación con la aprobación de un administrador."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce compte n’est pas administrateur : l’utilitaire de Peel n’effectue donc cette opération qu’avec l’approbation d’un administrateur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo non è un account di amministratore, quindi l’assistente di Peel esegue questa operazione solo con l’approvazione di un amministratore."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアカウントは管理者ではないため、Peelのヘルパーは管理者の承認がある場合にのみこの操作を行います。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 계정은 관리자가 아니므로, Peel 보조 프로그램은 관리자의 승인이 있어야만 이 작업을 수행합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze account heeft geen beheerdersrechten, dus het hulpprogramma van Peel doet dit alleen met toestemming van een beheerder."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To konto nie jest kontem administratora, więc pomocnik Peel wykona to tylko za zgodą administratora."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta conta não é de administrador, então o auxiliar do Peel só faz isso com a aprovação de um administrador."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest cont nu este un cont de administrator, așa că instrumentul de ajutor Peel face acest lucru doar cu aprobarea unui administrator."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У этой учетной записи нет прав администратора, поэтому помощник Peel выполняет это действие только с разрешения администратора."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här kontot är inte ett administratörskonto, så Peels hjälpprogram gör det här bara med en administratörs godkännande."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu hesap bir yönetici hesabı değil, bu yüzden Peel’in yardımcısı bunu yalnızca bir yöneticinin onayıyla yapar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей обліковий запис не має прав адміністратора, тому помічник Peel виконує цю дію лише зі схвалення адміністратора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此账户不是管理员，因此只有在管理员批准后，Peel的帮助程序才会执行此操作。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此帳號不是管理者，因此Peel的輔助程式只有在管理者核准後才會執行此動作。"
           }
         }
       }

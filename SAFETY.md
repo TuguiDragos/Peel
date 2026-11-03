@@ -18,7 +18,8 @@ In short:
   else is shown with its reason and left to you.
 - Nothing moves from under a program of yours that is using it.
 - The few things History can't undo say so before you confirm them.
-- The helper that runs as root does a few things only, for administrators only, and checks everything again itself.
+- The helper that runs as root does a few things only, for an administrator or with an administrator's approval, and
+  checks everything again itself.
 
 To report a way around any of this, see [SECURITY.md](SECURITY.md).
 
@@ -644,11 +645,12 @@ to the Trash, putting them back, and starting, stopping, enabling, or disabling 
 Peel is removed, it also moves its own ledger to the Trash. It is deliberately small: no shell, no arbitrary paths,
 and it fails closed.
 
-- It answers administrators only, and only a copy of Peel signed by the same team with its Developer ID,
-  built so it can't be debugged, no older a build than the helper itself, that speaks the helper's own version.
-  All of it is checked when the app connects and again with each request, so an account that stops being an
-  administrator is refused from then on, and a message from any other program closes the connection. macOS starts
-  the helper only as the developer's own build of it, so other code put in its place never runs as root.
+- It answers an administrator, and another account only with an administrator's approval for that action, which
+  macOS asks for in its own window, once per action. It answers only a copy of Peel signed by the same team with its
+  Developer ID, built so it can't be debugged, no older a build than the helper itself, that speaks the helper's own
+  version. All of it is checked again with each request, so an account that stops being an administrator is refused
+  from then on, and a message from any other program closes the connection. macOS starts the helper only as the
+  developer's own build of it, so other code put in its place never runs as root.
 - It refuses the list above on its own, without asking the app, and asks it both ways: a folder that holds
   something on the list is refused like the thing itself.
 - It serves a fixed list of folders and refuses everything else: `/Applications`, for apps only; eight folders

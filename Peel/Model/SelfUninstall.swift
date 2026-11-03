@@ -84,8 +84,8 @@ final class SelfUninstall {
 
     /// Whether Peel can't remove itself from this account: its helper is registered, and only an administrator may
     /// change it.
-    static func waitsForAnAdministrator(standing: PrivilegedHelper.Standing, status: PrivilegedHelper.Status) -> Bool {
-        standing == .notThisAccount && (status == .enabled || status == .requiresApproval)
+    static func waitsForAnAdministrator(isAdministrator: Bool, status: PrivilegedHelper.Status) -> Bool {
+        !isAdministrator && (status == .enabled || status == .requiresApproval)
     }
 
     static var onlyAnAdministrator: String {

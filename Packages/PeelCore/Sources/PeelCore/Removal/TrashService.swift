@@ -585,7 +585,9 @@ public struct TrashService: Sendable {
     public func trash(
         _ urls: [URL], usingHelperFor privilegedURLs: Set<URL>, lettingTheirProgramsRun running: Set<URL> = []
     ) async -> TrashResult {
-        await trash(urls, usingHelperFor: privilegedURLs, removal: UUID(), lettingTheirProgramsRun: running)
+        await PrivilegedHelper.withOneConsent {
+            await trash(urls, usingHelperFor: privilegedURLs, removal: UUID(), lettingTheirProgramsRun: running)
+        }
     }
 
     /// Moves `apps` first, then what `files` returns for the apps that stayed, as one removal. An app's files wait
@@ -600,7 +602,22 @@ public struct TrashService: Sendable {
         lettingTheirProgramsRun running: Set<URL>,
         emptiedFoldersNamed names: Set<String> = []
     ) async -> TrashResult {
-        let removal = UUID()
+        await PrivilegedHelper.withOneConsent {
+            await trash(
+                apps: apps, thenFiles: files, usingHelperFor: privilegedURLs, lettingTheirProgramsRun: running,
+                emptiedFoldersNamed: names, removal: UUID()
+            )
+        }
+    }
+
+    private func trash(
+        apps: [URL],
+        thenFiles files: @Sendable (_ appsThatStayed: Set<URL>) -> [URL],
+        usingHelperFor privilegedURLs: Set<URL>,
+        lettingTheirProgramsRun running: Set<URL>,
+        emptiedFoldersNamed names: Set<String>,
+        removal: UUID
+    ) async -> TrashResult {
         // Asked before anything moves: a job stopped so its app could move is no longer named by launchd.
         var registrations: [URL: StartsAtLogin.Registration] = [:]
         for app in apps {
@@ -818,6 +835,10 @@ public struct TrashService: Sendable {
     /// its extensions, which would make their containers again before the ones in the Trash went back.
     @concurrent
     public func restore(_ items: [TrashedItem], canUseHelper: Bool = false) async -> Restored {
+        await PrivilegedHelper.withOneConsent { await putBack(items, canUseHelper: canUseHelper) }
+    }
+
+    private func putBack(_ items: [TrashedItem], canUseHelper: Bool) async -> Restored {
         var restored = Restored()
         for item in items {
             let answer = await putBack(item, canUseHelper: canUseHelper)

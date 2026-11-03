@@ -155,16 +155,19 @@ public enum BackgroundItemActions {
     public static func moveToTrash(
         _ item: BackgroundItem, exclusions: Exclusions = .none
     ) async throws(Failure) -> Moved {
-        try await moveToTrash(
-            item,
-            isHelperEnabled: PrivilegedHelper.status == .enabled,
-            trash: TrashService(exclusions: exclusions)
-        ) { item in
-            do throws(Failure) {
-                try await stop(item)
-                return nil
-            } catch {
-                return error
+        // The file's move and the job's stop after it share one administrator's approval.
+        try await PrivilegedHelper.withOneConsent { () async throws(Failure) -> Moved in
+            try await moveToTrash(
+                item,
+                isHelperEnabled: PrivilegedHelper.status == .enabled,
+                trash: TrashService(exclusions: exclusions)
+            ) { item in
+                do throws(Failure) {
+                    try await stop(item)
+                    return nil
+                } catch {
+                    return error
+                }
             }
         }
     }

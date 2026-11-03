@@ -29,7 +29,7 @@ public enum SelfRemoval {
             self.init(
                 helperIsRegistered: helperIsRegistered,
                 helperIsEnabled: helperIsEnabled,
-                helperMayBeChanged: { await PrivilegedHelper.currentAvailability() },
+                helperMayBeChanged: { await PrivilegedHelper.isAdministratorNow() },
                 helperAnswers: { await PrivilegedHelper.isResponding() },
                 moveLedger: { await PrivilegedHelper.moveLedgerToTrash() },
                 ledger: PrivilegedHelper.ledgerFolder,

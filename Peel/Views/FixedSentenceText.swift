@@ -22,6 +22,7 @@ extension FixedSentence {
         case .onlyGoneProgramsThere: "From that folder, Peel removes only what starts a program that is no longer there."
         case .helperOutOfDate: "Peel’s helper is out of date. Reinstall it in Settings."
         case .accountNotAllowed: "This account isn’t allowed to use Peel’s helper."
+        case .notAuthorized: "An administrator didn’t allow this."
         case .tooManyItems: "Too many items in one request."
         case .noTrash: "There’s no Trash to move this to."
         case .pathTooLong: "The path is too long."

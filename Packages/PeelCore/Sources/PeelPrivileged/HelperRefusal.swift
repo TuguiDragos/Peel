@@ -4,6 +4,8 @@
 public enum HelperRefusal: String, CaseIterable, Sendable {
     case outOfDate = "Peel’s helper is out of date. Reinstall it in Settings."
     case notAllowed = "This account isn’t allowed to use Peel’s helper."
+    /// An account that isn't an administrator asked without an administrator's approval in force.
+    case notAuthorized = "An administrator didn’t allow this."
     case tooManyItems = "Too many items in one request."
     case noTrash = "There’s no Trash to move this to."
     case pathTooLong = "The path is too long."

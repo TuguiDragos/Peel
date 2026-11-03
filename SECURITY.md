@@ -101,9 +101,10 @@ have, and anything that destroys data that cannot be recovered.
   Peel's identifier, signed with Developer ID by Peel's team, that cannot be debugged and is no older
   a build than the helper itself, wherever that copy sits. That includes defeating this
   code-signing requirement on the XPC peer, or replaying or forging a connection.
-- Any way to get the helper to act for an account that is not an administrator. Every account on the
-  Mac can reach its Mach service, by design; the helper answers administrators only, checked when a
-  connection opens and again with each message.
+- Any way to get the helper to act for an account that is not an administrator without an
+  administrator's approval. Every account on the Mac can reach its Mach service, by design; the helper
+  answers an administrator, and another account only for a request that carries an administrator's
+  approval in force for `system.privilege.admin`, checked again with each message.
 - Any way to get the helper to touch a path outside the locations `PrivilegedPathPolicy` allows:
   path traversal, `..` handling, symlink or hardlink following, mount tricks, firmlinks, or a
   race between the check and the file operation (TOCTOU).

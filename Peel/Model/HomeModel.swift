@@ -79,7 +79,7 @@ final class HomeModel {
         case off
         case missing
         case pending
-        /// Only an administrator account can use it, so this account has nothing to set up here.
+        /// Only an administrator can set it up, so this account has nothing to do here.
         case notThisAccount
         /// The helper's row until the helper is first checked, which can take the whole of the check's wait.
         case checking
@@ -252,7 +252,7 @@ final class HomeModel {
                 isOnThePath: CommandLineTool.isOnThePath(
                     embedded: Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel")
                 ),
-                isAdministrator: helper.isAvailableToThisAccount
+                isAdministrator: helper.isAdministrator
             ),
         ]
         hasChecked = true

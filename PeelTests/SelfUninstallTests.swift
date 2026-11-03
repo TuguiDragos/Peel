@@ -46,9 +46,9 @@ struct SelfUninstallTests {
 @MainActor
 struct SelfUninstallAccountTests {
     @Test func waitsForAnAdministratorOnlyWhileTheHelperIsRegistered() {
-        #expect(SelfUninstall.waitsForAnAdministrator(standing: .notThisAccount, status: .enabled))
-        #expect(SelfUninstall.waitsForAnAdministrator(standing: .notThisAccount, status: .requiresApproval))
-        #expect(!SelfUninstall.waitsForAnAdministrator(standing: .notThisAccount, status: .notRegistered))
-        #expect(!SelfUninstall.waitsForAnAdministrator(standing: .ready, status: .enabled))
+        #expect(SelfUninstall.waitsForAnAdministrator(isAdministrator: false, status: .enabled))
+        #expect(SelfUninstall.waitsForAnAdministrator(isAdministrator: false, status: .requiresApproval))
+        #expect(!SelfUninstall.waitsForAnAdministrator(isAdministrator: false, status: .notRegistered))
+        #expect(!SelfUninstall.waitsForAnAdministrator(isAdministrator: true, status: .enabled))
     }
 }

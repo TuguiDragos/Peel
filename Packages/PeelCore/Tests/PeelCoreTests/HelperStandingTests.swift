@@ -23,7 +23,7 @@ struct HelperStandingTests {
         let turn = Turn()
         Task { @MainActor in turn.taken = true }
 
-        _ = await PrivilegedHelper.currentAvailability()
+        _ = await PrivilegedHelper.isAdministratorNow()
 
         #expect(turn.taken)
     }
@@ -46,22 +46,23 @@ struct HelperStandingTests {
         #expect(changed)
     }
 
-    /// The helper serves administrators only, so a standard account is never offered to install, approve or repair
-    /// it, whatever its registration says.
-    @Test func aStandardAccountNeedsAnAdministratorWhateverTheRegistration() {
-        for status in statuses {
+    @Test func aStandardAccountUsesAHelperThatWorksAndNeedsAnAdministratorForAnythingElse() {
+        func standing(_ status: PrivilegedHelper.Status, _ isResponding: Bool?) -> PrivilegedHelper.Standing {
+            PrivilegedHelper.Standing(status: status, isAdministrator: false, isResponding: isResponding)
+        }
+        #expect(standing(.enabled, true) == .ready)
+        #expect(standing(.enabled, nil) == .ready)
+        #expect(standing(.enabled, false) == .notThisAccount)
+        for status in statuses where status != .enabled {
             for isResponding in [true, false, nil] as [Bool?] {
-                let standing = PrivilegedHelper.Standing(
-                    status: status, isAvailableToThisAccount: false, isResponding: isResponding
-                )
-                #expect(standing == .notThisAccount)
+                #expect(standing(status, isResponding) == .notThisAccount)
             }
         }
     }
 
     @Test func anAdministratorSeesWhatTheRegistrationSays() {
         func standing(_ status: PrivilegedHelper.Status, _ isResponding: Bool?) -> PrivilegedHelper.Standing {
-            PrivilegedHelper.Standing(status: status, isAvailableToThisAccount: true, isResponding: isResponding)
+            PrivilegedHelper.Standing(status: status, isAdministrator: true, isResponding: isResponding)
         }
         #expect(standing(.enabled, true) == .ready)
         #expect(standing(.enabled, nil) == .ready)

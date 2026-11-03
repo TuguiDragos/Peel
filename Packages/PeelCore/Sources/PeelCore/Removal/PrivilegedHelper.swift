@@ -21,15 +21,19 @@ public enum PrivilegedHelper {
         case notThisAccount
         case notAnswering
 
-        /// A standard account comes first: the helper serves administrators only, so its registration says nothing
-        /// that account could act on.
-        public init(status: Status, isAvailableToThisAccount: Bool, isResponding: Bool?) {
-            guard isAvailableToThisAccount else {
+        /// Another account uses a helper that works, with an administrator's approval for each action, and anything
+        /// else needs an administrator: only one installs, approves, or repairs the helper.
+        public init(status: Status, isAdministrator: Bool, isResponding: Bool?) {
+            if status == .enabled, isResponding != false {
+                self = .ready
+                return
+            }
+            guard isAdministrator else {
                 self = .notThisAccount
                 return
             }
             self = switch status {
-            case .enabled: isResponding == false ? .notAnswering : .ready
+            case .enabled: .notAnswering
             case .requiresApproval: .waitingForApproval
             case .notRegistered, .unavailable: .notInstalled
             }
@@ -112,16 +116,50 @@ public enum PrivilegedHelper {
         return unregistering
     }
 
-    /// True when this account is an administrator. The helper's Mach service can be reached from every account
-    /// on the Mac, so the helper serves administrators only, and a standard account gets nothing from it.
-    public static var isAvailableToThisAccount: Bool {
+    /// True when this account is an administrator, whom the helper serves as one. Any other account needs an
+    /// administrator's approval for each action (`AdministratorConsent`).
+    public static var isAdministrator: Bool {
         UserAuthorization.isAdministrator(getuid())
     }
 
-    /// `isAvailableToThisAccount`, asked away from the caller's actor: the answer comes from opendirectoryd.
+    /// `isAdministrator`, asked away from the caller's actor: the answer comes from opendirectoryd.
     @concurrent
-    public static func currentAvailability() async -> Bool {
-        isAvailableToThisAccount
+    public static func isAdministratorNow() async -> Bool {
+        isAdministrator
+    }
+
+    /// The words macOS's window shows under its own when Peel asks an administrator, in the reader's language, which
+    /// the app sets: PeelCore has no catalog.
+    public static var consentPrompt: String? {
+        get { prompt.withLock { $0 } }
+        set { prompt.withLock { $0 = newValue } }
+    }
+
+    private static let prompt = Mutex<String?>(nil)
+
+    /// The approval the requests of the action under way carry.
+    @TaskLocal static var consent: AdministratorConsent?
+
+    /// Runs `body` with one approval for all of its requests to the helper, asked for at the first that needs one and
+    /// destroyed when `body` ends, or within an action already under way with that action's.
+    public static func withOneConsent<T, E: Error>(_ body: () async throws(E) -> T) async throws(E) -> T {
+        try await withOneConsent(AdministratorConsent(), body)
+    }
+
+    static func withOneConsent<T, E: Error>(
+        _ made: @autoclosure () -> AdministratorConsent, _ body: () async throws(E) -> T
+    ) async throws(E) -> T {
+        if consent != nil { return try await body() }
+        let consent = made()
+        let result: Result<T, E> = await $consent.withValue(consent) {
+            do throws(E) {
+                return .success(try await body())
+            } catch {
+                return .failure(error)
+            }
+        }
+        await consent.end()
+        return try result.get()
     }
 
     /// Runs `change` only while this account is an administrator, asked again now: macOS lets any account unregister
@@ -129,7 +167,7 @@ public enum PrivilegedHelper {
     @discardableResult
     public static func changeAsAnAdministrator(
         _ change: () async throws -> Void,
-        isAdministrator: () async -> Bool = { await currentAvailability() }
+        isAdministrator: () async -> Bool = { await isAdministratorNow() }
     ) async throws -> Bool {
         guard await isAdministrator() else { return false }
         try await change()
@@ -238,8 +276,12 @@ public enum PrivilegedHelper {
         // Read before the move, so that if the answer is lost, moved items can be found in the Trash by identity.
         let links = Dictionary(urls.map { ($0, FileIdentity.Link.of($0)) }, uniquingKeysWith: { first, _ in first })
         let paths = urls.map { $0.path(percentEncoded: false) }
-        let reply: HelperTrashReply? = await withHelper(fallback: nil) { helper, finish in
-            helper.moveItemsToTrash(version: HelperIdentity.protocolVersion, atPaths: paths) { moved, failed in
+        let notAuthorized = Dictionary(paths.map { ($0, HelperRefusal.notAuthorized.rawValue) }) { first, _ in first }
+        let refused = HelperTrashReply(moved: [:], failed: notAuthorized)
+        let reply: HelperTrashReply? = await withHelper(fallback: nil, refused: refused) { helper, approval, finish in
+            helper.moveItemsToTrash(
+                version: HelperIdentity.protocolVersion, approval: approval, atPaths: paths
+            ) { moved, failed in
                 finish(HelperTrashReply(moved: moved, failed: failed))
             }
         }
@@ -288,9 +330,11 @@ public enum PrivilegedHelper {
     /// Returns nil on success, or a failure description.
     @concurrent
     static func runDaemonCommand(_ command: DaemonCommand, label: String) async -> String? {
-        await withHelper(fallback: Self.unavailable) { helper, finish in
+        await withHelper(fallback: Self.unavailable, refused: HelperRefusal.notAuthorized.rawValue) {
+            helper, approval, finish in
             helper.runDaemonCommand(
                 version: HelperIdentity.protocolVersion,
+                approval: approval,
                 command: command.rawValue,
                 label: label
             ) { failure in
@@ -317,7 +361,10 @@ public enum PrivilegedHelper {
     public static func moveLedgerToTrash() async -> LedgerMove {
         let folder = ledgerFolder
         guard folder.isThere else { return .none }
-        let failure: String? = await withHelper(fallback: Self.unavailable) { helper, finish in
+        // Only an administrator removes Peel, and the helper serves one with no approval.
+        let failure: String? = await request(
+            connecting: helperConnection, fallback: Self.unavailable, refused: Self.unavailable, approval: { Data() }
+        ) { helper, _, finish in
             helper.moveLedgerToTrash(version: HelperIdentity.protocolVersion) { failure in
                 finish(failure)
             }
@@ -328,9 +375,11 @@ public enum PrivilegedHelper {
     /// Returns nil on success, or a failure description.
     @concurrent
     static func restore(_ item: TrashedItem) async -> String? {
-        await withHelper(fallback: Self.unavailable) { helper, finish in
+        await withHelper(fallback: Self.unavailable, refused: HelperRefusal.notAuthorized.rawValue) {
+            helper, approval, finish in
             helper.restoreItem(
                 version: HelperIdentity.protocolVersion,
+                approval: approval,
                 fromTrashPath: item.trashedURL.path(percentEncoded: false),
                 toPath: item.originalURL.path(percentEncoded: false)
             ) { failure in
@@ -344,7 +393,7 @@ public enum PrivilegedHelper {
     /// would stop Peel when Swift reads them.
     static func remoteInterface() -> NSXPCInterface {
         let interface = NSXPCInterface(with: (any PeelHelperProtocol).self)
-        let trash = #selector((any PeelHelperProtocol).moveItemsToTrash(version:atPaths:withReply:))
+        let trash = #selector((any PeelHelperProtocol).moveItemsToTrash(version:approval:atPaths:withReply:))
         let strings = NSSet(array: [NSDictionary.self, NSString.self]) as? Set<AnyHashable> ?? []
         for index in 0...1 {
             interface.setClasses(strings, for: trash, argumentIndex: index, ofReply: true)
@@ -352,23 +401,37 @@ public enum PrivilegedHelper {
         return interface
     }
 
+    /// Sends a request that changes something with the approval of the action under way, and answers `refused` when no
+    /// administrator gave one.
     private static func withHelper<T: Sendable>(
         fallback: T,
-        _ body: @escaping @Sendable (any PeelHelperProtocol, @escaping @Sendable (T) -> Void) -> Void
+        refused: T,
+        _ body: @escaping @Sendable (any PeelHelperProtocol, Data, @escaping @Sendable (T) -> Void) -> Void
     ) async -> T {
-        await request(connecting: helperConnection, fallback: fallback, body)
+        await withOneConsent {
+            await request(
+                connecting: helperConnection, fallback: fallback, refused: refused,
+                approval: { await consent?.approval() }, body
+            )
+        }
     }
 
     /// Sends a request only once the helper has answered, within its own short wait, on a connection of its own: a
     /// helper launchd keeps but cannot start never answers, and the request would wait the longest any request may.
+    /// The approval is asked for only then, so nobody is asked for what can't be done.
     static func request<T: Sendable>(
         connecting connect: @escaping @Sendable () -> NSXPCConnection?,
         answerWait wait: TimeInterval = answerWait,
         fallback: T,
-        _ body: @escaping @Sendable (any PeelHelperProtocol, @escaping @Sendable (T) -> Void) -> Void
+        refused: T,
+        approval: () async -> Data?,
+        _ body: @escaping @Sendable (any PeelHelperProtocol, Data, @escaping @Sendable (T) -> Void) -> Void
     ) async -> T {
         guard await isResponding(connecting: connect, waitingAtMost: wait) else { return fallback }
-        return await ask(connecting: connect, waitingAtMost: requestWait, fallback: fallback, body)
+        guard let approval = await approval() else { return refused }
+        return await ask(connecting: connect, waitingAtMost: requestWait, fallback: fallback) { helper, finish in
+            body(helper, approval, finish)
+        }
     }
 
     /// A connection that takes only the helper's own code, or nil when Peel has no team to require.

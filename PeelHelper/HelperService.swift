@@ -10,17 +10,12 @@ final class HelperService: NSObject, PeelHelperProtocol {
         self.lifetime = lifetime
     }
 
-    /// The account behind the connection the message came on, and its home folder. Nil when that account is not
-    /// an administrator or its home folder cannot be found. It is asked for each message, so an account that stops
-    /// being an administrator is refused from its next request. It says whose connection it is, not which process
-    /// sent the message: `xpc_connection_create(3)` warns that a client can hand its connection to another process.
-    private static func caller() -> HelperRequest.Caller? {
-        guard
-            let user = NSXPCConnection.current()?.effectiveUserIdentifier,
-            UserAuthorization.isAdministrator(user),
-            let home = UserAuthorization.homeDirectory(of: user)
-        else { return nil }
-        return HelperRequest.Caller(user: user, homeDirectory: home)
+    /// The account behind the connection the message came on, and its home folder, when it is an administrator or
+    /// `approval` holds an administrator's approval now. It is asked for each message, so an account that stops being
+    /// an administrator is refused from its next request. It says whose connection it is, not which process sent the
+    /// message: `xpc_connection_create(3)` warns that a client can hand its connection to another process.
+    private static func caller(approval: Data = Data()) -> Result<HelperRequest.Caller, HelperRefusal> {
+        HelperRequest.caller(user: NSXPCConnection.current()?.effectiveUserIdentifier, approval: approval)
     }
 
     /// The `peel` tool of the app the helper runs from, found from the program the kernel says it runs.
@@ -40,6 +35,7 @@ final class HelperService: NSObject, PeelHelperProtocol {
 
     func moveItemsToTrash(
         version: Int,
+        approval: Data,
         atPaths paths: [String],
         withReply finish: @escaping @Sendable ([String: String], [String: String]) -> Void
     ) {
@@ -53,7 +49,9 @@ final class HelperService: NSObject, PeelHelperProtocol {
         }
         let caller: HelperRequest.Caller
         do {
-            caller = try HelperRequest.admit(version: version, items: paths.count, caller: Self.caller).get()
+            caller = try HelperRequest.admit(version: version, items: paths.count) {
+                Self.caller(approval: approval)
+            }.get()
         } catch {
             return refuse(error.rawValue)
         }
@@ -86,6 +84,7 @@ final class HelperService: NSObject, PeelHelperProtocol {
 
     func restoreItem(
         version: Int,
+        approval: Data,
         fromTrashPath trashPath: String,
         toPath destination: String,
         withReply finish: @escaping @Sendable (String?) -> Void
@@ -95,7 +94,7 @@ final class HelperService: NSObject, PeelHelperProtocol {
         let caller: HelperRequest.Caller
         do {
             let paths = [trashPath, destination]
-            caller = try HelperRequest.admit(version: version, paths: paths, caller: Self.caller).get()
+            caller = try HelperRequest.admit(version: version, paths: paths) { Self.caller(approval: approval) }.get()
         } catch {
             return reply(error.rawValue)
         }
@@ -134,7 +133,7 @@ final class HelperService: NSObject, PeelHelperProtocol {
         let reply = tracked(finish)
         let caller: HelperRequest.Caller
         do {
-            caller = try HelperRequest.admit(version: version, caller: Self.caller).get()
+            caller = try HelperRequest.admit(version: version) { Self.caller() }.get()
         } catch {
             return reply(error.rawValue)
         }
@@ -150,13 +149,15 @@ final class HelperService: NSObject, PeelHelperProtocol {
 
     func runDaemonCommand(
         version: Int,
+        approval: Data,
         command: String,
         label: String,
         withReply finish: @escaping @Sendable (String?) -> Void
     ) {
         lifetime.requestStarted()
         let reply = tracked(finish)
-        if case .failure(let refusal) = HelperRequest.admit(version: version, caller: Self.caller) {
+        let admitted = HelperRequest.admit(version: version) { Self.caller(approval: approval) }
+        if case .failure(let refusal) = admitted {
             return reply(refusal.rawValue)
         }
         guard let command = DaemonCommand(rawValue: command), PrivilegedPathPolicy.allowsDaemon(label) else {

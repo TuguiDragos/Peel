@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 
 public enum HelperIdentity {
     public static let appIdentifier = "com.tuguidragos.Peel"
@@ -15,7 +15,8 @@ public enum HelperIdentity {
 /// Each call carries the protocol version of the app making it. Any administrator can write to
 /// `/Applications`, so an older copy of Peel, signed by the same team but with older checks, can be put
 /// there. The helper answers only the version it was installed with, and only a build no older than its own, so
-/// that copy gets nothing from it.
+/// that copy gets nothing from it. A request that changes anything carries `approval`: empty from an administrator,
+/// and from any other account the external form of an administrator's approval (`AdministratorAuthorization`).
 @objc public protocol PeelHelperProtocol {
     func protocolVersion(withReply reply: @escaping @Sendable (Int) -> Void)
 
@@ -23,6 +24,7 @@ public enum HelperIdentity {
     /// Trash, and why each other item failed.
     func moveItemsToTrash(
         version: Int,
+        approval: Data,
         atPaths paths: [String],
         withReply reply: @escaping @Sendable ([String: String], [String: String]) -> Void
     )
@@ -31,6 +33,7 @@ public enum HelperIdentity {
     /// failure description.
     func runDaemonCommand(
         version: Int,
+        approval: Data,
         command: String,
         label: String,
         withReply reply: @escaping @Sendable (String?) -> Void
@@ -40,13 +43,14 @@ public enum HelperIdentity {
     /// exactly there. Replies with nil on success, or a failure description.
     func restoreItem(
         version: Int,
+        approval: Data,
         fromTrashPath trashPath: String,
         toPath destination: String,
         withReply reply: @escaping @Sendable (String?) -> Void
     )
 
-    /// Moves the helper's own ledger to the user's Trash, for Remove Peel just before it unregisters the helper.
-    /// Replies with nil once it is there or when there is none, or a failure description.
+    /// Moves the helper's own ledger to the user's Trash, for Remove Peel just before it unregisters the helper, which
+    /// only an administrator does. Replies with nil once it is there or when there is none, or a failure description.
     func moveLedgerToTrash(version: Int, withReply reply: @escaping @Sendable (String?) -> Void)
 }
 

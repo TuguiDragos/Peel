@@ -24,7 +24,7 @@ flowchart LR
     CLI["peel command<br>runs as you"] --> Commands["PeelCommandLine<br>the peel commands"]
     Commands --> Core["PeelCore<br>scans, matches, moves"]
     App --> Core
-    App -- "XPC, administrators only" --> Helper["Helper<br>runs as root"]
+    App -- "XPC, an administrator or their approval" --> Helper["Helper<br>runs as root"]
     Core --> Privileged["PeelPrivileged<br>what may be touched"]
     Helper --> Privileged
 ```
@@ -255,9 +255,10 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 - Only an administrator installs, repairs, or uninstalls it. macOS lets any account unregister a daemon, so the app
   asks again at that moment whether this account is an administrator (`PrivilegedHelper.changeAsAnAdministrator`),
   and Remove Peel, from an account that isn't, leaves the helper and Peel where they are.
-- It answers administrators only, asked when a connection opens and again with each message, and it accepts
-  only a copy of Peel signed by the same team and no older a build than itself, checked when a connection opens
-  and for every message after it.
+- It answers an administrator, and another account only with an administrator's approval for each action, which
+  Peel asks for once per action in macOS's own window (`AdministratorConsent`, for `system.privilege.admin`), asked
+  again with each message, and it accepts only a copy of Peel signed by the same team and no older a build than
+  itself, checked when a connection opens and for every message after it.
   A released helper refuses a build that can be debugged, and launchd starts the helper only as the team's own
   build of it (`SpawnConstraint` in its launchd property list).
 - Its calls are declared by `PeelHelperProtocol`, in

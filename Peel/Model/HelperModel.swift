@@ -19,19 +19,17 @@ final class HelperModel {
         changing != nil
     }
 
-    /// Whether the helper can move items: it is registered, this account may use it, and it has not failed to
-    /// answer. Otherwise the items that need it stay locked.
+    /// Whether the helper can move items: it is registered and has not failed to answer, and for an account that isn't
+    /// an administrator each action asks an administrator first. Otherwise the items that need it stay locked.
     var canAct: Bool {
         standing == .ready
     }
 
     var standing: PrivilegedHelper.Standing {
-        PrivilegedHelper.Standing(
-            status: status, isAvailableToThisAccount: isAvailableToThisAccount, isResponding: isResponding
-        )
+        PrivilegedHelper.Standing(status: status, isAdministrator: isAdministrator, isResponding: isResponding)
     }
 
-    private(set) var isAvailableToThisAccount = PrivilegedHelper.isAvailableToThisAccount
+    private(set) var isAdministrator = PrivilegedHelper.isAdministrator
 
     /// True when a Peel helper is registered, but not by this copy of Peel. Registration belongs to a bundle,
     /// so a second copy (in a build folder, or a download beside the one in Applications) reads "not installed"
@@ -44,15 +42,14 @@ final class HelperModel {
     func checkConnection() async {
         let check = checks.start()
         let status = await PrivilegedHelper.currentStatus()
-        let isAvailableToThisAccount = await PrivilegedHelper.currentAvailability()
-        // The helper answers administrators only, so another account doesn't ask it.
-        let isResponding = status == .enabled && isAvailableToThisAccount ? await PrivilegedHelper.isResponding() : nil
+        let isAdministrator = await PrivilegedHelper.isAdministratorNow()
+        let isResponding = status == .enabled ? await PrivilegedHelper.isResponding() : nil
         let isRegisteredByAnotherCopy = status == .notRegistered
             ? await PrivilegedHelper.isRegisteredByAnyCopy()
             : false
         guard checks.mayShow(check) else { return }
         self.status = status
-        self.isAvailableToThisAccount = isAvailableToThisAccount
+        self.isAdministrator = isAdministrator
         self.isResponding = isResponding
         self.isRegisteredByAnotherCopy = isRegisteredByAnotherCopy
         hasChecked = true

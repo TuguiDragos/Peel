@@ -6,9 +6,10 @@ import Testing
 
 /// The helper's trash method as a dishonest helper would answer it: the same selector, with replies of any kind.
 @objc private protocol LooseTrashReplies {
-    @objc(moveItemsToTrashWithVersion:atPaths:withReply:)
+    @objc(moveItemsToTrashWithVersion:approval:atPaths:withReply:)
     func moveItemsToTrash(
         version: Int,
+        approval: Data,
         atPaths paths: [String],
         withReply reply: @escaping (NSDictionary, NSDictionary) -> Void
     )
@@ -23,6 +24,7 @@ private final class Answers: NSObject, LooseTrashReplies, NSXPCListenerDelegate 
 
     func moveItemsToTrash(
         version: Int,
+        approval: Data,
         atPaths paths: [String],
         withReply reply: @escaping (NSDictionary, NSDictionary) -> Void
     ) {
@@ -73,7 +75,8 @@ struct HelperReplyTests {
             let proxy = connection.remoteObjectProxyWithErrorHandler { error in
                 finish("refused: \((error as NSError).code)")
             } as? any PeelHelperProtocol
-            proxy?.moveItemsToTrash(version: HelperIdentity.protocolVersion, atPaths: [Self.path]) { moved, _ in
+            proxy?.moveItemsToTrash(version: HelperIdentity.protocolVersion, approval: Data(), atPaths: [Self.path]) {
+                moved, _ in
                 finish("accepted \(moved.count)")
             }
         }

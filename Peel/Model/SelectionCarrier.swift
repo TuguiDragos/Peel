@@ -109,20 +109,23 @@ final class SelectionCarrier {
             var removal = RemovalInProgress()
             var appsToQuit: [String] = []
             let pass = await QuitGuard.shared.run {
-                await CarriedSelection.pass(parts) { part in
-                    // What a part moves is written down with the removal and the part, so a stop before the part is
-                    // recorded leaves one removal in History, not two.
-                    let recorded = RecordedRemoval(batch: removal.batch, part: part.removalPart)
-                    guard let tool = tool(of: part),
-                          let result = await RecordedRemoval.$current.withValue(recorded, operation: {
-                              await tool.move(part, apps: apps)
-                          })
-                    else {
-                        appsToQuit.append(tool(of: part)?.appToQuit(for: part) ?? part.title)
-                        return nil
+                // Every part shares one administrator's approval, for an account that isn't one.
+                await PrivilegedHelper.withOneConsent {
+                    await CarriedSelection.pass(parts) { part in
+                        // What a part moves is written down with the removal and the part, so a stop before the part is
+                        // recorded leaves one removal in History, not two.
+                        let recorded = RecordedRemoval(batch: removal.batch, part: part.removalPart)
+                        guard let tool = tool(of: part),
+                              let result = await RecordedRemoval.$current.withValue(recorded, operation: {
+                                  await tool.move(part, apps: apps)
+                              })
+                        else {
+                            appsToQuit.append(tool(of: part)?.appToQuit(for: part) ?? part.title)
+                            return nil
+                        }
+                        await history.record(result, part: part.removalPart, sizes: part.measuredSizes, in: &removal)
+                        return result
                     }
-                    await history.record(result, part: part.removalPart, sizes: part.measuredSizes, in: &removal)
-                    return result
                 }
             }
             history.finish(removal)

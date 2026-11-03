@@ -54,39 +54,6 @@ struct HelperLifetimeTests {
         #expect(clock.exitCount == 1)
     }
 
-    @Test func staysWhileAConnectionIsBeingAccepted() {
-        let clock = Clock()
-        let lifetime = clock.lifetime()
-        lifetime.start()
-
-        let accepted = lifetime.accept {
-            clock.runChecks()
-            return true
-        }
-
-        #expect(accepted)
-        #expect(clock.exitCount == 0, "the helper exited while it was accepting a connection")
-        lifetime.connectionClosed()
-        clock.runChecks()
-        #expect(clock.exitCount == 1)
-    }
-
-    @Test func aRefusedConnectionLeavesTheHelperFreeToExit() {
-        let clock = Clock()
-        let lifetime = clock.lifetime()
-        lifetime.start()
-
-        let accepted = lifetime.accept {
-            clock.runChecks()
-            return false
-        }
-
-        #expect(!accepted)
-        #expect(clock.exitCount == 0, "the helper exited while it was asking about a connection")
-        clock.runChecks()
-        #expect(clock.exitCount == 1, "a refused connection kept the helper running")
-    }
-
     @Test func leavesAsSoonAsItIsIdleOnceAnUpdateReplacedItsProgram() throws {
         let folder = try TemporaryDirectory()
         let program = try folder.file("Peel.app/Contents/MacOS/PeelHelper")
@@ -94,7 +61,7 @@ struct HelperLifetimeTests {
         let clock = Clock()
         let lifetime = clock.lifetime(program: program.path)
         lifetime.start()
-        #expect(lifetime.accept { true })
+        lifetime.connectionOpened()
         #expect(rename(update.path, program.path) == 0)
 
         lifetime.connectionClosed()
@@ -110,7 +77,7 @@ struct HelperLifetimeTests {
         let clock = Clock()
         let lifetime = clock.lifetime(program: program.path)
         lifetime.start()
-        #expect(lifetime.accept { true })
+        lifetime.connectionOpened()
         try FileManager.default.removeItem(at: folder.url.appending(path: "Peel.app"))
 
         lifetime.connectionClosed()
@@ -124,7 +91,7 @@ struct HelperLifetimeTests {
         let clock = Clock()
         let lifetime = clock.lifetime(program: program.path)
         lifetime.start()
-        #expect(lifetime.accept { true })
+        lifetime.connectionOpened()
 
         lifetime.connectionClosed()
 

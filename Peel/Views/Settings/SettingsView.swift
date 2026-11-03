@@ -186,7 +186,7 @@ private struct GeneralSettingsView: View {
     private var installCommand: String? { SettingsKey.commandLineInstallCommand(for: commandLine) }
     private static let place = CommandLineTool.place()
     private static let embeddedTool = Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel")
-    private var isStandardAccount: Bool { !helper.isAvailableToThisAccount }
+    private var isStandardAccount: Bool { !helper.isAdministrator }
     private static let blockAhead = SelfRemoval.blockAhead(of: Bundle.main.bundleURL)
 
     @AppStorage(SettingsKey.checksForAppUpdates) private var checksForAppUpdates = true
@@ -673,7 +673,7 @@ extension GeneralSettingsView {
     }
 
     private var waitsForAnAdministrator: Bool {
-        SelfUninstall.waitsForAnAdministrator(standing: helper.standing, status: helper.status)
+        SelfUninstall.waitsForAnAdministrator(isAdministrator: helper.isAdministrator, status: helper.status)
     }
 
     /// The cask Homebrew installed this copy of Peel from, found by the rule the Applications list follows.
@@ -779,13 +779,14 @@ private struct HelperSettingsView: View {
         case .waitingForApproval:
             Text("Allow Peel in System Settings under Login Items & Extensions.")
         case .notThisAccount:
-            Text("Only an administrator can use the helper. Log in as an administrator to remove items that need one.")
+            Text("Only an administrator can install, allow, or repair the helper. Once it works, Peel asks for an administrator’s name and password each time this account needs it.")
         case .notAnswering:
             // Several causes share this message: an older or newer helper, a signature that doesn't
             // match, or a helper that didn't start.
             Text("Peel’s helper isn’t answering. Repairing it installs the one this version of Peel works with.")
         case .ready:
-            nil
+            helper.isAdministrator
+                ? nil : Text("Peel asks for an administrator’s name and password each time this account needs the helper.")
         }
     }
 

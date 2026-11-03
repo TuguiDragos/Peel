@@ -158,9 +158,11 @@ checked by hand. If a change makes one of them fail, the rule is right and the c
 disk that somebody may have replaced.
 
 - It has no shell, accepts no path outside the folders it serves, and refuses whenever it is unsure.
-- It answers administrators only, asked when a connection opens and again with each message. The account is the
-  connection's and says nothing about which process sent a message (`xpc_connection_create(3)`), so no rule may rest
-  on it for that.
+- It answers an administrator, and another account only for a request carrying an administrator's approval in force
+  (`AdministratorAuthorization`), asked again with each message. The account is the connection's and says nothing
+  about which process sent a message (`xpc_connection_create(3)`), so no rule may rest on it for that.
+- The approval is for Apple's `system.privilege.admin`, never a right of Peel's own: macOS lets any process add a right
+  that doesn't exist yet (`config.add.`), so another process of the account could define one as granted first.
 - It accepts only a copy of Peel signed by the same team and no older a build than itself, checked when a connection
   opens and for every message after it, and a released helper refuses a build that can be debugged.
 - **Only an administrator changes it.** macOS lets any account unregister a system daemon without asking, so every

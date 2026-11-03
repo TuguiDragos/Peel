@@ -3,8 +3,9 @@ private import Darwin.membership
 
 /// Decides who the helper works for. Its Mach service is advertised in the system domain, so every account
 /// on the Mac can reach it, including a standard account or a second one logged in at the same time. What
-/// it does, such as moving files inside `/Library`, belongs to root alone, so it answers only the accounts
-/// macOS trusts with administration, and refuses whenever that cannot be established.
+/// it does, such as moving files inside `/Library`, belongs to root alone, so it answers an account macOS trusts
+/// with administration, or another account only with an administrator's approval (`AdministratorAuthorization`),
+/// and refuses whenever neither can be established.
 public enum UserAuthorization {
     private static let administratorsGroup = "admin"
 

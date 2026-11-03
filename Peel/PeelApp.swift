@@ -87,6 +87,7 @@ struct PeelApp: App {
     /// clicks on notifications to reach it. A view's task can run later than that. The storage tools are made here
     /// too, so the carrier of their selection reads the same libraries their pages show.
     init() {
+        PrivilegedHelper.consentPrompt = String(localized: "This account isn’t an administrator, so Peel’s helper does this only with an administrator’s approval.")
         SettingsKey.showInMenuBarAsBefore()
         SettingsKey.keepSidebarChoicesAsBefore()
         let notifications = PeelNotifications()
