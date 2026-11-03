@@ -12,6 +12,25 @@ struct AppInspectorTests {
         + [0x01, 0x00, 0x00, 0x07] + [UInt8](repeating: 0, count: 16)
         + [0x01, 0x00, 0x00, 0x0C] + [UInt8](repeating: 0, count: 16)
 
+    @Test(.permissionsHold) func saysWhySomethingCantBeReadAsAnApp() throws {
+        let directory = try TemporaryDirectory()
+        _ = try directory.directory("Folder")
+        _ = try directory.directory("Bare.app/Contents")
+        _ = try directory.file("Damaged.app/Contents/Info.plist", contents: Data("not a property list".utf8))
+        _ = try directory.file("Closed.app/Contents/Info.plist", contents: Data("not a property list".utf8))
+        try directory.setPermissions(0o000, of: "Closed.app/Contents/Info.plist")
+        defer { try? directory.setPermissions(0o644, of: "Closed.app/Contents/Info.plist") }
+        func why(_ name: String) -> AppInspector.Unreadable {
+            AppInspector.whyUnreadable(directory.url.appending(path: name))
+        }
+
+        #expect(why("Gone.app") == .gone)
+        #expect(why("Folder") == .notAnApp)
+        #expect(why("Bare.app") == .noInfo)
+        #expect(why("Damaged.app") == .infoDamaged)
+        #expect(why("Closed.app") == .infoClosed)
+    }
+
     @Test func aCopyInATrashIsNotInstalledWhateverItsNameBeginsWith() {
         #expect(AppInspector.isInATrash(URL(filePath: "/Users/x/.Trash/Example.app")))
         #expect(AppInspector.isInATrash(URL(filePath: "/Users/x/.Trash/\u{301}Example.app")))

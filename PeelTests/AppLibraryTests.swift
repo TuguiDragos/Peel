@@ -273,14 +273,14 @@ private nonisolated final class TestClock: Sendable {
         #expect(library.selection.count == 1)
 
         await library.reveal([gone])
-        #expect(library.couldNotShow == gone)
+        #expect(library.couldNotShow == CouldNotShow(url: gone, reason: .gone))
         #expect(library.selection.count == 1)
 
         let broken = folder.appending(path: "Broken.app/Contents", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: broken, withIntermediateDirectories: true)
         library.couldNotShow = nil
         #expect(await library.reveal([bundle, broken.deletingLastPathComponent()]))
-        #expect(library.couldNotShow?.lastPathComponent == "Broken.app")
+        #expect(library.couldNotShow == CouldNotShow(url: broken.deletingLastPathComponent(), reason: .noInfo))
     }
 
     @Test func anOlderAppStoreAnswerLeavesTheUpdateItFound() async throws {

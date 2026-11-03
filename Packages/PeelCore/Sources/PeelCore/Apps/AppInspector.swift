@@ -75,6 +75,31 @@ public enum AppInspector {
     /// index, and a scan can do without the apps it would name.
     private static let spotlightBudget: TimeInterval = 2
 
+    /// Why something can't be read as an app, once `inspect` gave nothing for it.
+    public enum Unreadable: Sendable, Equatable {
+        case gone
+        case notAnApp
+        /// The Info.plist, which says what the app is, isn't there.
+        case noInfo
+        /// The Info.plist's permissions keep this account out.
+        case infoClosed
+        /// The Info.plist opens but isn't a property list Peel can read.
+        case infoDamaged
+    }
+
+    /// Whether `url` is named as an app, which is all Peel asks before reading a bundle it doesn't list.
+    public static func isNamedAsAnApp(_ url: URL) -> Bool {
+        url.pathExtension == "app"
+    }
+
+    public static func whyUnreadable(_ url: URL) -> Unreadable {
+        if url.isMissing { return .gone }
+        guard isNamedAsAnApp(url) else { return .notAnApp }
+        let info = AppBundleLayout(of: url).infoFolder.appending(path: "Info.plist")
+        if info.isMissing { return .noInfo }
+        return access(info.path(percentEncoded: false), R_OK) == 0 ? .infoDamaged : .infoClosed
+    }
+
     public static func inspect(_ url: URL) -> InstalledApp? {
         let layout = AppBundleLayout(of: url)
         let contents = layout.infoFolder

@@ -2156,6 +2156,112 @@
         }
       }
     },
+    "%@ has no Info.plist, the file that says what an app is, so Peel can’t read it as one." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Položka %@ nemá soubor Info.plist, který popisuje aplikaci, takže ji Peel nedokáže přečíst jako aplikaci."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ hat keine Info.plist, die Datei, die eine App beschreibt, daher kann Peel es nicht als App lesen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ no tiene Info.plist, el archivo que indica qué es una app, así que Peel no puede leerlo como una app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ne contient pas de fichier Info.plist, le fichier qui indique ce qu’est une app : Peel ne peut donc pas le lire en tant qu’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ non ha un Info.plist, il file che dice cos’è un’app, quindi per Peel non è leggibile come app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@にはInfo.plist（アプリが何であるかを示すファイル）がないため、Peelはアプリとして読み取れません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에는 앱이 무엇인지 알려 주는 파일인 Info.plist가 없으므로, Peel이 이 항목을 앱으로 읽을 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ heeft geen Info.plist, het bestand dat aangeeft wat een app is, dus Peel kan het niet als app lezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ nie zawiera pliku Info.plist, który określa, czym jest aplikacja, więc Peel nie może go odczytać jako aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ não tem um Info.plist, o arquivo que diz o que é um app, então o Peel não consegue lê-lo como um app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ nu are un fișier Info.plist, fișierul care descrie ce este o aplicație, așa că Peel nu îl poate citi ca aplicație."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В %@ нет файла Info.plist, который описывает приложение, поэтому Peel не может прочитать этот объект как приложение."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ har ingen Info.plist, filen som anger vad en app är, så Peel kan inte läsa den som en app."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ içinde, bir uygulamanın ne olduğunu söyleyen Info.plist dosyası yok, bu yüzden Peel onu bir uygulama olarak okuyamıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У %@ немає Info.plist, файлу, який описує програму, тож Peel не може прочитати це як програму."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@中没有Info.plist（即说明App是什么的文件），因此Peel无法将其读取为App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@沒有Info.plist，也就是用來說明App是什麼的檔案，因此Peel無法將它讀取為App。"
+          }
+        }
+      }
+    },
     "%@ in ^[%lld app](inflect: true)." : {
       "localizations" : {
         "cs" : {
@@ -6570,108 +6676,214 @@
         }
       }
     },
-    "%@ isn’t there anymore, or Peel can’t read it as an app." : {
+    "%@ isn’t an app." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Položka %@ už tam není, nebo ji Peel nedokáže přečíst jako aplikaci."
+            "value" : "Položka %@ není aplikace."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ ist nicht mehr vorhanden, oder Peel kann es nicht als App lesen."
+            "value" : "%@ ist keine App."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ ya no está ahí, o Peel no puede leerlo como una app."
+            "value" : "%@ no es una app."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ n’est plus là, ou Peel ne peut pas le lire en tant qu’app."
+            "value" : "%@ n’est pas une app."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ non c’è più, oppure per Peel non è leggibile come app."
+            "value" : "%@ non è un’app."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@はもうそこにないか、Peelがアプリとして読み取れません。"
+            "value" : "%@はアプリではありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@이(가) 더 이상 그곳에 없거나 Peel이 앱으로 읽을 수 없습니다."
+            "value" : "%@은(는) 앱이 아닙니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ is er niet meer, of Peel kan het niet als app lezen."
+            "value" : "%@ is geen app."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rzeczy %@ już tam nie ma albo Peel nie może odczytać jej jako aplikacji."
+            "value" : "%@ nie jest aplikacją."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ não está mais lá, ou o Peel não consegue lê-lo como um app."
+            "value" : "%@ não é um app."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ nu mai este acolo sau Peel nu îl poate citi ca aplicație."
+            "value" : "%@ nu este o aplicație."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Объекта %@ больше нет, или Peel не может прочитать его как приложение."
+            "value" : "Объект %@ не является приложением."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ finns inte längre, eller så kan Peel inte läsa den som en app."
+            "value" : "%@ är ingen app."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ artık orada değil veya Peel onu bir uygulama olarak okuyamıyor."
+            "value" : "%@ bir uygulama değil."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ там уже немає, або Peel не може прочитати це як програму."
+            "value" : "%@ не є програмою."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@已不存在，或者Peel无法将其读取为App。"
+            "value" : "%@不是App。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@已不在那裡，或Peel無法將它讀取為App。"
+            "value" : "%@不是App。"
+          }
+        }
+      }
+    },
+    "%@ isn’t there anymore." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Položka %@ už tam není."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ist nicht mehr vorhanden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ya no está ahí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ n’est plus là."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ non c’è più."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@はもうそこにはありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@이(가) 더 이상 그곳에 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ is er niet meer."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rzeczy %@ już tam nie ma."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ não está mais lá."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ nu mai este acolo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объекта %@ больше нет."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ finns inte där längre."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ artık orada değil."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ там уже немає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@已不存在。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@已不在那裡。"
           }
         }
       }
@@ -197752,6 +197964,112 @@
         }
       }
     },
+    "The Info.plist in %@ isn’t a property list Peel can read, so Peel can’t read it as an app." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubor Info.plist v položce %@ není seznam vlastností, který by Peel dokázal přečíst, takže ji Peel nedokáže přečíst jako aplikaci."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Info.plist in %@ ist keine Eigenschaftsliste, die Peel lesen kann, daher kann Peel es nicht als App lesen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede leer %@ como una app, porque su Info.plist no es una lista de propiedades que Peel pueda leer."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le fichier Info.plist de %@ n’est pas une liste de propriétés que Peel peut lire : Peel ne peut donc pas le lire en tant qu’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il file Info.plist in %@ non è un property list che Peel possa leggere, quindi per Peel non è leggibile come app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@内のInfo.plistは、Peelが読み取れるプロパティリストではないため、アプリとして読み取れません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에 있는 Info.plist가 Peel이 읽을 수 있는 속성 목록이 아니므로, Peel이 이 항목을 앱으로 읽을 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De Info.plist in %@ is geen eigenschappenlijst die Peel kan lezen, dus Peel kan het niet als app lezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plik Info.plist w %@ nie jest listą właściwości, którą Peel może odczytać, więc Peel nie może odczytać tej rzeczy jako aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Info.plist em %@ não é uma lista de propriedades que o Peel consiga ler, então o Peel não consegue lê-lo como um app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate citi %@ ca aplicație, deoarece fișierul Info.plist din acesta nu este o listă de proprietăți pe care Peel să o poată citi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файл Info.plist в %@ не является списком свойств, который Peel может прочитать, поэтому Peel не может прочитать этот объект как приложение."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Info.plist i %@ är ingen egenskapslista som Peel kan läsa, så Peel kan inte läsa den som en app."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ içindeki Info.plist dosyası, Peel’in okuyabileceği bir özellik listesi değil, bu yüzden Peel onu bir uygulama olarak okuyamıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файл Info.plist у %@ не є списком властивостей, який Peel може прочитати, тож Peel не може прочитати це як програму."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@中的Info.plist不是Peel可以读取的属性列表，因此Peel无法将其读取为App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@中的Info.plist不是Peel能讀取的屬性列表，因此Peel無法將它讀取為App。"
+          }
+        }
+      }
+    },
     "The Intel-based Apps list in System Settings > General > About names the apps macOS 28 won’t run, including some outside the folders Peel looks in." : {
       "comment" : "On macOS 27, on the Intel Software page when Peel found nothing that needs Rosetta, above a button that opens System Settings. Intel-based Apps is the name of that list in System Settings: use your macOS's name for it.",
       "localizations" : {
@@ -204437,6 +204755,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "peel指令使用了[swift-argument-parser](peel-license:swift-argument-parser-LICENSE)"
+          }
+        }
+      }
+    },
+    "The permissions of the Info.plist in %@ keep your account out, so Peel can’t read it as an app." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oprávnění souboru Info.plist v položce %@ k němu váš účet nepustí, takže ji Peel nedokáže přečíst jako aplikaci."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Zugriffsrechte der Info.plist in %@ sperren deinen Benutzeraccount aus, daher kann Peel es nicht als App lesen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede leer %@ como una app, porque los permisos de su Info.plist no dejan que tu cuenta lo lea."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les permissions du fichier Info.plist de %@ empêchent votre compte d’y accéder : Peel ne peut donc pas le lire en tant qu’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I permessi del file Info.plist in %@ impediscono al tuo account di accedervi, quindi per Peel non è leggibile come app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@内のInfo.plistのアクセス権により、お使いのアカウントではアクセスできないため、Peelはアプリとして読み取れません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에 있는 Info.plist는 사용 권한 때문에 이 계정으로 읽을 수 없으므로, Peel이 이 항목을 앱으로 읽을 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De bevoegdheden van de Info.plist in %@ sluiten je account buiten, dus Peel kan het niet als app lezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uprawnienia pliku Info.plist w %@ nie dają Twojemu kontu dostępu, więc Peel nie może odczytać tej rzeczy jako aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As permissões do Info.plist em %@ não deixam esta conta abri-lo, então o Peel não consegue lê-lo como um app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate citi %@ ca aplicație, deoarece permisiunile fișierului Info.plist din acesta nu permit accesul contului dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Права доступа файла Info.plist в %@ не пускают к нему Вашу учетную запись, поэтому Peel не может прочитать этот объект как приложение."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behörigheterna för Info.plist i %@ stänger ute ditt konto, så Peel kan inte läsa den som en app."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ içindeki Info.plist dosyasının izinleri hesabınızın ona erişmesini engelliyor, bu yüzden Peel onu bir uygulama olarak okuyamıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Привілеї файлу Info.plist у %@ не пускають до нього ваш обліковий запис, тож Peel не може прочитати це як програму."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@中Info.plist的权限设置不允许你的账户访问，因此Peel无法将其读取为App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@中Info.plist的權限讓你的帳號無法取用，因此Peel無法將它讀取為App。"
           }
         }
       }

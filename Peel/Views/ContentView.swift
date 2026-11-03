@@ -164,14 +164,14 @@ struct ContentView: View {
             Text("Peel couldn’t open this app"),
             isPresented: Binding(get: { library.couldNotShow != nil }, set: { if !$0 { library.couldNotShow = nil } }),
             presenting: library.couldNotShow
-        ) { app in
-            if !app.isMissing {
-                Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([app]) }
+        ) { shown in
+            if shown.reason != .gone {
+                Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([shown.url]) }
             }
             Button("OK", role: .cancel) {}
                 .keyboardShortcut(.defaultAction)
-        } message: { app in
-            Text("\(app.abbreviatedPath) isn’t there anymore, or Peel can’t read it as an app.")
+        } message: { shown in
+            Text(shown.explanation)
         }
         // The window's Undo, so Command-Z after a removal means what it means everywhere else on a Mac.
         .focusedSceneValue(\.removalHistory, history)

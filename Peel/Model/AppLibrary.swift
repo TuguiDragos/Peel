@@ -147,8 +147,8 @@ final class AppLibrary {
     private var appsOfCasks: [HomebrewPackage.ID: [InstalledApp]] = [:]
     /// The rows chosen in the list, which the page beside it shows.
     var selection: Set<InstalledApp.ID> = []
-    /// An app something asked to show that Peel couldn't read, which the window says.
-    var couldNotShow: URL?
+    /// An app something asked to show that Peel couldn't read, and why, which the window says.
+    var couldNotShow: CouldNotShow?
     /// The apps selected with their checkboxes, to be removed together. Kept apart from `selection`, so
     /// choosing a row to look at never clears the batch.
     var picked: Set<InstalledApp.ID> = []
@@ -1084,7 +1084,9 @@ final class AppLibrary {
                 unread.append(url)
             }
         }
-        if let first = unread.first { couldNotShow = first }
+        if let first = unread.first {
+            couldNotShow = CouldNotShow(url: first, reason: AppInspector.whyUnreadable(first))
+        }
         guard !chosen.isEmpty else { return false }
         selection = chosen
         return true
@@ -1097,7 +1099,7 @@ final class AppLibrary {
         if let existing = await Self.find(bundleURL, among: apps) {
             return existing.id
         }
-        guard bundleURL.pathExtension == "app", let app = await Self.inspect(bundleURL) else { return nil }
+        guard AppInspector.isNamedAsAnApp(bundleURL), let app = await Self.inspect(bundleURL) else { return nil }
         // Checked again, since two drops of the same bundle can both get this far before either is listed.
         if !apps.contains(where: { $0.id == app.id }) {
             revealed.append(app)
@@ -1141,4 +1143,10 @@ extension AppLibrary: StoppableWork {
         scanRun.stop()
         stopCheckingEveryApp()
     }
+}
+
+/// What `AppLibrary.reveal` couldn't show, and why.
+struct CouldNotShow: Equatable {
+    let url: URL
+    let reason: AppInspector.Unreadable
 }
