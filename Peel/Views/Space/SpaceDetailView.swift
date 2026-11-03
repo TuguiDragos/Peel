@@ -38,10 +38,14 @@ struct SpaceDetailView: View {
                 if item.howToFreeIt != nil || !item.commands.isEmpty {
                     LabeledContent {
                         if let hint = item.howToFreeIt {
-                            Text(hint)
-                                .font(.callout)
-                                .textSelection(.enabled)
-                                .multilineTextAlignment(.trailing)
+                            if #available(macOS 27, *) {
+                                SpaceStep(step: hint)
+                            } else {
+                                Text(hint)
+                                    .font(.callout)
+                                    .textSelection(.enabled)
+                                    .multilineTextAlignment(.trailing)
+                            }
                         }
                     } label: {
                         titled(
@@ -261,5 +265,20 @@ struct SpaceDetailView: View {
         plan.removable.sorted { first, second in
             SizeTotal([plan.sizes[second]]) < SizeTotal([plan.sizes[first]])
         }
+    }
+}
+
+/// What frees an area's space, beside its label. On macOS 27 a list lays out a selectable text aligned to the trailing
+/// edge narrower than it measured it, which cut its last lines, so the text asks for its whole height.
+@available(macOS 27, *)
+struct SpaceStep: View {
+    let step: LocalizedStringResource
+
+    var body: some View {
+        Text(step)
+            .font(.callout)
+            .textSelection(.enabled)
+            .multilineTextAlignment(.trailing)
+            .fixedSize(horizontal: false, vertical: true)
     }
 }
