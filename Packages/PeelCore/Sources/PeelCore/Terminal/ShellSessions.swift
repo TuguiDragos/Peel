@@ -46,9 +46,8 @@ public enum ShellSessions: Sendable, Equatable {
     func zshrc(home: URL, zdotdir: String?) async -> URL? {
         guard case .zsh(let zshenv) = self else { return nil }
         let folder = zshenv.deletingLastPathComponent()
-        // With no slash at the end, which `"$HOME/.config/zsh"` would double.
         var environment = [
-            "HOME": (home.path(percentEncoded: false) as NSString).standardizingPath,
+            "HOME": home.pathAsHOME,
             "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
         ]
         if let zdotdir, !zdotdir.isEmpty {
@@ -88,7 +87,7 @@ public enum ShellSessions: Sendable, Equatable {
     func promptShown(home: URL, zdotdir: String?) async -> ShownPrompt? {
         guard case .zsh = self else { return nil }
         var environment = [
-            "HOME": (home.path(percentEncoded: false) as NSString).standardizingPath,
+            "HOME": home.pathAsHOME,
             "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
             "TERM": "xterm-256color",
         ]

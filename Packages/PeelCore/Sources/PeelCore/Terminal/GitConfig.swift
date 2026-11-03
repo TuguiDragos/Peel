@@ -132,7 +132,7 @@ public struct GitConfig: Sendable {
         await Subprocess.run(
             executable.path(percentEncoded: false),
             arguments,
-            environment: ["HOME": home.path(percentEncoded: false), "PATH": "/usr/bin:/bin:/usr/sbin:/sbin"],
+            environment: ["HOME": home.pathAsHOME, "PATH": "/usr/bin:/bin:/usr/sbin:/sbin"],
             timeout: 10
         )
     }

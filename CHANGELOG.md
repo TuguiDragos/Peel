@@ -717,6 +717,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - History names a Forget entry after the casks whose record moved, not every cask chosen.
 - Going to another page while a cask's apps quit no longer gives up the upgrade or the uninstall.
 - Check Health no longer says `sbin` is missing from your PATH for a Homebrew in `/usr/local`.
+- What Homebrew prints names the folders in your home with one slash, not `//`, as in its downloads' folder.
 - With `HOMEBREW_NO_AUTOREMOVE` set, Uninstall and Clean Up no longer promise to remove formulae nothing needs, and the
   page names the setting.
 - A Homebrew of root's, or a Cellar this account can't write, is named with the folder that stops it and the command

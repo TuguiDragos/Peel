@@ -1480,7 +1480,7 @@ public enum Homebrew {
         }
         var values = [
             "PATH": path,
-            "HOME": home.path(percentEncoded: false),
+            "HOME": home.pathAsHOME,
             "HOMEBREW_NO_ENV_HINTS": "1",
             // Without this every call pings Homebrew's analytics over the network.
             "HOMEBREW_NO_ANALYTICS": "1",

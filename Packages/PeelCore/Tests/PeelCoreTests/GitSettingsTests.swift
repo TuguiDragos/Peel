@@ -185,6 +185,7 @@ struct GitSettingsTests {
             return
         }
         #expect(words.hasPrefix("error: could not lock config file"), "\(words)")
+        #expect(!words.contains("//"), "Git names the file from the home it was given: \(words)")
         #expect(handed == [["pull.rebase": "true"], [:]])
         #expect(ledger.written.isEmpty && ledger.previous.isEmpty)
     }

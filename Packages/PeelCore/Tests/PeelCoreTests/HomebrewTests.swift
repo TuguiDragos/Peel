@@ -39,6 +39,11 @@ struct HomebrewTests {
         }
     }
 
+    @Test func givesHomebrewTheHomeWithoutTheSlashAtItsEnd() {
+        let home = URL(filePath: "/Users/someone/", directoryHint: .isDirectory)
+        #expect(Homebrew.environment(autoUpdate: false, home: home)["HOME"] == "/Users/someone")
+    }
+
     @Test func asksForEachLineAsItGoesExceptOfTheHealthCheck() {
         #expect(Homebrew.environment(autoUpdate: false)["CI"] == "1")
         // `brew doctor` reads `CI` as a CI run and skips its check of the taps' branches (`diagnostic.rb`).
