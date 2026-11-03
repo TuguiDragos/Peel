@@ -21,6 +21,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The Not Moved list has Start Over when it can't be read, as History has.
 - History says once, above its list, how many older removals it no longer lists, and that what they moved is still in
   the Trash.
+- Put Back of an agent's file you changed with Edit… in Background Items first moves the version now in its place to
+  the Trash, where History keeps it too, then puts the earlier file back and starts its job again; Undo and
+  `peel restore` do the same.
 
 #### Settings
 
@@ -32,12 +35,30 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Copy.
 - Uninstall Helper is offered while the helper waits for approval too, and asks first, since the helper serves every
   account.
+- On an account that isn't an administrator, the helper an administrator installed works too: Peel asks for an
+  administrator's name and password once for each action that needs it, and Settings > Helper says so.
 
 #### Applications
 
 - VS Code is asked about through the update service VS Code itself asks, so its new version shows as soon as
   Microsoft offers it, not only once Homebrew's list of packages has it. The address is the same for every Mac, so it
   tells Microsoft nothing of this one.
+- An app Homebrew didn't install, whose bundle shows it came from a cask, is compared with the version Homebrew's
+  catalog on this Mac lists, after the app's own feed and with no request. Up to date holds only within a day of
+  Homebrew's last check, and the page says to update it from inside the app or from its homepage.
+- An Electron app that keeps its updates in an S3 or Cloudflare R2 bucket is checked at the address it writes in its
+  settings.
+- An uninstall takes the folder Velopack keeps an app's updates in, whatever the app is called.
+- When an app is the last of its maker's, its page also shows what the maker's own folder holds, such as
+  `Application Support/Microsoft`, or `/Users/Shared/Epic Games` for a game launcher, under Review Before Removing and
+  never selected.
+- Before Peel moves Charles or Proxyman, the question says their root certificate stays trusted and how to stop
+  trusting it.
+
+#### Orphaned Files
+
+- A folder named for a removed app is found from the identifier the app left, even for an app Peel never saw, and a
+  name is compared without case, spaces, or punctuation. What only a name ties to the app is shown and never selected.
 
 #### Intel Software
 
@@ -57,11 +78,14 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   History.
 - A package's page says how to remove what only an administrator can move, with Show in Finder, and that a kernel
   extension leaves the kernel only when the Mac restarts.
+- On a Mac with Apple silicon, beside a kernel extension, a package's page and Orphaned Files' Needs an Administrator
+  say how to choose Full Security again in Startup Security Utility, since removing the extension leaves the startup
+  disk's security as it was.
 
 #### Homebrew
 
-- Before Upgrade, Upgrade All, Upgrade with Homebrew, and Uninstall, Peel quits the cask's app, with Force Quit after a
-  while, and opens it again after an upgrade.
+- Before Upgrade, Upgrade All, and Uninstall, Peel quits the cask's app, with Force Quit after a while, and opens it
+  again after an upgrade.
 - Quitting Peel while Homebrew changes something waits for Homebrew; during an upgrade it asks first, with Keep Peel
   Open or Stop and Quit.
 - A cask whose upgrade was stopped, its app left in Homebrew's folder, says so on its page, with the command that
@@ -73,11 +97,31 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   it should follow.
 - The question before uninstalling a formula names what runs from it, and the command that stops its `brew services`
   job.
+- The question before uninstalling a formula also names what Homebrew leaves of it in its `var` and `etc` folders,
+  such as a database's data or a server's settings.
+- Before Homebrew uninstalls Caddy, mkcert, puma-dev, or mitmproxy, the question says the root certificate it added
+  stays trusted and how to stop trusting it.
+
+#### Space
+
+- Homebrew Data shows what formulas keep in Homebrew's `var` folder, each folder with its size, for every Homebrew on
+  the Mac, and says which folders no installed formula names.
+- Areas for the virtual machines and Windows bottles of VirtualBuddy, CrossOver, Whisky, Wine, Tart, Lume, Anka,
+  Rancher Desktop, Apple's container tool, and Genymotion, each saying how its own app or tool frees it.
+- Areas for the years of TeX Live and the versions of the .NET SDK, each with its size, saying which year isn't the one
+  in use and which version has a newer one beside it.
 
 #### Build Artifacts
 
 - Any folder holding the `pyvenv.cfg` of a Python environment beside a Python project is listed as an environment, and
   never selected.
+
+#### Installers and Backups
+
+- The disk images, archives, and system images apps keep in Application Support, and the images Parallels Desktop and
+  VMware Fusion keep for making machines, each shown and never selected. A VirtualBuddy restore image no machine was
+  installed from says so.
+- The updates an app that uses Velopack downloaded, under the app.
 
 #### Duplicates
 
@@ -104,7 +148,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A disabled job that still runs reads "Disabled, still running".
 - A job its app gave launchd itself, such as an update's installer, says so, and the empty list says where apps set to
   open at login are.
-- A loaded job waiting for its schedule has Stop too, which takes it out of launchd until the next login or restart.
+- Each state has its own buttons, which change at once with it: Stop and Restart while a job runs, Run Now and Unload
+  while it waits for its time, and Load while it isn't loaded. A job that isn't running says whether launchd has it
+  loaded.
+- Edit… beside the file of an agent in your own `~/Library/LaunchAgents` opens it as text. Save takes it once it is a
+  valid job, moves the earlier file to the Trash, where History can put it back, and loads the job again when launchd
+  had it.
 
 #### Extensions
 
@@ -130,6 +179,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - `peel history` says, where its list reaches History's oldest removal, how many older removals History no longer
   lists, and how many removals of its time left items behind.
 - `peel caches --json` gives each tool's `id`, and the list adds it beside a name two tools share.
+- `peel uninstall` says when Charles or Proxyman leaves its root certificate trusted, and `peel orphans` how to choose
+  Full Security again beside a kernel extension.
 
 ### Changed
 
@@ -197,12 +248,27 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   of what is new. Show More… opens all of it in a popover, where a long changelog scrolls.
 - On several apps' page, a chosen app's row says when it is a browser's web app or when the developer who signs it
   changed, and the question names each app whose Homebrew record stays.
+- More of what may exist only on this Mac is shown and never selected, at an uninstall and in Orphaned Files: the
+  profiles of Edge, Vivaldi, Thorium, Comet, Yandex Browser, Arc, Dia, and Orion; the databases of Laravel Herd's Pro
+  services, MAMP PRO, Plex, Neo4j Desktop, and UniFi; the conversations of Jan, Open WebUI, and GPT4All; Little
+  Snitch's rules, Topaz Photo's presets, and Typeface's tags; the copies of other apps MacUpdater, Version Tracker, and
+  AutoBrew keep; Syncthing's setup; what Word, PowerPoint, and Excel never saved; OpenEmu's and Dolphin's saved games;
+  BBEdit's notes and unsaved documents; DaVinci Resolve's project libraries; and the sign-ins, keys, and saved
+  connections of PostgreSQL, Vault, MinIO Client, cloudflared, GitLab Runner, Jenkins, n8n, DuckDB, mcp-remote,
+  gsutil, Gemini CLI, Firebase CLI, ngrok, RustDesk, TablePlus, Sequel Ace, MongoDB Compass, and Proxyman.
+- A folder holding virtual machines or Windows bottles is shown and never selected, at an uninstall and in Orphaned
+  Files, and an uninstall lists a folder of machines by its items, so what lies beside them can still be chosen.
+- Laravel Herd, Disk Drill, Malwarebytes, and Kaspersky are left to their makers' own uninstall, which their page
+  names, and `peel uninstall` refuses them.
+- On an app's page, the button that has Homebrew upgrade the app reads Upgrade.
+- After an app moves, the alert says on macOS 26 too that macOS still starts its background items from the Trash.
 
 #### Orphaned Files
 
 - A group holding an audio plug-in reads unsure, since music apps load it on their own.
 - This Belongs To… opens a short list of apps with a search field, rather than a menu that ran to the edge of the
   screen.
+- A group where nothing can move says why at its head on macOS 26 too.
 
 #### Intel Software
 
@@ -240,6 +306,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Podcast Downloads says its figure holds all the Podcasts app keeps.
 - The note on an area's folders left to Developer names the four largest and counts the rest.
 - An area's page counts the folders it has in containers under Where, instead of listing over a thousand rows.
+- The line on how much the AI models and datasets Developer lists take shows on macOS 26 too.
 
 #### Developer
 
@@ -294,7 +361,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   other accounts logged in run it until they log out.
 - A job an app registers reads Unknown where nothing tells whether it starts at login or restarts itself.
 - "Part of this list may be missing" says why, and names a folder of job files Peel couldn't look in.
-- Start says whether it runs a job now, whatever its schedule, or loads it to run as its file says.
+- Remove, for a job a deleted app left loaded, and Runs from the Trash show on macOS 26 too.
 
 #### Extensions
 
@@ -327,6 +394,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   no room. What concerns one row sits at that row's right end, and a section heading with nothing under it keeps its
   button beside it.
 - Show in Finder is Finder's own symbol at the end of the row that says where the item is.
+- A notice's buttons stand beside its words only while each line of the words fits there, and otherwise under them at
+  the right, the main action last.
+- Where macOS keeps Peel out until it has Full Disk Access, the notice says to turn it on from Home, with Open Home,
+  and a folder whose own permissions keep your account out says that Full Disk Access doesn't open it.
 
 #### `peel`
 
@@ -522,6 +593,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Escape no longer closes the Reset sheet during a reset or a Put Back, which lost Put Settings Back.
 - Reading the apps no longer brings up macOS's question about a folder that only holds another copy of an app, such as
   Downloads.
+- An app whose update feed isn't an appcast, such as BBEdit's, no longer reads Up to date whatever version is installed.
 
 #### Orphaned Files
 
@@ -620,6 +692,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Logs and Logs for All Users also offer the reports in the folders macOS keeps inside `DiagnosticReports`, such as
   `Retired`.
 - On macOS 27, a MacBook Neo gets the line about what Apple Intelligence may keep.
+- The notes under an area's list, such as the open apps whose folders it leaves out, show whole rather than one line
+  ending in an ellipsis.
 
 #### Developer
 
@@ -679,8 +753,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   so VoiceOver and Voice Control can tell them apart.
 - On macOS 27 the scroll bar starts at the top of a list with no headings.
 - Stop also stops the reads under way, which went on to the end of each file.
-- Parallels', VMware Fusion's, and UTM's virtual machines count as documents, so nothing inside one is offered alone,
-  even with the app gone.
+- Parallels', VMware Fusion's, UTM's, VirtualBuddy's, and Viable's virtual machines count as documents, so nothing
+  inside one is offered alone, even with the app gone.
 - A copy another page moved leaves the list, even the one Duplicates keeps.
 
 #### iCloud Drive
@@ -702,6 +776,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A Mac where iCloud Drive isn't set up says so in the page's title and to VoiceOver, and VoiceOver reads a row under
   Still Here as one.
 - The page says why iCloud kept a download, in Peel's words, when macOS gives a reason.
+- The notes under the list show whole rather than one line ending in an ellipsis.
 
 #### File Search
 
@@ -713,6 +788,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A search of This Mac names any disk Spotlight isn't indexing, also when it found files elsewhere.
 - Kind: Movies goes by the type Spotlight indexed, and counts a file it could not read to tell.
 - Clearing the search field keeps what is selected, and the bar stays while anything is.
+- A disk whose Spotlight index is read-only, as on a nearly full disk, no longer reads as an answer Peel couldn't
+  understand.
 
 #### Background Items
 
@@ -726,7 +803,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A job file Peel can't read moves without stopping another job of that name, and its question says macOS won't start it
   again.
 - `launchctl`'s errors no longer carry its advice to run as root, and on macOS 27 a failed Remove is called that.
-- Stop on a job that has left by then is simply done, and Start on one loaded by then runs it, rather than showing
+- Stop on a job that has left by then is simply done, and Load on one loaded by then runs it, rather than showing
   `launchctl`'s error.
 - The Login Items row shows only for the three folders System Settings answers for, and holds its place while macOS
   answers.
@@ -734,6 +811,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A job of an app excluded by its place is marked excluded and left alone, like one excluded by its identifier.
 - Nothing here is started, stopped, or switched while the exclusions can't be read, and the page says so.
 - A job loaded from a file Peel can't read no longer offers Disable, which it couldn't undo.
+- Pressing a button no longer turns every button gray and Rescan into Stop for a moment.
+- Stop, Unload, and Remove wait for the job's process to end, so a job slow to quit no longer reads as still running
+  after launchd let it go.
 
 #### Extensions
 
@@ -770,16 +850,16 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Every page
 
 - A folder's whole path, in a row's tooltip and in Copy Path, no longer ends in a slash, as Finder copies it.
-- Peel no longer stops responding for good when a checkbox in a list changes on its own, as at the end of a Move to Trash
-  that kept an item, while an app that reads other apps' windows through accessibility is running.
+- Peel no longer stops responding for good when a checkbox in a list changes on its own, as at the end of a Move to
+  Trash that kept an item, while an app that reads other apps' windows through accessibility is running.
 - With Reduce Motion on, figures fade to their new value instead of rolling, on Home, in the menu bar panel, and in the
   bars at a page's foot.
 - Apps' icons follow the icon style chosen in System Settings > Appearance at once, as the Dock does: Peel kept the old
   style until it was opened again.
 - What VoiceOver hears as a list is read again waits for what it is saying: it cut off "Moved 1 item to the Trash"
   within a moment, and on Background Items an action's own scan no longer talks over the state it left.
-- On macOS 27, Uninstall with Peel in Finder's menu shows its mark in the color of the menu's text, where it was black on a
-  dark menu.
+- On macOS 27, Uninstall with Peel in Finder's menu shows its mark in the color of the menu's text, where it was
+  black on a dark menu.
 - On macOS 27, a search field keeps the keyboard when the rows it filters come and go, so the next letter no longer
   chooses a tool in the sidebar.
 - A program another account has open, a build tool's daemon, and a script a running Node.js or Python process was
@@ -830,6 +910,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An agent's label that carries a slash or a control character is never handed to `launchctl`, which reads a service's
   name up to the next slash, so a job file labeled `com.openssh.ssh-agent/x` can no longer make Disable reach macOS's
   own SSH agent.
+- The helper serves an account that isn't an administrator only for a request carrying an administrator's approval
+  still in force, for Apple's own `system.privilege.admin` right, which the helper checks itself and which no process
+  of that account can redefine.
 
 ## 1.2.1 (2026-10-25)
 
