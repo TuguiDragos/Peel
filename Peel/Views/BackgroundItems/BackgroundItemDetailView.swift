@@ -289,8 +289,6 @@ struct BackgroundItemDetailView: View {
             }
         }
         .formStyle(.grouped)
-        .motion(value: item.state)
-        .motion(value: item.isDisabled)
         .task(id: Look(item: item.id, scans: backgroundItems.scans)) {
             legacyStatus = await Self.legacyStatus(of: item)
         }
@@ -431,6 +429,9 @@ struct BackgroundItemDetailView: View {
             }
         }
         .padding(.vertical, 4)
+        // Only the badges fade to a new state: the buttons change at once, so two never show in one place.
+        .motion(value: item.state)
+        .motion(value: item.isDisabled)
     }
 
     /// The item's state, as one badge whose text, symbol, and color change with it. A badge per state would swap
