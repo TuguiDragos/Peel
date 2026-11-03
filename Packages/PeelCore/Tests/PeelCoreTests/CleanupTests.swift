@@ -81,7 +81,7 @@ struct CleanupTests {
     @Test func movesNothingAndBlamesNoItemWhileTheExclusionsCannotBeRead() async throws {
         let directory = try TemporaryDirectory()
         let cache = try directory.file("home/Library/Caches/com.example.editor/blob", bytes: 20)
-        let service = try service(in: directory, exclusions: .unreadable)
+        let service = try service(in: directory, exclusions: .unreadable(because: nil))
         let refusals = RefusalLog(url: directory.url.appending(path: "Peel/refusals.json"))
         let removals = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
         let plan = cleanup(items: [(cache, 20)], service: service)
@@ -101,7 +101,7 @@ struct CleanupTests {
     @Test func aDryRunSaysEachItemStaysWhileTheExclusionsCannotBeRead() async throws {
         let directory = try TemporaryDirectory()
         let cache = try directory.file("home/Library/Caches/com.example.editor/blob", bytes: 20)
-        let service = try service(in: directory, exclusions: .unreadable)
+        let service = try service(in: directory, exclusions: .unreadable(because: nil))
         let removals = RemovalLog(url: directory.url.appending(path: "Peel/removals.json"))
         let collected = Output.Collected()
 

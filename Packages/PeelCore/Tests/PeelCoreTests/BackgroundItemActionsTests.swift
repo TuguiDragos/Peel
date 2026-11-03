@@ -259,7 +259,7 @@ struct BackgroundItemActionsTests {
 
     @Test func nothingIsControlledWhileTheExclusionsAreNotKnown() {
         let job = item(state: .running(pid: 42), plist: URL(filePath: "/Users/me/Library/LaunchAgents/job.plist"))
-        for exclusions in [Exclusions.unreadable, .notYetRead] {
+        for exclusions in [Exclusions.unreadable(because: nil), .notYetRead] {
             let row = BackgroundItems.rows([job], exclusions: exclusions)[0]
 
             #expect(!row.canBeControlled)

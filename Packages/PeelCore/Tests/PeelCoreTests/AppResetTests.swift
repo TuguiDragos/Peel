@@ -431,7 +431,7 @@ struct AppResetTests {
         let environment = home(directory)
         let trash = try directory.directory("Trash")
         let services: [(TrashService, TrashFailure.Reason)] = [
-            (.unreadable, nil, .guarded(.exclusionsNotKnown)),
+            (.unreadable(because: nil), nil, .guarded(.exclusionsNotKnown)),
             (.notYetRead, nil, .guarded(.exclusionsNotKnown)),
             (.none, RemovalJournal(beside: history), .historyUnreadable),
         ].map { exclusions, journal, reason in

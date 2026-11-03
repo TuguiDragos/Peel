@@ -525,7 +525,7 @@ struct HistoryCommandTests {
 
         await #expect(throws: AppLookup.Failure.self) {
             try await (command(["restore", String(removal.record.batch.uuidString.prefix(8)), "-y"]) as RestoreCommand)
-                .run(in: logs.removals, using: TrashService(exclusions: .unreadable))
+                .run(in: logs.removals, using: TrashService(exclusions: .unreadable(because: nil)))
         }
     }
 

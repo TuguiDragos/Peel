@@ -874,7 +874,7 @@ struct FileCommandTests {
     @Test func duplicatesComparesNothingWhileTheExclusionsCantBeRead() {
         let saved = URL(filePath: "/Users/me/Library/Application Support/Peel/exclusions.json")
 
-        let refusal = DuplicatesCommand.refusal(for: .unreadable, savedAt: saved)
+        let refusal = DuplicatesCommand.refusal(for: .unreadable(because: nil), savedAt: saved)
 
         #expect(refusal?.description.hasPrefix(
             "Peel couldn't read your exclusions at /Users/me/Library/Application Support/Peel/exclusions.json, so it compares nothing"

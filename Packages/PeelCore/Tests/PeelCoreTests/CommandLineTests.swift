@@ -358,7 +358,7 @@ struct CommandLineTests {
             }
         }
         #expect(throws: AppLookup.Failure.exclusionsUnreadable("/tmp/exclusions.json", nil)) {
-            try AppLookup.refuseIfExcluded(editor, by: .unreadable, savedAt: URL(filePath: "/tmp/exclusions.json"))
+            try AppLookup.refuseIfExcluded(editor, by: .unreadable(because: nil), savedAt: URL(filePath: "/tmp/exclusions.json"))
         }
     }
 
@@ -367,7 +367,7 @@ struct CommandLineTests {
     @Test func aListingSaysWhenTheExclusionsCannotBeRead() throws {
         #expect(UnreadableExclusions.note(for: .none) == nil)
         #expect(UnreadableExclusions.note(for: Exclusions(bundleIdentifiers: ["com.example.editor"])) == nil)
-        let note = try #require(UnreadableExclusions.note(for: .unreadable, savedAt: URL(filePath: "/tmp/exclusions.json")))
+        let note = try #require(UnreadableExclusions.note(for: .unreadable(because: nil), savedAt: URL(filePath: "/tmp/exclusions.json")))
         #expect(note.contains("/tmp/exclusions.json"))
         let damaged = UnreadableExclusions.note(for: .unreadable(because: .damaged))
         #expect(damaged?.hasSuffix("Settings > Exclusions. The file's contents aren't in a form Peel can read.") == true)
@@ -375,7 +375,8 @@ struct CommandLineTests {
 
     @Test func aSearchDoesNotSayItListsWhatItLeavesOut() throws {
         let saved = URL(filePath: "/tmp/exclusions.json")
-        let note = try #require(UnreadableExclusions.note(for: .unreadable, savedAt: saved, listsEverything: false))
+        let unreadable = Exclusions.unreadable(because: nil)
+        let note = try #require(UnreadableExclusions.note(for: unreadable, savedAt: saved, listsEverything: false))
         #expect(note.contains("/tmp/exclusions.json"))
         #expect(note.contains("Start Over"))
         #expect(!note.contains("may list"))

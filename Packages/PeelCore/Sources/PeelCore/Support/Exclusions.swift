@@ -28,8 +28,6 @@ public struct Exclusions: Sendable, Codable, Hashable {
     public var isKnown: Bool { hasBeenRead && !isUnreadable }
 
     public static let none = Exclusions()
-    public static let unreadable = Exclusions.unreadable(because: nil)
-
     public static func unreadable(because why: FileProblem?) -> Exclusions {
         var exclusions = Exclusions()
         exclusions.isUnreadable = true
@@ -374,8 +372,8 @@ public struct ExclusionStore: Sendable {
         case notSaved(Exclusions, FileProblem)
     }
 
-    /// Loads the saved list. No file means an empty list. A file that cannot be read or reached gives `.unreadable`,
-    /// never an empty list, so what the user excluded stays protected.
+    /// Loads the saved list. No file means an empty list. A file that cannot be read or reached gives an unreadable
+    /// list, never an empty one, so what the user excluded stays protected.
     @concurrent
     public func load() async -> Exclusions {
         read()

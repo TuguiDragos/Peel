@@ -188,7 +188,7 @@ struct SelfRemovalTests {
                 homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
                 rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
             ),
-            exclusions: state == "exclusions unreadable" ? .unreadable
+            exclusions: state == "exclusions unreadable" ? .unreadable(because: nil)
                 : state == "exclusions not yet read" ? .notYetRead : .none,
             journal: RemovalJournal(beside: history)
         ) { url in

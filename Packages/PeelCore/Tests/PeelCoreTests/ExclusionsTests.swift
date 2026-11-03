@@ -98,7 +98,7 @@ struct ExclusionsTests {
         #expect(Exclusions(bundleIdentifiers: ["com.example.app"]).excludes(cask, apps: [], installation: installation) == true, "the identifier it quits names it too")
         #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew/Caskroom/example")]).excludes(cask, apps: [], installation: installation) == true)
         #expect(Exclusions(paths: [URL(filePath: "/opt/homebrew")]).excludes(formula, apps: [], installation: installation) == true)
-        #expect(Exclusions.unreadable.excludes(formula, apps: [], installation: installation) == true, "a list that cannot be read keeps everything")
+        #expect(Exclusions.unreadable(because: nil).excludes(formula, apps: [], installation: installation) == true, "a list that cannot be read keeps everything")
         #expect(Exclusions.notYetRead.excludes(formula, apps: [], installation: installation) == true, "a list not read yet keeps everything")
 
         let unrelated = Exclusions(paths: [URL(filePath: "/Applications/Other.app")], bundleIdentifiers: ["com.other.app"])
@@ -482,7 +482,7 @@ struct ExclusionsTests {
             homeDirectory: directory.url.appending(path: "home"),
             rootDirectory: directory.url.appending(path: "root")
         )
-        let service = TrashService(environment: environment, exclusions: .unreadable) { $0 }
+        let service = TrashService(environment: environment, exclusions: .unreadable(because: nil)) { $0 }
 
         let result = await service.trash([item])
         #expect(result.trashed.isEmpty)
@@ -521,7 +521,7 @@ struct ExclusionsTests {
         #expect(result.trashed.isEmpty)
         #expect(result.failures.map(\.reason) == [.guarded(.exclusionsNotKnown)])
         #expect(!Exclusions.notYetRead.isKnown && !Exclusions.notYetRead.isUnreadable)
-        #expect(Exclusions.none.isKnown && !Exclusions.unreadable.isKnown)
+        #expect(Exclusions.none.isKnown && !Exclusions.unreadable(because: nil).isKnown)
     }
 
     @Test func refusesToRemoveAnExcludedItem() async throws {

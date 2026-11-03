@@ -116,7 +116,7 @@ struct HomebrewTests {
         #expect(names(Exclusions()) == ["sample", "other"])
         #expect(names(Exclusions(paths: [app])) == ["other"])
         #expect(names(Exclusions(bundleIdentifiers: ["org.example.sample"])) == ["other"])
-        #expect(names(.unreadable).isEmpty)
+        #expect(names(.unreadable(because: nil)).isEmpty)
         #expect(names(.notYetRead).isEmpty)
     }
 
@@ -381,7 +381,8 @@ struct HomebrewTests {
 
         let kept = try exclusions.keptFormulae(inCellar: directory.url.appending(path: "Cellar")).get()
         #expect(kept == ["jq", "python@3.13"])
-        #expect(Exclusions.unreadable.keptFormulae(inCellar: directory.url.appending(path: "Cellar")) == .success(["jq", "python@3.13", "wget"]))
+        let unreadable = Exclusions.unreadable(because: nil)
+        #expect(unreadable.keptFormulae(inCellar: directory.url.appending(path: "Cellar")) == .success(["jq", "python@3.13", "wget"]))
 
         let attempt = try await Homebrew.execute(
             ["-c", "printf %s \"$HOMEBREW_NO_CLEANUP_FORMULAE\""], autoUpdate: false, keeping: kept, timeout: 10,

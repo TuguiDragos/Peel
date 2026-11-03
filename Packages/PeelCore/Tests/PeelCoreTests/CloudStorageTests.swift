@@ -119,7 +119,8 @@ struct CloudStorageTests {
 
         #expect(await CloudStorage.free([scanned], exclusions: offline).refused.map(\.reason) == [.excluded])
         #expect(await CloudStorage.free([scanned], exclusions: .notYetRead).refused.map(\.reason) == [.excluded])
-        #expect(await CloudStorage.free([scanned], exclusions: .unreadable).refused.map(\.reason) == [.excluded])
+        let unreadable = Exclusions.unreadable(because: nil)
+        #expect(await CloudStorage.free([scanned], exclusions: unreadable).refused.map(\.reason) == [.excluded])
     }
 
     @Test func callsEachFolderWhatTheUserCallsIt() {

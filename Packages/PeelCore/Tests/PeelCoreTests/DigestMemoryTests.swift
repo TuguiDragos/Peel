@@ -87,7 +87,8 @@ struct DigestMemoryTests {
         try directory.file("home/Documents/Taxes copy/2025.bin", contents: contents)
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
 
-        let result = try await DuplicateFinder(homeDirectory: home, exclusions: .unreadable, digestMemory: memory)
+        let unreadable = Exclusions.unreadable(because: nil)
+        let result = try await DuplicateFinder(homeDirectory: home, exclusions: unreadable, digestMemory: memory)
             .scan(.everySize(in: [home]))
 
         #expect(result.exclusionsNotKnown)

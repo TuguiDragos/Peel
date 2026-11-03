@@ -110,7 +110,7 @@ struct FileSearchLibraryTests {
 
     @Test func aSearchAllLeftOutForUnreadableExclusionsRunsAgainOnceTheyAreRead() async throws {
         let calls = OSAllocatedUnfairLock(initialState: 0)
-        var exclusions = Exclusions.unreadable
+        var exclusions = Exclusions.unreadable(because: nil)
         let library = FileSearchLibrary(
             run: { _, _ in
                 calls.withLock { $0 += 1 }

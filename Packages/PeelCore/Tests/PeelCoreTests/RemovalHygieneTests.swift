@@ -588,7 +588,7 @@ struct RemovalHygieneTests {
             return Self.exporting(arguments)
         }
 
-        for exclusions in [Exclusions.notYetRead, .unreadable] {
+        for exclusions in [Exclusions.notYetRead, .unreadable(because: nil)] {
             let restored = await PreferenceBackup.restore(
                 from: folder,
                 of: "com.example.app",
