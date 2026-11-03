@@ -21,7 +21,7 @@ struct HomebrewChoiceTests {
         #expect(HomebrewChoice.refusal(of: try program("plain/brew", in: directory, mode: 0o644)) == .notAProgram)
         #expect(HomebrewChoice.refusal(of: try directory.directory("folder/brew")) == .notAProgram)
         #expect(HomebrewChoice.refusal(of: try program("open/brew", in: directory, mode: 0o757)) == .writableByEveryone)
-        #expect(HomebrewChoice.refusal(of: brew, user: getuid() + 1) == .ownedByAnotherAccount)
+        #expect(HomebrewChoice.refusal(of: brew, user: getuid() + 1) == .ownedByAnotherAccount(owner: NSUserName()))
     }
 
     @Test func keepsTheChoiceUntilItIsForgotten() throws {
@@ -59,7 +59,7 @@ struct HomebrewChoiceTests {
 
         #expect(Homebrew.executable(chosen: nil, usualPlaces: [missing, brew], user: getuid() + 1) == nil)
         let refused = Homebrew.refusedInAUsualPlace(chosen: nil, usualPlaces: [missing, brew], user: getuid() + 1)
-        #expect(refused == HomebrewChoice.Unrunnable(brew: brew, refusal: .ownedByAnotherAccount))
+        #expect(refused == HomebrewChoice.Unrunnable(brew: brew, refusal: .ownedByAnotherAccount(owner: NSUserName())))
         #expect(Homebrew.refusedInAUsualPlace(chosen: brew, usualPlaces: [missing, brew], user: getuid() + 1) == nil)
     }
 

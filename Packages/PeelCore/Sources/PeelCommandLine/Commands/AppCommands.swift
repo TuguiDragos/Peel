@@ -110,7 +110,11 @@ struct InventoryCommand: AsyncParsableCommand {
             return "Peel runs only the brew chosen in its Settings, \(unrunnable.brew.path(percentEncoded: false)), and that one can't be run."
         }
         if let refused {
-            let owner = refused.refusal == .ownedByAnotherAccount ? "another account owns it" : "anyone on this Mac can change it"
+            let owner = switch refused.refusal {
+            case .ownedByAnotherAccount(let owner?): "the account \(Output.plain(owner)) owns it"
+            case .ownedByAnotherAccount(nil): "another account owns it"
+            default: "anyone on this Mac can change it"
+            }
             return "Peel doesn't run the brew in \(refused.brew.path(percentEncoded: false)): \(owner)."
         }
         return isInstalled ? "Homebrew has no list of packages on this Mac. Run `brew update` first." : "Homebrew isn't installed."

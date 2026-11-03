@@ -94,7 +94,10 @@ extension HomebrewChoice.Refusal {
         switch self {
         case .notBrew: Text("Choose the file called `brew`, in the bin folder of your Homebrew.")
         case .notAProgram: Text("It isn’t a program Peel can run.")
-        case .ownedByAnotherAccount: Text("It belongs to another account, which could change what it runs.")
+        case .ownedByAnotherAccount(let owner?):
+            Text("The account \(owner) owns it, so that account could change what Peel would run. Peel runs only a brew your account or the system owns.")
+        case .ownedByAnotherAccount(nil):
+            Text("Another account owns it, so that account could change what Peel would run. Peel runs only a brew your account or the system owns.")
         case .writableByEveryone: Text("Anyone on this Mac can change it, so Peel won’t run it.")
         }
     }

@@ -139,20 +139,6 @@ public enum ShellSessions: Sendable, Equatable {
     }
 
     public static func loginShell(of user: uid_t = getuid()) -> String? {
-        var capacity = 1_024
-        while capacity <= 65_536 {
-            var entry = passwd()
-            var found: UnsafeMutablePointer<passwd>?
-            var buffer = [CChar](repeating: 0, count: capacity)
-            let (result, shell) = buffer.withUnsafeMutableBufferPointer { bytes -> (Int32, String?) in
-                let result = getpwuid_r(user, &entry, bytes.baseAddress, bytes.count, &found)
-                guard result == 0, found != nil, let shell = entry.pw_shell else { return (result, nil) }
-                return (result, String(cString: shell))
-            }
-            if result == 0 { return shell }
-            guard result == ERANGE else { return nil }
-            capacity *= 4
-        }
-        return nil
+        AccountRecord.field(of: user) { $0.pw_shell }
     }
 }

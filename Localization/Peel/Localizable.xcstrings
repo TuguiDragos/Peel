@@ -20190,6 +20190,112 @@
         }
       }
     },
+    "Another account owns it, so that account could change what Peel would run. Peel runs only a brew your account or the system owns." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Patří jinému účtu, takže by tento účet mohl změnit, co by Peel spustil. Peel spouští jen brew, který patří vašemu účtu nebo systému."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Datei gehört einem anderen Benutzeraccount, der ändern könnte, was Peel ausführen würde. Peel führt brew nur aus, wenn die Datei deinem Benutzeraccount oder dem System gehört."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pertenece a otra cuenta, así que esa cuenta podría cambiar lo que Peel ejecutaría. Peel solo ejecuta un brew que pertenezca a tu cuenta o al sistema."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il appartient à un autre compte, qui pourrait donc modifier ce que Peel exécuterait. Peel n’exécute qu’un brew appartenant à votre compte ou au système."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appartiene a un altro account, che potrebbe quindi cambiare ciò che Peel eseguirebbe. Peel esegue solo un brew che appartiene al tuo account o al sistema."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "別のアカウントが所有しているため、Peelが実行する内容をそのアカウントが変更できる可能性があります。Peelは、お使いのアカウントまたはシステムが所有するbrewだけを実行します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 계정이 소유한 파일이므로 그 계정이 Peel이 실행할 내용을 변경할 수 있습니다. Peel은 이 계정이나 시스템이 소유한 brew만 실행합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een andere account is eigenaar ervan, dus die account zou kunnen wijzigen wat Peel uitvoert. Peel voert alleen een brew uit waarvan je account of het systeem eigenaar is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Należy do innego konta, a to konto mogłoby zmienić to, co uruchomiłby Peel. Peel uruchamia tylko plik brew należący do Twojego konta lub do systemu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele pertence a outra conta, então essa conta poderia alterar o que o Peel executaria. O Peel só executa um brew que pertença à sua conta ou ao sistema."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierul aparține altui cont, așa că acel cont ar putea schimba ce ar rula Peel. Peel rulează doar un program brew care aparține contului dvs. sau sistemului."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Он принадлежит другой учетной записи, которая может изменить то, что будет запускать Peel. Peel запускает только brew, принадлежащий Вашей учетной записи или системе."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ett annat konto äger den, så det kontot skulle kunna ändra vad Peel kör. Peel kör bara en brew som ditt konto eller systemet äger."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sahibi başka bir hesap, bu yüzden o hesap Peel’in çalıştıracağı şeyi değiştirebilir. Peel yalnızca sahibi sizin hesabınız veya sistem olan bir brew çalıştırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей файл належить іншому обліковому запису, тож той обліковий запис міг би змінити те, що запускала б Peel. Peel запускає лише такий brew, який належить вашому обліковому запису або системі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它归另一个账户所有，因此该账户可能会更改Peel将要运行的内容。Peel只会运行归你的账户或系统所有的brew。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它屬於另一個帳號，因此該帳號可能會變更Peel所要執行的內容。Peel只會執行屬於你的帳號或系統的brew。"
+          }
+        }
+      }
+    },
     "Another account owns this file, so Peel doesn’t edit it." : {
       "localizations" : {
         "cs" : {
@@ -75245,112 +75351,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它以HTTP狀態碼%@回應，而不是Peel要求的內容。"
-          }
-        }
-      }
-    },
-    "It belongs to another account, which could change what it runs." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Patří jinému účtu, který by mohl změnit, co soubor spouští."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Datei gehört einem anderen Benutzeraccount, der ändern könnte, was sie ausführt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pertenece a otra cuenta, que podría cambiar lo que ejecuta."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il appartient à un autre compte, qui pourrait modifier ce qu’il exécute."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appartiene a un altro account, che potrebbe cambiare ciò che il file esegue."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "別のアカウントのファイルなので、実行される内容をそのアカウントが変更できる可能性があります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "다른 계정의 파일이므로 그 계정이 이 파일이 실행하는 내용을 변경할 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het hoort bij een andere account, die kan wijzigen wat het uitvoert."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Należy do innego konta, a to konto mogłoby zmienić to, co ten plik uruchamia."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ele pertence a outra conta, que poderia alterar o que ele executa."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fișierul aparține altui cont, care ar putea schimba programul pe care îl pornește."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Он принадлежит другой учетной записи, которая может изменить то, что он запускает."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Den tillhör ett annat konto, som kan ändra vad den kör."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Başka bir hesaba ait ve o hesap, dosyanın ne çalıştırdığını değiştirebilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Файл належить іншому обліковому запису, який може змінити те, що він виконує."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它属于另一个账户，该账户可能会更改它所运行的内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它屬於另一個帳號，該帳號可能會變更它所執行的內容。"
           }
         }
       }
@@ -202447,6 +202447,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wine安裝在其預設檔案夾中的Windows App，連同它們的設定及儲存的所有內容。"
+          }
+        }
+      }
+    },
+    "The account %@ owns it, so that account could change what Peel would run. Peel runs only a brew your account or the system owns." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Patří účtu %@, takže by tento účet mohl změnit, co by Peel spustil. Peel spouští jen brew, který patří vašemu účtu nebo systému."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Datei gehört dem Benutzeraccount „%@“, der ändern könnte, was Peel ausführen würde. Peel führt brew nur aus, wenn die Datei deinem Benutzeraccount oder dem System gehört."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pertenece a la cuenta %@, así que esa cuenta podría cambiar lo que Peel ejecutaría. Peel solo ejecuta un brew que pertenezca a tu cuenta o al sistema."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il appartient au compte %@, qui pourrait donc modifier ce que Peel exécuterait. Peel n’exécute qu’un brew appartenant à votre compte ou au système."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appartiene all’account %@, che potrebbe quindi cambiare ciò che Peel eseguirebbe. Peel esegue solo un brew che appartiene al tuo account o al sistema."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アカウント“%@”が所有しているため、Peelが実行する内容をそのアカウントが変更できる可能性があります。Peelは、お使いのアカウントまたはシステムが所有するbrewだけを実行します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’ 계정이 소유한 파일이므로 그 계정이 Peel이 실행할 내용을 변경할 수 있습니다. Peel은 이 계정이나 시스템이 소유한 brew만 실행합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De account %@ is eigenaar ervan, dus die account zou kunnen wijzigen wat Peel uitvoert. Peel voert alleen een brew uit waarvan je account of het systeem eigenaar is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Należy do konta %@, a to konto mogłoby zmienić to, co uruchomiłby Peel. Peel uruchamia tylko plik brew należący do Twojego konta lub do systemu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele pertence à conta %@, então essa conta poderia alterar o que o Peel executaria. O Peel só executa um brew que pertença à sua conta ou ao sistema."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierul aparține contului %@, așa că acel cont ar putea schimba ce ar rula Peel. Peel rulează doar un program brew care aparține contului dvs. sau sistemului."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Он принадлежит учетной записи %@, которая может изменить то, что будет запускать Peel. Peel запускает только brew, принадлежащий Вашей учетной записи или системе."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontot %@ äger den, så det kontot skulle kunna ändra vad Peel kör. Peel kör bara en brew som ditt konto eller systemet äger."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sahibi %@ hesabı, bu yüzden o hesap Peel’in çalıştıracağı şeyi değiştirebilir. Peel yalnızca sahibi sizin hesabınız veya sistem olan bir brew çalıştırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей файл належить обліковому запису «%@», тож той обліковий запис міг би змінити те, що запускала б Peel. Peel запускає лише такий brew, який належить вашому обліковому запису або системі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它归账户“%@”所有，因此该账户可能会更改Peel将要运行的内容。Peel只会运行归你的账户或系统所有的brew。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它屬於帳號「%@」，因此該帳號可能會變更Peel所要執行的內容。Peel只會執行屬於你的帳號或系統的brew。"
           }
         }
       }

@@ -223,7 +223,9 @@ struct TerminalLibrariesTests {
         try FileManager.default.createDirectory(
             at: prefix.appending(path: "opt/\(formula)", directoryHint: .isDirectory), withIntermediateDirectories: true
         )
-        let refused = HomebrewChoice.Unrunnable(brew: prefix.appending(path: "bin/brew"), refusal: .ownedByAnotherAccount)
+        let refused = HomebrewChoice.Unrunnable(
+            brew: prefix.appending(path: "bin/brew"), refusal: .ownedByAnotherAccount(owner: nil)
+        )
 
         #expect(TerminalToolLibrary.installed(prefix: nil, refused: refused, unrunnable: nil).contains(tool))
         #expect(TerminalToolLibrary.installed(prefix: nil, refused: nil, unrunnable: refused).contains(tool))
@@ -233,7 +235,7 @@ struct TerminalLibrariesTests {
 
     @Test func aToolsLinesNameTheFolderOfTheBrewPeelWontRun() {
         let refused = HomebrewChoice.Unrunnable(
-            brew: URL(filePath: "/org.example/brew/bin/brew"), refusal: .ownedByAnotherAccount
+            brew: URL(filePath: "/org.example/brew/bin/brew"), refusal: .ownedByAnotherAccount(owner: nil)
         )
         let running = URL(filePath: "/org.example/other/", directoryHint: .isDirectory)
         typealias Brew = HomebrewChoice.Unrunnable

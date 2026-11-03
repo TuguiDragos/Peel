@@ -9,8 +9,8 @@ public struct HomebrewChoice: Sendable {
     public enum Refusal: Sendable, Equatable {
         case notBrew
         case notAProgram
-        /// Another account could change what it runs.
-        case ownedByAnotherAccount
+        /// Another account, `owner` by its short name when it has one, could change what it runs.
+        case ownedByAnotherAccount(owner: String?)
         case writableByEveryone
     }
 
@@ -61,7 +61,9 @@ public struct HomebrewChoice: Sendable {
         guard stat(path, &info) == 0, info.st_mode & S_IFMT == S_IFREG, access(path, X_OK) == 0 else {
             return .notAProgram
         }
-        guard info.st_uid == user || info.st_uid == 0 else { return .ownedByAnotherAccount }
+        guard info.st_uid == user || info.st_uid == 0 else {
+            return .ownedByAnotherAccount(owner: AccountRecord.field(of: info.st_uid) { $0.pw_name })
+        }
         return info.st_mode & S_IWOTH == 0 ? nil : .writableByEveryone
     }
 }

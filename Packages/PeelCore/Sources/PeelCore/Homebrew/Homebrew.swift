@@ -650,10 +650,10 @@ public enum Homebrew {
     ) -> HomebrewChoice.Unrunnable? {
         guard chosen == nil, executable(chosen: nil, usualPlaces: usualPlaces, user: user) == nil else { return nil }
         return usualPlaces.lazy.compactMap { brew in
-            switch HomebrewChoice.refusal(of: brew, user: user) {
-            case let refusal? where refusal == .ownedByAnotherAccount || refusal == .writableByEveryone:
-                HomebrewChoice.Unrunnable(brew: brew, refusal: refusal)
-            default: nil
+            guard let refusal = HomebrewChoice.refusal(of: brew, user: user) else { return nil }
+            return switch refusal {
+            case .ownedByAnotherAccount, .writableByEveryone: HomebrewChoice.Unrunnable(brew: brew, refusal: refusal)
+            case .notBrew, .notAProgram: nil
             }
         }.first
     }
