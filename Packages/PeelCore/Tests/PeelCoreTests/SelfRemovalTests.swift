@@ -394,7 +394,7 @@ struct SelfRemovalTests {
 
         _ = await SelfRemoval.move([app], app: app, folder: folder, using: try service(in: directory)) { _ in }
 
-        #expect(HomebrewChoice(url: folder.appending(path: "homebrew.json")).save(nil))
+        #expect(HomebrewChoice(url: folder.appending(path: "homebrew.json")).save(nil) == nil)
     }
 
     @Test func movesTheAppPeelRunsFrom() async throws {

@@ -46,11 +46,16 @@ public struct HomebrewChoice: Sendable {
         return Unrunnable(brew: brew, refusal: refusal)
     }
 
-    /// Keeps `brew` as the one to run, or forgets the choice when it is nil. False when it could not be saved.
+    /// Keeps `brew` as the one to run, or forgets the choice when it is nil, and answers why it couldn't be saved, or
+    /// nil once it is.
     @discardableResult
-    public func save(_ brew: URL?) -> Bool {
-        guard let data = try? JSONEncoder().encode(brew?.path(percentEncoded: false)) else { return false }
-        return (try? PeelFolder.write(data, to: url)) != nil
+    public func save(_ brew: URL?) -> FileProblem? {
+        do {
+            try PeelFolder.write(try JSONEncoder().encode(brew?.path(percentEncoded: false)), to: url)
+            return nil
+        } catch {
+            return .failed(SystemError(error))
+        }
     }
 
     /// Why `brew` cannot be the one Peel runs, or nil. A link is followed, since the file it leads to is what runs.

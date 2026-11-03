@@ -261,13 +261,21 @@ extension AppInspector.Unreadable {
 extension FileProblem {
     /// `sentence`, then why the file at `url` couldn't be read or saved.
     func said(after sentence: String, about url: URL) -> String {
-        let why = switch self {
+        [sentence, why(about: url)].joined(separator: " ")
+    }
+
+    /// `sentence`, its Markdown read, then why the file at `url` couldn't be read or saved.
+    func said(after sentence: AttributedString, about url: URL) -> AttributedString {
+        sentence + AttributedString(" " + why(about: url))
+    }
+
+    private func why(about url: URL) -> String {
+        switch self {
         case .notAFile: String(localized: "Something other than a file, such as a folder, is where the file should be.")
         case .tooLarge: String(localized: "The file is larger than Peel ever writes it, so Peel doesn’t read it.")
         case .damaged: String(localized: "The file’s contents aren’t in a form Peel can read.")
         case .failed(let error): String(localized: "macOS answered: \(error.description(of: url))")
         }
-        return [sentence, why].joined(separator: " ")
     }
 }
 

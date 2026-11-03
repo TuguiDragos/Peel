@@ -10,7 +10,7 @@ struct HomebrewSection: View {
     @State private var isChoosing = false
     @State private var confirming: URL?
     @State private var refusal: HomebrewChoice.Refusal?
-    @State private var couldNotSave = false
+    @State private var whyNotSaved: FileProblem?
 
     var body: some View {
         let unrunnable = HomebrewChoice().unrunnable()
@@ -46,8 +46,8 @@ struct HomebrewSection: View {
                         .foregroundStyle(.secondary)
                 }
             }
-            if couldNotSave {
-                StatusLabel(title: Text("Peel couldn’t save which `brew` to run."))
+            if let whyNotSaved {
+                StatusLabel(title: Text(notSaved(whyNotSaved)))
             }
         } header: {
             titled("Homebrew", "Peel runs the `brew` in /opt/homebrew or /usr/local. If your Homebrew is in a folder of its own, such as /opt/brew, choose its `brew`, and Peel and `peel` run that one.")
@@ -74,6 +74,10 @@ struct HomebrewSection: View {
         }
     }
 
+    private func notSaved(_ why: FileProblem) -> AttributedString {
+        why.said(after: AttributedString(localized: "Peel couldn’t save which `brew` to run."), about: HomebrewChoice().url)
+    }
+
     private var isShowingRefusal: Binding<Bool> {
         Binding(get: { refusal != nil }, set: { if !$0 { refusal = nil } })
     }
@@ -83,7 +87,7 @@ struct HomebrewSection: View {
     }
 
     private func use(_ brew: URL?) {
-        couldNotSave = !HomebrewChoice().save(brew)
+        whyNotSaved = HomebrewChoice().save(brew)
         choice = HomebrewChoice().load()
         Task { await homebrew.readAnotherBrew() }
     }

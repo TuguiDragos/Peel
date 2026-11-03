@@ -30,17 +30,27 @@ struct HomebrewChoiceTests {
         let choice = HomebrewChoice(url: directory.url.appending(path: "Peel/homebrew.json"))
 
         #expect(choice.load() == nil)
-        #expect(choice.save(brew))
+        #expect(choice.save(brew) == nil)
         #expect(choice.load()?.path(percentEncoded: false) == brew.path(percentEncoded: false))
-        #expect(choice.save(nil))
+        #expect(choice.save(nil) == nil)
         #expect(choice.load() == nil)
+    }
+
+    @Test(.permissionsHold) func saysWhyTheChoiceCouldNotBeSaved() throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("Peel")
+        try directory.setPermissions(0o500, of: folder)
+        defer { try? directory.setPermissions(0o755, of: folder) }
+
+        let refusedWrite = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
+        #expect(HomebrewChoice(url: folder.appending(path: "homebrew.json")).save(nil) == .failed(refusedWrite))
     }
 
     @Test func runsNoOtherBrewWhileTheChosenOneCannotRun() throws {
         let directory = try TemporaryDirectory()
         let brew = try program("opt/brew/bin/brew", in: directory)
         let choice = HomebrewChoice(url: directory.url.appending(path: "homebrew.json"))
-        #expect(choice.save(brew))
+        #expect(choice.save(brew) == nil)
 
         chmod(brew.path(percentEncoded: false), 0o644)
 

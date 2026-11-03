@@ -25,7 +25,7 @@ struct PeelFolderTests {
 
         FileLock.whileHeld(beside: file("a.json")) {}
         #expect(AppFolders(url: file("app-folders.json")).add([directory.url]) != .saved)
-        #expect(!HomebrewChoice(url: file("homebrew.json")).save(nil))
+        #expect(HomebrewChoice(url: file("homebrew.json")).save(nil) != nil)
         #expect(!ShellFile.write(ShellFile.Choices(), to: file("Terminal/zshrc")))
         #expect(!SSHFile.write([], to: file("Terminal/ssh_config")))
         await ReleaseNotesStore(url: file("release-notes.json")).save(ReleaseNotesMemory())
@@ -48,7 +48,7 @@ struct PeelFolderTests {
         let folder = try directory.directory("Peel")
         PeelFolder.take(folder)
 
-        #expect(!HomebrewChoice(url: folder.appending(path: "homebrew.json")).save(nil))
+        #expect(HomebrewChoice(url: folder.appending(path: "homebrew.json")).save(nil) != nil)
         FileLock.whileHeld(beside: folder.appending(path: "a.json")) {}
 
         #expect(try FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false)).isEmpty)
@@ -58,7 +58,7 @@ struct PeelFolderTests {
         let directory = try TemporaryDirectory()
         PeelFolder.take(directory.url.appending(path: "Peel", directoryHint: .isDirectory))
 
-        #expect(HomebrewChoice(url: directory.url.appending(path: "Peel 2/homebrew.json")).save(nil))
+        #expect(HomebrewChoice(url: directory.url.appending(path: "Peel 2/homebrew.json")).save(nil) == nil)
     }
 
     @Test func onlyThisFolderWritesAFileOfPeelsWhole() throws {

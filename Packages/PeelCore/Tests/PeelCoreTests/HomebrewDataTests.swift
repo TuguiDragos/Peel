@@ -42,11 +42,11 @@ import Testing
 
         try directory.directory("root/usr/local/Cellar")
         let choice = HomebrewChoice(url: HomebrewChoice.url(inHome: home))
-        #expect(choice.save(directory.url.appending(path: "custom/bin/brew")))
+        #expect(choice.save(directory.url.appending(path: "custom/bin/brew")) == nil)
         #expect(HomebrewData.prefixes(home: home, root: root).map(\.lastPathComponent)
             == ["custom", "homebrew", "local"])
 
-        #expect(choice.save(root.appending(path: "usr/local/bin/brew")))
+        #expect(choice.save(root.appending(path: "usr/local/bin/brew")) == nil)
         #expect(HomebrewData.prefixes(home: home, root: root).map(\.lastPathComponent) == ["local", "homebrew"])
     }
 
