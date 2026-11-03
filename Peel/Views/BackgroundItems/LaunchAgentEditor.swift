@@ -133,7 +133,8 @@ extension LaunchAgentFile.Problem {
         case .notYours: String(localized: "Another account owns this file, so Peel doesn’t edit it.")
         case .tooLarge:
             String(localized: "This file is larger than 1 MB, more than a job’s file holds, so Peel doesn’t open it.")
-        case .unreadable: String(localized: "Peel couldn’t read this file.")
+        case .unreadable(let error?): String(localized: "Peel couldn’t read this file: \(error.localizedDescription)")
+        case .unreadable(nil): String(localized: "Peel couldn’t read this file.")
         case .changed: String(localized: "The file changed since Peel read it. Close this and open it again.")
         case .notAPropertyList(let line?): String(localized: "This isn’t a valid property list. Look at line \(line).")
         case .notAPropertyList(nil): String(localized: "This isn’t a valid property list.")

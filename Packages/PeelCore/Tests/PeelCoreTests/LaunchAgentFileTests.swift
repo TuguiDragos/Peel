@@ -128,6 +128,17 @@ struct LaunchAgentFileTests {
         #expect(await LaunchAgentFile.open(agent(home.plist, source: .systemLibrary)).failure == .cannotBeEdited)
     }
 
+    @Test func saysWhatMacOSAnsweredWhenTheFileCantBeRead() async throws {
+        let home = try Home()
+        chmod(home.plist.path(percentEncoded: false), 0)
+        defer { chmod(home.plist.path(percentEncoded: false), 0o644) }
+
+        #expect(
+            await LaunchAgentFile.open(agent(home.plist)).failure
+                == .unreadable(SystemError(domain: NSPOSIXErrorDomain, code: Int(EACCES)))
+        )
+    }
+
     @Test func saysWhatKeepsAnEditFromBeingSaved() async throws {
         let home = try Home()
         let file = try await home.open(agent(home.plist))

@@ -64,6 +64,16 @@ enum BoundedRead {
         return Data(buffer[0..<filled])
     }
 
+    /// What macOS answers when `url` is opened to be read, or nil when it opens: why a read found nothing.
+    static func openError(of url: URL) -> SystemError? {
+        let descriptor = open(url.path(percentEncoded: false), O_RDONLY | O_NONBLOCK | O_CLOEXEC)
+        guard descriptor < 0 else {
+            close(descriptor)
+            return nil
+        }
+        return SystemError(domain: NSPOSIXErrorDomain, code: Int(errno))
+    }
+
     /// Whether `url` opens as a regular file of at most `maximum` bytes, which is what `data(at:maximum:)` asks
     /// before it reads.
     static func opens(_ url: URL, maximum: Int = maximumBytes) -> Bool {

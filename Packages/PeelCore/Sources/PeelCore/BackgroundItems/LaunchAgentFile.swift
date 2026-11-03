@@ -13,7 +13,8 @@ public struct LaunchAgentFile: Sendable {
         case notAPlainFile
         case notYours
         case tooLarge
-        case unreadable
+        /// macOS wouldn't let Peel read it, and said why when it did.
+        case unreadable(SystemError?)
         /// The file changed since it was opened.
         case changed
         case notAPropertyList(line: Int?)
@@ -84,9 +85,10 @@ public struct LaunchAgentFile: Sendable {
         }
         guard info.st_uid == owner else { return .failure(.notYours) }
         guard info.st_size <= maximumBytes else { return .failure(.tooLarge) }
-        guard let (data, identity) = BoundedRead.contents(at: url, maximum: maximumBytes),
-              identity.holdsTheSameContents(as: FileIdentity(info))
-        else { return .failure(.unreadable) }
+        guard let (data, identity) = BoundedRead.contents(at: url, maximum: maximumBytes) else {
+            return .failure(.unreadable(BoundedRead.openError(of: url)))
+        }
+        guard identity.holdsTheSameContents(as: FileIdentity(info)) else { return .failure(.changed) }
         var format = PropertyListSerialization.PropertyListFormat.xml
         guard let plist = try? PropertyListSerialization.propertyList(from: data, options: [], format: &format),
               (plist as? [String: Any])?["Label"] as? String == item.label
@@ -94,10 +96,13 @@ public struct LaunchAgentFile: Sendable {
         let text: String
         if format == .xml, let written = String(data: data, encoding: .utf8) {
             text = written
-        } else if let xml = try? PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0) {
-            text = String(decoding: xml, as: UTF8.self)
         } else {
-            return .failure(.unreadable)
+            do {
+                let xml = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
+                text = String(decoding: xml, as: UTF8.self)
+            } catch {
+                return .failure(.unreadable(SystemError(error)))
+            }
         }
         return .success(
             LaunchAgentFile(url: url, label: item.label, text: text, opened: identity, mode: info.st_mode & 0o7777)
