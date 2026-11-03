@@ -48,4 +48,17 @@ public struct TerminalSettings: TerminalSettingsStoring, Sendable {
         CFPreferencesSetAppValue(role.rawValue as CFString, name as CFString?, Self.identifier as CFString)
         return CFPreferencesAppSynchronize(Self.identifier as CFString)
     }
+
+    public var hasSetItselfUp: Bool {
+        CFPreferencesAppSynchronize(Self.identifier as CFString)
+        return CFPreferencesCopyAppValue("HasMigratedDefaults" as CFString, Self.identifier as CFString) as? Bool == true
+    }
+
+    public var initialProfileName: String? {
+        guard let terminal = NSWorkspace.shared.urlForApplication(withBundleIdentifier: Self.identifier) else {
+            return nil
+        }
+        let settings = terminal.appending(path: "Contents/Resources/Initial Settings/settings.plist")
+        return BoundedRead.propertyList(at: settings)?["Default Settings"] as? String
+    }
 }

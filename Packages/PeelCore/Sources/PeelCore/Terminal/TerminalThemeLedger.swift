@@ -107,8 +107,11 @@ public struct TerminalThemeLedger {
         // A role on another profile was changed by the person and stays, unless the theme is gone: Terminal itself
         // moves a role off a profile deleted there, which is no choice of a profile.
         let isGone = chosen.map { profiles[$0] == nil } ?? false
+        // Terminal names its own initial profile for a role that names none only once, as it first opens, so a role
+        // that named nothing before gets that profile back once Terminal has set itself up.
+        let initial = terminal.initialProfileName.flatMap { terminal.hasSetItselfUp && profiles[$0] != nil ? $0 : nil }
         for role in TerminalProfileRole.allCases where isGone || terminal.profileName(for: role) == chosen {
-            guard terminal.setProfileName(before[role], for: role) else { return .refused }
+            guard terminal.setProfileName(before[role] ?? initial, for: role) else { return .refused }
         }
         let inUse = Set(TerminalProfileRole.allCases.compactMap { terminal.profileName(for: $0) })
         let untouched = written.filter { name, fingerprint in

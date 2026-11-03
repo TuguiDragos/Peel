@@ -9,6 +9,8 @@ private final class FakeTerminalSettings: TerminalSettingsStoring {
     var storedProfiles: [String: [String: Any]]? = [:]
     var names: [TerminalProfileRole: String] = [:]
     var shellSetting: String?
+    var hasSetItselfUp = true
+    var initialProfileName: String? = "Clear Dark"
 
     func profiles() -> [String: [String: Any]]? { storedProfiles }
 

@@ -10,6 +10,8 @@ private final class InMemoryTerminalSettings: TerminalSettingsStoring {
     var profilesAreUnreadable = false
     var storedProfiles: [String: [String: Any]] = ["Basic": ["name": "Basic"], "Pro": ["name": "Pro"]]
     var names: [TerminalProfileRole: String] = [.newWindows: "Basic", .startup: "Basic"]
+    var hasSetItselfUp = true
+    var initialProfileName: String? = "Clear Dark"
 
     func profiles() -> [String: [String: Any]]? {
         profilesAreUnreadable ? nil : storedProfiles
@@ -37,6 +39,40 @@ private final class InMemoryTerminalSettings: TerminalSettingsStoring {
 struct TerminalThemeLedgerTests {
     private let theme = TerminalThemeCatalog.all[0]
     private let otherTheme = TerminalThemeCatalog.all[1]
+
+    /// Terminal names its initial profile for both roles itself the first time it opens, and never again, so a role
+    /// that named nothing before Peel's theme gets that profile back once Terminal has opened under the theme.
+    @Test func givesARoleThatNamedNothingTerminalsOwnProfileOnceTerminalSetItselfUp() throws {
+        let terminal = InMemoryTerminalSettings()
+        terminal.names = [:]
+        terminal.storedProfiles = [:]
+        terminal.hasSetItselfUp = false
+        var ledger = TerminalThemeLedger()
+        #expect(try ledger.use(theme, in: terminal) == .changed)
+        terminal.hasSetItselfUp = true
+        terminal.storedProfiles["Clear Dark"] = ["name": "Clear Dark"]
+
+        #expect(ledger.putBack(in: terminal) == .changed)
+
+        #expect(terminal.names == [.newWindows: "Clear Dark", .startup: "Clear Dark"])
+    }
+
+    @Test func leavesARoleThatNamedNothingUnnamedWhileTerminalHasNotSetItselfUp() throws {
+        let terminal = InMemoryTerminalSettings()
+        terminal.names = [:]
+        terminal.storedProfiles = [:]
+        terminal.hasSetItselfUp = false
+        var ledger = TerminalThemeLedger()
+        #expect(try ledger.use(theme, in: terminal) == .changed)
+
+        #expect(ledger.putBack(in: terminal) == .changed)
+
+        #expect(terminal.names.isEmpty)
+    }
+
+    @Test func readsTheProfileTerminalsOwnSettingsStartWith() {
+        #expect(TerminalSettings().initialProfileName == "Clear Dark")
+    }
 
     @Test func writesNothingOverProfilesItCannotRead() throws {
         let terminal = InMemoryTerminalSettings()
