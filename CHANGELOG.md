@@ -181,6 +181,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - `peel caches --json` gives each tool's `id`, and the list adds it beside a name two tools share.
 - `peel uninstall` says when Charles or Proxyman leaves its root certificate trusted, and `peel orphans` how to choose
   Full Security again beside a kernel extension.
+- `peel updates --json` has a `failure` for each app whose check failed, saying who was asked and what came back.
 
 ### Changed
 
@@ -197,6 +198,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The totals read Items moved and Apps moved, which is what they count, and the Mac's picture says it shows About in
   System Settings.
 - About says that Homebrew's own uninstall and Clean Up delete what they remove.
+- App Management says it is known once Peel moves another developer's app, and its note says why Peel can't tell before
+  then.
+- Command Line says whether another file or another link stands where the link to `peel` goes, and where that link
+  leads, in Settings too.
 
 #### Menu bar
 
@@ -212,10 +217,18 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - The shadow setting says that only the `screencapture` command reads it.
 
+#### Terminal
+
+- The Shell and SSH tabs say why Peel's settings file couldn't be read or saved, with what macOS answered.
+- The Git tab says what Git answered when it refused a change, in its own words.
+
 #### History
 
 - A removal from several pages is named by its first four pages and how many more, in the app and in `peel history`.
 - Forget says what it does: History stops listing the items, and nothing on the Mac changes.
+- History and the Not Moved list say why they couldn't be read or saved: what stands where the file should be, or what
+  macOS answered, with the file's name.
+- When Peel can't look in the Trash for an item, History and `peel restore` say what macOS answered.
 
 #### Settings
 
@@ -235,6 +248,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Exclusions' `+` for apps opens a short list with a search field, rather than a menu that ran to the edge of the
   screen.
 - The Settings window keeps one size on every tab, rather than growing and shrinking as tabs change.
+- Exclusions, App Folders, the choice of `brew`, and Saved Settings say why a list or a copy couldn't be read or saved.
+- Homebrew names the account that owns a `brew` Peel won't run.
+- Remove Peel says why it couldn't read Peel itself.
 
 #### Applications
 
@@ -262,6 +278,13 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   names, and `peel uninstall` refuses them.
 - On an app's page, the button that has Homebrew upgrade the app reads Upgrade.
 - After an app moves, the alert says on macOS 26 too that macOS still starts its background items from the Trash.
+- Update check failed says what the check met: no answer, in macOS's words, the server's status, an address that isn't
+  https, or an answer Peel can't read, and from the App Store an older version than the update it offered. An app's page
+  and Intel Software say it too.
+- When Peel can't show an app the Finder menu, a link, or a shortcut asked for, the window says why.
+- The record of who signs your apps says why it couldn't be read or saved.
+- A reset says why it couldn't save a copy of the settings first, and Put Settings Back why it couldn't save the app's
+  settings or read the saved ones.
 
 #### Orphaned Files
 
@@ -269,6 +292,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - This Belongs To… opens a short list of apps with a search field, rather than a menu that ran to the edge of the
   screen.
 - A group where nothing can move says why at its head on macOS 26 too.
+- A group says when its files were modified, so something may still use them, or how long nothing changed them.
+- An unsure group names what is running now under its identifier.
+- Orphaned Files and Settings say why the list of app folders, or of the files you said belong to an app, couldn't be
+  read or saved, rather than guess.
 
 #### Intel Software
 
@@ -296,6 +323,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   still here.
 - Why Forget is off is said on the page, not only in its tooltip.
 - An exclusion also keeps Homebrew from upgrading a package, since an upgrade deletes the version it replaces.
+- Before a command that deletes for good, Peel names the folder it couldn't look into to tell which formulae your
+  exclusions cover.
 
 #### Space
 
@@ -307,6 +336,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The note on an area's folders left to Developer names the four largest and counts the rest.
 - An area's page counts the folders it has in containers under Where, instead of listing over a thousand rows.
 - The line on how much the AI models and datasets Developer lists take shows on macOS 26 too.
+- On macOS 27, Space says why it couldn't measure the AI models and datasets.
 
 #### Developer
 
@@ -319,6 +349,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Two projects in folders of the same name are told apart by the folders above them, everywhere they are named.
 - A Git index that took too long to read says so, apart from one Peel couldn't read.
 - The summary of what was found says how much of it Peel recommends, as Developer's does.
+- A chosen folder Peel doesn't look in names the folder that keeps it out, and the tool that fills it.
+- A chosen folder Peel can't reach says why: its disk isn't connected, nothing or something else is there, its
+  permissions, a disk that didn't answer, or macOS's words. Duplicates says it too.
+- A project whose walk ran out of time says it took too long to tell when it last changed.
+- When Time Machine's mark couldn't go on a folder, the page names the account that owns it.
 
 #### Installers and Backups
 
@@ -327,6 +362,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The empty page names every kind Peel looks for, and the size it means.
 - The list and the pages say the same figure, a search narrows a page to the rows it finds, and the page looks again
   after an hour.
+- An installer held back because it is open names the programs that have it open.
 
 #### Duplicates
 
@@ -336,12 +372,15 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The copy on the home folder's disk is kept before one on another disk, even an older one or one outside Downloads,
   and the cloud shows only beside a copy that syncs through one.
 - A copy in `/Users/Shared` is kept before one elsewhere only when nothing else will do, and isn't selected for you.
+- A folder Duplicates won't scan says the one rule that keeps it out.
 
 #### iCloud Drive
 
 - The page starts on only where iCloud Drive is set up, and says when it isn't.
 - A download in an app's own iCloud folder is listed and not recommended, and the page says that iCloud keeps a copy
   of what it uploaded and that files open again only online.
+- A download left where it was says why, as iCloud reports it at that moment.
+- A download macOS couldn't free because it is in use names the programs that hold it.
 
 #### File Search
 
@@ -362,12 +401,15 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A job an app registers reads Unknown where nothing tells whether it starts at login or restarts itself.
 - "Part of this list may be missing" says why, and names a folder of job files Peel couldn't look in.
 - Remove, for a job a deleted app left loaded, and Runs from the Trash show on macOS 26 too.
+- A job whose state isn't known says why, and one whose name Peel won't pass to `launchctl` says why too.
+- The agent editor says what macOS answered when a file couldn't be opened.
 
 #### Extensions
 
 - The points an extension plugs into are named as System Settings names them, File Providers apart from Finder
   among them.
 - A system extension's page names who signed it rather than the team's ten characters.
+- A state Peel doesn't know reads Unknown to Peel, apart from Unknown, the state macOS itself reports.
 
 #### Plug-ins
 
@@ -397,7 +439,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A notice's buttons stand beside its words only while each line of the words fits there, and otherwise under them at
   the right, the main action last.
 - Where macOS keeps Peel out until it has Full Disk Access, the notice says to turn it on from Home, with Open Home,
-  and a folder whose own permissions keep your account out says that Full Disk Access doesn't open it.
+  and a folder whose own permissions keep your account out says that Full Disk Access takes Peel past macOS's privacy
+  protections, not past a folder's own permissions.
+- While History can't be written, every page, Home, and Settings say why: the folder this account can't write, the
+  disk's free space against what History needs, or the journal, each with its path.
+- Start Over says what macOS answered when it couldn't set the old file aside.
+- When Peel's helper refuses an item, Peel says where a link still leads, or what the item holds.
 
 #### `peel`
 
@@ -415,6 +462,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - `peel uninstall --dry-run` writes the plan and why when the app itself would stay, and exits 0; the JSON says it in
   `appStays`.
 - `peel` with no subcommand shows its help on standard error and exits 64, as any other wrong command.
+- `peel updates` says why each failed check failed, and asks to check the connection only when no server answered.
+- Every command that couldn't read or save one of Peel's own files, or reach a chosen folder, says why, as the app does.
 
 ### Fixed
 
@@ -428,8 +477,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - No command that links `peel` is offered from a temporary copy of Peel or a read-only disk.
 - A copy of Peel that didn't install the helper offers no Install, and the Helper row's note no longer says a second
   copy needs its own.
-- App Management stops reading Off once you've been to System Settings: the row reads Checked at the next removal until
-  a removal answers.
+- App Management stops reading Off once you've been to System Settings: the row reads Known again once Peel moves
+  another developer's app, until such a move answers.
 - The Command Line note says what the row offers: where Home gives no Copy, it says why, in Settings' words.
 - The sidebar's badge also shows when exclusions or History stop every move.
 - No row waits for what a slow `pluginkit` says of another copy of Peel.
@@ -466,6 +515,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The Tools tab knows what is installed under a `brew` Peel won't run, and its lines name that folder.
 - Asking zsh which prompt a new window shows no longer runs your `.zlogout`.
 - The Shell tab finds the `.zshrc` a login shell reads, also when `.zprofile` sets `ZDOTDIR`.
+- Put Back of a theme gives Terminal its own Clear Dark again on an account where Terminal first opened under the theme;
+  new windows took any profile, such as Red Sands.
 
 #### History
 
@@ -501,6 +552,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   stays open.
 - A Put Back reaches every page that may list what came back, whichever page moved it, and what `peel restore` put back
   too.
+- A removal cut short keeps the sizes its page measured when History takes it back, rather than Unknown on every row.
 
 #### Settings
 
