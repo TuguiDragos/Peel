@@ -168,13 +168,28 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
-            if item.hasAnUnusableLabel, !item.canBeControlled {
+            if let unusable = item.unusableLabel, !item.canBeControlled {
                 Section {
-                    Notice(
-                        title: Text("Peel can’t use its name"),
-                        detail: Text("Its name has characters Peel never passes to launchctl, so Peel doesn’t start, stop, enable, or disable it here."),
-                        kind: .note
-                    ) {}
+                    switch unusable {
+                    case .holdsASlash:
+                        Notice(
+                            title: Text("Its name could reach another job"),
+                            detail: Text("Since launchctl reads a job’s name only up to a slash, a command for this one could reach another job. Peel doesn’t start, stop, enable, or disable it here."),
+                            kind: .note
+                        ) {}
+                    case .holdsAControlCharacter:
+                        Notice(
+                            title: Text("Its name holds a control character"),
+                            detail: Text("Peel never passes a control character to launchctl, so it doesn’t start, stop, enable, or disable this job here."),
+                            kind: .note
+                        ) {}
+                    case .notTakenByTheHelper:
+                        Notice(
+                            title: Text("Its name has characters the helper doesn’t take"),
+                            detail: Text("The helper passes launchctl only a name of letters, digits, dots, hyphens, underscores, @ and +, not starting with a dot or a hyphen, so Peel doesn’t start, stop, enable, or disable this job here."),
+                            kind: .note
+                        ) {}
+                    }
                 }
             }
 

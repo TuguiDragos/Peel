@@ -485,10 +485,10 @@ struct BackgroundItemActionsTests {
             )
         }
 
-        #expect(daemon("org.example.my helper").hasAnUnusableLabel)
+        #expect(daemon("org.example.my helper").unusableLabel == .notTakenByTheHelper)
         #expect(!daemon("org.example.my helper").canBeControlled)
-        #expect(!daemon("sh.brew.postgresql@16").hasAnUnusableLabel)
-        #expect(!daemon("com.apple.example").hasAnUnusableLabel)
+        #expect(daemon("sh.brew.postgresql@16").unusableLabel == nil)
+        #expect(daemon("com.apple.example").unusableLabel == nil)
     }
 
     @Test func aJobLoadedFromAFileElsewhereCanOnlyBeStopped() {
@@ -515,7 +515,9 @@ struct BackgroundItemActionsTests {
         }
 
         #expect(!agent("com.openssh.ssh-agent/x").canBeControlled)
-        #expect(agent("com.openssh.ssh-agent/x").hasAnUnusableLabel)
+        #expect(agent("com.openssh.ssh-agent/x").unusableLabel == .holdsASlash)
+        #expect(agent("org.example.agent\u{7}").unusableLabel == .holdsAControlCharacter)
+        #expect(agent("org.example.my agent").unusableLabel == nil)
         #expect(BackgroundItemActions.refusal(for: agent("com.openssh.ssh-agent/x")) != nil)
         #expect(agent("org.example.agent").canBeControlled)
     }

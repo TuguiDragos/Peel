@@ -129,11 +129,20 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
         !label.utf8.contains { $0 == 0x2F || $0 < 0x20 || $0 == 0x7F }
     }
 
-    /// True for a name Peel never passes to `launchctl`: one the helper refuses for a daemon, or one `launchctl` would
-    /// misread for an agent. Apple's names have notes of their own.
-    public var hasAnUnusableLabel: Bool {
-        !label.hasPrefix("com.apple.")
-            && (requiresPrivileges ? !PrivilegedPathPolicy.isValidLabel(label) : !isReadWholeByLaunchctl)
+    public enum UnusableLabel: Sendable, Hashable {
+        case holdsASlash
+        case holdsAControlCharacter
+        /// The helper takes only letters, digits, `.`, `-`, `_`, `@`, and `+` (`PrivilegedPathPolicy.isValidLabel`).
+        case notTakenByTheHelper
+    }
+
+    /// Why Peel never passes this name to `launchctl`: the helper refuses it for a daemon, or `launchctl` would misread
+    /// it for an agent. Apple's names have notes of their own.
+    public var unusableLabel: UnusableLabel? {
+        guard !label.hasPrefix("com.apple.") else { return nil }
+        if requiresPrivileges { return PrivilegedPathPolicy.isValidLabel(label) ? nil : .notTakenByTheHelper }
+        if label.utf8.contains(0x2F) { return .holdsASlash }
+        return isReadWholeByLaunchctl ? nil : .holdsAControlCharacter
     }
 
     /// True for a job Peel can only take out of launchd, which nothing loads again by itself: one loaded from a file

@@ -84522,108 +84522,320 @@
         }
       }
     },
-    "Its name has characters Peel never passes to launchctl, so Peel doesn’t start, stop, enable, or disable it here." : {
+    "Its name could reach another job" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Její název obsahuje znaky, které Peel nikdy nepředává příkazu launchctl, a proto ji tu Peel nespouští, nezastavuje, nezapíná ani nevypíná."
+            "value" : "Její název by mohl mířit na jinou úlohu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sein Name enthält Zeichen, die Peel nie an launchctl übergibt, daher startet, stoppt, aktiviert oder deaktiviert Peel es hier nicht."
+            "value" : "Sein Name könnte einen anderen Job treffen"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Su nombre tiene caracteres que Peel nunca pasa a launchctl, así que aquí Peel no lo inicia, no lo detiene, no lo activa ni lo desactiva."
+            "value" : "Su nombre podría afectar a otra tarea"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Son nom contient des caractères que Peel ne transmet jamais à launchctl : Peel ne le démarre donc pas, ne l’arrête pas, ne l’active pas et ne le désactive pas ici."
+            "value" : "Son nom pourrait désigner une autre tâche"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il suo nome contiene caratteri che Peel non passa mai a launchctl, quindi qui Peel non lo avvia, non lo interrompe, non lo abilita e non lo disabilita."
+            "value" : "Il suo nome potrebbe portare a un altro elemento"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "名前に、Peelがlaunchctlに決して渡さない文字が含まれているため、Peelはここで開始、停止、有効化、無効化を行いません。"
+            "value" : "名前が別のジョブを指す可能性があります"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이름에 Peel이 launchctl에 절대 전달하지 않는 문자가 들어 있으므로, Peel은 여기에서 이 항목을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
+            "value" : "이름이 다른 작업을 가리킬 수 있음"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De naam bevat tekens die Peel nooit aan launchctl doorgeeft, dus Peel start het hier niet, stopt het niet en schakelt het niet in of uit."
+            "value" : "De naam kan naar een andere taak verwijzen"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nazwa tej rzeczy zawiera znaki, których Peel nigdy nie przekazuje do launchctl, więc Peel jej tutaj nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+            "value" : "Nazwa tej rzeczy mogłaby wskazać inne zadanie"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O nome dele tem caracteres que o Peel nunca passa para o launchctl, por isso o Peel não o inicia, não o interrompe, não o ativa nem o desativa aqui."
+            "value" : "O nome dele poderia atingir outra tarefa"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Numele său conține caractere pe care Peel nu le transmite niciodată către launchctl, așa că Peel nu îl pornește, nu îl oprește, nu îl activează și nu îl dezactivează de aici."
+            "value" : "Numele său ar putea viza altă sarcină"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В его имени есть символы, которые Peel никогда не передает launchctl, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает его."
+            "value" : "Его имя может указывать на другое задание"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Namnet innehåller tecken som Peel aldrig skickar till launchctl, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här."
+            "value" : "Namnet kan nå ett annat jobb"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adında Peel’in launchctl komutuna hiçbir zaman aktarmadığı karakterler var, bu yüzden Peel onu burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
+            "value" : "Adı başka bir işe ulaşabilir"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Його назва містить символи, яких Peel ніколи не передає launchctl, тож Peel тут його не запускає, не зупиняє, не вмикає й не вимикає."
+            "value" : "Його назва може привести до іншого завдання"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的名称中含有Peel绝不会传递给launchctl的字符，因此Peel不会在此处启动、停止、启用或停用它。"
+            "value" : "它的名称可能会指向另一个任务"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的名稱含有Peel絕不會傳遞給launchctl的字元，因此Peel不會在這裡啟動、停止、啟用或停用它。"
+            "value" : "它的名稱可能會指向另一項工作"
+          }
+        }
+      }
+    },
+    "Its name has characters the helper doesn’t take" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Její název obsahuje znaky, které pomocník nepřijímá"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sein Name enthält Zeichen, die das Hilfsprogramm nicht annimmt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su nombre tiene caracteres que el asistente no acepta"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son nom contient des caractères que l’utilitaire n’accepte pas"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo nome contiene caratteri che l’assistente non accetta"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名前に、ヘルパーが受け付けない文字が含まれています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이름에 보조 프로그램이 허용하지 않는 문자가 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De naam bevat tekens die het hulpprogramma niet accepteert"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nazwa tej rzeczy zawiera znaki, których pomocnik nie przyjmuje"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O nome dele tem caracteres que o auxiliar não aceita"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numele său conține caractere pe care instrumentul de ajutor nu le acceptă"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В его имени есть символы, которые не принимает помощник"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Namnet innehåller tecken som hjälpprogrammet inte tar emot"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adında yardımcının kabul etmediği karakterler var"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його назва містить символи, яких помічник не приймає"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的名称中含有帮助程序不接受的字符"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的名稱含有輔助程式不接受的字元"
+          }
+        }
+      }
+    },
+    "Its name holds a control character" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Její název obsahuje řídicí znak"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sein Name enthält ein Steuerzeichen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su nombre contiene un carácter de control"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son nom contient un caractère de contrôle"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo nome contiene un carattere di controllo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名前に制御文字が含まれています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이름에 제어 문자가 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De naam bevat een besturingsteken"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nazwa tej rzeczy zawiera znak sterujący"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O nome dele contém um caractere de controle"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numele său conține un caracter de control"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В его имени есть управляющий символ"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Namnet innehåller ett kontrolltecken"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adında bir kontrol karakteri var"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його назва містить керівний символ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的名称中含有控制字符"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的名稱含有控制字元"
           }
         }
       }
@@ -137700,112 +137912,6 @@
         }
       }
     },
-    "Peel can’t use its name" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nemůže použít její název"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kann den Namen dieses Objekts nicht verwenden"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel no puede usar su nombre"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ne peut pas utiliser son nom"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel non può usare il suo nome"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはこの項目の名前を使用できません"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 이 항목의 이름을 사용할 수 없음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kan de naam niet gebruiken"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nie może użyć nazwy tej rzeczy"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel não pode usar o nome dele"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nu îi poate folosi numele"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не может использовать его имя"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kan inte använda namnet"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel bu öğenin adını kullanamıyor"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не може використати його назву"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel无法使用它的名称"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel無法使用它的名稱"
-          }
-        }
-      }
-    },
     "Peel can’t write History" : {
       "localizations" : {
         "cs" : {
@@ -149003,6 +149109,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel絕不會提議移除「%@」為你保存的內容，無論是郵件、訊息、備忘錄還是照片。"
+          }
+        }
+      }
+    },
+    "Peel never passes a control character to launchctl, so it doesn’t start, stop, enable, or disable this job here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nikdy nepředává příkazu launchctl řídicí znaky, a proto tuto úlohu zde nespouští, nezastavuje, nezapíná ani nevypíná."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel übergibt nie ein Steuerzeichen an launchctl, daher startet, stoppt, aktiviert oder deaktiviert Peel diesen Job hier nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nunca pasa un carácter de control a launchctl, así que aquí no inicia, no detiene, no activa ni desactiva esta tarea."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne transmet jamais de caractère de contrôle à launchctl : il ne démarre donc pas cette tâche, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non passa mai un carattere di controllo a launchctl, quindi qui non avvia, non interrompe, non abilita e non disabilita questo elemento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはlaunchctlに制御文字を決して渡さないため、ここではこのジョブの開始、停止、有効化、無効化を行いません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 launchctl에 제어 문자를 절대 전달하지 않으므로, 여기에서 이 작업을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel geeft nooit een besturingsteken aan launchctl door, dus Peel start deze taak hier niet, stopt die niet en schakelt die niet in of uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nigdy nie przekazuje do launchctl znaku sterującego, więc tutaj tego zadania nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel nunca passa um caractere de controle para o launchctl, por isso não inicia, não interrompe, não ativa nem desativa esta tarefa aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu transmite niciodată un caracter de control către launchctl, așa că nu pornește, nu oprește, nu activează și nu dezactivează această sarcină de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel никогда не передает launchctl управляющие символы, поэтому здесь не запускает, не останавливает, не включает и не выключает это задание."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel skickar aldrig ett kontrolltecken till launchctl, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här jobbet härifrån."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, launchctl komutuna hiçbir zaman kontrol karakteri aktarmaz, bu yüzden bu işi burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ніколи не передає launchctl жодного керівного символу, тож Peel тут не запускає, не зупиняє, не вмикає й не вимикає це завдання."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel绝不会将控制字符传递给launchctl，因此不会在此处启动、停止、启用或停用此任务。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel絕不會將控制字元傳遞給launchctl，因此不會在這裡啟動、停止、啟用或停用此工作。"
           }
         }
       }
@@ -186116,6 +186328,112 @@
         }
       }
     },
+    "Since launchctl reads a job’s name only up to a slash, a command for this one could reach another job. Peel doesn’t start, stop, enable, or disable it here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protože launchctl čte název úlohy jen po lomítko, příkaz pro tuto úlohu by mohl zasáhnout jinou úlohu. Peel ji tu nespouští, nezastavuje, nezapíná ani nevypíná."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da launchctl den Namen eines Jobs nur bis zu einem Schrägstrich liest, könnte ein Befehl für diesen Job einen anderen treffen. Peel startet, stoppt, aktiviert oder deaktiviert ihn hier nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como launchctl lee el nombre de una tarea solo hasta que encuentra una barra, un comando para esta tarea podría afectar a otra. Aquí Peel no la inicia, no la detiene, no la activa ni la desactiva."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comme launchctl ne lit le nom d’une tâche que jusqu’à une barre oblique, une commande destinée à cette tâche pourrait en atteindre une autre. Peel ne la démarre pas, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poiché launchctl legge il nome di un elemento solo fino a una barra, un comando per questo potrebbe arrivare a un altro elemento. Qui Peel non lo avvia, non lo interrompe, non lo abilita e non lo disabilita."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctlはジョブの名前をスラッシュの手前までしか読み取らないため、このジョブに対するコマンドが別のジョブに及ぶ可能性があります。Peelはここで開始、停止、有効化、無効化を行いません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl은 작업 이름을 슬래시 앞까지만 읽으므로, 이 작업에 대한 명령이 다른 작업에 전달될 수 있습니다. Peel은 여기에서 이 항목을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Omdat launchctl de naam van een taak alleen tot aan een schuine streep leest, kan een commando voor deze taak bij een andere taak terechtkomen. Peel start het hier niet, stopt het niet en schakelt het niet in of uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ponieważ launchctl odczytuje nazwę zadania tylko do ukośnika, polecenie dla tego zadania mogłoby trafić do innego zadania. Peel go tutaj nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como o launchctl lê o nome de uma tarefa só até uma barra, um comando para esta tarefa poderia atingir outra. O Peel não a inicia, não a interrompe, não a ativa nem a desativa aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deoarece launchctl citește numele unei sarcini doar până la o bară oblică, o comandă pentru aceasta ar putea viza altă sarcină. Peel nu o pornește, nu o oprește, nu o activează și nu o dezactivează de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поскольку launchctl читает имя задания только до косой черты, команда для этого задания может затронуть другое задание. Peel здесь не запускает, не останавливает, не включает и не выключает его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eftersom launchctl bara läser ett jobbs namn fram till ett snedstreck kan ett kommando för det här jobbet nå ett annat jobb. Peel varken startar, stoppar, aktiverar eller avaktiverar det här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl bir işin adını yalnızca eğik çizgiye kadar okuduğu için, bu iş için verilen bir komut başka bir işe ulaşabilir. Peel onu burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оскільки launchctl читає назву завдання лише до скісної риски, команда для цього завдання може потрапити до іншого завдання. Peel тут його не запускає, не зупиняє, не вмикає й не вимикає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由于launchctl读取任务名称时只会读到斜杠为止，针对此任务的命令可能会作用到另一个任务上。Peel不会在此处启动、停止、启用或停用它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由於launchctl讀取工作名稱時只會讀到斜線為止，針對此工作的指令可能會作用到另一項工作。Peel不會在這裡啟動、停止、啟用或停用它。"
+          }
+        }
+      }
+    },
     "Siri AI (Beta)" : {
       "localizations" : {
         "cs" : {
@@ -205953,6 +206271,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法解除安裝輔助程式。"
+          }
+        }
+      }
+    },
+    "The helper passes launchctl only a name of letters, digits, dots, hyphens, underscores, @ and +, not starting with a dot or a hyphen, so Peel doesn’t start, stop, enable, or disable this job here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocník předává příkazu launchctl jen název složený z písmen, číslic, teček, spojovníků, podtržítek, @ a +, který nezačíná tečkou ani spojovníkem, a proto Peel tuto úlohu zde nespouští, nezastavuje, nezapíná ani nevypíná."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm übergibt an launchctl nur Namen aus Buchstaben, Ziffern, Punkten, Bindestrichen, Unterstrichen, @ und +, die nicht mit einem Punkt oder Bindestrich beginnen, daher startet, stoppt, aktiviert oder deaktiviert Peel diesen Job hier nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El asistente solo pasa a launchctl un nombre formado por letras, dígitos, puntos, guiones, guiones bajos, @ y +, que no empiece por un punto ni por un guion, así que aquí Peel no inicia, no detiene, no activa ni desactiva esta tarea."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire ne transmet à launchctl qu’un nom composé de lettres, de chiffres, de points, de traits d’union, de traits de soulignement, de @ et de +, qui ne commence ni par un point ni par un trait d’union : Peel ne démarre donc pas cette tâche, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente passa a launchctl solo un nome composto da lettere, cifre, punti, trattini, trattini bassi, @ e +, che non inizi con un punto o un trattino, quindi qui Peel non avvia, non interrompe, non abilita e non disabilita questo elemento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ヘルパーがlaunchctlに渡すのは、英字、数字、ピリオド、ハイフン、アンダースコア、@、+だけで構成され、ピリオドやハイフンで始まらない名前に限られるため、Peelはここでこのジョブの開始、停止、有効化、無効化を行いません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보조 프로그램은 영문자, 숫자, 마침표, 하이픈, 밑줄, @ 및 +로만 이루어지고 마침표나 하이픈으로 시작하지 않는 이름만 launchctl에 전달하므로, Peel은 여기에서 이 작업을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma geeft aan launchctl alleen namen door die bestaan uit letters, cijfers, punten, koppeltekens, onderstrepingstekens, @ en +, en die niet met een punt of een koppelteken beginnen, dus Peel start deze taak hier niet, stopt die niet en schakelt die niet in of uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnik przekazuje do launchctl tylko nazwę złożoną z liter, cyfr, kropek, łączników, podkreślników, @ i +, która nie zaczyna się od kropki ani od łącznika, więc Peel tutaj tego zadania nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar só passa para o launchctl um nome formado por letras, dígitos, pontos, hifens, sublinhados, @ e +, que não comece com ponto nem com hífen, por isso o Peel não inicia, não interrompe, não ativa nem desativa esta tarefa aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor transmite către launchctl doar un nume format din litere, cifre, puncte, cratime, liniuțe de subliniere, @ și +, care nu începe cu un punct sau cu o cratimă, așa că Peel nu pornește, nu oprește, nu activează și nu dezactivează această sarcină de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник передает launchctl только имена из букв, цифр, точек, дефисов, подчеркиваний, @ и +, которые не начинаются с точки или дефиса, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает это задание."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hjälpprogrammet skickar bara sådana namn till launchctl som består av bokstäver, siffror, punkter, bindestreck, understreck, @ och + och som inte börjar med en punkt eller ett bindestreck, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här jobbet härifrån."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yardımcı, launchctl komutuna yalnızca harf, rakam, nokta, kısa çizgi, alt çizgi, @ ve + karakterlerinden oluşan ve nokta ya da kısa çizgiyle başlamayan bir ad aktarır, bu yüzden Peel bu işi burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник передає launchctl лише назву з літер, цифр, крапок, дефісів, знаків підкреслення, @ і +, яка не починається з крапки чи дефіса, тож Peel тут не запускає, не зупиняє, не вмикає й не вимикає це завдання."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "帮助程序只会将由字母、数字、点、连字符、下划线、@和+组成且不以点或连字符开头的名称传递给launchctl，因此Peel不会在此处启动、停止、启用或停用此任务。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輔助程式只會將由字母、數字、句點、連字號、底線、@和+組成，且不以句點或連字號開頭的名稱傳遞給launchctl，因此Peel不會在這裡啟動、停止、啟用或停用此工作。"
           }
         }
       }
