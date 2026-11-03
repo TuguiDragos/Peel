@@ -373,7 +373,14 @@ extension CloudRefusal {
     /// way back is offered.
     var explanation: String {
         switch reason {
-        case .changedSinceScan: String(localized: "It isn’t as it was when Peel looked at it: it may have been edited, stopped syncing, or been freed already, so Peel left it alone.")
+        case .gone: String(localized: "It isn’t there anymore.")
+        case .editedSinceScan: String(localized: "It was edited after Peel looked at it, so Peel left it alone. Scan again to review it.")
+        case .notDownloaded: String(localized: "Its download isn’t on this Mac anymore, so there is nothing to remove.")
+        case .olderVersion: String(localized: "A newer version of it waits in iCloud, so Peel left the one on this Mac alone.")
+        case .notUploaded: String(localized: "iCloud doesn’t have all of it yet, so removing its download could lose what isn’t uploaded.")
+        case .inConflict: String(localized: "It has versions in conflict that iCloud hasn’t settled, so Peel left it alone.")
+        case .syncPaused: String(localized: "Its syncing is paused, so iCloud may not have its newest version.")
+        case .uploadFailed(let message): String(localized: "iCloud couldn’t upload it: \(message)")
         case .excluded: String(localized: "Excluded in Settings")
         case .inUse: String(localized: "A program is using it, as the wallpaper is used, so macOS couldn’t remove its download. Try again once nothing uses it.")
         case .keptDownloaded: String(localized: "Keep Downloaded is on for it in Finder, so iCloud would download it again.")

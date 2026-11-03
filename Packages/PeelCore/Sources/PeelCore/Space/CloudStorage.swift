@@ -57,8 +57,22 @@ public struct CloudScan: Sendable {
 /// A file that was not freed, and why.
 public struct CloudRefusal: Sendable, Hashable, Identifiable {
     public enum Reason: Sendable, Hashable {
-        /// The file is not as it was at the scan: edited, moved, or freed already, or not safely in iCloud.
-        case changedSinceScan
+        /// Nothing is at its path anymore.
+        case gone
+        /// It was edited after the scan.
+        case editedSinceScan
+        /// Its download is no longer on this Mac.
+        case notDownloaded
+        /// A newer version waits in iCloud than the one on this Mac.
+        case olderVersion
+        /// iCloud doesn't have all of it yet.
+        case notUploaded
+        /// It has versions in conflict iCloud hasn't settled.
+        case inConflict
+        /// Its syncing is paused.
+        case syncPaused
+        /// iCloud couldn't upload it. The value is what macOS said.
+        case uploadFailed(String)
         /// Excluded in Settings since the scan, or the exclusions are not known, so it is left as a move to the
         /// Trash would be.
         case excluded
@@ -105,8 +119,42 @@ public enum CloudStorage {
         isSyncPaused: Bool? = nil,
         uploadingError: (any Error)? = nil
     ) -> Bool {
-        status == .current && isUploaded == true && isUploading != true && hasConflicts != true
-            && isSyncPaused != true && uploadingError == nil
+        notSafeToFree(
+            status: status, isUploaded: isUploaded, isUploading: isUploading, hasConflicts: hasConflicts,
+            isSyncPaused: isSyncPaused, uploadingError: uploadingError
+        ) == nil
+    }
+
+    /// Why iCloud's answer makes a download unsafe to remove, or nil when it is safe: the download is the current
+    /// version, iCloud has all of it, nothing is in conflict, and syncing is neither paused nor failing.
+    static func notSafeToFree(
+        status: URLUbiquitousItemDownloadingStatus?,
+        isUploaded: Bool?,
+        isUploading: Bool?,
+        hasConflicts: Bool?,
+        isSyncPaused: Bool?,
+        uploadingError: (any Error)?
+    ) -> CloudRefusal.Reason? {
+        if let uploadingError { return .uploadFailed(uploadingError.localizedDescription) }
+        if isSyncPaused == true { return .syncPaused }
+        if hasConflicts == true { return .inConflict }
+        if isUploaded != true || isUploading == true { return .notUploaded }
+        return switch status {
+        case .current: nil
+        case .downloaded: .olderVersion
+        default: .notDownloaded
+        }
+    }
+
+    static func notSafeToFree(_ values: URLResourceValues) -> CloudRefusal.Reason? {
+        notSafeToFree(
+            status: values.ubiquitousItemDownloadingStatus,
+            isUploaded: values.ubiquitousItemIsUploaded,
+            isUploading: values.ubiquitousItemIsUploading,
+            hasConflicts: values.ubiquitousItemHasUnresolvedConflicts,
+            isSyncPaused: values.ubiquitousItemIsSyncPaused,
+            uploadingError: values.ubiquitousItemUploadingError
+        )
     }
 
     /// The resource keys read for each file, by the scan and again by `free(_:)`.
@@ -117,14 +165,7 @@ public enum CloudStorage {
     ]
 
     static func isSafeToFree(_ values: URLResourceValues) -> Bool {
-        isSafeToFree(
-            status: values.ubiquitousItemDownloadingStatus,
-            isUploaded: values.ubiquitousItemIsUploaded,
-            isUploading: values.ubiquitousItemIsUploading,
-            hasConflicts: values.ubiquitousItemHasUnresolvedConflicts,
-            isSyncPaused: values.ubiquitousItemIsSyncPaused,
-            uploadingError: values.ubiquitousItemUploadingError
-        )
+        notSafeToFree(values) == nil
     }
 
     @concurrent
@@ -448,14 +489,14 @@ public enum CloudStorage {
     @discardableResult
     @concurrent
     public static func free(_ files: [CloudFile], exclusions: Exclusions) async -> CloudFreeing {
-        await free(files, exclusions: exclusions, isSafe: isSafeToFree(_:))
+        await free(files, exclusions: exclusions, whyNotSafe: notSafeToFree(_:))
     }
 
     @concurrent
     static func free(
         _ files: [CloudFile],
         exclusions: Exclusions,
-        isSafe: @escaping @Sendable (URLResourceValues) -> Bool,
+        whyNotSafe: @escaping @Sendable (URLResourceValues) -> CloudRefusal.Reason?,
         evict: @escaping @Sendable (URL) throws -> Void = { try FileManager.default.evictUbiquitousItem(at: $0) },
         isPinned: @escaping @Sendable (URL) -> Bool = isPinned(_:)
     ) async -> CloudFreeing {
@@ -468,7 +509,7 @@ public enum CloudStorage {
                 // other scan, so this runs on a thread of its own, as a walk does.
                 let thread = Thread {
                     continuation.resume(returning: freeInTurn(
-                        files, exclusions: exclusions, isSafe: isSafe, evict: evict, isPinned: isPinned,
+                        files, exclusions: exclusions, whyNotSafe: whyNotSafe, evict: evict, isPinned: isPinned,
                         counted: counted, isStopped: { isStopped.load(ordering: .relaxed) }
                     ))
                 }
@@ -484,7 +525,7 @@ public enum CloudStorage {
     private static func freeInTurn(
         _ files: [CloudFile],
         exclusions: Exclusions,
-        isSafe: (URLResourceValues) -> Bool,
+        whyNotSafe: (URLResourceValues) -> CloudRefusal.Reason?,
         evict: (URL) throws -> Void,
         isPinned: (URL) -> Bool,
         counted: MoveCount?,
@@ -500,8 +541,15 @@ public enum CloudStorage {
             }
             var url = file.url
             url.removeAllCachedResourceValues()
-            guard let values = try? url.resourceValues(forKeys: keys), isSafe(values) else {
-                done.refused.append(CloudRefusal(url: file.url, reason: .changedSinceScan))
+            let values: URLResourceValues
+            do {
+                values = try url.resourceValues(forKeys: keys)
+            } catch {
+                done.refused.append(CloudRefusal(url: file.url, reason: url.isMissing ? .gone : reason(for: error)))
+                continue
+            }
+            if let notSafe = whyNotSafe(values) {
+                done.refused.append(CloudRefusal(url: file.url, reason: notSafe))
                 continue
             }
             if values.isPackage == true, exclusions.holds(url) {
@@ -517,7 +565,7 @@ public enum CloudStorage {
             }
             // A date that can't be read, now or at the scan, never says the file is as it was.
             guard let modified, modified == file.modified else {
-                done.refused.append(CloudRefusal(url: file.url, reason: .changedSinceScan))
+                done.refused.append(CloudRefusal(url: file.url, reason: .editedSinceScan))
                 continue
             }
             // A row the scan already held back for this is the person's choice.
@@ -552,7 +600,7 @@ public enum CloudStorage {
         case (NSCocoaErrorDomain, CocoaError.fileLocking.rawValue), (NSPOSIXErrorDomain, Int(EBUSY)):
             return .inUse
         case (NSFileProviderErrorDomain, NSFileProviderError.Code.unsyncedEdits.rawValue):
-            return .changedSinceScan
+            return .notUploaded
         case (NSFileProviderErrorDomain, NSFileProviderError.Code.nonEvictable.rawValue):
             return .notRemovable
         case (NSFileProviderErrorDomain, NSFileProviderError.Code.nonEvictableChildren.rawValue):

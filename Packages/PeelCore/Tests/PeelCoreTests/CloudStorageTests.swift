@@ -65,6 +65,28 @@ struct CloudStorageTests {
         ))
     }
 
+    @Test func saysWhyAFileIsNotSafeToFree() {
+        func why(
+            _ status: URLUbiquitousItemDownloadingStatus? = .current, uploaded: Bool? = true, uploading: Bool? = false,
+            conflicts: Bool? = false, paused: Bool? = false, error: (any Error)? = nil
+        ) -> CloudRefusal.Reason? {
+            CloudStorage.notSafeToFree(
+                status: status, isUploaded: uploaded, isUploading: uploading, hasConflicts: conflicts,
+                isSyncPaused: paused, uploadingError: error
+            )
+        }
+        let failure = NSError(domain: NSCocoaErrorDomain, code: NSFileWriteOutOfSpaceError)
+
+        #expect(why() == nil)
+        #expect(why(.downloaded) == .olderVersion)
+        #expect(why(.notDownloaded) == .notDownloaded)
+        #expect(why(uploaded: false) == .notUploaded)
+        #expect(why(uploading: true) == .notUploaded)
+        #expect(why(conflicts: true) == .inConflict)
+        #expect(why(paused: true) == .syncPaused)
+        #expect(why(error: failure) == .uploadFailed(failure.localizedDescription))
+    }
+
     /// The list can stay on screen for hours, so each file is checked again at the moment it is freed. A file
     /// that changed since the scan is not freed.
     @Test func freesNothingThatChangedSinceTheScan() async throws {
@@ -77,13 +99,13 @@ struct CloudStorageTests {
         )
         let scanned = try #require(collector.collected.files.first)
 
-        let untouched = await CloudStorage.free([scanned], exclusions: .none, isSafe: { _ in true }).refused
+        let untouched = await CloudStorage.free([scanned], exclusions: .none, whyNotSafe: { _ in nil }).refused
         let later: [FileAttributeKey: Any] = [.modificationDate: Date.now.addingTimeInterval(60)]
         try FileManager.default.setAttributes(later, ofItemAtPath: url.path(percentEncoded: false))
-        let changed = await CloudStorage.free([scanned], exclusions: .none, isSafe: { _ in true }).refused
+        let changed = await CloudStorage.free([scanned], exclusions: .none, whyNotSafe: { _ in nil }).refused
 
-        #expect(untouched.map(\.reason) != [.changedSinceScan], "only iCloud can remove a download, so a test's fails")
-        #expect(changed.map(\.reason) == [.changedSinceScan])
+        #expect(untouched.map(\.reason) != [.editedSinceScan], "only iCloud can remove a download, so a test's fails")
+        #expect(changed.map(\.reason) == [.editedSinceScan])
         #expect(FileManager.default.fileExists(atPath: url.path(percentEncoded: false)))
     }
 
@@ -798,13 +820,13 @@ struct CloudStorageTests {
         )
         let scanned = try #require(collector.collected.files.first)
 
-        let untouched = await CloudStorage.free([scanned], exclusions: .none, isSafe: { _ in true }).refused
+        let untouched = await CloudStorage.free([scanned], exclusions: .none, whyNotSafe: { _ in nil }).refused
         let later: [FileAttributeKey: Any] = [.modificationDate: Date.now.addingTimeInterval(60)]
         try FileManager.default.setAttributes(later, ofItemAtPath: inside.path(percentEncoded: false))
-        let edited = await CloudStorage.free([scanned], exclusions: .none, isSafe: { _ in true }).refused
+        let edited = await CloudStorage.free([scanned], exclusions: .none, whyNotSafe: { _ in nil }).refused
 
-        #expect(untouched.map(\.reason) != [.changedSinceScan], "only iCloud can remove a download, so a test's fails")
-        #expect(edited.map(\.reason) == [.changedSinceScan])
+        #expect(untouched.map(\.reason) != [.editedSinceScan], "only iCloud can remove a download, so a test's fails")
+        #expect(edited.map(\.reason) == [.editedSinceScan])
     }
 
     @Test func leavesAlonePackagesThatHoldSomethingExcludedSinceTheScan() async throws {
@@ -823,10 +845,10 @@ struct CloudStorageTests {
         let excluded = Exclusions(paths: [inside])
         let evicted = Mutex<[URL]>([])
 
-        let refused = await CloudStorage.free([scanned], exclusions: excluded, isSafe: { _ in true }) { url in
+        let refused = await CloudStorage.free([scanned], exclusions: excluded, whyNotSafe: { _ in nil }) { url in
             evicted.withLock { $0.append(url) }
         }.refused
-        let undatedRefused = await CloudStorage.free([undated], exclusions: excluded, isSafe: { _ in true }) { url in
+        let undatedRefused = await CloudStorage.free([undated], exclusions: excluded, whyNotSafe: { _ in nil }) { url in
             evicted.withLock { $0.append(url) }
         }.refused
 
@@ -844,7 +866,7 @@ struct CloudStorageTests {
         let goesOn = DispatchSemaphore(value: 0)
 
         let removal = Task {
-            await CloudStorage.free(files, exclusions: .none, isSafe: { _ in true }) { _ in
+            await CloudStorage.free(files, exclusions: .none, whyNotSafe: { _ in nil }) { _ in
                 enters.yield()
                 goesOn.wait()
             }
@@ -877,7 +899,7 @@ struct CloudStorageTests {
         let pinned: Set = ["Kept.pdf", "Trip", "App.pdf", "Chosen.pdf"]
 
         let done = await CloudStorage.free(
-            [itself, inAFolder, inAnAppsFolder, chosenKnowingly, plain], exclusions: .none, isSafe: { _ in true },
+            [itself, inAFolder, inAnAppsFolder, chosenKnowingly, plain], exclusions: .none, whyNotSafe: { _ in nil },
             evict: { _ in }, isPinned: { pinned.contains($0.lastPathComponent) }
         )
 
@@ -898,7 +920,7 @@ struct CloudStorageTests {
         let freed = await withTaskGroup(of: Int.self) { group in
             for file in files {
                 group.addTask {
-                    await CloudStorage.free([file], exclusions: .none, isSafe: { _ in true }) { _ in
+                    await CloudStorage.free([file], exclusions: .none, whyNotSafe: { _ in nil }) { _ in
                         let here = arrived.withLock { count in
                             count += 1
                             return count
@@ -923,7 +945,7 @@ struct CloudStorageTests {
         let counted = MoveCount()
 
         let done = await MoveCount.$current.withValue(counted) {
-            await CloudStorage.free(files, exclusions: .none, isSafe: { _ in true }) { url in
+            await CloudStorage.free(files, exclusions: .none, whyNotSafe: { _ in nil }) { url in
                 if url == files[2].url { throw CocoaError(.fileLocking) }
             }
         }
@@ -959,12 +981,12 @@ struct CloudStorageTests {
             )
         }
 
-        #expect(CloudStorage.reason(for: refusal(.unsyncedEdits)) == .changedSinceScan)
+        #expect(CloudStorage.reason(for: refusal(.unsyncedEdits)) == .notUploaded)
         #expect(CloudStorage.reason(for: refusal(.nonEvictable)) == .notRemovable)
         #expect(CloudStorage.reason(for: refusal(.nonEvictableChildren)) == .notRemovable)
         #expect(
             CloudStorage.reason(for: refusal(.nonEvictableChildren, because: [refusal(.unsyncedEdits)]))
-                == .changedSinceScan
+                == .notUploaded
         )
         let busy = NSError(domain: NSPOSIXErrorDomain, code: Int(EBUSY))
         #expect(CloudStorage.reason(for: busy) == .inUse)

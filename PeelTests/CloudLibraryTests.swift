@@ -94,7 +94,7 @@ struct CloudLibraryTests {
             },
             removeDownloads: { files, _ in
                 asked.removals.append(files.map(\.url))
-                return CloudFreeing(freed: [freed], refused: [CloudRefusal(url: kept.url, reason: .changedSinceScan)])
+                return CloudFreeing(freed: [freed], refused: [CloudRefusal(url: kept.url, reason: .editedSinceScan)])
             }
         )
         await cloud.refresh()

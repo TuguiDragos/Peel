@@ -13431,6 +13431,112 @@
         }
       }
     },
+    "A newer version of it waits in iCloud, so Peel left the one on this Mac alone." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na iCloudu čeká jeho novější verze, a proto Peel nechal verzi v tomto Macu nedotčenou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In iCloud wartet eine neuere Version dieser Datei, daher hat Peel die Version auf diesem Mac unangetastet gelassen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En iCloud espera una versión más reciente, así que Peel no ha tocado la que hay en este Mac."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une version plus récente de ce fichier attend dans iCloud : Peel n’a donc pas touché à celle qui se trouve sur ce Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su iCloud ce n’è una versione più recente, quindi Peel non ha toccato quella su questo Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "より新しいバージョンがiCloudで待機しているため、PeelはこのMac上のものには手を付けませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud에 더 새로운 버전이 대기 중이므로 Peel이 이 Mac에 있는 버전을 그대로 두었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er staat een nieuwere versie ervan klaar in iCloud, dus Peel heeft die op deze Mac met rust gelaten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W iCloud czeka nowsza wersja tego pliku, więc Peel nie ruszył wersji na tym Macu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uma versão mais recente deste arquivo aguarda no iCloud, então o Peel não mexeu na que está neste Mac."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O versiune mai nouă a acestuia așteaptă pe iCloud, așa că Peel a lăsat neatinsă versiunea de pe acest Mac."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В iCloud есть более новая версия этого файла, поэтому Peel не тронул версию на этом Mac."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En nyare version av den väntar i iCloud, så Peel lät versionen på den här datorn vara."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud’da daha yeni bir sürümü bekliyor, bu yüzden Peel bu Mac’teki sürüme dokunmadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новіша версія цього файлу чекає в iCloud, тож Peel не чіпала версію на цьому Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud中有它的较新版本正等待下载，因此Peel没有触碰这台Mac上的版本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它在iCloud中有較新的版本等待下載，因此Peel沒有動這部Mac上的版本。"
+          }
+        }
+      }
+    },
     "A package Homebrew is in the middle of installing may be left half installed, and may need installing again. A cask’s app can stay in Homebrew’s folder until you reinstall the cask." : {
       "localizations" : {
         "cs" : {
@@ -75349,6 +75455,112 @@
         }
       }
     },
+    "It has versions in conflict that iCloud hasn’t settled, so Peel left it alone." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Má konfliktní verze, které iCloud dosud nevyřešil, a proto ho Peel nechal nedotčený."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für diese Datei gibt es Versionskonflikte, die iCloud noch nicht gelöst hat, daher hat Peel sie unangetastet gelassen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiene versiones en conflicto que iCloud no ha resuelto, así que Peel no lo ha tocado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il a des versions en conflit qu’iCloud n’a pas résolues : Peel n’y a donc pas touché."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha versioni in conflitto che iCloud non ha ancora risolto, quindi Peel non l’ha toccato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloudがまだ解決していない競合するバージョンがあるため、Peelは手を付けませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud가 아직 해결하지 않은 충돌하는 버전이 있으므로 Peel이 그대로 두었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het heeft conflicterende versies die iCloud nog niet heeft opgelost, dus Peel heeft het met rust gelaten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ten plik ma wersje w konflikcie, którego iCloud jeszcze nie rozwiązał, więc Peel go nie ruszył."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tem versões em conflito que o iCloud ainda não resolveu, então o Peel não mexeu nele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are versiuni aflate în conflict pe care iCloud nu le‑a rezolvat, așa că Peel l‑a lăsat neatins."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У этого файла есть конфликтующие версии, которые iCloud еще не разрешил, поэтому Peel его не тронул."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den har versioner i konflikt som iCloud inte har löst, så Peel lät den vara."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud’un henüz çözmediği çelişen sürümleri var, bu yüzden Peel ona dokunmadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Версії цього файлу конфліктують, а в iCloud конфлікт ще не усунуто, тож Peel цей файл не чіпала."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它存在iCloud尚未解决的版本冲突，因此Peel没有触碰它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它有iCloud尚未解決的衝突版本，因此Peel沒有動它。"
+          }
+        }
+      }
+    },
     "It holds %@, which is already on the list. Remove that one first." : {
       "localizations" : {
         "cs" : {
@@ -78971,112 +79183,6 @@
         }
       }
     },
-    "It isn’t as it was when Peel looked at it: it may have been edited, stopped syncing, or been freed already, so Peel left it alone." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Není takový, jaký byl, když ho Peel prověřil: mohl být upraven, přestat se synchronizovat nebo už být uvolněn, a proto ho Peel nechal nedotčený."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Es ist nicht mehr so, wie Peel es gesehen hat: Es wurde möglicherweise bearbeitet, wird nicht mehr synchronisiert oder wurde bereits freigegeben, daher hat Peel es unangetastet gelassen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No está como cuando Peel lo revisó: puede que se haya editado, que haya dejado de sincronizarse o que ya se haya liberado, así que Peel no lo ha tocado."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il n’est plus tel que Peel l’a examiné : il a peut-être été modifié, n’est plus synchronisé ou a déjà été libéré. Peel n’y a donc pas touché."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Non è più com’era quando Peel l’ha esaminato: potrebbe essere stato modificato, aver smesso di sincronizzarsi o essere già stato liberato, quindi Peel non l’ha toccato."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelが確認したときの状態ではなくなっています。編集された、同期が停止した、またはすでに解放された可能性があるため、Peelは手を付けませんでした。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 살펴봤을 때와 상태가 달라졌습니다. 편집되었거나, 동기화가 중단되었거나, 이미 공간이 확보되었을 수 있으므로 Peel이 그대로 두었습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het is niet meer zoals toen Peel ernaar keek: het is misschien bewerkt, wordt niet meer gesynchroniseerd of is al vrijgemaakt, dus Peel heeft het met rust gelaten."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nie jest już taki, jak wtedy, gdy Peel go sprawdzał: mógł zostać zmieniony, przestać się synchronizować albo już zostać zwolniony, więc Peel go nie ruszył."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Não está como estava quando o Peel o examinou: pode ter sido editado, ter parado de sincronizar ou já ter sido liberado, então o Peel não mexeu nele."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nu mai este cum era când l‑a examinat Peel: poate a fost editat, nu se mai sincronizează sau a fost deja eliberat, așa că Peel l‑a lăsat neatins."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Файл изменился с тех пор, как Peel его проверил: возможно, его отредактировали, он перестал синхронизироваться или уже был освобожден, поэтому Peel его не тронул."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det är inte som det var när Peel tittade på det: det kan ha redigerats, slutat synkroniseras eller redan ha frigjorts, så Peel lät det vara."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel baktığında olduğu gibi değil: düzenlenmiş, eşzamanlanması durmuş veya zaten boşaltılmış olabilir, bu yüzden Peel ona dokunmadı."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Файл уже не такий, яким був, коли Peel його переглядала: його могли змінити, він міг перестати синхронізуватися або його вже звільнено, тож Peel його не чіпала."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它已与Peel查看时不同：可能已被编辑、已停止同步或已被释放，因此Peel没有触碰它。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它已與Peel查看時不同：可能已被編輯、停止同步或已被釋放，因此Peel沒有動它。"
-          }
-        }
-      }
-    },
     "It isn’t in the Trash where Peel put it, so Peel leaves it where it is." : {
       "localizations" : {
         "cs" : {
@@ -81226,6 +81332,112 @@
         }
       }
     },
+    "It was edited after Peel looked at it, so Peel left it alone. Scan again to review it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Byl upraven poté, co ho Peel prověřil, a proto ho Peel nechal nedotčený. Prohledejte znovu a zkontrolujte ho."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Datei wurde bearbeitet, nachdem Peel sie angesehen hat, daher hat Peel sie unangetastet gelassen. Scanne erneut, um sie zu prüfen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se ha editado después de que Peel lo revisara, así que Peel no lo ha tocado. Vuelve a analizar para revisarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il a été modifié après que Peel l’a examiné : Peel n’y a donc pas touché. Relancez l’analyse pour le vérifier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È stato modificato dopo che Peel l’ha esaminato, quindi Peel non l’ha toccato. Analizza di nuovo per rivederlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelが確認した後に編集されたため、手を付けませんでした。もう一度スキャンして確認してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 살펴본 후에 편집되었으므로 Peel이 그대로 두었습니다. 다시 스캔하여 검토하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is bewerkt nadat Peel ernaar keek, dus Peel heeft het met rust gelaten. Scan opnieuw om het te bekijken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ten plik został zmieniony po tym, jak Peel go sprawdził, więc Peel go nie ruszył. Przeskanuj ponownie, aby go przejrzeć."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foi editado depois que o Peel o examinou, então o Peel não mexeu nele. Analise de novo para revisá-lo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A fost editat după ce l‑a examinat Peel, așa că Peel l‑a lăsat neatins. Scanați din nou pentru a‑l revizui."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файл отредактировали после того, как Peel его проверил, поэтому Peel его не тронул. Просканируйте снова, чтобы просмотреть его заново."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den redigerades efter att Peel tittade på den, så Peel lät den vara. Skanna igen för att granska den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel baktıktan sonra düzenlendi, bu yüzden Peel ona dokunmadı. Gözden geçirmek için yeniden tarayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файл відредагували після того, як Peel його переглянула, тож Peel його не чіпала. Проскануйте знову, щоб переглянути його."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它在Peel查看后被编辑过，因此Peel没有触碰它。请重新扫描以检查它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它在Peel查看後被編輯過，因此Peel沒有動它。請重新掃描以檢查。"
+          }
+        }
+      }
+    },
     "It was first seen signed by %@, and is signed by %@ now." : {
       "localizations" : {
         "cs" : {
@@ -82710,6 +82922,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它所在的磁碟沒有及時回應。"
+          }
+        }
+      }
+    },
+    "Its download isn’t on this Mac anymore, so there is nothing to remove." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeho stažená kopie už v tomto Macu není, takže není co odstranit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Download dieser Datei ist nicht mehr auf diesem Mac vorhanden, daher gibt es nichts zu entfernen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su descarga ya no está en este Mac, así que no hay nada que eliminar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son téléchargement ne se trouve plus sur ce Mac : il n’y a donc rien à retirer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo download non è più su questo Mac, quindi non c’è nulla da rimuovere."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ダウンロードしたものがもうこのMacにないため、削除するものはありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 파일의 다운로드가 더 이상 이 Mac에 없으므로 제거할 것이 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De download ervan staat niet meer op deze Mac, dus er valt niets te verwijderen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jego pobranej kopii nie ma już na tym Macu, więc nie ma czego usuwać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O download dele não está mais neste Mac, então não há nada para remover."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descărcarea sa nu mai este pe acest Mac, așa că nu este nimic de eliminat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Загруженной копии этого файла больше нет на этом Mac, поэтому удалять нечего."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hämtningen finns inte längre på den här datorn, så det finns inget att ta bort."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İndirilen kopyası artık bu Mac’te değil, bu yüzden kaldırılacak bir şey yok."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Викачування цього файлу вже немає на цьому Mac, тож вилучати нічого."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的下载已不在这台Mac上，因此没有可移除的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的下載項目已不在這部Mac上，因此沒有可移除的項目。"
           }
         }
       }
@@ -84832,6 +85150,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它的開關位於「系統設定」中"
+          }
+        }
+      }
+    },
+    "Its syncing is paused, so iCloud may not have its newest version." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeho synchronizace je pozastavená, takže iCloud možná nemá jeho nejnovější verzi."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Synchronisierung dieser Datei ist angehalten, daher hat iCloud möglicherweise nicht ihre neueste Version."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se ha pausado su sincronización, así que puede que iCloud no tenga su versión más reciente."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sa synchronisation est suspendue : iCloud n’a donc peut-être pas sa version la plus récente."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sua sincronizzazione è in pausa, quindi iCloud potrebbe non averne la versione più recente."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同期が一時停止しているため、iCloudに最新のバージョンがない可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "동기화가 일시 정지되어 있으므로 iCloud에 최신 버전이 없을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het synchroniseren ervan is gepauzeerd, dus iCloud heeft misschien niet de nieuwste versie."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Synchronizowanie tego pliku zostało wstrzymane, więc w iCloud może nie być jego najnowszej wersji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A sincronização dele está pausada, então o iCloud pode não ter a versão mais recente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sincronizarea sa este suspendată, așa că este posibil ca iCloud să nu aibă cea mai nouă versiune."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Синхронизация этого файла приостановлена, поэтому в iCloud может не быть его последней версии."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Synkroniseringen är pausad för den, så iCloud kanske inte har dess senaste version."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eşzamanlaması duraklatıldı, bu yüzden iCloud’da en yeni sürümü olmayabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Синхронізування цього файлу призупинено, тож в iCloud може не бути його найновішої версії."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的同步已暂停，因此iCloud中可能没有它的最新版本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的同步已暫停，因此iCloud可能沒有它的最新版本。"
           }
         }
       }
@@ -255164,6 +255588,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "尚未設定「iCloud雲碟」"
+          }
+        }
+      }
+    },
+    "iCloud couldn’t upload it: %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud ho nemohl nahrát: %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud konnte die Datei nicht hochladen: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud no ha podido subirlo: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son chargement sur iCloud a échoué : %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud non è riuscito a caricarlo: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloudがアップロードできませんでした: %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud가 이 파일을 업로드할 수 없었습니다: %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud kon het niet uploaden: %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud nie mógł przesłać tego pliku: %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O iCloud não conseguiu enviá-lo: %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud nu l‑a putut încărca: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud не удалось выгрузить этот файл: %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud kunde inte överföra den: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud onu karşıya yükleyemedi: %@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud не вдалося закачати цей файл: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud未能上传它：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud無法上傳它：%@"
+          }
+        }
+      }
+    },
+    "iCloud doesn’t have all of it yet, so removing its download could lose what isn’t uploaded." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud ho zatím nemá celý, takže by se odstraněním jeho stažené kopie mohlo ztratit to, co ještě není nahrané."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud hat noch nicht die ganze Datei, daher könnte beim Entfernen ihres Downloads verloren gehen, was noch nicht hochgeladen ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud todavía no lo tiene completo, así que, si se elimina su descarga, se podría perder lo que aún no se ha subido."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud n’en a pas encore la totalité : retirer son téléchargement pourrait donc faire perdre ce qui n’est pas encore chargé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud non ne ha ancora tutto il contenuto, quindi rimuoverne il download potrebbe far perdere ciò che non è stato caricato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "まだ全体がiCloudにアップロードされていないため、ダウンロードしたものを削除すると、アップロードされていない部分が失われる可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud에 아직 이 파일 전체가 없으므로, 다운로드를 제거하면 업로드되지 않은 부분을 잃을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud heeft nog niet alles ervan, dus als je de download ervan verwijdert, kan verloren gaan wat nog niet is geüpload."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W iCloud nie ma jeszcze całego pliku, więc usunięcie jego pobranej kopii mogłoby spowodować utratę tego, co nie zostało przesłane."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O iCloud ainda não tem o arquivo inteiro, então, ao remover o download dele, o que não foi enviado poderia se perder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud nu îl are încă în întregime, așa că eliminarea descărcării sale ar putea duce la pierderea a ceea ce nu a fost încărcat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В iCloud еще нет этого файла целиком, поэтому при удалении загруженной копии может пропасть то, что еще не выгружено."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud har ännu inte hela innehållet, så om hämtningen tas bort kan det som inte har överförts gå förlorat."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamamı henüz iCloud’da değil, bu yüzden indirilen kopyasını kaldırmak, karşıya yüklenmemiş kısmın kaybolmasına yol açabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В iCloud ще немає всього файлу, тож якщо вилучити його викачування, можна втратити те, що ще не закачано."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud中还没有它的全部内容，因此移除它的下载可能会丢失尚未上传的部分。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud尚未取得它的完整內容，因此移除它的下載項目可能會遺失尚未上傳的部分。"
           }
         }
       }
