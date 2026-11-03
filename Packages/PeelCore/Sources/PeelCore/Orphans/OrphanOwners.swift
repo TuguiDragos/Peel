@@ -37,7 +37,6 @@ public struct OrphanOwners: Sendable {
         }
     }
 
-    /// Records that `group` belongs to the app `bundleIdentifier`.
     @discardableResult
     public func give(_ group: String, to bundleIdentifier: String) -> ListChange {
         change { $0[group.lowercased()] = bundleIdentifier }
