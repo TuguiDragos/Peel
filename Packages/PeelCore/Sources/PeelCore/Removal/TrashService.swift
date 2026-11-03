@@ -122,6 +122,8 @@ public struct TrashFailure: Sendable, Hashable {
         case inUseByMacOS(by: [String])
         /// It is a disk image attached right now, or a folder holding one, which macOS holds open until it is ejected.
         case attachedDiskImage
+        /// A link the helper takes only once it leads nowhere still leads to this path.
+        case stillLeadsTo(String)
         case failed(String)
     }
 
@@ -146,7 +148,7 @@ extension TrashFailure.Reason {
              .movedWithoutATrace,
              .somethingElseMoved, .heldOpen, .heldOpenByAJob, .peelRunsFromIt, .heldByAnotherAccount,
              .openForAnotherUser,
-             .heldByABuildTool, .inUseAsAnInputSource, .inUseByMacOS, .attachedDiskImage, .failed: true
+             .heldByABuildTool, .inUseAsAnInputSource, .inUseByMacOS, .attachedDiskImage, .stillLeadsTo, .failed: true
         }
     }
 
@@ -184,6 +186,7 @@ extension TrashFailure.Reason {
         case .inUseAsAnInputSource: "in-use-as-an-input-source"
         case .inUseByMacOS: "in-use-by-macos"
         case .attachedDiskImage: "attached-disk-image"
+        case .stillLeadsTo: "still-leads-to"
         case .failed: "failed"
         }
     }
@@ -192,6 +195,7 @@ extension TrashFailure.Reason {
         switch self {
         case .guarded(let refusal): refusal?.detail
         case .failed(let message): message
+        case .stillLeadsTo(let target): target
         case .somethingElseMoved(let name): name
         case .historyCannotBeWritten(let problem): problem?.detail
         case .heldOpen(let processes), .heldOpenByAJob(let processes), .heldByAnotherAccount(let processes),
@@ -234,6 +238,7 @@ extension TrashFailure.Reason {
         case "in-use-as-an-input-source": self = .inUseAsAnInputSource
         case "in-use-by-macos": self = .inUseByMacOS(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "attached-disk-image": self = .attachedDiskImage
+        case "still-leads-to": self = .stillLeadsTo(detail ?? "")
         case "failed": self = .failed(detail ?? "")
         default: return nil
         }
@@ -796,7 +801,7 @@ public struct TrashService: Sendable {
                 journal?.note(moved.trashed, batch: removal)
                 MoveCount.current?.add(moved.trashed.count)
                 helperResult.trashed += moved.trashed
-                helperResult.failures += moved.failures
+                helperResult.failures += moved.failures.map(explained)
             }
         }
         ownMoves.ended(landedAt: helperResult.trashed.map(\.trashedURL))
@@ -815,6 +820,20 @@ public struct TrashService: Sendable {
     ) async -> [LaunchdCleanup.Job] {
         let moved = Set(result.trashed.map(\.originalURL))
         return await stopJobs(jobs.filter { moved.contains($0.plist) }, canUseHelper)
+    }
+
+    /// A helper's refusal with what Peel can tell of the item from here, since the helper sends only its fixed
+    /// sentence: the guard's own reason for something it holds, or where a link still leads.
+    private func explained(_ failure: TrashFailure) -> TrashFailure {
+        guard case .failed(let message) = failure.reason, let sentence = FixedSentence(message) else { return failure }
+        let reason: TrashFailure.Reason? = switch sentence {
+        case .irreplaceable: removalGuard.refusal(of: failure.url).map { .guarded($0) }
+        case .leadsSomewhere:
+            (try? FileManager.default.destinationOfSymbolicLink(atPath: failure.url.path(percentEncoded: false)))
+                .map { .stillLeadsTo($0) }
+        default: nil
+        }
+        return reason.map { TrashFailure(url: failure.url, reason: $0, error: failure.error) } ?? failure
     }
 
     /// Moves `urls` through the helper. When the helper is not enabled, nothing moves and every item fails with

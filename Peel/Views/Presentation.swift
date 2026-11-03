@@ -232,6 +232,8 @@ extension TrashFailure.Reason {
             String(localized: "macOS is using it right now, through \(processes.formatted(.list(type: .and))), so it stays where it is.", bundle: bundle)
         case .attachedDiskImage:
             String(localized: "It is a disk image that is open right now. Eject it, then try again.", bundle: bundle)
+        case .stillLeadsTo(let target):
+            String(localized: "It still leads to \(URL(filePath: target).abbreviatedPath) on this Mac.", bundle: bundle)
         case .failed(let message): FixedSentence.translated(message, in: bundle)
         }
     }

@@ -659,6 +659,7 @@ extension TrashFailure.Reason {
             "in use as an input source; in System Settings > Keyboard > Text Input, click Edit beside Input Sources, select it and click Remove, then try again"
         case .inUseByMacOS(let processes): "in use by macOS (\(processes.map(Output.plain).joined(separator: ", ")))"
         case .attachedDiskImage: "a disk image open right now; eject it, then try again"
+        case .stillLeadsTo(let target): "still leads to \(Output.plain(target)) on this Mac"
         case .failed(let message): Output.plain(message)
         }
     }

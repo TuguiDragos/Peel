@@ -1679,4 +1679,37 @@ struct TrashServiceTests {
         #expect(throughHelper.withLock { $0 } == [product, makers[0]])
         #expect(result.failures.isEmpty)
     }
+
+    /// The helper sends only its fixed sentence, so Peel says what it sees of the item itself: here a library that
+    /// landed in the folder between Peel's check and the helper's, and the file a link still leads to.
+    @Test func saysWhatTheHelpersFixedRefusalsMean() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("home/Library/Caches/org.example.cache")
+        let tool = try directory.file("root/usr/local/lib/org.example/tool")
+        let link = directory.url.appending(path: "root/usr/local/bin/tool")
+        try FileManager.default.createDirectory(at: link.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try FileManager.default.createSymbolicLink(at: link, withDestinationURL: tool)
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            ),
+            moveThroughHelper: { urls in
+                try? FileManager.default.createDirectory(
+                    at: folder.appending(path: "Photos Library.photoslibrary"), withIntermediateDirectories: true
+                )
+                return TrashResult(failures: urls.map { url in
+                    let refused = url == link ? PrivilegedPathPolicy.Rejection.leadsSomewhere : .irreplaceable
+                    return TrashFailure(url: url, reason: .failed(refused.explanation))
+                })
+            },
+            moveToTrash: { _ in throw CocoaError(.fileWriteNoPermission) }
+        )
+
+        let result = await service.trash([folder, link], usingHelperFor: [folder, link])
+
+        let reasons = Dictionary(uniqueKeysWithValues: result.failures.map { ($0.url, $0.reason) })
+        #expect(reasons[folder] == .guarded(.holdsALibrary))
+        #expect(reasons[link] == .stillLeadsTo(tool.path(percentEncoded: false)))
+    }
 }
