@@ -218,6 +218,16 @@ struct ToolSidebar: View {
             .fontWeight(.semibold)
     }
 
+    /// A label's words as a chosen row draws them, semibold on macOS 27. The ruler measures every label so, which keeps
+    /// the chosen row's name whole and the column's width the same whichever row is chosen.
+    static func asChosen(_ words: Text) -> Text {
+        if #available(macOS 27, *) {
+            words.fontWeight(.semibold)
+        } else {
+            words
+        }
+    }
+
     private func row(for tool: Tool) -> some View {
         HStack(spacing: 0) {
             Label {
@@ -247,14 +257,14 @@ struct ToolSidebar: View {
     private var ruler: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 8) {
-                Label { Text(Tool.home.title) } icon: { icon(Tool.home.systemImage) }
+                Label { Self.asChosen(Text(Tool.home.title)) } icon: { icon(Tool.home.systemImage) }
                 // Stands in for the attention badge that can appear beside Home.
                 Color.clear.frame(width: 16, height: 1)
             }
             ForEach(shown(Tool.allCases.filter { $0 != .home })) { tool in
-                Label { Text(tool.title) } icon: { icon(tool.systemImage) }
+                Label { Self.asChosen(Text(tool.title)) } icon: { icon(tool.systemImage) }
             }
-            Label { Text("Settings") } icon: { icon("gearshape") }
+            Label { Self.asChosen(Text("Settings")) } icon: { icon("gearshape") }
             // The head's version line and the room the face and the icon take around it, so the head fits too.
             HStack(spacing: 0) {
                 versionLine.font(.caption)
