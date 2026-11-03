@@ -29234,218 +29234,6 @@
         }
       }
     },
-    "Checked at first removal" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ověří se při prvním odstranění"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wird beim ersten Entfernen geprüft"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se comprueba en la primera eliminación"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vérification à la première suppression"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verificata alla prima rimozione"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "最初にゴミ箱に入れるときに確認"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "처음 제거할 때 확인됨"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wordt gecontroleerd bij eerste verwijdering"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sprawdzane przy pierwszym przeniesieniu do Kosza"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verificado na primeira remoção"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se verifică la prima eliminare"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Проверяется при первом удалении"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kontrolleras vid första borttagningen"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "İlk kaldırmada denetlenir"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Перевіряється під час першого вилучення"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "首次移除时检查"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "首次移除時才會檢查"
-          }
-        }
-      }
-    },
-    "Checked at the next removal" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ověří se při příštím odstranění"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wird beim nächsten Entfernen geprüft"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se comprueba en la siguiente eliminación"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vérification à la prochaine suppression"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verificata alla prossima rimozione"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "次回ゴミ箱に入れるときに確認"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "다음에 제거할 때 확인됨"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wordt gecontroleerd bij volgende verwijdering"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sprawdzane przy następnym przeniesieniu do Kosza"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verificado na próxima remoção"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se verifică la următoarea eliminare"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Проверяется при следующем удалении"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kontrolleras vid nästa borttagning"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bir sonraki kaldırmada denetlenir"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Перевіряється під час наступного вилучення"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下次移除时检查"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下次移除時才會檢查"
-          }
-        }
-      }
-    },
     "Checking for updates…" : {
       "localizations" : {
         "cs" : {
@@ -87701,6 +87489,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已知漏洞"
+          }
+        }
+      }
+    },
+    "Known again once Peel moves another developer’s app" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Znovu bude známo, až Peel přesune aplikaci jiného vývojáře"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wieder bekannt, sobald Peel die App eines anderen Entwicklers verschiebt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se volverá a saber cuando Peel traslade una app de otro desarrollador"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connu à nouveau une fois que Peel aura déplacé l’app d’un autre développeur"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si saprà di nuovo quando Peel sposterà un’app di un’altra azienda di sviluppo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelがほかの開発元のアプリを移動すると再びわかります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 다른 개발자의 앱을 이동하면 다시 알 수 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weer bekend zodra Peel een app van een andere ontwikkelaar verplaatst"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Znów będzie wiadomo, gdy Peel przeniesie aplikację innego dewelopera"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Será conhecido de novo assim que o Peel mover um app de outro desenvolvedor"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se va ști din nou când Peel va muta aplicația altui dezvoltator"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Снова станет известно, когда Peel переместит приложение другого разработчика"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blir känt på nytt när Peel flyttar en annan utvecklares app"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel başka bir geliştiricinin uygulamasını taşıdığında yeniden belli olur"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Знову стане відомо, щойно Peel перемістить програму іншого розробника"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel下次移动另一开发者的App后即可重新得知"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "待Peel移動其他開發者的App後即可再次得知"
+          }
+        }
+      }
+    },
+    "Known once Peel moves another developer’s app" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bude známo, až Peel přesune aplikaci jiného vývojáře"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bekannt, sobald Peel die App eines anderen Entwicklers verschiebt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se sabrá cuando Peel traslade una app de otro desarrollador"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connu une fois que Peel aura déplacé l’app d’un autre développeur"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si saprà quando Peel sposterà un’app di un’altra azienda di sviluppo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelがほかの開発元のアプリを移動するとわかります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 다른 개발자의 앱을 이동하면 알 수 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bekend zodra Peel een app van een andere ontwikkelaar verplaatst"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Będzie wiadomo, gdy Peel przeniesie aplikację innego dewelopera"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Será conhecido assim que o Peel mover um app de outro desenvolvedor"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se va ști când Peel va muta aplicația altui dezvoltator"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Станет известно, когда Peel переместит приложение другого разработчика"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blir känt när Peel flyttar en annan utvecklares app"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel başka bir geliştiricinin uygulamasını taşıdığında belli olur"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Стане відомо, щойно Peel перемістить програму іншого розробника"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel移动另一开发者的App后即可得知"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "待Peel移動其他開發者的App後即可得知"
           }
         }
       }
@@ -266039,6 +266039,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS表示它無法刪除其中部分快照來騰出空間，因此在這些快照消失之前，它們佔用的空間無法使用。"
+          }
+        }
+      }
+    },
+    "macOS says whether Peel may move another developer’s app only when Peel moves one, so Peel can’t tell before then." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS sdělí, zda Peel smí přesunout aplikaci jiného vývojáře, teprve ve chvíli, kdy Peel nějakou přesouvá, takže Peel to předem zjistit nemůže."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ob Peel die App eines anderen Entwicklers verschieben darf, teilt macOS erst mit, wenn Peel eine solche App verschiebt, daher kann Peel es vorher nicht sagen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS solo indica si Peel puede trasladar la app de otro desarrollador cuando Peel traslada una, así que Peel no puede saberlo antes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’indique si Peel peut déplacer l’app d’un autre développeur qu’au moment où Peel en déplace une : Peel ne peut donc pas le savoir auparavant."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS indica se Peel può spostare un’app di un’altra azienda di sviluppo solo quando Peel ne sposta una, quindi Peel non può saperlo prima."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelがほかの開発元のアプリを移動してもよいかどうかは、Peelが実際に移動するときにしかmacOSが示さないため、それまではPeelには判断できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS는 Peel이 다른 개발자의 앱을 이동할 때에만 이동이 허용되는지 알려 주므로, 그 전에는 Peel이 알 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS meldt pas of Peel een app van een andere ontwikkelaar mag verplaatsen als Peel er een verplaatst, dus eerder kan Peel dat niet weten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS podaje, czy Peel może przenosić aplikacje innych deweloperów, dopiero gdy Peel przenosi jedną z nich, więc wcześniej Peel nie może tego określić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS só informa se o Peel pode mover um app de outro desenvolvedor quando o Peel move um, então o Peel não consegue saber antes disso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS spune dacă Peel are voie să mute aplicația altui dezvoltator doar atunci când Peel mută una, așa că Peel nu poate ști acest lucru dinainte."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS сообщает, разрешено ли Peel перемещать приложения других разработчиков, только когда Peel перемещает такое приложение, поэтому заранее Peel не может этого знать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS anger om Peel får flytta en annan utvecklares app först när Peel flyttar en sådan, så Peel kan inte veta det innan dess."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, Peel’in başka bir geliştiricinin uygulamasını taşıyıp taşıyamayacağını ancak Peel böyle bir uygulamayı taşıdığında söyler, bu yüzden Peel bunu daha önce bilemez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS повідомляє, чи дозволено Peel переміщувати програми інших розробників, лише коли Peel переміщує таку програму, тож доти Peel не може цього знати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有在Peel移动另一开发者的App时，macOS才会说明Peel是否可以这样做，因此在此之前Peel无法得知。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS只會在Peel移動其他開發者的App時，才說明Peel是否可以這麼做，因此Peel在那之前無法得知。"
           }
         }
       }

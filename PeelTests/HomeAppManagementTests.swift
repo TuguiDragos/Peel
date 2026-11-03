@@ -46,6 +46,23 @@ struct HomeAppManagementTests {
         #expect(home.waitingRequired.contains(.appManagement))
     }
 
+    @Test func saysWhenPeelLearnsItsAnswer() async throws {
+        let madeUp = try MadeUpDefaults()
+        defer { madeUp.forget() }
+        let frontmost = FrontmostApp(observing: false)
+        let home = HomeModel(helper: HelperModel(), defaults: madeUp.defaults, frontmost: frontmost)
+        await home.refresh()
+        #expect(home.status(of: .appManagement) == "Known once Peel moves another developer’s app")
+
+        frontmost.note("com.apple.systempreferences")
+        frontmost.note("org.example.other")
+        home.record(appManagement: .missing)
+        frontmost.note("com.apple.systempreferences")
+        frontmost.note("com.tuguidragos.Peel")
+        home.followSystemSettings()
+        #expect(home.status(of: .appManagement) == "Known again once Peel moves another developer’s app")
+    }
+
     @Test func neverHavingAskedIsNotWaiting() throws {
         let madeUp = try MadeUpDefaults()
         defer { madeUp.forget() }

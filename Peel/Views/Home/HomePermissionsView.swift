@@ -367,7 +367,8 @@ extension HomeModel {
         case (.openAtLogin, .off) where loginItem.needsApproval: "Turned off in Login Items & Extensions"
         case (_, .notThisAccount): "Needs an administrator"
         case (.appManagement, .pending):
-            appManagementAwaitsARemoval ? "Checked at the next removal" : "Checked at first removal"
+            appManagementAwaitsARemoval
+                ? "Known again once Peel moves another developer’s app" : "Known once Peel moves another developer’s app"
         case (.commandLine, .on): "Installed"
         case (.commandLine, _):
             HomeModel.commandLineStanding == .somethingElse ? "Something else is there" : "Not installed"
@@ -384,6 +385,11 @@ extension HomeModel {
             Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: true))
         case .openAtLogin where loginItem.failure != nil:
             Text(verbatim: loginItem.failure ?? "")
+        case .appManagement where state(of: .appManagement) == .pending:
+            Text(verbatim: [
+                String(localized: permission.detail),
+                String(localized: "macOS says whether Peel may move another developer’s app only when Peel moves one, so Peel can’t tell before then."),
+            ].joined(separator: " "))
         case .commandLine:
             Text(verbatim: [permission.detail, Self.commandLineNextStep(
                 state: state(of: permission), standing: Self.commandLineStanding, place: Self.commandLinePlace
