@@ -309,11 +309,11 @@ public struct Exclusions: Sendable, Codable, Hashable {
 
     /// The installed formulae whose own folder in `cellar` is excluded or holds something excluded, which Homebrew
     /// is told to keep: `brew cleanup`, and the autoremove `brew uninstall` runs, delete formulae and their old
-    /// versions for good. An unreadable list, or one not read yet, keeps every formula. Nil when the Cellar, or a
-    /// formula's folder in it, can't be looked into.
-    public func keptFormulae(inCellar cellar: URL) -> [String]? {
+    /// versions for good. An unreadable list, or one not read yet, keeps every formula. Or the folder that can't be
+    /// looked into: the Cellar, or a formula's own folder in it.
+    public func keptFormulae(inCellar cellar: URL) -> Result<[String], CannotLookInside> {
         guard let names = ProtectedData.names(in: cellar.path(percentEncoded: false), followingLinks: true) else {
-            return nil
+            return .failure(CannotLookInside(folder: cellar))
         }
         var kept: [String] = []
         for name in names.sorted() where !name.hasPrefix(".") {
@@ -322,10 +322,15 @@ public struct Exclusions: Sendable, Codable, Hashable {
                 kept.append(name)
                 continue
             }
-            guard let holds = holdsSomething(own) else { return nil }
+            guard let holds = holdsSomething(own) else { return .failure(CannotLookInside(folder: own)) }
             if holds { kept.append(name) }
         }
-        return kept
+        return .success(kept)
+    }
+
+    /// A folder Peel can't look into, or into a folder a level or two inside it, for what the exclusions cover.
+    public struct CannotLookInside: Error, Equatable {
+        public let folder: URL
     }
 
     public func keeping<T>(_ items: [T], url: (T) -> URL) -> [T] {

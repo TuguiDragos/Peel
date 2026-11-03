@@ -357,12 +357,14 @@ struct HomebrewTests {
             try? directory.setPermissions(0o755, of: "Cellar/jq/1.8.1")
         }
 
+        let cellar = directory.url.appending(path: "Cellar")
         try directory.setPermissions(0, of: "Cellar")
-        #expect(excludingWget.keptFormulae(inCellar: directory.url.appending(path: "Cellar")) == nil)
+        #expect(excludingWget.keptFormulae(inCellar: cellar) == .failure(.init(folder: cellar)))
         try directory.setPermissions(0o755, of: "Cellar")
         try directory.setPermissions(0, of: "Cellar/jq/1.8.1")
-        #expect(excludingAnApp.keptFormulae(inCellar: directory.url.appending(path: "Cellar")) == nil)
-        #expect(excludingWget.keptFormulae(inCellar: directory.url.appending(path: "Missing/Cellar")) == [])
+        let jq = cellar.appending(path: "jq", directoryHint: .isDirectory)
+        #expect(excludingAnApp.keptFormulae(inCellar: cellar) == .failure(.init(folder: jq)))
+        #expect(excludingWget.keptFormulae(inCellar: directory.url.appending(path: "Missing/Cellar")) == .success([]))
     }
 
     /// `brew cleanup` and the autoremove that `brew uninstall` runs delete formulae and their old versions for good,
@@ -377,9 +379,9 @@ struct HomebrewTests {
             directory.url.appending(path: "Cellar/jq"), directory.url.appending(path: "Cellar/python@3.13/3.13.7"),
         ])
 
-        let kept = try #require(exclusions.keptFormulae(inCellar: directory.url.appending(path: "Cellar")))
+        let kept = try exclusions.keptFormulae(inCellar: directory.url.appending(path: "Cellar")).get()
         #expect(kept == ["jq", "python@3.13"])
-        #expect(Exclusions.unreadable.keptFormulae(inCellar: directory.url.appending(path: "Cellar")) == ["jq", "python@3.13", "wget"])
+        #expect(Exclusions.unreadable.keptFormulae(inCellar: directory.url.appending(path: "Cellar")) == .success(["jq", "python@3.13", "wget"]))
 
         let attempt = try await Homebrew.execute(
             ["-c", "printf %s \"$HOMEBREW_NO_CLEANUP_FORMULAE\""], autoUpdate: false, keeping: kept, timeout: 10,

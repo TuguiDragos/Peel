@@ -486,7 +486,8 @@ final class HomebrewLibrary {
         needsDefinitions = false
         // The other questions take about as long as each other, so they run at the same time. Only the page shows the
         // cleanup's figure.
-        let kept = found.flatMap { ExclusionsStore.shared.exclusions.keptFormulae(inCellar: $0.cellar) } ?? []
+        let exclusions = ExclusionsStore.shared.exclusions
+        let kept = found.flatMap { try? exclusions.keptFormulae(inCellar: $0.cellar).get() } ?? []
         async let preview = includingReclaimable ? Homebrew.cleanupPreview(asWrittenBy: found, keeping: kept) : nil
         let installed: Result<[HomebrewPackage], Homebrew.CommandFailure>
         var overridden: Homebrew.Overrides?
@@ -659,7 +660,7 @@ final class HomebrewLibrary {
     /// The formulae the exclusions cover, read now, for a command the person runs in Terminal, or none when Peel
     /// can't tell which they are.
     var keptFormulaeNow: [String] {
-        installation.flatMap { ExclusionsStore.shared.exclusions.keptFormulae(inCellar: $0.cellar) } ?? []
+        installation.flatMap { try? ExclusionsStore.shared.exclusions.keptFormulae(inCellar: $0.cellar).get() } ?? []
     }
 
     /// The formulae Homebrew is told to keep, or what Peel says when it runs nothing.
@@ -672,8 +673,12 @@ final class HomebrewLibrary {
     /// deletes for good. Nothing runs when Peel can't tell which they are or Homebrew's own settings replace the list.
     private func keptFormulae() async -> Keeping {
         guard let cellar = installation?.cellar else { return .nothingRuns(keepsNothing) }
-        guard let kept = ExclusionsStore.shared.exclusions.keptFormulae(inCellar: cellar) else {
-            return .nothingRuns(CommandResult(succeeded: false, output: String(localized: "Peel couldn’t read Homebrew’s Cellar to tell which formulae your exclusions cover, so it ran nothing.")))
+        let kept: [String]
+        switch ExclusionsStore.shared.exclusions.keptFormulae(inCellar: cellar) {
+        case .success(let names): kept = names
+        case .failure(let closed):
+            let folder = closed.folder.abbreviatedPath
+            return .nothingRuns(CommandResult(succeeded: false, output: String(localized: "Peel couldn’t look inside \(folder) to tell which formulae your exclusions cover, so it ran nothing.")))
         }
         return await Homebrew.keepsEvery(kept) ? .formulae(kept) : .nothingRuns(keepsNothing)
     }
