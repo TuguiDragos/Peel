@@ -160,6 +160,17 @@ struct UpdateMemoryTests {
         #expect(UpdateMemories(data: Data("not a memory".utf8)) == nil)
     }
 
+    @Test func keepsAcrossLaunchesWhyTheLastCheckFailed() throws {
+        let why = UpdateFailure(asked: .server("feed.example.com"), cause: .unreadable(type: "text/html"))
+        let entry = UpdateMemory(status: .failed, schedule: schedule, checked: nil, describing: app("1.0"), failure: why)
+        #expect(try JSONDecoder().decode(UpdateMemory.self, from: JSONEncoder().encode(entry)).failure == why)
+
+        var object = try #require(JSONSerialization.jsonObject(with: JSONEncoder().encode(entry)) as? [String: Any])
+        object.removeValue(forKey: "failure")
+        let earlier = try JSONDecoder().decode(UpdateMemory.self, from: JSONSerialization.data(withJSONObject: object))
+        #expect(earlier.failure == nil && earlier.status == .failed)
+    }
+
     @Test func keepsAcrossLaunchesThatTheAppStoreListedNoSuchApp() throws {
         let entry = UpdateMemory(
             status: .updateAvailable(version: "1.2", source: .appStore), schedule: schedule, checked: nil,

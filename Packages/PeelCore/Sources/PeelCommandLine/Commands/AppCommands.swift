@@ -873,15 +873,18 @@ struct UpdatesCommand: AsyncParsableCommand {
         let app: AppRecord
         let status: String
         let availableVersion: String?
+        let failure: String?
 
         private enum CodingKeys: String, CodingKey {
             case app
             case status
             case availableVersion
+            case failure
         }
 
-        init(app: InstalledApp, status: UpdateStatus, isWaiting: Bool) {
+        init(app: InstalledApp, status: UpdateStatus, isWaiting: Bool, failure: UpdateFailure?) {
             self.app = AppRecord(app)
+            self.failure = status == .failed ? failure?.summary : nil
             switch status {
             case .updateAvailable:
                 self.status = isWaiting ? "updateAvailable" : "skipped"
@@ -898,19 +901,20 @@ struct UpdatesCommand: AsyncParsableCommand {
             }
         }
 
-        /// Written by hand so `availableVersion` is always there, as `null` when there is no update.
+        /// Written by hand so `availableVersion` and `failure` are always there, as `null` when there is none.
         func encode(to encoder: any Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(app, forKey: .app)
             try container.encode(status, forKey: .status)
             try container.encode(availableVersion, forKey: .availableVersion)
+            try container.encode(failure, forKey: .failure)
         }
     }
 
     /// The outcome of the checks, kept apart from the checking so a test can supply every answer. It counts
     /// the failures, so a run where every check failed isn't reported as up to date.
     struct Report {
-        var rows: [(app: InstalledApp, status: UpdateStatus)] = []
+        var rows: [(app: InstalledApp, status: UpdateStatus, failure: UpdateFailure?)] = []
         var failed = 0
         var withAFeed = 0
         var ignored = 0
@@ -922,6 +926,7 @@ struct UpdatesCommand: AsyncParsableCommand {
     static func report(
         apps: [InstalledApp],
         statuses: [InstalledApp.ID: UpdateStatus],
+        failures: [InstalledApp.ID: UpdateFailure] = [:],
         preferences: UpdatePreferences,
         all: Bool
     ) -> Report {
@@ -933,7 +938,7 @@ struct UpdatesCommand: AsyncParsableCommand {
             // The same rule as the app's list: a skipped version is not a waiting update. A check that failed is
             // always listed, so a report with one is never read as all up to date.
             if all || status == .failed || preferences.isWaiting(status, for: app) {
-                report.rows.append((app, status))
+                report.rows.append((app, status, status == .failed ? failures[app.id] : nil))
             }
         }
         return report
@@ -947,7 +952,7 @@ struct UpdatesCommand: AsyncParsableCommand {
         let toCheck = apps.filter { !preferences.isIgnored($0) }
         let homebrew = await CaskLookup.evidence(for: toCheck)
         let checker = UpdateChecker()
-        let statuses = await ProgressLine.reporting { show in
+        let checks = await ProgressLine.reporting { show in
             await Self.statuses(
                 for: toCheck, checker: checker, preference: preferences.source, casks: homebrew.casks,
                 memory: UpdateMemories.asTheAppSeesThem().recalled(for: apps)
@@ -955,11 +960,17 @@ struct UpdatesCommand: AsyncParsableCommand {
                 show(Self.progress(checked: answered, of: toCheck.count))
             }
         }
-        let report = Self.report(apps: apps, statuses: statuses, preferences: preferences, all: all)
+        let statuses = checks.statuses
+        let report = Self.report(
+            apps: apps, statuses: statuses, failures: checks.failures, preferences: preferences, all: all
+        )
 
         if output.json {
             try Output.json(report.rows.map { row in
-                Record(app: row.app, status: row.status, isWaiting: preferences.isWaiting(row.status, for: row.app))
+                Record(
+                    app: row.app, status: row.status, isWaiting: preferences.isWaiting(row.status, for: row.app),
+                    failure: row.failure
+                )
             })
         } else if !report.rows.isEmpty {
             Output.table([["NAME", "INSTALLED", "STATUS"]] + report.rows.map { row in
@@ -984,13 +995,26 @@ struct UpdatesCommand: AsyncParsableCommand {
         if report.ignored > 0 {
             Output.note("\(Output.count(report.ignored, "app is", "apps are")) set to be left alone in Peel and \(report.ignored == 1 ? "wasn't" : "weren't") checked.")
         }
-        guard !report.nothingAnswered else {
-            Output.note("Couldn't check any of the \(Output.count(report.withAFeed, "app", "apps")) with an update feed. Check your connection and try again.")
+        for note in Self.notes(aboutFailed: report) {
+            Output.note(note)
+        }
+        if report.nothingAnswered {
             throw ExitCode.failure
         }
-        if report.failed > 0 {
-            Output.note("Couldn't check \(Output.count(report.failed, "app", "apps")), so \(report.failed == 1 ? "whether it has an update" : "whether they have updates") isn't known.")
+    }
+
+    static func notes(aboutFailed report: Report) -> [String] {
+        let failed = report.rows.filter { $0.status == .failed }
+        let each = failed.map { row in
+            "Couldn't check \(row.app.name)." + (row.failure.map { " " + $0.summary } ?? "")
         }
+        guard report.nothingAnswered else { return each }
+        let none = "Couldn't check any of the \(Output.count(report.withAFeed, "app", "apps")) with an update feed."
+        // With no answer from any server, the fault is this Mac's network, which a line per app would only repeat.
+        let reachedNoServer = failed.allSatisfy { row in
+            if case .noAnswer = row.failure?.cause { true } else { false }
+        }
+        return reachedNoServer ? [none + " Check your connection and try again."] : each + [none]
     }
 
     static func notes(about cannotTell: [HomebrewCannotTell], timeZone: TimeZone = .current) -> [String] {
@@ -1035,6 +1059,11 @@ struct UpdatesCommand: AsyncParsableCommand {
         }
     }
 
+    struct Checks {
+        var statuses: [InstalledApp.ID: UpdateStatus] = [:]
+        var failures: [InstalledApp.ID: UpdateFailure] = [:]
+    }
+
     static func statuses(
         for apps: [InstalledApp],
         checker: UpdateChecker,
@@ -1042,32 +1071,33 @@ struct UpdatesCommand: AsyncParsableCommand {
         casks: [HomebrewPackage],
         memory: UpdateMemories,
         answered: (Int) -> Void
-    ) async -> [InstalledApp.ID: UpdateStatus] {
+    ) async -> Checks {
         // As the app does: what a check found before is its earlier answer, and an update its own source found is
         // kept through a check of that source that failed.
-        let check = { @Sendable (app: InstalledApp) async -> (InstalledApp.ID, UpdateStatus) in
+        let check = { @Sendable (app: InstalledApp) async -> (InstalledApp.ID, UpdateStatus, UpdateFailure?) in
             let earlier = memory.entry(for: app)
             let answer = await checker.answer(
                 for: app, preference: preference, casks: casks, earlier: earlier?.status,
                 notListedBefore: earlier?.isNotListed == true
             )
-            return (app.id, answer.following(earlier?.status))
+            return (app.id, answer.following(earlier?.status), answer.failure)
         }
-        return await withTaskGroup(of: (InstalledApp.ID, UpdateStatus).self) { group in
+        return await withTaskGroup(of: (InstalledApp.ID, UpdateStatus, UpdateFailure?).self) { group in
             var pending = apps.makeIterator()
-            var statuses: [InstalledApp.ID: UpdateStatus] = [:]
+            var checks = Checks()
             for _ in 0..<concurrentChecks {
                 guard let app = pending.next() else { break }
                 group.addTask { await check(app) }
             }
-            while case let (id, status)? = await group.next() {
-                statuses[id] = status
-                answered(statuses.count)
+            while case let (id, status, failure)? = await group.next() {
+                checks.statuses[id] = status
+                checks.failures[id] = failure
+                answered(checks.statuses.count)
                 if let app = pending.next() {
                     group.addTask { await check(app) }
                 }
             }
-            return statuses
+            return checks
         }
     }
 }

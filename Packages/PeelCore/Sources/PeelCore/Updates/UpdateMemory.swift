@@ -23,6 +23,8 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
     public let revision: Int?
     /// Whether the App Store's answer was that it lists no such app; nil for one saved before this was kept.
     public let isNotListed: Bool?
+    /// Why the app's own source gave no answer at the last check, when it failed.
+    public let failure: UpdateFailure?
 
     public init(
         status: UpdateStatus,
@@ -31,7 +33,8 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
         describing app: InstalledApp,
         developer: String? = nil,
         standsInFor: UpdateStatus? = nil,
-        isNotListed: Bool = false
+        isNotListed: Bool = false,
+        failure: UpdateFailure? = nil
     ) {
         self.status = status
         self.schedule = schedule
@@ -39,6 +42,7 @@ public struct UpdateMemory: Codable, Equatable, Sendable {
         self.developer = developer
         self.standsInFor = standsInFor
         self.isNotListed = isNotListed
+        self.failure = failure
         version = app.version
         buildVersion = app.buildVersion
         revision = UpdateChecker.revision

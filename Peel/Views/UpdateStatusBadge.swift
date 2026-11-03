@@ -7,6 +7,7 @@ struct UpdateStatusBadge: View {
     let isChecking: Bool
     /// When a check last got an answer, which is what the note for a failed check tells the user.
     var lastCheck: Date?
+    var failure: UpdateFailure?
     /// The day an Up to date nothing renews anymore was found (`AppLibrary.keptUpToDate`).
     var keptSince: Date?
     let cannotCheck: CannotCheck
@@ -108,10 +109,13 @@ struct UpdateStatusBadge: View {
     }
 
     private var failureReason: Text {
-        if let lastCheck {
-            Text("Peel asked where \(app.name) updates from and got no answer it could read. The last answer came \(lastCheck, format: .relative(presentation: .named)). A feed that is down, moved, or behind a sign-in ends up here, as does one this Mac’s network doesn’t reach through a proxy or a VPN, and Peel asks again at the next check.")
-        } else {
-            Text("Peel asked where \(app.name) updates from and got no answer it could read. A feed that is down, moved, or behind a sign-in ends up here, as does one this Mac’s network doesn’t reach through a proxy or a VPN, and Peel asks again at the next check.")
-        }
+        Text(verbatim: [
+            failure?.explanation(about: app.name)
+                ?? String(localized: "Peel asked whether \(app.name) has an update and got no answer it could read."),
+            lastCheck.map { checked in
+                String(localized: "The last answer Peel could read came \(checked.formatted(.relative(presentation: .named))).")
+            },
+            String(localized: "Peel asks again at the next check."),
+        ].compactMap(\.self).joined(separator: " "))
     }
 }

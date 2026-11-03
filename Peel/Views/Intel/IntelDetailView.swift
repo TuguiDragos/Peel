@@ -109,6 +109,7 @@ struct IntelDetailView: View {
                             app: app,
                             status: status,
                             isChecking: library.appsCheckingForUpdates.contains(app.id),
+                            failure: library.updateFailures[app.id],
                             keptSince: library.keptUpToDate(of: app),
                             cannotCheck: library.whyItCannotCheck(app)
                         )

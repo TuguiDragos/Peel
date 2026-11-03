@@ -28,6 +28,7 @@ struct AppPageHeader: View {
                 isCheckingForUpdates: library.appsCheckingForUpdates.contains(plan.app.id),
                 hasWaitingUpdate: waitingVersion != nil,
                 lastCheck: library.lastUpdateChecks[plan.app.id],
+                updateFailure: library.updateFailures[plan.app.id],
                 keptSince: library.keptUpToDate(of: plan.app),
                 cannotCheck: library.whyItCannotCheck(plan.app),
                 total: plan.total,

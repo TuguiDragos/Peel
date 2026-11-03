@@ -129,6 +129,8 @@ final class AppLibrary {
     /// Incremented when a size arrives. Only the size sort depends on it, so other sorts keep their cached list.
     private(set) var sizesRevision = 0
     private(set) var lastUpdateChecks: [InstalledApp.ID: Date] = [:]
+    /// Why the last check of each app's own source failed, when it did, which the note behind Update check failed says.
+    private(set) var updateFailures: [InstalledApp.ID: UpdateFailure] = [:]
     /// How the last upgrade run from each app's page went. Kept here rather than on the page: a successful upgrade
     /// is another build, so the page is built again, and the new one shows the result.
     private var upgrades: [InstalledApp.ID: Upgrade] = [:]
@@ -434,6 +436,7 @@ final class AppLibrary {
         sharingStorage = sharingStorage.filter(keeps)
         updateStatuses = updateStatuses.filter { keeps($0.key) }
         lastUpdateChecks = lastUpdateChecks.filter { keeps($0.key) }
+        updateFailures = updateFailures.filter { keeps($0.key) }
         selection.formIntersection(present)
         picked.formIntersection(present)
 
@@ -461,6 +464,9 @@ final class AppLibrary {
             updateStatuses[app.id] = remembered.status
             if let checked = remembered.checked {
                 lastUpdateChecks[app.id] = checked
+            }
+            if let failure = remembered.failure {
+                updateFailures[app.id] = failure
             }
         }
         // Before Peel noted what it told of, the updates found earlier were told of as they were found.
@@ -746,6 +752,9 @@ final class AppLibrary {
                 if answer.status != .failed {
                     lastUpdateChecks[id] = .now
                 }
+                if updateFailures[id] != answer.failure {
+                    updateFailures[id] = answer.failure
+                }
                 guard let identifier = app.bundleIdentifier else { return }
                 let before = remembered(app)
                 memory.keep(UpdateMemory(
@@ -758,7 +767,8 @@ final class AppLibrary {
                     describing: app,
                     developer: answer.developer ?? memory.developer(of: identifier),
                     standsInFor: standsInFor,
-                    isNotListed: answer.isNotListed
+                    isNotListed: answer.isNotListed,
+                    failure: answer.failure
                 ), for: app)
                 // Only an answer that found this update can say what is new in it; a failed one keeps what was known.
                 if case .updateAvailable(let version, _, _, _) = kept, answer.status == kept {
@@ -899,6 +909,7 @@ final class AppLibrary {
         updateRounds.sourceChanged()
         updateStatuses = [:]
         lastUpdateChecks = [:]
+        updateFailures = [:]
         memory = UpdateMemories()
         UpdateMemoryStore.save(memory, to: defaults)
         await checkForUpdates(apps, force: true)
@@ -992,6 +1003,7 @@ final class AppLibrary {
         guard !outlived.isEmpty else { return }
         updateStatuses = updateStatuses.filter { !outlived.contains($0.key) }
         lastUpdateChecks = lastUpdateChecks.filter { !outlived.contains($0.key) }
+        updateFailures = updateFailures.filter { !outlived.contains($0.key) }
         for app in apps where outlived.contains(app.id) {
             memory.forget(app)
         }

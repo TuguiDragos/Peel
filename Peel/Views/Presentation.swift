@@ -1,5 +1,6 @@
 import PeelCore
 import SwiftUI
+import UniformTypeIdentifiers
 
 extension MatchReason {
     var title: LocalizedStringResource {
@@ -314,6 +315,45 @@ extension DuplicateFinder.Refusal {
         case .insideARepository: String(localized: "It is a repository, or sits inside one, and Peel leaves repositories alone.")
         case .unreachable(let problem): problem.explanation
         }
+    }
+}
+
+extension UpdateFailure {
+    /// Who Peel asked whether `app` has an update, and what came back instead of an answer.
+    func explanation(about app: String) -> String {
+        let asked = switch asked {
+        case .appStore: String(localized: "Peel asked the App Store whether \(app) has an update.")
+        case .server(let host): String(localized: "Peel asked \(host) whether \(app) has an update.")
+        }
+        let came = switch cause {
+        case .noAnswer(let words): String(localized: "No answer came: \(words)")
+        case .answered(let status):
+            switch StatusMeaning(status: status) {
+            case .nothingThere: String(localized: "It answered \(String(status)): nothing is at that address.")
+            case .refused: String(localized: "It answered \(String(status)): access is refused.")
+            case .tooManyRequests:
+                String(localized: "It answered \(String(status)): it limits how often it answers, and asks Peel to wait.")
+            case .serverError: String(localized: "It answered \(String(status)), an error on the server’s side.")
+            case .other:
+                String(localized: "It answered with HTTP status \(String(status)) instead of what Peel asked for.")
+            }
+        case .sentOnTo(let address):
+            String(localized: "It sent Peel on to \(address), which isn’t https, so Peel didn’t follow.")
+        case .tooLarge: String(localized: "It sent more than any update feed holds, so Peel stopped reading.")
+        case .unreadable(let type?):
+            String(localized: "What it sent, marked as \(Self.described(type)), isn’t an answer Peel can read.")
+        case .unreadable(nil): String(localized: "What it sent isn’t an answer Peel can read.")
+        case .olderThanFound(let version, let found):
+            String(localized: "It answered \(version), older than the update to \(found) it offered before, so its catalog isn’t up to date yet.")
+        case .unlistedAfterAnUpdate:
+            String(localized: "It answered that it doesn’t list \(app), right after it offered an update, so Peel waits for a second answer.")
+        }
+        return asked + " " + came
+    }
+
+    /// A content type as macOS names it in the reader's language, or as the server wrote it when macOS doesn't know it.
+    private static func described(_ type: String) -> String {
+        UTType(mimeType: type).flatMap { $0.isDynamic ? nil : $0.localizedDescription } ?? type
     }
 }
 

@@ -8,7 +8,7 @@ public struct UpdateChecker: Sendable {
 
     /// The largest reply read. An update feed is a small XML, YAML, or JSON file, and its address comes from
     /// the app's own bundle, so the server is not trusted to keep its reply small.
-    private static let maximumFeedBytes = 4 * 1_024 * 1_024
+    static let maximumFeedBytes = 4 * 1_024 * 1_024
 
     /// Settings for Peel's own session, used instead of the shared one: no cookies, no cache, time limits, and
     /// headers of its own. A feed server should not set a cookie, read one left by another app's check, get back a
@@ -105,7 +105,7 @@ public struct UpdateChecker: Sendable {
         if let status = homebrew.status, own.status == .unsupported || own.status == .failed {
             return UpdateAnswer(
                 status: status, developer: own.developer, standsInFor: own.status,
-                reachedNoServer: own.reachedNoServer, isNotListed: own.isNotListed
+                reachedNoServer: own.reachedNoServer, isNotListed: own.isNotListed, failure: own.failure
             )
         }
         return own
@@ -306,11 +306,11 @@ public struct UpdateChecker: Sendable {
         guard let data = reply.data else { return Self.answer(after: reply) }
         let item: AppcastItem
         switch Appcast.read(data, systemVersion: systemVersion, isAppleSilicon: isAppleSilicon) {
-        case .unreadable: return UpdateAnswer(status: .failed)
+        case .unreadable: return Self.unreadable(reply)
         case .nothingForThisMac: return UpdateAnswer(status: .upToDate)
         case .latest(let latest): item = latest
         }
-        guard let latest = item.displayVersion else { return UpdateAnswer(status: .failed) }
+        guard let latest = item.displayVersion else { return Self.unreadable(reply) }
         let isNewer = if let version = item.version, let build = app.buildVersion {
             VersionComparison.isNewer(version, than: build)
         } else {
@@ -331,7 +331,7 @@ public struct UpdateChecker: Sendable {
         let reply = await fetchReply(url)
         guard let data = reply.data else { return Self.answer(after: reply) }
         let feed = String(decoding: data, as: UTF8.self)
-        guard let latest = ElectronUpdater.version(fromFeed: feed) else { return UpdateAnswer(status: .failed) }
+        guard let latest = ElectronUpdater.version(fromFeed: feed) else { return Self.unreadable(reply) }
         guard VersionComparison.isNewer(latest, than: installed) else { return UpdateAnswer(status: .upToDate) }
         // A release the app's own updater won't offer this Mac is no update to wait for here, as the app says too.
         let updaterID = ElectronUpdater.updaterID(of: app, home: .homeDirectory)
@@ -348,7 +348,7 @@ public struct UpdateChecker: Sendable {
     private func vsCodeAnswer(installed: String, at url: URL) async -> UpdateAnswer {
         let reply = await fetchReply(url)
         guard let data = reply.data else { return Self.answer(after: reply) }
-        guard let latest = VSCodeUpdateService.version(in: data) else { return UpdateAnswer(status: .failed) }
+        guard let latest = VSCodeUpdateService.version(in: data) else { return Self.unreadable(reply) }
         guard VersionComparison.isNewer(latest, than: installed) else { return UpdateAnswer(status: .upToDate) }
         return UpdateAnswer(status: .updateAvailable(version: latest, source: .developer, releaseNotes: nil))
     }
@@ -368,15 +368,20 @@ public struct UpdateChecker: Sendable {
         if reply.status == 400, store != "us" {
             reply = await lookup(identifier, in: "us", for: listing)
         }
-        guard let data = reply.data else { return Self.answer(after: reply) }
+        guard let data = reply.data else { return Self.answer(after: reply, fromTheAppStore: true) }
         switch AppStoreLookup.answer(in: data, for: listing) {
         case .unreadable:
-            return UpdateAnswer(status: .failed)
+            return UpdateAnswer(
+                status: .failed, failure: UpdateFailure(asked: .appStore, cause: .unreadable(type: reply.declaredType))
+            )
         case .notListed:
             // An app the store just offered an update for is believed unlisted only when the answer before this
             // one said so too; a first such answer is asked again later, as a failed check.
             if case .updateAvailable(_, .appStore, _, _) = earlier, !notListedBefore {
-                return UpdateAnswer(status: .failed, isNotListed: true)
+                return UpdateAnswer(
+                    status: .failed, isNotListed: true,
+                    failure: UpdateFailure(asked: .appStore, cause: .unlistedAfterAnUpdate)
+                )
             }
             return UpdateAnswer(status: .unsupported, isNotListed: true)
         case .listed(let latest, let page, let developer, let notes):
@@ -384,7 +389,10 @@ public struct UpdateChecker: Sendable {
             // build comes from a copy of its catalog that isn't up to date yet, and is asked again later.
             if case .updateAvailable(let found, .appStore, _, _) = earlier,
                VersionComparison.isNewer(found, than: latest) {
-                return UpdateAnswer(status: .failed, developer: developer)
+                return UpdateAnswer(
+                    status: .failed, developer: developer,
+                    failure: UpdateFailure(asked: .appStore, cause: .olderThanFound(version: latest, found: found))
+                )
             }
             guard VersionComparison.isNewer(latest, than: installed) else {
                 return UpdateAnswer(status: .upToDate, developer: developer)
@@ -492,13 +500,56 @@ public struct UpdateChecker: Sendable {
         var status: Int?
         var mimeType: String?
         var textEncodingName: String?
+        /// The type the server's `Content-Type` names, which `mimeType` guesses at when it names none.
+        var declaredType: String?
         /// True when this Mac wasn't online, so no server was asked.
         var wasOffline = false
         var reachedNoServer = false
+        /// The server that answered, or that couldn't be reached, by host name.
+        var server: String?
+        /// Why there is no body to read, when there isn't.
+        var cause: UpdateFailure.Cause?
+
+        func failure(_ cause: UpdateFailure.Cause?, fromTheAppStore: Bool) -> UpdateFailure? {
+            guard let cause else { return nil }
+            if fromTheAppStore { return UpdateFailure(asked: .appStore, cause: cause) }
+            return server.map { UpdateFailure(asked: .server($0), cause: cause) }
+        }
     }
 
-    private static func answer(after reply: Reply) -> UpdateAnswer {
-        UpdateAnswer(status: .failed, wasOffline: reply.wasOffline, reachedNoServer: reply.reachedNoServer)
+    private static func answer(after reply: Reply, fromTheAppStore: Bool = false) -> UpdateAnswer {
+        UpdateAnswer(
+            status: .failed, wasOffline: reply.wasOffline, reachedNoServer: reply.reachedNoServer,
+            failure: reply.failure(reply.cause, fromTheAppStore: fromTheAppStore)
+        )
+    }
+
+    private static func unreadable(_ reply: Reply) -> UpdateAnswer {
+        UpdateAnswer(
+            status: .failed, failure: reply.failure(.unreadable(type: reply.declaredType), fromTheAppStore: false)
+        )
+    }
+
+    private static func declaredType(of response: URLResponse) -> String? {
+        guard let field = (response as? HTTPURLResponse)?.value(forHTTPHeaderField: "Content-Type") else { return nil }
+        let type = field.prefix { $0 != ";" }.trimmingCharacters(in: .whitespaces).lowercased()
+        return type.isEmpty ? nil : type
+    }
+
+    private static func host(of url: URL) -> String {
+        url.host(percentEncoded: false) ?? url.absoluteString
+    }
+
+    /// The address without its query and fragment, which can carry a key.
+    private static func shown(_ address: URL) -> String {
+        guard var parts = URLComponents(url: address, resolvingAgainstBaseURL: true) else {
+            return address.absoluteString
+        }
+        parts.user = nil
+        parts.password = nil
+        parts.query = nil
+        parts.fragment = nil
+        return parts.string ?? address.absoluteString
     }
 
     /// Whether this Mac has a network path at all, which a round asks once before it asks about any app.
@@ -518,12 +569,30 @@ public struct UpdateChecker: Sendable {
             (stream, response) = try await session.bytes(for: request, delegate: delegate)
         } catch {
             let isOffline = delegate.waitedForConnectivity || Self.meansOffline(error)
-            return Reply(wasOffline: isOffline ? true : !(await isOnline()), reachedNoServer: true)
+            return Reply(
+                wasOffline: isOffline ? true : !(await isOnline()), reachedNoServer: true,
+                server: Self.host(of: (error as? URLError)?.failingURL ?? url),
+                cause: .noAnswer(error.localizedDescription)
+            )
         }
         replies.add()
         let status = (response as? HTTPURLResponse)?.statusCode
-        var answer = Reply(status: status, mimeType: response.mimeType, textEncodingName: response.textEncodingName)
-        guard status == 200, response.expectedContentLength <= Self.maximumFeedBytes else { return answer }
+        var answer = Reply(
+            status: status, mimeType: response.mimeType, textEncodingName: response.textEncodingName,
+            declaredType: Self.declaredType(of: response), server: Self.host(of: response.url ?? url)
+        )
+        if let refused = delegate.refusedAddress {
+            answer.cause = .sentOnTo(Self.shown(refused))
+            return answer
+        }
+        guard let status, status == 200 else {
+            answer.cause = status.map(UpdateFailure.Cause.answered) ?? .unreadable(type: answer.declaredType)
+            return answer
+        }
+        guard response.expectedContentLength <= Self.maximumFeedBytes else {
+            answer.cause = .tooLarge
+            return answer
+        }
 
         // Reads raw bytes, giving up once the reply passes the size limit. Reading lines would be faster, but it
         // decodes UTF-8 and drops line endings, while an appcast may declare another encoding in its first line,
@@ -533,9 +602,13 @@ public struct UpdateChecker: Sendable {
         do {
             for try await byte in stream {
                 bytes.append(byte)
-                guard bytes.count <= Self.maximumFeedBytes else { return answer }
+                guard bytes.count <= Self.maximumFeedBytes else {
+                    answer.cause = .tooLarge
+                    return answer
+                }
             }
         } catch {
+            answer.cause = .noAnswer(error.localizedDescription)
             return answer
         }
         answer.data = Data(bytes)
@@ -558,15 +631,23 @@ private final class ReplyCount: Sendable {
 /// send the check to a service there.
 private final class SecureRedirects: NSObject, URLSessionTaskDelegate, Sendable {
     private let waited = Mutex(false)
+    private let refused = Mutex<URL?>(nil)
 
     /// True once the request waited for this Mac to go online.
     var waitedForConnectivity: Bool { waited.withLock { $0 } }
+    /// The address a redirect led to that the check didn't follow. The reply is then the redirect itself.
+    var refusedAddress: URL? { refused.withLock { $0 } }
 
     func urlSession(
         _ session: URLSession, task: URLSessionTask, willPerformHTTPRedirection response: HTTPURLResponse,
         newRequest request: URLRequest, completionHandler: @escaping @Sendable (URLRequest?) -> Void
     ) {
-        completionHandler(request.url?.scheme == "https" ? request : nil)
+        guard request.url?.scheme == "https" else {
+            refused.withLock { $0 = request.url }
+            completionHandler(nil)
+            return
+        }
+        completionHandler(request)
     }
 
     func urlSession(_ session: URLSession, taskIsWaitingForConnectivity task: URLSessionTask) {
@@ -592,6 +673,8 @@ public struct UpdateAnswer: Sendable, Hashable {
     public let reachedNoServer: Bool
     /// True when the App Store answered that it lists no such app.
     public let isNotListed: Bool
+    /// Why the app's own source gave no answer, when it failed.
+    public let failure: UpdateFailure?
 
     public init(
         status: UpdateStatus,
@@ -601,7 +684,8 @@ public struct UpdateAnswer: Sendable, Hashable {
         standsInFor: UpdateStatus? = nil,
         wasOffline: Bool = false,
         reachedNoServer: Bool = false,
-        isNotListed: Bool = false
+        isNotListed: Bool = false,
+        failure: UpdateFailure? = nil
     ) {
         self.status = status
         self.developer = developer
@@ -611,6 +695,7 @@ public struct UpdateAnswer: Sendable, Hashable {
         self.wasOffline = wasOffline
         self.reachedNoServer = reachedNoServer
         self.isNotListed = isNotListed
+        self.failure = failure
     }
 
     /// The status to keep after `previous`: a check whose own source failed keeps an update that source found earlier,

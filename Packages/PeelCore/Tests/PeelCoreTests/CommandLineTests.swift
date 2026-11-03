@@ -1328,6 +1328,79 @@ struct CommandLineTests {
         #expect(!some.nothingAnswered)
     }
 
+    @Test func saysWhyEachCheckFailed() {
+        let app = { (name: String) in
+            InstalledApp(
+                url: URL(filePath: "/Applications/\(name).app", directoryHint: .isDirectory),
+                bundleIdentifier: "com.example.\(name.lowercased())", name: name, version: "1.0"
+            )
+        }
+        let feed = UpdateFailure.Asked.server("feed.example.com")
+        let failures: [(String, UpdateFailure?)] = [
+            ("Gone", UpdateFailure(asked: feed, cause: .answered(404))),
+            ("Closed", UpdateFailure(asked: feed, cause: .answered(403))),
+            ("Busy", UpdateFailure(asked: .appStore, cause: .answered(429))),
+            ("Broken", UpdateFailure(asked: feed, cause: .answered(503))),
+            ("Empty", UpdateFailure(asked: feed, cause: .answered(204))),
+            ("Far", UpdateFailure(asked: feed, cause: .noAnswer("The request timed out."))),
+            ("Moved", UpdateFailure(asked: feed, cause: .sentOnTo("http://feed.example.com/a.xml"))),
+            ("Big", UpdateFailure(asked: feed, cause: .tooLarge)),
+            ("Page", UpdateFailure(asked: feed, cause: .unreadable(type: "text/html"))),
+            ("Odd", UpdateFailure(asked: .appStore, cause: .unreadable(type: nil))),
+            ("Behind", UpdateFailure(asked: .appStore, cause: .olderThanFound(version: "1.1", found: "1.2"))),
+            ("Unlisted", UpdateFailure(asked: .appStore, cause: .unlistedAfterAnUpdate)),
+            ("Unknown", nil),
+        ]
+        let apps = failures.map { app($0.0) }
+        let fine = app("Fine")
+        let report = UpdatesCommand.report(
+            apps: apps + [fine],
+            statuses: Dictionary(
+                uniqueKeysWithValues: apps.map { ($0.id, UpdateStatus.failed) } + [(fine.id, .upToDate)]
+            ),
+            failures: Dictionary(uniqueKeysWithValues: zip(apps, failures).compactMap { app, failure in
+                failure.1.map { (app.id, $0) }
+            }),
+            preferences: UpdatePreferences(),
+            all: false
+        )
+
+        #expect(UpdatesCommand.notes(aboutFailed: report) == [
+            "Couldn't check Gone. feed.example.com answered 404: nothing is at that address.",
+            "Couldn't check Closed. feed.example.com answered 403: access is refused.",
+            "Couldn't check Busy. The App Store answered 429: it limits how often it answers, and asks Peel to wait.",
+            "Couldn't check Broken. feed.example.com answered 503, an error on the server's side.",
+            "Couldn't check Empty. feed.example.com answered with HTTP status 204 instead of what Peel asked for.",
+            "Couldn't check Far. feed.example.com gave no answer: The request timed out.",
+            "Couldn't check Moved. feed.example.com sent the check on to http://feed.example.com/a.xml, which isn't https, so Peel didn't follow.",
+            "Couldn't check Big. feed.example.com sent more than any update feed holds, so Peel stopped reading.",
+            "Couldn't check Page. What feed.example.com sent, marked as text/html, isn't an answer Peel can read.",
+            "Couldn't check Odd. What the App Store sent isn't an answer Peel can read.",
+            "Couldn't check Behind. The App Store answered 1.1, older than the update to 1.2 it offered before, so its catalog isn't up to date yet.",
+            "Couldn't check Unlisted. The App Store answered that it doesn't list the app, right after it offered an update, so Peel waits for a second answer.",
+            "Couldn't check Unknown.",
+        ])
+
+        let far = UpdateFailure(asked: feed, cause: .noAnswer("The request timed out."))
+        let gone = UpdateFailure(asked: feed, cause: .answered(404))
+        let alone = { (failures: [UpdateFailure]) in
+            let apps = failures.indices.map { app("App\($0)") }
+            return UpdatesCommand.notes(aboutFailed: UpdatesCommand.report(
+                apps: apps,
+                statuses: Dictionary(uniqueKeysWithValues: apps.map { ($0.id, UpdateStatus.failed) }),
+                failures: Dictionary(uniqueKeysWithValues: zip(apps.map(\.id), failures)),
+                preferences: UpdatePreferences(),
+                all: false
+            ))
+        }
+        #expect(alone([far, far]) == ["Couldn't check any of the 2 apps with an update feed. Check your connection and try again."])
+        #expect(alone([gone, far]) == [
+            "Couldn't check App0. feed.example.com answered 404: nothing is at that address.",
+            "Couldn't check App1. feed.example.com gave no answer: The request timed out.",
+            "Couldn't check any of the 2 apps with an update feed.",
+        ])
+    }
+
     @Test func saysWhyAppsOnlyHomebrewCanAnswerForGotNoAnswer() {
         let cask = HomebrewPackage(name: "example", kind: .cask, installedVersion: "1.0")
         let checked = cask.noting(lastUpdateCheck: Date(timeIntervalSince1970: 1_792_315_250))
@@ -1708,7 +1781,7 @@ struct UpdatesCommandTests {
             for: [app], checker: checker, preference: .automatic, casks: [], memory: memory
         ) { _ in }
 
-        #expect(statuses[app.id] == found, "peel said the check failed where the app shows the update it found")
+        #expect(statuses.statuses[app.id] == found, "peel said the check failed where the app shows the update it found")
     }
 
     @Test func saysWhatItLeavesOutWithoutAll() {

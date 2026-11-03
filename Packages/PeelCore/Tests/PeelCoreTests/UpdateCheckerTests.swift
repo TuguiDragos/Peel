@@ -9,6 +9,8 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
         var status = 200
         var body = Data()
         var headers: [String: String]?
+        var redirect: String?
+        var stopsAfterTheBody = false
     }
 
     static let replies = Mutex<[String: Reply]>([:])
@@ -33,9 +35,16 @@ private final class CannedProtocol: URLProtocol, @unchecked Sendable {
             client?.urlProtocol(self, didFailWithError: URLError(.cannotFindHost))
             return
         }
+        if let redirect = reply.redirect, let target = URL(string: redirect) {
+            client?.urlProtocol(self, wasRedirectedTo: URLRequest(url: target), redirectResponse: response)
+        }
         client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
         client?.urlProtocol(self, didLoad: reply.body)
-        client?.urlProtocolDidFinishLoading(self)
+        if reply.stopsAfterTheBody {
+            client?.urlProtocol(self, didFailWithError: URLError(.networkConnectionLost))
+        } else {
+            client?.urlProtocolDidFinishLoading(self)
+        }
     }
 }
 
@@ -262,6 +271,46 @@ private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
 
         reply("feed.example.com", "<plist version=\"1.0\"><dict><key>SUFeedEntries</key><array><dict><key>SUFeedEntryShortVersionString</key><string>16.0.3</string></dict></array></dict></plist>")
         #expect(await checker.status(for: sparkleApp()) == .failed)
+    }
+
+    @Test func saysWhyACheckFailed() async throws {
+        let feed = UpdateFailure.Asked.server("feed.example.com")
+        let failure = { await self.checker.answer(for: self.sparkleApp()).failure }
+        let set = { (reply: CannedProtocol.Reply) in
+            CannedProtocol.replies.withLock { $0 = ["feed.example.com": reply] }
+        }
+
+        for status in [404, 503, 204] {
+            reply("feed.example.com", status: status, "")
+            #expect(await failure() == UpdateFailure(asked: feed, cause: .answered(status)))
+        }
+        set(.init(body: Data("<html><body>Sign in</body></html>".utf8), headers: ["Content-Type": "text/html"]))
+        #expect(await failure() == UpdateFailure(asked: feed, cause: .unreadable(type: "text/html")))
+        reply("feed.example.com", "<rss><channel>")
+        let undeclared = await failure()
+        #expect(undeclared == UpdateFailure(asked: feed, cause: .unreadable(type: nil)))
+        set(.init(body: Data("<html>".utf8), headers: ["Content-Type": " Text/HTML ; charset=utf-8"]))
+        let declared = await failure()
+        #expect(declared == UpdateFailure(asked: feed, cause: .unreadable(type: "text/html")))
+        set(.init(body: Data("x".utf8), headers: ["Content-Length": "\(UpdateChecker.maximumFeedBytes + 1)"]))
+        #expect(await failure() == UpdateFailure(asked: feed, cause: .tooLarge))
+        set(.init(body: Data(count: UpdateChecker.maximumFeedBytes + 1)))
+        #expect(await failure() == UpdateFailure(asked: feed, cause: .tooLarge))
+        set(.init(status: 302, headers: ["Location": "http://feed.example.com/a.xml?k=1"], redirect: "http://feed.example.com/a.xml?k=1"))
+        #expect(await failure() == UpdateFailure(asked: feed, cause: .sentOnTo("http://feed.example.com/a.xml")))
+        set(.init(body: Data(appcast("<item>").utf8), stopsAfterTheBody: true))
+        let cut = try #require(await failure())
+        #expect(cut.asked == feed)
+        guard case .noAnswer(let words) = cut.cause else { Issue.record("\(cut)"); return }
+        #expect(!words.isEmpty)
+        CannedProtocol.replies.withLock { $0 = [:] }
+        let unreached = try #require(await failure())
+        #expect(unreached.asked == feed)
+        guard case .noAnswer(let reason) = unreached.cause else { Issue.record("\(unreached)"); return }
+        #expect(!reason.isEmpty)
+
+        reply("feed.example.com", appcast("<item><enclosure url=\"https://feed.example.com/a.zip\" sparkle:version=\"100\" sparkle:shortVersionString=\"1.0\" /></item>"))
+        #expect(await failure() == nil)
     }
 
     /// A working feed whose every release needs a newer macOS is not a feed that is down. Counted as a failure,
@@ -510,6 +559,7 @@ private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
         let answer = await recent.answer(for: fedApp, preference: .automatic, casks: listed("2.0"))
         #expect(answer.status == update)
         #expect(answer.standsInFor == .failed)
+        #expect(answer.failure == UpdateFailure(asked: .server("feed.example.com"), cause: .answered(500)))
 
         let cannotTell = { (checker: UpdateChecker, casks: [HomebrewPackage]) in
             checker.homebrewCannotTell(about: feedlessApp, preference: .automatic, casks: casks)?.reason
@@ -598,6 +648,10 @@ private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
 
         reply("itunes.apple.com", "<html>")
         #expect(await checker.status(for: sold) == .failed, "an answer Peel can't read is still a failed check")
+        let unreadable = await checker.answer(for: sold).failure
+        #expect(unreadable == UpdateFailure(asked: .appStore, cause: .unreadable(type: nil)))
+        reply("itunes.apple.com", status: 503, "")
+        #expect(await checker.answer(for: sold).failure == UpdateFailure(asked: .appStore, cause: .answered(503)))
     }
 
     @Test func keepsAnAppStoreUpdateWhenALaterAnswerNamesAnOlderVersion() async {
@@ -610,6 +664,10 @@ private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
 
         reply("itunes.apple.com", mac("1.1"))
         #expect(await checker.status(for: notes, earlier: found) == .failed)
+        #expect(
+            await checker.answer(for: notes, earlier: found).failure
+                == UpdateFailure(asked: .appStore, cause: .olderThanFound(version: "1.1", found: "1.2"))
+        )
         reply("itunes.apple.com", mac("1.0"))
         #expect(await checker.status(for: notes, earlier: found) == .failed)
         reply("itunes.apple.com", mac("1.3"))
@@ -628,6 +686,7 @@ private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
 
         let first = await checker.answer(for: notes, earlier: found)
         #expect(first.status == .failed && first.isNotListed)
+        #expect(first.failure == UpdateFailure(asked: .appStore, cause: .unlistedAfterAnUpdate))
         #expect(first.following(found) == found)
         #expect(await checker.status(for: notes, earlier: found, notListedBefore: true) == .unsupported)
         #expect(await checker.status(for: notes) == .unsupported, "with no update found, it is believed at once")

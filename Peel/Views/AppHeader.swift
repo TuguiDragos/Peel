@@ -12,6 +12,7 @@ struct AppHeader<Actions: View>: View {
     /// True when `AppLibrary.hasUpdate` is, since the page then shows the update in a panel of its own.
     var hasWaitingUpdate = false
     var lastCheck: Date?
+    var updateFailure: UpdateFailure?
     var keptSince: Date?
     let cannotCheck: CannotCheck
     var total: SizeTotal?
@@ -92,6 +93,7 @@ struct AppHeader<Actions: View>: View {
                     status: updateStatus,
                     isChecking: isCheckingForUpdates,
                     lastCheck: lastCheck,
+                    failure: updateFailure,
                     keptSince: keptSince,
                     cannotCheck: cannotCheck
                 )

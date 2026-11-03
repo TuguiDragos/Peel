@@ -74713,6 +74713,754 @@
         }
       }
     },
+    "It answered %@, an error on the server’s side." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odpověděl kódem %@, což je chyba na straně serveru."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Antwort lautete %@, ein Fehler auf Serverseite."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha respondido con el código %@, un error del servidor."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il a répondu par le code %@, qui indique une erreur côté serveur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha risposto %@, un errore da parte del server."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "応答は%@で、サーバ側のエラーです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서버가 %@ 상태 코드로 응답했습니다. 서버 측 오류입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het antwoord was %@, een fout aan de kant van de server."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odpowiedział kodem %@, czyli błędem po stronie serwera."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A resposta foi %@, um erro do lado do servidor."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A răspuns cu %@, o eroare din partea serverului."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Получен ответ %@, то есть ошибка на стороне сервера."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Svaret var %@, ett fel på serverns sida."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yanıt olarak %@ geldi: sunucu tarafında bir hata oluştu."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відповідь %@: помилка на боці сервера."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的回应是%@，这是服务器端的错误。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它回應%@，這是伺服器端的錯誤。"
+          }
+        }
+      }
+    },
+    "It answered %@, older than the update to %@ it offered before, so its catalog isn’t up to date yet." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odpověděl verzí %1$@, která je starší než aktualizace na verzi %2$@, kterou dříve nabídl, takže jeho katalog ještě není aktuální."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Antwort nannte Version %@, die älter ist als das zuvor angebotene Update auf %@, daher ist der Katalog dort noch nicht auf dem neuesten Stand."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "It answered %1$@, older than the update to %2$@ it offered before, so its catalog isn’t up to date yet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha respondido con la versión %@, anterior a la actualización a %@ que había ofrecido antes, así que su catálogo aún no está actualizado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il a répondu par la version %1$@, plus ancienne que la mise à jour vers %2$@ qu’il avait proposée auparavant : son catalogue n’est donc pas encore à jour."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha risposto %@, una versione precedente all’aggiornamento a %@ che aveva proposto prima, quindi il suo catalogo non è ancora aggiornato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "応答はバージョン%@で、以前に提示されたバージョン%@へのアップデートより古いため、カタログがまだ最新の状態になっていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서버가 이전에 제공한 %2$@ 업데이트보다 오래된 %1$@ 버전으로 응답했으므로, 카탈로그가 아직 최신 상태가 아닙니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het antwoord was %@, ouder dan de update naar %@ die eerder werd aangeboden, dus de catalogus ervan is nog niet up-to-date."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Podał wersję %@, starszą niż uaktualnienie do wersji %@, które wcześniej zaproponował, więc jego katalog nie jest jeszcze aktualny."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A resposta foi a versão %@, mais antiga que a atualização para %@ oferecida antes, então o catálogo ainda não está atualizado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A răspuns cu %@, o versiune mai veche decât actualizarea la %@ pe care o oferise înainte, așa că încă nu și‑a actualizat catalogul."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В ответе указана версия %1$@, более старая, чем версия %2$@, обновление до которой предлагалось ранее, поэтому каталог там еще не обновился."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Svaret var %@, som är äldre än uppdateringen till %@ som erbjöds tidigare, så katalogen är inte uppdaterad än."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yanıt olarak, daha önce sunduğu %2$@ güncellemesinden eski olan %1$@ sürümü geldi, bu yüzden kataloğu henüz güncel değil."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відповідь: версія %@, старіша за раніше запропоноване оновлення до версії %@, тож каталог там ще не оновився."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的回应是%@，比它之前作为更新提供的%@更旧，因此它的目录还不是最新的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它回應的版本是%@，比它先前提供的更新版本%@還舊，因此它的目錄還不是最新的。"
+          }
+        }
+      }
+    },
+    "It answered %@: access is refused." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odpověděl kódem %@: přístup je odepřen."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Antwort lautete %@: Der Zugriff wird verweigert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha respondido con el código %@: se ha denegado el acceso."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il a répondu par le code %@ : l’accès est refusé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha risposto %@: l’accesso è negato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "応答は%@で、アクセスが拒否されています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서버가 %@ 상태 코드로 응답했습니다. 접근이 거부되었다는 뜻입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het antwoord was %@: de toegang wordt geweigerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odpowiedział kodem %@: odmowa dostępu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A resposta foi %@: o acesso foi negado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A răspuns cu %@: accesul este refuzat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Получен ответ %@: доступ запрещен."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Svaret var %@: åtkomst nekas."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yanıt olarak %@ geldi: erişim reddediliyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відповідь %@: доступ заборонено."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的回应是%@：访问被拒绝。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它回應%@：取用遭拒。"
+          }
+        }
+      }
+    },
+    "It answered %@: it limits how often it answers, and asks Peel to wait." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odpověděl kódem %@: omezuje, jak často odpovídá, a žádá Peel, aby počkal."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Antwort lautete %@: Der Server begrenzt, wie oft er antwortet, und bittet Peel zu warten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha respondido con el código %@: limita la frecuencia con la que responde y pide a Peel que espere."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il a répondu par le code %@ : il limite la fréquence de ses réponses et demande à Peel de patienter."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha risposto %@: limita la frequenza delle risposte e chiede a Peel di attendere."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "応答は%@で、応答の頻度を制限しており、Peelに待つよう求めています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서버가 %@ 상태 코드로 응답했습니다. 응답 횟수를 제한하고 있으므로 Peel에 기다려 달라는 뜻입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het antwoord was %@: de server beperkt hoe vaak hij antwoordt en vraagt Peel te wachten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odpowiedział kodem %@: ogranicza częstotliwość odpowiedzi i prosi, aby Peel zaczekał."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A resposta foi %@: o servidor limita a frequência com que responde e pede que o Peel espere."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A răspuns cu %@: limitează cât de des răspunde și îi cere aplicației Peel să aștepte."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Получен ответ %@: сервер ограничивает частоту ответов и просит Peel подождать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Svaret var %@: servern begränsar hur ofta den svarar och ber Peel att vänta."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yanıt olarak %@ geldi: sunucu yanıt verme sıklığını sınırlıyor ve Peel’den beklemesini istiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відповідь %@: сервер обмежує частоту відповідей і просить Peel зачекати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的回应是%@：它限制了回应的频率，并要求Peel等待。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它回應%@：它會限制回應的頻率，並要求Peel等待。"
+          }
+        }
+      }
+    },
+    "It answered %@: nothing is at that address." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odpověděl kódem %@: na této adrese nic není."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Antwort lautete %@: Unter dieser Adresse ist nichts vorhanden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha respondido con el código %@: no hay nada en esa dirección."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il a répondu par le code %@ : rien ne se trouve à cette adresse."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha risposto %@: a quell’indirizzo non c’è nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "応答は%@で、そのアドレスには何もありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서버가 %@ 상태 코드로 응답했습니다. 해당 주소에 아무것도 없다는 뜻입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het antwoord was %@: op dat adres staat niets."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odpowiedział kodem %@: pod tym adresem nic nie ma."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A resposta foi %@: não há nada nesse endereço."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A răspuns cu %@: la acea adresă nu se află nimic."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Получен ответ %@: по этому адресу ничего нет."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Svaret var %@: det finns inget på den adressen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yanıt olarak %@ geldi: bu adreste hiçbir şey yok."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відповідь %@: за цією адресою нічого немає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的回应是%@：该地址上没有任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它回應%@：該網址沒有任何內容。"
+          }
+        }
+      }
+    },
+    "It answered that it doesn’t list %@, right after it offered an update, so Peel waits for a second answer." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odpověděl, že aplikaci %@ neuvádí, a to hned poté, co nabídl aktualizaci, takže Peel čeká na druhou odpověď."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Antwort lautete, dass „%@“ dort nicht aufgeführt ist, obwohl kurz zuvor ein Update angeboten wurde, daher wartet Peel auf eine zweite Antwort."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha respondido que %@ no aparece en su lista, justo después de haber ofrecido una actualización, así que Peel aguarda una segunda respuesta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il a répondu qu’il ne répertoriait pas %@, juste après avoir proposé une mise à jour : Peel attend donc une seconde réponse."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha risposto che non elenca %@, subito dopo aver proposto un aggiornamento, quindi Peel attende una seconda risposta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデートを提示した直後に、“%@”を掲載していないと応答したため、Peelは2回目の応答を待ちます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서버가 업데이트를 제공한 직후에 ‘%@’이(가) 목록에 없다고 응답했으므로, Peel이 두 번째 응답을 기다립니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het antwoord was dat %@ niet wordt vermeld, vlak nadat er een update voor werd aangeboden, dus Peel wacht op een tweede antwoord."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odpowiedział, że nie ma aplikacji %@ w swoim katalogu, tuż po tym, jak zaproponował dla niej uaktualnienie, więc Peel czeka na drugą odpowiedź."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A resposta foi que %@ não consta na lista, logo depois de uma atualização ter sido oferecida, então o Peel aguarda uma segunda resposta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A răspuns că nu are aplicația %@ în listă, imediat după ce oferise o actualizare, așa că Peel așteaptă un al doilea răspuns."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Получен ответ, что приложение «%@» там не значится, хотя только что предлагалось его обновление, поэтому Peel ждет второго ответа."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Svaret var att %@ inte finns i katalogen, precis efter att en uppdatering hade erbjudits, så Peel väntar på ett andra svar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gelen yanıta göre %@ uygulaması listede yok; oysa hemen önce bir güncelleme sunulmuştu, bu yüzden Peel ikinci bir yanıt bekliyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відповідь: програми «%@» немає в переліку, хоча щойно перед цим пропонувалося її оновлення, тож Peel чекає на другу відповідь."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它在刚提供过更新之后又回应称未收录“%@”，因此Peel会等待第二次回应。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它在剛提供更新之後，又回應它沒有列出「%@」，因此Peel會等待第二次回應。"
+          }
+        }
+      }
+    },
+    "It answered with HTTP status %@ instead of what Peel asked for." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odpověděl stavovým kódem HTTP %@ místo toho, oč Peel žádal."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Antwort lautete HTTP-Status %@ statt dessen, was Peel angefordert hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha respondido con el código de estado HTTP %@ en lugar de con lo que Peel había pedido."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il a répondu par le code d’état HTTP %@ au lieu de ce que Peel avait demandé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha risposto con il codice di stato HTTP %@ invece di ciò che Peel aveva chiesto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelが要求したものではなく、HTTPステータスコード%@が返されました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서버가 Peel이 요청한 내용 대신 %@ HTTP 상태 코드로 응답했습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het antwoord was HTTP-status %@ in plaats van wat Peel had gevraagd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odpowiedział kodem stanu HTTP %@ zamiast tego, o co prosił Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A resposta veio com o status HTTP %@ em vez do que o Peel pediu."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A răspuns cu codul de stare HTTP %@ în loc de ce a cerut Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Получен ответ с кодом состояния HTTP %@ вместо того, что запрашивал Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Svaret var HTTP-status %@ i stället för det som Peel bad om."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yanıt olarak, Peel’in istediği şey yerine HTTP %@ durum kodu geldi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Замість того, що запитувала Peel, надійшла відповідь із кодом стану HTTP %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的回应是HTTP状态码%@，而不是Peel请求的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它以HTTP狀態碼%@回應，而不是Peel要求的內容。"
+          }
+        }
+      }
+    },
     "It belongs to another account, which could change what it runs." : {
       "localizations" : {
         "cs" : {
@@ -80664,6 +81412,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它執行的是寫在自身檔案中的指令碼，而非磁碟上的程式。刻意安裝的軟體也可能這樣做。"
+          }
+        }
+      }
+    },
+    "It sent Peel on to %@, which isn’t https, so Peel didn’t follow." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přesměroval Peel na adresu %@, která nepoužívá https, a proto Peel přesměrování nenásledoval."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel wurde an %@ weitergeleitet, eine Adresse ohne https, und ist der Weiterleitung daher nicht gefolgt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha redirigido a Peel hacia %@, que no usa https, así que Peel no ha seguido la redirección."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il a redirigé Peel vers %@, qui n’utilise pas https : Peel n’a donc pas suivi cette redirection."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha reindirizzato Peel a %@, che non usa https, quindi Peel non ha seguito il reindirizzamento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "httpsではない%@にリダイレクトしようとしたため、Peelはリダイレクトに従いませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서버가 https가 아닌 %@(으)로 재이동하라고 응답했으므로 Peel이 따라가지 않았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel werd doorgestuurd naar %@, dat geen https-adres is, dus Peel is daar niet naartoe gegaan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przekierował aplikację Peel pod adres %@, który nie jest adresem https, więc Peel nie podążył za przekierowaniem."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel foi redirecionado para %@, que não é https, então não seguiu o redirecionamento."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A redirecționat către %@, o adresă care nu folosește https, așa că Peel nu a urmat redirecționarea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel перенаправили на %@, а это не https, поэтому Peel не стал туда переходить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Svaret skickade Peel vidare till %@, som inte är https, så Peel följde inte efter."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’i https olmayan %@ adresine yönlendirdi, bu yüzden Peel bu yönlendirmeyi izlemedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel переспрямовано на адресу %@ без https, тож Peel туди не перейшла."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它将Peel重定向到%@，而该地址不是https，因此Peel没有跟随此重定向。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它將Peel重新導向至%@，但該網址不是https，因此Peel沒有前往。"
+          }
+        }
+      }
+    },
+    "It sent more than any update feed holds, so Peel stopped reading." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poslal víc dat, než obsahuje jakýkoli kanál aktualizací, a proto Peel přestal číst."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Antwort war umfangreicher als jeder Update-Feed, daher hat Peel das Lesen abgebrochen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha enviado más de lo que ocupa cualquier canal de actualizaciones, así que Peel ha dejado de leer."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il a envoyé plus de données que n’en contient jamais un flux de mises à jour : Peel a donc interrompu la lecture."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha inviato più dati di quanti ne contenga qualsiasi feed di aggiornamento, quindi Peel ha smesso di leggere."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "どのアップデートフィードよりも大きなデータが送られてきたため、Peelは読み取りを中止しました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서버가 어떤 업데이트 피드보다도 많은 데이터를 보냈으므로 Peel이 읽기를 중단했습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het antwoord was groter dan welke updatefeed ook, dus Peel is gestopt met lezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wysłał więcej danych, niż zawiera jakikolwiek kanał uaktualnień, więc Peel przestał je odczytywać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A resposta tinha mais do que qualquer feed de atualização contém, então o Peel parou de ler."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A trimis mai mult decât conține orice flux de actualizări, așa că Peel a oprit citirea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пришло больше данных, чем может содержать любая лента обновлений, поэтому Peel прекратил чтение."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det som skickades var mer än något uppdateringsflöde rymmer, så Peel slutade läsa."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gelen yanıt, herhangi bir güncelleme akışının içerebileceğinden daha büyüktü, bu yüzden Peel okumayı bıraktı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Надіслано більше даних, ніж може містити будь-яка стрічка оновлень, тож Peel припинила читання."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它发送的内容比任何更新源应有的内容都多，因此Peel停止了读取。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它傳送的資料量超過任何更新Feed應有的大小，因此Peel停止讀取。"
           }
         }
       }
@@ -107559,6 +108519,112 @@
         }
       }
     },
+    "No answer came: %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nepřišla žádná odpověď: %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es kam keine Antwort: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No ha llegado ninguna respuesta: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune réponse n’est arrivée : %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non è arrivata alcuna risposta: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "応答がありませんでした: %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "응답을 받지 못했습니다: %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er kwam geen antwoord: %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie nadeszła żadna odpowiedź: %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não chegou nenhuma resposta: %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu a venit niciun răspuns: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ответ не получен: %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inget svar kom: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yanıt gelmedi: %@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відповіді не надійшло: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有收到回应：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有收到回應：%@"
+          }
+        }
+      }
+    },
     "No app installed on this Mac claims these files." : {
       "localizations" : {
         "cs" : {
@@ -132973,6 +134039,118 @@
         }
       }
     },
+    "Peel asked %@ whether %@ has an update." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se zeptal serveru %1$@, zda je pro aplikaci %2$@ k dispozici aktualizace."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hat %@ gefragt, ob es für „%@“ ein Update gibt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Peel asked %1$@ whether %2$@ has an update."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ha preguntado a %@ si %@ tiene una actualización."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel a demandé à %1$@ si une mise à jour était disponible pour %2$@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ha chiesto a %@ se %@ ha un aggiornamento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは%@に“%@”のアップデートがあるかどうかを問い合わせました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 ‘%2$@’에 업데이트가 있는지 %1$@에 물었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel heeft %@ gevraagd of %@ een update heeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zapytał serwer %@, czy aplikacja %@ ma uaktualnienie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel perguntou a %@ se %@ tem uma atualização."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel a întrebat %@ dacă %@ are o actualizare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel спросил сервер %1$@, есть ли обновление для приложения «%2$@»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel frågade %@ om det finns en uppdatering för %@."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, %@ sunucusuna %@ için güncelleme olup olmadığını sordu."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel запитала сервер %@, чи є оновлення для програми «%@»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel向%@查询了“%@”是否有更新。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel向%@詢問「%@」是否有更新。"
+          }
+        }
+      }
+    },
     "Peel asked Spotlight and got no answer, so it can’t say what is on this Mac. Try the search again." : {
       "localizations" : {
         "cs" : {
@@ -133397,220 +134575,320 @@
         }
       }
     },
-    "Peel asked where %@ updates from and got no answer it could read. A feed that is down, moved, or behind a sign-in ends up here, as does one this Mac’s network doesn’t reach through a proxy or a VPN, and Peel asks again at the next check." : {
+    "Peel asked the App Store whether %@ has an update." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel se ptal, odkud se aplikace %@ aktualizuje, a nedostal odpověď, kterou by dokázal přečíst. Sem se dostane kanál, který nefunguje, přesunul se nebo vyžaduje přihlášení, stejně jako kanál, ke kterému se síť tohoto Macu nedostane přes proxy nebo VPN, a Peel se při příští kontrole zeptá znovu."
+            "value" : "Peel se zeptal App Storu, zda je pro aplikaci %@ k dispozici aktualizace."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel hat gefragt, woher „%@“ Updates bezieht, und keine lesbare Antwort erhalten. Ein Feed, der ausgefallen ist, umgezogen ist oder eine Anmeldung verlangt, landet hier, ebenso einer, den das Netzwerk dieses Mac nicht über einen Proxy oder ein VPN erreicht, und Peel fragt bei der nächsten Prüfung erneut."
+            "value" : "Peel hat den App Store gefragt, ob es für „%@“ ein Update gibt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ha preguntado de dónde se actualiza %@ y no ha obtenido ninguna respuesta que pueda leer. Un canal que no funciona, que se ha movido o que requiere iniciar sesión acaba aquí, igual que uno al que la red de este Mac no llega a través de un proxy o una VPN, y Peel vuelve a preguntar en la siguiente comprobación."
+            "value" : "Peel ha preguntado a App Store si %@ tiene una actualización."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a demandé d’où proviennent les mises à jour de %@, sans obtenir de réponse lisible. Un flux hors service, déplacé ou protégé par une connexion se retrouve dans ce cas, tout comme un flux que le réseau de ce Mac n’atteint pas via un proxy ou un VPN, et Peel repose la question à la prochaine vérification."
+            "value" : "Peel a demandé à l’App Store si une mise à jour était disponible pour %@."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ha chiesto da dove si aggiorna %@ e non ha ricevuto una risposta leggibile. Un feed non raggiungibile, spostato o protetto da un accesso finisce qui, come pure uno che la rete di questo Mac non raggiunge tramite un proxy o una VPN, e Peel chiede di nuovo alla prossima verifica."
+            "value" : "Peel ha chiesto ad App Store se %@ ha un aggiornamento."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは“%@”のアップデート元に問い合わせましたが、読み取れる応答がありませんでした。停止している、移動した、またはサインインが必要なフィードや、このMacのネットワークからプロキシまたはVPN経由で到達できないフィードはこの状態になり、Peelは次回の確認時にもう一度問い合わせます。"
+            "value" : "PeelはApp Storeに“%@”のアップデートがあるかどうかを問い合わせました。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 ‘%@’의 업데이트 출처에 물었지만 읽을 수 있는 응답을 받지 못했습니다. 다운되었거나, 옮겨졌거나, 로그인이 필요한 피드와 이 Mac의 네트워크가 프록시나 VPN을 통해 연결하지 못하는 피드는 여기에 표시되며, Peel은 다음 확인 때 다시 묻습니다."
+            "value" : "Peel이 ‘%@’에 업데이트가 있는지 App Store에 물었습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel heeft gevraagd waar %@ updates vandaan haalt, maar kreeg geen antwoord dat Peel kon lezen. Een feed die offline is, verplaatst is of achter een inlogscherm zit, komt hier terecht, net als een feed die het netwerk van deze Mac niet bereikt via een proxy of VPN, en Peel vraagt het opnieuw bij de volgende controle."
+            "value" : "Peel heeft de App Store gevraagd of %@ een update heeft."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zapytał, skąd uaktualnia się aplikacja %@, i nie otrzymał odpowiedzi, którą mógłby odczytać. Tak jest w przypadku kanału, który nie działa, został przeniesiony lub wymaga zalogowania, a także kanału, do którego sieć tego Maca nie dociera przez serwer proxy lub VPN. Peel zapyta ponownie przy następnym sprawdzaniu."
+            "value" : "Peel zapytał App Store, czy aplikacja %@ ma uaktualnienie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel perguntou de onde %@ se atualiza e não obteve uma resposta que conseguisse ler. Um feed fora do ar, que mudou de endereço ou que exige iniciar sessão acaba aqui, assim como um feed que a rede deste Mac não alcança por meio de um proxy ou de uma VPN, e o Peel pergunta de novo na próxima verificação."
+            "value" : "O Peel perguntou à App Store se %@ tem uma atualização."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a întrebat de unde se actualizează %@ și nu a primit niciun răspuns pe care să îl poată citi. Aici ajunge un flux care nu funcționează, care a fost mutat sau care cere autentificare, precum și unul la care rețeaua acestui Mac nu ajunge printr‑un proxy sau un VPN, iar Peel întreabă din nou la următoarea verificare."
+            "value" : "Peel a întrebat App Store dacă %@ are o actualizare."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запросил, откуда обновляется приложение «%@», но не получил ответа, который смог бы прочитать. Сюда попадают ленты, которые не работают, переехали или требуют входа, а также те, к которым сеть этого Mac не может подключиться через прокси или VPN, и Peel спросит снова при следующей проверке."
+            "value" : "Peel спросил App Store, есть ли обновление для приложения «%@»."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel frågade varifrån %@ uppdateras och fick inget svar som gick att läsa. Ett flöde som inte fungerar, har flyttats eller kräver inloggning hamnar här, liksom ett flöde som den här datorns nätverk inte når via en proxy eller ett VPN, och Peel frågar igen vid nästa kontroll."
+            "value" : "Peel frågade App Store om det finns en uppdatering för %@."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, %@ uygulamasının nereden güncellendiğini sordu ve okuyabileceği bir yanıt alamadı. Çalışmayan, taşınmış veya oturum açmayı gerektiren bir akış bu duruma düşer; bu Mac’in ağının bir proxy veya VPN üzerinden ulaşamadığı bir akış da öyle. Peel bir sonraki denetimde yeniden sorar."
+            "value" : "Peel, App Store’a %@ için güncelleme olup olmadığını sordu."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запитала, звідки оновлюється програма «%@», але не отримала відповіді, яку могла б прочитати. Сюди потрапляє стрічка, яка не працює, переїхала або вимагає входу, а також стрічка, до якої мережа цього Mac не може дістатися через проксі чи VPN, і Peel запитає знову під час наступної перевірки."
+            "value" : "Peel запитала App Store, чи є оновлення для програми «%@»."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel查询了“%@”的更新来源，但没有得到可读取的回应。更新源停止服务、已迁移或需要登录时都会出现这种情况，这台Mac的网络通过代理或VPN无法访问更新源时也是如此。Peel会在下次检查时再次查询。"
+            "value" : "Peel向App Store查询了“%@”是否有更新。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel詢問了「%@」的更新來源，但沒有得到它能讀取的回應。Feed無法使用、已移動或需要登入時就會出現這種情況，這部Mac的網路無法透過代理伺服器或VPN連上Feed時也是如此，Peel會在下次檢查時再次詢問。"
+            "value" : "Peel向App Store詢問「%@」是否有更新。"
           }
         }
       }
     },
-    "Peel asked where %@ updates from and got no answer it could read. The last answer came %@. A feed that is down, moved, or behind a sign-in ends up here, as does one this Mac’s network doesn’t reach through a proxy or a VPN, and Peel asks again at the next check." : {
+    "Peel asked whether %@ has an update and got no answer it could read." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel se ptal, odkud se aplikace %1$@ aktualizuje, a nedostal odpověď, kterou by dokázal přečíst. Poslední odpověď přišla %2$@. Sem se dostane kanál, který nefunguje, přesunul se nebo vyžaduje přihlášení, stejně jako kanál, ke kterému se síť tohoto Macu nedostane přes proxy nebo VPN, a Peel se při příští kontrole zeptá znovu."
+            "value" : "Peel se zeptal, zda je pro aplikaci %@ k dispozici aktualizace, a nedostal odpověď, kterou by dokázal přečíst."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel hat gefragt, woher „%1$@“ Updates bezieht, und keine lesbare Antwort erhalten. Die letzte Antwort kam %2$@. Ein Feed, der ausgefallen ist, umgezogen ist oder eine Anmeldung verlangt, landet hier, ebenso einer, den das Netzwerk dieses Mac nicht über einen Proxy oder ein VPN erreicht, und Peel fragt bei der nächsten Prüfung erneut."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Peel asked where %1$@ updates from and got no answer it could read. The last answer came %2$@. A feed that is down, moved, or behind a sign-in ends up here, as does one this Mac’s network doesn’t reach through a proxy or a VPN, and Peel asks again at the next check."
+            "value" : "Peel hat gefragt, ob es für „%@“ ein Update gibt, und keine lesbare Antwort erhalten."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ha preguntado de dónde se actualiza %1$@ y no ha obtenido ninguna respuesta que pueda leer. La última respuesta llegó %2$@. Un canal que no funciona, que se ha movido o que requiere iniciar sesión acaba aquí, igual que uno al que la red de este Mac no llega a través de un proxy o una VPN, y Peel vuelve a preguntar en la siguiente comprobación."
+            "value" : "Peel ha preguntado si %@ tiene una actualización y no ha obtenido ninguna respuesta que pueda leer."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a demandé d’où proviennent les mises à jour de %1$@, sans obtenir de réponse lisible. La dernière réponse est arrivée %2$@. Un flux hors service, déplacé ou protégé par une connexion se retrouve dans ce cas, tout comme un flux que le réseau de ce Mac n’atteint pas via un proxy ou un VPN, et Peel repose la question à la prochaine vérification."
+            "value" : "Peel a demandé si une mise à jour était disponible pour %@, sans obtenir de réponse lisible."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ha chiesto da dove si aggiorna %1$@ e non ha ricevuto una risposta leggibile. Ultima risposta: %2$@. Un feed non raggiungibile, spostato o protetto da un accesso finisce qui, come pure uno che la rete di questo Mac non raggiunge tramite un proxy o una VPN, e Peel chiede di nuovo alla prossima verifica."
+            "value" : "Peel ha chiesto se %@ ha un aggiornamento e non ha ricevuto una risposta leggibile."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは“%1$@”のアップデート元に問い合わせましたが、読み取れる応答がありませんでした。最後に応答があったのは%2$@です。停止している、移動した、またはサインインが必要なフィードや、このMacのネットワークからプロキシまたはVPN経由で到達できないフィードはこの状態になり、Peelは次回の確認時にもう一度問い合わせます。"
+            "value" : "Peelは“%@”のアップデートがあるかどうかを問い合わせましたが、読み取れる応答がありませんでした。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 ‘%1$@’의 업데이트 출처에 물었지만 읽을 수 있는 응답을 받지 못했습니다. 마지막으로 응답을 받은 시점은 %2$@입니다. 다운되었거나, 옮겨졌거나, 로그인이 필요한 피드와 이 Mac의 네트워크가 프록시나 VPN을 통해 연결하지 못하는 피드는 여기에 표시되며, Peel은 다음 확인 때 다시 묻습니다."
+            "value" : "Peel이 ‘%@’에 업데이트가 있는지 물었지만 읽을 수 있는 응답을 받지 못했습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel heeft gevraagd waar %1$@ updates vandaan haalt, maar kreeg geen antwoord dat Peel kon lezen. Het laatste antwoord kwam %2$@. Een feed die offline is, verplaatst is of achter een inlogscherm zit, komt hier terecht, net als een feed die het netwerk van deze Mac niet bereikt via een proxy of VPN, en Peel vraagt het opnieuw bij de volgende controle."
+            "value" : "Peel heeft gevraagd of %@ een update heeft, maar kreeg geen antwoord dat Peel kon lezen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zapytał, skąd uaktualnia się aplikacja %1$@, i nie otrzymał odpowiedzi, którą mógłby odczytać. Ostatnia odpowiedź nadeszła %2$@. Tak jest w przypadku kanału, który nie działa, został przeniesiony lub wymaga zalogowania, a także kanału, do którego sieć tego Maca nie dociera przez serwer proxy lub VPN. Peel zapyta ponownie przy następnym sprawdzaniu."
+            "value" : "Peel zapytał, czy aplikacja %@ ma uaktualnienie, i nie otrzymał odpowiedzi, którą mógłby odczytać."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel perguntou de onde %1$@ se atualiza e não obteve uma resposta que conseguisse ler. A última resposta chegou %2$@. Um feed fora do ar, que mudou de endereço ou que exige iniciar sessão acaba aqui, assim como um feed que a rede deste Mac não alcança por meio de um proxy ou de uma VPN, e o Peel pergunta de novo na próxima verificação."
+            "value" : "O Peel perguntou se %@ tem uma atualização e não obteve uma resposta que conseguisse ler."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a întrebat de unde se actualizează %1$@ și nu a primit niciun răspuns pe care să îl poată citi. Ultimul răspuns a venit %2$@. Aici ajunge un flux care nu funcționează, care a fost mutat sau care cere autentificare, precum și unul la care rețeaua acestui Mac nu ajunge printr‑un proxy sau un VPN, iar Peel întreabă din nou la următoarea verificare."
+            "value" : "Peel a întrebat dacă %@ are o actualizare și nu a primit niciun răspuns pe care să îl poată citi."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запросил, откуда обновляется приложение «%1$@», но не получил ответа, который смог бы прочитать. Последний ответ пришел %2$@. Сюда попадают ленты, которые не работают, переехали или требуют входа, а также те, к которым сеть этого Mac не может подключиться через прокси или VPN, и Peel спросит снова при следующей проверке."
+            "value" : "Peel спросил, есть ли обновление для приложения «%@», но не получил ответа, который смог бы прочитать."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel frågade varifrån %1$@ uppdateras och fick inget svar som gick att läsa. Det senaste svaret kom %2$@. Ett flöde som inte fungerar, har flyttats eller kräver inloggning hamnar här, liksom ett flöde som den här datorns nätverk inte når via en proxy eller ett VPN, och Peel frågar igen vid nästa kontroll."
+            "value" : "Peel frågade om det finns en uppdatering för %@ och fick inget svar som gick att läsa."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, %1$@ uygulamasının nereden güncellendiğini sordu ve okuyabileceği bir yanıt alamadı. Son yanıt %2$@ geldi. Çalışmayan, taşınmış veya oturum açmayı gerektiren bir akış bu duruma düşer; bu Mac’in ağının bir proxy veya VPN üzerinden ulaşamadığı bir akış da öyle. Peel bir sonraki denetimde yeniden sorar."
+            "value" : "Peel, %@ için güncelleme olup olmadığını sordu ve okuyabileceği bir yanıt alamadı."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запитала, звідки оновлюється програма «%1$@», але не отримала відповіді, яку могла б прочитати. Остання відповідь надійшла %2$@. Сюди потрапляє стрічка, яка не працює, переїхала або вимагає входу, а також стрічка, до якої мережа цього Mac не може дістатися через проксі чи VPN, і Peel запитає знову під час наступної перевірки."
+            "value" : "Peel запитала, чи є оновлення для програми «%@», але не отримала відповіді, яку могла б прочитати."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel查询了“%1$@”的更新来源，但没有得到可读取的回应。上次回应是在%2$@。更新源停止服务、已迁移或需要登录时都会出现这种情况，这台Mac的网络通过代理或VPN无法访问更新源时也是如此。Peel会在下次检查时再次查询。"
+            "value" : "Peel查询了“%@”是否有更新，但没有得到可读取的回应。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel詢問了「%1$@」的更新來源，但沒有得到它能讀取的回應。上一次回應是在%2$@。Feed無法使用、已移動或需要登入時就會出現這種情況，這部Mac的網路無法透過代理伺服器或VPN連上Feed時也是如此，Peel會在下次檢查時再次詢問。"
+            "value" : "Peel詢問了「%@」是否有更新，但沒有得到它能讀取的回應。"
+          }
+        }
+      }
+    },
+    "Peel asks again at the next check." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se zeptá znovu při příští kontrole."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel fragt bei der nächsten Prüfung erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel vuelve a preguntar en la siguiente comprobación."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel repose la question à la prochaine vérification."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel chiede di nuovo alla prossima verifica."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは次回の確認時にもう一度問い合わせます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다음에 확인할 때 Peel이 다시 묻습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel vraagt het opnieuw bij de volgende controle."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zapyta ponownie przy następnym sprawdzaniu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel pergunta de novo na próxima verificação."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel întreabă din nou la următoarea verificare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel спросит снова при следующей проверке."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel frågar igen vid nästa kontroll."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bir sonraki denetimde yeniden sorar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel запитає знову під час наступної перевірки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会在下次检查时再次查询。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會在下次檢查時再次詢問。"
           }
         }
       }
@@ -204334,6 +205612,112 @@
         }
       }
     },
+    "The last answer Peel could read came %@." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poslední odpověď, kterou Peel dokázal přečíst, přišla %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die letzte Antwort, die Peel lesen konnte, kam %@."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La última respuesta que Peel pudo leer llegó %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La dernière réponse que Peel a pu lire est arrivée %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’ultima risposta che Peel è riuscito a leggere è arrivata %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelが読み取れる応答が最後にあったのは%@です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 읽을 수 있는 응답을 마지막으로 받은 시점은 %@입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het laatste antwoord dat Peel kon lezen, kwam %@."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ostatnia odpowiedź, którą Peel mógł odczytać, nadeszła %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A última resposta que o Peel conseguiu ler chegou %@."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultimul răspuns pe care Peel l‑a putut citi a venit %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Последний ответ, который Peel смог прочитать, пришел %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det senaste svaret som Peel kunde läsa kom %@."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in okuyabildiği son yanıt %@ geldi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остання відповідь, яку Peel змогла прочитати, надійшла %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel上次得到可读取的回应是在%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel上一次能讀取的回應是在%@。"
+          }
+        }
+      }
+    },
     "The last removal couldn’t be recorded" : {
       "localizations" : {
         "cs" : {
@@ -230083,6 +231467,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "選取的項目會丟到「垃圾桶」，「歷史記錄」可以將它還原。它所在的檔案夾會保留，因為macOS預期這些檔案夾存在。"
+          }
+        }
+      }
+    },
+    "What it sent isn’t an answer Peel can read." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To, co poslal, není odpověď, kterou Peel dokáže přečíst."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was zurückkam, ist keine Antwort, die Peel lesen kann."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que ha enviado no es una respuesta que Peel pueda leer."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce qu’il a envoyé n’est pas une réponse que Peel peut lire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ciò che ha inviato non è una risposta che Peel possa leggere."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "送られてきたものは、Peelが読み取れる応答ではありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서버가 보낸 내용은 Peel이 읽을 수 있는 응답이 아닙니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat er terugkwam, is geen antwoord dat Peel kan lezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To, co wysłał, nie jest odpowiedzią, którą Peel może odczytać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que foi enviado não é uma resposta que o Peel consiga ler."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce a trimis nu este un răspuns pe care Peel să îl poată citi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Полученные данные не являются ответом, который Peel может прочитать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det som skickades är inget svar som Peel kan läsa."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gelen içerik, Peel’in okuyabileceği bir yanıt değil."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Надіслане не є відповіддю, яку Peel може прочитати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它发送的内容不是Peel可以读取的回应。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它傳送的內容不是Peel能讀取的回應。"
+          }
+        }
+      }
+    },
+    "What it sent, marked as %@, isn’t an answer Peel can read." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To, co poslal a označil jako %@, není odpověď, kterou Peel dokáže přečíst."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was zurückkam, gekennzeichnet als %@, ist keine Antwort, die Peel lesen kann."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que ha enviado, marcado como %@, no es una respuesta que Peel pueda leer."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce qu’il a envoyé, déclaré comme %@, n’est pas une réponse que Peel peut lire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ciò che ha inviato, indicato come %@, non è una risposta che Peel possa leggere."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@として送られてきたものは、Peelが読み取れる応答ではありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서버가 %@(으)로 표시하여 보낸 내용은 Peel이 읽을 수 있는 응답이 아닙니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat er terugkwam, aangeduid als %@, is geen antwoord dat Peel kan lezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To, co wysłał, oznaczone jako %@, nie jest odpowiedzią, którą Peel może odczytać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que foi enviado, marcado como %@, não é uma resposta que o Peel consiga ler."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce a trimis, marcat ca %@, nu este un răspuns pe care Peel să îl poată citi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Полученные данные помечены как «%@» и не являются ответом, который Peel может прочитать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det som skickades, märkt som %@, är inget svar som Peel kan läsa."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gelen içerik %@ olarak işaretlenmiş ve Peel’in okuyabileceği bir yanıt değil."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Надіслане, позначене як «%@», не є відповіддю, яку Peel може прочитати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它发送的内容标记为“%@”，不是Peel可以读取的回应。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它傳送的內容標示為「%@」，不是Peel能讀取的回應。"
           }
         }
       }

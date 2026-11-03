@@ -465,6 +465,43 @@ private nonisolated final class TestClock: Sendable {
         clock.set(homebrewChecked + 2 * Homebrew.autoUpdateInterval)
         library.loadHomebrewCasks([cask("Fed", checked: homebrewChecked)], knowsItsOwnApps: true)
         #expect(library.shownUpdateStatus(of: app) == .failed)
+        #expect(library.updateFailures[app.id]?.cause == .unreadable(type: nil))
+    }
+
+    @Test func aFailedCheckKeepsWhyAcrossALaunch() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Fed", in: folder, feed: "https://feed.example.com/appcast.xml")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        AppcastProtocol.body.withLock { $0 = Data("<html>".utf8) }
+        let why = UpdateFailure(asked: .server("feed.example.com"), cause: .unreadable(type: nil))
+        let earlier = library(with: made.defaults, notesIn: folder)
+        #expect(await earlier.reveal([bundle]))
+        let app = try #require(earlier.apps.first { $0.bundleIdentifier == "org.example.fed" })
+
+        await earlier.checkForUpdates([app], force: true)
+        #expect(earlier.shownUpdateStatus(of: app) == .failed)
+        #expect(earlier.updateFailures[app.id] == why)
+
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [AppcastProtocol.self]
+        let relaunched = AppLibrary(
+            defaults: made.defaults,
+            updateChecker: UpdateChecker(session: URLSession(configuration: configuration)),
+            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json")),
+            appFolders: AppFolders(url: folder.appending(path: "app-folders.json")),
+            appMemory: AppMemory(url: folder.appending(path: "apps.json"))
+        )
+        #expect(await relaunched.reveal([bundle]))
+        await relaunched.load()
+        #expect(relaunched.shownUpdateStatus(of: app) == .failed)
+        #expect(relaunched.updateFailures[app.id] == why)
+
+        AppcastProtocol.body.withLock { $0 = newerFeed }
+        await relaunched.checkForUpdates([app], force: true)
+        #expect(relaunched.hasUpdate(app))
+        #expect(relaunched.updateFailures[app.id] == nil)
     }
 
     @Test func homebrewsUpToDateInPlaceOfAFailedFeedEndsWhenHomebrewNoLongerHasTheApp() async throws {

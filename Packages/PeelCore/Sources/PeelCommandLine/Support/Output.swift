@@ -548,6 +548,36 @@ extension PrivacyReset.Result {
     }
 }
 
+extension UpdateFailure {
+    var summary: String {
+        let (subject, object) = switch asked {
+        case .appStore: ("The App Store", "the App Store")
+        case .server(let host): (Output.plain(host), Output.plain(host))
+        }
+        return switch cause {
+        case .noAnswer(let words): "\(subject) gave no answer: \(Output.plain(words))"
+        case .answered(let status):
+            switch StatusMeaning(status: status) {
+            case .nothingThere: "\(subject) answered \(status): nothing is at that address."
+            case .refused: "\(subject) answered \(status): access is refused."
+            case .tooManyRequests: "\(subject) answered \(status): it limits how often it answers, and asks Peel to wait."
+            case .serverError: "\(subject) answered \(status), an error on the server's side."
+            case .other: "\(subject) answered with HTTP status \(status) instead of what Peel asked for."
+            }
+        case .sentOnTo(let address):
+            "\(subject) sent the check on to \(Output.plain(address)), which isn't https, so Peel didn't follow."
+        case .tooLarge: "\(subject) sent more than any update feed holds, so Peel stopped reading."
+        case .unreadable(let type?):
+            "What \(object) sent, marked as \(Output.plain(type)), isn't an answer Peel can read."
+        case .unreadable(nil): "What \(object) sent isn't an answer Peel can read."
+        case .olderThanFound(let version, let found):
+            "The App Store answered \(Output.plain(version)), older than the update to \(Output.plain(found)) it offered before, so its catalog isn't up to date yet."
+        case .unlistedAfterAnUpdate:
+            "The App Store answered that it doesn't list the app, right after it offered an update, so Peel waits for a second answer."
+        }
+    }
+}
+
 extension HistoryWriteProblem {
     var summary: String {
         switch self {
