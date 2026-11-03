@@ -9,24 +9,27 @@ struct StartOverButton: View {
     let file: URL
     let startedOver: LocalizedStringResource
     let startOver: () async -> StartOver
-    @State private var couldNotSetAside = false
+    @State private var notSetAside: FileProblem?
 
     var body: some View {
         Button("Start Over") {
             Task {
                 switch await startOver() {
                 case .started: AccessibilityNotification.Announcement(AttributedString(localized: startedOver)).post()
-                case .couldNotSetAside: couldNotSetAside = true
+                case .couldNotSetAside(let why): notSetAside = why
                 case .notNeeded: break
                 }
             }
         }
-        .alert("Peel couldn’t set the old file aside", isPresented: $couldNotSetAside) {
+        .alert(
+            "Peel couldn’t set the old file aside",
+            isPresented: Binding(get: { notSetAside != nil }, set: { if !$0 { notSetAside = nil } })
+        ) {
             Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([file]) }
             Button("OK", role: .cancel) {}
                 .keyboardShortcut(.defaultAction)
         } message: {
-            Text("Nothing changed. Check that Peel can write to its folder in Application Support, then try again.")
+            Text(verbatim: notSetAside.said(after: String(localized: "Nothing changed."), about: file))
         }
     }
 }

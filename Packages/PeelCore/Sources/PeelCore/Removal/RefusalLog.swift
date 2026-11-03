@@ -125,9 +125,9 @@ public actor RefusalLog {
     public func startOver() -> StartOver {
         FileLock.whileHeld(beside: url) {
             guard current() == nil else { return .notNeeded }
-            guard DamagedFile.setAside(url) != nil else { return .couldNotSetAside }
-            problem = nil
-            return .started
+            let answer = StartOver.settingAside(url)
+            if answer == .started { problem = nil }
+            return answer
         }
     }
 

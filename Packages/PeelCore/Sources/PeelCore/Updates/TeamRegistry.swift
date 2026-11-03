@@ -107,7 +107,7 @@ public struct TeamRegistry: Sendable {
     public func startOver() async -> StartOver {
         FileLock.whileHeld(beside: url) {
             guard load() == nil else { return .notNeeded }
-            return DamagedFile.setAside(url) == nil ? .couldNotSetAside : .started
+            return .settingAside(url)
         }
     }
 

@@ -33,7 +33,7 @@ public struct OrphanOwners: Sendable {
     public func startOver() -> StartOver {
         FileLock.whileHeld(beside: url) {
             guard !url.isMissing, read() == nil else { return .notNeeded }
-            return DamagedFile.setAside(url) == nil ? .couldNotSetAside : .started
+            return .settingAside(url)
         }
     }
 

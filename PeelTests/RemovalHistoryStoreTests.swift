@@ -347,8 +347,11 @@ struct RemovalHistoryStoreTests {
         let startedOver = await history.startOver()
         let startedRefusalsOver = await history.startOverRefusals()
 
-        #expect(startedOver == .couldNotSetAside && history.shownProblem == .unreadable(.notAFile))
-        #expect(startedRefusalsOver == .couldNotSetAside && history.refusalProblem == .unreadable(.notAFile))
+        let refusedMove = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
+        #expect(startedOver == .couldNotSetAside(.failed(refusedMove)))
+        #expect(history.shownProblem == .unreadable(.notAFile))
+        #expect(startedRefusalsOver == .couldNotSetAside(.failed(refusedMove)))
+        #expect(history.refusalProblem == .unreadable(.notAFile))
     }
 
     @Test func startsOverANotMovedListItCannotRead() async throws {

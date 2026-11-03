@@ -295,16 +295,22 @@ extension RemovalLogProblem {
     }
 }
 
-extension FileProblem? {
-    /// Why, as a sentence of its own after the one it explains, or nothing when it isn't known.
+extension FileProblem {
+    /// Why, as a sentence of its own after the one it explains.
     var sentence: String {
         switch self {
         case .notAFile: " Something other than a file, such as a folder, is where the file should be."
         case .tooLarge: " The file is larger than Peel ever writes it, so Peel doesn't read it."
         case .damaged: " The file's contents aren't in a form Peel can read."
         case .failed(let error): " macOS answered: \(Output.plain(error.localizedDescription))"
-        case nil: ""
         }
+    }
+}
+
+extension FileProblem? {
+    /// Why, or nothing when it isn't known.
+    var sentence: String {
+        self?.sentence ?? ""
     }
 }
 

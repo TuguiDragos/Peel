@@ -365,8 +365,8 @@ public struct ExclusionStore: Sendable {
         /// The saved list cannot be read, so it was left as it is; and why, when Peel knows.
         case unreadable(FileProblem?)
         /// The list could not be written. It carries what the list would have been, which the app keeps until it
-        /// quits, and why, when Peel knows.
-        case notSaved(Exclusions, FileProblem?)
+        /// quits, and why.
+        case notSaved(Exclusions, FileProblem)
     }
 
     /// Loads the saved list. No file means an empty list. A file that cannot be read or reached gives `.unreadable`,
@@ -381,7 +381,7 @@ public struct ExclusionStore: Sendable {
     public func startOver() async -> StartOver {
         FileLock.whileHeld(beside: url) {
             guard read().isUnreadable else { return .notNeeded }
-            return DamagedFile.setAside(url) == nil ? .couldNotSetAside : .started
+            return .settingAside(url)
         }
     }
 
@@ -419,7 +419,7 @@ public struct ExclusionStore: Sendable {
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         do {
             let data = try encoder.encode(exclusions)
-            if read().isUnreadable, DamagedFile.setAside(url) == nil { return .notSaved(exclusions, nil) }
+            if read().isUnreadable { try DamagedFile.settingAside(url) }
             try PeelFolder.write(data, to: url)
             return .saved(exclusions)
         } catch {

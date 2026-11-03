@@ -228,6 +228,16 @@ struct AppFoldersTests {
         #expect(AppFolders(url: directory.url.appending(path: "missing.json")).startOver() == .notNeeded)
     }
 
+    @Test(.permissionsHold) func saysWhyTheDamagedListCouldNotBeSetAside() throws {
+        let directory = try TemporaryDirectory()
+        let list = try directory.file("Peel/app-folders.json", contents: Data("not a list".utf8))
+        try directory.setPermissions(0o500, of: "Peel")
+        defer { try? directory.setPermissions(0o755, of: "Peel") }
+
+        let refusedMove = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
+        #expect(AppFolders(url: list).startOver() == .couldNotSetAside(.failed(refusedMove)))
+    }
+
     @Test func startingOverKeepsTheDamagedListBesideAnEmptyOne() throws {
         let directory = try TemporaryDirectory()
         let folders = AppFolders(url: try directory.file("app-folders.json", contents: Data("not a list".utf8)))

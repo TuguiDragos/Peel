@@ -6,6 +6,6 @@ import PeelCore
 enum UnreadableHistory {
     static func note(at url: URL = RemovalHistory.defaultURL) -> String? {
         guard let problem = RemovalLog.readProblem(at: url) else { return nil }
-        return "Peel couldn't read its History at \(Output.plain(url.path(percentEncoded: false))), so nothing will be moved. Open Peel and click Start Over in History." + Optional(problem).sentence
+        return "Peel couldn't read its History at \(Output.plain(url.path(percentEncoded: false))), so nothing will be moved. Open Peel and click Start Over in History." + problem.sentence
     }
 }

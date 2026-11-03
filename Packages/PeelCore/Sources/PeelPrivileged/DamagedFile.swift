@@ -3,6 +3,12 @@ public import Foundation
 /// Renames one of Peel's own files that cannot be read, so the next save does not overwrite it.
 public enum DamagedFile {
     public static func setAside(_ url: URL) -> URL? {
+        try? settingAside(url)
+    }
+
+    /// Renames `url` as `setAside` does, or throws what macOS answered.
+    @discardableResult
+    public static func settingAside(_ url: URL) throws -> URL {
         let folder = url.deletingLastPathComponent()
         let name = url.deletingPathExtension().lastPathComponent
         let ext = url.pathExtension
@@ -13,12 +19,8 @@ public enum DamagedFile {
             destination = folder.appending(path: "\(name)-damaged-\(stamp)-\(attempt).\(ext)")
             attempt += 1
         }
-        do {
-            try FileManager.default.moveItem(at: url, to: destination)
-            return destination
-        } catch {
-            return nil
-        }
+        try FileManager.default.moveItem(at: url, to: destination)
+        return destination
     }
 
     /// The files `setAside` made of `url`, or nil when their folder can't be listed. Only regular files named exactly

@@ -409,6 +409,21 @@ struct ExclusionsTests {
         #expect(try String(contentsOf: directory.url.appending(path: aside), encoding: .utf8) == "not json")
     }
 
+    @Test(.permissionsHold) func saysWhyAListItCannotReadCouldNotBeSetAsideToStartAgain() async throws {
+        let directory = try TemporaryDirectory()
+        let file = try directory.file("Peel/exclusions.json", contents: Data("not json".utf8))
+        try directory.setPermissions(0o500, of: "Peel")
+        defer { try? directory.setPermissions(0o755, of: "Peel") }
+
+        let outcome = await ExclusionStore(url: file).change(startingOverIfUnreadable: true) {
+            $0.bundleIdentifiers.insert("com.example.app")
+        }
+
+        let refusedMove = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
+        #expect(outcome == .notSaved(Exclusions(bundleIdentifiers: ["com.example.app"]), .failed(refusedMove)))
+        #expect(try String(contentsOf: file, encoding: .utf8) == "not json")
+    }
+
     /// A change that cannot be written says what the list would have been, so the app can keep it until it quits.
     @Test(.permissionsHold) func aChangeThatCannotBeWrittenSaysWhatItWouldHaveSaved() async throws {
         let directory = try TemporaryDirectory()

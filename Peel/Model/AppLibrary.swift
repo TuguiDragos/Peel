@@ -1092,7 +1092,7 @@ final class AppLibrary {
     @discardableResult
     func startTeamRecordOver() async -> StartOver {
         let answer = await teamRegistry.startOver()
-        if answer != .couldNotSetAside { await checkSigningTeams() }
+        if case .couldNotSetAside = answer {} else { await checkSigningTeams() }
         return answer
     }
 
