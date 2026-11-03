@@ -883,6 +883,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - On macOS 27, while the sidebar slides back, the page no longer runs past the window's edge, and the toolbar's last
   buttons no longer move into its overflow menu for a moment.
 - On macOS 27, closing the sidebar by dragging its edge keeps the divider between a list and its page in place.
+- On macOS 27, the sidebar no longer cuts a chosen tool's name, and keeps its width between Home and the other tools.
 - On macOS 26, sheets and alerts open and close faster on pages with section headers.
 - Rescan stays off for the whole of a Move to Trash across several pages. It flashed between them, could start a scan
   halfway, and offered Stop while the list was read again.
