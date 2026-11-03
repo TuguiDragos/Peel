@@ -73,7 +73,7 @@ struct ProjectArtifactsTests {
 
         let reasons = await ProjectArtifacts.refusals(of: roots, home: home)
 
-        #expect(reasons == [.tooBroad, .systemFolder, nil, .notAFolder])
+        #expect(reasons == [.tooBroad, .systemFolder, nil, .unreachable(.gone)])
     }
 
     /// Full Disk Access does not open a folder closed by ordinary file permissions, so the scan must not ask for it.
@@ -248,7 +248,7 @@ struct ProjectArtifactsTests {
 
         #expect(scan.artifacts.map(\.name) == ["node_modules"])
         #expect(scan.refusedRoots.map(\.url) == [unplugged])
-        #expect(scan.refusedRoots.map(\.reason) == [.notAFolder])
+        #expect(scan.refusedRoots.map(\.reason) == [.unreachable(.gone)])
     }
 
     /// An editor keeps an installed extension's `package.json` beside its `node_modules`, where the walk never goes.
@@ -1415,7 +1415,7 @@ struct ProjectArtifactsTests {
         #expect(ProjectArtifacts.refusal(for: home, home: home) == .tooBroad)
         #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Volumes/Disk"), home: home) == .tooBroad)
         #expect(ProjectArtifacts.refusal(for: home.appending(path: "Library/Mobile Documents/com~apple~CloudDocs/Code"), home: home) == .inTheCloud(.cloud))
-        #expect(ProjectArtifacts.refusal(for: directory.url.appending(path: "nothing-here"), home: home) == .notAFolder)
+        #expect(ProjectArtifacts.refusal(for: directory.url.appending(path: "nothing-here"), home: home) == .unreachable(.gone))
         #expect(ProjectArtifacts.refusal(for: try directory.directory("Code"), home: home) == nil)
 
         // The same folders under other spellings that macOS also accepts.
@@ -1479,7 +1479,9 @@ struct ProjectArtifactsTests {
         #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users")) == .systemFolder)
         #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/x/Library/Mobile Documents/com~apple~Pages")) == .inTheCloud(.cloud))
         #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/x/Library/CloudStorage/Dropbox")) == .inTheCloud(.cloud))
-        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/x/does-not-exist")) == .notAFolder)
+        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Users/x/does-not-exist")) == .unreachable(.gone))
+        let disk = "NoSuchDisk-\(UUID().uuidString)"
+        #expect(ProjectArtifacts.refusal(for: URL(filePath: "/Volumes/\(disk)/Code")) == .unreachable(.diskNotConnected(disk)))
     }
 
 
@@ -1524,7 +1526,7 @@ struct ProjectArtifactsTests {
         }
 
         #expect(scan.refusedRoots.map(\.url) == [disk])
-        #expect(scan.refusedRoots.map(\.reason) == [.notAFolder])
+        #expect(scan.refusedRoots.map(\.reason) == [.unreachable(.gone)])
     }
 
     @Test func aLastChangeNotReadInTimeIsToldApartFromATooLargeProject() async throws {

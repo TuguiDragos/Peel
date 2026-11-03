@@ -57,8 +57,8 @@ public struct DuplicateFinder: Sendable {
         case outsideTheHome
         /// A repository, or a folder inside one, which the scan leaves alone.
         case insideARepository
-        /// Not a folder Peel can reach, as one on a disk that isn't connected.
-        case notAFolder
+        /// A folder Peel can't reach, and why.
+        case unreachable(FolderReach)
     }
 
     /// Whether `folder` may be scanned: a folder in the home folder, in `/Users/Shared`, or on another writable
@@ -92,7 +92,7 @@ public struct DuplicateFinder: Sendable {
     /// repository. It is what the scan asks of each chosen folder, and what the list of folders says beside one.
     public func reasonToSetAside(_ folder: URL) -> Refusal? {
         refusal(of: folder)
-            ?? (!Self.isAFolder(folder) ? .notAFolder : nil)
+            ?? FolderReach.problem(with: folder).map(Refusal.unreachable)
             ?? (Self.isInsideARepository(folder, home: homeDirectory) ? .insideARepository : nil)
     }
 
@@ -102,13 +102,6 @@ public struct DuplicateFinder: Sendable {
         return zip(names, names.dropFirst()).contains { folder, inside in
             folder == "library" && ["mobile documents", "cloudstorage"].contains(inside)
         }
-    }
-
-    /// Whether `url` is a folder Peel can reach, links followed.
-    private static func isAFolder(_ url: URL) -> Bool {
-        var isDirectory: ObjCBool = false
-        return FileManager.default.fileExists(atPath: url.path(percentEncoded: false), isDirectory: &isDirectory)
-            && isDirectory.boolValue
     }
 
     /// Runs a walk as `BlockingWork`, so a folder that never answers holds no thread of the scan's task: it throws

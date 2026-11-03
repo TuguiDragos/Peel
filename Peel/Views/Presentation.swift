@@ -292,7 +292,7 @@ extension ProjectArtifacts.Refusal {
         case .inTheCloud(.cloud): String(localized: "It is in a folder that syncs to your other devices through iCloud or another app, which Peel leaves to that app.")
         case .inTheCloud(.app(let app, let marker)):
             String(localized: "It is in a folder \(app.name) syncs to your other devices (its marker is \(marker.abbreviatedPath)), which Peel leaves to that app.")
-        case .notAFolder: String(localized: "It isn’t a folder Peel can reach. A disk that isn’t connected looks like this too.")
+        case .unreachable(let problem): problem.explanation
         case .inAPackage: String(localized: "It is an app or another package, or inside one, and what is inside belongs to it.")
         case .neverSearched: String(localized: "It is a hidden folder, a Library, or a folder a tool fills, such as node_modules, or it sits inside one. Apps and tools keep what they install there, so Peel doesn’t look for projects in it.")
         case .insideAnotherFolder(let folder): String(localized: "It is inside \(folder.abbreviatedPath), which is already on the list.")
@@ -309,7 +309,21 @@ extension DuplicateFinder.Refusal {
         case .inAPackage: String(localized: "It is an app or another package, or inside one, and what is inside belongs to it.")
         case .outsideTheHome: String(localized: "It is outside your home folder and /Users/Shared, or on a disk Peel can’t write to.")
         case .insideARepository: String(localized: "It is a repository, or sits inside one, and Peel leaves repositories alone.")
-        case .notAFolder: String(localized: "It isn’t a folder Peel can reach. A disk that isn’t connected looks like this too.")
+        case .unreachable(let problem): problem.explanation
+        }
+    }
+}
+
+extension FolderReach {
+    /// Why a chosen folder can't be reached.
+    var explanation: String {
+        switch self {
+        case .diskNotConnected(let disk): String(localized: "It is on \(disk), a disk that isn’t connected now.")
+        case .gone: String(localized: "It isn’t there anymore.")
+        case .notAFolder: String(localized: "It isn’t a folder.")
+        case .closed: String(localized: "Its permissions, or those of a folder on its way, keep your account out.")
+        case .didNotAnswer: String(localized: "Its disk didn’t answer in time.")
+        case .failed(let error): String(localized: "macOS couldn’t reach it: \(error.localizedDescription)")
         }
     }
 }

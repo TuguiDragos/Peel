@@ -912,9 +912,9 @@ struct FileCommandTests {
 
     @Test func namesEachChosenFolderTheScanDidNotSearch() throws {
         let unplugged = URL(filePath: "/Volumes/Disk/Projects", directoryHint: .isDirectory)
-        let scan = ProjectArtifacts.Scan(refusedRoots: [(unplugged, .notAFolder)])
+        let scan = ProjectArtifacts.Scan(refusedRoots: [(unplugged, .unreachable(.diskNotConnected("Disk")))])
 
-        #expect(ProjectsCommand.notes(for: scan) == ["/Volumes/Disk/Projects: it isn't a folder Peel can reach"])
+        #expect(ProjectsCommand.notes(for: scan) == ["/Volumes/Disk/Projects: it is on Disk, a disk that isn't connected now"])
         let json = try Output.jsonText(ProjectsCommand.report(for: scan))
         let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
         #expect(report["skippedLocations"] as? [String] == ["/Volumes/Disk/Projects"])

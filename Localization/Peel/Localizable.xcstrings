@@ -78229,6 +78229,112 @@
         }
       }
     },
+    "It is on %@, a disk that isn’t connected now." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je na disku %@, který teď není připojený."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Ordner liegt auf dem Volume „%@“, das gerade nicht verbunden ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está en %@, un disco que ahora no está conectado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il se trouve sur %@, un disque qui n’est pas connecté actuellement."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si trova su %@, un disco che ora non è collegato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在接続されていないディスク“%@”上にあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금 연결되어 있지 않은 디스크 ‘%@’에 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het staat op %@, een schijf die nu niet is aangesloten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Znajduje się na dysku %@, który nie jest teraz podłączony."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está em %@, um disco que não está conectado agora."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se află pe %@, un disc care nu este conectat acum."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта папка находится на диске «%@», который сейчас не подключен."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den ligger på %@, en skiva som inte är ansluten just nu."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şu anda bağlı olmayan %@ diskinde."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка лежить на диску «%@», який зараз не підʼєднано."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它位于磁盘“%@”上，该磁盘目前未连接。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它位於目前未連接的「%@」磁碟上。"
+          }
+        }
+      }
+    },
     "It is outside the folders Peel’s helper may touch." : {
       "localizations" : {
         "cs" : {
@@ -78441,108 +78547,108 @@
         }
       }
     },
-    "It isn’t a folder Peel can reach. A disk that isn’t connected looks like this too." : {
+    "It isn’t a folder." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Není to složka, ke které má Peel přístup. Stejně vypadá i disk, který není připojený."
+            "value" : "Není to složka."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dies ist kein Ordner, den Peel erreichen kann. Ein Volume, das nicht verbunden ist, sieht ebenfalls so aus."
+            "value" : "Dies ist kein Ordner."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No es una carpeta a la que Peel pueda acceder. Un disco que no está conectado también se ve así."
+            "value" : "No es una carpeta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce n’est pas un dossier auquel Peel peut accéder. Un disque qui n’est pas connecté se présente aussi ainsi."
+            "value" : "Ce n’est pas un dossier."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non è una cartella che Peel può raggiungere. Anche un disco non collegato appare così."
+            "value" : "Non è una cartella."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelがアクセスできるフォルダではありません。接続されていないディスクもこのように表示されます。"
+            "value" : "フォルダではありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 접근할 수 있는 폴더가 아닙니다. 연결되지 않은 디스크도 이렇게 보입니다."
+            "value" : "폴더가 아닙니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het is geen map die Peel kan bereiken. Een schijf die niet is aangesloten, ziet er ook zo uit."
+            "value" : "Het is geen map."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To nie jest folder, do którego Peel ma dostęp. Tak samo wygląda dysk, który nie jest podłączony."
+            "value" : "To nie jest folder."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Não é uma pasta que o Peel consiga acessar. Um disco que não está conectado também aparece assim."
+            "value" : "Não é uma pasta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nu este un dosar pe care Peel să îl poată accesa. Așa arată și un disc care nu este conectat."
+            "value" : "Nu este un dosar."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не может добраться до этой папки. Так же выглядит и неподключенный диск."
+            "value" : "Это не папка."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det är ingen mapp som Peel kommer åt. En skiva som inte är ansluten ser också ut så här."
+            "value" : "Det är ingen mapp."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’in erişebileceği bir klasör değil. Bağlı olmayan bir disk de böyle görünür."
+            "value" : "Bir klasör değil."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Це не папка, до якої Peel має доступ. Так само виглядає й диск, який не підʼєднано."
+            "value" : "Це не папка."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "这不是Peel能访问的文件夹。未连接的磁盘也会显示为这种情况。"
+            "value" : "它不是文件夹。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這不是Peel能取用的檔案夾。未連接的磁碟也會顯示為這樣。"
+            "value" : "它不是檔案夾。"
           }
         }
       }
@@ -82290,6 +82396,112 @@
         }
       }
     },
+    "Its disk didn’t answer in time." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disk, na kterém je, včas neodpověděl."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Volume dieses Ordners hat nicht rechtzeitig geantwortet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su disco no ha respondido a tiempo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son disque n’a pas répondu à temps."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo disco non ha risposto in tempo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダがあるディスクが時間内に応答しませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더가 있는 디스크가 제시간에 응답하지 않았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De schijf waarop het staat, gaf niet op tijd antwoord."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jego dysk nie odpowiedział w porę."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O disco em que ela está não respondeu a tempo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discul său nu a răspuns la timp."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Диск этой папки не ответил вовремя."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skivan den ligger på svarade inte i tid."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bulunduğu disk zamanında yanıt vermedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Диск, на якому лежить папка, не відповів вчасно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它所在的磁盘没有及时回应。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它所在的磁碟沒有及時回應。"
+          }
+        }
+      }
+    },
     "Its file is gone" : {
       "localizations" : {
         "cs" : {
@@ -83346,6 +83558,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它的名稱以com.apple開頭，但不是由macOS安裝的，因此Peel不會在這裡啟動、停止或移除它。請查看該檔案，瞭解是什麼將它放在那裡。"
+          }
+        }
+      }
+    },
+    "Its permissions, or those of a folder on its way, keep your account out." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Váš účet do ní nepustí její oprávnění nebo oprávnění některé ze složek, ve kterých leží."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Zugriffsrechte dieses Ordners oder eines übergeordneten Ordners sperren deinen Benutzeraccount aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sus permisos, o los de una carpeta de su ruta, no dejan entrar a tu cuenta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ses permissions, ou celles d’un dossier sur son chemin d’accès, empêchent votre compte d’y accéder."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I suoi permessi, o quelli di una cartella lungo il percorso, impediscono al tuo account di accedervi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダ、またはそこに至るまでのフォルダのアクセス権により、お使いのアカウントではアクセスできません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더 또는 그 경로에 있는 폴더의 사용 권한 때문에 이 계정으로 들어갈 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De bevoegdheden ervan, of die van een bovenliggende map, sluiten je account buiten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jego uprawnienia lub uprawnienia folderu na ścieżce do niego nie dają Twojemu kontu dostępu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As permissões dela, ou as de uma pasta no caminho até ela, não deixam esta conta entrar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permisiunile sale sau cele ale unui dosar de pe calea sa nu permit accesul contului dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Права доступа этой папки или одной из папок на пути к ней не пускают в нее Вашу учетную запись."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dess behörigheter, eller behörigheterna för en mapp på vägen dit, stänger ute ditt konto."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İzinleri veya yolu üzerindeki bir klasörün izinleri hesabınızın içeri girmesini engelliyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Привілеї цієї папки або однієї з папок на шляху до неї не пускають ваш обліковий запис усередину."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的权限设置，或者通往它的路径上某个文件夹的权限设置，不允许你的账户进入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的權限或其路徑上某個檔案夾的權限，讓你的帳號無法進入。"
           }
         }
       }
@@ -256228,6 +256546,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS找不到該App，因此它獲准取用的項目仍留在記錄中。"
+          }
+        }
+      }
+    },
+    "macOS couldn’t reach it: %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS se k ní nemohl dostat: %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS konnte diesen Ordner nicht erreichen: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no ha podido acceder a ella: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’a pas pu y accéder : %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non è riuscito a raggiungerla: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがこのフォルダにアクセスできませんでした: %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 이 폴더에 접근할 수 없었습니다: %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kon het niet bereiken: %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie mógł uzyskać do niego dostępu: %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não conseguiu acessá-la: %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu l‑a putut accesa: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не удалось добраться до этой папки: %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kom inte åt den: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ona ulaşamadı: %@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не змогла отримати доступ до папки: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS未能访问它：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS無法取用它：%@"
           }
         }
       }

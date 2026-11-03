@@ -952,7 +952,8 @@ public enum ProjectArtifacts {
                     PathPattern.comparablePath(of: $0) < PathPattern.comparablePath(of: $1)
                 },
                 needsFullDiskAccess: unreadable.contains { FullDiskAccess.canList($0) == .missing },
-                refusedRoots: refused + gone.map { ($0.root, .notAFolder) }
+                refusedRoots: refused
+                    + gone.map { ($0.root, .unreachable(FolderReach.problem(with: $0.root) ?? .gone)) }
                     + keptInStep.sorted { key(of: $0.url) < key(of: $1.url) }
             )
         }
@@ -1022,7 +1023,8 @@ public enum ProjectArtifacts {
         /// A folder macOS or every account uses, such as `/Applications`, `/opt`, or `/Users/Shared`.
         case systemFolder
         case inTheCloud(SyncKeeper)
-        case notAFolder
+        /// A folder Peel can't reach, and why.
+        case unreachable(FolderReach)
         /// An app or another package, or a folder inside one: what is inside belongs to it.
         case inAPackage
         /// A folder the walk never enters (`isSkipped`), or one inside it: apps and tools keep what they install there.
@@ -1066,7 +1068,7 @@ public enum ProjectArtifacts {
             let answer = await SlowRead.answer(within: FileSize.budget) { _ in
                 refusal(for: root, home: home) ?? overlap(of: root, with: others)
             }
-            let reason = answer ?? .notAFolder
+            let reason = answer ?? .unreachable(.didNotAnswer)
             reasons.append(reason)
             if reason == nil { taken.append(root) }
         }
@@ -1105,11 +1107,7 @@ public enum ProjectArtifacts {
             if names.count == 2, names[0] == "users" { return names[1] == "shared" ? .systemFolder : .tooBroad }
         }
 
-        var isDirectory: ObjCBool = false
-        let isThere =
-            FileManager.default.fileExists(atPath: PathPattern.comparablePath(of: root), isDirectory: &isDirectory)
-            && isDirectory.boolValue
-        guard isThere else { return .notAFolder }
+        if let problem = FolderReach.problem(with: root) { return .unreachable(problem) }
         if let keeper = SyncedFolders().keeper(of: root) { return .inTheCloud(keeper) }
         if root.isOrIsInsideAPackage { return .inAPackage }
         return PathComponents.of(kernelName).contains(where: isSkipped) ? .neverSearched : nil

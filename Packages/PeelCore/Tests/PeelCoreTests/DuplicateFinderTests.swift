@@ -490,7 +490,7 @@ struct DuplicateFinderTests {
 
         let scan = try await scan(directory, folders: ["home/Gone"])
 
-        #expect(scan.skippedLocations.map(\.reason) == [.notAFolder])
+        #expect(scan.skippedLocations.map(\.reason) == [.unreachable(.gone)])
         #expect(scan.readNothing)
     }
 

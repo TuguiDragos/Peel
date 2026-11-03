@@ -16,6 +16,11 @@ public struct SystemError: Sendable, Hashable, Codable {
         self.init(domain: error.domain, code: error.code)
     }
 
+    /// What macOS says of this error, in the language of the process asking.
+    public var localizedDescription: String {
+        NSError(domain: domain, code: code).localizedDescription
+    }
+
     /// What macOS says of this error for the item at `url`, in the language of the process asking.
     public func description(of url: URL) -> String {
         NSError(domain: domain, code: code, userInfo: [NSFilePathErrorKey: url.path(percentEncoded: false)])

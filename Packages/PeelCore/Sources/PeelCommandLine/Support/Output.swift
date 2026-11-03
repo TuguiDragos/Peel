@@ -469,7 +469,20 @@ extension DuplicateFinder.Refusal {
         case .inAPackage: "it is an app or another package, or inside one, and what is inside belongs to it"
         case .outsideTheHome: "it is outside your home folder and /Users/Shared, or on a disk Peel can't write to"
         case .insideARepository: "it is a repository, or sits inside one, and Peel leaves repositories alone"
-        case .notAFolder: "it isn't a folder Peel can reach"
+        case .unreachable(let problem): problem.summary
+        }
+    }
+}
+
+extension FolderReach {
+    var summary: String {
+        switch self {
+        case .diskNotConnected(let disk): "it is on \(Output.plain(disk)), a disk that isn't connected now"
+        case .gone: "it isn't there anymore"
+        case .notAFolder: "it isn't a folder"
+        case .closed: "its permissions, or those of a folder on its way, keep your account out"
+        case .didNotAnswer: "its disk didn't answer in time"
+        case .failed(let error): "macOS couldn't reach it: \(error.localizedDescription)"
         }
     }
 }
@@ -482,7 +495,7 @@ extension ProjectArtifacts.Refusal {
         case .inTheCloud(.cloud): "it is in a folder that syncs to your other devices through iCloud or another app, which Peel leaves to that app"
         case .inTheCloud(.app(let app, let marker)):
             "it is in a folder \(app.name) syncs to your other devices (its marker is \(Output.plain(Output.path(marker)))), which Peel leaves to that app"
-        case .notAFolder: "it isn't a folder Peel can reach"
+        case .unreachable(let problem): problem.summary
         case .inAPackage: "it is an app or another package, or inside one, and what is inside belongs to it"
         case .neverSearched: "it is a hidden folder, a Library, or a folder a tool fills, such as node_modules, or it sits inside one, where apps and tools keep what they install"
         case .insideAnotherFolder(let folder): "it is inside \(Output.path(folder)), which is already on the list"
