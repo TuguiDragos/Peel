@@ -25,6 +25,14 @@ struct TimeMachineExclusionTests {
     /// The mark is an attribute on the folder, so it goes on and comes off without administrator rights. The
     /// temporary folder works for this test: `tmutil isexcluded "$TMPDIR"` prints `[Excluded]`, yet
     /// `CSBackupIsItemExcluded` answers false for a folder inside it.
+    @Test func namesTheAccountThatOwnsAFolderThatRefusedTheMark() throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("app/node_modules")
+
+        #expect(TimeMachineExclusion.refusal(of: folder, user: getuid() + 1) == .ownedByAnotherAccount(NSUserName()))
+        #expect(TimeMachineExclusion.refusal(of: folder) == .refused)
+    }
+
     @Test func marksAFolderAndTakesTheMarkOffAgain() async throws {
         let directory = try TemporaryDirectory()
         let modules = try directory.directory("app/node_modules")
@@ -70,7 +78,7 @@ struct TimeMachineExclusionTests {
 
         #expect(TimeMachineExclusion.excluded(among: []).isEmpty)
         #expect(TimeMachineExclusion.setExcluded(true, []).isEmpty)
-        #expect(TimeMachineExclusion.setExcluded(true, [missing]) == [missing], "a folder that is not there took the mark")
+        #expect(TimeMachineExclusion.setExcluded(true, [missing]) == [missing: .refused], "a folder that is not there took the mark")
         #expect(!TimeMachineExclusion.isExcluded(missing))
     }
 
@@ -79,7 +87,7 @@ struct TimeMachineExclusionTests {
         let missing = directory.url.appending(path: "nothing-here")
         let real = try directory.directory("app/node_modules")
 
-        #expect(TimeMachineExclusion.setExcluded(true, [missing, real]) == [missing])
+        #expect(TimeMachineExclusion.setExcluded(true, [missing, real]) == [missing: .refused])
         #expect(try await settles([real], as: [real]))
         _ = TimeMachineExclusion.setExcluded(false, [real])
     }

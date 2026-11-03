@@ -46,7 +46,7 @@ struct ProjectDetailView: View {
                     .listRowSeparator(.hidden)
                 let failures = projects.backupMarkFailures(in: group)
                 if !failures.isEmpty {
-                    Text("^[\(failures.count) folder](inflect: true) wouldn’t take the mark, usually because it belongs to another account.")
+                    Text(verbatim: Self.whyMarksFailed(failures))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -159,5 +159,24 @@ struct ProjectDetailView: View {
         case nil:
             nil
         }
+    }
+}
+
+extension ProjectDetailView {
+    static func whyMarksFailed(_ failures: [TimeMachineExclusion.Refusal]) -> String {
+        let owners = failures.compactMap { failure -> String? in
+            guard case .ownedByAnotherAccount(let name) = failure else { return nil }
+            return name ?? String(localized: "another account")
+        }
+        let refused = failures.count { $0 == .refused }
+        var sentences: [String] = []
+        if !owners.isEmpty {
+            let accounts = Set(owners).sorted().formatted(.list(type: .and))
+            sentences.append(String(inflecting: "^[\(owners.count) folder](inflect: true) belonging to \(accounts) wouldn’t take the mark."))
+        }
+        if refused > 0 {
+            sentences.append(String(inflecting: "macOS refused the mark on ^[\(refused) folder](inflect: true) without saying why."))
+        }
+        return sentences.joined(separator: " ")
     }
 }

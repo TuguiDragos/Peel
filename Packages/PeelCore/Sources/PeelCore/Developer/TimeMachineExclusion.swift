@@ -51,24 +51,42 @@ public enum TimeMachineExclusion {
         Set(urls.filter(isExcluded))
     }
 
+    /// Why a folder wouldn't take the mark.
+    public enum Refusal: Sendable, Hashable {
+        /// Another account owns it, by its short name when it has one.
+        case ownedByAnotherAccount(String?)
+        /// macOS refused the mark and said nothing more.
+        case refused
+    }
+
     /// `setExcluded(_:_:)` away from the caller's thread, since on a network volume a mark can take its time.
     @concurrent
-    public static func marking(_ isExcluded: Bool, _ urls: [URL]) async -> Set<URL> {
+    public static func marking(_ isExcluded: Bool, _ urls: [URL]) async -> [URL: Refusal] {
         setExcluded(isExcluded, urls)
     }
 
-    /// Sets or clears the mark on each folder and returns the folders that could not be changed. A folder
+    /// Sets or clears the mark on each folder and returns the folders that could not be changed, and why. A folder
     /// that refuses the mark, such as one owned by root, does not stop the others.
-    public static func setExcluded(_ isExcluded: Bool, _ urls: [URL]) -> Set<URL> {
-        Set(urls.filter { url in
-            guard CSBackupSetItemExcluded(url as CFURL, isExcluded, false) == noErr else { return true }
+    public static func setExcluded(_ isExcluded: Bool, _ urls: [URL]) -> [URL: Refusal] {
+        var refused: [URL: Refusal] = [:]
+        for url in urls {
+            guard CSBackupSetItemExcluded(url as CFURL, isExcluded, false) == noErr else {
+                refused[url] = refusal(of: url)
+                continue
+            }
             let path = url.path(percentEncoded: false)
             if isExcluded {
                 _ = setxattr(path, ownMark, "1", 1, 0, XATTR_NOFOLLOW)
             } else {
                 _ = removexattr(path, ownMark, XATTR_NOFOLLOW)
             }
-            return false
-        })
+        }
+        return refused
+    }
+
+    static func refusal(of url: URL, user: uid_t = getuid()) -> Refusal {
+        var info = stat()
+        guard lstat(url.path(percentEncoded: false), &info) == 0, info.st_uid != user else { return .refused }
+        return .ownedByAnotherAccount(AccountRecord.field(of: info.st_uid) { $0.pw_name })
     }
 }

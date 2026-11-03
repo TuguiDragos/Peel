@@ -55,7 +55,7 @@ struct ProjectLibraryTests {
         let (held, release) = AsyncStream.makeStream(of: Void.self)
         let library = ProjectLibrary(defaults: made.defaults) { _, _ in
             for await _ in held { break }
-            return []
+            return [:]
         }
         await library.refresh()
         let group = try #require(library.groups?.first)

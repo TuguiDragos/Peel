@@ -33,7 +33,7 @@ final class ProjectLibrary {
     /// own, so it cannot be removed from here.
     private(set) var excludedFromAbove: Set<URL> = []
     /// The folders that would not take the mark the last time Peel changed it on them, whichever project they are in.
-    private var backupMarkFailures: Set<URL> = []
+    private var backupMarkFailures: [URL: TimeMachineExclusion.Refusal] = [:]
     /// True when the scan reached its limit on how many folders it reads, so the list may be incomplete.
     private(set) var wasCutShort = false
     private(set) var needsFullDiskAccess = false
@@ -49,7 +49,7 @@ final class ProjectLibrary {
     var selectedURLs: Set<URL> = []
 
     private let defaults: UserDefaults
-    private let mark: @Sendable (Bool, [URL]) async -> Set<URL>
+    private let mark: @Sendable (Bool, [URL]) async -> [URL: TimeMachineExclusion.Refusal]
     /// What was clicked for each project whose marks are being written.
     private var backupsBeingChanged: [URL: Bool] = [:]
     @ObservationIgnored private var scannedAt: ContinuousClock.Instant?
@@ -59,7 +59,8 @@ final class ProjectLibrary {
 
     init(
         defaults: UserDefaults = .standard,
-        markingForBackups mark: @escaping @Sendable (Bool, [URL]) async -> Set<URL> = TimeMachineExclusion.marking
+        markingForBackups mark: @escaping @Sendable (Bool, [URL]) async -> [URL: TimeMachineExclusion.Refusal] =
+            TimeMachineExclusion.marking
     ) {
         self.defaults = defaults
         self.mark = mark
@@ -179,8 +180,8 @@ final class ProjectLibrary {
     }
 
     /// The group's folders that would not take the mark the last time Peel set it.
-    func backupMarkFailures(in group: ProjectGroup) -> [URL] {
-        group.artifacts.map(\.url).filter(backupMarkFailures.contains)
+    func backupMarkFailures(in group: ProjectGroup) -> [TimeMachineExclusion.Refusal] {
+        group.artifacts.compactMap { backupMarkFailures[$0.url] }
     }
 
     func canMarkForBackups(_ group: ProjectGroup) -> Bool {
@@ -199,8 +200,9 @@ final class ProjectLibrary {
         defer { backupsBeingChanged[group.project] = nil }
         let urls = backupMarks(group).folders(turning: isExcluded)
         let failed = await mark(isExcluded, urls)
-        backupMarkFailures = backupMarkFailures.subtracting(urls).union(failed)
-        let changed = Set(urls).subtracting(failed)
+        backupMarkFailures = backupMarkFailures.filter { !urls.contains($0.key) }
+            .merging(failed, uniquingKeysWith: { _, new in new })
+        let changed = Set(urls).subtracting(failed.keys)
         if isExcluded {
             excludedFromBackups.formUnion(changed)
             markedByPeel.formUnion(changed)

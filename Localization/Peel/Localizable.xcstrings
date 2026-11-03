@@ -245698,7 +245698,7 @@
         }
       }
     },
-    "^[%lld folder](inflect: true) wouldn’t take the mark, usually because it belongs to another account." : {
+    "^[%lld folder](inflect: true) belonging to %@ wouldn’t take the mark." : {
       "localizations" : {
         "cs" : {
           "variations" : {
@@ -245706,25 +245706,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld složky značku nepřijaly, obvykle proto, že patří jinému účtu."
+                  "value" : "%lld složky, které vlastní %@, značku nepřijaly."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld složky značku nepřijalo, obvykle proto, že patří jinému účtu."
+                  "value" : "%lld složky, které vlastní %@, značku nepřijalo."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld složka značku nepřijala, obvykle proto, že patří jinému účtu."
+                  "value" : "%lld složka, kterou vlastní %@, značku nepřijala."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld složek značku nepřijalo, obvykle proto, že patří jinému účtu."
+                  "value" : "%lld složek, které vlastní %@, značku nepřijalo."
                 }
               }
             }
@@ -245736,16 +245736,22 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld Ordner ließ sich nicht markieren, meist weil er zu einem anderen Benutzeraccount gehört."
+                  "value" : "%lld Ordner, der %@ gehört, ließ sich nicht markieren."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld Ordner ließen sich nicht markieren, meist weil sie zu einem anderen Benutzeraccount gehören."
+                  "value" : "%lld Ordner, die %@ gehören, ließen sich nicht markieren."
                 }
               }
             }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "^[%1$lld folder](inflect: true) belonging to %2$@ wouldn’t take the mark."
           }
         },
         "es" : {
@@ -245754,19 +245760,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld de carpetas no han aceptado la marca, normalmente porque pertenecen a otra cuenta."
+                  "value" : "%lld de carpetas que pertenecen a %@ no han aceptado la marca."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Una carpeta no ha aceptado la marca, normalmente porque pertenece a otra cuenta."
+                  "value" : "%lld carpeta que pertenece a %@ no ha aceptado la marca."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld carpetas no han aceptado la marca, normalmente porque pertenecen a otra cuenta."
+                  "value" : "%lld carpetas que pertenecen a %@ no han aceptado la marca."
                 }
               }
             }
@@ -245778,19 +245784,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld de dossiers n’ont pas accepté la marque, généralement parce qu’ils appartiennent à un autre compte."
+                  "value" : "%lld de dossiers appartenant à %@ n’ont pas accepté la marque."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld dossier n’a pas accepté la marque, généralement parce qu’il appartient à un autre compte."
+                  "value" : "%lld dossier appartenant à %@ n’a pas accepté la marque."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld dossiers n’ont pas accepté la marque, généralement parce qu’ils appartiennent à un autre compte."
+                  "value" : "%lld dossiers appartenant à %@ n’ont pas accepté la marque."
                 }
               }
             }
@@ -245802,19 +245808,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld di cartelle non hanno accettato il contrassegno, di solito perché appartengono a un altro account."
+                  "value" : "%lld di cartelle appartenenti a %@ non hanno accettato il contrassegno."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Una cartella non ha accettato il contrassegno, di solito perché appartiene a un altro account."
+                  "value" : "%lld cartella appartenente a %@ non ha accettato il contrassegno."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld cartelle non hanno accettato il contrassegno, di solito perché appartengono a un altro account."
+                  "value" : "%lld cartelle appartenenti a %@ non hanno accettato il contrassegno."
                 }
               }
             }
@@ -245823,13 +245829,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld個のフォルダに印を付けられませんでした。多くの場合、別のアカウントのフォルダであることが原因です。"
+            "value" : "%2$@が所有する%1$lld個のフォルダに印を付けられませんでした。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "폴더 %lld개에 표시를 붙일 수 없었습니다. 대개 다른 계정의 폴더이기 때문입니다."
+            "value" : "%2$@의 폴더 %1$lld개에 표시를 붙일 수 없었습니다."
           }
         },
         "nl" : {
@@ -245838,13 +245844,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Eén map kon niet worden gemarkeerd, meestal omdat die van een andere account is."
+                  "value" : "%lld map van %@ kon niet worden gemarkeerd."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld mappen konden niet worden gemarkeerd, meestal omdat ze van een andere account zijn."
+                  "value" : "%lld mappen van %@ konden niet worden gemarkeerd."
                 }
               }
             }
@@ -245856,25 +245862,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld foldery nie przyjęły znacznika, zwykle dlatego, że należą do innego konta."
+                  "value" : "%lld foldery należące do %@ nie przyjęły znacznika."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld folderów nie przyjęło znacznika, zwykle dlatego, że należą do innego konta."
+                  "value" : "%lld folderów należących do %@ nie przyjęło znacznika."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld folder nie przyjął znacznika, zwykle dlatego, że należy do innego konta."
+                  "value" : "%lld folder należący do %@ nie przyjął znacznika."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld folderu nie przyjęło znacznika, zwykle dlatego, że należy do innego konta."
+                  "value" : "%lld folderu należącego do %@ nie przyjęło znacznika."
                 }
               }
             }
@@ -245886,19 +245892,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld de pastas não aceitaram a marca, geralmente porque pertencem a outra conta."
+                  "value" : "%lld de pastas pertencentes a %@ não aceitaram a marca."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld pasta não aceitou a marca, geralmente porque pertence a outra conta."
+                  "value" : "%lld pasta pertencente a %@ não aceitou a marca."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld pastas não aceitaram a marca, geralmente porque pertencem a outra conta."
+                  "value" : "%lld pastas pertencentes a %@ não aceitaram a marca."
                 }
               }
             }
@@ -245910,19 +245916,19 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld dosare nu au acceptat marcajul, de obicei pentru că aparțin altui cont."
+                  "value" : "%lld dosare deținute de %@ nu au acceptat marcajul."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld dosar nu a acceptat marcajul, de obicei pentru că aparține altui cont."
+                  "value" : "%lld dosar deținut de %@ nu a acceptat marcajul."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld de dosare nu au acceptat marcajul, de obicei pentru că aparțin altui cont."
+                  "value" : "%lld de dosare deținute de %@ nu au acceptat marcajul."
                 }
               }
             }
@@ -245934,25 +245940,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Не удалось отметить %lld папки, обычно потому, что они принадлежат другой учетной записи."
+                  "value" : "Не удалось отметить %1$lld папки, которые принадлежат %2$@."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Не удалось отметить %lld папок, обычно потому, что они принадлежат другой учетной записи."
+                  "value" : "Не удалось отметить %1$lld папок, которые принадлежат %2$@."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Не удалось отметить %lld папку, обычно потому, что она принадлежит другой учетной записи."
+                  "value" : "Не удалось отметить %1$lld папку, которая принадлежит %2$@."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Не удалось отметить %lld папки, обычно потому, что они принадлежат другой учетной записи."
+                  "value" : "Не удалось отметить %1$lld папки, которые принадлежат %2$@."
                 }
               }
             }
@@ -245964,13 +245970,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld mapp kunde inte märkas, oftast för att den tillhör ett annat konto."
+                  "value" : "%lld mapp som tillhör %@ kunde inte märkas."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld mappar kunde inte märkas, oftast för att de tillhör ett annat konto."
+                  "value" : "%lld mappar som tillhör %@ kunde inte märkas."
                 }
               }
             }
@@ -245982,13 +245988,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld klasör işareti almadı; bunun nedeni genellikle klasörün başka bir hesaba ait olmasıdır."
+                  "value" : "Sahibi %2$@ olan %1$lld klasör işareti almadı."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld klasör işareti almadı; bunun nedeni genellikle klasörlerin başka bir hesaba ait olmasıdır."
+                  "value" : "Sahibi %2$@ olan %1$lld klasör işareti almadı."
                 }
               }
             }
@@ -246000,25 +246006,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Не вдалося позначити %lld папки, зазвичай тому, що вони належать іншому обліковому запису."
+                  "value" : "Не вдалося позначити %lld папки, які належать %@."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Не вдалося позначити %lld папок, зазвичай тому, що вони належать іншому обліковому запису."
+                  "value" : "Не вдалося позначити %lld папок, які належать %@."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Не вдалося позначити %lld папку, зазвичай тому, що вона належить іншому обліковому запису."
+                  "value" : "Не вдалося позначити %lld папку, яка належить %@."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Не вдалося позначити %lld папки, зазвичай тому, що вони належать іншому обліковому запису."
+                  "value" : "Не вдалося позначити %lld папки, які належать %@."
                 }
               }
             }
@@ -246027,13 +246033,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld个文件夹无法添加标记，通常是因为属于另一个账户。"
+            "value" : "%lld个属于%@的文件夹无法添加标记。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld個檔案夾無法加上標記，通常是因為屬於另一個帳號。"
+            "value" : "屬於%2$@的%1$lld個檔案夾無法加上標記。"
           }
         }
       }
@@ -258680,6 +258686,112 @@
         }
       }
     },
+    "another account" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "jiný účet"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "einem anderen Benutzeraccount"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "otra cuenta"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "un autre compte"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "un altro account"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "別のアカウント"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 계정"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "een andere account"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "innego konta"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "outra conta"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "alt cont"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "другой учетной записи"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ett annat konto"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "başka bir hesap"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "іншому обліковому запису"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另一个账户"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另一個帳號"
+          }
+        }
+      }
+    },
     "container" : {
       "comment" : "The name of Apple's command-line tool, never translated.",
       "shouldTranslate" : false
@@ -266893,6 +267005,346 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS拒絕了對「%@」的變更。"
+          }
+        }
+      }
+    },
+    "macOS refused the mark on ^[%lld folder](inflect: true) without saying why." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Systém macOS odmítl nastavit značku u %lld složek a neuvedl důvod."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Systém macOS odmítl nastavit značku u %lld složky a neuvedl důvod."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Systém macOS odmítl nastavit značku u %lld složky a neuvedl důvod."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Systém macOS odmítl nastavit značku u %lld složek a neuvedl důvod."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS hat die Markierung für %lld Ordner abgelehnt, ohne einen Grund zu nennen."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS hat die Markierung für %lld Ordner abgelehnt, ohne einen Grund zu nennen."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS se ha negado a poner la marca en %lld de carpetas sin decir por qué."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS se ha negado a poner la marca en una carpeta sin decir por qué."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS se ha negado a poner la marca en %lld carpetas sin decir por qué."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS a refusé de poser la marque sur %lld de dossiers sans indiquer pourquoi."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS a refusé de poser la marque sur %lld dossier sans indiquer pourquoi."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS a refusé de poser la marque sur %lld dossiers sans indiquer pourquoi."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS ha rifiutato il contrassegno su %lld di cartelle senza dire perché."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS ha rifiutato il contrassegno su una cartella senza dire perché."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS ha rifiutato il contrassegno su %lld cartelle senza dire perché."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSが理由を示さずに、%lld個のフォルダに印を付けることを拒否しました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 이유를 알려 주지 않고 폴더 %lld개에 표시를 붙이는 것을 거부했습니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS heeft geweigerd %lld map te markeren, zonder te zeggen waarom."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS heeft geweigerd %lld mappen te markeren, zonder te zeggen waarom."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS odmówił dodania znacznika do %lld folderów bez podania przyczyny."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS odmówił dodania znacznika do %lld folderów bez podania przyczyny."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS odmówił dodania znacznika do %lld folderu bez podania przyczyny."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS odmówił dodania znacznika do %lld folderu bez podania przyczyny."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O macOS recusou a marca em %lld de pastas sem dizer por quê."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O macOS recusou a marca em %lld pasta sem dizer por quê."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O macOS recusou a marca em %lld pastas sem dizer por quê."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS a refuzat să aplice marcajul pe %lld dosare fără să spună de ce."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS a refuzat să aplice marcajul pe %lld dosar fără să spună de ce."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS a refuzat să aplice marcajul pe %lld de dosare fără să spună de ce."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS отказалась отметить %lld папки и не сообщила причину."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS отказалась отметить %lld папок и не сообщила причину."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS отказалась отметить %lld папку и не сообщила причину."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS отказалась отметить %lld папки и не сообщила причину."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS nekade märkningen av %lld mapp utan att säga varför."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS nekade märkningen av %lld mappar utan att säga varför."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS, %lld klasöre işaret konmasını nedenini söylemeden reddetti."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS, %lld klasöre işaret konmasını nedenini söylemeden reddetti."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS відмовилася позначити %lld папки, не пояснивши чому."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS відмовилася позначити %lld папок, не пояснивши чому."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS відмовилася позначити %lld папку, не пояснивши чому."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "macOS відмовилася позначити %lld папки, не пояснивши чому."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS拒绝为%lld个文件夹添加标记，且没有说明原因。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS拒絕為%lld個檔案夾加上標記，且沒有說明原因。"
           }
         }
       }
