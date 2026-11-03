@@ -118137,108 +118137,108 @@
         }
       }
     },
-    "Not selected: its permissions keep Peel out, so what is in there isn’t known. Full Disk Access doesn’t open it." : {
+    "Not selected: its own permissions keep your account out, so what is in there isn’t known. Full Disk Access lets Peel past macOS’s privacy protections, not past a folder’s own permissions." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nevybráno: oprávnění této složky nepustí Peel dovnitř, takže není známo, co tam je. Plný přístup k disku ji neotevře."
+            "value" : "Nevybráno: vlastní oprávnění této složky do ní váš účet nepustí, takže není známo, co tam je. Plný přístup k disku pustí Peel přes ochranu soukromí systému macOS, ale ne přes vlastní oprávnění složky."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nicht ausgewählt: Die Zugriffsrechte dieses Ordners sperren Peel aus, daher ist nicht bekannt, was darin liegt. Auch Festplattenvollzugriff öffnet ihn nicht."
+            "value" : "Nicht ausgewählt: Die eigenen Zugriffsrechte dieses Ordners sperren deinen Benutzeraccount aus, daher ist nicht bekannt, was darin liegt. Festplattenvollzugriff hebt für Peel die Datenschutzbeschränkungen von macOS auf, nicht aber die eigenen Zugriffsrechte eines Ordners."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sin seleccionar: sus permisos no dejan entrar a Peel, así que no se sabe qué hay dentro. Con acceso total al disco tampoco se puede abrir."
+            "value" : "Sin seleccionar: sus propios permisos no dejan entrar a tu cuenta, así que no se sabe qué hay dentro. El acceso total al disco permite a Peel ir más allá de las protecciones de privacidad de macOS, pero no de los propios permisos de una carpeta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non sélectionné : ses permissions empêchent Peel d’y accéder, son contenu est donc inconnu. L’accès complet au disque ne permet pas de l’ouvrir."
+            "value" : "Non sélectionné : ses propres permissions empêchent votre compte d’y accéder, son contenu est donc inconnu. L’accès complet au disque permet à Peel de franchir les protections de confidentialité de macOS, mais pas les permissions propres à un dossier."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non selezionato: i suoi permessi impediscono a Peel di accedervi, quindi non si sa cosa contiene. Nemmeno l’accesso completo al disco consente di aprirlo."
+            "value" : "Non selezionato: sono i suoi permessi a impedire al tuo account di accedervi, quindi non si sa cosa contiene. L’accesso completo al disco permette a Peel di superare le protezioni della privacy di macOS, non i permessi propri di una cartella."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未選択: アクセス権によってPeelが中に入れないため、中に何があるかわかりません。フルディスクアクセスがあっても開けません。"
+            "value" : "未選択: これ自体のアクセス権により、お使いのアカウントではアクセスできないため、中に何があるかわかりません。フルディスクアクセスがあれば、PeelはmacOSのプライバシー保護を越えてアクセスできますが、フォルダ自体のアクセス権を越えることはできません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "선택되지 않음: 이 항목의 권한 때문에 Peel이 들어갈 수 없으므로 안에 무엇이 있는지 알 수 없습니다. 전체 디스크 접근 권한으로도 열 수 없습니다."
+            "value" : "선택되지 않음: 이 항목은 자체 사용 권한 때문에 이 계정으로 들어갈 수 없으므로 안에 무엇이 있는지 알 수 없습니다. 전체 디스크 접근 권한이 있으면 Peel이 macOS의 개인정보 보호는 통과할 수 있지만, 폴더 자체의 사용 권한은 통과할 수 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Niet geselecteerd: de bevoegdheden ervan houden Peel buiten, dus het is niet bekend wat erin zit. Ook met volledige schijftoegang kan Peel er niet in."
+            "value" : "Niet geselecteerd: de eigen bevoegdheden ervan sluiten je account buiten, dus het is niet bekend wat erin zit. Met volledige schijftoegang komt Peel langs de privacybescherming van macOS, maar niet langs de eigen bevoegdheden van een map."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nie zaznaczono: uprawnienia tego folderu nie dają aplikacji Peel dostępu, więc nie wiadomo, co jest w środku. Pełny dostęp do dysku tego nie zmienia."
+            "value" : "Nie zaznaczono: własne uprawnienia tego folderu nie dają Twojemu kontu dostępu, więc nie wiadomo, co jest w środku. Pełny dostęp do dysku pozwala aplikacji Peel ominąć zabezpieczenia prywatności w macOS, ale nie własne uprawnienia folderu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Não selecionado: as permissões deste item não deixam o Peel entrar, então não se sabe o que há ali. Nem o Acesso Total ao Disco permite abri-lo."
+            "value" : "Não selecionado: as permissões próprias deste item não deixam esta conta entrar, então não se sabe o que há ali. O Acesso Total ao Disco permite que o Peel ultrapasse as proteções de privacidade do macOS, mas não as permissões próprias de uma pasta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Neselectat: permisiunile sale nu permit accesul aplicației Peel, așa că nu se știe ce conține. Nici Acces complet la disc nu îl deschide."
+            "value" : "Neselectat: permisiunile sale proprii nu permit accesul contului dvs., așa că nu se știe ce conține. Acces complet la disc îi permite aplicației Peel să treacă de protecția intimității din macOS, nu și de permisiunile proprii ale unui dosar."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Не выбрано: права доступа не пускают Peel внутрь, поэтому содержимое неизвестно. Полный доступ к диску его не открывает."
+            "value" : "Не выбрано: собственные права доступа не пускают внутрь Вашу учетную запись, поэтому содержимое неизвестно. Полный доступ к диску снимает для Peel ограничения защиты конфиденциальности macOS, но не ограничения, заданные собственными правами доступа папки."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inte markerad: dess behörigheter stänger ute Peel, så det är inte känt vad som finns där inne. Full skivtillgång ger inte åtkomst till den."
+            "value" : "Inte markerad: dess egna behörigheter stänger ute ditt konto, så det är inte känt vad som finns där inne. Full skivtillgång låter Peel komma förbi macOS integritetsskydd, men inte förbi en mapps egna behörigheter."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seçilmedi: izinleri Peel’in içeri girmesini engelliyor, bu yüzden içinde ne olduğu bilinmiyor. Tam Disk Erişimi de onu açmaz."
+            "value" : "Seçilmedi: kendi izinleri hesabınızın içeri girmesini engelliyor, bu yüzden içinde ne olduğu bilinmiyor. Tam Disk Erişimi, Peel’in macOS’in gizlilik korumalarını aşmasına izin verir, bir klasörün kendi izinlerini aşmasına değil."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Не вибрано: привілеї цієї папки не пускають Peel усередину, тож невідомо, що в ній. Повний доступ до диска її не відкриває."
+            "value" : "Не вибрано: власні привілеї цієї папки не пускають до неї ваш обліковий запис, тож невідомо, що в ній. Повний доступ до диска відкриває Peel шлях крізь захист приватності macOS, але не крізь власні привілеї папки."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未选择：它的权限设置不允许Peel进入，因此无法知道里面有什么。完全磁盘访问权限也无法打开它。"
+            "value" : "未选择：它自身的权限设置不允许你的账户进入，因此无法知道里面有什么。完全磁盘访问权限能让Peel不受macOS隐私保护的限制，但无法让它越过文件夹自身的权限设置。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未選取：它的權限不允許Peel進入，因此無法得知其中有什麼。「完全取用磁碟」權限也無法讓Peel進入。"
+            "value" : "未選取：它本身的權限讓你的帳號無法進入，因此無法得知其中有什麼。「完全取用磁碟」權限能讓Peel越過macOS的隱私權保護，但無法越過檔案夾本身的權限。"
           }
         }
       }
@@ -187813,108 +187813,108 @@
         }
       }
     },
-    "Some of these folders have permissions of their own that keep your account out of them, and Full Disk Access doesn’t open those." : {
+    "Some of these folders have permissions of their own that keep your account out of them. Full Disk Access lets Peel past macOS’s privacy protections, not past a folder’s own permissions." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Některé z těchto složek mají vlastní oprávnění, která do nich váš účet nepustí, a plný přístup k disku je neotevře."
+            "value" : "Některé z těchto složek mají vlastní oprávnění, která do nich váš účet nepustí. Plný přístup k disku pustí Peel přes ochranu soukromí systému macOS, ale ne přes vlastní oprávnění složky."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Einige dieser Ordner haben eigene Zugriffsrechte, die deinen Benutzeraccount aussperren, und auch Festplattenvollzugriff öffnet diese nicht."
+            "value" : "Einige dieser Ordner haben eigene Zugriffsrechte, die deinen Benutzeraccount aussperren. Festplattenvollzugriff hebt für Peel die Datenschutzbeschränkungen von macOS auf, nicht aber die eigenen Zugriffsrechte eines Ordners."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Algunas de estas carpetas tienen sus propios permisos, que no dejan entrar a tu cuenta, y el acceso total al disco no las abre."
+            "value" : "Algunas de estas carpetas tienen sus propios permisos, que no dejan entrar a tu cuenta. El acceso total al disco permite a Peel ir más allá de las protecciones de privacidad de macOS, pero no de los propios permisos de una carpeta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Certains de ces dossiers ont leurs propres permissions, qui empêchent votre compte d’y accéder, et l’accès complet au disque ne permet pas de les ouvrir."
+            "value" : "Certains de ces dossiers ont leurs propres permissions, qui empêchent votre compte d’y accéder. L’accès complet au disque permet à Peel de franchir les protections de confidentialité de macOS, mais pas les permissions propres à un dossier."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alcune di queste cartelle hanno permessi propri che impediscono al tuo account di accedervi, e nemmeno l’accesso completo al disco consente di aprirle."
+            "value" : "Alcune di queste cartelle hanno permessi propri che impediscono al tuo account di accedervi. L’accesso completo al disco permette a Peel di superare le protezioni della privacy di macOS, non i permessi propri di una cartella."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これらのフォルダの一部は、フォルダ自体のアクセス権により、お使いのアカウントではアクセスできません。そのようなフォルダは、フルディスクアクセスがあっても開けません。"
+            "value" : "これらのフォルダの一部は、フォルダ自体のアクセス権により、お使いのアカウントではアクセスできません。フルディスクアクセスがあれば、PeelはmacOSのプライバシー保護を越えてアクセスできますが、フォルダ自体のアクセス権を越えることはできません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 폴더 중 일부는 자체 사용 권한 때문에 이 계정으로 들어갈 수 없으며, 전체 디스크 접근 권한으로도 열 수 없습니다."
+            "value" : "이 폴더 중 일부는 자체 사용 권한 때문에 이 계정으로 들어갈 수 없습니다. 전체 디스크 접근 권한이 있으면 Peel이 macOS의 개인정보 보호는 통과할 수 있지만, 폴더 자체의 사용 권한은 통과할 수 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sommige van deze mappen hebben eigen bevoegdheden die je account buitensluiten, en ook met volledige schijftoegang kan Peel daar niet in."
+            "value" : "Sommige van deze mappen hebben eigen bevoegdheden die je account buitensluiten. Met volledige schijftoegang komt Peel langs de privacybescherming van macOS, maar niet langs de eigen bevoegdheden van een map."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Niektóre z tych folderów mają własne uprawnienia, które nie dają Twojemu kontu dostępu do nich, a pełny dostęp do dysku tego nie zmienia."
+            "value" : "Niektóre z tych folderów mają własne uprawnienia, które nie dają Twojemu kontu dostępu do nich. Pełny dostęp do dysku pozwala aplikacji Peel ominąć zabezpieczenia prywatności w macOS, ale nie własne uprawnienia folderu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Algumas destas pastas têm permissões próprias que não deixam esta conta entrar nelas, e o Acesso Total ao Disco não abre essas pastas."
+            "value" : "Algumas destas pastas têm permissões próprias que não deixam esta conta entrar nelas. O Acesso Total ao Disco permite que o Peel ultrapasse as proteções de privacidade do macOS, mas não as permissões próprias de uma pasta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unele dintre aceste dosare au permisiuni proprii care nu permit accesul contului dvs., iar Acces complet la disc nu le deschide pe acestea."
+            "value" : "Unele dintre aceste dosare au permisiuni proprii care nu permit accesul contului dvs. la ele. Acces complet la disc îi permite aplicației Peel să treacă de protecția intimității din macOS, nu și de permisiunile proprii ale unui dosar."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "У некоторых из этих папок есть собственные права доступа, которые не пускают в них Вашу учетную запись, и полный доступ к диску их не открывает."
+            "value" : "У некоторых из этих папок есть собственные права доступа, которые не пускают в них Вашу учетную запись. Полный доступ к диску снимает для Peel ограничения защиты конфиденциальности macOS, но не ограничения, заданные собственными правами доступа папки."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Några av de här mapparna har egna behörigheter som stänger ute ditt konto, och full skivtillgång ger inte åtkomst till dem."
+            "value" : "Några av de här mapparna har egna behörigheter som stänger ute ditt konto. Full skivtillgång låter Peel komma förbi macOS integritetsskydd, men inte förbi en mapps egna behörigheter."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu klasörlerden bazılarının, hesabınızın içeri girmesini engelleyen kendi izinleri var ve Tam Disk Erişimi bunları açmaz."
+            "value" : "Bu klasörlerden bazılarının, hesabınızın içeri girmesini engelleyen kendi izinleri var. Tam Disk Erişimi, Peel’in macOS’in gizlilik korumalarını aşmasına izin verir, bir klasörün kendi izinlerini aşmasına değil."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Деякі з цих папок мають власні привілеї, які не пускають до них ваш обліковий запис, і повний доступ до диска таких папок не відкриває."
+            "value" : "Деякі з цих папок мають власні привілеї, які не пускають до них ваш обліковий запис. Повний доступ до диска відкриває Peel шлях крізь захист приватності macOS, але не крізь власні привілеї папки."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "其中一些文件夹有自己的权限设置，不允许你的账户进入，而完全磁盘访问权限也无法打开这些文件夹。"
+            "value" : "其中一些文件夹有自己的权限设置，不允许你的账户进入。完全磁盘访问权限能让Peel不受macOS隐私保护的限制，但无法让它越过文件夹自身的权限设置。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "其中部分檔案夾有自己的權限，讓你的帳號無法進入，而「完全取用磁碟」權限也無法讓Peel進入這些檔案夾。"
+            "value" : "其中部分檔案夾有自己的權限，讓你的帳號無法進入。「完全取用磁碟」權限能讓Peel越過macOS的隱私權保護，但無法越過檔案夾本身的權限。"
           }
         }
       }
@@ -205427,108 +205427,108 @@
         }
       }
     },
-    "The folder’s own permissions keep your account out of it, and Full Disk Access doesn’t open it." : {
+    "The folder’s own permissions keep your account out of it. Full Disk Access lets Peel past macOS’s privacy protections, not past a folder’s own permissions." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vlastní oprávnění této složky do ní váš účet nepustí a plný přístup k disku ji neotevře."
+            "value" : "Vlastní oprávnění této složky do ní váš účet nepustí. Plný přístup k disku pustí Peel přes ochranu soukromí systému macOS, ale ne přes vlastní oprávnění složky."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die eigenen Zugriffsrechte des Ordners sperren deinen Benutzeraccount aus, und auch Festplattenvollzugriff öffnet ihn nicht."
+            "value" : "Die eigenen Zugriffsrechte des Ordners sperren deinen Benutzeraccount aus. Festplattenvollzugriff hebt für Peel die Datenschutzbeschränkungen von macOS auf, nicht aber die eigenen Zugriffsrechte eines Ordners."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Los propios permisos de la carpeta no dejan entrar a tu cuenta, y el acceso total al disco no la abre."
+            "value" : "Los propios permisos de la carpeta no dejan entrar a tu cuenta. El acceso total al disco permite a Peel ir más allá de las protecciones de privacidad de macOS, pero no de los propios permisos de una carpeta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les permissions propres au dossier empêchent votre compte d’y accéder, et l’accès complet au disque ne permet pas de l’ouvrir."
+            "value" : "Les permissions propres au dossier empêchent votre compte d’y accéder. L’accès complet au disque permet à Peel de franchir les protections de confidentialité de macOS, mais pas les permissions propres à un dossier."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sono i permessi della cartella stessa a impedire al tuo account di accedervi, e nemmeno l’accesso completo al disco consente di aprirla."
+            "value" : "Sono i permessi della cartella stessa a impedire al tuo account di accedervi. L’accesso completo al disco permette a Peel di superare le protezioni della privacy di macOS, non i permessi propri di una cartella."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このフォルダ自体のアクセス権により、お使いのアカウントではアクセスできません。フルディスクアクセスがあっても開けません。"
+            "value" : "このフォルダ自体のアクセス権により、お使いのアカウントではアクセスできません。フルディスクアクセスがあれば、PeelはmacOSのプライバシー保護を越えてアクセスできますが、フォルダ自体のアクセス権を越えることはできません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 폴더는 자체 사용 권한 때문에 이 계정으로 들어갈 수 없으며, 전체 디스크 접근 권한으로도 열 수 없습니다."
+            "value" : "이 폴더는 자체 사용 권한 때문에 이 계정으로 들어갈 수 없습니다. 전체 디스크 접근 권한이 있으면 Peel이 macOS의 개인정보 보호는 통과할 수 있지만, 폴더 자체의 사용 권한은 통과할 수 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De eigen bevoegdheden van de map sluiten je account buiten, en ook met volledige schijftoegang kan Peel er niet in."
+            "value" : "De eigen bevoegdheden van de map sluiten je account buiten. Met volledige schijftoegang komt Peel langs de privacybescherming van macOS, maar niet langs de eigen bevoegdheden van een map."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Własne uprawnienia tego folderu nie dają Twojemu kontu dostępu do niego, a pełny dostęp do dysku tego nie zmienia."
+            "value" : "Własne uprawnienia tego folderu nie dają Twojemu kontu dostępu do niego. Pełny dostęp do dysku pozwala aplikacji Peel ominąć zabezpieczenia prywatności w macOS, ale nie własne uprawnienia folderu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As permissões da própria pasta não deixam esta conta entrar nela, e o Acesso Total ao Disco não a abre."
+            "value" : "As permissões da própria pasta não deixam esta conta entrar nela. O Acesso Total ao Disco permite que o Peel ultrapasse as proteções de privacidade do macOS, mas não as permissões próprias de uma pasta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Permisiunile proprii ale dosarului nu permit accesul contului dvs., iar Acces complet la disc nu îl deschide."
+            "value" : "Permisiunile proprii ale dosarului nu permit accesul contului dvs. la el. Acces complet la disc îi permite aplicației Peel să treacă de protecția intimității din macOS, nu și de permisiunile proprii ale unui dosar."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Собственные права доступа этой папки не пускают в нее Вашу учетную запись, и полный доступ к диску ее не открывает."
+            "value" : "Собственные права доступа этой папки не пускают в нее Вашу учетную запись. Полный доступ к диску снимает для Peel ограничения защиты конфиденциальности macOS, но не ограничения, заданные собственными правами доступа папки."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mappens egna behörigheter stänger ute ditt konto, och full skivtillgång ger inte åtkomst till den."
+            "value" : "Mappens egna behörigheter stänger ute ditt konto. Full skivtillgång låter Peel komma förbi macOS integritetsskydd, men inte förbi en mapps egna behörigheter."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Klasörün kendi izinleri hesabınızın içeri girmesini engelliyor ve Tam Disk Erişimi onu açmaz."
+            "value" : "Klasörün kendi izinleri hesabınızın içeri girmesini engelliyor. Tam Disk Erişimi, Peel’in macOS’in gizlilik korumalarını aşmasına izin verir, bir klasörün kendi izinlerini aşmasına değil."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Власні привілеї цієї папки не пускають до неї ваш обліковий запис, і повний доступ до диска її не відкриває."
+            "value" : "Власні привілеї цієї папки не пускають до неї ваш обліковий запис. Повний доступ до диска відкриває Peel шлях крізь захист приватності macOS, але не крізь власні привілеї папки."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此文件夹自身的权限设置不允许你的账户进入，而完全磁盘访问权限也无法打开它。"
+            "value" : "此文件夹自身的权限设置不允许你的账户进入。完全磁盘访问权限能让Peel不受macOS隐私保护的限制，但无法让它越过文件夹自身的权限设置。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此檔案夾本身的權限讓你的帳號無法進入，而「完全取用磁碟」權限也無法讓Peel進入。"
+            "value" : "此檔案夾本身的權限讓你的帳號無法進入。「完全取用磁碟」權限能讓Peel越過macOS的隱私權保護，但無法越過檔案夾本身的權限。"
           }
         }
       }
@@ -212639,108 +212639,108 @@
         }
       }
     },
-    "These folders’ own permissions keep your account out of them, and Full Disk Access doesn’t open them." : {
+    "These folders’ own permissions keep your account out of them. Full Disk Access lets Peel past macOS’s privacy protections, not past a folder’s own permissions." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vlastní oprávnění těchto složek do nich váš účet nepustí a plný přístup k disku je neotevře."
+            "value" : "Vlastní oprávnění těchto složek do nich váš účet nepustí. Plný přístup k disku pustí Peel přes ochranu soukromí systému macOS, ale ne přes vlastní oprávnění složky."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die eigenen Zugriffsrechte dieser Ordner sperren deinen Benutzeraccount aus, und auch Festplattenvollzugriff öffnet sie nicht."
+            "value" : "Die eigenen Zugriffsrechte dieser Ordner sperren deinen Benutzeraccount aus. Festplattenvollzugriff hebt für Peel die Datenschutzbeschränkungen von macOS auf, nicht aber die eigenen Zugriffsrechte eines Ordners."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Los propios permisos de estas carpetas no dejan entrar a tu cuenta, y el acceso total al disco no las abre."
+            "value" : "Los propios permisos de estas carpetas no dejan entrar a tu cuenta. El acceso total al disco permite a Peel ir más allá de las protecciones de privacidad de macOS, pero no de los propios permisos de una carpeta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les permissions propres à ces dossiers empêchent votre compte d’y accéder, et l’accès complet au disque ne permet pas de les ouvrir."
+            "value" : "Les permissions propres à ces dossiers empêchent votre compte d’y accéder. L’accès complet au disque permet à Peel de franchir les protections de confidentialité de macOS, mais pas les permissions propres à un dossier."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sono i permessi di queste cartelle a impedire al tuo account di accedervi, e nemmeno l’accesso completo al disco consente di aprirle."
+            "value" : "Sono i permessi di queste cartelle a impedire al tuo account di accedervi. L’accesso completo al disco permette a Peel di superare le protezioni della privacy di macOS, non i permessi propri di una cartella."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これらのフォルダ自体のアクセス権により、お使いのアカウントではアクセスできません。フルディスクアクセスがあっても開けません。"
+            "value" : "これらのフォルダ自体のアクセス権により、お使いのアカウントではアクセスできません。フルディスクアクセスがあれば、PeelはmacOSのプライバシー保護を越えてアクセスできますが、フォルダ自体のアクセス権を越えることはできません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 폴더들은 자체 사용 권한 때문에 이 계정으로 들어갈 수 없으며, 전체 디스크 접근 권한으로도 열 수 없습니다."
+            "value" : "이 폴더들은 자체 사용 권한 때문에 이 계정으로 들어갈 수 없습니다. 전체 디스크 접근 권한이 있으면 Peel이 macOS의 개인정보 보호는 통과할 수 있지만, 폴더 자체의 사용 권한은 통과할 수 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De eigen bevoegdheden van deze mappen sluiten je account buiten, en ook met volledige schijftoegang kan Peel er niet in."
+            "value" : "De eigen bevoegdheden van deze mappen sluiten je account buiten. Met volledige schijftoegang komt Peel langs de privacybescherming van macOS, maar niet langs de eigen bevoegdheden van een map."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Własne uprawnienia tych folderów nie dają Twojemu kontu dostępu do nich, a pełny dostęp do dysku tego nie zmienia."
+            "value" : "Własne uprawnienia tych folderów nie dają Twojemu kontu dostępu do nich. Pełny dostęp do dysku pozwala aplikacji Peel ominąć zabezpieczenia prywatności w macOS, ale nie własne uprawnienia folderu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As permissões das próprias pastas não deixam esta conta entrar nelas, e o Acesso Total ao Disco não as abre."
+            "value" : "As permissões das próprias pastas não deixam esta conta entrar nelas. O Acesso Total ao Disco permite que o Peel ultrapasse as proteções de privacidade do macOS, mas não as permissões próprias de uma pasta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Permisiunile proprii ale acestor dosare nu permit accesul contului dvs., iar Acces complet la disc nu le deschide."
+            "value" : "Permisiunile proprii ale acestor dosare nu permit accesul contului dvs. la ele. Acces complet la disc îi permite aplicației Peel să treacă de protecția intimității din macOS, nu și de permisiunile proprii ale unui dosar."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Собственные права доступа этих папок не пускают в них Вашу учетную запись, и полный доступ к диску их не открывает."
+            "value" : "Собственные права доступа этих папок не пускают в них Вашу учетную запись. Полный доступ к диску снимает для Peel ограничения защиты конфиденциальности macOS, но не ограничения, заданные собственными правами доступа папки."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De här mapparnas egna behörigheter stänger ute ditt konto, och full skivtillgång ger inte åtkomst till dem."
+            "value" : "De här mapparnas egna behörigheter stänger ute ditt konto. Full skivtillgång låter Peel komma förbi macOS integritetsskydd, men inte förbi en mapps egna behörigheter."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu klasörlerin kendi izinleri hesabınızın içeri girmesini engelliyor ve Tam Disk Erişimi onları açmaz."
+            "value" : "Bu klasörlerin kendi izinleri hesabınızın içeri girmesini engelliyor. Tam Disk Erişimi, Peel’in macOS’in gizlilik korumalarını aşmasına izin verir, bir klasörün kendi izinlerini aşmasına değil."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Власні привілеї цих папок не пускають до них ваш обліковий запис, і повний доступ до диска їх не відкриває."
+            "value" : "Власні привілеї цих папок не пускають до них ваш обліковий запис. Повний доступ до диска відкриває Peel шлях крізь захист приватності macOS, але не крізь власні привілеї папки."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "这些文件夹自身的权限设置不允许你的账户进入，而完全磁盘访问权限也无法打开它们。"
+            "value" : "这些文件夹自身的权限设置不允许你的账户进入。完全磁盘访问权限能让Peel不受macOS隐私保护的限制，但无法让它越过文件夹自身的权限设置。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這些檔案夾本身的權限讓你的帳號無法進入，而「完全取用磁碟」權限也無法讓Peel進入。"
+            "value" : "這些檔案夾本身的權限讓你的帳號無法進入。「完全取用磁碟」權限能讓Peel越過macOS的隱私權保護，但無法越過檔案夾本身的權限。"
           }
         }
       }

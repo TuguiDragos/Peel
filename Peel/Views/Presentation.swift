@@ -492,7 +492,7 @@ extension HoldBack {
         case .couldNotBeRead:
             "Not selected: macOS wouldn’t let Peel read inside, so what is in there isn’t known. If Peel doesn’t have Full Disk Access yet, turning it on from Home may let it see."
         case .closedByPermissions:
-            "Not selected: its permissions keep Peel out, so what is in there isn’t known. Full Disk Access doesn’t open it."
+            "Not selected: its own permissions keep your account out, so what is in there isn’t known. Full Disk Access lets Peel past macOS’s privacy protections, not past a folder’s own permissions."
         case .couldNotLookInside:
             "Left alone: macOS wouldn’t let Peel look inside to make sure nothing Peel protects, such as a library or a wallet, is there. If Peel doesn’t have Full Disk Access yet, turning it on from Home may let it see."
         case .holdsDocuments:

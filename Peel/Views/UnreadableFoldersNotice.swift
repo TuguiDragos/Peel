@@ -50,11 +50,11 @@ struct UnreadableFoldersNotice: View {
     static func whyNotRead(closed: Int, of count: Int) -> String? {
         if closed == 0 { return nil }
         if closed < count {
-            return String(localized: "Some of these folders have permissions of their own that keep your account out of them, and Full Disk Access doesn’t open those.")
+            return String(localized: "Some of these folders have permissions of their own that keep your account out of them. Full Disk Access lets Peel past macOS’s privacy protections, not past a folder’s own permissions.")
         }
         return closed == 1
-            ? String(localized: "The folder’s own permissions keep your account out of it, and Full Disk Access doesn’t open it.")
-            : String(localized: "These folders’ own permissions keep your account out of them, and Full Disk Access doesn’t open them.")
+            ? String(localized: "The folder’s own permissions keep your account out of it. Full Disk Access lets Peel past macOS’s privacy protections, not past a folder’s own permissions.")
+            : String(localized: "These folders’ own permissions keep your account out of them. Full Disk Access lets Peel past macOS’s privacy protections, not past a folder’s own permissions.")
     }
 }
 

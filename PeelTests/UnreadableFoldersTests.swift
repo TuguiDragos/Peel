@@ -43,7 +43,7 @@ struct UnreadableFoldersTests {
         let advice = UnreadableFoldersNotice.detail(naming: [], closed: 0, needsFullDiskAccess: true)
 
         #expect(sentences.allSatisfy { $0.contains("own permissions") || $0.contains("permissions of their own") })
-        #expect(sentences.allSatisfy { $0.contains("Full Disk Access doesn’t") })
+        #expect(sentences.allSatisfy { $0.contains("Full Disk Access lets Peel past macOS’s privacy protections, not past a folder’s own permissions.") })
         #expect(advice.contains("Home"))
         #expect(!advice.contains("System Settings"))
     }
