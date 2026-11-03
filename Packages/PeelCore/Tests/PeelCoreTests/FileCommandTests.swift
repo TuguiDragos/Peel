@@ -818,6 +818,16 @@ struct FileCommandTests {
         #expect(message.contains("\(finder): it is an app or another package, or inside one, and what is inside belongs to it"))
     }
 
+    @Test func saysWhenAnOrphanGroupWasModifiedAndWhyItMatters() {
+        let date = Date(timeIntervalSince1970: 1_792_315_250)
+        let recent = OrphanConfidence(level: .unsure, reasons: [.writtenRecently(date)]).summary
+        let later = OrphanConfidence(level: .unsure, reasons: [.writtenAfterItLeft(name: "Example", written: date)]).summary
+
+        #expect(recent == "modified on \(Output.day(date)), so something may still use these files")
+        #expect(later == "modified on \(Output.day(date)), after Peel last saw Example installed, so something may still use these files")
+        #expect(OrphanConfidence(level: .certain, reasons: [.untouched(months: 7)]).summary == "not modified in 7 months")
+    }
+
     @Test func namesTheFolderThatKeepsAProjectSearchOut() throws {
         let directory = try TemporaryDirectory()
         let installed = try directory.directory("Code/app/node_modules/org-example-dep")
