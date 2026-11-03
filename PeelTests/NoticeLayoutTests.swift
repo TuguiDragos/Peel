@@ -81,6 +81,21 @@ struct NoticeLayoutTests {
         #expect(reopen.height > frames.panel.height / 2)
         #expect(abs(reopen.maxX - (frames.panel.maxX - 12)) < 1)
     }
+
+    @Test func aDetailWrapsBesideALongButtonRatherThanLeaveItALine() async throws {
+        let frames = Frames()
+        let view = Notice(
+            title: Text(verbatim: "Peel couldn’t read your exclusions"),
+            detail: Text(verbatim: "Peel removes nothing and puts nothing back until you start the list over in Settings.")
+        ) {
+            button("Open Peel Settings", into: frames)
+        }
+        .measured(into: frames)
+        let open = try #require(await laidOut(view, width: 560, frames: frames, buttons: 1).buttons["Open Peel Settings"])
+
+        #expect(abs(open.midY - frames.panel.midY) < 1)
+        #expect(abs(open.maxX - (frames.panel.maxX - 12)) < 1)
+    }
 }
 
 @MainActor
@@ -120,7 +135,7 @@ struct UpdatePanelLayoutTests {
     }
 
     @Test func underALongTextTheButtonStandsBelowIt() async throws {
-        let frames = await panel(paragraph, width: 900)
+        let frames = await panel([paragraph, paragraph, paragraph].joined(separator: "\n\n"), width: 900)
         let open = try #require(frames.buttons["Open Tidewater"])
 
         #expect(abs(open.maxY - (frames.panel.maxY - 12)) < 1)

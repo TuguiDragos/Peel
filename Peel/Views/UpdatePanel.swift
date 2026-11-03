@@ -14,17 +14,10 @@ struct UpdatePanel<Detail: View, Action: View>: View {
         HStack(alignment: .words, spacing: 12) {
             mark
             VStack(alignment: .leading, spacing: 12) {
-                ViewThatFits(in: .horizontal) {
-                    HStack(spacing: 12) {
-                        words
-                        Spacer(minLength: 12)
-                        action
-                    }
-                    VStack(alignment: .leading, spacing: 0) {
-                        words
-                        ActionRow(top: 10) { action }
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                NoticeLayout(actionsGap: 12, actionsTop: 10) {
+                    words
+                    ActionRow { action }
+                        .noticePart(.actions)
                 }
                 if let notes {
                     Divider()

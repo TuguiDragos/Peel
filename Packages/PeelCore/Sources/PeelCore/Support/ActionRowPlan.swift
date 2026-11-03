@@ -10,11 +10,9 @@ public struct ActionRowPlan: Equatable, Sendable {
 
     /// - Parameters:
     ///   - sizes: Each button's own size. What has no width, a group with nothing to show, takes no room.
-    ///   - top: The space above the buttons, left out with them when none shows.
     ///   - leading: Which buttons lead, by their place in `sizes`.
     public init(
-        sizes: [CGSize], width: CGFloat?, spacing: CGFloat = 8, lineSpacing: CGFloat = 6, top: CGFloat = 0,
-        leading: [Bool] = []
+        sizes: [CGSize], width: CGFloat?, spacing: CGFloat = 8, lineSpacing: CGFloat = 6, leading: [Bool] = []
     ) {
         let shown = sizes.indices.filter { sizes[$0].width > 0 }
         let leads = shown.filter { leading.indices.contains($0) && leading[$0] }
@@ -30,7 +28,7 @@ public struct ActionRowPlan: Equatable, Sendable {
         lines += oneLine ? [Line(leading: leads, trailing: follows)] : trailing
 
         var frames = [CGRect](repeating: .zero, count: sizes.count)
-        var y = top
+        var y: CGFloat = 0
         for line in lines {
             let height = (line.leading + line.trailing).reduce(0) { max($0, sizes[$1].height) }
             func place(_ index: Int, at x: CGFloat) {

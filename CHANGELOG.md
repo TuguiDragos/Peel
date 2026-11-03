@@ -436,8 +436,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   no room. What concerns one row sits at that row's right end, and a section heading with nothing under it keeps its
   button beside it.
 - Show in Finder is Finder's own symbol at the end of the row that says where the item is.
-- A notice's buttons stand beside its words only while each line of the words fits there, and otherwise under them at
-  the right, the main action last.
+- A notice's buttons stand at its right, centered on its words, wherever the notice comes out shorter so and its title
+  keeps its line, and otherwise under the words at the right, the main action last; the notice's symbol stands as far
+  in from its edge as its buttons.
 - Where macOS keeps Peel out until it has Full Disk Access, the notice says to turn it on from Home, with Open Home,
   and a folder whose own permissions keep your account out says that Full Disk Access takes Peel past macOS's privacy
   protections, not past a folder's own permissions.

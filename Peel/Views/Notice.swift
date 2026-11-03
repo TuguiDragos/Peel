@@ -26,39 +26,25 @@ struct Notice<Actions: View>: View {
     @ViewBuilder let actions: Actions
 
     var body: some View {
-        // The buttons go beside the words only while each line of them fits there whole, else under them at the right.
-        ViewThatFits(in: .horizontal) {
-            HStack(spacing: 10) {
-                mark
-                words
-                Spacer(minLength: 10)
-                buttons
-            }
-            VStack(alignment: .leading, spacing: 0) {
-                HStack(alignment: .top, spacing: 10) {
-                    mark
-                    words
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                ActionRow(top: 8) { buttons }
-            }
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 8)
-        .modifier(NoticeBackground(isAlbum: isAlbum))
-    }
-
-    private var words: some View {
-        VStack(alignment: .leading, spacing: 1) {
+        NoticeLayout(markGap: isAlbum ? 10 : 8) {
+            mark
+                .noticePart(.mark)
             title
                 .font(isAlbum ? .system(size: 12.5, weight: .bold, design: .rounded) : .callout.weight(.semibold))
                 .foregroundStyle(titleColor)
+                .noticePart(.words)
             if let detail {
                 detail
                     .font(isAlbum ? .system(size: 11) : .caption)
                     .foregroundStyle(.secondary)
+                    .noticePart(.detail)
             }
+            ActionRow { buttons }
+                .noticePart(.actions)
         }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .modifier(NoticeBackground(isAlbum: isAlbum))
     }
 
     /// Bordered buttons outside the album, so a page's one prominent button stays its main action.
@@ -105,7 +91,8 @@ struct Notice<Actions: View>: View {
             Image(systemName: systemImage ?? kindSymbol)
                 .font(.system(size: 16))
                 .foregroundStyle(tint)
-                .frame(width: 26)
+                // At the panel's inset, as the buttons are on the other side; 24 holds the widest symbol, hammer.
+                .frame(width: 24, alignment: .leading)
                 // VoiceOver hears the kind's own symbol, Info or Warning, whichever symbol is drawn.
                 .accessibilityRepresentation { Image(systemName: kindSymbol) }
         }

@@ -44,13 +44,6 @@ struct ActionRowPlanTests {
         #expect(ActionRowPlan(sizes: [], width: 400).size.height == 0)
     }
 
-    @Test func theSpaceAboveTheActionsIsThereOnlyWhileOneShows() {
-        let plan = ActionRowPlan(sizes: [small], width: 400, top: 8)
-        #expect(plan.frames == [CGRect(x: 300, y: 8, width: 100, height: 28)])
-        #expect(plan.size.height == 36)
-        #expect(ActionRowPlan(sizes: [.zero], width: 400, top: 8).size.height == 0)
-    }
-
     @Test func leadingActionsStandAtTheLeftEdgeOnTheLineOfTheOthers() {
         let plan = ActionRowPlan(sizes: [small, small, small], width: 400, spacing: 8, leading: [true, true, false])
         #expect(plan.frames.map(\.minX) == [0, 108, 300])
