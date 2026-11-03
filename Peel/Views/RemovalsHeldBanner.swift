@@ -6,15 +6,16 @@ import SwiftUI
 enum MovesHeld: Equatable {
     case exclusionsUnreadable
     case historyUnreadable
-    case historyUnwritable
+    case historyUnwritable(HistoryWriteProblem)
 
     static func reason(
-        exclusionsUnreadable: Bool, historyUnreadable: Bool, historyUnwritable: Bool, recordsInHistory: Bool = true
+        exclusionsUnreadable: Bool, historyUnreadable: Bool, historyUnwritable: HistoryWriteProblem?,
+        recordsInHistory: Bool = true
     ) -> MovesHeld? {
         if exclusionsUnreadable { return .exclusionsUnreadable }
         guard recordsInHistory else { return nil }
         if historyUnreadable { return .historyUnreadable }
-        return historyUnwritable ? .historyUnwritable : nil
+        return historyUnwritable.map(MovesHeld.historyUnwritable)
     }
 
     @MainActor
@@ -23,7 +24,7 @@ enum MovesHeld: Equatable {
     ) -> MovesHeld? {
         reason(
             exclusionsUnreadable: exclusions.exclusions.isUnreadable, historyUnreadable: history.isUnreadable,
-            historyUnwritable: history.cannotBeWritten, recordsInHistory: recordsInHistory
+            historyUnwritable: history.writeProblem, recordsInHistory: recordsInHistory
         )
     }
 }
@@ -61,11 +62,8 @@ struct RemovalsHeldBanner: View {
             }
             .padding(.vertical, 6)
             .listRowSeparator(.hidden)
-        } else if held == .historyUnwritable {
-            Notice(
-                title: Text("Peel can’t write History"),
-                detail: Text("The disk is full, or Peel’s folder can’t be written. Peel removes nothing until it can, so that everything it moves can be put back.")
-            ) {}
+        } else if case .historyUnwritable(let problem) = held {
+            Notice(title: Text("Peel can’t write History"), detail: Text(problem.explanation())) {}
             .padding(.vertical, 6)
             .listRowSeparator(.hidden)
         }

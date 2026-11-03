@@ -172,8 +172,8 @@ struct RemovalJournalTests {
         let journal = RemovalJournal(beside: history)
         try FileManager.default.createDirectory(at: journal.url, withIntermediateDirectories: true)
 
-        #expect(!RemovalLog.canBeWritten(at: history))
-        #expect(!journal.historyCanBeWritten)
+        #expect(RemovalLog.writeProblem(at: history) == .journalUnreadable(journal.url))
+        #expect(journal.historyWriteProblem == .journalUnreadable(journal.url))
     }
 
     @Test func aJournalThatCannotBeReadIsKeptAsideAndSaid() async throws {
@@ -190,7 +190,35 @@ struct RemovalJournalTests {
         }
         #expect(aside.isThere)
         #expect(journal.url.isMissing)
-        #expect(RemovalLog.canBeWritten(at: history))
+        #expect(RemovalLog.writeProblem(at: history) == nil)
+    }
+
+    @Test func aJournalThatCannotBeReadIsKeptAsideWithoutReadingHistory() async throws {
+        let directory = try TemporaryDirectory()
+        let history = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
+        let journal = RemovalJournal(beside: history)
+        try FileManager.default.createDirectory(at: journal.url, withIntermediateDirectories: true)
+
+        let problem = await RemovalLog(url: history).setAsideAnUnreadableJournal()
+
+        guard case .damaged(let aside) = problem else {
+            Issue.record("nothing said: \(String(describing: problem))")
+            return
+        }
+        #expect(aside.isThere)
+        #expect(journal.url.isMissing)
+        #expect(RemovalLog.writeProblem(at: history) == nil)
+    }
+
+    @Test(.permissionsHold) func aJournalThisAccountCannotWriteIsNamed() throws {
+        let directory = try TemporaryDirectory()
+        let history = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
+        let journal = RemovalJournal(beside: history)
+        _ = try directory.file("Peel/removals.journal", contents: Data())
+        try directory.setPermissions(0o444, of: "Peel/removals.journal")
+        defer { try? directory.setPermissions(0o644, of: "Peel/removals.journal") }
+
+        #expect(RemovalLog.writeProblem(at: history) == .journalNotWritable(journal.url))
     }
 
     @Test func anItemPutBackLeavesTheJournal() async throws {
@@ -370,20 +398,25 @@ struct RemovalJournalTests {
             return directory.url.appending(path: "home/.Trash/\(url.lastPathComponent)")
         }
 
-        #expect(service.refusalOfEveryMove == .historyCannotBeWritten)
+        let folder = history.deletingLastPathComponent()
+        let refusal = TrashFailure.Reason.historyCannotBeWritten(.folderNotWritable(folder))
+        #expect(service.refusalOfEveryMove == refusal)
         let result = await service.trash([item])
 
         #expect(moved.withLock { $0 }.isEmpty)
-        #expect(result.failures.map(\.reason) == [.historyCannotBeWritten])
+        #expect(result.failures.map(\.reason) == [refusal])
     }
 
     @Test func historyNeedsRoomForTheCopyItsWriteMakes() throws {
         let directory = try TemporaryDirectory()
         let history = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
 
-        #expect(RemovalLog.canBeWritten(at: history))
-        #expect(RemovalLog.canBeWritten(at: directory.url.appending(path: "Missing/Peel/removals.json")))
-        #expect(!RemovalLog.canBeWritten(at: history, freeSpace: { _ in 1_000 }))
+        #expect(RemovalLog.writeProblem(at: history) == nil)
+        #expect(RemovalLog.writeProblem(at: directory.url.appending(path: "Missing/Peel/removals.json")) == nil)
+        let full = HistoryWriteProblem.diskFull(free: 1_000, needed: 1_000_002)
+        #expect(RemovalLog.writeProblem(at: history, freeSpace: { _ in 1_000 }) == full)
+        let folder = history.deletingLastPathComponent()
+        #expect(RemovalLog.writeProblem(at: history, freeSpace: { _ in nil }) == .freeSpaceNotKnown(folder))
     }
 
     /// Peel's folder holds the journal, and Peel moves it last as it removes itself: that move is not written

@@ -43,6 +43,28 @@ struct RemovalHistoryStoreTests {
         #expect(history.undoTitle == nil, "Undo still offered what peel put back")
     }
 
+    @Test func aJournalThatCannotBeReadHoldsNothingBackOnceChecked() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        try FileManager.default.createDirectory(
+            at: folder.appending(path: "removals.journal"), withIntermediateDirectories: true
+        )
+        let history = RemovalHistoryStore(
+            log: RemovalLog(url: folder.appending(path: "removals.json")),
+            refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+            knowsTheExclusions: { true }
+        )
+
+        await history.checkReadability()
+
+        #expect(history.writeProblem == nil)
+        #expect(history.mayMove)
+        guard case .damaged = history.problem else {
+            Issue.record("nothing said: \(String(describing: history.problem))")
+            return
+        }
+    }
+
     @Test func saysOnceWhatHistoryNoLongerLists() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }

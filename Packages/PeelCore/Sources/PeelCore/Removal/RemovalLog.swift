@@ -64,6 +64,19 @@ public actor RemovalLog {
         FileLock.whileReading(beside: url) { outcome(current()) }
     }
 
+    /// Keeps a journal that can't be read aside, as a read of History does, so it holds no removal back, and answers
+    /// the problem the log has then.
+    public func setAsideAnUnreadableJournal() -> RemovalLogProblem? {
+        if journal.isUnreadable { whileNoOtherProcessWrites { keepAsideAnUnreadableJournal() } }
+        return problem
+    }
+
+    private func keepAsideAnUnreadableJournal() {
+        if let setAside = journal.setAsideIfUnreadable() {
+            note(.damaged(setAside: setAside))
+        }
+    }
+
     /// The places in the Trash where an item Peel moved still is, whichever process moved it: what History records
     /// and what a removal under way has written down so far. Spelled as `PathPattern.comparablePath` spells them.
     public func placesInTheTrash() -> Set<String> {
@@ -125,18 +138,21 @@ public actor RemovalLog {
         url.isMissing || BoundedRead.opens(url, maximum: maximumBytes)
     }
 
-    /// Whether a removal could be recorded in History at `url` now: the folder it is written into can be written, its
-    /// disk has room for the copy a safe write makes of the whole file, with a megabyte to spare, and the journal
-    /// beside it can take what moves meanwhile.
-    public static func canBeWritten(
+    /// Why a removal couldn't be recorded in History at `url` now, or nil when it could: the folder it is written
+    /// into can be written, its disk has room for the copy a safe write makes of the whole file, with a megabyte to
+    /// spare, and the journal beside it can take what moves meanwhile.
+    public static func writeProblem(
         at url: URL = RemovalHistory.defaultURL,
         freeSpace: (URL) -> UInt64? = RemovalLog.freeSpace(at:)
-    ) -> Bool {
+    ) -> HistoryWriteProblem? {
         var folder = url.deletingLastPathComponent()
         while folder.isMissing, folder.path(percentEncoded: false) != "/" { folder = folder.deletingLastPathComponent() }
-        guard access(folder.path(percentEncoded: false), W_OK) == 0, let free = freeSpace(folder) else { return false }
+        guard access(folder.path(percentEncoded: false), W_OK) == 0 else { return .folderNotWritable(folder) }
+        guard let free = freeSpace(folder) else { return .freeSpaceNotKnown(folder) }
         let size = (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize).map { UInt64($0) } ?? 0
-        return free >= size + 1_000_000 && RemovalJournal(beside: url).canBeWritten
+        let needed = size + 1_000_000
+        guard free >= needed else { return .diskFull(free: Int64(clamping: free), needed: Int64(clamping: needed)) }
+        return RemovalJournal(beside: url).writeProblem
     }
 
     /// The space free on the disk holding `folder`, as `statfs(2)` gives it.
@@ -200,9 +216,7 @@ public actor RemovalLog {
     /// lines go. An item History already has is not recorded again: a process may have stopped after writing
     /// History and before letting its lines go.
     private func takingInInterrupted(_ records: [RemovalRecord]) -> [RemovalRecord] {
-        if let setAside = journal.setAsideIfUnreadable() {
-            note(.damaged(setAside: setAside))
-        }
+        keepAsideAnUnreadableJournal()
         let left = journal.left()
         guard !left.isEmpty else { return records }
         let recorded = Set(records.map { RemovalJournal.Key($0.trashedItem) })

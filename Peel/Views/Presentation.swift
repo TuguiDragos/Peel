@@ -205,7 +205,8 @@ extension TrashFailure.Reason {
         case .movedWithoutATrace: String(localized: "It is in the Trash, but macOS didn’t say where, so it can only be put back from Finder.", bundle: bundle)
         case .somethingElseMoved(let name): String(localized: "Something else was at that path by the time it moved. It is in the Trash as \(name), and Finder can put it back.", bundle: bundle)
         case .historyUnreadable: String(localized: "Peel couldn’t read History, and it moves nothing it can’t put back.", bundle: bundle)
-        case .historyCannotBeWritten: String(localized: "Peel couldn’t write to History, because the disk is full or Peel’s folder can’t be written, and it moves nothing it can’t put back.", bundle: bundle)
+        case .historyCannotBeWritten(let problem?): problem.explanation(in: bundle)
+        case .historyCannotBeWritten(nil): String(localized: "Peel couldn’t write to History then, and it moves nothing it can’t put back.", bundle: bundle)
         case .peelRemovesItself: String(localized: "Peel is removing itself, so it moves nothing else meanwhile.", bundle: bundle)
         case .heldOpen(let processes):
             String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), then try again.", bundle: bundle)
@@ -231,6 +232,25 @@ extension TrashFailure.Reason {
         case .attachedDiskImage:
             String(localized: "It is a disk image that is open right now. Eject it, then try again.", bundle: bundle)
         case .failed(let message): FixedSentence.translated(message, in: bundle)
+        }
+    }
+}
+
+extension HistoryWriteProblem {
+    /// What keeps History from being written, and that nothing moves meanwhile, read from `bundle`, or from the main
+    /// bundle when it is nil.
+    func explanation(in bundle: Bundle? = nil) -> String {
+        switch self {
+        case .folderNotWritable(let folder):
+            String(localized: "This account can’t write to \(folder.abbreviatedPath), where Peel keeps History. Peel removes nothing until it can, so that everything it moves can be put back.", bundle: bundle)
+        case .diskFull(let free, let needed):
+            String(localized: "The disk that holds Peel’s folder has \(free.formatted(.byteCount(style: .file))) free, and writing History needs \(needed.formatted(.byteCount(style: .file))). Peel removes nothing until there is room, so that everything it moves can be put back.", bundle: bundle)
+        case .freeSpaceNotKnown(let folder):
+            String(localized: "macOS didn’t say how much room is free on the disk that holds \(folder.abbreviatedPath). Peel removes nothing until it knows, so that everything it moves can be put back.", bundle: bundle)
+        case .journalUnreadable(let journal):
+            String(localized: "Something Peel can’t use stands at \(journal.abbreviatedPath), where it writes down each move, and Peel couldn’t set it aside. Peel removes nothing until it’s gone, so that everything it moves can be put back.", bundle: bundle)
+        case .journalNotWritable(let journal):
+            String(localized: "This account can’t write \(journal.abbreviatedPath), where Peel writes down each move. Peel removes nothing until it can, so that everything it moves can be put back.", bundle: bundle)
         }
     }
 }

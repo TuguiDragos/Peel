@@ -170,8 +170,8 @@ final class RemovalHistoryStore {
     /// Whether History cannot be read, which holds every removal back, as the Trash service does. Known without
     /// reading it: at launch, when Peel comes forward, and with every read or change of History.
     private(set) var isUnreadable = false
-    /// Whether History cannot be written, as on a full disk, which holds every removal back too. Known the same way.
-    private(set) var cannotBeWritten = false
+    /// Why History cannot be written, as on a full disk, which holds every removal back too. Known the same way.
+    private(set) var writeProblem: HistoryWriteProblem?
     private(set) var isRestoring = false
     var selection: RemovalBatch.ID?
     /// By record, not by path: Space and Developer move the same cache folders again and again, so one path
@@ -289,12 +289,15 @@ final class RemovalHistoryStore {
         defaults.set(count, forKey: SettingsKey.toldNoLongerListed)
     }
 
-    /// Looks again at whether History can be read and written, which costs no read of it.
-    func checkReadability() {
+    /// Looks again at whether History can be read and written, which costs no read of it. A journal that can't be read
+    /// is kept aside first, as a read of History keeps it, so it holds nothing back.
+    func checkReadability() async {
+        let problem = await log.setAsideAnUnreadableJournal()
+        if self.problem != problem { self.problem = problem }
         let unreadable = !RemovalLog.canBeRead(at: log.url)
-        let unwritable = !unreadable && !RemovalLog.canBeWritten(at: log.url)
+        let writeProblem = unreadable ? nil : RemovalLog.writeProblem(at: log.url)
         if isUnreadable != unreadable { isUnreadable = unreadable }
-        if cannotBeWritten != unwritable { cannotBeWritten = unwritable }
+        if self.writeProblem != writeProblem { self.writeProblem = writeProblem }
     }
 
     /// Keeps a History that cannot be read beside a new one, and records again.
@@ -400,7 +403,7 @@ final class RemovalHistoryStore {
         if !result.failures.isEmpty {
             await loadRefusals()
         }
-        checkReadability()
+        await checkReadability()
     }
 
     /// Tells what `removal` moved once every part of it is recorded: the bar's "Moved", VoiceOver, the lifetime
@@ -431,7 +434,7 @@ final class RemovalHistoryStore {
         if removesPeel() { return .peelRemovesItself }
         guard knowsTheExclusions() else { return .guarded(.exclusionsNotKnown) }
         if isUnreadable { return .historyUnreadable }
-        return cannotBeWritten ? .historyCannotBeWritten : nil
+        return writeProblem.map(TrashFailure.Reason.historyCannotBeWritten)
     }
 
     var mayMove: Bool { holdingReason == nil }
@@ -464,7 +467,7 @@ final class RemovalHistoryStore {
     /// records listed already.
     private func apply(_ outcome: RemovalLogOutcome) async {
         problem = outcome.problem
-        checkReadability()
+        await checkReadability()
         if noLongerListed != outcome.noLongerListed {
             if toldNoLongerListed == nil {
                 toldNoLongerListed = defaults.integer(forKey: SettingsKey.toldNoLongerListed)

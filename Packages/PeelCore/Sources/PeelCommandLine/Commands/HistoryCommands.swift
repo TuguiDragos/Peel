@@ -415,8 +415,8 @@ struct RestoreCommand: AsyncParsableCommand {
             return
         }
         // As for a move: History would go on listing what came back.
-        guard RemovalLog.canBeWritten(at: log.url) else {
-            throw CommandFailure("Nothing was put back. \(TrashFailure.Reason.historyCannotBeWritten.summary).")
+        if let problem = RemovalLog.writeProblem(at: log.url) {
+            throw CommandFailure("Nothing was put back. \(TrashFailure.Reason.historyCannotBeWritten(problem).summary).")
         }
         if !yes {
             try Output.confirm("Put \(Output.count(going.count, "item", "items")) back?")

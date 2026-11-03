@@ -40,7 +40,7 @@ struct RemovalBarTests {
         #expect(RemovalBar.tooMany(in: parts(3)) == nil)
     }
 
-    @Test func anActionHistoryDoesntRecordWaitsOnlyForTheExclusions() throws {
+    @Test func anActionHistoryDoesntRecordWaitsOnlyForTheExclusions() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let unreadable = folder.appending(path: "removals.json")
         try FileManager.default.createDirectory(at: unreadable, withIntermediateDirectories: true)
@@ -49,7 +49,7 @@ struct RemovalBarTests {
             log: RemovalLog(url: unreadable), refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
             knowsTheExclusions: { true }
         )
-        history.checkReadability()
+        await history.checkReadability()
         #expect(history.isUnreadable)
 
         #expect(RemovalBar.mayAct(recordsInHistory: false, history: history, exclusionsAreKnown: true))

@@ -222,7 +222,7 @@ struct PeelApp: App {
             // `peel exclusions` may have changed the list while another app was in front.
             Task { await exclusions.load() }
             // History may have become readable again meanwhile, or stopped being, and `peel` may have moved something.
-            history.checkReadability()
+            Task { await history.checkReadability() }
             stats.reload()
             Task { await history.readAgainIfInUse() }
             homebrew.checkInstalled()
@@ -346,7 +346,7 @@ struct PeelApp: App {
     /// Loads what every page needs once, at launch: the exclusions, the apps, Homebrew, and Home's checks.
     private func launch() async {
         history.stats = stats
-        history.checkReadability()
+        await history.checkReadability()
         // On the main actor, so it never runs between the SSH tab's own read and write.
         SSHFile.bringUpToDate(ssh.file)
         Task { await stats.takeInEarlierTotals() }

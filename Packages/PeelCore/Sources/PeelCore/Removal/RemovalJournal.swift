@@ -91,9 +91,17 @@ struct RemovalJournal: Sendable {
         self.history = history
     }
 
-    /// Whether a line can be written here: there is no journal yet, or it opens as the file it should be.
-    var canBeWritten: Bool {
-        url.isMissing || (canBeRead && access(url.path(percentEncoded: false), W_OK) == 0)
+    /// Why a line can't be written here, or nil when it can: there is no journal yet, or it opens as the file it should
+    /// be and this account can write it.
+    var writeProblem: HistoryWriteProblem? {
+        if url.isMissing { return nil }
+        guard canBeRead else { return .journalUnreadable(url) }
+        return access(url.path(percentEncoded: false), W_OK) == 0 ? nil : .journalNotWritable(url)
+    }
+
+    /// Whether something stands where the journal goes that doesn't open as one, which is kept aside.
+    var isUnreadable: Bool {
+        !url.isMissing && !canBeRead
     }
 
     private var canBeRead: Bool {
@@ -103,7 +111,7 @@ struct RemovalJournal: Sendable {
     /// Keeps a journal that can't be read beside a new one, under another name, and answers that name: while it stands
     /// in its place, what a removal cut short leaves behind would be lost.
     func setAsideIfUnreadable() -> URL? {
-        guard !url.isMissing, !canBeRead else { return nil }
+        guard isUnreadable else { return nil }
         return DamagedFile.setAside(url)
     }
 
@@ -112,8 +120,8 @@ struct RemovalJournal: Sendable {
         RemovalLog.canBeRead(at: history)
     }
 
-    var historyCanBeWritten: Bool {
-        RemovalLog.canBeWritten(at: history)
+    var historyWriteProblem: HistoryWriteProblem? {
+        RemovalLog.writeProblem(at: history)
     }
 
     /// Writes down `items`, which moved together in `batch`, or in the removal and part `recorded` names, one line

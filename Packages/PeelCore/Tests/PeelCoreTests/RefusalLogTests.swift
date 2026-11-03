@@ -367,7 +367,8 @@ struct RefusalLogTests {
     private static let everyReason: [TrashFailure.Reason] = [
         .guarded(nil), .changedSinceScan, .changeNotKnown, .claimedSinceScan, .lastCopy, .notPermitted, .locked,
         .needsHelper,
-        .movedWithoutATrace, .somethingElseMoved(named: "x 2"), .historyUnreadable, .historyCannotBeWritten,
+        .movedWithoutATrace, .somethingElseMoved(named: "x 2"), .historyUnreadable,
+        .historyCannotBeWritten(.folderNotWritable(URL(filePath: "/Users/me/Library/Application Support/Peel/"))),
         .peelRemovesItself, .heldOpen(by: ["Figma Agent", "java"]), .heldOpenByAJob(by: ["Figma Agent", "java"]), .peelRunsFromIt,
         .heldByAnotherAccount(by: ["CtxHelper"]), .openForAnotherUser(by: ["Spotify"]), .heldByABuildTool(by: ["Gradle"]),
         .inUseAsAnInputSource, .inUseByMacOS(by: ["geod", "appleaccountd"]), .attachedDiskImage, .failed("x"),
@@ -379,7 +380,7 @@ struct RefusalLogTests {
 
         #expect(Set(reasons.map(\.name)).count == reasons.count)
         #expect(reasons.allSatisfy { !$0.name.contains(" ") })
-        #expect(reasons.filter { $0.detail != nil }.count == 8)
+        #expect(reasons.filter { $0.detail != nil }.count == 9)
     }
 
     /// History words a refusal from the reason it stored, so every word leads back to its reason, and a word a
@@ -394,6 +395,20 @@ struct RefusalLogTests {
     /// A refusal recorded before Peel kept the guard's reason reads as one whose reason is not known.
     @Test func anOldRefusalOfTheGuardStillReads() {
         #expect(TrashFailure.Reason(name: "protected-location", detail: nil) == .guarded(nil))
+    }
+
+    @Test func whyHistoryCouldNotBeWrittenReadsBack() {
+        let peel = URL(filePath: "/Users/me/Library/Application Support/Peel/")
+        let journal = peel.appending(path: "removals.journal")
+        let problems: [HistoryWriteProblem] = [
+            .folderNotWritable(peel), .diskFull(free: 1_000, needed: 1_000_002), .freeSpaceNotKnown(peel),
+            .journalUnreadable(journal), .journalNotWritable(journal),
+        ]
+        for problem in problems {
+            let reason = TrashFailure.Reason.historyCannotBeWritten(problem)
+            #expect(TrashFailure.Reason(name: reason.name, detail: reason.detail) == reason)
+        }
+        #expect(TrashFailure.Reason(name: "history-cannot-be-written", detail: nil) == .historyCannotBeWritten(nil))
     }
 
     /// What one removal refused shares a batch and its source, so History shows it as one entry, in the words of

@@ -243,12 +243,8 @@ struct HomePermissionsContent: View {
                 Button("Open History") { Navigator.shared.requestedTool = .history }
                     .buttonStyle(.sticker(fill: Album.redFill, size: 11.5))
             }
-        } else if held == .historyUnwritable {
-            Notice(
-                title: Text("Peel can’t write History"),
-                detail: Text("The disk is full, or Peel’s folder can’t be written. Peel removes nothing until it can, so that everything it moves can be put back."),
-                isAlbum: true
-            ) {}
+        } else if case .historyUnwritable(let problem) = held {
+            Notice(title: Text("Peel can’t write History"), detail: Text(problem.explanation()), isAlbum: true) {}
         } else if home.needsAttention {
             let notice = MissingPermissionsNotice(
                 helper: helper.standing,

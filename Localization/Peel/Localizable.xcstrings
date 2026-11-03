@@ -139066,108 +139066,108 @@
         }
       }
     },
-    "Peel couldn’t write to History, because the disk is full or Peel’s folder can’t be written, and it moves nothing it can’t put back." : {
+    "Peel couldn’t write to History then, and it moves nothing it can’t put back." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nemohl zapsat do Historie, protože disk je plný nebo do složky Peelu nelze zapisovat, a nepřesouvá nic, co nemůže vrátit zpět."
+            "value" : "Peel tehdy nemohl zapsat do Historie a nepřesouvá nic, co nemůže vrátit zpět."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel konnte nicht in den Verlauf schreiben, weil das Volume voll ist oder in den Peel-Ordner nicht geschrieben werden kann, und verschiebt nichts, was sich nicht zurücklegen lässt."
+            "value" : "Peel konnte zu diesem Zeitpunkt nicht in den Verlauf schreiben und verschiebt nichts, was sich nicht zurücklegen lässt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel no ha podido escribir en Historial, porque el disco está lleno o no se puede escribir en la carpeta de Peel, y no traslada nada que no pueda restaurar."
+            "value" : "En ese momento, Peel no podía escribir en Historial, y no traslada nada que no pueda restaurar."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel n’a pas pu écrire dans l’Historique, car le disque est plein ou le dossier de Peel n’est pas accessible en écriture, et il ne déplace rien qu’il ne pourrait pas remettre en place."
+            "value" : "Peel n’a pas pu écrire dans l’Historique à ce moment-là, et il ne déplace rien qu’il ne pourrait pas remettre en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel non è riuscito a scrivere nella Cronologia, perché il disco è pieno o non è possibile scrivere nella cartella di Peel, e non sposta nulla che non possa ripristinare."
+            "value" : "Peel non è riuscito a scrivere nella Cronologia in quel momento, e non sposta nulla che non possa ripristinare."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは履歴に書き込めませんでした。ディスクがいっぱいになっているか、Peelのフォルダに書き込めないためです。戻せないものは何も移動しません。"
+            "value" : "その時点でPeelは履歴に書き込めませんでした。戻せないものは何も移動しません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "디스크가 가득 찼거나 Peel의 폴더에 쓸 수 없기 때문에 Peel이 기록을 쓸 수 없었으며, 되돌려 놓을 수 없는 것은 아무것도 이동하지 않습니다."
+            "value" : "당시에는 Peel이 기록을 쓸 수 없었으며, 되돌려 놓을 수 없는 것은 아무것도 이동하지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kon niet naar Geschiedenis schrijven, omdat de schijf vol is of er niet naar de map van Peel kan worden geschreven, en Peel verplaatst niets wat het niet kan terugzetten."
+            "value" : "Peel kon op dat moment niet naar Geschiedenis schrijven en verplaatst niets wat het niet kan terugzetten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nie mógł zapisać Historii, ponieważ dysk jest pełny albo nie można zapisywać w folderze Peel, i nie przenosi niczego, czego nie może przywrócić."
+            "value" : "Peel nie mógł wtedy zapisać Historii i nie przenosi niczego, czego nie może przywrócić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel não conseguiu gravar no Histórico, porque o disco está cheio ou não é possível gravar na pasta do Peel, e não move nada que não possa colocar de volta."
+            "value" : "O Peel não conseguiu gravar no Histórico naquele momento, e não move nada que não possa colocar de volta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu a putut scrie în Istoric, deoarece discul este plin sau nu se poate scrie în dosarul Peel, și nu mută nimic din ce nu poate pune înapoi."
+            "value" : "Peel nu a putut scrie atunci în Istoric și nu mută nimic din ce nu poate pune înapoi."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не удалось записать Историю, так как диск заполнен или запись в папку Peel невозможна, а он не перемещает ничего, что не сможет восстановить."
+            "value" : "В тот момент Peel не удалось записать Историю, а он не перемещает ничего, что не сможет восстановить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kunde inte skriva till Historik, eftersom skivan är full eller det inte går att skriva till Peels mapp, och flyttar inget som den inte kan lägga tillbaka."
+            "value" : "Peel kunde inte skriva till Historik just då och flyttar inget som den inte kan lägga tillbaka."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, disk dolu olduğu veya Peel’in klasörüne yazılamadığı için Geçmiş’e yazamadı ve yerine koyamayacağı hiçbir şeyi taşımaz."
+            "value" : "Peel, o sırada Geçmiş’e yazamadı ve yerine koyamayacağı hiçbir şeyi taşımaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не змогла записати в Історію, бо диск переповнений або папка Peel недоступна для запису, і Peel не переміщує нічого, чого не може повернути."
+            "value" : "Peel тоді не змогла записати в Історію, і Peel не переміщує нічого, чого не може повернути."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel无法写入“历史记录”，因为磁盘已满或Peel的文件夹无法写入，而它不会移动任何无法放回原处的内容。"
+            "value" : "Peel当时未能写入“历史记录”，而它不会移动任何无法放回原处的内容。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel無法寫入「歷史記錄」，因為磁碟已滿或Peel的檔案夾無法寫入，而它不會移動任何無法還原的項目。"
+            "value" : "Peel當時無法寫入「歷史記錄」，而它不會移動任何無法還原的項目。"
           }
         }
       }
@@ -184911,6 +184911,112 @@
         }
       }
     },
+    "Something Peel can’t use stands at %@, where it writes down each move, and Peel couldn’t set it aside. Peel removes nothing until it’s gone, so that everything it moves can be put back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V umístění %@, kde Peel zaznamenává každé přesunutí, je něco, co Peel nemůže použít a co se mu nepodařilo odložit stranou. Dokud to tam bude, Peel nic neodstraní, aby vše, co přesune, šlo vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unter %@, wo Peel jedes Verschieben festhält, liegt etwas, das Peel nicht verwenden kann, und Peel konnte es nicht beiseitelegen. Peel entfernt nichts, solange es dort liegt, damit sich alles, was Peel verschiebt, zurücklegen lässt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hay algo que Peel no puede usar en %@, donde anota cada traslado, y no ha podido apartarlo. Peel no elimina nada hasta que ya no esté ahí, para que todo lo que traslade se pueda restaurar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À l’emplacement %@, où Peel consigne chaque déplacement, se trouve un élément qu’il ne peut pas utiliser et qu’il n’a pas pu mettre de côté. Peel ne supprime rien tant que cet élément est là, afin que tout ce qu’il déplace puisse être remis en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In %@, dove Peel annota ogni spostamento, c’è qualcosa che Peel non può usare, e Peel non è riuscito a metterlo da parte. Peel non rimuove nulla finché resta lì, in modo che tutto ciò che sposta si possa ripristinare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動のたびに記録を書き込む%@に、Peelが使用できないものがあり、それを別に保管することもできませんでした。それがなくなるまで、Peelは何もゴミ箱に入れません。移動するものをすべて戻せるようにするためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 각 이동 내역을 적어 두는 %@에 Peel이 사용할 수 없는 항목이 있으며, 이 항목을 따로 보관할 수 없었습니다. 이 항목이 없어지기 전까지 Peel은 이동하는 모든 항목을 되돌려 놓을 수 있도록 아무것도 제거하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Op %@, waar Peel elke verplaatsing noteert, staat iets wat Peel niet kan gebruiken, en Peel kon het niet apart zetten. Peel verwijdert niets totdat het weg is, zodat alles wat Peel verplaatst, kan worden teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pod ścieżką %@, gdzie Peel notuje każde przeniesienie, jest coś, czego Peel nie może użyć i czego nie udało mu się odłożyć na bok. Peel niczego nie przeniesie do Kosza, dopóki to stamtąd nie zniknie, aby wszystko, co przeniesie, można było przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algo que o Peel não consegue usar está em %@, onde ele registra cada item que move, e o Peel não conseguiu guardá-lo à parte. O Peel não remove nada enquanto isso estiver lá, para que tudo o que ele mover possa ser colocado de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La %@, unde Peel notează fiecare mutare, se află ceva pe care Peel nu îl poate folosi, iar Peel nu l‑a putut pune deoparte. Peel nu elimină nimic până când acesta nu dispare, pentru ca tot ce mută să poată fi pus înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По пути %@, где Peel фиксирует каждое перемещение, находится что-то, чем он не может воспользоваться, и сохранить это отдельно ему не удалось. Peel ничего не удаляет, пока это не будет убрано, чтобы все, что он перемещает, можно было восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Något som Peel inte kan använda finns på %@, där Peel antecknar varje flytt, och Peel kunde inte lägga undan det. Peel tar inte bort något förrän det är borta, så att allt som Peel flyttar kan läggas tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in her taşımayı kaydettiği %@ konumunda, kullanamadığı bir şey duruyor ve Peel onu bir kenara ayıramadı. Peel, o şey ortadan kalkana kadar hiçbir şeyi kaldırmaz, böylece taşıyacağı her şey yerine konabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "За шляхом %@, де Peel веде запис кожного переміщення, є щось, чим Peel не може скористатися, і Peel не вдалося його відкласти. Peel нічого не вилучає, доки воно там є, щоб усе, що Peel переміщує, можна було повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel在%@记录每次移动，但那里有一个Peel无法使用的项目，而Peel未能将其移到一旁。在它被移走之前，Peel不会移除任何内容，以确保它移动的所有内容都能放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會在%@記下每一次移動，但那裡有一個它無法使用的項目，而且Peel無法將它移到一旁。在該項目移走之前，Peel不會移除任何項目，以確保它移動的所有項目都能還原。"
+          }
+        }
+      }
+    },
     "Something else is at %@, and Peel offers no command that would replace it." : {
       "localizations" : {
         "cs" : {
@@ -200722,108 +200828,114 @@
         }
       }
     },
-    "The disk is full, or Peel’s folder can’t be written. Peel removes nothing until it can, so that everything it moves can be put back." : {
+    "The disk that holds Peel’s folder has %@ free, and writing History needs %@. Peel removes nothing until there is room, so that everything it moves can be put back." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Disk je plný nebo do složky Peelu nelze zapisovat. Dokud nebude moci zapisovat, Peel nic neodstraní, aby vše, co přesune, šlo vrátit zpět."
+            "value" : "Na disku se složkou Peelu zbývá %1$@ volného místa a zápis do Historie vyžaduje %2$@. Dokud nebude dost místa, Peel nic neodstraní, aby vše, co přesune, šlo vrátit zpět."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Das Volume ist voll, oder in den Peel-Ordner kann nicht geschrieben werden. Peel entfernt nichts, solange das so ist, damit sich alles, was Peel verschiebt, zurücklegen lässt."
+            "value" : "Das Volume, auf dem der Peel-Ordner liegt, hat %@ freien Speicherplatz, und das Schreiben des Verlaufs benötigt %@. Peel entfernt nichts, bis genug Platz frei ist, damit sich alles, was Peel verschiebt, zurücklegen lässt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The disk that holds Peel’s folder has %1$@ free, and writing History needs %2$@. Peel removes nothing until there is room, so that everything it moves can be put back."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El disco está lleno o no se puede escribir en la carpeta de Peel. Peel no elimina nada hasta que pueda escribir en Historial, para que todo lo que traslade se pueda restaurar."
+            "value" : "El disco donde está la carpeta de Peel tiene %@ de espacio libre, y escribir en Historial requiere %@. Peel no elimina nada hasta que haya espacio, para que todo lo que traslade se pueda restaurar."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le disque est plein, ou le dossier de Peel n’est pas accessible en écriture. Peel ne supprime rien tant qu’il ne peut pas y écrire, afin que tout ce qu’il déplace puisse être remis en place."
+            "value" : "Le disque qui contient le dossier de Peel dispose de %1$@ d’espace libre, et l’écriture de l’Historique nécessite %2$@. Peel ne supprime rien tant qu’il n’y a pas assez de place, afin que tout ce qu’il déplace puisse être remis en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il disco è pieno, oppure non è possibile scrivere nella cartella di Peel. Peel non rimuove nulla finché non riesce a scrivere nella Cronologia, in modo che tutto ciò che sposta si possa ripristinare."
+            "value" : "Il disco che contiene la cartella di Peel ha %@ di spazio libero, e per scrivere la Cronologia servono %@. Peel non rimuove nulla finché non c’è spazio, in modo che tutto ciò che sposta si possa ripristinare."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ディスクがいっぱいになっているか、Peelのフォルダに書き込めない状態です。書き込めるようになるまで、Peelは何もゴミ箱に入れません。移動するものをすべて戻せるようにするためです。"
+            "value" : "Peelのフォルダがあるディスクの空き領域は%@で、履歴の書き込みには%@が必要です。空き領域ができるまで、Peelは何もゴミ箱に入れません。移動するものをすべて戻せるようにするためです。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "디스크가 가득 찼거나 Peel의 폴더에 쓸 수 없습니다. 기록을 쓸 수 있게 되기 전까지 Peel은 이동하는 모든 항목을 되돌려 놓을 수 있도록 아무것도 제거하지 않습니다."
+            "value" : "Peel의 폴더가 있는 디스크에 %@의 공간이 남아 있지만, 기록을 쓰려면 %@의 공간이 필요합니다. 공간이 생기기 전까지 Peel은 이동하는 모든 항목을 되돌려 놓을 수 있도록 아무것도 제거하지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De schijf is vol of er kan niet naar de map van Peel worden geschreven. Peel verwijdert niets totdat het weer kan schrijven, zodat alles wat Peel verplaatst, kan worden teruggezet."
+            "value" : "Op de schijf waarop de map van Peel staat, is %@ vrij, en voor het schrijven naar Geschiedenis is %@ nodig. Peel verwijdert niets totdat er ruimte is, zodat alles wat Peel verplaatst, kan worden teruggezet."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dysk jest pełny albo nie można zapisywać w folderze Peel. Peel niczego nie przeniesie do Kosza, dopóki nie będzie mógł zapisać Historii, aby wszystko, co przeniesie, można było przywrócić."
+            "value" : "Dysk, na którym jest folder Peel, ma %@ wolnego miejsca, a do zapisania Historii potrzeba %@. Peel niczego nie przeniesie do Kosza, dopóki nie będzie miejsca, aby wszystko, co przeniesie, można było przywrócić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O disco está cheio, ou não é possível gravar na pasta do Peel. O Peel não remove nada até conseguir gravar, para que tudo o que ele mover possa ser colocado de volta."
+            "value" : "O disco que contém a pasta do Peel tem %@ de espaço livre, e gravar o Histórico requer %@. O Peel não remove nada até que haja espaço, para que tudo o que ele mover possa ser colocado de volta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Discul este plin sau nu se poate scrie în dosarul Peel. Peel nu elimină nimic până când nu poate scrie, pentru ca tot ce mută să poată fi pus înapoi."
+            "value" : "Discul pe care se află dosarul Peel are %@ liberi, iar scrierea Istoricului necesită %@. Peel nu elimină nimic până când nu există suficient spațiu, pentru ca tot ce mută să poată fi pus înapoi."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Диск заполнен, или запись в папку Peel невозможна. Peel ничего не удаляет, пока запись не станет возможной, чтобы все, что он перемещает, можно было восстановить."
+            "value" : "На диске, где находится папка Peel, свободно %1$@, а для записи Истории нужно %2$@. Peel ничего не удаляет, пока не освободится место, чтобы все, что он перемещает, можно было восстановить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skivan är full, eller så går det inte att skriva till Peels mapp. Peel tar inte bort något förrän det går, så att allt som Peel flyttar kan läggas tillbaka."
+            "value" : "Skivan som innehåller Peels mapp har %@ ledigt, och det behövs %@ för att skriva Historik. Peel tar inte bort något förrän det finns plats, så att allt som Peel flyttar kan läggas tillbaka."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Disk dolu veya Peel’in klasörüne yazılamıyor. Peel, Geçmiş’e yazabilene kadar hiçbir şeyi kaldırmaz, böylece taşıyacağı her şey yerine konabilir."
+            "value" : "Peel’in klasörünü barındıran diskte %@ boş yer var, Geçmiş’e yazmak içinse %@ gerekiyor. Peel, yeterli yer olana kadar hiçbir şeyi kaldırmaz, böylece taşıyacağı her şey yerine konabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Диск переповнений, або папка Peel недоступна для запису. Peel нічого не вилучає, доки не зможе записувати в Історію, щоб усе, що Peel переміщує, можна було повернути."
+            "value" : "На диску, де лежить папка Peel, вільно %@, а для запису Історії потрібно %@. Peel нічого не вилучає, доки не зʼявиться місце, щоб усе, що Peel переміщує, можна було повернути."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "磁盘已满，或者Peel的文件夹无法写入。在能够写入之前，Peel不会移除任何内容，以确保它移动的所有内容都能放回原处。"
+            "value" : "Peel的文件夹所在的磁盘有%@可用空间，而写入“历史记录”需要%@。在有足够的空间之前，Peel不会移除任何内容，以确保它移动的所有内容都能放回原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "磁碟已滿，或Peel的檔案夾無法寫入。在能夠寫入之前，Peel不會移除任何項目，以確保它移動的所有項目都能還原。"
+            "value" : "Peel的檔案夾所在的磁碟有%@可用空間，而寫入「歷史記錄」需要%@。在有足夠空間之前，Peel不會移除任何項目，以確保它移動的所有項目都能還原。"
           }
         }
       }
@@ -210581,6 +210693,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這部Mac使用Intel處理器，因此列出的項目都不需要Rosetta。"
+          }
+        }
+      }
+    },
+    "This account can’t write %@, where Peel writes down each move. Peel removes nothing until it can, so that everything it moves can be put back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento účet nemůže zapisovat do souboru %@, do kterého Peel zaznamenává každé přesunutí. Dokud nebude moci zapisovat, Peel nic neodstraní, aby vše, co přesune, šlo vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Benutzeraccount kann nicht in %@ schreiben, wo Peel jedes Verschieben festhält. Peel entfernt nichts, solange das so ist, damit sich alles, was Peel verschiebt, zurücklegen lässt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta cuenta no puede escribir en %@, donde Peel anota cada traslado. Peel no elimina nada hasta que pueda escribir ahí, para que todo lo que traslade se pueda restaurar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce compte ne peut pas écrire dans %@, où Peel consigne chaque déplacement. Peel ne supprime rien tant qu’il ne peut pas y écrire, afin que tout ce qu’il déplace puisse être remis en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo account non può scrivere in %@, dove Peel annota ogni spostamento. Peel non rimuove nulla finché non potrà scriverci, in modo che tutto ciò che sposta si possa ripristinare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアカウントでは、Peelが移動のたびに記録を書き込む%@に書き込めません。書き込めるようになるまで、Peelは何もゴミ箱に入れません。移動するものをすべて戻せるようにするためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 계정은 Peel이 각 이동 내역을 적어 두는 %@에 쓸 수 없습니다. 쓸 수 있게 되기 전까지 Peel은 이동하는 모든 항목을 되돌려 놓을 수 있도록 아무것도 제거하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze account kan niet naar %@ schrijven, waar Peel elke verplaatsing noteert. Peel verwijdert niets totdat dat wel kan, zodat alles wat Peel verplaatst, kan worden teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To konto nie może zapisywać w pliku %@, w którym Peel notuje każde przeniesienie. Peel niczego nie przeniesie do Kosza, dopóki nie będzie to możliwe, aby wszystko, co przeniesie, można było przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta conta não pode gravar em %@, onde o Peel registra cada item que move. O Peel não remove nada até conseguir gravar, para que tudo o que ele mover possa ser colocado de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest cont nu poate scrie în %@, unde Peel notează fiecare mutare. Peel nu elimină nimic până când nu poate scrie acolo, pentru ca tot ce mută să poată fi pus înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта учетная запись не может записывать в файл %@, где Peel фиксирует каждое перемещение. Peel ничего не удаляет, пока запись не станет возможной, чтобы все, что он перемещает, можно было восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här kontot kan inte skriva till %@, där Peel antecknar varje flytt. Peel tar inte bort något förrän det går, så att allt som Peel flyttar kan läggas tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu hesap, Peel’in her taşımayı kaydettiği %@ dosyasına yazamıyor. Peel, yazabilene kadar hiçbir şeyi kaldırmaz, böylece taşıyacağı her şey yerine konabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей обліковий запис не може записувати в %@, де Peel веде запис кожного переміщення. Peel нічого не вилучає, доки не зможе туди записувати, щоб усе, що Peel переміщує, можна було повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此账户无法写入%@，而Peel会在那里记录每次移动。在能够写入之前，Peel不会移除任何内容，以确保它移动的所有内容都能放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此帳號無法寫入%@，而Peel會在那裡記下每一次移動。在能夠寫入之前，Peel不會移除任何項目，以確保它移動的所有項目都能還原。"
+          }
+        }
+      }
+    },
+    "This account can’t write to %@, where Peel keeps History. Peel removes nothing until it can, so that everything it moves can be put back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento účet nemůže zapisovat do složky %@, kde Peel uchovává Historii. Dokud nebude moci zapisovat, Peel nic neodstraní, aby vše, co přesune, šlo vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Benutzeraccount kann nicht in %@ schreiben, wo Peel den Verlauf aufbewahrt. Peel entfernt nichts, solange das so ist, damit sich alles, was Peel verschiebt, zurücklegen lässt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta cuenta no puede escribir en %@, donde Peel guarda Historial. Peel no elimina nada hasta que pueda escribir ahí, para que todo lo que traslade se pueda restaurar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce compte ne peut pas écrire dans %@, où Peel conserve l’Historique. Peel ne supprime rien tant qu’il ne peut pas y écrire, afin que tout ce qu’il déplace puisse être remis en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo account non può scrivere in %@, dove Peel conserva la Cronologia. Peel non rimuove nulla finché non potrà scriverci, in modo che tutto ciò che sposta si possa ripristinare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアカウントでは、Peelが履歴を保管している%@に書き込めません。書き込めるようになるまで、Peelは何もゴミ箱に入れません。移動するものをすべて戻せるようにするためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 계정은 Peel이 기록을 보관하는 %@에 쓸 수 없습니다. 쓸 수 있게 되기 전까지 Peel은 이동하는 모든 항목을 되돌려 놓을 수 있도록 아무것도 제거하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze account kan niet naar %@ schrijven, waar Peel Geschiedenis bewaart. Peel verwijdert niets totdat dat wel kan, zodat alles wat Peel verplaatst, kan worden teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To konto nie może zapisywać w folderze %@, w którym Peel przechowuje Historię. Peel niczego nie przeniesie do Kosza, dopóki nie będzie to możliwe, aby wszystko, co przeniesie, można było przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta conta não pode gravar em %@, onde o Peel guarda o Histórico. O Peel não remove nada até conseguir gravar, para que tudo o que ele mover possa ser colocado de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest cont nu poate scrie în %@, unde Peel păstrează Istoricul. Peel nu elimină nimic până când nu poate scrie acolo, pentru ca tot ce mută să poată fi pus înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта учетная запись не может записывать в папку %@, где Peel хранит Историю. Peel ничего не удаляет, пока запись не станет возможной, чтобы все, что он перемещает, можно было восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här kontot kan inte skriva till %@, där Peel sparar Historik. Peel tar inte bort något förrän det går, så att allt som Peel flyttar kan läggas tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu hesap, Peel’in Geçmiş’i tuttuğu %@ klasörüne yazamıyor. Peel, yazabilene kadar hiçbir şeyi kaldırmaz, böylece taşıyacağı her şey yerine konabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей обліковий запис не може записувати в папку %@, де Peel зберігає Історію. Peel нічого не вилучає, доки не зможе туди записувати, щоб усе, що Peel переміщує, можна було повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此账户无法写入%@，而Peel在那里保存“历史记录”。在能够写入之前，Peel不会移除任何内容，以确保它移动的所有内容都能放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此帳號無法寫入%@，而Peel會將「歷史記錄」存放在那裡。在能夠寫入之前，Peel不會移除任何項目，以確保它移動的所有項目都能還原。"
           }
         }
       }
@@ -256222,6 +256546,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS沒有從新檔案重新載入它。\n\n%@"
+          }
+        }
+      }
+    },
+    "macOS didn’t say how much room is free on the disk that holds %@. Peel removes nothing until it knows, so that everything it moves can be put back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS neuvedl, kolik volného místa je na disku se složkou %@. Dokud to Peel nebude vědět, nic neodstraní, aby vše, co přesune, šlo vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat nicht mitgeteilt, wie viel Platz auf dem Volume frei ist, auf dem %@ liegt. Peel entfernt nichts, solange das unbekannt ist, damit sich alles, was Peel verschiebt, zurücklegen lässt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no ha dicho cuánto espacio libre hay en el disco donde está %@. Peel no elimina nada hasta que lo sepa, para que todo lo que traslade se pueda restaurar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’a pas indiqué l’espace disponible sur le disque qui contient %@. Peel ne supprime rien tant qu’il ne le sait pas, afin que tout ce qu’il déplace puisse être remis en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non ha indicato quanto spazio è libero sul disco che contiene %@. Peel non rimuove nulla finché non lo sa, in modo che tutto ciò che sposta si possa ripristinare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSは、%@があるディスクの空き領域を報告しませんでした。空き領域がわかるまで、Peelは何もゴミ箱に入れません。移動するものをすべて戻せるようにするためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 %@이(가) 있는 디스크에 사용 가능한 공간이 얼마인지 알려 주지 않았습니다. 이를 알 수 있게 되기 전까지 Peel은 이동하는 모든 항목을 되돌려 놓을 수 있도록 아무것도 제거하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft niet gemeld hoeveel ruimte er vrij is op de schijf waarop %@ staat. Peel verwijdert niets totdat het dat weet, zodat alles wat Peel verplaatst, kan worden teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie podał, ile wolnego miejsca ma dysk, na którym jest folder %@. Peel niczego nie przeniesie do Kosza, dopóki się tego nie dowie, aby wszystko, co przeniesie, można było przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não informou quanto espaço livre há no disco que contém %@. O Peel não remove nada até saber, para que tudo o que ele mover possa ser colocado de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu a spus cât spațiu este liber pe discul pe care se află %@. Peel nu elimină nimic până când nu află, pentru ca tot ce mută să poată fi pus înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не сообщила, сколько свободного места на диске, где находится %@. Peel ничего не удаляет, пока не узнает этого, чтобы все, что он перемещает, можно было восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS sa inte hur mycket utrymme som är ledigt på skivan som innehåller %@. Peel tar inte bort något förrän det är känt, så att allt som Peel flyttar kan läggas tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, %@ klasörünü barındıran diskte ne kadar boş yer olduğunu söylemedi. Peel, bunu öğrenene kadar hiçbir şeyi kaldırmaz, böylece taşıyacağı her şey yerine konabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не повідомила, скільки вільного місця на диску, де лежить %@. Peel нічого не вилучає, доки цього не знатиме, щоб усе, що Peel переміщує, можна було повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS没有说明%@所在的磁盘还有多少可用空间。在得知之前，Peel不会移除任何内容，以确保它移动的所有内容都能放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS沒有說明%@所在的磁碟還有多少可用空間。在得知之前，Peel不會移除任何項目，以確保它移動的所有項目都能還原。"
           }
         }
       }

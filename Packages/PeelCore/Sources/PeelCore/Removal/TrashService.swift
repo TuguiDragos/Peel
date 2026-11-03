@@ -97,8 +97,9 @@ public struct TrashFailure: Sendable, Hashable {
         case somethingElseMoved(named: String)
         /// History cannot be read, so nothing moves: what moved could not be listed for Put Back.
         case historyUnreadable
-        /// History cannot be written, as on a full disk, so nothing moves: what moved could not be listed for Put Back.
-        case historyCannotBeWritten
+        /// History cannot be written, for the reason it names, so nothing moves: what moved could not be listed for Put
+        /// Back. Nil for a refusal recorded before Peel kept the reason.
+        case historyCannotBeWritten(HistoryWriteProblem?)
         /// Peel is removing itself, History and its folder with it, so nothing else moves meanwhile.
         case peelRemovesItself
         /// These processes hold a file open in it, and moving it would pull it from under them.
@@ -190,6 +191,7 @@ extension TrashFailure.Reason {
         case .guarded(let refusal): refusal?.detail
         case .failed(let message): message
         case .somethingElseMoved(let name): name
+        case .historyCannotBeWritten(let problem): problem?.detail
         case .heldOpen(let processes), .heldOpenByAJob(let processes), .heldByAnotherAccount(let processes),
              .openForAnotherUser(let processes),
              .heldByABuildTool(let processes), .inUseByMacOS(let processes):
@@ -216,7 +218,7 @@ extension TrashFailure.Reason {
         case "moved-without-a-trace": self = .movedWithoutATrace
         case "something-else-moved": self = .somethingElseMoved(named: detail ?? "")
         case "history-unreadable": self = .historyUnreadable
-        case "history-cannot-be-written": self = .historyCannotBeWritten
+        case "history-cannot-be-written": self = .historyCannotBeWritten(detail.flatMap(HistoryWriteProblem.init(detail:)))
         case "peel-removes-itself": self = .peelRemovesItself
         case "held-open": self = .heldOpen(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "held-open-by-a-job": self = .heldOpenByAJob(by: (detail ?? "").split(separator: "\n").map(String.init))
@@ -477,7 +479,7 @@ public struct TrashService: Sendable {
     private var historyRefusal: TrashFailure.Reason? {
         guard let journal else { return nil }
         if !journal.historyCanBeRead { return .historyUnreadable }
-        return journal.historyCanBeWritten ? nil : .historyCannotBeWritten
+        return journal.historyWriteProblem.map(TrashFailure.Reason.historyCannotBeWritten)
     }
 
     /// Every item of `urls` refused, while History can't be read or written. An item the guard refuses keeps that

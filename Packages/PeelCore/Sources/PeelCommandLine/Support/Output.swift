@@ -532,6 +532,20 @@ extension PrivacyReset.Result {
     }
 }
 
+extension HistoryWriteProblem {
+    var summary: String {
+        switch self {
+        case .folderNotWritable(let folder): "this account can't write \(Output.path(folder))"
+        case .diskFull(let free, let needed):
+            "the disk has \(Output.size(free)) free, and writing History needs \(Output.size(needed))"
+        case .freeSpaceNotKnown(let folder):
+            "macOS didn't say how much room is free on the disk that holds \(Output.path(folder))"
+        case .journalUnreadable(let journal): "\(Output.path(journal)) isn't a journal Peel can read"
+        case .journalNotWritable(let journal): "this account can't write \(Output.path(journal))"
+        }
+    }
+}
+
 extension TrashFailure.Reason {
     var summary: String {
         switch self {
@@ -546,7 +560,8 @@ extension TrashFailure.Reason {
         case .movedWithoutATrace: "in the Trash where macOS didn't say, so only Finder can put it back"
         case .somethingElseMoved(let name): "something else was at that path; it is in the Trash as \(Output.plain(name))"
         case .historyUnreadable: "History can't be read"
-        case .historyCannotBeWritten: "History can't be written: the disk is full, or Peel's folder can't be written"
+        case .historyCannotBeWritten(let problem?): "History can't be written: \(problem.summary)"
+        case .historyCannotBeWritten(nil): "History can't be written"
         case .peelRemovesItself: "Peel is removing itself"
         case .heldOpen(let processes) where processes.count > 1:
             "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit them, then try again"
