@@ -22,6 +22,8 @@ final class SpaceLibrary: RowSelection {
     /// What the AI models and datasets the Developer page lists take, measured once the areas show; nil while there
     /// are none, and before the first measurement.
     private(set) var models: SizeTotal?
+    /// Why the folders of those Peel couldn't measure weren't measured, each reason once.
+    private(set) var modelsNotMeasured: Set<HoldBack> = []
     @ObservationIgnored private var modelsMeasurement = 0
     @ObservationIgnored private var quitCheck: Task<Void, Never>?
     /// How many plans of each area have started, so that a plan that started earlier and ended later is dropped: it can
@@ -199,6 +201,7 @@ final class SpaceLibrary: RowSelection {
         let found = await findModels(ExclusionsStore.shared.exclusions)
         guard !Task.isCancelled, measurement == modelsMeasurement else { return }
         models = found.isEmpty ? nil : SizeTotal(found.map(\.size))
+        modelsNotMeasured = Set(found.compactMap(\.whyNotMeasured))
     }
 }
 

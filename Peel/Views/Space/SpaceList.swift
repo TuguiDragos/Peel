@@ -160,11 +160,21 @@ struct SpaceList: View {
         .padding(.vertical, 6)
     }
 
+    private static let whyNotMeasured: [HoldBack] = [.notMeasured, .couldNotBeRead, .closedByPermissions]
+
     private func modelsLine(_ total: SizeTotal) -> Text {
         switch total.reading {
         case .exactly(let size): Text("AI models and datasets take \(size.byteCount) on this Mac.")
         case .atLeast(let size): Text("AI models and datasets take over \(size.byteCount) on this Mac.")
-        case .unknown: Text("Peel couldn’t measure the AI models and datasets on this Mac.")
+        case .unknown:
+            Text(verbatim: ([String(localized: "Peel couldn’t measure the AI models and datasets on this Mac.")]
+                + Self.whyNotMeasured.filter(space.modelsNotMeasured.contains).map {
+                    switch $0 {
+                    case .couldNotBeRead: String(localized: "macOS kept Peel out of a folder of theirs.")
+                    case .closedByPermissions: String(localized: "A folder of theirs has permissions of its own that keep your account out.")
+                    default: String(localized: "Measuring a folder of theirs took too long.")
+                    }
+                }).joined(separator: " "))
         }
     }
 }

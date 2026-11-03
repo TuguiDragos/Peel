@@ -12695,6 +12695,112 @@
         }
       }
     },
+    "A folder of theirs has permissions of its own that keep your account out." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jedna z jejich složek má vlastní oprávnění, která do ní váš účet nepustí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einer ihrer Ordner hat eigene Zugriffsrechte, die deinen Benutzeraccount aussperren."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una de sus carpetas tiene permisos propios, que no dejan entrar a tu cuenta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’un de leurs dossiers a ses propres permissions, qui empêchent votre compte d’y accéder."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una delle loro cartelle ha permessi propri che impediscono al tuo account di accedervi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "それらのフォルダの1つは、フォルダ自体のアクセス権により、お使いのアカウントではアクセスできません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이들의 폴더 중 하나는 자체 사용 권한 때문에 이 계정으로 들어갈 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een van hun mappen heeft eigen bevoegdheden die je account buitensluiten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeden z ich folderów ma własne uprawnienia, które nie dają Twojemu kontu dostępu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uma das pastas deles tem permissões próprias que não deixam esta conta entrar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unul dintre dosarele lor are permisiuni proprii care nu permit accesul contului dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У одной из их папок есть собственные права доступа, которые не пускают в нее Вашу учетную запись."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En av deras mappar har egna behörigheter som stänger ute ditt konto."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunlara ait bir klasörün, hesabınızın içeri girmesini engelleyen kendi izinleri var."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Одна з їхніх папок має власні привілеї, які не пускають до неї ваш обліковий запис."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中一个文件夹有自己的权限设置，不允许你的账户进入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中一個檔案夾有自己的權限，讓你的帳號無法進入。"
+          }
+        }
+      }
+    },
     "A full Git interface inside Terminal." : {
       "localizations" : {
         "cs" : {
@@ -98808,6 +98914,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "測量指令執行所需的時間。"
+          }
+        }
+      }
+    },
+    "Measuring a folder of theirs took too long." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Měření jedné z jejich složek trvalo příliš dlouho."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Messen eines ihrer Ordner hat zu lange gedauert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se ha tardado demasiado en medir una de sus carpetas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La mesure de l’un de leurs dossiers a pris trop de temps."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Misurare una delle loro cartelle ha richiesto troppo tempo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "それらのフォルダの1つは、計測に時間がかかりすぎました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이들의 폴더 중 하나를 측정하는 데 너무 오래 걸렸습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het meten van een van hun mappen duurde te lang."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mierzenie jednego z ich folderów trwało zbyt długo."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A medição de uma das pastas deles demorou demais."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Măsurarea unuia dintre dosarele lor a durat prea mult."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Измерение одной из их папок заняло слишком много времени."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det tog för lång tid att mäta en av deras mappar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunlara ait bir klasörü ölçmek çok uzun sürdü."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вимірювання однієї з їхніх папок тривало надто довго."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "测量其中一个文件夹耗时过长。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "測量其中一個檔案夾耗時過久。"
           }
         }
       }
@@ -264963,6 +265175,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS會保留此App，因此它會留在原處。"
+          }
+        }
+      }
+    },
+    "macOS kept Peel out of a folder of theirs." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS nepustil Peel do jedné z jejich složek."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat Peel aus einem ihrer Ordner ausgesperrt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no ha dejado entrar a Peel en una de sus carpetas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a empêché Peel d’accéder à l’un de leurs dossiers."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ha impedito a Peel di accedere a una delle loro cartelle."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSにより、Peelはそれらのフォルダの1つにアクセスできませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 이들의 폴더 중 하나에 Peel이 들어가지 못하게 했습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hield Peel buiten een van hun mappen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie dał aplikacji Peel dostępu do jednego z ich folderów."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não deixou o Peel entrar em uma das pastas deles."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu i‑a permis aplicației Peel accesul la unul dintre dosarele lor."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не пустила Peel в одну из их папок."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS höll Peel utanför en av deras mappar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, Peel’in bunlara ait bir klasöre girmesine izin vermedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не пустила Peel до однієї з їхніх папок."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS不允许Peel进入其中一个文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS不讓Peel進入其中一個檔案夾。"
           }
         }
       }

@@ -75,6 +75,13 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
 
         public var id: URL { url }
 
+        /// Why its size isn't known, or nil once it is measured.
+        public var whyNotMeasured: HoldBack? {
+            guard size == nil else { return nil }
+            if closedByPermissions { return .closedByPermissions }
+            return couldNotBeRead ? .couldNotBeRead : .notMeasured
+        }
+
         /// Whether Peel recommends this location, which Select Recommended selects and `peel caches --remove` moves:
         /// only content that tools make or fetch again, or logs, and only once measured.
         public var isRecommended: Bool { keptBecause == nil }
@@ -83,10 +90,7 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         /// a secret seen inside first, then what isn't known, since it may hide anything else, then the rest.
         public var keptBecause: Kept? {
             if let heldBack, heldBack.isASecret { return .heldBack(heldBack) }
-            if size == nil {
-                if closedByPermissions { return .heldBack(.closedByPermissions) }
-                return .heldBack(couldNotBeRead ? .couldNotBeRead : .notMeasured)
-            }
+            if let whyNotMeasured { return .heldBack(whyNotMeasured) }
             if let heldBack { return .heldBack(heldBack) }
             switch kind {
             case .buildData, .downloads, .cache, .logs: break

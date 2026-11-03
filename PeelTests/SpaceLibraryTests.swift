@@ -27,6 +27,25 @@ struct SpaceLibraryTests {
         await space.measureModels()
 
         #expect(space.models == SizeTotal(known: 3_000, isComplete: true))
+        #expect(space.modelsNotMeasured.isEmpty)
+    }
+
+    @Test func keepsWhyAModelsFolderWasntMeasured() async {
+        func location(_ name: String, closed: Bool = false, unread: Bool = false) -> DeveloperEnvironment.Location {
+            var location = DeveloperEnvironment.Location(
+                url: URL(filePath: "/tmp/org.example.\(name)"), kind: .models, size: nil, source: "https://example.com"
+            )
+            location.couldNotBeRead = unread || closed
+            location.closedByPermissions = closed
+            return location
+        }
+        let models = [location("slow"), location("closed", closed: true), location("unread", unread: true)]
+        let space = SpaceLibrary(measuringModels: { _ in models })
+
+        await space.measureModels()
+
+        #expect(space.models?.reading == .unknown)
+        #expect(space.modelsNotMeasured == [.notMeasured, .closedByPermissions, .couldNotBeRead])
     }
 
     @Test func aPlanThatStartedEarlierAndEndedLaterIsDropped() async throws {
