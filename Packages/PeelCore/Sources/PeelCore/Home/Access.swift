@@ -79,7 +79,13 @@ public enum CommandLineTool {
         case otherPeel
         /// A file that is not a link, or a link to anything but a Peel's tool. It may not be Peel's, so Peel never
         /// offers a command that replaces it.
-        case somethingElse
+        case somethingElse(Other)
+    }
+
+    public enum Other: Sendable, Hashable {
+        case file
+        /// A link, to where it leads.
+        case link(to: String)
     }
 
     /// Where Peel is running from. It decides whether a link to the tool inside Peel keeps working.
@@ -151,12 +157,12 @@ public enum CommandLineTool {
             var info = stat()
             guard lstat(path, &info) == 0 else { return .missing }
             // A file that is not a link: something else named `peel`, not Peel's tool.
-            return .somethingElse
+            return .somethingElse(.file)
         }
         let target = URL(filePath: destination, relativeTo: URL(filePath: path).deletingLastPathComponent())
             .standardizedFileURL
         guard target.path(percentEncoded: false) == embedded.standardizedFileURL.path(percentEncoded: false) else {
-            return isAPeelsTool(target) ? .otherPeel : .somethingElse
+            return isAPeelsTool(target) ? .otherPeel : .somethingElse(.link(to: target.path(percentEncoded: false)))
         }
         return manager.isExecutableFile(atPath: target.path(percentEncoded: false)) ? .installed : .otherPeel
     }

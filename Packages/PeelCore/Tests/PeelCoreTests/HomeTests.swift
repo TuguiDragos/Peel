@@ -251,7 +251,7 @@ struct AppManagementTests {
 
         try FileManager.default.removeItem(atPath: link)
         try FileManager.default.createSymbolicLink(atPath: link, withDestinationPath: "/opt/other/bin/peel")
-        #expect(standing() == .somethingElse, "a link to another program read as Peel's")
+        #expect(standing() == .somethingElse(.link(to: "/opt/other/bin/peel")), "a link to another program read as Peel's")
 
         try FileManager.default.removeItem(atPath: link)
         let stranger = try directory.file("stranger", bytes: 16)
@@ -260,7 +260,7 @@ struct AppManagementTests {
             ofItemAtPath: stranger.path(percentEncoded: false)
         )
         try FileManager.default.copyItem(atPath: stranger.path(percentEncoded: false), toPath: link)
-        #expect(standing() == .somethingElse, "somebody else's executable read as Peel's tool")
+        #expect(standing() == .somethingElse(.file), "somebody else's executable read as Peel's tool")
     }
 
     /// `ln -f` deletes what is in the link's place, for good, so it replaces only a link to another Peel's tool,
@@ -271,7 +271,7 @@ struct AppManagementTests {
 
         #expect(CommandLineTool.installCommand(embedded: embedded, standing: .missing) == "sudo mkdir -p /usr/local/bin && sudo ln -s '/Applications/Peel.app/Contents/Helpers/peel' /usr/local/bin/peel")
         #expect(CommandLineTool.installCommand(embedded: embedded, standing: .otherPeel) == "sudo mkdir -p /usr/local/bin && sudo ln -sf '/Applications/Peel.app/Contents/Helpers/peel' /usr/local/bin/peel")
-        #expect(CommandLineTool.installCommand(embedded: embedded, standing: .somethingElse) == nil)
+        #expect(CommandLineTool.installCommand(embedded: embedded, standing: .somethingElse(.file)) == nil)
         let translocated = URL(filePath: "/private/var/folders/x/AppTranslocation/41B9A/d/Peel.app/Contents/Helpers/peel")
         #expect(CommandLineTool.installCommand(embedded: translocated, standing: .missing) == nil)
         #expect(CommandLineTool.installCommand(embedded: translocated, standing: .otherPeel) == nil)

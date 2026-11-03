@@ -188,10 +188,18 @@ final class HomeModel {
         if state == .notThisAccount {
             return "Putting it on the path takes an administrator, and Peel’s Settings gives a line for your shell that runs it from this account."
         }
-        if standing == .somethingElse {
-            return "Something else is at \(CommandLineTool.path), and Peel offers no command that would replace it."
-        }
+        if case .somethingElse(let other) = standing { return inTheToolsPlace(other) }
         return "Copy the install command and run it in Terminal: it asks for your password."
+    }
+
+    /// What stands where the link to the tool goes, which Peel never replaces, as Home and Settings say it.
+    static func inTheToolsPlace(_ other: CommandLineTool.Other) -> LocalizedStringResource {
+        switch other {
+        case .file:
+            "A file, not a link, is at \(CommandLineTool.path), so it may not be Peel’s, and Peel offers no command that would replace it."
+        case .link(let target):
+            "\(CommandLineTool.path) is a link to \(target), not to Peel’s tool, and Peel offers no command that would replace it."
+        }
     }
 
     /// Required permissions still pending, such as a helper waiting for approval or a check that got no

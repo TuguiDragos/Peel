@@ -17,7 +17,8 @@ struct HomeNotesTests {
         #expect(next(.off, .missing, .readOnlyVolume)?.hasPrefix("Peel is running from a read-only disk") == true)
         #expect(next(.notThisAccount, .missing, .temporaryCopy)?.hasPrefix("Peel is running from a copy") == true)
         #expect(next(.notThisAccount, .missing, .applications)?.hasPrefix("Putting it on the path takes") == true)
-        #expect(next(.off, .somethingElse, .applications)?.hasPrefix("Something else is at") == true)
+        #expect(next(.off, .somethingElse(.file), .applications)?.hasPrefix("A file, not a link, is at /usr/local/bin/peel") == true)
+        #expect(next(.off, .somethingElse(.link(to: "/opt/other/bin/peel")), .applications) == "/usr/local/bin/peel is a link to /opt/other/bin/peel, not to Peel’s tool, and Peel offers no command that would replace it.")
     }
 
     @Test func theHelpersPointerNoteNamesWhatSystemSettingsShows() {

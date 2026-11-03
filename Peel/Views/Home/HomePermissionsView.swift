@@ -371,7 +371,11 @@ extension HomeModel {
                 ? "Known again once Peel moves another developer’s app" : "Known once Peel moves another developer’s app"
         case (.commandLine, .on): "Installed"
         case (.commandLine, _):
-            HomeModel.commandLineStanding == .somethingElse ? "Something else is there" : "Not installed"
+            switch HomeModel.commandLineStanding {
+            case .somethingElse(.file): "Another file is there"
+            case .somethingElse(.link): "Another link is there"
+            case .installed, .missing, .otherPeel: "Not installed"
+            }
         case (_, .on): "On"
         case (_, .pending): LocalizedStringResource("Unknown (permission state)", defaultValue: "Unknown")
         case (_, .off), (_, .missing): "Off"

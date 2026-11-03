@@ -391,8 +391,8 @@ private struct GeneralSettingsView: View {
                             .font(.caption.monospaced())
                             .foregroundStyle(.secondary)
                             .textSelection(.enabled)
-                    } else {
-                        Text("Something else is at \(Text(verbatim: CommandLineTool.path)), and Peel offers no command that would replace it.")
+                    } else if case .somethingElse(let other) = commandLine {
+                        Text(HomeModel.inTheToolsPlace(other))
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }

@@ -6040,6 +6040,118 @@
         }
       }
     },
+    "%@ is a link to %@, not to Peel’s tool, and Peel offers no command that would replace it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ je odkaz na %2$@, ne na nástroj Peelu, a Peel nenabízí žádný příkaz, který by ho nahradil."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ist ein Link zu %@, nicht zum Befehlszeilentool von Peel, und Peel bietet keinen Befehl an, der ihn ersetzen würde."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ is a link to %2$@, not to Peel’s tool, and Peel offers no command that would replace it."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ es un enlace a %@, no a la herramienta de Peel, y Peel no ofrece ningún comando que lo sustituya."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ est un lien vers %2$@, pas vers l’outil de Peel, et Peel ne propose aucune commande qui le remplacerait."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ è un link a %@, non allo strumento di Peel, e Peel non offre alcun comando che lo sostituisca."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@は、Peelのツールではなく%@へのリンクです。Peelはそれを置き換えるコマンドを提示しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@은(는) Peel의 명령어 라인 도구가 아닌 %@(으)로 연결되는 링크이며, Peel은 이를 대체하는 명령을 제공하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ is een link naar %@, niet naar de commandoregeltool van Peel, en Peel biedt geen commando aan dat de link zou vervangen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ to dowiązanie do %@, nie do narzędzia Peel, a Peel nie oferuje polecenia, które by je zastąpiło."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ é um link para %@, não para a ferramenta do Peel, e o Peel não oferece nenhum comando que o substitua."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ este un link către %@, nu către instrumentul Peel, iar Peel nu oferă nicio comandă care l‑ar înlocui."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По пути %1$@ находится ссылка на %2$@, а не на инструмент Peel, и Peel не предлагает команду, которая бы ее заменила."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ är en länk till %@, inte till Peels verktyg, och Peel erbjuder inget kommando som skulle ersätta den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, Peel’in komut satırı aracını değil, %@ konumunu gösteren bir bağlantı ve Peel onu değiştirecek bir komut sunmuyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "За шляхом %@ є посилання на %@, а не на інструмент командного рядка Peel, і Peel не пропонує команди, яка б його замінила."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@是指向%@的链接，并未指向Peel的工具，而Peel不提供会替换它的命令。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@是指向%@的連結，而不是指向Peel的命令列工具，Peel不提供會取代它的指令。"
+          }
+        }
+      }
+    },
     "%@ is already installed" : {
       "localizations" : {
         "cs" : {
@@ -12366,6 +12478,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "衝突會在兩邊的內容之間，顯示這些行在雙方變更之前的原貌。"
+          }
+        }
+      }
+    },
+    "A file, not a link, is at %@, so it may not be Peel’s, and Peel offers no command that would replace it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V umístění %@ je soubor, ne odkaz, takže nemusí patřit Peelu, a Peel nenabízí žádný příkaz, který by ho nahradil."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unter %@ liegt eine Datei und kein Link, daher gehört sie möglicherweise nicht zu Peel, und Peel bietet keinen Befehl an, der sie ersetzen würde."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En %@ hay un archivo, no un enlace, así que puede que no sea de Peel, y Peel no ofrece ningún comando que lo sustituya."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un fichier, et non un lien, se trouve à l’emplacement %@ : il n’appartient donc peut-être pas à Peel, et Peel ne propose aucune commande qui le remplacerait."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In %@ c’è un file, non un link, quindi potrebbe non essere di Peel, e Peel non offre alcun comando che lo sostituisca."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@にはリンクではなくファイルがあるため、Peelのものではない可能性があります。Peelはそれを置き換えるコマンドを提示しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에 링크가 아닌 파일이 있으므로 Peel의 파일이 아닐 수 있으며, Peel은 이를 대체하는 명령을 제공하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Op %@ staat een bestand, geen link, dus het is misschien niet van Peel, en Peel biedt geen commando aan dat het zou vervangen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pod ścieżką %@ jest plik, nie dowiązanie, więc może nie należeć do Peel, a Peel nie oferuje polecenia, które by go zastąpiło."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em %@ há um arquivo, não um link, então pode não ser do Peel, e o Peel não oferece nenhum comando que o substitua."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La %@ se află un fișier, nu un link, așa că s‑ar putea să nu aparțină aplicației Peel, iar Peel nu oferă nicio comandă care l‑ar înlocui."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По пути %@ находится файл, а не ссылка, поэтому он может не принадлежать Peel, и Peel не предлагает команду, которая бы его заменила."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En fil, inte en länk, finns på %@, så den kanske inte är Peels, och Peel erbjuder inget kommando som skulle ersätta den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ konumunda bir bağlantı değil, bir dosya var, bu yüzden Peel’e ait olmayabilir ve Peel onu değiştirecek bir komut sunmuyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "За шляхом %@ лежить файл, а не посилання, тож він може й не належати Peel, і Peel не пропонує команди, яка б його замінила."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@位置是一个文件而不是链接，因此它可能不属于Peel，而Peel不提供会替换它的命令。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@是一個檔案而不是連結，因此它可能不屬於Peel，而Peel不提供會取代它的指令。"
           }
         }
       }
@@ -20508,6 +20726,112 @@
         }
       }
     },
+    "Another file is there" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je tam jiný soubor"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dort liegt eine andere Datei"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hay otro archivo ahí"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un autre fichier s’y trouve"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’è un altro file al suo posto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "別のファイルがあります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 파일이 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daar staat een ander bestand"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jest tam inny plik"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Há outro arquivo lá"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acolo se află alt fișier"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Там уже другой файл"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En annan fil finns där"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orada başka bir dosya var"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Там уже інший файл"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该位置已有另一个文件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "那裡已有另一個檔案"
+          }
+        }
+      }
+    },
     "Another file with this name is loaded" : {
       "localizations" : {
         "cs" : {
@@ -20610,6 +20934,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "另一個同名的檔案已載入"
+          }
+        }
+      }
+    },
+    "Another link is there" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je tam jiný odkaz"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dort liegt ein anderer Link"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hay otro enlace ahí"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un autre lien s’y trouve"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’è un altro link al suo posto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "別のリンクがあります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 링크가 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daar staat een andere link"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jest tam inne dowiązanie"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Há outro link lá"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acolo se află alt link"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Там уже другая ссылка"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En annan länk finns där"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orada başka bir bağlantı var"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Там уже інше посилання"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该位置已有另一个链接"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "那裡已有另一個連結"
           }
         }
       }
@@ -188763,218 +189193,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel會在%@記下每一次移動，但那裡有一個它無法使用的項目，而且Peel無法將它移到一旁。在該項目移走之前，Peel不會移除任何項目，以確保它移動的所有項目都能還原。"
-          }
-        }
-      }
-    },
-    "Something else is at %@, and Peel offers no command that would replace it." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "V umístění %@ je něco jiného a Peel nenabízí žádný příkaz, který by to nahradil."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unter %@ liegt etwas anderes, und Peel bietet keinen Befehl an, der es ersetzen würde."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hay otra cosa en %@ y Peel no ofrece ningún comando que la sustituya."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Autre chose se trouve à l’emplacement %@, et Peel ne propose aucune commande qui le remplacerait."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In %@ c’è qualcos’altro e Peel non offre alcun comando che lo sostituisca."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@には別のものがあります。Peelはそれを置き換えるコマンドを提示しません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@에 다른 항목이 있으며, Peel은 이를 대체하는 명령을 제공하지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Op %@ staat iets anders, en Peel biedt geen commando aan dat het zou vervangen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pod ścieżką %@ jest coś innego, a Peel nie oferuje polecenia, które by to zastąpiło."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Há outra coisa em %@, e o Peel não oferece nenhum comando que a substitua."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La %@ se află altceva, iar Peel nu oferă nicio comandă care l‑ar înlocui."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "По пути %@ уже находится что-то другое, и Peel не предлагает команду, которая бы это заменила."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Något annat finns på %@, och Peel erbjuder inget kommando som skulle ersätta det."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ konumunda başka bir şey var ve Peel onu değiştirecek bir komut sunmuyor."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "За шляхом %@ уже є щось інше, і Peel не пропонує команди, яка б це замінила."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@位置已有其他内容，Peel不提供会替换它的命令。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@已有其他項目，Peel不提供會取代它的指令。"
-          }
-        }
-      }
-    },
-    "Something else is there" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je tam něco jiného"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dort liegt etwas anderes"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hay otra cosa ahí"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Autre chose s’y trouve"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "C’è qualcos’altro al suo posto"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "別のものがあります"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "다른 항목이 있음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Daar staat iets anders"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jest tam coś innego"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Há outra coisa lá"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Acolo se află altceva"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Там уже что-то другое"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Något annat finns där"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Orada başka bir şey var"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Там уже щось інше"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "该位置已有其他内容"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "那裡已有其他項目"
           }
         }
       }
