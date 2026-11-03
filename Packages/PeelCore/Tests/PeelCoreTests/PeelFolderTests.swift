@@ -26,8 +26,8 @@ struct PeelFolderTests {
         FileLock.whileHeld(beside: file("a.json")) {}
         #expect(AppFolders(url: file("app-folders.json")).add([directory.url]) != .saved)
         #expect(HomebrewChoice(url: file("homebrew.json")).save(nil) != nil)
-        #expect(!ShellFile.write(ShellFile.Choices(), to: file("Terminal/zshrc")))
-        #expect(!SSHFile.write([], to: file("Terminal/ssh_config")))
+        #expect(ShellFile.write(ShellFile.Choices(), to: file("Terminal/zshrc")) != nil)
+        #expect(SSHFile.write([], to: file("Terminal/ssh_config")) != nil)
         await ReleaseNotesStore(url: file("release-notes.json")).save(ReleaseNotesMemory())
         let known = KnownDigests(entries: [:], day: 0)
         let identity = try #require(FileIdentity.of(try directory.file("a file")))

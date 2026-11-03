@@ -6,6 +6,8 @@ import PeelCore
 final class SSHLibrary {
     struct State: Equatable {
         var settings: Set<SSHSetting>?
+        /// Why Peel's file can't be read, while `settings` is nil, when Peel knows.
+        var whyUnreadable: FileProblem?
         var isIncluded: Bool
         /// What the ssh on this Mac accepts, nil while it has not answered.
         var accepted: Set<SSHSetting>?
@@ -15,7 +17,8 @@ final class SSHLibrary {
     let config: URL
     private let home: URL
     private(set) var state: State?
-    private(set) var wasRefused = false
+    /// Why Peel's file couldn't be saved, until the page forgets it.
+    private(set) var whyRefused: FileProblem?
 
     init(folder: URL = PeelFolder.url, home: URL = .homeDirectory) {
         file = SSHFile.url(in: folder)
@@ -35,8 +38,10 @@ final class SSHLibrary {
         let accepted = if let accepted = state?.accepted { accepted } else { await SSHFile.accepted() }
         // A reading stopped because the page went away got no answer from ssh, which isn't ssh not answering.
         guard !Task.isCancelled else { return }
+        let settings = SSHFile.read(file)
         state = State(
-            settings: SSHFile.read(file),
+            settings: settings,
+            whyUnreadable: settings == nil ? SSHFile.whyUnreadable(file) : nil,
             isIncluded: SSHFile.isIncluded(file, from: config, home: home),
             accepted: accepted
         )
@@ -64,11 +69,13 @@ final class SSHLibrary {
     }
 
     func forgetRefusal() {
-        wasRefused = false
+        whyRefused = nil
     }
 
     private func write(_ settings: Set<SSHSetting>) {
-        wasRefused = !SSHFile.write(settings, to: file)
-        state?.settings = SSHFile.read(file)
+        whyRefused = SSHFile.write(settings, to: file)
+        let written = SSHFile.read(file)
+        state?.settings = written
+        state?.whyUnreadable = written == nil ? SSHFile.whyUnreadable(file) : nil
     }
 }

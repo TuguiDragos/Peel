@@ -8,6 +8,8 @@ final class ShellLibrary {
         var shell: ShellSessions?
         var startupFile: URL?
         var choices: ShellFile.Choices?
+        /// Why Peel's file can't be read, while `choices` is nil, when Peel knows.
+        var whyUnreadable: FileProblem?
         var isSourced: Bool
         var setsItsOwnPrompt: Bool
         /// What zsh answered when asked which prompt it shows, asked only while Peel's prompt is on and its line read.
@@ -19,7 +21,8 @@ final class ShellLibrary {
     private let home: URL
     private let terminal: any TerminalSettingsStoring
     private(set) var state: State?
-    private(set) var wasRefused = false
+    /// Why Peel's file couldn't be saved, until the page forgets it.
+    private(set) var whyRefused: FileProblem?
     private(set) var draft = Prompt()
 
     init(
@@ -61,6 +64,7 @@ final class ShellLibrary {
             shell: shell,
             startupFile: startupFile,
             choices: choices,
+            whyUnreadable: choices == nil ? ShellFile.whyUnreadable(file) : nil,
             isSourced: isSourced,
             setsItsOwnPrompt: startupFile.map { ShellFile.setsItsOwnPrompt(after: file, in: $0, home: home) } ?? false,
             shownPrompt: shownPrompt,
@@ -107,11 +111,13 @@ final class ShellLibrary {
     }
 
     func forgetRefusal() {
-        wasRefused = false
+        whyRefused = nil
     }
 
     private func write(_ choices: ShellFile.Choices) {
-        wasRefused = !ShellFile.write(choices, to: file)
-        state?.choices = ShellFile.read(file)
+        whyRefused = ShellFile.write(choices, to: file)
+        let written = ShellFile.read(file)
+        state?.choices = written
+        state?.whyUnreadable = written == nil ? ShellFile.whyUnreadable(file) : nil
     }
 }

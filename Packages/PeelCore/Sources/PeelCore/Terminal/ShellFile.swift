@@ -50,8 +50,20 @@ public enum ShellFile {
         return BoundedRead.data(at: url, maximum: maximumBytes).map { choices(in: String(decoding: $0, as: UTF8.self)) }
     }
 
-    public static func write(_ choices: Choices, to url: URL) -> Bool {
-        (try? PeelFolder.write(Data(contents(of: choices).utf8), to: url)) != nil
+    /// Why the file at `url` can't be read, or nil when it can, or isn't there.
+    public static func whyUnreadable(_ url: URL) -> FileProblem? {
+        url.isMissing ? nil : BoundedRead.whyUnreadable(url, maximum: maximumBytes)
+    }
+
+    /// Writes `choices` to `url`, and answers why it couldn't, or nil once it did.
+    @discardableResult
+    public static func write(_ choices: Choices, to url: URL) -> FileProblem? {
+        do {
+            try PeelFolder.write(Data(contents(of: choices).utf8), to: url)
+            return nil
+        } catch {
+            return .failed(SystemError(error))
+        }
     }
 
     public static func line(sourcing url: URL, home: URL) -> String {

@@ -142498,6 +142498,112 @@
         }
       }
     },
+    "Peel couldn’t save its settings file." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl uložit svůj soubor nastavení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte die eigene Einstellungsdatei nicht sichern."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido guardar su archivo de ajustes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu enregistrer son fichier de réglages."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a salvare il proprio file delle impostazioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは自身の設定ファイルを保存できませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 자신의 설정 파일을 저장할 수 없었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon zijn instellingenbestand niet bewaren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł zachować swojego pliku ustawień."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu salvar o próprio arquivo de ajustes."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu și‑a putut salva fișierul de configurare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось сохранить свой файл настроек."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte spara sin inställningsfil."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kendi ayar dosyasını kaydedemedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося зберегти свій файл налаштувань."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能保存它的设置文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法儲存它的設定檔。"
+          }
+        }
+      }
+    },
     "Peel couldn’t save that these files belong to %@" : {
       "localizations" : {
         "cs" : {
@@ -157640,108 +157746,108 @@
         }
       }
     },
-    "Peel’s settings file couldn’t be read" : {
+    "Peel’s settings file couldn’t be read." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Soubor nastavení Peelu nelze přečíst"
+            "value" : "Soubor nastavení Peelu nelze přečíst."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Einstellungsdatei von Peel konnte nicht gelesen werden"
+            "value" : "Die Einstellungsdatei von Peel konnte nicht gelesen werden."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No se ha podido leer el archivo de ajustes de Peel"
+            "value" : "No se ha podido leer el archivo de ajustes de Peel."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossible de lire le fichier de réglages de Peel"
+            "value" : "Impossible de lire le fichier de réglages de Peel."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossibile leggere il file delle impostazioni di Peel"
+            "value" : "Impossibile leggere il file delle impostazioni di Peel."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelの設定ファイルを読み取れませんでした"
+            "value" : "Peelの設定ファイルを読み取れませんでした。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel 설정 파일을 읽을 수 없음"
+            "value" : "Peel 설정 파일을 읽을 수 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het instellingenbestand van Peel kon niet worden gelezen"
+            "value" : "Het instellingenbestand van Peel kon niet worden gelezen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nie udało się odczytać pliku ustawień Peel"
+            "value" : "Nie udało się odczytać pliku ustawień Peel."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Não foi possível ler o arquivo de ajustes do Peel"
+            "value" : "Não foi possível ler o arquivo de ajustes do Peel."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fișierul de configurare Peel nu a putut fi citit"
+            "value" : "Fișierul de configurare Peel nu a putut fi citit."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Не удалось прочитать файл настроек Peel"
+            "value" : "Не удалось прочитать файл настроек Peel."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peels inställningsfil kunde inte läsas"
+            "value" : "Peels inställningsfil kunde inte läsas."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’in ayar dosyası okunamadı"
+            "value" : "Peel’in ayar dosyası okunamadı."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Не вдалося прочитати файл налаштувань Peel"
+            "value" : "Не вдалося прочитати файл налаштувань Peel."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未能读取Peel的设置文件"
+            "value" : "未能读取Peel的设置文件。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "無法讀取Peel的設定檔"
+            "value" : "無法讀取Peel的設定檔。"
           }
         }
       }

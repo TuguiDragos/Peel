@@ -17,7 +17,7 @@ struct PromptTests {
             git.waitUntilExit()
             #expect(git.terminationStatus == 0)
         }
-        #expect(ShellFile.write(.init(prompt: prompt), to: shell.peelFile))
+        #expect(ShellFile.write(.init(prompt: prompt), to: shell.peelFile) == nil)
         let shown = try shell.output(
             of: "cd ~/Projects/peel; (( $+functions[vcs_info] )) && vcs_info; true; print -rnP -- \"${(e)PROMPT}\"; "
                 + "print -n '|'; false; print -rnP -- \"${(e)PROMPT}\"; print -n '|'; print -rn -- \"$PROMPT\""
@@ -41,7 +41,7 @@ struct PromptTests {
         let shell = try ZshHome()
         for start in Prompt.Start.allCases {
             let prompt = Prompt(start: start, showsBranch: false)
-            #expect(ShellFile.write(.init(prompt: prompt), to: shell.peelFile))
+            #expect(ShellFile.write(.init(prompt: prompt), to: shell.peelFile) == nil)
             let shown = try shell.output(of: "cd ~; print -rnP -- \"${(e)PROMPT}\"")
             let sample = prompt.sample(user: NSUserName(), host: Prompt.hostName(), path: "~", branch: nil, failed: false)
             #expect(Self.merged(Self.segments(in: shown)) == Self.merged(sample), "\(start)")
@@ -58,7 +58,7 @@ struct PromptTests {
             (["alias ll='ls -l'"], false),
         ] {
             let shell = try ZshHome(thenRun: lines)
-            #expect(ShellFile.write(.init(prompt: peelsOwn), to: shell.peelFile))
+            #expect(ShellFile.write(.init(prompt: peelsOwn), to: shell.peelFile) == nil)
             let startup = shell.home.appending(path: ".zshrc")
             #expect(ShellFile.setsItsOwnPrompt(after: shell.peelFile, in: startup, home: shell.home) == setsItsOwn, "\(lines)")
             let shown = try shell.output(of: "print -rnP -- \"$PROMPT\"")
@@ -84,7 +84,7 @@ struct PromptTests {
         ] {
             let shell = try ZshHome(before: lines)
             try "print noise after\n".write(to: shell.home.appending(path: ".zlogout"), atomically: true, encoding: .utf8)
-            #expect(ShellFile.write(.init(prompt: peels), to: shell.peelFile))
+            #expect(ShellFile.write(.init(prompt: peels), to: shell.peelFile) == nil)
             let zsh = ShellSessions.zsh(startupFile: shell.home.appending(path: ".zshenv"))
             let zdotdir = shell.home.path(percentEncoded: false)
             let shown = try #require(await zsh.promptShown(home: shell.home, zdotdir: zdotdir))
@@ -92,7 +92,7 @@ struct PromptTests {
             #expect(shown.setBeforeEachCommandBy == setters, "\(lines)")
         }
         let after = try ZshHome(thenRun: ["PROMPT='static> '"])
-        #expect(ShellFile.write(.init(prompt: peels), to: after.peelFile))
+        #expect(ShellFile.write(.init(prompt: peels), to: after.peelFile) == nil)
         let zsh = ShellSessions.zsh(startupFile: after.home.appending(path: ".zshenv"))
         let zdotdir = after.home.path(percentEncoded: false)
         let shown = try #require(await zsh.promptShown(home: after.home, zdotdir: zdotdir))

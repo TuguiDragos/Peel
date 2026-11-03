@@ -32,23 +32,23 @@ struct ShellFileTests {
         #expect(Set(Self.inEffect.keys) == Set(ShellSetting.allCases))
         for setting in ShellSetting.allCases {
             let check = try #require(Self.inEffect[setting])
-            #expect(ShellFile.write(.init(), to: shell.peelFile))
+            #expect(ShellFile.write(.init(), to: shell.peelFile) == nil)
             #expect(try shell.answers(check) == false, "\(setting)")
-            #expect(ShellFile.write(.init(settings: [setting]), to: shell.peelFile))
+            #expect(ShellFile.write(.init(settings: [setting]), to: shell.peelFile) == nil)
             #expect(try shell.answers(check) == true, "\(setting)")
         }
     }
 
     @Test func everySettingAtOnceIsInEffectWithoutAnError() throws {
         let shell = try ZshHome()
-        #expect(ShellFile.write(.init(settings: Set(ShellSetting.allCases)), to: shell.peelFile))
+        #expect(ShellFile.write(.init(settings: Set(ShellSetting.allCases)), to: shell.peelFile) == nil)
         let all = ShellSetting.allCases.compactMap { Self.inEffect[$0] }.map { "{ \($0) }" }.joined(separator: " && ")
         #expect(try shell.answers(all))
     }
 
     @Test func upAndDownFindTheCommandsThatStartWithWhatWasTyped() throws {
         let shell = try ZshHome(thenRun: ["PS1='ready> '"])
-        #expect(ShellFile.write(.init(settings: [.prefixSearch]), to: shell.peelFile))
+        #expect(ShellFile.write(.init(settings: [.prefixSearch]), to: shell.peelFile) == nil)
         for up in ["\u{1B}[A", "\u{1B}OA"] {
             try "echo alpha\necho beta\n".write(to: shell.home.appending(path: ".zsh_history"), atomically: true, encoding: .utf8)
             let terminal = try PseudoTerminal()
@@ -73,6 +73,23 @@ struct ShellFileTests {
             #expect(terminal.drawn.contains("\r\nalpha\r\n"), "\(up.debugDescription): \(terminal.drawn.debugDescription)")
             #expect(!terminal.drawn.contains("\r\nbeta\r\n"), "\(up.debugDescription)")
         }
+    }
+
+    @Test(.permissionsHold) func saysWhyItsFileCouldNotBeReadOrSaved() throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("Terminal")
+        let closed = try directory.file("Terminal/zshrc", contents: Data("x".utf8))
+        try directory.setPermissions(0o000, of: "Terminal/zshrc")
+        defer { try? directory.setPermissions(0o644, of: "Terminal/zshrc") }
+
+        #expect(ShellFile.read(closed) == nil)
+        #expect(ShellFile.whyUnreadable(closed) == .failed(SystemError(domain: NSPOSIXErrorDomain, code: Int(EACCES))))
+        #expect(ShellFile.whyUnreadable(folder.appending(path: "missing")) == nil)
+
+        try directory.setPermissions(0o500, of: folder)
+        defer { try? directory.setPermissions(0o755, of: folder) }
+        let refusedWrite = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
+        #expect(ShellFile.write(.init(), to: folder.appending(path: "zshrc 2")) == .failed(refusedWrite))
     }
 
     @Test func theFileReadsBackAsTheChoicesWrittenInIt() {
@@ -102,7 +119,7 @@ struct ShellFileTests {
         try FileManager.default.createDirectory(at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
         try "theirs\n".write(to: theirs, atomically: true, encoding: .utf8)
         try FileManager.default.createSymbolicLink(at: file, withDestinationURL: theirs)
-        #expect(ShellFile.write(.init(settings: [.comments]), to: file))
+        #expect(ShellFile.write(.init(settings: [.comments]), to: file) == nil)
         #expect(try String(contentsOf: theirs, encoding: .utf8) == "theirs\n")
         #expect(try file.resourceValues(forKeys: [.isSymbolicLinkKey]).isSymbolicLink == false)
         #expect(ShellFile.read(file) == .init(settings: [.comments]))
@@ -196,7 +213,7 @@ struct PeelLinesCommandTests {
         let home = directory.url
         let file = ShellFile.url(in: home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory))
         let zshrc = home.appending(path: ".zshrc")
-        #expect(ShellFile.write(.init(settings: [.autoCD]), to: file))
+        #expect(ShellFile.write(.init(settings: [.autoCD]), to: file) == nil)
         try Data("export PEEL_PROBE=1".utf8).write(to: zshrc)
         let line = ShellFile.line(sourcing: file, home: home)
         #expect(try await run(ShellFile.command(adding: line, to: zshrc, home: home), home: home) == 0)

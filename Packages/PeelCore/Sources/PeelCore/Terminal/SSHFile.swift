@@ -54,8 +54,20 @@ public enum SSHFile {
         }
     }
 
-    public static func write(_ settings: Set<SSHSetting>, to url: URL) -> Bool {
-        (try? PeelFolder.write(Data(contents(of: settings).utf8), to: url)) != nil
+    /// Why the file at `url` can't be read, or nil when it can, or isn't there.
+    public static func whyUnreadable(_ url: URL) -> FileProblem? {
+        url.isMissing ? nil : BoundedRead.whyUnreadable(url, maximum: maximumBytes)
+    }
+
+    /// Writes `settings` to `url`, and answers why it couldn't, or nil once it did.
+    @discardableResult
+    public static func write(_ settings: Set<SSHSetting>, to url: URL) -> FileProblem? {
+        do {
+            try PeelFolder.write(Data(contents(of: settings).utf8), to: url)
+            return nil
+        } catch {
+            return .failed(SystemError(error))
+        }
     }
 
     /// The lines that make ssh read the file. `Match all` first, so they apply to every server even after a `Host`

@@ -11,12 +11,17 @@ struct ShellTab: View {
                 Section {
                     ShellLineRow(state: state)
                 } footer: {
-                    if shell.wasRefused {
-                        StatusLabel(title: Text("macOS refused it"), tint: .accentColor)
+                    if let why = shell.whyRefused {
+                        StatusLabel(
+                            title: Text(verbatim: why.peelsSettingsNotSaved(at: shell.file)), tint: .accentColor
+                        )
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     } else if state.startupFile != nil, state.choices == nil {
-                        StatusLabel(title: Text("Peel’s settings file couldn’t be read"), tint: .accentColor)
+                        StatusLabel(
+                            title: Text(verbatim: state.whyUnreadable.peelsSettingsUnreadable(at: shell.file)),
+                            tint: .accentColor
+                        )
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     } else if state.startupFile != nil, state.known == nil {

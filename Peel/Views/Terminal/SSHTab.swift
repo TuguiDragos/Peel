@@ -11,12 +11,15 @@ struct SSHTab: View {
                 Section {
                     SSHLinesRow(isIncluded: state.isIncluded)
                 } footer: {
-                    if ssh.wasRefused {
-                        StatusLabel(title: Text("macOS refused it"), tint: .accentColor)
+                    if let why = ssh.whyRefused {
+                        StatusLabel(title: Text(verbatim: why.peelsSettingsNotSaved(at: ssh.file)), tint: .accentColor)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     } else if state.settings == nil {
-                        StatusLabel(title: Text("Peel’s settings file couldn’t be read"), tint: .accentColor)
+                        StatusLabel(
+                            title: Text(verbatim: state.whyUnreadable.peelsSettingsUnreadable(at: ssh.file)),
+                            tint: .accentColor
+                        )
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     } else if state.accepted == nil {

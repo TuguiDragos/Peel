@@ -284,6 +284,18 @@ extension FileProblem? {
     func said(after sentence: String, about url: URL) -> String {
         self?.said(after: sentence, about: url) ?? sentence
     }
+
+    /// What the Shell and SSH tabs say when Peel's own settings file at `url` can't be read.
+    func peelsSettingsUnreadable(at url: URL) -> String {
+        said(after: String(localized: "Peel’s settings file couldn’t be read."), about: url)
+    }
+}
+
+extension FileProblem {
+    /// What the Shell and SSH tabs say when Peel's own settings file at `url` couldn't be saved.
+    func peelsSettingsNotSaved(at url: URL) -> String {
+        said(after: String(localized: "Peel couldn’t save its settings file."), about: url)
+    }
 }
 
 extension AppLibrary {

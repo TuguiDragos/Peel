@@ -49,10 +49,10 @@ struct SSHFileTests {
         #expect(Set(Self.inEffect.keys) == Set(SSHSetting.allCases))
         for setting in SSHSetting.allCases {
             let wanted = try #require(Self.inEffect[setting])
-            #expect(SSHFile.write([], to: ssh.peelFile))
+            #expect(SSHFile.write([], to: ssh.peelFile) == nil)
             let before = try await ssh.options(for: "example.org")
             #expect(wanted.allSatisfy { before[$0.key] != $0.value }, "\(setting)")
-            #expect(SSHFile.write([setting], to: ssh.peelFile))
+            #expect(SSHFile.write([setting], to: ssh.peelFile) == nil)
             let after = try await ssh.options(for: "example.org")
             #expect(wanted.allSatisfy { after[$0.key] == $0.value }, "\(setting)")
         }
@@ -61,9 +61,26 @@ struct SSHFileTests {
 
     @Test func whatTheConfigSetsForAServerEarlierStaysFirst() async throws {
         let ssh = try SSHHome(before: ["Host server", "  ServerAliveInterval 10"])
-        #expect(SSHFile.write([.keepAlive], to: ssh.peelFile))
+        #expect(SSHFile.write([.keepAlive], to: ssh.peelFile) == nil)
         #expect(try await ssh.options(for: "server")["serveraliveinterval"] == "10")
         #expect(try await ssh.options(for: "example.org")["serveraliveinterval"] == "60")
+    }
+
+    @Test(.permissionsHold) func saysWhyItsFileCouldNotBeReadOrSaved() throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("Terminal")
+        let closed = try directory.file("Terminal/ssh_config", contents: Data("x".utf8))
+        try directory.setPermissions(0o000, of: "Terminal/ssh_config")
+        defer { try? directory.setPermissions(0o644, of: "Terminal/ssh_config") }
+
+        #expect(SSHFile.read(closed) == nil)
+        #expect(SSHFile.whyUnreadable(closed) == .failed(SystemError(domain: NSPOSIXErrorDomain, code: Int(EACCES))))
+        #expect(SSHFile.whyUnreadable(folder.appending(path: "missing")) == nil)
+
+        try directory.setPermissions(0o500, of: folder)
+        defer { try? directory.setPermissions(0o755, of: folder) }
+        let refusedWrite = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
+        #expect(SSHFile.write([], to: folder.appending(path: "ssh_config 2")) == .failed(refusedWrite))
     }
 
     @Test func theSSHOnThisMacAcceptsEverySetting() async {
