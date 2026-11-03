@@ -824,8 +824,8 @@ public struct TrashService: Sendable {
     public struct Restored: Sendable {
         /// Why each item stayed, in the order given, or nil for one that went back.
         public internal(set) var failures: [RestoreFailure?] = []
-        /// For each item, the file an edit of it wrote in its place, which moved to the Trash to make room, or nil.
-        /// Each is written down like any removal, so it can be put back too.
+        /// For each item, the version that stood in its place and moved to the Trash to make room, or nil. Each is
+        /// written down like any removal, so it can be put back too.
         public internal(set) var movedAside: [TrashedItem?] = []
     }
 
