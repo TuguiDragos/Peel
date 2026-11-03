@@ -56,6 +56,8 @@ struct CommandLineTests {
         #expect(Output.unreadableNote(for: leftOut)?.contains("no longer looks in /Volumes/Backup") == true)
         let listUnread = AppScan(apps: [], unreadable: [], needsFullDiskAccess: false, chosenFolders: nil)
         #expect(Output.unreadableNote(for: listUnread) == "Peel can't read its list of app folders, so the apps in them aren't listed. Start it over in Settings > General > App Folders.")
+        let damaged = AppScan(apps: [], chosenFolders: nil, whyListOfFoldersUnreadable: .damaged)
+        #expect(Output.unreadableNote(for: damaged)?.hasSuffix("App Folders. The file's contents aren't in a form Peel can read.") == true)
     }
 
     /// An app the terminal can't move for want of App Management needs no administrator, so the command names the

@@ -278,6 +278,18 @@ extension FileProblem? {
     }
 }
 
+extension AppLibrary {
+    /// `sentence`, then why Peel can't read its list of app folders, when Peel knows.
+    func unreadableListOfFolders(saying sentence: String) -> String {
+        whyListOfFoldersUnreadable.said(after: sentence, about: foldersFile)
+    }
+
+    /// That the folders couldn't be saved, then why, when Peel knows.
+    var foldersNotSaved: String {
+        whyFoldersNotSaved.said(after: String(localized: "Peel couldn’t save the app folders."), about: foldersFile)
+    }
+}
+
 extension ExclusionsStore {
     /// That nothing moves until the list starts over, then why it couldn't be read, when Peel knows.
     var nothingMovesUntilStartedOver: String {

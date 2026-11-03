@@ -549,7 +549,7 @@ struct DeveloperCachesTests {
         try directory.file("Library/Application Support/Chat/Local State")
         try directory.file("Library/Application Support/Chat/GPUCache/data_0", bytes: 4_096)
         let chosen = directory.url.appending(path: "Library/Application Support/Peel/app-folders.json")
-        try #require(AppFolders(url: chosen).add([tools]))
+        try #require(AppFolders(url: chosen).add([tools]) == .saved)
 
         let environment = SearchEnvironment(homeDirectory: directory.url, rootDirectory: directory.url)
         let environments = await DeveloperCaches.scan(in: environment)

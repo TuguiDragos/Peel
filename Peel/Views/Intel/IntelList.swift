@@ -157,7 +157,7 @@ struct IntelList: View {
         let paths = unread.map(\.abbreviatedPath)
         let jobFiles = closedJobFiles.map(\.abbreviatedPath)
         let parts = (library.listOfFoldersUnreadable
-                ? [Text("Peel can’t read its list of app folders, so it didn’t look at the apps in the folders you added.")] : [])
+                ? [Text(verbatim: library.unreadableListOfFolders(saying: String(localized: "Peel can’t read its list of app folders, so it didn’t look at the apps in the folders you added.")))] : [])
             + (paths.isEmpty
                 ? [] : [Text("Peel couldn’t read \(RemovalFailureAlert.listedItems(paths)), so something there may need Rosetta.")])
             + why(closed.unread, of: paths.count)

@@ -133,11 +133,11 @@ struct AppFoldersTests {
         let backup = URL(filePath: "/Volumes/Backup", directoryHint: .isDirectory)
         #expect(folders.leftOut() == [AppFolders.LeftOut(folder: backup, refusal: .tooBroad)])
 
-        #expect(folders.add([other]))
+        #expect(folders.add([other]) == .saved)
         #expect(folders.leftOut().map(\.refusal) == [.tooBroad], "an edit lost it without a word")
         #expect(folders.load()?.map(\.lastPathComponent) == ["Tools", "Other"])
 
-        #expect(folders.remove([URL(filePath: "/Volumes/Backup")]))
+        #expect(folders.remove([URL(filePath: "/Volumes/Backup")]) == .saved)
         #expect(folders.leftOut().isEmpty)
     }
 
@@ -181,12 +181,12 @@ struct AppFoldersTests {
         let studio = directory.url.appending(path: "Studio Apps", directoryHint: .isDirectory)
         #expect(folders.load() == [])
 
-        #expect(folders.add([studio]))
+        #expect(folders.add([studio]) == .saved)
         #expect(folders.load()?.map(\.lastPathComponent) == ["Studio Apps"])
         let chosen = try #require(folders.load())
         #expect(AppCatalog.directories(adding: chosen).count == AppCatalog.standardDirectories.count + 1)
 
-        #expect(folders.remove([studio]))
+        #expect(folders.remove([studio]) == .saved)
         #expect(folders.load() == [])
     }
 
@@ -200,6 +200,24 @@ struct AppFoldersTests {
         #expect(AppFolders(url: damaged).load() == nil)
         #expect(AppFolders(url: closed).load() == nil)
         #expect(AppFolders(url: directory.url.appending(path: "missing.json")).load() == [])
+
+        let closedRead = FileProblem.failed(SystemError(domain: NSPOSIXErrorDomain, code: Int(EACCES)))
+        #expect(AppFolders(url: damaged).whyUnreadable() == .damaged)
+        #expect(AppFolders(url: closed).whyUnreadable() == closedRead)
+        #expect(AppFolders(url: directory.url.appending(path: "missing.json")).whyUnreadable() == nil)
+        #expect(AppFolders(url: damaged).add([directory.url]) == .notSaved(.damaged), "a list it can't read was written over")
+        #expect(try String(contentsOf: damaged, encoding: .utf8) == "not a list")
+    }
+
+    @Test(.permissionsHold) func saysWhyAChangeCouldNotBeSaved() throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("Peel")
+        let tools = try directory.directory("Tools")
+        try directory.setPermissions(0o500, of: folder)
+        defer { try? directory.setPermissions(0o755, of: folder) }
+
+        let refusedWrite = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
+        #expect(AppFolders(url: folder.appending(path: "app-folders.json")).add([tools]) == .notSaved(.failed(refusedWrite)))
     }
 
     @Test func startsNothingOverWhileTheListCanBeRead() throws {

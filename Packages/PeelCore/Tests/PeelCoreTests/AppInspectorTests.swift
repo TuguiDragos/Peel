@@ -273,6 +273,7 @@ struct AppInspectorTests {
         let scan = await AppCatalog.scan(choices: AppFolders(url: list))
 
         #expect(scan.listOfFoldersUnreadable && !scan.readEverything)
+        #expect(scan.whyListOfFoldersUnreadable == .damaged)
         #expect(!scan.unreadable.contains(list))
     }
 

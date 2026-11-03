@@ -75,6 +75,8 @@ final class AppLibrary {
     /// Counts the changes the person makes to that list, so a reading that began before one never shows its older list.
     @ObservationIgnored private var folderChanges = 0
     private(set) var couldNotSaveFolders = false
+    /// Why the last change of that list couldn't be saved, when Peel knows.
+    private(set) var whyFoldersNotSaved: FileProblem?
     /// What the last reading of the folders could not read, so the apps in it are missing from `apps`
     /// (`AppScan.unreadable`).
     private(set) var unreadable: [URL] = []
@@ -82,6 +84,7 @@ final class AppLibrary {
     private(set) var unreadableNeedsFullDiskAccess = false
     /// Whether the last reading could not read the list of chosen folders (`AppScan.listOfFoldersUnreadable`).
     private(set) var listOfFoldersUnreadable = false
+    private(set) var whyListOfFoldersUnreadable: FileProblem?
 
     /// Whether the last reading read every app, which Orphaned Files waits for.
     var readEverything: Bool { listing.readEverything }
@@ -299,7 +302,10 @@ final class AppLibrary {
     @discardableResult
     func startFoldersOver() -> StartOver {
         let answer = appFolders.startOver()
-        if answer == .started { couldNotSaveFolders = false }
+        if answer == .started {
+            couldNotSaveFolders = false
+            whyFoldersNotSaved = nil
+        }
         folderChanges += 1
         folders = appFolders.load()
         foldersLeftOut = appFolders.leftOut()
@@ -308,8 +314,15 @@ final class AppLibrary {
 
     var foldersFile: URL { appFolders.url }
 
-    private func changeFolders(_ change: (AppFolders) -> Bool) {
-        couldNotSaveFolders = !change(appFolders)
+    private func changeFolders(_ change: (AppFolders) -> AppFolders.Change) {
+        switch change(appFolders) {
+        case .saved:
+            couldNotSaveFolders = false
+            whyFoldersNotSaved = nil
+        case .notSaved(let why):
+            couldNotSaveFolders = true
+            whyFoldersNotSaved = why
+        }
         folderChanges += 1
         folders = appFolders.load()
         foldersLeftOut = appFolders.leftOut()
@@ -407,6 +420,9 @@ final class AppLibrary {
         if unreadable != scan.unreadable { unreadable = scan.unreadable }
         if listOfFoldersUnreadable != scan.listOfFoldersUnreadable {
             listOfFoldersUnreadable = scan.listOfFoldersUnreadable
+        }
+        if whyListOfFoldersUnreadable != scan.whyListOfFoldersUnreadable {
+            whyListOfFoldersUnreadable = scan.whyListOfFoldersUnreadable
         }
         if unreadableNeedsFullDiskAccess != scan.needsFullDiskAccess {
             unreadableNeedsFullDiskAccess = scan.needsFullDiskAccess

@@ -35,7 +35,7 @@ struct AppFoldersSection: View {
                     .foregroundStyle(.secondary)
             } else {
                 HStack(spacing: 8) {
-                    StatusLabel(title: Text("Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one."))
+                    StatusLabel(title: Text(verbatim: library.unreadableListOfFolders(saying: String(localized: "Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one."))))
                     Spacer(minLength: 8)
                     StartOverButton(file: library.foldersFile, startedOver: "Started the list of app folders over.") {
                         library.startFoldersOver()
@@ -56,7 +56,7 @@ struct AppFoldersSection: View {
                 }
             }
             if library.couldNotSaveFolders {
-                StatusLabel(title: Text("Peel couldn’t save the app folders."))
+                StatusLabel(title: Text(verbatim: library.foldersNotSaved))
             }
             ListEditingButtons {
                 Button("Add Folder…", systemImage: "plus") {

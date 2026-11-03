@@ -12,17 +12,20 @@ public struct AppScan: Sendable, Equatable {
     /// The folders the person chose that the reading looked in, beside the Applications folders, or nil when their
     /// list is there and could not be read.
     public let chosenFolders: [URL]?
+    /// Why their list could not be read, when Peel knows.
+    public let whyListOfFoldersUnreadable: FileProblem?
     /// The folders on that list it no longer reads, whose apps it doesn't list.
     public let foldersLeftOut: [AppFolders.LeftOut]
 
     init(
         apps: [InstalledApp], unreadable: [URL] = [], needsFullDiskAccess: Bool = false, chosenFolders: [URL]? = [],
-        foldersLeftOut: [AppFolders.LeftOut] = []
+        whyListOfFoldersUnreadable: FileProblem? = nil, foldersLeftOut: [AppFolders.LeftOut] = []
     ) {
         self.apps = apps
         self.unreadable = unreadable
         self.needsFullDiskAccess = needsFullDiskAccess
         self.chosenFolders = chosenFolders
+        self.whyListOfFoldersUnreadable = whyListOfFoldersUnreadable
         self.foldersLeftOut = foldersLeftOut
     }
 
@@ -107,6 +110,7 @@ public enum AppCatalog {
             unreadable: found.unreadable,
             needsFullDiskAccess: found.needsFullDiskAccess,
             chosenFolders: chosen,
+            whyListOfFoldersUnreadable: chosen == nil ? choices.whyUnreadable() : nil,
             foldersLeftOut: choices.leftOut()
         )
     }

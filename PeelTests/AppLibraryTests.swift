@@ -1130,11 +1130,16 @@ private nonisolated final class TestClock: Sendable {
         try Data("not a list".utf8).write(to: list.url)
         await library.refresh()
         #expect(library.listOfFoldersUnreadable && library.folders == nil)
+        #expect(library.whyListOfFoldersUnreadable == .damaged)
+        library.addFolders([folder])
+        #expect(library.couldNotSaveFolders && library.whyFoldersNotSaved == .damaged)
 
         #expect(library.startFoldersOver() == .started)
         #expect(library.folders == [])
+        #expect(!library.couldNotSaveFolders && library.whyFoldersNotSaved == nil)
         await library.refresh()
         #expect(library.folders == [] && !library.listOfFoldersUnreadable)
+        #expect(library.whyListOfFoldersUnreadable == nil)
     }
 
     @Test func onlyTheReadingsThePersonAskedForAreToldToVoiceOver() async throws {

@@ -24,7 +24,7 @@ struct PeelFolderTests {
         PeelFolder.take(folder)
 
         FileLock.whileHeld(beside: file("a.json")) {}
-        #expect(!AppFolders(url: file("app-folders.json")).add([directory.url]))
+        #expect(AppFolders(url: file("app-folders.json")).add([directory.url]) != .saved)
         #expect(!HomebrewChoice(url: file("homebrew.json")).save(nil))
         #expect(!ShellFile.write(ShellFile.Choices(), to: file("Terminal/zshrc")))
         #expect(!SSHFile.write([], to: file("Terminal/ssh_config")))

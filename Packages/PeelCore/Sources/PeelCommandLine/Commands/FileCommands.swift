@@ -187,7 +187,8 @@ struct OrphansCommand: AsyncParsableCommand {
         let listed = Output.list(list + Output.named(catalog.unreadable))
         let why = Output.whyNotRead(catalog.unreadable).map { " " + $0 } ?? ""
         let access = catalog.needsFullDiskAccess ? " " + Output.fullDiskAccessAdvice : ""
-        let startOver = list.isEmpty ? "" : " Start the list over in Settings > General > App Folders."
+        let startOver = list.isEmpty
+            ? "" : " Start the list over in Settings > General > App Folders." + catalog.whyListOfFoldersUnreadable.sentence
         return CommandFailure("Peel couldn't read \(listed), so it can't tell which apps are installed. Nothing is listed, since the files of an app it can't see would look orphaned.\(why)\(access)\(startOver)")
     }
 

@@ -52,6 +52,19 @@ public struct AppFolders: Sendable {
         FileLock.whileReading(beside: url) { url.isMissing ? [] : read() }
     }
 
+    /// Why the saved list can't be read, asked again once `load()` found it couldn't: nil when it can, or isn't there.
+    public func whyUnreadable() -> FileProblem? {
+        FileLock.whileReading(beside: url) { url.isMissing ? nil : readProblem() }
+    }
+
+    /// What a change of the list did. A list that is there and can't be read is never written over, since that would
+    /// lose the folders it holds.
+    public enum Change: Sendable, Equatable {
+        case saved
+        /// And why, when Peel knows.
+        case notSaved(FileProblem?)
+    }
+
     /// The folders the list holds that are no longer read, and why. One Peel reads anyway, as part of an Applications
     /// folder, loses nothing.
     public func leftOut() -> [LeftOut] {
@@ -65,10 +78,8 @@ public struct AppFolders: Sendable {
         }
     }
 
-    /// Adds `folders`. False when they could not be saved, or when the file is there and cannot be read, since
-    /// writing over it would lose the folders it holds.
     @discardableResult
-    public func add(_ folders: [URL]) -> Bool {
+    public func add(_ folders: [URL]) -> Change {
         change { paths in
             for path in folders.map({ PathPattern.comparablePath(of: $0) }) where !paths.contains(path) {
                 paths.append(path)
@@ -86,7 +97,7 @@ public struct AppFolders: Sendable {
     }
 
     @discardableResult
-    public func remove(_ folders: [URL]) -> Bool {
+    public func remove(_ folders: [URL]) -> Change {
         let removed = Set(folders.map { PathPattern.comparablePath(of: $0) })
         return change { paths in
             paths.removeAll { removed.contains(PathPattern.comparablePath(of: URL(filePath: $0))) }
@@ -142,13 +153,23 @@ public struct AppFolders: Sendable {
         PathPattern.comparablePath(of: url).lowercased()
     }
 
-    private func change(_ edit: (inout [String]) -> Void) -> Bool {
+    private func change(_ edit: (inout [String]) -> Void) -> Change {
         FileLock.whileHeld(beside: url) {
-            guard var paths = saved() ?? (url.isMissing ? [] : nil) else { return false }
+            guard var paths = saved() ?? (url.isMissing ? [] : nil) else { return .notSaved(readProblem()) }
             edit(&paths)
-            guard let data = try? JSONEncoder().encode(paths) else { return false }
-            return (try? PeelFolder.write(data, to: url)) != nil
+            do {
+                try PeelFolder.write(try JSONEncoder().encode(paths), to: url)
+                return .saved
+            } catch {
+                return .notSaved(.failed(SystemError(error)))
+            }
         }
+    }
+
+    /// Why the list there can't be read, or nil when it can, for a caller that holds the lock.
+    private func readProblem() -> FileProblem? {
+        guard let data = BoundedRead.data(at: url) else { return BoundedRead.whyUnreadable(url) }
+        return (try? JSONDecoder().decode([String].self, from: data)) == nil ? .damaged : nil
     }
 
     /// The paths as saved, or nil when the file cannot be read.

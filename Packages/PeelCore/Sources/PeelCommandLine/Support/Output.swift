@@ -217,7 +217,7 @@ enum Output {
     static func unreadableNote(for catalog: AppScan) -> String? {
         var notes: [String] = []
         if catalog.listOfFoldersUnreadable {
-            notes.append("Peel can't read its list of app folders, so the apps in them aren't listed. Start it over in Settings > General > App Folders.")
+            notes.append("Peel can't read its list of app folders, so the apps in them aren't listed. Start it over in Settings > General > App Folders." + catalog.whyListOfFoldersUnreadable.sentence)
         }
         if !catalog.unreadable.isEmpty {
             notes.append(unreadableNote(for: catalog.unreadable, needsFullDiskAccess: catalog.needsFullDiskAccess))

@@ -947,7 +947,8 @@ struct InstallersTests {
         try directory.file("Apps/Install macOS Ventura.app/Contents/MacOS/app", bytes: 400_000)
         try directory.file("Apps/Install Tool.app/Contents/MacOS/app", bytes: 400_000)
         let chosen = home.appending(path: "Library/Application Support/Peel/app-folders.json")
-        try #require(AppFolders(url: chosen).add([directory.url.appending(path: "Apps", directoryHint: .isDirectory)]))
+        let apps = directory.url.appending(path: "Apps", directoryHint: .isDirectory)
+        try #require(AppFolders(url: chosen).add([apps]) == .saved)
 
         let scan = await Installers.scan(
             installedApps: [], home: home, root: directory.url.appending(path: "root", directoryHint: .isDirectory),

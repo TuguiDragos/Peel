@@ -773,6 +773,8 @@ struct FileCommandTests {
         #expect(said?.hasPrefix("Peel couldn't read /Volumes/Old/f1x, /Volumes/Old/f2x, /Volumes/Old/f3x, /Volumes/Old/f4x, and 56 more folders, so") == true)
         let list = AppScan(apps: [], unreadable: [], needsFullDiskAccess: false, chosenFolders: nil)
         #expect(OrphansCommand.refusal(for: list)?.description == "Peel couldn't read its list of app folders, so it can't tell which apps are installed. Nothing is listed, since the files of an app it can't see would look orphaned. Start the list over in Settings > General > App Folders.")
+        let damaged = AppScan(apps: [], chosenFolders: nil, whyListOfFoldersUnreadable: .damaged)
+        #expect(OrphansCommand.refusal(for: damaged)?.description.hasSuffix("App Folders. The file's contents aren't in a form Peel can read.") == true)
     }
 
     /// A chosen folder Peel didn't look in, such as a repository, is said, so an empty answer is not read as none.

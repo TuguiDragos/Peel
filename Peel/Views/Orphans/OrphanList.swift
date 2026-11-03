@@ -38,7 +38,7 @@ struct OrphanList: View {
                 ContentUnavailableView {
                     Label("Not Every App Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
-                    let list = Text("Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one.")
+                    let list = Text(verbatim: library.unreadableListOfFolders(saying: String(localized: "Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one.")))
                     let unread = Text("Peel couldn’t read \(RemovalFailureAlert.listedFolders(library.unreadable.map(\.abbreviatedPath))), so it can’t tell which apps are installed. Nothing is listed here, since the files of an app it can’t see would look orphaned.")
                     let parts = (library.listOfFoldersUnreadable ? [list] : [])
                         + (library.unreadable.isEmpty ? [] : [unread])
