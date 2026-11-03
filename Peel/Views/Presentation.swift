@@ -305,6 +305,30 @@ extension ExclusionsStore {
     }
 }
 
+extension PreferenceBackup.NotSaved {
+    /// Why a copy of an app's settings couldn't be made, as a sentence of its own.
+    var sentence: String {
+        switch self {
+        case .noUsableIdentifier: String(localized: "The app has no identifier Peel can name a copy after.")
+        case .noAnswer(let domain): String(localized: "The defaults command didn’t answer about \(domain).")
+        case .notExported(let domain): String(localized: "The defaults command couldn’t copy \(domain).")
+        case .noFolder(let why):
+            why.said(after: String(localized: "Peel couldn’t make a folder for the copy."), about: PreferenceBackup.defaultDirectory)
+        }
+    }
+}
+
+extension PreferenceBackup.CopyUnreadable {
+    /// Why the copy in `folder` couldn't be read, as a sentence of its own.
+    func sentence(about folder: URL) -> String {
+        switch self {
+        case .folderUnreadable(let why): why.said(after: String(localized: "Peel couldn’t open the copy’s folder."), about: folder)
+        case .noSettings: String(localized: "The copy holds no settings file.")
+        case .notAPropertyList: String(localized: "The copy’s settings files aren’t in a form Peel can read.")
+        }
+    }
+}
+
 extension HistoryWriteProblem {
     /// What keeps History from being written, and that nothing moves meanwhile, read from `bundle`, or from the main
     /// bundle when it is nil.

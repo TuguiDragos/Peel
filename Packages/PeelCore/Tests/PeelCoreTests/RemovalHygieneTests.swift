@@ -437,8 +437,41 @@ struct RemovalHygieneTests {
             from: folder, of: "com.example.app", in: backups, through: Self.service, run: run, isOpen: { false }
         )
 
-        #expect(restored == .copyUnreadable, "a copy with nothing to read said only that not all went back")
+        #expect(restored == .copyUnreadable(.notAPropertyList), "a copy with nothing to read said only that not all went back")
         #expect(asked.withLock { $0 }.isEmpty)
+    }
+
+    @Test(.permissionsHold) func saysWhyACopyCouldNotBeRead() async throws {
+        let directory = try TemporaryDirectory()
+        let backups = try directory.directory("Backups")
+        let empty = try directory.directory("Backups/com.example.app 2026-09-24 101500")
+        let closed = try directory.directory("Backups/com.example.app 2026-09-24 101501")
+        try directory.setPermissions(0o000, of: closed)
+        defer { try? directory.setPermissions(0o755, of: closed) }
+        let restore = { (folder: URL) in
+            await PreferenceBackup.restore(
+                from: folder, of: "com.example.app", in: backups, through: Self.service, run: { _ in .yes },
+                isOpen: { false }
+            )
+        }
+
+        #expect(await restore(empty) == .copyUnreadable(.noSettings))
+        let refusedRead = SystemError(domain: NSCocoaErrorDomain, code: NSFileReadNoPermissionError)
+        #expect(await restore(closed) == .copyUnreadable(.folderUnreadable(.failed(refusedRead))))
+    }
+
+    @Test(.permissionsHold) func saysWhyTheCopysFolderCouldNotBeMade() async throws {
+        let directory = try TemporaryDirectory()
+        let backups = try directory.directory("Backups")
+        try directory.setPermissions(0o500, of: backups)
+        defer { try? directory.setPermissions(0o755, of: backups) }
+        let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example")
+        let plist = URL.homeDirectory.appending(path: "Library/Preferences/com.example.app.plist")
+
+        let saved = await PreferenceBackup.save([plist], for: app, in: backups, through: Self.service) { _ in .yes }
+
+        let refusedWrite = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
+        #expect(saved == .failed(.noFolder(.failed(refusedWrite))))
     }
 
     /// Put Back replaces what the app set since the reset, which may be a license entered again, so those settings
@@ -538,7 +571,7 @@ struct RemovalHygieneTests {
                 through: Self.service,
                 run: run,
                 isOpen: { false }
-            ) == .notSaved
+            ) == .notSaved(.notExported(domain: "com.example.app"))
         )
         #expect(!asked.withLock { $0 }.contains { $0.first == "delete" || $0.first == "import" })
     }
@@ -631,7 +664,7 @@ struct RemovalHygieneTests {
         let refused = await PreferenceBackup.save([plist], for: app, in: backups, through: Self.service) { arguments in
             arguments.contains("export") ? .no : .yes
         }
-        #expect(refused == .failed)
+        #expect(refused == .failed(.notExported(domain: "com.example.app")))
         #expect(try FileManager.default.contentsOfDirectory(atPath: backups.path(percentEncoded: false)).isEmpty, "an empty copy was left behind")
 
         let nothing = await PreferenceBackup.save(
@@ -655,7 +688,7 @@ struct RemovalHygieneTests {
             arguments.first == "read" ? .noAnswer : .yes
         }
 
-        #expect(saved == .failed)
+        #expect(saved == .failed(.noAnswer(domain: "com.example.app")))
         #expect(try FileManager.default.contentsOfDirectory(atPath: backups.path(percentEncoded: false)).isEmpty)
     }
 

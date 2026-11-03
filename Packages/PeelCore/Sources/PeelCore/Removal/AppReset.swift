@@ -82,7 +82,7 @@ public struct AppReset: Sendable {
     public struct Outcome: Sendable {
         public enum Stop: Sendable, Equatable {
             case removalsHeld(TrashFailure.Reason)
-            case settingsNotSaved
+            case settingsNotSaved(PreferenceBackup.NotSaved)
             case appOpened
         }
 
@@ -139,8 +139,8 @@ public struct AppReset: Sendable {
         }
         let urls = selected(selection)
         switch await save(urls) {
-        case .failed:
-            outcome.stop = .settingsNotSaved
+        case .failed(let why):
+            outcome.stop = .settingsNotSaved(why)
             return outcome
         case .saved(let folder):
             outcome.backup = folder

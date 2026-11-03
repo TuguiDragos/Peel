@@ -63,10 +63,10 @@ final class ResetPlan {
         outcome.map { $0.stop == nil } ?? false
     }
 
-    /// True when the settings could not be backed up, so nothing was moved. The backup is what restores them
-    /// once the app has written new ones, which History cannot do.
-    var couldNotSaveSettings: Bool {
-        outcome?.stop == .settingsNotSaved
+    /// Why the settings could not be backed up, so nothing was moved, or nil. The backup is what restores them once
+    /// the app has written new ones, which History cannot do.
+    var whySettingsNotSaved: PreferenceBackup.NotSaved? {
+        if case .settingsNotSaved(let why) = outcome?.stop { why } else { nil }
     }
 
     var backup: URL? {
@@ -157,7 +157,7 @@ final class ResetPlan {
     /// Puts the settings saved in `backup` back, unless the app is open, which would write its own over them.
     func putSettingsBack(from backup: URL) async -> PreferenceBackup.Restored {
         // A copy is saved under the app's identifier, so an app with none has no copy to put back.
-        guard let identifier = app.bundleIdentifier else { return .notSaved }
+        guard let identifier = app.bundleIdentifier else { return .notSaved(.noUsableIdentifier) }
         let restored = await QuitGuard.shared.run {
             await PreferenceBackup.restore(
                 from: backup,

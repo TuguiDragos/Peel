@@ -13,7 +13,27 @@ public enum PreferenceBackup {
         case nothingToSave
         case saved(URL)
         /// The copy could not be made, so the reset must not clear anything.
-        case failed
+        case failed(NotSaved)
+    }
+
+    /// Why a copy could not be made.
+    public enum NotSaved: Sendable, Equatable {
+        /// The app names no identifier a folder can be named after.
+        case noUsableIdentifier
+        /// `defaults` didn't answer about this domain: it didn't start, or ran out of time.
+        case noAnswer(domain: String)
+        /// The folder for the copy couldn't be made, and why, when Peel knows.
+        case noFolder(FileProblem?)
+        /// `defaults` couldn't export this domain.
+        case notExported(domain: String)
+    }
+
+    /// Why a saved copy couldn't be read.
+    public enum CopyUnreadable: Sendable, Equatable {
+        case folderUnreadable(FileProblem)
+        case noSettings
+        /// None of its settings files is a property list `defaults import` reads.
+        case notAPropertyList
     }
 
     /// What `defaults` answered: yes, no (it ran and said no, as for a domain that is not there), or nothing at
@@ -47,7 +67,9 @@ public enum PreferenceBackup {
         run: Run
     ) async -> Saved {
         let domains = PreferenceCleanup.domains(for: urls, ownedBy: app.bundleIdentifier)
-        guard let identifier = app.bundleIdentifier else { return domains.isEmpty ? .nothingToSave : .failed }
+        guard let identifier = app.bundleIdentifier else {
+            return domains.isEmpty ? .nothingToSave : .failed(.noUsableIdentifier)
+        }
         return await save(domains, of: identifier, in: directory, through: service, run: run)
     }
 
@@ -64,18 +86,23 @@ public enum PreferenceBackup {
             switch await run(domain.command("read")) {
             case .yes: domains.append(domain)
             case .no: continue
-            case .noAnswer: return .failed
+            case .noAnswer: return .failed(.noAnswer(domain: domain.name))
             }
         }
         guard !domains.isEmpty else { return .nothingToSave }
 
         // The bundle identifier comes from the app itself and becomes part of a folder name, so it must have the
         // shape `copies` reads back, which rules out a `/` and a space.
-        guard
-            Identifier.isValid(bundleIdentifier),
-            let folder = PeelFolder.whileOpen(making: directory, { newFolder(for: bundleIdentifier, in: directory) })
-                ?? nil
-        else { return .failed }
+        guard Identifier.isValid(bundleIdentifier) else { return .failed(.noUsableIdentifier) }
+        let folder: URL
+        let made = PeelFolder.whileOpen(making: directory) {
+            Result { try newFolder(for: bundleIdentifier, in: directory) }
+        }
+        switch made {
+        case .success(let new)?: folder = new
+        case .failure(let error)?: return .failed(.noFolder(.failed(SystemError(error))))
+        case nil: return .failed(.noFolder(nil))
+        }
 
         for domain in domains {
             let file = folder.appending(path: fileName(for: domain))
@@ -85,7 +112,7 @@ public enum PreferenceBackup {
                 if rmdir(folder.path(percentEncoded: false)) != 0 {
                     _ = await service.trashOwnFiles([folder])
                 }
-                return .failed
+                return .failed(.notExported(domain: domain.name))
             }
         }
         return .saved(folder)
@@ -99,13 +126,13 @@ public enum PreferenceBackup {
         /// that part from scratch.
         case incomplete(clearedSome: Bool)
         /// The settings the app has now could not be saved, so nothing was cleared or put back.
-        case notSaved
+        case notSaved(NotSaved)
         /// The app was open, and would write its own settings over the copy, so nothing was cleared or put back.
         case appIsOpen
         /// The exclusions aren't read yet or couldn't be read, so nothing was cleared or put back.
         case exclusionsNotKnown
         /// The copy couldn't be read or holds no settings that can be, so nothing was cleared or put back.
-        case copyUnreadable
+        case copyUnreadable(CopyUnreadable)
         /// The app is excluded, so its settings were left alone.
         case excluded
 
@@ -157,16 +184,22 @@ public enum PreferenceBackup {
     ) async -> Restored {
         if let refusal = refusal(ofPuttingBack: bundleIdentifier, exclusions: exclusions) { return refusal }
         guard await !isOpen() else { return .appIsOpen }
-        let files = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)) ?? []
+        let files: [URL]
+        do {
+            files = try FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)
+        } catch {
+            return .copyUnreadable(.folderUnreadable(.failed(SystemError(error))))
+        }
         let saved = files.filter { $0.pathExtension == "plist" }.compactMap { file in
             domain(from: file.lastPathComponent).map { ($0, file) }
         }
+        guard !saved.isEmpty else { return .copyUnreadable(.noSettings) }
         // A copy that is not a readable property list would put nothing back once the delete had cleared the
         // settings in use, so it is refused before anything is cleared.
         let readable = saved.filter { isAPropertyList($0.1) }
-        guard !readable.isEmpty else { return .copyUnreadable }
+        guard !readable.isEmpty else { return .copyUnreadable(.notAPropertyList) }
         let current = await save(readable.map(\.0), of: bundleIdentifier, in: directory, through: service, run: run)
-        guard current != .failed else { return .notSaved }
+        if case .failed(let why) = current { return .notSaved(why) }
         guard await !isOpen() else { return .appIsOpen }
         var clearedSome = false
         for (domain, file) in readable {
@@ -214,18 +247,20 @@ public enum PreferenceBackup {
         .map(\.copy)
     }
 
-    /// Makes a new folder in `directory` for a copy of `bundleIdentifier`'s settings, named for the time. A copy
-    /// already made in that second keeps its folder, and this one takes the next number after the time.
-    private static func newFolder(for bundleIdentifier: String, in directory: URL) -> URL? {
+    /// Makes a new folder in `directory` for a copy of `bundleIdentifier`'s settings, named for the time, or throws
+    /// what macOS answered. A copy already made in that second keeps its folder, and this one takes the next number.
+    private static func newFolder(for bundleIdentifier: String, in directory: URL) throws -> URL {
         let name = "\(bundleIdentifier) \(stamp())"
-        for number in 1...100 {
+        var number = 1
+        while true {
             let folder = directory.appending(path: number == 1 ? name : "\(name) \(number)", directoryHint: .isDirectory)
-            if (try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: false)) != nil {
+            do {
+                try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: false)
                 return folder
+            } catch where folder.isThere && number < 100 {
+                number += 1
             }
-            guard folder.isThere else { return nil }
         }
-        return nil
     }
 
     static func fileName(for domain: PreferenceCleanup.Domain) -> String {

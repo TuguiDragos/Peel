@@ -117,10 +117,10 @@ struct ResetSheet: View {
                 UnreadableFoldersNotice(folders: [], needsFullDiskAccess: true)
             }
 
-            if plan.couldNotSaveSettings {
+            if let why = plan.whySettingsNotSaved {
                 Notice(
                     title: Text("Nothing was reset"),
-                    detail: Text("Peel couldn’t save a copy of the settings first, so it moved nothing.")
+                    detail: Text(verbatim: [String(localized: "Peel couldn’t save a copy of the settings first, so it moved nothing."), why.sentence].joined(separator: " "))
                 ) { EmptyView() }
                 .listRowSeparator(.hidden)
             }
@@ -322,9 +322,9 @@ struct ResetSheet: View {
                             }
                         }
                         if let refusal = plan.putBackRefusal {
-                            putBackResult(refusal)
+                            putBackResult(refusal, from: backup)
                         } else if let putBack {
-                            putBackResult(putBack)
+                            putBackResult(putBack, from: backup)
                         }
                     }
                     .padding(.vertical, 2)
@@ -374,7 +374,7 @@ struct ResetSheet: View {
 
     /// What Put Settings Back did, each way it can end.
     @ViewBuilder
-    private func putBackResult(_ restored: PreferenceBackup.Restored) -> some View {
+    private func putBackResult(_ restored: PreferenceBackup.Restored, from copy: URL) -> some View {
         switch restored {
         case .complete:
             Text("The settings are back as they were.")
@@ -389,12 +389,14 @@ struct ResetSheet: View {
             }
             .font(.callout)
             .foregroundStyle(.secondary)
-        case .notSaved:
-            StatusLabel(title: Text("Peel couldn’t save the settings \(plan.app.name) has now, so it put nothing back."), tint: .red)
+        case .notSaved(let why):
+            let said = String(localized: "Peel couldn’t save the settings \(plan.app.name) has now, so it put nothing back.")
+            StatusLabel(title: Text(verbatim: [said, why.sentence].joined(separator: " ")), tint: .red)
                 .font(.callout)
                 .foregroundStyle(.secondary)
-        case .copyUnreadable:
-            StatusLabel(title: Text("Peel couldn’t read the settings saved for \(plan.app.name), so it put nothing back."), tint: .red)
+        case .copyUnreadable(let why):
+            let said = String(localized: "Peel couldn’t read the settings saved for \(plan.app.name), so it put nothing back.")
+            StatusLabel(title: Text(verbatim: [said, why.sentence(about: copy)].joined(separator: " ")), tint: .red)
                 .font(.callout)
                 .foregroundStyle(.secondary)
         case .appIsOpen:

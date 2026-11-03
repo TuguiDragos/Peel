@@ -359,14 +359,14 @@ struct AppResetTests {
             resettingPrivacy: true,
             through: try service(in: directory),
             isOpen: { false },
-            save: { _ in .failed },
+            save: { _ in .failed(.noAnswer(domain: "com.example.app")) },
             resetPrivacy: { _ in
                 asked.withLock { $0 = true }
                 return .reset
             }
         )
 
-        #expect(outcome.stop == .settingsNotSaved)
+        #expect(outcome.stop == .settingsNotSaved(.noAnswer(domain: "com.example.app")))
         #expect(outcome.result.trashed.isEmpty)
         #expect(!asked.withLock { $0 })
         #expect(settings.isThere)

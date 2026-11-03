@@ -524,7 +524,7 @@ struct RemovalJournalTests {
             return .yes
         }
 
-        #expect(saved == .failed)
+        #expect(saved == .failed(.notExported(domain: "com.example.app.helper")))
         #expect(moved.withLock { $0.count } == 1, "the half made copy did not go to the Trash")
         #expect(journal.entries().isEmpty)
     }

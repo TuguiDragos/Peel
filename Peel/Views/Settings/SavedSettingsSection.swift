@@ -159,10 +159,10 @@ struct SavedSettingsSection: View {
                     ? String(localized: "The settings that didn’t go back were cleared first, so the app starts them from scratch. The copy is still here to try again.")
                     : ""
             )
-        case .notSaved:
-            failure = Failure(title: String(localized: "Peel couldn’t save the settings \(name) has now, so it put nothing back."), message: "")
-        case .copyUnreadable:
-            failure = Failure(title: String(localized: "Peel couldn’t read the settings saved for \(name), so it put nothing back."), message: "")
+        case .notSaved(let why):
+            failure = Failure(title: String(localized: "Peel couldn’t save the settings \(name) has now, so it put nothing back."), message: why.sentence)
+        case .copyUnreadable(let why):
+            failure = Failure(title: String(localized: "Peel couldn’t read the settings saved for \(name), so it put nothing back."), message: why.sentence(about: copy.folder))
         case .appIsOpen:
             failure = Failure(title: String(localized: "Quit \(name) first, or it can write its own settings over these."), message: "")
         case .exclusionsNotKnown:
