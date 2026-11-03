@@ -858,7 +858,7 @@ struct TrashServiceTests {
         #expect(item.standing == .inTheTrash)
 
         try directory.setPermissions(0, of: "home/.Trash")
-        #expect(item.standing == .notKnown)
+        #expect(item.standing == .notKnown(SystemError(domain: NSPOSIXErrorDomain, code: Int(EACCES))))
         try directory.setPermissions(0o755, of: "home/.Trash")
 
         try FileManager.default.moveItem(at: trashed, to: directory.url.appending(path: "emptied"))

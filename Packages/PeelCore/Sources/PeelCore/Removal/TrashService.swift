@@ -56,14 +56,16 @@ public struct TrashedItem: Sendable, Hashable, Codable {
         case inTheTrash
         /// Nothing is where it went, or, when Peel knows which item went, another item is.
         case gone
-        /// macOS would not let Peel look, so whether it is there is not known.
-        case notKnown
+        /// macOS would not let Peel look, so whether it is there is not known, and answered this.
+        case notKnown(SystemError)
     }
 
     public var standing: Standing {
         var info = stat()
         guard lstat(trashedURL.path(percentEncoded: false), &info) == 0 else {
-            return errno == ENOENT || errno == ENOTDIR ? .gone : .notKnown
+            let code = errno
+            guard code != ENOENT, code != ENOTDIR else { return .gone }
+            return .notKnown(SystemError(domain: NSPOSIXErrorDomain, code: Int(code)))
         }
         guard let identity else { return .inTheTrash }
         return Identity(ItemIdentity(info)) == identity ? .inTheTrash : .gone

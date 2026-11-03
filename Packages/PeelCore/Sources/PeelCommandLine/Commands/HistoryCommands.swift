@@ -32,7 +32,21 @@ struct Batch {
     /// The records on a disk that isn't connected: their items may still be in its Trash.
     var waiting: [RemovalRecord] { records.filter { !$0.isOnAConnectedDisk(disks) } }
     /// The records on a connected disk that macOS won't let Peel look at, which may still be in the Trash.
-    var notKnown: [RemovalRecord] { records.filter { $0.isOnAConnectedDisk(disks) && $0.standing == .notKnown } }
+    var notKnown: [RemovalRecord] {
+        records.filter { record in
+            guard record.isOnAConnectedDisk(disks), case .notKnown = record.standing else { return false }
+            return true
+        }
+    }
+
+    /// What macOS answered when Peel looked for those, each answer once.
+    var whyNotKnown: String {
+        var answers: [String] = []
+        for case .notKnown(let error) in notKnown.map(\.standing) where !answers.contains(error.localizedDescription) {
+            answers.append(error.localizedDescription)
+        }
+        return Output.plain(answers.joined(separator: " "))
+    }
 
     /// Each record where its disk is mounted now.
     static func all(in records: [RemovalRecord], disks: MountedDisks = .now()) -> [Batch] {
@@ -45,7 +59,7 @@ struct Batch {
     var state: String {
         if !waiting.isEmpty { return "on a disk that isn't connected" }
         if records.allSatisfy(\.isStillInTrash) { return "in the Trash" }
-        if records.contains(where: { $0.standing == .notKnown }) { return "can't look in the Trash" }
+        if !notKnown.isEmpty { return "can't look in the Trash" }
         return restorable.isEmpty ? "gone from the Trash" : "partly gone from the Trash"
     }
 }
@@ -377,7 +391,7 @@ struct RestoreCommand: AsyncParsableCommand {
         guard !inTheTrash.isEmpty else {
             let nothing = notKnown.isEmpty
                 ? "Nothing of that removal is in the Trash anymore, so there is nothing to put back."
-                : "Peel can't look in the Trash right now, so it can't say what could go back."
+                : "Peel can't look in the Trash right now, so it can't say what could go back. macOS answered: \(batch.whyNotKnown)"
             throw CommandFailure(elsewhere ?? nothing)
         }
 

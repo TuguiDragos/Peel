@@ -33,6 +33,7 @@ struct RemovalStandingTests {
         #expect(standing.inTrash == [kept.id, alsoKept.id])
         #expect(standing.away == [away.id])
         #expect(standing.notKnown == [notKnown.id])
+        #expect(standing.whyNotKnown == [SystemError(domain: NSPOSIXErrorDomain, code: Int(EACCES))])
         #expect(standing.restorable == [kept.id, alsoKept.id])
         #expect(standing.restorableSize == SizeTotal([10, nil]))
         #expect(standing.missingCount == 1)

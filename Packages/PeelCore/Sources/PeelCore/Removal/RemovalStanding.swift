@@ -7,6 +7,8 @@ public struct RemovalStanding: Sendable {
     public private(set) var inTrash: Set<RemovalRecord.ID> = []
     public private(set) var away: Set<RemovalRecord.ID> = []
     public private(set) var notKnown: Set<RemovalRecord.ID> = []
+    /// What macOS answered when Peel looked for those, each answer once.
+    public private(set) var whyNotKnown: [SystemError] = []
     /// What can be put back, in the removal's order.
     public private(set) var restorable: [RemovalRecord.ID] = []
     public private(set) var restorableSize = SizeTotal([])
@@ -41,8 +43,9 @@ public struct RemovalStanding: Sendable {
             if place == .inTheTrash {
                 inTrash.insert(record.id)
                 restorableRecords.append(record)
-            } else if place == .notKnown {
+            } else if case .notKnown(let error) = place {
                 notKnown.insert(record.id)
+                if !whyNotKnown.contains(error) { whyNotKnown.append(error) }
             } else {
                 missingCount += 1
             }

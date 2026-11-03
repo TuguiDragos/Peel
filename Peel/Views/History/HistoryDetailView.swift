@@ -93,7 +93,10 @@ struct HistoryDetailView: View {
         if !standing.notKnown.isEmpty {
             Notice(
                 title: Text("Peel can’t look in the Trash right now"),
-                detail: Text("History keeps what it can’t see until Peel can look again."),
+                detail: Text(verbatim: [
+                    String(localized: "History keeps what it can’t see until Peel can look again."),
+                    String(localized: "macOS answered: \(standing.whyNotKnown.map(\.localizedDescription).joined(separator: " "))"),
+                ].joined(separator: " ")),
                 kind: .note
             ) {}
             .listRowSeparator(.hidden)

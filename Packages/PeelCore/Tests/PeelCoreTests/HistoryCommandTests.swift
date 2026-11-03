@@ -618,8 +618,9 @@ struct HistoryCommandTests {
         try directory.setPermissions(0, of: "home/.Trash/locked")
 
         let none = try await restoring(taken.record, "--dry-run", from: logs, in: directory)
+        let answered = SystemError(domain: NSPOSIXErrorDomain, code: Int(EACCES)).localizedDescription
         #expect((none.failure as? CommandFailure)?.description
-            == "Peel can't look in the Trash right now, so it can't say what could go back.")
+            == "Peel can't look in the Trash right now, so it can't say what could go back. macOS answered: \(answered)")
     }
 
     @Test func aRestoreFailsWhenAnItemWaitsOnADiskThatIsNotConnected() async throws {
