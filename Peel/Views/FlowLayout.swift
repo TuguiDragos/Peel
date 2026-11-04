@@ -8,11 +8,11 @@ struct FlowLayout: Layout {
     var lineSpacing: CGFloat = 6
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        arrange(subviews, in: proposal.width ?? .infinity).size
+        arrange(subviews, in: proposal.width ?? .infinity, height: proposal.height).size
     }
 
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        let arrangement = arrange(subviews, in: bounds.width)
+        let arrangement = arrange(subviews, in: bounds.width, height: proposal.height)
         for (subview, frame) in zip(subviews, arrangement.frames) {
             subview.place(
                 at: CGPoint(x: bounds.minX + frame.minX, y: bounds.minY + frame.minY),
@@ -21,9 +21,11 @@ struct FlowLayout: Layout {
         }
     }
 
-    /// Each view at its own width, or the whole width when it is wider than that, and each line's views centered
-    /// on the line.
-    private func arrange(_ subviews: Subviews, in width: CGFloat) -> (frames: [CGRect], size: CGSize) {
+    /// Each view at its own width, or the whole width when it is wider than that, within the height proposed as
+    /// `NoticeLayout` measures, and each line's views centered on the line.
+    private func arrange(
+        _ subviews: Subviews, in width: CGFloat, height: CGFloat?
+    ) -> (frames: [CGRect], size: CGSize) {
         var frames: [CGRect] = []
         var lineStart = 0
         var x: CGFloat = 0, y: CGFloat = 0, lineHeight: CGFloat = 0, widest: CGFloat = 0
@@ -38,7 +40,7 @@ struct FlowLayout: Layout {
         for subview in subviews {
             var size = subview.sizeThatFits(.unspecified)
             if size.width > width {
-                size = subview.sizeThatFits(ProposedViewSize(width: width, height: nil))
+                size = subview.sizeThatFits(ProposedViewSize(width: width, height: height))
             }
             if x > 0, x + size.width > width {
                 closeLine()

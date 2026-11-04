@@ -11,11 +11,11 @@ struct NoticeLayout: Layout {
     var actionsTop: CGFloat = 8
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        plan(subviews, width: proposal.width).size
+        plan(subviews, width: proposal.width, height: proposal.height).size
     }
 
     func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        let plan = plan(subviews, width: bounds.width)
+        let plan = plan(subviews, width: bounds.width, height: proposal.height)
         for subview in subviews {
             let frame = switch subview[NoticePart.self] {
             case .mark: plan.mark
@@ -30,10 +30,12 @@ struct NoticeLayout: Layout {
         }
     }
 
-    private func plan(_ subviews: Subviews, width: CGFloat?) -> NoticePlan {
+    /// Each part is measured within the height proposed: asked for its least size, zero by zero, a notice measured
+    /// with no height would lay its words out a letter to a line, and a window holding it would grow to fit.
+    private func plan(_ subviews: Subviews, width: CGFloat?, height: CGFloat?) -> NoticePlan {
         func part(_ part: Part) -> LayoutSubview? { subviews.first { $0[NoticePart.self] == part } }
         func size(of subview: LayoutSubview) -> (CGFloat?) -> CGSize {
-            { subview.sizeThatFits(ProposedViewSize(width: $0, height: nil)) }
+            { subview.sizeThatFits(ProposedViewSize(width: $0, height: height)) }
         }
         let actions = part(.actions)
         let oneLine = actions?.sizeThatFits(.unspecified) ?? .zero
