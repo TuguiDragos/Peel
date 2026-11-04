@@ -9,8 +9,12 @@ final class DockPresence {
 
     private init() {}
 
-    static func belongsInTheDock(hidesFromDock: Bool, showsInMenuBar: Bool, hasAWindowOpen: Bool) -> Bool {
-        !hidesFromDock || !showsInMenuBar || hasAWindowOpen
+    /// Whether Peel belongs in the Dock. Hidden, it stays there, since the Dock is where a person brings a hidden app
+    /// back: out of the Dock, hidden, Peel would have no way back.
+    static func belongsInTheDock(
+        hidesFromDock: Bool, showsInMenuBar: Bool, hasAWindowOpen: Bool, isHidden: Bool
+    ) -> Bool {
+        isHidden || !hidesFromDock || !showsInMenuBar || hasAWindowOpen
     }
 
     func start() {
@@ -23,6 +27,11 @@ final class DockPresence {
                 DockPresence.shared.update(closing: window)
             }
         })
+        for name in [NSApplication.didHideNotification, NSApplication.didUnhideNotification] {
+            observers.append(center.addObserver(forName: name, object: nil, queue: nil) { _ in
+                MainActor.assumeIsolated { DockPresence.shared.update() }
+            })
+        }
         for name in [NSWindow.didBecomeKeyNotification, NSWindow.didChangeOcclusionStateNotification] {
             observers.append(center.addObserver(forName: name, object: nil, queue: nil) { note in
                 let window = note.object as? NSWindow
@@ -42,7 +51,8 @@ final class DockPresence {
         let inTheDock = Self.belongsInTheDock(
             hidesFromDock: defaults.bool(forKey: SettingsKey.hidesFromDock),
             showsInMenuBar: defaults.bool(forKey: SettingsKey.showsInMenuBar),
-            hasAWindowOpen: NSApp.windows.containsAnOpenWindow(besides: closing)
+            hasAWindowOpen: NSApp.windows.containsAnOpenWindow(besides: closing),
+            isHidden: NSApp.isHidden
         )
         let policy: NSApplication.ActivationPolicy = inTheDock ? .regular : .accessory
         if NSApp.activationPolicy() != policy {

@@ -4,10 +4,14 @@ import Testing
 
 struct DockPresenceTests {
     @Test func leavesTheDockOnlyWhenAskedWhileInTheMenuBarWithNoWindowOpen() {
-        #expect(!DockPresence.belongsInTheDock(hidesFromDock: true, showsInMenuBar: true, hasAWindowOpen: false))
-        #expect(DockPresence.belongsInTheDock(hidesFromDock: true, showsInMenuBar: true, hasAWindowOpen: true))
-        #expect(DockPresence.belongsInTheDock(hidesFromDock: true, showsInMenuBar: false, hasAWindowOpen: false))
-        #expect(DockPresence.belongsInTheDock(hidesFromDock: false, showsInMenuBar: true, hasAWindowOpen: false))
+        #expect(!inTheDock(hidesFromDock: true, showsInMenuBar: true, hasAWindowOpen: false))
+        #expect(inTheDock(hidesFromDock: true, showsInMenuBar: true, hasAWindowOpen: true))
+        #expect(inTheDock(hidesFromDock: true, showsInMenuBar: false, hasAWindowOpen: false))
+        #expect(inTheDock(hidesFromDock: false, showsInMenuBar: true, hasAWindowOpen: false))
+    }
+
+    @Test func staysInTheDockWhileHidden() {
+        #expect(inTheDock(hidesFromDock: true, showsInMenuBar: true, hasAWindowOpen: false, isHidden: true))
     }
 
     @Test func countsAMinimizedWindowButNeitherOneClosingNorOneThatCantBeMain() {
@@ -15,6 +19,15 @@ struct DockPresenceTests {
         #expect([open].containsAnOpenWindow())
         #expect([window(minimized: true)].containsAnOpenWindow())
         #expect(![open, window(visible: true, mayBeMain: false), window()].containsAnOpenWindow(besides: open))
+    }
+
+    private func inTheDock(
+        hidesFromDock: Bool, showsInMenuBar: Bool, hasAWindowOpen: Bool, isHidden: Bool = false
+    ) -> Bool {
+        DockPresence.belongsInTheDock(
+            hidesFromDock: hidesFromDock, showsInMenuBar: showsInMenuBar, hasAWindowOpen: hasAWindowOpen,
+            isHidden: isHidden
+        )
     }
 
     private func window(visible: Bool = false, minimized: Bool = false, mayBeMain: Bool = true) -> NSWindow {
