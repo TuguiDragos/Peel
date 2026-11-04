@@ -254,7 +254,7 @@ extension AppInspector.Unreadable {
         case .gone: String(localized: "\(path) isn’t there anymore.")
         case .notAnApp: String(localized: "\(path) isn’t an app.")
         case .noInfo: String(localized: "\(path) has no Info.plist, the file that says what an app is, so Peel can’t read it as one.")
-        case .infoClosed: String(localized: "The permissions of the Info.plist in \(path) keep your account out, so Peel can’t read it as an app.")
+        case .infoClosed: String(localized: "Permissions keep your account from reading the Info.plist in \(path), so Peel can’t read it as an app.")
         case .infoDamaged: String(localized: "The Info.plist in \(path) isn’t a property list Peel can read, so Peel can’t read it as an app.")
         }
     }

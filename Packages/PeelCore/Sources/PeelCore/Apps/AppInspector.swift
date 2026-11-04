@@ -81,7 +81,7 @@ public enum AppInspector {
         case notAnApp
         /// The Info.plist, which says what the app is, isn't there.
         case noInfo
-        /// The Info.plist's permissions keep this account out.
+        /// Permissions keep this account from reading the Info.plist: its own, or those of a folder on its way.
         case infoClosed
         /// The Info.plist opens but isn't a property list Peel can read.
         case infoDamaged

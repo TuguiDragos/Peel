@@ -158276,6 +158276,112 @@
         }
       }
     },
+    "Permissions keep your account from reading the Info.plist in %@, so Peel can’t read it as an app." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oprávnění nedovolí vašemu účtu číst soubor Info.plist v položce %@, takže ji Peel nedokáže přečíst jako aplikaci."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zugriffsrechte verhindern, dass dein Benutzeraccount die Info.plist in %@ liest, daher kann Peel es nicht als App lesen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede leer %@ como una app, porque los permisos no dejan que tu cuenta lea su Info.plist."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Des permissions empêchent votre compte de lire le fichier Info.plist de %@ : Peel ne peut donc pas le lire en tant qu’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I permessi impediscono al tuo account di leggere il file Info.plist in %@, quindi per Peel non è leggibile come app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アクセス権により、お使いのアカウントでは%@内のInfo.plistを読み取れないため、Peelはアプリとして読み取れません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용 권한 때문에 %@에 있는 Info.plist를 이 계정으로 읽을 수 없으므로, Peel이 이 항목을 앱으로 읽을 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bevoegdheden voorkomen dat je account de Info.plist in %@ leest, dus Peel kan het niet als app lezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uprawnienia nie pozwalają Twojemu kontu odczytać pliku Info.plist w %@, więc Peel nie może odczytać tej rzeczy jako aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As permissões não deixam esta conta ler o Info.plist em %@, então o Peel não consegue lê-lo como um app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate citi %@ ca aplicație, deoarece permisiunile nu îi permit contului dvs. să citească fișierul Info.plist din acesta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Права доступа не позволяют Вашей учетной записи прочитать файл Info.plist в %@, поэтому Peel не может прочитать этот объект как приложение."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behörigheter hindrar ditt konto från att läsa Info.plist i %@, så Peel kan inte läsa den som en app."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İzinler, hesabınızın %@ içindeki Info.plist dosyasını okumasını engelliyor, bu yüzden Peel onu bir uygulama olarak okuyamıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Привілеї не дають вашому обліковому запису прочитати файл Info.plist у %@, тож Peel не може прочитати це як програму."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "权限设置不允许你的账户读取%@中的Info.plist，因此Peel无法将其读取为App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "權限讓你的帳號無法讀取%@中的Info.plist，因此Peel無法將它讀取為App。"
+          }
+        }
+      }
+    },
     "Personalized Smart Replies in Mail" : {
       "localizations" : {
         "cs" : {
@@ -210625,112 +210731,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "peel指令使用了[swift-argument-parser](peel-license:swift-argument-parser-LICENSE)"
-          }
-        }
-      }
-    },
-    "The permissions of the Info.plist in %@ keep your account out, so Peel can’t read it as an app." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oprávnění souboru Info.plist v položce %@ k němu váš účet nepustí, takže ji Peel nedokáže přečíst jako aplikaci."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Zugriffsrechte der Info.plist in %@ sperren deinen Benutzeraccount aus, daher kann Peel es nicht als App lesen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel no puede leer %@ como una app, porque los permisos de su Info.plist no dejan que tu cuenta lo lea."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les permissions du fichier Info.plist de %@ empêchent votre compte d’y accéder : Peel ne peut donc pas le lire en tant qu’app."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I permessi del file Info.plist in %@ impediscono al tuo account di accedervi, quindi per Peel non è leggibile come app."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@内のInfo.plistのアクセス権により、お使いのアカウントではアクセスできないため、Peelはアプリとして読み取れません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@에 있는 Info.plist는 사용 권한 때문에 이 계정으로 읽을 수 없으므로, Peel이 이 항목을 앱으로 읽을 수 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De bevoegdheden van de Info.plist in %@ sluiten je account buiten, dus Peel kan het niet als app lezen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uprawnienia pliku Info.plist w %@ nie dają Twojemu kontu dostępu, więc Peel nie może odczytać tej rzeczy jako aplikacji."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "As permissões do Info.plist em %@ não deixam esta conta abri-lo, então o Peel não consegue lê-lo como um app."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nu poate citi %@ ca aplicație, deoarece permisiunile fișierului Info.plist din acesta nu permit accesul contului dvs."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Права доступа файла Info.plist в %@ не пускают к нему Вашу учетную запись, поэтому Peel не может прочитать этот объект как приложение."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Behörigheterna för Info.plist i %@ stänger ute ditt konto, så Peel kan inte läsa den som en app."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ içindeki Info.plist dosyasının izinleri hesabınızın ona erişmesini engelliyor, bu yüzden Peel onu bir uygulama olarak okuyamıyor."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Привілеї файлу Info.plist у %@ не пускають до нього ваш обліковий запис, тож Peel не може прочитати це як програму."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@中Info.plist的权限设置不允许你的账户访问，因此Peel无法将其读取为App。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@中Info.plist的權限讓你的帳號無法取用，因此Peel無法將它讀取為App。"
           }
         }
       }

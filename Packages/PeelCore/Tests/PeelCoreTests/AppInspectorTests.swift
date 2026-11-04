@@ -20,6 +20,9 @@ struct AppInspectorTests {
         _ = try directory.file("Closed.app/Contents/Info.plist", contents: Data("not a property list".utf8))
         try directory.setPermissions(0o000, of: "Closed.app/Contents/Info.plist")
         defer { try? directory.setPermissions(0o644, of: "Closed.app/Contents/Info.plist") }
+        _ = try directory.file("Shut.app/Contents/Info.plist", contents: Data("not a property list".utf8))
+        try directory.setPermissions(0o000, of: "Shut.app/Contents")
+        defer { try? directory.setPermissions(0o755, of: "Shut.app/Contents") }
         func why(_ name: String) -> AppInspector.Unreadable {
             AppInspector.whyUnreadable(directory.url.appending(path: name))
         }
@@ -29,6 +32,7 @@ struct AppInspectorTests {
         #expect(why("Bare.app") == .noInfo)
         #expect(why("Damaged.app") == .infoDamaged)
         #expect(why("Closed.app") == .infoClosed)
+        #expect(why("Shut.app") == .infoClosed)
     }
 
     @Test func aCopyInATrashIsNotInstalledWhateverItsNameBeginsWith() {
