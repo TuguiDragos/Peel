@@ -682,7 +682,7 @@ struct AttackRemovalGuardTests {
     }
 
 
-    @Test func whatAFolderASyncAppKeepsInStepHoldsStaysToo() throws {
+    @Test(.everySyncAppOnThisMac) func whatAFolderASyncAppKeepsInStepHoldsStaysToo() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         try directory.directory("home/Sync/.stfolder")

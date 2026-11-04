@@ -61,13 +61,82 @@ public enum SyncApp: String, Sendable, Hashable, CaseIterable {
         case .dropbox: ".dropbox.cache"
         }
     }
+
+    /// The identifiers of the app's bundles: those Homebrew's casks quit (`syncthing-app`, `resilio-sync`,
+    /// `synology-drive`, `megasync`, `dropbox`), Synctrain's (pixelspark/sushitrain) and MEGAcmd's (meganz/MEGAcmd).
+    var bundleIdentifiers: [String] {
+        switch self {
+        case .syncthing: ["com.github.xor-gate.syncthing-macosx", "nl.t-shaped.Sushitrain"]
+        case .resilioSync: ["com.resilio.Sync"]
+        case .synologyDrive: ["com.synology.CloudStation"]
+        case .mega: ["mega.mac", "megacmd.mac"]
+        case .dropbox: ["com.getdropbox.dropbox"]
+        }
+    }
+
+    /// The program that runs the app outside a bundle: Syncthing's, from Homebrew's formula or MacPorts' port.
+    var program: String? {
+        self == .syncthing ? "syncthing" : nil
+    }
+
+    /// Whether the app is on this Mac. Only the app keeps a folder in step, and its marker stays behind when it goes
+    /// and comes along when a folder is copied, so a marker counts only while the app is here.
+    @Sendable static func isOnThisMac(_ app: SyncApp) -> Bool {
+        isOnThisMac(bundleIdentifiers: app.bundleIdentifiers, program: app.program)
+    }
+
+    /// Whether macOS knows a bundle of one of `bundleIdentifiers` outside a Trash, or `program` is in the folders
+    /// Homebrew (on Apple silicon and on Intel) and MacPorts link programs into, or runs. A list of processes that
+    /// can't be read says the program may run.
+    static func isOnThisMac(
+        bundleIdentifiers: [String],
+        program: String?,
+        programFolders: [String] = ["/opt/homebrew/bin", "/usr/local/bin", "/opt/local/bin"]
+    ) -> Bool {
+        if bundleIdentifiers.contains(where: { !AppInspector.applicationURLs(forBundleIdentifier: $0).isEmpty }) {
+            return true
+        }
+        guard let program else { return false }
+        if programFolders.contains(where: { FileManager.default.isExecutableFile(atPath: $0 + "/" + program) }) {
+            return true
+        }
+        return runs(program) ?? true
+    }
+
+    /// Whether a process runs a program named `name`, or nil when the processes can't be listed.
+    private static func runs(_ name: String) -> Bool? {
+        var pids = [pid_t](repeating: 0, count: 8_192)
+        let count = Int(proc_listallpids(&pids, Int32(pids.count * MemoryLayout<pid_t>.size)))
+        guard count > 0 else { return nil }
+        return pids.prefix(count).contains { pid in
+            pid > 0 && RunningProgram.path(of: pid).map { URL(filePath: $0).lastPathComponent == name } == true
+        }
+    }
+
+    /// Whether each app is on this Mac, in place of this Mac's answer, for a test: no test can install a sync app.
+    @TaskLocal static var standIn: (@Sendable (SyncApp) -> Bool)?
 }
 
 /// What syncs to the person's other devices, where moving it to the Trash would remove it there too: what iCloud and
-/// File Provider keep (`isUbiquitousItem`), and what sits in a folder another app keeps in step, known by the entry
-/// the app writes at that folder's root. Each folder is asked once for the life of an instance.
+/// File Provider keep (`isUbiquitousItem`), and what sits in a folder another app on this Mac keeps in step, known by
+/// the entry the app writes at that folder's root. Each folder and each app are asked once for the life of an
+/// instance.
 final class SyncedFolders: Sendable {
     private let answers = Mutex<[String: SyncKeeper?]>([:])
+    private let lookUp: @Sendable (SyncApp) -> Bool
+    private let appsOnThisMac = Mutex<[SyncApp: Bool]>([:])
+
+    init() {
+        lookUp = SyncApp.standIn ?? SyncApp.isOnThisMac
+    }
+
+    /// Whether `app` is on this Mac, asked only once a marker of its own was found.
+    private func isOnThisMac(_ app: SyncApp) -> Bool {
+        if let known = appsOnThisMac.withLock({ $0[app] }) { return known }
+        let isHere = lookUp(app)
+        appsOnThisMac.withLock { $0[app] = isHere }
+        return isHere
+    }
 
     func syncsToOtherDevices(_ url: URL) -> Bool {
         keeper(of: url) != nil
@@ -81,14 +150,16 @@ final class SyncedFolders: Sendable {
         return keeper(ofFolder: FileAccess.isARealFolder(url) ? names[...] : names.dropLast())
     }
 
-    /// Whether the folder whose entries are `entries` holds one of the markers, read from a listing already made.
-    static func marksAFolder(_ entries: [URL]) -> Bool {
+    /// Whether the folder whose entries are `entries` holds the marker of an app on this Mac, read from a listing
+    /// already made.
+    func marksAFolder(_ entries: [URL]) -> Bool {
         entries.contains { entry in
             SyncApp.allCases.contains { app in
                 let parts = app.marker.split(separator: "/", maxSplits: 1).map(String.init)
                 guard entry.lastPathComponent == parts[0] else { return false }
                 var info = stat()
-                return parts.count == 1 || lstat(entry.path(percentEncoded: false) + "/" + parts[1], &info) == 0
+                return (parts.count == 1 || lstat(entry.path(percentEncoded: false) + "/" + parts[1], &info) == 0)
+                    && isOnThisMac(app)
             }
         }
     }
@@ -99,7 +170,7 @@ final class SyncedFolders: Sendable {
         let folder = "/" + names.joined(separator: "/")
         if let known = answers.withLock({ $0[folder] }) { return known }
         var info = stat()
-        let keeper = SyncApp.allCases.first { lstat(folder + "/" + $0.marker, &info) == 0 }
+        let keeper = SyncApp.allCases.first { lstat(folder + "/" + $0.marker, &info) == 0 && isOnThisMac($0) }
             .map { SyncKeeper.app($0, marker: URL(filePath: folder + "/" + $0.marker)) }
             ?? keeper(ofFolder: names.dropLast())
         answers.withLock { $0[folder] = keeper }

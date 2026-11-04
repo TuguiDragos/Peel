@@ -1486,7 +1486,7 @@ struct ProjectArtifactsTests {
     }
 
 
-    @Test func leavesWhatASyncAppKeepsInStep() async throws {
+    @Test(.everySyncAppOnThisMac) func leavesWhatASyncAppKeepsInStep() async throws {
         let directory = try TemporaryDirectory()
         for project in ["Code/kept", "Code/synced", "Shared/app"] {
             try directory.file("\(project)/package.json")

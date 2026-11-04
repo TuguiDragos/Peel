@@ -13,6 +13,7 @@ struct FolderDuplicates: Sendable {
     private let managed: Set<String>
     private let neverProjects: Set<String>
     private let isDataless: @Sendable (URL) -> Bool
+    private let synced = SyncedFolders()
 
     init(
         managed: Set<String> = [],
@@ -186,7 +187,7 @@ struct FolderDuplicates: Sendable {
             return folder
         }
         // What a folder another app keeps in step holds would go from the other devices too.
-        guard !SyncedFolders.marksAFolder(contents.entries) else {
+        guard !synced.marksAFolder(contents.entries) else {
             folder.isWhole = false
             return folder
         }

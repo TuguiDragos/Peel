@@ -107,7 +107,7 @@ struct FolderDuplicateTests {
     }
 
 
-    @Test func offersNoFolderASyncAppKeepsInStep() async throws {
+    @Test(.everySyncAppOnThisMac) func offersNoFolderASyncAppKeepsInStep() async throws {
         let directory = try TemporaryDirectory()
         try trip(in: directory)
         try directory.file("home/Pictures/.megaignore")

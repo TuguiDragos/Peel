@@ -3,7 +3,7 @@ import Foundation
 import Testing
 
 struct SyncedFoldersTests {
-    @Test func knowsWhatEachSyncAppKeepsInStep() throws {
+    @Test(.everySyncAppOnThisMac) func knowsWhatEachSyncAppKeepsInStep() throws {
         let directory = try TemporaryDirectory()
         let roots = [
             "Syncthing": ".stfolder/", "Resilio": ".sync/ID", "Synology": ".SynologyWorkingDirectory/", "MEGA": ".megaignore",
@@ -29,7 +29,7 @@ struct SyncedFoldersTests {
         #expect(!synced.syncsToOtherDevices(directory.url.appending(path: "home/Plain/Projects/notes.txt")))
     }
 
-    @Test func namesTheAppThatKeepsAFolderInStepAndItsMarker() throws {
+    @Test(.everySyncAppOnThisMac) func namesTheAppThatKeepsAFolderInStepAndItsMarker() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/.stfolder")
         try directory.file("home/Documents/notes.txt")
@@ -52,6 +52,47 @@ struct SyncedFoldersTests {
         #expect(synced.keeper(of: directory.url.appending(path: "notes.txt")) == nil)
     }
 
+    @Test func aMarkerCountsOnlyWhileItsAppIsOnThisMac() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/.stfolder")
+        try directory.file("home/Music/.megaignore")
+        let notes = try directory.file("home/Documents/notes.txt")
+        let set = try directory.file("home/Music/Live/set.txt")
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+
+        SyncApp.$standIn.withValue({ $0 == .mega }) {
+            let synced = SyncedFolders()
+            #expect(synced.keeper(of: notes) == nil)
+            #expect(synced.keeper(of: set) == .app(.mega, marker: home.appending(path: "Music/.megaignore")))
+            #expect(!synced.marksAFolder([home.appending(path: ".stfolder"), notes]))
+            #expect(synced.marksAFolder([home.appending(path: "Music/.megaignore"), set]))
+        }
+    }
+
+    @Test func findsASyncAppWhereTheMacKeepsIt() throws {
+        let directory = try TemporaryDirectory()
+        let name = "org-example-sync-\(UUID().uuidString)"
+        let folder = PathPattern.comparablePath(of: try directory.directory("bin"))
+
+        #expect(SyncApp.isOnThisMac(bundleIdentifiers: ["com.apple.TextEdit"], program: nil))
+        #expect(!SyncApp.isOnThisMac(bundleIdentifiers: ["org.example.sync"], program: nil))
+        #expect(!SyncApp.isOnThisMac(bundleIdentifiers: [], program: name, programFolders: [folder]))
+        let program = try directory.file("bin/\(name)")
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o755], ofItemAtPath: program.path(percentEncoded: false)
+        )
+        #expect(SyncApp.isOnThisMac(bundleIdentifiers: [], program: name, programFolders: [folder]))
+    }
+
+    @Test func findsASyncAppByTheProgramThatRuns() throws {
+        let directory = try TemporaryDirectory()
+        let name = "org-example-sync-\(UUID().uuidString.prefix(8))"
+        let process = try directory.runningProgram("Elsewhere/\(name)")
+        defer { process.terminate() }
+
+        #expect(SyncApp.isOnThisMac(bundleIdentifiers: [], program: name, programFolders: []))
+    }
+
     @Test func aRefusalLogReadsBackTheAppAndItsMarker() {
         let keeper = SyncKeeper.app(.dropbox, marker: URL(filePath: "/Users/me/Dropbox/.dropbox.cache"))
 
@@ -69,7 +110,7 @@ struct SyncedFoldersTests {
         #expect(!SyncedFolders().syncsToOtherDevices(notes))
     }
 
-    @Test func readsAFolderAsSyncedFromItsListingAlone() throws {
+    @Test(.everySyncAppOnThisMac) func readsAFolderAsSyncedFromItsListingAlone() throws {
         let directory = try TemporaryDirectory()
         try directory.file("Resilio/.sync/ID")
         try directory.file("Tool/.sync/settings.json")
@@ -79,11 +120,25 @@ struct SyncedFoldersTests {
             )
         }
 
-        #expect(SyncedFolders.marksAFolder(try listing("Resilio")))
-        #expect(!SyncedFolders.marksAFolder(try listing("Tool")))
-        #expect(SyncedFolders.marksAFolder([URL(filePath: "/Sync/.stfolder"), URL(filePath: "/Sync/notes.txt")]))
-        #expect(!SyncedFolders.marksAFolder([URL(filePath: "/Sync/notes.txt")]))
+        let synced = SyncedFolders()
+        #expect(synced.marksAFolder(try listing("Resilio")))
+        #expect(!synced.marksAFolder(try listing("Tool")))
+        #expect(synced.marksAFolder([URL(filePath: "/Sync/.stfolder"), URL(filePath: "/Sync/notes.txt")]))
+        #expect(!synced.marksAFolder([URL(filePath: "/Sync/notes.txt")]))
     }
+}
+
+/// Counts every sync app as on this Mac for the test it marks, since no test can install one.
+struct EverySyncAppOnThisMac: TestTrait, TestScoping {
+    func provideScope(
+        for test: Test, testCase: Test.Case?, performing function: @concurrent @Sendable () async throws -> Void
+    ) async throws {
+        try await SyncApp.$standIn.withValue({ _ in true }) { try await function() }
+    }
+}
+
+extension Trait where Self == EverySyncAppOnThisMac {
+    static var everySyncAppOnThisMac: Self { Self() }
 }
 
 extension SyncKeeper {

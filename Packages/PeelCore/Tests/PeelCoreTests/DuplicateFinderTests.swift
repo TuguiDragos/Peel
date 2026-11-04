@@ -382,7 +382,7 @@ struct DuplicateFinderTests {
         #expect(inside.groups.isEmpty, "a folder inside a repository was scanned")
     }
 
-    @Test func tellsACloudFromASyncApp() async throws {
+    @Test(.everySyncAppOnThisMac) func tellsACloudFromASyncApp() async throws {
         let directory = try TemporaryDirectory()
         let contents = randomData(count: 3_000)
         try directory.directory("home/Synced/.stfolder")
@@ -404,7 +404,7 @@ struct DuplicateFinderTests {
         #expect(copies["Documents"]?.syncsThroughACloud == false)
     }
 
-    @Test func countsOnlyTheGroupsWithSomethingToMove() async throws {
+    @Test(.everySyncAppOnThisMac) func countsOnlyTheGroupsWithSomethingToMove() async throws {
         let directory = try TemporaryDirectory()
         let synced = randomData(count: 3_000)
         let local = randomData(count: 3_000)
@@ -423,7 +423,7 @@ struct DuplicateFinderTests {
     /// A folder that syncs to other devices is scanned, and each copy found in it is listed and held back: a copy
     /// moved there would be removed from every device. Nothing in such a group is suggested, since the one copy that
     /// could move is the only one that stays on this Mac.
-    @Test func listsACopyThatSyncsApartAndNeverSelectsIt() async throws {
+    @Test(.everySyncAppOnThisMac) func listsACopyThatSyncsApartAndNeverSelectsIt() async throws {
         let directory = try TemporaryDirectory()
         let contents = randomData(count: 3_000)
         try directory.directory("home/Synced/.stfolder")
@@ -447,7 +447,7 @@ struct DuplicateFinderTests {
         #expect(DuplicateScan.canChange(local, in: group, selected: []))
     }
 
-    @Test func aCopyInADropboxFolderOutsideFileProviderIsHeldBack() async throws {
+    @Test(.everySyncAppOnThisMac) func aCopyInADropboxFolderOutsideFileProviderIsHeldBack() async throws {
         let directory = try TemporaryDirectory()
         let contents = randomData(count: 3_000)
         try directory.directory("home/Dropbox/.dropbox.cache")
@@ -462,7 +462,7 @@ struct DuplicateFinderTests {
     }
 
     /// A group whose every copy syncs is listed too, under its own heading in the app, with nothing to free.
-    @Test func listsAGroupWhoseEveryCopySyncs() async throws {
+    @Test(.everySyncAppOnThisMac) func listsAGroupWhoseEveryCopySyncs() async throws {
         let directory = try TemporaryDirectory()
         let contents = randomData(count: 3_000)
         try directory.directory("home/.stfolder")
@@ -481,6 +481,26 @@ struct DuplicateFinderTests {
         #expect(scan.suggestedSelection.isEmpty)
         let syncthing = SyncKeeper.app(.syncthing, marker: directory.url.appending(path: "home/.stfolder"))
         #expect(group.files.map { $0.syncedBy?.resolved } == [syncthing.resolved, syncthing.resolved])
+    }
+
+    @Test func aMarkerLeftByASyncAppThatIsGoneHoldsNoCopyBack() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = randomData(count: 3_000)
+        try directory.directory("home/.stfolder")
+        try directory.file("home/Documents/pdf/Chemistry/furnace.pdf", contents: contents)
+        try directory.file("home/Documents/Chemicals/books/furnace.pdf", contents: contents)
+        try directory.file("home/Documents/Chemicals/books/notes.txt")
+
+        let scan = try await SyncApp.$standIn.withValue({ _ in false }) {
+            try await scan(directory, folders: ["home/Documents"])
+        }
+        let group = try #require(scan.groups.first)
+
+        #expect(group.files.count == 2)
+        #expect(group.files.allSatisfy { $0.heldBack == nil && $0.syncedBy == nil })
+        #expect(!group.holdsASyncedCopy)
+        #expect(group.movableFiles.count == 2)
+        #expect(group.reclaimableSize == group.files[0].reclaimableSize)
     }
 
     /// A chosen folder that is not there, as a folder on a disk that isn't connected, is named rather than passed over.

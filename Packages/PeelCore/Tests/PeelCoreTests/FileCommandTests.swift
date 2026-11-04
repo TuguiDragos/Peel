@@ -552,7 +552,7 @@ struct FileCommandTests {
 
     /// A copy in a folder that syncs to other devices is listed as one that stays, and never moved; the JSON names
     /// it apart from the copies that may move.
-    @Test func listsACopyThatSyncsAsOneThatStays() async throws {
+    @Test(.everySyncAppOnThisMac) func listsACopyThatSyncsAsOneThatStays() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)
         let contents = Data((0..<4_000).map { _ in UInt8.random(in: 0...255) })
@@ -791,7 +791,7 @@ struct FileCommandTests {
         })
     }
 
-    @Test func namesTheAppThatSyncsTheCopiesItLeavesAlone() async throws {
+    @Test(.everySyncAppOnThisMac) func namesTheAppThatSyncsTheCopiesItLeavesAlone() async throws {
         let directory = try TemporaryDirectory()
         let contents = Data((0..<3_000).map { _ in UInt8.random(in: 0...255) })
         try directory.directory("home/.stfolder")
@@ -853,7 +853,7 @@ struct FileCommandTests {
         #expect(message.contains("extensions: Peel doesn't look for projects in .editor or anything inside it, since apps and tools keep their own files in hidden folders"))
     }
 
-    @Test func saysThereIsNothingToMoveWhenEveryOtherCopySyncs() async throws {
+    @Test(.everySyncAppOnThisMac) func saysThereIsNothingToMoveWhenEveryOtherCopySyncs() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)
         let contents = Data((0..<4_000).map { _ in UInt8.random(in: 0...255) })

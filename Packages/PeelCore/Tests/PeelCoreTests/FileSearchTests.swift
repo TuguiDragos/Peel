@@ -342,7 +342,7 @@ struct FileSearchTests {
         #expect(results.leftOut == [.syncs: 1])
     }
 
-    @Test func namesTheAppThatSyncsWhatItLeftOut() throws {
+    @Test(.everySyncAppOnThisMac) func namesTheAppThatSyncsWhatItLeftOut() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         try directory.file("home/Sync/.megaignore")

@@ -84,11 +84,13 @@ level or two down: see [Crypto wallets](#crypto-wallets).
 Anything that syncs to your other devices stays too, wherever it is: what iCloud or another cloud service keeps, such as
 what is on your Desktop and in Documents when they are in iCloud Drive, and what is in a folder Syncthing, Resilio Sync,
 Synology Drive Client, MEGA, or Dropbox outside File Provider keeps in step, known by the entry each writes at that
-folder's root (`.stfolder`, `.sync/ID`, `.SynologyWorkingDirectory`, `.megaignore`, `.dropbox.cache`). The Trash would
-take it from your other devices too. Its row says so, File Search doesn't list it and says how many such files it left
-out, and Duplicates lists such a copy marked Stays, never selected and never moved. Where an app's entry is the reason,
-Peel names the app and the entry's path, in the app and from `peel`, so an entry left behind by an app you no longer
-use, or copied over with a folder, can be found.
+folder's root (`.stfolder`, `.sync/ID`, `.SynologyWorkingDirectory`, `.megaignore`, `.dropbox.cache`) while that app is
+on this Mac: macOS knows it, or Syncthing's program is where Homebrew or MacPorts put it, or runs. Only the app keeps
+the folder in step, and its entry stays behind when the app goes and comes along when a folder is copied, so an entry
+whose app isn't here counts for nothing. The Trash would take it from your other devices too. Its row says so, File
+Search doesn't list it and says how many such files it left out, and Duplicates lists such a copy marked Stays, never
+selected and never moved. Where an app's entry is the reason, Peel names the app and the entry's path, in the app and
+from `peel`.
 
 Also refused: work that an app keeps inside a *cache* folder and nowhere else. A JetBrains IDE and Android Studio keep a
 history of your changes in `LocalHistory`, beside their caches, which no repository may hold, Deno keeps `localStorage`

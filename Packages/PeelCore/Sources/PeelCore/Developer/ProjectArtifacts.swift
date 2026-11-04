@@ -1152,7 +1152,7 @@ public enum ProjectArtifacts {
                 next = 0
             }
             let answer = await SlowRead.answer(within: FileSize.budget) { _ in
-                look(in: folder, exclusions: exclusions, listing: listing)
+                look(in: folder, exclusions: exclusions, keepers: keepers, listing: listing)
             }
             // A folder that went away during the walk held nothing; one still there and not read is not known.
             guard let look = answer ?? nil else {
@@ -1317,10 +1317,12 @@ public enum ProjectArtifacts {
     }
 
     /// Lists `folder` and finds the artifacts in it, or nil when it cannot be listed.
-    private static func look(in folder: URL, exclusions: Exclusions, listing: (URL) -> [URL]?) -> Look? {
+    private static func look(
+        in folder: URL, exclusions: Exclusions, keepers: SyncedFolders, listing: (URL) -> [URL]?
+    ) -> Look? {
         guard let entries = listing(folder) else { return nil }
         // What a folder another app keeps in step holds would go from the other devices too.
-        guard !SyncedFolders.marksAFolder(entries) else { return Look(entries: [], found: [], isKeptInStep: true) }
+        guard !keepers.marksAFolder(entries) else { return Look(entries: [], found: [], isKeptInStep: true) }
         let names = Set(entries.map(\.lastPathComponent))
         var artifactNames: Set<String> = []
         var found: [Found] = []

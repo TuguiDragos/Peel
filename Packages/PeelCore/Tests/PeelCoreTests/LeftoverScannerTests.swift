@@ -1337,7 +1337,7 @@ struct LeftoverScannerTests {
     }
 
 
-    @Test func aLeftoverInAFolderASyncAppKeepsInStepCannotBeSelected() async throws {
+    @Test(.everySyncAppOnThisMac) func aLeftoverInAFolderASyncAppKeepsInStepCannotBeSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Projects/.megaignore")
         let synced = try directory.directory("home/Projects/Example")

@@ -147,8 +147,9 @@ Space shows what fills your disk, area by area, and what each area is.
   what Desktop and Documents hold when they are in iCloud, is listed and never moved, since the Trash would take it
   from your other devices too: beside a copy on this Mac it is marked Stays, and a group whose every copy syncs is
   listed under Synced to Other Devices. When a sync app such as Syncthing keeps the folder in step, the copy's note
-  names the app and the entry it keeps at that folder's root, such as `~/.stfolder`. A chosen folder Peel doesn't scan, such as a repository, is named with why, in
-  Scan Settings and with the result.
+  names the app and the entry it keeps at that folder's root, such as `~/.stfolder`; an entry whose app isn't on this
+  Mac, such as one left after the app was removed or copied over with a folder, holds nothing back. A chosen folder
+  Peel doesn't scan, such as a repository, is named with why, in Scan Settings and with the result.
 - **Installers and Backups:** disk images and packages in Downloads, Desktop, Documents, Public, and Shared, and in
   the folders directly inside them, where installers are usually left, with archives there that hold an app or an
   installer. It also lists the packages and the disk and system images an app keeps in Application Support, and the

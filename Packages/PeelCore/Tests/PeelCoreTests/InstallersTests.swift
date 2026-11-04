@@ -394,7 +394,7 @@ struct InstallersTests {
     }
 
 
-    @Test func namesTheAppThatSyncsAnInstallerItLeavesAlone() async throws {
+    @Test(.everySyncAppOnThisMac) func namesTheAppThatSyncsAnInstallerItLeavesAlone() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("Documents/.megaignore")
         try directory.file("Documents/Tool-2.dmg", bytes: 400_000)
@@ -433,7 +433,7 @@ struct InstallersTests {
         #expect(items.filter(\.canBeMoved).map(\.name) == ["Tool.dmg", "Old.iso"])
     }
 
-    @Test func anInstallerInAFolderASyncAppKeepsInStepCannotBeSelected() async throws {
+    @Test(.everySyncAppOnThisMac) func anInstallerInAFolderASyncAppKeepsInStepCannotBeSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Documents/.stfolder")
         try directory.file("Documents/Tool-2.dmg", bytes: 400_000)

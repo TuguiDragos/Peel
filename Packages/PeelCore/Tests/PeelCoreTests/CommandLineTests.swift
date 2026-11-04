@@ -1062,7 +1062,7 @@ struct CommandLineTests {
         #expect(UninstallPlan.make(kept, keepLeftovers: false, refusal: { _ in nil }).items.isEmpty)
     }
 
-    @Test func aDryRunWritesThePlanAndWhyWhenTheAppItselfWouldStay() async throws {
+    @Test(.everySyncAppOnThisMac) func aDryRunWritesThePlanAndWhyWhenTheAppItselfWouldStay() async throws {
         let directory = try TemporaryDirectory()
         _ = try directory.directory("Synced/.stfolder")
         let info: [String: Any] = ["CFBundleIdentifier": "org.example.kept", "CFBundleName": "Kept"]
