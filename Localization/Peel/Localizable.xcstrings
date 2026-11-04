@@ -208719,108 +208719,108 @@
         }
       }
     },
-    "The helper passes launchctl only a name of letters, digits, dots, hyphens, underscores, @ and +, not starting with a dot or a hyphen, so Peel doesn’t start, stop, enable, or disable this job here." : {
+    "The helper passes launchctl only a name of ASCII letters, digits, dots, hyphens, underscores, @ and +, not starting with a dot or a hyphen, so Peel doesn’t start, stop, enable, or disable this job here." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pomocník předává příkazu launchctl jen název složený z písmen, číslic, teček, spojovníků, podtržítek, @ a +, který nezačíná tečkou ani spojovníkem, a proto Peel tuto úlohu zde nespouští, nezastavuje, nezapíná ani nevypíná."
+            "value" : "Pomocník předává příkazu launchctl jen název složený z písmen ASCII, číslic, teček, spojovníků, podtržítek, @ a +, který nezačíná tečkou ani spojovníkem, a proto Peel tuto úlohu zde nespouští, nezastavuje, nezapíná ani nevypíná."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Das Hilfsprogramm übergibt an launchctl nur Namen aus Buchstaben, Ziffern, Punkten, Bindestrichen, Unterstrichen, @ und +, die nicht mit einem Punkt oder Bindestrich beginnen, daher startet, stoppt, aktiviert oder deaktiviert Peel diesen Job hier nicht."
+            "value" : "Das Hilfsprogramm übergibt an launchctl nur Namen aus ASCII-Buchstaben, Ziffern, Punkten, Bindestrichen, Unterstrichen, @ und +, die nicht mit einem Punkt oder Bindestrich beginnen, daher startet, stoppt, aktiviert oder deaktiviert Peel diesen Job hier nicht."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El asistente solo pasa a launchctl un nombre formado por letras, dígitos, puntos, guiones, guiones bajos, @ y +, que no empiece por un punto ni por un guion, así que aquí Peel no inicia, no detiene, no activa ni desactiva esta tarea."
+            "value" : "El asistente solo pasa a launchctl un nombre formado por letras ASCII, dígitos, puntos, guiones, guiones bajos, @ y +, que no empiece por un punto ni por un guion, así que aquí Peel no inicia, no detiene, no activa ni desactiva esta tarea."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’utilitaire ne transmet à launchctl qu’un nom composé de lettres, de chiffres, de points, de traits d’union, de traits de soulignement, de @ et de +, qui ne commence ni par un point ni par un trait d’union : Peel ne démarre donc pas cette tâche, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
+            "value" : "L’utilitaire ne transmet à launchctl qu’un nom composé de lettres ASCII, de chiffres, de points, de traits d’union, de traits de soulignement, de @ et de +, qui ne commence ni par un point ni par un trait d’union : Peel ne démarre donc pas cette tâche, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’assistente passa a launchctl solo un nome composto da lettere, cifre, punti, trattini, trattini bassi, @ e +, che non inizi con un punto o un trattino, quindi qui Peel non avvia, non interrompe, non abilita e non disabilita questo elemento."
+            "value" : "L’assistente passa a launchctl solo un nome composto da lettere ASCII, cifre, punti, trattini, trattini bassi, @ e +, che non inizi con un punto o un trattino, quindi qui Peel non avvia, non interrompe, non abilita e non disabilita questo elemento."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ヘルパーがlaunchctlに渡すのは、英字、数字、ピリオド、ハイフン、アンダースコア、@、+だけで構成され、ピリオドやハイフンで始まらない名前に限られるため、Peelはここでこのジョブの開始、停止、有効化、無効化を行いません。"
+            "value" : "ヘルパーがlaunchctlに渡すのは、ASCII英字、数字、ピリオド、ハイフン、アンダースコア、@、+だけで構成され、ピリオドやハイフンで始まらない名前に限られるため、Peelはここでこのジョブの開始、停止、有効化、無効化を行いません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "보조 프로그램은 영문자, 숫자, 마침표, 하이픈, 밑줄, @ 및 +로만 이루어지고 마침표나 하이픈으로 시작하지 않는 이름만 launchctl에 전달하므로, Peel은 여기에서 이 작업을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
+            "value" : "보조 프로그램은 ASCII 영문자, 숫자, 마침표, 하이픈, 밑줄, @ 및 +로만 이루어지고 마침표나 하이픈으로 시작하지 않는 이름만 launchctl에 전달하므로, Peel은 여기에서 이 작업을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het hulpprogramma geeft aan launchctl alleen namen door die bestaan uit letters, cijfers, punten, koppeltekens, onderstrepingstekens, @ en +, en die niet met een punt of een koppelteken beginnen, dus Peel start deze taak hier niet, stopt die niet en schakelt die niet in of uit."
+            "value" : "Het hulpprogramma geeft aan launchctl alleen namen door die bestaan uit ASCII-letters, cijfers, punten, koppeltekens, onderstrepingstekens, @ en +, en die niet met een punt of een koppelteken beginnen, dus Peel start deze taak hier niet, stopt die niet en schakelt die niet in of uit."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pomocnik przekazuje do launchctl tylko nazwę złożoną z liter, cyfr, kropek, łączników, podkreślników, @ i +, która nie zaczyna się od kropki ani od łącznika, więc Peel tutaj tego zadania nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+            "value" : "Pomocnik przekazuje do launchctl tylko nazwę złożoną z liter ASCII, cyfr, kropek, łączników, podkreślników, @ i +, która nie zaczyna się od kropki ani od łącznika, więc Peel tutaj tego zadania nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O auxiliar só passa para o launchctl um nome formado por letras, dígitos, pontos, hifens, sublinhados, @ e +, que não comece com ponto nem com hífen, por isso o Peel não inicia, não interrompe, não ativa nem desativa esta tarefa aqui."
+            "value" : "O auxiliar só passa para o launchctl um nome formado por letras ASCII, dígitos, pontos, hifens, sublinhados, @ e +, que não comece com ponto nem com hífen, por isso o Peel não inicia, não interrompe, não ativa nem desativa esta tarefa aqui."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Instrumentul de ajutor transmite către launchctl doar un nume format din litere, cifre, puncte, cratime, liniuțe de subliniere, @ și +, care nu începe cu un punct sau cu o cratimă, așa că Peel nu pornește, nu oprește, nu activează și nu dezactivează această sarcină de aici."
+            "value" : "Instrumentul de ajutor transmite către launchctl doar un nume format din litere ASCII, cifre, puncte, cratime, liniuțe de subliniere, @ și +, care nu începe cu un punct sau cu o cratimă, așa că Peel nu pornește, nu oprește, nu activează și nu dezactivează această sarcină de aici."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Помощник передает launchctl только имена из букв, цифр, точек, дефисов, подчеркиваний, @ и +, которые не начинаются с точки или дефиса, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает это задание."
+            "value" : "Помощник передает launchctl только имена из букв ASCII, цифр, точек, дефисов, подчеркиваний, @ и +, которые не начинаются с точки или дефиса, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает это задание."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hjälpprogrammet skickar bara sådana namn till launchctl som består av bokstäver, siffror, punkter, bindestreck, understreck, @ och + och som inte börjar med en punkt eller ett bindestreck, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här jobbet härifrån."
+            "value" : "Hjälpprogrammet skickar bara sådana namn till launchctl som består av ASCII-bokstäver, siffror, punkter, bindestreck, understreck, @ och + och som inte börjar med en punkt eller ett bindestreck, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här jobbet härifrån."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yardımcı, launchctl komutuna yalnızca harf, rakam, nokta, kısa çizgi, alt çizgi, @ ve + karakterlerinden oluşan ve nokta ya da kısa çizgiyle başlamayan bir ad aktarır, bu yüzden Peel bu işi burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
+            "value" : "Yardımcı, launchctl komutuna yalnızca ASCII harf, rakam, nokta, kısa çizgi, alt çizgi, @ ve + karakterlerinden oluşan ve nokta ya da kısa çizgiyle başlamayan bir ad aktarır, bu yüzden Peel bu işi burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Помічник передає launchctl лише назву з літер, цифр, крапок, дефісів, знаків підкреслення, @ і +, яка не починається з крапки чи дефіса, тож Peel тут не запускає, не зупиняє, не вмикає й не вимикає це завдання."
+            "value" : "Помічник передає launchctl лише назву з літер ASCII, цифр, крапок, дефісів, знаків підкреслення, @ і +, яка не починається з крапки чи дефіса, тож Peel тут не запускає, не зупиняє, не вмикає й не вимикає це завдання."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "帮助程序只会将由字母、数字、点、连字符、下划线、@和+组成且不以点或连字符开头的名称传递给launchctl，因此Peel不会在此处启动、停止、启用或停用此任务。"
+            "value" : "帮助程序只会将由ASCII字母、数字、点、连字符、下划线、@和+组成且不以点或连字符开头的名称传递给launchctl，因此Peel不会在此处启动、停止、启用或停用此任务。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "輔助程式只會將由字母、數字、句點、連字號、底線、@和+組成，且不以句點或連字號開頭的名稱傳遞給launchctl，因此Peel不會在這裡啟動、停止、啟用或停用此工作。"
+            "value" : "輔助程式只會將由ASCII字母、數字、句點、連字號、底線、@和+組成，且不以句點或連字號開頭的名稱傳遞給launchctl，因此Peel不會在這裡啟動、停止、啟用或停用此工作。"
           }
         }
       }

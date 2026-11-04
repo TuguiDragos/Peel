@@ -143,7 +143,8 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public enum UnusableLabel: Sendable, Hashable {
         case holdsASlash
         case holdsAControlCharacter
-        /// The helper takes only letters, digits, `.`, `-`, `_`, `@`, and `+` (`PrivilegedPathPolicy.isValidLabel`).
+        /// The helper takes only ASCII letters, digits, `.`, `-`, `_`, `@`, and `+`
+        /// (`PrivilegedPathPolicy.isValidLabel`).
         case notTakenByTheHelper
     }
 

@@ -186,7 +186,7 @@ struct BackgroundItemDetailView: View {
                     case .notTakenByTheHelper:
                         Notice(
                             title: Text("Its name has characters the helper doesn’t take"),
-                            detail: Text("The helper passes launchctl only a name of letters, digits, dots, hyphens, underscores, @ and +, not starting with a dot or a hyphen, so Peel doesn’t start, stop, enable, or disable this job here."),
+                            detail: Text("The helper passes launchctl only a name of ASCII letters, digits, dots, hyphens, underscores, @ and +, not starting with a dot or a hyphen, so Peel doesn’t start, stop, enable, or disable this job here."),
                             kind: .note
                         ) {}
                     }
