@@ -552,7 +552,7 @@ its place (`SettingsView`), whose zap takes Peel's whole folder, `Terminal/` inc
 - Scanners take their slow parts as parameters (how to measure a folder, how to run a tool), so a test can
   stand in for a folder that never answers or a tool that fails.
 - The `Attack*Tests` files try to get past the safety rules on purpose: another case, a link, a `/.vol` path, a
-  folder swapped between the check and the move.
+  folder swapped between the check and the move, an object swapped into an item's name while the helper moves it.
 - A few tests read this Mac instead of a fixture, and the slowest ones run only when asked for
   (`PEEL_TEST_THIS_MAC=1`).
 - `PeelUITests` runs Xcode's accessibility audit on every page, About, Settings, and the menu bar panel, in both

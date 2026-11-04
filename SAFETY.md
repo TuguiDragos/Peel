@@ -130,10 +130,13 @@ and as the system names it, spelled as the disk stores it.
 **The thing judged is the thing moved.** A check made by name and a move made by name are two looks at
 the disk, and between them a folder can be swapped for a link into Messages by anything running as you. So
 Peel holds the folder open, asks the question again about the name the system gives that open folder, and
-moves the item through it: whatever the old name leads to by then is not touched. Putting an item back
-holds the folder it returns to in the same way. The cost is that Finder's own Put Back does not know these
-items, since only Apple's by-name call writes the note Finder reads; Peel's History puts them back, and in
-Finder they can be dragged out. One move still goes by name, the first ever made on a disk, because that
+moves the item through it: whatever the old name leads to by then is not touched. A rename still takes whatever
+holds the name at that instant; for Peel's own moves that is something your account could have moved anyway, and
+its helper, which moves what only root can, checks each item once more in a folder only root can reach, as the
+section on the helper says. Putting an item back holds the folder it returns to in the same way. The cost is that
+Finder's own Put Back does not know these items, since only Apple's by-name call writes the note Finder reads;
+Peel's History puts them back, and in Finder they can be dragged out. One move still goes by name, the first ever
+made on a disk, because that
 call is the only thing that makes a disk's Trash. What it moved is then compared with what was judged, and
 a difference is reported instead of recorded.
 

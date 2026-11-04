@@ -983,8 +983,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   of that account can redefine.
 - The helper takes each item it moves to the Trash or puts back through a folder of its own that only it can reach,
   and checks there that it is the item it was asked to move, so nothing put in the item's place on the way moves
-  instead, nor goes back where code is loaded from. It no longer moves anything from outside the startup disk, such as
-  from a home folder kept on another disk.
+  instead, nor goes back where code is loaded from, and a Put Back of something else says the helper has no record of
+  it. It no longer moves anything from outside the startup disk, such as from a home folder kept on another disk.
 
 ## 1.2.1 (2026-10-25)
 
