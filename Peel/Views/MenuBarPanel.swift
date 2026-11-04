@@ -45,6 +45,12 @@ struct MenuBarPanel: View {
         ) { _ in
             room = Self.room
         }
+        // macOS draws no window of a hidden app, and after a hidden launch a click on the item leaves Peel hidden.
+        .onAppear { Self.showPeelIfHidden(NSApplication.shared) }
+    }
+
+    static func showPeelIfHidden(_ app: some HidingApp) {
+        if app.isHidden { app.unhideWithoutActivation() }
     }
 
     private var middle: some View {
@@ -269,3 +275,10 @@ struct MenuBarPanel: View {
         dismiss()
     }
 }
+
+protocol HidingApp: AnyObject {
+    var isHidden: Bool { get }
+    func unhideWithoutActivation()
+}
+
+extension NSApplication: HidingApp {}

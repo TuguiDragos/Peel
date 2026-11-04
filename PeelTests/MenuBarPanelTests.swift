@@ -26,4 +26,30 @@ struct MenuBarPanelTests {
     @Test func aNewVersionOfPeelHasARowOfItsOwn() throws {
         #expect(try height(with: PeelUpdater(found: "9.9")) > height(with: PeelUpdater()))
     }
+
+    @Test func showsAHiddenPeel() {
+        let app = StandInApp(isHidden: true)
+        MenuBarPanel.showPeelIfHidden(app)
+        #expect(!app.isHidden)
+        #expect(app.unhides == 1)
+    }
+
+    @Test func leavesAPeelThatIsNotHiddenAlone() {
+        let app = StandInApp(isHidden: false)
+        MenuBarPanel.showPeelIfHidden(app)
+        #expect(app.unhides == 0)
+    }
+}
+
+/// The test host can't be hidden on demand: its activation policy is prohibited while it hosts tests.
+private final class StandInApp: HidingApp {
+    var isHidden: Bool
+    var unhides = 0
+
+    init(isHidden: Bool) { self.isHidden = isHidden }
+
+    func unhideWithoutActivation() {
+        unhides += 1
+        isHidden = false
+    }
 }
