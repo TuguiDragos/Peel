@@ -67,7 +67,8 @@ struct AppCatalogTests {
         let released = DispatchSemaphore(value: 0)
         defer { released.signal() }
 
-        let scan = await AppCatalog.scan(in: [answering, sleeping], within: 0.2) { folder, isGivenUp in
+        // Tunewell is read for real, so it gets Peel's own budget: on a busy runner a reading takes more than 0.2 s.
+        let scan = await AppCatalog.scan(in: [answering, sleeping], within: FileSize.budget) { folder, isGivenUp in
             guard folder == sleeping else { return AppCatalog.appBundles(in: folder, unless: isGivenUp) }
             _ = released.wait(timeout: .now() + 30)
             return ([], [])
