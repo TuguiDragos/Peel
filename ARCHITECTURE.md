@@ -447,7 +447,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   Start, Stop, Enable, and Disable go to `launchctl`, a daemon's through the helper, never under a label macOS uses for
   its own jobs (`SystemDaemons`, `SystemAgents`), and a job ServiceManagement manages is turned off only in System
   Settings. A job file System Settings keeps from running (`LoginItemsStatus`, from
-  `SMAppService.statusForLegacyPlist(at:)`, read with each scan and asked again before a start) is only ever stopped.
+  `SMAppService.statusForLegacyPlist(at:)`, read with each scan and asked again before a start) is only ever stopped,
+  and neither a removal nor Put Back starts it again (`LaunchdCleanup.Job.isKeptOffBySystemSettings`).
   Move to Trash takes the job's file, and the job is stopped once the file has moved.
 - **Extensions.** `AppExtensions.scan` reads `pluginkit -m -v` and `systemextensionsctl list`. Each ends by counting its
   rows, so a listing read short of its count is no answer, and the page says which kind is missing. macOS's own

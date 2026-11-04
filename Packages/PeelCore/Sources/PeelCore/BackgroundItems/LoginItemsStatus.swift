@@ -22,6 +22,11 @@ public enum LoginItemsStatus: Sendable, Hashable {
         guard let plist = item.plistURL, item.source == .userLibrary || item.source == .systemLibrary else {
             return nil
         }
+        return of(plist: plist)
+    }
+
+    /// For a job file in a folder launchd reads by itself.
+    static func of(plist: URL) -> LoginItemsStatus {
         if let standIn { return standIn(plist) }
         return switch SMAppService.statusForLegacyPlist(at: plist) {
         case .enabled: .allowed

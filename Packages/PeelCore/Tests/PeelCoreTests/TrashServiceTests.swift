@@ -241,6 +241,25 @@ struct TrashServiceTests {
         #expect(await launchd.started == [job.label])
     }
 
+    @Test func leavesStoppedAJobSystemSettingsKeepsFromRunningWhenTheAppStays() async throws {
+        let directory = try TemporaryDirectory()
+        let (app, agent, plist, job) = try appRunningItsAgent(in: directory)
+        defer { agent.terminate() }
+        let launchd = Launchd(endsTheProcess: false)
+        let service = try service(in: directory, launchd: launchd, agent: agent, running: [job])
+
+        let result = await LoginItemsStatus.$standIn.withValue({ _ in .turnedOff }) {
+            await service.trash(
+                apps: [app], thenFiles: { stayed in stayed.isEmpty ? [plist] : [] }, usingHelperFor: [],
+                lettingTheirProgramsRun: []
+            )
+        }
+
+        #expect(result.failures.map(\.url) == [app])
+        #expect(await launchd.stopped == [job.label])
+        #expect(await launchd.started.isEmpty)
+    }
+
     @Test func resetsThePrivacyOfAnAppOnlyItsOwnBackgroundProgramKeepsInPlace() async throws {
         let directory = try TemporaryDirectory()
         let (app, agent, _, job) = try appRunningItsAgent(in: directory)
@@ -441,6 +460,36 @@ struct TrashServiceTests {
 
         #expect(started.withLock { $0 } == ["org.example.running"], "the job Peel stopped was not started again")
         #expect(running.isThere && idle.isThere)
+    }
+
+    @Test func puttingBackTheFileOfAJobSystemSettingsKeepsOffLeavesItStopped() async throws {
+        let directory = try TemporaryDirectory()
+        let trash = try directory.directory("home/.Trash")
+        let running = try launchdPlist("home/Library/LaunchAgents/org.example.running.plist", in: directory)
+        let started = Mutex<[String]>([])
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            ),
+            stopJobs: { jobs, _ in jobs },
+            startJob: { job, _ in started.withLock { $0.append(job.label) } },
+            moveToTrash: { url in
+                let destination = trash.appending(path: url.lastPathComponent)
+                try FileManager.default.moveItem(at: url, to: destination)
+                return destination
+            }
+        )
+        let item = try #require(await service.trash([running]).trashed.first)
+        #expect(item.stoppedJob == "org.example.running")
+
+        let failure = await LoginItemsStatus.$standIn.withValue({ _ in .turnedOff }) {
+            await service.restore(item)
+        }
+
+        #expect(failure == nil)
+        #expect(running.isThere)
+        #expect(started.withLock { $0 }.isEmpty, "a job System Settings keeps from running was started")
     }
 
     @Test func aJobIsStartedAgainOnlyAsTheFilePutBackDeclaresIt() async throws {

@@ -874,8 +874,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Stop, Unload, and Remove wait for the job's process to end, so a job slow to quit no longer reads as still running
   after launchd let it go.
 - A job turned off in System Settings > General > Login Items & Extensions, or waiting for approval there, is no
-  longer loaded, run, restarted, or disabled from here, which went over that choice: it can only be stopped, and its
-  page says why.
+  longer loaded, run, restarted, or disabled from here, nor started again when its file comes back from History, which
+  went over that choice: it can only be stopped, and its page says why.
 - A Login Items & Extensions status too long to sit beside its label goes under it from the left, rather than broken
   at the right.
 

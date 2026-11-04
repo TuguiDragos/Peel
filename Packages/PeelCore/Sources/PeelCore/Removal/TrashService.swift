@@ -726,7 +726,7 @@ public struct TrashService: Sendable {
     /// Starts again each of `jobs` launchd reads from a file that did not move: stopped so their app could move, they
     /// must not stay stopped while their file stays in place.
     private func startAgain(_ jobs: [LaunchdCleanup.Running], unlessMoved moved: Set<URL>) async {
-        for job in jobs.compactMap(\.job) where !moved.contains(job.plist) {
+        for job in jobs.compactMap(\.job) where !moved.contains(job.plist) && !job.isKeptOffBySystemSettings {
             await startJob(job, true)
         }
     }
@@ -919,7 +919,7 @@ public struct TrashService: Sendable {
         // file now back in place declares it.
         if let label = item.stoppedJob,
            let job = LaunchdCleanup.jobs(for: [item.originalURL], environment: environment).first,
-           job.label == label {
+           job.label == label, !job.isKeptOffBySystemSettings {
             await startJob(job, canUseHelper)
         }
         return (nil, movedAside)

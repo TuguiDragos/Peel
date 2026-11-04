@@ -10,6 +10,10 @@ enum LaunchdCleanup {
         var loadsInTheBackgroundSession = false
 
         var domain: String { LaunchdCleanup.domain(isDaemon: isDaemon, background: loadsInTheBackgroundSession) }
+
+        /// Peel starts such a job again neither after a move nor on Put Back, as the Background Items page never
+        /// starts it: that would go over the person's choice in System Settings.
+        var isKeptOffBySystemSettings: Bool { !LoginItemsStatus.of(plist: plist).letsItRun }
     }
 
     /// A job launchd runs now whose program sits inside an app: one of the app's own background programs. `plist` is
