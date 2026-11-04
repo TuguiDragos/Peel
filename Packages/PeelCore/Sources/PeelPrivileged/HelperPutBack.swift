@@ -55,6 +55,8 @@ public enum HelperPutBack {
             case .success?:
                 ledger.forget([trashed])
                 return nil
+            case .failure(.notTheItem)?:
+                return HelperRefusal.notInRecord.rawValue
             case .failure(let failure)?:
                 return failure.explanation
             }

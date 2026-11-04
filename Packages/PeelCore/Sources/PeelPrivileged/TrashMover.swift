@@ -58,7 +58,11 @@ public enum TrashMover {
         in directory: DirectoryHandle,
         exclusively: ExclusiveRename
     ) -> Result<Void, POSIXError> {
-        if case .failure(let error) = stillThere(item) { return .failure(error) }
+        switch presence(of: item) {
+        case .there: break
+        case .another: return .failure(POSIXError(.ENOENT))
+        case .gone(let error): return .failure(error)
+        }
         switch exclusively(item, name, directory) {
         case .failure(let error) where error.code == .ENOTSUP:
             return renameOntoPlaceholder(item, to: name, in: directory)
@@ -133,14 +137,19 @@ public enum TrashMover {
         _ = name.withCString { unlinkat(directory.descriptor, $0, isFolder ? AT_REMOVEDIR : 0) }
     }
 
-    /// The identity `item` was opened with, while its name still leads to it.
-    private static func stillThere(_ item: OpenItem) -> Result<ItemIdentity, POSIXError> {
+    private enum Presence {
+        case there(ItemIdentity)
+        case another
+        case gone(POSIXError)
+    }
+
+    private static func presence(of item: OpenItem) -> Presence {
         var info = stat()
         guard item.name.withCString({ fstatat(item.parent.descriptor, $0, &info, AT_SYMLINK_NOFOLLOW) }) == 0 else {
-            return .failure(.last)
+            return .gone(.last)
         }
-        guard let identity = item.identity, ItemIdentity(info) == identity else { return .failure(POSIXError(.ENOENT)) }
-        return .success(identity)
+        guard let identity = item.identity, ItemIdentity(info) == identity else { return .another }
+        return .there(identity)
     }
 
     static func renameExclusively(
@@ -230,11 +239,13 @@ extension TrashMover {
     enum StagedFailure: Error {
         case failed(POSIXError)
         case refused(PrivilegedPathPolicy.Rejection)
+        case notTheItem
 
         var explanation: String {
             switch self {
             case .failed(let error): error.localizedDescription
             case .refused(let rejection): rejection.explanation
+            case .notTheItem: PrivilegedPathPolicy.Rejection.missing.explanation
             }
         }
     }
@@ -252,9 +263,10 @@ extension TrashMover {
         exclusively: ExclusiveRename = renameExclusively
     ) -> Result<String, StagedFailure> {
         let identity: ItemIdentity
-        switch stillThere(item) {
-        case .success(let opened): identity = opened
-        case .failure(let error): return .failure(.failed(error))
+        switch presence(of: item) {
+        case .there(let opened): identity = opened
+        case .another: return .failure(.notTheItem)
+        case .gone(let error): return .failure(.failed(error))
         }
         var staged = "\(user).\(UUID().uuidString).\(item.name)"
         while staged.utf8.count > Int(NAME_MAX) { staged.removeLast() }
@@ -271,7 +283,7 @@ extension TrashMover {
                 }
             }
         } else {
-            failure = .failed(POSIXError(.ENOENT))
+            failure = .notTheItem
         }
         _ = place(staged, from: staging, in: item.parent, as: finderNames(of: item.name))
         return .failure(failure)

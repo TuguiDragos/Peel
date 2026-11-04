@@ -213,7 +213,10 @@ extension AttackHelperPolicyTests {
             trashed, to: original, for: getuid(), policy: policy, ledger: { ledger }, exclusively: swappingIn("payload")
         )
 
-        #expect(refusal != nil, "ATTACK SUCCEEDED: root put the user's own object back where launchd reads daemons")
+        #expect(
+            refusal == HelperRefusal.notInRecord.rawValue,
+            "ATTACK SUCCEEDED: root put the user's own object back where launchd reads daemons"
+        )
         #expect(!FileManager.default.fileExists(atPath: original))
         let inTheTrash = Set(try FileManager.default.contentsOfDirectory(atPath: path("home/.Trash", in: directory)))
         #expect(inTheTrash.count == 2, "both objects stay in the Trash")
@@ -239,7 +242,10 @@ extension AttackHelperPolicyTests {
             trashed, to: original, for: getuid(), policy: policy, ledger: { ledger }, exclusively: openedToEveryone
         )
 
-        #expect(refusal != nil, "ATTACK SUCCEEDED: a file anyone could rewrite went back where launchd reads daemons")
+        #expect(
+            refusal == PrivilegedPathPolicy.Rejection.loadsCode.explanation,
+            "ATTACK SUCCEEDED: a file anyone could rewrite went back where launchd reads daemons"
+        )
         #expect(!FileManager.default.fileExists(atPath: original))
         #expect(FileManager.default.fileExists(atPath: trashed))
     }
@@ -260,7 +266,10 @@ extension AttackHelperPolicyTests {
             trashed, to: original, for: getuid(), policy: policy, ledger: { ledger }, exclusively: swappingIn("payload")
         )
 
-        #expect(refusal != nil, "ATTACK SUCCEEDED: root put back an object the helper never moved")
+        #expect(
+            refusal == HelperRefusal.notInRecord.rawValue,
+            "ATTACK SUCCEEDED: root put back an object the helper never moved"
+        )
         #expect(!FileManager.default.fileExists(atPath: original))
     }
 
@@ -280,6 +289,7 @@ extension AttackHelperPolicyTests {
         ))
 
         #expect(result.moved.isEmpty, "ATTACK SUCCEEDED: root moved an object it never judged")
+        #expect(result.failed[original] == PrivilegedPathPolicy.Rejection.missing.explanation)
         #expect(try FileManager.default.contentsOfDirectory(atPath: path("home/.Trash", in: directory)).isEmpty)
         #expect(try String(contentsOfFile: original, encoding: .utf8) == "the user's")
         #expect(try ledger.origin(of: item, movedBy: getuid()) == nil)
@@ -308,10 +318,10 @@ extension AttackHelperPolicyTests {
             exclusively: unsupported
         ))
 
-        #expect(refusal != nil)
+        #expect(refusal == POSIXError(.ENOTSUP).localizedDescription)
         #expect(!FileManager.default.fileExists(atPath: original), "the helper replaced a placeholder by name")
         #expect(FileManager.default.fileExists(atPath: trashed))
-        #expect(result.moved.isEmpty)
+        #expect(result.failed[other] == POSIXError(.ENOTSUP).localizedDescription)
         #expect(FileManager.default.fileExists(atPath: other))
     }
 
@@ -334,7 +344,7 @@ extension AttackHelperPolicyTests {
             trashed, to: original, for: getuid(), policy: policy, ledger: { ledger }, exclusively: takingTheName
         )
 
-        #expect(refusal != nil)
+        #expect(refusal == POSIXError(.EEXIST).localizedDescription)
         #expect(try String(contentsOfFile: original, encoding: .utf8) == "another")
         #expect(try String(contentsOfFile: trashed, encoding: .utf8) == "the app's")
         let trash = try #require(policy.openTrash(ownedBy: getuid()))
@@ -358,7 +368,10 @@ extension AttackHelperPolicyTests {
 
         let refusal = HelperPutBack.run(trashed, to: original, for: getuid(), policy: policy, ledger: { ledger })
 
-        #expect(refusal != nil, "the helper moved an item by name with nowhere to check it first")
+        #expect(
+            refusal == POSIXError(.EXDEV).localizedDescription,
+            "the helper moved an item by name with nowhere to check it first"
+        )
         #expect(FileManager.default.fileExists(atPath: trashed))
         #expect(!FileManager.default.fileExists(atPath: original))
     }
