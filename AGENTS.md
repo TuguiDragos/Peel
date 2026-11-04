@@ -172,8 +172,10 @@ disk that somebody may have replaced.
   connection (`PrivilegedHelper.ask`): XPC delivers a reply at the quality its message went out with, so a reply to a
   lower one waits while Peel is busy, and the wait for it ends first.
 - It never uses a path again after checking it: it opens the folder, checks the item there as the kernel names the
-  folder (`F_GETPATH`), works only through that descriptor, and moves the item only while its identity is the one
-  it checked, so a folder or an item swapped after the check leads nowhere.
+  folder (`F_GETPATH`), and works only through that descriptor, so a folder swapped after the check leads nowhere.
+- A rename still goes by name, so every item the helper moves passes through `Staging`, beside its ledger, which only
+  root can reach (`HelperLedger.whileStaging`), and is checked there before it goes on; anything but the item goes
+  back. It never renames by name out of a folder another account can write, and never takes a name with a placeholder.
 - A new operation needs `PrivilegedPathPolicyTests`, and any change to the helper a bump of
   `HelperIdentity.protocolVersion`, so Peel never works with a helper of another version.
 - The helper's identifier and its launchd property list stay the same from one version to the next. Updates rely on

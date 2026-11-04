@@ -275,6 +275,12 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   `ProtectedData` protects. It has no shell.
 - It opens folders by descriptor and works through them, so a path swapped for a link after the check leads
   nowhere.
+- A rename goes by name, so something else can take an item's name between the last look and the move. The helper
+  takes every item through `Staging`, a folder beside its ledger that only root can reach, and checks there that what
+  arrived is the item it opened and, for a Put Back, that the place takes it as it is now; anything else goes back
+  where it came from. So it moves nothing on another disk than its own folder's, nor where a rename can't refuse to
+  replace a name. What a move cut short leaves in `Staging` goes to its account's Trash when the helper starts and
+  before Remove Peel moves the ledger (`HelperLedger.recoverStaged`).
 - It keeps a ledger of what it moved, in a folder only root can write (`/private/var/db/com.tuguidragos.Peel.Helper`),
   and puts back only what that ledger knows. An item moves only once its record is on the drive (`DriveFlush`,
   `F_FULLFSYNC`), and History is on the drive before the journal lets a removal's items go. While the ledger can't be
@@ -514,7 +520,7 @@ where a Homebrew install takes them from.
 | `~/Library/Logs/Peel/<name>` | What the app measured while `PEEL_MEASURE=<name>` was set. |
 | `~/Library/Caches/com.tuguidragos.Peel/org.sparkle-project.Sparkle/` | Sparkle's download of an update the user chose to install, and what it prepares to install it. |
 | `~/Library/Caches/com.tuguidragos.Peel/Cache.db`, `fsCachedData/`, `~/Library/HTTPStorages/com.tuguidragos.Peel/`, `~/Library/HTTPStorages/com.tuguidragos.Peel.binarycookies` | What macOS's networking keeps for Sparkle's requests: a cache of their answers, what servers said about reaching them again, and a store of cookies that stays empty, since Peel accepts none (`PeelUpdater`). |
-| `/private/var/db/com.tuguidragos.Peel.Helper/` | The helper's ledger of what it moved. |
+| `/private/var/db/com.tuguidragos.Peel.Helper/` | The helper's ledger of what it moved, and `Staging`, where it checks each item on the way. |
 | Peel's preferences | Settings, the day Peel was installed, what each tool found the last time it looked, the last answer of each update check, when Sparkle last looked for a new Peel, the Mac's model name (read once, under its model identifier), what Peel last learned of App Management, and what the tweaks, Terminal, and Git held before Peel changed them, so turning a setting off puts that back. |
 | Outside Peel's own files | `~/.hushlogin` from the Terminal page; the Dock's two lists of icons (`persistent-apps` and `recent-apps`, through `DockTiles`); the settings Tweaks changes; Terminal's profiles and options; Git's settings; the Time Machine mark on each folder Build Artifacts leaves out of backups, with an attribute beside it that says Peel put it; and the background items disabled on the Background Items page, which launchd keeps disabled across restarts. |
 

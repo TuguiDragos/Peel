@@ -682,8 +682,11 @@ and it fails closed.
   the app, so it goes once the app is gone, and one that still starts a program stays. A browser starts what a
   manifest there names, so these folders take back only what is owned by root and writable by nobody else.
 - It never reuses a path after checking it. It opens the parent directory, checks the item there as the system
-  names that directory, works only through that descriptor, and moves the item only while it is still the one it
-  checked, so a folder or an item swapped after the check leads nowhere.
+  names that directory, and works only through that descriptor, so a folder swapped after the check leads nowhere.
+  It takes each item through a folder of its own that only root can reach, and checks there that what arrived is
+  the item it checked, and for a Put Back that the place takes it as it is now, so anything put in the item's place
+  on the way goes back where it came from. A rename can't leave its disk, so it moves nothing outside the startup
+  disk.
 - "Put Back" is asked for by a record any process running as you can rewrite, so the helper believes none of
   it. It keeps its own ledger, in a folder that is root's alone, of what it moved and from where: the item is
   recognized by what it is (not by its name or place in the Trash), and it goes back only to the exact place
