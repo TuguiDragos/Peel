@@ -297,6 +297,120 @@ struct HelperLedgerTests {
         #expect(try ledger.origin(of: trashed, movedBy: getuid()) != nil, "an entry kept without its volume was forgotten")
     }
 
+    @Test func putsBackAFileAFolderAndALinkItMovedWhole() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/.Trash")
+        try directory.file("root/Library/Caches/com.example.plist", contents: Data("settings".utf8))
+        try directory.file("root/Library/Caches/com.example.app/Cache.db", contents: Data("cache".utf8))
+        try directory.directory("root/usr/local/bin")
+        try FileManager.default.createSymbolicLink(
+            atPath: path("root/usr/local/bin/example", in: directory), withDestinationPath: "/nowhere/example"
+        )
+        let root = directory.url.path(percentEncoded: false)
+        let policy = PrivilegedPathPolicy(
+            homeDirectory: root + "home",
+            systemLocations: [root + "root/Library/Caches"],
+            applicationLocations: [],
+            restoreLocations: [root + "root/Library/Caches"],
+            linkLocations: [root + "root/usr/local/bin"],
+            trustedOwner: getuid()
+        )
+        let ledger = try ledger(in: directory)
+        let trash = try #require(policy.openTrash(ownedBy: getuid()))
+        let originals = ["root/Library/Caches/com.example.plist", "root/Library/Caches/com.example.app", "root/usr/local/bin/example"]
+            .map { path($0, in: directory) }
+
+        let result = try #require(TrashMover.moveRecorded(
+            try originals.map { ($0, try policy.open($0).get()) }, into: trash, ledger: ledger, movedBy: getuid()
+        ))
+        #expect(result.failed.isEmpty)
+        for original in originals {
+            let trashed = try #require(result.moved[original])
+            #expect(HelperPutBack.run(trashed, to: original, for: getuid(), policy: policy, ledger: { ledger }) == nil)
+        }
+
+        #expect(try String(contentsOfFile: originals[0], encoding: .utf8) == "settings")
+        #expect(try String(contentsOfFile: originals[1] + "/Cache.db", encoding: .utf8) == "cache")
+        #expect(try FileManager.default.destinationOfSymbolicLink(atPath: originals[2]) == "/nowhere/example")
+        #expect(try FileManager.default.contentsOfDirectory(atPath: path("home/.Trash", in: directory)).isEmpty)
+        #expect(try FileManager.default.contentsOfDirectory(atPath: path("private/Staging", in: directory)).isEmpty)
+    }
+
+    @Test func movesNothingWhileItsStagingFolderIsNotItsOwn() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        let ledger = try ledger(in: directory)
+        let trash = try #require(policy.openTrash(ownedBy: getuid()))
+        let original = try directory.file("root/Library/Caches/com.example.plist").path(percentEncoded: false)
+        let item = try policy.open(original).get()
+        let staging = path("private/Staging", in: directory)
+
+        try directory.directory("private/Staging")
+        try directory.setPermissions(0o755, of: "private/Staging")
+        #expect(TrashMover.moveRecorded([(original, item)], into: trash, ledger: ledger, movedBy: getuid()) == nil)
+        try FileManager.default.removeItem(atPath: staging)
+        try FileManager.default.createSymbolicLink(atPath: staging, withDestinationPath: path("home/.Trash", in: directory))
+        #expect(TrashMover.moveRecorded([(original, item)], into: trash, ledger: ledger, movedBy: getuid()) == nil)
+
+        #expect(FileManager.default.fileExists(atPath: original))
+        #expect(try ledger.origin(of: item, movedBy: getuid()) == nil)
+    }
+
+    @Test func whatAMoveCutShortLeftOnTheWayGoesToItsAccountsTrash() throws {
+        let directory = try TemporaryDirectory()
+        _ = try policy(in: directory)
+        _ = try ledger(in: directory)
+        try directory.directory("private/Staging")
+        try directory.setPermissions(0o700, of: "private/Staging")
+        try directory.file("private/Staging/\(getuid()).\(UUID().uuidString).notes.txt", contents: Data("left".utf8))
+        try directory.file("private/Staging/4242424.\(UUID().uuidString).other.txt")
+        try directory.file("home/.Trash/notes.txt")
+        let home = path("home", in: directory)
+
+        HelperLedger.recoverStaged(in: path("private", in: directory)) { $0 == getuid() ? home : nil }
+
+        #expect(try String(contentsOfFile: path("home/.Trash/notes 2.txt", in: directory), encoding: .utf8) == "left")
+        let left = try FileManager.default.contentsOfDirectory(atPath: path("private/Staging", in: directory))
+        #expect(left.count == 1 && left[0].hasPrefix("4242424."), "an item with no Trash to go to was lost")
+    }
+
+    @Test func recoversNothingFromAFolderOthersCanReach() throws {
+        let directory = try TemporaryDirectory()
+        _ = try policy(in: directory)
+        try directory.file("private/Staging/\(getuid()).\(UUID().uuidString).planted.txt")
+        try directory.setPermissions(0o755, of: "private")
+        try directory.setPermissions(0o700, of: "private/Staging")
+        try directory.directory("empty")
+        try directory.setPermissions(0o700, of: "empty")
+        let home = path("home", in: directory)
+
+        HelperLedger.recoverStaged(in: path("private", in: directory)) { _ in home }
+        HelperLedger.recoverStaged(in: path("empty", in: directory)) { _ in home }
+
+        #expect(try FileManager.default.contentsOfDirectory(atPath: path("home/.Trash", in: directory)).isEmpty)
+        #expect(!FileManager.default.fileExists(atPath: path("empty/Staging", in: directory)))
+    }
+
+    @Test func sendsWhatWasLeftOnTheWayToItsTrashBeforeItsFolderGoes() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        let trash = try #require(policy.openTrash(ownedBy: getuid()))
+        _ = try ledger(in: directory)
+        try directory.directory("private/Staging")
+        try directory.setPermissions(0o700, of: "private/Staging")
+        try directory.file("private/Staging/\(getuid()).\(UUID().uuidString).notes.txt")
+        let home = path("home", in: directory)
+
+        let moved = try #require(try HelperLedger.moveFolder(
+            path("private", in: directory), into: trash, givingTo: getuid(), homeDirectory: { _ in home }
+        ) { folder, entry, owner in
+            entry.map { folder.give($0, to: owner) } ?? folder.giveItself(to: owner)
+        }.get())
+
+        #expect(FileManager.default.fileExists(atPath: path("home/.Trash/notes.txt", in: directory)))
+        #expect(try FileManager.default.contentsOfDirectory(atPath: moved + "/Staging").isEmpty)
+    }
+
     @Test func keepsTheNewestEntriesAndOnlyInAFolderOfItsOwn() throws {
         let directory = try TemporaryDirectory()
         let policy = try policy(in: directory)

@@ -161,14 +161,206 @@ struct AttackHelperPolicyTests {
 }
 
 extension AttackHelperPolicyTests {
-    private func servingPolicy(_ directory: borrowing TemporaryDirectory) -> PrivilegedPathPolicy {
+    private func servingPolicy(
+        _ directory: borrowing TemporaryDirectory,
+        trusting owner: uid_t = 0
+    ) -> PrivilegedPathPolicy {
         let root = directory.url.path(percentEncoded: false)
         return PrivilegedPathPolicy(
             homeDirectory: root + "home",
             systemLocations: [root + "root/Applications", root + "root/Library/LaunchDaemons", root + "root/Library/Caches"],
             applicationLocations: [root + "root/Applications"],
-            restoreLocations: [root + "root/Applications", root + "root/Library/Caches"]
+            restoreLocations: [root + "root/Applications", root + "root/Library/Caches"],
+            trustedOwner: owner
         )
+    }
+
+    private func movedByTheHelper(
+        _ relative: String,
+        _ text: String,
+        policy: PrivilegedPathPolicy,
+        ledger: HelperLedger,
+        in directory: borrowing TemporaryDirectory
+    ) throws -> String {
+        try Data(text.utf8).write(to: try directory.file(relative))
+        let item = try policy.open(path(relative, in: directory)).get()
+        #expect(ledger.record([item], movedBy: getuid()))
+        return try TrashMover.move(item, into: try #require(policy.openTrash(ownedBy: getuid()))).get()
+    }
+
+    /// A process of the user swaps its own object into the item's name right before the helper renames it.
+    private func swappingIn(_ payload: String) -> TrashMover.ExclusiveRename {
+        { item, name, folder in
+            _ = renameatx_np(item.parent.descriptor, item.name, item.parent.descriptor, payload, UInt32(RENAME_SWAP))
+            return TrashMover.renameExclusively(item, to: name, in: folder)
+        }
+    }
+
+    @Test func anObjectSwappedInDuringPutBackNeverReachesAFolderCodeIsLoadedFrom() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("root/Library/LaunchDaemons")
+        try directory.directory("home/.Trash")
+        let policy = servingPolicy(directory, trusting: getuid())
+        let ledger = try #require(HelperLedger(at: directory.url.appending(path: "private/moved.plist")))
+        let original = path("root/Library/LaunchDaemons/org.example.daemon.plist", in: directory)
+        let trashed = try movedByTheHelper(
+            "root/Library/LaunchDaemons/org.example.daemon.plist", "the daemon's", policy: policy, ledger: ledger,
+            in: directory
+        )
+        try Data("the user's".utf8).write(to: URL(filePath: path("home/.Trash/payload", in: directory)))
+
+        let refusal = HelperPutBack.run(
+            trashed, to: original, for: getuid(), policy: policy, ledger: { ledger }, exclusively: swappingIn("payload")
+        )
+
+        #expect(refusal != nil, "ATTACK SUCCEEDED: root put the user's own object back where launchd reads daemons")
+        #expect(!FileManager.default.fileExists(atPath: original))
+        let inTheTrash = Set(try FileManager.default.contentsOfDirectory(atPath: path("home/.Trash", in: directory)))
+        #expect(inTheTrash.count == 2, "both objects stay in the Trash")
+    }
+
+    @Test func anItemChangedInTheTrashAfterTheLookNeverGoesBackWhereCodeIsLoaded() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("root/Library/LaunchDaemons")
+        try directory.directory("home/.Trash")
+        let policy = servingPolicy(directory, trusting: getuid())
+        let ledger = try #require(HelperLedger(at: directory.url.appending(path: "private/moved.plist")))
+        let original = path("root/Library/LaunchDaemons/org.example.daemon.plist", in: directory)
+        let trashed = try movedByTheHelper(
+            "root/Library/LaunchDaemons/org.example.daemon.plist", "the daemon's", policy: policy, ledger: ledger,
+            in: directory
+        )
+        let openedToEveryone: TrashMover.ExclusiveRename = { item, name, folder in
+            _ = fchmodat(item.parent.descriptor, item.name, 0o666, AT_SYMLINK_NOFOLLOW)
+            return TrashMover.renameExclusively(item, to: name, in: folder)
+        }
+
+        let refusal = HelperPutBack.run(
+            trashed, to: original, for: getuid(), policy: policy, ledger: { ledger }, exclusively: openedToEveryone
+        )
+
+        #expect(refusal != nil, "ATTACK SUCCEEDED: a file anyone could rewrite went back where launchd reads daemons")
+        #expect(!FileManager.default.fileExists(atPath: original))
+        #expect(FileManager.default.fileExists(atPath: trashed))
+    }
+
+    @Test func anObjectSwappedInDuringPutBackNeverReachesAFolderThatTakesAnything() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("root/Library/Caches")
+        try directory.directory("home/.Trash")
+        let policy = servingPolicy(directory)
+        let ledger = try #require(HelperLedger(at: directory.url.appending(path: "private/moved.plist")))
+        let original = path("root/Library/Caches/org.example.cache", in: directory)
+        let trashed = try movedByTheHelper(
+            "root/Library/Caches/org.example.cache", "the app's", policy: policy, ledger: ledger, in: directory
+        )
+        try Data("the user's".utf8).write(to: URL(filePath: path("home/.Trash/payload", in: directory)))
+
+        let refusal = HelperPutBack.run(
+            trashed, to: original, for: getuid(), policy: policy, ledger: { ledger }, exclusively: swappingIn("payload")
+        )
+
+        #expect(refusal != nil, "ATTACK SUCCEEDED: root put back an object the helper never moved")
+        #expect(!FileManager.default.fileExists(atPath: original))
+    }
+
+    @Test func aMoveToTheTrashTakesOnlyTheItemThatWasOpened() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/.Trash")
+        try directory.file("root/Library/Caches/org.example.cache", contents: Data("the app's".utf8))
+        try directory.file("root/Library/Caches/payload", contents: Data("the user's".utf8))
+        let policy = servingPolicy(directory)
+        let ledger = try #require(HelperLedger(at: directory.url.appending(path: "private/moved.plist")))
+        let original = path("root/Library/Caches/org.example.cache", in: directory)
+        let item = try policy.open(original).get()
+        let trash = try #require(policy.openTrash(ownedBy: getuid()))
+
+        let result = try #require(TrashMover.moveRecorded(
+            [(original, item)], into: trash, ledger: ledger, movedBy: getuid(), exclusively: swappingIn("payload")
+        ))
+
+        #expect(result.moved.isEmpty, "ATTACK SUCCEEDED: root moved an object it never judged")
+        #expect(try FileManager.default.contentsOfDirectory(atPath: path("home/.Trash", in: directory)).isEmpty)
+        #expect(try String(contentsOfFile: original, encoding: .utf8) == "the user's")
+        #expect(try ledger.origin(of: item, movedBy: getuid()) == nil)
+    }
+
+    @Test func theHelperMovesNothingWhereARenameCannotRefuseToReplace() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("root/Library/Caches")
+        try directory.directory("home/.Trash")
+        let policy = servingPolicy(directory)
+        let ledger = try #require(HelperLedger(at: directory.url.appending(path: "private/moved.plist")))
+        let original = path("root/Library/Caches/org.example.cache", in: directory)
+        let trashed = try movedByTheHelper(
+            "root/Library/Caches/org.example.cache", "the app's", policy: policy, ledger: ledger, in: directory
+        )
+        let unsupported: TrashMover.ExclusiveRename = { _, _, _ in .failure(POSIXError(.ENOTSUP)) }
+        try directory.file("root/Library/Caches/org.example.other")
+        let other = path("root/Library/Caches/org.example.other", in: directory)
+        let trash = try #require(policy.openTrash(ownedBy: getuid()))
+
+        let refusal = HelperPutBack.run(
+            trashed, to: original, for: getuid(), policy: policy, ledger: { ledger }, exclusively: unsupported
+        )
+        let result = try #require(TrashMover.moveRecorded(
+            [(other, try policy.open(other).get())], into: trash, ledger: ledger, movedBy: getuid(),
+            exclusively: unsupported
+        ))
+
+        #expect(refusal != nil)
+        #expect(!FileManager.default.fileExists(atPath: original), "the helper replaced a placeholder by name")
+        #expect(FileManager.default.fileExists(atPath: trashed))
+        #expect(result.moved.isEmpty)
+        #expect(FileManager.default.fileExists(atPath: other))
+    }
+
+    @Test func aNameTakenMeanwhileSendsTheItemBackToTheTrash() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("root/Library/Caches")
+        try directory.directory("home/.Trash")
+        let policy = servingPolicy(directory)
+        let ledger = try #require(HelperLedger(at: directory.url.appending(path: "private/moved.plist")))
+        let original = path("root/Library/Caches/org.example.cache", in: directory)
+        let trashed = try movedByTheHelper(
+            "root/Library/Caches/org.example.cache", "the app's", policy: policy, ledger: ledger, in: directory
+        )
+        let takingTheName: TrashMover.ExclusiveRename = { item, name, folder in
+            FileManager.default.createFile(atPath: original, contents: Data("another".utf8))
+            return TrashMover.renameExclusively(item, to: name, in: folder)
+        }
+
+        let refusal = HelperPutBack.run(
+            trashed, to: original, for: getuid(), policy: policy, ledger: { ledger }, exclusively: takingTheName
+        )
+
+        #expect(refusal != nil)
+        #expect(try String(contentsOfFile: original, encoding: .utf8) == "another")
+        #expect(try String(contentsOfFile: trashed, encoding: .utf8) == "the app's")
+        let trash = try #require(policy.openTrash(ownedBy: getuid()))
+        let back = try #require(policy.openInTrash(trashed, trash: trash))
+        #expect(try ledger.origin(of: back, movedBy: getuid()) != nil, "it could never be put back again")
+    }
+
+    @Test func anItemOnAnotherDiskThanTheHelpersFolderStaysInTheTrash() throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        let home = disk.url.appending(path: "home").path(percentEncoded: false)
+        try FileManager.default.createDirectory(atPath: home + "/.Trash", withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(atPath: home + "/Library/Caches", withIntermediateDirectories: true)
+        let policy = PrivilegedPathPolicy(homeDirectory: home, systemLocations: [], applicationLocations: [])
+        let ledger = try #require(HelperLedger(at: directory.url.appending(path: "private/moved.plist")))
+        let original = home + "/Library/Caches/org.example.cache"
+        try Data("the app's".utf8).write(to: URL(filePath: original))
+        let item = try policy.open(original).get()
+        #expect(ledger.record([item], movedBy: getuid()))
+        let trashed = try TrashMover.move(item, into: try #require(policy.openTrash(ownedBy: getuid()))).get()
+
+        let refusal = HelperPutBack.run(trashed, to: original, for: getuid(), policy: policy, ledger: { ledger })
+
+        #expect(refusal != nil, "the helper moved an item by name with nowhere to check it first")
+        #expect(FileManager.default.fileExists(atPath: trashed))
+        #expect(!FileManager.default.fileExists(atPath: original))
     }
 
     private func path(_ relative: String, in directory: borrowing TemporaryDirectory) -> String {

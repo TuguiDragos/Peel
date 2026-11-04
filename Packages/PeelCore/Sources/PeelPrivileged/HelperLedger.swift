@@ -43,11 +43,7 @@ public final class HelperLedger: Sendable {
     ) {
         let folder = url.deletingLastPathComponent().path(percentEncoded: false)
         mkdir(folder, 0o700)
-        var info = stat()
-        guard
-            lstat(folder, &info) == 0, info.st_mode & S_IFMT == S_IFDIR,
-            info.st_uid == geteuid(), info.st_mode & 0o077 == 0
-        else { return nil }
+        guard Self.isTheHelpersOwn(folder) else { return nil }
         self.url = url
         self.maximumEntries = maximumEntries
         self.flush = flush
@@ -96,9 +92,11 @@ public final class HelperLedger: Sendable {
         _ folder: String,
         into trash: DirectoryHandle,
         givingTo user: uid_t,
+        homeDirectory: (uid_t) -> String? = UserAuthorization.homeDirectory(of:),
         changingOwner: (_ folder: DirectoryHandle, _ entry: String?, _ owner: uid_t) -> Bool
     ) -> Result<String?, POSIXError> {
         lock.withLock {
+            recover(in: folder, homeDirectory: homeDirectory)
             switch OpenItem.at(folder) {
             case .failure(let error):
                 return error.code == .ENOENT ? .success(nil) : .failure(error)
@@ -117,7 +115,9 @@ public final class HelperLedger: Sendable {
                     }
                 }
                 giveEntries(to: user)
-                let moved = TrashMover.move(item, into: trash)
+                let names = TrashMover.finderNames(of: item.name)
+                let moved = TrashMover.place(item.name, from: item.parent, in: trash, as: names)
+                    .map { (trash.path as NSString).appendingPathComponent($0) }
                 switch moved {
                 case .success: _ = inside.map { changingOwner($0, nil, user) }
                 case .failure: giveEntries(to: geteuid())
@@ -125,6 +125,45 @@ public final class HelperLedger: Sendable {
                 return moved.map { $0 }
             }
         }
+    }
+
+    /// Runs `body` with `Staging`, a folder inside the ledger's that only the helper can reach, under the ledger's
+    /// lock, so Remove Peel never moves it while an item is on its way through. Nil when it can't be kept so.
+    func whileStaging<T>(_ body: (DirectoryHandle) -> T) -> T? {
+        Self.lock.withLock {
+            let staging = url.deletingLastPathComponent().path(percentEncoded: false) + "/Staging"
+            mkdir(staging, 0o700)
+            guard Self.isTheHelpersOwn(staging), let handle = try? DirectoryHandle.at(staging).get() else { return nil }
+            return body(handle)
+        }
+    }
+
+    /// Moves what a move cut short left in `Staging` to the Trash of the account it was moving for.
+    public static func recoverStaged(
+        in folder: String = defaultFolder,
+        homeDirectory: (uid_t) -> String? = UserAuthorization.homeDirectory(of:)
+    ) {
+        lock.withLock { recover(in: folder, homeDirectory: homeDirectory) }
+    }
+
+    private static func recover(in folder: String, homeDirectory: (uid_t) -> String?) {
+        let staging = folder + "/Staging"
+        guard isTheHelpersOwn(folder), isTheHelpersOwn(staging), let handle = try? DirectoryHandle.at(staging).get()
+        else { return }
+        for entry in (try? FileManager.default.contentsOfDirectory(atPath: staging)) ?? [] {
+            let parts = entry.split(separator: ".", maxSplits: 2).map(String.init)
+            guard
+                parts.count == 3, let user = uid_t(parts[0]), let home = homeDirectory(user),
+                let trash = PrivilegedPathPolicy(homeDirectory: home).openTrash(ownedBy: user)
+            else { continue }
+            _ = TrashMover.place(entry, from: handle, in: trash, as: TrashMover.finderNames(of: parts[2]))
+        }
+    }
+
+    private static func isTheHelpersOwn(_ folder: String) -> Bool {
+        var info = stat()
+        return lstat(folder, &info) == 0 && info.st_mode & S_IFMT == S_IFDIR && info.st_uid == geteuid()
+            && info.st_mode & 0o077 == 0
     }
 
     public struct Unreadable: Error {}

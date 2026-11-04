@@ -17,6 +17,7 @@ listener.setConnectionCodeSigningRequirement(requirement)
 let lifetime = HelperLifetime()
 let delegate = HelperListenerDelegate(lifetime: lifetime, codeSigningRequirement: requirement)
 listener.delegate = delegate
+HelperLedger.recoverStaged()
 listener.resume()
 lifetime.start()
 dispatchMain()

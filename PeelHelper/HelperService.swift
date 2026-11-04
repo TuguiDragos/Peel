@@ -100,32 +100,7 @@ final class HelperService: NSObject, PeelHelperProtocol {
         }
 
         let policy = PrivilegedPathPolicy(homeDirectory: caller.homeDirectory)
-        guard
-            let trash = policy.openTrash(ownedBy: caller.user),
-            let trashed = policy.openInTrash(trashPath, trash: trash)
-        else { return reply(HelperRefusal.notInTrash.rawValue) }
-
-        switch policy.openDestination(destination, for: trashed) {
-        case .failure(let rejection):
-            reply(rejection.explanation)
-        case .success(let target):
-            // The request comes from History's record, which any process the user runs can rewrite. So the item
-            // goes back only if the ledger shows the helper moved it, and only to the path recorded there.
-            guard
-                let ledger = HelperLedger(),
-                case .success(let origin) = Result(catching: { try ledger.origin(of: trashed, movedBy: caller.user) })
-            else {
-                return reply(HelperRefusal.cannotReadRecord.rawValue)
-            }
-            guard origin == target.path else { return reply(HelperRefusal.notInRecord.rawValue) }
-            switch TrashMover.rename(trashed, to: target.name, in: target.parent) {
-            case .success:
-                ledger.forget([trashed])
-                reply(nil)
-            case .failure(let error):
-                reply(error.localizedDescription)
-            }
-        }
+        reply(HelperPutBack.run(trashPath, to: destination, for: caller.user, policy: policy))
     }
 
     func moveLedgerToTrash(version: Int, withReply finish: @escaping @Sendable (String?) -> Void) {
