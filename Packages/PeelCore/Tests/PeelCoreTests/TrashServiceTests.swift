@@ -1687,8 +1687,12 @@ struct TrashServiceTests {
         let folder = try directory.directory("home/Library/Caches/org.example.cache")
         let tool = try directory.file("root/usr/local/lib/org.example/tool")
         let link = directory.url.appending(path: "root/usr/local/bin/tool")
+        let relative = directory.url.appending(path: "root/usr/local/bin/relative")
         try FileManager.default.createDirectory(at: link.deletingLastPathComponent(), withIntermediateDirectories: true)
         try FileManager.default.createSymbolicLink(at: link, withDestinationURL: tool)
+        try FileManager.default.createSymbolicLink(
+            atPath: relative.path(percentEncoded: false), withDestinationPath: "../lib/org.example/tool"
+        )
         let service = TrashService(
             environment: SearchEnvironment(
                 homeDirectory: directory.url.appending(path: "home"),
@@ -1699,17 +1703,18 @@ struct TrashServiceTests {
                     at: folder.appending(path: "Photos Library.photoslibrary"), withIntermediateDirectories: true
                 )
                 return TrashResult(failures: urls.map { url in
-                    let refused = url == link ? PrivilegedPathPolicy.Rejection.leadsSomewhere : .irreplaceable
+                    let refused = url == folder ? PrivilegedPathPolicy.Rejection.irreplaceable : .leadsSomewhere
                     return TrashFailure(url: url, reason: .failed(refused.explanation))
                 })
             },
             moveToTrash: { _ in throw CocoaError(.fileWriteNoPermission) }
         )
 
-        let result = await service.trash([folder, link], usingHelperFor: [folder, link])
+        let result = await service.trash([folder, link, relative], usingHelperFor: [folder, link, relative])
 
         let reasons = Dictionary(uniqueKeysWithValues: result.failures.map { ($0.url, $0.reason) })
         #expect(reasons[folder] == .guarded(.holdsALibrary))
         #expect(reasons[link] == .stillLeadsTo(tool.path(percentEncoded: false)))
+        #expect(reasons[relative] == .stillLeadsTo(tool.path(percentEncoded: false)))
     }
 }

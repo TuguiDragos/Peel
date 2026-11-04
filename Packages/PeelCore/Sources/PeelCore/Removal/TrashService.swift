@@ -830,7 +830,10 @@ public struct TrashService: Sendable {
         case .irreplaceable: removalGuard.refusal(of: failure.url).map { .guarded($0) }
         case .leadsSomewhere:
             (try? FileManager.default.destinationOfSymbolicLink(atPath: failure.url.path(percentEncoded: false)))
-                .map { .stillLeadsTo($0) }
+                .map { destination in
+                    let target = URL(filePath: destination, relativeTo: failure.url.deletingLastPathComponent())
+                    return .stillLeadsTo(target.standardizedFileURL.path(percentEncoded: false))
+                }
         default: nil
         }
         return reason.map { TrashFailure(url: failure.url, reason: $0, error: failure.error) } ?? failure
