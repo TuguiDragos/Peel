@@ -184,6 +184,7 @@ struct BackgroundItemList: View {
         case .trash(let reason): Text(verbatim: reason.explanation)
         case .disabled: Text("macOS won’t load this while it is disabled. Enable it first, then start it.")
         case .quarantinedPlist: Text("macOS won’t load this: its configuration file carries the mark macOS puts on downloads. Reinstalling the app that put it there may write it again without the mark.")
+        case .turnedOffInSystemSettings: Text(.keptOffBySystemSettings)
         }
     }
 
@@ -354,4 +355,6 @@ extension LocalizedStringResource {
         "Unknown (background item state)",
         defaultValue: "Unknown"
     )
+
+    static let keptOffBySystemSettings: LocalizedStringResource = "It needs approval in System Settings > General > Login Items & Extensions, or was turned off there, so macOS doesn’t run it, and Peel doesn’t start it either."
 }

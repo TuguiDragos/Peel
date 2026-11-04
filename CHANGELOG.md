@@ -871,6 +871,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Pressing a button no longer turns every button gray and Rescan into Stop for a moment.
 - Stop, Unload, and Remove wait for the job's process to end, so a job slow to quit no longer reads as still running
   after launchd let it go.
+- A job turned off in System Settings > General > Login Items & Extensions, or waiting for approval there, is no
+  longer loaded, run, restarted, or disabled from here, which went over that choice: it can only be stopped, and its
+  page says why.
 
 #### Extensions
 

@@ -89,8 +89,11 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// ServiceManagement: System Settings doesn't list it, and launchd forgets it at the next logout or restart.
     public var isSubmittedByItsApp = false
     public var anotherFileIsLoaded = false
+    public internal(set) var loginItemsStatus: LoginItemsStatus?
 
     public var isOwnerInstalled: Bool { ownerURL != nil }
+
+    public var isKeptOffBySystemSettings: Bool { loginItemsStatus.map { !$0.letsItRun } == true }
 
     /// Whether Start runs the job now, whatever its schedule (`launchctl kickstart`), rather than loading it from its
     /// file, after which macOS runs it as the file says.
@@ -161,8 +164,10 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// elsewhere, still there or gone. Disabled, it would leave the list with nothing to enable it from.
     public var canOnlyBeStopped: Bool { canBeControlled && source == .otherFile }
 
-    /// True when Peel may disable the job: not one ServiceManagement manages, and one whose row Enable stays on.
-    public var mayBeDisabled: Bool { canBeControlled && !isManagedByServiceManagement && staysListedWhenDisabled }
+    /// True when Peel may disable the job: not one whose switch is System Settings', and one whose row Enable stays on.
+    public var mayBeDisabled: Bool {
+        canBeControlled && !isManagedByServiceManagement && !isKeptOffBySystemSettings && staysListedWhenDisabled
+    }
 
     public var removalRequiresPrivileges: Bool { source == .systemLibrary }
 
@@ -193,6 +198,7 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
         guard canBeControlled, state != .unknown, !isNamedByItsFile, !anotherFileIsLoaded else { return false }
         if canOnlyBeStopped || isRunning { return true }
         if isLeftByAGoneApp { return true }
+        if isKeptOffBySystemSettings { return state == .loaded || isDisabled }
         return !isSeenOnlyWhileLoaded || isDisabled || mayBeDisabled
     }
 
@@ -210,21 +216,25 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
         case load
         /// Stop under the name the page gives it for a job its gone app left loaded.
         case remove
+
+        var startsTheJob: Bool { self == .restart || self == .runNow || self == .load }
     }
 
     /// The buttons that change whether the job runs, in the order shown. A job Peel sees only while it is loaded has
-    /// Stop only while it runs, and a disabled job that isn't loaded has none, since launchd refuses to load it.
+    /// Stop only while it runs, and a disabled job that isn't loaded has none, since launchd refuses to load it. A job
+    /// System Settings keeps from running is never started: that would go over the person's choice there.
     public var controls: [Control] {
         guard offersControls else { return [] }
         if canOnlyBeStopped { return [.stop] }
         if isLeftByAGoneApp { return [.remove] }
         if isSeenOnlyWhileLoaded { return isRunning ? [.stop] : [] }
-        switch state {
-        case .running: return [.stop, .restart]
-        case .loaded: return [.runNow, .unload]
-        case .notLoaded: return isDisabled ? [] : [.load]
-        case .unknown: return []
+        let controls: [Control] = switch state {
+        case .running: [.stop, .restart]
+        case .loaded: [.runNow, .unload]
+        case .notLoaded: isDisabled ? [] : [.load]
+        case .unknown: []
         }
+        return isKeptOffBySystemSettings ? controls.filter { !$0.startsTheJob } : controls
     }
 
     /// Enable and Disable, which a job Peel can only stop, and one its gone app left, don't have.

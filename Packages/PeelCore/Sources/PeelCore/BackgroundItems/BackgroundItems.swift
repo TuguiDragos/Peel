@@ -114,6 +114,7 @@ public enum BackgroundItems {
         items = items.map { item in
             var item = item
             if item.state == .unknown, item.stateNotKnown == nil { item.stateNotKnown = loaded.whyNotKnown(item.kind) }
+            item.loginItemsStatus = LoginItemsStatus.of(item)
             return item
         }
 

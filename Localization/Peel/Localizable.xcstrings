@@ -81634,6 +81634,112 @@
         }
       }
     },
+    "It needs approval in System Settings > General > Login Items & Extensions, or was turned off there, so macOS doesn’t run it, and Peel doesn’t start it either." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Čeká na schválení v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení, nebo tam byla vypnuta, takže ji nespouští systém macOS ani Peel."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es benötigt eine Genehmigung unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“ oder wurde dort deaktiviert, daher führt macOS es nicht aus, und auch Peel startet es nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Necesita aprobación en Ajustes del Sistema > General > Ítems de inicio y extensiones, o se ha desactivado ahí, así que macOS no lo ejecuta y Peel tampoco lo inicia."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet élément nécessite une approbation dans Réglages Système > Général > Ouverture et extensions, ou y a été désactivé : macOS ne l’exécute donc pas, et Peel ne le démarre pas non plus."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Richiede l’approvazione in Impostazioni di Sistema > Generali > Elementi login ed estensioni, oppure è stato disattivato lì, quindi macOS non lo esegue, e nemmeno Peel lo avvia."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“システム設定”＞“一般”＞“ログイン項目と機能拡張”で承認が必要か、そこでオフにされているため、macOSはこれを実行せず、Peelも開始しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목은 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서 승인이 필요하거나 꺼져 있으므로, macOS가 실행하지 않으며 Peel도 시작하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het vereist goedkeuring in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies, of is daar uitgeschakeld, dus macOS voert het niet uit, en Peel start het ook niet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta rzecz wymaga zatwierdzenia lub została wyłączona w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania, więc nie uruchamia jej ani macOS, ani Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele precisa de aprovação em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões ou foi desativado ali, por isso o macOS não o executa, e o Peel também não o inicia."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Necesită aprobare în Configurări sistem > General > Lansare la login și extensii sau a fost dezactivat acolo, așa că macOS nu îl rulează și nici Peel nu îl pornește."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот объект ожидает разрешения в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения» или был там выключен, поэтому macOS его не запускает, и Peel тоже его не запускает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det behöver godkännas i Systeminställningar > Allmänt > Startobjekt och tillägg, eller så har det stängts av där, så macOS kör det inte och Peel startar det inte heller."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünde onay gerekiyor veya orada kapatıldı, bu yüzden macOS onu çalıştırmaz, Peel de başlatmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його потрібно схвалити в розділі Системні параметри > Загальні > Автозапуск і розширення, або його там вимкнено, тож macOS його не виконує, і Peel його теж не запускає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它需要在“系统设置”>“通用”>“登录项与扩展”中获得批准，或已在那里被关闭，因此macOS不会运行它，Peel也不会启动它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它需要在「系統設定」>「一般」>「登入項目與延伸功能」中核准，或已在那裡關閉，因此macOS不會執行它，Peel也不會啟動它。"
+          }
+        }
+      }
+    },
     "It no longer builds." : {
       "localizations" : {
         "cs" : {

@@ -11,15 +11,7 @@ struct BackgroundItemDetailView: View {
     @Environment(\.openSettings) private var openSettings
     @State private var isConfirmingTrash = false
     @State private var isEditing = false
-    /// Reading this asks macOS, so it is read once per item and scan rather than on every evaluation of `body`.
-    @State private var legacyStatus: LocalizedStringResource?
     let item: BackgroundItem
-
-    /// The id of the task that reads `legacyStatus`: the item, and the scans that finished, so Rescan asks again.
-    private struct Look: Hashable {
-        let item: BackgroundItem.ID
-        let scans: Int
-    }
 
     var body: some View {
         Form {
@@ -51,10 +43,10 @@ struct BackgroundItemDetailView: View {
                         }
                     }
                 }
-                if Self.hasLoginItemsStatus(item) {
+                if let status = item.loginItemsStatus {
                     LabeledContent("Login Items & Extensions") {
                         HStack(spacing: 8) {
-                            Text(legacyStatus ?? "Checking…")
+                            Text(status.words)
                             Button {
                                 PrivilegedHelper.openLoginItemsSettings()
                             } label: {
@@ -220,6 +212,16 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
+            if item.isKeptOffBySystemSettings {
+                Section {
+                    Notice(
+                        title: Text("Its switch is in System Settings"),
+                        detail: Text(.keptOffBySystemSettings),
+                        kind: .note
+                    ) {}
+                }
+            }
+
             if item.isSubmittedByItsApp {
                 Section {
                     Notice(
@@ -304,9 +306,6 @@ struct BackgroundItemDetailView: View {
             }
         }
         .formStyle(.grouped)
-        .task(id: Look(item: item.id, scans: backgroundItems.scans)) {
-            legacyStatus = await Self.legacyStatus(of: item)
-        }
         .navigationTitle(item.label)
         .toolbar(removing: .title)
         .sheet(isPresented: $isEditing) {
@@ -359,27 +358,6 @@ struct BackgroundItemDetailView: View {
 
     private var isActing: Bool {
         backgroundItems.runningActionItemIDs.contains(item.id)
-    }
-
-    /// Returns the job's status in System Settings (Login Items & Extensions), or nil when it has no plist file in a
-    /// folder launchd reads (`hasLoginItemsStatus`), the only ones `SMAppService.h` gives a status for. Per that
-    /// header, `.requiresApproval` also means the user turned the job off, so the text says both. Off the main thread:
-    /// `SMAppService` asks Background Task Management over XPC.
-    @concurrent
-    static func legacyStatus(of item: BackgroundItem) async -> LocalizedStringResource? {
-        guard let plistURL = item.plistURL, hasLoginItemsStatus(item) else { return nil }
-        return switch SMAppService.statusForLegacyPlist(at: plistURL) {
-        case .enabled: "Allowed"
-        case .requiresApproval: "Needs approval, or was turned off"
-        // Background Task Management lists a job once it has seen its file, which launchd loads meanwhile anyway.
-        case .notRegistered: "Not listed in System Settings yet"
-        case .notFound: "Not found"
-        @unknown default: "Unknown"
-        }
-    }
-
-    nonisolated static func hasLoginItemsStatus(_ item: BackgroundItem) -> Bool {
-        item.plistURL != nil && (item.source == .userLibrary || item.source == .systemLibrary)
     }
 
     private var header: some View {
@@ -543,6 +521,18 @@ private extension BackgroundItem.Control {
         case .unload: .unload
         case .load: .load
         case .remove: .remove
+        }
+    }
+}
+
+extension LoginItemsStatus {
+    var words: LocalizedStringResource {
+        switch self {
+        case .allowed: "Allowed"
+        case .turnedOff: "Needs approval, or was turned off"
+        case .notListedYet: "Not listed in System Settings yet"
+        case .notFound: "Not found"
+        case .unknown: "Unknown"
         }
     }
 }

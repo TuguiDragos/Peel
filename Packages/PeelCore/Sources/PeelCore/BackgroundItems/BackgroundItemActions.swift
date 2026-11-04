@@ -14,6 +14,7 @@ public enum BackgroundItemActions {
         case quarantinedPlist
         /// launchd does not load a job that is disabled (`bootstrap` answers error 5), so it is enabled first.
         case disabled
+        case turnedOffInSystemSettings
     }
 
     /// Why Peel will not start, stop or switch `item`, or nil. These go by label, so a label macOS itself uses
@@ -90,9 +91,15 @@ public enum BackgroundItemActions {
         return now
     }
 
+    /// Asks macOS again: the page read the job's status earlier.
+    static func refusal(toStart item: BackgroundItem) -> Failure? {
+        if let refusal = refusal(for: item) { return refusal }
+        return LoginItemsStatus.of(item)?.letsItRun == false ? .turnedOffInSystemSettings : nil
+    }
+
     @concurrent
     public static func start(_ item: BackgroundItem) async throws(Failure) {
-        if let refusal = refusal(for: item) { throw refusal }
+        if let refusal = refusal(toStart: item) { throw refusal }
         switch plan(toStart: asItIsNow(item, isGone: await isGone(item))) {
         case .blockedByQuarantine:
             throw .quarantinedPlist
@@ -116,7 +123,7 @@ public enum BackgroundItemActions {
     /// Stops the running job and starts it again at once (`launchctl kickstart -k`).
     @concurrent
     public static func restart(_ item: BackgroundItem) async throws(Failure) {
-        if let refusal = refusal(for: item) { throw refusal }
+        if let refusal = refusal(toStart: item) { throw refusal }
         if item.requiresPrivileges {
             try await runPrivileged(.restart, for: item)
         } else {
