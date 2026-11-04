@@ -216,10 +216,15 @@ rm -f "$final"
 ditto -c -k --keepParent "$app" "$final"
 
 echo "== Disk image"
-# Signed with the identity that signed the app, then notarized and stapled itself, so it opens without a warning.
-identity="$(codesign -d --verbose=2 "$app" 2>&1 \
-    | sed -n 's/^Authority=\(Developer ID Application: .*\)$/\1/p' | head -1)"
-[ -n "$identity" ] || { echo "REFUSED: the app's Developer ID identity could not be read"; exit 1; }
+# Signed by the very certificate that signed the app, named by its SHA-1: `codesign` refuses a name that two
+# certificates in the keychain share (`man codesign`), as an old Developer ID and its renewal do. Then notarized and
+# stapled itself, so it opens without a warning.
+certificates="$(mktemp -d)"
+codesign -d --extract-certificates="$certificates/leaf" "$app" 2> /dev/null || true
+identity="$(shasum -a 1 "$certificates/leaf0" 2> /dev/null | cut -d ' ' -f 1)" || true
+rm -rf "$certificates"
+[[ "$identity" =~ '^[0-9a-f]{40}$' ]] \
+    || { echo "REFUSED: the certificate that signed the app could not be read"; exit 1; }
 image="$build/Peel-$version.dmg"
 zsh Scripts/make_dmg.sh "$app" "$image"
 codesign --sign "$identity" --timestamp "$image"
