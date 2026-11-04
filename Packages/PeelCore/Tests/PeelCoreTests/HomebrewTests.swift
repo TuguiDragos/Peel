@@ -201,9 +201,11 @@ struct HomebrewTests {
         #expect(Homebrew.repairTapsArguments == ["tap", "--repair"])
 
         guard Homebrew.executableURL != nil else { return }
-        let cleanup = try await Homebrew.execute(["cleanup", "--help"], autoUpdate: false, timeout: 30).transcript()
+        // No time limit: at a low priority on a busy machine Ruby alone can outlast one, and what this checks is
+        // Homebrew's words.
+        let cleanup = try await Homebrew.execute(["cleanup", "--help"], autoUpdate: false, timeout: nil).transcript()
         #expect(cleanup.contains("--prune") && cleanup.contains("--scrub"))
-        let tap = try await Homebrew.execute(["tap", "--help"], autoUpdate: false, timeout: 30).transcript()
+        let tap = try await Homebrew.execute(["tap", "--help"], autoUpdate: false, timeout: nil).transcript()
         #expect(tap.contains("--repair"))
     }
 
