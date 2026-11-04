@@ -490,6 +490,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Found's "2 hours ago" stays true while the panel is open, and Orphaned Files counts only its groups.
 - Settings and About in the panel's menu bring Peel forward, as Open Peel does.
 - The panel closes when one of its rows or its menu opens something, rather than staying open over it.
+- After Peel was opened hidden, as `open -j` does, a click on its menu bar item shows Peel and the panel, rather than
+  nothing.
 
 #### Notifications
 
