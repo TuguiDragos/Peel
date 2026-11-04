@@ -424,7 +424,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   profile that holds one stays whole.
 - What stays because a sync app keeps its folder in step names the app and the entry it keeps there, such as
   `~/.stfolder`, in a row's note, after Move to Trash, in History's Not Moved, for a folder Build Artifacts won't
-  search, and under File Search's count, so an entry left behind by an app you no longer use can be found.
+  search, and under File Search's count.
 - The divider between a list and its page stays where it is and can't be dragged: without the sidebar, the list takes
   the room the sidebar covered.
 - A message about what couldn't be read says when the permissions of what it names kept Peel out, in the app and
@@ -904,6 +904,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Every page
 
+- A folder holding the entry a sync app keeps there no longer counts as syncing to your other devices while that app
+  isn't on this Mac, as once it was removed or when the entry came along with a copied folder: only the app keeps the
+  folder in step, so what is inside can be moved again.
 - A folder's whole path, in a row's tooltip and in Copy Path, no longer ends in a slash, as Finder copies it.
 - Peel no longer stops responding for good when a checkbox in a list changes on its own, as at the end of a Move to
   Trash that kept an item, while an app that reads other apps' windows through accessibility is running.
