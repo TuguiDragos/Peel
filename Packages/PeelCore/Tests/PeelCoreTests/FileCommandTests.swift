@@ -810,14 +810,16 @@ struct FileCommandTests {
 
     @Test func refusesEachFolderItCantScanWithItsReason() throws {
         let finder = "/System/Library/CoreServices/Finder.app"
+        let caches = FileManager.default.homeDirectoryForCurrentUser.appending(path: "Library/Caches")
         let error = #expect(throws: (any Error).self) {
-            try PeelCommand.parseAsRoot(["duplicates", "/Applications", finder])
+            try PeelCommand.parseAsRoot(["duplicates", "/Applications", finder, caches.path(percentEncoded: false)])
         }
 
         let message = PeelCommand.fullMessage(for: try #require(error), columns: 300)
 
         #expect(message.contains("/Applications: it is outside your home folder, /Users/Shared, and the disks in /Volumes"))
         #expect(message.contains("\(finder): it is an app or another package, or inside one, and what is inside belongs to it"))
+        #expect(message.contains("Library/Caches: it is your Library, or a folder in it, where apps keep their data"))
     }
 
     @Test func saysWhenAnOrphanGroupWasModifiedAndWhyItMatters() {

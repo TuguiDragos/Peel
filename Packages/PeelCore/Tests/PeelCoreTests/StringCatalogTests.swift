@@ -476,8 +476,8 @@ struct CatalogChecker {
     ]
     /// The sentences that name an app of macOS, each with the app whose own name it carries.
     static let appNames: [(key: String, app: String)] = [
-        ("It is the folder where the Music app keeps its media.", "/System/Applications/Music.app"),
-        ("It is the folder where the TV app keeps its media.", "/System/Applications/TV.app"),
+        ("It is the folder where the Music app keeps its media, or a folder in it.", "/System/Applications/Music.app"),
+        ("It is the folder where the TV app keeps its media, or a folder in it.", "/System/Applications/TV.app"),
     ]
     /// The items Peel puts in menus SwiftUI builds, each with SwiftUI's key. Their words are SwiftUI's, whatever
     /// the English says: in Polish, About Peel reads "Peel…".

@@ -60,9 +60,9 @@ public struct DuplicateFinder: Sendable {
     public enum Refusal: Sendable, Hashable {
         /// A place Peel protects, or a folder inside one, such as a photo library or a keychain.
         case protected
-        /// The home's Library, where apps keep their data.
+        /// The home's Library, or a folder in it, where apps keep their data.
         case library
-        /// The folder where the Music or TV app keeps its media.
+        /// The folder where the Music or TV app keeps its media, or a folder in it.
         case mediaFolder(MediaApp)
         /// An app or another package, or a folder inside one: what is inside belongs to it.
         case inAPackage

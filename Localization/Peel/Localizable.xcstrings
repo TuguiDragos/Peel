@@ -80043,320 +80043,320 @@
         }
       }
     },
-    "It is the folder where the Music app keeps its media." : {
+    "It is the folder where the Music app keeps its media, or a folder in it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je to složka, ve které aplikace Hudba uchovává svá média."
+            "value" : "Je to složka, ve které aplikace Hudba uchovává svá média, nebo složka v ní."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dies ist der Ordner, in dem die App „Musik“ ihre Medien aufbewahrt."
+            "value" : "Dies ist der Ordner, in dem die App „Musik“ ihre Medien aufbewahrt, oder ein Ordner darin."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Es la carpeta donde la app Música guarda su contenido."
+            "value" : "Es la carpeta donde la app Música guarda su contenido, o una carpeta dentro de ella."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "C’est le dossier où l’app Musique conserve ses fichiers multimédias."
+            "value" : "C’est le dossier où l’app Musique conserve ses fichiers multimédias, ou un dossier qu’il contient."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "È la cartella in cui l’app Musica conserva i suoi file multimediali."
+            "value" : "È la cartella in cui l’app Musica conserva i suoi file multimediali, oppure una cartella al suo interno."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ミュージックアプリがメディアを保管するフォルダです。"
+            "value" : "ミュージックアプリがメディアを保管するフォルダ、またはその中にあるフォルダです。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "음악 앱이 미디어를 보관하는 폴더입니다."
+            "value" : "음악 앱이 미디어를 보관하는 폴더이거나 그 안에 있는 폴더입니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het is de map waarin de app Muziek zijn media bewaart."
+            "value" : "Het is de map waarin de app Muziek zijn media bewaart, of een map daarin."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To folder, w którym aplikacja Muzyka przechowuje swoje multimedia."
+            "value" : "To folder, w którym aplikacja Muzyka przechowuje swoje multimedia, albo folder wewnątrz niego."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "É a pasta de mídia do app Música."
+            "value" : "É a pasta de mídia do app Música, ou uma pasta dentro dela."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Este dosarul în care aplicația Muzică își păstrează conținutul multimedia."
+            "value" : "Este dosarul în care aplicația Muzică își păstrează conținutul multimedia, ori un dosar din acesta."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Это папка, в которой приложение «Музыка» хранит свои медиафайлы."
+            "value" : "Это папка, в которой приложение «Музыка» хранит свои медиафайлы, или папка внутри нее."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det är mappen där appen Musik sparar sina medier."
+            "value" : "Det är mappen där appen Musik sparar sina medier, eller en mapp i den."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu, Müzik uygulamasının ortam dosyalarını tuttuğu klasör."
+            "value" : "Bu, Müzik uygulamasının ortam dosyalarını tuttuğu klasör ya da içindeki bir klasör."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Це папка, у якій програма «Музика» зберігає свій медіавміст."
+            "value" : "Це папка, у якій програма «Музика» зберігає свій медіавміст, або папка всередині неї."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它是“音乐”App存放媒体的文件夹。"
+            "value" : "它是“音乐”App存放媒体的文件夹或其子文件夹。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這是「音樂」App存放媒體的檔案夾。"
+            "value" : "這是「音樂」App存放媒體的檔案夾，或其中的檔案夾。"
           }
         }
       }
     },
-    "It is the folder where the TV app keeps its media." : {
+    "It is the folder where the TV app keeps its media, or a folder in it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je to složka, ve které aplikace TV uchovává svá média."
+            "value" : "Je to složka, ve které aplikace TV uchovává svá média, nebo složka v ní."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dies ist der Ordner, in dem die App „TV“ ihre Medien aufbewahrt."
+            "value" : "Dies ist der Ordner, in dem die App „TV“ ihre Medien aufbewahrt, oder ein Ordner darin."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Es la carpeta donde la app TV guarda su contenido."
+            "value" : "Es la carpeta donde la app TV guarda su contenido, o una carpeta dentro de ella."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "C’est le dossier où l’app TV conserve ses fichiers multimédias."
+            "value" : "C’est le dossier où l’app TV conserve ses fichiers multimédias, ou un dossier qu’il contient."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "È la cartella in cui l’app TV conserva i suoi file multimediali."
+            "value" : "È la cartella in cui l’app TV conserva i suoi file multimediali, oppure una cartella al suo interno."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "TVアプリがメディアを保管するフォルダです。"
+            "value" : "TVアプリがメディアを保管するフォルダ、またはその中にあるフォルダです。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "TV 앱이 미디어를 보관하는 폴더입니다."
+            "value" : "TV 앱이 미디어를 보관하는 폴더이거나 그 안에 있는 폴더입니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het is de map waarin de app TV zijn media bewaart."
+            "value" : "Het is de map waarin de app TV zijn media bewaart, of een map daarin."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To folder, w którym aplikacja TV przechowuje swoje multimedia."
+            "value" : "To folder, w którym aplikacja TV przechowuje swoje multimedia, albo folder wewnątrz niego."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "É a pasta de mídia do app TV."
+            "value" : "É a pasta de mídia do app TV, ou uma pasta dentro dela."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Este dosarul în care aplicația TV își păstrează conținutul multimedia."
+            "value" : "Este dosarul în care aplicația TV își păstrează conținutul multimedia, ori un dosar din acesta."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Это папка, в которой приложение «TV» хранит свои медиафайлы."
+            "value" : "Это папка, в которой приложение «TV» хранит свои медиафайлы, или папка внутри нее."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det är mappen där appen TV sparar sina medier."
+            "value" : "Det är mappen där appen TV sparar sina medier, eller en mapp i den."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu, TV uygulamasının ortam dosyalarını tuttuğu klasör."
+            "value" : "Bu, TV uygulamasının ortam dosyalarını tuttuğu klasör ya da içindeki bir klasör."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Це папка, у якій програма «TV» зберігає свій медіавміст."
+            "value" : "Це папка, у якій програма «TV» зберігає свій медіавміст, або папка всередині неї."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它是“TV”App存放媒体的文件夹。"
+            "value" : "它是“TV”App存放媒体的文件夹或其子文件夹。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這是「TV」App存放媒體的檔案夾。"
+            "value" : "這是「TV」App存放媒體的檔案夾，或其中的檔案夾。"
           }
         }
       }
     },
-    "It is your Library, where apps keep their data." : {
+    "It is your Library, or a folder in it, where apps keep their data." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je to vaše Knihovna, kde si aplikace ukládají svá data."
+            "value" : "Je to vaše Knihovna, kde si aplikace ukládají svá data, nebo složka v ní."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dies ist deine Library, in der Apps ihre Daten speichern."
+            "value" : "Dies ist deine Library, in der Apps ihre Daten speichern, oder ein Ordner darin."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Es tu carpeta Biblioteca, donde las apps guardan sus datos."
+            "value" : "Es tu carpeta Biblioteca, o una carpeta dentro de ella, donde las apps guardan sus datos."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "C’est votre Bibliothèque, où les apps conservent leurs données."
+            "value" : "C’est votre Bibliothèque, où les apps conservent leurs données, ou un dossier qu’elle contient."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "È la tua cartella Libreria, dove le app conservano i loro dati."
+            "value" : "È la tua cartella Libreria, oppure una cartella al suo interno, dove le app conservano i loro dati."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリがデータを保管するユーザライブラリです。"
+            "value" : "アプリがデータを保管するユーザライブラリ、またはその中にあるフォルダです。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱이 데이터를 보관하는 라이브러리 폴더입니다."
+            "value" : "앱이 데이터를 보관하는 라이브러리 폴더이거나 그 안에 있는 폴더입니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het is je bibliotheekmap, waarin apps hun gegevens bewaren."
+            "value" : "Het is je bibliotheekmap, waarin apps hun gegevens bewaren, of een map daarin."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To Twój folder Biblioteki, w którym aplikacje przechowują swoje dane."
+            "value" : "To Twój folder Biblioteki, w którym aplikacje przechowują swoje dane, albo folder wewnątrz niego."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "É a sua pasta Biblioteca, onde os apps guardam os dados deles."
+            "value" : "É a sua pasta Biblioteca, ou uma pasta dentro dela, onde os apps guardam os dados deles."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Este dosarul dvs. Bibliotecă, unde aplicațiile își păstrează datele."
+            "value" : "Este dosarul dvs. Bibliotecă, ori un dosar din acesta, unde aplicațiile își păstrează datele."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Это Ваша папка «Библиотека», в которой приложения хранят свои данные."
+            "value" : "Это Ваша папка «Библиотека», в которой приложения хранят свои данные, или папка внутри нее."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det är din biblioteksmapp, där appar sparar sina data."
+            "value" : "Det är din biblioteksmapp, eller en mapp i den, där appar sparar sina data."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu, uygulamaların verilerini tuttuğu Kitaplık klasörünüz."
+            "value" : "Bu, uygulamaların verilerini tuttuğu Kitaplık klasörünüz ya da içindeki bir klasör."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Це ваша папка «Бібліотека», у якій програми зберігають свої дані."
+            "value" : "Це ваша папка «Бібліотека», у якій програми зберігають свої дані, або папка всередині неї."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它是你的“资源库”文件夹，App会将它们的数据保存在其中。"
+            "value" : "它是你的“资源库”文件夹或其子文件夹，App会将它们的数据保存在其中。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這是你的「資源庫」檔案夾，App會在其中存放資料。"
+            "value" : "這是你的「資源庫」檔案夾或其中的檔案夾，App會在「資源庫」中存放資料。"
           }
         }
       }

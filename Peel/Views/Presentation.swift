@@ -426,9 +426,9 @@ extension DuplicateFinder.Refusal {
     var explanation: String {
         switch self {
         case .protected: String(localized: "Peel protects what is there, and never moves it.")
-        case .library: String(localized: "It is your Library, where apps keep their data.")
-        case .mediaFolder(.music): String(localized: "It is the folder where the Music app keeps its media.")
-        case .mediaFolder(.tv): String(localized: "It is the folder where the TV app keeps its media.")
+        case .library: String(localized: "It is your Library, or a folder in it, where apps keep their data.")
+        case .mediaFolder(.music): String(localized: "It is the folder where the Music app keeps its media, or a folder in it.")
+        case .mediaFolder(.tv): String(localized: "It is the folder where the TV app keeps its media, or a folder in it.")
         case .readOnlyDisk: String(localized: "It is on a disk that can only be read, so nothing there could move to the Trash.")
         case .inAPackage: String(localized: "It is an app or another package, or inside one, and what is inside belongs to it.")
         case .outsideTheHome: String(localized: "It is outside your home folder, /Users/Shared, and the disks in /Volumes.")
