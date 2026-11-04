@@ -114,6 +114,19 @@ struct SyncedFoldersTests {
         #expect(SyncApp.isOnThisMac(bundleIdentifiers: [], program: name, programFolders: [folder]))
     }
 
+    @Test func findsSyncthingWhereItsGuideForMacOSPutsIt() throws {
+        let home = try TemporaryDirectory()
+        let name = "org-example-sync-\(UUID().uuidString)"
+        let folders = SyncApp.programFolders(home: home.url)
+
+        #expect(!SyncApp.isOnThisMac(bundleIdentifiers: [], program: name, programFolders: folders))
+        let program = try home.file("bin/\(name)")
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o755], ofItemAtPath: program.path(percentEncoded: false)
+        )
+        #expect(SyncApp.isOnThisMac(bundleIdentifiers: [], program: name, programFolders: folders))
+    }
+
     @Test func findsASyncAppByTheProgramThatRuns() throws {
         let directory = try TemporaryDirectory()
         let name = "org-example-sync-\(UUID().uuidString.prefix(8))"

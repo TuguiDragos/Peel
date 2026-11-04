@@ -85,13 +85,12 @@ public enum SyncApp: String, Sendable, Hashable, CaseIterable {
         isOnThisMac(bundleIdentifiers: app.bundleIdentifiers, program: app.program)
     }
 
-    /// Whether macOS knows a bundle of one of `bundleIdentifiers` outside a Trash, or `program` is in the folders
-    /// Homebrew (on Apple silicon and on Intel) and MacPorts link programs into, or runs. A list of processes that
-    /// can't be read says the program may run.
+    /// Whether macOS knows a bundle of one of `bundleIdentifiers` outside a Trash, or `program` is in one of
+    /// `programFolders`, or runs. A list of processes that can't be read says the program may run.
     static func isOnThisMac(
         bundleIdentifiers: [String],
         program: String?,
-        programFolders: [String] = ["/opt/homebrew/bin", "/usr/local/bin", "/opt/local/bin"]
+        programFolders: [String] = programFolders()
     ) -> Bool {
         if bundleIdentifiers.contains(where: { !AppInspector.applicationURLs(forBundleIdentifier: $0).isEmpty }) {
             return true
@@ -101,6 +100,16 @@ public enum SyncApp: String, Sendable, Hashable, CaseIterable {
             return true
         }
         return runs(program) ?? true
+    }
+
+    /// The folders Homebrew (on Apple silicon and on Intel) and MacPorts link programs into, and the home's `bin`,
+    /// where Syncthing's guide for macOS without Homebrew puts its program (docs.syncthing.net, Starting Syncthing
+    /// Automatically), with a launchd agent that starts it.
+    static func programFolders(home: URL = .homeDirectory) -> [String] {
+        [
+            "/opt/homebrew/bin", "/usr/local/bin", "/opt/local/bin",
+            home.appending(path: "bin").path(percentEncoded: false),
+        ]
     }
 
     /// Whether a process runs a program named `name`, or nil when the processes can't be listed.
