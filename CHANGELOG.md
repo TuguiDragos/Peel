@@ -874,6 +874,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A job turned off in System Settings > General > Login Items & Extensions, or waiting for approval there, is no
   longer loaded, run, restarted, or disabled from here, which went over that choice: it can only be stopped, and its
   page says why.
+- A Login Items & Extensions status too long to sit beside its label goes under it from the left, rather than broken
+  at the right.
 
 #### Extensions
 

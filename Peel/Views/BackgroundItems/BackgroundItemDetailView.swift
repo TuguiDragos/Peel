@@ -45,8 +45,9 @@ struct BackgroundItemDetailView: View {
                 }
                 if let status = item.loginItemsStatus {
                     LabeledContent("Login Items & Extensions") {
-                        HStack(spacing: 8) {
+                        FlowLayout {
                             Text(status.words)
+                                .foregroundStyle(.secondary)
                             Button {
                                 PrivilegedHelper.openLoginItemsSettings()
                             } label: {
@@ -56,6 +57,7 @@ struct BackgroundItemDetailView: View {
                             .buttonStyle(.link)
                         }
                     }
+                    .labeledContentStyle(.leadingWhenWrapped)
                 }
                 LabeledContent {
                     answer(item.runsAtLoad)
