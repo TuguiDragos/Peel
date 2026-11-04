@@ -22,6 +22,23 @@ struct IntelExplanationTests {
         #expect(String(localized: plugin(.vst3).explanation(onAppleSilicon: false)) == String(localized: "This plug-in is Intel only. On this Intel Mac it loads natively."))
     }
 
+    @Test func saysWhereAnIntelCommandIsAndMacPortsOwnStep() {
+        func words(_ place: IntelFinding.CommandFolder?, onAppleSilicon: Bool = true) -> String {
+            var command = IntelFinding(
+                url: URL(filePath: "/opt/local/bin/tool"), kind: .commandLineTool, name: "tool", owner: nil, size: 10
+            )
+            command.commandFolder = place
+            return String(localized: command.explanation(onAppleSilicon: onAppleSilicon))
+        }
+
+        #expect(words(.macPorts) == String(localized: "This tool from MacPorts is Intel only, so it needs Rosetta to run. MacPorts reinstalls its ports for this Mac with `sudo port migrate`."))
+        #expect(words(.home) == String(localized: "This tool in your home folder is Intel only, so it needs Rosetta to run. If its maker offers a version for Apple silicon, install that one instead."))
+        #expect(words(.home, onAppleSilicon: false) == String(localized: "This tool in your home folder is Intel only. On this Intel Mac it runs natively."))
+        #expect(words(.macPorts, onAppleSilicon: false) == String(localized: "This tool from MacPorts is Intel only. On this Intel Mac it runs natively."))
+        #expect(words(.usrLocal) == String(localized: "This tool in /usr/local is Intel only, so it needs Rosetta to run."))
+        #expect(words(nil) == words(.usrLocal))
+    }
+
     @Test func saysNothingLoadsAPlugInOfAKindMacOSLeftBehind() {
         var generator = plugin(.quickLook)
         generator.noLongerLoaded = .quickLookGenerator

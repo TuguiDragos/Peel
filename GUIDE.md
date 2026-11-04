@@ -316,9 +316,10 @@ and how many items the others hold.
   maker's uninstaller stays where it is, and what may exist only on this Mac is shown and not selected.
 - **Intel Software:** what still needs Rosetta, which macOS 27 is the last release to offer for most Intel software:
   apps, apps built for both that ask macOS to open them as Intel, the Intel-only parts inside other apps, plug-ins,
-  drivers, background items, the commands in `/usr/local`, and the Java runtimes in either Library's
-  `Java/JavaVirtualMachines`. It names any folder or program it couldn't read, since something there may need Rosetta
-  too.
+  drivers, background items, the Java runtimes in either Library's `Java/JavaVirtualMachines`, and the commands in
+  `/usr/local`, in MacPorts' `/opt/local`, and in your home's `~/bin` and `~/.local/bin`, a MacPorts one with
+  MacPorts' own step, `sudo port migrate`. It names any folder or program it couldn't read, since something there may
+  need Rosetta too.
 - **Homebrew:** your formulae and casks, with Update, Clean Up (and two deeper ones: downloads older than 30 days, or
   every download), Repair Taps, Check Health, Scan for Vulnerabilities, Upgrade, and Uninstall, or the command to run in
   Terminal for a cask that asks for an administrator's password. Uninstall and the cleanups delete for good, as Homebrew

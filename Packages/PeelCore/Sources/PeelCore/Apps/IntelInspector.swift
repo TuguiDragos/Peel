@@ -32,8 +32,18 @@ public struct IntelFinding: Sendable, Hashable, Identifiable {
     public var prefersIntel = false
     /// For a plug-in or a part inside an app, the kind nothing on macOS loads anymore (`Plugins.noLongerLoaded`).
     public var noLongerLoaded: Plugin.NoLongerLoaded?
+    public var commandFolder: CommandFolder?
 
     public var id: URL { url }
+
+    public enum CommandFolder: Sendable, Hashable {
+        case usrLocal
+        /// MacPorts' `/opt/local`, whose ports `sudo port migrate` reinstalls after a move to another kind of Mac
+        /// (MacPorts' Migration guide).
+        case macPorts
+        /// The home's `bin` and `.local/bin`.
+        case home
+    }
 }
 
 public struct IntelScan: Sendable {
@@ -77,10 +87,17 @@ public enum IntelInspector {
             .flatMap { library in folders.map { library.appending(path: $0).path(percentEncoded: false) } }
     }
 
-    static func toolDirectories(_ environment: SearchEnvironment) -> [String] {
-        ["usr/local/bin", "usr/local/sbin", "usr/local/libexec"].map {
-            environment.rootDirectory.appending(path: $0).path(percentEncoded: false)
+    static func toolDirectories(
+        _ environment: SearchEnvironment
+    ) -> [(folders: [String], place: IntelFinding.CommandFolder)] {
+        func under(_ base: URL, _ paths: [String]) -> [String] {
+            paths.map { base.appending(path: $0).path(percentEncoded: false) }
         }
+        return [
+            (under(environment.rootDirectory, ["usr/local/bin", "usr/local/sbin", "usr/local/libexec"]), .usrLocal),
+            (under(environment.rootDirectory, ["opt/local/bin", "opt/local/sbin", "opt/local/libexec"]), .macPorts),
+            (under(environment.homeDirectory, ["bin", ".local/bin"]), .home),
+        ]
     }
 
     /// Folders inside an app that hold code of its own, as processes or as plug-ins the app loads, so an Intel-only one
@@ -264,18 +281,21 @@ public enum IntelInspector {
             listed.append(path)
         }
 
-        for tool in tools(in: toolDirectories(environment), unreadable: &unreadable)
-        where !Task.isCancelled && !exclusions.excludes(tool.url) {
-            let path = PathPattern.comparablePath(of: tool.url)
-            guard !listed.contains(where: { PathComponents.isPath(path, atOrInside: $0) }) else { continue }
-            guard isIntelOnly(executable: tool.url, unreadable: &unreadable), isNew(tool.url) else { continue }
-            findings.append(IntelFinding(
-                url: tool.url,
-                kind: .commandLineTool,
-                name: tool.name,
-                owner: nil,
-                size: nil,
-            ))
+        for (folders, place) in toolDirectories(environment) {
+            for tool in tools(in: folders, unreadable: &unreadable)
+            where !Task.isCancelled && !exclusions.excludes(tool.url) {
+                let path = PathPattern.comparablePath(of: tool.url)
+                guard !listed.contains(where: { PathComponents.isPath(path, atOrInside: $0) }) else { continue }
+                guard isIntelOnly(executable: tool.url, unreadable: &unreadable), isNew(tool.url) else { continue }
+                findings.append(IntelFinding(
+                    url: tool.url,
+                    kind: .commandLineTool,
+                    name: tool.name,
+                    owner: nil,
+                    size: nil,
+                    commandFolder: place
+                ))
+            }
         }
 
         // Measured once everything is found, a few at a time, as the other scans measure. The Applications list has

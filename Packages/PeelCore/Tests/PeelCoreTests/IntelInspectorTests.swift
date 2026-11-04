@@ -449,6 +449,30 @@ struct IntelInspectorTests {
         #expect(tools.map { PathPattern.comparablePath(of: $0.url) } == [PathPattern.comparablePath(of: program)])
     }
 
+    @Test func findsTheIntelCommandsOfMacPortsAndOfTheHomesFoldersOfPrograms() async throws {
+        let directory = try TemporaryDirectory()
+        for path in ["root/usr/local/bin/brewed", "root/opt/local/bin/ported", "home/bin/legacy", "home/.local/bin/cli"] {
+            try directory.setPermissions(0o755, of: try directory.file(path, contents: fatHeader([intel])))
+        }
+        let native = try directory.file("root/opt/local/bin/jq", contents: fatHeader([appleSilicon]))
+        try directory.setPermissions(0o755, of: native)
+
+        let scan = await IntelInspector.scan(
+            installedApps: [],
+            exclusions: .none,
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            measure: { _ in 1 }
+        )
+        let found = Dictionary(
+            uniqueKeysWithValues: scan.findings(of: .commandLineTool).map { ($0.name, $0.commandFolder) }
+        )
+
+        #expect(found == ["brewed": .usrLocal, "ported": .macPorts, "legacy": .home, "cli": .home])
+    }
+
     @Test func findsTheIntelOnlyJavaRuntimesInEitherLibrary() async throws {
         let directory = try TemporaryDirectory()
         try javaRuntime(directory, "home/Library/Java/JavaVirtualMachines/jdk-21.0.13+9", [intel], name: "OpenJDK 21.0.13")

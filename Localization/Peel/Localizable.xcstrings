@@ -123978,215 +123978,214 @@
         }
       }
     },
-    "Nothing Peel looked at is built for Intel only: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the tools in /usr/local, and the Java runtimes." : {
+    "Nothing Peel looked at is built for Intel only: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the Java runtimes, and the tools in /usr/local, /opt/local, ~/bin, and ~/.local/bin." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nic z toho, co Peel prověřil, není určeno jen pro procesory Intel: aplikace ve složkách Aplikace a ve složkách, které jste přidali v Nastavení, jejich vnitřní součásti, plug-iny, ovladače, položky na pozadí, nástroje v /usr/local a běhová prostředí Java."
+            "value" : "Nic z toho, co Peel prověřil, není určeno jen pro procesory Intel: aplikace ve složkách Aplikace a ve složkách, které jste přidali v Nastavení, jejich vnitřní součásti, plug-iny, ovladače, položky na pozadí, běhová prostředí Java a nástroje v /usr/local, /opt/local, ~/bin a ~/.local/bin."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nichts, was Peel geprüft hat, ist nur für Intel entwickelt: die Apps in den Ordnern „Programme“ und in den Ordnern, die du in den Einstellungen hinzugefügt hast, was sie in sich tragen, die Plug-ins, die Treiber, die Hintergrundobjekte, die Tools in /usr/local und die Java-Laufzeitumgebungen."
+            "value" : "Nichts, was Peel geprüft hat, ist nur für Intel entwickelt: die Apps in den Ordnern „Programme“ und in den Ordnern, die du in den Einstellungen hinzugefügt hast, was sie in sich tragen, die Plug-ins, die Treiber, die Hintergrundobjekte, die Java-Laufzeitumgebungen und die Tools in /usr/local, /opt/local, ~/bin und ~/.local/bin."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nada de lo que Peel ha revisado está creado solo para Intel: las apps de las carpetas Aplicaciones y de las carpetas que has añadido en Ajustes, lo que llevan dentro, los módulos, los drivers, los ítems en segundo plano, las herramientas de /usr/local y los entornos de ejecución de Java."
+            "value" : "Nada de lo que Peel ha revisado está creado solo para Intel: las apps de las carpetas Aplicaciones y de las carpetas que has añadido en Ajustes, lo que llevan dentro, los módulos, los drivers, los ítems en segundo plano, los entornos de ejecución de Java y las herramientas de /usr/local, /opt/local, ~/bin y ~/.local/bin."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rien de ce que Peel a examiné n’est conçu uniquement pour Intel : les apps des dossiers Applications et des dossiers que vous avez ajoutés dans les Réglages, ce qu’elles contiennent, les modules, les gestionnaires, les éléments en arrière-plan, les outils de /usr/local et les environnements d’exécution Java."
+            "value" : "Rien de ce que Peel a examiné n’est conçu uniquement pour Intel : les apps des dossiers Applications et des dossiers que vous avez ajoutés dans les Réglages, ce qu’elles contiennent, les modules, les gestionnaires, les éléments en arrière-plan, les environnements d’exécution Java et les outils de /usr/local, de /opt/local, de ~/bin et de ~/.local/bin."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nulla di ciò che Peel ha esaminato è compilato solo per Intel: le app nelle cartelle Applicazioni e nelle cartelle che hai aggiunto nelle Impostazioni, ciò che contengono, i plugin, i driver, gli elementi in background, gli strumenti in /usr/local e i runtime Java."
+            "value" : "Nulla di ciò che Peel ha esaminato è compilato solo per Intel: le app nelle cartelle Applicazioni e nelle cartelle che hai aggiunto nelle Impostazioni, ciò che contengono, i plugin, i driver, gli elementi in background, i runtime Java e gli strumenti in /usr/local, /opt/local, ~/bin e ~/.local/bin."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelが調べたもの（“アプリケーション”フォルダと“設定”で追加したフォルダにあるアプリ、アプリの内部にあるもの、プラグイン、ドライバ、バックグラウンド項目、/usr/localにあるツール、Javaランタイム）には、Intel専用にビルドされたものはありません。"
+            "value" : "Peelが調べたもの（“アプリケーション”フォルダと“設定”で追加したフォルダにあるアプリ、アプリの内部にあるもの、プラグイン、ドライバ、バックグラウンド項目、Javaランタイム、/usr/local、/opt/local、~/bin、~/.local/binの各フォルダにあるツール）には、Intel専用にビルドされたものはありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 살펴본 응용 프로그램 폴더와 설정에서 추가한 폴더의 앱, 앱 내부의 구성 요소, 플러그인, 드라이버, 백그라운드 항목, /usr/local의 도구, Java 런타임 중 Intel 전용으로 빌드된 항목은 없습니다."
+            "value" : "Peel이 살펴본 응용 프로그램 폴더와 설정에서 추가한 폴더의 앱, 앱 내부의 구성 요소, 플러그인, 드라이버, 백그라운드 항목, Java 런타임 및 /usr/local, /opt/local, ~/bin, ~/.local/bin의 도구 중 Intel 전용으로 빌드된 항목은 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Niets van wat Peel heeft bekeken, is alleen voor Intel gemaakt: de apps in de mappen 'Apps' en in de mappen die je in Instellingen hebt toegevoegd, wat erin zit, de plug-ins, de besturingsbestanden, de achtergrondonderdelen, de tools in /usr/local en de Java-runtimes."
+            "value" : "Niets van wat Peel heeft bekeken, is alleen voor Intel gemaakt: de apps in de mappen 'Apps' en in de mappen die je in Instellingen hebt toegevoegd, wat erin zit, de plug-ins, de besturingsbestanden, de achtergrondonderdelen, de Java-runtimes en de tools in /usr/local, /opt/local, ~/bin en ~/.local/bin."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nic z tego, co sprawdził Peel, nie jest skompilowane tylko dla procesorów Intel: aplikacje w folderach Aplikacje i w folderach dodanych przez Ciebie w Ustawieniach, ich zawartość, wtyczki, sterowniki, rzeczy działające w tle, narzędzia w /usr/local i środowiska uruchomieniowe Java."
+            "value" : "Nic z tego, co sprawdził Peel, nie jest skompilowane tylko dla procesorów Intel: aplikacje w folderach Aplikacje i w folderach dodanych przez Ciebie w Ustawieniach, ich zawartość, wtyczki, sterowniki, rzeczy działające w tle, środowiska uruchomieniowe Java i narzędzia w /usr/local, /opt/local, ~/bin i ~/.local/bin."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nada do que o Peel examinou é feito só para Intel: os apps das pastas Aplicativos e das pastas que você adicionou nos Ajustes, o que eles trazem dentro, os plug-ins, os drivers, os itens em segundo plano, as ferramentas em /usr/local e os runtimes Java."
+            "value" : "Nada do que o Peel examinou é feito só para Intel: os apps das pastas Aplicativos e das pastas que você adicionou nos Ajustes, o que eles trazem dentro, os plug-ins, os drivers, os itens em segundo plano, os runtimes Java e as ferramentas em /usr/local, /opt/local, ~/bin e ~/.local/bin."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nimic din ce a examinat Peel nu este compilat doar pentru Intel: aplicațiile din dosarele Aplicații și din dosarele pe care le‑ați adăugat în Configurări, ce conțin aceste aplicații, plug-inurile, driverele, articolele de fundal, instrumentele din /usr/local și mediile de rulare Java."
+            "value" : "Nimic din ce a examinat Peel nu este compilat doar pentru Intel: aplicațiile din dosarele Aplicații și din dosarele pe care le‑ați adăugat în Configurări, ce conțin aceste aplicații, plug-inurile, driverele, articolele de fundal, mediile de rulare Java și instrumentele din /usr/local, /opt/local, ~/bin și ~/.local/bin."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ничто из того, что проверил Peel, не собрано только для Intel: ни приложения в папках «Программы» и в папках, добавленных Вами в Настройках, ни то, что у них внутри, ни плагины, ни драйверы, ни фоновые объекты, ни инструменты в /usr/local, ни среды выполнения Java."
+            "value" : "Ничто из того, что проверил Peel, не собрано только для Intel: ни приложения в папках «Программы» и в папках, добавленных Вами в Настройках, ни то, что у них внутри, ни плагины, ни драйверы, ни фоновые объекты, ни среды выполнения Java, ни инструменты в /usr/local, /opt/local, ~/bin и ~/.local/bin."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inget som Peel har tittat på är byggt bara för Intel: apparna i mapparna Appar och i de mappar som du har lagt till i Inställningar, det de bär med sig inuti, insticksfilerna, drivrutinerna, bakgrundsobjekten, verktygen i /usr/local och Java-körmiljöerna."
+            "value" : "Inget som Peel har tittat på är byggt bara för Intel: apparna i mapparna Appar och i de mappar som du har lagt till i Inställningar, det de bär med sig inuti, insticksfilerna, drivrutinerna, bakgrundsobjekten, Java-körmiljöerna och verktygen i /usr/local, /opt/local, ~/bin och ~/.local/bin."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’in baktığı hiçbir şey yalnızca Intel için derlenmemiş: Uygulamalar klasörlerindeki ve Ayarlar’da eklediğiniz klasörlerdeki uygulamalar, içlerinde taşıdıkları, yazılım ekleri, sürücüler, arka plan öğeleri, /usr/local içindeki araçlar ve Java çalışma ortamları."
+            "value" : "Peel’in baktığı hiçbir şey yalnızca Intel için derlenmemiş: Uygulamalar klasörlerindeki ve Ayarlar’da eklediğiniz klasörlerdeki uygulamalar, içlerinde taşıdıkları, yazılım ekleri, sürücüler, arka plan öğeleri, Java çalışma ortamları ve /usr/local, /opt/local, ~/bin ve ~/.local/bin içindeki araçlar."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "З того, що переглянула Peel, нічого не створено лише для Intel: програми в папках «Програми» і в папках, які ви додали в Параметрах, те, що вони містять усередині, плагіни, драйвери, фонові елементи, інструменти в /usr/local та середовища виконання Java."
+            "value" : "З того, що переглянула Peel, нічого не створено лише для Intel: програми в папках «Програми» і в папках, які ви додали в Параметрах, те, що вони містять усередині, плагіни, драйвери, фонові елементи, середовища виконання Java та інструменти в /usr/local, /opt/local, ~/bin і ~/.local/bin."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel查看过的内容都不是仅为Intel构建的：包括“应用程序”文件夹和你在“设置”中添加的文件夹里的App、这些App内部包含的内容、插件、驱动程序、后台项目、/usr/local中的工具，以及Java运行时。"
+            "value" : "Peel查看过的内容都不是仅为Intel构建的：包括“应用程序”文件夹和你在“设置”中添加的文件夹里的App、这些App内部包含的内容、插件、驱动程序、后台项目、Java运行时，以及/usr/local、/opt/local、~/bin和~/.local/bin中的工具。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel檢查過的項目都不是僅為Intel建置的：包括「應用程式」檔案夾和你在「設定」中加入的檔案夾裡的App、App內含的項目、外掛模組、驅動程式、背景項目、/usr/local中的工具，以及Java執行環境。"
+            "value" : "Peel檢查過的項目都不是僅為Intel建置的：包括「應用程式」檔案夾和你在「設定」中加入的檔案夾裡的App、App內含的項目、外掛模組、驅動程式、背景項目、Java執行環境，以及/usr/local、/opt/local、~/bin和~/.local/bin中的工具。"
           }
         }
       }
     },
-    "Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the tools in /usr/local, and the Java runtimes." : {
-      "comment" : "Under Nothing Needs Rosetta on the Intel Software page. The folders you added are those in Settings > General > App Folders. Rosetta is Apple's name and stays as it is.",
+    "Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the Java runtimes, and the tools in /usr/local, /opt/local, ~/bin, and ~/.local/bin." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nic z toho, co Peel prověřil, nevyžaduje prostředí Rosetta: aplikace ve složkách Aplikace a ve složkách, které jste přidali v Nastavení, jejich vnitřní součásti, plug-iny, ovladače, položky na pozadí, nástroje v /usr/local a běhová prostředí Java."
+            "value" : "Nic z toho, co Peel prověřil, nevyžaduje prostředí Rosetta: aplikace ve složkách Aplikace a ve složkách, které jste přidali v Nastavení, jejich vnitřní součásti, plug-iny, ovladače, položky na pozadí, běhová prostředí Java a nástroje v /usr/local, /opt/local, ~/bin a ~/.local/bin."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nichts, was Peel geprüft hat, benötigt Rosetta: die Apps in den Ordnern „Programme“ und in den Ordnern, die du in den Einstellungen hinzugefügt hast, was sie in sich tragen, die Plug-ins, die Treiber, die Hintergrundobjekte, die Tools in /usr/local und die Java-Laufzeitumgebungen."
+            "value" : "Nichts, was Peel geprüft hat, benötigt Rosetta: die Apps in den Ordnern „Programme“ und in den Ordnern, die du in den Einstellungen hinzugefügt hast, was sie in sich tragen, die Plug-ins, die Treiber, die Hintergrundobjekte, die Java-Laufzeitumgebungen und die Tools in /usr/local, /opt/local, ~/bin und ~/.local/bin."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nada de lo que Peel ha revisado necesita Rosetta: las apps de las carpetas Aplicaciones y de las carpetas que has añadido en Ajustes, lo que llevan dentro, los módulos, los drivers, los ítems en segundo plano, las herramientas de /usr/local y los entornos de ejecución de Java."
+            "value" : "Nada de lo que Peel ha revisado necesita Rosetta: las apps de las carpetas Aplicaciones y de las carpetas que has añadido en Ajustes, lo que llevan dentro, los módulos, los drivers, los ítems en segundo plano, los entornos de ejecución de Java y las herramientas de /usr/local, /opt/local, ~/bin y ~/.local/bin."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rien de ce que Peel a examiné ne nécessite Rosetta : les apps des dossiers Applications et des dossiers que vous avez ajoutés dans les Réglages, ce qu’elles contiennent, les modules, les gestionnaires, les éléments en arrière-plan, les outils de /usr/local et les environnements d’exécution Java."
+            "value" : "Rien de ce que Peel a examiné ne nécessite Rosetta : les apps des dossiers Applications et des dossiers que vous avez ajoutés dans les Réglages, ce qu’elles contiennent, les modules, les gestionnaires, les éléments en arrière-plan, les environnements d’exécution Java et les outils de /usr/local, de /opt/local, de ~/bin et de ~/.local/bin."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nulla di ciò che Peel ha esaminato richiede Rosetta: le app nelle cartelle Applicazioni e nelle cartelle che hai aggiunto nelle Impostazioni, ciò che contengono, i plugin, i driver, gli elementi in background, gli strumenti in /usr/local e i runtime Java."
+            "value" : "Nulla di ciò che Peel ha esaminato richiede Rosetta: le app nelle cartelle Applicazioni e nelle cartelle che hai aggiunto nelle Impostazioni, ciò che contengono, i plugin, i driver, gli elementi in background, i runtime Java e gli strumenti in /usr/local, /opt/local, ~/bin e ~/.local/bin."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelが調べたもの（“アプリケーション”フォルダと“設定”で追加したフォルダにあるアプリ、アプリの内部にあるもの、プラグイン、ドライバ、バックグラウンド項目、/usr/localにあるツール、Javaランタイム）には、Rosettaが必要なものはありません。"
+            "value" : "Peelが調べたもの（“アプリケーション”フォルダと“設定”で追加したフォルダにあるアプリ、アプリの内部にあるもの、プラグイン、ドライバ、バックグラウンド項目、Javaランタイム、/usr/local、/opt/local、~/bin、~/.local/binの各フォルダにあるツール）には、Rosettaが必要なものはありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 살펴본 응용 프로그램 폴더와 설정에서 추가한 폴더의 앱, 앱 내부의 구성 요소, 플러그인, 드라이버, 백그라운드 항목, /usr/local의 도구, Java 런타임 중 Rosetta가 필요한 항목은 없습니다."
+            "value" : "Peel이 살펴본 응용 프로그램 폴더와 설정에서 추가한 폴더의 앱, 앱 내부의 구성 요소, 플러그인, 드라이버, 백그라운드 항목, Java 런타임 및 /usr/local, /opt/local, ~/bin, ~/.local/bin의 도구 중 Rosetta가 필요한 항목은 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Niets van wat Peel heeft bekeken, heeft Rosetta nodig: de apps in de mappen 'Apps' en in de mappen die je in Instellingen hebt toegevoegd, wat erin zit, de plug-ins, de besturingsbestanden, de achtergrondonderdelen, de tools in /usr/local en de Java-runtimes."
+            "value" : "Niets van wat Peel heeft bekeken, heeft Rosetta nodig: de apps in de mappen 'Apps' en in de mappen die je in Instellingen hebt toegevoegd, wat erin zit, de plug-ins, de besturingsbestanden, de achtergrondonderdelen, de Java-runtimes en de tools in /usr/local, /opt/local, ~/bin en ~/.local/bin."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nic z tego, co sprawdził Peel, nie wymaga Rosetty: aplikacje w folderach Aplikacje i w folderach dodanych przez Ciebie w Ustawieniach, ich zawartość, wtyczki, sterowniki, rzeczy działające w tle, narzędzia w /usr/local i środowiska uruchomieniowe Java."
+            "value" : "Nic z tego, co sprawdził Peel, nie wymaga Rosetty: aplikacje w folderach Aplikacje i w folderach dodanych przez Ciebie w Ustawieniach, ich zawartość, wtyczki, sterowniki, rzeczy działające w tle, środowiska uruchomieniowe Java i narzędzia w /usr/local, /opt/local, ~/bin i ~/.local/bin."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nada do que o Peel examinou precisa do Rosetta: os apps das pastas Aplicativos e das pastas que você adicionou nos Ajustes, o que eles trazem dentro, os plug-ins, os drivers, os itens em segundo plano, as ferramentas em /usr/local e os runtimes Java."
+            "value" : "Nada do que o Peel examinou precisa do Rosetta: os apps das pastas Aplicativos e das pastas que você adicionou nos Ajustes, o que eles trazem dentro, os plug-ins, os drivers, os itens em segundo plano, os runtimes Java e as ferramentas em /usr/local, /opt/local, ~/bin e ~/.local/bin."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nimic din ce a examinat Peel nu are nevoie de Rosetta: aplicațiile din dosarele Aplicații și din dosarele pe care le‑ați adăugat în Configurări, ce conțin aceste aplicații, plug-inurile, driverele, articolele de fundal, instrumentele din /usr/local și mediile de rulare Java."
+            "value" : "Nimic din ce a examinat Peel nu are nevoie de Rosetta: aplicațiile din dosarele Aplicații și din dosarele pe care le‑ați adăugat în Configurări, ce conțin aceste aplicații, plug-inurile, driverele, articolele de fundal, mediile de rulare Java și instrumentele din /usr/local, /opt/local, ~/bin și ~/.local/bin."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ничему из того, что проверил Peel, не нужна Rosetta: ни приложениям в папках «Программы» и в папках, добавленных Вами в Настройках, ни тому, что у них внутри, ни плагинам, ни драйверам, ни фоновым объектам, ни инструментам в /usr/local, ни средам выполнения Java."
+            "value" : "Ничему из того, что проверил Peel, не нужна Rosetta: ни приложениям в папках «Программы» и в папках, добавленных Вами в Настройках, ни тому, что у них внутри, ни плагинам, ни драйверам, ни фоновым объектам, ни средам выполнения Java, ни инструментам в /usr/local, /opt/local, ~/bin и ~/.local/bin."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inget som Peel har tittat på behöver Rosetta: apparna i mapparna Appar och i de mappar som du har lagt till i Inställningar, det de bär med sig inuti, insticksfilerna, drivrutinerna, bakgrundsobjekten, verktygen i /usr/local och Java-körmiljöerna."
+            "value" : "Inget som Peel har tittat på behöver Rosetta: apparna i mapparna Appar och i de mappar som du har lagt till i Inställningar, det de bär med sig inuti, insticksfilerna, drivrutinerna, bakgrundsobjekten, Java-körmiljöerna och verktygen i /usr/local, /opt/local, ~/bin och ~/.local/bin."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’in baktığı hiçbir şey Rosetta gerektirmiyor: Uygulamalar klasörlerindeki ve Ayarlar’da eklediğiniz klasörlerdeki uygulamalar, içlerinde taşıdıkları, yazılım ekleri, sürücüler, arka plan öğeleri, /usr/local içindeki araçlar ve Java çalışma ortamları."
+            "value" : "Peel’in baktığı hiçbir şey Rosetta gerektirmiyor: Uygulamalar klasörlerindeki ve Ayarlar’da eklediğiniz klasörlerdeki uygulamalar, içlerinde taşıdıkları, yazılım ekleri, sürücüler, arka plan öğeleri, Java çalışma ortamları ve /usr/local, /opt/local, ~/bin ve ~/.local/bin içindeki araçlar."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ніщо з того, що переглянула Peel, не потребує Rosetta: програми в папках «Програми» і в папках, які ви додали в Параметрах, те, що вони містять усередині, плагіни, драйвери, фонові елементи, інструменти в /usr/local та середовища виконання Java."
+            "value" : "Ніщо з того, що переглянула Peel, не потребує Rosetta: програми в папках «Програми» і в папках, які ви додали в Параметрах, те, що вони містять усередині, плагіни, драйвери, фонові елементи, середовища виконання Java та інструменти в /usr/local, /opt/local, ~/bin і ~/.local/bin."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel查看过的内容都不需要Rosetta：包括“应用程序”文件夹和你在“设置”中添加的文件夹里的App、这些App内部包含的内容、插件、驱动程序、后台项目、/usr/local中的工具，以及Java运行时。"
+            "value" : "Peel查看过的内容都不需要Rosetta：包括“应用程序”文件夹和你在“设置”中添加的文件夹里的App、这些App内部包含的内容、插件、驱动程序、后台项目、Java运行时，以及/usr/local、/opt/local、~/bin和~/.local/bin中的工具。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel檢查過的項目都不需要Rosetta：包括「應用程式」檔案夾和你在「設定」中加入的檔案夾裡的App、App內含的項目、外掛模組、驅動程式、背景項目、/usr/local中的工具，以及Java執行環境。"
+            "value" : "Peel檢查過的項目都不需要Rosetta：包括「應用程式」檔案夾和你在「設定」中加入的檔案夾裡的App、App內含的項目、外掛模組、驅動程式、背景項目、Java執行環境，以及/usr/local、/opt/local、~/bin和~/.local/bin中的工具。"
           }
         }
       }
@@ -221957,6 +221956,218 @@
         }
       }
     },
+    "This tool from MacPorts is Intel only, so it needs Rosetta to run. MacPorts reinstalls its ports for this Mac with `sudo port migrate`." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento nástroj z MacPorts je jen pro procesory Intel, takže ke spuštění potřebuje prostředí Rosetta. MacPorts znovu nainstaluje své porty pro tento Mac příkazem `sudo port migrate`."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Tool von MacPorts ist nur für Intel, daher benötigt es Rosetta, um zu laufen. MacPorts installiert seine Ports mit `sudo port migrate` für diesen Mac neu."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta herramienta de MacPorts es solo para Intel, así que necesita Rosetta para ejecutarse. MacPorts reinstala sus ports para este Mac con `sudo port migrate`."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet outil de MacPorts n’existe qu’en version Intel : il a donc besoin de Rosetta pour s’exécuter. MacPorts réinstalle ses ports pour ce Mac avec `sudo port migrate`."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo strumento di MacPorts è solo per Intel, quindi per funzionare richiede Rosetta. MacPorts reinstalla i suoi port per questo Mac con `sudo port migrate`."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MacPortsのこのツールはIntel専用のため、実行するにはRosettaが必要です。MacPortsは、インストール済みのポートを`sudo port migrate`でこのMac用に再インストールします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MacPorts의 이 도구는 Intel 전용이므로 실행하려면 Rosetta가 필요합니다. MacPorts는 `sudo port migrate` 명령으로 설치된 포트를 이 Mac에 맞게 다시 설치합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze tool van MacPorts is alleen voor Intel en heeft dus Rosetta nodig om te werken. Met `sudo port migrate` installeert MacPorts zijn ports opnieuw voor deze Mac."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To narzędzie z MacPorts jest tylko dla procesorów Intel, więc do działania potrzebuje Rosetty. MacPorts ponownie instaluje swoje porty dla tego Maca za pomocą polecenia `sudo port migrate`."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta ferramenta do MacPorts é só para Intel, então precisa do Rosetta para ser executada. O MacPorts reinstala os ports dele para este Mac com `sudo port migrate`."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest instrument din MacPorts este doar pentru Intel, așa că are nevoie de Rosetta pentru a rula. MacPorts își reinstalează porturile pentru acest Mac cu `sudo port migrate`."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот инструмент из MacPorts собран только для Intel, поэтому для работы ему нужна Rosetta. MacPorts переустанавливает свои порты для этого Mac командой `sudo port migrate`."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här verktyget från MacPorts är bara för Intel, så det behöver Rosetta för att köras. MacPorts installerar om sina portar för den här datorn med `sudo port migrate`."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MacPorts’tan gelen bu araç yalnızca Intel içindir, bu yüzden çalışması için Rosetta gerekir. MacPorts, port paketlerini `sudo port migrate` ile bu Mac için yeniden yükler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей інструмент із MacPorts призначений лише для Intel, тож для роботи потребує Rosetta. MacPorts перевстановлює свої порти для цього Mac командою `sudo port migrate`."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来自MacPorts的此工具仅支持Intel，因此需要Rosetta才能运行。MacPorts使用`sudo port migrate`为这台Mac重新安装其ports。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來自MacPorts的此工具僅支援Intel，因此需要Rosetta才能執行。MacPorts會使用`sudo port migrate`為這部Mac重新安裝它的ports。"
+          }
+        }
+      }
+    },
+    "This tool from MacPorts is Intel only. On this Intel Mac it runs natively." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento nástroj z MacPorts je jen pro procesory Intel. Na tomto Macu s procesorem Intel běží nativně."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Tool von MacPorts ist nur für Intel. Auf diesem Intel-Mac läuft es nativ."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta herramienta de MacPorts es solo para Intel. En este Mac con procesador Intel se ejecuta de forma nativa."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet outil de MacPorts n’existe qu’en version Intel. Sur ce Mac à processeur Intel, il s’exécute en natif."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo strumento di MacPorts è solo per Intel. Su questo Mac Intel funziona in modo nativo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MacPortsのこのツールはIntel専用です。このIntel搭載Macではネイティブに動作します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MacPorts의 이 도구는 Intel 전용입니다. 이 Intel Mac에서는 네이티브로 실행됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze tool van MacPorts is alleen voor Intel. Op deze Intel-Mac werkt die native."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To narzędzie z MacPorts jest tylko dla procesorów Intel. Na tym Macu z procesorem Intel działa natywnie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta ferramenta do MacPorts é só para Intel. Neste Mac com Intel, ela é executada nativamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest instrument din MacPorts este doar pentru Intel. Pe acest Mac cu Intel rulează nativ."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот инструмент из MacPorts собран только для Intel. На этом Mac с процессором Intel он работает нативно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här verktyget från MacPorts är bara för Intel. På den här Intel-baserade datorn körs det utan Rosetta."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MacPorts’tan gelen bu araç yalnızca Intel içindir. Intel işlemcili bu Mac’te yerel olarak çalışır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей інструмент із MacPorts призначений лише для Intel. На цьому Mac з процесором Intel він працює нативно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来自MacPorts的此工具仅支持Intel。在这台Intel Mac上，它以原生方式运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來自MacPorts的此工具僅支援Intel。在這部Intel Mac上，它以原生方式執行。"
+          }
+        }
+      }
+    },
     "This tool in /usr/local is Intel only, so it needs Rosetta to run." : {
       "localizations" : {
         "cs" : {
@@ -222165,6 +222376,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "/usr/local中的此工具僅支援Intel。在這部Intel Mac上，它以原生方式執行。"
+          }
+        }
+      }
+    },
+    "This tool in your home folder is Intel only, so it needs Rosetta to run. If its maker offers a version for Apple silicon, install that one instead." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento nástroj ve vaší domovské složce je jen pro procesory Intel, takže ke spuštění potřebuje prostředí Rosetta. Pokud výrobce nabízí verzi pro čipy Apple, nainstalujte raději ji."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Tool in deinem Benutzerordner ist nur für Intel, daher benötigt es Rosetta, um zu laufen. Wenn der Hersteller eine Version für Apple Chips anbietet, installiere stattdessen diese."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta herramienta de tu carpeta de inicio es solo para Intel, así que necesita Rosetta para ejecutarse. Si su fabricante ofrece una versión compatible con el chip de Apple, instala esa en su lugar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet outil de votre dossier de départ n’existe qu’en version Intel : il a donc besoin de Rosetta pour s’exécuter. Si son éditeur propose une version pour puce Apple, installez plutôt celle-ci."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo strumento nella tua cartella Inizio è solo per Intel, quindi per funzionare richiede Rosetta. Se il suo produttore offre una versione per Mac con chip Apple, installa quella."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホームフォルダにあるこのツールはIntel専用のため、実行するにはRosettaが必要です。開発元がAppleシリコン対応のバージョンを提供している場合は、代わりにそちらをインストールしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "홈 폴더에 있는 이 도구는 Intel 전용이므로 실행하려면 Rosetta가 필요합니다. 제작자가 Apple silicon용 버전을 제공한다면 대신 그 버전을 설치하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze tool in je thuismap is alleen voor Intel en heeft dus Rosetta nodig om te werken. Als de maker een versie voor Apple silicon aanbiedt, installeer die dan in plaats van deze."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To narzędzie w Twoim folderze domowym jest tylko dla procesorów Intel, więc do działania potrzebuje Rosetty. Jeśli jego producent oferuje wersję dla układów scalonych Apple, zainstaluj zamiast niego tamtą wersję."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta ferramenta na sua pasta pessoal é só para Intel, então precisa do Rosetta para ser executada. Se o fabricante oferecer uma versão para Apple silicon, instale essa versão em vez desta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest instrument din dosarul dvs. de reședință este doar pentru Intel, așa că are nevoie de Rosetta pentru a rula. Dacă producătorul lui oferă o versiune pentru cip Apple, instalați‑o pe aceea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот инструмент в Вашей папке пользователя собран только для Intel, поэтому для работы ему нужна Rosetta. Если производитель предлагает версию для чипов Apple, лучше установите ее."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här verktyget i din hemmapp är bara för Intel, så det behöver Rosetta för att köras. Om tillverkaren erbjuder en version för Apple Silicon installerar du den i stället."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana klasörünüzdeki bu araç yalnızca Intel içindir, bu yüzden çalışması için Rosetta gerekir. Üreticisi Apple Silicon için bir sürüm sunuyorsa bunun yerine o sürümü yükleyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей інструмент у вашій Домівці призначений лише для Intel, тож для роботи потребує Rosetta. Якщо виробник пропонує версію для Apple Silicon, інсталюйте натомість її."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的个人文件夹中的此工具仅支持Intel，因此需要Rosetta才能运行。如果其厂商提供适用于Apple芯片的版本，请改为安装该版本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的個人專屬檔案夾中的此工具僅支援Intel，因此需要Rosetta才能執行。如果它的廠商提供適用於Apple晶片的版本，請改為安裝該版本。"
+          }
+        }
+      }
+    },
+    "This tool in your home folder is Intel only. On this Intel Mac it runs natively." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento nástroj ve vaší domovské složce je jen pro procesory Intel. Na tomto Macu s procesorem Intel běží nativně."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Tool in deinem Benutzerordner ist nur für Intel. Auf diesem Intel-Mac läuft es nativ."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta herramienta de tu carpeta de inicio es solo para Intel. En este Mac con procesador Intel se ejecuta de forma nativa."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet outil de votre dossier de départ n’existe qu’en version Intel. Sur ce Mac à processeur Intel, il s’exécute en natif."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo strumento nella tua cartella Inizio è solo per Intel. Su questo Mac Intel funziona in modo nativo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホームフォルダにあるこのツールはIntel専用です。このIntel搭載Macではネイティブに動作します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "홈 폴더에 있는 이 도구는 Intel 전용입니다. 이 Intel Mac에서는 네이티브로 실행됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze tool in je thuismap is alleen voor Intel. Op deze Intel-Mac werkt die native."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To narzędzie w Twoim folderze domowym jest tylko dla procesorów Intel. Na tym Macu z procesorem Intel działa natywnie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta ferramenta na sua pasta pessoal é só para Intel. Neste Mac com Intel, ela é executada nativamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest instrument din dosarul dvs. de reședință este doar pentru Intel. Pe acest Mac cu Intel rulează nativ."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот инструмент в Вашей папке пользователя собран только для Intel. На этом Mac с процессором Intel он работает нативно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här verktyget i din hemmapp är bara för Intel. På den här Intel-baserade datorn körs det utan Rosetta."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana klasörünüzdeki bu araç yalnızca Intel içindir. Intel işlemcili bu Mac’te yerel olarak çalışır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей інструмент у вашій Домівці призначений лише для Intel. На цьому Mac з процесором Intel він працює нативно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的个人文件夹中的此工具仅支持Intel。在这台Intel Mac上，它以原生方式运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的個人專屬檔案夾中的此工具僅支援Intel。在這部Intel Mac上，它以原生方式執行。"
           }
         }
       }

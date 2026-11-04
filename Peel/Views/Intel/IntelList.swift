@@ -72,7 +72,7 @@ struct IntelList: View {
                         Label("Nothing Needs Rosetta", systemImage: "checkmark.seal")
                     } description: {
                         VStack(spacing: 6) {
-                            Text("Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the tools in /usr/local, and the Java runtimes.")
+                            Text("Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the Java runtimes, and the tools in /usr/local, /opt/local, ~/bin, and ~/.local/bin.")
                             Text("The Intel-based Apps list in System Settings > General > About names the apps macOS 28 won’t run, including some outside the folders Peel looks in.")
                         }
                     } actions: {
@@ -85,8 +85,8 @@ struct IntelList: View {
                         // The description claims only what Peel looked at, since Intel plug-ins can be missed, and the
                         // macOS 27 release notes say some may not appear even in System Settings.
                         description: HostArchitecture.isAppleSilicon
-                            ? Text("Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the tools in /usr/local, and the Java runtimes.")
-                            : Text("Nothing Peel looked at is built for Intel only: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the tools in /usr/local, and the Java runtimes.")
+                            ? Text("Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the Java runtimes, and the tools in /usr/local, /opt/local, ~/bin, and ~/.local/bin.")
+                            : Text("Nothing Peel looked at is built for Intel only: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the Java runtimes, and the tools in /usr/local, /opt/local, ~/bin, and ~/.local/bin.")
                     )
                 }
             }

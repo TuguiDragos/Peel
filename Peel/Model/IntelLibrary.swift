@@ -117,6 +117,23 @@ extension IntelFinding.Kind {
     }
 }
 
+extension IntelFinding.CommandFolder {
+    /// Nil for `/usr/local`'s, which the kind explains.
+    func explanation(onAppleSilicon: Bool) -> LocalizedStringResource? {
+        switch self {
+        case .usrLocal: nil
+        case .macPorts:
+            onAppleSilicon
+                ? "This tool from MacPorts is Intel only, so it needs Rosetta to run. MacPorts reinstalls its ports for this Mac with `sudo port migrate`."
+                : "This tool from MacPorts is Intel only. On this Intel Mac it runs natively."
+        case .home:
+            onAppleSilicon
+                ? "This tool in your home folder is Intel only, so it needs Rosetta to run. If its maker offers a version for Apple silicon, install that one instead."
+                : "This tool in your home folder is Intel only. On this Intel Mac it runs natively."
+        }
+    }
+}
+
 extension IntelFinding {
     /// Explains the finding, a plug-in by where its Intel code can load (`Plugin.Category.intelHost`).
     func explanation(onAppleSilicon: Bool) -> LocalizedStringResource {
@@ -127,6 +144,9 @@ extension IntelFinding {
             return kind == .insideApp
                 ? "This part inside the app is Intel only, and macOS no longer loads parts of its kind, with or without Rosetta."
                 : "This plug-in is Intel only, and macOS no longer loads plug-ins of its kind, with or without Rosetta."
+        }
+        if kind == .commandLineTool, let words = commandFolder?.explanation(onAppleSilicon: onAppleSilicon) {
+            return words
         }
         guard onAppleSilicon, kind == .plugin else { return kind.explanation(onAppleSilicon: onAppleSilicon) }
         return switch pluginCategory?.intelHost {

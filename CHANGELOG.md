@@ -70,6 +70,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - On Apple silicon, a universal app that asks macOS to open it as Intel is listed, and says so. On macOS 27 the empty
   page points to System Settings' list of Intel-based apps.
 - A Java runtime a package installed has Review in Package Receipts.
+- Commands built only for Intel in MacPorts' `/opt/local` and in your home's `~/bin` and `~/.local/bin`, beside
+  those in `/usr/local`; for a MacPorts one, MacPorts' own step, `sudo port migrate`.
 
 #### Package Receipts
 
