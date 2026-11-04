@@ -560,7 +560,13 @@ public enum IntelInspector {
 
     /// The programs the commands in `directories` run, each under the command's name. A command is often a link,
     /// as every one a Homebrew in `/usr/local` makes into its `Cellar`, and the program it leads to is what runs.
-    static func tools(in directories: [String], unreadable: inout [URL]) -> [(name: String, url: URL)] {
+    /// `isDataless` stands in for a program a file provider keeps only in the cloud, which no test can make. Such a
+    /// program is left unread, since reading its header would download it.
+    static func tools(
+        in directories: [String],
+        unreadable: inout [URL],
+        isDataless: (URL) -> Bool = FileSize.isDataless(_:)
+    ) -> [(name: String, url: URL)] {
         var tools: [(name: String, url: URL)] = []
         for directory in directories {
             let folder = URL(filePath: directory, directoryHint: .isDirectory)
@@ -568,7 +574,7 @@ public enum IntelInspector {
                 let program = command.resolvingSymlinksInPath()
                 var info = stat()
                 if stat(program.path(percentEncoded: false), &info) == 0 {
-                    if isRunnable(info) { tools.append((command.lastPathComponent, program)) }
+                    if isRunnable(info), !isDataless(program) { tools.append((command.lastPathComponent, program)) }
                 } else if ![ENOENT, ENOTDIR, ELOOP].contains(errno),
                           let place = FileAccess.refusedFolder(program.deletingLastPathComponent()) {
                     unreadable.append(place)

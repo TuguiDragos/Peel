@@ -449,6 +449,23 @@ struct IntelInspectorTests {
         #expect(tools.map { PathPattern.comparablePath(of: $0.url) } == [PathPattern.comparablePath(of: program)])
     }
 
+    @Test func leavesUnreadAProgramWhoseContentsLiveOnlyInTheCloud() throws {
+        let directory = try TemporaryDirectory()
+        let bin = try directory.directory("home/bin")
+        for name in ["here", "inTheCloud"] {
+            try directory.setPermissions(0o755, of: try directory.file("home/bin/\(name)", contents: fatHeader([intel])))
+        }
+
+        let tools = readable {
+            IntelInspector.tools(
+                in: [bin.path(percentEncoded: false)], unreadable: &$0,
+                isDataless: { $0.lastPathComponent == "inTheCloud" }
+            )
+        }
+
+        #expect(tools.map(\.name) == ["here"])
+    }
+
     @Test func findsTheIntelCommandsOfMacPortsAndOfTheHomesFoldersOfPrograms() async throws {
         let directory = try TemporaryDirectory()
         for path in ["root/usr/local/bin/brewed", "root/opt/local/bin/ported", "home/bin/legacy", "home/.local/bin/cli"] {
