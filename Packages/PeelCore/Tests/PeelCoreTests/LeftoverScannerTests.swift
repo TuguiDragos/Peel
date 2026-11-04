@@ -1337,6 +1337,24 @@ struct LeftoverScannerTests {
     }
 
 
+    @Test(.noSyncAppOnThisMac) func aLeftoverWhereASyncAppThatIsGoneLeftItsMarkerCanBeSelected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Projects/.megaignore")
+        let synced = try directory.directory("home/Projects/Example")
+
+        let leftover = await LeftoverScanner.leftover(
+            at: synced,
+            kind: .elsewhere,
+            match: LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: []),
+            parent: ParentAccess(synced.deletingLastPathComponent()),
+            home: directory.url.appending(path: "home").path(percentEncoded: false),
+            root: directory.url.appending(path: "root").path(percentEncoded: false)
+        )
+
+        #expect(leftover.match.heldBack == nil)
+        #expect(leftover.syncedBy == nil)
+    }
+
     @Test(.everySyncAppOnThisMac) func aLeftoverInAFolderASyncAppKeepsInStepCannotBeSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Projects/.megaignore")

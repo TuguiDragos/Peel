@@ -433,6 +433,21 @@ struct InstallersTests {
         #expect(items.filter(\.canBeMoved).map(\.name) == ["Tool.dmg", "Old.iso"])
     }
 
+    @Test(.noSyncAppOnThisMac) func anInstallerWhereASyncAppThatIsGoneLeftItsMarkerCanBeSelected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Documents/.stfolder")
+        try downloaded(try directory.file("Documents/Tool-2.dmg", bytes: 400_000))
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk
+        )
+
+        let item = try #require(scan.items.first { $0.name == "Tool-2.dmg" })
+        #expect(item.heldBack == nil)
+        #expect(item.syncedBy == nil)
+    }
+
     @Test(.everySyncAppOnThisMac) func anInstallerInAFolderASyncAppKeepsInStepCannotBeSelected() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Documents/.stfolder")

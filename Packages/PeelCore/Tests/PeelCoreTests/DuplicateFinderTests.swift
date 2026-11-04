@@ -483,7 +483,7 @@ struct DuplicateFinderTests {
         #expect(group.files.map { $0.syncedBy?.resolved } == [syncthing.resolved, syncthing.resolved])
     }
 
-    @Test func aMarkerLeftByASyncAppThatIsGoneHoldsNoCopyBack() async throws {
+    @Test(.noSyncAppOnThisMac) func aMarkerLeftByASyncAppThatIsGoneHoldsNoCopyBack() async throws {
         let directory = try TemporaryDirectory()
         let contents = randomData(count: 3_000)
         try directory.directory("home/.stfolder")
@@ -491,9 +491,7 @@ struct DuplicateFinderTests {
         try directory.file("home/Documents/Chemicals/books/furnace.pdf", contents: contents)
         try directory.file("home/Documents/Chemicals/books/notes.txt")
 
-        let scan = try await SyncApp.$standIn.withValue({ _ in false }) {
-            try await scan(directory, folders: ["home/Documents"])
-        }
+        let scan = try await scan(directory, folders: ["home/Documents"])
         let group = try #require(scan.groups.first)
 
         #expect(group.files.count == 2)

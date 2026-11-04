@@ -69,6 +69,36 @@ struct SyncedFoldersTests {
         }
     }
 
+    @Test(arguments: [".stfolder/", ".stfolder", ".STFOLDER/", ".sync/ID", ".SynologyWorkingDirectory/", ".megaignore",
+                      ".dropbox.cache/"])
+    func aMarkerOfAnyKindCountsOnlyWhileItsAppIsOnThisMac(marker: String) throws {
+        let directory = try TemporaryDirectory()
+        if marker.hasSuffix("/") {
+            try directory.directory("Sync/" + marker)
+        } else {
+            try directory.file("Sync/" + marker)
+        }
+        let notes = try directory.file("Sync/Documents/notes.txt")
+
+        let present = SyncApp.$standIn.withValue({ _ in true }) { SyncedFolders().keeper(of: notes) }
+        let gone = SyncApp.$standIn.withValue({ _ in false }) { SyncedFolders().keeper(of: notes) }
+
+        #expect(present != nil)
+        #expect(gone == nil)
+    }
+
+    @Test func aDeadLinkNamedLikeAMarkerCountsOnlyWhileItsAppIsOnThisMac() throws {
+        let directory = try TemporaryDirectory()
+        let notes = try directory.file("Sync/Documents/notes.txt")
+        try FileManager.default.createSymbolicLink(
+            atPath: directory.url.appending(path: "Sync/.stfolder").path(percentEncoded: false),
+            withDestinationPath: "/Volumes/org-example-not-connected/Sync"
+        )
+
+        #expect(SyncApp.$standIn.withValue({ _ in true }) { SyncedFolders().keeper(of: notes) } != nil)
+        #expect(SyncApp.$standIn.withValue({ _ in false }) { SyncedFolders().keeper(of: notes) } == nil)
+    }
+
     @Test func findsASyncAppWhereTheMacKeepsIt() throws {
         let directory = try TemporaryDirectory()
         let name = "org-example-sync-\(UUID().uuidString)"
@@ -128,17 +158,21 @@ struct SyncedFoldersTests {
     }
 }
 
-/// Counts every sync app as on this Mac for the test it marks, since no test can install one.
-struct EverySyncAppOnThisMac: TestTrait, TestScoping {
+/// Says for the test it marks whether every sync app is on this Mac, since no test can install or remove one.
+struct SyncAppsOnThisMac: TestTrait, TestScoping {
+    let areThere: Bool
+
     func provideScope(
         for test: Test, testCase: Test.Case?, performing function: @concurrent @Sendable () async throws -> Void
     ) async throws {
-        try await SyncApp.$standIn.withValue({ _ in true }) { try await function() }
+        let areThere = areThere
+        try await SyncApp.$standIn.withValue({ _ in areThere }) { try await function() }
     }
 }
 
-extension Trait where Self == EverySyncAppOnThisMac {
-    static var everySyncAppOnThisMac: Self { Self() }
+extension Trait where Self == SyncAppsOnThisMac {
+    static var everySyncAppOnThisMac: Self { Self(areThere: true) }
+    static var noSyncAppOnThisMac: Self { Self(areThere: false) }
 }
 
 extension SyncKeeper {

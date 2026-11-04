@@ -682,6 +682,19 @@ struct AttackRemovalGuardTests {
     }
 
 
+    @Test(.noSyncAppOnThisMac) func aFolderWhoseSyncAppIsGoneHoldsNothingBack() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.directory("home/Sync/.stfolder")
+        let file = try directory.file("home/Sync/Photos/Beach.jpg")
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
+
+        #expect(guardian.refusal(of: file) == nil)
+        #expect(guardian.refusal(of: file.deletingLastPathComponent()) == nil)
+    }
+
     @Test(.everySyncAppOnThisMac) func whatAFolderASyncAppKeepsInStepHoldsStaysToo() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

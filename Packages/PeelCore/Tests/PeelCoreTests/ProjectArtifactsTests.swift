@@ -1486,6 +1486,23 @@ struct ProjectArtifactsTests {
     }
 
 
+    @Test(.noSyncAppOnThisMac) func searchesWhatASyncAppThatIsGoneLeftItsMarkerIn() async throws {
+        let directory = try TemporaryDirectory()
+        for project in ["Code/kept", "Code/synced", "Shared/app"] {
+            try directory.file("\(project)/package.json")
+            try directory.file("\(project)/node_modules/left/index.js")
+        }
+        try directory.directory("Code/synced/.stfolder")
+        try directory.file("Shared/.megaignore")
+        let code = directory.url.appending(path: "Code", directoryHint: .isDirectory)
+        let shared = directory.url.appending(path: "Shared/app", directoryHint: .isDirectory)
+
+        let scan = await ProjectArtifacts.scan(roots: [code, shared])
+
+        #expect(scan.artifacts.map(\.project.lastPathComponent).sorted() == ["app", "kept", "synced"])
+        #expect(scan.refusedRoots.isEmpty)
+    }
+
     @Test(.everySyncAppOnThisMac) func leavesWhatASyncAppKeepsInStep() async throws {
         let directory = try TemporaryDirectory()
         for project in ["Code/kept", "Code/synced", "Shared/app"] {

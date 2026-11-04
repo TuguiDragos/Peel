@@ -342,6 +342,22 @@ struct FileSearchTests {
         #expect(results.leftOut == [.syncs: 1])
     }
 
+    @Test(.noSyncAppOnThisMac) func listsWhatAFolderWhoseSyncAppIsGoneHolds() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("home/Sync/.megaignore")
+        let synced = try directory.file("home/Sync/Report.pdf")
+
+        let results = FileSearch.results(
+            from: [synced.path(percentEncoded: false)],
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url)
+        )
+
+        #expect(results.files.map(\.url.lastPathComponent) == ["Report.pdf"])
+        #expect(results.leftOut.isEmpty)
+        #expect(results.syncedBy.isEmpty)
+    }
+
     @Test(.everySyncAppOnThisMac) func namesTheAppThatSyncsWhatItLeftOut() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
