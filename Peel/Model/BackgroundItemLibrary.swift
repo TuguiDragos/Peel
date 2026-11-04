@@ -15,7 +15,7 @@ final class BackgroundItemLibrary {
     var isScanning: Bool { scanRun.isRunning }
     /// Whether a scan runs that VoiceOver is told of. An action says how it went itself, and its own scan follows.
     var isScanningAsAsked: Bool { isScanning && runningActionItemIDs.isEmpty }
-    /// Counts the scans that finished, so an item's page asks macOS about it again with each.
+    /// Counts the scans that finished: what an action did is told to VoiceOver only once a scan after it has ended.
     private(set) var scans = 0
     /// The items with an action in progress. Each is tracked on its own, so one row's action ending never
     /// clears another row's busy state.

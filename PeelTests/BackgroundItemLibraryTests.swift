@@ -36,7 +36,7 @@ struct BackgroundItemLibraryTests {
         await library.readAgain(installedApps: [])
 
         #expect(library.items?.map(\.label) == [job.label])
-        #expect(library.scans == scans + 1, "the item's page asks macOS again")
+        #expect(library.scans == scans + 1, "a read again counts as a scan that ended")
         #expect(reads.wereShownAsAScan == [true, false], "a read again is announced to nobody")
     }
 
