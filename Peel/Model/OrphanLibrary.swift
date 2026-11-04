@@ -1,4 +1,3 @@
-import AppKit
 import Foundation
 import Observation
 import PeelCore
@@ -79,12 +78,7 @@ final class OrphanLibrary {
             let remembered = await AppMemory().remember(installedApps)
             // What is currently running is better evidence than anything worked out from what is installed: a
             // helper or an agent can keep a folder that no app bundle claims.
-            let running = Dictionary(
-                NSWorkspace.shared.runningApplications.compactMap { app in
-                    app.bundleIdentifier.map { ($0, app.localizedName ?? $0) }
-                },
-                uniquingKeysWith: { first, _ in first }
-            )
+            let running = RunningCopies.current
             let scan = await OrphanScanner(exclusions: ExclusionsStore.shared.exclusions).scan(
                 installedApps: installedApps,
                 remembered: remembered,

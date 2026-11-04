@@ -75,9 +75,33 @@ struct OrphanConfidenceTests {
     @Test("Something running under that identifier settles it, whatever else is true")
     func runningOutranksEverything() {
         let old = group(written: 400 * 24 * 60 * 60, remembered: left("Example"))
-        let judged = OrphanConfidence.judge(old, running: ["com.example.app": "Example"], now: now)
+        let judged = OrphanConfidence.judge(old, running: running("com.example.app", bundle: "Example"), now: now)
         #expect(judged.level == .unsure)
         #expect(judged.reasons == [.running("Example")])
+    }
+
+    @Test("What runs is named as Finder names its bundle, else by its identifier, the first of each identifier")
+    func whatRunsIsNamedAsFinderNamesIt() {
+        let old = group(identifier: "com.example.app", written: 400 * 24 * 60 * 60)
+        let processes = [
+            process("com.example.app.helper", bundle: "Example Helper"), process("com.example.app.helper", bundle: "Other"),
+        ]
+        let byIdentifier = RunningCopies.byIdentifier(processes)
+        #expect(OrphanConfidence.judge(old, running: byIdentifier, now: now).reasons == [.running("Example Helper")])
+        #expect(OrphanConfidence.judge(old, running: running("com.example.app.helper"), now: now).reasons == [
+            .running("com.example.app.helper"),
+        ])
+    }
+
+    private func process(_ identifier: String, bundle: String? = nil) -> RunningCopies.Process {
+        RunningCopies.Process(
+            identifier: 1, bundleIdentifier: identifier,
+            bundleURL: bundle.map { URL(filePath: "/Volumes/org.example.none/\($0).app", directoryHint: .isDirectory) }
+        )
+    }
+
+    private func running(_ identifier: String, bundle: String? = nil) -> [String: RunningCopies.Process] {
+        [identifier: process(identifier, bundle: bundle)]
     }
 
     @Test("A folder written this week belongs to something that still runs, even if no app claims it")
@@ -144,31 +168,32 @@ struct OrphanConfidenceTests {
             lastPath: "/Applications/Example.app"
         )
         let itsOwn = group(identifier: "md.example", written: 400 * 24 * 60 * 60, remembered: gone)
-        #expect(OrphanConfidence.judge(itsOwn, running: ["md.example.helper": "Running md.example.helper"], now: now).reasons == [.running("Running md.example.helper")])
+        #expect(OrphanConfidence.judge(itsOwn, running: running("md.example.helper"), now: now).reasons == [.running("md.example.helper")])
         let nobodysPrefix = group(identifier: "md.example", written: 400 * 24 * 60 * 60)
-        #expect(OrphanConfidence.judge(nobodysPrefix, running: ["md.example.helper": "Running md.example.helper"], now: now).level == .certain)
+        #expect(OrphanConfidence.judge(nobodysPrefix, running: running("md.example.helper"), now: now).level == .certain)
     }
 
     @Test("What is running is matched the way an app is: a helper runs under its app's identifier and a longer one")
     func aRunningHelperOrItsAppBothCount() {
         let old = group(identifier: "com.example.app", written: 400 * 24 * 60 * 60)
-        #expect(OrphanConfidence.judge(old, running: ["com.example.app.helper": "Running com.example.app.helper"], now: now).reasons == [.running("Running com.example.app.helper")])
-        #expect(OrphanConfidence.judge(old, running: ["COM.EXAMPLE.APP": "Running COM.EXAMPLE.APP"], now: now).reasons == [.running("Running COM.EXAMPLE.APP")])
+        #expect(OrphanConfidence.judge(old, running: running("com.example.app.helper"), now: now).reasons == [.running("com.example.app.helper")])
+        #expect(OrphanConfidence.judge(old, running: running("COM.EXAMPLE.APP"), now: now).reasons == [.running("COM.EXAMPLE.APP")])
         let helper = group(identifier: "com.example.app.helper", written: 400 * 24 * 60 * 60)
-        #expect(OrphanConfidence.judge(helper, running: ["com.example.app": "Running com.example.app"], now: now).reasons == [.running("Running com.example.app")])
+        #expect(OrphanConfidence.judge(helper, running: running("com.example.app"), now: now).reasons == [.running("com.example.app")])
         // Two components name a maker, not an app, and `com.example.apple` is not a helper of `com.example.app`.
         let other = group(identifier: "com.example.other", written: 400 * 24 * 60 * 60)
-        #expect(OrphanConfidence.judge(other, running: ["com.example": "Running com.example"], now: now).level == .certain)
-        #expect(OrphanConfidence.judge(old, running: ["com.example.apple": "Running com.example.apple"], now: now).level == .certain)
+        #expect(OrphanConfidence.judge(other, running: running("com.example"), now: now).level == .certain)
+        #expect(OrphanConfidence.judge(old, running: running("com.example.apple"), now: now).level == .certain)
     }
 
     @Test("A Safari web app is its own app: Safari running, or another web app, says nothing about it")
     func safariRunningSaysNothingOfAWebApp() {
         let identifier = "com.apple.Safari.WebApp.0E4F6A2C-1B3D-4E5F-8A9B-0C1D2E3F4A5B"
         let webApp = group(identifier: identifier, written: 400 * 24 * 60 * 60)
-        #expect(OrphanConfidence.judge(webApp, running: ["com.apple.Safari": "Running com.apple.Safari"], now: now).level == .certain)
-        #expect(OrphanConfidence.judge(webApp, running: ["com.apple.Safari.WebApp": "Running com.apple.Safari.WebApp"], now: now).level == .certain)
-        #expect(OrphanConfidence.judge(webApp, running: [identifier: "Web App"], now: now).reasons == [.running("Web App")])
+        #expect(OrphanConfidence.judge(webApp, running: running("com.apple.Safari"), now: now).level == .certain)
+        #expect(OrphanConfidence.judge(webApp, running: running("com.apple.Safari.WebApp"), now: now).level == .certain)
+        let named = OrphanConfidence.judge(webApp, running: running(identifier, bundle: "Web App"), now: now)
+        #expect(named.reasons == [.running("Web App")])
     }
 
     @Test("An app Peel watched leave is the strongest thing it can say")

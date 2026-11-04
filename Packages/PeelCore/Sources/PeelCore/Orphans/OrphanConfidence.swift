@@ -66,15 +66,15 @@ public struct OrphanConfidence: Sendable, Hashable {
     public static func judge(
         _ group: OrphanGroup,
         installedTeams: Set<String> = [],
-        running: [String: String] = [:],
+        running: [String: RunningCopies.Process] = [:],
         now: Date = .now
     ) -> OrphanConfidence {
         let declared = group.rememberedApp?.bundleIdentifier.lowercased()
         let isTheGroups = { (identifier: String) in
             isOneApp(identifier.lowercased(), group.identifier.lowercased(), declared: declared)
         }
-        if let match = running.keys.sorted().first(where: isTheGroups) {
-            return OrphanConfidence(level: .unsure, reasons: [.running(running[match] ?? match)])
+        if let match = running.keys.filter(isTheGroups).min() {
+            return OrphanConfidence(level: .unsure, reasons: [.running(running[match]?.name ?? match)])
         }
         // A plug-in's row says so and isn't recommended, while what else the app left is judged by the signs below.
         if group.items.allSatisfy({ $0.heldBack == .loadedByOtherApps }) {

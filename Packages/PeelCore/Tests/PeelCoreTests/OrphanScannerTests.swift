@@ -668,7 +668,11 @@ struct OrphanScannerTests {
         }
 
         let scan = await scanner(in: directory).scan(
-            installedApps: installed, remembered: gone, running: ["com.gone.busy": "Busy"]
+            installedApps: installed, remembered: gone,
+            running: [RunningCopies.Process(
+                identifier: 1, bundleIdentifier: "com.gone.busy",
+                bundleURL: URL(filePath: "/Volumes/org.example.none/Busy.app", directoryHint: .isDirectory)
+            )]
         )
         let paths = { (urls: [URL]) in Set(urls.map(PathPattern.comparablePath(of:))) }
         func group(_ identifier: String) -> OrphanGroup? { scan.groups.first { $0.identifier == identifier } }

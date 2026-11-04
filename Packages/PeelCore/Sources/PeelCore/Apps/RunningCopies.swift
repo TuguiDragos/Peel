@@ -25,6 +25,14 @@ public enum RunningCopies {
         }
     }
 
+    /// `processes` by their bundle identifier, the first of each, as the judgments of orphaned files read them.
+    public static func byIdentifier(_ processes: [Process]) -> [String: Process] {
+        Dictionary(
+            processes.compactMap { process in process.bundleIdentifier.map { ($0, process) } },
+            uniquingKeysWith: { first, _ in first }
+        )
+    }
+
     @MainActor
     public static var current: [Process] {
         NSWorkspace.shared.runningApplications.compactMap { running in

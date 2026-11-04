@@ -104,12 +104,7 @@ struct OrphansCommand: AsyncParsableCommand {
         // The same signals the app uses (the apps Peel remembers, the apps running, and what uninstalls left for an
         // administrator), so both judge these files alike. What Peel remembers is only read here, never written.
         let remembered = await AppMemory().load()
-        let running = Dictionary(
-            await RunningCopies.current.compactMap { process in
-                process.bundleIdentifier.map { ($0, process.name ?? $0) }
-            },
-            uniquingKeysWith: { first, _ in first }
-        )
+        let running = await RunningCopies.current
         let exclusions = await UnreadableExclusions.load()
         let scanner = OrphanScanner(exclusions: exclusions)
         let owners = OrphanOwners().load()
