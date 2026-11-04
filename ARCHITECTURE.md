@@ -184,7 +184,8 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      through Control-C (`Uninterrupted`).
    - While History cannot be read nothing moves (`RemovalLog.canBeRead`, asked by `TrashService` before a removal)
      until Start Over, on the History page, sets the unreadable file aside, and while it cannot be written, its folder
-     closed or its disk without room for the copy a safe write makes, nothing moves either (`RemovalLog.canBeWritten`).
+     closed, its disk without room for the copy a safe write makes or silent about its free space, or the journal
+     beside it unusable, nothing moves either, and Peel says which (`RemovalLog.writeProblem`).
    - What Peel refused to move is recorded too (`refusals.json`), and History lists it under Not Moved, one
      removal to an entry, the latest 5,000 items at most, leaving the oldest out whole and counting them in
      `totals.json`, so its page and `peel history --refused` say how many.

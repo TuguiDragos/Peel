@@ -134,14 +134,22 @@ struct DocumentationTests {
         #expect(Self.words(in: #"let tag = "CACHEDIR.TAG" // BrowserWallets.swift"#).isSuperset(of: ["CACHEDIR", "BrowserWallets"]))
     }
 
-    @Test func readsTheTypeAPathOrACallStartsWith() {
-        let text = "`TrashService`, `RemovalLog.canBeRead`, `Homebrew.overrides()`, `peel`, `HOMEBREW_NO_AUTO_UPDATE`"
-        #expect(Self.names(in: text) == ["TrashService", "RemovalLog", "Homebrew"])
+    @Test func readsEveryNameOfAPathOrACall() {
+        let text = "`TrashService`, `RemovalLog.canBeRead`, `Homebrew.overrides()`, `TrashService.trash(apps:thenFiles:)`, "
+            + "`peel`, `HOMEBREW_NO_AUTO_UPDATE`"
+        #expect(
+            Self.names(in: text)
+                == ["TrashService", "RemovalLog", "canBeRead", "Homebrew", "overrides", "TrashService", "trash"]
+        )
     }
 
+    /// Every name of a type, a path through it, or a call, its labels left out, so a member renamed in the code is
+    /// found as well as a type.
     static func names(in text: String) -> [String] {
-        let name = try! Regex(#"`([A-Z][A-Za-z0-9]+)(?:\.[A-Za-z0-9_]+)*(?:\(\))?`"#, as: (Substring, Substring).self)
-        return text.matches(of: name).map { String($0.output.1) }
+        let name = try! Regex(
+            #"`([A-Z][A-Za-z0-9]+(?:\.[A-Za-z_][A-Za-z0-9_]*)*)(?:\([^`()]*\))?`"#, as: (Substring, Substring).self
+        )
+        return text.matches(of: name).flatMap { $0.output.1.split(separator: ".").map(String.init) }
     }
 
     static func code() throws -> String {
