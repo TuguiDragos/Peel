@@ -2,41 +2,109 @@ import AppKit
 import PeelCore
 import SwiftUI
 
-/// A short list of apps to choose one from, under a search field. A menu of every app would run to the screen's edge,
-/// and macOS gives a menu no shorter limit, so this list shows a few rows and scrolls past them.
+/// What a chooser offers: an app, or a command-line tool Homebrew installed.
+enum OwnerChoice: Identifiable, Hashable {
+    case app(InstalledApp)
+    case tool(HomebrewPackage)
+
+    enum ID: Hashable {
+        case app(InstalledApp.ID)
+        case tool(String)
+    }
+
+    var id: ID {
+        switch self {
+        case .app(let app): .app(app.id)
+        case .tool(let tool): .tool(tool.name)
+        }
+    }
+
+    var name: String {
+        switch self {
+        case .app(let app): app.name
+        case .tool(let tool): tool.name
+        }
+    }
+
+    /// What Orphaned Files keeps the choice as: an app by its bundle identifier, so nil for one without, and a tool by
+    /// its formula.
+    var owner: OrphanOwner? {
+        switch self {
+        case .app(let app): app.bundleIdentifier.map(OrphanOwner.app)
+        case .tool(let tool): .formula(tool.name)
+        }
+    }
+}
+
+/// A short list of apps, and of command-line tools when any are offered, to choose one from, under a search field. A
+/// menu of every app would run to the screen's edge, and macOS gives a menu no shorter limit, so this list shows a few
+/// rows and scrolls past them.
 struct AppChooser: View {
     private static let visibleRows = 8
     private static let rowHeight: CGFloat = 28
+    private static let headingHeight: CGFloat = 22
 
     @Environment(AppLibrary.self) private var library
-    let apps: [InstalledApp]
-    let choose: (InstalledApp) -> Void
+    private let apps: [InstalledApp]
+    private let tools: [HomebrewPackage]
+    private let choose: (OwnerChoice) -> Void
 
     @State private var search = ""
-    @State private var highlighted: InstalledApp.ID?
+    @State private var highlighted: OwnerChoice.ID?
 
-    private var shown: [InstalledApp] {
+    init(apps: [InstalledApp], choose: @escaping (InstalledApp) -> Void) {
+        self.init(apps: apps, tools: []) { choice in
+            if case .app(let app) = choice { choose(app) }
+        }
+    }
+
+    init(apps: [InstalledApp], tools: [HomebrewPackage], choose: @escaping (OwnerChoice) -> Void) {
+        self.apps = apps
+        self.tools = tools
+        self.choose = choose
+    }
+
+    private var shownApps: [InstalledApp] {
         apps.filter { AppListFilter.matches($0, text: search, developer: library.developer(of: $0)) }
             .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
 
+    private var shownTools: [HomebrewPackage] {
+        tools.filter { search.isEmpty || SearchText.matches($0.name, search) }
+            .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+    }
+
+    private var shown: [OwnerChoice] {
+        shownApps.map(OwnerChoice.app) + shownTools.map(OwnerChoice.tool)
+    }
+
     var body: some View {
-        let shown = shown
+        let apps = shownApps
+        let tools = shownTools
+        let shown = apps.map(OwnerChoice.app) + tools.map(OwnerChoice.tool)
+        // The two kinds get a heading each only while both are offered.
+        let headings = self.tools.isEmpty ? 0 : (apps.isEmpty ? 0 : 1) + (tools.isEmpty ? 0 : 1)
         ScrollViewReader { proxy in
             VStack(spacing: 8) {
-                SearchBox(text: $search, prompt: String(localized: "Search Applications")) { step in
+                SearchBox(text: $search, prompt: prompt) { step in
                     highlighted = ListHighlight.moved(from: highlighted, by: step, among: shown.map(\.id))
                     if let highlighted { proxy.scrollTo(highlighted) }
                 } onReturn: {
-                    if let app = shown.first(where: { $0.id == highlighted }) { choose(app) }
+                    if let choice = shown.first(where: { $0.id == highlighted }) { choose(choice) }
                 }
                 ScrollView {
                     LazyVStack(spacing: 0) {
-                        ForEach(shown) { row($0) }
+                        if headings > 0, !apps.isEmpty { heading("Apps") }
+                        ForEach(apps.map(OwnerChoice.app)) { row($0) }
+                        if headings > 0, !tools.isEmpty { heading("Command-Line Tools") }
+                        ForEach(tools.map(OwnerChoice.tool)) { row($0) }
                     }
                 }
                 .scrollBounceBehavior(.basedOnSize)
-                .frame(height: CGFloat(min(max(shown.count, 1), Self.visibleRows)) * Self.rowHeight)
+                .frame(
+                    height: CGFloat(min(max(shown.count, 1), Self.visibleRows)) * Self.rowHeight
+                        + CGFloat(headings) * Self.headingHeight
+                )
                 .overlay {
                     if shown.isEmpty {
                         Text("No Results")
@@ -50,14 +118,33 @@ struct AppChooser: View {
         }
     }
 
-    private func row(_ app: InstalledApp) -> some View {
+    private var prompt: String {
+        tools.isEmpty ? String(localized: "Search Applications") : String(localized: "Search Apps and Tools")
+    }
+
+    private func heading(_ title: LocalizedStringKey) -> some View {
+        Text(title)
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 6)
+            .frame(height: Self.headingHeight)
+    }
+
+    private func row(_ choice: OwnerChoice) -> some View {
         Button {
-            choose(app)
+            choose(choice)
         } label: {
             HStack(spacing: 8) {
-                AppIcon(url: app.url)
-                    .frame(width: 20, height: 20)
-                Text(verbatim: app.name)
+                switch choice {
+                case .app(let app):
+                    AppIcon(url: app.url)
+                        .frame(width: 20, height: 20)
+                case .tool:
+                    Image(systemName: "terminal")
+                        .frame(width: 20, height: 20)
+                }
+                Text(verbatim: choice.name)
                     .lineLimit(1)
                     .truncationMode(.middle)
                 Spacer(minLength: 0)
@@ -67,9 +154,17 @@ struct AppChooser: View {
             .contentShape(.rect)
         }
         .buttonStyle(.plain)
-        .background(.quaternary.opacity(highlighted == app.id ? 1 : 0), in: .rect(cornerRadius: 6))
-        .onHover { if $0 { highlighted = app.id } }
-        .help(Text(verbatim: app.url.abbreviatedPath))
+        .background(.quaternary.opacity(highlighted == choice.id ? 1 : 0), in: .rect(cornerRadius: 6))
+        .onHover { if $0 { highlighted = choice.id } }
+        .help(Text(verbatim: help(for: choice)))
+    }
+
+    /// Where an app is, or what a tool does, as Homebrew says it.
+    private func help(for choice: OwnerChoice) -> String {
+        switch choice {
+        case .app(let app): app.url.abbreviatedPath
+        case .tool(let tool): tool.summary ?? tool.name
+        }
     }
 }
 

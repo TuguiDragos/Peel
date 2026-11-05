@@ -5,10 +5,11 @@ struct OrphanList: View {
     @Environment(AppLibrary.self) private var library
     @Environment(OrphanLibrary.self) private var orphans
     @Environment(HelperModel.self) private var helper
+    @Environment(HomebrewLibrary.self) private var homebrew
     @Environment(\.openSettings) private var openSettings
     @State private var searchText = ""
     @State private var isRescanning = false
-    @State private var notGiven: (app: String, why: FileProblem?)?
+    @State private var notGiven: (name: String, why: FileProblem?)?
     @State private var groupToGive: OrphanGroup?
 
     var body: some View {
@@ -154,10 +155,13 @@ struct OrphanList: View {
                         .lineLimit(1)
                         .truncationMode(.middle)
                 }
-                // What a group belongs to is kept by the app's identifier.
-                AppChooser(apps: library.apps.filter { $0.bundleIdentifier != nil }) { app in
+                // What a group belongs to is kept by the app's identifier or the tool's formula.
+                AppChooser(
+                    apps: library.apps.filter { $0.bundleIdentifier != nil }, tools: homebrew.formulae
+                ) { choice in
                     groupToGive = nil
-                    if case .notSaved(let why) = orphans.give(group, to: app) { notGiven = (app.name, why) }
+                    guard let owner = choice.owner else { return }
+                    if case .notSaved(let why) = orphans.give(group, to: owner) { notGiven = (choice.name, why) }
                 }
                 HStack {
                     Spacer()
@@ -169,7 +173,7 @@ struct OrphanList: View {
             .padding(20)
         }
         .alert(
-            "Peel couldn’t save that these files belong to \(notGiven?.app ?? "")",
+            "Peel couldn’t save that these files belong to \(notGiven?.name ?? "")",
             isPresented: Binding(get: { notGiven != nil }, set: { if !$0 { notGiven = nil } })
         ) {
             if orphans.owners == nil {

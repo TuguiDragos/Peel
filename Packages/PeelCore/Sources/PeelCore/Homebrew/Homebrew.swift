@@ -905,6 +905,40 @@ public enum Homebrew {
         try await installed().packages
     }
 
+    /// The formulae installed, by name, as Homebrew counts them (`Formula.racks` in Homebrew 7's `formula.rb`): the
+    /// folders of its Cellar, not hidden and not links, that hold a folder. Empty where there is no Homebrew, and nil
+    /// where there is one Peel won't run or the Cellar can't be asked or listed: then they aren't known.
+    @concurrent
+    public static func installedFormulae(asking answers: Answers = Answers()) async -> Set<String>? {
+        guard executableURL != nil else { return refusedInAUsualPlace() == nil ? [] : nil }
+        guard let cellar = await answers.answer(["--cellar"]).flatMap(folder(answering:)) else { return nil }
+        return formulae(inCellar: cellar)
+    }
+
+    static func formulae(inCellar cellar: URL) -> Set<String>? {
+        let racks: [String]
+        do {
+            racks = try FileManager.default.contentsOfDirectory(atPath: cellar.path(percentEncoded: false))
+        } catch CocoaError.fileReadNoSuchFile {
+            return []
+        } catch {
+            return nil
+        }
+        return Set(racks.filter { name in
+            guard !name.hasPrefix(".") else { return false }
+            // Without the slash at its end, since `lstat` follows a link named with one.
+            let rack = cellar.appending(path: name, directoryHint: .notDirectory).path(percentEncoded: false)
+            var info = stat()
+            guard lstat(rack, &info) == 0, info.st_mode & S_IFMT == S_IFDIR,
+                  let kegs = try? FileManager.default.contentsOfDirectory(atPath: rack)
+            else { return false }
+            var isFolder: ObjCBool = false
+            return kegs.contains { keg in
+                FileManager.default.fileExists(atPath: rack + "/" + keg, isDirectory: &isFolder) && isFolder.boolValue
+            }
+        })
+    }
+
     /// The installed packages, each with what Homebrew's own settings make of it, and those settings, or nil when
     /// Homebrew would not say them.
     public static func installed(asking answers: Answers = Answers()) async throws(CommandFailure)

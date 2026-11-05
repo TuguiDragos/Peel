@@ -22,6 +22,36 @@ struct HomebrewTests {
         #expect(Homebrew.installation(versionAnswer: "Homebrew 7.0.9\n", prefixAnswer: "/p\n", cellarAnswer: "c\n") == nil)
     }
 
+    @Test func countsAFormulaInstalledAsHomebrewDoes() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Cellar/exampletool/1.0/bin/exampletool")
+        try directory.file("Cellar/.hidden/1.0/bin/x")
+        try directory.directory("Cellar/emptied")
+        try directory.file("Cellar/stray")
+        try directory.file("elsewhere/rack/1.0/bin/x")
+        try directory.file("elsewhere/keg/bin/y")
+        let cellar = directory.url.appending(path: "Cellar", directoryHint: .isDirectory)
+        try FileManager.default.createSymbolicLink(
+            at: cellar.appending(path: "linked"), withDestinationURL: directory.url.appending(path: "elsewhere/rack")
+        )
+        try directory.directory("Cellar/kegged")
+        try FileManager.default.createSymbolicLink(
+            at: cellar.appending(path: "kegged/2.0"), withDestinationURL: directory.url.appending(path: "elsewhere/keg")
+        )
+
+        #expect(Homebrew.formulae(inCellar: cellar) == ["exampletool", "kegged"])
+        #expect(Homebrew.formulae(inCellar: directory.url.appending(path: "none", directoryHint: .isDirectory)) == [])
+    }
+
+    @Test(.permissionsHold) func formulaeAreNotKnownWhenTheCellarCannotBeListed() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Cellar/exampletool/1.0/bin/exampletool")
+        try directory.setPermissions(0, of: "Cellar")
+        defer { try? directory.setPermissions(0o755, of: "Cellar") }
+
+        #expect(Homebrew.formulae(inCellar: directory.url.appending(path: "Cellar", directoryHint: .isDirectory)) == nil)
+    }
+
     @Test func aCommandForTerminalKeepsTheFormulaeTheExclusionsCover() {
         #expect(Homebrew.terminalCommand("brew upgrade --cask example", keeping: []) == "brew upgrade --cask example")
         #expect(

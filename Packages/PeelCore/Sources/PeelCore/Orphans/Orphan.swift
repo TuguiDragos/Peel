@@ -121,11 +121,13 @@ public struct OrphanScan: Sendable {
         keeping { $0.id != id }
     }
 
-    /// The same scan without the groups `owners` give to an app of `installedApps`, for a scan that ran while the
-    /// person gave one away.
-    public func leavingOut(given owners: [String: String], installedApps: [InstalledApp]) -> OrphanScan {
+    /// The same scan without the groups `owners` give to an app of `installedApps` or a formula of
+    /// `installedFormulae` (`OrphanOwners.given`), for a scan that ran while the person gave one away.
+    public func leavingOut(
+        given owners: [String: OrphanOwner], installedApps: [InstalledApp], installedFormulae: Set<String>?
+    ) -> OrphanScan {
         let here = Set(installedApps.compactMap { $0.bundleIdentifier?.lowercased() })
-        let given = Set(owners.filter { here.contains($0.value.lowercased()) }.keys.map { $0.lowercased() })
+        let given = OrphanOwners.given(owners, apps: here, formulae: installedFormulae)
         return keeping { !OrphanScanner.isInAGroup($0.identifier, among: given) }
     }
 

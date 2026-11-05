@@ -35818,6 +35818,112 @@
         }
       }
     },
+    "Command-Line Tools" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nástroje příkazového řádku"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Befehlszeilentools"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herramientas de línea de comandos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outils de ligne de commande"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Strumenti da riga di comando"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コマンドラインツール"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "명령어 라인 도구"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commandoregeltools"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Narzędzia wiersza polecenia"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ferramentas de Linha de Comando"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumente în linie de comandă"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Инструменты командной строки"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kommandoradsverktyg"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komut Satırı Araçları"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інструменти командного рядка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "命令行工具"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "命令列工具"
+          }
+        }
+      }
+    },
     "Command-line tool" : {
       "localizations" : {
         "cs" : {
@@ -112559,108 +112665,108 @@
         }
       }
     },
-    "No orphaned files are said to belong to an app." : {
+    "No orphaned files are said to belong to an app or a tool." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "U žádných osiřelých souborů jste zatím neuvedli, že patří některé aplikaci."
+            "value" : "U žádných osiřelých souborů jste zatím neuvedli, že patří některé aplikaci nebo některému nástroji."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Für keine verwaisten Dateien wurde angegeben, dass sie zu einer App gehören."
+            "value" : "Für keine verwaisten Dateien wurde angegeben, dass sie zu einer App oder einem Befehlszeilentool gehören."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No has indicado que ningún archivo huérfano pertenezca a una app."
+            "value" : "No has indicado que ningún archivo huérfano pertenezca a una app ni a una herramienta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aucun fichier orphelin n’a été attribué à une app."
+            "value" : "Aucun fichier orphelin n’a été attribué à une app ou à un outil."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nessun file orfano è indicato come appartenente a un’app."
+            "value" : "Nessun file orfano è indicato come appartenente a un’app o a uno strumento."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリに属すると指定した孤立ファイルはありません。"
+            "value" : "アプリまたはコマンドラインツールに属すると指定した孤立ファイルはありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱의 소유로 지정한 주인 없는 파일이 없습니다."
+            "value" : "앱 또는 명령어 라인 도구의 소유로 지정한 주인 없는 파일이 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Er zijn geen verweesde bestanden die volgens jou bij een app horen."
+            "value" : "Er zijn geen verweesde bestanden die volgens jou bij een app of een commandoregeltool horen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nie wskazano żadnych osieroconych plików jako należących do aplikacji."
+            "value" : "Nie wskazano żadnych osieroconych plików jako należących do aplikacji lub narzędzia."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nenhum arquivo órfão foi indicado como pertencente a um app."
+            "value" : "Nenhum arquivo órfão foi indicado como pertencente a um app ou a uma ferramenta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nu ați atribuit încă niciun fișier orfan unei aplicații."
+            "value" : "Nu ați atribuit încă niciun fișier orfan unei aplicații sau unui instrument."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Нет осиротевших файлов, отмеченных как принадлежащие приложению."
+            "value" : "Нет осиротевших файлов, отмеченных как принадлежащие приложению или инструменту."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Du har inte angett att några övergivna filer hör till en app."
+            "value" : "Du har inte angett att några övergivna filer hör till en app eller ett verktyg."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir uygulamaya ait olduğunu söylediğiniz sahipsiz dosya yok."
+            "value" : "Bir uygulamaya veya araca ait olduğunu söylediğiniz sahipsiz dosya yok."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ви ще не вказали, що якісь покинуті файли належать програмі."
+            "value" : "Ви ще не вказали, що якісь покинуті файли належать програмі або інструменту."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "还没有被标为属于某个App的孤立文件。"
+            "value" : "还没有被标为属于某个App或命令行工具的孤立文件。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你還沒有指定任何孤立檔案屬於某個App。"
+            "value" : "你還沒有指定任何孤立檔案屬於某個App或命令列工具。"
           }
         }
       }
@@ -132999,214 +133105,214 @@
         }
       }
     },
-    "Orphaned Files That Belong to an App" : {
+    "Orphaned Files That Belong to an App or a Tool" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Osiřelé soubory, které patří aplikaci"
+            "value" : "Osiřelé soubory, které patří aplikaci nebo nástroji"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verwaiste Dateien, die zu einer App gehören"
+            "value" : "Verwaiste Dateien, die zu einer App oder einem Befehlszeilentool gehören"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Archivos huérfanos que pertenecen a una app"
+            "value" : "Archivos huérfanos que pertenecen a una app o a una herramienta"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fichiers orphelins appartenant à une app"
+            "value" : "Fichiers orphelins appartenant à une app ou à un outil"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "File orfani che appartengono a un’app"
+            "value" : "File orfani che appartengono a un’app o a uno strumento"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリに属する孤立ファイル"
+            "value" : "アプリまたはコマンドラインツールに属する孤立ファイル"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱의 소유로 지정한 주인 없는 파일"
+            "value" : "앱 또는 명령어 라인 도구의 소유로 지정한 주인 없는 파일"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verweesde bestanden die bij een app horen"
+            "value" : "Verweesde bestanden die bij een app of een commandoregeltool horen"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Osierocone pliki należące do aplikacji"
+            "value" : "Osierocone pliki należące do aplikacji lub narzędzia"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Arquivos Órfãos que Pertencem a um App"
+            "value" : "Arquivos Órfãos que Pertencem a um App ou a uma Ferramenta"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fișiere orfane care aparțin unei aplicații"
+            "value" : "Fișiere orfane care aparțin unei aplicații sau unui instrument"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Осиротевшие файлы, принадлежащие приложению"
+            "value" : "Осиротевшие файлы, принадлежащие приложению или инструменту"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Övergivna filer som hör till en app"
+            "value" : "Övergivna filer som hör till en app eller ett verktyg"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir Uygulamaya Ait Sahipsiz Dosyalar"
+            "value" : "Bir Uygulamaya veya Araca Ait Sahipsiz Dosyalar"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Покинуті файли, що належать програмі"
+            "value" : "Покинуті файли, що належать програмі або інструменту"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "属于某个App的孤立文件"
+            "value" : "属于某个App或命令行工具的孤立文件"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "屬於某個App的孤立檔案"
+            "value" : "屬於某個App或命令列工具的孤立檔案"
           }
         }
       }
     },
-    "Orphaned Files doesn’t list these while the app you said they belong to is installed. Nothing of them was moved. Remove one to list it again." : {
+    "Orphaned Files doesn’t list these while the app or the command-line tool you said they belong to is installed. Nothing of them was moved. Remove one to list it again." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stránka Osiřelé soubory je nezobrazuje, dokud je nainstalovaná aplikace, o které jste uvedli, že jí patří. Nic z nich nebylo přesunuto. Chcete-li některou položku znovu zobrazit, odeberte ji."
+            "value" : "Stránka Osiřelé soubory je nezobrazuje, dokud je nainstalovaná aplikace nebo nástroj příkazového řádku, o kterých jste uvedli, že jim patří. Nic z nich nebylo přesunuto. Chcete-li některou položku znovu zobrazit, odeberte ji."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Seite „Verwaiste Dateien“ zeigt diese nicht an, solange die App installiert ist, zu der sie laut deiner Angabe gehören. Nichts davon wurde verschoben. Entferne einen Eintrag, damit er dort wieder angezeigt wird."
+            "value" : "Die Seite „Verwaiste Dateien“ zeigt diese nicht an, solange die App oder das Befehlszeilentool installiert ist, zu der bzw. dem sie laut deiner Angabe gehören. Nichts davon wurde verschoben. Entferne einen Eintrag, damit er dort wieder angezeigt wird."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La página Archivos huérfanos no los muestra mientras esté instalada la app a la que has indicado que pertenecen. No se ha trasladado nada de ellos. Elimina uno para volver a mostrarlo."
+            "value" : "La página Archivos huérfanos no los muestra mientras esté instalada la app o la herramienta de línea de comandos a la que has indicado que pertenecen. No se ha trasladado nada de ellos. Elimina uno para volver a mostrarlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La page Fichiers orphelins ne les liste pas tant que l’app à laquelle vous les avez attribués est installée. Aucun d’eux n’a été déplacé. Retirez-en un pour qu’il soit de nouveau listé."
+            "value" : "La page Fichiers orphelins ne les liste pas tant que l’app ou l’outil de ligne de commande auquel vous les avez attribués est installé. Aucun d’eux n’a été déplacé. Retirez-en un pour qu’il soit de nouveau listé."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“File orfani” non elenca questi file finché è installata l’app a cui hai detto che appartengono. Nessuno di questi è stato spostato. Rimuovine uno per elencarlo di nuovo."
+            "value" : "“File orfani” non elenca questi file finché è installata l’app o lo strumento da riga di comando a cui hai detto che appartengono. Nessuno di questi è stato spostato. Rimuovine uno per elencarlo di nuovo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "指定したアプリがインストールされている間は、“孤立ファイル”にこれらを表示しません。どの項目も移動していません。再び表示するには、リストから削除してください。"
+            "value" : "指定したアプリまたはコマンドラインツールがインストールされている間は、“孤立ファイル”にこれらを表示しません。どの項目も移動していません。再び表示するには、リストから削除してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "주인 없는 파일 페이지는 소유 앱으로 지정한 앱이 설치되어 있는 동안 이 파일들을 나열하지 않습니다. 이 파일은 하나도 이동되지 않았습니다. 다시 나열하려면 목록에서 제거하십시오."
+            "value" : "주인 없는 파일 페이지는 소유자로 지정한 앱 또는 명령어 라인 도구가 설치되어 있는 동안 이 파일들을 나열하지 않습니다. 이 파일은 하나도 이동되지 않았습니다. 다시 나열하려면 목록에서 제거하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De pagina 'Verweesde bestanden' toont deze niet zolang de app waarbij ze volgens jou horen, geïnstalleerd is. Niets ervan is verplaatst. Verwijder er een om die weer te tonen."
+            "value" : "De pagina 'Verweesde bestanden' toont deze niet zolang de app of de commandoregeltool waarbij ze volgens jou horen, geïnstalleerd is. Niets ervan is verplaatst. Verwijder er een om die weer te tonen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Strona Osierocone pliki nie wyświetla ich, dopóki aplikacja, do której według Ciebie należą, jest zainstalowana. Nic z nich nie przeniesiono. Usuń pozycję, aby znów była wyświetlana."
+            "value" : "Strona Osierocone pliki nie wyświetla ich, dopóki aplikacja lub narzędzie wiersza polecenia, do których według Ciebie należą, jest zainstalowane. Nic z nich nie przeniesiono. Usuń pozycję, aby znów była wyświetlana."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A página Arquivos Órfãos não lista estes itens enquanto o app ao qual você disse que eles pertencem estiver instalado. Nenhum deles foi movido. Remova um para que ele volte a ser listado."
+            "value" : "A página Arquivos Órfãos não lista estes itens enquanto estiver instalado o app ou a ferramenta de linha de comando a que você disse que eles pertencem. Nenhum deles foi movido. Remova um para que ele volte a ser listado."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pagina Fișiere orfane nu le listează cât timp aplicația căreia ați spus că îi aparțin este instalată. Niciunul dintre fișiere nu a fost mutat. Eliminați un grup pentru a‑l lista din nou."
+            "value" : "Pagina Fișiere orfane nu le listează cât timp aplicația sau instrumentul în linie de comandă căruia ați spus că îi aparțin este instalat. Niciunul dintre fișiere nu a fost mutat. Eliminați un grup pentru a‑l lista din nou."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Раздел «Осиротевшие файлы» не показывает эти файлы, пока установлено приложение, которому они, по Вашим словам, принадлежат. Ничего из них не перемещено. Уберите запись, и ее файлы снова появятся в списке."
+            "value" : "Раздел «Осиротевшие файлы» не показывает эти файлы, пока установлено приложение или инструмент командной строки, которому они, по Вашим словам, принадлежат. Ничего из них не перемещено. Уберите запись, и ее файлы снова появятся в списке."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sidan Övergivna filer visar inte de här så länge appen du angav att de hör till är installerad. Inget av dem har flyttats. Ta bort en för att visa den igen."
+            "value" : "Sidan Övergivna filer visar inte de här så länge appen eller kommandoradsverktyget du angav att de hör till är installerat. Inget av dem har flyttats. Ta bort en för att visa den igen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sahipsiz Dosyalar, ait olduklarını söylediğiniz uygulama yüklü olduğu sürece bunları listelemez. Hiçbiri taşınmadı. Birini yeniden listelemek için onu kaldırın."
+            "value" : "Sahipsiz Dosyalar, ait olduklarını söylediğiniz uygulama veya komut satırı aracı yüklü olduğu sürece bunları listelemez. Hiçbiri taşınmadı. Birini yeniden listelemek için onu kaldırın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Розділ «Покинуті файли» не показує їх, поки інстальовано програму, якій вони, за вашими словами, належать. Нічого з них не переміщено. Вилучіть запис, щоб розділ знову його показував."
+            "value" : "Розділ «Покинуті файли» не показує їх, поки інстальовано програму або інструмент командного рядка, якому вони, за вашими словами, належать. Нічого з них не переміщено. Вилучіть запис, щоб розділ знову його показував."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "只要你指定它们所属的App仍已安装，“孤立文件”就不会列出这些项目。它们都没有被移动。移除其中一项即可再次列出它。"
+            "value" : "只要你指定它们所属的App或命令行工具仍已安装，“孤立文件”就不会列出这些项目。它们都没有被移动。移除其中一项即可再次列出它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "只要你指定它們所屬的App仍已安裝，「孤立檔案」就不會列出它們。這些檔案都沒有被移動。移除其中一項，即可再次列出它。"
+            "value" : "只要你指定它們所屬的App或命令列工具仍已安裝，「孤立檔案」就不會列出它們。這些檔案都沒有被移動。移除其中一項，即可再次列出它。"
           }
         }
       }
@@ -138553,108 +138659,108 @@
         }
       }
     },
-    "Peel can’t read its list of the orphaned files you said belong to an app, so it lists them all. Start the list over in Settings > Exclusions." : {
+    "Peel can’t read its list of the orphaned files you said belong to an app or a tool, so it lists them all. Start the list over in Settings > Exclusions." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nemůže přečíst svůj seznam osiřelých souborů, u kterých jste uvedli, že patří některé aplikaci, a proto je zobrazuje všechny. Začněte seznam znovu v Nastavení > Výjimky."
+            "value" : "Peel nemůže přečíst svůj seznam osiřelých souborů, u kterých jste uvedli, že patří některé aplikaci nebo některému nástroji, a proto je zobrazuje všechny. Začněte seznam znovu v Nastavení > Výjimky."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kann seine Liste der verwaisten Dateien, die laut deiner Angabe zu einer App gehören, nicht lesen, daher werden sie alle angezeigt. Beginne die Liste in den Einstellungen unter „Ausschlüsse“ neu."
+            "value" : "Peel kann seine Liste der verwaisten Dateien, die laut deiner Angabe zu einer App oder einem Befehlszeilentool gehören, nicht lesen, daher werden sie alle angezeigt. Beginne die Liste in den Einstellungen unter „Ausschlüsse“ neu."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel no puede leer su lista de los archivos huérfanos que has indicado que pertenecen a una app, así que los muestra todos. Vuelve a empezar la lista en Ajustes > Exclusiones."
+            "value" : "Peel no puede leer su lista de los archivos huérfanos que has indicado que pertenecen a una app o a una herramienta, así que los muestra todos. Vuelve a empezar la lista en Ajustes > Exclusiones."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ne peut pas lire sa liste des fichiers orphelins que vous avez attribués à une app : il les liste donc tous. Recommencez la liste dans Réglages > Exclusions."
+            "value" : "Peel ne peut pas lire sa liste des fichiers orphelins que vous avez attribués à une app ou à un outil : il les liste donc tous. Recommencez la liste dans Réglages > Exclusions."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel non riesce a leggere il suo elenco dei file orfani che hai indicato come appartenenti a un’app, quindi li elenca tutti. Ricomincia l’elenco da capo in Impostazioni > Esclusioni."
+            "value" : "Peel non riesce a leggere il suo elenco dei file orfani che hai indicato come appartenenti a un’app o a uno strumento, quindi li elenca tutti. Ricomincia l’elenco da capo in Impostazioni > Esclusioni."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは、アプリに属すると指定した孤立ファイルのリストを読み取れないため、それらをすべて表示します。“設定”＞“除外”でリストを最初からやり直してください。"
+            "value" : "Peelは、アプリまたはコマンドラインツールに属すると指定した孤立ファイルのリストを読み取れないため、それらをすべて表示します。“設定”＞“除外”でリストを最初からやり直してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 앱의 소유로 지정한 주인 없는 파일 목록을 읽을 수 없으므로 해당 파일을 모두 나열합니다. 설정 > 제외 항목에서 목록을 처음부터 다시 시작하십시오."
+            "value" : "Peel이 앱 또는 명령어 라인 도구의 소유로 지정한 주인 없는 파일 목록을 읽을 수 없으므로 해당 파일을 모두 나열합니다. 설정 > 제외 항목에서 목록을 처음부터 다시 시작하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kan zijn lijst van verweesde bestanden die volgens jou bij een app horen, niet lezen, dus toont Peel ze allemaal. Begin in Instellingen > Uitsluitingen opnieuw met de lijst."
+            "value" : "Peel kan zijn lijst van verweesde bestanden die volgens jou bij een app of een commandoregeltool horen, niet lezen, dus toont Peel ze allemaal. Begin in Instellingen > Uitsluitingen opnieuw met de lijst."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nie może odczytać swojej listy osieroconych plików wskazanych przez Ciebie jako należące do aplikacji, więc wyświetla je wszystkie. Zacznij tę listę od nowa w Ustawieniach > Wykluczenia."
+            "value" : "Peel nie może odczytać swojej listy osieroconych plików wskazanych przez Ciebie jako należące do aplikacji lub narzędzia, więc wyświetla je wszystkie. Zacznij tę listę od nowa w Ustawieniach > Wykluczenia."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel não consegue ler a lista dos arquivos órfãos que você indicou como pertencentes a um app, então lista todos eles. Recomece a lista em Ajustes > Exclusões."
+            "value" : "O Peel não consegue ler a lista dos arquivos órfãos que você indicou como pertencentes a um app ou a uma ferramenta, então lista todos eles. Recomece a lista em Ajustes > Exclusões."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu își poate citi lista fișierelor orfane pe care le‑ați atribuit unei aplicații, așa că le listează pe toate. Reîncepeți lista în Configurări > Excluderi."
+            "value" : "Peel nu își poate citi lista fișierelor orfane pe care le‑ați atribuit unei aplicații sau unui instrument, așa că le listează pe toate. Reîncepeți lista în Configurări > Excluderi."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не удается прочитать свой список осиротевших файлов, которые Вы отметили как принадлежащие приложению, поэтому он показывает их все. Начните список заново в разделе «Настройки» > «Исключения»."
+            "value" : "Peel не удается прочитать свой список осиротевших файлов, которые Вы отметили как принадлежащие приложению или инструменту, поэтому он показывает их все. Начните список заново в разделе «Настройки» > «Исключения»."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kan inte läsa sin lista över de övergivna filer som du har angett hör till en app, så Peel listar dem alla. Börja om listan i Inställningar > Undantag."
+            "value" : "Peel kan inte läsa sin lista över de övergivna filer som du har angett hör till en app eller ett verktyg, så Peel listar dem alla. Börja om listan i Inställningar > Undantag."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, bir uygulamaya ait olduğunu söylediğiniz sahipsiz dosyalar listesini okuyamıyor, bu yüzden hepsini listeliyor. Listeyi Ayarlar > Hariç Tutulanlar’da baştan başlatın."
+            "value" : "Peel, bir uygulamaya veya araca ait olduğunu söylediğiniz sahipsiz dosyalar listesini okuyamıyor, bu yüzden hepsini listeliyor. Listeyi Ayarlar > Hariç Tutulanlar’da baştan başlatın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не може прочитати свій список покинутих файлів, які, за вашими словами, належать програмі, тож показує їх усі. Почніть список наново в розділі Параметри > Винятки."
+            "value" : "Peel не може прочитати свій список покинутих файлів, які, за вашими словами, належать програмі або інструменту, тож показує їх усі. Почніть список наново в розділі Параметри > Винятки."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel无法读取你标为属于某个App的孤立文件的列表，因此会将它们全部列出。请在“设置”>“排除项”中重新开始建立该列表。"
+            "value" : "Peel无法读取你标为属于某个App或命令行工具的孤立文件的列表，因此会将它们全部列出。请在“设置”>“排除项”中重新开始建立该列表。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel無法讀取你指定屬於某個App的孤立檔案列表，因此會將它們全部列出。請在「設定」>「排除項目」中重新開始此列表。"
+            "value" : "Peel無法讀取你指定屬於某個App或命令列工具的孤立檔案列表，因此會將它們全部列出。請在「設定」>「排除項目」中重新開始此列表。"
           }
         }
       }
@@ -178194,6 +178300,112 @@
         }
       }
     },
+    "Search Apps and Tools" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hledat v aplikacích a nástrojích"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps und Befehlszeilentools durchsuchen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar apps y herramientas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher dans les apps et les outils"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca app e strumenti"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリとコマンドラインツールを検索"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱 및 명령어 라인 도구 검색"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoek in apps en commandoregeltools"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Szukaj aplikacji i narzędzi"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar Apps e Ferramentas"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Căutare în aplicații și instrumente"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поиск приложений и инструментов"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sök i appar och verktyg"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulamalarda ve Araçlarda Ara"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пошук програм та інструментів"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜索App和命令行工具"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋App和命令列工具"
+          }
+        }
+      }
+    },
     "Search Background Items" : {
       "localizations" : {
         "cs" : {
@@ -193860,108 +194072,108 @@
         }
       }
     },
-    "Started the list of orphaned files that belong to an app over." : {
+    "Started the list of orphaned files that belong to an app or a tool over." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seznam osiřelých souborů, které patří aplikaci, byl začat znovu."
+            "value" : "Seznam osiřelých souborů, které patří aplikaci nebo nástroji, byl začat znovu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Liste der verwaisten Dateien, die zu einer App gehören, wurde neu begonnen."
+            "value" : "Die Liste der verwaisten Dateien, die zu einer App oder einem Befehlszeilentool gehören, wurde neu begonnen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Se ha vuelto a empezar la lista de archivos huérfanos que pertenecen a una app."
+            "value" : "Se ha vuelto a empezar la lista de archivos huérfanos que pertenecen a una app o a una herramienta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La liste des fichiers orphelins appartenant à une app a été recommencée."
+            "value" : "La liste des fichiers orphelins appartenant à une app ou à un outil a été recommencée."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ricominciato da capo l’elenco dei file orfani che appartengono a un’app."
+            "value" : "Ricominciato da capo l’elenco dei file orfani che appartengono a un’app o a uno strumento."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリに属する孤立ファイルのリストを最初からやり直しました。"
+            "value" : "アプリまたはコマンドラインツールに属する孤立ファイルのリストを最初からやり直しました。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱의 소유로 지정한 주인 없는 파일 목록을 처음부터 다시 시작했습니다."
+            "value" : "앱 또는 명령어 라인 도구의 소유로 지정한 주인 없는 파일 목록을 처음부터 다시 시작했습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opnieuw begonnen met de lijst van verweesde bestanden die bij een app horen."
+            "value" : "Opnieuw begonnen met de lijst van verweesde bestanden die bij een app of een commandoregeltool horen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zaczęto od nowa listę osieroconych plików należących do aplikacji."
+            "value" : "Zaczęto od nowa listę osieroconych plików należących do aplikacji lub narzędzia."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lista de arquivos órfãos que pertencem a um app recomeçada."
+            "value" : "Lista de arquivos órfãos que pertencem a um app ou a uma ferramenta recomeçada."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lista fișierelor orfane care aparțin unei aplicații a fost reîncepută."
+            "value" : "Lista fișierelor orfane care aparțin unei aplicații sau unui instrument a fost reîncepută."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Список осиротевших файлов, принадлежащих приложению, начат заново."
+            "value" : "Список осиротевших файлов, принадлежащих приложению или инструменту, начат заново."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Började om listan över övergivna filer som hör till en app."
+            "value" : "Började om listan över övergivna filer som hör till en app eller ett verktyg."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir uygulamaya ait sahipsiz dosyalar listesi baştan başlatıldı."
+            "value" : "Bir uygulamaya veya araca ait sahipsiz dosyalar listesi baştan başlatıldı."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Список покинутих файлів, що належать програмі, почато наново."
+            "value" : "Список покинутих файлів, що належать програмі або інструменту, почато наново."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已重新开始建立属于某个App的孤立文件列表。"
+            "value" : "已重新开始建立属于某个App或命令行工具的孤立文件列表。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已重新開始屬於某個App的孤立檔案列表。"
+            "value" : "已重新開始屬於某個App或命令列工具的孤立檔案列表。"
           }
         }
       }
@@ -216359,7 +216571,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Patří aplikaci"
+            "value" : "Patří aplikaci nebo nástroji"
           }
         },
         "de" : {
@@ -216389,13 +216601,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "所属先のアプリ"
+            "value" : "所属先を指定"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "소유한 앱 지정"
+            "value" : "소유자 지정"
           }
         },
         "nl" : {
@@ -216419,13 +216631,13 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aparține aplicației"
+            "value" : "Aparține aplicației sau instrumentului"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Принадлежит приложению"
+            "value" : "Принадлежит приложению или инструменту"
           }
         },
         "sv" : {
@@ -216443,7 +216655,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Належить програмі"
+            "value" : "Належить програмі або інструменту"
           }
         },
         "zh-Hans" : {
@@ -216465,7 +216677,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Patří aplikaci…"
+            "value" : "Patří aplikaci nebo nástroji…"
           }
         },
         "de" : {
@@ -216495,13 +216707,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "所属先のアプリ…"
+            "value" : "所属先を指定…"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "소유한 앱 지정…"
+            "value" : "소유자 지정…"
           }
         },
         "nl" : {
@@ -216525,13 +216737,13 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aparține aplicației…"
+            "value" : "Aparține aplicației sau instrumentului…"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Принадлежит приложению…"
+            "value" : "Принадлежит приложению или инструменту…"
           }
         },
         "sv" : {
@@ -216549,7 +216761,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Належить програмі…"
+            "value" : "Належить програмі або інструменту…"
           }
         },
         "zh-Hans" : {

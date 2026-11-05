@@ -5,6 +5,13 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 ## 1.3.1 (not released yet)
 
+### Added
+
+#### Orphaned Files
+
+- This Belongs To… also offers the command-line tools Homebrew installed, so what a tool keeps under a dotted name
+  stays out of the list while that tool is installed. Settings > Exclusions shows the tool beside its group.
+
 ### Fixed
 
 #### Orphaned Files

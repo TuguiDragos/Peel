@@ -83,6 +83,8 @@ final class HomebrewLibrary {
     /// How the last reading failed, which is not the same as nothing being installed.
     private(set) var couldNotRead: Homebrew.CommandFailure?
     private(set) var packages: [HomebrewPackage]?
+    /// The command-line tools Homebrew installed: its formulae, none until the packages are read.
+    var formulae: [HomebrewPackage] { packages?.filter { $0.kind == .formula } ?? [] }
     /// The installed Homebrew's version and prefix. The version decides what Peel may ask it for.
     private(set) var installation: HomebrewInstallation?
     /// What `brew cleanup` would free, as Homebrew reported it. Nil when it wouldn't say.

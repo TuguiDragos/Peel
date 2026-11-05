@@ -20,9 +20,9 @@ final class OrphanLibrary {
 
     /// The apps list the scan was checked against. The page scans again when the list changes.
     private(set) var scannedAgainst: AppLibrary.Listing?
-    /// The groups the person said belong to an app, by identifier, with that app's bundle identifier, or nil when that
-    /// list can't be read.
-    private(set) var owners: [String: String]?
+    /// The groups the person said belong to an app or a command-line tool, by identifier, or nil when that list can't
+    /// be read.
+    private(set) var owners: [String: OrphanOwner]?
     /// Why that list can't be read, when Peel knows.
     private(set) var whyOwnersUnreadable: FileProblem?
 
@@ -79,20 +79,25 @@ final class OrphanLibrary {
             // What is currently running is better evidence than anything worked out from what is installed: a
             // helper or an agent can keep a folder that no app bundle claims.
             let running = RunningCopies.current
+            // Read right before the scan, so a group given to a tool follows the tool.
+            let formulae = await Homebrew.installedFormulae()
             let scan = await OrphanScanner(exclusions: ExclusionsStore.shared.exclusions).scan(
                 installedApps: installedApps,
                 remembered: remembered,
                 running: running,
                 owners: owners ?? [:],
+                installedFormulae: formulae,
                 leftForAnAdministrator: await LeftForAnAdministrator().load()
             )
             if !scan.appsOnOtherDisks.isEmpty {
                 await AppMemory().remember(scan.appsOnOtherDisks)
             }
-            return scan
+            return (scan: scan, formulae: formulae)
         }), library.readEverything else { return }
         // The owners this scan began with may have grown while it ran.
-        let result = found.leavingOut(given: self.owners ?? [:], installedApps: library.apps)
+        let result = found.scan.leavingOut(
+            given: self.owners ?? [:], installedApps: library.apps, installedFormulae: found.formulae
+        )
         let remainingURLs = Set(result.groups.flatMap(\.items).filter { $0.leftAlone == nil }.map(\.url))
         scan = result
         scannedAgainst = listing
@@ -102,10 +107,10 @@ final class OrphanLibrary {
         }
     }
 
-    /// Takes `group` out of the list, as the person said it belongs to `app`. Nothing moves, and the group stays
+    /// Takes `group` out of the list, as the person said it belongs to `owner`. Nothing moves, and the group stays
     /// listed when the choice could not be saved.
-    func give(_ group: OrphanGroup, to app: InstalledApp) -> ListChange {
-        let change = app.bundleIdentifier.map { OrphanOwners().give(group.identifier, to: $0) } ?? .notSaved(nil)
+    func give(_ group: OrphanGroup, to owner: OrphanOwner) -> ListChange {
+        let change = OrphanOwners().give(group.identifier, to: owner)
         readOwners()
         guard change == .saved else { return change }
         if let scan {
@@ -116,7 +121,7 @@ final class OrphanLibrary {
         return .saved
     }
 
-    /// Lists `groups` again, forgetting the app each was given to.
+    /// Lists `groups` again, forgetting what each was given to.
     func forget(_ groups: [String], from library: AppLibrary) async -> ListChange {
         let change = OrphanOwners().take(groups)
         guard change == .saved else {

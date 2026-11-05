@@ -185,7 +185,7 @@ struct ExclusionsSettingsView: View {
                 if let owners = orphans.owners {
                     let groups = owners.keys.sorted()
                     if groups.isEmpty {
-                        Text("No orphaned files are said to belong to an app.")
+                        Text("No orphaned files are said to belong to an app or a tool.")
                             .foregroundStyle(.secondary)
                     } else {
                         List(selection: $selectedGroups) {
@@ -194,12 +194,23 @@ struct ExclusionsSettingsView: View {
                                     Text(verbatim: group)
                                         .lineLimit(1)
                                         .truncationMode(.middle)
-                                    if let owner = owners[group] {
-                                        let name = library.apps.first { $0.bundleIdentifier == owner }?.name
-                                        Text(verbatim: name ?? owner)
+                                    switch owners[group] {
+                                    case .app(let identifier)?:
+                                        let name = library.apps.first { $0.bundleIdentifier == identifier }?.name
+                                        Text(verbatim: name ?? identifier)
                                             .font(.caption)
                                             .foregroundStyle(.secondary)
                                             .lineLimit(1)
+                                    case .formula(let name)?:
+                                        HStack(spacing: 4) {
+                                            Image(systemName: "terminal")
+                                            Text(verbatim: name)
+                                                .lineLimit(1)
+                                        }
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                    case nil:
+                                        EmptyView()
                                     }
                                 }
                                 .tag(group)
@@ -221,14 +232,14 @@ struct ExclusionsSettingsView: View {
                         Spacer(minLength: 8)
                         StartOverButton(
                             file: OrphanOwners.defaultURL,
-                            startedOver: "Started the list of orphaned files that belong to an app over."
+                            startedOver: "Started the list of orphaned files that belong to an app or a tool over."
                         ) {
                             orphans.startOwnersOver()
                         }
                     }
                 }
             } header: {
-                heading("Orphaned Files That Belong to an App", "Orphaned Files doesn’t list these while the app you said they belong to is installed. Nothing of them was moved. Remove one to list it again.")
+                heading("Orphaned Files That Belong to an App or a Tool", "Orphaned Files doesn’t list these while the app or the command-line tool you said they belong to is installed. Nothing of them was moved. Remove one to list it again.")
             }
         }
         .formStyle(.grouped)

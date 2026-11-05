@@ -108,12 +108,14 @@ struct OrphansCommand: AsyncParsableCommand {
         let exclusions = await UnreadableExclusions.load()
         let scanner = OrphanScanner(exclusions: exclusions)
         let owners = OrphanOwners().load()
+        let formulae = await Homebrew.installedFormulae()
         let scan = await ProgressLine.counting {
             await scanner.scan(
                 installedApps: apps,
                 remembered: remembered,
                 running: running,
                 owners: owners ?? [:],
+                installedFormulae: formulae,
                 leftForAnAdministrator: await LeftForAnAdministrator().load()
             )
         }
@@ -147,16 +149,16 @@ struct OrphansCommand: AsyncParsableCommand {
         }
     }
 
-    /// What the list could not cover, the groups the person said belong to an app when that list can't be read, the
-    /// folders Peel could not read and the places with more folders inside than Peel looks into, and how to remove
-    /// what only an administrator can move, with what a kernel extension needs: a restart, and on Apple silicon the
-    /// startup disk's security set back.
+    /// What the list could not cover, the groups the person said belong to an app or a tool when that list can't be
+    /// read, the folders Peel could not read and the places with more folders inside than Peel looks into, and how to
+    /// remove what only an administrator can move, with what a kernel extension needs: a restart, and on Apple silicon
+    /// the startup disk's security set back.
     static func notes(
         for scan: OrphanScan, ownersUnreadable: Bool, onAppleSilicon: Bool = HostArchitecture.isAppleSilicon
     ) -> [String] {
         var notes: [String] = []
         if ownersUnreadable {
-            notes.append("Peel can't read the list of orphaned files you said belong to an app, so it lists them too. Start the list over in Peel's Settings > Exclusions.")
+            notes.append("Peel can't read the list of orphaned files you said belong to an app or a command-line tool, so it lists them too. Start the list over in Peel's Settings > Exclusions.")
         }
         if !scan.unreadableLocations.isEmpty {
             let folders = scan.unreadableLocations.map(\.url)

@@ -131,7 +131,7 @@ struct OrphanScannerTests {
         #expect(scan.groups.first?.rememberedApp?.bundleIdentifier == "md.example")
 
         let given = await scanner(in: directory).scan(
-            installedApps: installed, remembered: [gone], owners: ["md.example": "com.installed.app"]
+            installedApps: installed, remembered: [gone], owners: ["md.example": .app("com.installed.app")]
         )
         #expect(given.groups.isEmpty)
 
@@ -158,17 +158,39 @@ struct OrphanScannerTests {
                 requiresPrivileges: false
             )
         }
-        let groups = ["org.example.given", "org.example.kept", "org.example.gone"].map {
+        let groups = ["org.example.given", "org.example.kept", "org.example.gone", "org.example.tool"].map {
             OrphanGroup(identifier: $0, items: [item($0)])
         }
         let scan = OrphanScan(groups: groups, unreadableLocations: [])
+        let owners: [String: OrphanOwner] = [
+            "org.example.given": .app("com.installed.app"), "org.example.gone": .app("org.example.notinstalled"),
+            "org.example.tool": .formula("exampletool"),
+        ]
 
-        let left = scan.leavingOut(
-            given: ["org.example.given": "com.installed.app", "org.example.gone": "org.example.notinstalled"],
-            installedApps: installed
-        )
-
+        let left = scan.leavingOut(given: owners, installedApps: installed, installedFormulae: ["exampletool"])
         #expect(left.groups.map(\.identifier) == ["org.example.kept", "org.example.gone"])
+
+        let toolGone = scan.leavingOut(given: owners, installedApps: installed, installedFormulae: [])
+        #expect(toolGone.groups.map(\.identifier) == ["org.example.kept", "org.example.gone", "org.example.tool"])
+
+        let toolsNotKnown = scan.leavingOut(given: owners, installedApps: installed, installedFormulae: nil)
+        #expect(toolsNotKnown.groups.map(\.identifier) == ["org.example.kept", "org.example.gone"])
+    }
+
+    @Test func aGroupThePersonGaveToAHomebrewToolIsNotListedWhileItIsInstalled() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/org.example.tool/cache.db")
+        let scanner = scanner(in: directory)
+        let owners: [String: OrphanOwner] = ["org.example.tool": .formula("exampletool")]
+
+        let given = await scanner.scan(installedApps: installed, owners: owners, installedFormulae: ["exampletool"])
+        #expect(given.groups.isEmpty)
+
+        let toolGone = await scanner.scan(installedApps: installed, owners: owners, installedFormulae: [])
+        #expect(toolGone.groups.map(\.identifier) == ["org.example.tool"])
+
+        let toolsNotKnown = await scanner.scan(installedApps: installed, owners: owners, installedFormulae: nil)
+        #expect(toolsNotKnown.groups.isEmpty)
     }
 
     @Test func aTwoPartIdentifierNoAppDeclaredIsNeverAskedAboutAsAPrefix() {
@@ -826,10 +848,10 @@ struct OrphanScannerTests {
         try directory.file("home/Library/Caches/org.example.other/cache.db")
         let scanner = scanner(in: directory)
 
-        let given = await scanner.scan(installedApps: installed, owners: ["org.example.helper": "com.installed.app"])
+        let given = await scanner.scan(installedApps: installed, owners: ["org.example.helper": .app("com.installed.app")])
         #expect(given.groups.map(\.identifier) == ["org.example.other"])
 
-        let ownerGone = await scanner.scan(installedApps: installed, owners: ["org.example.helper": "org.example.gone"])
+        let ownerGone = await scanner.scan(installedApps: installed, owners: ["org.example.helper": .app("org.example.gone")])
         #expect(Set(ownerGone.groups.map(\.identifier)) == ["org.example.helper", "org.example.other"])
     }
 
@@ -844,7 +866,7 @@ struct OrphanScannerTests {
         #expect(listed.groups.map(\.identifier) == ["org.example.helper"])
         #expect(listed.groups.first?.items.count == 3)
 
-        let given = await scanner.scan(installedApps: installed, owners: ["org.example.helper": "com.installed.app"])
+        let given = await scanner.scan(installedApps: installed, owners: ["org.example.helper": .app("com.installed.app")])
         #expect(given.groups.isEmpty)
     }
 
@@ -869,12 +891,14 @@ struct OrphanScannerTests {
         let owners = OrphanOwners(url: directory.url.appending(path: "orphan-owners.json"))
         #expect(owners.load() == [:])
 
-        #expect(owners.give("org.example.Helper", to: "com.installed.app") == .saved)
-        #expect(owners.give("org.example.other", to: "com.microsoft.Word") == .saved)
-        #expect(owners.load() == ["org.example.helper": "com.installed.app", "org.example.other": "com.microsoft.Word"])
+        #expect(owners.give("org.example.Helper", to: .app("com.installed.app")) == .saved)
+        #expect(owners.give("org.example.other", to: .formula("exampletool")) == .saved)
+        #expect(
+            owners.load() == ["org.example.helper": .app("com.installed.app"), "org.example.other": .formula("exampletool")]
+        )
 
         #expect(owners.take(["org.example.helper"]) == .saved)
-        #expect(owners.load() == ["org.example.other": "com.microsoft.Word"])
+        #expect(owners.load() == ["org.example.other": .formula("exampletool")])
     }
 
     @Test func aListOfOwnersIsReadWithoutWritingAndADamagedOneIsStartedOver() throws {
@@ -888,12 +912,12 @@ struct OrphanScannerTests {
         try directory.file("Peel/orphan-owners.json", bytes: 16)
         #expect(owners.load() == nil, "a list that can't be read read as no choices")
         #expect(owners.whyUnreadable() == .damaged)
-        #expect(owners.give("org.example.helper", to: "com.installed.app") == .notSaved(.damaged))
+        #expect(owners.give("org.example.helper", to: .app("com.installed.app")) == .notSaved(.damaged))
         #expect(owners.startOver() == .started)
         #expect(owners.load() == [:])
         #expect(owners.whyUnreadable() == nil)
         #expect(owners.startOver() == .notNeeded)
-        #expect(owners.give("org.example.helper", to: "com.installed.app") == .saved)
+        #expect(owners.give("org.example.helper", to: .app("com.installed.app")) == .saved)
     }
 
     @Test(.permissionsHold) func saysWhyWhatBelongsToAnAppCouldNotBeSaved() throws {
@@ -904,7 +928,7 @@ struct OrphanScannerTests {
 
         let refusedWrite = SystemError(domain: NSCocoaErrorDomain, code: NSFileWriteNoPermissionError)
         let owners = OrphanOwners(url: folder.appending(path: "orphan-owners.json"))
-        #expect(owners.give("org.example.helper", to: "com.installed.app") == .notSaved(.failed(refusedWrite)))
+        #expect(owners.give("org.example.helper", to: .app("com.installed.app")) == .notSaved(.failed(refusedWrite)))
     }
 
     /// An app installed since the scan owns what the list still calls orphaned.

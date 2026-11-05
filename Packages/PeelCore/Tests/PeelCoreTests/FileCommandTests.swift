@@ -732,7 +732,7 @@ struct FileCommandTests {
         ])
         #expect(OrphansCommand.notes(for: scan, ownersUnreadable: false) == [OrphansCommand.byHand])
         #expect(OrphansCommand.notes(for: scan, ownersUnreadable: true).first?.hasPrefix(
-            "Peel can't read the list of orphaned files you said belong to an app, so it lists them too."
+            "Peel can't read the list of orphaned files you said belong to an app or a command-line tool, so it lists them too."
         ) == true)
         let json = try Output.jsonText(OrphansCommand.report(for: scan))
         let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])

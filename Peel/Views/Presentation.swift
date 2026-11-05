@@ -313,10 +313,11 @@ extension AppLibrary {
 }
 
 extension OrphanLibrary {
-    /// What an alert says when the list of orphaned files that belong to an app couldn't be changed, and why.
+    /// What an alert says when the list of orphaned files that belong to an app or a tool couldn't be changed, and
+    /// why.
     func ownersNotSaved(_ why: FileProblem?) -> String {
         let said = owners == nil
-            ? String(localized: "Peel can’t read its list of the orphaned files you said belong to an app, so it lists them all. Start the list over in Settings > Exclusions.")
+            ? String(localized: "Peel can’t read its list of the orphaned files you said belong to an app or a tool, so it lists them all. Start the list over in Settings > Exclusions.")
             : String(localized: "Nothing changed.")
         return why.said(after: said, about: OrphanOwners.defaultURL)
     }
