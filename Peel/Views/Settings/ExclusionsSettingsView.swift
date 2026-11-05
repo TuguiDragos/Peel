@@ -201,7 +201,7 @@ struct ExclusionsSettingsView: View {
                                             .font(.caption)
                                             .foregroundStyle(.secondary)
                                             .lineLimit(1)
-                                    case .formula(let name)?:
+                                    case .formula(let name)?, .command(let name)?:
                                         HStack(spacing: 4) {
                                             Image(systemName: "terminal")
                                             Text(verbatim: name)

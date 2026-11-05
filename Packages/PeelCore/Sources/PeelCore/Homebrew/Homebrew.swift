@@ -911,8 +911,15 @@ public enum Homebrew {
     @concurrent
     public static func installedFormulae(asking answers: Answers = Answers()) async -> Set<String>? {
         guard executableURL != nil else { return refusedInAUsualPlace() == nil ? [] : nil }
-        guard let cellar = await answers.answer(["--cellar"]).flatMap(folder(answering:)) else { return nil }
+        guard let cellar = await cellar(asking: answers) else { return nil }
         return formulae(inCellar: cellar)
+    }
+
+    /// Where Homebrew keeps its formulae, as it answers (`brew --cellar`, which `brew.sh` answers without Ruby), or
+    /// nil where no `brew` runs or it doesn't answer.
+    public static func cellar(asking answers: Answers = Answers()) async -> URL? {
+        guard executableURL != nil else { return nil }
+        return await answers.answer(["--cellar"]).flatMap(folder(answering:))
     }
 
     static func formulae(inCellar cellar: URL) -> Set<String>? {

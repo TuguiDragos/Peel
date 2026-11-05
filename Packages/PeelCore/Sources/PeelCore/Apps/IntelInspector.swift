@@ -100,6 +100,11 @@ public enum IntelInspector {
         ]
     }
 
+    /// The folders a command is run from by name: the tool folders but `libexec`, whose helpers nobody calls.
+    static func commandDirectories(_ environment: SearchEnvironment) -> [String] {
+        toolDirectories(environment).flatMap(\.folders).filter { !$0.hasSuffix("/libexec") }
+    }
+
     /// Folders inside an app that hold code of its own, as processes or as plug-ins the app loads, so an Intel-only one
     /// there needs Rosetta even when the app doesn't.
     ///
@@ -283,12 +288,14 @@ public enum IntelInspector {
 
         for (folders, place) in toolDirectories(environment) {
             for tool in tools(in: folders, unreadable: &unreadable)
-            where !Task.isCancelled && !exclusions.excludes(tool.url) {
-                let path = PathPattern.comparablePath(of: tool.url)
+            where !Task.isCancelled && !exclusions.excludes(tool.program) {
+                let path = PathPattern.comparablePath(of: tool.program)
                 guard !listed.contains(where: { PathComponents.isPath(path, atOrInside: $0) }) else { continue }
-                guard isIntelOnly(executable: tool.url, unreadable: &unreadable), isNew(tool.url) else { continue }
+                guard isIntelOnly(executable: tool.program, unreadable: &unreadable), isNew(tool.program) else {
+                    continue
+                }
                 findings.append(IntelFinding(
-                    url: tool.url,
+                    url: tool.program,
                     kind: .commandLineTool,
                     name: tool.name,
                     owner: nil,
@@ -558,23 +565,25 @@ public enum IntelInspector {
         return programs
     }
 
-    /// The programs the commands in `directories` run, each under the command's name. A command is often a link,
-    /// as every one a Homebrew in `/usr/local` makes into its `Cellar`, and the program it leads to is what runs.
-    /// `isDataless` stands in for a program a file provider keeps only in the cloud, which no test can make. Such a
-    /// program is left unread, since reading its header would download it.
+    /// The commands in `directories`, each with the program it runs. A command is often a link, as every one a
+    /// Homebrew in `/usr/local` makes into its `Cellar`, and the program it leads to is what runs. `isDataless` stands
+    /// in for a program a file provider keeps only in the cloud, which no test can make. Such a program is left
+    /// unread, since reading its header would download it.
     static func tools(
         in directories: [String],
         unreadable: inout [URL],
         isDataless: (URL) -> Bool = FileSize.isDataless(_:)
-    ) -> [(name: String, url: URL)] {
-        var tools: [(name: String, url: URL)] = []
+    ) -> [(name: String, command: URL, program: URL)] {
+        var tools: [(name: String, command: URL, program: URL)] = []
         for directory in directories {
             let folder = URL(filePath: directory, directoryHint: .isDirectory)
             for command in entries(of: folder, unreadable: &unreadable) {
                 let program = command.resolvingSymlinksInPath()
                 var info = stat()
                 if stat(program.path(percentEncoded: false), &info) == 0 {
-                    if isRunnable(info), !isDataless(program) { tools.append((command.lastPathComponent, program)) }
+                    if isRunnable(info), !isDataless(program) {
+                        tools.append((command.lastPathComponent, command, program))
+                    }
                 } else if ![ENOENT, ENOTDIR, ELOOP].contains(errno),
                           let place = FileAccess.refusedFolder(program.deletingLastPathComponent()) {
                     unreadable.append(place)

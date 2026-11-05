@@ -19,24 +19,34 @@ struct OrphanOwnersTests {
 
         #expect(owners.give("org.example.helper", to: .app("com.installed.app")) == .saved)
         #expect(owners.give("org.example.tool", to: .formula("exampletool")) == .saved)
+        #expect(owners.give("org.example.cmd", to: .command("mytool")) == .saved)
 
         let written = try #require(try JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
         #expect(written["org.example.helper"] as? String == "com.installed.app")
         #expect(written["org.example.tool"] as? [String: String] == ["formula": "exampletool"])
+        #expect(written["org.example.cmd"] as? [String: String] == ["command": "mytool"])
+        #expect(owners.load()?["org.example.cmd"] == .command("mytool"))
     }
 
     @Test func leavesOutWhatBelongsToAnInstalledAppOrToolAndToAToolNotYetKnown() {
         let owners: [String: OrphanOwner] = [
             "org.example.given": .app("com.installed.app"), "org.example.gone": .app("org.example.notinstalled"),
             "org.example.tool": .formula("exampletool"), "org.example.lost": .formula("gonetool"),
+            "org.example.cmd": .command("mytool"), "org.example.nocmd": .command("gone"),
         ]
         let apps: Set<String> = ["com.installed.app"]
 
-        #expect(OrphanOwners.given(owners, apps: apps, formulae: ["exampletool"]) == ["org.example.given", "org.example.tool"])
-        #expect(OrphanOwners.given(owners, apps: apps, formulae: []) == ["org.example.given"])
         #expect(
-            OrphanOwners.given(owners, apps: apps, formulae: nil)
-                == ["org.example.given", "org.example.tool", "org.example.lost"]
+            OrphanOwners.given(owners, apps: apps, tools: InstalledTools(formulae: ["exampletool"], commands: ["mytool"]))
+                == ["org.example.given", "org.example.tool", "org.example.cmd"]
+        )
+        #expect(
+            OrphanOwners.given(owners, apps: apps, tools: InstalledTools(formulae: [], commands: []))
+                == ["org.example.given"]
+        )
+        #expect(
+            OrphanOwners.given(owners, apps: apps, tools: .notKnown)
+                == ["org.example.given", "org.example.tool", "org.example.lost", "org.example.cmd", "org.example.nocmd"]
         )
     }
 }

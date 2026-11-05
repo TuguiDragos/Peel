@@ -2,20 +2,23 @@ import AppKit
 import PeelCore
 import SwiftUI
 
-/// What a chooser offers: an app, or a command-line tool Homebrew installed.
+/// What a chooser offers: an app, a command-line tool Homebrew installed, or a command in the tool folders.
 enum OwnerChoice: Identifiable, Hashable {
     case app(InstalledApp)
     case tool(HomebrewPackage)
+    case command(CommandLineTools.Command)
 
     enum ID: Hashable {
         case app(InstalledApp.ID)
         case tool(String)
+        case command(URL)
     }
 
     var id: ID {
         switch self {
         case .app(let app): .app(app.id)
         case .tool(let tool): .tool(tool.name)
+        case .command(let command): .command(command.url)
         }
     }
 
@@ -23,15 +26,17 @@ enum OwnerChoice: Identifiable, Hashable {
         switch self {
         case .app(let app): app.name
         case .tool(let tool): tool.name
+        case .command(let command): command.name
         }
     }
 
-    /// What Orphaned Files keeps the choice as: an app by its bundle identifier, so nil for one without, and a tool by
-    /// its formula.
+    /// What Orphaned Files keeps the choice as: an app by its bundle identifier, so nil for one without, a tool by its
+    /// formula, and a command by its name.
     var owner: OrphanOwner? {
         switch self {
         case .app(let app): app.bundleIdentifier.map(OrphanOwner.app)
         case .tool(let tool): .formula(tool.name)
+        case .command(let command): .command(command.name)
         }
     }
 }
@@ -47,43 +52,54 @@ struct AppChooser: View {
     @Environment(AppLibrary.self) private var library
     private let apps: [InstalledApp]
     private let tools: [HomebrewPackage]
+    private let commands: [CommandLineTools.Command]
     private let choose: (OwnerChoice) -> Void
 
     @State private var search = ""
     @State private var highlighted: OwnerChoice.ID?
 
     init(apps: [InstalledApp], choose: @escaping (InstalledApp) -> Void) {
-        self.init(apps: apps, tools: []) { choice in
+        self.init(apps: apps, tools: [], commands: []) { choice in
             if case .app(let app) = choice { choose(app) }
         }
     }
 
-    init(apps: [InstalledApp], tools: [HomebrewPackage], choose: @escaping (OwnerChoice) -> Void) {
+    init(
+        apps: [InstalledApp],
+        tools: [HomebrewPackage],
+        commands: [CommandLineTools.Command],
+        choose: @escaping (OwnerChoice) -> Void
+    ) {
         self.apps = apps
         self.tools = tools
+        self.commands = commands
         self.choose = choose
     }
+
+    private var offersTools: Bool { !tools.isEmpty || !commands.isEmpty }
 
     private var shownApps: [InstalledApp] {
         apps.filter { AppListFilter.matches($0, text: search, developer: library.developer(of: $0)) }
             .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
 
-    private var shownTools: [HomebrewPackage] {
-        tools.filter { search.isEmpty || SearchText.matches($0.name, search) }
+    /// Homebrew's formulae and the commands together, by name.
+    private var shownTools: [OwnerChoice] {
+        (tools.map(OwnerChoice.tool) + commands.map(OwnerChoice.command))
+            .filter { search.isEmpty || SearchText.matches($0.name, search) }
             .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
 
     private var shown: [OwnerChoice] {
-        shownApps.map(OwnerChoice.app) + shownTools.map(OwnerChoice.tool)
+        shownApps.map(OwnerChoice.app) + shownTools
     }
 
     var body: some View {
         let apps = shownApps
         let tools = shownTools
-        let shown = apps.map(OwnerChoice.app) + tools.map(OwnerChoice.tool)
+        let shown = apps.map(OwnerChoice.app) + tools
         // The two kinds get a heading each only while both are offered.
-        let headings = self.tools.isEmpty ? 0 : (apps.isEmpty ? 0 : 1) + (tools.isEmpty ? 0 : 1)
+        let headings = offersTools ? (apps.isEmpty ? 0 : 1) + (tools.isEmpty ? 0 : 1) : 0
         ScrollViewReader { proxy in
             VStack(spacing: 8) {
                 SearchBox(text: $search, prompt: prompt) { step in
@@ -97,7 +113,7 @@ struct AppChooser: View {
                         if headings > 0, !apps.isEmpty { heading("Apps") }
                         ForEach(apps.map(OwnerChoice.app)) { row($0) }
                         if headings > 0, !tools.isEmpty { heading("Command-Line Tools") }
-                        ForEach(tools.map(OwnerChoice.tool)) { row($0) }
+                        ForEach(tools) { row($0) }
                     }
                 }
                 .scrollBounceBehavior(.basedOnSize)
@@ -119,7 +135,7 @@ struct AppChooser: View {
     }
 
     private var prompt: String {
-        tools.isEmpty ? String(localized: "Search Applications") : String(localized: "Search Apps and Tools")
+        offersTools ? String(localized: "Search Apps and Tools") : String(localized: "Search Applications")
     }
 
     private func heading(_ title: LocalizedStringKey) -> some View {
@@ -140,7 +156,7 @@ struct AppChooser: View {
                 case .app(let app):
                     AppIcon(url: app.url)
                         .frame(width: 20, height: 20)
-                case .tool:
+                case .tool, .command:
                     Image(systemName: "terminal")
                         .frame(width: 20, height: 20)
                 }
@@ -159,11 +175,12 @@ struct AppChooser: View {
         .help(Text(verbatim: help(for: choice)))
     }
 
-    /// Where an app is, or what a tool does, as Homebrew says it.
+    /// Where an app or a command is, or what a tool does, as Homebrew says it.
     private func help(for choice: OwnerChoice) -> String {
         switch choice {
         case .app(let app): app.url.abbreviatedPath
         case .tool(let tool): tool.summary ?? tool.name
+        case .command(let command): command.url.abbreviatedPath
         }
     }
 }

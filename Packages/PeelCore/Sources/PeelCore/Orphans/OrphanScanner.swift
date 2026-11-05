@@ -64,14 +64,14 @@ public struct OrphanScanner: Sendable {
     /// left it. `running` is what runs now, known by its bundle identifier: a helper or an agent can keep a
     /// folder that no app bundle claims, and while it runs, its group is marked unsure. `owners` are the groups the
     /// person said belong to an app or a command-line tool (`OrphanOwners`), left out while that app is installed or
-    /// that tool is among `installedFormulae`, what Homebrew has installed, or while those aren't known (nil).
+    /// that tool is among `tools`, what is installed, or while its kind isn't known.
     @concurrent
     public func scan(
         installedApps: [InstalledApp],
         remembered: [RememberedApp] = [],
         running: [RunningCopies.Process] = [],
         owners: [String: OrphanOwner] = [:],
-        installedFormulae: Set<String>? = nil,
+        tools: InstalledTools = .notKnown,
         leftForAnAdministrator records: [LeftForAnAdministrator.Record] = []
     ) async -> OrphanScan {
         let systemApps = if let systemApps { systemApps } else { await AppCatalog.systemApps.value }
@@ -181,7 +181,7 @@ public struct OrphanScanner: Sendable {
         )
         let folders = manifestFolders
         let loadedByOtherApps = Plugins.LoadedByOtherApps(environment: environment)
-        let given = OrphanOwners.given(owners, apps: here, formulae: installedFormulae)
+        let given = OrphanOwners.given(owners, apps: here, tools: tools)
         let kept = found.compactMap { entry -> (identifier: String, item: OrphanItem, holds: Bool?)? in
             guard !exclusions.excludes(entry.item.url), !exclusions.excludes(bundleIdentifier: entry.identifier),
                   !Self.isInAGroup(entry.identifier, among: given),

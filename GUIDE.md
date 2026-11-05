@@ -397,8 +397,9 @@ It sets up the command line as well:
   page the folders named exactly with its identifier, such as its caches, and an update it downloaded; to keep its
   other files, such as plug-ins or a folder named after it, exclude them too. Add them in
   Settings > Exclusions, or Control-click a row and choose Exclude from Peel. In Orphaned Files, Control-click a
-  group and choose This Belongs To…, and Peel stops listing it while the app, or the command-line tool from Homebrew,
-  you chose is installed.
+  group and choose This Belongs To…, and Peel stops listing it while the app or the command-line tool you chose is
+  installed: one Homebrew installed, or a command in `/usr/local/bin`, MacPorts' `/opt/local/bin`, or your home's `bin`
+  and `.local/bin`.
 
 ## Work your way
 

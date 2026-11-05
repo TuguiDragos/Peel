@@ -167,13 +167,15 @@ struct OrphanScannerTests {
             "org.example.tool": .formula("exampletool"),
         ]
 
-        let left = scan.leavingOut(given: owners, installedApps: installed, installedFormulae: ["exampletool"])
+        let left = scan.leavingOut(
+            given: owners, installedApps: installed, tools: InstalledTools(formulae: ["exampletool"])
+        )
         #expect(left.groups.map(\.identifier) == ["org.example.kept", "org.example.gone"])
 
-        let toolGone = scan.leavingOut(given: owners, installedApps: installed, installedFormulae: [])
+        let toolGone = scan.leavingOut(given: owners, installedApps: installed, tools: InstalledTools(formulae: []))
         #expect(toolGone.groups.map(\.identifier) == ["org.example.kept", "org.example.gone", "org.example.tool"])
 
-        let toolsNotKnown = scan.leavingOut(given: owners, installedApps: installed, installedFormulae: nil)
+        let toolsNotKnown = scan.leavingOut(given: owners, installedApps: installed, tools: .notKnown)
         #expect(toolsNotKnown.groups.map(\.identifier) == ["org.example.kept", "org.example.gone"])
     }
 
@@ -183,14 +185,31 @@ struct OrphanScannerTests {
         let scanner = scanner(in: directory)
         let owners: [String: OrphanOwner] = ["org.example.tool": .formula("exampletool")]
 
-        let given = await scanner.scan(installedApps: installed, owners: owners, installedFormulae: ["exampletool"])
+        let given = await scanner.scan(
+            installedApps: installed, owners: owners, tools: InstalledTools(formulae: ["exampletool"])
+        )
         #expect(given.groups.isEmpty)
 
-        let toolGone = await scanner.scan(installedApps: installed, owners: owners, installedFormulae: [])
+        let toolGone = await scanner.scan(installedApps: installed, owners: owners, tools: InstalledTools(formulae: []))
         #expect(toolGone.groups.map(\.identifier) == ["org.example.tool"])
 
-        let toolsNotKnown = await scanner.scan(installedApps: installed, owners: owners, installedFormulae: nil)
+        let toolsNotKnown = await scanner.scan(installedApps: installed, owners: owners, tools: .notKnown)
         #expect(toolsNotKnown.groups.isEmpty)
+    }
+
+    @Test func aGroupThePersonGaveToACommandIsNotListedWhileTheCommandIsThere() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Caches/org.example.cmd/cache.db")
+        let scanner = scanner(in: directory)
+        let owners: [String: OrphanOwner] = ["org.example.cmd": .command("mytool")]
+
+        let given = await scanner.scan(installedApps: installed, owners: owners, tools: InstalledTools(commands: ["mytool"]))
+        #expect(given.groups.isEmpty)
+
+        let commandGone = await scanner.scan(
+            installedApps: installed, owners: owners, tools: InstalledTools(commands: [])
+        )
+        #expect(commandGone.groups.map(\.identifier) == ["org.example.cmd"])
     }
 
     @Test func aTwoPartIdentifierNoAppDeclaredIsNeverAskedAboutAsAPrefix() {

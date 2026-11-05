@@ -108,14 +108,14 @@ struct OrphansCommand: AsyncParsableCommand {
         let exclusions = await UnreadableExclusions.load()
         let scanner = OrphanScanner(exclusions: exclusions)
         let owners = OrphanOwners().load()
-        let formulae = await Homebrew.installedFormulae()
+        let tools = await InstalledTools.read()
         let scan = await ProgressLine.counting {
             await scanner.scan(
                 installedApps: apps,
                 remembered: remembered,
                 running: running,
                 owners: owners ?? [:],
-                installedFormulae: formulae,
+                tools: tools,
                 leftForAnAdministrator: await LeftForAnAdministrator().load()
             )
         }

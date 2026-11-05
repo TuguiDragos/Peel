@@ -9,8 +9,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Orphaned Files
 
-- This Belongs To… also offers the command-line tools Homebrew installed, so what a tool keeps under a dotted name
-  stays out of the list while that tool is installed. Settings > Exclusions shows the tool beside its group.
+- This Belongs To… also offers command-line tools: the ones Homebrew installed, and the commands in `/usr/local/bin`,
+  MacPorts' `/opt/local/bin`, and your home's `bin` and `.local/bin`. What a tool keeps under a dotted name stays out of
+  the list while that tool is installed, and Settings > Exclusions shows the tool beside its group.
 
 ### Fixed
 

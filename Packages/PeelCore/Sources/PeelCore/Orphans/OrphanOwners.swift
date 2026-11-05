@@ -1,25 +1,32 @@
 public import Foundation
 internal import PeelPrivileged
 
-/// What a group of orphaned files belongs to, as the person said: an app, by its bundle identifier, or a command-line
-/// tool Homebrew installed, by the name of its formula.
+/// What a group of orphaned files belongs to, as the person said: an app, by its bundle identifier, a command-line
+/// tool Homebrew installed, by the name of its formula, or a command in the tool folders (`CommandLineTools`), by name.
 public enum OrphanOwner: Sendable, Hashable {
     case app(String)
     case formula(String)
+    case command(String)
 }
 
 extension OrphanOwner: Codable {
     private enum CodingKeys: String, CodingKey {
         case formula
+        case command
     }
 
     /// An app is written as its bundle identifier alone, as every list written before tools could be named, and a
-    /// formula under its own key.
+    /// formula or a command under its own key.
     public init(from decoder: any Decoder) throws {
         if let identifier = try? decoder.singleValueContainer().decode(String.self) {
             self = .app(identifier)
+            return
+        }
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        if let name = try container.decodeIfPresent(String.self, forKey: .formula) {
+            self = .formula(name)
         } else {
-            self = .formula(try decoder.container(keyedBy: CodingKeys.self).decode(String.self, forKey: .formula))
+            self = .command(try container.decode(String.self, forKey: .command))
         }
     }
 
@@ -31,7 +38,39 @@ extension OrphanOwner: Codable {
         case .formula(let name):
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(name, forKey: .formula)
+        case .command(let name):
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(name, forKey: .command)
         }
+    }
+}
+
+/// What is installed on this Mac that a group of orphaned files can belong to besides an app: Homebrew's formulae and
+/// the commands in the tool folders. A kind that isn't known is nil, and a group given to one of it stays out.
+public struct InstalledTools: Sendable {
+    public var formulae: Set<String>?
+    public var commands: Set<String>?
+    /// The commands a person may name, for a chooser.
+    public var offeredCommands: [CommandLineTools.Command]
+
+    public init(
+        formulae: Set<String>? = nil, commands: Set<String>? = nil, offeredCommands: [CommandLineTools.Command] = []
+    ) {
+        self.formulae = formulae
+        self.commands = commands
+        self.offeredCommands = offeredCommands
+    }
+
+    public static let notKnown = InstalledTools()
+
+    /// What is installed now, read right before a scan: Homebrew's Cellar, asked once, gives its formulae and keeps
+    /// its linked commands out of those offered.
+    public static func read(environment: SearchEnvironment = .current) async -> InstalledTools {
+        let answers = Homebrew.Answers()
+        let cellar = await Homebrew.cellar(asking: answers)
+        let formulae = await Homebrew.installedFormulae(asking: answers)
+        let commands = CommandLineTools.read(environment: environment, cellar: cellar)
+        return InstalledTools(formulae: formulae, commands: commands?.names, offeredCommands: commands?.offered ?? [])
     }
 }
 
@@ -83,17 +122,16 @@ public struct OrphanOwners: Sendable {
         change { owners in groups.forEach { owners[$0.lowercased()] = nil } }
     }
 
-    /// The groups, lowercased, whose owner is on this Mac: an app among `apps`, the installed bundle identifiers, or a
-    /// formula among `formulae`, the installed ones. While the formulae aren't known, every group given to one stays
-    /// out, since the person's word stands until Peel knows better.
-    public static func given(
-        _ owners: [String: OrphanOwner], apps: Set<String>, formulae: Set<String>?
-    ) -> Set<String> {
+    /// The groups, lowercased, whose owner is on this Mac: an app among `apps`, the installed bundle identifiers, or
+    /// a formula or a command among `tools`. While a kind of tool isn't known, every group given to one stays out,
+    /// since the person's word stands until Peel knows better.
+    public static func given(_ owners: [String: OrphanOwner], apps: Set<String>, tools: InstalledTools) -> Set<String> {
         Set(
             owners.filter { _, owner in
                 switch owner {
                 case .app(let identifier): apps.contains(identifier.lowercased())
-                case .formula(let name): formulae?.contains(name) ?? true
+                case .formula(let name): tools.formulae?.contains(name) ?? true
+                case .command(let name): tools.commands?.contains(name) ?? true
                 }
             }
             .keys.map { $0.lowercased() }

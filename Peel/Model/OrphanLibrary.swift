@@ -25,6 +25,8 @@ final class OrphanLibrary {
     private(set) var owners: [String: OrphanOwner]?
     /// Why that list can't be read, when Peel knows.
     private(set) var whyOwnersUnreadable: FileProblem?
+    /// The commands in the tool folders a group can be given to, as the last scan read them.
+    private(set) var offeredCommands: [CommandLineTools.Command] = []
 
     init() {
         readOwners()
@@ -80,24 +82,23 @@ final class OrphanLibrary {
             // helper or an agent can keep a folder that no app bundle claims.
             let running = RunningCopies.current
             // Read right before the scan, so a group given to a tool follows the tool.
-            let formulae = await Homebrew.installedFormulae()
+            let tools = await InstalledTools.read()
             let scan = await OrphanScanner(exclusions: ExclusionsStore.shared.exclusions).scan(
                 installedApps: installedApps,
                 remembered: remembered,
                 running: running,
                 owners: owners ?? [:],
-                installedFormulae: formulae,
+                tools: tools,
                 leftForAnAdministrator: await LeftForAnAdministrator().load()
             )
             if !scan.appsOnOtherDisks.isEmpty {
                 await AppMemory().remember(scan.appsOnOtherDisks)
             }
-            return (scan: scan, formulae: formulae)
+            return (scan: scan, tools: tools)
         }), library.readEverything else { return }
         // The owners this scan began with may have grown while it ran.
-        let result = found.scan.leavingOut(
-            given: self.owners ?? [:], installedApps: library.apps, installedFormulae: found.formulae
-        )
+        let result = found.scan.leavingOut(given: self.owners ?? [:], installedApps: library.apps, tools: found.tools)
+        offeredCommands = found.tools.offeredCommands
         let remainingURLs = Set(result.groups.flatMap(\.items).filter { $0.leftAlone == nil }.map(\.url))
         scan = result
         scannedAgainst = listing

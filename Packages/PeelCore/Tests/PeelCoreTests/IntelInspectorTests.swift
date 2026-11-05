@@ -446,7 +446,7 @@ struct IntelInspectorTests {
         let tools = readable { IntelInspector.tools(in: [bin.path(percentEncoded: false)], unreadable: &$0) }
 
         #expect(tools.map(\.name) == ["tool"])
-        #expect(tools.map { PathPattern.comparablePath(of: $0.url) } == [PathPattern.comparablePath(of: program)])
+        #expect(tools.map { PathPattern.comparablePath(of: $0.program) } == [PathPattern.comparablePath(of: program)])
     }
 
     @Test func leavesUnreadAProgramWhoseContentsLiveOnlyInTheCloud() throws {

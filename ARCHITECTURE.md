@@ -404,9 +404,10 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   (`nameKey`). An app macOS knows on another disk that claims something is remembered too
   (`OrphanScan.appsOnOtherDisks`, `Disks`), so its files stay its own while that disk isn't connected, and a link into
   an app on such a disk is not one into an app that is gone. A group the person gave to an app or to a command-line
-  tool Homebrew installed (`OrphanOwner`) stays out while that app or tool is installed (`OrphanOwners.given`), the
-  tools read from the Cellar as Homebrew counts them (`Homebrew.installedFormulae`) right before each scan, in the app
-  and in `peel orphans` alike.
+  tool (`OrphanOwner`) stays out while that app or tool is installed (`OrphanOwners.given`), the tools read right before
+  each scan (`InstalledTools.read`), in the app and in `peel orphans` alike: Homebrew's formulae from its Cellar as
+  Homebrew counts them (`Homebrew.installedFormulae`), and the commands in the tool folders Intel Software reads
+  (`CommandLineTools`), a command that leads into an app or into the Cellar left to its app or formula.
 - **Intel Software.** `IntelInspector` judges by the code itself: what a bundle runs, or a file, is Intel only when
   its Mach-O slices are x86_64 alone (`MachOHeader`), and a file found inside an app or beside a printer driver counts
   only when it is a program (`MH_EXECUTE`), since a library runs in whatever loads it. It looks at the installed apps
@@ -514,7 +515,7 @@ where a Homebrew install takes them from.
 | `~/Library/Application Support/Peel/digests.bin` | What Duplicates already read, so an unchanged file isn't read again. |
 | `~/Library/Application Support/Peel/apps.json` | The apps Peel has seen, and those macOS knows on another disk that claimed a file, kept once they are gone or out of reach, so Orphaned Files can name what they left (`AppMemory`). |
 | `~/Library/Application Support/Peel/teams.json` | Which team signs each app, so a change of signer can be told (`TeamRegistry`). |
-| `~/Library/Application Support/Peel/orphan-owners.json` | The orphaned files the user said belong to an app, or to a command-line tool Homebrew installed, by its formula (`OrphanOwner`). |
+| `~/Library/Application Support/Peel/orphan-owners.json` | The orphaned files the user said belong to an app, to a command-line tool Homebrew installed, by its formula, or to a command in the tool folders, by its name (`OrphanOwner`). |
 | `~/Library/Application Support/Peel/left-for-an-administrator.json` | What an uninstall left that only an administrator can move, from a place the helper doesn't serve, so Orphaned Files lists it under Needs an Administrator once the app is gone. |
 | `~/Library/Application Support/Peel/dock-tiles.json` | The Dock icons an uninstall took out, and where each was, so History puts them back with their app. |
 | `~/Library/Application Support/Peel/app-folders.json` | The folders the user chose for Peel to look for apps in, beside the Applications folders. |

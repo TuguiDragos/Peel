@@ -155,9 +155,11 @@ struct OrphanList: View {
                         .lineLimit(1)
                         .truncationMode(.middle)
                 }
-                // What a group belongs to is kept by the app's identifier or the tool's formula.
+                // What a group belongs to is kept by the app's identifier, the tool's formula or the command's name.
                 AppChooser(
-                    apps: library.apps.filter { $0.bundleIdentifier != nil }, tools: homebrew.formulae
+                    apps: library.apps.filter { $0.bundleIdentifier != nil },
+                    tools: homebrew.formulae,
+                    commands: orphans.offeredCommands
                 ) { choice in
                     groupToGive = nil
                     guard let owner = choice.owner else { return }
