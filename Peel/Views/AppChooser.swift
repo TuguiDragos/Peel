@@ -39,6 +39,23 @@ enum OwnerChoice: Identifiable, Hashable {
         case .command(let command): .command(command.name)
         }
     }
+
+    /// Where the choice is: an app's or a command's folder, and Homebrew for a formula. It tells two choices of one
+    /// name apart, as Finder's Open With menu tells two apps of one name apart by what differs between them.
+    var place: String {
+        switch self {
+        case .app(let app): app.url.deletingLastPathComponent().abbreviatedPath
+        case .tool: "Homebrew"
+        case .command(let command): command.url.deletingLastPathComponent().abbreviatedPath
+        }
+    }
+
+    /// The place of each of `choices` whose name another of them has too, by id.
+    static func places(whereNamesRepeat choices: [OwnerChoice]) -> [ID: String] {
+        let counts = Dictionary(choices.map { ($0.name, 1) }, uniquingKeysWith: +)
+        let repeated = choices.filter { counts[$0.name, default: 0] > 1 }
+        return Dictionary(repeated.map { ($0.id, $0.place) }, uniquingKeysWith: { first, _ in first })
+    }
 }
 
 /// A short list of apps, and of command-line tools when any are offered, to choose one from, under a search field. A
@@ -94,10 +111,20 @@ struct AppChooser: View {
         shownApps.map(OwnerChoice.app) + shownTools
     }
 
+    /// What tells two offered choices of one name apart, judged among everything offered, so a row reads the same
+    /// however the search narrows the list.
+    private var places: [OwnerChoice.ID: String] {
+        OwnerChoice.places(
+            whereNamesRepeat: apps.map(OwnerChoice.app) + tools.map(OwnerChoice.tool)
+                + commands.map(OwnerChoice.command)
+        )
+    }
+
     var body: some View {
         let apps = shownApps
         let tools = shownTools
         let shown = apps.map(OwnerChoice.app) + tools
+        let places = self.places
         // The two kinds get a heading each only while both are offered.
         let headings = offersTools ? (apps.isEmpty ? 0 : 1) + (tools.isEmpty ? 0 : 1) : 0
         ScrollViewReader { proxy in
@@ -111,9 +138,9 @@ struct AppChooser: View {
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         if headings > 0, !apps.isEmpty { heading("Apps") }
-                        ForEach(apps.map(OwnerChoice.app)) { row($0) }
+                        ForEach(apps.map(OwnerChoice.app)) { row($0, place: places[$0.id]) }
                         if headings > 0, !tools.isEmpty { heading("Command-Line Tools") }
-                        ForEach(tools) { row($0) }
+                        ForEach(tools) { row($0, place: places[$0.id]) }
                     }
                 }
                 .scrollBounceBehavior(.basedOnSize)
@@ -147,7 +174,7 @@ struct AppChooser: View {
             .frame(height: Self.headingHeight)
     }
 
-    private func row(_ choice: OwnerChoice) -> some View {
+    private func row(_ choice: OwnerChoice, place: String?) -> some View {
         Button {
             choose(choice)
         } label: {
@@ -160,7 +187,7 @@ struct AppChooser: View {
                     Image(systemName: "terminal")
                         .frame(width: 20, height: 20)
                 }
-                Text(verbatim: choice.name)
+                title(choice, place: place)
                     .lineLimit(1)
                     .truncationMode(.middle)
                 Spacer(minLength: 0)
@@ -173,6 +200,17 @@ struct AppChooser: View {
         .background(.quaternary.opacity(highlighted == choice.id ? 1 : 0), in: .rect(cornerRadius: 6))
         .onHover { if $0 { highlighted = choice.id } }
         .help(Text(verbatim: help(for: choice)))
+    }
+
+    /// The name and, in brackets after it and secondary, the place that tells it apart.
+    private func title(_ choice: OwnerChoice, place: String?) -> Text {
+        var title = AttributedString(choice.name)
+        if let place {
+            var suffix = AttributedString(" (\(place))")
+            suffix.foregroundColor = .secondary
+            title.append(suffix)
+        }
+        return Text(title)
     }
 
     /// Where an app or a command is, or what a tool does, as Homebrew says it.
