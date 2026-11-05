@@ -1302,16 +1302,40 @@ struct OrphanScannerTests {
         try directory.file("var/T/tomcat.8080.10018690101673077448/work/Tomcat/localhost/ROOT/SESSIONS.ser")
         try directory.file("var/T/tomcat.8080.10054962961815905490/work/Tomcat/localhost/ROOT/SESSIONS.ser")
         try directory.file("var/T/com.gone.app/cache.db")
+
+        let scan = await scannerOfTheTemporaryFolder(in: directory)
+            .scan(installedApps: installed, remembered: [goneApp])
+
+        #expect(scan.groups.map(\.identifier) == ["com.gone.app"])
+    }
+
+    @Test func listsInTheTemporaryFolderOnlyWhatCameWithAnAppPeelSawGo() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("var/T/tool.registry.545355")
+        try directory.file("var/T/com.unseen.app/cache.db")
+        try directory.file("var/T/com.gone.app/cache.db")
+        try directory.file("var/T/com.gone.app.helper/state.db")
+
+        let scan = await scannerOfTheTemporaryFolder(in: directory)
+            .scan(installedApps: installed, remembered: [goneApp])
+
+        #expect(scan.groups.map(\.identifier) == ["com.gone.app"])
+        #expect(
+            Set(scan.groups.flatMap(\.items).map(\.url.lastPathComponent)) == ["com.gone.app", "com.gone.app.helper"]
+        )
+    }
+
+    private let goneApp = RememberedApp(
+        bundleIdentifier: "com.gone.app", name: "Gone", teamIdentifier: nil, lastSeen: .now, lastPath: "/Applications/Gone.app"
+    )
+
+    private func scannerOfTheTemporaryFolder(in directory: borrowing TemporaryDirectory) -> OrphanScanner {
         let environment = SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
             rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory),
             userTemporaryDirectory: directory.url.appending(path: "var/T", directoryHint: .isDirectory)
         )
-
-        let scan = await OrphanScanner(environment: environment, isRegisteredApp: { _ in false }, systemApps: [])
-            .scan(installedApps: installed)
-
-        #expect(scan.groups.map(\.identifier) == ["com.gone.app"])
+        return OrphanScanner(environment: environment, isRegisteredApp: { _ in false }, systemApps: [])
     }
 
     @Test func findsWhatAMacCatalystBuildLeft() async throws {
@@ -1979,7 +2003,7 @@ struct OrphanScannerTests {
         )
 
         let scan = await OrphanScanner(environment: environment, isRegisteredApp: { _ in false }, systemApps: [])
-            .scan(installedApps: installed)
+            .scan(installedApps: installed, remembered: [goneApp])
 
         #expect(scan.groups.flatMap(\.items).map(\.url.lastPathComponent) == ["com.gone.app"])
     }

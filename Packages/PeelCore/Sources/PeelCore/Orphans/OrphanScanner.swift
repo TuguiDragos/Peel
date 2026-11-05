@@ -781,9 +781,14 @@ public struct OrphanScanner: Sendable {
         }
     }
 
-    /// Whether a plug-in or a framework came with an app Peel saw go: its identifier is that app's, extends it, or
-    /// is its maker's. An installer can put one in place with no app at all, and its date does not move when it is
-    /// used, so nothing else says it was left behind.
+    /// Where a name proves nothing by itself, so only what came with an app Peel saw go is listed: the folders of
+    /// code macOS loads, which an installer can fill with no app, and the temporary folder, where every program that
+    /// runs writes files named as it likes.
+    static func listsOnlyWhatCameWithAnApp(_ kind: SearchLocation.Kind) -> Bool {
+        kind.isLoadedCode || kind == .temporaryItems
+    }
+
+    /// Whether an item came with an app Peel saw go: its identifier is that app's, extends it, or is its maker's.
     static func cameWithAnAppThatLeft(_ identifier: String, goneApps: [String]) -> Bool {
         let plugIn = identifier.lowercased()
         let maker = Identifier.vendor(of: plugIn)
@@ -856,7 +861,7 @@ public struct OrphanScanner: Sendable {
                 ownership: ownership,
                 jobs: jobs,
                 goneBundles: goneBundles,
-                cameWithOneOf: location.kind.isLoadedCode ? goneApps : nil
+                cameWithOneOf: listsOnlyWhatCameWithAnApp(location.kind) ? goneApps : nil
             )
             if listing == .notListed {
                 listing = await goneApp(named: url, kind: location.kind, goneNames: goneNames, ownership: ownership)

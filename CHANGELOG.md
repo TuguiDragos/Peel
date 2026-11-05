@@ -3,6 +3,15 @@
 Every release of Peel is listed here, newest first. The version is the one About Peel shows, and each entry groups
 its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
+## 1.3.1 (not released yet)
+
+### Fixed
+
+#### Orphaned Files
+
+- Your account's temporary folder lists only what came with an app Peel saw go, as the plug-in folders do. A file a
+  command-line tool left there under a dotted name was listed as an app's that no app claims.
+
 ## 1.3.0 (2026-11-04)
 
 ### Added
