@@ -968,4 +968,36 @@ struct AttackRemovalGuardTests {
         #expect(excluding.refusal(of: url) == .couldNotLookInside)
         #expect(RemovalGuard(environment: environment).refusal(of: url) == nil, "with no app excluded, the helper looks")
     }
+
+    /// The Mac's own settings and jobs, which nothing but macOS makes again; the account's own settings for Apple's
+    /// apps, which a reset clears, and macOS's caches, which come back on their own, are another matter.
+    @Test func whatMacOSKeepsUnderApplesNameInTheMacsLibraryStays() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
+        let homePath = home.path(percentEncoded: false)
+
+        let macOSs = [
+            "/Library/Preferences/com.apple.example.plist",
+            "/Library/Preferences/SystemConfiguration/preferences.plist",
+            "/Library/LaunchDaemons/com.apple.example.plist",
+            "/Library/LaunchAgents/com.apple.example.plist",
+            "/Library/PrivilegedHelperTools/com.apple.example",
+            "/Library/Application Support/com.apple.example/Settings.plist",
+        ]
+        for path in macOSs {
+            #expect(guardian.refusal(of: URL(filePath: path)) == .protectedLocation, "\(path) would move")
+            #expect(ProtectedData.refuses(path, home: homePath), "\(path) not refused")
+        }
+        let others = [
+            URL(filePath: "/Library/Preferences/org.example.vendor.plist"),
+            URL(filePath: "/Library/Caches/com.apple.example"),
+            home.appending(path: "Library/Preferences/com.apple.example.plist"),
+        ]
+        for url in others {
+            #expect(guardian.allowsRemoval(of: url), "\(url.path(percentEncoded: false)) refused")
+        }
+    }
 }

@@ -73,13 +73,18 @@ Integrity Protection guards, which macOS marks as restricted, is refused as well
 so is anything macOS marks so that nothing can remove or rename it, such as the private folders it makes in your
 temporary folder for the processes it runs in a sandbox; Peel doesn't list those.
 
-Everywhere on the Mac: `/Library/Keychains`, the Trash macOS keeps at the top of every disk (`/.Trashes` and
-`/Volumes/<disk>/.Trashes`), whose contents are already on their way out, as your own `.Trash`'s are, and any
-`.photoslibrary`, `.photolibrary`, `.migratedphotolibrary`, `.musiclibrary`, `.tvlibrary`, `.imovielibrary`,
-`.fcpbundle`, or `.aplibrary`: somebody's whole photo, music, or video collection. A folder with one of them a level or
-two inside stays too, since moving the folder would take the library along, and the row says so instead of failing when
-you press the button. A browser profile with a wallet in it stays the same way, and so does a folder that holds one a
-level or two down: see [Crypto wallets](#crypto-wallets).
+Everywhere on the Mac: `/Library/Keychains`, the Mac's network settings in `/Library/Preferences/SystemConfiguration`,
+the Trash macOS keeps at the top of every disk (`/.Trashes` and `/Volumes/<disk>/.Trashes`), whose contents are already
+on their way out, as your own `.Trash`'s are, and any `.photoslibrary`, `.photolibrary`, `.migratedphotolibrary`,
+`.musiclibrary`, `.tvlibrary`, `.imovielibrary`, `.fcpbundle`, or `.aplibrary`: somebody's whole photo, music, or video
+collection. A folder with one of them a level or two inside stays too, since moving the folder would take the library
+along, and the row says so instead of failing when you press the button. A browser profile with a wallet in it stays
+the same way, and so does a folder that holds one a level or two down: see [Crypto wallets](#crypto-wallets). What
+macOS keeps under Apple's own name (`com.apple.`) directly in `/Library/Preferences`, `/Library/LaunchDaemons`,
+`/Library/LaunchAgents`, `/Library/PrivilegedHelperTools`, or `/Library/Application Support`, such as
+`com.apple.loginwindow.plist`, stays as well: the Mac's own settings and jobs, which nothing but macOS makes again. Your
+account's own settings for Apple's apps, in `~/Library/Preferences`, are yours: resetting an app clears them, after
+saving a copy.
 
 Anything that syncs to your other devices stays too, wherever it is: what iCloud or another cloud service keeps, such as
 what is on your Desktop and in Documents when they are in iCloud Drive, and what is in a folder Syncthing, Resilio Sync,

@@ -227,9 +227,16 @@ public enum ProtectedData: Sendable {
         ".gitconfig", ".gitignore_global", ".netrc", ".npmrc",
     ]
 
-    /// Folders outside any home that hold work nothing can bring back, for every account on the Mac.
-    public static let systemFolders = ["/Library/Keychains"]
+    /// Folders outside any home that hold what nothing can bring back, for every account on the Mac: the system
+    /// keychains, and the Mac's network settings, which the System Configuration framework keeps there.
+    public static let systemFolders = ["/Library/Keychains", "/Library/Preferences/SystemConfiguration"]
     private static let systemFolderNames = systemFolders.map { PathComponents.of($0.lowercased()) }
+
+    /// The folders of the Mac's own `/Library` where macOS keeps its settings and jobs under Apple's name, beside
+    /// every vendor's. Lowercase.
+    private static let macOSsOwnLibraryFolders: Set<String> = [
+        "preferences", "launchdaemons", "launchagents", "privilegedhelpertools", "application support",
+    ]
 
     /// True for a name Apple writes for its own things: `com.apple.` after an optional team and an optional
     /// `group.`, `groups.`, or `systemgroup.`.
@@ -243,6 +250,13 @@ public enum ProtectedData: Sendable {
             name = name.dropFirst(prefix.count)
         }
         return name.hasPrefix("com.apple.")
+    }
+
+    /// True at or inside an item named as Apple names its own, directly in one of `macOSsOwnLibraryFolders`: a
+    /// setting or a job of macOS itself, which nothing but macOS makes again. Not an account's own Library, where such
+    /// a file holds the account's settings for an Apple app, which a reset clears. Expects the names lower-cased.
+    private static func isMacOSsOwnInLibrary(_ names: [String]) -> Bool {
+        names.count > 2 && names[0] == "library" && macOSsOwnLibraryFolders.contains(names[1]) && isApplesName(names[2])
     }
 
     /// True at or inside one of Apple's own group containers, where the system's apps keep the user's data,
@@ -556,7 +570,8 @@ public enum ProtectedData: Sendable {
     }
 
     /// True for a path at or inside anything protected here: the home and system folders, the keys, a wallet
-    /// extension's storage, a media library, a global preferences file, or one of Apple's group containers.
+    /// extension's storage, a media library, a global preferences file, one of Apple's group containers, or what
+    /// macOS keeps under Apple's name in `/Library`.
     /// Running as root, the helper can see every account on the Mac, so a home folder is any folder directly
     /// inside `/Users`, as well as the one given.
     public static func refuses(_ path: String, home: String) -> Bool {
@@ -568,7 +583,9 @@ public enum ProtectedData: Sendable {
         spellings.contains { spelling in
             let names = PathComponents.of(spelling)
             if names.contains(where: isALibrary) || isInADisksTrash(names) { return true }
-            if isGlobalPreferences(spelling) || isInAnApplesGroupContainer(names) { return true }
+            if isGlobalPreferences(spelling) || isInAnApplesGroupContainer(names) || isMacOSsOwnInLibrary(names) {
+                return true
+            }
             if isInsideAWalletExtension(names) { return true }
 
             for home in homes(of: names, given: home) where trees(under: home).contain(names) {

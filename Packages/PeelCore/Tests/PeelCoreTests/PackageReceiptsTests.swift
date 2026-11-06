@@ -1310,4 +1310,11 @@ struct PackageReceiptsTests {
 
         #expect(names == ["org.example.word", "org.example.excel", "Tool", "org.example.plain"])
     }
+
+    @Test func neverOffersWhatMacOSKeepsUnderApplesName() {
+        let files = ["Library/Preferences/com.apple.example.plist", "Library/Preferences/org.example.vendor.plist"]
+        let found = PackageReceipts.topLevel(files: files, installLocation: "/", exists: { _ in true })
+        #expect(found.onDisk == files.map { "/" + $0 })
+        #expect(found.offered == ["/Library/Preferences/org.example.vendor.plist"])
+    }
 }

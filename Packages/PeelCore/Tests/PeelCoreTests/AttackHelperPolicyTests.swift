@@ -158,6 +158,28 @@ struct AttackHelperPolicyTests {
         let resolved = try #require(try? policy(directory).open(disguised).get())
         #expect(resolved.path.hasSuffix("/Library/Caches/thing.db"), "realpath did not canonicalize the case")
     }
+
+    /// macOS keeps the Mac's own settings and jobs under Apple's name in `/Library`, beside every vendor's, and
+    /// nothing but macOS makes them again, so the helper refuses them by name, before anything is opened.
+    @Test func theHelperRefusesWhatMacOSKeepsUnderApplesNameInTheMacsLibrary() {
+        let policy = PrivilegedPathPolicy(homeDirectory: NSHomeDirectory())
+        let macOSs = [
+            "/Library/Preferences/com.apple.example.plist",
+            "/Library/Preferences/SystemConfiguration",
+            "/Library/Preferences/SystemConfiguration/preferences.plist",
+            "/Library/LaunchDaemons/com.apple.example.plist",
+            "/Library/LaunchAgents/com.apple.example.plist",
+            "/Library/PrivilegedHelperTools/com.apple.example",
+            "/Library/Application Support/com.apple.example/Settings.plist",
+        ]
+        for path in macOSs {
+            #expect(policy.refusal(of: path) == .irreplaceable, "ATTACK SUCCEEDED: the helper would move \(path)")
+        }
+        let vendors = ["/Library/Preferences/org.example.vendor.plist", "/Library/LaunchDaemons/org.example.vendor.plist"]
+        for path in vendors {
+            #expect(policy.refusal(of: path) == nil, "\(path) refused")
+        }
+    }
 }
 
 extension AttackHelperPolicyTests {
