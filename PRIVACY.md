@@ -42,6 +42,18 @@ Report an Issue, in the Help menu, opens GitHub's form for a new issue with Peel
 whether your Mac has Apple silicon or Intel already filled in. They are in the address the browser opens, so GitHub sees
 them as the page loads, and they are posted only if you send the issue.
 
+## What Peel keeps on your Mac
+
+Peel's own records are in `~/Library/Application Support/Peel`: History and the journal written beside it as items
+move, the refusals, what an uninstall left for an administrator, the apps Peel remembers and their signing teams, the
+exclusions, the app folders and the Homebrew you chose, what you told Orphaned Files an item belongs to, the Dock tiles
+an uninstall took out, the notes of waiting updates, what Duplicates has read, and the copies of settings a reset
+saves. The ones that record what Peel moved, held back, or was told about name each item's path, which can lie in
+Desktop, Documents, Downloads, or another folder macOS makes an app ask for, and a saved copy of settings holds
+whatever the app kept in them. Like any file of yours, they can be read by every program that runs as your account, so
+a program macOS keeps out of those folders can still read such names there. Nothing in them leaves your Mac, and
+Remove Peel moves the folder to the Trash with the rest of Peel's.
+
 ## Every address Peel or Homebrew may contact
 
 | Address | Why |
