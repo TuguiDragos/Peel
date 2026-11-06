@@ -52,7 +52,7 @@ saves. The ones that record what Peel moved, held back, or was told about name e
 Desktop, Documents, Downloads, or another folder macOS makes an app ask for, and a saved copy of settings holds
 whatever the app kept in them. Like any file of yours, they can be read by every program that runs as your account, so
 a program macOS keeps out of those folders can still read such names there. Nothing in them leaves your Mac, and
-Remove Peel moves the folder to the Trash with the rest of Peel's.
+Remove Peel moves them to the Trash with the rest of Peel's.
 
 ## Every address Peel or Homebrew may contact
 
