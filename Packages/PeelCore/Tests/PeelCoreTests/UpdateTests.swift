@@ -291,6 +291,25 @@ struct ElectronUpdaterTests {
         #expect(ElectronUpdater.feedURL(fromConfiguration: "provider: github\nhost: github.com\nowner: example\nrepo: tool\n") != nil)
     }
 
+    /// The owner, repository, and channel come from the app's own file, so each has to be one name, as GitHub writes
+    /// an owner's or a repository's and electron-builder a channel's, or they could ask for any page on github.com.
+    @Test func asksGitHubOnlyWithNames() {
+        func feed(_ configuration: String) -> String? {
+            ElectronUpdater.feedURL(fromConfiguration: configuration)?.absoluteString
+        }
+        #expect(feed("provider: github\nowner: example\nrepo: tool.js\n")
+            == "https://github.com/example/tool.js/releases/latest/download/latest-mac.yml")
+        #expect(feed("provider: github\nowner: example-org\nrepo: my_tool\nchannel: beta\n")
+            == "https://github.com/example-org/my_tool/releases/latest/download/beta-mac.yml")
+
+        #expect(feed("provider: github\nowner: vendor?x=1\nrepo: app\n") == nil)
+        #expect(feed("provider: github\nowner: other/project/releases/download/v1/file.yml#\nrepo: app\n") == nil)
+        #expect(feed("provider: github\nowner: vendor\nrepo: app\nchannel: ../../../../orgs/example/repositories?q=\n") == nil)
+        #expect(feed("provider: github\nowner: -vendor\nrepo: app\n") == nil)
+        #expect(feed("provider: github\nowner: vendor\nrepo: .app\n") == nil)
+        #expect(feed("provider: generic\nurl: https://cdn.example.com/release/\nchannel: ../other\n") == nil)
+    }
+
     @Test func asksAStorageServiceOnlyAtAnAddressTheAppWritesWhole() {
         func feed(_ configuration: String) -> String? {
             ElectronUpdater.feedURL(fromConfiguration: configuration)?.absoluteString

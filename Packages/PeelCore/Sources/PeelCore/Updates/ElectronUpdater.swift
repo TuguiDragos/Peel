@@ -27,7 +27,9 @@ enum ElectronUpdater {
 
     static func feedURL(fromConfiguration text: String) -> URL? {
         let fields = topLevelFields(in: text)
-        let file = "\(fields["channel"] ?? "latest")-mac.yml"
+        let channel = fields["channel"] ?? "latest"
+        guard isAName(channel) else { return nil }
+        let file = "\(channel)-mac.yml"
 
         switch fields["provider"] {
         case "generic":
@@ -37,8 +39,10 @@ enum ElectronUpdater {
             // A `host` other than github.com is a company's own server. The owner and repository were never meant
             // to leave that server, so they are not sent to github.com.
             guard fields["host"] == nil || fields["host"] == "github.com" else { return nil }
-            guard let owner = fields["owner"], let repository = fields["repo"] else { return nil }
-            return URL(string: "https://github.com/\(owner)/\(repository)/releases/latest/download/\(file)")
+            guard let owner = fields["owner"], let repository = fields["repo"], isAName(owner), isAName(repository),
+                  let github = URL(string: "https://github.com")
+            else { return nil }
+            return github.appending(components: owner, repository, "releases", "latest", "download", file)
         case "s3", "r2":
             guard let base = storageAddress(in: fields), let url = URL(string: base), url.scheme == "https",
                   url.host() != nil
@@ -46,6 +50,19 @@ enum ElectronUpdater {
             return url.appending(path: file)
         default:
             return nil
+        }
+    }
+
+    /// True for one name, as GitHub writes an owner's or a repository's and electron-builder a channel's: letters,
+    /// digits, `.`, `_`, and `-`, not beginning with a dot or a hyphen, and no longer than a repository's name may be.
+    /// Anything else, read from the app's own file, could name another page on github.com.
+    private static func isAName(_ value: String) -> Bool {
+        guard let first = value.utf8.first, first != UInt8(ascii: "."), first != UInt8(ascii: "-"),
+              value.utf8.count <= 100
+        else { return false }
+        return value.utf8.allSatisfy { byte in
+            (byte >= 0x30 && byte <= 0x39) || (byte >= 0x41 && byte <= 0x5A) || (byte >= 0x61 && byte <= 0x7A)
+                || byte == 0x2E || byte == 0x2D || byte == 0x5F
         }
     }
 
