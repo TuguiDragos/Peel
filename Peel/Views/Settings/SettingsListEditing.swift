@@ -26,7 +26,17 @@ struct ListEditingButtons<Buttons: View>: View {
             buttons
             Spacer(minLength: 0)
         }
-        .labelStyle(.iconOnly)
+        .labelStyle(EditingSymbolLabelStyle())
         .editingControls()
+    }
+}
+
+/// A symbol alone, named by its title for VoiceOver, and as tall as a line of text: a small bordered button is its
+/// label's height and six points, so a minus alone would make it 9 points high.
+private struct EditingSymbolLabelStyle: LabelStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        Label(configuration)
+            .labelStyle(.iconOnly)
+            .frame(minHeight: 14)
     }
 }
