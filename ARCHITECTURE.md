@@ -585,9 +585,10 @@ checks the result with Gatekeeper, and prints the path and SHA-256 of `Peel-<ver
 `Peel-<version>.zip`, for Homebrew, and the path of its update feed. The disk image is signed by the certificate
 that signed the app, named by its SHA-1 so a renewed certificate of the same name can't make the name ambiguous,
 then notarized and stapled too. It opens on a window of the album's paper with an arc from Peel to Applications, which
-`Scripts/make_dmg.sh` lays out with dmgbuild, run by uv, so nothing drives Finder; the background carries no words,
-since Finder writes the names in each Mac's language. It starts only from a committed tree whose package tests pass
-with warnings as errors, builds Sparkle from its source, and refuses a build:
+`Scripts/make_dmg.sh` lays out with dmgbuild, which uv installs into an environment of its own from
+`Scripts/dmgbuild-requirements.txt`, each package pinned by the hashes of its files, so nothing drives Finder; the
+background carries no words, since Finder writes the names in each Mac's language. It starts only from a committed
+tree whose package tests pass with warnings as errors, builds Sparkle from its source, and refuses a build:
 
 - in which any program, Sparkle's included, can be debugged, or is not signed with Peel's Developer ID, the hardened
   runtime, and a secure timestamp;

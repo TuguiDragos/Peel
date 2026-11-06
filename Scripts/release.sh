@@ -22,7 +22,7 @@ archive="$build/Peel.xcarchive"
 export_directory="$build/export"
 app="$export_directory/Peel.app"
 
-if ! command -v uvx > /dev/null; then
+if ! command -v uv > /dev/null; then
     echo "REFUSED: uv is not installed, and the disk image needs it. Install it with: brew install uv"
     exit 1
 fi
