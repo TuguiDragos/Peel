@@ -35,6 +35,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - An app's page, `peel leftovers`, and `peel uninstall` no longer say Peel couldn't look inside a folder macOS keeps for
   another account, such as one in `/Library/Caches/Desktop Pictures` on a Mac with a second account.
+- Without Full Disk Access, an app's page, `peel leftovers`, and `peel uninstall` no longer name `/Library/Bluetooth`
+  and `/Library/Trial`, folders macOS keeps for itself, among the folders Peel couldn't look inside, or suggest Full
+  Disk Access for them.
 
 #### Orphaned Files
 
@@ -42,6 +45,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   command-line tool left there under a dotted name was listed as an app's that no app claims.
 - Orphaned Files and `peel orphans` no longer name a folder macOS keeps for another account among the folders Peel
   couldn't look inside.
+- Without Full Disk Access, Orphaned Files and `peel orphans` no longer name `/Library/Bluetooth` and `/Library/Trial`,
+  folders macOS keeps for itself, among the folders Peel couldn't look inside.
 
 #### Homebrew
 
