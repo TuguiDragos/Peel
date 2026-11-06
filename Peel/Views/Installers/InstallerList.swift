@@ -41,7 +41,9 @@ struct InstallerList: View {
                 } description: {
                     UnreadableFoldersDetail(folders: installers.unreadable, needsFullDiskAccess: true)
                 } actions: {
-                    UnreadableFoldersActions(folders: installers.unreadable, needsFullDiskAccess: true)
+                    EmptyStateActions {
+                        UnreadableFoldersActions(folders: installers.unreadable, needsFullDiskAccess: true)
+                    }
                 }
             } else if installers.sections.isEmpty {
                 ContentUnavailableView(

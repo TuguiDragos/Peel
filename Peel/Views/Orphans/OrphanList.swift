@@ -49,15 +49,17 @@ struct OrphanList: View {
                         saying: parts.dropFirst().reduce(parts.first ?? Text(verbatim: "")) { Text("\($0)\n\n\($1)") }
                     )
                 } actions: {
-                    if library.listOfFoldersUnreadable {
-                        StartOverButton(file: library.foldersFile, startedOver: "Started the list of app folders over.") {
-                            library.startFoldersOver()
+                    EmptyStateActions {
+                        if library.listOfFoldersUnreadable {
+                            StartOverButton(file: library.foldersFile, startedOver: "Started the list of app folders over.") {
+                                library.startFoldersOver()
+                            }
                         }
+                        UnreadableFoldersActions(
+                            folders: library.unreadable,
+                            needsFullDiskAccess: library.unreadableNeedsFullDiskAccess
+                        )
                     }
-                    UnreadableFoldersActions(
-                        folders: library.unreadable,
-                        needsFullDiskAccess: library.unreadableNeedsFullDiskAccess
-                    )
                 }
             } else if listsNothing, let unreadable = orphans.scan?.unreadableLocations, !unreadable.isEmpty {
                 ContentUnavailableView {
@@ -69,10 +71,12 @@ struct OrphanList: View {
                         saying: Text("No orphaned files were found, but Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(unreadable.map(\.url.abbreviatedPath))), so there may be some there.")
                     )
                 } actions: {
-                    UnreadableFoldersActions(
-                        folders: unreadable.map(\.url),
-                        needsFullDiskAccess: orphans.scan?.needsFullDiskAccess == true
-                    )
+                    EmptyStateActions {
+                        UnreadableFoldersActions(
+                            folders: unreadable.map(\.url),
+                            needsFullDiskAccess: orphans.scan?.needsFullDiskAccess == true
+                        )
+                    }
                 }
             } else if listsNothing {
                 ContentUnavailableView(

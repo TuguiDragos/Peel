@@ -84,10 +84,12 @@ struct DuplicateList: View {
                                 Text(verbatim: Self.reasons(scan.skippedLocations))
                             }
                         } actions: {
-                            UnreadableFoldersActions(
-                                folders: scan.unreadableLocations,
-                                needsFullDiskAccess: scan.needsFullDiskAccess
-                            )
+                            EmptyStateActions {
+                                UnreadableFoldersActions(
+                                    folders: scan.unreadableLocations,
+                                    needsFullDiskAccess: scan.needsFullDiskAccess
+                                )
+                            }
                         }
                     } else if scan.groups.isEmpty, scan.folderGroups.isEmpty {
                         ContentUnavailableView(

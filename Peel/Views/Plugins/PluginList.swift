@@ -70,10 +70,12 @@ struct PluginList: View {
                         saying: Text("No plug-ins were found, but Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(plugins.unreadable.map(\.abbreviatedPath))), so there may be some there.")
                     )
                 } actions: {
-                    UnreadableFoldersActions(
-                        folders: plugins.unreadable,
-                        needsFullDiskAccess: plugins.needsFullDiskAccess
-                    )
+                    EmptyStateActions {
+                        UnreadableFoldersActions(
+                            folders: plugins.unreadable,
+                            needsFullDiskAccess: plugins.needsFullDiskAccess
+                        )
+                    }
                 }
             } else if plugins.plugins?.isEmpty == true {
                 ContentUnavailableView(

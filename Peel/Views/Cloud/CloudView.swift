@@ -152,7 +152,9 @@ struct CloudView: View {
                         sharedDownloadsNote
                     }
                 } actions: {
-                    UnreadableFoldersActions(folders: cloud.notRead, needsFullDiskAccess: false)
+                    EmptyStateActions {
+                        UnreadableFoldersActions(folders: cloud.notRead, needsFullDiskAccess: false)
+                    }
                 }
             } else if cloud.files?.isEmpty == true, cloud.isNotSetUp {
                 ContentUnavailableView {

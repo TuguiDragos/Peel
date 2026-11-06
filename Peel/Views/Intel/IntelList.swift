@@ -64,7 +64,7 @@ struct IntelList: View {
                 } description: {
                     unread
                 } actions: {
-                    unreadActions
+                    EmptyStateActions { unreadActions }
                 }
             } else if intel.findings.isEmpty {
                 if #available(macOS 27, *) {

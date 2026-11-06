@@ -47,20 +47,10 @@ struct ProjectList: View {
         .columnSearch(text: $searchText, prompt: "Search Build Artifacts", when: projects.groups?.isEmpty == false)
         .scanState(phase(filtered), isRescanning: isRescanning, scan: projects.scanRun) {
             if projects.folders.isEmpty {
-                ContentUnavailableView {
-                    Label("No Folders Yet", systemImage: "folder.badge.gearshape")
-                } description: {
-                    Text("Choose where your projects live. Peel looks for what their builds left behind.")
-                } actions: {
-                    Button("Choose a Folder…") {
-                        Task { await projects.addFolder() }
-                    }
-                    .buttonStyle(.borderedProminent)
-                    ForEach(projects.suggestedFolders, id: \.self) { folder in
-                        Button("Add “\(folder.lastPathComponent)”") {
-                            Task { await projects.add([folder]) }
-                        }
-                    }
+                NoProjectFolders(suggested: projects.suggestedFolders) {
+                    Task { await projects.addFolder() }
+                } add: { folder in
+                    Task { await projects.add([folder]) }
                 }
             } else if !searchText.isEmpty, projects.groups?.isEmpty == false, filtered.isEmpty {
                 ContentUnavailableView.search(text: searchText)
@@ -73,10 +63,12 @@ struct ProjectList: View {
                     )
                     unsearchableReasons
                 } actions: {
-                    UnreadableFoldersActions(
-                        folders: projects.unreadable,
-                        needsFullDiskAccess: projects.needsFullDiskAccess
-                    )
+                    EmptyStateActions {
+                        UnreadableFoldersActions(
+                            folders: projects.unreadable,
+                            needsFullDiskAccess: projects.needsFullDiskAccess
+                        )
+                    }
                 }
             } else if projects.groups?.isEmpty == true, !projects.unsearchable.isEmpty {
                 ContentUnavailableView {
@@ -220,6 +212,30 @@ private struct ProjectRow: View {
         } trailing: {
             Text(group.total.text)
                 .rowFigure()
+        }
+    }
+}
+
+/// What Build Artifacts shows before a folder is chosen: a button to choose one, and one for each usual place for
+/// projects on this Mac.
+struct NoProjectFolders: View {
+    let suggested: [URL]
+    let choose: () -> Void
+    let add: (URL) -> Void
+
+    var body: some View {
+        ContentUnavailableView {
+            Label("No Folders Yet", systemImage: "folder.badge.gearshape")
+        } description: {
+            Text("Choose where your projects live. Peel looks for what their builds left behind.")
+        } actions: {
+            EmptyStateActions {
+                Button("Choose a Folder…", action: choose)
+                    .buttonStyle(.borderedProminent)
+                ForEach(suggested, id: \.self) { folder in
+                    Button("Add “\(folder.lastPathComponent)”") { add(folder) }
+                }
+            }
         }
     }
 }

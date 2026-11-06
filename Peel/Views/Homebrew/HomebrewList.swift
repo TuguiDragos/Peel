@@ -761,13 +761,15 @@ struct HomebrewList: View {
             } description: {
                 Text("Install Homebrew to manage command-line tools and apps from Peel.")
             } actions: {
-                if let url = URL(string: "https://brew.sh") {
-                    Link(destination: url) {
-                        Text("Open brew.sh")
-                            .minimumTarget()
+                EmptyStateActions {
+                    if let url = URL(string: "https://brew.sh") {
+                        Link(destination: url) {
+                            Text("Open brew.sh")
+                                .minimumTarget()
+                        }
                     }
+                    Button("Homebrew Is in Another Folder") { SettingsPane.general.open(with: openSettings) }
                 }
-                Button("Homebrew Is in Another Folder") { SettingsPane.general.open(with: openSettings) }
             }
         } else if homebrew.needsDefinitions, homebrew.packages?.isEmpty != false, homebrew.runningCommand == nil,
                   let reason = homebrew.whyItCantChange {
