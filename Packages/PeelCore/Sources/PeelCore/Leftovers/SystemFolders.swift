@@ -244,7 +244,9 @@ enum SystemFolders {
 
     /// At the top of a Library, beside the folders Peel searches one by one.
     static let library: [String: Proof] = [
+        "Bluetooth": .file("/usr/share/sandbox/bluetoothd.sb", naming: "/Library/Bluetooth"),
         "OSAnalytics": .file("/System/Library/Sandbox/Profiles/com.apple.analyticsd.sb", naming: "/Library/OSAnalytics"),
+        "Trial": .file("/System/Library/Sandbox/Profiles/com.apple.triald.sb", naming: "/Library/Trial"),
     ]
 
     static let webKit: [String: Proof] = [

@@ -763,6 +763,21 @@ struct LeftoverScannerTests {
         #expect(scan.unreadableLocations.isEmpty)
     }
 
+    @Test(.permissionsHold) func leavesMacOSsOwnFoldersAtTheTopOfALibraryItCannotReadUnsaid() async throws {
+        let directory = try TemporaryDirectory()
+        let folders = ["Bluetooth", "OSAnalytics", "Trial", "Example Software"]
+        for folder in folders {
+            try directory.file("root/Library/\(folder)/state")
+            try directory.setPermissions(0o000, of: "root/Library/\(folder)")
+        }
+        defer { for folder in folders { try? directory.setPermissions(0o755, of: "root/Library/\(folder)") } }
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        #expect(scan.unreadableLocations.map(\.url.lastPathComponent) == ["Example Software"])
+    }
+
     @Test(.permissionsHold) func leavesAnotherProgramsFolderItCannotReadUnsaid() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/org.example.other/cache.db")

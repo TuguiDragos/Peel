@@ -1702,8 +1702,10 @@ struct OrphanScannerTests {
 
     @Test(.permissionsHold) func saysNothingOfAFolderOfMacOSsOwnAtTheTopOfALibrary() async throws {
         let directory = try TemporaryDirectory()
-        let folders = ["OSAnalytics", "Example Software"]
+        let folders = ["Bluetooth", "OSAnalytics", "Trial", "Example Software"]
+        try directory.file("root/Library/Bluetooth/Library/Preferences/com.apple.Bluetooth.plist")
         try directory.file("root/Library/OSAnalytics/Diagnostics/report.ips")
+        try directory.file("root/Library/Trial/Treatments/state")
         try directory.file("root/Library/Example Software/org.example.mixer/settings.json")
         for folder in folders {
             try directory.setPermissions(0, of: "root/Library/\(folder)")
