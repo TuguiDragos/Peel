@@ -48,6 +48,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Without Full Disk Access, Orphaned Files and `peel orphans` no longer name `/Library/Bluetooth` and `/Library/Trial`,
   folders macOS keeps for itself, among the folders Peel couldn't look inside.
 
+#### Package Receipts
+
+- Receipt Only, a package's page, and the question before Forget All say that nothing on a package's receipt is
+  left, no longer that nothing the package put on your Mac is: a receipt lists the files in the package, not what
+  its install scripts put in place.
+
 #### Homebrew
 
 - What Check Health found shows each of Homebrew's lines whole: a sentence under a finding's summary was cut in the
