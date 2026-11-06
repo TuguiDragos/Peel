@@ -75,8 +75,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Peel's helper, its guard, every scan, and Package Receipts refuse what macOS keeps under Apple's own name directly
   in `/Library/Preferences`, `/Library/LaunchDaemons`, `/Library/LaunchAgents`, `/Library/PrivilegedHelperTools`, and
   `/Library/Application Support`, such as `com.apple.loginwindow.plist`, and the network settings in
-  `/Library/Preferences/SystemConfiguration`: the Mac's own settings and jobs, which nothing but macOS makes again.
-  The helper judged such an item by its folder alone, and a package's receipt could offer one.
+  `/Library/Preferences/SystemConfiguration`: the Mac's own settings and jobs, which nothing but macOS makes again,
+  so Peel neither moves one nor puts one back from the Trash. The helper judged such an item by its folder alone,
+  and a package's receipt could offer one.
 - A Homebrew package's homepage is shown as a link, and offered as a waiting update's page, only when it is a web
   page; an address of another scheme in a tap's definition is left out.
 - An Electron app's GitHub feed is asked for only when the owner, repository, and channel its own `app-update.yml`
