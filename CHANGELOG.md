@@ -61,8 +61,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Build Artifacts
 
-- With no folder chosen, the buttons that add one stay inside the list column, one under another when they don't fit
-  side by side. With several usual places for projects on the Mac, they ran past the sidebar and the next column.
+- With no folder chosen, the usual places for projects on the Mac are listed under Choose a Folder…, a row each
+  with its own Add button, in a list that scrolls when it holds more than the column has room for. Before, their
+  buttons ran past the sidebar and the next column.
 
 #### Every page
 
