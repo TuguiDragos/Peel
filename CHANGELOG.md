@@ -70,6 +70,21 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The buttons of a page with nothing to show, such as Not Everything Could Be Read, go one under another when they don't
   fit side by side, instead of running past the column.
 
+### Security
+
+- Peel's helper, its guard, every scan, and Package Receipts refuse what macOS keeps under Apple's own name directly
+  in `/Library/Preferences`, `/Library/LaunchDaemons`, `/Library/LaunchAgents`, `/Library/PrivilegedHelperTools`, and
+  `/Library/Application Support`, such as `com.apple.loginwindow.plist`, and the network settings in
+  `/Library/Preferences/SystemConfiguration`: the Mac's own settings and jobs, which nothing but macOS makes again.
+  The helper judged such an item by its folder alone, and a package's receipt could offer one.
+- A Homebrew package's homepage is shown as a link, and offered as a waiting update's page, only when it is a web
+  page; an address of another scheme in a tap's definition is left out.
+- An Electron app's GitHub feed is asked for only when the owner, repository, and channel its own `app-update.yml`
+  names are plain names; written into the address as they were, they could have asked for another page on
+  github.com.
+- A `PEEL_MEASURE` report is written through descriptors from the home folder down, so a link put at `Library`,
+  `Logs`, or `Peel` on the way is never followed.
+
 ## 1.3.0 (2026-11-04)
 
 ### Added
