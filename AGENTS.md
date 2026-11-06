@@ -382,10 +382,10 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   [blueprint](https://github.com/MustafaNatur/blueprint), and drawn again whenever `Peel.icon` changes:
   `blueprint Logo/Peel.icon --no-open -o Logo/PeelDebug.icon --color "#FFB25E,#FF9933,#F07A10" --badge DEV`.
 - Everything can be used without a pointer. VoiceOver, Voice Control, and Switch Control can press every switch,
-  named by its row's title: on macOS 27 a row's switch is `RowSwitch`, whose label is empty rather than hidden,
-  since a hidden label leaves AppKit's own switch outside the accessibility tree; on macOS 26 a switch whose label is
-  hidden carries an `accessibilityRepresentation`. Every control is at least 20 by 20 points, and text takes the
-  system's styles by role, so it follows the system's text size.
+  named by its row's title: a row's switch is `RowSwitch`, whose label on macOS 27 is empty rather than hidden,
+  since a hidden label leaves AppKit's own switch outside the accessibility tree, and which on macOS 26 hides its
+  label and carries an `accessibilityRepresentation`; it gives its row's title the room first. Every control is at
+  least 20 by 20 points, and text takes the system's styles by role, so it follows the system's text size.
 - **Words take no color of their own** outside Home, the menu bar panel, and About: orange, green, red, blue, or the
   accent color read under the 4.5:1 text needs on a light background. The color goes on a symbol beside the words,
   which keep the style of the text around them: `StatusLabel` for a warning or a state, a `Badge`'s `tint`, and a

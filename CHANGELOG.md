@@ -13,12 +13,50 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   MacPorts' `/opt/local/bin`, and your home's `bin` and `.local/bin`. What a tool keeps under a dotted name stays out of
   the list while that tool is installed, and Settings > Exclusions shows the tool beside its group.
 
+### Changed
+
+#### Settings
+
+- The + and - under App Folders and the Exclusions lists are the same height.
+
 ### Fixed
+
+#### Tweaks
+
+- On macOS 27, a switch's long title is no longer drawn smaller, or cut, to make room for the switch, as in Romanian
+  and German.
+
+#### Terminal
+
+- On macOS 27, a switch's long title on the Terminal and Shell tabs is no longer drawn smaller to make room for the
+  switch.
+
+#### Applications
+
+- An app's page, `peel leftovers`, and `peel uninstall` no longer say Peel couldn't look inside a folder macOS keeps for
+  another account, such as one in `/Library/Caches/Desktop Pictures` on a Mac with a second account.
 
 #### Orphaned Files
 
 - Your account's temporary folder lists only what came with an app Peel saw go, as the plug-in folders do. A file a
   command-line tool left there under a dotted name was listed as an app's that no app claims.
+- Orphaned Files and `peel orphans` no longer name a folder macOS keeps for another account among the folders Peel
+  couldn't look inside.
+
+#### Homebrew
+
+- What Check Health found shows each of Homebrew's lines whole: a sentence under a finding's summary was cut in the
+  middle, as for a path.
+
+#### Build Artifacts
+
+- With no folder chosen, the buttons that add one stay inside the list column, one under another when they don't fit
+  side by side. With several usual places for projects on the Mac, they ran past the sidebar and the next column.
+
+#### Every page
+
+- The buttons of a page with nothing to show, such as Not Everything Could Be Read, go one under another when they don't
+  fit side by side, instead of running past the column.
 
 ## 1.3.0 (2026-11-04)
 
