@@ -612,6 +612,31 @@ struct HomebrewTests {
         #expect(packages.last?.installedVersion == "2.1.0")
     }
 
+    /// A tap's definition can name any address as a package's homepage, and the Mac would open it with whatever app
+    /// claims its scheme, so only a web page is kept.
+    @Test func keepsAHomepageOnlyWhenItIsAWebPage() throws {
+        let json = """
+        {
+          "formulae": [
+            {"name": "plain", "homepage": "http://example.org/plain", "installed": [], "versions": {"stable": "1.0"}},
+            {"name": "local", "homepage": "file:///Applications/Example.app", "installed": [], "versions": {"stable": "1.0"}}
+          ],
+          "casks": [
+            {"token": "secure", "homepage": "https://example.org/secure", "version": "1.0"},
+            {"token": "custom", "homepage": "x-example://open", "version": "1.0"}
+          ]
+        }
+        """
+        let packages = try #require(Homebrew.parseInstalled(Data(json.utf8)))
+        func homepage(_ name: String) -> String? { packages.first { $0.name == name }?.homepage?.absoluteString }
+
+        #expect(packages.count == 4)
+        #expect(homepage("plain") == "http://example.org/plain")
+        #expect(homepage("secure") == "https://example.org/secure")
+        #expect(homepage("local") == nil)
+        #expect(homepage("custom") == nil)
+    }
+
     @Test func readsACaskWhoseAppUpdatesItselfAndWhetherHomebrewLeavesItToTheApp() throws {
         let json = """
         {
