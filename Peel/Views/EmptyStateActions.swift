@@ -6,10 +6,13 @@ import SwiftUI
 struct EmptyStateActions<Content: View>: View {
     @ViewBuilder let content: Content
 
+    /// The gap an empty state leaves between the buttons of its own row.
+    static var spacing: CGFloat { 6 }
+
     var body: some View {
         ViewThatFits(in: .horizontal) {
-            HStack { content }
-            VStack { Group { content }.fixedSize() }
+            HStack(spacing: Self.spacing) { content }
+            VStack(spacing: Self.spacing) { Group { content }.fixedSize() }
         }
     }
 }
