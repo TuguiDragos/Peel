@@ -3,8 +3,8 @@ import SwiftUI
 
 /// A row showing one thing `brew doctor` found.
 ///
-/// The first line of Homebrew's text is the summary, and the lines after it, usually paths, are listed under
-/// it. Then come Homebrew's advice and each command it suggests, with a Copy button beside each command.
+/// The first line of Homebrew's text is the summary, and the lines after it, paths or Homebrew's own sentences, are
+/// listed under it. Then come Homebrew's advice and each command it suggests, with a Copy button beside each command.
 struct HomebrewFindingRow: View {
     let finding: HomebrewFinding
 
@@ -19,12 +19,7 @@ struct HomebrewFindingRow: View {
                     .font(.callout.weight(.medium))
                     .textSelection(.enabled)
                 ForEach(Array(details.enumerated()), id: \.offset) { _, line in
-                    Text(verbatim: line)
-                        .font(.caption.monospaced())
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                        .truncationMode(.middle)
-                        .textSelection(.enabled)
+                    HomebrewFindingLine(line: line)
                 }
                 if let remedy {
                     Text(verbatim: remedy)
@@ -68,5 +63,18 @@ struct HomebrewFindingRow: View {
     /// below, so the marks would only be clutter.
     private var remedy: String? {
         finding.remedy?.replacingOccurrences(of: "`", with: "")
+    }
+}
+
+/// A line of Homebrew's text under a finding's summary, shown whole: it can be a sentence as well as a path.
+struct HomebrewFindingLine: View {
+    let line: String
+
+    var body: some View {
+        Text(verbatim: line)
+            .font(.caption.monospaced())
+            .foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
+            .textSelection(.enabled)
     }
 }
