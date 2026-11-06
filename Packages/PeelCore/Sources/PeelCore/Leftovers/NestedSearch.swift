@@ -39,8 +39,8 @@ enum NestedSearch {
 
     /// Lists `folders`, the entries of a location of `kind`, and every folder inside them that `visit` asks to look
     /// inside, `depth` levels down and at most `limit` folders in all. `visit` is told whether a folder it asks to look
-    /// inside would still be listed. A folder of Apple's own that cannot be listed is not returned, since it holds no
-    /// other app's files.
+    /// inside would still be listed. A folder of Apple's own, or one inside it, that cannot be listed is not returned,
+    /// since it holds no other app's files.
     static func walk<Item>(
         inside folders: [URL],
         of kind: SearchLocation.Kind,
@@ -48,11 +48,11 @@ enum NestedSearch {
         visit: (_ entry: URL, _ name: String, _ parent: ParentAccess, _ canLookInside: Bool) async -> Step<Item>
     ) async -> Findings<Item> {
         var findings = Findings<Item>()
-        var pending = folders
+        var pending = folders.map { (url: $0, isInsideApplesOwn: false) }
         var listed = 0
         for level in 0..<depth {
-            var deeper: [URL] = []
-            for folder in pending {
+            var deeper: [(url: URL, isInsideApplesOwn: Bool)] = []
+            for (folder, isInsideApplesOwn) in pending {
                 // A canceled scan stops here, since nobody will read what it finds.
                 guard !Task.isCancelled else { return findings }
                 guard listed < limit else {
@@ -60,6 +60,9 @@ enum NestedSearch {
                     return findings
                 }
                 listed += 1
+                let folderName = folder.lastPathComponent
+                let isApplesOwn = isInsideApplesOwn || ProtectedData.isApplesName(folderName)
+                    || level == 0 && SystemFolders.keeps(folderName, in: kind)
                 let names: [String]
                 do {
                     // Sorted, because Apple documents the order of a listing as undefined, and with a limit on how
@@ -69,10 +72,7 @@ enum NestedSearch {
                 } catch CocoaError.fileReadNoSuchFile {
                     continue
                 } catch {
-                    let name = folder.lastPathComponent
-                    if !ProtectedData.isApplesName(name), level > 0 || !SystemFolders.keeps(name, in: kind) {
-                        findings.unreadable.append(folder)
-                    }
+                    if !isApplesOwn { findings.unreadable.append(folder) }
                     continue
                 }
                 ScanCount.current?.add(names.count)
@@ -82,7 +82,7 @@ enum NestedSearch {
                     let entry = folder.appending(path: name)
                     switch await visit(entry, name, parent, level + 1 < depth) {
                     case .take(let item): findings.found.append(item)
-                    case .lookInside: deeper.append(entry)
+                    case .lookInside: deeper.append((entry, isApplesOwn))
                     case .notKnown: findings.unreadable.append(entry)
                     case .pass: break
                     }

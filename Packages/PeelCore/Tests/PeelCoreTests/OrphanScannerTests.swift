@@ -2082,4 +2082,16 @@ struct OrphanScannerTests {
 
         #expect(scan.unreadableLocations.map(\.url.lastPathComponent) == ["Knowledge"])
     }
+
+    @Test(.permissionsHold) func saysNothingOfWhatIsInsideAFolderOfMacOSsOwnItCouldNotRead() async throws {
+        let directory = try TemporaryDirectory()
+        let account = "home/Library/Caches/Desktop Pictures/00000000-0000-4000-8000-000000000001"
+        try directory.file("\(account)/state")
+        try directory.setPermissions(0, of: account)
+        defer { try? directory.setPermissions(0o755, of: account) }
+
+        let scan = await scanner(in: directory).scan(installedApps: installed)
+
+        #expect(scan.unreadableLocations.isEmpty)
+    }
 }

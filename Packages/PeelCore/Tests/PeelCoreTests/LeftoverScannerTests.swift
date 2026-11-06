@@ -750,6 +750,19 @@ struct LeftoverScannerTests {
         #expect(scan.unreadableLocations.isEmpty)
     }
 
+    @Test(.permissionsHold) func leavesWhatIsInsideAFolderOfMacOSsOwnItCannotReadUnsaid() async throws {
+        let directory = try TemporaryDirectory()
+        let account = "home/Library/Caches/Desktop Pictures/00000000-0000-4000-8000-000000000001"
+        try directory.file("\(account)/state")
+        try directory.setPermissions(0o000, of: account)
+        defer { try? directory.setPermissions(0o755, of: account) }
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        #expect(scan.unreadableLocations.isEmpty)
+    }
+
     @Test(.permissionsHold) func leavesAnotherProgramsFolderItCannotReadUnsaid() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/org.example.other/cache.db")
