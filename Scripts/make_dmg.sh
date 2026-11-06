@@ -23,7 +23,8 @@ background="$(dirname "$image")/disk-image-background"
 mkdir -p "$background"
 swift Scripts/dmg_background.swift "$background" $width $height $peel_x $applications_x $icons_y
 environment="$(dirname "$image")/dmgbuild-environment"
-uv venv --quiet --clear "$environment"
+# dmgbuild needs Python 3.10 or later, and the python3 a Mac ships is older.
+uv venv --quiet --clear --python ">=3.10" "$environment"
 uv pip install --quiet --python "$environment/bin/python" --require-hashes \
     --requirement Scripts/dmgbuild-requirements.txt
 "$environment/bin/dmgbuild" -s Scripts/dmg_settings.py \
