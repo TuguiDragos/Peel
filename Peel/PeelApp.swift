@@ -20,8 +20,10 @@ final class PeelAppDelegate: NSObject, NSApplicationDelegate {
 }
 
 struct PeelApp: App {
+    #if DEBUG
     /// Set by the PeelTests scheme for the Peel that hosts the tests, which then runs `TestHost` in Peel's place.
     static let isHostingTests = ProcessInfo.processInfo.environment["PEEL_HOSTS_TESTS"] != nil
+    #endif
 
     @NSApplicationDelegateAdaptor(PeelAppDelegate.self) private var delegate
     static let mainWindowID = "main"

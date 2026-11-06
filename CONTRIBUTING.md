@@ -36,8 +36,8 @@ xcodebuild -project Peel.xcodeproj -scheme Peel -configuration Debug -destinatio
 swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors
 ```
 
-The app's own models are tested inside Peel, which the PeelTests scheme launches with `PEEL_HOSTS_TESTS` set, so that
-it starts nothing and shows nothing:
+The app's own models are tested inside Peel, which the PeelTests scheme launches with `PEEL_HOSTS_TESTS` set, which
+only a Debug build answers, so that it starts nothing and shows nothing:
 
 ```bash
 xcodebuild -project Peel.xcodeproj -scheme PeelTests -configuration Debug \

@@ -554,8 +554,9 @@ its place (`SettingsView`), whose zap takes Peel's whole folder, `Terminal/` inc
   own state.
 - `PeelTests` holds the tests of the app's own models, run inside Peel, which the scheme launches with
   `PEEL_HOSTS_TESTS` set: Peel then starts none of its work, opens no window, and shows no menu bar item, so the tests
-  drive the models alone and leave the Mac's own Peel as it was. `xcodebuild test -project Peel.xcodeproj -scheme
-  PeelTests -destination "platform=macOS,arch=$(uname -m)" -derivedDataPath build/DerivedData` runs them.
+  drive the models alone and leave the Mac's own Peel as it was. Only a Debug build answers that variable; a release
+  carries nothing of the host. `xcodebuild test -project Peel.xcodeproj -scheme PeelTests -destination
+  "platform=macOS,arch=$(uname -m)" -derivedDataPath build/DerivedData` runs them.
 - Scanners take their slow parts as parameters (how to measure a folder, how to run a tool), so a test can
   stand in for a folder that never answers or a tool that fails.
 - The `Attack*Tests` files try to get past the safety rules on purpose: another case, a link, a `/.vol` path, a

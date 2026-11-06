@@ -157,6 +157,10 @@ jobs:
           if [ -n "$(find "$app/Contents/Frameworks/Sparkle.framework" -name '*.xpc')" ]; then
             echo "::error::Sparkle.framework carries XPC services."; exit 1
           fi
+          # The host the PeelTests scheme runs the hosted tests in is a Debug build's alone.
+          if strings "$app/Contents/MacOS/Peel" | grep -q PEEL_HOSTS_TESTS; then
+            echo "::error::The Release build carries the test host."; exit 1
+          fi
 
       # The accessibility audit drives the pointer, so it runs by hand before a release. Here it is only built.
       - name: Build the accessibility audit
