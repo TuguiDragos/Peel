@@ -215,27 +215,3 @@ private struct ProjectRow: View {
         }
     }
 }
-
-/// What Build Artifacts shows before a folder is chosen: a button to choose one, and one for each usual place for
-/// projects on this Mac.
-struct NoProjectFolders: View {
-    let suggested: [URL]
-    let choose: () -> Void
-    let add: (URL) -> Void
-
-    var body: some View {
-        ContentUnavailableView {
-            Label("No Folders Yet", systemImage: "folder.badge.gearshape")
-        } description: {
-            Text("Choose where your projects live. Peel looks for what their builds left behind.")
-        } actions: {
-            EmptyStateActions {
-                Button("Choose a Folder…", action: choose)
-                    .buttonStyle(.borderedProminent)
-                ForEach(suggested, id: \.self) { folder in
-                    Button("Add “\(folder.lastPathComponent)”") { add(folder) }
-                }
-            }
-        }
-    }
-}
