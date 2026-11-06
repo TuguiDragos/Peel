@@ -23,7 +23,7 @@ struct PackageList: View {
                     SectionHeaderLine {
                         heading(
                             "Receipt Only",
-                            "macOS still counts these packages as installed, but nothing they put on this Mac is left. Forgetting their receipts moves them to the Trash, and History can put them back."
+                            "macOS still counts these packages as installed, but nothing on their receipts is left on this Mac. Forgetting their receipts moves them to the Trash, and History can put them back."
                         )
                     } count: {
                         Text("^[\(receiptsOnly.count) package](inflect: true)")

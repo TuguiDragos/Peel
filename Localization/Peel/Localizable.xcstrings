@@ -124826,112 +124826,6 @@
         }
       }
     },
-    "Nothing from this package is left on disk." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Na disku z tohoto balíčku nic nezůstalo."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Von diesem Paket ist nichts mehr übrig."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No queda nada de este paquete en el disco."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il ne reste rien de ce paquet sur le disque."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sul disco non rimane nulla di questo pacchetto."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このパッケージがインストールしたものは、ディスクに何も残っていません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 패키지가 설치한 항목 중 디스크에 남아 있는 것이 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Er staat niets meer van dit pakket op de schijf."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Na dysku nie zostało nic z tego pakietu."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nada deste pacote restou no disco."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pe disc nu a mai rămas nimic din acest pachet."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "От этого пакета на диске ничего не осталось."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inget från det här paketet finns kvar på skivan."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu paketten diskte hiçbir şey kalmamış."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Від цього пакета на диску нічого не лишилося."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "磁盘上已没有此软件包的任何内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "磁碟上已沒有此套件的任何內容。"
-          }
-        }
-      }
-    },
     "Nothing here can be moved. Each file’s note says why." : {
       "localizations" : {
         "cs" : {
@@ -125459,6 +125353,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "尚未將任何項目丟到「垃圾桶」"
+          }
+        }
+      }
+    },
+    "Nothing on this package’s receipt is left on disk." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na disku nezůstalo nic z toho, co uvádí záznam o instalaci tohoto balíčku."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Von dem, was auf der Quittung dieses Pakets steht, ist nichts mehr übrig."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No queda en el disco nada de lo que figura en el recibo de este paquete."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il ne reste sur le disque rien de ce qui figure sur le reçu de ce paquet."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sul disco non rimane nulla di ciò che è elencato nella ricevuta di questo pacchetto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このパッケージのレシートに記載されているものは、ディスクに何も残っていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 패키지의 수신 정보에 나열된 항목 중 디스크에 남아 있는 것이 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Van wat er op het installatiebewijs van dit pakket staat, is op de schijf niets meer over."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na dysku nie zostało nic z tego, co wymienia potwierdzenie tego pakietu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada do que consta no recibo deste pacote restou no disco."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pe disc nu a mai rămas nimic din ce listează înregistrarea acestui pachet."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Из того, что указано в квитанции этого пакета, на диске ничего не осталось."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inget av det som står på det här paketets kvitto finns kvar på skivan."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu paketin makbuzundaki hiçbir şey diskte kalmamış."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "З того, що вказано у квитанції цього пакета, на диску нічого не лишилося."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "磁盘上已没有此软件包的回执中列出的任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此套件的收據上列出的項目已全部不在磁碟上。"
           }
         }
       }
@@ -213597,109 +213597,109 @@
         }
       }
     },
-    "Their receipts go to the Trash, so macOS no longer counts these packages as installed. Nothing they put on this Mac is left, and History can put the receipts back.\n\n%@" : {
+    "Their receipts go to the Trash, so macOS no longer counts these packages as installed. Nothing on these receipts is left on this Mac, and History can put them back.\n\n%@" : {
       "comment" : "The message of the question before Forget All in Package Receipts. %@ is the list of the first packages, one per line.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jejich záznamy o instalaci se přesunou do koše, takže systém macOS už nebude tyto balíčky považovat za nainstalované. Z toho, co do tohoto Macu umístily, už nic nezůstalo, a Historie může záznamy vrátit zpět.\n\n%@"
+            "value" : "Jejich záznamy o instalaci se přesunou do koše, takže systém macOS už nebude tyto balíčky považovat za nainstalované. Z toho, co uvádějí tyto záznamy, v tomto Macu už nic nezůstalo a Historie je může vrátit zpět.\n\n%@"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Quittungen werden in den Papierkorb gelegt, sodass macOS diese Pakete nicht mehr als installiert betrachtet. Von dem, was sie auf diesem Mac abgelegt haben, ist nichts mehr da, und im Verlauf kannst du die Quittungen zurücklegen.\n\n%@"
+            "value" : "Die Quittungen werden in den Papierkorb gelegt, sodass macOS diese Pakete nicht mehr als installiert betrachtet. Von dem, was auf diesen Quittungen steht, ist auf diesem Mac nichts mehr da, und im Verlauf kannst du sie zurücklegen.\n\n%@"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sus recibos van a la papelera, así que macOS deja de contar estos paquetes como instalados. No queda nada de lo que pusieron en este Mac, e Historial puede restaurar los recibos.\n\n%@"
+            "value" : "Sus recibos van a la papelera, así que macOS deja de contar estos paquetes como instalados. No queda en este Mac nada de lo que figura en estos recibos, e Historial puede restaurarlos.\n\n%@"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Leurs reçus sont placés dans la corbeille : macOS ne considère donc plus ces paquets comme installés. Il ne reste rien de ce qu’ils ont placé sur ce Mac, et l’Historique peut remettre les reçus en place.\n\n%@"
+            "value" : "Leurs reçus sont placés dans la corbeille : macOS ne considère donc plus ces paquets comme installés. Il ne reste sur ce Mac rien de ce qui figure sur ces reçus, et l’Historique peut les remettre en place.\n\n%@"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le loro ricevute vanno nel Cestino, quindi macOS non considera più installati questi pacchetti. Di ciò che hanno messo su questo Mac non rimane nulla, e la Cronologia può ripristinare le ricevute.\n\n%@"
+            "value" : "Le loro ricevute vanno nel Cestino, quindi macOS non considera più installati questi pacchetti. Di ciò che è elencato in queste ricevute non rimane nulla su questo Mac, e la Cronologia può ripristinarle.\n\n%@"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "レシートはゴミ箱に入り、macOSはこれらのパッケージをインストール済みと見なさなくなります。これらのパッケージがこのMacに置いたものは何も残っておらず、レシートは履歴から戻すことができます。\n\n%@"
+            "value" : "レシートはゴミ箱に入り、macOSはこれらのパッケージをインストール済みと見なさなくなります。これらのレシートに記載されているものはこのMacに何も残っておらず、レシートは履歴から戻すことができます。\n\n%@"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "각 패키지의 수신 정보가 휴지통으로 이동하므로 macOS는 더 이상 이 패키지들을 설치된 것으로 간주하지 않습니다. 이 패키지들이 이 Mac에 설치한 항목은 남아 있지 않으며, 기록에서 수신 정보를 되돌려 놓을 수 있습니다.\n\n%@"
+            "value" : "각 패키지의 수신 정보가 휴지통으로 이동하므로 macOS는 더 이상 이 패키지들을 설치된 것으로 간주하지 않습니다. 이 수신 정보에 나열된 항목은 이 Mac에 남아 있지 않으며, 기록에서 수신 정보를 되돌려 놓을 수 있습니다.\n\n%@"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De installatiebewijzen gaan naar de prullenmand, zodat macOS deze pakketten niet meer als geïnstalleerd beschouwt. Van wat ze op deze Mac hebben gezet, is niets meer over, en Geschiedenis kan de installatiebewijzen terugzetten.\n\n%@"
+            "value" : "De installatiebewijzen gaan naar de prullenmand, zodat macOS deze pakketten niet meer als geïnstalleerd beschouwt. Van wat er op deze installatiebewijzen staat, is op deze Mac niets meer over, en Geschiedenis kan ze terugzetten.\n\n%@"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ich potwierdzenia trafią do Kosza, więc macOS przestanie uznawać te pakiety za zainstalowane. Nie zostało nic z tego, co umieściły na tym Macu, a Historia może przywrócić te potwierdzenia.\n\n%@"
+            "value" : "Ich potwierdzenia trafią do Kosza, więc macOS przestanie uznawać te pakiety za zainstalowane. Na tym Macu nie zostało nic z tego, co wymieniają te potwierdzenia, a Historia może je przywrócić.\n\n%@"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Os recibos deles vão para o Lixo, então o macOS deixa de considerar estes pacotes como instalados. Não resta nada do que eles colocaram neste Mac, e o Histórico pode colocar os recibos de volta.\n\n%@"
+            "value" : "Os recibos deles vão para o Lixo, então o macOS deixa de considerar estes pacotes como instalados. Não resta neste Mac nada do que consta nestes recibos, e o Histórico pode colocá-los de volta.\n\n%@"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Înregistrările lor sunt mutate în Coș, astfel încât macOS nu mai consideră aceste pachete instalate. Din ce au pus pe acest Mac nu a mai rămas nimic, iar înregistrările le puteți pune înapoi din Istoric.\n\n%@"
+            "value" : "Înregistrările lor sunt mutate în Coș, astfel încât macOS nu mai consideră aceste pachete instalate. Din ce listează aceste înregistrări nu a mai rămas nimic pe acest Mac, iar din Istoric le puteți pune înapoi.\n\n%@"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Их квитанции перемещаются в Корзину, и macOS больше не считает эти пакеты установленными. От того, что они поместили на этот Mac, ничего не осталось, а История может восстановить квитанции.\n\n%@"
+            "value" : "Их квитанции перемещаются в Корзину, и macOS больше не считает эти пакеты установленными. Из того, что указано в этих квитанциях, на этом Mac ничего не осталось, а История может их восстановить.\n\n%@"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kvittona flyttas till papperskorgen, så macOS räknar inte längre de här paketen som installerade. Inget av det som paketen har placerat på den här datorn finns kvar, och Historik kan lägga tillbaka kvittona.\n\n%@"
+            "value" : "Kvittona flyttas till papperskorgen, så macOS räknar inte längre de här paketen som installerade. Inget av det som står på de här kvittona finns kvar på den här datorn, och Historik kan lägga tillbaka dem.\n\n%@"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Makbuzları Çöp Sepeti’ne gider, böylece macOS bu paketleri artık yüklü saymaz. Paketlerin bu Mac’e koyduğu şeylerden hiçbiri kalmamış ve Geçmiş makbuzları yerine koyabilir.\n\n%@"
+            "value" : "Makbuzları Çöp Sepeti’ne gider, böylece macOS bu paketleri artık yüklü saymaz. Bu makbuzlardaki şeylerden hiçbiri bu Mac’te kalmamış ve Geçmiş makbuzları yerine koyabilir.\n\n%@"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Їхні квитанції буде переміщено в Смітник, тож macOS більше не вважатиме ці пакети інстальованими. З того, що вони записали на цей Mac, нічого не лишилося, а Історія зможе повернути квитанції.\n\n%@"
+            "value" : "Їхні квитанції буде переміщено в Смітник, тож macOS більше не вважатиме ці пакети інстальованими. З того, що вказано в цих квитанціях, на цьому Mac нічого не лишилося, а Історія зможе їх повернути.\n\n%@"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它们的回执会移到废纸篓，这样macOS就不再将这些软件包视为已安装。它们放到这台Mac上的内容已全部不在了，“历史记录”可以将这些回执放回原处。\n\n%@"
+            "value" : "它们的回执会移到废纸篓，这样macOS就不再将这些软件包视为已安装。这些回执中列出的内容已全部不在这台Mac上了，“历史记录”可以将回执放回原处。\n\n%@"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它們的收據會丟到「垃圾桶」，macOS就不再將這些套件視為已安裝。它們放在這部Mac上的內容已全部不在，「歷史記錄」可以將收據還原。\n\n%@"
+            "value" : "它們的收據會丟到「垃圾桶」，macOS就不再將這些套件視為已安裝。這些收據上列出的項目已全部不在這部Mac上，「歷史記錄」可以將收據還原。\n\n%@"
           }
         }
       }
@@ -270740,215 +270740,215 @@
         }
       }
     },
-    "macOS still counts these packages as installed, but nothing they put on this Mac is left. Forgetting their receipts moves them to the Trash, and History can put them back." : {
+    "macOS still counts these packages as installed, but nothing on their receipts is left on this Mac. Forgetting their receipts moves them to the Trash, and History can put them back." : {
       "comment" : "The note behind the circled i of the Receipt Only heading in Package Receipts.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS tyto balíčky stále považuje za nainstalované, ale z toho, co do tohoto Macu umístily, nic nezůstalo. Když jejich záznamy o instalaci zapomenete, přesunou se do koše a Historie je může vrátit zpět."
+            "value" : "Systém macOS tyto balíčky stále považuje za nainstalované, ale z toho, co uvádějí jejich záznamy o instalaci, v tomto Macu nic nezůstalo. Když jejich záznamy o instalaci zapomenete, přesunou se do koše a Historie je může vrátit zpět."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS betrachtet diese Pakete noch als installiert, aber nichts von dem, was sie auf diesem Mac abgelegt haben, ist noch da. Das Vergessen ihrer Quittungen legt diese in den Papierkorb, und im Verlauf kannst du sie zurücklegen."
+            "value" : "macOS betrachtet diese Pakete noch als installiert, aber nichts von dem, was auf ihren Quittungen steht, ist auf diesem Mac noch da. Das Vergessen ihrer Quittungen legt diese in den Papierkorb, und im Verlauf kannst du sie zurücklegen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS sigue contando estos paquetes como instalados, pero no queda nada de lo que pusieron en este Mac. Olvidar sus recibos los traslada a la papelera, e Historial puede restaurarlos."
+            "value" : "macOS sigue contando estos paquetes como instalados, pero no queda en este Mac nada de lo que figura en sus recibos. Olvidar sus recibos los traslada a la papelera, e Historial puede restaurarlos."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS considère toujours ces paquets comme installés, mais il ne reste rien de ce qu’ils ont placé sur ce Mac. Oublier leurs reçus les place dans la corbeille, et l’Historique peut les remettre en place."
+            "value" : "macOS considère toujours ces paquets comme installés, mais il ne reste sur ce Mac rien de ce qui figure sur leurs reçus. Oublier leurs reçus les place dans la corbeille, et l’Historique peut les remettre en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS considera ancora installati questi pacchetti, ma di ciò che hanno messo su questo Mac non rimane nulla. Dimenticare le loro ricevute le sposta nel Cestino, e la Cronologia può ripristinarle."
+            "value" : "macOS considera ancora installati questi pacchetti, ma di ciò che è elencato nelle loro ricevute non rimane nulla su questo Mac. Dimenticare le loro ricevute le sposta nel Cestino, e la Cronologia può ripristinarle."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSはこれらのパッケージをまだインストール済みと見なしていますが、これらのパッケージがこのMacに置いたものは何も残っていません。レシートをゴミ箱に入れても、履歴から戻すことができます。"
+            "value" : "macOSはこれらのパッケージをまだインストール済みと見なしていますが、レシートに記載されているものはこのMacに何も残っていません。レシートをゴミ箱に入れても、履歴から戻すことができます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS는 이 패키지들을 아직 설치된 것으로 간주하지만, 이 패키지들이 이 Mac에 설치한 항목은 남아 있지 않습니다. 수신 정보를 제거하면 휴지통으로 이동하며, 기록에서 되돌려 놓을 수 있습니다."
+            "value" : "macOS는 이 패키지들을 아직 설치된 것으로 간주하지만, 이 패키지들의 수신 정보에 나열된 항목은 이 Mac에 남아 있지 않습니다. 수신 정보를 제거하면 휴지통으로 이동하며, 기록에서 되돌려 놓을 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS beschouwt deze pakketten nog als geïnstalleerd, maar van wat ze op deze Mac hebben gezet, is niets meer over. Als je de installatiebewijzen ervan vergeet, worden ze naar de prullenmand verplaatst, en Geschiedenis kan ze terugzetten."
+            "value" : "macOS beschouwt deze pakketten nog als geïnstalleerd, maar van wat er op hun installatiebewijzen staat, is op deze Mac niets meer over. Als je de installatiebewijzen ervan vergeet, worden ze naar de prullenmand verplaatst, en Geschiedenis kan ze terugzetten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS nadal uznaje te pakiety za zainstalowane, ale nie zostało nic z tego, co umieściły na tym Macu. Zapomnienie ich potwierdzeń przenosi je do Kosza, a Historia może je przywrócić."
+            "value" : "macOS nadal uznaje te pakiety za zainstalowane, ale na tym Macu nie zostało nic z tego, co wymieniają ich potwierdzenia. Zapomnienie ich potwierdzeń przenosi je do Kosza, a Historia może je przywrócić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS ainda considera estes pacotes como instalados, mas não resta nada do que eles colocaram neste Mac. Esquecer os recibos deles os move para o Lixo, e o Histórico pode colocá-los de volta."
+            "value" : "O macOS ainda considera estes pacotes como instalados, mas não resta neste Mac nada do que consta nos recibos deles. Esquecer os recibos deles os move para o Lixo, e o Histórico pode colocá-los de volta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS consideră în continuare aceste pachete instalate, dar din ce au pus pe acest Mac nu a mai rămas nimic. Dacă le uitați înregistrările, acestea sunt mutate în Coș și le puteți pune înapoi din Istoric."
+            "value" : "macOS consideră în continuare aceste pachete instalate, dar din ce listează înregistrările lor nu a mai rămas nimic pe acest Mac. Dacă le uitați înregistrările, acestea sunt mutate în Coș și le puteți pune înapoi din Istoric."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS по-прежнему считает эти пакеты установленными, но от того, что они поместили на этот Mac, ничего не осталось. Если забыть их квитанции, они переместятся в Корзину, и История сможет их восстановить."
+            "value" : "macOS по-прежнему считает эти пакеты установленными, но из того, что указано в их квитанциях, на этом Mac ничего не осталось. Если забыть их квитанции, они переместятся в Корзину, и История сможет их восстановить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS räknar fortfarande de här paketen som installerade, men inget av det som de har placerat på den här datorn finns kvar. Om du glömmer deras kvitton flyttas kvittona till papperskorgen, och Historik kan lägga tillbaka dem."
+            "value" : "macOS räknar fortfarande de här paketen som installerade, men inget av det som står på deras kvitton finns kvar på den här datorn. Om du glömmer deras kvitton flyttas kvittona till papperskorgen, och Historik kan lägga tillbaka dem."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bu paketleri hâlâ yüklü sayıyor ama paketlerin bu Mac’e koyduğu şeylerden hiçbiri kalmamış. Makbuzlarını unutmak onları Çöp Sepeti’ne taşır ve Geçmiş onları yerine koyabilir."
+            "value" : "macOS bu paketleri hâlâ yüklü sayıyor ama paketlerin makbuzlarındaki şeylerden hiçbiri bu Mac’te kalmamış. Makbuzlarını unutmak onları Çöp Sepeti’ne taşır ve Geçmiş onları yerine koyabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS досі вважає ці пакети інстальованими, але з того, що вони записали на цей Mac, нічого не лишилося. Якщо забути їхні квитанції, їх буде переміщено в Смітник, а Історія зможе їх повернути."
+            "value" : "macOS досі вважає ці пакети інстальованими, але з того, що вказано в їхніх квитанціях, на цьому Mac нічого не лишилося. Якщо забути їхні квитанції, їх буде переміщено в Смітник, а Історія зможе їх повернути."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS仍将这些软件包视为已安装，但它们放到这台Mac上的内容已全部不在了。移除它们的回执会将回执移到废纸篓，“历史记录”可以将其放回原处。"
+            "value" : "macOS仍将这些软件包视为已安装，但它们的回执中列出的内容已全部不在这台Mac上了。移除它们的回执会将回执移到废纸篓，“历史记录”可以将其放回原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS仍將這些套件視為已安裝，但它們放在這部Mac上的內容已全部不在。移除它們的收據會將收據丟到「垃圾桶」，「歷史記錄」可以將收據還原。"
+            "value" : "macOS仍將這些套件視為已安裝，但它們的收據上列出的項目已全部不在這部Mac上。移除它們的收據會將收據丟到「垃圾桶」，「歷史記錄」可以將收據還原。"
           }
         }
       }
     },
-    "macOS still counts this package as installed, but nothing it put on disk is left." : {
+    "macOS still counts this package as installed, but nothing on its receipt is left on disk." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS tento balíček stále považuje za nainstalovaný, ale z toho, co umístil na disk, nic nezůstalo."
+            "value" : "Systém macOS tento balíček stále považuje za nainstalovaný, ale z toho, co uvádí jeho záznam o instalaci, na disku nic nezůstalo."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS betrachtet dieses Paket noch als installiert, aber nichts von dem, was es abgelegt hat, ist noch da."
+            "value" : "macOS betrachtet dieses Paket noch als installiert, aber nichts von dem, was auf seiner Quittung steht, ist noch da."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS sigue contando este paquete como instalado, pero no queda nada de lo que puso en el disco."
+            "value" : "macOS sigue contando este paquete como instalado, pero no queda en el disco nada de lo que figura en su recibo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS considère toujours ce paquet comme installé, mais il ne reste rien de ce qu’il a placé sur le disque."
+            "value" : "macOS considère toujours ce paquet comme installé, mais il ne reste sur le disque rien de ce qui figure sur son reçu."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS considera ancora installato questo pacchetto, ma di ciò che ha messo sul disco non rimane nulla."
+            "value" : "macOS considera ancora installato questo pacchetto, ma di ciò che è elencato nella sua ricevuta non rimane nulla sul disco."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSはこのパッケージをまだインストール済みと見なしていますが、ディスクに置かれたものは何も残っていません。"
+            "value" : "macOSはこのパッケージをまだインストール済みと見なしていますが、レシートに記載されているものはディスクに何も残っていません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS는 이 패키지를 아직 설치된 것으로 간주하지만, 패키지가 디스크에 설치한 항목은 남아 있지 않습니다."
+            "value" : "macOS는 이 패키지를 아직 설치된 것으로 간주하지만, 패키지의 수신 정보에 나열된 항목은 디스크에 남아 있지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS beschouwt dit pakket nog als geïnstalleerd, maar van wat het op de schijf heeft gezet, is niets meer over."
+            "value" : "macOS beschouwt dit pakket nog als geïnstalleerd, maar van wat er op het installatiebewijs staat, is op de schijf niets meer over."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS nadal uznaje ten pakiet za zainstalowany, ale nie zostało nic z tego, co umieścił na dysku."
+            "value" : "macOS nadal uznaje ten pakiet za zainstalowany, ale na dysku nie zostało nic z tego, co wymienia jego potwierdzenie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS ainda considera este pacote como instalado, mas nada do que ele pôs no disco restou."
+            "value" : "O macOS ainda considera este pacote como instalado, mas nada do que consta no recibo dele restou no disco."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS consideră în continuare acest pachet instalat, dar din ce a pus pe disc nu a mai rămas nimic."
+            "value" : "macOS consideră în continuare acest pachet instalat, dar din ce listează înregistrarea sa nu a mai rămas nimic pe disc."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS по-прежнему считает этот пакет установленным, но от того, что он записал на диск, ничего не осталось."
+            "value" : "macOS по-прежнему считает этот пакет установленным, но из того, что указано в его квитанции, на диске ничего не осталось."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS räknar fortfarande det här paketet som installerat, men inget av det som paketet lade på skivan finns kvar."
+            "value" : "macOS räknar fortfarande det här paketet som installerat, men inget av det som står på paketets kvitto finns kvar på skivan."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bu paketi hâlâ yüklü sayıyor ama paketin diske koyduğu şeylerden hiçbiri kalmamış."
+            "value" : "macOS bu paketi hâlâ yüklü sayıyor ama paketin makbuzundaki şeylerden hiçbiri diskte kalmamış."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS досі вважає цей пакет інстальованим, але з того, що він записав на диск, нічого не лишилося."
+            "value" : "macOS досі вважає цей пакет інстальованим, але з того, що вказано в його квитанції, на диску нічого не лишилося."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS仍将此软件包视为已安装，但它放到磁盘上的内容已全部不在了。"
+            "value" : "macOS仍将此软件包视为已安装，但它的回执中列出的内容已全部不在磁盘上了。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS仍將此套件視為已安裝，但它放在磁碟上的內容已全部不在。"
+            "value" : "macOS仍將此套件視為已安裝，但它的收據上列出的項目已全部不在磁碟上。"
           }
         }
       }
