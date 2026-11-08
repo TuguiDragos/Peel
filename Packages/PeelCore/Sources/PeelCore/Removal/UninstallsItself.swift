@@ -13,6 +13,9 @@ public struct UninstallsItself: Sendable, Hashable {
         /// Runs as an administrator and deletes the maker's other app, while it is still in place, and the data the
         /// two keep for every account.
         case deletesItsSuite
+        /// Runs as an administrator without asking, deletes its system files and can delete the app from the Trash,
+        /// then asks for an administrator to delete the accounts it made.
+        case uninstallsWithoutAsking
         /// A launchd job watches the app's place and, once the app leaves it, runs a program kept outside the app.
         case watchedByAJob
     }
@@ -134,9 +137,46 @@ public struct UninstallsItself: Sendable, Hashable {
         home: [String]()
     )
 
+    /// NoMachine's daemon `com.nomachine.uninstall` watches `/Applications/NoMachine.app` and, once it is gone, runs
+    /// `nxuninstall.sh` as root (NoMachine's "How to uninstall NoMachine on Mac"). The script ends NoMachine's
+    /// programs, deletes everything below but its folder in Application Support, and deletes the app from the Trash
+    /// when it finds the server running from it there. Then it opens NoMachine Uninstall, which asks for an
+    /// administrator to delete NoMachine's accounts and that folder.
+    private static let noMachine = (
+        identifier: "com.nomachine.nxdock",
+        uninstall: "Library/LaunchDaemons/com.nomachine.uninstall.plist"
+    )
+
+    private static let noMachineRemoves = (
+        root: [
+            "Library/LaunchDaemons/com.nomachine.uninstall.plist",
+            "Library/LaunchDaemons/com.nomachine.server.plist",
+            "Library/LaunchDaemons/com.nomachine.nxd.plist",
+            "Library/LaunchDaemons/com.nomachine.nxhtd.plist",
+            "Library/LaunchAgents/com.nomachine.localnxserver.plist",
+            "Library/LaunchAgents/com.nomachine.uninstallAgent.plist",
+            "Library/Application Support/NoMachine",
+            "Library/Audio/Plug-Ins/HAL/NMAudio.driver",
+            "Library/Audio/Plug-Ins/HAL/NMAudioMic.driver",
+            "private/etc/NX",
+            "private/var/db/receipts/com.nomachine.nxnode.bom",
+            "private/var/db/receipts/com.nomachine.nxnode.plist",
+            "private/var/db/receipts/com.nomachine.nxplayer.bom",
+            "private/var/db/receipts/com.nomachine.nxplayer.plist",
+            "private/var/db/receipts/com.nomachine.nxrunner.bom",
+            "private/var/db/receipts/com.nomachine.nxrunner.plist",
+            "private/var/db/receipts/com.nomachine.nxserver.bom",
+            "private/var/db/receipts/com.nomachine.nxserver.plist",
+            "usr/libexec/cups/backend/nx",
+            "usr/libexec/cups/backend/nxprint",
+        ],
+        home: [String]()
+    )
+
     public static func of(_ app: InstalledApp, environment: SearchEnvironment = .current) async -> UninstallsItself? {
         if let known = mullvad(app, environment: environment) ?? citrix(app, environment: environment)
-            ?? teamViewer(app, environment: environment) ?? blueStacks(app, environment: environment) {
+            ?? teamViewer(app, environment: environment) ?? blueStacks(app, environment: environment)
+            ?? noMachine(app, environment: environment) {
             return known
         }
         return await watched(app, environment: environment)
@@ -157,14 +197,9 @@ public struct UninstallsItself: Sendable, Hashable {
     }
 
     private static func citrix(_ app: InstalledApp, environment: SearchEnvironment) -> UninstallsItself? {
-        let place = PathPattern.comparablePath(of: app.url)
         guard
             app.bundleIdentifier == citrix.identifier,
-            let monitor = JobDefinition(contentsOf: environment.rootDirectory.appending(path: citrix.monitor)),
-            !monitor.isDisabled,
-            monitor.watchPaths.contains(where: { PathPattern.comparablePath(of: URL(filePath: $0)) == place }),
-            let program = monitor.program,
-            FileManager.default.isExecutableFile(atPath: program)
+            program(ofTheJobIn: citrix.monitor, watching: app, in: environment) != nil
         else { return nil }
         return UninstallsItself(app: app, uninstaller: .deletesTheApp, removed: paths(citrixRemoves, in: environment))
     }
@@ -189,21 +224,45 @@ public struct UninstallsItself: Sendable, Hashable {
     }
 
     private static func blueStacks(_ app: InstalledApp, environment: SearchEnvironment) -> UninstallsItself? {
-        let place = PathPattern.comparablePath(of: app.url)
         guard
             let identifier = app.bundleIdentifier, blueStacks.identifiers.contains(identifier),
-            let cleanup = JobDefinition(contentsOf: environment.rootDirectory.appending(path: blueStacks.cleanup)),
-            !cleanup.isDisabled,
-            cleanup.watchPaths.contains(where: { PathPattern.comparablePath(of: URL(filePath: $0)) == place }),
-            let program = cleanup.program,
-            FileManager.default.isExecutableFile(atPath: program)
+            let program = program(ofTheJobIn: blueStacks.cleanup, watching: app, in: environment)
         else { return nil }
         return UninstallsItself(
             app: app,
             uninstaller: .deletesItsSuite,
             removed: paths(blueStacksRemoves, in: environment),
-            needed: [PathPattern.comparablePath(of: URL(filePath: program))]
+            needed: [program]
         )
+    }
+
+    private static func noMachine(_ app: InstalledApp, environment: SearchEnvironment) -> UninstallsItself? {
+        guard
+            app.bundleIdentifier == noMachine.identifier,
+            let program = program(ofTheJobIn: noMachine.uninstall, watching: app, in: environment)
+        else { return nil }
+        return UninstallsItself(
+            app: app,
+            uninstaller: .uninstallsWithoutAsking,
+            removed: paths(noMachineRemoves, in: environment),
+            needed: [program]
+        )
+    }
+
+    /// The program of the job in `file`, as Peel compares paths, when the job isn't disabled, its `WatchPaths` names
+    /// the app's place itself, and the program can run.
+    private static func program(
+        ofTheJobIn file: String,
+        watching app: InstalledApp,
+        in environment: SearchEnvironment
+    ) -> String? {
+        let place = PathPattern.comparablePath(of: app.url)
+        guard
+            let job = JobDefinition(contentsOf: environment.rootDirectory.appending(path: file)), !job.isDisabled,
+            job.watchPaths.contains(where: { PathPattern.comparablePath(of: URL(filePath: $0)) == place }),
+            let program = job.program, FileManager.default.isExecutableFile(atPath: program)
+        else { return nil }
+        return PathPattern.comparablePath(of: URL(filePath: program))
     }
 
     /// Watched when a job launchd has loaded from a folder it reads by itself names the app's place, or something

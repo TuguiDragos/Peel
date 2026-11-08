@@ -128025,6 +128025,112 @@
         }
       }
     },
+    "Once %@ leaves the Applications folder, its own service uninstalls it as an administrator, without asking: it deletes its system files and can delete the app from the Trash too, which History can’t bring back. Then NoMachine Uninstall opens and asks for an administrator’s password to delete the accounts NoMachine made." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jakmile aplikace %@ opustí složku Aplikace, odinstaluje ji její vlastní služba s oprávněním správce, aniž by se vás zeptala: smaže systémové soubory aplikace a může z koše smazat i samotnou aplikaci, což Historie nemůže vrátit. Potom se otevře aplikace NoMachine Uninstall a požádá o heslo správce, aby mohla smazat účty, které aplikace NoMachine vytvořila."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobald %@ den Ordner „Programme“ verlässt, wird die App von ihrem eigenen Dienst ohne Nachfragen als Administrator deinstalliert: Der Dienst löscht ihre Systemdateien und kann auch die App aus dem Papierkorb löschen. Was er löscht, lässt sich über den Verlauf nicht zurückholen. Anschließend öffnet sich NoMachine Uninstall und fragt nach dem Passwort eines Administrators, um die Benutzeraccounts zu löschen, die NoMachine angelegt hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando %@ salga de la carpeta Aplicaciones, su propio servicio la desinstalará como administrador, sin preguntar: borrará sus archivos del sistema y también puede borrar la app de la papelera, algo que Historial no puede recuperar. Después, se abrirá NoMachine Uninstall y pedirá una contraseña de administrador para borrar las cuentas que creó NoMachine."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une fois %@ sorti du dossier Applications, son propre service le désinstalle en tant qu’administrateur, sans vous le demander : il supprime ses fichiers système et peut aussi supprimer l’app de la corbeille, et l’Historique ne peut rien en rétablir. NoMachine Uninstall s’ouvre ensuite et demande le mot de passe d’un administrateur pour supprimer les comptes créés par NoMachine."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando %@ esce dalla cartella Applicazioni, il suo stesso servizio la disinstalla con i privilegi di amministratore, senza chiedere nulla: ne elimina i file di sistema e può eliminare anche l’app dal Cestino, e la Cronologia non può ripristinarli. Poi si apre NoMachine Uninstall e chiede la password di un amministratore per eliminare gli account creati da NoMachine."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”が“アプリケーション”フォルダから移動されると、アプリ自身のサービスが、確認なしで管理者としてアンインストールを行います。このサービスは、アプリがシステム内に置いたファイルを削除するほか、ゴミ箱に入っているアプリを削除する場合もあります。削除されたものは、履歴から元に戻すことはできません。その後、NoMachine Uninstallが開き、NoMachineが作成したアカウントを削除するために、管理者のパスワードの入力を求めます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 응용 프로그램 폴더에서 옮겨지면 앱 자체의 서비스가 묻지 않고 관리자 권한으로 앱을 제거합니다. 이 서비스는 앱의 시스템 파일을 삭제하고, 휴지통에 있는 앱도 삭제할 수 있으며, 이는 기록에서 되살릴 수 없습니다. 그런 다음 NoMachine Uninstall이 열리고, NoMachine이 만든 계정을 삭제하기 위해 관리자 암호를 요청합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zodra %@ de map 'Apps' verlaat, wordt de app door zijn eigen dienst als beheerder gedeïnstalleerd, zonder je te vragen: de dienst verwijdert de systeembestanden van de app definitief en kan ook de app zelf uit de prullenmand verwijderen, en Geschiedenis kan ze niet terugzetten. Daarna wordt NoMachine Uninstall geopend, dat om een beheerderswachtwoord vraagt om de accounts te verwijderen die NoMachine heeft aangemaakt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy aplikacja %@ opuści folder Aplikacje, jej własna usługa ją odinstaluje jako administrator, bez pytania: usunie jej pliki systemowe i może też usunąć aplikację z Kosza, a Historia nie może ich przywrócić. Następnie otworzy się aplikacja NoMachine Uninstall i poprosi o hasło administratora, aby usunąć konta utworzone przez NoMachine."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Assim que %@ sair da pasta Aplicativos, o próprio serviço do app o desinstala como administrador, sem perguntar: ele apaga os arquivos do app no sistema e também pode apagar o app do Lixo, que o Histórico não pode trazer de volta. Depois, o NoMachine Uninstall abre e pede a senha de um administrador para apagar as contas que o NoMachine criou."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "După ce %@ iese din dosarul Aplicații, serviciul propriu al aplicației o dezinstalează ca administrator, fără să vă întrebe: șterge fișierele ei de sistem și poate șterge și aplicația din Coș, care nu pot fi readuse din Istoric. Apoi aplicația NoMachine Uninstall se deschide și cere parola unui administrator pentru a șterge conturile create de NoMachine."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как только приложение «%@» покинет папку «Программы», его собственная служба удалит его с правами администратора без Вашего подтверждения: она удалит его системные файлы, а также может удалить само приложение из Корзины, и История не сможет вернуть удаленное. Затем откроется приложение NoMachine Uninstall и запросит пароль администратора, чтобы удалить учетные записи, созданные NoMachine."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När %@ lämnar mappen Appar avinstallerar appens egen tjänst den som administratör och utan att fråga: tjänsten raderar appens systemfiler och kan också radera appen från papperskorgen, och dem kan Historik inte få tillbaka. Sedan öppnas NoMachine Uninstall och ber om en administratörs lösenord för att radera de konton som NoMachine har skapat."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulaması Uygulamalar klasöründen çıktığında, kendi hizmeti onun yüklemesini yönetici olarak ve size sormadan kaldırır: sistem dosyalarını siler ve uygulamayı Çöp Sepeti’nden de silebilir; Geçmiş bunları geri getiremez. Ardından NoMachine Uninstall uygulaması açılır ve NoMachine’in oluşturduğu hesapları silmek için bir yönetici parolası ister."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щойно програма «%@» залишить папку «Програми», її власна служба деінсталює її з правами адміністратора й без запиту: вона видалить її системні файли, а також може видалити програму зі Смітника, і Історія не зможе їх повернути. Потім відкриється програма NoMachine Uninstall і попросить пароль адміністратора, щоб видалити облікові записи, які створила NoMachine."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一旦“%@”离开“应用程序”文件夹，它自己的服务就会不询问而直接以管理员身份将其卸载：它会删除其系统文件，还可能将该App从废纸篓中删除，“历史记录”无法将其恢复。随后，NoMachine Uninstall会打开，并要求你输入管理员密码，以删除NoMachine创建的账户。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一旦「%@」離開「應用程式」檔案夾，它自己的服務就會不經詢問，以管理者身分將它解除安裝：它會刪除其系統檔案，也可能將該App從「垃圾桶」刪除，而「歷史記錄」無法將其恢復。接著，NoMachine Uninstall會打開，並要求輸入管理者密碼，以刪除NoMachine建立的帳號。"
+          }
+        }
+      }
+    },
     "Once %@ leaves the Applications folder, its own service uninstalls it: it logs this Mac out of your account and deletes its settings, which History can’t bring back. Write down your account number first, or run the app’s own uninstaller instead: `%@`." : {
       "localizations" : {
         "cs" : {

@@ -525,6 +525,113 @@ struct UninstallsItselfTests {
         #expect(await UninstallsItself.of(other, environment: environment)?.uninstaller == .deletesItsSuite)
     }
 
+    private struct NoMachine: ~Copyable {
+        let directory: TemporaryDirectory
+        let app: InstalledApp
+        let environment: SearchEnvironment
+        let job: URL
+
+        init() throws {
+            let directory = try TemporaryDirectory()
+            let bundle = try directory.directory("root/Applications/NoMachine.app")
+            let script = "root/Library/Application Support/NoMachine/nxuninstall.sh"
+            try directory.file(script)
+            try directory.setPermissions(0o755, of: script)
+            self.job = try directory.file(
+                "root/Library/LaunchDaemons/com.nomachine.uninstall.plist",
+                contents: PropertyListSerialization.data(
+                    fromPropertyList: [
+                        "Label": "com.nomachine.uninstall",
+                        "ProgramArguments": [directory.url.appending(path: script).path(percentEncoded: false)],
+                        "WatchPaths": [bundle.path(percentEncoded: false)],
+                    ],
+                    format: .xml,
+                    options: 0
+                )
+            )
+            self.app = InstalledApp(url: bundle, bundleIdentifier: "com.nomachine.nxdock", name: "NoMachine")
+            self.environment = SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            )
+            self.directory = directory
+        }
+
+        func driver(_ name: String) throws -> URL {
+            let driver = try directory.directory("root/Library/Audio/Plug-Ins/HAL/\(name).driver")
+            try directory.file(
+                "root/Library/Audio/Plug-Ins/HAL/\(name).driver/Contents/Info.plist",
+                contents: PropertyListSerialization.data(
+                    fromPropertyList: ["CFBundleIdentifier": "com.nomachine.\(name)"], format: .xml, options: 0
+                )
+            )
+            return driver
+        }
+    }
+
+    @Test func leavesToNoMachinesUninstallWhatItDeletesAndOffersTheRest() async throws {
+        let noMachine = try NoMachine()
+        let deletedByIt = [
+            noMachine.job,
+            try noMachine.directory.file("root/Library/LaunchAgents/com.nomachine.uninstallAgent.plist"),
+            noMachine.environment.rootDirectory.appending(path: "Library/Application Support/NoMachine"),
+            try noMachine.driver("NMAudio"),
+            try noMachine.driver("NMAudioMic"),
+        ]
+        let settings = try noMachine.directory.file("home/Library/Preferences/com.nomachine.nxdock.plist")
+
+        let plan = await Uninstallation.prepare(
+            noMachine.app, installedApps: [noMachine.app], environment: noMachine.environment
+        )
+
+        #expect(plan.uninstallsItself?.uninstaller == .uninstallsWithoutAsking)
+        let heldBack = Dictionary(
+            plan.scan.leftovers.map { (PathPattern.comparablePath(of: $0.url), $0.match.heldBack) },
+            uniquingKeysWith: { first, _ in first }
+        )
+        for url in deletedByIt {
+            #expect(heldBack[PathPattern.comparablePath(of: url)] == .some(.leftToItsUninstaller), "\(url.path())")
+        }
+        #expect(heldBack[PathPattern.comparablePath(of: settings)] == .some(nil))
+    }
+
+    @Test func noMachinesBundleMovesWhileItsServerRunsFromIt() async throws {
+        let noMachine = try NoMachine()
+        let server = try noMachine.directory.runningProgram(
+            "root/Applications/NoMachine.app/Contents/Frameworks/bin/nxserver.bin"
+        )
+        defer { server.terminate() }
+        let trash = try noMachine.directory.directory("home/.Trash")
+        let service = TrashService(environment: noMachine.environment) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+        let plan = await Uninstallation.prepare(
+            noMachine.app, installedApps: [noMachine.app], environment: noMachine.environment
+        )
+
+        let result = await plan.move([noMachine.app.url], using: service)
+
+        #expect(result.failures.isEmpty, "\(result.failures.map(\.reason))")
+        #expect(result.trashed.map(\.originalURL) == [noMachine.app.url])
+    }
+
+    @Test func peelUninstallWarnsThatNoMachineDeletesItselfWithoutAsking() async throws {
+        let noMachine = try NoMachine()
+        let uninstallsItself = await UninstallsItself.of(noMachine.app, environment: noMachine.environment)
+
+        let warnings = UninstallCommand.warnings(
+            moving: [noMachine.app.url], of: noMachine.app,
+            uninstallsItself: uninstallsItself, leftInTheSystem: nil, commandToRunFirst: nil, resettingPrivacy: false
+        )
+
+        #expect(warnings.count == 1)
+        #expect(warnings.first?.contains("as an administrator, without asking") == true)
+        #expect(warnings.first?.contains("can delete the app from the Trash too") == true)
+        #expect(warnings.first?.contains("NoMachine Uninstall opens") == true)
+    }
+
     private struct Watched: ~Copyable {
         enum Runs {
             case helper

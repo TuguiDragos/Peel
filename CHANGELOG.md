@@ -69,6 +69,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Uninstalling BlueStacks or BlueStacks Air multi-instance manager says first that the cleanup BlueStacks installs then
   deletes the other app and the data BlueStacks keeps for every account in `/Users/Shared`, and leaves what that
   cleanup removes to it.
+- An app's page and several apps' page can uninstall NoMachine while its server runs from inside the app, and say
+  first that NoMachine's own service then uninstalls it as an administrator, without asking, and that NoMachine
+  Uninstall asks for a password to delete the accounts NoMachine made. What that service removes is left to it.
 - An uninstall no longer selects Prism Launcher's folder, with every instance's saved worlds, Chatbox's conversations,
   Helium's profiles with their saved passwords, the files Google Drive for desktop couldn't upload, or the backups
   another computer sent to CrashPlan: each is listed and left for you to select.
