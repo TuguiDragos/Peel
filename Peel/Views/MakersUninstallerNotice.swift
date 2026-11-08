@@ -19,7 +19,7 @@ struct MakersUninstallerNotice: View {
                     .disabled(!FileManager.default.fileExists(atPath: url.path(percentEncoded: false)))
             case .inTheApp(let url):
                 Button("Open \(app)") { NSWorkspace.shared.open(url) }
-            case .onItsDiskImage:
+            case .onItsDiskImage, .fromTheMakersPage:
                 EmptyView()
             }
         }

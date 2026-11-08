@@ -17,8 +17,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Before battery, Rancher Desktop, Postgres.app, Wireshark, or SAP's Privileges goes, an app's page, several apps'
   page, and `peel uninstall` name what it leaves in `/etc` or `/opt`, such as battery's rule for `sudo`, and the
   command that removes it.
-- Karabiner-Elements, Multipass, ESET Cyber Security, CrashPlan, Carbon Copy Cloner, and Wacom's tablet driver are left
-  to the uninstaller their makers document: an app's page and `peel uninstall` name it and link to the maker's steps.
+- Karabiner-Elements, Multipass, ESET Cyber Security, CrashPlan, Carbon Copy Cloner, Wacom's tablet driver, Box Drive,
+  and Webex are left to the uninstaller their makers document: an app's page and `peel uninstall` name it, or say to
+  download it from the maker's page, and link to the maker's steps.
 
 #### Orphaned Files
 

@@ -1189,6 +1189,15 @@ struct CommandLineTests {
         #expect(UninstallCommand.removedElsewhere(agent)?.description.contains("uninstall_gp.sh") == true)
     }
 
+    @Test func saysToDownloadTheUninstallerAMakersPageOffers() {
+        let webex = InstalledApp(
+            url: URL(filePath: "/Applications/Webex.app", directoryHint: .isDirectory),
+            bundleIdentifier: "Cisco-Systems.Spark", name: "Webex", teamIdentifier: "DE8Y96K9QP"
+        )
+
+        #expect(UninstallCommand.removedElsewhere(webex)?.description == "Webex is removed with Cisco's own uninstaller, which also takes what it keeps in the system: download its uninstaller from Cisco's page. See https://help.webex.com/en-us/article/136hu4/Uninstall-Webex-App-on-macOS")
+    }
+
     @Test func refusesToUninstallAVPNAndSaysWhereItsOwnUninstallIs() throws {
         func refusal(_ identifier: String, team: String, name: String) -> String? {
             let app = InstalledApp(

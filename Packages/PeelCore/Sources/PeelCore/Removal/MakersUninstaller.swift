@@ -14,6 +14,8 @@ public struct MakersUninstaller: Sendable, Hashable {
         case inTheApp(URL)
         /// An uninstaller that comes on the disk image the app came on rather than on the Mac.
         case onItsDiskImage
+        /// An uninstaller the maker's page offers to download, which is not on the Mac.
+        case fromTheMakersPage
     }
 
     private enum Documented: Sendable {
@@ -24,6 +26,7 @@ public struct MakersUninstaller: Sendable, Hashable {
         case itself(removing: String)
         case inTheApp
         case onItsDiskImage
+        case fromTheMakersPage
         /// The first script, run with `sudo`, with its own page while it is on the Mac, and the other one, with the
         /// product's page, when it is not.
         case scriptOnTheMac(String, page: String, otherwise: String)
@@ -180,6 +183,14 @@ public struct MakersUninstaller: Sendable, Hashable {
             .uninstaller("/Applications/Wacom Tablet.localized/Wacom Tablet Utility.app"),
             "https://support.wacom.com/hc/en-us/articles/1500006264541-How-do-I-uninstall-manually-and-re-install-the-Wacom-driver-on-macOS-for-a-Pen-Tablet-Pen-Display-or-Pen-Computer"
         ),
+        (
+            "M683GB7CPW", ["com.box.desktop"], "Box", .fromTheMakersPage,
+            "https://support.box.com/hc/en-us/articles/360044196293-Uninstalling-Box-Drive"
+        ),
+        (
+            "DE8Y96K9QP", ["cisco-systems.spark"], "Cisco", .fromTheMakersPage,
+            "https://help.webex.com/en-us/article/136hu4/Uninstall-Webex-App-on-macOS"
+        ),
         // The uninstaller's identifier, from Chromium's `remoting/branding_Chrome`; the host's own is not listed here.
         (
             "EQHXZ8M8AV", ["com.google.chromeremotedesktop.me2me-host-uninstaller"], "Google",
@@ -207,6 +218,7 @@ public struct MakersUninstaller: Sendable, Hashable {
         case .itself: (.uninstaller(app.url), product.page)
         case .inTheApp: (.inTheApp(app.url), product.page)
         case .onItsDiskImage: (.onItsDiskImage, product.page)
+        case .fromTheMakersPage: (.fromTheMakersPage, product.page)
         case .scriptOnTheMac(let script, let page, let otherwise):
             isOnTheMac(script) ? (.command("sudo \(script)"), page) : (.command("sudo \(otherwise)"), product.page)
         }

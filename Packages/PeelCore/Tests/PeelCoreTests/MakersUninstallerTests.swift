@@ -142,6 +142,15 @@ struct MakersUninstallerTests {
         #expect(MakersUninstaller.of(agent("com.canonical.multipassGui", team: "ABCDE12345")) == nil)
     }
 
+    @Test func knowsTheAppsWhoseUninstallerTheirMakersPageOffersToDownload() {
+        #expect(MakersUninstaller.of(agent("com.box.desktop", team: "M683GB7CPW"))?.step == .fromTheMakersPage)
+        #expect(MakersUninstaller.of(agent("com.box.desktop.helper", team: "M683GB7CPW"))?.maker == "Box")
+        let webex = MakersUninstaller.of(agent("Cisco-Systems.Spark", team: "DE8Y96K9QP"))
+        #expect(webex?.step == .fromTheMakersPage)
+        #expect(webex?.maker == "Cisco")
+        #expect(MakersUninstaller.of(agent("Cisco-Systems.Spark", team: "ABCDE12345")) == nil)
+    }
+
     @Test func givesTheUninstallScriptOfTheCiscoClientThatIsOnTheMac() {
         let anyConnect = agent("com.cisco.anyconnect.gui", team: "DE8Y96K9QP")
         let secureClient = "/opt/cisco/secureclient/bin/cisco_secure_client_uninstall.sh"
