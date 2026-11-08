@@ -129,9 +129,11 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      Inside an app, which is code and loses nothing when it moves, a file open only for reading holds nothing, and
      neither does the program running from an app that uninstalls itself once it has moved (`UninstallsItself`:
      Mullvad VPN's daemon, and Citrix Workspace's agent and TeamViewer's daemon, each known by the `WatchPaths` of
-     its job file), whose uninstaller's files are held back (`leftToItsUninstaller`) rather than moved first. A
-     folder only named `.app`, such as the web data an app keeps under its identifier, is no app bundle
-     (`AppBundleLayout.isAnApp`), so a file open for reading there holds it.
+     its job file), whose uninstaller's files are held back (`leftToItsUninstaller`) rather than moved first. Any
+     other job launchd has loaded whose `WatchPaths` names the app and whose program sits outside it makes the app
+     `watchedByAJob`: that job's file and what holds its program are held back (`neededWhenTheAppLeaves`), and the
+     app's own programs stop as any app's do. A folder only named `.app`, such as the web data an app keeps under
+     its identifier, is no app bundle (`AppBundleLayout.isAnApp`), so a file open for reading there holds it.
    - What Peel itself runs from never moves, nor anything holding it, such as the folder a copy built from source
      runs from: only Remove Peel moves Peel (`TrashFailure.Reason.peelRunsFromIt`).
    - An app carrying a system extension macOS installed is left to Finder (`RemovedElsewhere.byFinder`): Finder's
@@ -220,7 +222,8 @@ A handful of ideas carry most of the weight. Each is enforced in one place and t
   where it is confirmed: Homebrew's own uninstall and cleanups, resetting an app's privacy permissions, and Force Quit
   for an app that is still open 10 seconds after Peel asked it to quit (`QuitBeforeRemoving`). Moving Mullvad VPN,
   Citrix Workspace, or TeamViewer starts that app's own uninstaller, which deletes what History can't bring back, and
-  Peel says so before it moves them (`UninstallsItself`). Forgetting a preference domain happens only once its file is
+  moving an app a loaded launch job watches starts that job's program, which may delete too; Peel says so before it
+  moves them (`UninstallsItself`). Forgetting a preference domain happens only once its file is
   in the Trash, so putting the file back undoes it, or, when saved settings are put back, once the settings in use are
   saved as a copy of their own (`PreferenceBackup`). Every `brew` call runs without Homebrew's automatic cleanup
   (`HOMEBREW_NO_INSTALL_CLEANUP`), so an upgrade never deletes on its own; when a `brew.env` file of the user's turns

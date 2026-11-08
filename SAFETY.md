@@ -190,8 +190,10 @@ app's Safari extension, does not keep it in place; one that runs from it or writ
 like an app, such as the web data or the cache an app keeps under its identifier, is no app, so a program reading
 there keeps it in place. A program running from an app that uninstalls itself once it is moved, as Mullvad VPN, Citrix
 Workspace, and TeamViewer do, doesn't keep that app in place, since their own uninstaller stops it; one writing in it
-still does. When nothing but an app's own background programs, the launch agents and daemons that run from inside it,
-keeps the app in place, an uninstall stops them first and then moves the app, and starts them again if it still stays.
+still does. A launch job that waits for an app to leave, which macOS starts as soon as the app moves, keeps its file
+and its program where they are through that uninstall, since moving either would stop it halfway. When nothing but an
+app's own background programs, the launch agents and daemons that run from inside it, keeps the app in place, an
+uninstall stops them first and then moves the app, and starts them again if it still stays.
 Peel itself counts too: whatever Peel runs from, and any folder holding it, stays, since only Remove Peel moves Peel.
 Of programs that run as another account or as root, macOS's own among them, only the program can be seen, never the
 files it holds open, which is why Space also leaves macOS's own caches unselected, and in the Library at the top of

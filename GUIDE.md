@@ -48,7 +48,9 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   uninstaller of its own, such as GlobalProtect, Microsoft Defender, ExpressVPN, or Laravel Herd, is left to that
   uninstaller, and its page says how. An app that runs
   its own uninstaller once it leaves the Applications folder, such as Mullvad VPN or Citrix Workspace, is moved only
-  after Peel tells you what that uninstaller will do. Peel itself goes only with Remove Peel, in Settings > General.
+  after Peel tells you what that uninstaller will do. An app that leaves a program waiting for it to go, such as
+  LanguageTool for Desktop, keeps that program and the file that starts it in place so the program can finish, and
+  Peel says so first. Peel itself goes only with Remove Peel, in Settings > General.
 - **Open apps quit first.** Peel asks an app that is open to quit before anything of it moves, and looks again at
   what it left once it has. If the app is still open after 10 seconds, Peel offers Force Quit, which loses what the
   app hasn't saved.

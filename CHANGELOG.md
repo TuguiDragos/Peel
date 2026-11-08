@@ -38,6 +38,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Without Full Disk Access, an app's page, `peel leftovers`, and `peel uninstall` no longer name `/Library/Bluetooth`
   and `/Library/Trial`, folders macOS keeps for itself, among the folders Peel couldn't look inside, or suggest Full
   Disk Access for them.
+- An app's page, several apps' page, Package Receipts, and `peel uninstall` no longer move the file of a background job
+  that waits for the app to leave, or what holds the program it runs, such as LanguageTool for Desktop's uninstall
+  helper: moving them stopped that program just as the app's move started it. Both rows stay and say why, and the
+  question says that the program starts.
 
 #### Orphaned Files
 
