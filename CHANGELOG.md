@@ -18,9 +18,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   page, and `peel uninstall` name what it leaves in `/etc` or `/opt`, such as battery's rule for `sudo`, and the
   command that removes it.
 - Karabiner-Elements, Multipass, ESET Cyber Security, CrashPlan, Backblaze, Carbon Copy Cloner, iStat Menus, Wacom's
-  tablet driver, Splashtop Streamer, Box Drive, Webex, and GPG Suite are left to the uninstaller their makers document:
-  an app's page and `peel uninstall` name it, or say to download it from the maker's page, and link to the maker's
-  steps.
+  tablet driver, Splashtop Streamer, OpenSC, Box Drive, Webex, and GPG Suite are left to the uninstaller their makers
+  document: an app's page and `peel uninstall` name it, or say to download it from the maker's page, and link to the
+  maker's steps.
 
 #### Orphaned Files
 

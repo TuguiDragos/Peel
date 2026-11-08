@@ -108,6 +108,10 @@ public struct MakersUninstaller: Sendable, Hashable {
             "https://tunnelblick.net/cUninstall.html"
         ),
         (
+            "L7897KTAHV", ["org.opensc-project.mac.opensctoken"], "OpenSC", .command("sudo opensc-uninstall"),
+            "https://github.com/OpenSC/OpenSC/wiki/macOS-Quick-Start"
+        ),
+        (
             "CPQQ3AW49Y", ["com.splashtop.splashtop-streamer"], "Splashtop", .onItsDiskImage,
             "https://support-splashtopbusiness.splashtop.com/hc/en-us/articles/216378343-How-to-Uninstall-Splashtop"
         ),

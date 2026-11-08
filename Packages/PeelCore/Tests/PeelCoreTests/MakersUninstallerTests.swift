@@ -150,6 +150,10 @@ struct MakersUninstallerTests {
         #expect(
             MakersUninstaller.of(agent("com.splashtop.Splashtop-Streamer", team: "CPQQ3AW49Y"))?.step == .onItsDiskImage
         )
+        #expect(
+            MakersUninstaller.of(agent("org.opensc-project.mac.opensctoken.OpenSCTokenApp", team: "L7897KTAHV"))?.step
+                == .command("sudo opensc-uninstall")
+        )
     }
 
     @Test func knowsTheAppsWhoseUninstallerTheirMakersPageOffersToDownload() {
