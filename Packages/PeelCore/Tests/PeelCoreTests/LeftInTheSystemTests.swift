@@ -93,7 +93,8 @@ import Testing
         #expect(plan.leftInTheSystem?.paths == ["/etc/paths.d/postgresapp"])
         #expect(!plan.scan.leftovers.contains { $0.url.path(percentEncoded: false).contains("/etc/") })
         #expect(UninstallCommand.warnings(
-            moving: [app.url], of: app, uninstallsItself: nil, leftInTheSystem: plan.leftInTheSystem,
+            moving: [app.url], of: app, uninstallsItself: nil,
+            leftInTheSystem: plan.leftInTheSystem, commandToRunFirst: nil,
             resettingPrivacy: false
         ) == [
             "Postgres leaves /etc/paths.d/postgresapp on this Mac after it goes, which only an administrator can remove. To remove it, run `sudo rm /etc/paths.d/postgresapp`.",
@@ -112,12 +113,14 @@ import Testing
         let left = LeftInTheSystem.of(app, environment: mac.environment)
 
         #expect(UninstallCommand.warnings(
-            moving: [app.url], of: app, uninstallsItself: nil, leftInTheSystem: left, resettingPrivacy: false
+            moving: [app.url], of: app, uninstallsItself: nil,
+            leftInTheSystem: left, commandToRunFirst: nil, resettingPrivacy: false
         ) == [
             "Rancher Desktop leaves /etc/sudoers.d/zzzzz-rancher-desktop-lima and /opt/rancher-desktop on this Mac after it goes, which only an administrator can remove. /etc/sudoers.d/zzzzz-rancher-desktop-lima is a rule that lets anyone run the programs it names as an administrator, without a password. To remove them, run `sudo rm -r /etc/sudoers.d/zzzzz-rancher-desktop-lima /opt/rancher-desktop`.",
         ])
         #expect(UninstallCommand.warnings(
-            moving: [], of: app, uninstallsItself: nil, leftInTheSystem: left, resettingPrivacy: false
+            moving: [], of: app, uninstallsItself: nil,
+            leftInTheSystem: left, commandToRunFirst: nil, resettingPrivacy: false
         ).isEmpty)
     }
 

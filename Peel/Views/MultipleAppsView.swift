@@ -317,8 +317,8 @@ struct MultipleAppsView: View {
     }
 
     /// Under the question: which of the chosen apps go and which stay, the privacy reset, which History can't undo, a
-    /// root certificate an app that goes leaves trusted, what it leaves in macOS's own settings folders, and Homebrew's
-    /// record of an app that goes while its record stays.
+    /// root certificate an app that goes leaves trusted, the command its maker gives to run first, what it leaves in
+    /// macOS's own settings folders, and Homebrew's record of an app that goes while its record stays.
     private func note(about urls: Set<URL>) -> Text {
         let going = plan.apps.filter { urls.contains($0.url) }
         let staying = plan.apps.filter { !urls.contains($0.url) && !plan.appsInTheTrash.contains($0.url) }
@@ -340,6 +340,9 @@ struct MultipleAppsView: View {
             lines.append(root.step(in: app.name))
         }
         for uninstallation in plan.bulk?.uninstallations ?? [] where urls.contains(uninstallation.app.url) {
+            if let first = uninstallation.commandToRunFirst {
+                lines.append(first.note(for: uninstallation.app.name))
+            }
             guard let left = uninstallation.leftInTheSystem else { continue }
             lines.append(left.whatStays(after: uninstallation.app.name))
             lines.append(left.step)

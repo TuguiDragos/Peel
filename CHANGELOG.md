@@ -17,6 +17,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Before battery, Rancher Desktop, Postgres.app, Wireshark, or SAP's Privileges goes, an app's page, several apps'
   page, and `peel uninstall` name what it leaves in `/etc` or `/opt`, such as battery's rule for `sudo`, and the
   command that removes it.
+- Before battery goes, an app's page, several apps' page, and `peel uninstall` say to run `battery uninstall` first,
+  which turns charging back on if battery paused it at a limit.
 - Karabiner-Elements, Multipass, ESET Cyber Security, CrashPlan, Backblaze, Carbon Copy Cloner, iStat Menus, Wacom's
   tablet driver, Splashtop Streamer, OpenSC, Box Drive, Webex, and GPG Suite are left to the uninstaller their makers
   document: an app's page and `peel uninstall` name it, or say to download it from the maker's page, and link to the
@@ -31,7 +33,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Homebrew
 
 - Uninstalling the battery or Postgres.app cask says first what its app leaves in `/etc`, which Homebrew's uninstall
-  doesn't remove, and the command that does.
+  doesn't remove, and the command that does, and for battery to run `battery uninstall` first.
 
 ### Changed
 

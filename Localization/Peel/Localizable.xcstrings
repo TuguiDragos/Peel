@@ -7330,6 +7330,118 @@
         }
       }
     },
+    "%@ may have paused this Mac’s charging at a limit. Before it goes, run `%@`, which turns charging back on and removes its tools from /usr/local/bin." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace %@ možná pozastavila nabíjení tohoto Macu po dosažení limitu. Než ji odstraníte, spusťte příkaz `%@`, který znovu zapne nabíjení a odstraní její nástroje ze složky /usr/local/bin."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ hat das Laden dieses Mac möglicherweise bei einem Limit angehalten. Führe vor der Deinstallation `%@` aus: Der Befehl aktiviert das Laden wieder und entfernt die Tools der App aus /usr/local/bin."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ may have paused this Mac’s charging at a limit. Before it goes, run `%2$@`, which turns charging back on and removes its tools from /usr/local/bin."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es posible que %@ haya pausado la carga de este Mac al llegar a un límite. Antes de que la app se vaya, ejecuta `%@`, que vuelve a activar la carga y elimina sus herramientas de /usr/local/bin."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ a peut-être suspendu la recharge de ce Mac à une certaine limite. Avant de supprimer l’app, exécutez `%@`, qui réactive la recharge et supprime ses outils de /usr/local/bin."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ potrebbe aver sospeso la carica di questo Mac a un determinato livello. Prima della rimozione, esegui `%@`, che riattiva la carica e rimuove i suoi strumenti da /usr/local/bin."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”が、このMacの充電を上限で一時停止している可能性があります。アプリを取り除く前に、`%@`を実行してください。このコマンドにより、充電が再開され、/usr/local/binからアプリのツールが取り除かれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 이 Mac의 충전을 일정 한도에서 일시 정지했을 수 있습니다. 앱을 제거하기 전에 `%@` 명령을 실행하십시오. 이 명령은 충전을 다시 켜고 /usr/local/bin에서 앱의 도구를 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ heeft het opladen van deze Mac misschien bij een limiet gepauzeerd. Voordat de app weg is, voer je `%@` uit, waarmee het opladen weer wordt ingeschakeld en de tools van de app uit /usr/local/bin worden verwijderd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja %@ mogła wstrzymać ładowanie tego Maca po osiągnięciu limitu. Zanim ją odinstalujesz, uruchom `%@`, co ponownie włączy ładowanie i usunie jej narzędzia z folderu /usr/local/bin."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O %@ pode ter pausado o carregamento deste Mac em um limite de carga. Antes que o app vá embora, execute `%@`, que reativa o carregamento e remove de /usr/local/bin as ferramentas dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este posibil ca aplicația %@ să fi suspendat încărcarea acestui Mac la o anumită limită. Înainte de a o dezinstala, rulați `%@`, care reactivează încărcarea și elimină instrumentele aplicației din /usr/local/bin."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение «%@» могло приостановить зарядку этого Mac при достижении заданного лимита. Перед удалением выполните команду `%@`, которая снова включит зарядку и удалит инструменты приложения из /usr/local/bin."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ kan ha pausat laddningen av den här datorn vid en viss gräns. Innan appen tas bort kör du `%@`, som slår på laddningen igen och tar bort appens verktyg från /usr/local/bin."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulaması bu Mac’in şarjını belirli bir sınırda duraklatmış olabilir. Uygulama gitmeden önce `%@` komutunu çalıştırın; bu komut şarjı yeniden etkinleştirir ve uygulamanın araçlarını /usr/local/bin klasöründen kaldırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програма «%@» могла призупинити заряджання цього Mac на заданому рівні. Перед її вилученням виконайте команду `%@`, яка знову ввімкне заряджання й вилучить інструменти програми з /usr/local/bin."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”可能已让这台Mac在电量达到上限时暂停充电。在它移走之前，请先运行`%@`，该命令会恢复充电，并从/usr/local/bin中移除该App的工具。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」可能已讓這部Mac在達到某個上限時暫停充電。在移除它之前，請先執行`%@`，這會重新開啟充電，並從/usr/local/bin移除該App的工具。"
+          }
+        }
+      }
+    },
     "%@ of %@" : {
       "localizations" : {
         "cs" : {

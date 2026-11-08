@@ -468,7 +468,7 @@ struct UninstallsItselfTests {
 
         let warnings = UninstallCommand.warnings(
             moving: [citrix.app.url], of: citrix.app,
-            uninstallsItself: uninstallsItself, leftInTheSystem: nil, resettingPrivacy: false
+            uninstallsItself: uninstallsItself, leftInTheSystem: nil, commandToRunFirst: nil, resettingPrivacy: false
         )
 
         #expect(warnings.count == 1)
@@ -515,7 +515,8 @@ struct UninstallsItselfTests {
         #expect(heldBack[PathPattern.comparablePath(of: program)] == .some(.neededWhenTheAppLeaves))
         let warnings = UninstallCommand.warnings(
             moving: [app.url], of: app,
-            uninstallsItself: plan.uninstallsItself, leftInTheSystem: nil, resettingPrivacy: false
+            uninstallsItself: plan.uninstallsItself,
+            leftInTheSystem: nil, commandToRunFirst: nil, resettingPrivacy: false
         )
         #expect(warnings.first?.contains("deletes the other BlueStacks app") == true)
         let other = InstalledApp(
@@ -694,7 +695,7 @@ struct UninstallsItselfTests {
 
         let warnings = UninstallCommand.warnings(
             moving: [watched.app.url], of: watched.app,
-            uninstallsItself: uninstallsItself, leftInTheSystem: nil, resettingPrivacy: false
+            uninstallsItself: uninstallsItself, leftInTheSystem: nil, commandToRunFirst: nil, resettingPrivacy: false
         )
 
         #expect(warnings == [

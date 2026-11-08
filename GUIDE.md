@@ -84,6 +84,9 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   goes, or the battery or Postgres.app cask is uninstalled on the Homebrew page, Peel names what the app left in
   `/etc/sudoers.d`, `/etc/paths.d`, `/etc/manpaths.d`, or `/opt`, such as a rule that lets anyone run its programs as an
   administrator without a password, and the command that removes it. Peel never changes those folders.
+- **A setting only its own command undoes.** Before battery goes, or its cask is uninstalled on the Homebrew page, Peel
+  says that it may have paused charging at a limit, and that `battery uninstall` turns charging back on and removes its
+  tools from `/usr/local/bin`. Peel runs no such command itself.
 - **Lines that still point to what moved.** After a removal, Peel reads the files your shell runs when it starts
   (`.zshrc` and the others zsh, bash, tcsh, and fish read) and names each line that still points to what moved, such
   as a `PATH` entry or an alias into the app, so a new shell stops printing an error once you edit it. Peel changes

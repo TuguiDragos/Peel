@@ -147,6 +147,16 @@ extension UninstallsItself {
     }
 }
 
+extension CommandToRunFirst {
+    /// What `app` may have changed in the Mac's own settings, and the command that undoes it, said before it goes.
+    func note(for app: String) -> Text {
+        switch undoes {
+        case .chargingLimit:
+            Text("\(app) may have paused this Mac’s charging at a limit. Before it goes, run `\(command)`, which turns charging back on and removes its tools from /usr/local/bin.")
+        }
+    }
+}
+
 extension LeftInTheSystem {
     /// What `app` leaves in macOS's own settings folders once it goes, with what a rule for `sudo` among it allows.
     func whatStays(after app: String) -> Text {

@@ -147,13 +147,14 @@ struct CommandLineTests {
         let uninstallsItself = await UninstallsItself.of(mullvad)
         let warnings = UninstallCommand.warnings(
             moving: [mullvad.url], of: mullvad,
-            uninstallsItself: uninstallsItself, leftInTheSystem: nil, resettingPrivacy: true
+            uninstallsItself: uninstallsItself, leftInTheSystem: nil, commandToRunFirst: nil, resettingPrivacy: true
         )
         #expect(warnings.count == 2)
         #expect(warnings.contains { $0.contains("privacy permissions") })
         #expect(warnings.contains { $0.contains("logs this Mac out") })
         #expect(UninstallCommand.warnings(
-            moving: [], of: mullvad, uninstallsItself: uninstallsItself, leftInTheSystem: nil, resettingPrivacy: false
+            moving: [], of: mullvad, uninstallsItself: uninstallsItself,
+            leftInTheSystem: nil, commandToRunFirst: nil, resettingPrivacy: false
         ).isEmpty)
     }
 
@@ -168,18 +169,21 @@ struct CommandLineTests {
         )
 
         #expect(UninstallCommand.warnings(
-            moving: [proxyman.url], of: proxyman, uninstallsItself: nil, leftInTheSystem: nil, resettingPrivacy: false
+            moving: [proxyman.url], of: proxyman, uninstallsItself: nil,
+            leftInTheSystem: nil, commandToRunFirst: nil, resettingPrivacy: false
         ) == [
             "Proxyman's root certificate stays trusted on this Mac after the app goes. To stop trusting it, choose Certificate > Reset all Proxyman Certificates in Proxyman first.",
         ])
         #expect(UninstallCommand.warnings(
-            moving: [charles.url], of: charles, uninstallsItself: nil, leftInTheSystem: nil, resettingPrivacy: false
+            moving: [charles.url], of: charles, uninstallsItself: nil,
+            leftInTheSystem: nil, commandToRunFirst: nil, resettingPrivacy: false
         ) == [
             "Charles's root certificate stays trusted on this Mac after the app goes. To stop trusting it, open the certificate whose name begins with Charles Proxy in Keychain Access and change its trust settings.",
         ])
         #expect(
             UninstallCommand.warnings(
-                moving: [], of: proxyman, uninstallsItself: nil, leftInTheSystem: nil, resettingPrivacy: false
+                moving: [], of: proxyman, uninstallsItself: nil,
+                leftInTheSystem: nil, commandToRunFirst: nil, resettingPrivacy: false
             ).isEmpty
         )
     }

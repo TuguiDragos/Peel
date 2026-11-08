@@ -522,13 +522,14 @@ struct UninstallCommand: AsyncParsableCommand {
             ?? AppInspector.knownName(forBundleIdentifier: identifier)
     }
 
-    /// What the removal does that the Trash can't bring back, a root certificate the app leaves trusted, and what it
-    /// leaves in macOS's own settings folders, said before the question.
+    /// What the removal does that the Trash can't bring back, a root certificate the app leaves trusted, the command
+    /// its maker gives to run first, and what it leaves in macOS's own settings folders, said before the question.
     static func warnings(
         moving urls: Set<URL>,
         of app: InstalledApp,
         uninstallsItself: UninstallsItself?,
         leftInTheSystem: LeftInTheSystem?,
+        commandToRunFirst: CommandToRunFirst?,
         resettingPrivacy: Bool
     ) -> [String] {
         var warnings: [String] = []
@@ -557,6 +558,12 @@ struct UninstallCommand: AsyncParsableCommand {
                 "open the certificate whose name begins with \(root.certificate) in Keychain Access and change its trust settings"
             }
             warnings.append("\(app.name)'s root certificate stays trusted on this Mac after the app goes. To stop trusting it, \(step).")
+        }
+        if urls.contains(app.url), let first = commandToRunFirst {
+            switch first.undoes {
+            case .chargingLimit:
+                warnings.append("\(app.name) may have paused this Mac's charging at a limit. Before it goes, run `\(first.command)`, which turns charging back on and removes its tools from /usr/local/bin.")
+            }
         }
         if urls.contains(app.url), let left = leftInTheSystem {
             let rule = left.ruleForSudo.map {
@@ -738,7 +745,8 @@ struct UninstallCommand: AsyncParsableCommand {
             let moving = Set(plan.moving.map(\.url))
             let warnings = Self.warnings(
                 moving: moving, of: target, uninstallsItself: uninstallation.uninstallsItself,
-                leftInTheSystem: uninstallation.leftInTheSystem, resettingPrivacy: resetPrivacy
+                leftInTheSystem: uninstallation.leftInTheSystem, commandToRunFirst: uninstallation.commandToRunFirst,
+                resettingPrivacy: resetPrivacy
             )
             let dock = Self.dockNote(for: target, isInTheDock: isInTheDock, keeping: keepInDock)
             let webApp = Self.browserName(of: target, among: apps)

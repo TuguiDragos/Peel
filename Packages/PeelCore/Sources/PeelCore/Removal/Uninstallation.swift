@@ -23,6 +23,8 @@ public struct Uninstallation: Sendable {
     public var installedSystemExtensions = CarriedSystemExtensions.none
     /// What the app leaves in macOS's own settings folders or in `/opt`, which Peel names and never moves.
     public var leftInTheSystem: LeftInTheSystem?
+    /// The command its maker gives to undo what the app changed in the Mac's own settings, said before it goes.
+    public var commandToRunFirst: CommandToRunFirst?
     /// How the app is removed when Peel never removes it from here: Peel itself from Settings, where its helper and
     /// login item go first (`unreviewedSelection` is that way), an agent by its maker's uninstaller, and an app with
     /// system extensions macOS installed by Finder. Its files are listed, and nothing of it is selected or moved.
@@ -113,7 +115,8 @@ public struct Uninstallation: Sendable {
             isAppInTheTrash: TrashService.isInsideATrash(app.url, home: environment.homeDirectory),
             uninstallsItself: uninstallsItself,
             installedSystemExtensions: await AppExtensions.installed(carriedBy: app, asking: systemExtensions),
-            leftInTheSystem: LeftInTheSystem.of(app, environment: environment)
+            leftInTheSystem: LeftInTheSystem.of(app, environment: environment),
+            commandToRunFirst: CommandToRunFirst.of(app, environment: environment)
         )
     }
 
