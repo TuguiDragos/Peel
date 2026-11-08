@@ -91,8 +91,10 @@ struct RemovalStandingTests {
         try disk.remount(at: renamed)
         let other = try ScratchVolume(fileSystem: "MS-DOS FAT32", mountedAt: place)
         let located = moved.located(on: .now())
+        #expect(located.trashedURL.isThere, "\(located.trashedURL.path(percentEncoded: false))")
+        let failure = await service.restore(located.trashedItem)
 
-        #expect(await service.restore(located.trashedItem) == nil)
+        #expect(failure == nil)
         #expect(renamed.appending(path: "folder/report.txt").isThere)
         #expect(!place.appending(path: "folder/report.txt").isThere)
         withExtendedLifetime(other) {}
