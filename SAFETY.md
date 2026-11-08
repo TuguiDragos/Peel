@@ -393,16 +393,17 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
 A security or management agent, a VPN, a backup app, or another app whose maker documents removing it with an
 uninstaller of its own (GlobalProtect, Cortex XDR, Cisco Secure Client and AnyConnect, ESET Endpoint Security, ESET
 Cyber Security, Microsoft Defender, Netskope Client, FortiClient, Bitdefender Endpoint Security for Mac, Sophos
-Endpoint, Symantec Endpoint Protection, Zscaler Client Connector, ExpressVPN, Private Internet Access, Cloudflare WARP,
-ZeroTier, Tunnelblick, IVPN, Splashtop Streamer, OpenSC, Arq, CrashPlan, Backblaze, Carbon Copy Cloner, Box Drive,
-Webex, GPG Suite, Laravel Herd, Multipass, Karabiner-Elements, iStat Menus, Wacom Center and Wacom Display Settings,
-Disk Drill, Malwarebytes, and Kaspersky) is listed the same way, and nothing of it can be selected: its page names the
-maker's uninstaller, or opens the app whose own command removes it, and links to the maker's instructions, since moved
-from its place, what it keeps in the system and the settings that manage it would stay behind. Peel knows it by the team
-its checked signature names and by its identifier, both as the maker documents or signs them, never by the identifier
-alone, which any app could claim. `peel uninstall` refuses it and names the same uninstaller. An uninstaller its maker
-documents opening to remove a product, such as Google's Chrome Remote Desktop Host Uninstaller or Wacom Tablet Utility,
-is treated the same way: moved on its own, it would leave the product installed, so its page offers to open it instead.
+Endpoint, Symantec Endpoint Protection, Zscaler Client Connector, Datadog Agent, ExpressVPN, Private Internet Access,
+Cloudflare WARP, ZeroTier, Tunnelblick, IVPN, Splashtop Streamer, OpenSC, Arq, CrashPlan, Backblaze, Carbon Copy Cloner,
+Box Drive, Webex, GPG Suite, Laravel Herd, Multipass, Karabiner-Elements, iStat Menus, Wacom Center and Wacom Display
+Settings, Disk Drill, Malwarebytes, and Kaspersky) is listed the same way, and nothing of it can be selected: its page
+names the maker's uninstaller, or opens the app whose own command removes it, and links to the maker's instructions,
+since moved from its place, what it keeps in the system and the settings that manage it would stay behind. Peel knows it
+by the team its checked signature names and by its identifier, both as the maker documents or signs them, never by the
+identifier alone, which any app could claim. `peel uninstall` refuses it and names the same uninstaller. An uninstaller
+its maker documents opening to remove a product, such as Google's Chrome Remote Desktop Host Uninstaller or Wacom Tablet
+Utility, is treated the same way: moved on its own, it would leave the product installed, so its page offers to open it
+instead.
 
 An app carrying a system extension macOS installed, such as a VPN's network extension or a virtual camera, is listed
 the same way, and nothing of it can be selected: moved by Peel, the app would leave the extension installed, while

@@ -214,6 +214,12 @@ public struct MakersUninstaller: Sendable, Hashable {
             "PKV8ZPD836", ["org.gpgtools.gpgkeychain"], "GPGTools", .fromTheMakersPage,
             "https://gpgtools.tenderapp.com/kb/faq/uninstall-gpg-suite"
         ),
+        // Datadog's page pipes a script it serves into the shell; Peel gives the page, never a command that runs
+        // whatever a server sends.
+        (
+            "JKFCB4CN7C", ["com.datadoghq.agent"], "Datadog", .fromTheMakersPage,
+            "https://docs.datadoghq.com/agent/supported_platforms/osx/#uninstall-the-agent"
+        ),
         // The uninstaller's identifier, from Chromium's `remoting/branding_Chrome`; the host's own is not listed here.
         (
             "EQHXZ8M8AV", ["com.google.chromeremotedesktop.me2me-host-uninstaller"], "Google",

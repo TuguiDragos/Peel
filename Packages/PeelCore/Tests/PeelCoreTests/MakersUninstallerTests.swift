@@ -164,6 +164,7 @@ struct MakersUninstallerTests {
         #expect(webex?.maker == "Cisco")
         #expect(MakersUninstaller.of(agent("Cisco-Systems.Spark", team: "ABCDE12345")) == nil)
         #expect(MakersUninstaller.of(agent("org.gpgtools.gpgkeychain", team: "PKV8ZPD836"))?.step == .fromTheMakersPage)
+        #expect(MakersUninstaller.of(agent("com.datadoghq.agent", team: "JKFCB4CN7C"))?.step == .fromTheMakersPage)
     }
 
     @Test func givesTheUninstallScriptOfTheCiscoClientThatIsOnTheMac() {
