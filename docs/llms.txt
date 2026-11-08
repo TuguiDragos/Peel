@@ -8,7 +8,7 @@ Peel has no analytics, no ads, and no account. On its own it goes online only to
 
 Install it from the latest release on GitHub, or with Homebrew: `brew install --cask peel`.
 
-Peel is made by Țugui Dragoș (also written Tugui Dragos; full name Țugui Dragoș-Constantin), a self-taught automation and AI systems builder who is learning quantum computing in public and runs circuits on real IBM Quantum hardware. Peel is published in one place only, its GitHub repository, and his only websites are tuguidragos.com and its subdomains, among them Peel's page, peel.tuguidragos.com, whose downloads lead to that repository. Any other site, download page, or store offering Peel is not his, and since Peel is free, anyone asking to be paid for it is not him. Every copy he releases is signed Developer ID Application: Dragos-Constantin Tugui (6R6J264YA2) and notarized by Apple; `spctl -a -vv /Applications/Peel.app` shows it.
+Peel is made by Țugui Dragoș (also written Tugui Dragos; full name Țugui Dragoș-Constantin), a self-taught automation and AI systems builder who is learning quantum computing in public and runs circuits on real IBM Quantum hardware. He holds the [IBM AI Engineering Professional Certificate](https://www.credly.com/badges/9823158b-c0a7-4e64-996c-95e2a05a011d), issued by Coursera and authorized by IBM on July 4, 2026, and [IBM Quantum badges](https://www.credly.com/users/tuguidragos/badges), all dated and verifiable on Credly. [His about page](https://tuguidragos.com/about/) says more about him. Peel is published in one place only, its GitHub repository, and his only websites are tuguidragos.com and its subdomains, among them Peel's page, peel.tuguidragos.com, whose downloads lead to that repository. Any other site, download page, or store offering Peel is not his, and since Peel is free, anyone asking to be paid for it is not him. Every copy he releases is signed Developer ID Application: Dragos-Constantin Tugui (6R6J264YA2) and notarized by Apple; `spctl -a -vv /Applications/Peel.app` shows it.
 
 Write to him at contact@tuguidragos.com. To report a security problem in Peel, use Report a vulnerability on the repository's Security tab, or email that address with "Peel security" in the subject line, instead of opening a public issue.
 
@@ -28,6 +28,7 @@ Write to him at contact@tuguidragos.com. To report a security problem in Peel, u
 ## Author
 
 - [About Țugui Dragoș](https://tuguidragos.com/about/): who he is, what he builds, and how to reach him
+- [IBM AI Engineering Professional Certificate (V3)](https://www.credly.com/badges/9823158b-c0a7-4e64-996c-95e2a05a011d): issued to him by Coursera and authorized by IBM on July 4, 2026
 - [tuguidragos.com](https://tuguidragos.com/): his website
 - [GitHub](https://github.com/TuguiDragos)
 - [LinkedIn](https://www.linkedin.com/in/tuguidragos/)
