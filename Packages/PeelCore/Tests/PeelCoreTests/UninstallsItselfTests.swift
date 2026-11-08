@@ -329,9 +329,11 @@ struct UninstallsItselfTests {
         let app: InstalledApp
         let environment: SearchEnvironment
 
-        init(watching watched: String? = nil, disabled: Bool = false, starterInPlace: Bool = true) throws {
+        init(
+            watching watched: String? = nil, disabled: Bool = false, starterInPlace: Bool = true, host: Bool = false
+        ) throws {
             let directory = try TemporaryDirectory()
-            let bundle = try directory.directory("root/Applications/TeamViewer.app")
+            let bundle = try directory.directory("root/Applications/\(host ? "TeamViewerHost" : "TeamViewer").app")
             let starter = "root/Library/Application Support/TeamViewer/TeamViewerUninstaller.app/Contents/Helpers/com.teamviewer.UninstallerStarter"
             if starterInPlace {
                 try directory.file(starter)
@@ -350,7 +352,9 @@ struct UninstallsItselfTests {
                     options: 0
                 )
             )
-            self.app = InstalledApp(url: bundle, bundleIdentifier: "com.teamviewer.TeamViewer", name: "TeamViewer")
+            self.app = host
+                ? InstalledApp(url: bundle, bundleIdentifier: "com.teamviewer.TeamViewerHost", name: "TeamViewer Host")
+                : InstalledApp(url: bundle, bundleIdentifier: "com.teamviewer.TeamViewer", name: "TeamViewer")
             self.environment = SearchEnvironment(
                 homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
                 rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
@@ -374,6 +378,13 @@ struct UninstallsItselfTests {
         let teamViewer = try TeamViewer()
 
         let uninstaller = await UninstallsItself.of(teamViewer.app, environment: teamViewer.environment)?.uninstaller
+        #expect(uninstaller == .removesItsComponents)
+    }
+
+    @Test func teamViewerHostUninstallsItselfThroughTheSameDaemon() async throws {
+        let host = try TeamViewer(host: true)
+
+        let uninstaller = await UninstallsItself.of(host.app, environment: host.environment)?.uninstaller
         #expect(uninstaller == .removesItsComponents)
     }
 

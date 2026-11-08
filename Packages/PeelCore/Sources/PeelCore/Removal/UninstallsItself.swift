@@ -83,11 +83,11 @@ public struct UninstallsItself: Sendable, Hashable {
         ]
     )
 
-    /// TeamViewer's daemon `com.teamviewer.UninstallerWatcher` watches the app and, once it is in the Trash, opens the
-    /// uninstaller that asks to remove what TeamViewer's package put in the system (TeamViewer 15's
-    /// `TeamViewerUninstaller.app` and its helper).
+    /// TeamViewer's daemon `com.teamviewer.UninstallerWatcher` watches the app, TeamViewer or TeamViewer Host, and,
+    /// once it is in the Trash, opens the uninstaller that asks to remove what TeamViewer's package put in the system
+    /// (TeamViewer 15's `TeamViewerUninstaller.app` and its helper).
     private static let teamViewer = (
-        identifier: "com.teamviewer.TeamViewer",
+        identifiers: ["com.teamviewer.TeamViewer", "com.teamviewer.TeamViewerHost"],
         watcher: "Library/LaunchDaemons/com.teamviewer.UninstallerWatcher.plist"
     )
 
@@ -150,7 +150,7 @@ public struct UninstallsItself: Sendable, Hashable {
     private static func teamViewer(_ app: InstalledApp, environment: SearchEnvironment) -> UninstallsItself? {
         let place = PathPattern.comparablePath(of: app.url)
         guard
-            app.bundleIdentifier == teamViewer.identifier,
+            let identifier = app.bundleIdentifier, teamViewer.identifiers.contains(identifier),
             let watcher = JobDefinition(contentsOf: environment.rootDirectory.appending(path: teamViewer.watcher)),
             !watcher.isDisabled,
             watcher.watchPaths.contains(where: {
