@@ -247,15 +247,15 @@ could clean up. Citrix Workspace's own agent opens Citrix's uninstaller once the
 folder, which asks for an administrator's password and, if you continue, deletes the app, even from the Trash, and its
 system files; what it deletes (its launch agents and daemons, its folders in the Library, its logs, its receipt, and its
 settings) is listed and never moved by Peel, since moving the agent's file would stop the uninstaller. TeamViewer's own
-daemon opens TeamViewer's uninstaller once the app is in the Trash, which asks to remove the components it keeps in the
-system and, if you continue, deletes them; what it removes (its launch daemons and agents, its helpers, its folder in
-Application Support, its authorization plug-in, its audio driver, and its printing files) is listed and never moved by
-Peel, since moving its helper's file would stop the uninstaller halfway. BlueStacks installs a cleanup that watches
-BlueStacks and BlueStacks Air multi-instance manager: once either leaves the Applications folder, it runs as an
-administrator and deletes the other one, the data BlueStacks keeps for every account in `/Users/Shared`, and your now.gg
-sign-in unless BlueAI is installed. What it removes (its launch daemon's file, its program, that shared folder, and its
-receipt) and the folder holding its program are listed and never moved by Peel, since moving them would stop the cleanup
-halfway.
+daemon opens TeamViewer's uninstaller once TeamViewer or TeamViewer Host is in the Trash, which asks to remove the
+components it keeps in the system and, if you continue, deletes them; what it removes (its launch daemons and agents,
+its helpers, its folder in Application Support, its authorization plug-in, its audio driver, and its printing files) is
+listed and never moved by Peel, since moving its helper's file would stop the uninstaller halfway. BlueStacks installs a
+cleanup that watches BlueStacks and BlueStacks Air multi-instance manager: once either leaves the Applications folder,
+it runs as an administrator and deletes the other one, the data BlueStacks keeps for every account in `/Users/Shared`,
+and your now.gg sign-in unless BlueAI is installed. What it removes (its launch daemon's file, its program, that shared
+folder, and its receipt) and the folder holding its program are listed and never moved by Peel, since moving them would
+stop the cleanup halfway.
 
 If the record itself is damaged, it is set aside under another name rather than overwritten, because it is
 the only way back from a removal. If it can't be read at all, Peel moves nothing, since what it moved then couldn't

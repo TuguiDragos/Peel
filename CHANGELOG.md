@@ -50,6 +50,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   that waits for the app to leave, or what holds the program it runs, such as LanguageTool for Desktop's uninstall
   helper: moving them stopped that program just as the app's move started it. Both rows stay and say why, and the
   question says that the program starts.
+- Uninstalling TeamViewer Host leaves what TeamViewer's uninstaller removes to it, and the question says that the
+  uninstaller opens, as it does for TeamViewer.
+- Uninstalling BlueStacks or BlueStacks Air multi-instance manager says first that the cleanup BlueStacks installs then
+  deletes the other app and the data BlueStacks keeps for every account in `/Users/Shared`, and leaves what that
+  cleanup removes to it.
 - An uninstall no longer selects Prism Launcher's folder, with every instance's saved worlds, Chatbox's conversations,
   Helium's profiles with their saved passwords, or the files Google Drive for desktop couldn't upload: each is listed
   and left for you to select.
