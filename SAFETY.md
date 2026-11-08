@@ -393,7 +393,7 @@ A security or management agent, a VPN, a backup app, or another app whose maker 
 uninstaller of its own (GlobalProtect, Cortex XDR, Cisco Secure Client and AnyConnect, ESET Endpoint Security, ESET
 Cyber Security, Microsoft Defender, Netskope Client, FortiClient, Bitdefender Endpoint Security for Mac, Sophos
 Endpoint, Symantec Endpoint Protection, Zscaler Client Connector, ExpressVPN, Private Internet Access, Cloudflare WARP,
-ZeroTier, Tunnelblick, IVPN, Arq, CrashPlan, Carbon Copy Cloner, Box Drive, Webex, Laravel Herd, Multipass,
+ZeroTier, Tunnelblick, IVPN, Arq, CrashPlan, Carbon Copy Cloner, Box Drive, Webex, GPG Suite, Laravel Herd, Multipass,
 Karabiner-Elements, Wacom Center and Wacom Display Settings, Disk Drill, Malwarebytes, and Kaspersky) is listed the same
 way, and nothing of it can be selected: its page names the maker's uninstaller, or opens the app whose own command
 removes it, and links to the maker's instructions, since moved from its place, what it keeps in the system and the

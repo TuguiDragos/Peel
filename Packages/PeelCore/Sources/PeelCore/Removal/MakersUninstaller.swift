@@ -191,6 +191,10 @@ public struct MakersUninstaller: Sendable, Hashable {
             "DE8Y96K9QP", ["cisco-systems.spark"], "Cisco", .fromTheMakersPage,
             "https://help.webex.com/en-us/article/136hu4/Uninstall-Webex-App-on-macOS"
         ),
+        (
+            "PKV8ZPD836", ["org.gpgtools.gpgkeychain"], "GPGTools", .fromTheMakersPage,
+            "https://gpgtools.tenderapp.com/kb/faq/uninstall-gpg-suite"
+        ),
         // The uninstaller's identifier, from Chromium's `remoting/branding_Chrome`; the host's own is not listed here.
         (
             "EQHXZ8M8AV", ["com.google.chromeremotedesktop.me2me-host-uninstaller"], "Google",
