@@ -91885,218 +91885,6 @@
         }
       }
     },
-    "Left alone: macOS installed %@ for an app bundled inside this app, and keeps it when the app moves, in Finder or in Peel. Remove the extension first, the way its maker describes." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nedotčeno: systém macOS nainstaloval rozšíření %@ pro aplikaci uvnitř této aplikace a ponechá ho i tehdy, když se aplikace přesune ve Finderu nebo v Peelu. Nejprve odstraňte toto rozšíření postupem, který popisuje jeho výrobce."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unangetastet: macOS hat die Systemerweiterung „%@“ für eine in dieser App enthaltene App installiert und entfernt sie nicht, wenn diese App verschoben wird, ob im Finder oder in Peel. Entferne zuerst die Erweiterung so, wie es ihr Hersteller beschreibt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se toca: macOS ha instalado la extensión %@ para una app incluida dentro de esta app y la conserva cuando la app se traslada, ya sea en el Finder o en Peel. Elimina antes la extensión como indica su fabricante."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Laissé en place : macOS a installé %@ pour une app contenue dans cette app, et conserve l’extension lorsque l’app est déplacée, que ce soit depuis le Finder ou depuis Peel. Supprimez d’abord l’extension comme le décrit son éditeur."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resta dov’è: macOS ha installato %@ per un’app inclusa in questa app, e la mantiene quando l’app viene spostata, dal Finder o da Peel. Rimuovi prima l’estensione, come indica il suo produttore."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "対象外: macOSがインストールした%@は、このアプリに含まれるアプリのためのもので、FinderとPeelのどちらでこのアプリを移動しても、インストールされたままになります。開発元が説明している方法で、先にこの機能拡張を削除してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "그대로 둠: macOS는 이 앱 안에 포함된 앱을 위해 ‘%@’을(를) 설치했으며, 이 앱이 Finder에서든 Peel에서든 이동되어도 이 확장 프로그램을 유지합니다. 먼저 제작자가 설명하는 방법대로 확장 프로그램을 제거하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Blijft staan: macOS heeft %@ geïnstalleerd voor een app die in deze app is meegeleverd, en behoudt die extensie als de app in Finder of in Peel wordt verplaatst. Verwijder eerst de extensie op de manier die de maker beschrijft."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nietknięte: macOS zainstalował rozszerzenie systemowe %@ dla aplikacji zawartej w tej aplikacji i nie usuwa go, gdy aplikacja zostanie przeniesiona, czy to w Finderze, czy w Peel. Najpierw usuń rozszerzenie tak, jak opisuje to jego producent."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preservado: o macOS instalou a extensão %@ para um app que vem dentro deste app, e a mantém instalada quando o app é movido, no Finder ou no Peel. Remova primeiro a extensão, da forma descrita pelo fabricante."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lăsat neatins: macOS a instalat extensia %@ pentru o aplicație inclusă în această aplicație și o păstrează instalată când aplicația este mutată, fie din Finder, fie din Peel. Eliminați mai întâi extensia urmând instrucțiunile producătorului ei."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Остается на месте: macOS установила системное расширение «%@» для приложения, вложенного в это приложение, и оставляет его установленным, когда приложение перемещают, будь то в Finder или в Peel. Сначала удалите расширение так, как описывает его производитель."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rörs inte: macOS har installerat %@ för en app som ingår i den här appen, och behåller det när appen flyttas, i Finder eller i Peel. Ta först bort tillägget på det sätt som tillverkaren beskriver."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yerinde kalır: macOS, %@ adlı genişletmeyi bu uygulamanın içindeki bir uygulama için yükledi ve bu uygulama Finder’da veya Peel’de taşındığında onu yüklü tutar. Önce genişletmeyi üreticisinin yönergelerini izleyerek kaldırın."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Лишається на місці: macOS інсталювала системне розширення «%@» для програми, вбудованої в цю програму, і зберігає його, коли програму переміщують за допомогою Finder чи Peel. Спершу вилучіть це розширення так, як описує його виробник."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "留在原处：macOS为此App中包含的某个App安装了“%@”，无论在“访达”中还是在Peel中移动此App，macOS都会保留该扩展。请先按照厂商的说明移除该扩展。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "原地保留：macOS為此App內含的一個App安裝了「%@」，而且無論在Finder還是Peel中移動此App，macOS都會保留該延伸功能。請先依照其廠商說明的方式移除該延伸功能。"
-          }
-        }
-      }
-    },
-    "Left alone: macOS installed %@ for an app bundled inside this app, and keeps them when the app moves, in Finder or in Peel. Remove the extensions first, the way their maker describes." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nedotčeno: systém macOS nainstaloval rozšíření %@ pro aplikaci uvnitř této aplikace a ponechá je i tehdy, když se aplikace přesune ve Finderu nebo v Peelu. Nejprve odstraňte tato rozšíření postupem, který popisuje jejich výrobce."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unangetastet: macOS hat die Systemerweiterungen %@ für eine in dieser App enthaltene App installiert und entfernt sie nicht, wenn diese App verschoben wird, ob im Finder oder in Peel. Entferne zuerst die Erweiterungen so, wie es ihr Hersteller beschreibt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se toca: macOS ha instalado las extensiones %@ para una app incluida dentro de esta app y las conserva cuando la app se traslada, ya sea en el Finder o en Peel. Elimina antes las extensiones como indica su fabricante."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Laissé en place : macOS a installé %@ pour une app contenue dans cette app, et conserve les extensions lorsque l’app est déplacée, que ce soit depuis le Finder ou depuis Peel. Supprimez d’abord les extensions comme le décrit leur éditeur."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resta dov’è: macOS ha installato %@ per un’app inclusa in questa app, e le mantiene quando l’app viene spostata, dal Finder o da Peel. Rimuovi prima le estensioni, come indica il loro produttore."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "対象外: macOSがインストールした%@は、いずれもこのアプリに含まれるアプリのためのもので、FinderとPeelのどちらでこのアプリを移動しても、インストールされたままになります。開発元が説明している方法で、先にこれらの機能拡張を削除してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "그대로 둠: macOS는 이 앱 안에 포함된 앱을 위해 %@을(를) 설치했으며, 이 앱이 Finder에서든 Peel에서든 이동되어도 이 확장 프로그램들을 유지합니다. 먼저 제작자가 설명하는 방법대로 확장 프로그램들을 제거하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Blijft staan: macOS heeft %@ geïnstalleerd voor een app die in deze app is meegeleverd, en behoudt die extensies als de app in Finder of in Peel wordt verplaatst. Verwijder eerst de extensies op de manier die de maker beschrijft."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nietknięte: macOS zainstalował rozszerzenia systemowe %@ dla aplikacji zawartej w tej aplikacji i nie usuwa ich, gdy aplikacja zostanie przeniesiona, czy to w Finderze, czy w Peel. Najpierw usuń rozszerzenia tak, jak opisuje to ich producent."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preservado: o macOS instalou as extensões %@ para um app que vem dentro deste app, e as mantém instaladas quando o app é movido, no Finder ou no Peel. Remova primeiro as extensões, da forma descrita pelo fabricante."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lăsat neatins: macOS a instalat extensiile %@ pentru o aplicație inclusă în această aplicație și le păstrează instalate când aplicația este mutată, fie din Finder, fie din Peel. Eliminați mai întâi extensiile urmând instrucțiunile producătorului lor."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Остается на месте: macOS установила системные расширения %@ для приложения, вложенного в это приложение, и оставляет их установленными, когда приложение перемещают, будь то в Finder или в Peel. Сначала удалите расширения так, как описывает их производитель."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rörs inte: macOS har installerat %@ för en app som ingår i den här appen, och behåller dem när appen flyttas, i Finder eller i Peel. Ta först bort tilläggen på det sätt som tillverkaren beskriver."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yerinde kalır: macOS, %@ adlı genişletmeleri bu uygulamanın içindeki bir uygulama için yükledi ve bu uygulama Finder’da veya Peel’de taşındığında onları yüklü tutar. Önce genişletmeleri üreticisinin yönergelerini izleyerek kaldırın."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Лишається на місці: macOS інсталювала системні розширення %@ для програми, вбудованої в цю програму, і зберігає їх, коли програму переміщують за допомогою Finder чи Peel. Спершу вилучіть ці розширення так, як описує їхній виробник."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "留在原处：macOS为此App中包含的某个App安装了“%@”，无论在“访达”中还是在Peel中移动此App，macOS都会保留这些扩展。请先按照厂商的说明移除这些扩展。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "原地保留：macOS為此App內含的一個App安裝了%@，而且無論在Finder還是Peel中移動此App，macOS都會保留這些延伸功能。請先依照其廠商說明的方式移除這些延伸功能。"
-          }
-        }
-      }
-    },
     "Left alone: macOS installed this system extension and removes it only when the app that uses it goes to the Trash in Finder. If that app is gone, install it again, open it and use the feature that needs the extension, allow it when macOS asks, then move the app to the Trash in Finder and restart your Mac." : {
       "localizations" : {
         "cs" : {
@@ -92623,6 +92411,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "原地保留：macOS會在Mac重新開機時移除此系統延伸功能。"
+          }
+        }
+      }
+    },
+    "Left alone: macOS runs %@ for an app bundled inside this app. Turn it off first in System Settings > General > Login Items & Extensions." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: systém macOS spouští rozšíření %@ pro aplikaci uvnitř této aplikace. Nejprve vypněte toto rozšíření v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: macOS führt die Systemerweiterung „%@“ für eine in dieser App enthaltene App aus. Deaktiviere zuerst die Erweiterung unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: macOS ejecuta la extensión %@ para una app incluida dentro de esta app. Desactívala antes en Ajustes del Sistema > General > Ítems de inicio y extensiones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : macOS exécute %@ pour une app contenue dans cette app. Désactivez d’abord l’extension dans Réglages Système > Général > Ouverture et extensions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: macOS esegue %@ per un’app inclusa in questa app. Disattiva prima l’estensione in Impostazioni di Sistema > Generali > Elementi login ed estensioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: macOSが実行している%@は、このアプリに含まれるアプリのためのものです。“システム設定”＞“一般”＞“ログイン項目と機能拡張”で、先にこの機能拡張をオフにしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: macOS는 이 앱 안에 포함된 앱을 위해 ‘%@’을(를) 실행합니다. 먼저 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서 이 확장 프로그램을 끄십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: macOS voert %@ uit voor een app die in deze app is meegeleverd. Schakel eerst de extensie uit in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: macOS uruchamia rozszerzenie systemowe %@ dla aplikacji zawartej w tej aplikacji. Najpierw wyłącz rozszerzenie w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: o macOS executa a extensão %@ para um app que vem dentro deste app. Desative-a primeiro em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: macOS rulează extensia %@ pentru o aplicație inclusă în această aplicație. Dezactivați mai întâi extensia în Configurări sistem > General > Lansare la login și extensii."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: macOS запускает системное расширение «%@» для приложения, вложенного в это приложение. Сначала выключите расширение в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: macOS kör %@ för en app som ingår i den här appen. Stäng först av tillägget i Systeminställningar > Allmänt > Startobjekt och tillägg."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: macOS, %@ adlı genişletmeyi bu uygulamanın içindeki bir uygulama için çalıştırır. Önce genişletmeyi Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünden kapatın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: macOS виконує системне розширення «%@» для програми, вбудованої в цю програму. Спершу вимкніть це розширення в розділі Системні параметри > Загальні > Автозапуск і розширення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：macOS为此App中包含的某个App运行“%@”。请先在“系统设置”>“通用”>“登录项与扩展”中关闭该扩展。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：macOS會為此App內含的一個App執行「%@」。請先在「系統設定」>「一般」>「登入項目與延伸功能」中關閉該延伸功能。"
+          }
+        }
+      }
+    },
+    "Left alone: macOS runs %@ for an app bundled inside this app. Turn them off first in System Settings > General > Login Items & Extensions." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: systém macOS spouští rozšíření %@ pro aplikaci uvnitř této aplikace. Nejprve vypněte tato rozšíření v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: macOS führt die Systemerweiterungen %@ für eine in dieser App enthaltene App aus. Deaktiviere zuerst die Erweiterungen unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: macOS ejecuta las extensiones %@ para una app incluida dentro de esta app. Desactívalas antes en Ajustes del Sistema > General > Ítems de inicio y extensiones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : macOS exécute %@ pour une app contenue dans cette app. Désactivez d’abord les extensions dans Réglages Système > Général > Ouverture et extensions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: macOS esegue %@ per un’app inclusa in questa app. Disattiva prima le estensioni in Impostazioni di Sistema > Generali > Elementi login ed estensioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: macOSが実行している%@は、いずれもこのアプリに含まれるアプリのためのものです。“システム設定”＞“一般”＞“ログイン項目と機能拡張”で、先にこれらの機能拡張をオフにしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: macOS는 이 앱 안에 포함된 앱을 위해 %@을(를) 실행합니다. 먼저 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서 이 확장 프로그램들을 끄십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: macOS voert %@ uit voor een app die in deze app is meegeleverd. Schakel eerst de extensies uit in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: macOS uruchamia rozszerzenia systemowe %@ dla aplikacji zawartej w tej aplikacji. Najpierw wyłącz rozszerzenia w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: o macOS executa as extensões %@ para um app que vem dentro deste app. Desative-as primeiro em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: macOS rulează extensiile %@ pentru o aplicație inclusă în această aplicație. Dezactivați mai întâi extensiile în Configurări sistem > General > Lansare la login și extensii."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: macOS запускает системные расширения %@ для приложения, вложенного в это приложение. Сначала выключите расширения в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: macOS kör %@ för en app som ingår i den här appen. Stäng först av tilläggen i Systeminställningar > Allmänt > Startobjekt och tillägg."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: macOS, %@ adlı genişletmeleri bu uygulamanın içindeki bir uygulama için çalıştırır. Önce genişletmeleri Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünden kapatın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: macOS виконує системні розширення %@ для програми, вбудованої в цю програму. Спершу вимкніть ці розширення в розділі Системні параметри > Загальні > Автозапуск і розширення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：macOS为此App中包含的某个App运行“%@”。请先在“系统设置”>“通用”>“登录项与扩展”中关闭这些扩展。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：macOS會為此App內含的一個App執行%@。請先在「系統設定」>「一般」>「登入項目與延伸功能」中關閉這些延伸功能。"
           }
         }
       }
@@ -168985,218 +168985,6 @@
         }
       }
     },
-    "Remove Its System Extension First" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nejprve odstraňte toto rozšíření systému"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zuerst die Systemerweiterung entfernen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimina antes su extensión del sistema"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Extension système à supprimer d’abord"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rimuovi prima la sua estensione di sistema"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "先にシステム機能拡張を削除してください"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "먼저 앱의 시스템 확장 프로그램을 제거"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verwijder eerst de systeemextensie"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Najpierw usuń rozszerzenie systemowe aplikacji"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remova a Extensão do Sistema Primeiro"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminați mai întâi extensia de sistem a aplicației"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сначала удалите его системное расширение"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ta bort systemtillägget först"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Önce Sistem Genişletmesini Kaldırın"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Спершу вилучіть системне розширення програми"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "先移除它的系统扩展"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "先移除此App的系統延伸功能"
-          }
-        }
-      }
-    },
-    "Remove Its System Extensions First" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nejprve odstraňte tato rozšíření systému"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zuerst die Systemerweiterungen entfernen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimina antes sus extensiones del sistema"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Extensions système à supprimer d’abord"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rimuovi prima le sue estensioni di sistema"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "先にシステム機能拡張をすべて削除してください"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "먼저 앱의 시스템 확장 프로그램들을 제거"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verwijder eerst de systeemextensies"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Najpierw usuń rozszerzenia systemowe aplikacji"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remova as Extensões do Sistema Primeiro"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminați mai întâi extensiile de sistem ale aplicației"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сначала удалите его системные расширения"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ta bort systemtilläggen först"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Önce Sistem Genişletmelerini Kaldırın"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Спершу вилучіть системні розширення програми"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "先移除它的系统扩展"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "先移除此App的系統延伸功能"
-          }
-        }
-      }
-    },
     "Remove Peel" : {
       "localizations" : {
         "cs" : {
@@ -226348,6 +226136,218 @@
         }
       }
     },
+    "Turn Its System Extension Off First" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nejprve vypněte toto rozšíření systému"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zuerst die Systemerweiterung deaktivieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactiva antes su extensión del sistema"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extension système à désactiver d’abord"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disattiva prima la sua estensione di sistema"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先にシステム機能拡張をオフにしてください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "먼저 앱의 시스템 확장 프로그램 끄기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schakel eerst de systeemextensie uit"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Najpierw wyłącz rozszerzenie systemowe aplikacji"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desative a Extensão do Sistema Primeiro"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dezactivați mai întâi extensia de sistem a aplicației"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сначала выключите его системное расширение"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stäng av systemtillägget först"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önce Sistem Genişletmesini Kapatın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Спершу вимкніть системне розширення програми"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先关闭它的系统扩展"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先關閉此App的系統延伸功能"
+          }
+        }
+      }
+    },
+    "Turn Its System Extensions Off First" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nejprve vypněte tato rozšíření systému"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zuerst die Systemerweiterungen deaktivieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactiva antes sus extensiones del sistema"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extensions système à désactiver d’abord"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disattiva prima le sue estensioni di sistema"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先にシステム機能拡張をすべてオフにしてください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "먼저 앱의 시스템 확장 프로그램들 끄기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schakel eerst de systeemextensies uit"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Najpierw wyłącz rozszerzenia systemowe aplikacji"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desative as Extensões do Sistema Primeiro"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dezactivați mai întâi extensiile de sistem ale aplicației"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сначала выключите его системные расширения"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stäng av systemtilläggen först"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önce Sistem Genişletmelerini Kapatın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Спершу вимкніть системні розширення програми"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先关闭它的系统扩展"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先關閉此App的系統延伸功能"
+          }
+        }
+      }
+    },
     "Turn Off Apple Intelligence Features" : {
       "localizations" : {
         "cs" : {
@@ -241699,6 +241699,118 @@
         }
       }
     },
+    "While %@ runs, it keeps %@ from being moved, by Finder, by Peel, or by an administrator. Turn it off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extension, turned off." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dokud běží rozšíření %@, brání tomu, aby aplikaci %@ přesunul Finder, Peel nebo správce. Nejprve vypněte toto rozšíření v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení. Peel pak přesune aplikaci i její soubory a systém macOS ponechá rozšíření nainstalované, ale vypnuté."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solange die Systemerweiterung „%@“ läuft, verhindert sie, dass der Finder, Peel oder ein Administrator „%@“ verschiebt. Deaktiviere zuerst die Erweiterung unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“. Anschließend verschiebt Peel die App und ihre Dateien, und macOS behält die deaktivierte Erweiterung."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "While %1$@ runs, it keeps %2$@ from being moved, by Finder, by Peel, or by an administrator. Turn it off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extension, turned off."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mientras se ejecuta la extensión %@, impide que el Finder, Peel o un administrador trasladen %@. Desactívala antes en Ajustes del Sistema > General > Ítems de inicio y extensiones. Después, Peel traslada la app y sus archivos, y macOS mantiene la extensión instalada, pero desactivada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tant que %@ s’exécute, elle empêche le déplacement de %@, que ce soit par le Finder, par Peel ou par un administrateur. Désactivez d’abord l’extension dans Réglages Système > Général > Ouverture et extensions. Peel déplace ensuite l’app et ses fichiers, et macOS conserve l’extension, qui reste désactivée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finché %@ è in esecuzione, impedisce che %@ venga spostata dal Finder, da Peel o da un amministratore. Disattiva prima l’estensione in Impostazioni di Sistema > Generali > Elementi login ed estensioni. Poi Peel sposta l’app e i suoi file, e macOS mantiene l’estensione installata ma disattivata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@は、実行されている間、Finder、Peel、管理者のいずれも“%@”を移動できないようにします。“システム設定”＞“一般”＞“ログイン項目と機能拡張”で、先にこの機能拡張をオフにしてください。その後は、Peelがアプリとそのファイルを移動し、macOSはこの機能拡張をオフのまま残します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’은(는) 실행되는 동안 Finder, Peel 또는 관리자가 ‘%@’을(를) 이동하지 못하게 막습니다. 먼저 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서 이 확장 프로그램을 끄십시오. 그러면 Peel이 앱과 앱의 파일을 이동하며, macOS는 이 확장 프로그램을 꺼진 상태로 유지합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zolang %@ actief is, voorkomt de extensie dat %@ door Finder, door Peel of door een beheerder wordt verplaatst. Schakel eerst de extensie uit in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies. Peel verplaatst daarna de app en de bestanden ervan, en macOS houdt de extensie geïnstalleerd, maar uitgeschakeld."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dopóki działa rozszerzenie systemowe %@, aplikacji %@ nie może przenieść ani Finder, ani Peel, ani administrator. Najpierw wyłącz rozszerzenie w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania. Wtedy Peel przeniesie aplikację i jej pliki do Kosza, a macOS zachowa rozszerzenie, ale wyłączone."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enquanto a extensão %@ estiver em execução, ela impede que o app %@ seja movido pelo Finder, pelo Peel ou por um administrador. Desative-a primeiro em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões. Depois, o Peel move o app e os arquivos dele, e o macOS mantém a extensão instalada, mas desativada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cât timp rulează, extensia %@ împiedică aplicația %@ să fie mutată de Finder, de Peel sau de un administrator. Dezactivați mai întâi extensia în Configurări sistem > General > Lansare la login și extensii. Peel mută apoi aplicația și fișierele ei, iar macOS păstrează extensia instalată, dar dezactivată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока системное расширение «%@» работает, оно не позволяет переместить приложение «%@» ни Finder, ни Peel, ни администратору. Сначала выключите расширение в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения». После этого Peel переместит приложение и его файлы, а macOS оставит расширение установленным, но выключенным."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Så länge %@ körs hindrar det %@ från att flyttas av Finder, av Peel eller av en administratör. Stäng först av tillägget i Systeminställningar > Allmänt > Startobjekt och tillägg. Peel flyttar sedan appen och dess filer, och macOS behåller tillägget installerat men avstängt."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ adlı genişletme çalışırken, %@ uygulamasının Finder, Peel veya bir yönetici tarafından taşınmasını engeller. Önce genişletmeyi Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünden kapatın. Ardından Peel uygulamayı ve dosyalarını taşır, macOS ise genişletmeyi yüklü ama kapalı tutar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поки системне розширення «%@» працює, воно не дає перемістити програму «%@» ні Finder, ні Peel, ні адміністратору. Спершу вимкніть це розширення в розділі Системні параметри > Загальні > Автозапуск і розширення. Після цього Peel перемістить програму та її файли, а macOS збереже розширення інстальованим, але вимкненим."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”在运行时会阻止“访达”、Peel或管理员移动“%@”。请先在“系统设置”>“通用”>“登录项与扩展”中关闭该扩展。之后Peel会移动该App及其文件，而macOS会保留该扩展，并使其保持关闭状态。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」執行時，會讓Finder、Peel或管理者都無法移動「%@」。請先在「系統設定」>「一般」>「登入項目與延伸功能」中關閉該延伸功能。Peel接著會移動此App及其檔案，而macOS會保留該延伸功能，並讓它保持關閉。"
+          }
+        }
+      }
+    },
     "While Peel Runs" : {
       "localizations" : {
         "cs" : {
@@ -242013,118 +242125,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「終端機」打開期間看不到設定的變更，而且可能會在下次儲存設定時把設定改回來。"
-          }
-        }
-      }
-    },
-    "While its system extension runs, it keeps %@ from being moved, by Finder, by Peel, or by an administrator. %@ documents removing it with its own uninstaller, so Peel leaves it and its files where they are." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dokud běží rozšíření systému aplikace %@, brání tomu, aby ji přesunul Finder, Peel nebo správce. Výrobce %@ uvádí ve své dokumentaci, že se aplikace odstraňuje vlastním odinstalátorem, a proto Peel aplikaci i její soubory ponechává na místě."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solange die Systemerweiterung von „%@“ läuft, verhindert sie, dass der Finder, Peel oder ein Administrator die App verschiebt. %@ beschreibt, wie die App mit einem eigenen Deinstallationsprogramm entfernt wird, daher lässt Peel die App und ihre Dateien dort, wo sie sind."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "While its system extension runs, it keeps %1$@ from being moved, by Finder, by Peel, or by an administrator. %2$@ documents removing it with its own uninstaller, so Peel leaves it and its files where they are."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mientras se ejecuta su extensión del sistema, impide que el Finder, Peel o un administrador trasladen %@. %@ indica en su documentación que la app se elimina con su propio desinstalador, así que Peel deja la app y sus archivos donde están."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tant que son extension système s’exécute, elle empêche le déplacement de %@, que ce soit par le Finder, par Peel ou par un administrateur. Selon la documentation de %@, pour supprimer l’app, il faut utiliser son propre programme de désinstallation : Peel la laisse donc là où elle est, avec ses fichiers."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finché è in esecuzione, l’estensione di sistema di %@ impedisce che l’app venga spostata dal Finder, da Peel o da un amministratore. %@ indica di rimuoverla con il proprio programma di disinstallazione, quindi Peel lascia l’app e i suoi file dove sono."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "“%@”のシステム機能拡張は、実行されている間、Finder、Peel、管理者のいずれもこのアプリを移動できないようにします。%@は、このアプリを専用のアンインストーラで取り除くよう案内しているため、Peelはこのアプリとそのファイルをそのままにします。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "‘%@’의 시스템 확장 프로그램은 실행되는 동안 Finder, Peel 또는 관리자가 앱을 이동하지 못하게 막습니다. %@은(는) 공식 문서에서 앱을 자체 제거 프로그램으로 제거하도록 안내하므로, Peel은 앱과 앱의 파일을 그대로 둡니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zolang de systeemextensie van %@ actief is, voorkomt de extensie dat de app door Finder, door Peel of door een beheerder wordt verplaatst. %@ beschrijft hoe je de app verwijdert met het eigen de-installatieprogramma, dus laat Peel de app en de bestanden ervan staan."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dopóki działa rozszerzenie systemowe aplikacji %@, nie może jej przenieść ani Finder, ani Peel, ani administrator. Według dokumentacji producenta %@ aplikację odinstalowuje się jej własnym dezinstalatorem, dlatego Peel zostawia ją i jej pliki na miejscu."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enquanto a extensão do sistema de %@ estiver em execução, ela impede que o app seja movido pelo Finder, pelo Peel ou por um administrador. Segundo a documentação de %@, o app deve ser removido com o próprio desinstalador, então o Peel deixa o app e os arquivos dele onde estão."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cât timp rulează, extensia de sistem a aplicației %@ o împiedică să fie mutată de Finder, de Peel sau de un administrator. Potrivit instrucțiunilor de la %@, aplicația se elimină cu propriul program de dezinstalare, așa că Peel lasă aplicația și fișierele ei acolo unde sunt."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пока системное расширение приложения «%@» работает, оно не позволяет переместить это приложение ни Finder, ни Peel, ни администратору. В документации %@ сказано, что это приложение удаляется его собственной программой удаления, поэтому Peel оставляет на месте и приложение, и его файлы."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Så länge systemtillägget för %@ körs hindrar det appen från att flyttas av Finder, av Peel eller av en administratör. %@ beskriver hur appen tas bort med en egen avinstallerare, så Peel låter appen och dess filer vara där de är."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ uygulamasının sistem genişletmesi çalışırken, uygulamanın Finder, Peel veya bir yönetici tarafından taşınmasını engeller. %@ belgelerine göre, uygulama kendi yükleme kaldırıcısıyla kaldırılır, bu yüzden Peel uygulamaya ve dosyalarına dokunmaz."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Поки системне розширення програми «%@» працює, воно не дає перемістити її ні Finder, ні Peel, ні адміністратору. %@ у своїй документації описує вилучення цієї програми власним деінсталятором, тому Peel лишає її та її файли на місці."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "“%@”的系统扩展在运行时会阻止“访达”、Peel或管理员移动该App。%@在文档中说明，该App应使用其自己的卸载器移除，因此Peel会将它及其文件留在原处。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "「%@」的系統延伸功能執行時，會讓Finder、Peel或管理者都無法移動此App。%@在說明文件中指出，移除此App應使用其自己的解除安裝程式，因此Peel會將它及其檔案原地保留。"
           }
         }
       }
@@ -266985,230 +266985,6 @@
         }
       }
     },
-    "macOS installed %@ for an app bundled inside %@, and keeps it installed when %@ goes to the Trash: Finder asks macOS to remove only the extensions in the app’s own folder, and Peel’s move asks nothing. So Peel leaves the app and its files where they are: remove the extension the way its maker describes, then move the app to the Trash." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Systém macOS nainstaloval rozšíření %@ pro aplikaci uvnitř aplikace %@ a ponechá ho nainstalované i tehdy, když se aplikace %@ přesune do koše: Finder žádá systém macOS, aby odstranil jen ta rozšíření, která jsou ve vlastní složce aplikace, a Peel při přesunutí o nic nežádá. Proto Peel aplikaci i její soubory ponechává na místě: odstraňte toto rozšíření postupem, který popisuje jeho výrobce, a pak aplikaci přesuňte do koše."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS hat die Systemerweiterung „%@“ für eine in „%@“ enthaltene App installiert und entfernt sie nicht, wenn „%@“ in den Papierkorb gelegt wird: Der Finder fordert macOS auf, nur die Erweiterungen im eigenen Ordner der App zu entfernen, und Peel fordert macOS beim Verschieben zu nichts auf. Daher lässt Peel die App und ihre Dateien dort, wo sie sind: Entferne die Erweiterung so, wie es ihr Hersteller beschreibt, und lege die App anschließend in den Papierkorb."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "macOS installed %1$@ for an app bundled inside %2$@, and keeps it installed when %3$@ goes to the Trash: Finder asks macOS to remove only the extensions in the app’s own folder, and Peel’s move asks nothing. So Peel leaves the app and its files where they are: remove the extension the way its maker describes, then move the app to the Trash."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS ha instalado la extensión %@ para una app incluida dentro de %@ y la mantiene instalada cuando %@ va a la papelera: el Finder le pide a macOS que elimine solo las extensiones que están en la propia carpeta de la app, y Peel no le pide nada cuando la traslada. Por eso, Peel deja la app y sus archivos donde están: elimina la extensión como indica su fabricante y, después, traslada la app a la papelera."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS a installé %@ pour une app contenue dans %@, et laisse l’extension installée lorsque %@ est placé dans la corbeille : le Finder ne demande à macOS de supprimer que les extensions situées dans le dossier propre à l’app, et le déplacement effectué par Peel ne lui demande rien. Peel laisse donc l’app là où elle est, avec ses fichiers : supprimez l’extension comme le décrit son éditeur, puis placez l’app dans la corbeille."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS ha installato %@ per un’app inclusa in %@, e la mantiene installata quando %@ viene spostata nel Cestino: il Finder chiede a macOS di rimuovere solo le estensioni nella cartella dell’app stessa, mentre lo spostamento fatto da Peel non chiede nulla. Quindi Peel lascia l’app e i suoi file dove sono: rimuovi l’estensione come indica il suo produttore, poi sposta l’app nel Cestino."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOSがインストールした%@は、“%@”に含まれるアプリのためのもので、“%@”をゴミ箱に入れても、インストールされたままになります。FinderがmacOSに削除を依頼するのは、ゴミ箱に入れるアプリ自体のフォルダにある機能拡張だけで、Peelによる移動では、macOSに何も依頼しません。そのため、Peelはこのアプリとそのファイルをそのままにします。開発元が説明している方法でこの機能拡張を削除してから、アプリをゴミ箱に入れてください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS는 ‘%2$@’ 안에 포함된 앱을 위해 ‘%1$@’을(를) 설치했으며, ‘%3$@’이(가) 휴지통으로 이동되어도 이 확장 프로그램을 설치된 상태로 유지합니다. Finder는 앱 자체의 폴더에 있는 확장 프로그램만 제거하도록 macOS에 요청하며, Peel은 앱을 이동할 때 macOS에 아무것도 요청하지 않기 때문입니다. 따라서 Peel은 앱과 앱의 파일을 그대로 둡니다. 제작자가 설명하는 방법대로 확장 프로그램을 제거한 다음, 앱을 휴지통으로 이동하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS heeft %@ geïnstalleerd voor een app die in %@ is meegeleverd, en houdt die extensie geïnstalleerd als %@ naar de prullenmand gaat: Finder vraagt macOS om alleen de extensies in de eigen map van de app te verwijderen, en Peel vraagt macOS niets wanneer het de app verplaatst. Daarom laat Peel de app en de bestanden ervan staan: verwijder de extensie op de manier die de maker beschrijft, en verplaats de app daarna naar de prullenmand."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS zainstalował rozszerzenie systemowe %@ dla aplikacji zawartej w aplikacji %@ i nie usuwa go, gdy aplikacja %@ zostanie przeniesiona do Kosza: Finder prosi macOS, aby usunął tylko te rozszerzenia, które są we własnym folderze aplikacji, a Peel, przenosząc aplikację, nie prosi macOS o nic. Dlatego Peel zostawia aplikację i jej pliki na miejscu: usuń rozszerzenie tak, jak opisuje to jego producent, a potem przenieś aplikację do Kosza."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O macOS instalou a extensão %@ para um app que vem dentro de %@, e a mantém instalada quando %@ vai para o Lixo: o Finder pede ao macOS para remover apenas as extensões que estão na própria pasta do app, e o Peel, ao mover o app, não pede nada. Por isso, o Peel deixa o app e os arquivos dele onde estão: remova a extensão da forma descrita pelo fabricante e depois mova o app para o Lixo."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS a instalat extensia %@ pentru o aplicație inclusă în %@ și o păstrează instalată când aplicația %@ este mutată în Coș: Finder îi cere sistemului macOS să elimine doar extensiile din dosarul propriu al aplicației, iar mutarea făcută de Peel nu îi cere nimic. De aceea, Peel lasă aplicația și fișierele ei acolo unde sunt: eliminați extensia urmând instrucțiunile producătorului ei, apoi mutați aplicația în Coș."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS установила системное расширение «%@» для приложения, вложенного в приложение «%@», и оставляет его установленным, когда приложение «%@» перемещают в Корзину: Finder просит macOS удалить только те расширения, которые находятся в собственной папке приложения, а Peel при перемещении ни о чем не просит macOS. Поэтому Peel оставляет на месте и приложение, и его файлы: удалите расширение так, как описывает его производитель, а затем переместите приложение в Корзину."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS har installerat %@ för en app som ingår i %@, och behåller det installerat när %@ flyttas till papperskorgen: Finder ber macOS att ta bort bara de tillägg som ligger i appens egen mapp, och när Peel flyttar en app ber Peel inte macOS om något. Därför låter Peel appen och dess filer vara där de är: ta bort tillägget på det sätt som tillverkaren beskriver, och flytta sedan appen till papperskorgen."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS, %@ adlı genişletmeyi %@ uygulamasının içindeki bir uygulama için yükledi ve %@ uygulaması Çöp Sepeti’ne taşındığında onu yüklü tutar: Finder, macOS’ten yalnızca uygulamanın kendi klasöründeki genişletmeleri kaldırmasını ister, Peel ise uygulamayı taşırken macOS’ten hiçbir şey istemez. Bu yüzden Peel uygulamaya ve dosyalarına dokunmaz: genişletmeyi üreticisinin yönergelerini izleyerek kaldırın, ardından uygulamayı Çöp Sepeti’ne taşıyın."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS інсталювала системне розширення «%@» для програми, вбудованої в програму «%@», і зберігає його інстальованим, коли програму «%@» переміщують у Смітник: Finder просить macOS вилучити лише ті розширення, що лежать у власній папці програми, а Peel, переміщуючи програму, ні про що не просить macOS. Тому Peel лишає програму та її файли на місці: вилучіть це розширення так, як описує його виробник, а потім перемістіть програму в Смітник."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS为“%2$@”中包含的某个App安装了“%1$@”，并且在“%3$@”被移到废纸篓时仍会使该扩展保持安装状态：“访达”只会请求macOS移除该App自身文件夹中的扩展，而Peel的移动操作不会向macOS发出任何请求。因此Peel会将该App及其文件留在原处：请按照厂商的说明移除该扩展，然后将该App移到废纸篓。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS為「%2$@」內含的一個App安裝了「%1$@」，而且將「%3$@」丟到「垃圾桶」時，macOS仍會讓該延伸功能保持安裝：Finder只會要求macOS移除App本身檔案夾中的延伸功能，而Peel移動App時則不會要求macOS做任何事。因此Peel會將此App及其檔案原地保留：請依照其廠商說明的方式移除該延伸功能，然後再將此App丟到「垃圾桶」。"
-          }
-        }
-      }
-    },
-    "macOS installed %@ for an app bundled inside %@, and keeps them installed when %@ goes to the Trash: Finder asks macOS to remove only the extensions in the app’s own folder, and Peel’s move asks nothing. So Peel leaves the app and its files where they are: remove the extensions the way their maker describes, then move the app to the Trash." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Systém macOS nainstaloval rozšíření %@ pro aplikaci uvnitř aplikace %@ a ponechá je nainstalovaná i tehdy, když se aplikace %@ přesune do koše: Finder žádá systém macOS, aby odstranil jen ta rozšíření, která jsou ve vlastní složce aplikace, a Peel při přesunutí o nic nežádá. Proto Peel aplikaci i její soubory ponechává na místě: odstraňte tato rozšíření postupem, který popisuje jejich výrobce, a pak aplikaci přesuňte do koše."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS hat die Systemerweiterungen %@ für eine in „%@“ enthaltene App installiert und entfernt sie nicht, wenn „%@“ in den Papierkorb gelegt wird: Der Finder fordert macOS auf, nur die Erweiterungen im eigenen Ordner der App zu entfernen, und Peel fordert macOS beim Verschieben zu nichts auf. Daher lässt Peel die App und ihre Dateien dort, wo sie sind: Entferne die Erweiterungen so, wie es ihr Hersteller beschreibt, und lege die App anschließend in den Papierkorb."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "macOS installed %1$@ for an app bundled inside %2$@, and keeps them installed when %3$@ goes to the Trash: Finder asks macOS to remove only the extensions in the app’s own folder, and Peel’s move asks nothing. So Peel leaves the app and its files where they are: remove the extensions the way their maker describes, then move the app to the Trash."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS ha instalado las extensiones %@ para una app incluida dentro de %@ y las mantiene instaladas cuando %@ va a la papelera: el Finder le pide a macOS que elimine solo las extensiones que están en la propia carpeta de la app, y Peel no le pide nada cuando la traslada. Por eso, Peel deja la app y sus archivos donde están: elimina las extensiones como indica su fabricante y, después, traslada la app a la papelera."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS a installé %@ pour une app contenue dans %@, et laisse les extensions installées lorsque %@ est placé dans la corbeille : le Finder ne demande à macOS de supprimer que les extensions situées dans le dossier propre à l’app, et le déplacement effectué par Peel ne lui demande rien. Peel laisse donc l’app là où elle est, avec ses fichiers : supprimez les extensions comme le décrit leur éditeur, puis placez l’app dans la corbeille."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS ha installato %@ per un’app inclusa in %@, e le mantiene installate quando %@ viene spostata nel Cestino: il Finder chiede a macOS di rimuovere solo le estensioni nella cartella dell’app stessa, mentre lo spostamento fatto da Peel non chiede nulla. Quindi Peel lascia l’app e i suoi file dove sono: rimuovi le estensioni come indica il loro produttore, poi sposta l’app nel Cestino."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOSがインストールした%@は、いずれも“%@”に含まれるアプリのためのもので、“%@”をゴミ箱に入れても、インストールされたままになります。FinderがmacOSに削除を依頼するのは、ゴミ箱に入れるアプリ自体のフォルダにある機能拡張だけで、Peelによる移動では、macOSに何も依頼しません。そのため、Peelはこのアプリとそのファイルをそのままにします。開発元が説明している方法でこれらの機能拡張を削除してから、アプリをゴミ箱に入れてください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS는 ‘%2$@’ 안에 포함된 앱을 위해 %1$@을(를) 설치했으며, ‘%3$@’이(가) 휴지통으로 이동되어도 이 확장 프로그램들을 설치된 상태로 유지합니다. Finder는 앱 자체의 폴더에 있는 확장 프로그램만 제거하도록 macOS에 요청하며, Peel은 앱을 이동할 때 macOS에 아무것도 요청하지 않기 때문입니다. 따라서 Peel은 앱과 앱의 파일을 그대로 둡니다. 제작자가 설명하는 방법대로 확장 프로그램들을 제거한 다음, 앱을 휴지통으로 이동하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS heeft %@ geïnstalleerd voor een app die in %@ is meegeleverd, en houdt die extensies geïnstalleerd als %@ naar de prullenmand gaat: Finder vraagt macOS om alleen de extensies in de eigen map van de app te verwijderen, en Peel vraagt macOS niets wanneer het de app verplaatst. Daarom laat Peel de app en de bestanden ervan staan: verwijder de extensies op de manier die de maker beschrijft, en verplaats de app daarna naar de prullenmand."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS zainstalował rozszerzenia systemowe %@ dla aplikacji zawartej w aplikacji %@ i nie usuwa ich, gdy aplikacja %@ zostanie przeniesiona do Kosza: Finder prosi macOS, aby usunął tylko te rozszerzenia, które są we własnym folderze aplikacji, a Peel, przenosząc aplikację, nie prosi macOS o nic. Dlatego Peel zostawia aplikację i jej pliki na miejscu: usuń rozszerzenia tak, jak opisuje to ich producent, a potem przenieś aplikację do Kosza."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O macOS instalou as extensões %@ para um app que vem dentro de %@, e as mantém instaladas quando %@ vai para o Lixo: o Finder pede ao macOS para remover apenas as extensões que estão na própria pasta do app, e o Peel, ao mover o app, não pede nada. Por isso, o Peel deixa o app e os arquivos dele onde estão: remova as extensões da forma descrita pelo fabricante e depois mova o app para o Lixo."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS a instalat extensiile %@ pentru o aplicație inclusă în %@ și le păstrează instalate când aplicația %@ este mutată în Coș: Finder îi cere sistemului macOS să elimine doar extensiile din dosarul propriu al aplicației, iar mutarea făcută de Peel nu îi cere nimic. De aceea, Peel lasă aplicația și fișierele ei acolo unde sunt: eliminați extensiile urmând instrucțiunile producătorului lor, apoi mutați aplicația în Coș."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS установила системные расширения %@ для приложения, вложенного в приложение «%@», и оставляет их установленными, когда приложение «%@» перемещают в Корзину: Finder просит macOS удалить только те расширения, которые находятся в собственной папке приложения, а Peel при перемещении ни о чем не просит macOS. Поэтому Peel оставляет на месте и приложение, и его файлы: удалите расширения так, как описывает их производитель, а затем переместите приложение в Корзину."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS har installerat %@ för en app som ingår i %@, och behåller dem installerade när %@ flyttas till papperskorgen: Finder ber macOS att ta bort bara de tillägg som ligger i appens egen mapp, och när Peel flyttar en app ber Peel inte macOS om något. Därför låter Peel appen och dess filer vara där de är: ta bort tilläggen på det sätt som tillverkaren beskriver, och flytta sedan appen till papperskorgen."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS, %@ adlı genişletmeleri %@ uygulamasının içindeki bir uygulama için yükledi ve %@ uygulaması Çöp Sepeti’ne taşındığında onları yüklü tutar: Finder, macOS’ten yalnızca uygulamanın kendi klasöründeki genişletmeleri kaldırmasını ister, Peel ise uygulamayı taşırken macOS’ten hiçbir şey istemez. Bu yüzden Peel uygulamaya ve dosyalarına dokunmaz: genişletmeleri üreticisinin yönergelerini izleyerek kaldırın, ardından uygulamayı Çöp Sepeti’ne taşıyın."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS інсталювала системні розширення %@ для програми, вбудованої в програму «%@», і зберігає їх інстальованими, коли програму «%@» переміщують у Смітник: Finder просить macOS вилучити лише ті розширення, що лежать у власній папці програми, а Peel, переміщуючи програму, ні про що не просить macOS. Тому Peel лишає програму та її файли на місці: вилучіть ці розширення так, як описує їхній виробник, а потім перемістіть програму в Смітник."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS为“%2$@”中包含的某个App安装了“%1$@”，并且在“%3$@”被移到废纸篓时仍会使这些扩展保持安装状态：“访达”只会请求macOS移除该App自身文件夹中的扩展，而Peel的移动操作不会向macOS发出任何请求。因此Peel会将该App及其文件留在原处：请按照厂商的说明移除这些扩展，然后将该App移到废纸篓。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS為「%2$@」內含的一個App安裝了%1$@，而且將「%3$@」丟到「垃圾桶」時，macOS仍會讓這些延伸功能保持安裝：Finder只會要求macOS移除App本身檔案夾中的延伸功能，而Peel移動App時則不會要求macOS做任何事。因此Peel會將此App及其檔案原地保留：請依照其廠商說明的方式移除這些延伸功能，然後再將此App丟到「垃圾桶」。"
-          }
-        }
-      }
-    },
     "macOS installed %@ with %@, and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too." : {
       "localizations" : {
         "cs" : {
@@ -272044,6 +271820,230 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS回報了Peel無法辨識的狀態，下方會以macOS使用的名稱顯示。"
+          }
+        }
+      }
+    },
+    "macOS runs %@ for an app bundled inside %@, and no move of the app removes it: Finder asks macOS to remove only the extensions in the app’s own folder. Turn it off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extension, turned off." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS spouští rozšíření %@ pro aplikaci uvnitř aplikace %@ a žádné přesunutí aplikace ho neodstraní: Finder žádá systém macOS, aby odstranil jen ta rozšíření, která jsou ve vlastní složce aplikace. Nejprve vypněte toto rozšíření v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení. Peel pak přesune aplikaci i její soubory a systém macOS ponechá rozšíření nainstalované, ale vypnuté."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS führt die Systemerweiterung „%@“ für eine in „%@“ enthaltene App aus und entfernt sie nicht, wenn die App verschoben wird: Der Finder fordert macOS auf, nur die Erweiterungen im eigenen Ordner der App zu entfernen. Deaktiviere zuerst die Erweiterung unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“. Anschließend verschiebt Peel die App und ihre Dateien, und macOS behält die deaktivierte Erweiterung."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "macOS runs %1$@ for an app bundled inside %2$@, and no move of the app removes it: Finder asks macOS to remove only the extensions in the app’s own folder. Turn it off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extension, turned off."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ejecuta la extensión %@ para una app incluida dentro de %@, y ningún traslado de la app la elimina: el Finder le pide a macOS que elimine solo las extensiones que están en la propia carpeta de la app. Desactívala antes en Ajustes del Sistema > General > Ítems de inicio y extensiones. Después, Peel traslada la app y sus archivos, y macOS mantiene la extensión instalada, pero desactivada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS exécute %@ pour une app contenue dans %@, et aucun déplacement de l’app ne supprime cette extension : le Finder ne demande à macOS de supprimer que les extensions situées dans le dossier propre à l’app. Désactivez d’abord l’extension dans Réglages Système > Général > Ouverture et extensions. Peel déplace ensuite l’app et ses fichiers, et macOS conserve l’extension, qui reste désactivée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS esegue %@ per un’app inclusa in %@, e nessuno spostamento dell’app la rimuove: il Finder chiede a macOS di rimuovere solo le estensioni nella cartella dell’app stessa. Disattiva prima l’estensione in Impostazioni di Sistema > Generali > Elementi login ed estensioni. Poi Peel sposta l’app e i suoi file, e macOS mantiene l’estensione installata ma disattivata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSが実行している%@は、“%@”に含まれるアプリのためのもので、アプリをどのように移動しても、インストールされたままになります。FinderがmacOSに削除を依頼するのは、アプリ自体のフォルダにある機能拡張だけです。“システム設定”＞“一般”＞“ログイン項目と機能拡張”で、先にこの機能拡張をオフにしてください。その後は、Peelがアプリとそのファイルを移動し、macOSはこの機能拡張をオフのまま残します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS는 ‘%2$@’ 안에 포함된 앱을 위해 ‘%1$@’을(를) 실행하며, 앱을 어떻게 이동해도 이 확장 프로그램은 제거되지 않습니다. Finder는 앱 자체의 폴더에 있는 확장 프로그램만 제거하도록 macOS에 요청하기 때문입니다. 먼저 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서 이 확장 프로그램을 끄십시오. 그러면 Peel이 앱과 앱의 파일을 이동하며, macOS는 이 확장 프로그램을 꺼진 상태로 유지합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS voert %@ uit voor een app die in %@ is meegeleverd, en geen enkele verplaatsing van de app verwijdert die extensie: Finder vraagt macOS om alleen de extensies in de eigen map van de app te verwijderen. Schakel eerst de extensie uit in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies. Peel verplaatst daarna de app en de bestanden ervan, en macOS houdt de extensie geïnstalleerd, maar uitgeschakeld."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS uruchamia rozszerzenie systemowe %@ dla aplikacji zawartej w aplikacji %@, a żadne przeniesienie aplikacji go nie usuwa: Finder prosi macOS, aby usunął tylko te rozszerzenia, które są we własnym folderze aplikacji. Najpierw wyłącz rozszerzenie w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania. Wtedy Peel przeniesie aplikację i jej pliki do Kosza, a macOS zachowa rozszerzenie, ale wyłączone."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS executa a extensão %@ para um app que vem dentro de %@, e mover o app não a remove: o Finder pede ao macOS para remover apenas as extensões que estão na própria pasta do app. Desative-a primeiro em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões. Depois, o Peel move o app e os arquivos dele, e o macOS mantém a extensão instalada, mas desativada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS rulează extensia %@ pentru o aplicație inclusă în %@, iar nicio mutare a aplicației nu o elimină: Finder îi cere sistemului macOS să elimine doar extensiile din dosarul propriu al aplicației. Dezactivați mai întâi extensia în Configurări sistem > General > Lansare la login și extensii. Peel mută apoi aplicația și fișierele ei, iar macOS păstrează extensia instalată, dar dezactivată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS запускает системное расширение «%@» для приложения, вложенного в приложение «%@», и расширение не удаляется, как бы ни перемещали приложение: Finder просит macOS удалить только те расширения, которые находятся в собственной папке приложения. Сначала выключите расширение в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения». После этого Peel переместит приложение и его файлы, а macOS оставит расширение установленным, но выключенным."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kör %@ för en app som ingår i %@, och det tas inte bort hur appen än flyttas: Finder ber macOS att ta bort bara de tillägg som ligger i appens egen mapp. Stäng först av tillägget i Systeminställningar > Allmänt > Startobjekt och tillägg. Peel flyttar sedan appen och dess filer, och macOS behåller tillägget installerat men avstängt."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, %@ adlı genişletmeyi %@ uygulamasının içindeki bir uygulama için çalıştırır ve uygulama nasıl taşınırsa taşınsın genişletme kaldırılmaz: Finder, macOS’ten yalnızca uygulamanın kendi klasöründeki genişletmeleri kaldırmasını ister. Önce genişletmeyi Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünden kapatın. Ardından Peel uygulamayı ve dosyalarını taşır, macOS ise genişletmeyi yüklü ama kapalı tutar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS виконує системне розширення «%@» для програми, вбудованої в програму «%@», і жодне переміщення програми його не вилучає: Finder просить macOS вилучити лише ті розширення, що лежать у власній папці програми. Спершу вимкніть це розширення в розділі Системні параметри > Загальні > Автозапуск і розширення. Після цього Peel перемістить програму та її файли, а macOS збереже розширення інстальованим, але вимкненим."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS为“%2$@”中包含的某个App运行“%1$@”，并且无论怎样移动此App，都不会将其移除：“访达”只会请求macOS移除该App自身文件夹中的扩展。请先在“系统设置”>“通用”>“登录项与扩展”中关闭该扩展。之后Peel会移动该App及其文件，而macOS会保留该扩展，并使其保持关闭状态。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS會為「%2$@」內含的一個App執行「%1$@」，而且無論如何移動此App，都不會移除它：Finder只會要求macOS移除App本身檔案夾中的延伸功能。請先在「系統設定」>「一般」>「登入項目與延伸功能」中關閉該延伸功能。Peel接著會移動此App及其檔案，而macOS會保留該延伸功能，並讓它保持關閉。"
+          }
+        }
+      }
+    },
+    "macOS runs %@ for an app bundled inside %@, and no move of the app removes them: Finder asks macOS to remove only the extensions in the app’s own folder. Turn them off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extensions, turned off." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS spouští rozšíření %@ pro aplikaci uvnitř aplikace %@ a žádné přesunutí aplikace je neodstraní: Finder žádá systém macOS, aby odstranil jen ta rozšíření, která jsou ve vlastní složce aplikace. Nejprve vypněte tato rozšíření v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení. Peel pak přesune aplikaci i její soubory a systém macOS ponechá rozšíření nainstalovaná, ale vypnutá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS führt die Systemerweiterungen %@ für eine in „%@“ enthaltene App aus und entfernt sie nicht, wenn die App verschoben wird: Der Finder fordert macOS auf, nur die Erweiterungen im eigenen Ordner der App zu entfernen. Deaktiviere zuerst die Erweiterungen unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“. Anschließend verschiebt Peel die App und ihre Dateien, und macOS behält die deaktivierten Erweiterungen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "macOS runs %1$@ for an app bundled inside %2$@, and no move of the app removes them: Finder asks macOS to remove only the extensions in the app’s own folder. Turn them off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extensions, turned off."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ejecuta las extensiones %@ para una app incluida dentro de %@, y ningún traslado de la app las elimina: el Finder le pide a macOS que elimine solo las extensiones que están en la propia carpeta de la app. Desactívalas antes en Ajustes del Sistema > General > Ítems de inicio y extensiones. Después, Peel traslada la app y sus archivos, y macOS mantiene las extensiones instaladas, pero desactivadas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS exécute %@ pour une app contenue dans %@, et aucun déplacement de l’app ne supprime ces extensions : le Finder ne demande à macOS de supprimer que les extensions situées dans le dossier propre à l’app. Désactivez d’abord les extensions dans Réglages Système > Général > Ouverture et extensions. Peel déplace ensuite l’app et ses fichiers, et macOS conserve les extensions, qui restent désactivées."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS esegue %@ per un’app inclusa in %@, e nessuno spostamento dell’app le rimuove: il Finder chiede a macOS di rimuovere solo le estensioni nella cartella dell’app stessa. Disattiva prima le estensioni in Impostazioni di Sistema > Generali > Elementi login ed estensioni. Poi Peel sposta l’app e i suoi file, e macOS mantiene le estensioni installate ma disattivate."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSが実行している%@は、いずれも“%@”に含まれるアプリのためのもので、アプリをどのように移動しても、インストールされたままになります。FinderがmacOSに削除を依頼するのは、アプリ自体のフォルダにある機能拡張だけです。“システム設定”＞“一般”＞“ログイン項目と機能拡張”で、先にこれらの機能拡張をオフにしてください。その後は、Peelがアプリとそのファイルを移動し、macOSはこれらの機能拡張をオフのまま残します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS는 ‘%2$@’ 안에 포함된 앱을 위해 %1$@을(를) 실행하며, 앱을 어떻게 이동해도 이 확장 프로그램들은 제거되지 않습니다. Finder는 앱 자체의 폴더에 있는 확장 프로그램만 제거하도록 macOS에 요청하기 때문입니다. 먼저 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서 이 확장 프로그램들을 끄십시오. 그러면 Peel이 앱과 앱의 파일을 이동하며, macOS는 이 확장 프로그램들을 꺼진 상태로 유지합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS voert %@ uit voor een app die in %@ is meegeleverd, en geen enkele verplaatsing van de app verwijdert die extensies: Finder vraagt macOS om alleen de extensies in de eigen map van de app te verwijderen. Schakel eerst de extensies uit in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies. Peel verplaatst daarna de app en de bestanden ervan, en macOS houdt de extensies geïnstalleerd, maar uitgeschakeld."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS uruchamia rozszerzenia systemowe %@ dla aplikacji zawartej w aplikacji %@, a żadne przeniesienie aplikacji ich nie usuwa: Finder prosi macOS, aby usunął tylko te rozszerzenia, które są we własnym folderze aplikacji. Najpierw wyłącz rozszerzenia w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania. Wtedy Peel przeniesie aplikację i jej pliki do Kosza, a macOS zachowa rozszerzenia, ale wyłączone."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS executa as extensões %@ para um app que vem dentro de %@, e mover o app não as remove: o Finder pede ao macOS para remover apenas as extensões que estão na própria pasta do app. Desative-as primeiro em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões. Depois, o Peel move o app e os arquivos dele, e o macOS mantém as extensões instaladas, mas desativadas."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS rulează extensiile %@ pentru o aplicație inclusă în %@, iar nicio mutare a aplicației nu le elimină: Finder îi cere sistemului macOS să elimine doar extensiile din dosarul propriu al aplicației. Dezactivați mai întâi extensiile în Configurări sistem > General > Lansare la login și extensii. Peel mută apoi aplicația și fișierele ei, iar macOS păstrează extensiile instalate, dar dezactivate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS запускает системные расширения %@ для приложения, вложенного в приложение «%@», и расширения не удаляются, как бы ни перемещали приложение: Finder просит macOS удалить только те расширения, которые находятся в собственной папке приложения. Сначала выключите расширения в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения». После этого Peel переместит приложение и его файлы, а macOS оставит расширения установленными, но выключенными."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kör %@ för en app som ingår i %@, och de tas inte bort hur appen än flyttas: Finder ber macOS att ta bort bara de tillägg som ligger i appens egen mapp. Stäng först av tilläggen i Systeminställningar > Allmänt > Startobjekt och tillägg. Peel flyttar sedan appen och dess filer, och macOS behåller tilläggen installerade men avstängda."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, %@ adlı genişletmeleri %@ uygulamasının içindeki bir uygulama için çalıştırır ve uygulama nasıl taşınırsa taşınsın genişletmeler kaldırılmaz: Finder, macOS’ten yalnızca uygulamanın kendi klasöründeki genişletmeleri kaldırmasını ister. Önce genişletmeleri Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünden kapatın. Ardından Peel uygulamayı ve dosyalarını taşır, macOS ise genişletmeleri yüklü ama kapalı tutar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS виконує системні розширення %@ для програми, вбудованої в програму «%@», і жодне переміщення програми їх не вилучає: Finder просить macOS вилучити лише ті розширення, що лежать у власній папці програми. Спершу вимкніть ці розширення в розділі Системні параметри > Загальні > Автозапуск і розширення. Після цього Peel перемістить програму та її файли, а macOS збереже розширення інстальованими, але вимкненими."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS为“%2$@”中包含的某个App运行“%1$@”，并且无论怎样移动此App，都不会将它们移除：“访达”只会请求macOS移除该App自身文件夹中的扩展。请先在“系统设置”>“通用”>“登录项与扩展”中关闭这些扩展。之后Peel会移动该App及其文件，而macOS会保留这些扩展，并使它们保持关闭状态。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS會為「%2$@」內含的一個App執行%1$@，而且無論如何移動此App，都不會移除它們：Finder只會要求macOS移除App本身檔案夾中的延伸功能。請先在「系統設定」>「一般」>「登入項目與延伸功能」中關閉這些延伸功能。Peel接著會移動此App及其檔案，而macOS會保留這些延伸功能，並讓它們保持關閉。"
           }
         }
       }

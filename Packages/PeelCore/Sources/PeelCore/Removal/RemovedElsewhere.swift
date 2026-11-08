@@ -7,9 +7,9 @@ public enum RemovedElsewhere: Sendable, Hashable {
     case byItsMaker(MakersUninstaller)
     /// An app with system extensions macOS installed, which Finder's move asks macOS to remove and Peel's would not.
     case byFinder(systemExtensions: CarriedSystemExtensions)
-    /// An app with system extensions macOS installed for an app inside it, which stay installed whoever moves the app,
-    /// so they go first, the way the app's maker describes.
-    case afterItsSystemExtensions(CarriedSystemExtensions)
+    /// An app with system extensions macOS runs for an app inside it, which stay installed whoever moves the app: it
+    /// moves once they are turned off in System Settings.
+    case onceItsSystemExtensionsAreOff(CarriedSystemExtensions)
 
     public static func of(
         _ app: InstalledApp,
@@ -17,8 +17,8 @@ public enum RemovedElsewhere: Sendable, Hashable {
     ) -> RemovedElsewhere? {
         if let removed = app.removedElsewhere { return removed }
         guard !carried.isEmpty else { return nil }
-        guard !carried.inAnAppInside.isEmpty else { return .byFinder(systemExtensions: carried) }
-        return MakersUninstaller.keptInPlace(app).map(RemovedElsewhere.byItsMaker) ?? .afterItsSystemExtensions(carried)
+        return carried.inAnAppInside.isEmpty
+            ? .byFinder(systemExtensions: carried) : .onceItsSystemExtensionsAreOff(carried)
     }
 
     /// How the first of `apps` that Peel never removes is removed instead, such as one of the apps a cask installed.

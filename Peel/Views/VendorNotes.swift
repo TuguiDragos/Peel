@@ -1,5 +1,6 @@
 import AppKit
 import PeelCore
+import ServiceManagement
 import SwiftUI
 
 /// The note on the page of an app carrying system extensions macOS installed, which Peel leaves to Finder.
@@ -46,29 +47,31 @@ struct SystemExtensionNotice: View {
     }
 }
 
-/// The note on the page of an app carrying system extensions macOS installed for an app inside it, which stay
-/// installed whoever moves the app, so Peel leaves it until they are gone.
+/// The note on the page of an app carrying system extensions macOS runs for an app inside it, which stay installed
+/// whoever moves the app, so Peel moves it once they are turned off.
 struct SystemExtensionInsideNotice: View {
     let app: InstalledApp
     let extensions: CarriedSystemExtensions
 
     static func title(of extensions: CarriedSystemExtensions) -> LocalizedStringResource {
-        extensions.inAnAppInside.count == 1 ? "Remove Its System Extension First" : "Remove Its System Extensions First"
+        extensions.inAnAppInside.count == 1 ? "Turn Its System Extension Off First" : "Turn Its System Extensions Off First"
     }
 
     var body: some View {
         Notice(title: Text(Self.title(of: extensions)), detail: detail, kind: .note) {
-            Button("Show in Finder") {
-                NSWorkspace.shared.activateFileViewerSelecting([app.url])
-            }
+            Button("Open Login Items & Extensions") { SMAppService.openSystemSettingsLoginItems() }
         }
     }
 
     private var detail: Text {
         let names = extensions.inAnAppInside.formatted(.list(type: .and))
-        return extensions.inAnAppInside.count == 1
-            ? Text("macOS installed \(names) for an app bundled inside \(app.name), and keeps it installed when \(app.name) goes to the Trash: Finder asks macOS to remove only the extensions in the app’s own folder, and Peel’s move asks nothing. So Peel leaves the app and its files where they are: remove the extension the way its maker describes, then move the app to the Trash.")
-            : Text("macOS installed \(names) for an app bundled inside \(app.name), and keeps them installed when \(app.name) goes to the Trash: Finder asks macOS to remove only the extensions in the app’s own folder, and Peel’s move asks nothing. So Peel leaves the app and its files where they are: remove the extensions the way their maker describes, then move the app to the Trash.")
+        return if extensions.inAnAppInside.count > 1 {
+            Text("macOS runs \(names) for an app bundled inside \(app.name), and no move of the app removes them: Finder asks macOS to remove only the extensions in the app’s own folder. Turn them off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extensions, turned off.")
+        } else if extensions.keepsTheAppInPlace {
+            Text("While \(names) runs, it keeps \(app.name) from being moved, by Finder, by Peel, or by an administrator. Turn it off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extension, turned off.")
+        } else {
+            Text("macOS runs \(names) for an app bundled inside \(app.name), and no move of the app removes it: Finder asks macOS to remove only the extensions in the app’s own folder. Turn it off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extension, turned off.")
+        }
     }
 }
 

@@ -220,6 +220,10 @@ struct UninstallationTests {
             ),
             extensionInstalled(for: helper, identifier: "org.example.team", name: "Team Guard", team: "ZYXWV98765"),
             extensionInstalled(for: helper, identifier: "org.example.leaving", name: "Leaving Guard", election: .beingRemoved),
+            extensionInstalled(for: helper, identifier: "org.example.off", name: "Off Guard", election: .off),
+            extensionInstalled(
+                for: helper, identifier: "org.example.waiting", name: "Waiting Guard", election: .waitingForApproval
+            ),
         ]
 
         let carried = await AppExtensions.installed(carriedBy: app) { listed }
@@ -227,12 +231,13 @@ struct UninstallationTests {
 
         #expect(carried.names == ["Example Guard"])
         #expect(carried.inAnAppInside == ["Example Guard"])
-        #expect(RemovedElsewhere.of(app, installedSystemExtensions: carried) == .afterItsSystemExtensions(carried))
+        #expect(!carried.keepsTheAppInPlace)
+        #expect(RemovedElsewhere.of(app, installedSystemExtensions: carried) == .onceItsSystemExtensionsAreOff(carried))
         #expect(unanswered == .none)
         #expect(RemovedElsewhere.of(app, installedSystemExtensions: unanswered) == nil)
     }
 
-    @Test func leavesPrivilegesToSAPsUninstallerWhileItsSystemExtensionIsInstalled() async throws {
+    @Test func leavesPrivilegesOnlyWhileItsSystemExtensionRuns() async throws {
         let directory = try TemporaryDirectory()
         let privileges = InstalledApp(
             url: try directory.directory("root/Applications/Privileges.app"), bundleIdentifier: "corp.sap.privileges",
@@ -244,18 +249,20 @@ struct UninstallationTests {
             name: "Privileges System Extension", team: "7R5ZEU67FQ"
         )
 
-        let installed = await AppExtensions.installed(carriedBy: privileges) { [guarding] }
+        let turnedOff = extensionInstalled(
+            for: helper.path(percentEncoded: false), identifier: "corp.sap.privileges.extension",
+            name: "Privileges System Extension", team: "7R5ZEU67FQ", election: .off
+        )
+
+        let running = await AppExtensions.installed(carriedBy: privileges) { [guarding] }
+        let off = await AppExtensions.installed(carriedBy: privileges) { [turnedOff] }
         let notInstalled = await AppExtensions.installed(carriedBy: privileges) { [] }
 
-        let removed = RemovedElsewhere.of(privileges, installedSystemExtensions: installed)
-        guard case .byItsMaker(let uninstaller)? = removed else {
-            Issue.record("Privileges was left to \(String(describing: removed))")
-            return
-        }
-        #expect(uninstaller.maker == "SAP")
-        #expect(uninstaller.isKeptInPlaceByItsSystemExtension)
-        #expect(uninstaller.step == .fromTheMakersPage)
-        #expect(uninstaller.instructions.absoluteString == "https://github.com/SAP/macOS-enterprise-privileges/wiki/Uninstallation")
+        #expect(running.inAnAppInside == ["Privileges System Extension"])
+        #expect(running.keepsTheAppInPlace)
+        let removed = RemovedElsewhere.of(privileges, installedSystemExtensions: running)
+        #expect(removed == .onceItsSystemExtensionsAreOff(running))
+        #expect(RemovedElsewhere.of(privileges, installedSystemExtensions: off) == nil)
         #expect(RemovedElsewhere.of(privileges, installedSystemExtensions: notInstalled) == nil)
     }
 
@@ -276,7 +283,7 @@ struct UninstallationTests {
             )
         )
 
-        #expect(several.items.first?.removedElsewhere == .afterItsSystemExtensions(
+        #expect(several.items.first?.removedElsewhere == .onceItsSystemExtensionsAreOff(
             CarriedSystemExtensions(names: ["Example Guard"], inAnAppInside: ["Example Guard"])
         ))
     }

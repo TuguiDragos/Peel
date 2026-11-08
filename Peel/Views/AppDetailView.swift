@@ -145,7 +145,7 @@ struct AppDetailView: View {
                 SystemExtensionNotice(app: plan.app, extensions: extensions)
                     .listRowSeparator(.hidden)
             }
-            if case .afterItsSystemExtensions(let extensions) = plan.removedElsewhere {
+            if case .onceItsSystemExtensionsAreOff(let extensions) = plan.removedElsewhere {
                 SystemExtensionInsideNotice(app: plan.app, extensions: extensions)
                     .listRowSeparator(.hidden)
             }
@@ -350,7 +350,7 @@ struct AppDetailView: View {
         case .byRemovePeel?: return Self.removesItselfTitle
         case .byItsMaker(let uninstaller)?: return MakersUninstallerNotice.title(of: uninstaller)
         case .byFinder?: return SystemExtensionNotice.title
-        case .afterItsSystemExtensions(let extensions)?: return SystemExtensionInsideNotice.title(of: extensions)
+        case .onceItsSystemExtensionsAreOff(let extensions)?: return SystemExtensionInsideNotice.title(of: extensions)
         case nil: return "Nothing here can be moved. Each file’s note says why."
         }
     }

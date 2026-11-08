@@ -191,29 +191,43 @@ extension AppExtension {
 public struct CarriedSystemExtensions: Sendable, Hashable {
     public let names: [String]
     public let systemSettingsDeletesThem: Bool
-    /// The names of those macOS installed for an app inside this one. Finder's move asks macOS to remove only the
-    /// ones in the app's own folder, so these stay installed whoever moves the app.
+    /// The names of those macOS runs for an app inside this one. Finder's move asks macOS to remove only the ones in
+    /// the app's own folder, so these stay installed whoever moves the app.
     public let inAnAppInside: [String]
+    /// True when one of `inAnAppInside` keeps the app from being moved while it runs, as its maker says.
+    public let keepsTheAppInPlace: Bool
     /// False when Peel couldn't look into the app to name them.
     public let isKnown: Bool
 
-    public init(names: [String], systemSettingsDeletesThem: Bool = false, inAnAppInside: [String] = []) {
+    public init(
+        names: [String],
+        systemSettingsDeletesThem: Bool = false,
+        inAnAppInside: [String] = [],
+        keepsTheAppInPlace: Bool = false
+    ) {
         self.init(
             names: names, systemSettingsDeletesThem: systemSettingsDeletesThem, inAnAppInside: inAnAppInside,
-            isKnown: true
+            keepsTheAppInPlace: keepsTheAppInPlace, isKnown: true
         )
     }
 
-    private init(names: [String], systemSettingsDeletesThem: Bool, inAnAppInside: [String], isKnown: Bool) {
+    private init(
+        names: [String],
+        systemSettingsDeletesThem: Bool,
+        inAnAppInside: [String],
+        keepsTheAppInPlace: Bool,
+        isKnown: Bool
+    ) {
         self.names = names
         self.systemSettingsDeletesThem = systemSettingsDeletesThem
         self.inAnAppInside = inAnAppInside
+        self.keepsTheAppInPlace = keepsTheAppInPlace
         self.isKnown = isKnown
     }
 
     public static let none = CarriedSystemExtensions(names: [])
     public static let notKnown = CarriedSystemExtensions(
-        names: [], systemSettingsDeletesThem: false, inAnAppInside: [], isKnown: false
+        names: [], systemSettingsDeletesThem: false, inAnAppInside: [], keepsTheAppInPlace: false, isKnown: false
     )
 
     public var isEmpty: Bool { names.isEmpty && isKnown }
@@ -393,8 +407,15 @@ public enum AppExtensions {
 
     public static let askingMacOS: SystemExtensionsAnswer = { await systemExtensions(run: run) }
 
+    /// The system extensions whose maker says they keep their app from being moved, renamed, or deleted while they
+    /// run, each with its team.
+    private static let keepingTheirAppInPlace: [(team: String, identifier: String)] = [
+        // `PrivilegesCLI --help`: once enabled, it prevents Privileges from being renamed, copied, or deleted.
+        ("7R5ZEU67FQ", "corp.sap.privileges.extension"),
+    ]
+
     /// When macOS gives no answer, every system extension `app` carries counts. macOS's record names the app each one
-    /// was installed for, so one installed for an app inside `app` counts too.
+    /// was installed for, so one running for an app inside `app` counts too: turned off, it holds nothing in place.
     @concurrent
     public static func installed(
         carriedBy app: InstalledApp,
@@ -410,8 +431,9 @@ public enum AppExtensions {
             let team = item.teamIdentifier
             let sameTeam = app.teamIdentifier == nil || team == nil || team == app.teamIdentifier
             let isForAnAppInside = item.installedFor.map { PathComponents.isPath($0, inside: place) } ?? false
-            return (identifiers.contains(item.identifier) || isForAnAppInside) && item.election != .beingRemoved
-                && sameTeam
+            let runs = ![.off, .waitingForApproval].contains(item.election)
+            return (identifiers.contains(item.identifier) || (isForAnAppInside && runs))
+                && item.election != .beingRemoved && sameTeam
         }
         // During an update macOS lists the old version beside the new one: each is named once, as the one that runs.
         var named: Set<String> = []
@@ -419,10 +441,14 @@ public enum AppExtensions {
             guard named.insert(item.identifier).inserted else { return AppExtension?.none }
             return listed.first { $0.identifier == item.identifier && $0.election == .on } ?? item
         }
+        let inside = held.filter { !identifiers.contains($0.identifier) }
         return CarriedSystemExtensions(
             names: held.map(\.name),
             systemSettingsDeletesThem: !held.isEmpty && held.allSatisfy(\.systemSettingsDeletesIt),
-            inAnAppInside: held.filter { !identifiers.contains($0.identifier) }.map(\.name)
+            inAnAppInside: inside.map(\.name),
+            keepsTheAppInPlace: inside.contains { item in
+                keepingTheirAppInPlace.contains { $0.team == item.teamIdentifier && $0.identifier == item.identifier }
+            }
         )
     }
 

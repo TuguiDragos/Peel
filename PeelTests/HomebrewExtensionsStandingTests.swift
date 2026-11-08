@@ -14,7 +14,7 @@ struct HomebrewExtensionsStandingTests {
             url: URL(filePath: "/Applications/Filter.app", directoryHint: .isDirectory),
             bundleIdentifier: "org.example.filter", name: "Filter", carriesSystemExtensions: true
         )
-        let kept = RemovedElsewhere.afterItsSystemExtensions(
+        let kept = RemovedElsewhere.onceItsSystemExtensionsAreOff(
             CarriedSystemExtensions(names: ["Example Guard"], inAnAppInside: ["Example Guard"])
         )
 

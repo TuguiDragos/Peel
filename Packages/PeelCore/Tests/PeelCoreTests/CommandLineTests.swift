@@ -1240,19 +1240,20 @@ struct CommandLineTests {
         )
         let carried = CarriedSystemExtensions(names: ["Example Guard"], inAnAppInside: ["Example Guard"])
 
-        #expect(UninstallCommand.removedElsewhere(app, installedSystemExtensions: carried)?.description == "macOS installed a system extension for an app inside Example (Example Guard), and keeps it installed when the app moves: Finder asks macOS to remove only the extensions in the app's own folder. Remove it the way the app's maker describes, then move the app to the Trash.")
+        #expect(UninstallCommand.removedElsewhere(app, installedSystemExtensions: carried)?.description == "macOS runs a system extension for an app inside Example (Example Guard), and no move of the app removes it: Finder asks macOS to remove only the extensions in the app's own folder. Turn it off first in System Settings > General > Login Items & Extensions, then run this again.")
     }
 
-    @Test func leavesPrivilegesToSAPsUninstallerOnlyWhileItsExtensionIsInstalled() {
+    @Test func saysPrivilegesMovesOnceItsExtensionIsOff() {
         let privileges = InstalledApp(
             url: URL(filePath: "/Applications/Privileges.app", directoryHint: .isDirectory),
             bundleIdentifier: "corp.sap.privileges", name: "Privileges", teamIdentifier: "7R5ZEU67FQ"
         )
         let carried = CarriedSystemExtensions(
-            names: ["Privileges System Extension"], inAnAppInside: ["Privileges System Extension"]
+            names: ["Privileges System Extension"], inAnAppInside: ["Privileges System Extension"],
+            keepsTheAppInPlace: true
         )
 
-        #expect(UninstallCommand.removedElsewhere(privileges, installedSystemExtensions: carried)?.description == "Privileges is removed with SAP's own uninstaller, since nothing can move it while its system extension runs: download its uninstaller from SAP's page. See https://github.com/SAP/macOS-enterprise-privileges/wiki/Uninstallation")
+        #expect(UninstallCommand.removedElsewhere(privileges, installedSystemExtensions: carried)?.description == "While Privileges System Extension runs, it keeps Privileges from being moved, by Finder, by peel, or by an administrator. Turn it off first in System Settings > General > Login Items & Extensions, then run this again.")
         #expect(UninstallCommand.removedElsewhere(privileges) == nil)
     }
 
