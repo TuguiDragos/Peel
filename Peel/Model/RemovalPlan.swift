@@ -43,15 +43,18 @@ final class RemovalPlan {
     private var leftoverSizes: [URL: (size: Int64, isMeasured: Bool)] = [:]
 
     private let jobsKeptRunning: @Sendable ([URL]) async -> Set<pid_t>
+    private let systemExtensions: AppExtensions.SystemExtensionsAnswer
 
     init(
         app: InstalledApp,
         jobsKeptRunning: @escaping @Sendable ([URL]) async -> Set<pid_t> = {
             await RunningCopies.keptRunningByJobs(inside: $0)
-        }
+        },
+        systemExtensions: @escaping AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS
     ) {
         self.app = app
         self.jobsKeptRunning = jobsKeptRunning
+        self.systemExtensions = systemExtensions
     }
 
     var scan: LeftoverScan? {
@@ -140,6 +143,7 @@ final class RemovalPlan {
     ) async {
         self.canUseHelper = canUseHelper
         let app = app
+        let systemExtensions = systemExtensions
         guard let (result, bundle, installed, revision, roles, isInTheDock) = await scanRun.run({
             let revision = ExclusionsStore.shared.revision
             let exclusions = ExclusionsStore.shared.exclusions
@@ -150,7 +154,8 @@ final class RemovalPlan {
                 installedApps: installedApps,
                 exclusions: exclusions,
                 casks: casks,
-                receipts: receipts
+                receipts: receipts,
+                systemExtensions: systemExtensions
             )
             return (
                 result,
@@ -177,6 +182,20 @@ final class RemovalPlan {
         selectedURLs = choices.update(selectedURLs, in: result, canUseHelper: self.canUseHelper)
         defaultRoles = roles
         hasDockTile = isInTheDock
+    }
+
+    /// Asks macOS again about the app's system extensions, which the person turns on and off in System Settings, and
+    /// brings the page in line with the answer without scanning its files again.
+    func followSystemExtensions() async {
+        guard uninstallation != nil else { return }
+        let carried = await AppExtensions.installed(carriedBy: app, asking: systemExtensions)
+        guard var current = uninstallation, carried != current.installedSystemExtensions, question.mayScan() else {
+            return
+        }
+        current.installedSystemExtensions = carried
+        uninstallation = current
+        selectedURLs = choices.update(selectedURLs, in: current, canUseHelper: canUseHelper)
+        countMovable(in: current)
     }
 
     /// Brings the selection in line with the helper as it is now, without scanning again.

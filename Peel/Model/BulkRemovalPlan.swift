@@ -44,8 +44,14 @@ final class BulkRemovalPlan {
     /// again whenever the selection changes.
     private(set) var staying: Set<String> = []
 
-    init(apps: [InstalledApp]) {
+    private let systemExtensions: AppExtensions.SystemExtensionsAnswer
+
+    init(
+        apps: [InstalledApp],
+        systemExtensions: @escaping AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS
+    ) {
         self.apps = apps
+        self.systemExtensions = systemExtensions
     }
 
     var items: [BulkUninstallation.Item] { bulk?.items ?? [] }
@@ -126,6 +132,7 @@ final class BulkRemovalPlan {
     ) async {
         self.canUseHelper = canUseHelper
         let apps = apps
+        let systemExtensions = systemExtensions
         guard let (result, revision, inTheDock) = await scanRun.run({
             let revision = ExclusionsStore.shared.revision
             async let inTheDock = DockTiles().holding(apps.map(\.url))
@@ -134,20 +141,44 @@ final class BulkRemovalPlan {
                 installedApps: installedApps,
                 exclusions: ExclusionsStore.shared.exclusions,
                 casks: casks,
-                receipts: receipts
+                receipts: receipts,
+                systemExtensions: systemExtensions
             ), revision, await inTheDock)
         }) else { return }
-        bulk = result
         exclusionsRevision = revision
+        self.installedApps = installedApps
+        appsInTheDock = inTheDock
+        show(result)
+    }
+
+    private func show(_ result: BulkUninstallation) {
+        bulk = result
         applications = result.items.filter(\.isApplication)
         recommendedFiles = result.items.filter { !$0.isApplication && $0.isRecommended }
         filesToReview = result.items.filter { !$0.isApplication && !$0.isRecommended }
         appsInTheTrash = Set(result.uninstallations.filter(\.isAppInTheTrash).map(\.app.url))
         measuredSizes = [URL: Int64](measured: result.items.map { ($0.url, $0.isMeasured ? $0.size : nil) })
-        self.installedApps = installedApps
-        suggested = result.suggestedSelection(canUseHelper: self.canUseHelper)
-        selectedURLs = choices.update(selectedURLs, in: result, canUseHelper: self.canUseHelper)
-        appsInTheDock = inTheDock
+        suggested = result.suggestedSelection(canUseHelper: canUseHelper)
+        selectedURLs = choices.update(selectedURLs, in: result, canUseHelper: canUseHelper)
+    }
+
+    /// Asks macOS again about the chosen apps' system extensions, which the person turns on and off in System
+    /// Settings, and brings the page in line with the answer without scanning their files again.
+    func followSystemExtensions() async {
+        guard let apps = bulk?.uninstallations.map(\.app) else { return }
+        let installed = await systemExtensions()
+        var carried: [URL: CarriedSystemExtensions] = [:]
+        for app in apps {
+            carried[app.url] = await AppExtensions.installed(carriedBy: app) { installed }
+        }
+        guard let current = bulk else { return }
+        var updated = current.uninstallations
+        for index in updated.indices {
+            if let answer = carried[updated[index].app.url] { updated[index].installedSystemExtensions = answer }
+        }
+        guard updated.map(\.installedSystemExtensions) != current.uninstallations.map(\.installedSystemExtensions),
+              question.mayScan() else { return }
+        show(BulkUninstallation(uninstallations: updated))
     }
 
     /// Brings the selection in line with the helper as it is now, without scanning again.

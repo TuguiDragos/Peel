@@ -218,14 +218,9 @@ struct HomebrewDetailView: View {
         .task(id: package.fullName) { readWhatItLeaves() }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             readWhatItLeaves()
+            Task { await readExtensions() }
         }
-        // Every app is asked about: macOS may keep an extension it installed for an app inside one of them.
-        .task(id: library.apps(of: package).map(\.url)) {
-            let apps = library.apps(of: package)
-            guard !apps.isEmpty else { return }
-            let found = await RemovedElsewhere.first(among: apps)
-            extensionsAnswer = (apps.map(\.url), found)
-        }
+        .task(id: library.apps(of: package).map(\.url)) { await readExtensions() }
         .confirmationDialog("Uninstall \(package.name)?", isPresented: $isConfirmingUninstall) {
             Button("Uninstall", role: .destructive) {
                 // Checks again, since the exclusions can change while the dialog is open.
@@ -437,6 +432,15 @@ struct HomebrewDetailView: View {
         case .known(let removedElsewhere?): return removedElsewhere.explanation
         case .known(nil): return upgradeRefusal
         }
+    }
+
+    /// Asks macOS about the system extensions of every app of the cask, an app inside one included. A system extension
+    /// is turned on and off in System Settings, so this is asked again when Peel comes back.
+    private func readExtensions() async {
+        let apps = library.apps(of: package)
+        guard !apps.isEmpty else { return }
+        let found = await RemovedElsewhere.first(among: apps)
+        extensionsAnswer = (apps.map(\.url), found)
     }
 
     enum ExtensionsStanding: Equatable {
