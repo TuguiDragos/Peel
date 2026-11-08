@@ -33,26 +33,33 @@ prove, and only then fix.
    on the change is left unchecked. That includes every other way Peel reaches the same thing: an app moves from its
    own page, from several apps' page, from Package Receipts, and through the Homebrew page, so a rule about what may
    move an app is asked on each of them. Measure what the change adds where it runs often, for each item a scan
-   walks or each line of a file it reads, on a large case as well as a small one.
+   walks or each line of a file it reads, on a large case as well as a small one. Look on the way for races, calls
+   that overlap, timers, a state shown before it is known, flicker, hangs, and answers that arrive stale: one that
+   could happen counts as a bug.
 6. **Build and test after every change**, not only at the end: the whole package suite with warnings as errors,
    the app's Debug build, and the app's own tests, which run inside Peel
    ([CONTRIBUTING.md](CONTRIBUTING.md#what-you-need) has the commands). Before proposing the change, run what the
    Checks workflow runs too: the Release build with `ENABLE_POINTER_AUTHENTICATION=YES` and
    `MACOSX_DEPLOYMENT_TARGET=26.0`, since some of Swift's checks run only on optimized code, the accessibility audit's
    build, and `python3 Scripts/sync_localizations.py --check` and `python3 Scripts/generate_manual.py --check`.
-7. **Check it where it shows**, live: open the page the change touches, or run the `peel` command it changes, and
-   see the result. Never on anyone's real files: tests use a temporary home, and a check that moves files runs on
-   a disk image made for it. A Debug build is Peel to macOS: it shares the installed Peel's settings, History,
-   exclusions, and helper record, and what it moves is yours. Check a removal on files made for it, such as a folder
-   on a disk image given to `peel duplicates` or `peel projects` with `--dry-run` first, and never run Remove Peel
-   in it. A made-up home (`CFFIXED_USER_HOME`) moves only the home folder: the temporary and cache folders macOS
-   gives the account (`confstr`), Spotlight's home scope, and the Trash stay the real ones. Developer and Space read
-   those folders and File Search that scope, so a check there selects and never moves, and what a check does move
-   lands in your own Trash.
+7. **Check it where it shows**, live: open the page the change touches, or run the `peel` command it changes, and see
+   the result, on the path people take most. Check the build from before the change the same way and see the problem
+   there, since a check that passes on both proves nothing. Never on anyone's real files: tests use a temporary home,
+   and a check that moves files runs on a disk image made for it. A Debug build is Peel to macOS: it shares the
+   installed Peel's settings, History, exclusions, and helper record, and what it moves is yours. Check a removal on
+   files made for it, such as a folder on a disk image given to `peel duplicates` or `peel projects` with `--dry-run`
+   first, and never run Remove Peel in it. A made-up home (`CFFIXED_USER_HOME`) moves only the home folder: the
+   temporary and cache folders macOS gives the account (`confstr`), Spotlight's home scope, and the Trash stay the real
+   ones. Developer and Space read those folders and File Search that scope, so a check there selects and never moves,
+   and what a check does move lands in your own Trash.
 8. **Leave nothing behind**: no probe, no debugging output, and nothing the change left unused.
 9. **Say exactly what happened.** Report a failing test with its output, a step you skipped as skipped, and what
    you couldn't prove as unproved. If something can't be checked on your Mac, say what and why in the pull
    request, and the maintainer will check it.
+
+**Before you propose a change, read every commit of it again**, one at a time and along its whole path, and write
+down what you checked. Tests that pass don't make a change right: one such second reading found 7 problems in 37
+commits that all passed their tests.
 
 **When you're stuck, read before you try.** Don't guess at how macOS, Swift, or a tool behaves, and don't change
 Peel's code to see whether something helps. Read the current official documentation for the version Peel runs on:
@@ -102,6 +109,24 @@ checked by hand. If a change makes one of them fail, the rule is right and the c
   folder on the way to one that stays itself stays too, such as `~/Library/Audio` on the way to the plug-in folders
   Peel searches, since moving it would take that place along (`ProtectedObjects.ancestors`); a browser's own data
   folder still goes with the browser.
+- **The item the guard judged is the item that moves.** A move holds open the folder the item sits in (`OpenItem`),
+  asks the guard again about that folder as the kernel names it, and renames through the descriptor, never over
+  something already there. The helper checks each item again in its `Staging` folder.
+- **Nothing moves from under a program that uses it.** Right before each move, `OpenFiles` reads what every process
+  of this account holds open and the program each one runs, and an item with either inside stays
+  (`TrashFailure.Reason.heldOpen`), naming the program. Inside an app, only a file open for writing or a program
+  running from it holds the app, and an app that uninstalls itself once it has moved lets its own programs run
+  (`UninstallsItself`). What Peel itself runs from never moves (`TrashFailure.Reason.peelRunsFromIt`).
+- **An uninstall moves the app first, and its files only once it has moved**
+  (`TrashService.trash(apps:thenFiles:usingHelperFor:lettingTheirProgramsRun:emptiedFoldersNamed:)`), so an app that
+  stays keeps everything of its own. An app's page, several apps' page, Remove Peel, and `peel uninstall` all move
+  through it.
+- **What follows a move happens after it, and only for what moved.** A launch job stops only once its file is in the
+  Trash, under the label the file declares and never one macOS uses for its own jobs (`LaunchdCleanup`), and an app's
+  settings are forgotten only for the files that moved (`PreferenceCleanup`).
+- **What the person turned off in System Settings stays off.** Background Items reads macOS's own record of each job
+  (`LoginItemsStatus`), never loads, runs, or restarts a job System Settings keeps from running, and asks macOS
+  again before it starts one.
 - **Paths are compared name by name, never as text.** A Swift `String` reads a slash and a combining mark after it
   as one `Character`, so `hasPrefix(folder + "/")` and `split(separator: "/")` miss a folder such a name sits in.
   Every "is this inside that folder" question goes through `PathComponents`. A path looked for in a file's text
@@ -185,6 +210,10 @@ disk that somebody may have replaced.
   administrator's password).
   Registering again right after unregistering is refused until macOS has saved its records, a few seconds later,
   so `PrivilegedHelper.register` waits and tries again.
+  Keep one copy of a version of Peel on the Mac. With two, macOS can start the helper from the other copy and refuse
+  it for breaking its launch constraint, and every check of the helper then waits until it gives up. A Release build
+  or an export made for a check goes once the check is done, and a build made with `CODE_SIGNING_ALLOWED=NO` goes
+  into a folder of its own, never `build/DerivedData`, which it would leave signed ad hoc.
 
 If you are unsure whether something belongs in the helper, it doesn't.
 
@@ -204,6 +233,9 @@ If you are unsure whether something belongs in the helper, it doesn't.
   waits for the thing it measures (a program's end, a file's change), and work it waits on runs at user-initiated
   priority rather than the default. A test that reads this Mac through a tool (`pluginkit`, `mdfind`) waits for the
   tool's whole answer, never the time limit the page gives it: a runner with three processors takes longer.
+- **Every scan can be stopped.** A page's scan runs through its model's `ScanRun`, which stops an older scan when a
+  new one starts and a page's own scan when the page goes away. A new scanner gets a test that stops it while it waits
+  on a folder that never answers (`Unanswered`): it comes back within a second and asks about nothing more.
 - The files a test scans sit in a temporary home, never in yours, and nothing is registered with Launch Services from a
   test. In the package's tests that home is a `TemporaryDirectory`, which takes it away when the test ends, and no other
   test there names the temporary folder (`TemporaryDirectoryTests`); a test of the app removes the folder it made before
@@ -284,6 +316,11 @@ If you are unsure whether something belongs in the helper, it doesn't.
   installed is left to Finder (`RemovedElsewhere.byFinder`), Peel names System Settings' step only where it is
   proved (`AppExtension.systemSettingsDeletesIt`), and Orphaned Files says why the copy in
   `/Library/SystemExtensions` stays (`HoldBack.systemExtension`, `HoldBack.deletableSystemExtension`).
+  Finder asks only about the extensions in the app's own folder. One that macOS installed for an app bundled inside
+  it is known only from macOS's own record (`systemextensionsctl list`), and while it runs it can keep the app from
+  moving at all: SAP's Privileges refuses every move, Finder's too. Such an app waits until the person turns the
+  extension off in System Settings (`RemovedElsewhere.onceItsSystemExtensionsAreOff`,
+  `CarriedSystemExtensions.inAnAppInside`).
 - **`skipDescendants()` skips the folder last handed back.** Called after a file, it skips the next folder in the
   same place instead, so a walk calls it only for a folder.
 - **Listing a folder that a file provider keeps only in the cloud makes the provider download it**
@@ -370,7 +407,7 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   visual change goes in the macOS 27 branch of an `if #available(macOS 27, *)`, and the macOS 26 branch keeps exactly
   the code it had. Before committing, read the diff and confirm that no line that runs on macOS 26 changed.
 - **A visual bug whose cause holds on both versions is fixed on both**, such as one that follows from a documented
-  SwiftUI or AppKit rule, and the commit message says why the cause holds on both.
+  SwiftUI or AppKit rule, and the commit message says why the cause holds on both. Check such a fix on macOS 26 too.
 
 ## The interface
 
@@ -381,6 +418,8 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   wears `PeelDebug.icon`, which only the Debug configurations name: a blueprint of `Peel.icon` drawn by
   [blueprint](https://github.com/MustafaNatur/blueprint), and drawn again whenever `Peel.icon` changes:
   `blueprint Logo/Peel.icon --no-open -o Logo/PeelDebug.icon --color "#FFB25E,#FF9933,#F07A10" --badge DEV`.
+- **Glass goes only on controls that float over the content, and never on other glass**, which it can't sample:
+  under the face at the head of the sidebar, the bar's edge effect blurs the rows instead.
 - Everything can be used without a pointer. VoiceOver, Voice Control, and Switch Control can press every switch,
   named by its row's title: a row's switch is `RowSwitch`, whose label on macOS 27 is empty rather than hidden,
   since a hidden label leaves AppKit's own switch outside the accessibility tree, and which on macOS 26 hides its
@@ -390,6 +429,17 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   accent color read under the 4.5:1 text needs on a light background. The color goes on a symbol beside the words,
   which keep the style of the text around them: `StatusLabel` for a warning or a state, a `Badge`'s `tint`, and a
   note's `caution`.
+- **Motion follows Reduce Motion.** A figure changes through `numberTransition(value:)`, which fades it rather than
+  rolling its digits when the person asks for less motion (`InflectionMarkupTests` holds every use), and the face at
+  the head of the sidebar holds still.
+- **Busy work shows on one timing** (`Busy`): nothing in its first 150 ms, and once shown, at least 400 ms, so quick
+  work never flickers. Rescan, a page's dim while it scans again, and the update badge all follow it.
+- **A page appears at once.** Only a list that changes under the person fades, through Core Animation on its own
+  column (`ColumnFade`): a SwiftUI animation is spent while a page is built, and fading the window blurs the
+  sidebar's glass.
+- **What stays selected when a list changes follows one rule** (`KeptSelection`): a row the person could already
+  choose keeps its checkbox, a new row takes Peel's suggestion, and a row leaves the selection when it is gone, can
+  no longer be selected, or was suggested and no longer is.
 - **A page's buttons follow one rule:** they go in `PageActions`, under its last group at the right, with no box and
   no symbol, the main action last, laid out by `ActionRow`, which takes a second line at the right when a language's
   words leave no room, so never lay such a row out by hand. What concerns one row sits at that row's right end in an
@@ -427,7 +477,9 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   at the head of the sidebar moves through Core Animation layers (`FaceLayerView`) and sends a frame only once
   something moved enough to be seen.
 - **On macOS a window's `scenePhase` stays active behind another app**: it says only whether a window can be
-  seen. What Peel does when it comes forward follows `NSApplication.didBecomeActiveNotification`.
+  seen. What Peel does when it comes forward follows `NSApplication.didBecomeActiveNotification`, and a page that
+  sends the person to System Settings to change something reads it again then, as an app's page does for its
+  system extensions.
 - **On macOS 26 a fixed header above a scroll view at the top of a column** makes AppKit draw an opaque scroll
   edge with a line, an empty band under the title bar. Such a header goes in the toolbar or inside the scroll view.
 - **A failure is a state of its own, never read from "not running".** A setting flipped in one place and the work
@@ -470,6 +522,8 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   Romanian joins a Romanian word with a non-breaking hyphen (U+2011) but never a name or an option someone may
   copy. `StringCatalogTests` checks these, and also wants the ellipsis character, never three periods, each sidebar
   name and tab title within the room it is given, and SwiftUI's own words for the menu items SwiftUI builds.
+- New or changed text is seen in the languages that run longest, such as Dutch, German, and Russian, in a window at
+  its smallest (`WindowFloor`: 1307 by 756 points, or the screen's visible size when that is smaller).
 - The `peel` command stays in English, since scripts read it. PeelCore returns English and never looks up a
   translation, since the package has no catalog of its own: the app words what PeelCore sends.
 - A change to `peel` keeps what its tests and scripts read: an option's default is said in its own help ("Without
@@ -492,15 +546,18 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   the repository or the app (code, comments, tests, the interface, documents, commit messages, release notes) names
   another cleaner or uninstaller or compares Peel with one. README's Thank you, which names the apps that inspired
   Peel, is the one exception.
+- Documents are written plainly: each point once, in the place it belongs, a heading that says something, and no
+  slogans, no "not X, but Y", and no lists of three kept for their rhythm.
 - `docs/` is Peel's website. Only its text changes, and only to stay true to the app; its questions are written
   twice in `index.html`, the page and its data, and a change updates `dateModified` there and `lastmod` in
-  `sitemap.xml`.
+  `sitemap.xml`. A link to another site opens in a new tab, with `rel="noopener"`.
 
 ## Commits and pull requests
 
 - One change per commit, each building and passing the tests, with a message that says in plain words what changed
   for the person using Peel and why. A commit that fixes what an issue reported ends with `Refs #` and the issue's
-  number, so GitHub lists it on the issue, and with no word that closes it: the maintainer closes the issue.
+  number, so GitHub lists it on the issue, and with no word that closes it: the maintainer closes the issue. A
+  discussion is never named that way.
 - One change per pull request. Its description says what goes wrong without it, how it was tested (the test that
   failed before and passes after, and the page or command it was checked on), and what couldn't be checked.
 - If an assistant helped, say so in the description, and exactly how: what it wrote, what it reviewed, what it
