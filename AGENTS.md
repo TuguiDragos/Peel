@@ -76,8 +76,10 @@ on a Mac. Never a guess at where macOS keeps a control: a step that leads nowher
 
 ## What must never break
 
-Tests enforce most of these rules, and the rest (`QuitGuard`, `PeelUpdater`) live in the app, where a change is
-checked by hand. If a change makes one of them fail, the rule is right and the change is wrong.
+Tests enforce most of these rules. `QuitGuard` and `PeelUpdater` live in the app and have tests that run inside it
+(`QuitGuardTests`, `PeelUpdaterTests`), but what those leave out is checked by hand: that a removal and a Put Back
+run inside `QuitGuard.shared.run`, and what Peel's own update check sends. If a change makes one of these tests
+fail, the rule is right and the change is wrong.
 
 - **Nothing of the user's is ever deleted for good.** Every removal goes to the Trash through `TrashService` and is
   recorded, so History can put it back. In the app it runs inside `QuitGuard.shared.run` from its first move until
@@ -200,7 +202,9 @@ disk that somebody may have replaced.
   folder (`F_GETPATH`), and works only through that descriptor, so a folder swapped after the check leads nowhere.
 - A rename still goes by name, so every item the helper moves passes through `Staging`, beside its ledger, which only
   root can reach (`HelperLedger.whileStaging`), and is checked there before it goes on; anything but the item goes
-  back. It never renames by name out of a folder another account can write, and never takes a name with a placeholder.
+  back. Moving through `Staging` takes a rename within one disk that can refuse to replace a name, so the helper
+  moves nothing from outside the startup disk, such as a home folder kept on another disk, and never takes a name
+  with a placeholder.
 - A new operation needs `PrivilegedPathPolicyTests`, and any change to the helper a bump of
   `HelperIdentity.protocolVersion`, so Peel never works with a helper of another version.
 - The helper's identifier and its launchd property list stay the same from one version to the next. Updates rely on
@@ -262,13 +266,14 @@ If you are unsure whether something belongs in the helper, it doesn't.
   - a developer cache in `DeveloperCaches.definitions`: a source showing the folder is a cache, a link into a
     repository naming a commit and not a branch, and a `DeveloperCachesTests` run. Never a toolchain, the version
     of a tool in use, or a file holding an account or a token;
-  - anything a document names or counts: the document changes in the same change. `DocumentationTests` looks in the
-    code for the type each code-font name in a document starts with (`RemovalLog` of `RemovalLog.canBeRead`), so a
-    member, a name in lowercase or in capitals, and a call's labels are checked by hand, and it holds a few numbers
-    the documents give to the code's. `TerminalThemeTests` looks in TERMINAL.md for every line the Terminal page
-    writes, `CommandLineTests` in `Support/peel.1` for every command of `peel`, and `DesktopWalletTests` checks
-    SAFETY.md's count of wallet places. Anything `peel --help` says that changes has its manual page written again
-    with `python3 Scripts/generate_manual.py` after a Debug build: the Checks workflow compares the whole page.
+  - anything a document names or counts: the document changes in the same change. `DocumentationTests` looks for each
+    part of a code-font name that starts with a capital (`RemovalLog` and `canBeRead` of `RemovalLog.canBeRead`) as a
+    word anywhere in Peel's code or the SDK, so it can't tell a member that moved to another type, and a name in
+    lowercase, one in capitals with underscores, and a call's labels are checked by hand; it also holds a few numbers
+    the documents give to the code's. `TerminalThemeTests` looks in TERMINAL.md for every line the Terminal page writes,
+    `CommandLineTests` in `Support/peel.1` for every command of `peel`, and `DesktopWalletTests` checks SAFETY.md's
+    count of wallet places. Anything `peel --help` says that changes has its manual page written again with
+    `python3 Scripts/generate_manual.py` after a Debug build: the Checks workflow compares the whole page.
 - Slower checks run only when asked for, and both are worth running before a release. `PEEL_TEST_THIS_MAC=1` runs
   the tests that read this Mac rather than a fixture: with
   `--filter SuggestedSelectionOnThisMacTests` it scans every app installed on the Mac and checks that nothing Peel
