@@ -23,6 +23,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   tablet driver, Splashtop Streamer, OpenSC, Box Drive, Webex, GPG Suite, and Datadog Agent are left to the uninstaller
   their makers document: an app's page and `peel uninstall` name it, or say to download it from the maker's page, and
   link to the maker's steps.
+- Avast Security, AVG AntiVirus, Trend Micro Antivirus, Tuxera NTFS, and Background Music are left to their makers'
+  uninstallers the same way. For Tuxera NTFS that is the script its page gives, since its button in System Settings
+  deletes only Tuxera Disk Manager on macOS 27.
 
 #### Orphaned Files
 

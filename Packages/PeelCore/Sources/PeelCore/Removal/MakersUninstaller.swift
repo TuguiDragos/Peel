@@ -226,6 +226,44 @@ public struct MakersUninstaller: Sendable, Hashable {
             .itself(removing: "Chrome Remote Desktop Host"),
             "https://support.google.com/chrome/answer/1649523"
         ),
+        (
+            "6H4HRTU5E3", ["com.avast.aafm"], "Avast", .uninstaller("/Applications/com.avast.av.uninstaller.app"),
+            "https://support.avast.com/en-us/article/uninstall-mac-security/"
+        ),
+        (
+            "6H4HRTU5E3", ["com.avast.av.uninstaller"], "Avast", .itself(removing: "Avast Security"),
+            "https://support.avast.com/en-us/article/uninstall-mac-security/"
+        ),
+        (
+            "XSJ59WMJBM", ["com.avg.antivirus"], "AVG", .uninstaller("/Applications/com.avg.av.uninstaller.app"),
+            "https://support.avg.com/SupportArticleView?l=en&urlName=uninstall-avg-antivirus"
+        ),
+        (
+            "XSJ59WMJBM", ["com.avg.av.uninstaller"], "AVG", .itself(removing: "AVG AntiVirus"),
+            "https://support.avg.com/SupportArticleView?l=en&urlName=uninstall-avg-antivirus"
+        ),
+        (
+            "E8P47U2H32", ["com.trendmicro.afmagent", "com.trendmicro.itis.supporttool"], "Trend Micro",
+            .uninstaller("/Applications/TrendMicro.localized/UninstallerLauncher.app"),
+            "https://helpcenter.trendlife.com/en-us/article/tmka-14475/"
+        ),
+        (
+            "E8P47U2H32", ["com.trendmicro.itis.uninstallerlauncher"], "Trend Micro",
+            .itself(removing: "Trend Micro Antivirus"),
+            "https://helpcenter.trendlife.com/en-us/article/tmka-14475/"
+        ),
+        // Tuxera's page prefers its button in System Settings, which on macOS 27 deleted Tuxera Disk Manager alone and
+        // left the file system in place, so the step is the script the same pages give.
+        (
+            "PPNVCC9Z68", ["com.tuxera.tuxeradiskmanager"], "Tuxera",
+            .command("sudo /Library/Filesystems/tuxera_ntfs.fs/Contents/Resources/Support/uninstall-package.sh"),
+            "https://macsupport.tuxera.com/hc/en-gb/articles/360021236379-How-to-uninstall-NTFS-for-Mac-using-the-provided-command-line-script"
+        ),
+        (
+            "PR7PXC66S5", ["com.bearisdriving.bgm.app"], "Kyle Neideck",
+            .command("bash \"/Applications/Background Music.app/Contents/Resources/uninstall.sh\""),
+            "https://github.com/kyleneideck/BackgroundMusic#uninstall"
+        ),
     ]
 
     /// The maker's uninstaller for `app`, known by the team of its checked signature and by its identifier, both as

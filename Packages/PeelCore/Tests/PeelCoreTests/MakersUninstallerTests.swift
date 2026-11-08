@@ -167,6 +167,43 @@ struct MakersUninstallerTests {
         #expect(MakersUninstaller.of(agent("com.datadoghq.agent", team: "JKFCB4CN7C"))?.step == .fromTheMakersPage)
     }
 
+    @Test func knowsTheAppsWhoseMakersUninstallersWereRunOnTheMac() {
+        let avast = agent("com.avast.AAFM", team: "6H4HRTU5E3", at: "/Applications/Avast.app")
+        let avastUninstaller = agent(
+            "com.avast.av.uninstaller", team: "6H4HRTU5E3", at: "/Applications/com.avast.av.uninstaller.app"
+        )
+        let avg = agent("com.avg.Antivirus", team: "XSJ59WMJBM", at: "/Applications/AVGAntivirus.app")
+        let avgUninstaller = agent(
+            "com.avg.av.uninstaller", team: "XSJ59WMJBM", at: "/Applications/com.avg.av.uninstaller.app"
+        )
+        let trendMicro = agent(
+            "com.trendmicro.AFMAgent", team: "E8P47U2H32", at: "/Applications/TrendMicro.localized/AFMAgent.app"
+        )
+        let trendMicroUninstaller = agent(
+            "com.trendmicro.iTIS.UninstallerLauncher", team: "E8P47U2H32",
+            at: "/Applications/TrendMicro.localized/UninstallerLauncher.app"
+        )
+
+        #expect(MakersUninstaller.of(avast)?.step == .uninstaller(avastUninstaller.url))
+        #expect(MakersUninstaller.of(avastUninstaller)?.step == .uninstaller(avastUninstaller.url))
+        #expect(MakersUninstaller.of(avastUninstaller)?.removes == "Avast Security")
+        #expect(MakersUninstaller.of(avg)?.step == .uninstaller(avgUninstaller.url))
+        #expect(MakersUninstaller.of(avgUninstaller)?.removes == "AVG AntiVirus")
+        #expect(MakersUninstaller.of(trendMicro)?.step == .uninstaller(trendMicroUninstaller.url))
+        #expect(MakersUninstaller.of(trendMicroUninstaller)?.removes == "Trend Micro Antivirus")
+        #expect(MakersUninstaller.of(agent("com.trendmicro.iTIS.SupportTool", team: "E8P47U2H32"))?.maker == "Trend Micro")
+        #expect(
+            MakersUninstaller.of(agent("com.tuxera.TuxeraDiskManager", team: "PPNVCC9Z68"))?.step
+                == .command("sudo /Library/Filesystems/tuxera_ntfs.fs/Contents/Resources/Support/uninstall-package.sh")
+        )
+        #expect(
+            MakersUninstaller.of(agent("com.bearisdriving.BGM.App", team: "PR7PXC66S5"))?.step
+                == .command("bash \"/Applications/Background Music.app/Contents/Resources/uninstall.sh\"")
+        )
+        #expect(MakersUninstaller.of(agent("com.avast.AAFM", team: "XSJ59WMJBM")) == nil)
+        #expect(MakersUninstaller.of(agent("com.trendmicro.antivirusone", team: "E8P47U2H32")) == nil)
+    }
+
     @Test func givesTheUninstallScriptOfTheCiscoClientThatIsOnTheMac() {
         let anyConnect = agent("com.cisco.anyconnect.gui", team: "DE8Y96K9QP")
         let secureClient = "/opt/cisco/secureclient/bin/cisco_secure_client_uninstall.sh"
