@@ -24,6 +24,10 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
         public var removedElsewhere: RemovedElsewhere?
         /// An app whose own uninstaller runs once it moves, which the question before the move warns about.
         public var uninstallsItself: UninstallsItself? = nil
+        /// The app the package put at this place or inside it, for which the question says what it leaves behind.
+        public var app: InstalledApp? = nil
+        public var leftInTheSystem: LeftInTheSystem? = nil
+        public var commandToRunFirst: CommandToRunFirst? = nil
 
         /// True when Peel never moves this item. It is listed but never offered.
         public var isLeftAlone: Bool {

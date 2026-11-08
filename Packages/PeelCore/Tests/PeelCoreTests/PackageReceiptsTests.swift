@@ -827,6 +827,54 @@ struct PackageReceiptsTests {
         #expect(items["zerotier-one"]?.heldBack == .holdsVPNConnections)
     }
 
+    @Test func namesWhatAnAppOfThePackageLeavesInTheSystem() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        try directory.file(
+            "Applications/Privileges.app/Contents/Info.plist",
+            contents: PropertyListSerialization.data(
+                fromPropertyList: ["CFBundleIdentifier": "corp.sap.privileges", "CFBundleName": "Privileges"],
+                format: .xml, options: 0
+            )
+        )
+        try directory.file("private/etc/paths.d/PrivilegesCLI", bytes: 16)
+        try directory.file("Library/Application Support/Privileges/settings.plist", bytes: 16)
+        let files = [
+            "corp.sap.privileges.pkg": [
+                "Applications/Privileges.app", "Library/Application Support/Privileges",
+                "Library/Application Support/Privileges/settings.plist",
+            ],
+        ]
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--pkgs-plist":
+                return PkgutilAnswer.packages("corp.sap.privileges.pkg")
+            case "--pkg-info-plist":
+                let info = ["volume": volume.path(percentEncoded: false), "install-location": "/"]
+                let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                return data.flatMap { String(data: $0, encoding: .utf8) }
+            case "--files":
+                return files[arguments[1]]?.joined(separator: "\n")
+            default:
+                return nil
+            }
+        }
+        let environment = SearchEnvironment(homeDirectory: volume.appending(path: "home"), rootDirectory: volume)
+
+        let scan = await PackageReceipts.list(
+            exclusions: .none, pkgutil: pkgutil, environment: environment, systemExtensions: { [] }
+        )
+
+        let items = Dictionary(
+            uniqueKeysWithValues: scan.receipts.flatMap(\.items).map { ($0.url.lastPathComponent, $0) }
+        )
+        #expect(items["Privileges.app"]?.app?.bundleIdentifier == "corp.sap.privileges")
+        #expect(items["Privileges.app"]?.leftInTheSystem?.paths == ["/etc/paths.d/PrivilegesCLI"])
+        #expect(items["Privileges.app"]?.commandToRunFirst == nil)
+        #expect(items["Privileges"]?.app == nil)
+        #expect(items["Privileges"]?.leftInTheSystem == nil)
+    }
+
     /// A receipt's file list leaves out the install prefix, such as `Applications`, so the path is asked about again
     /// without its leading folders, and the answer is believed only if the receipt really installed that path.
     @Test func findsThePackageThatInstalledAnAppUnderAnInstallPrefix() async throws {

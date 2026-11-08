@@ -187,11 +187,26 @@ struct PackageDetailView: View {
             : Text("The receipt goes to the Trash. Files stay where they are.")
     }
 
-    /// What an app that uninstalls itself once it moves does then, as its own page warns.
+    /// What an app the move takes does then that History can't undo, and what it leaves behind, as its own page says.
     private var removalNote: Text? {
-        let warnings = selectedItems.compactMap(\.uninstallsItself).map(\.warning)
-        guard let first = warnings.first else { return nil }
-        return warnings.dropFirst().reduce(first) { Text("\($0)\n\n\($1)") }
+        var lines = selectedItems.compactMap(\.uninstallsItself).map(\.warning)
+        var said: Set<URL> = []
+        for item in selectedItems {
+            guard let app = item.app, said.insert(app.url).inserted else { continue }
+            if let root = TrustedRoot.of(app) {
+                lines.append(Text("\(app.name)’s root certificate stays trusted on this Mac after the app goes."))
+                lines.append(root.step(in: app.name))
+            }
+            if let first = item.commandToRunFirst {
+                lines.append(first.note(for: app.name))
+            }
+            if let left = item.leftInTheSystem {
+                lines.append(left.whatStays(after: app.name))
+                lines.append(left.step)
+            }
+        }
+        guard let first = lines.first else { return nil }
+        return lines.dropFirst().reduce(first) { Text("\($0)\n\n\($1)") }
     }
 
     /// Explains why the list is empty. An unknown file list is checked first: it means `pkgutil` gave none,

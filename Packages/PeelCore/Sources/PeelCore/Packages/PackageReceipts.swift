@@ -400,6 +400,7 @@ public enum PackageReceipts {
             let place = PathPattern.comparablePath(of: url)
             let isShared = shared.contains { PathComponents.isPath(place, atOrInside: $0) }
             let isFilledByOthers = found.othersFilled.contains(path)
+            let app = apps.first { PathComponents.isPath(PathPattern.comparablePath(of: $0.url), atOrInside: place) }
             let heldBack: HoldBack? = if SignInPlugIns.isOne(url, root: volume) {
                 .signInPlugIn
             } else if requiresPrivileges && reach.isBeyond(url) {
@@ -425,7 +426,10 @@ public enum PackageReceipts {
                         .compactMap(rule).first ?? removedWithItsApp,
                 uninstallsItself: uninstallers.first {
                     PathComponents.isPath(PathPattern.comparablePath(of: $0.app.url), atOrInside: place)
-                }
+                },
+                app: app,
+                leftInTheSystem: app.flatMap { LeftInTheSystem.of($0, environment: environment) },
+                commandToRunFirst: app.flatMap { CommandToRunFirst.of($0, environment: environment) }
             ))
         }
 
