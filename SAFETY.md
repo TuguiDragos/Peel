@@ -372,7 +372,9 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
 - **A system extension is left to macOS**, which alone removes it: the app's move to the Trash in Finder asks macOS
   to, and on macOS 27 so does Delete Extension in System Settings, for a network extension. So the copy macOS
   installed is never listed with the app, and the app itself is moved from no page of Peel: its own page, Package
-  Receipts, and the Homebrew page all leave it to Finder.
+  Receipts, and the Homebrew page all leave it to Finder. One macOS installed for an app bundled inside the app stays
+  installed whoever moves it, since Finder asks macOS only about the app's own folder, so such an app waits until the
+  extension is removed the way its maker describes.
 - **An authorization plug-in is never moved.** macOS loads one from `/Library/Security/SecurityAgentPlugins` when a
   rule of its authorization database names it, at login among others, and taking away one a rule still names can
   keep anyone from logging in. No public tool lists every rule, so Peel shows it, on the app's page, in Orphaned
@@ -419,7 +421,11 @@ network extension, how to delete it in System Settings if it stays; `peel uninst
 Peel asks macOS which of the app's extensions it installed, and under which category (`systemextensionsctl`), leaves
 out one macOS is already removing, and when macOS doesn't answer, counts every extension the app carries and names
 only Finder's step. An app whose folder of system extensions Peel can't look into is left to Finder the same way,
-since what it carries isn't known.
+since what it carries isn't known. macOS's record also names the app each extension was installed for, and one
+installed for an app bundled inside the app stays installed whoever moves it, Finder included, since Finder asks macOS
+to remove only those in the app's own folder. Such an app is listed the same way, and its page says to remove the
+extension first, the way its maker describes. SAP's Privileges, whose extension keeps anyone from moving the app while
+it runs, is left to SAP's uninstaller while macOS has that extension.
 
 Peel itself is listed on its own page with what it keeps, and nothing of it can be selected there or among other
 apps. It is removed only from Settings: by Remove Peel, which takes its helper and login item away first, or,

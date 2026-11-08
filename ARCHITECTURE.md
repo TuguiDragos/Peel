@@ -142,7 +142,10 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      among several apps, on the Package Receipts and Homebrew pages, and in `peel uninstall` alike
      (`AppExtensions.installed(carriedBy:asking:)`, which also says whether System Settings deletes every one:
      `AppExtension.systemSettingsDeletesIt`, a network extension on macOS 27, by the category `systemextensionsctl`
-     lists it under).
+     lists it under). One macOS installed for an app bundled inside the app, by the app its record names
+     (`AppExtension.installedFor`, `CarriedSystemExtensions.inAnAppInside`), stays installed whoever moves the app, so
+     the app waits until it is removed (`RemovedElsewhere.afterItsSystemExtensions`), or goes by its maker's
+     uninstaller when its own extension keeps it in place (`MakersUninstaller.keptInPlace`, SAP's Privileges).
    - A security or management agent, a VPN, or another app whose maker removes it with an uninstaller of its own is left
      to that uninstaller (`RemovedElsewhere.byItsMaker`, `MakersUninstaller`), and so is an uninstaller app its maker
      documents, such as Chrome Remote Desktop Host Uninstaller. Each is known by its checked signing team and the

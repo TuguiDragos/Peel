@@ -45,7 +45,10 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   with how to remove them in Finder.
 - **Some apps go another way.** An app that installed a system extension, such as a VPN or a virtual camera, is
   listed with its files and nothing selected: only Finder's move to the Trash asks macOS to remove the extension, so
-  its page says to move it there. A security or management agent, a VPN, or another app whose maker documents an
+  its page says to move it there. An extension macOS installed for an app bundled inside the app stays installed
+  whoever moves it, Finder included, so that page says to remove the extension first, the way its maker describes,
+  and while SAP's Privileges keeps its extension, which keeps anyone from moving it, its page names SAP's uninstaller.
+  A security or management agent, a VPN, or another app whose maker documents an
   uninstaller of its own, such as GlobalProtect, Microsoft Defender, ExpressVPN, or Laravel Herd, is left to that
   uninstaller, and its page says how. An app that runs
   its own uninstaller once it leaves the Applications folder, such as Mullvad VPN or Citrix Workspace, is moved only
