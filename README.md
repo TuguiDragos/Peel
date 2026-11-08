@@ -5,8 +5,8 @@
 <h1 align="center">Peel</h1>
 
 <p align="center">
-  <strong>Uninstall Mac apps completely, and see why every file belongs to them.</strong><br>
-  A free, open source uninstaller and cleaner for macOS, which also fine-tunes your Mac and sets up Terminal.
+  <strong>Uninstall Mac apps completely, and see why each file belongs to its app.</strong><br>
+  A free, open source uninstaller and cleaner for macOS.
 </p>
 
 <p align="center">
@@ -33,8 +33,8 @@
 > store offering Peel is not mine, and what it gives you may not be the app I build and sign. Peel is free, so anyone
 > asking you to pay for it is not me. Please download it only from here.
 >
-> The Homebrew command below is the only command that installs Peel, so a website that asks you to paste anything else
-> into Terminal to get Peel is not mine. Every copy I release is signed by my team, `6R6J264YA2`, and
+> The Homebrew commands below are the only commands that install Peel, so a website that asks you to paste anything
+> else into Terminal to get Peel is not mine. Every copy I release is signed by my team, `6R6J264YA2`, and
 > `codesign -dv /Applications/Peel.app 2>&1 | grep TeamIdentifier` shows it.
 
 **Requirements:** macOS Tahoe 26 or later, on any Mac that runs it: every Mac with Apple silicon, and the few Intel
@@ -83,43 +83,44 @@ file belongs to it and how sure it is, and moves what you choose to the Trash. N
 asking first, and History puts back what went to the Trash.
 
 - **[Uninstall apps completely](GUIDE.md#uninstall-apps-completely):** the app and every file it left, each with the
-  reason it matched, and what's new in the next version of the apps you keep.
+  reason it matched. Applications also shows what's new in the next version of the apps you keep.
 - **[Free up disk space](GUIDE.md#free-up-disk-space):** what apps you removed left behind, caches of developer tools,
   what builds left in your projects, duplicates, installers and backups, local copies of files already safe in
   iCloud, and what fills your disk.
-- **[Look after your Mac](GUIDE.md#look-after-your-mac):** background items, extensions, plug-ins, installer receipts,
-  software that still needs Rosetta, and Homebrew.
-- **[Fine-tune your Mac](GUIDE.md#fine-tune-your-mac):** settings macOS already has, many of them out of sight, each
-  with a switch of its own.
+- **[See what else is installed](GUIDE.md#see-what-else-is-installed):** background items, extensions, plug-ins,
+  installer receipts, software that still needs Rosetta, and Homebrew.
+- **[Tweak your Mac](GUIDE.md#tweak-your-mac):** settings macOS already has, many of them out of sight, each with a
+  switch of its own.
 - **[Set up Terminal](GUIDE.md#set-up-terminal):** dark themes built on Apple's Clear Dark, a prompt, and settings
   zsh, Git, and ssh already have, each shown in [TERMINAL.md](TERMINAL.md).
-- **[Stay in control](GUIDE.md#stay-in-control):** History puts back what Peel moved, and Exclusions name what Peel
-  leaves alone.
-- **[Work your way](GUIDE.md#work-your-way):** export what's installed, open a tool from Shortcuts or the menu bar,
-  choose the tools the sidebar shows, and do most of it from Terminal with the `peel` command.
+- **[History and Exclusions](GUIDE.md#history-and-exclusions):** History puts back what Peel moved, and Exclusions
+  name what Peel leaves alone.
+- **[More ways to use Peel](GUIDE.md#more-ways-to-use-peel):** export what's installed, open a tool from Shortcuts or
+  the menu bar, choose the tools the sidebar shows, and do most of it from Terminal with the `peel` command.
 
 Peel is free and open source, and it speaks English and 17 other languages. [GUIDE.md](GUIDE.md) shows what each tool
 does, what Peel asks for and why, and how to remove Peel.
 
-## Safe by design
+## Safety
 
-A cleaner should never cost you something you wanted. Peel is built around that.
+A cleaner should never cost you something you wanted.
 
-- **The Trash, never deletion.** Everything Peel removes goes to the Trash, and History puts it back where it was.
+- **Almost everything can come back.** Peel moves files to the Trash, and History puts them back where they were.
   Remove Downloads in iCloud Drive only frees this Mac's copy of a file, which stays in iCloud. Four things can't be
   undone that way, and Peel says so before you confirm them: Homebrew's own uninstall, its cleanups, resetting an
   app's privacy permissions, and Force Quit for an app that won't quit.
   [SAFETY.md](SAFETY.md#what-peel-changes-besides-moving-files) lists everything else Peel changes besides moving
   files.
-- **Protected places stay protected.** Peel refuses to move iCloud Drive and anything else that syncs to your other
+- **Some places are off limits.** Peel refuses to move iCloud Drive and anything else that syncs to your other
   devices, keychains, your SSH and signing keys, the keys of crypto wallets, Mail, Messages, Safari, Contacts,
   Calendars, Notes, photo and music libraries, iPhone and iPad backups, and the Desktop, Documents, and Downloads
   folders themselves. No selection can override it. A browser profile with a wallet extension Peel knows, such as
   MetaMask, stays too.
-- **Nothing shared, nothing unknown.** A file another app also uses is never selected for you. A folder Peel
-  couldn't measure or read is shown as unknown, never as empty, and never selected for you either.
-- **Every decision explained.** When Peel holds a file back, the row says why, and each item is checked once more
-  right before it moves.
+- **Nothing shared is selected.** A file another app also uses is shown, but never selected for you. A folder Peel
+  couldn't measure or read is shown as unknown, never as empty, and isn't selected either.
+- **Peel shows its reasons.** When Peel holds a file back, the row says why.
+- **Checked again at the last moment.** Peel looks at each item once more right before it moves, so something
+  swapped in the meantime stays where it is.
 
 [SAFETY.md](SAFETY.md) lists everything Peel protects, and [ARCHITECTURE.md](ARCHITECTURE.md) shows how a
 removal travels through the code.
@@ -177,8 +178,8 @@ and choose Uninstall with Peel, once the Finder extension is on in System Settin
 <br>
 
 Peel moves files to the Trash instead of deleting them, and History can put them back while they are still there
-(it keeps the latest 20,000 items, fewer when their paths are very long). What can't be undone, such as Homebrew's
-own uninstall, Peel names before you confirm it. Peel selects for you only what it is sure, or nearly sure, belongs
+(it keeps the latest 20,000 items, fewer when their paths are very long). Peel names what can't be undone, such as
+Homebrew's own uninstall, before you confirm it. It selects for you only what it is sure, or nearly sure, belongs
 to the app, never a file another app uses, and refuses to touch places like iCloud Drive, your keychains, Mail,
 Messages, and photo libraries.
 
@@ -280,13 +281,12 @@ with all my heart.
 - Every [contributor](https://github.com/TuguiDragos/Peel/graphs/contributors) to this project, for your time,
   your ideas, and your trust.
 
-Without you, this project would never have been possible. I bow to you all. ❤️
+I bow to you all. ❤️
 
 ## License
 
 Peel is free software under the [GNU General Public License, version 3 or later](LICENSE). You may use, study,
-change, and share it. If you share a changed version, it has to carry the same freedoms: nobody can take Peel,
-close it, and sell it as their own.
+change, and share it. If you share a changed version, you have to share its code too, under the same license.
 
 Copyright (C) 2026 [Țugui Dragoș-Constantin](https://tuguidragos.com)
 

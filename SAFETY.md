@@ -1,14 +1,14 @@
 # Safety
 
-Peel removes files. So the question that matters most isn't whether someone can break in. It is **whether Peel can take
-something you can't get back**, and this page answers it: what Peel never removes, what it never deletes, what it
-changes besides moving files, what it selects for you and what it leaves to you, how it keeps crypto wallets, what you
-can exclude, how a reset stays within an app's settings, what it changes in Terminal's, the shell's, Git's, and ssh's
-settings, and what its helper, which runs as root, may do.
+Peel removes files, so the question that matters most is **whether Peel can take something you can't get back**, and
+this page answers it: what Peel never removes, what it never deletes, what it changes besides moving files, what it
+selects for you and what it leaves to you, how it keeps crypto wallets, what you can exclude, how a reset stays within
+an app's settings, what it changes in Terminal's, the shell's, Git's, and ssh's settings, and what its helper, which
+runs as root, may do.
 
 In short:
 
-- Everything Peel removes goes to the Trash, and History puts it back. Peel never empties the Trash.
+- Peel moves files to the Trash, and History puts them back. Peel never empties the Trash.
 - Peel never changes an app: no architecture, language, or file is taken out of a signed bundle, which macOS checks
   whole. It never purges memory, never runs the maintenance macOS schedules itself, and never deletes the logs macOS
   keeps of itself: the unified log, and what the system's own services write under `/Library/Logs`.
@@ -123,12 +123,12 @@ which belong to no app.
 
 ### How the check can't be tricked
 
-**The check is not a string comparison.** A disk is case-insensitive unless you went out of your way, so
+**Spellings of a path.** A disk is case-insensitive unless you went out of your way, so
 `~/Library/mobile documents` is the same folder as `~/Library/Mobile Documents`; `/var` and `/private/var`
 are one folder with two names; and a symbolic link in any parent gives a third. All of those spellings are
 folded together before the check, and there are tests that try to get past it by each route.
 
-**A name is not the thing.** macOS also reaches a file through names no list of spellings contains: a path can
+**Names and objects.** macOS also reaches a file through names no list of spellings contains: a path can
 follow `/.nofollow/` or `/.resolve/0/`, and `/.vol/<device>/<inode>` reaches a file by its numbers alone. The usual
 way of resolving a path folds none of them, and the Trash takes a file under each. So Peel asks the system what it
 calls the item, from an open descriptor rather than from the text, and asks the disk what the item *is*. The places
@@ -138,7 +138,7 @@ in, is one of them. That also catches a file name that begins with a combining a
 comparison can't see. Every other rule on this page judges an item by its names: as written, where it really sits,
 and as the system names it, spelled as the disk stores it.
 
-**The thing judged is the thing moved.** A check made by name and a move made by name are two looks at
+**Between the check and the move.** A check made by name and a move made by name are two looks at
 the disk, and between them a folder can be swapped for a link into Messages by anything running as you. So
 Peel holds the folder open, asks the question again about the name the system gives that open folder, and
 moves the item through it: whatever the old name leads to by then is not touched. A rename still takes whatever
@@ -157,13 +157,13 @@ the disk really uses. That also covers the letters a Mac's disk treats as the sa
 `ſ` for `s`), which no lower-casing undoes. An item is judged where it sits, not where it points: moving a
 link moves the link.
 
-## Nothing of yours is deleted permanently
+## Peel itself deletes nothing of yours
 
-Peel never deletes anything of yours. Everything it removes goes to the Trash, and everything is recorded so
-History can put it back; History keeps the most recent 20,000 items, fewer when their paths are very long. What
-it forgets is still in the Trash, and History says once how many older removals it no longer lists. A removal of
-more than History can keep is refused before anything moves. Its record of what Peel refused to move keeps the latest
-5,000 items and says the same of what it no longer lists.
+Peel itself never deletes anything of yours. It moves what it removes to the Trash, except what Homebrew deletes
+itself, and records everything so History can put it back; History keeps the most recent 20,000 items, fewer when
+their paths are very long. What it forgets is still in the Trash, and History says once how many older removals it
+no longer lists. A removal of more than History can keep is refused before anything moves. Its record of what Peel
+refused to move keeps the latest 5,000 items and says the same of what it no longer lists.
 The space is freed when *you* empty the Trash: Peel never does that for you.
 
 That includes what `pkgutil` and Homebrew would delete:
@@ -594,7 +594,7 @@ A wallet's keys can be the only way to what they hold, so Peel keeps them in fou
   folder inside it closed. A coin's data folder, with its blockchain, is the one most likely to be too big to read
   in time, and its wallet may be inside.
 
-What this cannot cover, said plainly. Peel looks for a browser profile at most two levels inside a folder, as it
+This has limits. Peel looks for a browser profile at most two levels inside a folder, as it
 does for a photo library, so a profile kept deeper in a folder you move yourself is not seen. A wallet kept where no
 list here names it, with none of the file names above, cannot be recognized at all. Wallet extensions for Safari
 were not studied: Safari's own folders are refused whole, but what such an extension keeps outside them is not
@@ -607,18 +607,17 @@ Anything you add to Exclusions is passed to every scanner, so a file or folder y
 in the first place: it is not "shown but skipped". The same case and symlink folding applies, so an
 exclusion cannot be sidestepped by spelling the path differently.
 
-It holds in both directions. A folder with something excluded inside it is never moved either, because the
-excluded file would go with it: an app's leftover like that is shown with the reason and can't be selected, and
-the other tools leave it out. An excluded app still appears in Applications, so you can see it, but gets no
-removal plan and no reset, in the app and in `peel`, and nothing moves it to the Trash or puts it back, from any
-page and whatever its bundle is called, nor a folder that holds it a level or two down. Its jobs stay listed in
-Background Items, which says what runs, marked as excluded, and Peel doesn't start, stop, disable, or remove them.
-A folder named with its
-identifier, such as its caches or its container, is left out of every page and never moved, nor is a folder holding
-one a level or two down, nor one with a folder inside that macOS won't let Peel list, since such a folder may be in
-there: that holds even for what only the helper could move, as the helper knows nothing of your exclusions. Its installer
-receipt stays too, on its page and on Package Receipts. Its other files, such as plug-ins or a folder named after the
-app, are excluded only by their own paths, so to keep them, exclude them too.
+It holds in both directions. A folder with something excluded inside it is never moved either, because the excluded file
+would go with it: an app's leftover like that is shown with the reason and can't be selected, and the other tools leave
+it out. An excluded app still appears in Applications, so you can see it, but gets no removal plan and no reset, in the
+app and in `peel`, and nothing moves it to the Trash or puts it back, from any page and whatever its bundle is called,
+nor a folder that holds it a level or two down. Its jobs stay listed in Background Items, which says what runs, marked
+as excluded, and Peel doesn't start, stop, disable, or remove them. A folder named with its identifier, such as its
+caches or its container, is left out of every page and never moved, nor is a folder holding one a level or two down, nor
+one with a folder inside that macOS won't let Peel list, since such a folder may be in there: that holds even for what
+only the helper could move, as the helper knows nothing of your exclusions. Its installer receipt stays too, on its page
+and on Package Receipts. Its other files, such as plug-ins or a folder named after the app, are excluded only by their
+own paths, so to keep them, exclude them too.
 
 Exclusions reach the Homebrew page too, since Homebrew deletes for good: Peel never runs `brew uninstall` or `brew
 upgrade`, which deletes the version it replaces, for a package whose app or own folder you excluded, or anything else it

@@ -5,8 +5,8 @@ they start, and it binds the person directing one just the same: the rules don't
 the code. [CONTRIBUTING.md](CONTRIBUTING.md) says how to propose a change, [ARCHITECTURE.md](ARCHITECTURE.md) how
 the parts fit together, and [SAFETY.md](SAFETY.md) what Peel protects.
 
-Peel removes files from people's Macs. A bug here doesn't put a wrong number on a screen: it takes away something
-somebody wanted. That is why the rules are strict, and why none of them is a matter of taste.
+Peel removes files from people's Macs, so a bug here can take away something somebody wanted. That is why the rules
+are strict, and why none of them is a matter of taste.
 
 ## How every change is made
 
@@ -410,8 +410,8 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   runs, with a probe thrown away afterward: the time of one click changes with what the list shows.
 - **A hosted AppKit view changes a value accessibility watches outside SwiftUI's update.** A button's state set in
   `updateNSView` posts a notification, and AppKit then reads the row's elements from the view graph being updated: with
-  a client watching the app and the rows read once, SwiftUI goes round in a cycle, at times for good. Keep the change for
-  the view's next layout, as `NativeCheckbox.Host` does, which comes before the next frame.
+  a client watching the app and the rows read once, SwiftUI goes round in a cycle, at times for good. Keep the change
+  for the view's next layout, as `NativeCheckbox.Host` does, which comes before the next frame.
 - **A `Group` hands its modifiers to its children**, so a `.task` on a `Group` that stays empty until the task loads
   something never runs: a list whose being empty decides whether its view exists is loaded by a model, or by a view
   that always exists (`SavedSettings`).

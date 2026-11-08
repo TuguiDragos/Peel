@@ -41,7 +41,7 @@ point of failure.
 | Public disclosure | when the fix ships, or 90 days from your report, whichever is first |
 
 These are targets, not contractual promises. If a fix is going to be late, you will be told why
-and given a new date, not silence.
+and given a new date.
 
 ## Coordinated disclosure
 
@@ -58,9 +58,9 @@ Peel follows coordinated disclosure.
   purpose, so people can protect themselves.
 - If you need longer than 90 days for your own reasons, say so, and that is respected.
 - The advisory names you as the reporter, with a link if you want one, unless you ask not to be
-  named. That is the default, not a favor.
+  named.
 
-There is no bug bounty. There is no money. There is credit, a fast fix, and a straight answer.
+There is no bug bounty or payment, but you get credit, a fast fix, and a straight answer.
 
 ## Supported versions
 
@@ -125,7 +125,7 @@ have, and anything that destroys data that cannot be recovered.
 
 - Any way to get Peel to delete something permanently that it should have moved to the Trash. The
   few things Peel deletes, or can't undo, by design are listed in
-  [SAFETY.md](SAFETY.md#nothing-of-yours-is-deleted-permanently).
+  [SAFETY.md](SAFETY.md#peel-itself-deletes-nothing-of-yours).
 - Any bypass of `RemovalGuard` that reaches anything [SAFETY.md](SAFETY.md) lists under "What Peel will never
   remove".
 - Any bypass of the user's Exclusions.
@@ -192,7 +192,7 @@ have, and anything that destroys data that cannot be recovered.
 
 ### Out of scope
 
-Not because they do not matter, but because they are not bugs in Peel.
+The issues below matter, but they are not bugs in Peel.
 
 - **Anything that needs root to begin with.** If the attacker is already root, they can do all of
   this without Peel.
@@ -244,7 +244,7 @@ If you follow this policy in good faith:
 - If a third party takes legal action against you for work done in compliance with this policy,
   it will be made known that your actions were authorized.
 
-Two limits, stated plainly because pretending otherwise would be dishonest:
+Two limits:
 
 - This only covers claims that are the maintainer's to bring. It does not bind Apple, does not
   bind the developers of any other app you touch while testing, and does not bind anyone else.

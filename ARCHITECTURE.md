@@ -214,27 +214,25 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
 
 A handful of ideas carry most of the weight. Each is enforced in one place and tested there.
 
-- **The Trash, never deletion.** Nothing in Peel deletes anything of the user's. What it deletes outright holds
-  nothing of theirs: the empty placeholder `TrashMover` makes to hold a name on a disk that cannot rename without
-  replacing (exFAT), when the move it was made for fails; the folder `PreferenceBackup` makes for a reset's saved
-  settings, when saving fails while it is still empty; the folders Put Back makes on the way back
-  (`DirectoryHandle.child(_:makingIfMissing:)`), when the item then stays in the Trash and each is still the empty
-  folder it made; the folder Remove Peel gathers its own files in (`SelfRemoval`), once they are back out of it because
-  its move was refused; and the empty file cfprefsd writes back where a moved settings file was when `PreferenceCleanup`
-  forgets a domain it still holds, which would keep History from putting that file back. Peel's list of refusals, with
-  any copy of it set aside because it couldn't be read, goes to the Trash when `peel history --refused --clear` asks.
-  Four actions can't be undone by History, and each says so
+- **Nothing in Peel deletes anything of the user's.** What it deletes outright holds nothing of theirs: the empty
+  placeholder `TrashMover` makes to hold a name on a disk that cannot rename without replacing (exFAT), when the move it
+  was made for fails; the folder `PreferenceBackup` makes for a reset's saved settings, when saving fails while it is
+  still empty; the folders Put Back makes on the way back (`DirectoryHandle.child(_:makingIfMissing:)`), when the item
+  then stays in the Trash and each is still the empty folder it made; the folder Remove Peel gathers its own files in
+  (`SelfRemoval`), once they are back out of it because its move was refused; and the empty file cfprefsd writes back
+  where a moved settings file was when `PreferenceCleanup` forgets a domain it still holds, which would keep History
+  from putting that file back. Peel's list of refusals, with any copy of it set aside because it couldn't be read, goes
+  to the Trash when `peel history --refused --clear` asks. Four actions can't be undone by History, and each says so
   where it is confirmed: Homebrew's own uninstall and cleanups, resetting an app's privacy permissions, and Force Quit
   for an app that is still open 10 seconds after Peel asked it to quit (`QuitBeforeRemoving`). Moving Mullvad VPN,
   Citrix Workspace, TeamViewer, BlueStacks, or NoMachine starts that app's own uninstaller, which deletes what History
   can't bring back, and moving an app a loaded launch job watches starts that job's program, which may delete too; Peel
-  says so before it moves them (`UninstallsItself`). Forgetting a preference domain happens only once its file is
-  in the Trash, so putting the file back undoes it, or, when saved settings are put back, once the settings in use are
-  saved as a copy of their own (`PreferenceBackup`). Every `brew` call runs without Homebrew's automatic cleanup
+  says so before it moves them (`UninstallsItself`). Forgetting a preference domain happens only once its file is in the
+  Trash, so putting the file back undoes it, or, when saved settings are put back, once the settings in use are saved as
+  a copy of their own (`PreferenceBackup`). Every `brew` call runs without Homebrew's automatic cleanup
   (`HOMEBREW_NO_INSTALL_CLEANUP`), so an upgrade never deletes on its own; when a `brew.env` file of the user's turns
-  that back on (`Homebrew.overrides()`, from `brew config`), the Homebrew page says so and leaves upgrades to
-  Terminal.
-- **One guard.** `RemovalGuard` decides, for the app and the `peel` tool alike, whether an item may move. Its
+  that back on (`Homebrew.overrides()`, from `brew config`), the Homebrew page says so and leaves upgrades to Terminal.
+- **One guard judges every item.** `RemovalGuard` answers for the app and the `peel` tool alike. Its
   list of what nothing can bring back lives in `ProtectedData`, in PeelPrivileged, so the helper applies the
   same list without asking the app. The guard judges the item and not the spelling of its path: each rule is
   asked of the path as written, as found on disk, and as the kernel names the item, and the places it protects
@@ -248,14 +246,15 @@ A handful of ideas carry most of the weight. Each is enforced in one place and t
   level or two inside a folder for a library, a wallet, or work kept only in a cache, and refuses a folder holding a
   folder macOS won't let Peel list, unless only the helper can move it, which looks inside as root
   (`ProtectedData.Finding`).
-- **Exclusions everywhere.** The user's exclusions reach every scanner, so an excluded item never appears (but an
-  excluded app's jobs, which Background Items lists marked and acts on none of, since that tab says what runs), and
-  a folder with something excluded inside is never moved, nor one Peel can't look into for an excluded app, since the
-  helper knows nothing of the exclusions.
-- **Unknown stays unknown.** A size that couldn't be measured, a list a tool didn't give, an answer that didn't
-  come, whether an item is still in the Trash when macOS won't let Peel look (`TrashedItem.standing`): each is
-  kept as not known, shown as such, never selected for the user, and never forgotten from History.
-- **Every hold back has a reason.** When Peel takes a checkmark away, the row says why.
+- **The user's exclusions reach every scanner.** An excluded item never appears (but an excluded app's jobs, which
+  Background Items lists marked and acts on none of, since that tab says what runs), and a folder with something
+  excluded inside is never moved, nor one Peel can't look into for an excluded app, since the helper knows nothing of
+  the exclusions.
+- **What can't be read is unknown, never empty or zero.** A size that couldn't be measured, a list a tool didn't give,
+  an answer that didn't come, whether an item is still in the Trash when macOS won't let Peel look
+  (`TrashedItem.standing`): each is kept as not known, shown as such, never selected for the user, and never forgotten
+  from History.
+- **When Peel takes a checkmark away, the row says why.**
 
 ## The helper
 
@@ -540,20 +539,20 @@ where a Homebrew install takes them from.
 | Outside Peel's own files | `~/.hushlogin` from the Terminal page; the Dock's two lists of icons (`persistent-apps` and `recent-apps`, through `DockTiles`); the settings Tweaks changes; Terminal's profiles and options; Git's settings; the Time Machine mark on each folder Build Artifacts leaves out of backups, with an attribute beside it that says Peel put it; and the background items disabled on the Background Items page, which launchd keeps disabled across restarts. |
 
 Remove Peel, in Settings, takes all of Peel's own files to the Trash but `Terminal/`, the settings zsh and ssh read
-through the user's own lines (`SelfRemoval`), gathered first into one folder named Peel so the Trash shows one item,
-and leaves what it changed outside them as it is. It takes no step while Peel's own move would be refused. It
-starts only while nothing moves, comes back or runs Homebrew (`SelfUninstall.runAlone`), and while it runs nothing
-else may (`RemovalHistoryStore.holdingReason`, `.peelRemovesItself`). The helper moves its own ledger there, since nothing else can, just before Peel unregisters it, and before that the
-link to the `peel` command when only an administrator can move it (`Uninstallation.unreviewedLinks`): it leads into
-Peel until Peel has moved, and the helper takes such a link only when it leads to the tool of the Peel it runs from
-(`PrivilegedPathPolicy`'s `ownTool`). Both are asked of the helper only once it has answered
-(`SelfRemoval.beforeTheHelperGoes`): one that cannot start would keep each request waiting, so then both stay, and
-Remove Peel names them with what stayed. Peel's login item is unregistered before Peel moves, and once Peel is in
-the Trash, Remove Peel ends the Finder extension still running from it (`SelfRemoval.endExtensions`) and takes
-Peel's icon out of the Dock without remembering it. It is the only way Peel removes itself: Peel's own page in
+through the user's own lines (`SelfRemoval`), gathered first into one folder named Peel so the Trash shows one item, and
+leaves what it changed outside them as it is. It takes no step while Peel's own move would be refused. It starts only
+while nothing moves, comes back or runs Homebrew (`SelfUninstall.runAlone`), and while it runs nothing else may
+(`RemovalHistoryStore.holdingReason`, `.peelRemovesItself`). The helper moves its own ledger there, since nothing else
+can, just before Peel unregisters it, and before that the link to the `peel` command when only an administrator can move
+it (`Uninstallation.unreviewedLinks`): it leads into Peel until Peel has moved, and the helper takes such a link only
+when it leads to the tool of the Peel it runs from (`PrivilegedPathPolicy`'s `ownTool`). Both are asked of the helper
+only once it has answered (`SelfRemoval.beforeTheHelperGoes`): one that cannot start would keep each request waiting, so
+then both stay, and Remove Peel names them with what stayed. Peel's login item is unregistered before Peel moves, and
+once Peel is in the Trash, Remove Peel ends the Finder extension still running from it (`SelfRemoval.endExtensions`) and
+takes Peel's icon out of the Dock without remembering it. It is the only way Peel removes itself: Peel's own page in
 Applications, and Peel among several chosen apps, list it and select nothing of it (`RemovedElsewhere.byRemovePeel`),
-and `peel uninstall` refuses it. For a copy Homebrew installed, Settings shows `brew uninstall --zap --cask peel` in
-its place (`SettingsView`), whose zap takes Peel's whole folder, `Terminal/` included.
+and `peel uninstall` refuses it. For a copy Homebrew installed, Settings shows `brew uninstall --zap --cask peel` in its
+place (`SettingsView`), whose zap takes Peel's whole folder, `Terminal/` included.
 
 ## Testing
 

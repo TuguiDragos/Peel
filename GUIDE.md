@@ -10,9 +10,9 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   <img src="readme-assets/peel-uninstall-app-with-leftover-files.png" width="900" alt="Peel uninstalling Obsidian: the app, what it left in Application Support, caches, and preferences, and the command Homebrew linked to it, each with its kind and size, selected and ready to move to the Trash, with its list of recent documents under Review Before Removing, its privacy permissions to reset, and the links it opens by default">
 </p>
 
-- **Every leftover, with a reason.** Peel searches the places apps keep files: Application Support, caches,
+- **Each file comes with a reason.** Peel searches the places apps keep files: Application Support, caches,
   containers and group containers, preferences, saved state, logs, launch agents and daemons, plug-in folders, and
-  more. Each file comes with the reason it matched, such as the app's bundle identifier, its signing team, or a
+  more. For each file, Peel says what tied it to the app, such as the app's bundle identifier, its signing team, or a
   Homebrew cask that names it.
 - **What Peel is sure of, or nearly, is selected.** Files Peel matched by the app's identifier or its name, and its
   installer's receipt when nothing else on it is left outside the app, are selected for you, and so is the folder
@@ -30,7 +30,7 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   and local history, the files a sync app couldn't upload, an app's own backups, or the sign-in a tool saved when you
   logged in. Uninstalling Xcode lists the simulators it made the same way, and uninstalling Genymotion or Rancher
   Desktop lists its virtual machines.
-- **Shared or guessed, never selected.** A file another installed app also uses is shown but never selected, and a
+- **Nothing shared or guessed is selected.** A file another installed app also uses is shown but never selected, and a
   folder holding another installed app's own data, such as Xcode's in `~/Library/Developer`, can't be selected at
   all, and neither can anything that syncs to your other devices, an app's container holding your documents, or a
   folder around a photo or music library. What Peel only guesses at, from the start of a name or an identifier the
@@ -71,10 +71,9 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   you keep outside the Applications folders, such as on another disk, join the list once you add their folder in
   Settings > General > App Folders, and so do apps kept deeper in an Applications folder than the three levels Peel
   looks through, such as the editors Unity Hub installs in `/Applications/Unity/Hub/Editor`.
-- **Reset instead of remove.** Reset, on an app's page, clears its settings without uninstalling it, and never
-  selects your own work. Peel saves a copy of the settings first: put them back from the Reset sheet right away, or
-  later from Settings > General > Saved Settings, which keeps each copy until you move it to the Trash, since a copy
-  can hold a license key or an account.
+- **Reset**, on an app's page, clears its settings without uninstalling it, and never selects your own work. Peel saves
+  a copy of the settings first: put them back from the Reset sheet right away, or later from Settings > General > Saved
+  Settings, which keeps each copy until you move it to the Trash, since a copy can hold a license key or an account.
 - **Privacy permissions too, if you want.** Peel can also reset the permissions macOS gave the app, such as access
   to the camera and the microphone. History can't undo this: the app asks again for each one.
 - **Its Dock icon too.** Peel takes the app's icon out of the Dock, where it would stay as a question mark,
@@ -291,7 +290,7 @@ tool lists, has selected something there, and opens the first of those pages whe
 foot of the page says how many pages that is, and lists them. Move to Trash asks first, naming the first few pages
 and how many items the others hold.
 
-## Look after your Mac
+## See what else is installed
 
 <p align="center">
   <img src="readme-assets/peel-homebrew-updates-and-cleanup.png" width="900" alt="Peel's Homebrew page: Homebrew's version and location, its maintenance buttons, the formulae with known vulnerabilities, the packages with updates waiting, and an ⓘ note explaining the vulnerability scan; beside them, openssl@3 with its known vulnerabilities, Upgrade, and Uninstall">
@@ -354,20 +353,19 @@ and how many items the others hold.
   without your shell's settings, so Homebrew reads its own from `~/.homebrew/brew.env` there: a proxy you want it to
   use, such as `https_proxy=http://proxy.example:8080`, goes in that file.
 
-## Fine-tune your Mac
+## Tweak your Mac
 
 <p align="center">
   <img src="readme-assets/peel-tweaks-hidden-macos-settings.png" width="900" alt="Peel's Tweaks page, on Screenshots: no floating thumbnail after a screenshot, where screenshots are saved, no shadow around a captured window, names without the date, what screenshots are named, and JPEG instead of PNG, each with its own control, and Turn All Off">
 </p>
 
-Small tricks that make everyday life on a Mac a little easier. Tweaks gathers 40 settings macOS already has,
-many of them out of sight, in six groups: Dock, Screenshots, Finder, Typing, Windows, and Privacy. Make a
-hidden Dock appear at once, save screenshots where you want them and without the floating thumbnail, show
-hidden files and every file extension in Finder, keep straight quotes as you type, drag a window from anywhere
-in it, or put seconds on the menu bar clock. Each tweak says what it changes, and turning it off puts back what
-was there before, or leaves it to macOS. Turn All Off puts back everything Peel changed and leaves what you set
-yourself as it is. On macOS 27, Privacy also has an Apple Intelligence section: each row opens the place where Apple
-says to turn that feature off, in System Settings or in the app, and Peel changes none of them.
+Tweaks gathers 40 settings macOS already has, many of them out of sight, in six groups: Dock, Screenshots, Finder,
+Typing, Windows, and Privacy. Make a hidden Dock appear at once, save screenshots where you want them and without the
+floating thumbnail, show hidden files and every file extension in Finder, keep straight quotes as you type, drag a
+window from anywhere in it, or put seconds on the menu bar clock. Each tweak says what it changes, and turning it off
+puts back what was there before, or leaves it to macOS. Turn All Off puts back everything Peel changed and leaves what
+you set yourself as it is. On macOS 27, Privacy also has an Apple Intelligence section: each row opens the place where
+Apple says to turn that feature off, in System Settings or in the app, and Peel changes none of them.
 
 ## Set up Terminal
 
@@ -387,15 +385,15 @@ It sets up the command line as well:
 - **Settings zsh, Git, and ssh already have**, each with a switch: a longer history shared between windows, Up and
   Down that find what you started typing, Tab completion with a menu, rebase when pulling, and connections that stay
   alive.
-- **Nothing written into your own files.** Peel writes the zsh and ssh settings to files of its own, which zsh reads
-  through one line you add and ssh through two, and changes Git's with `git config`. Turning a Git setting off puts
-  back what you had before Peel set it, and one you set yourself goes back to Git's default. Turn All Off undoes
-  what Peel set on each tab, and on the Git tab also what you set yourself.
+- **Peel never edits your shell or ssh files.** It writes the zsh and ssh settings to files of its own, which zsh reads
+  through one line you add and ssh through two, and changes Git's with `git config`. Turning a Git setting off puts back
+  what you had before Peel set it, and one you set yourself goes back to Git's default. Turn All Off undoes what Peel
+  set on each tab, and on the Git tab also what you set yourself.
 - **Tools** suggests command-line tools worth having, with the Homebrew command and the lines to add.
 
 [TERMINAL.md](TERMINAL.md) shows every theme and every setting, with what each one writes.
 
-## Stay in control
+## History and Exclusions
 
 <p align="center">
   <img src="readme-assets/peel-history-put-back-from-trash.png" width="900" alt="Peel's History: Godot with its app, caches, support folder, and the command Homebrew linked to it, moved to the Trash yesterday, each item ready to put back, and under Not Moved, what Peel was asked to move and didn't">
@@ -416,7 +414,7 @@ It sets up the command line as well:
   installed: one Homebrew installed, or a command in `/usr/local/bin`, MacPorts' `/opt/local/bin`, or your home's `bin`
   and `.local/bin`.
 
-## Work your way
+## More ways to use Peel
 
 <p align="center">
   <img src="readme-assets/peel-settings-sidebar-tools.png" width="900" alt="Peel's Settings, on General: app updates, App Folders, the Homebrew Peel uses, what Peel does while it runs, and Choose Tools open, with a checkbox for each tool the sidebar can show">
@@ -481,7 +479,7 @@ and takes you straight to the right place in System Settings, or, for the comman
 |---|---|
 | Full Disk Access | Look inside the Trash and the private folders where apps keep their data. Without it, Peel can't find everything an app leaves behind. Watch the Trash, the iCloud Drive page, and the list of iPhone and iPad backups need it too. |
 | App Management | Move another developer's app to the Trash. Without it, Peel can still clear an app's files, but macOS may refuse to move the app itself. |
-| Helper | Move to the Trash, and put back, what sits in folders only an administrator can change, such as an app's leftovers, the caches and logs Space lists for every account, and an installer package's files and receipt, and start, stop, enable, or disable other developers' background items that run as root. It answers administrators only. macOS asks you to approve it once in Login Items & Extensions, and an update of Peel brings its new helper with it. |
+| Helper | Move to the Trash, and put back, what sits in folders only an administrator can change, such as an app's leftovers, the caches and logs Space lists for every account, and an installer package's files and receipt, and start, stop, enable, or disable other developers' background items that run as root. It answers an administrator, or another account once an administrator approves the action. macOS asks you to approve it once in Login Items & Extensions, and an update of Peel brings its new helper with it. |
 | Notifications (optional) | Tell you when your apps have updates, when Homebrew finishes an upgrade or runs into a problem, when your disk is almost full if you turn that warning on, and, with Watch the Trash on, when you move an app to the Trash yourself. While they're off, Settings > General says so under those two switches. |
 | Folders macOS asks about | Without Full Disk Access, macOS asks the first time Peel looks in Desktop, Documents, or Downloads for installers, duplicates, what builds left, and what iCloud Drive keeps there, or at your cloud folders to measure them. On macOS 26 it also asks before Peel looks inside another app's data for what it would leave behind; on macOS 27 it refuses without asking, and Peel says which folders it couldn't read. |
 | Finder Extension (optional) | Add Uninstall with Peel to the menu you get when you Control-click an app in Finder. |
@@ -580,7 +578,7 @@ Peel when it says a new version is out. While Check for app updates is on, Peel 
 says when it found one. It shows what is new and installs the update only when you choose, once it has checked that
 the update is signed as Peel's.
 
-### Something in Peel isn't clear. Where can I read more?
+### Where can I read more about something in Peel?
 
 Click the ⓘ next to its name. If it's still not clear,
 [open an issue](https://github.com/TuguiDragos/Peel/issues/new/choose): wording that leaves you guessing is a bug

@@ -6,9 +6,9 @@ Thank you for wanting to help.
 > those rules. Many assistants read that file by themselves. The rules bind every change, with an assistant or
 > without, so read it yourself too.
 
-Peel removes files from people's Macs. That one fact shapes everything here: a bug doesn't put a wrong number on a
-screen; it takes away something somebody wanted. So every problem is proved before anything changes, a test fails
-before the fix is written, and the result is checked where it shows, as [AGENTS.md](AGENTS.md) describes step by step.
+Peel removes files from people's Macs, so a bug in it can take away something somebody wanted. That is why every
+problem is proved before anything changes, a test fails before the fix is written, and the result is checked where it
+shows, as [AGENTS.md](AGENTS.md) describes step by step.
 
 ## What you need
 
@@ -117,7 +117,7 @@ right and the change is wrong.
   so is a visual bug whose cause holds on both, while any other change to how Peel looks goes in the macOS 27 branch
   and leaves macOS 26's code as it is.
 - **Every translation lives in `Localization/`**, in the words macOS itself uses in each language.
-- **Nothing names another cleaner or uninstaller, or compares Peel with one**, but README's thanks to the apps that
+- **Nothing names another cleaner or uninstaller, or compares Peel with one**, except README's thanks to the apps that
   inspired it.
 - **Few comments, lines within 120 columns, American English, no em or en dashes, and no dead code.**
 

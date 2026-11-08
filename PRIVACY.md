@@ -24,10 +24,10 @@ shows their text, and a link in them opens only when you click it.
 
 Homebrew goes online only when you ask it to: to update, to upgrade, to repair its taps, which asks each tap's
 repository whether its main branch was renamed, or to scan for vulnerabilities. It also gets its own copy of Ruby again
-before it answers Peel when a failed update left that copy behind. That scan, which Homebrew runs as
-`brew vulns`, is the one time a list of what is installed leaves your Mac all at once: for each formula it checks,
-where its code comes from (the address of its source repository and the release tag, or a package's name) and its
-version, sent to `api.osv.dev`. Peel runs Homebrew with its analytics turned off. Your own Homebrew settings (a
+before it answers Peel when a failed update left that copy behind. That scan, which Homebrew runs as `brew vulns`, is
+the one time a list of what is installed leaves your Mac all at once. For each formula it can check, it tells
+`api.osv.dev` the address of the formula's source repository and the release tag or version it was built from.
+Peel runs Homebrew with its analytics turned off. Your own Homebrew settings (a
 `brew.env` file) can change what Homebrew does, analytics included, and the Homebrew page then says what they change.
 
 Peel checks for its own updates with Sparkle: it reads Peel's signed feed on GitHub over HTTPS, saying only that Peel
@@ -45,14 +45,14 @@ them as the page loads, and they are posted only if you send the issue.
 ## What Peel keeps on your Mac
 
 Peel's own records are in `~/Library/Application Support/Peel`: History and the journal written beside it as items
-move, the refusals, what an uninstall left for an administrator, the apps Peel remembers and their signing teams, the
-exclusions, the app folders and the Homebrew you chose, what you told Orphaned Files an item belongs to, the Dock tiles
-an uninstall took out, the notes of waiting updates, what Duplicates has read, and the copies of settings a reset
-saves. The ones that record what Peel moved, held back, or was told about name each item's path, which can lie in
-Desktop, Documents, Downloads, or another folder macOS makes an app ask for, and a saved copy of settings holds
-whatever the app kept in them. Like any file of yours, they can be read by every program that runs as your account, so
-a program macOS keeps out of those folders can still read such names there. Nothing in them leaves your Mac, and
-Remove Peel moves them to the Trash with the rest of Peel's.
+move, the refusals, and what an uninstall left for an administrator. Beside them are the apps Peel remembers and their
+signing teams, the exclusions, the app folders and the Homebrew you chose, what you told Orphaned Files an item belongs
+to, the Dock tiles an uninstall took out, the notes of waiting updates, what Duplicates has read, and the copies of
+settings a reset saves. The ones that record what Peel moved, held back, or was told about name each item's path, which
+can lie in Desktop, Documents, Downloads, or another folder macOS makes an app ask for, and a saved copy of settings
+holds whatever the app kept in them. Like any file of yours, they can be read by every program that runs as your
+account, so a program macOS keeps out of those folders can still read such names there. Nothing in them leaves your
+Mac, and Remove Peel moves them to the Trash with the rest of Peel's.
 
 ## Every address Peel or Homebrew may contact
 

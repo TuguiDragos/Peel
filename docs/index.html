@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-qOhFsq0QMV2REqNwk5hGH5bZE9SkX6gt6yeyKdYPv+U='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src https://api.github.com; manifest-src 'self'; base-uri 'none'; form-action 'none'">
   <title>Peel: Free, Open Source Uninstaller and Cleaner for Mac</title>
-  <meta name="description" content="Peel uninstalls Mac apps along with the files they leave behind, and shows why each file belongs to them. Free and open source, for macOS Tahoe 26 or later.">
+  <meta name="description" content="Peel uninstalls Mac apps along with the files they leave behind, and shows why each file belongs to its app. Free and open source, for macOS Tahoe 26 or later.">
   <link rel="canonical" href="https://peel.tuguidragos.com/">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="author" content="Țugui Dragoș">
@@ -63,7 +63,7 @@
         "@id": "https://peel.tuguidragos.com/#webpage",
         "url": "https://peel.tuguidragos.com/",
         "name": "Peel: Free, Open Source Uninstaller and Cleaner for Mac",
-        "description": "Peel uninstalls Mac apps along with the files they leave behind, and shows why each file belongs to them. Free and open source, for macOS Tahoe 26 or later.",
+        "description": "Peel uninstalls Mac apps along with the files they leave behind, and shows why each file belongs to its app. Free and open source, for macOS Tahoe 26 or later.",
         "inLanguage": "en",
         "isPartOf": {
           "@id": "https://peel.tuguidragos.com/#website"
@@ -240,7 +240,7 @@
             "name": "When is the space Peel frees really free?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Once you empty the Trash. Peel moves what it removes to the Trash and never empties it, so History can put anything back while it’s still there, and until then the space stays taken. When you’ve looked over what moved, in History or in the Trash, and you need none of it, choose Finder > Empty Trash. After that, nothing can be put back. If you’d rather macOS empty it for you, choose Finder > Settings, click Advanced, and select Remove items from the Trash after 30 days."
+              "text": "Once you empty the Trash. Peel moves files to the Trash and never empties it, so History can put anything back while it’s still there, and until then the space stays taken. When you’ve looked over what moved, in History or in the Trash, and you need none of it, choose Finder > Empty Trash. After that, nothing can be put back. If you’d rather macOS empty it for you, choose Finder > Settings, click Advanced, and select Remove items from the Trash after 30 days."
             }
           },
           {
@@ -333,8 +333,8 @@
         </ul>
       </nav>
       <div class="nav-actions">
-        <a class="pill pill-small pill-ghost" href="https://github.com/sponsors/TuguiDragos" aria-label="Sponsor Peel on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M7.655 14.916v-.001h-.002l-.006-.003-.018-.01a22.066 22.066 0 0 1-3.744-2.584C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.044 5.231-3.886 6.818a22.094 22.094 0 0 1-3.433 2.414 7.152 7.152 0 0 1-.31.17l-.018.01-.008.004a.75.75 0 0 1-.69 0Z"/></svg><span class="label">Sponsor</span></a>
-        <a class="pill pill-small" href="https://github.com/TuguiDragos/Peel"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"/></svg>GitHub</a>
+        <a class="pill pill-small pill-ghost" href="https://github.com/sponsors/TuguiDragos" target="_blank" rel="noopener" aria-label="Sponsor Peel on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M7.655 14.916v-.001h-.002l-.006-.003-.018-.01a22.066 22.066 0 0 1-3.744-2.584C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.044 5.231-3.886 6.818a22.094 22.094 0 0 1-3.433 2.414 7.152 7.152 0 0 1-.31.17l-.018.01-.008.004a.75.75 0 0 1-.69 0Z"/></svg><span class="label">Sponsor</span></a>
+        <a class="pill pill-small" href="https://github.com/TuguiDragos/Peel" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"/></svg>GitHub</a>
       </div>
     </div>
   </header>
@@ -351,7 +351,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>
             Download for Mac
           </a>
-          <a class="more" href="https://github.com/TuguiDragos/Peel">View on GitHub</a>
+          <a class="more" href="https://github.com/TuguiDragos/Peel" target="_blank" rel="noopener">View on GitHub</a>
         </div>
         <p class="requirements"><span data-version></span>macOS Tahoe 26 or later · Apple silicon and the Intel Macs macOS 26 supports</p>
         <p class="requirements">Signed by Dragos-Constantin Tugui (6R6J264YA2) and notarized by Apple</p>
@@ -406,7 +406,7 @@
             <div class="tile-art" aria-hidden="true">
               <span class="sticker gray" style="--turn: 4deg"><b>40</b><span>tweaks</span></span>
             </div>
-            <h3>Mac settings, in plain sight.</h3>
+            <h3>Mac settings in one place.</h3>
             <p>Many are hard to find on your own. They cover the Dock, Finder, screenshots, typing, windows, and privacy.</p>
           </article>
           <article class="tile span-2 reveal">
@@ -683,7 +683,7 @@
             <p>Command-line tools worth having, with the Homebrew command and what each needs afterward, such as the lines to add to <code>~/.zshrc</code>.</p>
           </li>
         </ul>
-        <p class="link-line reveal"><a class="more" href="https://github.com/TuguiDragos/Peel/blob/main/TERMINAL.md">See every theme and setting</a></p>
+        <p class="link-line reveal"><a class="more" href="https://github.com/TuguiDragos/Peel/blob/main/TERMINAL.md" target="_blank" rel="noopener">See every theme and setting</a></p>
       </div>
     </section>
 
@@ -692,7 +692,7 @@
       <div class="wrap">
         <div class="feature-head center reveal">
           <h2 class="headline" id="safety-title">A cleaner should never cost you something you wanted.</h2>
-          <p class="lede"><strong>Nothing of yours is deleted without asking first.</strong> Peel sends what it removes to the Trash, and History puts it back where it was.</p>
+          <p class="lede"><strong>Nothing of yours is deleted without asking first.</strong> Peel moves files to the Trash, and History puts them back where they were.</p>
         </div>
         <picture class="shot shot-frame reveal">
           <source type="image/avif" srcset="images/peel-history-800.avif 800w, images/peel-history-1200.avif 1200w, images/peel-history-2400.avif 2400w"
@@ -734,7 +734,7 @@
             <p>When Peel holds a file back, the row says why. A folder it couldn’t measure or read is shown as unknown, never as empty.</p>
           </li>
         </ul>
-        <p class="link-line center reveal"><a class="more" href="https://github.com/TuguiDragos/Peel/blob/main/SAFETY.md">Read everything Peel protects</a></p>
+        <p class="link-line center reveal"><a class="more" href="https://github.com/TuguiDragos/Peel/blob/main/SAFETY.md" target="_blank" rel="noopener">Read everything Peel protects</a></p>
       </div>
     </section>
 
@@ -759,7 +759,7 @@
           <li class="reveal">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 5 6.4v5.3c0 4.2 2.9 7.6 7 8.8 4.1-1.2 7-4.6 7-8.8V6.4z"/><path d="m9.3 12 1.9 1.9 3.7-3.7"/></svg>
             <h3>A helper with one job.</h3>
-            <p>Only what needs an administrator goes through Peel’s helper, which you allow once in Login Items &amp; Extensions. It answers only my signed Peel and only administrators. It serves a fixed list of folders, has no shell, and keeps its own record of what it moves, so it puts back only what it took.</p>
+            <p>Only what needs an administrator goes through Peel’s helper, which you allow once in Login Items &amp; Extensions. It answers only my signed Peel, used by an administrator or with an administrator’s approval. It serves a fixed list of folders, has no shell, and keeps its own record of what it moves, so it puts back only what it took.</p>
           </li>
           <li class="reveal">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8.5 7.5-4.5 4.5 4.5 4.5M15.5 7.5l4.5 4.5-4.5 4.5M13.6 5l-3.2 14"/></svg>
@@ -769,10 +769,10 @@
           <li class="reveal">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.6 7.2 7.4 5.8 7.4-5.8"/></svg>
             <h3>Report a security problem privately.</h3>
-            <p>Use <a href="https://github.com/TuguiDragos/Peel/security/advisories/new">Report a vulnerability</a> on the repository’s Security tab, or email <a href="mailto:contact@tuguidragos.com?subject=Peel%20security">contact@tuguidragos.com</a> with “Peel security” in the subject. The aim is to acknowledge your report within two working days, and the security policy says what happens next.</p>
+            <p>Use <a href="https://github.com/TuguiDragos/Peel/security/advisories/new" target="_blank" rel="noopener">Report a vulnerability</a> on the repository’s Security tab, or email <a href="mailto:contact@tuguidragos.com?subject=Peel%20security">contact@tuguidragos.com</a> with “Peel security” in the subject. The aim is to acknowledge your report within two working days, and the security policy says what happens next.</p>
           </li>
         </ul>
-        <p class="link-line center reveal"><a class="more" href="https://github.com/TuguiDragos/Peel/blob/main/SECURITY.md">Read the security policy</a></p>
+        <p class="link-line center reveal"><a class="more" href="https://github.com/TuguiDragos/Peel/blob/main/SECURITY.md" target="_blank" rel="noopener">Read the security policy</a></p>
       </div>
     </section>
 
@@ -786,7 +786,7 @@
           <p class="lede">On its own, Peel goes online only to check your apps, and itself, for updates, and you can turn that off. <strong>Each check asks about one app alone</strong>, through its own update feed or the App Store, and doesn’t send its version, your macOS, or your languages. The App Store is told only a country: the country of the store an iPhone or iPad app came from, or else your Mac’s region. Taken together, the checks show the App Store which of its apps you have, and GitHub which of your apps update through it. When a feed offers its release notes in several languages, Peel asks for the one in your language, so the server that keeps them can tell which language you read.</p>
           <p class="lede">Homebrew goes online only when you ask it to, and to get its own copy of Ruby again when a failed update left it behind. Its vulnerability scan, which you start yourself, is the one thing that sends a list of what is installed: the source and version of each formula, to api.osv.dev.</p>
           <p class="lede">Settings &gt; Privacy shows what Peel sends, and every address it or Homebrew may contact.</p>
-          <p class="link-line"><a class="more" href="https://github.com/TuguiDragos/Peel/blob/main/PRIVACY.md">Read what Peel sends</a></p>
+          <p class="link-line"><a class="more" href="https://github.com/TuguiDragos/Peel/blob/main/PRIVACY.md" target="_blank" rel="noopener">Read what Peel sends</a></p>
         </div>
         <picture class="shot reveal">
           <source type="image/avif" srcset="images/peel-privacy-800.avif 800w, images/peel-privacy-1200.avif 1200w, images/peel-privacy-2400.avif 2400w"
@@ -883,7 +883,7 @@
           </details>
           <details>
             <summary>When is the space Peel frees really free?</summary>
-            <p>Once you empty the Trash. Peel moves what it removes to the Trash and never empties it, so History can put anything back while it’s still there, and until then the space stays taken. When you’ve looked over what moved, in History or in the Trash, and you need none of it, choose Finder &gt; Empty Trash. After that, nothing can be put back. If you’d rather macOS empty it for you, choose Finder &gt; Settings, click Advanced, and select Remove items from the Trash after 30 days.</p>
+            <p>Once you empty the Trash. Peel moves files to the Trash and never empties it, so History can put anything back while it’s still there, and until then the space stays taken. When you’ve looked over what moved, in History or in the Trash, and you need none of it, choose Finder &gt; Empty Trash. After that, nothing can be put back. If you’d rather macOS empty it for you, choose Finder &gt; Settings, click Advanced, and select Remove items from the Trash after 30 days.</p>
           </details>
           <details>
             <summary>Why does Peel ask for Full Disk Access?</summary>
@@ -899,7 +899,7 @@
           </details>
           <details>
             <summary>Can I install Peel with Homebrew?</summary>
-            <p>Yes. Peel is one of <a href="https://formulae.brew.sh/cask/peel">Homebrew’s official casks</a>. Run <code>brew install --cask peel</code> in Terminal. It installs the same app as the download on this page, from the same release on GitHub, and puts the <code>peel</code> command on your path.</p>
+            <p>Yes. Peel is one of <a href="https://formulae.brew.sh/cask/peel" target="_blank" rel="noopener">Homebrew’s official casks</a>. Run <code>brew install --cask peel</code> in Terminal. It installs the same app as the download on this page, from the same release on GitHub, and puts the <code>peel</code> command on your path.</p>
           </details>
           <details>
             <summary>How do I update Peel?</summary>
@@ -907,11 +907,11 @@
           </details>
           <details id="real-copy">
             <summary>How do I know my copy of Peel is the real one?</summary>
-            <p>Run <code>spctl -a -vv /Applications/Peel.app</code> in Terminal. A copy I released answers <code>accepted</code>, with <code>source=Notarized Developer ID</code> and <code>origin=Developer ID Application: Dragos-Constantin Tugui (6R6J264YA2)</code>. If it answers <code>invalid API object reference</code>, there is no app at that path: put the path of your copy instead. If it names anyone else, or isn’t accepted, it didn’t come from me: move it to the Trash and download Peel again from <a href="https://github.com/TuguiDragos/Peel">github.com/TuguiDragos/Peel</a>. Before you open the file you downloaded, GitHub’s <code>gh</code> tool can check it against its release: once you’re signed in with <code>gh auth login</code>, <code>gh release verify-asset v1.0.1 ~/Downloads/Peel-1.0.1.dmg -R TuguiDragos/Peel</code> (with your version and where your file is) answers <code>Verification succeeded! Peel-1.0.1.dmg is present in release v1.0.1</code>.</p>
+            <p>Run <code>spctl -a -vv /Applications/Peel.app</code> in Terminal. A copy I released answers <code>accepted</code>, with <code>source=Notarized Developer ID</code> and <code>origin=Developer ID Application: Dragos-Constantin Tugui (6R6J264YA2)</code>. If it answers <code>invalid API object reference</code>, there is no app at that path: put the path of your copy instead. If it names anyone else, or isn’t accepted, it didn’t come from me: move it to the Trash and download Peel again from <a href="https://github.com/TuguiDragos/Peel" target="_blank" rel="noopener">github.com/TuguiDragos/Peel</a>. Before you open the file you downloaded, GitHub’s <code>gh</code> tool can check it against its release: once you’re signed in with <code>gh auth login</code>, <code>gh release verify-asset v1.0.1 ~/Downloads/Peel-1.0.1.dmg -R TuguiDragos/Peel</code> (with your version and where your file is) answers <code>Verification succeeded! Peel-1.0.1.dmg is present in release v1.0.1</code>.</p>
           </details>
           <details>
             <summary>Does Peel work on Intel Macs and older versions of macOS?</summary>
-            <p>Peel runs on macOS Tahoe 26 or later, on any Mac that runs it: every Mac with Apple silicon, and the few Intel Macs from 2019 and 2020 that <a href="https://support.apple.com/en-us/122867">Apple lists for macOS 26</a>. It doesn’t run on earlier versions of macOS: each version moves where apps keep their files, so I test every release myself before it ships, on macOS 26 and every version since.</p>
+            <p>Peel runs on macOS Tahoe 26 or later, on any Mac that runs it: every Mac with Apple silicon, and the few Intel Macs from 2019 and 2020 that <a href="https://support.apple.com/en-us/122867" target="_blank" rel="noopener">Apple lists for macOS 26</a>. It doesn’t run on earlier versions of macOS: each version moves where apps keep their files, so I test every release myself before it ships, on macOS 26 and every version since.</p>
           </details>
           <details>
             <summary>How do I uninstall Peel itself?</summary>
@@ -923,7 +923,7 @@
 
     <section class="download" id="download" aria-labelledby="download-title">
       <div class="wrap center reveal">
-        <img class="hero-icon" src="images/peel-icon-256.webp" width="128" height="128" loading="lazy" decoding="async" alt="">
+        <img class="hero-icon" src="images/peel-icon-256.webp" width="128" height="128" loading="lazy" decoding="async" alt="Peel’s icon" aria-hidden="true">
         <h2 class="headline" id="download-title">Get Peel.</h2>
         <p class="lede">Peel is free and open source, under the GNU General Public License. Open the disk image and drag Peel into your Applications folder.</p>
         <div class="actions">
@@ -931,17 +931,17 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>
             Download for Mac
           </a>
-          <a class="more" href="https://github.com/TuguiDragos/Peel/blob/main/CHANGELOG.md">What’s new</a>
+          <a class="more" href="https://github.com/TuguiDragos/Peel/blob/main/CHANGELOG.md" target="_blank" rel="noopener">What’s new</a>
         </div>
         <p class="requirements"><span data-version></span>macOS Tahoe 26 or later · Apple silicon and the Intel Macs macOS 26 supports</p>
         <div class="brew">
           <code>brew install --cask peel</code>
           <button class="copy" type="button" data-copy="brew install --cask peel">Copy</button>
         </div>
-        <a class="pill pill-ghost sponsor" href="https://github.com/sponsors/TuguiDragos"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M7.655 14.916v-.001h-.002l-.006-.003-.018-.01a22.066 22.066 0 0 1-3.744-2.584C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.044 5.231-3.886 6.818a22.094 22.094 0 0 1-3.433 2.414 7.152 7.152 0 0 1-.31.17l-.018.01-.008.004a.75.75 0 0 1-.69 0Z"/></svg>Sponsor on GitHub</a>
+        <a class="pill pill-ghost sponsor" href="https://github.com/sponsors/TuguiDragos" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M7.655 14.916v-.001h-.002l-.006-.003-.018-.01a22.066 22.066 0 0 1-3.744-2.584C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.044 5.231-3.886 6.818a22.094 22.094 0 0 1-3.433 2.414 7.152 7.152 0 0 1-.31.17l-.018.01-.008.004a.75.75 0 0 1-.69 0Z"/></svg>Sponsor on GitHub</a>
         <div class="notice">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 19 6.3v5.2c0 4.3-2.9 7.7-7 9-4.1-1.3-7-4.7-7-9V6.3z"/><path d="M12 8.5v4.5"/><circle cx="12" cy="16" r="0.9" fill="currentColor" stroke="none"/></svg>
-          <p><strong>Peel is published in one place only: <a href="https://github.com/TuguiDragos/Peel">github.com/TuguiDragos/Peel</a>.</strong> Every download on this page leads there. The Homebrew command on this page is the only command that installs Peel, so a site that asks you to paste anything else into Terminal to get Peel is not mine. Any other site, download page, or store offering Peel is not mine, and what it gives you may not be the app I build and sign. Peel is free, so anyone asking you to pay for it is not me.</p>
+          <p><strong>Peel is published in one place only: <a href="https://github.com/TuguiDragos/Peel" target="_blank" rel="noopener">github.com/TuguiDragos/Peel</a>.</strong> Every download on this page leads there. The Homebrew command on this page is the only command that installs Peel, so a site that asks you to paste anything else into Terminal to get Peel is not mine. Any other site, download page, or store offering Peel is not mine, and what it gives you may not be the app I build and sign. Peel is free, so anyone asking you to pay for it is not me.</p>
         </div>
       </div>
     </section>
@@ -951,32 +951,32 @@
     <div class="wrap">
       <nav aria-label="More about Peel">
         <ul>
-          <li><a href="https://github.com/TuguiDragos/Peel">Source code</a></li>
-          <li><a href="https://github.com/TuguiDragos/Peel/releases">Releases</a></li>
-          <li><a href="https://github.com/TuguiDragos/Peel/blob/main/CHANGELOG.md">Changelog</a></li>
-          <li><a href="https://github.com/TuguiDragos/Peel/blob/main/GUIDE.md">Guide</a></li>
-          <li><a href="https://github.com/TuguiDragos/Peel/blob/main/SAFETY.md">Safety</a></li>
-          <li><a href="https://github.com/TuguiDragos/Peel/blob/main/PRIVACY.md">Privacy</a></li>
-          <li><a href="https://github.com/TuguiDragos/Peel/blob/main/SECURITY.md">Security</a></li>
-          <li><a href="https://github.com/TuguiDragos/Peel/issues/new/choose">Report an issue</a></li>
-          <li><a href="https://github.com/sponsors/TuguiDragos">Sponsor</a></li>
+          <li><a href="https://github.com/TuguiDragos/Peel" target="_blank" rel="noopener">Source code</a></li>
+          <li><a href="https://github.com/TuguiDragos/Peel/releases" target="_blank" rel="noopener">Releases</a></li>
+          <li><a href="https://github.com/TuguiDragos/Peel/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Changelog</a></li>
+          <li><a href="https://github.com/TuguiDragos/Peel/blob/main/GUIDE.md" target="_blank" rel="noopener">Guide</a></li>
+          <li><a href="https://github.com/TuguiDragos/Peel/blob/main/SAFETY.md" target="_blank" rel="noopener">Safety</a></li>
+          <li><a href="https://github.com/TuguiDragos/Peel/blob/main/PRIVACY.md" target="_blank" rel="noopener">Privacy</a></li>
+          <li><a href="https://github.com/TuguiDragos/Peel/blob/main/SECURITY.md" target="_blank" rel="noopener">Security</a></li>
+          <li><a href="https://github.com/TuguiDragos/Peel/issues/new/choose" target="_blank" rel="noopener">Report an issue</a></li>
+          <li><a href="https://github.com/sponsors/TuguiDragos" target="_blank" rel="noopener">Sponsor</a></li>
         </ul>
       </nav>
-      <p class="maker">Made by <a href="https://tuguidragos.com/about/">Țugui Dragoș</a>.</p>
+      <p class="maker">Made by <a href="https://tuguidragos.com/about/" target="_blank" rel="noopener">Țugui Dragoș</a>.</p>
       <nav aria-label="Țugui Dragoș elsewhere">
         <ul>
-          <li><a href="https://github.com/TuguiDragos">GitHub</a></li>
-          <li><a href="https://www.linkedin.com/in/tuguidragos/">LinkedIn</a></li>
-          <li><a href="https://www.credly.com/users/tuguidragos/badges">Credly</a></li>
-          <li><a href="https://x.com/TuguiDragos">X</a></li>
-          <li><a href="https://bsky.app/profile/tuguidragos.com">Bluesky</a></li>
-          <li><a href="https://mastodon.social/@tuguidragos">Mastodon</a></li>
-          <li><a href="https://www.threads.com/@tuguidragos">Threads</a></li>
-          <li><a href="https://www.instagram.com/tuguidragos/">Instagram</a></li>
-          <li><a href="https://www.youtube.com/@TuguiDragos">YouTube</a></li>
+          <li><a href="https://github.com/TuguiDragos" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/tuguidragos/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://www.credly.com/users/tuguidragos/badges" target="_blank" rel="noopener">Credly</a></li>
+          <li><a href="https://x.com/TuguiDragos" target="_blank" rel="noopener">X</a></li>
+          <li><a href="https://bsky.app/profile/tuguidragos.com" target="_blank" rel="noopener">Bluesky</a></li>
+          <li><a href="https://mastodon.social/@tuguidragos" target="_blank" rel="noopener">Mastodon</a></li>
+          <li><a href="https://www.threads.com/@tuguidragos" target="_blank" rel="noopener">Threads</a></li>
+          <li><a href="https://www.instagram.com/tuguidragos/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.youtube.com/@TuguiDragos" target="_blank" rel="noopener">YouTube</a></li>
         </ul>
       </nav>
-      <p>Copyright © 2026 Țugui Dragoș-Constantin. Peel is free software under the <a href="https://github.com/TuguiDragos/Peel/blob/main/LICENSE">GNU General Public License, version 3 or later</a>, and comes with no warranty, to the extent the law allows.</p>
+      <p>Copyright © 2026 Țugui Dragoș-Constantin. Peel is free software under the <a href="https://github.com/TuguiDragos/Peel/blob/main/LICENSE" target="_blank" rel="noopener">GNU General Public License, version 3 or later</a>, and comes with no warranty, to the extent the law allows.</p>
       <p>This page asks GitHub which release of Peel is the latest, so your browser contacts api.github.com once per visit. The site keeps no analytics.</p>
       <p>Apple, Mac, and macOS are trademarks of Apple Inc., registered in the U.S. and other countries and regions. Peel is not made or endorsed by Apple.</p>
     </div>
