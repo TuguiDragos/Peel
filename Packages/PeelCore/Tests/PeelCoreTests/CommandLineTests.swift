@@ -1193,6 +1193,15 @@ struct CommandLineTests {
         #expect(UninstallCommand.removedElsewhere(agent)?.description.contains("uninstall_gp.sh") == true)
     }
 
+    @Test func namesTheMakersUninstallerWithoutASlashAtTheEnd() {
+        let crashPlan = InstalledApp(
+            url: URL(filePath: "/Applications/CrashPlan.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.crashplan.desktop", name: "CrashPlan", teamIdentifier: "UGHXR79U6M"
+        )
+
+        #expect(UninstallCommand.removedElsewhere(crashPlan)?.description == "CrashPlan is removed with CrashPlan's own uninstaller, which also takes what it keeps in the system: open /Library/Application Support/CrashPlan/Uninstall.app. See https://support.crashplan.com/hc/en-us/articles/9025086987661-Uninstall-the-CrashPlan-app")
+    }
+
     @Test func saysToDownloadTheUninstallerAMakersPageOffers() {
         let webex = InstalledApp(
             url: URL(filePath: "/Applications/Webex.app", directoryHint: .isDirectory),
