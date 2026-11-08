@@ -150,6 +150,13 @@ struct HomebrewDetailView: View {
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     }
+                    if isUninstalledInTerminal, let stays = Self.besideTheCommand(
+                        package, commandToRunFirst: commandToRunFirst, leftInTheSystem: leftInTheSystem
+                    )?.text {
+                        stays
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
 
@@ -166,8 +173,7 @@ struct HomebrewDetailView: View {
                         Button("Uninstall", role: .destructive) {
                             Task {
                                 await readWhatUsesIt()
-                                leftInTheSystem = LeftInTheSystem.of(package)
-                                commandToRunFirst = CommandToRunFirst.of(package)
+                                readWhatItLeaves()
                                 isConfirmingUninstall = true
                             }
                         }
@@ -209,6 +215,10 @@ struct HomebrewDetailView: View {
             Text("This can take a long time, since Homebrew builds some packages on this Mac. Its progress shows on this page as it works, and you can stop it there.")
         }
         .forgetCasksDialog(for: $casksToForget)
+        .task(id: package.fullName) { readWhatItLeaves() }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            readWhatItLeaves()
+        }
         .task(id: library.apps(of: package).filter(\.carriesSystemExtensions).map(\.url)) {
             let carrying = library.apps(of: package).filter(\.carriesSystemExtensions)
             guard !carrying.isEmpty else { return }
@@ -282,6 +292,12 @@ struct HomebrewDetailView: View {
         }
     }
 
+    /// Read as the page shows, as Peel comes forward, and before Uninstall asks, so what it says matches the Mac.
+    private func readWhatItLeaves() {
+        leftInTheSystem = LeftInTheSystem.of(package)
+        commandToRunFirst = CommandToRunFirst.of(package)
+    }
+
     private func readWhatUsesIt() async {
         guard package.kind == .formula, let cellar = homebrew.installation?.cellar else {
             inUse = nil
@@ -298,26 +314,55 @@ struct HomebrewDetailView: View {
         return whatUsesIt.map { Text("\($0)\n\n\(deletesAndLeaves)") } ?? deletesAndLeaves
     }
 
-    /// What Homebrew leaves of a package, which it says nothing of before it deletes the rest.
     private var whatStays: Text? {
-        var lines: [Text] = []
-        if let folders = inUse?.dataFolders, !folders.isEmpty {
-            let places = folders.map(\.abbreviatedPath).formatted(.list(type: .and))
-            lines.append(Text("Homebrew leaves \(places), with any data or settings the formula kept there."))
+        WhatStays(
+            name: package.name, dataFolders: inUse?.dataFolders ?? [], trustedRoot: TrustedRoot.of(package),
+            commandToRunFirst: commandToRunFirst, leftInTheSystem: leftInTheSystem
+        ).text
+    }
+
+    /// What stays of a cask whose uninstall goes to Terminal, said beside its command, since nothing asks there.
+    static func besideTheCommand(
+        _ package: HomebrewPackage,
+        commandToRunFirst: CommandToRunFirst?,
+        leftInTheSystem: LeftInTheSystem?
+    ) -> WhatStays? {
+        guard package.uninstallNeedsAnAdministrator else { return nil }
+        let stays = WhatStays(
+            name: package.name, trustedRoot: TrustedRoot.of(package), commandToRunFirst: commandToRunFirst,
+            leftInTheSystem: leftInTheSystem
+        )
+        return stays.text == nil ? nil : stays
+    }
+
+    /// What Homebrew leaves of a package, which it says nothing of before it deletes the rest.
+    struct WhatStays: Equatable {
+        let name: String
+        var dataFolders: [URL] = []
+        var trustedRoot: TrustedRoot?
+        var commandToRunFirst: CommandToRunFirst?
+        var leftInTheSystem: LeftInTheSystem?
+
+        var text: Text? {
+            var lines: [Text] = []
+            if !dataFolders.isEmpty {
+                let places = dataFolders.map(\.abbreviatedPath).formatted(.list(type: .and))
+                lines.append(Text("Homebrew leaves \(places), with any data or settings the formula kept there."))
+            }
+            if let trustedRoot {
+                lines.append(Text("\(name) added a root certificate to the certificates this Mac trusts, and Homebrew leaves it trusted."))
+                lines.append(trustedRoot.step(in: name))
+            }
+            if let commandToRunFirst {
+                lines.append(commandToRunFirst.note(for: name))
+            }
+            if let leftInTheSystem {
+                lines.append(leftInTheSystem.whatStays(after: name))
+                lines.append(leftInTheSystem.step)
+            }
+            guard let first = lines.first else { return nil }
+            return lines.dropFirst().reduce(first) { Text("\($0)\n\n\($1)") }
         }
-        if let root = TrustedRoot.of(package) {
-            lines.append(Text("\(package.name) added a root certificate to the certificates this Mac trusts, and Homebrew leaves it trusted."))
-            lines.append(root.step(in: package.name))
-        }
-        if let first = commandToRunFirst {
-            lines.append(first.note(for: package.name))
-        }
-        if let left = leftInTheSystem {
-            lines.append(left.whatStays(after: package.name))
-            lines.append(left.step)
-        }
-        guard let first = lines.first else { return nil }
-        return lines.dropFirst().reduce(first) { Text("\($0)\n\n\($1)") }
     }
 
     /// What Homebrew won't look at before it deletes a formula, said before it does.
