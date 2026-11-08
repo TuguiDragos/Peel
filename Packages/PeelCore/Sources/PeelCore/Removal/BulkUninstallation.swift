@@ -190,7 +190,9 @@ public struct BulkUninstallation: Sendable {
                 return order.filter { !apps.contains($0) && !(owners[$0] ?? []).contains(where: kept.contains) }
             },
             usingHelperFor: privilegedURLs,
-            lettingTheirProgramsRun: Set(uninstallations.filter { $0.uninstallsItself != nil }.map(\.app.url)),
+            lettingTheirProgramsRun: Set(
+                uninstallations.filter { $0.uninstallsItself?.letsItsProgramsRun == true }.map(\.app.url)
+            ),
             emptiedFoldersNamed: MakersFolders.names(of: uninstallations.map(\.app))
         )
     }

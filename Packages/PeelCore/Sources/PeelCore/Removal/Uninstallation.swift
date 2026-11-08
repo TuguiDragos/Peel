@@ -91,7 +91,7 @@ public struct Uninstallation: Sendable {
             exclusions: exclusions
         )
         scan = scan.holdingBack(placesOthersKeep: matcher.placesOthersKeep(home: environment.homeDirectory))
-        let uninstallsItself = UninstallsItself.of(app, environment: environment)
+        let uninstallsItself = await UninstallsItself.of(app, environment: environment)
         if let uninstallsItself {
             scan = scan.leavingToItsUninstaller(uninstallsItself)
         }
@@ -518,7 +518,7 @@ public struct Uninstallation: Sendable {
             apps: order.filter { $0 == app.url },
             thenFiles: { stayed in stayed.isEmpty ? files : [] },
             usingHelperFor: throughTheHelper ? privilegedURLs : [],
-            lettingTheirProgramsRun: uninstallsItself == nil ? [] : [app.url],
+            lettingTheirProgramsRun: uninstallsItself?.letsItsProgramsRun == true ? [app.url] : [],
             emptiedFoldersNamed: makersFolderNames
         )
     }

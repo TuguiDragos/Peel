@@ -91125,6 +91125,112 @@
         }
       }
     },
+    "Left alone: a program that runs once the app is in the Trash needs this, so Peel leaves it where it is." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: tuto položku potřebuje program, který se spustí, jakmile bude aplikace v koši, a proto ji Peel ponechá, kde je."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: Ein Programm, das ausgeführt wird, sobald die App im Papierkorb liegt, benötigt dies, daher lässt Peel es, wo es ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: esto lo necesita un programa que se ejecuta cuando la app ya está en la papelera, así que Peel lo deja donde está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : un programme qui s’exécute une fois l’app dans la corbeille en a besoin, et Peel le laisse donc là où il est."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: serve a un programma che viene eseguito quando l’app è nel Cestino, quindi Peel non lo sposta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: アプリがゴミ箱に入ると実行されるプログラムがこれを必要とするため、Peelはそのままにします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: 앱이 휴지통으로 이동되면 실행되는 프로그램에 이 항목이 필요하므로 Peel은 이 항목을 그대로 둡니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: een programma dat wordt uitgevoerd zodra de app in de prullenmand ligt, heeft dit nodig, dus Peel laat het staan waar het staat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: program, który uruchamia się, gdy aplikacja trafi do Kosza, potrzebuje tego, więc Peel zostawia to na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: um programa que é executado assim que o app estiver no Lixo precisa disto, então o Peel o deixa onde está."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: după ce aplicația ajunge în Coș, rulează un program care are nevoie de acest articol, așa că Peel îl lasă unde se află."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: этот объект нужен программе, которая запустится, как только приложение окажется в Корзине, поэтому Peel оставляет его там, где он находится."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: det här behövs av ett program som körs så snart appen ligger i papperskorgen, så Peel lämnar det där det är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: uygulama Çöp Sepeti’ne taşındığında çalışan bir program buna ihtiyaç duyar, bu yüzden Peel onu yerinde bırakır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: цей елемент потрібен виконуваному файлу, який запускається, щойно програма потрапить у Смітник, тож Peel його не переміщує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：一个将在App进入废纸篓后运行的程序需要此项，因此Peel会将其保留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：一旦App進入「垃圾桶」就會執行的程式需要此項目，因此Peel會讓它留在原處。"
+          }
+        }
+      }
+    },
     "Left alone: a wallet or a key Peel protects is inside, so Peel leaves this folder where it is." : {
       "localizations" : {
         "cs" : {
@@ -105420,6 +105526,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「TV」App保留在這部Mac上的電影和節目，包括下載或匯入的項目。"
+          }
+        }
+      }
+    },
+    "Moving %@ to the Trash starts a program that waits for it to leave. Peel leaves that program and the file that starts it in place so it can finish, and History can’t bring back anything it removes." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přesunutí aplikace %@ do koše spustí program, který čeká, až aplikace opustí své místo. Peel tento program i soubor, který ho spouští, ponechá na místě, aby mohl doběhnout, a Historie nemůže vrátit nic, co program odstraní."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn du %@ in den Papierkorb legst, startet ein Programm, das darauf wartet, dass die App ihren Platz verlässt. Peel lässt dieses Programm und die Datei, von der es gestartet wird, an Ort und Stelle, damit das Programm seine Arbeit abschließen kann, und was es entfernt, lässt sich über den Verlauf nicht zurückholen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al trasladar %@ a la papelera, se inicia un programa que espera a que la app se vaya. Peel deja ese programa y el archivo que lo inicia donde están para que pueda terminar, e Historial no puede recuperar nada de lo que el programa elimine."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Placer %@ dans la corbeille lance un programme qui attendait le départ de l’app. Peel laisse en place ce programme et le fichier qui le lance, pour qu’il puisse aller jusqu’au bout, et l’Historique ne peut rien rétablir de ce que ce programme supprime."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spostando %@ nel Cestino si avvia un programma che attende che l’app se ne vada. Peel lascia al loro posto quel programma e il file che lo avvia, perché il programma possa finire il suo lavoro, e la Cronologia non può ripristinare nulla di ciò che rimuove."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”をゴミ箱に入れると、アプリが移動されるのを待っていたプログラムが起動します。Peelは、このプログラムが処理を完了できるよう、プログラム本体とそれを起動するファイルをそのままにします。このプログラムが削除したものは、履歴から元に戻すことはできません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’을(를) 휴지통으로 이동하면 앱이 옮겨지기를 기다리는 프로그램이 시작됩니다. Peel은 이 프로그램이 끝까지 실행될 수 있도록 프로그램과 이를 시작하는 파일을 그대로 두며, 프로그램이 제거하는 항목은 기록에서 되살릴 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als je %@ naar de prullenmand verplaatst, wordt er een programma gestart dat wacht tot de app weg is. Peel laat dat programma en het bestand waarmee het wordt gestart, op hun plek staan, zodat het programma zijn werk kan voltooien, en Geschiedenis kan niets terugzetten wat het verwijdert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przeniesienie aplikacji %@ do Kosza uruchomi program, który czeka, aż aplikacja zniknie. Peel zostawia na miejscu ten program i plik, który go uruchamia, aby mógł dokończyć pracę, a Historia nie może przywrócić niczego, co ten program usunie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover %@ para o Lixo inicia um programa que espera o app sair de onde está. O Peel deixa esse programa e o arquivo que o inicia onde estão, para que o programa possa terminar, e o Histórico não pode trazer de volta nada do que ele remover."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mutarea aplicației %@ în Coș pornește un program care așteaptă plecarea ei. Peel lasă pe loc acel program și fișierul care îl pornește, pentru ca programul să își poată încheia activitatea, iar nimic din ce elimină acesta nu poate fi readus din Istoric."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если переместить приложение «%@» в Корзину, запустится программа, которая ожидает его удаления. Peel оставляет на месте эту программу и файл, который ее запускает, чтобы она могла завершить работу, а все, что она удалит, История не сможет вернуть."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När %@ flyttas till papperskorgen startas ett program som väntar på att appen ska försvinna. Peel låter programmet och filen som startar det ligga kvar så att det kan slutföra sitt arbete, och Historik kan inte få tillbaka något som programmet tar bort."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulamasını Çöp Sepeti’ne taşımak, uygulamanın gitmesini bekleyen bir programı başlatır. Peel, işini bitirebilmesi için bu programı ve onu başlatan dosyayı yerinde bırakır; Geçmiş, programın kaldırdığı hiçbir şeyi geri getiremez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переміщення програми «%@» у Смітник запускає виконуваний файл, який чекає на її вилучення. Peel лишає на місці цей виконуваний файл і файл, який його запускає, щоб він міг завершити роботу, і Історія не зможе повернути нічого з того, що він вилучить."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将“%@”移到废纸篓会启动一个等待其离开的程序。Peel会将该程序及启动它的文件保留在原处，以便它能运行完毕，而“历史记录”无法恢复它移除的任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將「%@」丟到「垃圾桶」會啟動一個等待它離開的程式。Peel會將該程式和啟動它的檔案留在原處，以便它能執行完畢，而「歷史記錄」無法恢復它所移除的任何項目。"
           }
         }
       }

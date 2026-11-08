@@ -381,7 +381,12 @@ public enum PackageReceipts {
         }
         let rule = { (app: InstalledApp) in removedApps[PathPattern.comparablePath(of: app.url)] }
         let removedWithItsApp = ownApps.lazy.compactMap(rule).first
-        let uninstallers = apps.compactMap { UninstallsItself.of($0, environment: environment) }
+        var uninstallers: [UninstallsItself] = []
+        for app in apps {
+            if let uninstaller = await UninstallsItself.of(app, environment: environment) {
+                uninstallers.append(uninstaller)
+            }
+        }
         let uninstaller = uninstallers.first
         var items: [PackageReceipt.Item] = []
         var seen: Set<String> = []
@@ -399,8 +404,8 @@ public enum PackageReceipts {
                 .signInPlugIn
             } else if requiresPrivileges && reach.isBeyond(url) {
                 .beyondTheHelper
-            } else if uninstaller?.removes(url) == true {
-                .leftToItsUninstaller
+            } else if let held = uninstaller?.holdBack(for: url) {
+                held
             } else {
                 KeptOnlyHere.reason(
                     for: url.path(percentEncoded: false), home: environment.homeDirectory.path(percentEncoded: false),

@@ -332,7 +332,8 @@ struct MultipleAppsView: View {
         if !resetting(urls).isEmpty {
             lines.append(Text("The selected apps’ privacy permissions are cleared first, and History can’t bring them back."))
         }
-        lines += UninstallsItself.when(moving: urls, among: plan.apps).map(\.warning)
+        lines += (plan.bulk?.uninstallations ?? []).compactMap(\.uninstallsItself)
+            .filter { urls.contains($0.app.url) }.map(\.warning)
         for app in going {
             guard let root = TrustedRoot.of(app) else { continue }
             lines.append(Text("\(app.name)’s root certificate stays trusted on this Mac after the app goes."))

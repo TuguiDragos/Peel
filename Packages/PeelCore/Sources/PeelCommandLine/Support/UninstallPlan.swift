@@ -18,11 +18,12 @@ struct UninstallPlan {
     /// How many recommended leftovers need administrator access. The command line never asks for it, so they stay.
     let needsAdministrator: Int
     /// How many leftovers are listed but not recommended: shared with another app, only possible, or held back for
-    /// a reason other than the app's own uninstaller, which removes what it holds back, or than an administrator.
+    /// a reason other than the app's own uninstaller, which removes what it holds back, the job that runs once the
+    /// app has moved, which needs it, or an administrator.
     let needsReview: Int
     /// How many leftovers stay for an administrator (`Uninstallation.leftForAnAdministrator`).
     var leftForAnAdministrator = 0
-    var uninstallsItself = false
+    var letsItsProgramsRun = false
     var makersFolderNames: Set<String> = []
     var appSharesStorage = false
 
@@ -75,10 +76,10 @@ struct UninstallPlan {
             needsAdministrator: rest.count(where: { $0.match.isRecommended && $0.requiresPrivileges }),
             needsReview: rest.count(where: {
                 !$0.match.isRecommended && $0.match.heldBack != .leftToItsUninstaller
-                    && !forAnAdministrator.contains($0.url)
+                    && $0.match.heldBack != .neededWhenTheAppLeaves && !forAnAdministrator.contains($0.url)
             }),
             leftForAnAdministrator: forAnAdministrator.count,
-            uninstallsItself: uninstallation.uninstallsItself != nil,
+            letsItsProgramsRun: uninstallation.uninstallsItself?.letsItsProgramsRun == true,
             makersFolderNames: uninstallation.makersFolderNames,
             appSharesStorage: uninstallation.appSharesStorage
         )
@@ -128,7 +129,7 @@ struct UninstallPlan {
             apps: urls.filter { $0 == app },
             thenFiles: { stayed in stayed.isEmpty ? files : [] },
             usingHelperFor: [],
-            lettingTheirProgramsRun: uninstallsItself ? [app] : [],
+            lettingTheirProgramsRun: letsItsProgramsRun ? [app] : [],
             emptiedFoldersNamed: makersFolderNames
         )
     }

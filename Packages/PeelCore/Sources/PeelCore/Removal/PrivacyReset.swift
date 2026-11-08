@@ -53,11 +53,13 @@ public enum PrivacyReset {
     }
 
     static func goingNow(_ apps: [InstalledApp], with service: TrashService) async -> [InstalledApp] {
-        let uninstallingThemselves = apps.filter { UninstallsItself.of($0, environment: service.environment) != nil }
-        let refused = await service.refusalsNow(
-            ofApps: apps.map(\.url),
-            lettingTheirProgramsRun: Set(uninstallingThemselves.map(\.url))
-        )
+        var running: Set<URL> = []
+        for app in apps {
+            if await UninstallsItself.of(app, environment: service.environment)?.letsItsProgramsRun == true {
+                running.insert(app.url)
+            }
+        }
+        let refused = await service.refusalsNow(ofApps: apps.map(\.url), lettingTheirProgramsRun: running)
         return apps.filter { refused[$0.url] == nil }
     }
 

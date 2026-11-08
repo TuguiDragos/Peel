@@ -8,23 +8,24 @@ struct UninstallsItselfTests {
         url: URL(filePath: "/Applications/Mullvad VPN.app"), bundleIdentifier: "net.mullvad.vpn", name: "Mullvad VPN"
     )
 
-    @Test func mullvadUninstallsItselfOnceItLeavesTheApplicationsFolder() {
-        #expect(UninstallsItself.when(moving: [mullvad.url], among: [mullvad]).map(\.app) == [mullvad])
-        #expect(UninstallsItself.when(moving: [mullvad.url], among: [mullvad]).map(\.uninstaller) == [
-            .logsOut(script: "/Applications/Mullvad VPN.app/Contents/Resources/uninstall.sh"),
-        ])
+    @Test func mullvadUninstallsItselfOnceItLeavesTheApplicationsFolder() async {
+        let uninstallsItself = await UninstallsItself.of(mullvad)
+
+        #expect(uninstallsItself?.app == mullvad)
+        #expect(uninstallsItself?.uninstaller == .logsOut(script: "/Applications/Mullvad VPN.app/Contents/Resources/uninstall.sh"))
+        #expect(uninstallsItself?.letsItsProgramsRun == true)
     }
 
     /// The apps Peel lists come from a folder walk, whose URLs name a folder with a slash at the end.
-    @Test func knowsMullvadAsTheListOfAppsNamesIt() throws {
+    @Test func knowsMullvadAsTheListOfAppsNamesIt() async throws {
         let walked = URL(filePath: "/Applications/Mullvad VPN.app", directoryHint: .isDirectory)
         #expect(walked.path(percentEncoded: false).hasSuffix("/"))
         let listed = InstalledApp(url: walked, bundleIdentifier: "net.mullvad.vpn", name: "Mullvad VPN")
 
-        #expect(UninstallsItself.when(moving: [walked], among: [listed]).map(\.app) == [listed])
+        #expect(await UninstallsItself.of(listed)?.app == listed)
     }
 
-    @Test func nothingHappensWhileTheAppStaysOrSitsElsewhere() {
+    @Test func nothingHappensWhileTheAppSitsElsewhere() async {
         let elsewhere = InstalledApp(
             url: URL(filePath: "/Users/me/Applications/Mullvad VPN.app"), bundleIdentifier: "net.mullvad.vpn",
             name: "Mullvad VPN"
@@ -33,9 +34,8 @@ struct UninstallsItselfTests {
             url: URL(filePath: "/Applications/Mullvad VPN.app"), bundleIdentifier: "org.example.vpn", name: "Mullvad VPN"
         )
 
-        #expect(UninstallsItself.when(moving: [], among: [mullvad]).isEmpty)
-        #expect(UninstallsItself.when(moving: [elsewhere.url], among: [elsewhere]).isEmpty)
-        #expect(UninstallsItself.when(moving: [another.url], among: [another]).isEmpty)
+        #expect(await UninstallsItself.of(elsewhere) == nil)
+        #expect(await UninstallsItself.of(another) == nil)
     }
 
     private struct Installed: ~Copyable {
@@ -261,13 +261,13 @@ struct UninstallsItselfTests {
         }
     }
 
-    @Test func citrixUninstallsItselfThroughTheAgentThatWatchesItsPlace() throws {
+    @Test func citrixUninstallsItselfThroughTheAgentThatWatchesItsPlace() async throws {
         let citrix = try Citrix()
 
-        #expect(UninstallsItself.of(citrix.app, environment: citrix.environment)?.uninstaller == .deletesTheApp)
+        #expect(await UninstallsItself.of(citrix.app, environment: citrix.environment)?.uninstaller == .deletesTheApp)
     }
 
-    @Test func citrixIsAnOrdinaryAppWhenNoAgentWouldOpenItsUninstaller() throws {
+    @Test func citrixIsAnOrdinaryAppWhenNoAgentWouldOpenItsUninstaller() async throws {
         let elsewhere = try Citrix(watching: "/Applications/Another.app")
         let disabled = try Citrix(disabled: true)
         let noUninstaller = try Citrix(uninstallerInPlace: false)
@@ -276,10 +276,10 @@ struct UninstallsItselfTests {
             at: noAgent.environment.rootDirectory.appending(path: "Library/LaunchAgents/com.citrix.UninstallMonitor.plist")
         )
 
-        #expect(UninstallsItself.of(elsewhere.app, environment: elsewhere.environment) == nil)
-        #expect(UninstallsItself.of(disabled.app, environment: disabled.environment) == nil)
-        #expect(UninstallsItself.of(noUninstaller.app, environment: noUninstaller.environment) == nil)
-        #expect(UninstallsItself.of(noAgent.app, environment: noAgent.environment) == nil)
+        #expect(await UninstallsItself.of(elsewhere.app, environment: elsewhere.environment) == nil)
+        #expect(await UninstallsItself.of(disabled.app, environment: disabled.environment) == nil)
+        #expect(await UninstallsItself.of(noUninstaller.app, environment: noUninstaller.environment) == nil)
+        #expect(await UninstallsItself.of(noAgent.app, environment: noAgent.environment) == nil)
     }
 
     @Test func leavesToCitrixsUninstallerWhatItDeletesAndOffersTheRest() async throws {
@@ -370,14 +370,14 @@ struct UninstallsItselfTests {
         }
     }
 
-    @Test func teamViewerUninstallsItselfThroughTheDaemonThatWatchesIt() throws {
+    @Test func teamViewerUninstallsItselfThroughTheDaemonThatWatchesIt() async throws {
         let teamViewer = try TeamViewer()
 
-        let uninstaller = UninstallsItself.of(teamViewer.app, environment: teamViewer.environment)?.uninstaller
+        let uninstaller = await UninstallsItself.of(teamViewer.app, environment: teamViewer.environment)?.uninstaller
         #expect(uninstaller == .removesItsComponents)
     }
 
-    @Test func teamViewerIsAnOrdinaryAppWhenNoDaemonWouldOpenItsUninstaller() throws {
+    @Test func teamViewerIsAnOrdinaryAppWhenNoDaemonWouldOpenItsUninstaller() async throws {
         let elsewhere = try TeamViewer(watching: "/Applications/Another.app")
         let disabled = try TeamViewer(disabled: true)
         let noStarter = try TeamViewer(starterInPlace: false)
@@ -386,10 +386,10 @@ struct UninstallsItselfTests {
             at: noDaemon.environment.rootDirectory.appending(path: "Library/LaunchDaemons/com.teamviewer.UninstallerWatcher.plist")
         )
 
-        #expect(UninstallsItself.of(elsewhere.app, environment: elsewhere.environment) == nil)
-        #expect(UninstallsItself.of(disabled.app, environment: disabled.environment) == nil)
-        #expect(UninstallsItself.of(noStarter.app, environment: noStarter.environment) == nil)
-        #expect(UninstallsItself.of(noDaemon.app, environment: noDaemon.environment) == nil)
+        #expect(await UninstallsItself.of(elsewhere.app, environment: elsewhere.environment) == nil)
+        #expect(await UninstallsItself.of(disabled.app, environment: disabled.environment) == nil)
+        #expect(await UninstallsItself.of(noStarter.app, environment: noStarter.environment) == nil)
+        #expect(await UninstallsItself.of(noDaemon.app, environment: noDaemon.environment) == nil)
     }
 
     @Test func leavesToTeamViewersUninstallerWhatItRemovesAndOffersTheRest() async throws {
@@ -451,14 +451,192 @@ struct UninstallsItselfTests {
         #expect(result.trashed.map(\.originalURL) == [citrix.app.url])
     }
 
-    @Test func peelUninstallWarnsThatCitrixsUninstallerDeletesTheApp() throws {
+    @Test func peelUninstallWarnsThatCitrixsUninstallerDeletesTheApp() async throws {
         let citrix = try Citrix()
+        let uninstallsItself = await UninstallsItself.of(citrix.app, environment: citrix.environment)
 
         let warnings = UninstallCommand.warnings(
-            moving: [citrix.app.url], of: citrix.app, resettingPrivacy: false, environment: citrix.environment
+            moving: [citrix.app.url], of: citrix.app, uninstallsItself: uninstallsItself, resettingPrivacy: false
         )
 
         #expect(warnings.count == 1)
         #expect(warnings.first?.contains("deletes the app, even from the Trash") == true)
+    }
+
+    private struct Watched: ~Copyable {
+        enum Runs {
+            case helper
+            case helperInsideTheApp
+            case script
+        }
+
+        let directory: TemporaryDirectory
+        let app: InstalledApp
+        let environment: SearchEnvironment
+        let job: URL
+        let support: URL
+
+        init(
+            watching watched: String? = nil,
+            runs: Runs = .helper,
+            runnable: Bool = true,
+            disabled: Bool = false
+        ) throws {
+            let directory = try TemporaryDirectory()
+            let bundle = try directory.directory("root/Applications/Watched.app")
+            let executable = try directory.file("root/Applications/Watched.app/Contents/MacOS/Watched")
+            let support = try directory.directory("home/Library/Application Support/Watched")
+            let helper = switch runs {
+            case .helper, .script: "home/Library/Application Support/Watched/Uninstall Helper.app/Contents/MacOS/Helper"
+            case .helperInsideTheApp: "root/Applications/Watched.app/Contents/Helpers/Uninstall Helper"
+            }
+            try directory.file(helper)
+            if runnable {
+                try directory.setPermissions(0o755, of: helper)
+            }
+            let script = try directory.file("home/Library/Application Support/Watched/uninstall.sh")
+            let arguments = switch runs {
+            case .helper, .helperInsideTheApp: [directory.url.appending(path: helper).path(percentEncoded: false)]
+            case .script: ["sh", script.path(percentEncoded: false)]
+            }
+            let trashed = directory.url.appending(path: "home/.Trash/Watched.app/Contents/MacOS/Watched")
+            self.job = try directory.file(
+                "home/Library/LaunchAgents/org.example.watched.UninstallHelper.plist",
+                contents: PropertyListSerialization.data(
+                    fromPropertyList: [
+                        "Label": "org.example.watched.UninstallHelper",
+                        "Disabled": disabled,
+                        "ProgramArguments": arguments,
+                        "WatchPaths": [
+                            watched ?? executable.path(percentEncoded: false), trashed.path(percentEncoded: false),
+                        ],
+                    ],
+                    format: .xml,
+                    options: 0
+                )
+            )
+            self.app = InstalledApp(url: bundle, bundleIdentifier: "org.example.watched", name: "Watched")
+            self.environment = SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            )
+            self.support = support
+            self.directory = directory
+        }
+
+        func uninstallsItself(whileLaunchdHasTheJob loaded: Bool = true) async -> UninstallsItself? {
+            let (app, environment) = (app, environment)
+            return await UninstallsItself.$launchdStandIn.withValue({ _ in loaded }) {
+                await UninstallsItself.of(app, environment: environment)
+            }
+        }
+
+        func prepared() async -> Uninstallation {
+            let (app, environment) = (app, environment)
+            return await UninstallsItself.$launchdStandIn.withValue({ _ in true }) {
+                await Uninstallation.prepare(app, installedApps: [app], environment: environment)
+            }
+        }
+
+        func service() throws -> TrashService {
+            let trash = try directory.directory("home/.Trash")
+            return TrashService(environment: environment) { url in
+                let destination = trash.appending(path: url.lastPathComponent)
+                try FileManager.default.moveItem(at: url, to: destination)
+                return destination
+            }
+        }
+    }
+
+    @Test func anAppUninstallsItselfThroughAJobThatWatchesItsPlace() async throws {
+        let watched = try Watched()
+
+        let uninstallsItself = await watched.uninstallsItself()
+
+        #expect(uninstallsItself?.uninstaller == .watchedByAJob)
+        #expect(uninstallsItself?.letsItsProgramsRun == false)
+    }
+
+    @Test func anAppIsOrdinaryWhenNoLoadedJobWouldRunAProgramOutsideIt() async throws {
+        let elsewhere = try Watched(watching: "/Applications/Another.app")
+        let insideTheApp = try Watched(runs: .helperInsideTheApp)
+        let notRunnable = try Watched(runnable: false)
+        let disabled = try Watched(disabled: true)
+        let notLoaded = try Watched()
+
+        #expect(await elsewhere.uninstallsItself() == nil)
+        #expect(await insideTheApp.uninstallsItself() == nil)
+        #expect(await notRunnable.uninstallsItself() == nil)
+        #expect(await disabled.uninstallsItself() == nil)
+        #expect(await notLoaded.uninstallsItself(whileLaunchdHasTheJob: false) == nil)
+    }
+
+    @Test func leavesWhatTheWatchingJobNeedsWhereItIsAndOffersTheRest() async throws {
+        let watched = try Watched()
+        let caches = try watched.directory.directory("home/Library/Caches/org.example.watched")
+
+        let plan = await watched.prepared()
+
+        let heldBack = Dictionary(
+            plan.scan.leftovers.map { (PathPattern.comparablePath(of: $0.url), $0.match.heldBack) },
+            uniquingKeysWith: { first, _ in first }
+        )
+        #expect(heldBack[PathPattern.comparablePath(of: watched.job)] == .some(.neededWhenTheAppLeaves))
+        #expect(heldBack[PathPattern.comparablePath(of: watched.support)] == .some(.neededWhenTheAppLeaves))
+        #expect(heldBack[PathPattern.comparablePath(of: caches)] == .some(nil))
+    }
+
+    @Test func aScriptTheWatchingJobRunsKeepsItsFolderInPlace() async throws {
+        let watched = try Watched(runs: .script)
+
+        let plan = await watched.prepared()
+
+        let support = plan.scan.leftovers.first {
+            PathPattern.comparablePath(of: $0.url) == PathPattern.comparablePath(of: watched.support)
+        }
+        #expect(await watched.uninstallsItself()?.uninstaller == .watchedByAJob)
+        #expect(support?.match.heldBack == .neededWhenTheAppLeaves)
+    }
+
+    @Test func movingAWatchedAppLeavesItsJobAndProgramInPlace() async throws {
+        let watched = try Watched()
+        let caches = try watched.directory.directory("home/Library/Caches/org.example.watched")
+        let plan = await watched.prepared()
+
+        let result = await plan.move(plan.suggestedSelection(canUseHelper: false), using: try watched.service())
+
+        #expect(result.failures.isEmpty, "\(result.failures.map(\.reason))")
+        #expect(
+            Set(result.trashed.map { PathPattern.comparablePath(of: $0.originalURL) })
+                == Set([watched.app.url, caches].map(PathPattern.comparablePath))
+        )
+        #expect(!watched.job.isMissing)
+        #expect(!watched.support.isMissing)
+    }
+
+    @Test func aWatchedAppsOwnProgramStillKeepsItInPlace() async throws {
+        let watched = try Watched()
+        try FileManager.default.removeItem(at: watched.app.url.appending(path: "Contents/MacOS/Watched"))
+        let program = try watched.directory.runningProgram("root/Applications/Watched.app/Contents/MacOS/Watched")
+        defer { program.terminate() }
+        let plan = await watched.prepared()
+
+        let result = await plan.move([watched.app.url], using: try watched.service())
+
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.reason) == [.heldOpen(by: ["Watched"])])
+    }
+
+    @Test func peelUninstallWarnsThatAWatchedAppStartsAProgramAsItLeaves() async throws {
+        let watched = try Watched()
+        let uninstallsItself = await watched.uninstallsItself()
+
+        let warnings = UninstallCommand.warnings(
+            moving: [watched.app.url], of: watched.app, uninstallsItself: uninstallsItself, resettingPrivacy: false
+        )
+
+        #expect(warnings == [
+            "Moving Watched to the Trash starts a program that waits for it to leave. Peel leaves that program and the file that starts it in place so it can finish, and the Trash can't bring back anything it removes.",
+        ])
     }
 }

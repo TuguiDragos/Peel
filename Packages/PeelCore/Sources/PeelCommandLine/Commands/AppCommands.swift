@@ -527,14 +527,14 @@ struct UninstallCommand: AsyncParsableCommand {
     static func warnings(
         moving urls: Set<URL>,
         of app: InstalledApp,
-        resettingPrivacy: Bool,
-        environment: SearchEnvironment = .current
+        uninstallsItself: UninstallsItself?,
+        resettingPrivacy: Bool
     ) -> [String] {
         var warnings: [String] = []
         if resettingPrivacy {
             warnings.append("Peel resets \(app.name)'s privacy permissions just before it moves. The Trash can't bring them back.")
         }
-        for app in UninstallsItself.when(moving: urls, among: [app], environment: environment) {
+        if let app = uninstallsItself, urls.contains(app.app.url) {
             switch app.uninstaller {
             case .logsOut(let script):
                 warnings.append("Once \(app.app.name) leaves the Applications folder, its own service uninstalls it: it logs this Mac out of the account and deletes its settings, which the Trash can't bring back. Write down the account number first, or run its own uninstaller instead: \(script)")
@@ -542,6 +542,8 @@ struct UninstallCommand: AsyncParsableCommand {
                 warnings.append("Once \(app.app.name) leaves the Applications folder, its own uninstaller opens and asks for an administrator's password. If you continue there, it deletes the app, even from the Trash, and its system files, which the Trash can't bring back.")
             case .removesItsComponents:
                 warnings.append("Once \(app.app.name) leaves the Applications folder, its own uninstaller opens and asks to remove the components it keeps in the system. If you continue there, it deletes them, which the Trash can't bring back.")
+            case .watchedByAJob:
+                warnings.append("Moving \(app.app.name) to the Trash starts a program that waits for it to leave. Peel leaves that program and the file that starts it in place so it can finish, and the Trash can't bring back anything it removes.")
             }
         }
         if urls.contains(app.url), let root = TrustedRoot.of(app) {
@@ -723,7 +725,10 @@ struct UninstallCommand: AsyncParsableCommand {
         // With `--json`, standard output is the report alone, so the warnings go where the notes go.
         if !plan.moving.isEmpty {
             let moving = Set(plan.moving.map(\.url))
-            let warnings = Self.warnings(moving: moving, of: target, resettingPrivacy: resetPrivacy)
+            let warnings = Self.warnings(
+                moving: moving, of: target, uninstallsItself: uninstallation.uninstallsItself,
+                resettingPrivacy: resetPrivacy
+            )
             let dock = Self.dockNote(for: target, isInTheDock: isInTheDock, keeping: keepInDock)
             let webApp = Self.browserName(of: target, among: apps)
                 .flatMap { Self.webAppNote(for: target, browserName: $0) }

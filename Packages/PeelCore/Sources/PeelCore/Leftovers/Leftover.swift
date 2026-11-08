@@ -127,6 +127,9 @@ public enum HoldBack: String, Sendable, Hashable {
     /// Removed by the app's own uninstaller once the app has moved (`UninstallsItself`). Moved first, the file of
     /// the job that runs the uninstaller would stop it, and the rest of its cleanup would never happen.
     case leftToItsUninstaller
+    /// The file of the job that runs once the app has moved (`UninstallsItself.watchedByAJob`), or what holds the
+    /// program it runs: moved, the job would stop, or its program would go from under it.
+    case neededWhenTheAppLeaves
     /// The copy macOS installed of an app's system extension, which only macOS removes.
     case systemExtension
     /// A system extension macOS removes at the next restart.
@@ -190,7 +193,7 @@ public enum HoldBack: String, Sendable, Hashable {
     public var cannotBeMoved: Bool {
         self == .holdsDocuments || self == .holdsALibrary || self == .holdsKeys || self == .holdsWorkKeptInACache
             || self == .couldNotLookInside
-            || self == .beyondTheHelper || self == .leftToItsUninstaller
+            || self == .beyondTheHelper || self == .leftToItsUninstaller || self == .neededWhenTheAppLeaves
             || self == .systemExtension || self == .systemExtensionGoingAtRestart || self == .deletableSystemExtension
             || self == .signInPlugIn
             || self == .holdsAnExclusion
@@ -437,7 +440,7 @@ public struct LeftoverScan: Sendable {
 
     func leavingToItsUninstaller(_ app: UninstallsItself) -> LeftoverScan {
         LeftoverScan(
-            leftovers: leftovers.map { app.removes($0.url) ? $0.heldBack(.leftToItsUninstaller) : $0 },
+            leftovers: leftovers.map { leftover in app.holdBack(for: leftover.url).map(leftover.heldBack) ?? leftover },
             unreadableLocations: unreadableLocations,
             cutShortLocations: cutShortLocations,
             needsFullDiskAccess: needsFullDiskAccess

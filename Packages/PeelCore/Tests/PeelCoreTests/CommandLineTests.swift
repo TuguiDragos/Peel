@@ -139,16 +139,21 @@ struct CommandLineTests {
     }
 
     /// What the Trash can't bring back is said before the question in every output: with `--json` on standard error.
-    @Test func warnsOfWhatTheTrashCantBringBack() {
+    @Test func warnsOfWhatTheTrashCantBringBack() async {
         let mullvad = InstalledApp(
             url: URL(filePath: "/Applications/Mullvad VPN.app", directoryHint: .isDirectory),
             bundleIdentifier: "net.mullvad.vpn", name: "Mullvad VPN"
         )
-        let warnings = UninstallCommand.warnings(moving: [mullvad.url], of: mullvad, resettingPrivacy: true)
+        let uninstallsItself = await UninstallsItself.of(mullvad)
+        let warnings = UninstallCommand.warnings(
+            moving: [mullvad.url], of: mullvad, uninstallsItself: uninstallsItself, resettingPrivacy: true
+        )
         #expect(warnings.count == 2)
         #expect(warnings.contains { $0.contains("privacy permissions") })
         #expect(warnings.contains { $0.contains("logs this Mac out") })
-        #expect(UninstallCommand.warnings(moving: [], of: mullvad, resettingPrivacy: false).isEmpty)
+        #expect(UninstallCommand.warnings(
+            moving: [], of: mullvad, uninstallsItself: uninstallsItself, resettingPrivacy: false
+        ).isEmpty)
     }
 
     @Test func saysWhatRootCertificateStaysTrustedOnceTheAppGoes() {
@@ -161,13 +166,19 @@ struct CommandLineTests {
             bundleIdentifier: "com.xk72.Charles", name: "Charles"
         )
 
-        #expect(UninstallCommand.warnings(moving: [proxyman.url], of: proxyman, resettingPrivacy: false) == [
+        #expect(UninstallCommand.warnings(
+            moving: [proxyman.url], of: proxyman, uninstallsItself: nil, resettingPrivacy: false
+        ) == [
             "Proxyman's root certificate stays trusted on this Mac after the app goes. To stop trusting it, choose Certificate > Reset all Proxyman Certificates in Proxyman first.",
         ])
-        #expect(UninstallCommand.warnings(moving: [charles.url], of: charles, resettingPrivacy: false) == [
+        #expect(UninstallCommand.warnings(
+            moving: [charles.url], of: charles, uninstallsItself: nil, resettingPrivacy: false
+        ) == [
             "Charles's root certificate stays trusted on this Mac after the app goes. To stop trusting it, open the certificate whose name begins with Charles Proxy in Keychain Access and change its trust settings.",
         ])
-        #expect(UninstallCommand.warnings(moving: [], of: proxyman, resettingPrivacy: false).isEmpty)
+        #expect(
+            UninstallCommand.warnings(moving: [], of: proxyman, uninstallsItself: nil, resettingPrivacy: false).isEmpty
+        )
     }
 
     /// Like the app, `peel uninstall` takes the app's icon out of the Dock once the app is in the Trash, unless told

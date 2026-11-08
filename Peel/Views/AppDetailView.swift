@@ -477,7 +477,9 @@ struct AppDetailView: View {
         if !resetting(urls).isEmpty {
             lines.append(Text("The app’s privacy permissions are cleared first, and History can’t bring them back."))
         }
-        lines += UninstallsItself.when(moving: urls, among: [plan.app]).map(\.warning)
+        if let uninstallsItself = plan.uninstallation?.uninstallsItself, urls.contains(uninstallsItself.app.url) {
+            lines.append(uninstallsItself.warning)
+        }
         if urls.contains(plan.app.url), let root = TrustedRoot.of(plan.app) {
             lines.append(Text("\(plan.app.name)’s root certificate stays trusted on this Mac after the app goes."))
             lines.append(root.step(in: plan.app.name))

@@ -63,7 +63,9 @@ final class PackageLibrary {
             let result = await TrashService(exclusions: ExclusionsStore.shared.exclusions).trash(
                 items.map(\.url),
                 usingHelperFor: privileged,
-                lettingTheirProgramsRun: Set(items.filter { $0.uninstallsItself != nil }.map(\.url))
+                lettingTheirProgramsRun: Set(
+                    items.filter { $0.uninstallsItself?.letsItsProgramsRun == true }.map(\.url)
+                )
             )
             // Written down before the rescan, which can take a while: History is the way back for what just moved.
             await record(result)

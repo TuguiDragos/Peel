@@ -1,4 +1,4 @@
-public import Foundation
+import Foundation
 internal import PeelPrivileged
 
 /// An app whose own uninstaller runs once the app leaves its place, deleting what History can't put back.
@@ -10,11 +10,21 @@ public struct UninstallsItself: Sendable, Hashable {
         case deletesTheApp
         /// Asks to remove the components it keeps in the system, then deletes them.
         case removesItsComponents
+        /// A launchd job watches the app's place and, once the app leaves it, runs a program kept outside the app.
+        case watchedByAJob
     }
 
     public let app: InstalledApp
     public let uninstaller: Uninstaller
     private let removed: Set<String>
+    /// What the job of `watchedByAJob` needs where it is: its file, its program, and the files its arguments name.
+    private var needed: Set<String> = []
+
+    /// True when the app's own uninstaller stops the programs the app runs from inside itself, so they keep running
+    /// while it moves. A job known only by what it watches promises nothing of the kind.
+    public var letsItsProgramsRun: Bool {
+        if case .watchedByAJob = uninstaller { false } else { true }
+    }
 
     /// Mullvad VPN's daemon watches `/Applications/Mullvad VPN.app`, and when its own program goes it logs the Mac out
     /// of the account and runs `uninstall_macos.sh`, which deletes the settings (`mullvad-daemon/src/macos.rs`).
@@ -102,9 +112,12 @@ public struct UninstallsItself: Sendable, Hashable {
         home: [String]()
     )
 
-    public static func of(_ app: InstalledApp, environment: SearchEnvironment = .current) -> UninstallsItself? {
-        mullvad(app, environment: environment) ?? citrix(app, environment: environment)
-            ?? teamViewer(app, environment: environment)
+    public static func of(_ app: InstalledApp, environment: SearchEnvironment = .current) async -> UninstallsItself? {
+        if let known = mullvad(app, environment: environment) ?? citrix(app, environment: environment)
+            ?? teamViewer(app, environment: environment) {
+            return known
+        }
+        return await watched(app, environment: environment)
     }
 
     private static func mullvad(_ app: InstalledApp, environment: SearchEnvironment) -> UninstallsItself? {
@@ -153,6 +166,78 @@ public struct UninstallsItself: Sendable, Hashable {
         )
     }
 
+    /// Watched when a job launchd has loaded from a folder it reads by itself names the app's place, or something
+    /// inside it, in `WatchPaths`, and runs a program outside the app, which can still run once the app has moved.
+    private static func watched(_ app: InstalledApp, environment: SearchEnvironment) async -> UninstallsItself? {
+        let place = PathPattern.comparablePath(of: app.url)
+        var needed: Set<String> = []
+        for (job, paths) in jobs(watching: place, in: environment) where await isLoaded(job) {
+            needed.insert(PathPattern.comparablePath(of: job.plist))
+            needed.formUnion(paths)
+        }
+        guard !needed.isEmpty else { return nil }
+        return UninstallsItself(app: app, uninstaller: .watchedByAJob, removed: [], needed: needed)
+    }
+
+    /// Each job whose `WatchPaths` names `place` or something inside it, with the paths it needs to run: its program
+    /// and each file its arguments name outside the app.
+    private static func jobs(
+        watching place: String,
+        in environment: SearchEnvironment
+    ) -> [(job: LaunchdCleanup.Job, paths: Set<String>)] {
+        let folders = environment.locations.filter { $0.kind == .launchAgents || $0.kind == .launchDaemons }
+        return folders.flatMap { folder in
+            plists(in: folder.url).compactMap { plist -> (job: LaunchdCleanup.Job, paths: Set<String>)? in
+                guard
+                    let definition = JobDefinition(contentsOf: plist), !definition.isDisabled,
+                    LaunchdCleanup.isAppsOwn(definition.label),
+                    definition.watchPaths.contains(where: {
+                        PathComponents.isPath(PathPattern.comparablePath(of: URL(filePath: $0)), atOrInside: place)
+                    }),
+                    let program = definition.program.flatMap(runnable),
+                    !PathComponents.isPath(program, atOrInside: place)
+                else { return nil }
+                let named = definition.arguments.dropFirst().filter { $0.hasPrefix("/") }
+                    .map { PathPattern.comparablePath(of: URL(filePath: $0)) }
+                    .filter { !PathComponents.isPath($0, atOrInside: place) }
+                let job = LaunchdCleanup.Job(
+                    label: definition.label, isDaemon: folder.kind == .launchDaemons, plist: plist,
+                    loadsInTheBackgroundSession: definition.loadsInTheBackground
+                )
+                return (job, Set([program] + named))
+            }
+        }
+    }
+
+    private static func plists(in folder: URL) -> [URL] {
+        let contents = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil)) ?? []
+        return contents.filter { $0.pathExtension == "plist" }
+    }
+
+    /// The program launchd runs for `program` when it can be run: an absolute path, or a name looked up in the
+    /// standard path (`man launchd.plist`, ProgramArguments).
+    private static func runnable(_ program: String) -> String? {
+        let candidates = program.hasPrefix("/")
+            ? [program] : _PATH_STDPATH.split(separator: ":").map { "\($0)/\(program)" }
+        return candidates.first(where: FileManager.default.isExecutableFile(atPath:))
+            .map { PathPattern.comparablePath(of: URL(filePath: $0)) }
+    }
+
+    /// Whether launchd has `job` loaded from its file now, so it starts once the app leaves. An answer Peel can't read
+    /// counts as yes: leaving the job's files in place costs nothing, and moving them could stop it halfway.
+    private static func isLoaded(_ job: LaunchdCleanup.Job) async -> Bool {
+        if let launchdStandIn { return launchdStandIn(job) }
+        let reply = await Launchctl.run(["print", "\(job.domain)/\(job.label)"])
+        return switch Launchctl.answer(status: reply.status, output: reply.output) {
+        case .details(let details): LaunchdCleanup.isLoaded(from: details.path, job)
+        case .gone: false
+        case .unreadable: true
+        }
+    }
+
+    /// For a test: no test loads a job into launchd.
+    @TaskLocal static var launchdStandIn: (@Sendable (LaunchdCleanup.Job) -> Bool)?
+
     private static func paths(
         _ removes: (root: [String], home: [String]),
         in environment: SearchEnvironment
@@ -162,16 +247,9 @@ public struct UninstallsItself: Sendable, Hashable {
         return Set(urls.map(PathPattern.comparablePath))
     }
 
-    func removes(_ url: URL) -> Bool {
+    func holdBack(for url: URL) -> HoldBack? {
         let path = PathPattern.comparablePath(of: url)
-        return removed.contains { PathComponents.isPath(path, atOrInside: $0) }
-    }
-
-    public static func when(
-        moving urls: Set<URL>,
-        among apps: [InstalledApp],
-        environment: SearchEnvironment = .current
-    ) -> [UninstallsItself] {
-        apps.filter { urls.contains($0.url) }.compactMap { of($0, environment: environment) }
+        if removed.contains(where: { PathComponents.isPath(path, atOrInside: $0) }) { return .leftToItsUninstaller }
+        return needed.contains { PathComponents.isPath($0, atOrInside: path) } ? .neededWhenTheAppLeaves : nil
     }
 }
