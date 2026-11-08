@@ -67,6 +67,13 @@ import Testing
         #expect(left.command == "sudo rm /etc/paths.d/Wireshark")
     }
 
+    @Test func namesThePathPrivilegesLeavesForItsCommandLineTool() throws {
+        let mac = try Mac()
+        try mac.directory.file("root/private/etc/paths.d/PrivilegesCLI")
+
+        #expect(mac.left("corp.sap.privileges")?.command == "sudo rm /etc/paths.d/PrivilegesCLI")
+    }
+
     @Test func namesNothingForAnAppItDoesNotKnow() throws {
         let mac = try Mac()
         try mac.directory.file("root/private/etc/paths.d/postgresapp")

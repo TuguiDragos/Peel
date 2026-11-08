@@ -56,6 +56,8 @@ public struct LeftInTheSystem: Sendable, Hashable {
         "com.postgresapp.Postgres2": ["/etc/paths.d/postgresapp"],
         // Wireshark's "Read me first": what its package that adds Wireshark to the system path writes.
         "org.wireshark.Wireshark": ["/etc/paths.d/Wireshark", "/etc/manpaths.d/Wireshark"],
+        // SAP's "Uninstallation" page for Privileges, which its package's install script writes: its command's path.
+        "corp.sap.privileges": ["/etc/paths.d/PrivilegesCLI"],
     ]
 
     /// Casks whose own uninstall steps leave what their app put there, which Rancher Desktop's and Wireshark's remove.

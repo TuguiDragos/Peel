@@ -80,10 +80,10 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
 - **A root certificate stays trusted.** Before an app such as Charles or Proxyman goes, or a tool such as mkcert,
   Caddy, or mitmproxy is uninstalled on the Homebrew page, Peel says that the root certificate it added stays trusted
   on this Mac, and how its maker, or Keychain Access, stops trusting it. Peel never changes a keychain.
-- **What stays in `/etc` and `/opt`.** Before battery, Rancher Desktop, Postgres.app, or Wireshark goes, or the battery
-  or Postgres.app cask is uninstalled on the Homebrew page, Peel names what the app left in `/etc/sudoers.d`,
-  `/etc/paths.d`, `/etc/manpaths.d`, or `/opt`, such as a rule that lets anyone run its programs as an administrator
-  without a password, and the command that removes it. Peel never changes those folders.
+- **What stays in `/etc` and `/opt`.** Before battery, Rancher Desktop, Postgres.app, Wireshark, or SAP's Privileges
+  goes, or the battery or Postgres.app cask is uninstalled on the Homebrew page, Peel names what the app left in
+  `/etc/sudoers.d`, `/etc/paths.d`, `/etc/manpaths.d`, or `/opt`, such as a rule that lets anyone run its programs as an
+  administrator without a password, and the command that removes it. Peel never changes those folders.
 - **Lines that still point to what moved.** After a removal, Peel reads the files your shell runs when it starts
   (`.zshrc` and the others zsh, bash, tcsh, and fish read) and names each line that still points to what moved, such
   as a `PATH` entry or an alias into the app, so a new shell stops printing an error once you edit it. Peel changes
