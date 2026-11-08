@@ -89,9 +89,8 @@ public struct UninstallsItself: Sendable, Hashable {
         ]
     )
 
-    /// TeamViewer's daemon `com.teamviewer.UninstallerWatcher` watches the app, TeamViewer or TeamViewer Host, and,
-    /// once it is in the Trash, opens the uninstaller that asks to remove what TeamViewer's package put in the system
-    /// (TeamViewer 15's `TeamViewerUninstaller.app` and its helper).
+    /// TeamViewer's daemon `com.teamviewer.UninstallerWatcher` opens TeamViewer 15's uninstaller once TeamViewer or
+    /// TeamViewer Host is in the Trash, which asks to remove what TeamViewer's package put in the system.
     private static let teamViewer = (
         identifiers: ["com.teamviewer.TeamViewer", "com.teamviewer.TeamViewerHost"],
         watcher: "Library/LaunchDaemons/com.teamviewer.UninstallerWatcher.plist"
@@ -118,9 +117,8 @@ public struct UninstallsItself: Sendable, Hashable {
         home: [String]()
     )
 
-    /// The daemon BlueStacks installs, `com.now.gg.BlueStacks.cleanup`, watches both of its apps and, once either
-    /// leaves, runs its cleanup as root, which deletes the other one from `/Applications`, their data in
-    /// `/Users/Shared`, and the main package's receipt (the package's `uninstaller.sh`).
+    /// BlueStacks' daemon `com.now.gg.BlueStacks.cleanup` runs its cleanup as root once either of its apps leaves
+    /// `/Applications`, which deletes the other one and what is below (the package's `uninstaller.sh`).
     private static let blueStacks = (
         identifiers: ["com.now.gg.BlueStacks", "com.now.gg.BlueStacksAirMIM"],
         cleanup: "Library/LaunchDaemons/com.now.gg.BlueStacks.cleanup.plist"
@@ -137,11 +135,8 @@ public struct UninstallsItself: Sendable, Hashable {
         home: [String]()
     )
 
-    /// NoMachine's daemon `com.nomachine.uninstall` watches `/Applications/NoMachine.app` and, once it is gone, runs
-    /// `nxuninstall.sh` as root (NoMachine's "How to uninstall NoMachine on Mac"). The script ends NoMachine's
-    /// programs, deletes everything below but its folder in Application Support, and deletes the app from the Trash
-    /// when it finds the server running from it there. Then it opens NoMachine Uninstall, which asks for an
-    /// administrator to delete NoMachine's accounts and that folder.
+    /// Once the app is gone, NoMachine's daemon `com.nomachine.uninstall` runs `nxuninstall.sh` as root, which,
+    /// with the NoMachine Uninstall it opens, deletes what is below (NoMachine's "How to uninstall NoMachine on Mac").
     private static let noMachine = (
         identifier: "com.nomachine.nxdock",
         uninstall: "Library/LaunchDaemons/com.nomachine.uninstall.plist"

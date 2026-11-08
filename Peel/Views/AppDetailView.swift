@@ -469,9 +469,7 @@ struct AppDetailView: View {
         return PrivacyReset.apps(among: [plan.app], moving: urls)
     }
 
-    /// The confirmation's message: the privacy reset, which History can't undo, an app that uninstalls itself once
-    /// it moves, a root certificate it leaves trusted, the command its maker gives to run first, what it leaves in
-    /// macOS's own settings folders, and Homebrew's own record of the app when it stays.
+    /// The confirmation's message: what the removal does that History can't undo, and what the app leaves behind.
     private var removalNote: Text? {
         let urls = plan.question.request?.urls ?? []
         var lines: [Text] = []

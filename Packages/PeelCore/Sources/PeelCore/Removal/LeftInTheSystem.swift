@@ -1,8 +1,7 @@
 import Foundation
 
-/// What an app leaves in macOS's own settings folders, such as a rule for `sudo` in `/etc/sudoers.d` or a folder of
-/// programs for the shell in `/etc/paths.d`, or in a folder of its own in `/opt`, which stays once the app goes until
-/// an administrator removes it. Peel never changes those folders: it names what is there and the command that does.
+/// What an app leaves in `/etc`, such as a rule for `sudo` in `/etc/sudoers.d`, or in `/opt`, until an administrator
+/// removes it. Peel never changes those folders: it names what is there and the command that removes it.
 public struct LeftInTheSystem: Sendable, Hashable {
     /// Each item that is on this Mac, as `/etc` and `/opt` name it.
     public let paths: [String]

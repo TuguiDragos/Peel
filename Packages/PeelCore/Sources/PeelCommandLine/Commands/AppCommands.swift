@@ -522,8 +522,7 @@ struct UninstallCommand: AsyncParsableCommand {
             ?? AppInspector.knownName(forBundleIdentifier: identifier)
     }
 
-    /// What the removal does that the Trash can't bring back, a root certificate the app leaves trusted, the command
-    /// its maker gives to run first, and what it leaves in macOS's own settings folders, said before the question.
+    /// What the removal does that the Trash can't bring back, and what the app leaves behind, said before the question.
     static func warnings(
         moving urls: Set<URL>,
         of app: InstalledApp,

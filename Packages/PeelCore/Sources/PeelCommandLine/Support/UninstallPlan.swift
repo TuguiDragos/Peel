@@ -17,9 +17,8 @@ struct UninstallPlan {
     let items: [Item]
     /// How many recommended leftovers need administrator access. The command line never asks for it, so they stay.
     let needsAdministrator: Int
-    /// How many leftovers are listed but not recommended: shared with another app, only possible, or held back for
-    /// a reason other than the app's own uninstaller, which removes what it holds back, the job that runs once the
-    /// app has moved, which needs it, or an administrator.
+    /// How many leftovers are listed but not recommended, other than those the app's own uninstaller removes, the job
+    /// that runs once the app has moved needs, or only an administrator can move.
     let needsReview: Int
     /// How many leftovers stay for an administrator (`Uninstallation.leftForAnAdministrator`).
     var leftForAnAdministrator = 0
