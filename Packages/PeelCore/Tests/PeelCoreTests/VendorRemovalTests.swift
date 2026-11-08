@@ -92,6 +92,40 @@ struct VendorRemovalTests {
         )
     }
 
+    @Test func findsTheUninstallerNamedForTheFolderAnAppSharesWithItsProduct() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Applications/TurboVNC/TurboVNC Viewer.app")
+        try directory.directory("Applications/TurboVNC/TurboVNC Viewer (Listen Mode).app")
+        try directory.directory("Applications/TurboVNC/Uninstall TurboVNC.app")
+        try directory.directory("Applications/Tools/Notes.app")
+        try directory.directory("Applications/Tools/Uninstall Tools.app")
+        let viewer = app(in: directory, path: "Applications/TurboVNC/TurboVNC Viewer.app", name: "TurboVNC Viewer")
+        let listener = app(
+            in: directory, path: "Applications/TurboVNC/TurboVNC Viewer (Listen Mode).app",
+            name: "TurboVNC Viewer (Listen Mode)"
+        )
+        let notes = app(in: directory, path: "Applications/Tools/Notes.app", name: "Notes")
+        let applications = folders(in: directory)
+
+        #expect(VendorRemoval.uninstaller(for: viewer, applicationsFolders: applications)?.lastPathComponent == "Uninstall TurboVNC.app")
+        #expect(VendorRemoval.uninstaller(for: listener, applicationsFolders: applications)?.lastPathComponent == "Uninstall TurboVNC.app")
+        #expect(VendorRemoval.uninstaller(for: notes, applicationsFolders: applications) == nil)
+    }
+
+    @Test func findsAnUninstallerWithoutAName() throws {
+        let directory = try TemporaryDirectory()
+        let applications = directory.url.appending(path: "Applications", directoryHint: .isDirectory)
+        try directory.directory("Applications/krisp.app")
+        try directory.directory("Applications/Utilities/krisp/Uninstaller.app")
+        try directory.directory("Applications/Notes.app")
+        try directory.directory("Applications/Utilities/Other/Uninstaller.app")
+        let krisp = app(in: directory, path: "Applications/krisp.app", name: "krisp")
+        let notes = app(in: directory, path: "Applications/Notes.app", name: "Notes")
+
+        #expect(VendorRemoval.uninstaller(for: krisp, applicationsFolders: [applications])?.lastPathComponent == "Uninstaller.app")
+        #expect(VendorRemoval.uninstaller(for: notes, applicationsFolders: [applications]) == nil)
+    }
+
     /// In Homebrew's casks, an uninstaller app sits inside the bundle, beside it, at the top of `/Applications`
     /// (Chrome Remote Desktop Host Uninstaller), or in a maker's folder in Utilities (Adobe Installers). The
     /// last two hold every maker's uninstallers, so there the name must be the app's own name with only

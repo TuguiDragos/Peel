@@ -30,7 +30,9 @@ public enum VendorRemoval {
         for (folder, isInsideTheBundle) in folders {
             let names = (try? fileManager.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
             let isTheAppsUninstaller = { (name: String) in
-                isInsideTheBundle ? isUninstallerName(name, app: app) : isUninstallerNamedExactly(name, for: app)
+                isInsideTheBundle
+                    ? isUninstallerName(name, app: app)
+                    : isUninstallerNamedExactly(name, for: app) || isUninstaller(name, ofTheProductIn: folder, for: app)
             }
             if let match = names.sorted().first(where: isTheAppsUninstaller) {
                 return folder.appending(path: match)
@@ -55,7 +57,13 @@ public enum VendorRemoval {
         }
         for folder in applicationsFolders + utilities + makers {
             let names = (try? fileManager.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
-            if let match = names.sorted().first(where: { isUninstallerNamedExactly($0, for: app) }) {
+            // A maker's folder named for the app holds its uninstaller under no name at all, as Krisp's does.
+            let isTheAppsOwn = makers.contains(folder)
+                && app.names.contains { $0.lowercased() == folder.lastPathComponent.lowercased() }
+            let isTheAppsUninstaller = { (name: String) in
+                isUninstallerNamedExactly(name, for: app) || isTheAppsOwn && uninstalledName(name) == ""
+            }
+            if let match = names.sorted().first(where: isTheAppsUninstaller) {
                 return folder.appending(path: match)
             }
         }
@@ -63,12 +71,26 @@ public enum VendorRemoval {
     }
 
     static func isUninstallerNamedExactly(_ name: String, for app: InstalledApp) -> Bool {
-        guard name.lowercased().hasSuffix(".app") else { return false }
+        guard let named = uninstalledName(name), !named.isEmpty else { return false }
+        return app.names.contains { $0.lowercased() == named }
+    }
+
+    /// Whether `name` uninstalls the product a folder of its own is named for, as TurboVNC's `Uninstall TurboVNC`
+    /// sits beside `TurboVNC Viewer`: only for an app whose name begins with the folder's.
+    static func isUninstaller(_ name: String, ofTheProductIn folder: URL, for app: InstalledApp) -> Bool {
+        let product = folder.lastPathComponent.lowercased()
+        guard !product.isEmpty, uninstalledName(name) == product else { return false }
+        let words = product.split(separator: " ")
+        return app.names.contains { $0.lowercased().split(separator: " ").starts(with: words) }
+    }
+
+    /// What an uninstaller's name says it removes, lowercased: its words but Uninstall and Uninstaller, empty for
+    /// one called only that, and nil for a name without either word or for no app.
+    private static func uninstalledName(_ name: String) -> String? {
+        guard name.lowercased().hasSuffix(".app") else { return nil }
         let words = name.dropLast(4).lowercased().split(separator: " ")
         let rest = words.filter { $0 != "uninstall" && $0 != "uninstaller" }
-        guard rest.count < words.count, !rest.isEmpty else { return false }
-        let named = rest.joined(separator: " ")
-        return app.names.contains { $0.lowercased() == named }
+        return rest.count < words.count ? rest.joined(separator: " ") : nil
     }
 
     static func isUninstallerName(_ name: String, app: InstalledApp) -> Bool {
