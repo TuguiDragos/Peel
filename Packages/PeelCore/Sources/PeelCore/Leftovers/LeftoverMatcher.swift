@@ -72,6 +72,11 @@ struct LeftoverMatcher: Sendable {
         )
     }
 
+    /// This app's other copies, which share every place its maker documents.
+    var otherCopies: [URL] {
+        others.filter { $0.isACopy(of: target) }.map(\.url)
+    }
+
     /// This app's claim on the folder its updater keeps its downloads in: electron-updater's, which its
     /// `app-update.yml` names, or Velopack's, named for its id.
     func updatersFolder(at url: URL, home: String) -> LeftoverMatch? {
@@ -331,7 +336,8 @@ extension LeftoverMatcher {
             family = switch reason {
             case .bundleIdentifier, .embeddedBundleIdentifier, .applicationGroup, .bundleIdentifierPrefix,
                 .launchdJob, .linksToTheApp, .nativeMessagingHost, .installerReceipt, .homebrewReceipt,
-                .leadsIntoItsHomebrewReceipt, .managedByTheApp, .updaterDownloads, .namedByTheApp:
+                .leadsIntoItsHomebrewReceipt, .managedByTheApp, .updaterDownloads, .namedByTheApp,
+                .documentedByItsMaker:
                 .identifier
             case .name, .namePrefix, .homebrewCask: .name
             case .teamIdentifier, .vendorPrefix, .inItsMakersFolder: .maker
@@ -355,7 +361,7 @@ extension LeftoverMatcher {
             // can share.
             case .launchdJob, .linksToTheApp, .nativeMessagingHost, .leadsIntoItsHomebrewReceipt: 8
             case .bundleIdentifier, .installerReceipt, .homebrewReceipt, .managedByTheApp, .updaterDownloads,
-                .namedByTheApp: 7
+                .namedByTheApp, .documentedByItsMaker: 7
             case .embeddedBundleIdentifier, .applicationGroup: 6
             case .bundleIdentifierPrefix: 5
             case .name: 4

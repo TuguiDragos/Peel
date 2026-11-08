@@ -81,6 +81,12 @@ public struct Uninstallation: Sendable {
             )
         )
         scan = scan.adding(
+            await leftoversItsMakerDocuments(
+                of: app, matcher: matcher, exclusions: exclusions, environment: environment,
+                listed: scan.leftovers.map(\.url)
+            )
+        )
+        scan = scan.adding(
             await homebrewReceipt(
                 of: app,
                 casks: casks,
@@ -154,6 +160,40 @@ public struct Uninstallation: Sendable {
                 .heldBack(managedBy.leftBehind)
                 leftovers.append(exclusions.holdBack(for: url).map(leftover.heldBack) ?? leftover)
             }
+        }
+        return leftovers
+    }
+
+    /// What the app's maker documents keeping in the home folder where the search finds nothing (`DocumentedPlaces`),
+    /// as far as it is there and not a row already.
+    static func leftoversItsMakerDocuments(
+        of app: InstalledApp,
+        matcher: LeftoverMatcher,
+        exclusions: Exclusions,
+        environment: SearchEnvironment,
+        listed: [URL] = []
+    ) async -> [Leftover] {
+        let home = environment.homeDirectory
+        let rows = Set(listed.map(ItemKey.init))
+        var leftovers: [Leftover] = []
+        for documented in DocumentedPlaces.of(app) {
+            let url = home.appending(path: documented.place)
+            guard
+                url.isThere, documented.proof.map({ url.appending(path: $0).isThere }) ?? true,
+                !exclusions.excludes(url), !rows.contains(ItemKey(url)), !isInsideARow(url, rows: rows, home: home)
+            else { continue }
+            let leftover = await LeftoverScanner.leftover(
+                at: url,
+                kind: place(of: url, in: environment).kind,
+                match: LeftoverMatch(
+                    reason: .documentedByItsMaker, confidence: .certain, sharedWith: [],
+                    otherCopies: matcher.otherCopies
+                ),
+                parent: ParentAccess(url.deletingLastPathComponent()),
+                home: home.path(percentEncoded: false),
+                root: environment.rootDirectory.path(percentEncoded: false)
+            )
+            leftovers.append(exclusions.holdBack(for: url).map(leftover.heldBack) ?? leftover)
         }
         return leftovers
     }

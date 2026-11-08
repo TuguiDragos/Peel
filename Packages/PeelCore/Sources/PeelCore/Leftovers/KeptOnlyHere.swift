@@ -239,6 +239,10 @@ enum KeptOnlyHere {
         (".config/configstore", "firebase-tools.json", .holdsSignIns),
         // ngrok's "Agent Configuration File": its `authtoken` is a setting there.
         ("Library/Application Support/ngrok", "ngrok.yml", .holdsSignIns),
+        // NoMachine's "How to move client connection files from one computer to another one": by default, the
+        // connections and recordings go in Documents/NoMachine, and the favorites in .nx/config/player.cfg.
+        (".nx", "config/player.cfg", .holdsWorkMadeWithTheApp),
+        ("Documents/NoMachine", nil, .holdsWorkMadeWithTheApp),
         // RustDesk's `config.rs`: this Mac's permanent password and keys, and the passwords saved for other computers.
         ("Library/Preferences/com.carriez.RustDesk", nil, .holdsPasswordsOrCodes),
         // TablePlus' "Connections" page: saved connections stay on this Mac unless a synced folder is chosen. Its
