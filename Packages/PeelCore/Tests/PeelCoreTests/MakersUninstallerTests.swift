@@ -144,6 +144,9 @@ struct MakersUninstallerTests {
             MakersUninstaller.of(agent("com.backblaze.Backblaze", team: "G4K4BQ7S8J"))?.step
                 == .uninstaller(URL(filePath: "/Library/Backblaze.bzpkg/UninstallBackblaze.app", directoryHint: .isDirectory))
         )
+        let iStat = agent("com.bjango.istatmenus", team: "Y93TK974AT", at: "/Applications/iStat Menus.app")
+        #expect(MakersUninstaller.of(iStat)?.step == .inTheApp(iStat.url))
+        #expect(MakersUninstaller.of(agent("com.bjango.istatmenus-mas", team: "Y93TK974AT")) == nil)
     }
 
     @Test func knowsTheAppsWhoseUninstallerTheirMakersPageOffersToDownload() {

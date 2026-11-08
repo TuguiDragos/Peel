@@ -175,6 +175,11 @@ public struct MakersUninstaller: Sendable, Hashable {
             .command("sudo sh \"/Library/Application Support/com.canonical.multipass/uninstall.sh\""),
             "https://canonical.com/multipass/docs/latest/how-to-guides/install-multipass/"
         ),
+        // The copy from Bjango's site; the App Store's copy, `com.bjango.istatmenus-mas`, has an article of its own.
+        (
+            "Y93TK974AT", ["com.bjango.istatmenus"], "Bjango", .inTheApp,
+            "https://bjango.com/help/istatmenus7/install/"
+        ),
         (
             "G43BCU2T37", ["org.pqrs.karabiner-elements.settings"], "pqrs.org", .inTheApp,
             "https://karabiner-elements.pqrs.org/docs/manual/operation/uninstall/"
