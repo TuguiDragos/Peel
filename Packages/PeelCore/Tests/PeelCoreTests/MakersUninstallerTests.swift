@@ -140,6 +140,10 @@ struct MakersUninstallerTests {
         )
         #expect(MakersUninstaller.of(agent("com.wacom.Wacom-Display-Settings", team: "EG27766DY7"))?.maker == "Wacom")
         #expect(MakersUninstaller.of(agent("com.canonical.multipassGui", team: "ABCDE12345")) == nil)
+        #expect(
+            MakersUninstaller.of(agent("com.backblaze.Backblaze", team: "G4K4BQ7S8J"))?.step
+                == .uninstaller(URL(filePath: "/Library/Backblaze.bzpkg/UninstallBackblaze.app", directoryHint: .isDirectory))
+        )
     }
 
     @Test func knowsTheAppsWhoseUninstallerTheirMakersPageOffersToDownload() {

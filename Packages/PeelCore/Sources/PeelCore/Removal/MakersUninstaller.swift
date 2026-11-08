@@ -160,6 +160,12 @@ public struct MakersUninstaller: Sendable, Hashable {
             .uninstaller("/Library/Application Support/CrashPlan/Uninstall.app"),
             "https://support.crashplan.com/hc/en-us/articles/9025086987661-Uninstall-the-CrashPlan-app"
         ),
+        // Backblaze's page opens Backblaze Uninstaller from the installer; its package puts the same app here.
+        (
+            "G4K4BQ7S8J", ["com.backblaze.backblaze"], "Backblaze",
+            .uninstaller("/Library/Backblaze.bzpkg/UninstallBackblaze.app"),
+            "https://www.backblaze.com/computer-backup/docs/uninstall-backblaze-mac"
+        ),
         (
             "L4F2DED5Q7", ["com.bombich.ccc"], "Bombich Software", .inTheApp,
             "https://support.bombich.com/hc/en-us/articles/20686440822551-Uninstalling-CCC"
