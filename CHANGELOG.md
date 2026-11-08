@@ -14,12 +14,20 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An app's page offers Open Uninstaller for a maker's uninstaller named for the folder the app shares with its
   product, such as Uninstall TurboVNC beside TurboVNC Viewer, and for one called only Uninstaller in the maker's
   folder in Utilities, such as Krisp's.
+- Before battery, Rancher Desktop, Postgres.app, or Wireshark goes, an app's page, several apps' page, and
+  `peel uninstall` name what it leaves in `/etc` or `/opt`, such as battery's rule for `sudo`, and the command that
+  removes it.
 
 #### Orphaned Files
 
 - This Belongs To… also offers command-line tools: the ones Homebrew installed, and the commands in `/usr/local/bin`,
   MacPorts' `/opt/local/bin`, and your home's `bin` and `.local/bin`. What a tool keeps under a dotted name stays out of
   the list while that tool is installed, and Settings > Exclusions shows the tool beside its group.
+
+#### Homebrew
+
+- Uninstalling the battery or Postgres.app cask says first what its app leaves in `/etc`, which Homebrew's uninstall
+  doesn't remove, and the command that does.
 
 ### Changed
 
