@@ -453,15 +453,15 @@ Never selected for you, even when found:
   identities, a torrent client's list of torrents, a game's saves, virtual machines and Windows bottles
   (VirtualBuddy's, Parallels', VMware Fusion's, UTM's, and Viable's packages, a Wine prefix with its `drive_c`, an
   86Box machine, and the disks of Docker, OrbStack, and Rancher Desktop), a database, a database client's saved
-  connections, a debugging proxy's rules, a video editor's projects, an AI app's conversations, a streaming app's
-  scenes and profiles, an office suite's own templates and dictionaries, a terminal's scripts and profiles, a code
-  editor's notes, unsaved files, local history, and the packages you made for it, the files a sync app couldn't
-  upload, and the sign-in a tool saved when you logged in, such as Docker's or Cargo's, each where the app's own
-  documentation or source says it keeps them, or where its Homebrew definition names its folder, and anything named
-  as an app's backups or as DaVinci Resolve's project library, or the app's folder that keeps them. When you
-  uninstall Xcode, the simulators it made in your home folder are listed too, with the apps installed in them and
-  their data, and never selected, and so are the virtual machines of Genymotion and Rancher Desktop when you
-  uninstall them.
+  connections, a remote desktop app's connections and recordings, a debugging proxy's rules, a video editor's projects,
+  an AI app's conversations, a streaming app's scenes and profiles, an office suite's own templates and dictionaries, a
+  terminal's scripts and profiles, a code editor's notes, unsaved files, local history, and the packages you made for
+  it, the files a sync app couldn't upload, and the sign-in a tool saved when you logged in, such as Docker's or
+  Cargo's, each where the app's own documentation or source says it keeps them, or where its Homebrew definition names
+  its folder, and anything named as an app's backups or as DaVinci Resolve's project library, or the app's folder that
+  keeps them. When you uninstall Xcode, the simulators it made in your home folder are listed too, with the apps
+  installed in them and their data, and never selected, and so are the virtual machines of Genymotion and Rancher
+  Desktop when you uninstall them.
 - A copy Mail keeps of an attachment you opened, which you may have changed.
 - A file a program has open right now, and a disk image that is open right now.
 - An installer package an app keeps in Application Support, which the app may still need, and an update whose app is
