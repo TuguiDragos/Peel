@@ -14,9 +14,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An app's page offers Open Uninstaller for a maker's uninstaller named for the folder the app shares with its
   product, such as Uninstall TurboVNC beside TurboVNC Viewer, and for one called only Uninstaller in the maker's
   folder in Utilities, such as Krisp's.
-- Before battery, Rancher Desktop, Postgres.app, or Wireshark goes, an app's page, several apps' page, and
-  `peel uninstall` name what it leaves in `/etc` or `/opt`, such as battery's rule for `sudo`, and the command that
-  removes it.
+- Before battery, Rancher Desktop, Postgres.app, Wireshark, or SAP's Privileges goes, an app's page, several apps'
+  page, and `peel uninstall` name what it leaves in `/etc` or `/opt`, such as battery's rule for `sudo`, and the
+  command that removes it.
+- Karabiner-Elements, Multipass, ESET Cyber Security, CrashPlan, Carbon Copy Cloner, and Wacom's tablet driver are left
+  to the uninstaller their makers document: an app's page and `peel uninstall` name it and link to the maker's steps.
 
 #### Orphaned Files
 
@@ -64,8 +66,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   deletes the other app and the data BlueStacks keeps for every account in `/Users/Shared`, and leaves what that
   cleanup removes to it.
 - An uninstall no longer selects Prism Launcher's folder, with every instance's saved worlds, Chatbox's conversations,
-  Helium's profiles with their saved passwords, or the files Google Drive for desktop couldn't upload: each is listed
-  and left for you to select.
+  Helium's profiles with their saved passwords, the files Google Drive for desktop couldn't upload, or the backups
+  another computer sent to CrashPlan: each is listed and left for you to select.
 - The lines of the shell startup files that still point to what moved are also looked for in `.bash_login`, and in
   tcsh's `.tcshrc`, `.cshrc`, and `.login`.
 
