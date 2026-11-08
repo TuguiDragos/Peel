@@ -191,21 +191,30 @@ extension AppExtension {
 public struct CarriedSystemExtensions: Sendable, Hashable {
     public let names: [String]
     public let systemSettingsDeletesThem: Bool
+    /// The names of those macOS installed for an app inside this one. Finder's move asks macOS to remove only the
+    /// ones in the app's own folder, so these stay installed whoever moves the app.
+    public let inAnAppInside: [String]
     /// False when Peel couldn't look into the app to name them.
     public let isKnown: Bool
 
-    public init(names: [String], systemSettingsDeletesThem: Bool = false) {
-        self.init(names: names, systemSettingsDeletesThem: systemSettingsDeletesThem, isKnown: true)
+    public init(names: [String], systemSettingsDeletesThem: Bool = false, inAnAppInside: [String] = []) {
+        self.init(
+            names: names, systemSettingsDeletesThem: systemSettingsDeletesThem, inAnAppInside: inAnAppInside,
+            isKnown: true
+        )
     }
 
-    private init(names: [String], systemSettingsDeletesThem: Bool, isKnown: Bool) {
+    private init(names: [String], systemSettingsDeletesThem: Bool, inAnAppInside: [String], isKnown: Bool) {
         self.names = names
         self.systemSettingsDeletesThem = systemSettingsDeletesThem
+        self.inAnAppInside = inAnAppInside
         self.isKnown = isKnown
     }
 
     public static let none = CarriedSystemExtensions(names: [])
-    public static let notKnown = CarriedSystemExtensions(names: [], systemSettingsDeletesThem: false, isKnown: false)
+    public static let notKnown = CarriedSystemExtensions(
+        names: [], systemSettingsDeletesThem: false, inAnAppInside: [], isKnown: false
+    )
 
     public var isEmpty: Bool { names.isEmpty && isKnown }
 }
@@ -384,20 +393,25 @@ public enum AppExtensions {
 
     public static let askingMacOS: SystemExtensionsAnswer = { await systemExtensions(run: run) }
 
-    /// When macOS gives no answer, every system extension `app` carries counts.
+    /// When macOS gives no answer, every system extension `app` carries counts. macOS's record names the app each one
+    /// was installed for, so one installed for an app inside `app` counts too.
     @concurrent
     public static func installed(
         carriedBy app: InstalledApp,
         asking answer: SystemExtensionsAnswer = askingMacOS
     ) async -> CarriedSystemExtensions {
         guard let carried = systemExtensions(carriedBy: app.url) else { return .notKnown }
-        guard !carried.isEmpty else { return .none }
-        guard let installed = await answer() else { return CarriedSystemExtensions(names: carried.map(\.name)) }
+        guard let installed = await answer() else {
+            return carried.isEmpty ? .none : CarriedSystemExtensions(names: carried.map(\.name))
+        }
         let identifiers = Set(carried.map(\.identifier))
+        let place = PathPattern.comparablePath(of: app.url)
         let listed = installed.filter { item in
             let team = item.teamIdentifier
             let sameTeam = app.teamIdentifier == nil || team == nil || team == app.teamIdentifier
-            return identifiers.contains(item.identifier) && item.election != .beingRemoved && sameTeam
+            let isForAnAppInside = item.installedFor.map { PathComponents.isPath($0, inside: place) } ?? false
+            return (identifiers.contains(item.identifier) || isForAnAppInside) && item.election != .beingRemoved
+                && sameTeam
         }
         // During an update macOS lists the old version beside the new one: each is named once, as the one that runs.
         var named: Set<String> = []
@@ -407,7 +421,8 @@ public enum AppExtensions {
         }
         return CarriedSystemExtensions(
             names: held.map(\.name),
-            systemSettingsDeletesThem: !held.isEmpty && held.allSatisfy(\.systemSettingsDeletesIt)
+            systemSettingsDeletesThem: !held.isEmpty && held.allSatisfy(\.systemSettingsDeletesIt),
+            inAnAppInside: held.filter { !identifiers.contains($0.identifier) }.map(\.name)
         )
     }
 

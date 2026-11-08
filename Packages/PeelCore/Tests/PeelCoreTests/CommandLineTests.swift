@@ -1233,6 +1233,29 @@ struct CommandLineTests {
         #expect(UninstallCommand.removedElsewhere(webex)?.description == "Webex is removed with Cisco's own uninstaller, which also takes what it keeps in the system: download its uninstaller from Cisco's page. See https://help.webex.com/en-us/article/136hu4/Uninstall-Webex-App-on-macOS")
     }
 
+    @Test func saysAnExtensionInstalledForAnAppInsideStaysWhoeverMovesTheApp() {
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.app", name: "Example"
+        )
+        let carried = CarriedSystemExtensions(names: ["Example Guard"], inAnAppInside: ["Example Guard"])
+
+        #expect(UninstallCommand.removedElsewhere(app, installedSystemExtensions: carried)?.description == "macOS installed a system extension for an app inside Example (Example Guard), and keeps it installed when the app moves: Finder asks macOS to remove only the extensions in the app's own folder. Remove it the way the app's maker describes, then move the app to the Trash.")
+    }
+
+    @Test func leavesPrivilegesToSAPsUninstallerOnlyWhileItsExtensionIsInstalled() {
+        let privileges = InstalledApp(
+            url: URL(filePath: "/Applications/Privileges.app", directoryHint: .isDirectory),
+            bundleIdentifier: "corp.sap.privileges", name: "Privileges", teamIdentifier: "7R5ZEU67FQ"
+        )
+        let carried = CarriedSystemExtensions(
+            names: ["Privileges System Extension"], inAnAppInside: ["Privileges System Extension"]
+        )
+
+        #expect(UninstallCommand.removedElsewhere(privileges, installedSystemExtensions: carried)?.description == "Privileges is removed with SAP's own uninstaller, since nothing can move it while its system extension runs: download its uninstaller from SAP's page. See https://github.com/SAP/macOS-enterprise-privileges/wiki/Uninstallation")
+        #expect(UninstallCommand.removedElsewhere(privileges) == nil)
+    }
+
     @Test func refusesToUninstallAVPNAndSaysWhereItsOwnUninstallIs() throws {
         func refusal(_ identifier: String, team: String, name: String) -> String? {
             let app = InstalledApp(

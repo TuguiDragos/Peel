@@ -593,6 +593,10 @@ extension RemovedElsewhere {
         case .byRemovePeel: "Left alone: Peel removes itself only from Settings."
         case .byItsMaker(let uninstaller): "Left alone: \(uninstaller.maker)’s own uninstaller removes it."
         case .byFinder(let carried): Self.leftToFinder(carried)
+        case .afterItsSystemExtensions(let carried):
+            carried.inAnAppInside.count == 1
+                ? "Left alone: macOS installed \(carried.inAnAppInside.formatted(.list(type: .and))) for an app bundled inside this app, and keeps it when the app moves, in Finder or in Peel. Remove the extension first, the way its maker describes."
+                : "Left alone: macOS installed \(carried.inAnAppInside.formatted(.list(type: .and))) for an app bundled inside this app, and keeps them when the app moves, in Finder or in Peel. Remove the extensions first, the way their maker describes."
         }
     }
 

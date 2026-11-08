@@ -633,7 +633,9 @@ struct UninstallCommand: AsyncParsableCommand {
             case .onItsDiskImage: "use the uninstaller on the disk image it came on"
             case .fromTheMakersPage: "download its uninstaller from \(uninstaller.maker)'s page"
             }
-            return CommandFailure("\(Output.plain(target.name)) is removed with \(uninstaller.maker)'s own uninstaller, which also takes what it keeps in the system: \(step). See \(uninstaller.instructions.absoluteString)")
+            let why = uninstaller.isKeptInPlaceByItsSystemExtension
+                ? "since nothing can move it while its system extension runs" : "which also takes what it keeps in the system"
+            return CommandFailure("\(Output.plain(target.name)) is removed with \(uninstaller.maker)'s own uninstaller, \(why): \(step). See \(uninstaller.instructions.absoluteString)")
         case .byFinder(let carried) where !carried.isKnown:
             return CommandFailure("Peel can't look inside \(Output.plain(target.name)) to see which system extensions it carries, and macOS removes those only when the app goes to the Trash in Finder. Move the app to the Trash in Finder.")
         case .byFinder(let carried):
@@ -645,6 +647,11 @@ struct UninstallCommand: AsyncParsableCommand {
                 ? " If \(stays), in System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside \(beside) and choose Delete Extension."
                 : ""
             return CommandFailure("macOS installed \(what) that came with \(Output.plain(target.name)) (\(extensions)), and only macOS can remove \(them). Move the app to the Trash in Finder, which asks macOS to remove \(them).\(settings)")
+        case .afterItsSystemExtensions(let carried):
+            let names = carried.inAnAppInside
+            let extensions = names.map(Output.plain).joined(separator: ", ")
+            let (what, them) = names.count == 1 ? ("a system extension", "it") : ("system extensions", "them")
+            return CommandFailure("macOS installed \(what) for an app inside \(Output.plain(target.name)) (\(extensions)), and keeps \(them) installed when the app moves: Finder asks macOS to remove only the extensions in the app's own folder. Remove \(them) the way the app's maker describes, then move the app to the Trash.")
         }
     }
 

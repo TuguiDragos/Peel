@@ -38,10 +38,14 @@ public struct MakersUninstaller: Sendable, Hashable {
     public let instructions: URL
     /// The product this app removes, when the app is the uninstaller itself rather than the product.
     public let removes: String?
+    /// True when the product's own system extension keeps anyone from moving the app while it runs.
+    public var isKeptInPlaceByItsSystemExtension = false
+
+    private typealias Product = (team: String, identifiers: [String], maker: String, step: Documented, page: String)
 
     /// Each product with the signing team and the identifiers its maker's own pages or its signed bundle give, and the
     /// step and page of its maker's uninstall instructions. An identifier names itself and any longer one after a dot.
-    private static let known: [(team: String, identifiers: [String], maker: String, step: Documented, page: String)] = [
+    private static let known: [Product] = [
         (
             "PXPZ95SK77", ["com.paloaltonetworks.globalprotect"], "Palo Alto Networks",
             .command("sudo /Applications/GlobalProtect.app/Contents/Resources/uninstall_gp.sh"),
@@ -266,6 +270,16 @@ public struct MakersUninstaller: Sendable, Hashable {
         ),
     ]
 
+    /// Each product whose own system extension keeps anyone from moving the app while it runs, an administrator
+    /// included, as its maker says. It is left to its maker's uninstaller only while macOS has that extension.
+    private static let keptInPlaceByTheirSystemExtensions: [Product] = [
+        // SAP's Managing Privileges page: the extension protects the app against uninstallation.
+        (
+            "7R5ZEU67FQ", ["corp.sap.privileges"], "SAP", .fromTheMakersPage,
+            "https://github.com/SAP/macOS-enterprise-privileges/wiki/Uninstallation"
+        ),
+    ]
+
     /// The maker's uninstaller for `app`, known by the team of its checked signature and by its identifier, both as
     /// the maker documents them. An identifier alone is what a bundle says of itself, and would let any app keep Peel
     /// away from it.
@@ -273,8 +287,24 @@ public struct MakersUninstaller: Sendable, Hashable {
         _ app: InstalledApp,
         isOnTheMac: (String) -> Bool = { FileManager.default.fileExists(atPath: $0) }
     ) -> MakersUninstaller? {
+        uninstaller(of: app, among: known, isOnTheMac: isOnTheMac)
+    }
+
+    /// The maker's uninstaller for `app` when its own system extension keeps it in place, asked only while macOS has
+    /// that extension installed.
+    static func keptInPlace(_ app: InstalledApp) -> MakersUninstaller? {
+        var uninstaller = uninstaller(of: app, among: keptInPlaceByTheirSystemExtensions)
+        uninstaller?.isKeptInPlaceByItsSystemExtension = true
+        return uninstaller
+    }
+
+    private static func uninstaller(
+        of app: InstalledApp,
+        among products: [Product],
+        isOnTheMac: (String) -> Bool = { FileManager.default.fileExists(atPath: $0) }
+    ) -> MakersUninstaller? {
         guard let team = app.teamIdentifier, let identifier = app.bundleIdentifier?.lowercased() else { return nil }
-        guard let product = known.first(where: { product in
+        guard let product = products.first(where: { product in
             product.team == team && product.identifiers.contains { identifier == $0 || identifier.hasPrefix($0 + ".") }
         }) else { return nil }
         let chosen: (step: Step, page: String) = switch product.step {

@@ -219,11 +219,12 @@ struct HomebrewDetailView: View {
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             readWhatItLeaves()
         }
-        .task(id: library.apps(of: package).filter(\.carriesSystemExtensions).map(\.url)) {
-            let carrying = library.apps(of: package).filter(\.carriesSystemExtensions)
-            guard !carrying.isEmpty else { return }
-            let found = await RemovedElsewhere.first(among: carrying)
-            extensionsAnswer = (carrying.map(\.url), found)
+        // Every app is asked about: macOS may keep an extension it installed for an app inside one of them.
+        .task(id: library.apps(of: package).map(\.url)) {
+            let apps = library.apps(of: package)
+            guard !apps.isEmpty else { return }
+            let found = await RemovedElsewhere.first(among: apps)
+            extensionsAnswer = (apps.map(\.url), found)
         }
         .confirmationDialog("Uninstall \(package.name)?", isPresented: $isConfirmingUninstall) {
             Button("Uninstall", role: .destructive) {
@@ -431,12 +432,26 @@ struct HomebrewDetailView: View {
         let apps = library.apps(of: package)
         // Homebrew deletes the app, so an app its own page never removes is never uninstalled from here either.
         if let removedElsewhere = apps.lazy.compactMap(\.removedElsewhere).first { return removedElsewhere.explanation }
-        let carrying = apps.filter(\.carriesSystemExtensions).map(\.url)
-        if !carrying.isEmpty {
-            guard let extensionsAnswer, extensionsAnswer.apps == carrying else { return "Checking…" }
-            if let removedElsewhere = extensionsAnswer.removedElsewhere { return removedElsewhere.explanation }
+        switch Self.extensionsStanding(of: apps, answer: extensionsAnswer) {
+        case .waiting: return "Checking…"
+        case .known(let removedElsewhere?): return removedElsewhere.explanation
+        case .known(nil): return upgradeRefusal
         }
-        return upgradeRefusal
+    }
+
+    enum ExtensionsStanding: Equatable {
+        case waiting
+        case known(RemovedElsewhere?)
+    }
+
+    /// What macOS's answer about the apps' system extensions says. Until it comes, only an app whose own folder
+    /// carries one waits for it, so a cask page doesn't flash "Checking…" for the rest.
+    static func extensionsStanding(
+        of apps: [InstalledApp],
+        answer: (apps: [URL], removedElsewhere: RemovedElsewhere?)?
+    ) -> ExtensionsStanding {
+        if let answer, answer.apps == apps.map(\.url) { return .known(answer.removedElsewhere) }
+        return apps.contains(where: \.carriesSystemExtensions) ? .waiting : .known(nil)
     }
 
     private var upgradeRefusal: LocalizedStringResource? {

@@ -187,6 +187,100 @@ struct UninstallationTests {
         #expect(several.items.first?.removedElsewhere == .byFinder(systemExtensions: .notKnown))
     }
 
+    private func extensionInstalled(
+        for container: String,
+        identifier: String = "org.example.guard",
+        name: String = "Example Guard",
+        team: String? = "ABCDE12345",
+        election: AppExtension.Election = .on
+    ) -> AppExtension {
+        AppExtension(
+            identifier: identifier, name: name, kind: .systemExtension, point: nil, owner: nil, url: nil,
+            election: election, teamIdentifier: team, reportedState: nil, installedFor: container,
+            category: "com.apple.system_extension.endpoint_security"
+        )
+    }
+
+    @Test func findsTheSystemExtensionsMacOSInstalledForAnAppInsideIt() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: try directory.directory("root/Applications/Example.app"), bundleIdentifier: "org.example.app",
+            name: "Example", teamIdentifier: "ABCDE12345"
+        )
+        let helper = try directory.directory("root/Applications/Example.app/Contents/MacOS/Helper.app")
+            .path(percentEncoded: false)
+        let listed = [
+            extensionInstalled(for: helper),
+            extensionInstalled(
+                for: "/Applications/Other.app/Contents/MacOS/Helper.app", identifier: "org.example.other",
+                name: "Other Guard"
+            ),
+            extensionInstalled(
+                for: app.url.path(percentEncoded: false), identifier: "org.example.former", name: "Former Guard"
+            ),
+            extensionInstalled(for: helper, identifier: "org.example.team", name: "Team Guard", team: "ZYXWV98765"),
+            extensionInstalled(for: helper, identifier: "org.example.leaving", name: "Leaving Guard", election: .beingRemoved),
+        ]
+
+        let carried = await AppExtensions.installed(carriedBy: app) { listed }
+        let unanswered = await AppExtensions.installed(carriedBy: app) { nil }
+
+        #expect(carried.names == ["Example Guard"])
+        #expect(carried.inAnAppInside == ["Example Guard"])
+        #expect(RemovedElsewhere.of(app, installedSystemExtensions: carried) == .afterItsSystemExtensions(carried))
+        #expect(unanswered == .none)
+        #expect(RemovedElsewhere.of(app, installedSystemExtensions: unanswered) == nil)
+    }
+
+    @Test func leavesPrivilegesToSAPsUninstallerWhileItsSystemExtensionIsInstalled() async throws {
+        let directory = try TemporaryDirectory()
+        let privileges = InstalledApp(
+            url: try directory.directory("root/Applications/Privileges.app"), bundleIdentifier: "corp.sap.privileges",
+            name: "Privileges", teamIdentifier: "7R5ZEU67FQ"
+        )
+        let helper = try directory.directory("root/Applications/Privileges.app/Contents/MacOS/PrivilegesHelper.app")
+        let guarding = extensionInstalled(
+            for: helper.path(percentEncoded: false), identifier: "corp.sap.privileges.extension",
+            name: "Privileges System Extension", team: "7R5ZEU67FQ"
+        )
+
+        let installed = await AppExtensions.installed(carriedBy: privileges) { [guarding] }
+        let notInstalled = await AppExtensions.installed(carriedBy: privileges) { [] }
+
+        let removed = RemovedElsewhere.of(privileges, installedSystemExtensions: installed)
+        guard case .byItsMaker(let uninstaller)? = removed else {
+            Issue.record("Privileges was left to \(String(describing: removed))")
+            return
+        }
+        #expect(uninstaller.maker == "SAP")
+        #expect(uninstaller.isKeptInPlaceByItsSystemExtension)
+        #expect(uninstaller.step == .fromTheMakersPage)
+        #expect(uninstaller.instructions.absoluteString == "https://github.com/SAP/macOS-enterprise-privileges/wiki/Uninstallation")
+        #expect(RemovedElsewhere.of(privileges, installedSystemExtensions: notInstalled) == nil)
+    }
+
+    @Test func asksMacOSAboutSeveralAppsThoughNoneCarriesAnExtensionInItsOwnFolder() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: try directory.directory("root/Applications/Example.app"), bundleIdentifier: "org.example.app",
+            name: "Example", teamIdentifier: "ABCDE12345"
+        )
+        let helper = try directory.directory("root/Applications/Example.app/Contents/MacOS/Helper.app")
+
+        let several = await BulkUninstallation.prepare(
+            [app], installedApps: [app],
+            systemExtensions: { [extensionInstalled(for: helper.path(percentEncoded: false))] },
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            )
+        )
+
+        #expect(several.items.first?.removedElsewhere == .afterItsSystemExtensions(
+            CarriedSystemExtensions(names: ["Example Guard"], inAnAppInside: ["Example Guard"])
+        ))
+    }
+
     @Test func listsAnAppsSignInPlugInAndNeverOffersIt() async throws {
         let directory = try TemporaryDirectory()
         let app = InstalledApp(
@@ -337,7 +431,7 @@ struct UninstallationTests {
         #expect(named?.match.heldBack == .namedLikeTheApp)
     }
 
-    @Test func severalAppsAskMacOSOnceAndOnlyWhenOneCarriesASystemExtension() async throws {
+    @Test func severalAppsAskMacOSOnce() async throws {
         let directory = try TemporaryDirectory()
         let example = try appCarryingAFilter(in: directory)
         let plain = InstalledApp(
@@ -361,7 +455,7 @@ struct UninstallationTests {
             [plain], installedApps: [example, plain], systemExtensions: counted, environment: environment
         )
 
-        #expect(asked.withLock { $0 } == 1)
+        #expect(asked.withLock { $0 } == 2, "once for each set of apps, whatever their own folders hold")
         #expect(both.items.first { $0.url == example.url }?.removedElsewhere
             == .byFinder(systemExtensions: CarriedSystemExtensions(names: ["Example Filter"])))
         #expect(!both.selectable(canUseHelper: true).contains(example.url))
