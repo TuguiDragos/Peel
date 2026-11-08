@@ -49,5 +49,8 @@ public struct TrustedRoot: Sendable, Hashable {
         "com.proxyman.NSProxy": TrustedRoot(
             certificate: "Proxyman CA", step: .menu("Certificate > Reset all Proxyman Certificates")
         ),
+        // PortSwigger's guide to installing Burp's CA certificate in Chrome on macOS: the person trusts it in the
+        // System keychain, and deletes it there to stop.
+        "com.install4j.6592-1155-2163-3973.70": TrustedRoot(certificate: "PortSwigger CA", step: .keychainAccess),
     ]
 }
