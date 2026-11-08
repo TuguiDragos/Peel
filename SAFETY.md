@@ -265,7 +265,9 @@ stop the cleanup halfway. NoMachine's own service runs as an administrator, with
 Applications folder: it ends NoMachine's programs and deletes its launch jobs, its audio drivers, its printing backend,
 `/etc/NX`, and its receipts, and it can delete the app from the Trash too; then NoMachine Uninstall asks for an
 administrator's password and deletes the accounts NoMachine made and its folder in Application Support. What it removes
-is listed and never moved by Peel, since moving the service's file would stop it halfway.
+is listed and never moved by Peel, since moving the service's file would stop it halfway. Each of the five counts only
+while macOS has the job that runs its uninstaller: with the app's background items turned off in System Settings,
+nothing of it runs, and Peel lists what that uninstaller would remove as it lists any other app's files.
 
 If the record itself is damaged, it is set aside under another name rather than overwritten, because it is
 the only way back from a removal. If it can't be read at all, Peel moves nothing, since what it moved then couldn't

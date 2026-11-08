@@ -75,6 +75,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An app's page and several apps' page can uninstall NoMachine while its server runs from inside the app, and say
   first that NoMachine's own service then uninstalls it as an administrator, without asking, and that NoMachine
   Uninstall asks for a password to delete the accounts NoMachine made. What that service removes is left to it.
+- When Mullvad VPN, Citrix Workspace, TeamViewer, BlueStacks, or NoMachine has its background items turned off in
+  System Settings, an uninstall no longer says that the app's own uninstaller runs once it moves, and lists what that
+  uninstaller would remove as any other leftovers, since macOS runs none of it then.
 - An uninstall no longer selects Prism Launcher's folder, with every instance's saved worlds, Chatbox's conversations,
   Helium's profiles with their saved passwords, the files Google Drive for desktop couldn't upload, or the backups
   another computer sent to CrashPlan: each is listed and left for you to select.
