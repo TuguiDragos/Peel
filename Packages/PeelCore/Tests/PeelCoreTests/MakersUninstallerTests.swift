@@ -147,6 +147,9 @@ struct MakersUninstallerTests {
         let iStat = agent("com.bjango.istatmenus", team: "Y93TK974AT", at: "/Applications/iStat Menus.app")
         #expect(MakersUninstaller.of(iStat)?.step == .inTheApp(iStat.url))
         #expect(MakersUninstaller.of(agent("com.bjango.istatmenus-mas", team: "Y93TK974AT")) == nil)
+        #expect(
+            MakersUninstaller.of(agent("com.splashtop.Splashtop-Streamer", team: "CPQQ3AW49Y"))?.step == .onItsDiskImage
+        )
     }
 
     @Test func knowsTheAppsWhoseUninstallerTheirMakersPageOffersToDownload() {

@@ -108,6 +108,10 @@ public struct MakersUninstaller: Sendable, Hashable {
             "https://tunnelblick.net/cUninstall.html"
         ),
         (
+            "CPQQ3AW49Y", ["com.splashtop.splashtop-streamer"], "Splashtop", .onItsDiskImage,
+            "https://support-splashtopbusiness.splashtop.com/hc/en-us/articles/216378343-How-to-Uninstall-Splashtop"
+        ),
+        (
             "WQXXM75BYN", ["com.electron.ivpn-ui", "net.ivpn.client"], "IVPN", .onItsDiskImage,
             "https://www.ivpn.net/knowledgebase/macos/macos-how-do-i-completely-uninstall-or-remove-the-ivpn-application/"
         ),
