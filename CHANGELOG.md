@@ -74,6 +74,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   another computer sent to CrashPlan: each is listed and left for you to select.
 - The lines of the shell startup files that still point to what moved are also looked for in `.bash_login`, and in
   tcsh's `.tcshrc`, `.cshrc`, and `.login`.
+- `peel uninstall` names a maker's uninstaller to open without a slash at the end of its path.
 
 #### Orphaned Files
 
