@@ -148,6 +148,38 @@ public struct MakersUninstaller: Sendable, Hashable {
             "48ZCSDVL96", ["com.haystacksoftware.arq"], "Arq", .inTheApp,
             "https://www.arqbackup.com/documentation/arq7/English.lproj/troubleshooting.html"
         ),
+        (
+            "P8DQRXPVLP", ["com.eset.ecs"], "ESET", .uninstallerInsideTheApp("Contents/Helpers/Uninstaller.app"),
+            "https://support.eset.com/en/kb3239-how-do-i-uninstall-eset-cyber-security"
+        ),
+        (
+            "UGHXR79U6M", ["com.crashplan.desktop"], "CrashPlan",
+            .uninstaller("/Library/Application Support/CrashPlan/Uninstall.app"),
+            "https://support.crashplan.com/hc/en-us/articles/9025086987661-Uninstall-the-CrashPlan-app"
+        ),
+        (
+            "L4F2DED5Q7", ["com.bombich.ccc"], "Bombich Software", .inTheApp,
+            "https://support.bombich.com/hc/en-us/articles/20686440822551-Uninstalling-CCC"
+        ),
+        (
+            "X4QN7LTP59", ["com.canonical.multipassgui"], "Canonical",
+            .command("sudo sh \"/Library/Application Support/com.canonical.multipass/uninstall.sh\""),
+            "https://canonical.com/multipass/docs/latest/how-to-guides/install-multipass/"
+        ),
+        (
+            "G43BCU2T37", ["org.pqrs.karabiner-elements.settings"], "pqrs.org", .inTheApp,
+            "https://karabiner-elements.pqrs.org/docs/manual/operation/uninstall/"
+        ),
+        // Wacom's driver installs Wacom Tablet Utility beside its other apps, and the utility is what removes it.
+        (
+            "EG27766DY7", ["com.wacom.removewacomtablet"], "Wacom", .itself(removing: "Wacom Tablet"),
+            "https://support.wacom.com/hc/en-us/articles/1500006264541-How-do-I-uninstall-manually-and-re-install-the-Wacom-driver-on-macOS-for-a-Pen-Tablet-Pen-Display-or-Pen-Computer"
+        ),
+        (
+            "EG27766DY7", ["com.wacom.wacomcenter", "com.wacom.wacom-display-settings"], "Wacom",
+            .uninstaller("/Applications/Wacom Tablet.localized/Wacom Tablet Utility.app"),
+            "https://support.wacom.com/hc/en-us/articles/1500006264541-How-do-I-uninstall-manually-and-re-install-the-Wacom-driver-on-macOS-for-a-Pen-Tablet-Pen-Display-or-Pen-Computer"
+        ),
         // The uninstaller's identifier, from Chromium's `remoting/branding_Chrome`; the host's own is not listed here.
         (
             "EQHXZ8M8AV", ["com.google.chromeremotedesktop.me2me-host-uninstaller"], "Google",

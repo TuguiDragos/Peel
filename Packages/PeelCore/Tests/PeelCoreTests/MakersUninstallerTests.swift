@@ -106,6 +106,42 @@ struct MakersUninstallerTests {
         #expect(MakersUninstaller.of(agent("com.kaspersky.kav", team: "ABCDE12345")) == nil)
     }
 
+    @Test func knowsTheAppsWhoseMakersPagesAndSignedInstallersWereReadOnTheMac() {
+        let karabiner = agent(
+            "org.pqrs.Karabiner-Elements.Settings", team: "G43BCU2T37", at: "/Applications/Karabiner-Elements.app"
+        )
+        let eset = agent("com.eset.ecs.g2", team: "P8DQRXPVLP", at: "/Applications/ESET Cyber Security.app")
+        let ccc = agent("com.bombich.ccc", team: "L4F2DED5Q7", at: "/Applications/Carbon Copy Cloner.app")
+        let utility = agent(
+            "com.wacom.RemoveWacomTablet", team: "EG27766DY7",
+            at: "/Applications/Wacom Tablet.localized/Wacom Tablet Utility.app"
+        )
+
+        #expect(MakersUninstaller.of(karabiner)?.step == .inTheApp(karabiner.url))
+        #expect(MakersUninstaller.of(agent("org.pqrs.Karabiner-EventViewer", team: "G43BCU2T37")) == nil)
+        #expect(
+            MakersUninstaller.of(agent("com.canonical.multipassGui", team: "X4QN7LTP59"))?.step
+                == .command("sudo sh \"/Library/Application Support/com.canonical.multipass/uninstall.sh\"")
+        )
+        #expect(MakersUninstaller.of(eset)?.step == .uninstaller(
+            URL(filePath: "/Applications/ESET Cyber Security.app/Contents/Helpers/Uninstaller.app", directoryHint: .isDirectory)
+        ))
+        #expect(
+            MakersUninstaller.of(agent("com.crashplan.desktop", team: "UGHXR79U6M"))?.step
+                == .uninstaller(URL(filePath: "/Library/Application Support/CrashPlan/Uninstall.app", directoryHint: .isDirectory))
+        )
+        #expect(MakersUninstaller.of(ccc)?.step == .inTheApp(ccc.url))
+        #expect(MakersUninstaller.of(ccc)?.maker == "Bombich Software")
+        #expect(MakersUninstaller.of(utility)?.step == .uninstaller(utility.url))
+        #expect(MakersUninstaller.of(utility)?.removes == "Wacom Tablet")
+        #expect(
+            MakersUninstaller.of(agent("com.wacom.WacomCenter", team: "EG27766DY7"))?.step
+                == .uninstaller(URL(filePath: "/Applications/Wacom Tablet.localized/Wacom Tablet Utility.app", directoryHint: .isDirectory))
+        )
+        #expect(MakersUninstaller.of(agent("com.wacom.Wacom-Display-Settings", team: "EG27766DY7"))?.maker == "Wacom")
+        #expect(MakersUninstaller.of(agent("com.canonical.multipassGui", team: "ABCDE12345")) == nil)
+    }
+
     @Test func givesTheUninstallScriptOfTheCiscoClientThatIsOnTheMac() {
         let anyConnect = agent("com.cisco.anyconnect.gui", team: "DE8Y96K9QP")
         let secureClient = "/opt/cisco/secureclient/bin/cisco_secure_client_uninstall.sh"
