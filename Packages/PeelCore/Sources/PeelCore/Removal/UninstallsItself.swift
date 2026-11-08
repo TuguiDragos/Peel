@@ -34,7 +34,11 @@ public struct UninstallsItself: Sendable, Hashable {
 
     /// Mullvad VPN's daemon watches `/Applications/Mullvad VPN.app`, and when its own program goes it logs the Mac out
     /// of the account and runs `uninstall_macos.sh`, which deletes the settings (`mullvad-daemon/src/macos.rs`).
-    private static let mullvad = (identifier: "net.mullvad.vpn", path: "Applications/Mullvad VPN.app")
+    private static let mullvad = (
+        identifier: "net.mullvad.vpn",
+        path: "Applications/Mullvad VPN.app",
+        daemon: "Library/LaunchDaemons/net.mullvad.daemon.plist"
+    )
 
     private static let mullvadRemoves = (
         root: [
@@ -168,80 +172,105 @@ public struct UninstallsItself: Sendable, Hashable {
         home: [String]()
     )
 
+    /// An app Peel knows by name, with the launchd job that runs its uninstaller.
+    private typealias Known = (uninstallsItself: UninstallsItself, job: LaunchdCleanup.Job)
+
+    /// How `app` uninstalls itself once it leaves its place, while launchd has the job that does it, which it hasn't
+    /// for an app whose background items are turned off in System Settings.
     public static func of(_ app: InstalledApp, environment: SearchEnvironment = .current) async -> UninstallsItself? {
-        if let known = mullvad(app, environment: environment) ?? citrix(app, environment: environment)
+        let known = mullvad(app, environment: environment) ?? citrix(app, environment: environment)
             ?? teamViewer(app, environment: environment) ?? blueStacks(app, environment: environment)
-            ?? noMachine(app, environment: environment) {
-            return known
-        }
+            ?? noMachine(app, environment: environment)
+        if let known, await isLoaded(known.job) { return known.uninstallsItself }
         return await watched(app, environment: environment)
     }
 
-    private static func mullvad(_ app: InstalledApp, environment: SearchEnvironment) -> UninstallsItself? {
+    private static func mullvad(_ app: InstalledApp, environment: SearchEnvironment) -> Known? {
         let place = environment.rootDirectory.appending(path: mullvad.path)
         guard
             app.bundleIdentifier == mullvad.identifier,
-            PathPattern.comparablePath(of: app.url) == PathPattern.comparablePath(of: place)
+            PathPattern.comparablePath(of: app.url) == PathPattern.comparablePath(of: place),
+            let daemon = job(in: mullvad.daemon, environment: environment)
         else { return nil }
         let script = place.appending(path: "Contents/Resources/uninstall.sh").path(percentEncoded: false)
-        return UninstallsItself(
+        let uninstaller = UninstallsItself(
             app: app,
             uninstaller: .logsOut(script: script),
             removed: paths(mullvadRemoves, in: environment)
         )
+        return (uninstaller, daemon.job)
     }
 
-    private static func citrix(_ app: InstalledApp, environment: SearchEnvironment) -> UninstallsItself? {
+    private static func citrix(_ app: InstalledApp, environment: SearchEnvironment) -> Known? {
         guard
             app.bundleIdentifier == citrix.identifier,
-            program(ofTheJobIn: citrix.monitor, watching: app, in: environment) != nil
+            let monitor = program(ofTheJobIn: citrix.monitor, watching: app, in: environment)
         else { return nil }
-        return UninstallsItself(app: app, uninstaller: .deletesTheApp, removed: paths(citrixRemoves, in: environment))
+        let uninstaller = UninstallsItself(
+            app: app, uninstaller: .deletesTheApp, removed: paths(citrixRemoves, in: environment)
+        )
+        return (uninstaller, monitor.job)
     }
 
-    private static func teamViewer(_ app: InstalledApp, environment: SearchEnvironment) -> UninstallsItself? {
+    private static func teamViewer(_ app: InstalledApp, environment: SearchEnvironment) -> Known? {
         let place = PathPattern.comparablePath(of: app.url)
         guard
             let identifier = app.bundleIdentifier, teamViewer.identifiers.contains(identifier),
-            let watcher = JobDefinition(contentsOf: environment.rootDirectory.appending(path: teamViewer.watcher)),
-            !watcher.isDisabled,
-            watcher.watchPaths.contains(where: {
+            let watcher = job(in: teamViewer.watcher, environment: environment),
+            watcher.definition.watchPaths.contains(where: {
                 PathComponents.isPath(PathPattern.comparablePath(of: URL(filePath: $0)), atOrInside: place)
             }),
-            let program = watcher.program,
+            let program = watcher.definition.program,
             FileManager.default.isExecutableFile(atPath: program)
         else { return nil }
-        return UninstallsItself(
+        let uninstaller = UninstallsItself(
             app: app,
             uninstaller: .removesItsComponents,
             removed: paths(teamViewerRemoves, in: environment)
         )
+        return (uninstaller, watcher.job)
     }
 
-    private static func blueStacks(_ app: InstalledApp, environment: SearchEnvironment) -> UninstallsItself? {
+    private static func blueStacks(_ app: InstalledApp, environment: SearchEnvironment) -> Known? {
         guard
             let identifier = app.bundleIdentifier, blueStacks.identifiers.contains(identifier),
-            let program = program(ofTheJobIn: blueStacks.cleanup, watching: app, in: environment)
+            let cleanup = program(ofTheJobIn: blueStacks.cleanup, watching: app, in: environment)
         else { return nil }
-        return UninstallsItself(
+        let uninstaller = UninstallsItself(
             app: app,
             uninstaller: .deletesItsSuite,
             removed: paths(blueStacksRemoves, in: environment),
-            needed: [program]
+            needed: [cleanup.program]
         )
+        return (uninstaller, cleanup.job)
     }
 
-    private static func noMachine(_ app: InstalledApp, environment: SearchEnvironment) -> UninstallsItself? {
+    private static func noMachine(_ app: InstalledApp, environment: SearchEnvironment) -> Known? {
         guard
             app.bundleIdentifier == noMachine.identifier,
-            let program = program(ofTheJobIn: noMachine.uninstall, watching: app, in: environment)
+            let uninstall = program(ofTheJobIn: noMachine.uninstall, watching: app, in: environment)
         else { return nil }
-        return UninstallsItself(
+        let uninstaller = UninstallsItself(
             app: app,
             uninstaller: .uninstallsWithoutAsking,
             removed: paths(noMachineRemoves, in: environment),
-            needed: [program]
+            needed: [uninstall.program]
         )
+        return (uninstaller, uninstall.job)
+    }
+
+    /// The job declared in `file` under the root, when it isn't disabled.
+    private static func job(
+        in file: String,
+        environment: SearchEnvironment
+    ) -> (definition: JobDefinition, job: LaunchdCleanup.Job)? {
+        let plist = environment.rootDirectory.appending(path: file)
+        guard let definition = JobDefinition(contentsOf: plist), !definition.isDisabled else { return nil }
+        let job = LaunchdCleanup.Job(
+            label: definition.label, isDaemon: file.hasPrefix("Library/LaunchDaemons/"), plist: plist,
+            loadsInTheBackgroundSession: definition.loadsInTheBackground
+        )
+        return (definition, job)
     }
 
     /// The program of the job in `file`, as Peel compares paths, when the job isn't disabled, its `WatchPaths` names
@@ -250,14 +279,14 @@ public struct UninstallsItself: Sendable, Hashable {
         ofTheJobIn file: String,
         watching app: InstalledApp,
         in environment: SearchEnvironment
-    ) -> String? {
+    ) -> (program: String, job: LaunchdCleanup.Job)? {
         let place = PathPattern.comparablePath(of: app.url)
         guard
-            let job = JobDefinition(contentsOf: environment.rootDirectory.appending(path: file)), !job.isDisabled,
-            job.watchPaths.contains(where: { PathPattern.comparablePath(of: URL(filePath: $0)) == place }),
-            let program = job.program, FileManager.default.isExecutableFile(atPath: program)
+            let found = job(in: file, environment: environment),
+            found.definition.watchPaths.contains(where: { PathPattern.comparablePath(of: URL(filePath: $0)) == place }),
+            let program = found.definition.program, FileManager.default.isExecutableFile(atPath: program)
         else { return nil }
-        return PathPattern.comparablePath(of: URL(filePath: program))
+        return (PathPattern.comparablePath(of: URL(filePath: program)), found.job)
     }
 
     /// Watched when a job launchd has loaded from a folder it reads by itself names the app's place, or something
@@ -317,7 +346,7 @@ public struct UninstallsItself: Sendable, Hashable {
             .map { PathPattern.comparablePath(of: URL(filePath: $0)) }
     }
 
-    /// Whether launchd has `job` loaded from its file now, so it starts once the app leaves. An answer Peel can't read
+    /// Whether launchd has `job` loaded from its file now, so it runs once the app leaves. An answer Peel can't read
     /// counts as yes: leaving the job's files in place costs nothing, and moving them could stop it halfway.
     private static func isLoaded(_ job: LaunchdCleanup.Job) async -> Bool {
         if let launchdStandIn { return launchdStandIn(job) }

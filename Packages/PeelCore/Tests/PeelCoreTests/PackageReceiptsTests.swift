@@ -743,7 +743,7 @@ struct PackageReceiptsTests {
         #expect(receipt.figure(canUseHelper: true) == SizeTotal([10]))
     }
 
-    @Test func leavesTheRestOfAPackageToWhatRemovesItsApp() async throws {
+    @Test(.launchdHasEveryJob) func leavesTheRestOfAPackageToWhatRemovesItsApp() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url)
         let plist = { (object: [String: Any]) in

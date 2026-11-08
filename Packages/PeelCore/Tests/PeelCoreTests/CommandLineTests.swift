@@ -139,12 +139,23 @@ struct CommandLineTests {
     }
 
     /// What the Trash can't bring back is said before the question in every output: with `--json` on standard error.
-    @Test func warnsOfWhatTheTrashCantBringBack() async {
+    @Test(.launchdHasEveryJob) func warnsOfWhatTheTrashCantBringBack() async throws {
+        let directory = try TemporaryDirectory()
         let mullvad = InstalledApp(
-            url: URL(filePath: "/Applications/Mullvad VPN.app", directoryHint: .isDirectory),
+            url: try directory.directory("root/Applications/Mullvad VPN.app"),
             bundleIdentifier: "net.mullvad.vpn", name: "Mullvad VPN"
         )
-        let uninstallsItself = await UninstallsItself.of(mullvad)
+        try directory.file(
+            "root/Library/LaunchDaemons/net.mullvad.daemon.plist",
+            contents: PropertyListSerialization.data(
+                fromPropertyList: ["Label": "net.mullvad.daemon"], format: .xml, options: 0
+            )
+        )
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let uninstallsItself = await UninstallsItself.of(mullvad, environment: environment)
         let warnings = UninstallCommand.warnings(
             moving: [mullvad.url], of: mullvad,
             uninstallsItself: uninstallsItself, leftInTheSystem: nil, commandToRunFirst: nil, resettingPrivacy: true

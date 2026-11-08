@@ -4,38 +4,37 @@ import Foundation
 import Testing
 
 struct UninstallsItselfTests {
-    private let mullvad = InstalledApp(
-        url: URL(filePath: "/Applications/Mullvad VPN.app"), bundleIdentifier: "net.mullvad.vpn", name: "Mullvad VPN"
-    )
+    @Test(.launchdHasEveryJob) func mullvadUninstallsItselfOnceItLeavesTheApplicationsFolder() async throws {
+        let installed = try Installed()
 
-    @Test func mullvadUninstallsItselfOnceItLeavesTheApplicationsFolder() async {
-        let uninstallsItself = await UninstallsItself.of(mullvad)
+        let uninstallsItself = await UninstallsItself.of(installed.app, environment: installed.environment)
 
-        #expect(uninstallsItself?.app == mullvad)
-        #expect(uninstallsItself?.uninstaller == .logsOut(script: "/Applications/Mullvad VPN.app/Contents/Resources/uninstall.sh"))
+        let script = installed.app.url.appending(path: "Contents/Resources/uninstall.sh").path(percentEncoded: false)
+        #expect(uninstallsItself?.app == installed.app)
+        #expect(uninstallsItself?.uninstaller == .logsOut(script: script))
         #expect(uninstallsItself?.letsItsProgramsRun == true)
     }
 
     /// The apps Peel lists come from a folder walk, whose URLs name a folder with a slash at the end.
-    @Test func knowsMullvadAsTheListOfAppsNamesIt() async throws {
-        let walked = URL(filePath: "/Applications/Mullvad VPN.app", directoryHint: .isDirectory)
+    @Test(.launchdHasEveryJob) func knowsMullvadAsTheListOfAppsNamesIt() async throws {
+        let installed = try Installed()
+        let walked = URL(filePath: installed.app.url.path(percentEncoded: false), directoryHint: .isDirectory)
         #expect(walked.path(percentEncoded: false).hasSuffix("/"))
         let listed = InstalledApp(url: walked, bundleIdentifier: "net.mullvad.vpn", name: "Mullvad VPN")
 
-        #expect(await UninstallsItself.of(listed)?.app == listed)
+        #expect(await UninstallsItself.of(listed, environment: installed.environment)?.app == listed)
     }
 
-    @Test func nothingHappensWhileTheAppSitsElsewhere() async {
+    @Test(.launchdHasEveryJob) func nothingHappensWhileTheAppSitsElsewhere() async throws {
+        let installed = try Installed()
         let elsewhere = InstalledApp(
-            url: URL(filePath: "/Users/me/Applications/Mullvad VPN.app"), bundleIdentifier: "net.mullvad.vpn",
-            name: "Mullvad VPN"
+            url: installed.directory.url.appending(path: "home/Applications/Mullvad VPN.app"),
+            bundleIdentifier: "net.mullvad.vpn", name: "Mullvad VPN"
         )
-        let another = InstalledApp(
-            url: URL(filePath: "/Applications/Mullvad VPN.app"), bundleIdentifier: "org.example.vpn", name: "Mullvad VPN"
-        )
+        let another = InstalledApp(url: installed.app.url, bundleIdentifier: "org.example.vpn", name: "Mullvad VPN")
 
-        #expect(await UninstallsItself.of(elsewhere) == nil)
-        #expect(await UninstallsItself.of(another) == nil)
+        #expect(await UninstallsItself.of(elsewhere, environment: installed.environment) == nil)
+        #expect(await UninstallsItself.of(another, environment: installed.environment) == nil)
     }
 
     private struct Installed: ~Copyable {
@@ -43,11 +42,19 @@ struct UninstallsItselfTests {
         let app: InstalledApp
         let environment: SearchEnvironment
         let daemon: Process
+        let job: URL
 
         init() throws {
             let directory = try TemporaryDirectory()
             let bundle = try directory.directory("root/Applications/Mullvad VPN.app")
             let daemon = try directory.runningProgram("root/Applications/Mullvad VPN.app/Contents/Resources/mullvad-daemon")
+            let program = bundle.appending(path: "Contents/Resources/mullvad-daemon").path(percentEncoded: false)
+            self.job = try directory.file(
+                "root/Library/LaunchDaemons/net.mullvad.daemon.plist",
+                contents: PropertyListSerialization.data(
+                    fromPropertyList: ["Label": "net.mullvad.daemon", "Program": program], format: .xml, options: 0
+                )
+            )
             self.app = InstalledApp(url: bundle, bundleIdentifier: "net.mullvad.vpn", name: "Mullvad VPN")
             self.environment = SearchEnvironment(
                 homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
@@ -71,17 +78,10 @@ struct UninstallsItselfTests {
         }
     }
 
-    @Test func leavesToTheUninstallerWhatItRemovesAndOffersTheRest() async throws {
+    @Test(.launchdHasEveryJob) func leavesToTheUninstallerWhatItRemovesAndOffersTheRest() async throws {
         let installed = try Installed()
-        let program = installed.app.url.appending(path: "Contents/Resources/mullvad-daemon").path(percentEncoded: false)
-        let job = try installed.directory.file(
-            "root/Library/LaunchDaemons/net.mullvad.daemon.plist",
-            contents: PropertyListSerialization.data(
-                fromPropertyList: ["Label": "net.mullvad.daemon", "Program": program], format: .xml, options: 0
-            )
-        )
         let removedByIt = [
-            job,
+            installed.job,
             try installed.directory.directory("home/Library/Application Support/Mullvad VPN"),
             try installed.directory.directory("home/Library/Logs/Mullvad VPN"),
             try installed.directory.file("root/private/var/db/receipts/net.mullvad.vpn.bom"),
@@ -107,7 +107,7 @@ struct UninstallsItselfTests {
         #expect(plan.uninstallsItself?.app == installed.app)
     }
 
-    @Test func itsBundleMovesWhileItsOwnProgramRunsFromIt() async throws {
+    @Test(.launchdHasEveryJob) func itsBundleMovesWhileItsOwnProgramRunsFromIt() async throws {
         let installed = try Installed()
         let preferences = try installed.directory.file("home/Library/Preferences/net.mullvad.vpn.plist")
         let plan = await Uninstallation.prepare(
@@ -161,7 +161,7 @@ struct UninstallsItselfTests {
         #expect(moved.trashed.map(\.originalURL) == [app])
     }
 
-    @Test func itsBundleMovesAmongSeveralAppsWhileItsOwnProgramRunsFromIt() async throws {
+    @Test(.launchdHasEveryJob) func itsBundleMovesAmongSeveralAppsWhileItsOwnProgramRunsFromIt() async throws {
         let installed = try Installed()
         let several = await BulkUninstallation.prepare(
             [installed.app], installedApps: [installed.app], environment: installed.environment
@@ -173,7 +173,7 @@ struct UninstallsItselfTests {
         #expect(result.trashed.map(\.originalURL) == [installed.app.url])
     }
 
-    @Test func peelUninstallMovesItsBundleWhileItsOwnProgramRunsFromIt() async throws {
+    @Test(.launchdHasEveryJob) func peelUninstallMovesItsBundleWhileItsOwnProgramRunsFromIt() async throws {
         let installed = try Installed()
         let plan = UninstallPlan.make(
             await Uninstallation.prepare(
@@ -189,7 +189,7 @@ struct UninstallsItselfTests {
         #expect(result.trashed.map(\.originalURL) == [installed.app.url])
     }
 
-    @Test func peelUninstallLeavesOutOfReviewWhatItsUninstallerRemoves() async throws {
+    @Test(.launchdHasEveryJob) func peelUninstallLeavesOutOfReviewWhatItsUninstallerRemoves() async throws {
         let installed = try Installed()
         try installed.directory.directory("home/Library/Logs/Mullvad VPN")
 
@@ -204,7 +204,7 @@ struct UninstallsItselfTests {
         #expect(plan.needsReview == 0)
     }
 
-    @Test func itsPrivacyIsResetThoughItsOwnProgramRunsFromIt() async throws {
+    @Test(.launchdHasEveryJob) func itsPrivacyIsResetThoughItsOwnProgramRunsFromIt() async throws {
         let installed = try Installed()
 
         #expect(await PrivacyReset.goingNow([installed.app], with: try installed.service()) == [installed.app])
@@ -261,13 +261,13 @@ struct UninstallsItselfTests {
         }
     }
 
-    @Test func citrixUninstallsItselfThroughTheAgentThatWatchesItsPlace() async throws {
+    @Test(.launchdHasEveryJob) func citrixUninstallsItselfThroughTheAgentThatWatchesItsPlace() async throws {
         let citrix = try Citrix()
 
         #expect(await UninstallsItself.of(citrix.app, environment: citrix.environment)?.uninstaller == .deletesTheApp)
     }
 
-    @Test func citrixIsAnOrdinaryAppWhenNoAgentWouldOpenItsUninstaller() async throws {
+    @Test(.launchdHasEveryJob) func citrixIsAnOrdinaryAppWhenNoAgentWouldOpenItsUninstaller() async throws {
         let elsewhere = try Citrix(watching: "/Applications/Another.app")
         let disabled = try Citrix(disabled: true)
         let noUninstaller = try Citrix(uninstallerInPlace: false)
@@ -282,7 +282,7 @@ struct UninstallsItselfTests {
         #expect(await UninstallsItself.of(noAgent.app, environment: noAgent.environment) == nil)
     }
 
-    @Test func leavesToCitrixsUninstallerWhatItDeletesAndOffersTheRest() async throws {
+    @Test(.launchdHasEveryJob) func leavesToCitrixsUninstallerWhatItDeletesAndOffersTheRest() async throws {
         let citrix = try Citrix()
         let helpers = "Contents/CitrixWorkspaceApps"
         let deletedByIt = [
@@ -374,21 +374,21 @@ struct UninstallsItselfTests {
         }
     }
 
-    @Test func teamViewerUninstallsItselfThroughTheDaemonThatWatchesIt() async throws {
+    @Test(.launchdHasEveryJob) func teamViewerUninstallsItselfThroughTheDaemonThatWatchesIt() async throws {
         let teamViewer = try TeamViewer()
 
         let uninstaller = await UninstallsItself.of(teamViewer.app, environment: teamViewer.environment)?.uninstaller
         #expect(uninstaller == .removesItsComponents)
     }
 
-    @Test func teamViewerHostUninstallsItselfThroughTheSameDaemon() async throws {
+    @Test(.launchdHasEveryJob) func teamViewerHostUninstallsItselfThroughTheSameDaemon() async throws {
         let host = try TeamViewer(host: true)
 
         let uninstaller = await UninstallsItself.of(host.app, environment: host.environment)?.uninstaller
         #expect(uninstaller == .removesItsComponents)
     }
 
-    @Test func teamViewerIsAnOrdinaryAppWhenNoDaemonWouldOpenItsUninstaller() async throws {
+    @Test(.launchdHasEveryJob) func teamViewerIsAnOrdinaryAppWhenNoDaemonWouldOpenItsUninstaller() async throws {
         let elsewhere = try TeamViewer(watching: "/Applications/Another.app")
         let disabled = try TeamViewer(disabled: true)
         let noStarter = try TeamViewer(starterInPlace: false)
@@ -403,7 +403,7 @@ struct UninstallsItselfTests {
         #expect(await UninstallsItself.of(noDaemon.app, environment: noDaemon.environment) == nil)
     }
 
-    @Test func leavesToTeamViewersUninstallerWhatItRemovesAndOffersTheRest() async throws {
+    @Test(.launchdHasEveryJob) func leavesToTeamViewersUninstallerWhatItRemovesAndOffersTheRest() async throws {
         let teamViewer = try TeamViewer()
         let root = teamViewer.environment.rootDirectory
         let removedByIt = [
@@ -440,7 +440,7 @@ struct UninstallsItselfTests {
         }
     }
 
-    @Test func citrixsBundleMovesWhileItsHelperRunsFromIt() async throws {
+    @Test(.launchdHasEveryJob) func citrixsBundleMovesWhileItsHelperRunsFromIt() async throws {
         let citrix = try Citrix()
         let helper = try citrix.directory.runningProgram(
             "root/Applications/Citrix Workspace.app/Contents/CitrixWorkspaceApps/CtxWorkspaceHelperDaemon.app/Contents/MacOS/CtxWorkspaceHelperDaemon"
@@ -462,7 +462,7 @@ struct UninstallsItselfTests {
         #expect(result.trashed.map(\.originalURL) == [citrix.app.url])
     }
 
-    @Test func peelUninstallWarnsThatCitrixsUninstallerDeletesTheApp() async throws {
+    @Test(.launchdHasEveryJob) func peelUninstallWarnsThatCitrixsUninstallerDeletesTheApp() async throws {
         let citrix = try Citrix()
         let uninstallsItself = await UninstallsItself.of(citrix.app, environment: citrix.environment)
 
@@ -475,54 +475,71 @@ struct UninstallsItselfTests {
         #expect(warnings.first?.contains("deletes the app, even from the Trash") == true)
     }
 
-    @Test func blueStacksUninstallsItselfThroughTheCleanupThatWatchesBothItsApps() async throws {
-        let directory = try TemporaryDirectory()
-        let bundle = try directory.directory("root/Applications/BlueStacks.app")
-        let manager = try directory.directory("root/Applications/BlueStacks Air multi-instance manager.app")
-        let cleanup = "root/Library/Application Support/BlueStacks/BlueStacksCleanup"
-        try directory.file(cleanup)
-        try directory.setPermissions(0o755, of: cleanup)
-        let job = try directory.file(
-            "root/Library/LaunchDaemons/com.now.gg.BlueStacks.cleanup.plist",
-            contents: PropertyListSerialization.data(
-                fromPropertyList: [
-                    "Label": "com.now.gg.BlueStacks.cleanup",
-                    "ProgramArguments": [directory.url.appending(path: cleanup).path(percentEncoded: false)],
-                    "WatchPaths": [bundle.path(percentEncoded: false), manager.path(percentEncoded: false)],
-                ],
-                format: .xml,
-                options: 0
-            )
-        )
-        let shared = try directory.directory("root/Users/Shared/Library/Application Support/BlueStacks/Engine")
-            .deletingLastPathComponent()
-        let app = InstalledApp(url: bundle, bundleIdentifier: "com.now.gg.BlueStacks", name: "BlueStacks")
-        let environment = SearchEnvironment(
-            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
-            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
-        )
+    private struct BlueStacks: ~Copyable {
+        let directory: TemporaryDirectory
+        let app: InstalledApp
+        let manager: URL
+        let environment: SearchEnvironment
+        let job: URL
 
-        let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
+        init() throws {
+            let directory = try TemporaryDirectory()
+            let bundle = try directory.directory("root/Applications/BlueStacks.app")
+            let manager = try directory.directory("root/Applications/BlueStacks Air multi-instance manager.app")
+            let cleanup = "root/Library/Application Support/BlueStacks/BlueStacksCleanup"
+            try directory.file(cleanup)
+            try directory.setPermissions(0o755, of: cleanup)
+            self.job = try directory.file(
+                "root/Library/LaunchDaemons/com.now.gg.BlueStacks.cleanup.plist",
+                contents: PropertyListSerialization.data(
+                    fromPropertyList: [
+                        "Label": "com.now.gg.BlueStacks.cleanup",
+                        "ProgramArguments": [directory.url.appending(path: cleanup).path(percentEncoded: false)],
+                        "WatchPaths": [bundle.path(percentEncoded: false), manager.path(percentEncoded: false)],
+                    ],
+                    format: .xml,
+                    options: 0
+                )
+            )
+            self.app = InstalledApp(url: bundle, bundleIdentifier: "com.now.gg.BlueStacks", name: "BlueStacks")
+            self.manager = manager
+            self.environment = SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            )
+            self.directory = directory
+        }
+    }
+
+    @Test(.launchdHasEveryJob) func blueStacksUninstallsItselfThroughTheCleanupThatWatchesBothItsApps() async throws {
+        let blueStacks = try BlueStacks()
+        let shared = try blueStacks.directory.directory("root/Users/Shared/Library/Application Support/BlueStacks/Engine")
+            .deletingLastPathComponent()
+
+        let plan = await Uninstallation.prepare(
+            blueStacks.app, installedApps: [blueStacks.app], environment: blueStacks.environment
+        )
 
         let heldBack = Dictionary(
             plan.scan.leftovers.map { (PathPattern.comparablePath(of: $0.url), $0.match.heldBack) },
             uniquingKeysWith: { first, _ in first }
         )
         #expect(plan.uninstallsItself?.uninstaller == .deletesItsSuite)
-        #expect(heldBack[PathPattern.comparablePath(of: job)] == .some(.leftToItsUninstaller))
+        #expect(heldBack[PathPattern.comparablePath(of: blueStacks.job)] == .some(.leftToItsUninstaller))
         #expect(heldBack[PathPattern.comparablePath(of: shared)] == .some(.leftToItsUninstaller))
-        let program = directory.url.appending(path: "root/Library/Application Support/BlueStacks")
+        let program = blueStacks.directory.url.appending(path: "root/Library/Application Support/BlueStacks")
         #expect(heldBack[PathPattern.comparablePath(of: program)] == .some(.neededWhenTheAppLeaves))
         let warnings = UninstallCommand.warnings(
-            moving: [app.url], of: app,
+            moving: [blueStacks.app.url], of: blueStacks.app,
             uninstallsItself: plan.uninstallsItself,
             leftInTheSystem: nil, commandToRunFirst: nil, resettingPrivacy: false
         )
         #expect(warnings.first?.contains("deletes the other BlueStacks app") == true)
         let other = InstalledApp(
-            url: manager, bundleIdentifier: "com.now.gg.BlueStacksAirMIM", name: "BlueStacks Air multi-instance manager"
+            url: blueStacks.manager, bundleIdentifier: "com.now.gg.BlueStacksAirMIM",
+            name: "BlueStacks Air multi-instance manager"
         )
-        #expect(await UninstallsItself.of(other, environment: environment)?.uninstaller == .deletesItsSuite)
+        #expect(await UninstallsItself.of(other, environment: blueStacks.environment)?.uninstaller == .deletesItsSuite)
     }
 
     private struct NoMachine: ~Copyable {
@@ -569,7 +586,7 @@ struct UninstallsItselfTests {
         }
     }
 
-    @Test func leavesToNoMachinesUninstallWhatItDeletesAndOffersTheRest() async throws {
+    @Test(.launchdHasEveryJob) func leavesToNoMachinesUninstallWhatItDeletesAndOffersTheRest() async throws {
         let noMachine = try NoMachine()
         let deletedByIt = [
             noMachine.job,
@@ -595,7 +612,7 @@ struct UninstallsItselfTests {
         #expect(heldBack[PathPattern.comparablePath(of: settings)] == .some(nil))
     }
 
-    @Test func noMachinesBundleMovesWhileItsServerRunsFromIt() async throws {
+    @Test(.launchdHasEveryJob) func noMachinesBundleMovesWhileItsServerRunsFromIt() async throws {
         let noMachine = try NoMachine()
         let server = try noMachine.directory.runningProgram(
             "root/Applications/NoMachine.app/Contents/Frameworks/bin/nxserver.bin"
@@ -617,7 +634,7 @@ struct UninstallsItselfTests {
         #expect(result.trashed.map(\.originalURL) == [noMachine.app.url])
     }
 
-    @Test func peelUninstallWarnsThatNoMachineDeletesItselfWithoutAsking() async throws {
+    @Test(.launchdHasEveryJob) func peelUninstallWarnsThatNoMachineDeletesItselfWithoutAsking() async throws {
         let noMachine = try NoMachine()
         let uninstallsItself = await UninstallsItself.of(noMachine.app, environment: noMachine.environment)
 
@@ -630,6 +647,25 @@ struct UninstallsItselfTests {
         #expect(warnings.first?.contains("as an administrator, without asking") == true)
         #expect(warnings.first?.contains("can delete the app from the Trash too") == true)
         #expect(warnings.first?.contains("NoMachine Uninstall opens") == true)
+    }
+
+    @Test(.launchdHasNoJob) func noAppUninstallsItselfWhileLaunchdLacksTheJobThatWouldDoIt() async throws {
+        let mullvad = try Installed()
+        let citrix = try Citrix()
+        let teamViewer = try TeamViewer()
+        let blueStacks = try BlueStacks()
+        let noMachine = try NoMachine()
+
+        #expect(await UninstallsItself.of(mullvad.app, environment: mullvad.environment) == nil)
+        #expect(await UninstallsItself.of(citrix.app, environment: citrix.environment) == nil)
+        #expect(await UninstallsItself.of(teamViewer.app, environment: teamViewer.environment) == nil)
+        #expect(await UninstallsItself.of(blueStacks.app, environment: blueStacks.environment) == nil)
+        #expect(await UninstallsItself.of(noMachine.app, environment: noMachine.environment) == nil)
+        let plan = await Uninstallation.prepare(
+            teamViewer.app, installedApps: [teamViewer.app], environment: teamViewer.environment
+        )
+        #expect(plan.uninstallsItself == nil)
+        #expect(!plan.scan.leftovers.contains { $0.match.heldBack == .leftToItsUninstaller })
     }
 
     private struct Watched: ~Copyable {
@@ -809,4 +845,21 @@ struct UninstallsItselfTests {
             "Moving Watched to the Trash starts a program that waits for it to leave. Peel leaves that program and the file that starts it in place so it can finish, and the Trash can't bring back anything it removes.",
         ])
     }
+}
+
+/// Says for the test it marks whether launchd has the jobs Peel asks about, since no test loads a job into launchd.
+struct LaunchdJobs: TestTrait, TestScoping {
+    let areLoaded: Bool
+
+    func provideScope(
+        for test: Test, testCase: Test.Case?, performing function: @concurrent @Sendable () async throws -> Void
+    ) async throws {
+        let areLoaded = areLoaded
+        try await UninstallsItself.$launchdStandIn.withValue({ _ in areLoaded }) { try await function() }
+    }
+}
+
+extension Trait where Self == LaunchdJobs {
+    static var launchdHasEveryJob: Self { Self(areLoaded: true) }
+    static var launchdHasNoJob: Self { Self(areLoaded: false) }
 }
