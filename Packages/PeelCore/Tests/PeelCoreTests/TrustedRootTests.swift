@@ -26,6 +26,7 @@ import Testing
         #expect(root("com.xk72.Charles") == TrustedRoot(certificate: "Charles Proxy", step: .keychainAccess))
         #expect(root("com.proxyman.NSProxy")?.step == .menu("Certificate > Reset all Proxyman Certificates"))
         #expect(root("com.install4j.6592-1155-2163-3973.70") == TrustedRoot(certificate: "PortSwigger CA", step: .keychainAccess))
+        #expect(root("com.install4j.7318-9294-3757-1226.70") == TrustedRoot(certificate: "PortSwigger CA", step: .keychainAccess))
         #expect(root("org.example.charles") == nil)
     }
 }
