@@ -629,7 +629,7 @@ struct UninstallCommand: AsyncParsableCommand {
         case .byItsMaker(let uninstaller):
             let step = switch uninstaller.step {
             case .command(let command): "run `\(command)`"
-            case .uninstaller(let url): "open \(Output.path(url))"
+            case .uninstaller(let url): "open \(Output.plain(Output.path(url)))"
             case .inTheApp: "use the uninstall command in \(Output.plain(target.name))"
             case .onItsDiskImage: "use the uninstaller on the disk image it came on"
             case .fromTheMakersPage: "download its uninstaller from \(uninstaller.maker)'s page"

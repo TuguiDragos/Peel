@@ -1202,6 +1202,17 @@ struct CommandLineTests {
         #expect(UninstallCommand.removedElsewhere(crashPlan)?.description == "CrashPlan is removed with CrashPlan's own uninstaller, which also takes what it keeps in the system: open /Library/Application Support/CrashPlan/Uninstall.app. See https://support.crashplan.com/hc/en-us/articles/9025086987661-Uninstall-the-CrashPlan-app")
     }
 
+    @Test func namesAnUninstallerInsideTheAppAsPlainText() {
+        let eset = InstalledApp(
+            url: URL(filePath: "/Applications/Security\u{1B}[2J/ESET Endpoint Security.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.eset.ees", name: "ESET Endpoint Security", teamIdentifier: "P8DQRXPVLP"
+        )
+
+        let said = UninstallCommand.removedElsewhere(eset)?.description
+
+        #expect(said?.contains("open /Applications/Security?[2J/ESET Endpoint Security.app/Contents/Helpers/Uninstaller.app.") == true, "\(said ?? "")")
+    }
+
     @Test func saysToDownloadTheUninstallerAMakersPageOffers() {
         let webex = InstalledApp(
             url: URL(filePath: "/Applications/Webex.app", directoryHint: .isDirectory),
