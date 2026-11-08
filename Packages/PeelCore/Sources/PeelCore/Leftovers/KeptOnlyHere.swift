@@ -83,6 +83,8 @@ enum KeptOnlyHere {
         ("Library/Application Support/Yandex", "YandexBrowser", .holdsPasswordsOrCodes),
         ("Library/Application Support/Arc", nil, .holdsPasswordsOrCodes),
         ("Library/Application Support/Dia", nil, .holdsPasswordsOrCodes),
+        // Helium's macOS patch `change-product-dir-name.patch` names its folder.
+        ("Library/Application Support/net.imput.helium", "Default", .holdsPasswordsOrCodes),
         // Kagi's "Technical Information" for Orion: its profiles and bookmarks are in its folder.
         ("Library/Application Support/Orion", nil, .holdsWorkMadeWithTheApp),
         // Tunnelblick's "File Locations" and "Uninstalling Tunnelblick".
@@ -103,6 +105,12 @@ enum KeptOnlyHere {
         // and Minecraft support can't recover deleted files.
         ("Library/Application Support/minecraft", "saves", .holdsWorkMadeWithTheApp),
         ("Library/Application Support/minecraft", "screenshots", .holdsWorkMadeWithTheApp),
+        // Prism Launcher's "Data Locations" and `MinecraftInstance.cpp`: each instance keeps its worlds in `saves`.
+        ("Library/Application Support/PrismLauncher", "instances", .holdsWorkMadeWithTheApp),
+        // Chatbox's "Data Storage": the conversations stay on this device, and its team can't recover them.
+        ("Library/Application Support/chatbox", nil, .holdsWorkMadeWithTheApp),
+        // Google's "Fix problems in Drive for desktop": a file it couldn't upload is copied to `lost_and_found`.
+        ("Library/Application Support/Google/DriveFS", "lost_and_found", .holdsWorkMadeWithTheApp),
         // Postgres.app's "Installing Postgres.app": its default data directory is `Postgres/var-XX`, and deleting the
         // data directories is an optional step of uninstalling it.
         ("Library/Application Support/Postgres", nil, .holdsWorkMadeWithTheApp),

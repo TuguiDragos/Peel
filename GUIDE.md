@@ -26,9 +26,9 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   exist only on this Mac, such as local mail, message history, sign-in codes, a browser's or a remote access app's
   saved passwords, VPN connections, a torrent client's list of torrents, a game's saves, virtual machines and Windows
   bottles, a database, a database client's saved connections, a debugging proxy's rules, a video editor's projects, an
-  AI app's conversations, a code editor's notes, unsaved files, and local history, an app's own backups, or the
-  sign-in a tool saved when you logged in. Uninstalling Xcode lists the simulators it made the same way, and
-  uninstalling Genymotion or Rancher Desktop lists its virtual machines.
+  AI app's conversations, a code editor's notes, unsaved files, and local history, the files a sync app couldn't
+  upload, an app's own backups, or the sign-in a tool saved when you logged in. Uninstalling Xcode lists the
+  simulators it made the same way, and uninstalling Genymotion or Rancher Desktop lists its virtual machines.
 - **Shared or guessed, never selected.** A file another installed app also uses is shown but never selected, and a
   folder holding another installed app's own data, such as Xcode's in `~/Library/Developer`, can't be selected at
   all, and neither can anything that syncs to your other devices, an app's container holding your documents, or a
