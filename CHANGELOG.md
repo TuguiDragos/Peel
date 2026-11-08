@@ -82,10 +82,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   uninstaller would remove as any other leftovers, since macOS runs none of it then.
 - Uninstalling SAP's Privileges while its system extension runs no longer fails as not permitted: the extension keeps
   anyone from moving the app, so an app's page, several apps' page, Package Receipts, the Homebrew page, and
-  `peel uninstall` leave Privileges to SAP's uninstaller and link to SAP's steps.
-- An app with a system extension macOS installed for an app bundled inside it is listed with nothing selected, and its
-  page says to remove the extension first, the way its maker describes: macOS keeps such an extension whoever moves
-  the app, Finder included.
+  `peel uninstall` say to turn it off first in System Settings > General > Login Items & Extensions, and then move
+  Privileges as any app.
+- An app with a system extension macOS runs for an app bundled inside it is listed with nothing selected, and its page
+  says to turn the extension off first in System Settings: macOS keeps such an extension whoever moves the app, Finder
+  included.
 - An uninstall no longer selects Prism Launcher's folder, with every instance's saved worlds, Chatbox's conversations,
   Helium's profiles with their saved passwords, the files Google Drive for desktop couldn't upload, or the backups
   another computer sent to CrashPlan: each is listed and left for you to select.
