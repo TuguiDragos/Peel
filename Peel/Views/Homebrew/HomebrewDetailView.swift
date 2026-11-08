@@ -10,6 +10,7 @@ struct HomebrewDetailView: View {
     @State private var isConfirmingUninstall = false
     /// What uses this formula, read when Uninstall is pressed. Nil for a cask, whose apps are asked to quit.
     @State private var inUse: FormulaInUse?
+    @State private var leftInTheSystem: LeftInTheSystem?
     @State private var isConfirmingUpgrade = false
     @State private var casksToForget: [HomebrewPackage]?
     /// What macOS said of the system extensions the cask's apps carry, with the apps it was asked about.
@@ -164,6 +165,7 @@ struct HomebrewDetailView: View {
                         Button("Uninstall", role: .destructive) {
                             Task {
                                 await readWhatUsesIt()
+                                leftInTheSystem = LeftInTheSystem.of(package)
                                 isConfirmingUninstall = true
                             }
                         }
@@ -304,6 +306,10 @@ struct HomebrewDetailView: View {
         if let root = TrustedRoot.of(package) {
             lines.append(Text("\(package.name) added a root certificate to the certificates this Mac trusts, and Homebrew leaves it trusted."))
             lines.append(root.step(in: package.name))
+        }
+        if let left = leftInTheSystem {
+            lines.append(left.whatStays(after: package.name))
+            lines.append(left.step)
         }
         guard let first = lines.first else { return nil }
         return lines.dropFirst().reduce(first) { Text("\($0)\n\n\($1)") }

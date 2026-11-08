@@ -147,6 +147,21 @@ extension UninstallsItself {
     }
 }
 
+extension LeftInTheSystem {
+    /// What `app` leaves in macOS's own settings folders once it goes, with what a rule for `sudo` among it allows.
+    func whatStays(after app: String) -> Text {
+        let places = paths.formatted(.list(type: .and))
+        guard let rule = ruleForSudo else {
+            return Text("\(app) leaves \(places) on this Mac after it goes, which only an administrator can remove.")
+        }
+        return Text("\(app) leaves \(places) on this Mac after it goes, which only an administrator can remove. \(rule) is a rule that lets anyone run the programs it names as an administrator, without a password.")
+    }
+
+    var step: Text {
+        paths.count == 1 ? Text("To remove it, run `\(command)`.") : Text("To remove them, run `\(command)`.")
+    }
+}
+
 extension TrustedRoot {
     /// What stops the Mac trusting the certificate, as its maker or Apple says; `app` names the app whose menu it is.
     func step(in app: String) -> Text {

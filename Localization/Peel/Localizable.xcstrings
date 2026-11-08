@@ -7106,6 +7106,230 @@
         }
       }
     },
+    "%@ leaves %@ on this Mac after it goes, which only an administrator can remove." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace %@ po svém odstranění zanechá v tomto Macu %@, které může odstranit jen správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ hinterlässt nach der Deinstallation %@ auf diesem Mac, und nur ein Administrator kann das entfernen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ leaves %2$@ on this Mac after it goes, which only an administrator can remove."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando %@ se vaya, dejará %@ en este Mac, algo que solo un administrador puede eliminar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Après sa disparition, %@ laisse sur ce Mac %@, que seul un administrateur peut supprimer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dopo la rimozione, %@ lascia su questo Mac %@, che solo un amministratore può rimuovere."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”をゴミ箱に入れた後も、%@がこのMacに残ります。取り除けるのは管理者だけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’은(는) 제거된 후에도 이 Mac에 %@을(를) 남기며, 관리자만 이를 제거할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ laat %@ achter op deze Mac nadat de app weg is, en alleen een beheerder kan dat verwijderen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja %@ po przeniesieniu do Kosza pozostawi na tym Macu %@, a usunąć to może tylko administrator."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depois de ir embora, o %@ deixa neste Mac %@, que só um administrador pode remover."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicația %@ lasă în urmă %@ pe acest Mac, iar doar un administrator poate elimina ce rămâne."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение «%@» после удаления оставит %@ на этом Mac, а удалить это может только администратор."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När %@ är borta finns %@ kvar på den här datorn och kan bara tas bort av en administratör."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulaması gittikten sonra da %@ bu Mac’te kalır ve yalnızca bir yönetici tarafından kaldırılabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програма «%@» після вилучення залишить на цьому Mac %@, і вилучити це може лише адміністратор."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”移走后仍会在这台Mac上留下%@，只有管理员才能将其移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」移除後，會在這部Mac上留下%@，而只有管理者能將其移除。"
+          }
+        }
+      }
+    },
+    "%@ leaves %@ on this Mac after it goes, which only an administrator can remove. %@ is a rule that lets anyone run the programs it names as an administrator, without a password." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace %@ po svém odstranění zanechá v tomto Macu %@, které může odstranit jen správce. %@ je pravidlo, které komukoli umožňuje spouštět v něm uvedené programy s oprávněním správce, a to bez hesla."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ hinterlässt nach der Deinstallation %@ auf diesem Mac, und nur ein Administrator kann das entfernen. %@ ist eine Regel, mit der jeder die darin genannten Programme ohne Passwort als Administrator ausführen kann."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ leaves %2$@ on this Mac after it goes, which only an administrator can remove. %3$@ is a rule that lets anyone run the programs it names as an administrator, without a password."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando %@ se vaya, dejará %@ en este Mac, algo que solo un administrador puede eliminar. %@ es una regla que permite a cualquiera ejecutar como administrador los programas que nombra, sin contraseña."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Après sa disparition, %@ laisse sur ce Mac %@, que seul un administrateur peut supprimer. %@ est une règle qui permet à n’importe qui d’exécuter en tant qu’administrateur, sans mot de passe, les programmes qu’elle désigne."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dopo la rimozione, %@ lascia su questo Mac %@, che solo un amministratore può rimuovere. %@ è una regola che consente a chiunque di eseguire con i privilegi di amministratore i programmi che indica, senza password."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”をゴミ箱に入れた後も、%@がこのMacに残ります。取り除けるのは管理者だけです。%@は、そこに記載されているプログラムを、誰でもパスワードなしで管理者として実行できるようにするルールです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’은(는) 제거된 후에도 이 Mac에 %@을(를) 남기며, 관리자만 이를 제거할 수 있습니다. %@은(는) 그 안에 지정된 프로그램을 누구나 암호 없이 관리자 권한으로 실행할 수 있게 하는 규칙입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ laat %@ achter op deze Mac nadat de app weg is, en alleen een beheerder kan dat verwijderen. %@ is een regel waarmee iedereen de programma's die erin worden genoemd, zonder wachtwoord als beheerder kan uitvoeren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja %@ po przeniesieniu do Kosza pozostawi na tym Macu %@, a usunąć to może tylko administrator. Plik %@ to reguła, która pozwala każdemu uruchamiać wskazane w niej programy jako administrator, bez podawania hasła."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depois de ir embora, o %@ deixa neste Mac %@, que só um administrador pode remover. %@ é uma regra que permite que qualquer pessoa execute como administrador, sem senha, os programas que ela indica."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicația %@ lasă în urmă %@ pe acest Mac, iar doar un administrator poate elimina ce rămâne. %@ este o regulă care permite oricui să ruleze ca administrator, fără parolă, programele numite în ea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение «%@» после удаления оставит %@ на этом Mac, а удалить это может только администратор. Правило %@ позволяет любому пользователю запускать указанные в нем программы с правами администратора без пароля."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När %@ är borta finns %@ kvar på den här datorn och kan bara tas bort av en administratör. %@ är en regel som låter vem som helst köra programmen som regeln anger, som administratör och utan lösenord."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulaması gittikten sonra da %@ bu Mac’te kalır ve yalnızca bir yönetici tarafından kaldırılabilir. %@, belirttiği programları herkesin parola olmadan yönetici olarak çalıştırmasına izin veren bir kuraldır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програма «%@» після вилучення залишить на цьому Mac %@, і вилучити це може лише адміністратор. Правило %@ дозволяє будь-кому запускати вказані в ньому виконувані файли з правами адміністратора й без пароля."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”移走后仍会在这台Mac上留下%@，只有管理员才能将其移除。%@是一条规则，允许任何人以管理员身份运行其中指定的程序，而无需输入密码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」移除後，會在這部Mac上留下%@，而只有管理者能將其移除。%@是一條規則，可讓任何人不需輸入密碼，就能以管理者身分執行它所指定的程式。"
+          }
+        }
+      }
+    },
     "%@ of %@" : {
       "localizations" : {
         "cs" : {
@@ -223860,6 +224084,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「時光機」的快照會在備份時建立，並保留一段時間。macOS會在需要空間時自行刪除它們。"
+          }
+        }
+      }
+    },
+    "To remove it, run `%@`." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcete-li tuto položku odstranit, spusťte příkaz `%@`."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um es zu entfernen, führe `%@` aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para eliminarlo, ejecuta `%@`."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour le supprimer, exécutez `%@`."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per rimuoverlo, esegui `%@`."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これを取り除くには、`%@`を実行してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목을 제거하려면 `%@` 명령을 실행하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om het te verwijderen, voer je `%@` uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby to usunąć, uruchom `%@`."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para removê-lo, execute `%@`."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pentru a‑l elimina, rulați `%@`."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы удалить этот объект, выполните `%@`."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om du vill ta bort det kör du `%@`."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu kaldırmak için `%@` komutunu çalıştırın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щоб вилучити його, виконайте `%@`."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要移除它，请运行`%@`。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要移除它，請執行`%@`。"
+          }
+        }
+      }
+    },
+    "To remove them, run `%@`." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcete-li tyto položky odstranit, spusťte příkaz `%@`."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um sie zu entfernen, führe `%@` aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para eliminarlos, ejecuta `%@`."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour les supprimer, exécutez `%@`."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per rimuoverli, esegui `%@`."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これらを取り除くには、`%@`を実行してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목들을 제거하려면 `%@` 명령을 실행하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om ze te verwijderen, voer je `%@` uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby je usunąć, uruchom `%@`."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para removê-los, execute `%@`."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pentru a le elimina, rulați `%@`."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы удалить эти объекты, выполните `%@`."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om du vill ta bort dem kör du `%@`."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunları kaldırmak için `%@` komutunu çalıştırın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щоб вилучити їх, виконайте `%@`."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要移除它们，请运行`%@`。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要移除它們，請執行`%@`。"
           }
         }
       }

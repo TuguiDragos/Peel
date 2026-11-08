@@ -73,6 +73,11 @@ Integrity Protection guards, which macOS marks as restricted, is refused as well
 so is anything macOS marks so that nothing can remove or rename it, such as the private folders it makes in your
 temporary folder for the processes it runs in a sandbox; Peel doesn't list those.
 
+Peel never searches or changes what an app leaves in `/etc` or `/opt`, such as a rule for `sudo` in `/etc/sudoers.d` or
+a path in `/etc/paths.d`. Before battery, Rancher Desktop, Postgres.app, or Wireshark goes, and before Homebrew
+uninstalls the battery or Postgres.app cask, Peel names what of it is on this Mac, as the maker's own pages or code
+name it, and the command that removes it.
+
 Everywhere on the Mac: `/Library/Keychains`, the Mac's network settings in `/Library/Preferences/SystemConfiguration`,
 the Trash macOS keeps at the top of every disk (`/.Trashes` and `/Volumes/<disk>/.Trashes`), whose contents are already
 on their way out, as your own `.Trash`'s are, and any `.photoslibrary`, `.photolibrary`, `.migratedphotolibrary`,

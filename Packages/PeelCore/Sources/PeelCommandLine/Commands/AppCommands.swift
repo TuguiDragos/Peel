@@ -522,12 +522,13 @@ struct UninstallCommand: AsyncParsableCommand {
             ?? AppInspector.knownName(forBundleIdentifier: identifier)
     }
 
-    /// What the removal does that the Trash can't bring back, and a root certificate the app leaves trusted, said
-    /// before the question.
+    /// What the removal does that the Trash can't bring back, a root certificate the app leaves trusted, and what it
+    /// leaves in macOS's own settings folders, said before the question.
     static func warnings(
         moving urls: Set<URL>,
         of app: InstalledApp,
         uninstallsItself: UninstallsItself?,
+        leftInTheSystem: LeftInTheSystem?,
         resettingPrivacy: Bool
     ) -> [String] {
         var warnings: [String] = []
@@ -556,6 +557,13 @@ struct UninstallCommand: AsyncParsableCommand {
                 "open the certificate whose name begins with \(root.certificate) in Keychain Access and change its trust settings"
             }
             warnings.append("\(app.name)'s root certificate stays trusted on this Mac after the app goes. To stop trusting it, \(step).")
+        }
+        if urls.contains(app.url), let left = leftInTheSystem {
+            let rule = left.ruleForSudo.map {
+                " \($0) is a rule that lets anyone run the programs it names as an administrator, without a password."
+            } ?? ""
+            let them = left.paths.count == 1 ? "it" : "them"
+            warnings.append("\(app.name) leaves \(Output.list(left.paths)) on this Mac after it goes, which only an administrator can remove.\(rule) To remove \(them), run `\(left.command)`.")
         }
         return warnings
     }
@@ -729,7 +737,7 @@ struct UninstallCommand: AsyncParsableCommand {
             let moving = Set(plan.moving.map(\.url))
             let warnings = Self.warnings(
                 moving: moving, of: target, uninstallsItself: uninstallation.uninstallsItself,
-                resettingPrivacy: resetPrivacy
+                leftInTheSystem: uninstallation.leftInTheSystem, resettingPrivacy: resetPrivacy
             )
             let dock = Self.dockNote(for: target, isInTheDock: isInTheDock, keeping: keepInDock)
             let webApp = Self.browserName(of: target, among: apps)
