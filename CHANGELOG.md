@@ -7,6 +7,14 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 ### Added
 
+#### Applications
+
+- Uninstalling Burp Suite says that its root certificate, PortSwigger CA, stays trusted, and how Keychain Access stops
+  trusting it.
+- An app's page offers Open Uninstaller for a maker's uninstaller named for the folder the app shares with its
+  product, such as Uninstall TurboVNC beside TurboVNC Viewer, and for one called only Uninstaller in the maker's
+  folder in Utilities, such as Krisp's.
+
 #### Orphaned Files
 
 - This Belongs To… also offers command-line tools: the ones Homebrew installed, and the commands in `/usr/local/bin`,
@@ -42,6 +50,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   that waits for the app to leave, or what holds the program it runs, such as LanguageTool for Desktop's uninstall
   helper: moving them stopped that program just as the app's move started it. Both rows stay and say why, and the
   question says that the program starts.
+- An uninstall no longer selects Prism Launcher's folder, with every instance's saved worlds, Chatbox's conversations,
+  Helium's profiles with their saved passwords, or the files Google Drive for desktop couldn't upload: each is listed
+  and left for you to select.
+- The lines of the shell startup files that still point to what moved are also looked for in `.bash_login`, and in
+  tcsh's `.tcshrc`, `.cshrc`, and `.login`.
 
 #### Orphaned Files
 
