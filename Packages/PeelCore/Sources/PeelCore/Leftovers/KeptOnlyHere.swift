@@ -91,6 +91,9 @@ enum KeptOnlyHere {
         ("Library/Application Support/Tunnelblick", "Configurations", .holdsVPNConnections),
         // SparkLabs' "Uninstalling Viscosity (Mac)": connection data.
         ("Library/Application Support/Viscosity", nil, .holdsVPNConnections),
+        // CrashPlan's "Uninstall the CrashPlan app", for a copy installed for one account: backups another computer
+        // sent here.
+        ("Library/Application Support/CrashPlan", "backupArchives", .holdsWorkMadeWithTheApp),
         // Steam Support's "Steam Cloud": cloud files are kept here by default, and with Steam Cloud off a game's saves
         // are kept only here.
         ("Library/Application Support/Steam", "userdata", .holdsWorkMadeWithTheApp),
@@ -285,6 +288,8 @@ enum KeptOnlyHere {
         ("Library/Application Support/Objective Development/Little Snitch", nil, .holdsWorkMadeWithTheApp),
         // MAMP PRO's "Uninstall MAMP PRO": uninstalling it removes the databases kept here.
         ("Library/Application Support/appsolute/MAMP PRO", "db", .holdsWorkMadeWithTheApp),
+        // CrashPlan's "Uninstall the CrashPlan app": this folder may hold backups another computer sent here.
+        ("Library/Application Support/CrashPlan", "backupArchives", .holdsWorkMadeWithTheApp),
     ]
 
     static func reason(for path: String, home: String, root: String) -> HoldBack? {

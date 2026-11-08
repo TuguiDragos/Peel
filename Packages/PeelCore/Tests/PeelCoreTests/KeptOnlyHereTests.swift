@@ -194,6 +194,7 @@ struct KeptOnlyHereTests {
             (".gem/credentials", .holdsSignIns), (".local/share/gem/credentials", .holdsSignIns),
             (".composer/auth.json", .holdsSignIns), (".config/gcloud/credentials.db", .holdsSignIns),
             (".azure/msal_token_cache.json", .holdsSignIns), (".terraform.d/credentials.tfrc.json", .holdsSignIns),
+            ("Library/Application Support/CrashPlan/backupArchives", .holdsWorkMadeWithTheApp),
         ]
         for (path, reason) in held {
             #expect(KeptOnlyHere.reason(for: "\(home)/\(path)", home: home, root: "/") == reason, "\(path)")
@@ -208,6 +209,8 @@ struct KeptOnlyHereTests {
             ("Library/Application Support/Objective Development/Little Snitch", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/Objective Development/Little Snitch/rules.xpl", .holdsWorkMadeWithTheApp),
             ("Library/Application Support/appsolute/MAMP PRO/db/mysql80/shop", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/CrashPlan", .holdsWorkMadeWithTheApp),
+            ("Library/Application Support/CrashPlan/backupArchives/671234567890", .holdsWorkMadeWithTheApp),
         ]
         for (path, reason) in heldOnTheMac {
             #expect(KeptOnlyHere.reason(for: "/\(path)", home: home, root: "/") == reason, "\(path)")
@@ -271,6 +274,7 @@ struct KeptOnlyHereTests {
             "Library/Application Support/appsolute/MAMP PRO/templates", "Library/Application Support/appsolute",
             "Library/Application Support/ZeroTier/Other", "Library/Application Support/Tunnelblick/Logs",
             "Library/Application Support/Tunnelblick/Users/me", "Library/Application Support/Signal",
+            "Library/Application Support/CrashPlan/log",
         ]
         for path in freeOnTheMac {
             #expect(KeptOnlyHere.reason(for: "/\(path)", home: home, root: "/") == nil, "\(path)")
