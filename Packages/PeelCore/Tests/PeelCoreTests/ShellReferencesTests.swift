@@ -58,8 +58,25 @@ struct ShellReferencesTests {
 
         let files = await ShellReferences.startupFiles(home: home).map(\.lastPathComponent)
 
-        #expect(files == [".zshenv", ".zprofile", ".zshrc", ".zlogin", ".bash_profile", ".bashrc", ".profile", "config.fish"])
+        #expect(files == [
+            ".zshenv", ".zprofile", ".zshrc", ".zlogin", ".bash_profile", ".bash_login", ".bashrc", ".profile",
+            ".tcshrc", ".cshrc", ".login", "config.fish",
+        ])
         #expect(Set(files).count == files.count)
+    }
+
+    @Test func namesTheLinesBashLoginAndTcshReadToo() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("home/.bash_login", contents: Data("export PATH=\"$HOME/.notepad/bin:$PATH\"\n".utf8))
+        try directory.file("home/.tcshrc", contents: Data("setenv PATH \"$HOME/.notepad/bin\":\"$PATH\"\n".utf8))
+        try directory.file("home/.cshrc", contents: Data("setenv PATH \"$HOME/.notepad/bin\":\"$PATH\"\n".utf8))
+        try directory.file("home/.login", contents: Data("source ~/.notepad/env.csh\n".utf8))
+        let moved = [home.appending(path: ".notepad", directoryHint: .isDirectory)]
+
+        let found = await ShellReferences.find(naming: moved, home: home)
+
+        #expect(found.map(\.file.lastPathComponent) == [".bash_login", ".tcshrc", ".cshrc", ".login"])
     }
 
     @Test func spellsAPathAsAShellLineWould() {

@@ -62,8 +62,8 @@ public enum ShellReferences {
     /// A backslash or a dollar sign goes on with the name, as an escaped space or a variable does.
     private static let endsAPath = Set(" \t\r\u{0B}\u{0C}/\"'`:;,|&()}]<>".utf8)
 
-    /// The files zsh, bash and fish read when a shell starts: `.zshenv` where the session's ZDOTDIR or the home puts
-    /// it, zsh's other three in the folder zsh names once `.zshenv` has run, and the rest in the home folder.
+    /// The files zsh, bash, tcsh and fish read when a shell starts: `.zshenv` where the session's ZDOTDIR or the home
+    /// puts it, zsh's other three in the folder zsh names once `.zshenv` has run, and the rest in the home folder.
     static func startupFiles(home: URL) async -> [URL] {
         var files: [URL] = []
         let zdotdir = ShellSessions.sessionZDOTDIR
@@ -73,9 +73,11 @@ public enum ShellReferences {
             let folder = (await zsh.zshrc(home: home, zdotdir: zdotdir) ?? zshenv).deletingLastPathComponent()
             files += [".zprofile", ".zshrc", ".zlogin"].map { folder.appending(path: $0, directoryHint: .notDirectory) }
         }
-        files += [".bash_profile", ".bashrc", ".profile", ".config/fish/config.fish"].map {
-            home.appending(path: $0, directoryHint: .notDirectory)
-        }
+        let others = [
+            ".bash_profile", ".bash_login", ".bashrc", ".profile", ".tcshrc", ".cshrc", ".login",
+            ".config/fish/config.fish",
+        ]
+        files += others.map { home.appending(path: $0, directoryHint: .notDirectory) }
         var seen: Set<String> = []
         return files.filter { seen.insert($0.path(percentEncoded: false)).inserted }
     }

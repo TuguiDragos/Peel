@@ -81,9 +81,9 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   Caddy, or mitmproxy is uninstalled on the Homebrew page, Peel says that the root certificate it added stays trusted
   on this Mac, and how its maker, or Keychain Access, stops trusting it. Peel never changes a keychain.
 - **Lines that still point to what moved.** After a removal, Peel reads the files your shell runs when it starts
-  (`.zshrc` and the others zsh, bash, and fish read) and names each line that still points to what moved, such as a
-  `PATH` entry or an alias into the app, so a new shell stops printing an error once you edit it. Peel changes none
-  of these files.
+  (`.zshrc` and the others zsh, bash, tcsh, and fish read) and names each line that still points to what moved, such
+  as a `PATH` entry or an alias into the app, so a new shell stops printing an error once you edit it. Peel changes
+  none of these files.
 - **What it opens.** An app's page lists the kinds of files and links it opens by default, and what would open
   them once it's gone. Peel never changes that itself.
 - **Updates for your apps.** Peel checks your apps for new versions, through the update feed each app names, the App
