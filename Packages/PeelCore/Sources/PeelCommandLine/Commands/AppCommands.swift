@@ -542,6 +542,8 @@ struct UninstallCommand: AsyncParsableCommand {
                 warnings.append("Once \(app.app.name) leaves the Applications folder, its own uninstaller opens and asks for an administrator's password. If you continue there, it deletes the app, even from the Trash, and its system files, which the Trash can't bring back.")
             case .removesItsComponents:
                 warnings.append("Once \(app.app.name) leaves the Applications folder, its own uninstaller opens and asks to remove the components it keeps in the system. If you continue there, it deletes them, which the Trash can't bring back.")
+            case .deletesItsSuite:
+                warnings.append("Once \(app.app.name) leaves the Applications folder, the cleanup BlueStacks installs runs as an administrator. It deletes the other BlueStacks app if it's still in the Applications folder and the data BlueStacks keeps for every account in /Users/Shared, which the Trash can't bring back, and signs you out of now.gg unless BlueAI is installed.")
             case .watchedByAJob:
                 warnings.append("Moving \(app.app.name) to the Trash starts a program that waits for it to leave. Peel leaves that program and the file that starts it in place so it can finish, and the Trash can't bring back anything it removes.")
             }

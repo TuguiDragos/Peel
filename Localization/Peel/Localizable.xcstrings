@@ -128013,6 +128013,112 @@
         }
       }
     },
+    "Once %@ leaves the Applications folder, the cleanup BlueStacks installs runs as an administrator. It deletes the other BlueStacks app if it’s still in the Applications folder and the data BlueStacks keeps for every account in /Users/Shared, which History can’t bring back, and signs you out of now.gg unless BlueAI is installed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jakmile aplikace %@ opustí složku Aplikace, spustí se s oprávněním správce čisticí úloha, kterou BlueStacks instaluje. Ta smaže druhou aplikaci BlueStacks, pokud je ještě ve složce Aplikace, a také data, která BlueStacks uchovává pro všechny účty ve složce /Users/Shared, a Historie je nemůže vrátit. Pokud není nainstalována aplikace BlueAI, úloha vás navíc odhlásí z účtu now.gg."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobald %@ den Ordner „Programme“ verlässt, wird das von BlueStacks installierte Bereinigungsprogramm als Administrator ausgeführt. Es löscht die andere BlueStacks-App, falls sie noch im Ordner „Programme“ liegt, sowie die Daten, die BlueStacks für alle Benutzeraccounts in /Users/Shared aufbewahrt, und meldet dich von now.gg ab, sofern BlueAI nicht installiert ist. Was es löscht, lässt sich über den Verlauf nicht zurückholen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando %@ salga de la carpeta Aplicaciones, la tarea de limpieza que BlueStacks instala se ejecutará como administrador. Borrará la otra app de BlueStacks, si sigue en la carpeta Aplicaciones, y los datos que BlueStacks guarda para todas las cuentas en /Users/Shared, que Historial no puede recuperar, y cerrará tu sesión en now.gg a menos que BlueAI esté instalada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une fois %@ sorti du dossier Applications, le programme de nettoyage installé par BlueStacks s’exécute en tant qu’administrateur. Il supprime l’autre app BlueStacks, si elle se trouve encore dans le dossier Applications, ainsi que les données que BlueStacks conserve pour tous les comptes dans /Users/Shared, que l’Historique ne peut pas rétablir. Il vous déconnecte aussi de now.gg, sauf si BlueAI est installé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando %@ esce dalla cartella Applicazioni, il servizio di pulizia che BlueStacks installa viene eseguito con i privilegi di amministratore. Elimina l’altra app di BlueStacks, se è ancora nella cartella Applicazioni, e i dati che BlueStacks conserva per tutti gli account in /Users/Shared, che la Cronologia non può ripristinare. Inoltre ti disconnette da now.gg, a meno che BlueAI non sia installata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”が“アプリケーション”フォルダから移動されると、BlueStacksがインストールするクリーンアップ処理が管理者として実行されます。この処理によって、もう一方のBlueStacksアプリ（“アプリケーション”フォルダにまだある場合）と、BlueStacksが/Users/Sharedにすべてのアカウントのために保管しているデータが削除され、履歴から元に戻すことはできません。また、BlueAIがインストールされていない場合は、now.ggからサインアウトされます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 응용 프로그램 폴더에서 옮겨지면 BlueStacks가 설치한 정리 프로그램이 관리자 권한으로 실행됩니다. 이 정리 프로그램은 BlueStacks가 모든 계정을 위해 /Users/Shared에 보관하는 데이터를 삭제하고, 다른 BlueStacks 앱이 아직 응용 프로그램 폴더에 있으면 그 앱도 삭제하며, 이는 기록에서 되살릴 수 없습니다. 또한 BlueAI가 설치되어 있지 않으면 now.gg에서 로그아웃됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zodra %@ de map 'Apps' verlaat, wordt de opruimtaak die BlueStacks installeert, als beheerder uitgevoerd. Deze taak verwijdert de andere BlueStacks-app definitief als die nog in de map 'Apps' staat, en ook de gegevens die BlueStacks voor elke account in /Users/Shared bewaart, en Geschiedenis kan ze niet terugzetten. Daarnaast word je uitgelogd bij now.gg, tenzij BlueAI is geïnstalleerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy aplikacja %@ opuści folder Aplikacje, program czyszczący instalowany przez BlueStacks uruchomi się jako administrator. Usunie drugą aplikację BlueStacks, jeśli nadal jest w folderze Aplikacje, oraz dane, które BlueStacks przechowuje dla wszystkich kont w folderze /Users/Shared, a Historia nie może ich przywrócić. Wyloguje Cię też z now.gg, chyba że zainstalowano BlueAI."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Assim que %@ sair da pasta Aplicativos, a rotina de limpeza que o BlueStacks instala é executada como administrador. Ela apaga o outro app do BlueStacks, se ele ainda estiver na pasta Aplicativos, e os dados que o BlueStacks mantém para todas as contas em /Users/Shared, que o Histórico não pode trazer de volta, e finaliza a sua sessão do now.gg, a menos que o BlueAI esteja instalado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "După ce %@ iese din dosarul Aplicații, programul de curățare pe care îl instalează BlueStacks rulează ca administrator. Acesta șterge cealaltă aplicație BlueStacks, dacă se află încă în dosarul Aplicații, și datele pe care BlueStacks le păstrează în /Users/Shared pentru fiecare cont, care nu pot fi readuse din Istoric, iar dacă BlueAI nu este instalat, vă deconectează de la now.gg."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как только приложение «%@» покинет папку «Программы», служба очистки, которую устанавливает BlueStacks, запустится с правами администратора. Она удалит другое приложение BlueStacks, если оно все еще находится в папке «Программы», а также данные, которые BlueStacks хранит в папке /Users/Shared для всех учетных записей, и выполнит выход из Вашей учетной записи now.gg, если не установлено приложение BlueAI. История не сможет вернуть удаленное."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När %@ lämnar mappen Appar startar rensningen som BlueStacks har installerat. Den körs som administratör och raderar den andra BlueStacks-appen, om den fortfarande ligger i mappen Appar, samt de data som BlueStacks sparar för alla konton i /Users/Shared, och dem kan Historik inte få tillbaka. Rensningen loggar också ut dig från now.gg om inte BlueAI är installerad."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulaması Uygulamalar klasöründen çıktığında, BlueStacks tarafından yüklenen temizleme programı yönetici olarak çalışır. Bu program, /Users/Shared klasöründe her hesap için tutulan BlueStacks verilerini ve hâlâ Uygulamalar klasöründeyse diğer BlueStacks uygulamasını siler; Geçmiş bunları geri getiremez. Ayrıca BlueAI yüklü değilse now.gg hesabınızın oturumunu kapatır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щойно програма «%@» залишить папку «Програми», засіб очищення, інстальований разом із BlueStacks, запуститься з правами адміністратора. Він видалить іншу програму BlueStacks, якщо вона ще є в папці «Програми», а також дані, які BlueStacks зберігає для всіх облікових записів у /Users/Shared, і Історія не зможе їх повернути. Крім того, якщо не інстальовано BlueAI, він виконає вихід із вашого облікового запису now.gg."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一旦“%@”离开“应用程序”文件夹，BlueStacks安装的清理程序就会以管理员身份运行。它会删除另一个BlueStacks App（如果它仍在“应用程序”文件夹中）以及BlueStacks在/Users/Shared中为所有账户保存的数据，“历史记录”无法将其恢复；除非已安装BlueAI，否则它还会将你退出登录now.gg。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一旦「%@」離開「應用程式」檔案夾，BlueStacks安裝的清理程式就會以管理者身分執行。它會刪除另一個BlueStacks App（如果該App仍在「應用程式」檔案夾中），以及BlueStacks在/Users/Shared中為所有帳號保存的資料，而「歷史記錄」無法將其恢復；除非已安裝BlueAI，否則它還會將你從now.gg登出。"
+          }
+        }
+      }
+    },
     "Once put back, macOS loads this audio driver only after you restart your Mac." : {
       "localizations" : {
         "cs" : {

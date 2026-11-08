@@ -474,6 +474,54 @@ struct UninstallsItselfTests {
         #expect(warnings.first?.contains("deletes the app, even from the Trash") == true)
     }
 
+    @Test func blueStacksUninstallsItselfThroughTheCleanupThatWatchesBothItsApps() async throws {
+        let directory = try TemporaryDirectory()
+        let bundle = try directory.directory("root/Applications/BlueStacks.app")
+        let manager = try directory.directory("root/Applications/BlueStacks Air multi-instance manager.app")
+        let cleanup = "root/Library/Application Support/BlueStacks/BlueStacksCleanup"
+        try directory.file(cleanup)
+        try directory.setPermissions(0o755, of: cleanup)
+        let job = try directory.file(
+            "root/Library/LaunchDaemons/com.now.gg.BlueStacks.cleanup.plist",
+            contents: PropertyListSerialization.data(
+                fromPropertyList: [
+                    "Label": "com.now.gg.BlueStacks.cleanup",
+                    "ProgramArguments": [directory.url.appending(path: cleanup).path(percentEncoded: false)],
+                    "WatchPaths": [bundle.path(percentEncoded: false), manager.path(percentEncoded: false)],
+                ],
+                format: .xml,
+                options: 0
+            )
+        )
+        let shared = try directory.directory("root/Users/Shared/Library/Application Support/BlueStacks/Engine")
+            .deletingLastPathComponent()
+        let app = InstalledApp(url: bundle, bundleIdentifier: "com.now.gg.BlueStacks", name: "BlueStacks")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
+
+        let heldBack = Dictionary(
+            plan.scan.leftovers.map { (PathPattern.comparablePath(of: $0.url), $0.match.heldBack) },
+            uniquingKeysWith: { first, _ in first }
+        )
+        #expect(plan.uninstallsItself?.uninstaller == .deletesItsSuite)
+        #expect(heldBack[PathPattern.comparablePath(of: job)] == .some(.leftToItsUninstaller))
+        #expect(heldBack[PathPattern.comparablePath(of: shared)] == .some(.leftToItsUninstaller))
+        let program = directory.url.appending(path: "root/Library/Application Support/BlueStacks")
+        #expect(heldBack[PathPattern.comparablePath(of: program)] == .some(.neededWhenTheAppLeaves))
+        let warnings = UninstallCommand.warnings(
+            moving: [app.url], of: app, uninstallsItself: plan.uninstallsItself, resettingPrivacy: false
+        )
+        #expect(warnings.first?.contains("deletes the other BlueStacks app") == true)
+        let other = InstalledApp(
+            url: manager, bundleIdentifier: "com.now.gg.BlueStacksAirMIM", name: "BlueStacks Air multi-instance manager"
+        )
+        #expect(await UninstallsItself.of(other, environment: environment)?.uninstaller == .deletesItsSuite)
+    }
+
     private struct Watched: ~Copyable {
         enum Runs {
             case helper

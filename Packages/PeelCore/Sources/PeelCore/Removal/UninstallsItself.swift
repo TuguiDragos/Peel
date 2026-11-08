@@ -10,6 +10,9 @@ public struct UninstallsItself: Sendable, Hashable {
         case deletesTheApp
         /// Asks to remove the components it keeps in the system, then deletes them.
         case removesItsComponents
+        /// Runs as an administrator and deletes the maker's other app, while it is still in place, and the data the
+        /// two keep for every account.
+        case deletesItsSuite
         /// A launchd job watches the app's place and, once the app leaves it, runs a program kept outside the app.
         case watchedByAJob
     }
@@ -112,9 +115,28 @@ public struct UninstallsItself: Sendable, Hashable {
         home: [String]()
     )
 
+    /// The daemon BlueStacks installs, `com.now.gg.BlueStacks.cleanup`, watches both of its apps and, once either
+    /// leaves, runs its cleanup as root, which deletes the other one from `/Applications`, their data in
+    /// `/Users/Shared`, and the main package's receipt (the package's `uninstaller.sh`).
+    private static let blueStacks = (
+        identifiers: ["com.now.gg.BlueStacks", "com.now.gg.BlueStacksAirMIM"],
+        cleanup: "Library/LaunchDaemons/com.now.gg.BlueStacks.cleanup.plist"
+    )
+
+    private static let blueStacksRemoves = (
+        root: [
+            "Library/LaunchDaemons/com.now.gg.BlueStacks.cleanup.plist",
+            "Library/Application Support/BlueStacks/BlueStacksCleanup",
+            "Users/Shared/Library/Application Support/BlueStacks",
+            "private/var/db/receipts/com.now.gg.BlueStacks.bom",
+            "private/var/db/receipts/com.now.gg.BlueStacks.plist",
+        ],
+        home: [String]()
+    )
+
     public static func of(_ app: InstalledApp, environment: SearchEnvironment = .current) async -> UninstallsItself? {
         if let known = mullvad(app, environment: environment) ?? citrix(app, environment: environment)
-            ?? teamViewer(app, environment: environment) {
+            ?? teamViewer(app, environment: environment) ?? blueStacks(app, environment: environment) {
             return known
         }
         return await watched(app, environment: environment)
@@ -163,6 +185,24 @@ public struct UninstallsItself: Sendable, Hashable {
             app: app,
             uninstaller: .removesItsComponents,
             removed: paths(teamViewerRemoves, in: environment)
+        )
+    }
+
+    private static func blueStacks(_ app: InstalledApp, environment: SearchEnvironment) -> UninstallsItself? {
+        let place = PathPattern.comparablePath(of: app.url)
+        guard
+            let identifier = app.bundleIdentifier, blueStacks.identifiers.contains(identifier),
+            let cleanup = JobDefinition(contentsOf: environment.rootDirectory.appending(path: blueStacks.cleanup)),
+            !cleanup.isDisabled,
+            cleanup.watchPaths.contains(where: { PathPattern.comparablePath(of: URL(filePath: $0)) == place }),
+            let program = cleanup.program,
+            FileManager.default.isExecutableFile(atPath: program)
+        else { return nil }
+        return UninstallsItself(
+            app: app,
+            uninstaller: .deletesItsSuite,
+            removed: paths(blueStacksRemoves, in: environment),
+            needed: [PathPattern.comparablePath(of: URL(filePath: program))]
         )
     }
 

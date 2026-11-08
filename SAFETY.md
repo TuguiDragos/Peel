@@ -189,11 +189,11 @@ is. An app is code, which loses nothing when it moves, so a program that only re
 app's Safari extension, does not keep it in place; one that runs from it or writes in it does. A folder only named
 like an app, such as the web data or the cache an app keeps under its identifier, is no app, so a program reading
 there keeps it in place. A program running from an app that uninstalls itself once it is moved, as Mullvad VPN, Citrix
-Workspace, and TeamViewer do, doesn't keep that app in place, since their own uninstaller stops it; one writing in it
-still does. A launch job that waits for an app to leave, which macOS starts as soon as the app moves, keeps its file
-and its program where they are through that uninstall, since moving either would stop it halfway. When nothing but an
-app's own background programs, the launch agents and daemons that run from inside it, keeps the app in place, an
-uninstall stops them first and then moves the app, and starts them again if it still stays.
+Workspace, TeamViewer, and BlueStacks do, doesn't keep that app in place, since their own uninstaller stops it; one
+writing in it still does. A launch job that waits for an app to leave, which macOS starts as soon as the app moves,
+keeps its file and its program where they are through that uninstall, since moving either would stop it halfway. When
+nothing but an app's own background programs, the launch agents and daemons that run from inside it, keeps the app in
+place, an uninstall stops them first and then moves the app, and starts them again if it still stays.
 Peel itself counts too: whatever Peel runs from, and any folder holding it, stays, since only Remove Peel moves Peel.
 Of programs that run as another account or as root, macOS's own among them, only the program can be seen, never the
 files it holds open, which is why Space also leaves macOS's own caches unselected, and in the Library at the top of
@@ -239,7 +239,7 @@ Four things Peel starts can't be undone by History, and Peel says so before you 
 Forgetting a preference domain after a removal is not one of them: it happens only once the file is in the Trash,
 and putting the file back undoes it, until the app writes its settings again.
 
-Three apps delete something of their own once they are moved, which Peel says before it moves them. Mullvad VPN's
+Four apps delete something of their own once they are moved, which Peel says before it moves them. Mullvad VPN's
 service logs the Mac out of its account and deletes its settings when the app leaves the Applications folder; what that
 service removes (its launch daemon's file, its command links and shell completions, its receipt, its logs, its caches,
 and its settings) is listed and never moved by Peel: moving the daemon's file first would stop the service before it
@@ -250,7 +250,12 @@ settings) is listed and never moved by Peel, since moving the agent's file would
 daemon opens TeamViewer's uninstaller once the app is in the Trash, which asks to remove the components it keeps in the
 system and, if you continue, deletes them; what it removes (its launch daemons and agents, its helpers, its folder in
 Application Support, its authorization plug-in, its audio driver, and its printing files) is listed and never moved by
-Peel, since moving its helper's file would stop the uninstaller halfway.
+Peel, since moving its helper's file would stop the uninstaller halfway. BlueStacks installs a cleanup that watches
+BlueStacks and BlueStacks Air multi-instance manager: once either leaves the Applications folder, it runs as an
+administrator and deletes the other one, the data BlueStacks keeps for every account in `/Users/Shared`, and your now.gg
+sign-in unless BlueAI is installed. What it removes (its launch daemon's file, its program, that shared folder, and its
+receipt) and the folder holding its program are listed and never moved by Peel, since moving them would stop the cleanup
+halfway.
 
 If the record itself is damaged, it is set aside under another name rather than overwritten, because it is
 the only way back from a removal. If it can't be read at all, Peel moves nothing, since what it moved then couldn't
