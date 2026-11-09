@@ -265629,112 +265629,6 @@
         }
       }
     },
-    "macOS couldn’t find the app, so what it was allowed to access is still on record." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Systém macOS aplikaci nenašel, takže záznam o tom, k čemu měla povolený přístup, zůstává."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS konnte die App nicht finden, daher ist noch gespeichert, worauf sie zugreifen durfte."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS no ha podido encontrar la app, así que sigue constando a qué tenía permiso para acceder."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS n’a pas pu trouver l’app : ce à quoi elle était autorisée à accéder reste donc enregistré."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS non ha trovato l’app, quindi ciò a cui aveva il permesso di accedere risulta ancora registrato."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOSがアプリを見つけられなかったため、アプリに許可されていたアクセスの記録は残っています。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS가 앱을 찾을 수 없었으므로 앱에 허용된 접근 권한이 그대로 기록되어 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS kon de app niet vinden, dus waartoe de app toegang had, staat nog geregistreerd."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS nie mógł znaleźć aplikacji, więc informacje o tym, do czego miała dostęp, nadal są zapisane."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O macOS não conseguiu encontrar o app, então o que ele tinha permissão para acessar continua registrado."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS nu a găsit aplicația, așa că ce i s‑a permis să acceseze rămâne înregistrat."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS не удалось найти приложение, поэтому сведения о том, к чему ему был разрешен доступ, сохранились."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS kunde inte hitta appen, så det som appen fick komma åt finns fortfarande registrerat."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS uygulamayı bulamadı, bu yüzden uygulamanın erişmesine izin verilenler hâlâ kayıtlı."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS не змогла знайти програму, тож записи про те, до чого їй було дозволено доступ, лишилися."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS找不到该App，因此它获准访问的内容仍有记录。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS找不到該App，因此它獲准取用的項目仍留在記錄中。"
-          }
-        }
-      }
-    },
     "macOS couldn’t reach it: %@" : {
       "localizations" : {
         "cs" : {
@@ -266579,6 +266473,324 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS沒有從新檔案重新載入它。\n\n%@"
+          }
+        }
+      }
+    },
+    "macOS didn’t recognize %@, so its privacy permissions weren’t reset. If it has access to anything, such as the camera, you can turn it off in System Settings > Privacy & Security." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS nerozpoznal aplikaci %@, takže její oprávnění pro soukromé údaje nebyla resetována. Pokud má aplikace k něčemu přístup, například ke kameře, můžete ho vypnout v Nastavení systému > Soukromí a zabezpečení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat „%@“ nicht erkannt, daher wurden die Datenschutzberechtigungen der App nicht zurückgesetzt. Falls sie auf etwas zugreifen darf, etwa auf die Kamera, kannst du den Zugriff unter „Systemeinstellungen“ > „Datenschutz & Sicherheit“ deaktivieren."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no ha reconocido %@, así que no se han restablecido sus permisos de privacidad. Si tiene acceso a algo, como la cámara, puedes desactivarlo en Ajustes del Sistema > Privacidad y seguridad."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’a pas reconnu %@ : ses autorisations de confidentialité n’ont donc pas été réinitialisées. Si cette app a accès à quelque chose, comme la caméra, vous pouvez désactiver cet accès dans Réglages Système > Confidentialité et sécurité."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non ha riconosciuto %@, quindi le sue autorizzazioni per la privacy non sono state reimpostate. Se l’app ha accesso a qualcosa, come la fotocamera, puoi disattivare l’accesso in Impostazioni di Sistema > Privacy e sicurezza."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSが“%@”を認識できなかったため、プライバシー権限はリセットされませんでした。カメラなどへのアクセスが許可されている場合は、“システム設定”＞“プライバシーとセキュリティ”でオフにできます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 ‘%@’을(를) 인식하지 못했으므로 이 앱의 개인정보 보호 권한이 재설정되지 않았습니다. 이 앱이 카메라 등에 접근할 수 있으면 시스템 설정 > 개인정보 보호 및 보안에서 해당 접근을 끌 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft %@ niet herkend, waardoor de privacytoestemmingen van de app niet opnieuw zijn ingesteld. Als de app ergens toegang toe heeft, zoals de camera, kun je die toegang uitschakelen in Systeeminstellingen > Privacy en beveiliging."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie rozpoznał aplikacji %@, więc nie wyzerowano jej uprawnień prywatności. Jeśli ma ona dostęp do czegoś, na przykład do kamery, możesz go wyłączyć w Ustawieniach systemowych > Prywatność i ochrona."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não reconheceu o app %@, então as permissões de privacidade dele não foram redefinidas. Se ele tiver acesso a algo, como a câmera, você pode desativar esse acesso em Ajustes do Sistema > Privacidade e Segurança."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu a recunoscut %@, așa că permisiunile sale de intimitate nu au fost resetate. Dacă are acces la ceva, de exemplu la cameră, îl puteți dezactiva în Configurări sistem > Intimitate și securitate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не распознала приложение «%@», поэтому его разрешения на доступ не сброшены. Если у него есть доступ к чему-либо, например к камере, этот доступ можно выключить в разделе «Системные настройки» > «Конфиденциальность и безопасность»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kände inte igen %@, så appens integritetsbehörigheter nollställdes inte. Om den har åtkomst till något, till exempel kameran, kan du stänga av åtkomsten i Systeminställningar > Integritet och säkerhet."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, %@ uygulamasını tanımadı, bu yüzden gizlilik izinleri sıfırlanmadı. Uygulamanın kamera gibi herhangi bir şeye erişimi varsa bu erişimi Sistem Ayarları > Gizlilik ve Güvenlik bölümünden kapatabilirsiniz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не розпізнала програму «%@», тож її дозволи приватності не скинуто. Якщо вона має доступ до чогось, як-от до камери, цей доступ можна вимкнути в розділі Системні параметри > Приватність і безпека."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS未能识别“%@”，因此它的隐私权限未重置。如果它有权访问任何内容（例如摄像头），你可以在“系统设置”>“隐私与安全性”中关闭相应权限。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS無法辨識「%@」，因此它的隱私權限未重置。若它擁有任何取用權限（例如相機），你可以在「系統設定」>「隱私權與安全性」中將其關閉。"
+          }
+        }
+      }
+    },
+    "macOS didn’t recognize %@, so their privacy permissions weren’t reset. If they have access to anything, such as the camera, you can turn it off in System Settings > Privacy & Security." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS nerozpoznal aplikace %@, takže jejich oprávnění pro soukromé údaje nebyla resetována. Pokud mají tyto aplikace k něčemu přístup, například ke kameře, můžete ho vypnout v Nastavení systému > Soukromí a zabezpečení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat %@ nicht erkannt, daher wurden die Datenschutzberechtigungen der Apps nicht zurückgesetzt. Falls sie auf etwas zugreifen dürfen, etwa auf die Kamera, kannst du den Zugriff unter „Systemeinstellungen“ > „Datenschutz & Sicherheit“ deaktivieren."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no ha reconocido %@, así que no se han restablecido sus permisos de privacidad. Si tienen acceso a algo, como la cámara, puedes desactivarlo en Ajustes del Sistema > Privacidad y seguridad."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’a pas reconnu %@ : leurs autorisations de confidentialité n’ont donc pas été réinitialisées. Si ces apps ont accès à quelque chose, comme la caméra, vous pouvez désactiver cet accès dans Réglages Système > Confidentialité et sécurité."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non ha riconosciuto %@, quindi le loro autorizzazioni per la privacy non sono state reimpostate. Se le app hanno accesso a qualcosa, come la fotocamera, puoi disattivare l’accesso in Impostazioni di Sistema > Privacy e sicurezza."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSが%@を認識できなかったため、これらのアプリのプライバシー権限はリセットされませんでした。カメラなどへのアクセスが許可されている場合は、“システム設定”＞“プライバシーとセキュリティ”でオフにできます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 %@을(를) 인식하지 못했으므로 이 앱들의 개인정보 보호 권한이 재설정되지 않았습니다. 이 앱들이 카메라 등에 접근할 수 있으면 시스템 설정 > 개인정보 보호 및 보안에서 해당 접근을 끌 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft %@ niet herkend, waardoor hun privacytoestemmingen niet opnieuw zijn ingesteld. Als deze apps ergens toegang toe hebben, zoals de camera, kun je die toegang uitschakelen in Systeeminstellingen > Privacy en beveiliging."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie rozpoznał tych aplikacji: %@, więc nie wyzerowano ich uprawnień prywatności. Jeśli mają one dostęp do czegoś, na przykład do kamery, możesz go wyłączyć w Ustawieniach systemowych > Prywatność i ochrona."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não reconheceu os apps %@, então as permissões de privacidade deles não foram redefinidas. Se eles tiverem acesso a algo, como a câmera, você pode desativar esse acesso em Ajustes do Sistema > Privacidade e Segurança."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu a recunoscut %@, așa că permisiunile lor de intimitate nu au fost resetate. Dacă au acces la ceva, de exemplu la cameră, îl puteți dezactiva în Configurări sistem > Intimitate și securitate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не распознала приложения %@, поэтому их разрешения на доступ не сброшены. Если у них есть доступ к чему-либо, например к камере, этот доступ можно выключить в разделе «Системные настройки» > «Конфиденциальность и безопасность»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kände inte igen %@, så apparnas integritetsbehörigheter nollställdes inte. Om de har åtkomst till något, till exempel kameran, kan du stänga av åtkomsten i Systeminställningar > Integritet och säkerhet."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS şu uygulamaları tanımadı: %@. Bu yüzden gizlilik izinleri sıfırlanmadı. Bu uygulamaların kamera gibi herhangi bir şeye erişimi varsa bu erişimi Sistem Ayarları > Gizlilik ve Güvenlik bölümünden kapatabilirsiniz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не розпізнала програми %@, тож їхні дозволи приватності не скинуто. Якщо вони мають доступ до чогось, як-от до камери, цей доступ можна вимкнути в розділі Системні параметри > Приватність і безпека."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS未能识别“%@”，因此它们的隐私权限未重置。如果它们有权访问任何内容（例如摄像头），你可以在“系统设置”>“隐私与安全性”中关闭相应权限。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS無法辨識%@，因此它們的隱私權限未重置。若它們擁有任何取用權限（例如相機），你可以在「系統設定」>「隱私權與安全性」中將其關閉。"
+          }
+        }
+      }
+    },
+    "macOS didn’t recognize the app. If it has access to anything, such as the camera, you can turn it off in System Settings > Privacy & Security." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS aplikaci nerozpoznal. Pokud má aplikace k něčemu přístup, například ke kameře, můžete ho vypnout v Nastavení systému > Soukromí a zabezpečení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat die App nicht erkannt. Falls sie auf etwas zugreifen darf, etwa auf die Kamera, kannst du den Zugriff unter „Systemeinstellungen“ > „Datenschutz & Sicherheit“ deaktivieren."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no ha reconocido la app. Si tiene acceso a algo, como la cámara, puedes desactivarlo en Ajustes del Sistema > Privacidad y seguridad."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’a pas reconnu l’app. Si elle a accès à quelque chose, comme la caméra, vous pouvez désactiver cet accès dans Réglages Système > Confidentialité et sécurité."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non ha riconosciuto l’app. Se l’app ha accesso a qualcosa, come la fotocamera, puoi disattivare l’accesso in Impostazioni di Sistema > Privacy e sicurezza."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがこのアプリを認識できなかったためです。カメラなどへのアクセスが許可されている場合は、“システム設定”＞“プライバシーとセキュリティ”でオフにできます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 앱을 인식하지 못했습니다. 앱이 카메라 등에 접근할 수 있으면 시스템 설정 > 개인정보 보호 및 보안에서 해당 접근을 끌 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft de app niet herkend. Als de app ergens toegang toe heeft, zoals de camera, kun je die toegang uitschakelen in Systeeminstellingen > Privacy en beveiliging."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie rozpoznał aplikacji. Jeśli ma ona dostęp do czegoś, na przykład do kamery, możesz go wyłączyć w Ustawieniach systemowych > Prywatność i ochrona."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não reconheceu o app. Se ele tiver acesso a algo, como a câmera, você pode desativar esse acesso em Ajustes do Sistema > Privacidade e Segurança."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu a recunoscut aplicația. Dacă are acces la ceva, de exemplu la cameră, îl puteți dezactiva în Configurări sistem > Intimitate și securitate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не распознала приложение. Если у него есть доступ к чему-либо, например к камере, этот доступ можно выключить в разделе «Системные настройки» > «Конфиденциальность и безопасность»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kände inte igen appen. Om den har åtkomst till något, till exempel kameran, kan du stänga av åtkomsten i Systeminställningar > Integritet och säkerhet."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS uygulamayı tanımadı. Uygulamanın kamera gibi herhangi bir şeye erişimi varsa bu erişimi Sistem Ayarları > Gizlilik ve Güvenlik bölümünden kapatabilirsiniz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не розпізнала програму. Якщо вона має доступ до чогось, як-от до камери, цей доступ можна вимкнути в розділі Системні параметри > Приватність і безпека."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS未能识别该App。如果它有权访问任何内容（例如摄像头），你可以在“系统设置”>“隐私与安全性”中关闭相应权限。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS無法辨識該App。若它擁有任何取用權限（例如相機），你可以在「系統設定」>「隱私權與安全性」中將其關閉。"
           }
         }
       }

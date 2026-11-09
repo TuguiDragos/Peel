@@ -131,7 +131,7 @@ struct RemovalFailureAlert: ViewModifier {
             + firstItems(outcome.failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" })
         lines += shortened(keptLines(outcome)) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome) { Self.listed($0) { String(inflecting: "^[\($0) more line](inflect: true)") } }
-            + appManagementLines(outcome) + shortened(privacyLines(outcome))
+            + appManagementLines(outcome) + privacyLines(outcome, naming: Self.listed, shortening: Self.shortened)
         lines += trashLines(outcome, naming: Self.listed)
         return lines.joined(separator: "\n\n")
     }
@@ -204,7 +204,7 @@ struct RemovalFailureAlert: ViewModifier {
             + outcome.failures.map { "\($0.url.fullPath)\n\($0.reason.explanation)" }
             + keptLines(outcome) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome) { $0.formatted(.list(type: .and)) } + appManagementLines(outcome)
-            + privacyLines(outcome)
+            + privacyLines(outcome, naming: { $0.formatted(.list(type: .and)) }, shortening: { $0 })
         lines += trashLines(outcome) { $0.formatted(.list(type: .and)) }
         return lines.joined(separator: "\n\n")
     }
@@ -214,17 +214,26 @@ struct RemovalFailureAlert: ViewModifier {
         outcome.appsToQuit.map { String(localized: "Quit \($0) before removing its files.") }
     }
 
-    /// One line per privacy reset. When a single failed reset is all there is to report, the title already
-    /// says so, and the line gives only the reason.
-    private static func privacyLines(_ outcome: RemovalOutcome) -> [String] {
-        outcome.privacy.map { privacy in
+    /// The apps macOS didn't recognize in one line, since one reason covers them all, then one line per other reset.
+    /// When a single other failed reset is all there is to report, the title already says so, and its line gives only
+    /// the reason.
+    private static func privacyLines(
+        _ outcome: RemovalOutcome, naming: ([String]) -> String, shortening: ([String]) -> [String]
+    ) -> [String] {
+        let unrecognized = outcome.privacy.filter { $0.result == .notKnownToTheSystem }.map(\.app)
+        let together: [String] = switch unrecognized.count {
+        case 0: []
+        case 1: [String(localized: "macOS didn’t recognize \(unrecognized[0]), so its privacy permissions weren’t reset. If it has access to anything, such as the camera, you can turn it off in System Settings > Privacy & Security.")]
+        default: [String(localized: "macOS didn’t recognize \(naming(unrecognized)), so their privacy permissions weren’t reset. If they have access to anything, such as the camera, you can turn it off in System Settings > Privacy & Security.")]
+        }
+        return together + shortening(outcome.privacy.filter { $0.result != .notKnownToTheSystem }.map { privacy in
             guard let problem = privacy.result.explanation else {
                 return String(localized: "\(privacy.app)’s privacy permissions were reset before the move.")
             }
             return outcome.failures.isEmpty && outcome.privacy.count == 1
                 ? problem
                 : String(localized: "\(privacy.app)’s privacy permissions weren’t reset. \(problem)")
-        }
+        })
     }
 
     /// True when macOS refused to move an app although the user can write to its folder and nothing locks it.

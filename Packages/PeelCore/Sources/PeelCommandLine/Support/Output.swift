@@ -570,7 +570,7 @@ extension PrivacyReset.Result {
     var summary: String {
         switch self {
         case .reset: "reset"
-        case .notKnownToTheSystem: "macOS couldn't find the app"
+        case .notKnownToTheSystem: "macOS didn't recognize the app"
         case .refused: "Peel never resets them for this app"
         case .failed(let message): message.isEmpty ? "macOS didn't say why" : "macOS reported: \(Output.plain(message))"
         case .couldNotAsk(let message): Output.plain(message)

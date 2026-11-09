@@ -1357,7 +1357,7 @@ struct CommandLineTests {
 
         #expect(UninstallCommand.privacyOutcome(.reset, app: editor, after: moved) == ("Reset Editor's privacy permissions.", false))
         #expect(UninstallCommand.privacyOutcome(.reset, app: editor, after: stayed) == ("Reset Editor's privacy permissions, but Editor stayed where it is, so it will ask for them again.", true))
-        #expect(UninstallCommand.privacyOutcome(.notKnownToTheSystem, app: editor, after: moved) == ("Editor's privacy permissions weren't reset: macOS couldn't find the app.", true))
+        #expect(UninstallCommand.privacyOutcome(.notKnownToTheSystem, app: editor, after: moved) == ("Editor's privacy permissions weren't reset: macOS didn't recognize the app.", true))
         #expect(UninstallCommand.privacyOutcome(.failed(""), app: editor, after: moved) == ("Editor's privacy permissions weren't reset: macOS didn't say why.", true))
         #expect(UninstallCommand.privacyOutcome(.failed("Failed to reset All"), app: editor, after: moved) == ("Editor's privacy permissions weren't reset: macOS reported: Failed to reset All.", true))
         #expect(UninstallCommand.privacyOutcome(.couldNotAsk("tccutil didn't answer in time"), app: editor, after: moved) == ("Editor's privacy permissions weren't reset: tccutil didn't answer in time.", true))

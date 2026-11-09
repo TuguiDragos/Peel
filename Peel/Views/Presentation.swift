@@ -423,7 +423,7 @@ extension PrivacyReset.Result {
     var explanation: String? {
         switch self {
         case .reset: nil
-        case .notKnownToTheSystem: String(localized: "macOS couldn’t find the app, so what it was allowed to access is still on record.")
+        case .notKnownToTheSystem: String(localized: "macOS didn’t recognize the app. If it has access to anything, such as the camera, you can turn it off in System Settings > Privacy & Security.")
         case .refused: String(localized: "Peel never resets them for this app.")
         case .failed(let message): message.isEmpty ? String(localized: "macOS didn’t say why.") : String(localized: "macOS reported: \(message)")
         case .couldNotAsk(let message): FixedSentence.translated(message)

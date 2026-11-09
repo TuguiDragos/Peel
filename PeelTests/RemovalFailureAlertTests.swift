@@ -89,6 +89,27 @@ struct RemovalFailureAlertTests {
         #expect(RemovalFailureAlert.details(for: outcome).contains(line))
     }
 
+    @Test func namesTheAppsMacOSDidntRecognizeInOneParagraph() {
+        let apps = ["Lantern", "Proxyman", "Seabird", "Seawall Launcher", "Owl", "Wren"].enumerated().map { index, name in
+            InstalledApp(
+                url: URL(filePath: "/Applications/\(name).app"), bundleIdentifier: "org.example.app\(index)", name: name
+            )
+        }
+        let four = RemovalOutcome()
+        four.report(TrashResult(), privacy: apps.prefix(4).map { ($0, .notKnownToTheSystem) })
+        let paragraphs = RemovalFailureAlert.message(for: four).components(separatedBy: "\n\n")
+        #expect(paragraphs.count == 1, "\(paragraphs)")
+        #expect(apps.prefix(4).allSatisfy { paragraphs[0].contains($0.name) })
+        let six = RemovalOutcome()
+        six.report(TrashResult(), privacy: apps.map { ($0, .notKnownToTheSystem) })
+        let shown = RemovalFailureAlert.message(for: six)
+        #expect(shown.components(separatedBy: "\n\n").count == 1 && !shown.contains("Owl") && !shown.contains("Wren"))
+        #expect(RemovalFailureAlert.details(for: six).contains("Wren"))
+        let one = RemovalOutcome()
+        one.report(TrashResult(), privacy: [(apps[0], .notKnownToTheSystem)])
+        #expect(RemovalFailureAlert.message(for: one).contains("Lantern"))
+    }
+
     @Test func offersTheDetailsWhereTheAlertNamesOnlyTheFirstApps() {
         let apps = (1...6).map { index in
             InstalledApp(
