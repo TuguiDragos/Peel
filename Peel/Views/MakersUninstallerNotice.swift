@@ -16,10 +16,9 @@ struct MakersUninstallerNotice: View {
                 CopyButton(text: command, title: "Copy Uninstall Command")
             case .uninstaller(let url):
                 Button("Open Uninstaller") { NSWorkspace.shared.open(url) }
-                    .disabled(!FileManager.default.fileExists(atPath: url.path(percentEncoded: false)))
             case .inTheApp(let url):
                 Button("Open \(app)") { NSWorkspace.shared.open(url) }
-            case .onItsDiskImage, .fromTheMakersPage:
+            case .onItsDiskImage, .fromTheMakersPage, .notOnTheMac:
                 EmptyView()
             }
         }

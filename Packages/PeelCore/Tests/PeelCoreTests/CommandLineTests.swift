@@ -1195,33 +1195,46 @@ struct CommandLineTests {
 
     /// A management or security agent goes by its maker's uninstaller, which `peel` names instead of moving it.
     @Test func refusesToUninstallAnAgentAndNamesItsMakersUninstaller() throws {
+        let directory = try TemporaryDirectory()
+        _ = try directory.file("GlobalProtect.app/Contents/Resources/uninstall_gp.sh", bytes: 0)
         let agent = InstalledApp(
-            url: URL(filePath: "/Applications/GlobalProtect.app", directoryHint: .isDirectory),
-            bundleIdentifier: "com.paloaltonetworks.GlobalProtect.client", name: "GlobalProtect",
-            teamIdentifier: "PXPZ95SK77"
+            url: try directory.directory("GlobalProtect.app"), bundleIdentifier: "com.paloaltonetworks.GlobalProtect.client",
+            name: "GlobalProtect", teamIdentifier: "PXPZ95SK77"
+        )
+        let withoutItsScript = InstalledApp(
+            url: try directory.directory("Old/GlobalProtect.app"), bundleIdentifier: "com.paloaltonetworks.GlobalProtect.client",
+            name: "GlobalProtect", teamIdentifier: "PXPZ95SK77"
         )
 
-        #expect(UninstallCommand.removedElsewhere(agent)?.description.contains("uninstall_gp.sh") == true)
+        #expect(UninstallCommand.removedElsewhere(agent)?.description.contains("/GlobalProtect.app/Contents/Resources/uninstall_gp.sh`") == true)
+        let said = UninstallCommand.removedElsewhere(withoutItsScript)?.description
+        #expect(said?.contains("follow Palo Alto Networks's instructions, since the uninstaller they name isn't on this Mac.") == true)
+        #expect(said?.contains("uninstall_gp.sh") == false)
     }
 
-    @Test func namesTheMakersUninstallerWithoutASlashAtTheEnd() {
-        let crashPlan = InstalledApp(
-            url: URL(filePath: "/Applications/CrashPlan.app", directoryHint: .isDirectory),
-            bundleIdentifier: "com.crashplan.desktop", name: "CrashPlan", teamIdentifier: "UGHXR79U6M"
-        )
-
-        #expect(UninstallCommand.removedElsewhere(crashPlan)?.description == "CrashPlan is removed with CrashPlan's own uninstaller, which also takes what it keeps in the system: open /Library/Application Support/CrashPlan/Uninstall.app. See https://support.crashplan.com/hc/en-us/articles/9025086987661-Uninstall-the-CrashPlan-app")
-    }
-
-    @Test func namesAnUninstallerInsideTheAppAsPlainText() {
+    @Test func namesTheMakersUninstallerWithoutASlashAtTheEnd() throws {
+        let directory = try TemporaryDirectory()
+        _ = try directory.directory("ESET Cyber Security.app/Contents/Helpers/Uninstaller.app")
         let eset = InstalledApp(
-            url: URL(filePath: "/Applications/Security\u{1B}[2J/ESET Endpoint Security.app", directoryHint: .isDirectory),
-            bundleIdentifier: "com.eset.ees", name: "ESET Endpoint Security", teamIdentifier: "P8DQRXPVLP"
+            url: try directory.directory("ESET Cyber Security.app"), bundleIdentifier: "com.eset.ecs",
+            name: "ESET Cyber Security", teamIdentifier: "P8DQRXPVLP"
+        )
+
+        let said = UninstallCommand.removedElsewhere(eset)?.description
+        #expect(said?.contains("/ESET Cyber Security.app/Contents/Helpers/Uninstaller.app. See https://support.eset.com/en/kb3239-how-do-i-uninstall-eset-cyber-security") == true, "\(said ?? "")")
+    }
+
+    @Test func namesAnUninstallerInsideTheAppAsPlainText() throws {
+        let directory = try TemporaryDirectory()
+        _ = try directory.directory("Security\u{1B}[2J/ESET Endpoint Security.app/Contents/Helpers/Uninstaller.app")
+        let eset = InstalledApp(
+            url: try directory.directory("Security\u{1B}[2J/ESET Endpoint Security.app"), bundleIdentifier: "com.eset.ees",
+            name: "ESET Endpoint Security", teamIdentifier: "P8DQRXPVLP"
         )
 
         let said = UninstallCommand.removedElsewhere(eset)?.description
 
-        #expect(said?.contains("open /Applications/Security?[2J/ESET Endpoint Security.app/Contents/Helpers/Uninstaller.app.") == true, "\(said ?? "")")
+        #expect(said?.contains("/Security?[2J/ESET Endpoint Security.app/Contents/Helpers/Uninstaller.app.") == true, "\(said ?? "")")
     }
 
     @Test func saysToDownloadTheUninstallerAMakersPageOffers() {

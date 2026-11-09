@@ -16,10 +16,14 @@ public struct MakersUninstaller: Sendable, Hashable {
         case onItsDiskImage
         /// An uninstaller the maker's page offers to download, which is not on the Mac.
         case fromTheMakersPage
+        /// The script or uninstaller the maker's page names isn't where the maker puts it on this Mac.
+        case notOnTheMac
     }
 
     private enum Documented: Sendable {
-        case command(String)
+        /// A script to run in Terminal, after `runner` when the maker's page names one: where the maker puts it, or
+        /// inside the app when the path is relative, so the command follows the app wherever it is.
+        case script(String, runner: String?)
         case uninstaller(String)
         case uninstallerInsideTheApp(String)
         /// The app is the uninstaller, which removes the product named here and then itself.
@@ -44,7 +48,7 @@ public struct MakersUninstaller: Sendable, Hashable {
     private static let known: [(team: String, identifiers: [String], maker: String, step: Documented, page: String)] = [
         (
             "PXPZ95SK77", ["com.paloaltonetworks.globalprotect"], "Palo Alto Networks",
-            .command("sudo /Applications/GlobalProtect.app/Contents/Resources/uninstall_gp.sh"),
+            .script("Contents/Resources/uninstall_gp.sh", runner: "sudo"),
             "https://docs.paloaltonetworks.com/globalprotect/user-guide/6-3/globalprotect-app-for-mac/uninstall-the-globalprotect-app-for-mac"
         ),
         (
@@ -54,7 +58,7 @@ public struct MakersUninstaller: Sendable, Hashable {
         ),
         (
             "DE8Y96K9QP", ["com.cisco.secureclient"], "Cisco",
-            .command("sudo /opt/cisco/secureclient/bin/cisco_secure_client_uninstall.sh"),
+            .script("/opt/cisco/secureclient/bin/cisco_secure_client_uninstall.sh", runner: "sudo"),
             "https://www.cisco.com/c/en/us/support/docs/security/umbrella/224782-uninstall-secure-client-from-macos.html"
         ),
         (
@@ -63,7 +67,7 @@ public struct MakersUninstaller: Sendable, Hashable {
         ),
         (
             "UBF8T346G9", ["com.microsoft.wdav"], "Microsoft",
-            .command("sudo '/Library/Application Support/Microsoft/Defender/uninstall/uninstall'"),
+            .script("/Library/Application Support/Microsoft/Defender/uninstall/uninstall", runner: "sudo"),
             "https://learn.microsoft.com/en-us/defender-endpoint/mac-resources"
         ),
         (
@@ -95,20 +99,22 @@ public struct MakersUninstaller: Sendable, Hashable {
         ),
         (
             "68WVV388M8", ["com.cloudflare.1dot1dot1dot1.macos"], "Cloudflare",
-            .command("\"/Applications/Cloudflare WARP.app/Contents/Resources/uninstall.sh\""),
+            .script("Contents/Resources/uninstall.sh", runner: nil),
             "https://developers.cloudflare.com/cloudflare-one/team-and-resources/devices/cloudflare-one-client/uninstall/"
         ),
         (
             "8ZD9JUCZ4V", ["com.zerotier.zerotier-ui", "com.zerotier.zerotier-one"], "ZeroTier",
-            .command("sudo \"/Library/Application Support/ZeroTier/One/uninstall.sh\""),
+            .script("/Library/Application Support/ZeroTier/One/uninstall.sh", runner: "sudo"),
             "https://docs.zerotier.com/faq/macos-uninstall/"
         ),
         (
             "Z2SG5H3HC8", ["net.tunnelblick.tunnelblick"], "Tunnelblick", .inTheApp,
             "https://tunnelblick.net/cUninstall.html"
         ),
+        // OpenSC's package puts `opensc-uninstall` in /usr/local/bin, where its own uninstaller looks for it.
         (
-            "L7897KTAHV", ["org.opensc-project.mac.opensctoken"], "OpenSC", .command("sudo opensc-uninstall"),
+            "L7897KTAHV", ["org.opensc-project.mac.opensctoken"], "OpenSC",
+            .script("/usr/local/bin/opensc-uninstall", runner: "sudo"),
             "https://github.com/OpenSC/OpenSC/wiki/macOS-Quick-Start"
         ),
         (
@@ -140,7 +146,7 @@ public struct MakersUninstaller: Sendable, Hashable {
             "https://help.zscaler.com/zscaler-client-connector/uninstalling-zscaler-client-connector"
         ),
         (
-            "8Z259RPWAC", ["de.beyondco.herd"], "Beyond Code", .command("/Applications/Herd.app/Contents/Resources/uninstall"),
+            "8Z259RPWAC", ["de.beyondco.herd"], "Beyond Code", .script("Contents/Resources/uninstall", runner: "bash"),
             "https://herd.laravel.com/docs/macos/troubleshooting/uninstalling"
         ),
         (
@@ -180,7 +186,7 @@ public struct MakersUninstaller: Sendable, Hashable {
         ),
         (
             "X4QN7LTP59", ["com.canonical.multipassgui"], "Canonical",
-            .command("sudo sh \"/Library/Application Support/com.canonical.multipass/uninstall.sh\""),
+            .script("/Library/Application Support/com.canonical.multipass/uninstall.sh", runner: "sudo sh"),
             "https://canonical.com/multipass/docs/latest/how-to-guides/install-multipass/"
         ),
         // The copy from Bjango's site; the App Store's copy, `com.bjango.istatmenus-mas`, has an article of its own.
@@ -256,38 +262,47 @@ public struct MakersUninstaller: Sendable, Hashable {
         // left the file system in place, so the step is the script the same pages give.
         (
             "PPNVCC9Z68", ["com.tuxera.tuxeradiskmanager"], "Tuxera",
-            .command("sudo /Library/Filesystems/tuxera_ntfs.fs/Contents/Resources/Support/uninstall-package.sh"),
+            .script("/Library/Filesystems/tuxera_ntfs.fs/Contents/Resources/Support/uninstall-package.sh", runner: "sudo"),
             "https://macsupport.tuxera.com/hc/en-gb/articles/360021236379-How-to-uninstall-NTFS-for-Mac-using-the-provided-command-line-script"
         ),
         (
             "PR7PXC66S5", ["com.bearisdriving.bgm.app"], "Kyle Neideck",
-            .command("bash \"/Applications/Background Music.app/Contents/Resources/uninstall.sh\""),
+            .script("Contents/Resources/uninstall.sh", runner: "bash"),
             "https://github.com/kyleneideck/BackgroundMusic#uninstall"
         ),
     ]
 
     /// The maker's uninstaller for `app`, known by the team of its checked signature and by its identifier, both as
     /// the maker documents them. An identifier alone is what a bundle says of itself, and would let any app keep Peel
-    /// away from it.
+    /// away from it. A script or an uninstaller that isn't on the Mac is never offered, since its step could only fail.
     static func of(
         _ app: InstalledApp,
-        isOnTheMac: (String) -> Bool = { FileManager.default.fileExists(atPath: $0) }
+        home: URL = .homeDirectory,
+        isOnTheMac: (String) -> Bool = { !URL(filePath: $0).isMissing }
     ) -> MakersUninstaller? {
         guard let team = app.teamIdentifier, let identifier = app.bundleIdentifier?.lowercased() else { return nil }
         guard let product = known.first(where: { product in
             product.team == team && product.identifiers.contains { identifier == $0 || identifier.hasPrefix($0 + ".") }
         }) else { return nil }
+        func run(_ path: String, with runner: String?) -> Step {
+            let script = path.hasPrefix("/") ? URL(filePath: path) : app.url.appending(path: path)
+            guard isOnTheMac(script.path(percentEncoded: false)) else { return .notOnTheMac }
+            return .command(([runner].compactMap(\.self) + [script.wordForTheShell(home: home)]).joined(separator: " "))
+        }
+        func open(_ uninstaller: URL) -> Step {
+            isOnTheMac(uninstaller.path(percentEncoded: false)) ? .uninstaller(uninstaller) : .notOnTheMac
+        }
         let chosen: (step: Step, page: String) = switch product.step {
-        case .command(let command): (.command(command), product.page)
-        case .uninstaller(let path): (.uninstaller(URL(filePath: path, directoryHint: .isDirectory)), product.page)
+        case .script(let path, let runner): (run(path, with: runner), product.page)
+        case .uninstaller(let path): (open(URL(filePath: path, directoryHint: .isDirectory)), product.page)
         case .uninstallerInsideTheApp(let path):
-            (.uninstaller(app.url.appending(path: path, directoryHint: .isDirectory)), product.page)
+            (open(app.url.appending(path: path, directoryHint: .isDirectory)), product.page)
         case .itself: (.uninstaller(app.url), product.page)
         case .inTheApp: (.inTheApp(app.url), product.page)
         case .onItsDiskImage: (.onItsDiskImage, product.page)
         case .fromTheMakersPage: (.fromTheMakersPage, product.page)
         case .scriptOnTheMac(let script, let page, let otherwise):
-            isOnTheMac(script) ? (.command("sudo \(script)"), page) : (.command("sudo \(otherwise)"), product.page)
+            isOnTheMac(script) ? (run(script, with: "sudo"), page) : (run(otherwise, with: "sudo"), product.page)
         }
         guard let instructions = URL(string: chosen.page) else { return nil }
         let step = chosen.step

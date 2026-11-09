@@ -18,6 +18,13 @@ extension URL {
         }
         return path(percentEncoded: false).quotedForTheShell
     }
+
+    /// The path as one word of a command: from `~` when it is in the home folder and needs no quoting, as it is when
+    /// it needs none elsewhere, and otherwise whole, in single quotes.
+    func wordForTheShell(home: URL) -> String {
+        if let below = path(below: home), below.isPlainForTheShell { return "~/" + below }
+        return path(percentEncoded: false).wordForTheShell
+    }
 }
 
 extension String {

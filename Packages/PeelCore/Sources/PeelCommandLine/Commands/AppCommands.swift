@@ -632,6 +632,7 @@ struct UninstallCommand: AsyncParsableCommand {
             case .inTheApp: "use the uninstall command in \(Output.plain(target.name))"
             case .onItsDiskImage: "use the uninstaller on the disk image it came on"
             case .fromTheMakersPage: "download its uninstaller from \(uninstaller.maker)'s page"
+            case .notOnTheMac: "follow \(uninstaller.maker)'s instructions, since the uninstaller they name isn't on this Mac"
             }
             return CommandFailure("\(Output.plain(target.name)) is removed with \(uninstaller.maker)'s own uninstaller, which also takes what it keeps in the system: \(step). See \(uninstaller.instructions.absoluteString)")
         case .byFinder(let carried) where !carried.isKnown:
