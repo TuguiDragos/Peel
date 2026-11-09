@@ -58,6 +58,20 @@ struct AppLinksTests {
         #expect(AppInspector.whyUnreadable(plain) == .notAnApp)
     }
 
+    /// A link that leads nowhere, or round to itself, is gone however its path is written, a drop's without a slash
+    /// at the end included, and nothing follows it for ever.
+    @Test func aLinkThatLeadsNowhereIsGone() throws {
+        let directory = try TemporaryDirectory()
+        let fixture = try fixture(in: directory)
+        let gone = fixture.applications.appending(path: "Gone.app", directoryHint: .notDirectory)
+        let loop = fixture.applications.appending(path: "Loop.app", directoryHint: .notDirectory)
+        try FileManager.default.createSymbolicLink(at: loop, withDestinationURL: loop)
+
+        #expect(AppInspector.whyUnreadable(gone) == .gone)
+        #expect(AppInspector.whyUnreadable(loop) == .gone)
+        #expect(AppInspector.inspect(loop) == nil)
+    }
+
     /// A link thrown into the Trash is no app leaving this Mac, while the app it leads to stays where it is.
     @Test func aLinkInTheTrashIsNoAppThatLeft() throws {
         let directory = try TemporaryDirectory()

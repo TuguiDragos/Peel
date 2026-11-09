@@ -108,7 +108,11 @@ public enum AppInspector {
     public static func whyUnreadable(_ url: URL) -> Unreadable {
         if url.isMissing { return .gone }
         guard isNamedAsAnApp(url) else { return .notAnApp }
-        if url.isSymbolicLink { return whyUnreadable(PathPattern.canonicalWithoutOpening(url)) }
+        if url.isSymbolicLink {
+            // `canonicalWithoutOpening` answers the link itself when it leads nowhere or round in a loop.
+            let destination = PathPattern.canonicalWithoutOpening(url)
+            return destination.isSymbolicLink ? .gone : whyUnreadable(destination)
+        }
         guard isABundle(url) else { return .notAnApp }
         let info = AppBundleLayout(of: url).infoFolder.appending(path: "Info.plist")
         if info.isMissing { return .noInfo }
