@@ -24,13 +24,13 @@ struct FaceArtTests {
     }
 
     @Test func plainIsASCIIThatFitsEightyColumns() {
-        let text = FaceArt.text(colored: false, totals: totals, version: "1.3.0", build: "261104")
+        let text = FaceArt.text(colored: false, totals: totals, version: "1.4.0", build: "261104")
         let lines = text.split(separator: "\n", omittingEmptySubsequences: false).map(String.init)
 
         #expect(text.unicodeScalars.allSatisfy { $0.isASCII })
         #expect(!text.contains("\u{1B}"))
         #expect(lines.allSatisfy { $0.count <= 80 })
-        #expect(lines.contains { $0.hasSuffix("Peel 1.3.0 (261104)") })
+        #expect(lines.contains { $0.hasSuffix("Peel 1.4.0 (261104)") })
         #expect(lines.contains { $0.hasSuffix("Moved to Trash  2.35 GB") })
         #expect(lines.contains { $0.hasSuffix("Apps removed    1") })
         #expect(lines.contains { $0.hasSuffix("Items moved     60") })
@@ -41,8 +41,8 @@ struct FaceArtTests {
     }
 
     @Test func coloredDrawsTheSameTextInTheFacesColors() throws {
-        let colored = FaceArt.text(colored: true, totals: totals, version: "1.3.0", build: "261104")
-        let plain = FaceArt.text(colored: false, totals: totals, version: "1.3.0", build: "261104")
+        let colored = FaceArt.text(colored: true, totals: totals, version: "1.4.0", build: "261104")
+        let plain = FaceArt.text(colored: false, totals: totals, version: "1.4.0", build: "261104")
         let escapes = try Regex(#"\u{1B}\[[0-9;]*m"#)
         let shown = colored.replacing(escapes, with: "")
             .split(separator: "\n", omittingEmptySubsequences: false)
@@ -58,7 +58,7 @@ struct FaceArtTests {
     /// Which drawing the text holds, and whether its words stand beside it.
     private func drawn(columns: Int?, rows: Int?) -> (width: Int?, isBeside: Bool) {
         let lines = FaceArt.text(
-            colored: false, totals: totals, version: "1.3.0", build: "261104", columns: columns, rows: rows
+            colored: false, totals: totals, version: "1.4.0", build: "261104", columns: columns, rows: rows
         ).split(separator: "\n").map(String.init)
         let drawing = FaceArt.drawings.first { drawing in
             let eyes = drawing.characters[drawing.characters.count / 2].trimmingCharacters(in: .whitespaces)
@@ -97,13 +97,13 @@ struct FaceArtTests {
     @Test func nothingGoesPastTheTerminalAtAnySize() throws {
         let escapes = try Regex(#"\u{1B}\[[0-9;]*m"#)
         for colored in [false, true] {
-            let words = FaceArt.text(colored: colored, totals: totals, version: "1.3.0", build: "261104", columns: 1)
+            let words = FaceArt.text(colored: colored, totals: totals, version: "1.4.0", build: "261104", columns: 1)
                 .replacing(escapes, with: "").split(separator: "\n", omittingEmptySubsequences: false).dropLast()
             let widest = words.map(\.count).max() ?? 0
             for rows in [nil, 6, 9, 12, 17, 24, 60] as [Int?] {
                 for columns in 1...200 {
                     let lines = FaceArt.text(
-                        colored: colored, totals: totals, version: "1.3.0", build: "261104",
+                        colored: colored, totals: totals, version: "1.4.0", build: "261104",
                         columns: columns, rows: rows
                     ).replacing(escapes, with: "").split(separator: "\n", omittingEmptySubsequences: false).dropLast()
                     let size = "at \(columns) by \(rows.map(String.init) ?? "any")"
