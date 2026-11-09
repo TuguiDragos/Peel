@@ -103,6 +103,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - When macOS doesn't recognize an app whose privacy permissions an uninstall was to reset, the alert names it, and any
   others with it in one sentence, and says to turn their access off in System Settings > Privacy & Security. It wrote
   a paragraph for each app, and named none when there was only one.
+- Resetting an app's privacy permissions, as an uninstall, the Reset sheet, or the More menu does, also works for an
+  app macOS no longer knows, such as one kept outside the Applications folders: Peel tells macOS about the app first, as
+  Finder does when it shows one, so macOS can find it.
 - Copy Uninstall Command on the page of Herd, GlobalProtect, Cloudflare WARP, or Background Music, and `peel uninstall`,
   name the maker's script where the app is, such as `~/Applications`, not always in `/Applications`. A maker's script
   or uninstaller that isn't on the Mac is no longer offered.

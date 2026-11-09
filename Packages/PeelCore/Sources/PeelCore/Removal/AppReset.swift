@@ -115,7 +115,7 @@ public struct AppReset: Sendable {
             through: TrashService(exclusions: exclusions),
             isOpen: isOpen,
             save: { await PreferenceBackup.save($0, for: app, exclusions: exclusions) },
-            resetPrivacy: { await PrivacyReset.reset(bundleIdentifier: $0) }
+            resetPrivacy: { await PrivacyReset.reset($0) }
         )
     }
 
@@ -125,7 +125,7 @@ public struct AppReset: Sendable {
         through service: TrashService,
         isOpen: @Sendable () async -> Bool,
         save: @Sendable ([URL]) async -> PreferenceBackup.Saved,
-        resetPrivacy: @Sendable (String) async -> PrivacyReset.Result
+        resetPrivacy: @Sendable (InstalledApp) async -> PrivacyReset.Result
     ) async -> Outcome {
         var outcome = Outcome()
         if let refusal = service.refusalOfEveryMove {
@@ -161,8 +161,8 @@ public struct AppReset: Sendable {
             home: service.environment.homeDirectory
         )
         // The app stays installed, so `tccutil` still finds it after the move.
-        if resettingPrivacy, let identifier = app.bundleIdentifier {
-            outcome.privacy = await resetPrivacy(identifier)
+        if resettingPrivacy, app.bundleIdentifier != nil {
+            outcome.privacy = await resetPrivacy(app)
         }
         return outcome
     }

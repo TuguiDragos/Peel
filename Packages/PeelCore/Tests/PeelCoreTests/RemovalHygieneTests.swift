@@ -878,10 +878,31 @@ struct PrivacyResetTests {
         #expect(PrivacyReset.result(status: 1, output: "") == .failed(""))
     }
 
-    /// Peel's own refusal is reported apart from macOS's answers, and `tccutil` is not run for it.
+    /// Peel's own refusal is reported apart from macOS's answers, and neither Launch Services nor `tccutil` is asked.
     @Test func refusesInItsOwnName() async {
-        #expect(await PrivacyReset.reset(bundleIdentifier: "com.apple.Safari") == .refused)
-        #expect(await PrivacyReset.reset(bundleIdentifier: "") == .refused)
+        let safari = InstalledApp(url: URL(filePath: "/Applications/Safari.app"), bundleIdentifier: "com.apple.Safari", name: "Safari")
+        let unnamed = InstalledApp(url: URL(filePath: "/Applications/Plain.app"), bundleIdentifier: nil, name: "Plain")
+        for app in [safari, unnamed] {
+            let result = await PrivacyReset.reset(app, isKnown: { _ in Issue.record("asked"); return true }) { _ in
+                Issue.record("registered")
+            }
+            #expect(result == .refused)
+        }
+    }
+
+    /// `tccutil` finds an app only through Launch Services, so an app it knows no copy of is registered first, at its
+    /// own place. A test never registers anything: the registration is recorded instead, and the rest is real.
+    @Test func registersAnAppLaunchServicesDoesNotKnowBeforeResettingIt() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: try directory.directory("Tools/Forgotten.app"), bundleIdentifier: "org.example.forgotten", name: "Forgotten"
+        )
+        let registered = Mutex<[URL]>([])
+
+        let result = await PrivacyReset.reset(app) { url in registered.withLock { $0.append(url) } }
+        #expect(registered.withLock { $0 } == [app.url])
+        #expect(result == .notKnownToTheSystem)
+        _ = await PrivacyReset.reset(app, isKnown: { _ in true }) { _ in Issue.record("registered a known app") }
     }
 
     /// `tccutil reset All` with no identifier resets every app, so an app that names none is never reset.

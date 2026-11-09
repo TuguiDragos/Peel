@@ -332,8 +332,8 @@ struct AppResetTests {
             through: try service(in: directory),
             isOpen: { false },
             save: { _ in .saved(copy) },
-            resetPrivacy: { identifier in
-                asked.withLock { $0.append(identifier) }
+            resetPrivacy: { app in
+                asked.withLock { $0.append(app.bundleIdentifier ?? "") }
                 return .reset
             }
         )

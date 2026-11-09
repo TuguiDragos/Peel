@@ -1,3 +1,4 @@
+import CoreServices
 public import Foundation
 internal import PeelPrivileged
 
@@ -19,9 +20,24 @@ public enum PrivacyReset {
         case couldNotAsk(String)
     }
 
+    /// Makes macOS forget what `app` was allowed to access. An app Launch Services knows no copy of, such as one kept
+    /// outside the Applications folders and never opened, is registered there first, at its own place, as Finder
+    /// registers an app it shows, since `tccutil` finds an app only through Launch Services.
     @concurrent
-    public static func reset(bundleIdentifier: String) async -> Result {
-        guard isAllowed(bundleIdentifier: bundleIdentifier) else { return .refused }
+    public static func reset(_ app: InstalledApp) async -> Result {
+        await reset(app) { _ = LSRegisterURL($0 as CFURL, false) }
+    }
+
+    @concurrent
+    static func reset(
+        _ app: InstalledApp,
+        isKnown: @Sendable (String) -> Bool = { !AppInspector.applicationURLs(forBundleIdentifier: $0).isEmpty },
+        register: @Sendable (URL) -> Void
+    ) async -> Result {
+        guard let bundleIdentifier = app.bundleIdentifier, isAllowed(bundleIdentifier: bundleIdentifier) else {
+            return .refused
+        }
+        if !isKnown(bundleIdentifier) { register(app.url) }
 
         switch await Subprocess.run("/usr/bin/tccutil", ["reset", "All", bundleIdentifier], timeout: 10) {
         case .success(let output):
@@ -43,11 +59,7 @@ public enum PrivacyReset {
     ) async -> [(app: InstalledApp, result: Result)] {
         var results: [(app: InstalledApp, result: Result)] = []
         for app in await goingNow(apps, with: service) {
-            guard let identifier = app.bundleIdentifier else {
-                results.append((app, .refused))
-                continue
-            }
-            results.append((app, await reset(bundleIdentifier: identifier)))
+            results.append((app, await reset(app)))
         }
         return results
     }
