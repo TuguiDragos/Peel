@@ -31,9 +31,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Orphaned Files
 
-- This Belongs To… also offers command-line tools: the ones Homebrew installed, and the commands in `/usr/local/bin`,
-  MacPorts' `/opt/local/bin`, and your home's `bin` and `.local/bin`. What a tool keeps under a dotted name stays out of
-  the list while that tool is installed, and Settings > Exclusions shows the tool beside its group.
+- This Belongs To… also offers command-line tools: the ones Homebrew installed, and the commands in `/usr/local/bin`
+  and `sbin`, MacPorts' `/opt/local/bin` and `sbin`, and your home's `bin` and `.local/bin`. Two of one name each say
+  where they are. What a tool keeps under a dotted name stays out of the list while that tool is installed, and
+  Settings > Exclusions shows the tool beside its group.
 
 #### Homebrew
 
@@ -41,6 +42,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   doesn't remove, and the command that does, and for battery to run `battery uninstall` first.
 
 ### Changed
+
+#### Home
+
+- The greeting catches up as soon as the Mac wakes, or its clock or time zone changes, instead of waiting for the hour
+  it was due to change.
 
 #### Settings
 
@@ -86,7 +92,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Privileges as any app.
 - An app with a system extension macOS runs for an app bundled inside it is listed with nothing selected, and its page
   says to turn the extension off first in System Settings: macOS keeps such an extension whoever moves the app, Finder
-  included.
+  included. The page sees the extension off as soon as you come back to Peel, as several apps' page and the Homebrew
+  page do.
 - An uninstall no longer selects Prism Launcher's folder, with every instance's saved worlds, Chatbox's conversations,
   Helium's profiles with their saved passwords, the files Google Drive for desktop couldn't upload, or the backups
   another computer sent to CrashPlan: each is listed and left for you to select.
