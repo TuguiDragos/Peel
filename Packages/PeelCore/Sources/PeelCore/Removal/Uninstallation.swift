@@ -409,7 +409,8 @@ public struct Uninstallation: Sendable {
             // considers this name is the one that would have found it.
             .filter { found in
                 guard let first = found.below.first else { return false }
-                return found.location.considers(fileName: first)
+                return found.location.considers(fileName: first) && (!found.location.kind.countsOnlyLinks
+                    || found.below.count == 1 && found.location.url.appending(path: first).isSymbolicLink)
             }
             .max { $0.root.count < $1.root.count }
         guard let inside else { return (.elsewhere, [url.lastPathComponent]) }

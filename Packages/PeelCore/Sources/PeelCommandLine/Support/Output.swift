@@ -342,6 +342,7 @@ extension MatchReason {
         case .namePrefix: "name prefix"
         case .launchdJob: "runs the app"
         case .linksToTheApp: "leads into the app"
+        case .leadsToTheApp: "leads to the app"
         case .nativeMessagingHost: "lets a browser extension run the app"
         case .installerReceipt: "installer receipt"
         case .homebrewReceipt: "Homebrew receipt"

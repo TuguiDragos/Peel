@@ -113,11 +113,15 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   shows the link as an app, and a link opened from Finder, `peel://`, a drop, or `peel uninstall` no longer opened a
   page that selected the app's own files while only the link would move. A link thrown into the Trash no longer counts
   as an app that left.
+- Uninstalling an app also moves the alias that leads to it in `/Applications` or your home's Applications folder,
+  which led nowhere once the app went, on an app's page, several apps' page, and `peel uninstall` alike.
 
 #### Orphaned Files
 
 - A file named like an app in an Applications folder no longer counts as an app Peel couldn't read, which left Orphaned
   Files and `peel orphans` listing nothing.
+- An alias in an Applications folder that leads to an app that's gone is listed under that app, and one that leads to
+  an app on a disk that isn't connected is left alone.
 - Your account's temporary folder lists only what came with an app Peel saw go, as the plug-in folders do. A file a
   command-line tool left there under a dotted name was listed as an app's that no app claims.
 - Orphaned Files and `peel orphans` no longer name a folder macOS keeps for another account among the folders Peel

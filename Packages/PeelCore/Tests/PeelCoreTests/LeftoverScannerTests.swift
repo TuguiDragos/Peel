@@ -1727,6 +1727,48 @@ struct LeftoverScannerTests {
         #expect(try #require(found["tunewell-cli"]?.size) < 64_000)
     }
 
+    /// An app put in an Applications folder through a link leaves the link behind once it goes, so a link there that
+    /// leads to the app is the app's, as one in `/usr/local/bin` is. Nothing there that isn't a link is ever claimed: a
+    /// folder named like the app, or a link to another app.
+    @Test func findsTheLinksToTheAppInTheApplicationsFolders() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: directory.url.appending(path: "root/Users/Shared/Apps/Tunewell.app", directoryHint: .isDirectory),
+            bundleIdentifier: "net.example.client", name: "Tunewell"
+        )
+        try directory.file("root/Users/Shared/Apps/Tunewell.app/Contents/MacOS/tunewell", bytes: 1_000_000)
+        let other = try directory.directory("root/Users/Shared/Apps/Other.app")
+        let applications = try directory.directory("root/Applications")
+        let homeApplications = try directory.directory("home/Applications")
+        try FileManager.default.createSymbolicLink(at: applications.appending(path: "Tunewell.app"), withDestinationURL: app.url)
+        try FileManager.default.createSymbolicLink(
+            atPath: homeApplications.appending(path: "Tunes").path(percentEncoded: false),
+            withDestinationPath: "../../root/Users/Shared/Apps/Tunewell.app"
+        )
+        try FileManager.default.createSymbolicLink(at: homeApplications.appending(path: "Other.app"), withDestinationURL: other)
+        try directory.directory("home/Applications/Tunewell Helper.app")
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+        let links = scan.leftovers.filter { $0.kind == .applicationLinks }
+
+        #expect(Set(links.map(\.url.lastPathComponent)) == ["Tunewell.app", "Tunes"])
+        #expect(links.allSatisfy { $0.match.reason == .leadsToTheApp && $0.match.confidence == .certain })
+        #expect(links.allSatisfy { $0.size < 64_000 })
+        #expect(!scan.leftovers.contains { ["Other.app", "Tunewell Helper.app"].contains($0.url.lastPathComponent) })
+    }
+
+    /// A path in an Applications folder that a cask names is of the links' kind only when it is a link: an app or a
+    /// folder there stays where no scan looks, as before.
+    @Test func onlyALinkInAnApplicationsFolderIsOfItsKind() throws {
+        let directory = try TemporaryDirectory()
+        let helper = try directory.directory("root/Applications/Tunewell Helper.app")
+        let link = directory.url.appending(path: "root/Applications/Tunewell.app")
+        try FileManager.default.createSymbolicLink(at: link, withDestinationURL: helper)
+
+        #expect(Uninstallation.place(of: helper, in: environment(in: directory)).kind == .elsewhere)
+        #expect(Uninstallation.place(of: link, in: environment(in: directory)).kind == .applicationLinks)
+    }
+
     /// An installer can link the shell completions of an app's tools into the folders a Homebrew cask uses, in either
     /// prefix. A link there that leads into the app is the app's; a formula's link and a file are not.
     @Test func findsTheAppsShellCompletionLinks() async throws {

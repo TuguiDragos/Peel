@@ -582,7 +582,7 @@ public struct LeftoverScanner: Sendable {
         return LeftoverMatch(reason: .nativeMessagingHost, confidence: .certain, sharedWith: [])
     }
 
-    /// A link that leads inside the app is that app's, whatever the tool is called. A link that leads anywhere
+    /// A link that leads to the app or inside it is that app's, whatever it is called. A link that leads anywhere
     /// else is not claimed. The link is read without following it, and a relative one is taken from its folder.
     private static func leadsInside(_ bundle: String, link url: URL) -> LeftoverMatch? {
         guard
@@ -592,8 +592,9 @@ public struct LeftoverScanner: Sendable {
         else { return nil }
         let target = URL(filePath: destination, relativeTo: url.deletingLastPathComponent()).standardizedFileURL
         let path = PathPattern.comparablePath(of: target)
-        guard PathComponents.isPath(path, inside: bundle) else { return nil }
-        return LeftoverMatch(reason: .linksToTheApp, confidence: .certain, sharedWith: [])
+        guard PathComponents.isPath(path, atOrInside: bundle) else { return nil }
+        let reason: MatchReason = path == bundle ? .leadsToTheApp : .linksToTheApp
+        return LeftoverMatch(reason: reason, confidence: .certain, sharedWith: [])
     }
 
     /// True for a home item that many tools share, such as `~/.local`, which an app called Local would claim.

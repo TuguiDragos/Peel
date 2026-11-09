@@ -46,6 +46,10 @@ public struct SearchLocation: Sendable, Hashable {
         /// The folders an app's installer links the shell completions of its tools into, for zsh, fish, bash, and
         /// PowerShell, as a Homebrew cask does. As for a tool, only a link into the app counts as the app's.
         case shellCompletions
+        /// `/Applications` and the home's `Applications`, where an app can be put through a link, which leads nowhere
+        /// once the app goes. As for a tool, only a link that leads to the app counts as the app's, and only a link
+        /// there is of this kind: anything else is an app or the person's own folder.
+        case applicationLinks
         /// The folders where a browser looks for the manifests of the programs its extensions may run. A manifest
         /// is named for its host, not for the app, so only one whose program is inside the app counts as the app's.
         case nativeMessagingHosts
@@ -55,10 +59,15 @@ public struct SearchLocation: Sendable, Hashable {
         /// Somewhere no scan looks, which only a Homebrew cask can name: `~/Documents/Foo`, `/usr/local/etc/foo`.
         case elsewhere
 
-        /// True for the folders where an item is named for what it does, a tool or its completion, so only a link
-        /// that leads into an app says whose it is.
+        /// True for the folders where a name says nothing of whose an item is (a tool, its completion, an alias in an
+        /// Applications folder), so only a link that leads to an app or into it says whose it is.
         public var isForLinks: Bool {
-            self == .commandLineTools || self == .shellCompletions
+            self == .commandLineTools || self == .shellCompletions || self == .applicationLinks
+        }
+
+        /// True for the Applications folders, where a found path is of this kind only when it is a link.
+        var countsOnlyLinks: Bool {
+            self == .applicationLinks
         }
 
         /// True for a folder in a browser's own data, which goes with the browser: no folder above it is kept for it.
@@ -238,6 +247,9 @@ public struct SearchEnvironment: Sendable {
         // Apple silicon (Cask Cookbook, `binary`).
         locations += ["usr/local/bin", "usr/local/sbin", "opt/homebrew/bin"].map {
             SearchLocation(kind: .commandLineTools, url: rootDirectory.appending(path: $0, directoryHint: .isDirectory))
+        }
+        locations += [rootDirectory, homeDirectory].map {
+            SearchLocation(kind: .applicationLinks, url: $0.appending(path: "Applications", directoryHint: .isDirectory))
         }
         locations += ["usr/local", "opt/homebrew"].flatMap { prefix in
             PrivilegedPathPolicy.shellCompletionFolders.map { prefix + "/" + $0 }

@@ -1906,6 +1906,29 @@ struct OrphanScannerTests {
         #expect(await scanner(in: directory).scan(installedApps: installed).groups.map(\.identifier) == ["com.vendor.notes"])
     }
 
+    /// A link an app was put in an Applications folder through leads nowhere once the app is gone, and is listed
+    /// under that app. One to an app on a disk that isn't connected, which may come back, is not.
+    @Test func listsALinkInAnApplicationsFolderToAnAppThatIsGone() async throws {
+        let directory = try TemporaryDirectory()
+        let applications = try directory.directory("home/Applications")
+        try FileManager.default.createSymbolicLink(
+            atPath: applications.appending(path: "Gone.app").path(percentEncoded: false),
+            withDestinationPath: directory.url.appending(path: "root/Elsewhere/Gone.app").path(percentEncoded: false)
+        )
+        try FileManager.default.createSymbolicLink(
+            atPath: applications.appending(path: "Away.app").path(percentEncoded: false),
+            withDestinationPath: "/Volumes/Peel Test Disk Not Connected/Away.app"
+        )
+
+        let scan = await scanner(in: directory).scan(installedApps: installed)
+        let gone = try #require(scan.groups.first { $0.identifier == "Gone" }, "\(scan.groups.map(\.identifier))")
+
+        #expect(gone.items.map(\.url.lastPathComponent) == ["Gone.app"])
+        #expect(gone.items.allSatisfy { $0.kind == .applicationLinks })
+        #expect(gone.confidence.reasons == [.leadsIntoAnAppThatIsGone])
+        #expect(!scan.groups.contains { $0.items.contains { $0.url.lastPathComponent == "Away.app" } })
+    }
+
     /// A link to a tool inside an app that is gone leads nowhere, and an app's uninstaller can leave such links
     /// behind. A tool's name says nothing about its app, so the group is named after the app the link led into,
     /// or given that app's identifier when Peel remembers it.
