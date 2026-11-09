@@ -312,8 +312,8 @@ public enum AppCatalog {
         var bundles: [URL] = []
         for case let url as URL in enumerator {
             guard !isStopped() else { break }
-            if url.pathExtension == "app" {
-                bundles.append(url.standardizedFileURL)
+            if AppInspector.isNamedAsAnApp(url) {
+                if AppInspector.isABundle(url) { bundles.append(url.standardizedFileURL) }
             } else if enumerator.level >= depth {
                 enumerator.skipDescendants()
             }

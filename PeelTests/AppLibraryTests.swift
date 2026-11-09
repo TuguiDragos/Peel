@@ -283,6 +283,27 @@ private nonisolated final class TestClock: Sendable {
         #expect(library.couldNotShow == CouldNotShow(url: broken.deletingLastPathComponent(), reason: .noInfo))
     }
 
+    /// A request naming a link opens the app it leads to, never a page of the link, which would select the app's own
+    /// files while only the link moved; and a file named like an app is no app.
+    @Test func aRequestForALinkOpensTheAppItLeadsTo() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try soldApp(in: folder.appending(path: "Elsewhere"))
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let link = folder.appending(path: "Sold.app")
+        try FileManager.default.createSymbolicLink(at: link, withDestinationURL: bundle)
+        let plain = folder.appending(path: "Plain.app", directoryHint: .isDirectory)
+        try Data("not an app".utf8).write(to: plain)
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let library = library(with: made.defaults, notesIn: folder)
+
+        #expect(await library.reveal([URL(filePath: link.path(percentEncoded: false), directoryHint: .isDirectory)]))
+        let shown = try #require(library.apps.first { library.selection.contains($0.id) })
+        #expect(shown.url.deletingLastPathComponent().lastPathComponent == "Elsewhere")
+        #expect(await !library.reveal([plain]))
+        #expect(library.couldNotShow == CouldNotShow(url: plain, reason: .notAnApp))
+    }
+
     @Test func anOlderAppStoreAnswerLeavesTheUpdateItFound() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try soldApp(in: folder)

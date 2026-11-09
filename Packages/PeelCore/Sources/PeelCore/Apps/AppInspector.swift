@@ -92,15 +92,37 @@ public enum AppInspector {
         url.pathExtension == "app"
     }
 
+    /// Whether `url` is an app bundle itself: a folder named as an app, not a link to one nor a file named like one.
+    public static func isABundle(_ url: URL) -> Bool {
+        var info = stat()
+        return isNamedAsAnApp(url) && lstat(PathPattern.comparablePath(of: url), &info) == 0
+            && info.st_mode & S_IFMT == S_IFDIR
+    }
+
+    /// Whether what arrived in the Trash at `url` is an app that left this Mac: a bundle, since a link to one leaves
+    /// the app where it is, and no other copy installed.
+    public static func isAnAppThatLeft(_ url: URL, among installedApps: [InstalledApp]) -> Bool {
+        isABundle(url) && !anotherCopyIsInstalled(of: url, among: installedApps)
+    }
+
     public static func whyUnreadable(_ url: URL) -> Unreadable {
         if url.isMissing { return .gone }
         guard isNamedAsAnApp(url) else { return .notAnApp }
+        if url.isSymbolicLink { return whyUnreadable(PathPattern.canonicalWithoutOpening(url)) }
+        guard isABundle(url) else { return .notAnApp }
         let info = AppBundleLayout(of: url).infoFolder.appending(path: "Info.plist")
         if info.isMissing { return .noInfo }
         return access(info.path(percentEncoded: false), R_OK) == 0 ? .infoDamaged : .infoClosed
     }
 
     public static func inspect(_ url: URL) -> InstalledApp? {
+        // A link names the app it leads to, which is what is read: never the link, whose page would select the app's
+        // files while only the link moved.
+        if url.isSymbolicLink {
+            let destination = PathPattern.canonicalWithoutOpening(url).path(percentEncoded: false)
+            let bundle = URL(filePath: destination, directoryHint: .isDirectory)
+            return isABundle(bundle) ? inspect(bundle) : nil
+        }
         let layout = AppBundleLayout(of: url)
         let contents = layout.infoFolder
         guard let info = infoDictionary(in: contents) else { return nil }

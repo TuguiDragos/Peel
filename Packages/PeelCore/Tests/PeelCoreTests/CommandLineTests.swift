@@ -300,6 +300,21 @@ struct CommandLineTests {
         #expect(collected.output == "  1 kB  /a\n  2 kB  /b\n  3 kB  /c\n")
     }
 
+    /// A link to an app that isn't listed finds that app too, never the link, whose identity is the app's own.
+    @Test func aLinkFindsTheAppItLeadsToWhenItIsNotListed() throws {
+        let directory = try TemporaryDirectory()
+        let bundle = try directory.directory("Elsewhere/Example.app")
+        _ = try directory.file("Elsewhere/Example.app/Contents/Info.plist", contents: Data(
+            #"<plist version="1.0"><dict><key>CFBundleIdentifier</key><string>org.example.linked</string></dict></plist>"#.utf8
+        ))
+        let link = directory.url.appending(path: "Example.app")
+        try FileManager.default.createSymbolicLink(at: link, withDestinationURL: bundle)
+
+        let found = try AppLookup.app(matching: link.path(percentEncoded: false), in: [])
+        #expect(found.bundleIdentifier == "org.example.linked")
+        #expect(found.url.deletingLastPathComponent().lastPathComponent == "Elsewhere")
+    }
+
     /// `peel uninstall /applications/example.app`, or a link to the app, finds the installed app itself: never
     /// the link, and never a second record of the same bundle, which would share every file with the first.
     @Test func findsAnInstalledAppUnderAnotherSpelling() throws {

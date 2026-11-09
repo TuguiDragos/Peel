@@ -109,9 +109,15 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Copy Uninstall Command on the page of Herd, GlobalProtect, Cloudflare WARP, or Background Music, and `peel uninstall`,
   name the maker's script where the app is, such as `~/Applications`, not always in `/Applications`. A maker's script
   or uninstaller that isn't on the Mac is no longer offered.
+- A link named like an app leads to the app it points to, as it did for an app already in the list: the list no longer
+  shows the link as an app, and a link opened from Finder, `peel://`, a drop, or `peel uninstall` no longer opened a
+  page that selected the app's own files while only the link would move. A link thrown into the Trash no longer counts
+  as an app that left.
 
 #### Orphaned Files
 
+- A file named like an app in an Applications folder no longer counts as an app Peel couldn't read, which left Orphaned
+  Files and `peel orphans` listing nothing.
 - Your account's temporary folder lists only what came with an app Peel saw go, as the plug-in folders do. A file a
   command-line tool left there under a dotted name was listed as an app's that no app claims.
 - Orphaned Files and `peel orphans` no longer name a folder macOS keeps for another account among the folders Peel

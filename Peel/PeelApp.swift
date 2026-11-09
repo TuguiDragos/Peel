@@ -352,8 +352,9 @@ struct PeelApp: App {
         async let homeChecked: Void = Marks.interval("Home checks") { await home.refresh() }
         await exclusionsRead
         trashMonitor.onApplicationTrashed = { [notifications, library] url in
-            // An old copy thrown away while another is installed, as some updaters do, leaves nothing behind.
-            guard !AppInspector.anotherCopyIsInstalled(of: url, among: library.apps) else { return }
+            // An old copy thrown away while another is installed, as some updaters do, leaves nothing behind, and
+            // neither does a link to an app.
+            guard AppInspector.isAnAppThatLeft(url, among: library.apps) else { return }
             notifications.notify(applicationTrashed: url)
         }
         if watchesTrash {
