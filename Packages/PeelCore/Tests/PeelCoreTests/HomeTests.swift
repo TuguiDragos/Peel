@@ -31,6 +31,7 @@ struct GreetingTests {
     }
 
     @Test func findsTheNextChange() {
+        #expect(Greeting.change(after: date(0), calendar: calendar) == date(5))
         #expect(Greeting.change(after: date(3), calendar: calendar) == date(5))
         #expect(Greeting.change(after: date(5), calendar: calendar) == date(12))
         #expect(Greeting.change(after: date(12, 30), calendar: calendar) == date(18))
@@ -38,9 +39,58 @@ struct GreetingTests {
             Greeting.change(after: date(19), calendar: calendar) == calendar.date(
                 byAdding: .day,
                 value: 1,
-                to: date(5)
+                to: date(0)
             )!
         )
+    }
+
+    private func day(_ year: Int, _ month: Int, _ day: Int, _ hour: Int = 9) -> Date {
+        calendar.date(from: DateComponents(year: year, month: month, day: day, hour: hour))!
+    }
+
+    @Test(arguments: [
+        Calendar.Identifier.gregorian, .iso8601, .buddhist, .japanese, .republicOfChina, .chinese, .dangi, .coptic,
+        .ethiopicAmeteMihret, .hebrew, .indian, .islamic, .islamicCivil, .islamicUmmAlQura, .persian, .vikram,
+    ])
+    func peelsBirthdayIsOctober8WhateverCalendarTheMacShows(_ identifier: Calendar.Identifier) {
+        var shown = Calendar(identifier: identifier)
+        shown.timeZone = calendar.timeZone
+        #expect(Greeting.yearsOld(on: day(2027, 10, 8, 0), calendar: shown) == 1)
+        #expect(Greeting.yearsOld(on: day(2036, 10, 8, 23), calendar: shown) == 10)
+        #expect(Greeting.yearsOld(on: day(2026, 10, 8), calendar: shown) == nil)
+        #expect(Greeting.yearsOld(on: day(2027, 10, 7, 23), calendar: shown) == nil)
+        #expect(Greeting.yearsOld(on: day(2027, 10, 9, 0), calendar: shown) == nil)
+        #expect(Greeting.at(day(2027, 10, 8, 14), calendar: shown) == .birthday)
+        #expect(Greeting.at(day(2027, 10, 9, 14), calendar: shown) == .afternoon)
+        #expect(Greeting.change(after: day(2027, 10, 7, 23), calendar: shown) == day(2027, 10, 8, 0))
+    }
+
+    @Test func peelsBirthdayIsTheDayWherePeelRuns() {
+        var utc = Calendar(identifier: .gregorian)
+        utc.timeZone = TimeZone(identifier: "UTC")!
+        let moment = utc.date(from: DateComponents(year: 2027, month: 10, day: 7, hour: 22, minute: 30))!
+        func shown(in zone: String) -> Calendar {
+            var shown = Calendar(identifier: .gregorian)
+            shown.timeZone = TimeZone(identifier: zone)!
+            return shown
+        }
+        #expect(Greeting.yearsOld(on: moment, calendar: shown(in: "Europe/Bucharest")) == 1)
+        #expect(Greeting.yearsOld(on: moment, calendar: shown(in: "Asia/Tokyo")) == 1)
+        #expect(Greeting.yearsOld(on: moment, calendar: shown(in: "America/Los_Angeles")) == nil)
+        #expect(Greeting.yearsOld(on: moment, calendar: shown(in: "Pacific/Honolulu")) == nil)
+    }
+
+    @Test func greetsPeelAllDayOnEveryBirthdayAfterTheDayItWasMadePublic() {
+        #expect(Greeting.at(day(2027, 10, 8, 0), calendar: calendar) == .birthday)
+        #expect(Greeting.at(day(2027, 10, 8), calendar: calendar) == .birthday)
+        #expect(Greeting.at(day(2027, 10, 8, 23), calendar: calendar) == .birthday)
+        #expect(Greeting.at(day(2026, 10, 8), calendar: calendar) == .morning)
+        #expect(Greeting.at(day(2027, 10, 7, 23), calendar: calendar) == .evening)
+        #expect(Greeting.at(day(2027, 10, 9, 0), calendar: calendar) == .evening)
+        #expect(Greeting.yearsOld(on: day(2027, 10, 8), calendar: calendar) == 1)
+        #expect(Greeting.yearsOld(on: day(2031, 10, 8, 23), calendar: calendar) == 5)
+        #expect(Greeting.yearsOld(on: day(2026, 10, 8), calendar: calendar) == nil)
+        #expect(Greeting.yearsOld(on: day(2027, 10, 9), calendar: calendar) == nil)
     }
 }
 

@@ -47,6 +47,27 @@ enum HomeSnapshot {
                             to: "\(directory)/home-content-borders-\(name).png"
                         )
                     }
+                    // Home on Peel's first birthday, and the note its greeting opens then.
+                    let birthday = DateComponents(calendar: .current, year: 2027, month: 10, day: 8, hour: 9)
+                    if let date = birthday.date {
+                        try render(
+                            HomeContent(date: date).environment(home).environment(helper).environment(stats),
+                            width: 360,
+                            height: 760,
+                            on: window,
+                            scheme: scheme,
+                            contrast: contrast,
+                            to: "\(directory)/home-birthday-\(name).png"
+                        )
+                    }
+                    try render(
+                        BirthdayNote(years: 1),
+                        width: 262,
+                        on: Album.sheet,
+                        scheme: scheme,
+                        contrast: contrast,
+                        to: "\(directory)/birthday-note-\(name).png"
+                    )
                     // The permissions at their widest, and at their narrowest, where Home puts its two halves side
                     // by side.
                     try render(
@@ -68,7 +89,8 @@ enum HomeSnapshot {
                         to: "\(directory)/detail-narrow-\(name).png"
                     )
                     try render(
-                        AboutContent().environment(PeelUpdater()).fixedSize(horizontal: false, vertical: true),
+                        AboutContent(stillIcon: true).environment(PeelUpdater())
+                            .fixedSize(horizontal: false, vertical: true),
                         width: AboutContent.width,
                         on: Album.sheet,
                         scheme: scheme,
@@ -76,7 +98,7 @@ enum HomeSnapshot {
                         to: "\(directory)/about-\(name).png"
                     )
                     try render(
-                        AboutContent().environment(PeelUpdater(found: "1.0.2"))
+                        AboutContent(stillIcon: true).environment(PeelUpdater(found: "1.0.2"))
                             .fixedSize(horizontal: false, vertical: true),
                         width: AboutContent.width,
                         on: Album.sheet,

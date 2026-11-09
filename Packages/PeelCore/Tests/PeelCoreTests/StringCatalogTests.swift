@@ -224,6 +224,29 @@ import Testing
         #expect(problems.isEmpty, "\(problems.joined(separator: "\n"))")
     }
 
+    /// Home's greeting on Peel's birthday fits beside its cake at its smallest scale, 0.7, in the weight it is drawn
+    /// with and in the black that Bold Text draws it with. Home's column is 360 points with 28 on each side, and the
+    /// cake takes 38 and the 10 before it.
+    @Test func theBirthdayGreetingFitsBesideItsCake() throws {
+        let key = "Happy birthday, Peel!"
+        let catalog = try Self.localizable()
+        let room: CGFloat = (360 - 2 * 28 - 38 - 10) / 0.7
+        var problems: [String] = []
+        for language in try ["en"] + Self.declaredLanguages() {
+            let text = Self.value(of: key, in: language, catalog) ?? key
+            for weight in [NSFont.Weight.bold, .black] {
+                let system = NSFont.systemFont(ofSize: 26, weight: weight)
+                let rounded = system.fontDescriptor.withDesign(.rounded).flatMap { NSFont(descriptor: $0, size: 26) }
+                let font = Self.font(rounded ?? system, in: language)
+                let width = (text as NSString).size(withAttributes: [.font: font]).width
+                if width > room {
+                    problems.append("\(language): \(text.debugDescription) is \(Int(width.rounded(.up))) points, and the greeting has \(Int(room))")
+                }
+            }
+        }
+        #expect(problems.isEmpty, "\(problems.joined(separator: "\n"))")
+    }
+
     static let sidebarNames = [
         "Home", "Tweaks", "Terminal", "History", "Settings", "Applications", "Orphaned Files", "Intel Software",
         "Package Receipts", "Space", "Developer", "Build Artifacts", "Installers and Backups", "Duplicates",

@@ -35,6 +35,7 @@ extension Greeting {
         case .morning: "Good morning"
         case .afternoon: "Good afternoon"
         case .evening: "Good evening"
+        case .birthday: "Happy birthday, Peel!"
         }
     }
 }

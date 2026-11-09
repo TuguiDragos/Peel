@@ -1,4 +1,5 @@
 import AppKit
+import PeelCore
 import SwiftUI
 
 struct AboutContent: View {
@@ -7,20 +8,39 @@ struct AboutContent: View {
     static let width: CGFloat = 380
 
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(PeelUpdater.self) private var updater
+    @State private var pokes = Pokes()
+    @State private var reaction: AboutIcon.Reaction?
+    /// Draws the icon as a still image: `HomeSnapshot` renders About so, since a render draws no layers.
+    private let stillIcon: Bool
+
+    init(stillIcon: Bool = false) {
+        self.stillIcon = stillIcon
+    }
 
     var body: some View {
         VStack(spacing: 12) {
-            // IconServices draws the icon for the current appearance, so `id(colorScheme)` builds a new image
-            // when the appearance changes, and reading the icon style builds one when that does.
-            let _ = IconStyle.shared.revision
-            Image(nsImage: NSWorkspace.shared.icon(forFile: Bundle.main.bundlePath))
-                .resizable()
-                .frame(width: 96, height: 96)
-                .id(colorScheme)
-                .accessibilityIgnoresInvertColors()
-                // Hidden from VoiceOver, since the name under it says the same.
-                .accessibilityHidden(true)
+            Group {
+                if stillIcon {
+                    // IconServices draws the icon for the current appearance, so `id(colorScheme)` builds a new image
+                    // when the appearance changes, and reading the icon style builds one when that does.
+                    let _ = IconStyle.shared.revision
+                    Image(nsImage: NSWorkspace.shared.icon(forFile: Bundle.main.bundlePath))
+                        .resizable()
+                        .id(colorScheme)
+                } else {
+                    AboutIcon(style: IconStyle.shared.revision, colorScheme: colorScheme, reaction: reaction) {
+                        reaction = nil
+                    }
+                }
+            }
+            .frame(width: 96, height: 96)
+            .contentShape(.rect)
+            .onTapGesture(perform: poke)
+            .accessibilityIgnoresInvertColors()
+            // Hidden from VoiceOver, since the name under it says the same.
+            .accessibilityHidden(true)
             Text(verbatim: "Peel")
                 .font(.system(size: 34, weight: .bold, design: .rounded))
             Text("Version \(AppVersion.display)")
@@ -39,6 +59,16 @@ struct AboutContent: View {
             credits
         }
         .padding(32)
+    }
+
+    /// Each click squashes the icon a little, and the fifth in a row wakes the face too, as `Pokes` counts them.
+    /// Clicks while the face is awake do nothing. Reduce Motion keeps the icon still, and the face only fades in and
+    /// out.
+    private func poke() {
+        if reaction?.answer == .wake { return }
+        let answer = pokes.poke(at: .now)
+        if answer != .wake, reduceMotion { return }
+        reaction = AboutIcon.Reaction(start: CACurrentMediaTime(), answer: answer, reducingMotion: reduceMotion)
     }
 
     /// How far a credit link takes clicks beyond its text, above and below. It brings a callout line up to the

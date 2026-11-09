@@ -45,10 +45,79 @@ struct HomeView: View {
     }
 }
 
-/// Draws the greeting again at each of its changes, and as it appears, so it is never the one of an hour gone by.
+/// Draws the greeting again at each of its changes, and as it appears, so it is never the one of an hour gone by. A
+/// jump of the time it knows nothing of builds it again from that moment (`TimeChanges`).
 private struct GreetingChanges: TimelineSchedule {
     func entries(from startDate: Date, mode: TimelineScheduleMode) -> some Sequence<Date> {
         Greeting.changes(from: startDate)
+    }
+}
+
+private struct GreetingTitle: View {
+    let date: Date
+
+    var body: some View {
+        if let years = Greeting.yearsOld(on: date) {
+            BirthdayGreeting(years: years)
+        } else {
+            Text(Greeting.at(date).title)
+                .greeting()
+                .foregroundStyle(Album.ink)
+                .accessibilityAddTraits(.isHeader)
+        }
+    }
+}
+
+private struct BirthdayGreeting: View {
+    let years: Int
+    @State private var isNoteOpen = false
+    @State private var isPointing = false
+
+    var body: some View {
+        Button { isNoteOpen.toggle() } label: {
+            HStack(spacing: 10) {
+                Text(Greeting.birthday.title)
+                    .greeting()
+                    .foregroundStyle(isPointing ? Album.orangeInk : Album.ink)
+                Image(systemName: "birthday.cake.fill")
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundStyle(Album.orangeOnCream)
+                    .frame(width: 38, height: 38)
+                    .sticker(radius: 19, fill: Album.cream, edge: 3)
+                    .rotationEffect(.degrees(8))
+                    .accessibilityHidden(true)
+            }
+            .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .pointerStyle(.link)
+        .motion(.touch, value: isPointing)
+        .onHover { isPointing = $0 }
+        .accessibilityAddTraits(.isHeader)
+        .popover(isPresented: $isNoteOpen, arrowEdge: .bottom) {
+            BirthdayNote(years: years)
+        }
+    }
+}
+
+struct BirthdayNote: View {
+    let years: Int
+
+    var body: some View {
+        NoteCard(
+            name: String(inflecting: "Peel is ^[\(years) year](inflect: true) old"),
+            detail: Text("On October 8, 2026, I put Peel on GitHub for everyone. Thank you for trusting it with your Mac.\n**-Dragoș**"),
+            symbol: "birthday.cake.fill",
+            isAlbum: true
+        )
+    }
+}
+
+private extension Text {
+    func greeting() -> some View {
+        font(.system(size: 26, weight: .bold, design: .rounded))
+            .lineLimit(1)
+            .minimumScaleFactor(0.7)
     }
 }
 
@@ -56,16 +125,22 @@ struct HomeContent: View {
     @Environment(HomeModel.self) private var home
     @Environment(LifetimeStats.self) private var stats
     @State private var isPointingAtDevice = false
+    /// The moment the greeting is for, when it is not now: `HomeSnapshot` draws Peel's birthday with it.
+    private let date: Date?
+
+    init(date: Date? = nil) {
+        self.date = date
+    }
 
     var body: some View {
         VStack(spacing: 0) {
-            TimelineView(GreetingChanges()) { context in
-                Text(Greeting.at(context.date).title)
-                    .font(.system(size: 26, weight: .bold, design: .rounded))
-                    .foregroundStyle(Album.ink)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.7)
-                    .accessibilityAddTraits(.isHeader)
+            if let date {
+                GreetingTitle(date: date)
+            } else {
+                TimelineView(GreetingChanges()) { context in
+                    GreetingTitle(date: context.date)
+                }
+                .id(TimeChanges.shared.revision)
             }
             if let device = home.device {
                 deviceCard(device).padding(.top, 38)

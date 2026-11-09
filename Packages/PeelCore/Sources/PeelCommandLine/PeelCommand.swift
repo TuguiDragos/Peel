@@ -43,6 +43,10 @@ public struct PeelCommand: AsyncParsableCommand {
             Output.note("Don't run `peel` with `sudo`. What needs administrator access is removed by the Peel app, which has the checks for it.")
             Darwin.exit(1)
         }
+        if isGreeting(Array(CommandLine.arguments.dropFirst())) {
+            Output.write(FaceArt.greeting())
+            return
+        }
         do {
             var command = try await asyncParseAsRoot()
             if var asynchronous = command as? any AsyncParsableCommand {
@@ -54,6 +58,12 @@ public struct PeelCommand: AsyncParsableCommand {
             guard report(error) else { exit(withError: error) }
             Darwin.exit(EXIT_FAILURE)
         }
+    }
+
+    /// Whether the arguments ask for `peel peel`, a greeting no help or manual page lists. It is answered before
+    /// ArgumentParser reads them, since the manual page it writes names every subcommand, hidden or not.
+    static func isGreeting(_ arguments: [String]) -> Bool {
+        arguments == ["peel"]
     }
 
     /// Writes a failure of Peel's own as a note, where what could hide or reorder text is shown as `?`: it names
