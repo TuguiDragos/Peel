@@ -82,6 +82,11 @@ final class RemovalPlan {
         ExclusionsStore.shared.exclusions.excludes(app)
     }
 
+    /// The app's other copies that stay installed, which share its privacy permissions.
+    var otherCopies: [URL] {
+        uninstallation?.otherCopies ?? []
+    }
+
     var mayResetPrivacy: Bool {
         let exclusions = ExclusionsStore.shared.exclusions
         return exclusions.isKnown && !exclusions.excludes(app)

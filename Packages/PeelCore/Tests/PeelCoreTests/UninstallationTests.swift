@@ -311,6 +311,28 @@ struct UninstallationTests {
         #expect(!plan.selectable(canUseHelper: true).contains(leftover.url))
     }
 
+    @Test func knowsTheCopiesOfTheAppThatStayInstalled() async throws {
+        let directory = try TemporaryDirectory()
+        let stray = InstalledApp(
+            url: try directory.directory("root/Users/Shared/Editor.app"), bundleIdentifier: "org.example.editor", name: "Editor"
+        )
+        let kept = InstalledApp(
+            url: try directory.directory("root/Applications/Editor.app"), bundleIdentifier: "org.example.editor", name: "Editor"
+        )
+        let thrownAway = InstalledApp(
+            url: try directory.directory("home/.Trash/Editor.app"), bundleIdentifier: "org.example.editor", name: "Editor"
+        )
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let installed = [stray, kept, thrownAway]
+        let plan = await Uninstallation.prepare(stray, installedApps: installed, environment: environment)
+
+        #expect(plan.otherCopies.map(PathPattern.comparablePath) == [PathPattern.comparablePath(of: kept.url)])
+    }
+
     @Test func listsAFolderOfMachinesByItsItemsSoOnlyItsMachinesStayUnselected() async throws {
         let directory = try TemporaryDirectory()
         let app = InstalledApp(

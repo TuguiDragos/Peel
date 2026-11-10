@@ -382,7 +382,7 @@ struct MultipleAppsView: View {
     /// The apps whose privacy permissions a removal of `urls` resets.
     private func resetting(_ urls: Set<URL>) -> [InstalledApp] {
         guard !urls.isEmpty, plan.resetsPrivacy else { return [] }
-        return PrivacyReset.apps(among: plan.apps, moving: urls)
+        return PrivacyReset.apps(among: plan.apps, moving: urls, copies: plan.otherCopies(of:))
     }
 
     /// Asks the question once the apps have quit, since none of their files moves while they run, and after scanning
@@ -501,7 +501,8 @@ private struct BulkRemovalOptions: View {
     let plan: BulkRemovalPlan
 
     var body: some View {
-        let resets = !PrivacyReset.apps(among: plan.apps, moving: plan.selectable).isEmpty
+        let resets = !PrivacyReset.apps(among: plan.apps, moving: plan.selectable, copies: plan.otherCopies(of:))
+            .isEmpty
         let movesAppsWithTiles = !plan.appsInTheDock.isDisjoint(with: plan.selectable)
         let tilesInTheTrash = !plan.appsInTheTrashWithTiles.isEmpty
         let removesTiles = movesAppsWithTiles || tilesInTheTrash

@@ -85,10 +85,17 @@ public enum PrivacyReset {
         return resets.filter { $0.result != .reset || stayed.contains($0.app.url) }
     }
 
-    /// Returns the apps a removal resets: those whose own bundle is selected and that `isAllowed` accepts. An app
-    /// whose leftovers alone are removed stays installed, and nobody asked to reset it.
-    public static func apps(among apps: [InstalledApp], moving selected: Set<URL>) -> [InstalledApp] {
-        apps.filter { selected.contains($0.url) && isAllowed(for: $0) }
+    /// Returns the apps a removal resets: those whose own bundle is selected, that `isAllowed` accepts, and whose
+    /// other copies (`copies`) all go too, since macOS keeps one set of permissions for every copy. An app whose
+    /// leftovers alone are removed stays installed, and nobody asked to reset it.
+    public static func apps(
+        among apps: [InstalledApp], moving selected: Set<URL>, copies: (InstalledApp) -> [URL] = { _ in [] }
+    ) -> [InstalledApp] {
+        let moving = Set(selected.map(PathPattern.comparablePath))
+        return apps.filter { app in
+            moving.contains(PathPattern.comparablePath(of: app.url)) && isAllowed(for: app)
+                && copies(app).allSatisfy { moving.contains(PathPattern.comparablePath(of: $0)) }
+        }
     }
 
     /// Interprets `tccutil`'s exit status and output. Kept apart from running it so it can be tested.

@@ -721,6 +721,13 @@ struct UninstallCommand: AsyncParsableCommand {
         throw CommandFailure("Peel never resets privacy permissions for \(Output.plain(target.name)). Leave out --reset-privacy to remove it anyway.")
     }
 
+    /// Refuses a privacy reset while another copy of the app stays: macOS keeps one set of permissions for every copy,
+    /// so resetting them for this one would reset them for that one too.
+    static func refuseIfPrivacyIsShared(of target: InstalledApp, withCopies copies: [URL]) throws {
+        guard let copy = copies.first else { return }
+        throw CommandFailure("Another copy of \(Output.plain(target.name)) stays at \(Output.plain(Output.path(copy))), and macOS keeps one set of privacy permissions for every copy, so resetting them would reset that copy's too. Leave out --reset-privacy to remove this one.")
+    }
+
     /// Returns the line that reports the privacy reset, and whether it is a warning the command fails with: a reset
     /// that did not happen, or one for an app that then stayed (`PrivacyReset.worthTelling`).
     static func privacyOutcome(
@@ -761,6 +768,9 @@ struct UninstallCommand: AsyncParsableCommand {
                 casks: homebrew.casks,
                 receipts: homebrew.receipts
             )
+        }
+        if resetPrivacy {
+            try Self.refuseIfPrivacyIsShared(of: target, withCopies: uninstallation.otherCopies)
         }
         let access = try Self.note(for: Self.whyItStays(uninstallation), dryRun: dryRun)
         let inTheTrash = uninstallation.isAppInTheTrash ? LeftoversCommand.inTheTrash(target) : nil

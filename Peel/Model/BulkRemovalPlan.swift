@@ -54,6 +54,11 @@ final class BulkRemovalPlan {
         self.systemExtensions = systemExtensions
     }
 
+    /// The other copies of `app` that stay installed, which share its privacy permissions.
+    func otherCopies(of app: InstalledApp) -> [URL] {
+        bulk?.uninstallations.first { $0.app.url == app.url }?.otherCopies ?? []
+    }
+
     var items: [BulkUninstallation.Item] { bulk?.items ?? [] }
 
     /// The chosen apps already in the Trash that hold a tile in the Dock and a file of their own that can be selected.

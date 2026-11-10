@@ -37,8 +37,14 @@ public enum AppInspector {
         guard let identifier = inspect(url)?.bundleIdentifier, Identifier.isValid(identifier) else { return false }
         let own = PathPattern.comparablePath(of: url)
         let copies = installedApps.filter { $0.bundleIdentifier?.lowercased() == identifier.lowercased() }.map(\.url)
-            + knownCopies(identifier).filter { !isOnAReadOnlyDiskThatEjects($0) }
-        return copies.contains { !isInATrash($0) && PathPattern.comparablePath(of: $0) != own && $0.isThere }
+            + knownCopies(identifier)
+        return copies.contains { PathPattern.comparablePath(of: $0) != own && staysInstalled($0) }
+    }
+
+    /// Whether the app at `url` stays installed: it is there, outside a Trash, and not on a disk that can't be written
+    /// and can be ejected, such as the disk image it came on.
+    static func staysInstalled(_ url: URL) -> Bool {
+        url.isThere && !isInATrash(url) && !isOnAReadOnlyDiskThatEjects(url)
     }
 
     private static func isOnAReadOnlyDiskThatEjects(_ url: URL) -> Bool {

@@ -274283,108 +274283,108 @@
         }
       }
     },
-    "macOS remembers what an app was allowed to access, such as the camera or the microphone, and keeps that after the app is gone. If this is selected, Peel clears it just before the app goes to the Trash, the last moment macOS can still find the app, so the app asks you again if you install it later. This happens only if the app itself is selected." : {
+    "macOS remembers what an app was allowed to access, such as the camera or the microphone, and keeps that after the app is gone. If this is selected, Peel clears it just before the app goes to the Trash, the last moment macOS can still find the app, so the app asks you again if you install it later. This happens only if the app itself is selected, and no other copy of it stays, since macOS keeps one set of permissions for every copy." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS si pamatuje, k čemu měla aplikace povolený přístup, například ke kameře nebo mikrofonu, a uchovává to i poté, co aplikace zmizí. Pokud je tato volba vybraná, Peel tyto údaje vymaže těsně před přesunutím aplikace do koše, v poslední chvíli, kdy ji macOS ještě dokáže najít, takže se vás aplikace po případné opětovné instalaci zeptá znovu. Stane se to, jen pokud je vybraná i samotná aplikace."
+            "value" : "Systém macOS si pamatuje, k čemu měla aplikace povolený přístup, například ke kameře nebo mikrofonu, a uchovává to i poté, co aplikace zmizí. Pokud je tato volba vybraná, Peel tyto údaje vymaže těsně před přesunutím aplikace do koše, v poslední chvíli, kdy ji macOS ještě dokáže najít, takže se vás aplikace po případné opětovné instalaci zeptá znovu. Stane se to, jen pokud je vybraná i samotná aplikace a nezůstává žádná jiná její kopie, protože systém macOS uchovává jednu sadu oprávnění pro všechny kopie."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS merkt sich, worauf eine App zugreifen durfte, etwa auf die Kamera oder das Mikrofon, und behält das auch, nachdem die App entfernt wurde. Ist dies ausgewählt, setzt Peel es zurück, kurz bevor die App in den Papierkorb gelegt wird, denn das ist der letzte Moment, in dem macOS die App noch finden kann. So fragt die App dich erneut, wenn du sie später installierst. Das geschieht nur, wenn die App selbst ausgewählt ist."
+            "value" : "macOS merkt sich, worauf eine App zugreifen durfte, etwa auf die Kamera oder das Mikrofon, und behält das auch, nachdem die App entfernt wurde. Ist dies ausgewählt, setzt Peel es zurück, kurz bevor die App in den Papierkorb gelegt wird, denn das ist der letzte Moment, in dem macOS die App noch finden kann. So fragt die App dich erneut, wenn du sie später installierst. Das geschieht nur, wenn die App selbst ausgewählt ist und keine andere Kopie von ihr bleibt, da macOS für alle Kopien einer App dieselben Berechtigungen speichert."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS recuerda a qué tenía permiso para acceder una app, como la cámara o el micrófono, y lo conserva después de que la app desaparezca. Si esto está seleccionado, Peel lo borra justo antes de que la app vaya a la papelera, el último momento en que macOS aún puede encontrarla, para que la app vuelva a preguntarte si la instalas más adelante. Solo ocurre si la propia app está seleccionada."
+            "value" : "macOS recuerda a qué tenía permiso para acceder una app, como la cámara o el micrófono, y lo conserva después de que la app desaparezca. Si esto está seleccionado, Peel lo borra justo antes de que la app vaya a la papelera, el último momento en que macOS aún puede encontrarla, para que la app vuelva a preguntarte si la instalas más adelante. Solo ocurre si la propia app está seleccionada y no se queda ninguna otra copia suya, ya que macOS guarda un único conjunto de permisos para todas las copias."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS mémorise ce à quoi une app a été autorisée à accéder, comme la caméra ou le micro, et le conserve après la disparition de l’app. Si cette option est cochée, Peel efface ces autorisations juste avant que l’app ne soit placée dans la corbeille, dernier moment où macOS peut encore la trouver : l’app vous les redemandera donc si vous la réinstallez plus tard. Cela ne se produit que si l’app elle-même est sélectionnée."
+            "value" : "macOS mémorise ce à quoi une app a été autorisée à accéder, comme la caméra ou le micro, et le conserve après la disparition de l’app. Si cette option est cochée, Peel efface ces autorisations juste avant que l’app ne soit placée dans la corbeille, dernier moment où macOS peut encore la trouver : l’app vous les redemandera donc si vous la réinstallez plus tard. Cela ne se produit que si l’app elle-même est sélectionnée et qu’aucune autre copie de l’app ne reste en place, car macOS conserve un seul ensemble d’autorisations pour toutes les copies."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS ricorda a cosa un’app aveva il permesso di accedere, come la fotocamera o il microfono, e lo conserva anche dopo che l’app non c’è più. Se questa opzione è selezionata, Peel cancella queste informazioni subito prima che l’app vada nel Cestino, l’ultimo momento in cui macOS riesce ancora a trovarla, così l’app ti chiederà di nuovo il permesso se la reinstalli in futuro. Succede solo se è selezionata l’app stessa."
+            "value" : "macOS ricorda a cosa un’app aveva il permesso di accedere, come la fotocamera o il microfono, e lo conserva anche dopo che l’app non c’è più. Se questa opzione è selezionata, Peel cancella queste informazioni subito prima che l’app vada nel Cestino, l’ultimo momento in cui macOS riesce ancora a trovarla, così l’app ti chiederà di nuovo il permesso se la reinstalli in futuro. Succede solo se è selezionata l’app stessa e non ne resta nessun’altra copia, perché macOS conserva un unico insieme di autorizzazioni per tutte le copie."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSは、カメラやマイクなど、アプリにアクセスを許可したものを記憶していて、アプリがなくなった後もその情報を保持します。これを選択すると、Peelはアプリがゴミ箱に入る直前（macOSがまだアプリを見つけられる最後のタイミング）にその情報を消去します。そのため、後でアプリをインストールすると、アプリから再び許可を求められます。これは、アプリ本体が選択されている場合にのみ行われます。"
+            "value" : "macOSは、カメラやマイクなど、アプリにアクセスを許可したものを記憶していて、アプリがなくなった後もその情報を保持します。これを選択すると、Peelはアプリがゴミ箱に入る直前（macOSがまだアプリを見つけられる最後のタイミング）にその情報を消去します。そのため、後でアプリをインストールすると、アプリから再び許可を求められます。これは、アプリ本体が選択されていて、ほかにそのアプリのコピーが残らない場合にのみ行われます。macOSは、すべてのコピーに共通の権限を1組だけ保持しているためです。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS는 카메라나 마이크처럼 앱에 접근이 허용된 항목을 기억하며, 앱이 사라진 후에도 이 정보를 유지합니다. 이 항목을 선택하면 Peel은 앱이 휴지통으로 이동하기 직전, 즉 macOS가 아직 앱을 찾을 수 있는 마지막 순간에 이 정보를 지우므로, 나중에 앱을 다시 설치하면 앱이 다시 권한을 요청합니다. 이 작업은 앱 자체가 선택된 경우에만 수행됩니다."
+            "value" : "macOS는 카메라나 마이크처럼 앱에 접근이 허용된 항목을 기억하며, 앱이 사라진 후에도 이 정보를 유지합니다. 이 항목을 선택하면 Peel은 앱이 휴지통으로 이동하기 직전, 즉 macOS가 아직 앱을 찾을 수 있는 마지막 순간에 이 정보를 지우므로, 나중에 앱을 다시 설치하면 앱이 다시 권한을 요청합니다. 이 작업은 앱 자체가 선택되어 있고 앱의 다른 복사본이 남지 않는 경우에만 수행됩니다. macOS는 앱의 모든 복사본에 대해 하나의 권한 설정을 유지하기 때문입니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS onthoudt waartoe een app toegang had, zoals de camera of de microfoon, en bewaart dat nadat de app weg is. Als dit is geselecteerd, wist Peel dat vlak voordat de app naar de prullenmand gaat, het laatste moment waarop macOS de app nog kan vinden, zodat de app je opnieuw om toestemming vraagt als je die later weer installeert. Dit gebeurt alleen als de app zelf is geselecteerd."
+            "value" : "macOS onthoudt waartoe een app toegang had, zoals de camera of de microfoon, en bewaart dat nadat de app weg is. Als dit is geselecteerd, wist Peel dat vlak voordat de app naar de prullenmand gaat, het laatste moment waarop macOS de app nog kan vinden, zodat de app je opnieuw om toestemming vraagt als je die later weer installeert. Dit gebeurt alleen als de app zelf is geselecteerd en er geen andere kopie van de app blijft staan, omdat macOS voor alle kopieën samen één set toestemmingen bewaart."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS pamięta, do czego aplikacja miała dostęp, na przykład do kamery lub mikrofonu, i zachowuje to także po jej zniknięciu. Jeśli ta opcja jest zaznaczona, Peel czyści te informacje tuż przed przeniesieniem aplikacji do Kosza, czyli w ostatniej chwili, gdy macOS może ją jeszcze znaleźć, więc jeśli zainstalujesz ją później, aplikacja znów Cię zapyta. Dzieje się tak tylko wtedy, gdy zaznaczona jest sama aplikacja."
+            "value" : "macOS pamięta, do czego aplikacja miała dostęp, na przykład do kamery lub mikrofonu, i zachowuje to także po jej zniknięciu. Jeśli ta opcja jest zaznaczona, Peel czyści te informacje tuż przed przeniesieniem aplikacji do Kosza, czyli w ostatniej chwili, gdy macOS może ją jeszcze znaleźć, więc jeśli zainstalujesz ją później, aplikacja znów Cię zapyta. Dzieje się tak tylko wtedy, gdy zaznaczona jest sama aplikacja i nie zostaje żadna inna jej kopia, ponieważ macOS przechowuje jeden zestaw uprawnień dla wszystkich kopii."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS lembra o que um app teve permissão para acessar, como a câmera ou o microfone, e guarda isso depois que o app vai embora. Se esta opção estiver selecionada, o Peel limpa isso logo antes de o app ir para o Lixo, o último momento em que o macOS ainda consegue encontrar o app, para que o app peça de novo se você o instalar mais tarde. Isso só acontece se o próprio app estiver selecionado."
+            "value" : "O macOS lembra o que um app teve permissão para acessar, como a câmera ou o microfone, e guarda isso depois que o app vai embora. Se esta opção estiver selecionada, o Peel limpa isso logo antes de o app ir para o Lixo, o último momento em que o macOS ainda consegue encontrar o app, para que o app peça de novo se você o instalar mais tarde. Isso só acontece se o próprio app estiver selecionado e se nenhuma outra cópia dele permanecer, já que o macOS guarda um único conjunto de permissões para todas as cópias."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS reține ce i s‑a permis unei aplicații să acceseze, cum ar fi camera sau microfonul, și păstrează aceste informații după ce aplicația dispare. Dacă această opțiune este selectată, Peel le resetează chiar înainte ca aplicația să fie mutată în Coș, ultimul moment în care macOS mai poate găsi aplicația, astfel încât aplicația vă va întreba din nou dacă o instalați mai târziu. Acest lucru se întâmplă doar dacă aplicația însăși este selectată."
+            "value" : "macOS reține ce i s‑a permis unei aplicații să acceseze, cum ar fi camera sau microfonul, și păstrează aceste informații după ce aplicația dispare. Dacă această opțiune este selectată, Peel le resetează chiar înainte ca aplicația să fie mutată în Coș, ultimul moment în care macOS mai poate găsi aplicația, astfel încât aplicația vă va întreba din nou dacă o instalați mai târziu. Acest lucru se întâmplă doar dacă aplicația însăși este selectată și nu rămâne nicio altă copie a ei, deoarece macOS păstrează un singur set de permisiuni pentru toate copiile."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS помнит, к чему приложению разрешили доступ, например к камере или микрофону, и хранит это даже после удаления приложения. Если этот параметр выбран, Peel очищает эти разрешения непосредственно перед перемещением приложения в Корзину (это последний момент, когда macOS еще может найти приложение), поэтому, если Вы позже установите его снова, оно спросит Вас заново. Это происходит, только если выбрано само приложение."
+            "value" : "macOS помнит, к чему приложению разрешили доступ, например к камере или микрофону, и хранит это даже после удаления приложения. Если этот параметр выбран, Peel очищает эти разрешения непосредственно перед перемещением приложения в Корзину (это последний момент, когда macOS еще может найти приложение), поэтому, если Вы позже установите его снова, оно спросит Вас заново. Это происходит, только если выбрано само приложение и не остается ни одной другой его копии, поскольку macOS хранит один набор разрешений для всех копий."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS kommer ihåg vad en app har fått komma åt, till exempel kameran eller mikrofonen, och behåller det efter att appen är borta. Om det här är markerat rensar Peel det precis innan appen flyttas till papperskorgen, i sista stund då macOS fortfarande kan hitta appen, så att appen frågar dig igen om du installerar den senare. Det sker bara om själva appen är markerad."
+            "value" : "macOS kommer ihåg vad en app har fått komma åt, till exempel kameran eller mikrofonen, och behåller det efter att appen är borta. Om det här är markerat rensar Peel det precis innan appen flyttas till papperskorgen, i sista stund då macOS fortfarande kan hitta appen, så att appen frågar dig igen om du installerar den senare. Det sker bara om själva appen är markerad och ingen annan kopia av den blir kvar, eftersom macOS sparar en enda uppsättning behörigheter för alla kopior."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS, bir uygulamanın kamera veya mikrofon gibi nelere erişmesine izin verildiğini hatırlar ve uygulama gittikten sonra da bunu tutar. Bu seçiliyse Peel, uygulama Çöp Sepeti’ne gitmeden hemen önce, yani macOS’in uygulamayı hâlâ bulabildiği son anda bu kaydı temizler; böylece uygulamayı daha sonra yüklerseniz uygulama sizden yeniden izin ister. Bu yalnızca uygulamanın kendisi seçiliyse olur."
+            "value" : "macOS, bir uygulamanın kamera veya mikrofon gibi nelere erişmesine izin verildiğini hatırlar ve uygulama gittikten sonra da bunu tutar. Bu seçiliyse Peel, uygulama Çöp Sepeti’ne gitmeden hemen önce, yani macOS’in uygulamayı hâlâ bulabildiği son anda bu kaydı temizler; böylece uygulamayı daha sonra yüklerseniz uygulama sizden yeniden izin ister. Bu yalnızca uygulamanın kendisi seçiliyse ve başka hiçbir kopyası kalmıyorsa olur, çünkü macOS tüm kopyalar için ortak tek bir izin kümesi tutar."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS памʼятає, до чого програмі було дозволено доступ, як-от до камери чи мікрофона, і зберігає це навіть після того, як програми вже немає. Якщо це вибрано, Peel очищає ці дозволи безпосередньо перед тим, як програма потрапить у Смітник (це останній момент, коли macOS ще може її знайти), тож програма знову запитає вас, якщо ви пізніше її інсталюєте. Це відбувається, лише якщо вибрано саму програму."
+            "value" : "macOS памʼятає, до чого програмі було дозволено доступ, як-от до камери чи мікрофона, і зберігає це навіть після того, як програми вже немає. Якщо це вибрано, Peel очищає ці дозволи безпосередньо перед тим, як програма потрапить у Смітник (це останній момент, коли macOS ще може її знайти), тож програма знову запитає вас, якщо ви пізніше її інсталюєте. Це відбувається, лише якщо вибрано саму програму й жодна інша її копія не лишається, бо macOS зберігає один набір дозволів для всіх копій."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS会记住App获准访问的内容（例如摄像头或麦克风），并在App移除后仍保留这些记录。如果选择了此项，Peel会在App移到废纸篓之前清除这些记录，这是macOS还能找到该App的最后时刻；这样以后你再安装该App时，它会重新征求你的许可。仅当App本身被选择时才会这样做。"
+            "value" : "macOS会记住App获准访问的内容（例如摄像头或麦克风），并在App移除后仍保留这些记录。如果选择了此项，Peel会在App移到废纸篓之前清除这些记录，这是macOS还能找到该App的最后时刻；这样以后你再安装该App时，它会重新征求你的许可。仅当App本身被选择，并且没有该App的其他副本留下时，才会这样做，因为macOS为一个App的所有副本只保留一组权限。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS會記住App獲准取用的項目（例如相機或麥克風），並在App移除後仍保留這些記錄。若選取此選項，Peel會在App丟到「垃圾桶」的前一刻將其清除，這是macOS仍能找到該App的最後時機，因此日後你若重新安裝此App，它會再次向你詢問。只有在App本身已選取時才會這麼做。"
+            "value" : "macOS會記住App獲准取用的項目（例如相機或麥克風），並在App移除後仍保留這些記錄。若選取此選項，Peel會在App丟到「垃圾桶」的前一刻將其清除，這是macOS仍能找到該App的最後時機，因此日後你若重新安裝此App，它會再次向你詢問。只有在App本身已選取，且沒有其他副本留下時才會這麼做，因為macOS會為所有副本保留同一組權限。"
           }
         }
       }

@@ -1449,6 +1449,12 @@ struct CommandLineTests {
 
         #expect(throws: CommandFailure.self) { try UninstallCommand.refuseIfPrivacyCannotBeReset(signal) }
         try UninstallCommand.refuseIfPrivacyCannotBeReset(editor)
+        let kept = URL(filePath: "/Users/me/Applications/Editor.app", directoryHint: .isDirectory)
+        let shared = #expect(throws: CommandFailure.self) {
+            try UninstallCommand.refuseIfPrivacyIsShared(of: editor, withCopies: [kept])
+        }
+        #expect(shared?.description.contains("/Users/me/Applications/Editor.app") == true)
+        try UninstallCommand.refuseIfPrivacyIsShared(of: editor, withCopies: [])
         let command = try #require(try PeelCommand.parseAsRoot(["uninstall", "Editor", "--reset-privacy", "--yes"]) as? UninstallCommand)
         #expect(command.resetPrivacy)
     }

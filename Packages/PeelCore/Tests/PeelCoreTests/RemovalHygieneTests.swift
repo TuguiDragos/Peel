@@ -949,6 +949,18 @@ struct PrivacyResetTests {
         #expect(PrivacyReset.apps(among: [editor, notes, safari], moving: selected).map(\.bundleIdentifier) == ["com.example.editor"])
     }
 
+    @Test func leavesThePrivacyPermissionsACopyThatStaysShares() {
+        let stray = InstalledApp(
+            url: URL(filePath: "/Users/me/Downloads/Editor.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.example.editor", name: "Editor"
+        )
+        let kept = URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory)
+
+        #expect(PrivacyReset.apps(among: [stray], moving: [stray.url], copies: { _ in [kept] }).isEmpty)
+        let both = PrivacyReset.apps(among: [stray], moving: [stray.url, kept], copies: { _ in [kept] })
+        #expect(both.map(\.url) == [stray.url])
+    }
+
     /// Each app of a batch gets one answer, in order, and `tccutil` is never run for an app Peel refuses.
     @Test func answersForEachAppOfABatch() async throws {
         let directory = try TemporaryDirectory()

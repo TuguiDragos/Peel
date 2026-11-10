@@ -479,7 +479,7 @@ struct AppDetailView: View {
     /// The app, when a removal of `urls` resets its privacy permissions.
     private func resetting(_ urls: Set<URL>) -> [InstalledApp] {
         guard !urls.isEmpty, plan.resetsPrivacy else { return [] }
-        return PrivacyReset.apps(among: [plan.app], moving: urls)
+        return PrivacyReset.apps(among: [plan.app], moving: urls) { _ in plan.otherCopies }
     }
 
     /// The confirmation's message: what the removal does that History can't undo, and what the app leaves behind.
@@ -610,7 +610,10 @@ private struct AppRemovalOptions: View {
 
     var body: some View {
         if !PrivacyReset.apps(among: [plan.app], moving: plan.selectable).isEmpty {
-            PrivacyResetRow(isOn: Bindable(plan).resetsPrivacy, detail: PrivacyResetRow.beforeTheMove)
+            PrivacyResetRow(
+                isOn: Bindable(plan).resetsPrivacy, detail: PrivacyResetRow.beforeTheMove,
+                isAvailable: plan.otherCopies.isEmpty
+            )
         }
         if plan.hasDockTile,
            plan.selectable.contains(plan.app.url) || plan.isAppInTheTrash && !plan.selectable.isEmpty {
