@@ -1774,6 +1774,23 @@ struct TrashServiceTests {
         #expect(result.failures.map(\.url) == [stayed])
     }
 
+    /// A helper that answered without a word about an item didn't fail to answer, so it isn't said to.
+    @Test func anAnswerSilentAboutAnItemIsNotCalledNoAnswer() throws {
+        let directory = try TemporaryDirectory()
+        let trash = try directory.directory("home/.Trash")
+        let stayed = try directory.file("root/Library/Application Support/Vendor/stayed.db")
+        let reply = HelperTrashReply(moved: [:], failed: [:])
+
+        let result = PrivilegedHelper.result(
+            for: [stayed], reply: reply, links: [stayed: FileIdentity.Link.of(stayed)], trash: trash
+        )
+
+        #expect(result.failures.map(\.reason) == [.failed(PrivilegedHelper.saidNothing)])
+        #expect(PrivilegedHelper.unavailable.hasSuffix("Repair it in Peel’s Settings."))
+        #expect(FixedSentence("Peel’s helper isn’t available.") == .helperUnavailable)
+        #expect(FixedSentence(PrivilegedHelper.saidNothing) == .helperSaidNothing)
+    }
+
     @Test func aMakersFolderEmptiedThroughTheHelperGoesThroughIt() async throws {
         let directory = try TemporaryDirectory()
         let trash = try directory.directory("home/.Trash")

@@ -43,7 +43,8 @@ extension FixedSentence {
         case .receiptMisplaced: "The receipt isn’t where macOS keeps receipts."
         case .receiptForgotten: "It was already forgotten."
         case .homebrewNotInstalled: "Homebrew isn’t installed."
-        case .helperUnavailable: "Peel’s helper isn’t available."
+        case .helperUnavailable: "Peel’s helper isn’t answering. Repair it in Peel’s Settings."
+        case .helperSaidNothing: "Peel’s helper said nothing about this one, so Peel doesn’t know what became of it."
         case .homebrewElsewhere: "Peel upgrades and uninstalls only with a Homebrew where Homebrew installs itself."
         }
     }

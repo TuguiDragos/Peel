@@ -163438,6 +163438,112 @@
         }
       }
     },
+    "Peel’s helper isn’t answering. Repair it in Peel’s Settings." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocník Peelu neodpovídá. Opravte ho v Nastavení Peelu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel antwortet nicht. Repariere es in den Peel-Einstellungen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El asistente de Peel no responde. Repáralo en los ajustes de Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire de Peel ne répond pas. Réparez-le dans les Réglages de Peel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente di Peel non risponde. Riparalo nelle Impostazioni di Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーが応答しません。Peelの“設定”で修復してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램이 응답하지 않습니다. Peel 설정에서 복구하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel reageert niet. Herstel het in de instellingen van Peel."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnik Peel nie odpowiada. Napraw go w Ustawieniach Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar do Peel não está respondendo. Repare-o nos Ajustes do Peel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel nu răspunde. Reparați‑l din configurările Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник Peel не отвечает. Исправьте его в Настройках Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram svarar inte. Reparera det i Peels inställningar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı yanıt vermiyor. Onu Peel Ayarları’nda onarın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник Peel не відповідає. Полагодьте його в Параметрах Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的帮助程序没有响应。请在Peel的“设置”中修复它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的輔助程式沒有回應。請在Peel的「設定」中修復它。"
+          }
+        }
+      }
+    },
     "Peel’s helper isn’t answering. Repair it in Settings." : {
       "localizations" : {
         "cs" : {
@@ -163646,112 +163752,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel的輔助程式沒有回應。修復時會安裝此版本Peel適用的輔助程式。"
-          }
-        }
-      }
-    },
-    "Peel’s helper isn’t available." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocník Peelu není k dispozici."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Hilfsprogramm von Peel ist nicht verfügbar."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El asistente de Peel no está disponible."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’utilitaire de Peel n’est pas disponible."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’assistente di Peel non è disponibile."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelのヘルパーを利用できません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel 보조 프로그램을 사용할 수 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het hulpprogramma van Peel is niet beschikbaar."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocnik Peel jest niedostępny."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O auxiliar do Peel não está disponível."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instrumentul de ajutor Peel nu este disponibil."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помощник Peel недоступен."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peels hjälpprogram är inte tillgängligt."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel’in yardımcısı kullanılamıyor."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помічник Peel недоступний."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel的帮助程序不可用。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無法使用Peel的輔助程式。"
           }
         }
       }
@@ -163970,6 +163970,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel的輔助程式在處理到此項目之前就已逾時，因此它仍留在原處。請再試一次。"
+          }
+        }
+      }
+    },
+    "Peel’s helper said nothing about this one, so Peel doesn’t know what became of it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocník Peelu o této položce nic neřekl, takže Peel neví, co se s ní stalo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel hat zu diesem Objekt nichts gemeldet, daher weiß Peel nicht, was daraus geworden ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El asistente de Peel no ha dicho nada sobre este ítem, así que Peel no sabe qué ha sido de él."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire de Peel n’a rien dit au sujet de cet élément : Peel ne sait donc pas ce qu’il est devenu."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente di Peel non ha detto nulla su questo elemento, quindi Peel non sa che fine abbia fatto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーからこの項目について何も報告がなかったため、Peelはこの項目がどうなったかわかりません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램이 이 항목에 대해 아무것도 알려 주지 않았으므로 Peel은 이 항목이 어떻게 되었는지 알 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel heeft hier niets over gemeld, dus Peel weet niet wat ermee is gebeurd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnik Peel nic nie powiedział o tej rzeczy, więc Peel nie wie, co się z nią stało."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar do Peel não disse nada sobre este item, então o Peel não sabe o que aconteceu com ele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel nu a spus nimic despre acest articol, așa că Peel nu știe ce s‑a întâmplat cu el."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник Peel ничего не сообщил об этом объекте, поэтому Peel не знает, что с ним стало."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram sa ingenting om det här, så Peel vet inte vad som hände med det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı bu öğe hakkında hiçbir şey söylemedi, bu yüzden Peel ona ne olduğunu bilmiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник Peel нічого не повідомив про цей елемент, тож Peel не знає, що з ним сталося."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的帮助程序没有提及此项，因此Peel不知道它最后怎么样了。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的輔助程式沒有提到此項目，因此Peel不知道它的結果如何。"
           }
         }
       }

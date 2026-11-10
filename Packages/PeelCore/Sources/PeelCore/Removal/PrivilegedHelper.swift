@@ -4,7 +4,9 @@ import ServiceManagement
 import Synchronization
 
 public enum PrivilegedHelper {
-    static let unavailable = "Peel’s helper isn’t available."
+    static let unavailable = "Peel’s helper isn’t answering. Repair it in Peel’s Settings."
+    /// What is said of an item a helper's answer leaves out, which is no sign the helper didn't answer.
+    static let saidNothing = "Peel’s helper said nothing about this one, so Peel doesn’t know what became of it."
     /// What is said of an item still in its place when the helper's answer never came: a helper held up in a move
     /// may still take it, and a line written before the request brings it into History once Peel opens again.
     static let mayStillMove = "Peel’s helper didn’t answer in time, so whether it moved this isn’t known. If it did, History lists it the next time Peel opens."
@@ -324,7 +326,7 @@ public enum PrivilegedHelper {
                 // Nothing was there when the request went, nor is now: neither moved nor a failure.
                 continue
             } else {
-                let reason = reply.map { $0.failed[path] ?? Self.unavailable } ?? Self.mayStillMove
+                let reason = reply.map { $0.failed[path] ?? Self.saidNothing } ?? Self.mayStillMove
                 result.failures.append(TrashFailure(url: url, reason: .failed(reason)))
             }
         }

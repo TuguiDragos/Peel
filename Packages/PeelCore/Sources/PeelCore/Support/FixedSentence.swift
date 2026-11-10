@@ -16,6 +16,7 @@ public enum FixedSentence: CaseIterable, Sendable {
     case anotherDisk, ranOutOfTime, helperMayStillMove
     case toolTimedOut, toolStopped, notOnItsOwn
     case receiptMisplaced, receiptForgotten, homebrewNotInstalled, helperUnavailable, homebrewElsewhere
+    case helperSaidNothing
 
     public init?(_ message: String) {
         guard let found = Self.allCases.first(where: { $0.english == message || $0.englishBefore.contains(message) })
@@ -23,12 +24,14 @@ public enum FixedSentence: CaseIterable, Sendable {
         self = found
     }
 
-    /// What a helper of an earlier version sends for the same thing, since an update can leave one running.
+    /// The English an earlier version used for the same thing: a helper an update left running still sends it, and
+    /// History keeps the words a removal was refused in.
     var englishBefore: [String] {
         switch self {
         case .helperOutOfDate: ["Peel’s helper is out of date. Reinstall it in Settings."]
         case .leadsSomewhere: ["It still leads to something on this Mac."]
         case .declaredTwice: ["Two files declare this job."]
+        case .helperUnavailable: ["Peel’s helper isn’t available."]
         default: []
         }
     }
@@ -75,6 +78,7 @@ public enum FixedSentence: CaseIterable, Sendable {
         case .receiptForgotten: PackageActions.forgottenReceipt
         case .homebrewNotInstalled: Homebrew.notInstalled
         case .helperUnavailable: PrivilegedHelper.unavailable
+        case .helperSaidNothing: PrivilegedHelper.saidNothing
         case .homebrewElsewhere: Homebrew.changesOnlyWhereHomebrewInstallsItself
         }
     }
