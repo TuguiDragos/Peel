@@ -140902,6 +140902,112 @@
         }
       }
     },
+    "Peel can’t read your Trash folder, so it isn’t watching it. The folder’s permissions keep this account out." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže přečíst složku vašeho koše, a proto ji nesleduje. Oprávnění této složky neumožňují tomuto účtu přístup."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann den Ordner deines Papierkorbs nicht lesen und beobachtet ihn daher nicht. Die Zugriffsrechte des Ordners verwehren diesem Benutzeraccount den Zugriff."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede leer tu carpeta de la papelera, así que no la está vigilando. Los permisos de la carpeta impiden el acceso a esta cuenta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas lire le dossier de votre corbeille et ne la surveille donc pas. Les autorisations de ce dossier en interdisent l’accès à ce compte."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non riesce a leggere la cartella del tuo Cestino, quindi non la monitora. I permessi della cartella non consentono l’accesso a questo account."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはゴミ箱フォルダを読み取れないため、ゴミ箱を監視していません。フォルダのアクセス権により、このアカウントはアクセスできません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 휴지통 폴더를 읽을 수 없으므로 휴지통을 지켜보고 있지 않습니다. 폴더의 권한 설정 때문에 이 계정은 접근할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan de map van je prullenmand niet lezen, dus houdt Peel die niet in de gaten. De toegangsrechten van de map houden deze account buiten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może odczytać Twojego folderu Kosza, więc go nie obserwuje. Uprawnienia tego folderu nie dają temu kontu dostępu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue ler a pasta do seu Lixo, então não está monitorando o Lixo. As permissões da pasta impedem o acesso desta conta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu vă poate citi dosarul Coș, așa că nu îl urmărește. Permisiunile dosarului nu permit accesul acestui cont."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удается прочитать папку Вашей Корзины, поэтому он за ней не следит. Права доступа к этой папке не пускают в нее эту учетную запись."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte läsa mappen för din papperskorg, så Peel bevakar den inte. Mappens behörigheter stänger ute det här kontot."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, Çöp Sepeti klasörünüzü okuyamıyor, bu yüzden onu izlemiyor. Klasörün izinleri bu hesabın erişimini engelliyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може прочитати папку вашого Смітника, тож не стежить за нею. Дозволи цієї папки не пускають до неї цей обліковий запис."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法读取你的废纸篓文件夹，因此没有在监视它。该文件夹的权限不允许此账户访问。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取你的「垃圾桶」檔案夾，因此不會監看它。該檔案夾的權限不允許此帳號存取。"
+          }
+        }
+      }
+    },
     "Peel can’t run this file." : {
       "localizations" : {
         "cs" : {

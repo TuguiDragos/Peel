@@ -144,6 +144,23 @@ struct TrashWatchTests {
         #expect(arrived.map(\.url.lastPathComponent) == ["Example.app"])
     }
 
+    @Test func aTrashClosedByPermissionsIsNoMatterOfFullDiskAccess() throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let trash = folder.appending(path: "Trash", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: trash, withIntermediateDirectories: true)
+        let path = trash.path(percentEncoded: false)
+        try FileManager.default.setAttributes([.posixPermissions: 0], ofItemAtPath: path)
+        defer {
+            try? FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: path)
+            try? FileManager.default.removeItem(at: folder)
+        }
+        let watch = TrashWatch(trash: trash, waitsIn: folder) { _ in }
+        defer { watch.stop() }
+
+        #expect(watch.start() == .closedByPermissions)
+        #expect(TrashMonitor.Status(.closedByPermissions) == .closedByPermissions)
+    }
+
     @Test func waitsForATrashThatIsNotThereYet() throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)

@@ -296,6 +296,8 @@ private struct GeneralSettingsView: View {
                             home.openFullDiskAccessSettings()
                         }
                     }
+                } else if watchesTrash, trashMonitor.status == .closedByPermissions {
+                    StatusLabel(title: Text("Peel can’t read your Trash folder, so it isn’t watching it. The folder’s permissions keep this account out."))
                 } else if watchesTrash, trashMonitor.status == .unavailable {
                     StatusLabel(title: Text("Peel isn’t watching the Trash right now. It tries again each time you come back to Peel."))
                 }

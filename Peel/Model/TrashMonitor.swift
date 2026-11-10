@@ -18,8 +18,19 @@ final class TrashMonitor {
         case off
         case watching
         case needsFullDiskAccess
+        /// The Trash folder's own permissions keep this account out, which Full Disk Access doesn't change.
+        case closedByPermissions
         /// Asked to watch, and the Trash could not be watched.
         case unavailable
+
+        init(_ start: TrashWatch.Start) {
+            self = switch start {
+            case .watching: .watching
+            case .refused: .needsFullDiskAccess
+            case .closedByPermissions: .closedByPermissions
+            case .unavailable: .unavailable
+            }
+        }
     }
 
     /// The home Trash's watch, the one macOS keeps behind Full Disk Access.
@@ -46,23 +57,17 @@ final class TrashMonitor {
         // Finder makes the home's Trash again only when something is next thrown away, so while it is missing the
         // home folder is watched for it.
         let watch = TrashWatch(trash: trash, waitsIn: .homeDirectory) { [weak self] in self?.onApplicationTrashed?($0) }
-        switch watch.start() {
-        case .watching:
-            home = watch
-            status = .watching
-        case .refused:
+        let started = watch.start()
+        status = Status(started)
+        guard started == .watching else {
             OwnTrashMoves.shared.whenSettled(nil)
-            status = .needsFullDiskAccess
-            return
-        case .unavailable:
-            OwnTrashMoves.shared.whenSettled(nil)
-            status = .unavailable
             return
         }
+        home = watch
         watch.onRestart = { [weak self] result in
             guard result != .watching else { return }
             self?.stop()
-            self?.status = result == .refused ? .needsFullDiskAccess : .unavailable
+            self?.status = Status(result)
         }
         startVolumes()
     }
@@ -109,8 +114,10 @@ final class TrashMonitor {
 final class TrashWatch {
     enum Start {
         case watching
-        /// macOS refused to let Peel look, which for the home's Trash means Full Disk Access is missing.
+        /// macOS's privacy protection refused to let Peel look, which for the home's Trash means Full Disk Access is
+        /// missing.
         case refused
+        case closedByPermissions
         case unavailable
     }
 
@@ -145,9 +152,13 @@ final class TrashWatch {
         }
         guard descriptor >= 0, let names = Self.names(in: trash) else {
             if descriptor >= 0 { close(descriptor) }
-            // Only a refusal from macOS means Full Disk Access is missing. No Trash yet, or no descriptors left,
-            // leaves the watch off instead.
-            return descriptor >= 0 || [EPERM, EACCES].contains(failure) ? .refused : .unavailable
+            // Only a refusal from macOS's privacy protection means Full Disk Access is missing.
+            let refusal = descriptor >= 0 ? FullDiskAccess.whyUnlistable(trash) : FullDiskAccess.Refusal(error: failure)
+            return switch refusal {
+            case .privacy: .refused
+            case .permissions: .closedByPermissions
+            case .other, nil: .unavailable
+            }
         }
         known = appeared ? [] : names
         watch(descriptor)

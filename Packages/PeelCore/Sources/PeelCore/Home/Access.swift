@@ -30,15 +30,37 @@ public enum FullDiskAccess {
         return .unknown
     }
 
-    /// Tries to list `url`. A privacy (TCC) refusal fails with `EPERM`, which means access is missing. Any other
-    /// error is unknown: `EACCES`, for example, comes from ordinary permissions, such as a `.Trash` that `sudo`
-    /// left owned by root.
-    static func canList(_ url: URL) -> AccessState {
-        guard let directory = opendir(url.path(percentEncoded: false)) else {
-            return errno == EPERM ? .missing : .unknown
+    /// Why a folder can't be opened or listed: macOS's privacy (TCC) protection fails with `EPERM`, which Full Disk
+    /// Access lifts, and the folder's own permissions with `EACCES`, which it doesn't change, as for a `.Trash` that
+    /// `sudo` left owned by root.
+    public enum Refusal: Sendable, Hashable {
+        case privacy
+        case permissions
+        case other
+
+        public init(error: Int32) {
+            self = switch error {
+            case EPERM: .privacy
+            case EACCES: .permissions
+            default: .other
+            }
         }
+    }
+
+    public static func whyUnlistable(_ url: URL) -> Refusal? {
+        guard let directory = opendir(url.path(percentEncoded: false)) else { return Refusal(error: errno) }
         closedir(directory)
-        return .granted
+        return nil
+    }
+
+    /// Whether `url` can be listed: missing only when macOS's privacy protection refused it, unknown for any other
+    /// refusal.
+    static func canList(_ url: URL) -> AccessState {
+        switch whyUnlistable(url) {
+        case nil: .granted
+        case .privacy: .missing
+        case .permissions, .other: .unknown
+        }
     }
 
     /// Whether Peel offers to reopen itself: Full Disk Access is still missing, and System Settings, where it is turned
