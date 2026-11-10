@@ -13,6 +13,25 @@ final class Navigator {
     /// An app to open in Applications, as a Shortcut found it on disk, so an app of the same name is never the one
     /// opened, and one installed a moment ago opens before the list has it.
     var requestedApp: URL?
+    /// An app a `peel://open` link named, opened in Applications once Peel could read it.
+    var openedApp: URL?
+    /// What waits for an app to quit before moving it. A request from outside Peel waits for it too, since the page it
+    /// would replace gives that move up when it goes.
+    private(set) var waitingForAQuit: Set<ObjectIdentifier> = []
+
+    func noteWaitingForAQuit(_ waiter: AnyObject, _ isWaiting: Bool) {
+        if isWaiting {
+            waitingForAQuit.insert(ObjectIdentifier(waiter))
+        } else {
+            waitingForAQuit.remove(ObjectIdentifier(waiter))
+        }
+    }
+
+    /// Whether a request from outside Peel may change the page now: not under a sheet or a question, where the menus
+    /// can't change it either, and not while something waits for an app to quit.
+    func mayApplyRequests(windowHasASheet: Bool) -> Bool {
+        !windowHasASheet && waitingForAQuit.isEmpty
+    }
     /// The app's own action for opening a window, given at launch, which works whatever window is open or closed.
     @ObservationIgnored var openWindow: OpenWindowAction?
 

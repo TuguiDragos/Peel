@@ -17,13 +17,19 @@ final class QuitBeforeRemoving {
     /// Whether the alert that offers to force what did not quit is up.
     var isOfferingToForce = false
     /// True from the moment they are asked to quit until none runs or the person gives up.
-    private(set) var isWaiting = false
+    private(set) var isWaiting = false {
+        didSet { Navigator.shared.noteWaitingForAQuit(self, isWaiting) }
+    }
     @ObservationIgnored private var goOn: (() -> Void)?
     @ObservationIgnored private var following: Task<Void, Never>?
 
     /// How long a quitting app is given before forcing it is offered. An app takes a moment to quit, and one still
     /// open after this is most likely waiting for the person.
     private static let patience: Duration = .seconds(10)
+
+    isolated deinit {
+        Navigator.shared.noteWaitingForAQuit(self, false)
+    }
 
     /// The names of what still runs, for the alerts.
     var names: String {

@@ -147,11 +147,20 @@ struct ContentView: View {
         // The page changes only for a bundle that is an app, since any app or web page can send the link.
         .onOpenURL { url in
             guard let applicationURL = OpenRequest.applicationURL(from: url) else { return }
-            Task {
-                if await library.revealRequested([applicationURL]) {
-                    show(.applications)
-                }
-            }
+            navigator.openedApp = applicationURL
+            applyPendingRequest()
+        }
+        // A request that waited under a sheet, or for an app to quit, is applied once that is over.
+        .onReceive(NotificationCenter.default.publisher(for: NSWindow.didEndSheetNotification)) { notice in
+            guard notice.object as? NSWindow === hostWindow.value else { return }
+            Task { applyPendingRequest() }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)) { notice in
+            guard notice.object as? NSWindow === hostWindow.value else { return }
+            applyPendingRequest()
+        }
+        .onChange(of: navigator.waitingForAQuit.isEmpty) { _, isEmpty in
+            if isEmpty { applyPendingRequest() }
         }
         // A request made while the window was closed (from a Shortcut, the Finder extension, or the menu bar
         // panel) is already set when this view appears, and `onChange` only fires on a change, so anything
@@ -179,15 +188,11 @@ struct ContentView: View {
         .onChange(of: helper.canAct) { _, canAct in
             history.canUseHelper = canAct
         }
-        .onChange(of: navigator.requestedTool) { _, requested in
-            guard let requested else { return }
-            show(requested)
-            navigator.requestedTool = nil
+        .onChange(of: navigator.requestedTool) {
+            applyPendingRequest()
         }
-        .onChange(of: navigator.requestedApp) { _, app in
-            guard let app, library.hasLoaded else { return }
-            navigator.requestedApp = nil
-            Task { await library.reveal([app]) }
+        .onChange(of: navigator.requestedApp) {
+            applyPendingRequest()
         }
     }
 
@@ -395,6 +400,7 @@ struct ContentView: View {
     }
 
     private func applyPendingRequest() {
+        guard navigator.mayApplyRequests(windowHasASheet: hostWindow.value?.attachedSheet != nil) else { return }
         if let requested = navigator.requestedTool {
             show(requested)
             navigator.requestedTool = nil
@@ -402,6 +408,14 @@ struct ContentView: View {
         if let app = navigator.requestedApp, library.hasLoaded {
             navigator.requestedApp = nil
             Task { await library.reveal([app]) }
+        }
+        if let opened = navigator.openedApp {
+            navigator.openedApp = nil
+            Task {
+                if await library.revealRequested([opened]) {
+                    show(.applications)
+                }
+            }
         }
     }
 
