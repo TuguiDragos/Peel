@@ -244558,108 +244558,108 @@
         }
       }
     },
-    "What removed apps left behind appears here: files named with an app’s identifier that no installed app claims, and what Peel saw an app leave." : {
+    "What removed apps left behind appears here: files named for an app that isn’t installed, and files of apps Peel saw removed." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zde se zobrazí, co po sobě zanechaly odstraněné aplikace: soubory pojmenované podle identifikátoru aplikace, ke kterým se nehlásí žádná nainstalovaná aplikace, a také to, o čem Peel viděl, že po aplikaci zůstalo."
+            "value" : "Zde se zobrazí, co po sobě zanechaly odstraněné aplikace: soubory pojmenované podle aplikace, která není nainstalovaná, a soubory aplikací, u kterých Peel viděl, že byly odstraněny."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Was entfernte Apps hinterlassen haben, wird hier angezeigt: Dateien, die nach der ID einer App benannt sind und die keine installierte App beansprucht, und was Peel beim Verschwinden einer App zurückbleiben sah."
+            "value" : "Was entfernte Apps hinterlassen haben, wird hier angezeigt: Dateien, die nach einer App benannt sind, die nicht installiert ist, und Dateien von Apps, die Peel verschwinden sah."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aquí aparece lo que han dejado las apps eliminadas: archivos que llevan en su nombre el identificador de una app y que ninguna app instalada reclama, y lo que Peel ha visto que ha dejado una app."
+            "value" : "Aquí aparece lo que han dejado las apps eliminadas: archivos con el nombre de una app que no está instalada y archivos de apps que Peel ha visto eliminar."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce que les apps supprimées ont laissé derrière elles apparaît ici : les fichiers nommés d’après l’identifiant d’une app et qu’aucune app installée ne revendique, ainsi que ce que Peel a vu une app laisser derrière elle."
+            "value" : "Ce que les apps supprimées ont laissé derrière elles apparaît ici : les fichiers nommés d’après une app qui n’est pas installée, et les fichiers des apps dont Peel a vu la suppression."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Qui apparirà ciò che le app rimosse si sono lasciate dietro: i file che portano l’identificatore di un’app ma che nessuna app installata riconosce come propri, e ciò che Peel ha visto un’app lasciarsi dietro."
+            "value" : "Qui apparirà ciò che le app rimosse si sono lasciate dietro: i file con il nome di un’app che non è installata, e i file delle app che Peel ha visto rimuovere."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "取り除かれたアプリが残したものがここに表示されます。アプリの識別子が名前に含まれていて、インストール済みのどのアプリのものでもないファイルと、アプリが残したことをPeelが確認したものです。"
+            "value" : "取り除かれたアプリが残したものがここに表示されます。インストールされていないアプリの名前が付いたファイルと、Peelが取り除かれるのを確認したアプリのファイルです。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "제거된 앱이 남긴 항목이 여기에 표시됩니다. 앱의 식별자로 이름이 지정되었지만 이를 소유한 설치된 앱이 없는 파일과, 앱이 남긴 것으로 Peel이 확인한 항목입니다."
+            "value" : "제거된 앱이 남긴 항목이 여기에 표시됩니다. 설치되어 있지 않은 앱의 이름이 붙은 파일과, Peel이 제거되는 것을 확인한 앱의 파일입니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hier verschijnt wat verwijderde apps hebben achtergelaten: bestanden met de ID van een app in hun naam die geen enkele geïnstalleerde app opeist, en wat Peel een app heeft zien achterlaten."
+            "value" : "Hier verschijnt wat verwijderde apps hebben achtergelaten: bestanden die naar een app zijn genoemd die niet is geïnstalleerd, en bestanden van apps waarvan Peel heeft gezien dat ze werden verwijderd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tutaj pojawi się to, co pozostawiły odinstalowane aplikacje: pliki nazwane identyfikatorem aplikacji, do których nie przyznaje się żadna zainstalowana aplikacja, oraz to, co, jak zauważył Peel, pozostawiła po sobie aplikacja."
+            "value" : "Tutaj pojawi się to, co pozostawiły odinstalowane aplikacje: pliki nazwane od aplikacji, która nie jest zainstalowana, oraz pliki aplikacji, których odinstalowanie zauważył Peel."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O que os apps removidos deixaram para trás aparece aqui: arquivos cujo nome é o identificador de um app e que nenhum app instalado reivindica, e o que o Peel viu um app deixar para trás."
+            "value" : "O que os apps removidos deixaram para trás aparece aqui: arquivos com o nome de um app que não está instalado e arquivos de apps que o Peel viu serem removidos."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aici apare ce au lăsat în urmă aplicațiile eliminate: fișierele denumite după identificatorul unei aplicații pe care nu le revendică nicio aplicație instalată și ce a văzut Peel că a lăsat în urmă o aplicație."
+            "value" : "Aici apare ce au lăsat în urmă aplicațiile eliminate: fișiere care poartă numele unei aplicații neinstalate și fișiere ale unor aplicații a căror eliminare a observat‑o Peel."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Здесь появится то, что осталось после удаленных приложений: файлы, названные по идентификатору приложения и не принадлежащие ни одному установленному приложению, а также то, что, как видел Peel, оставило после себя приложение."
+            "value" : "Здесь появится то, что осталось после удаленных приложений: файлы с именем приложения, которое не установлено, и файлы приложений, удаление которых видел Peel."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det som borttagna appar har lämnat kvar visas här: filer som har namn efter en apps identifierare och som ingen installerad app gör anspråk på, och det som Peel såg en app lämna kvar."
+            "value" : "Det som borttagna appar har lämnat kvar visas här: filer som har namn efter en app som inte är installerad, och filer från appar som Peel såg tas bort."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kaldırılan uygulamaların geride bıraktıkları burada görünür: adında bir uygulamanın tanıtıcısı bulunan ve yüklü hiçbir uygulamanın sahiplenmediği dosyalar ile Peel’in bir uygulamanın geride bıraktığını gördükleri."
+            "value" : "Kaldırılan uygulamaların geride bıraktıkları burada görünür: yüklü olmayan bir uygulamanın adını taşıyan dosyalar ve Peel’in kaldırıldığını gördüğü uygulamaların dosyaları."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Тут зʼявляється те, що залишили по собі вилучені програми: файли з ідентифікатором програми в назві, які жодна інстальована програма не вважає своїми, а також те, що, як побачила Peel, залишила по собі програма."
+            "value" : "Тут зʼявляється те, що залишили по собі вилучені програми: файли з назвою програми, яку не інстальовано, і файли програм, вилучення яких бачила Peel."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已移除的App留下的文件将在此处显示：以某个App的标识符命名、但没有已安装的App认领的文件，以及Peel看到某个App留下的内容。"
+            "value" : "已移除的App留下的文件将在此处显示：以某个未安装的App命名的文件，以及Peel看到已被移除的App的文件。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已移除的App留下的檔案會顯示在此處：以App識別碼命名、但沒有任何已安裝App認領的檔案，以及Peel看到App留下的項目。"
+            "value" : "已移除的App留下的檔案會顯示在此處：以未安裝的App命名的檔案，以及Peel看到被移除的App所留下的檔案。"
           }
         }
       }

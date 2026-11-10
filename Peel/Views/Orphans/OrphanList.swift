@@ -12,6 +12,8 @@ struct OrphanList: View {
     @State private var notGiven: (name: String, why: FileProblem?)?
     @State private var groupToGive: OrphanGroup?
 
+    static let nothingYet: LocalizedStringResource = "What removed apps left behind appears here: files named for an app that isn’t installed, and files of apps Peel saw removed."
+
     var body: some View {
         @Bindable var orphans = orphans
         let filtered = filteredGroups
@@ -82,7 +84,7 @@ struct OrphanList: View {
                 ContentUnavailableView(
                     "No Orphaned Files",
                     systemImage: "checkmark.seal",
-                    description: Text("What removed apps left behind appears here: files named with an app’s identifier that no installed app claims, and what Peel saw an app leave.")
+                    description: Text(Self.nothingYet)
                 )
             } else {
                 ContentUnavailableView.search(text: searchText)
