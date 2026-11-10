@@ -2037,6 +2037,27 @@ struct LeftoverScannerTests {
         #expect(await found(beside: [paint]) == nil)
     }
 
+    @Test func takesNothingAProfileManagesAsTheAppsLeftovers() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Tide.app"), bundleIdentifier: "org.example.tide", name: "Tide"
+        )
+        try directory.file("root/Library/Managed Preferences/org.example.tide.plist", bytes: 64)
+        try directory.file("root/Library/Managed Preferences/someone/org.example.tide.plist", bytes: 64)
+        let root = directory.url.appending(path: "root").path(percentEncoded: false)
+        let scanner = LeftoverScanner(
+            environment: environment(in: directory),
+            measure: LeftoverScanner.walk,
+            refuses: { path, home in
+                ProtectedData.refuses(path.hasPrefix(root + "/") ? String(path.dropFirst(root.count)) : path, home: home)
+            }
+        )
+
+        let scan = await scanner.scan(app, installedApps: [app])
+
+        #expect(!scan.leftovers.contains { $0.url.path(percentEncoded: false).contains("Managed Preferences") })
+    }
+
     @Test func takesNoFolderOfMacOSsAsTheMakersFolder() async throws {
         let directory = try TemporaryDirectory()
         let harbor = InstalledApp(

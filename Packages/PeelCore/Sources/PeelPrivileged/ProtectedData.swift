@@ -227,9 +227,12 @@ public enum ProtectedData: Sendable {
         ".gitconfig", ".gitignore_global", ".netrc", ".npmrc",
     ]
 
-    /// Folders outside any home that hold what nothing can bring back, for every account on the Mac: the system
-    /// keychains, and the Mac's network settings, which the System Configuration framework keeps there.
-    public static let systemFolders = ["/Library/Keychains", "/Library/Preferences/SystemConfiguration"]
+    /// Folders outside any home that stay whole, for every account on the Mac: the system keychains and the Mac's
+    /// network settings, which nothing can bring back, and the settings configuration profiles put in Managed
+    /// Preferences, which are the profile's, not an app's.
+    public static let systemFolders = [
+        "/Library/Keychains", "/Library/Managed Preferences", "/Library/Preferences/SystemConfiguration",
+    ]
     private static let systemFolderNames = systemFolders.map { PathComponents.of($0.lowercased()) }
 
     /// The folders of the Mac's own `/Library` where macOS keeps its settings and jobs under Apple's name, beside

@@ -1068,4 +1068,24 @@ struct AttackRemovalGuardTests {
             #expect(guardian.allowsRemoval(of: url), "\(url.path(percentEncoded: false)) refused")
         }
     }
+
+    @Test func whatAConfigurationProfileSetsStays() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
+        let homePath = home.path(percentEncoded: false)
+        let helper = PrivilegedPathPolicy(homeDirectory: homePath)
+
+        for path in [
+            "/Library/Managed Preferences",
+            "/Library/Managed Preferences/org.example.vendor.plist",
+            "/Library/Managed Preferences/someone/org.example.vendor.plist",
+        ] {
+            #expect(guardian.refusal(of: URL(filePath: path)) == .protectedLocation, "\(path) would move")
+            #expect(ProtectedData.refuses(path, home: homePath), "\(path) not refused")
+            #expect(helper.refusal(of: path) == .irreplaceable, "ATTACK SUCCEEDED: the helper would move \(path)")
+        }
+    }
 }

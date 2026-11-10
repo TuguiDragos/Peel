@@ -80,7 +80,8 @@ code name it, and the command that removes it. Nor does Peel change the Mac's ch
 `battery uninstall`, which turns charging back on if battery paused it at a limit.
 
 Everywhere on the Mac: `/Library/Keychains`, the Mac's network settings in `/Library/Preferences/SystemConfiguration`,
-the Trash macOS keeps at the top of every disk (`/.Trashes` and `/Volumes/<disk>/.Trashes`), whose contents are already
+the settings configuration profiles put in `/Library/Managed Preferences` (they are the profile's, not an app's), the
+Trash macOS keeps at the top of every disk (`/.Trashes` and `/Volumes/<disk>/.Trashes`), whose contents are already
 on their way out, as your own `.Trash`'s are, and any `.photoslibrary`, `.photolibrary`, `.migratedphotolibrary`,
 `.musiclibrary`, `.tvlibrary`, `.imovielibrary`, `.fcpbundle`, or `.aplibrary`: somebody's whole photo, music, or video
 collection. A folder with one of them a level or two inside stays too, since moving the folder would take the library
