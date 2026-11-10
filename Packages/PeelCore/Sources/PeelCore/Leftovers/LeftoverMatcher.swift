@@ -439,7 +439,8 @@ extension LeftoverMatcher {
                 .flatMap { [$0 + ".", $0 + "-", $0 + "_"] }
             applicationGroups = Set(app.applicationGroups.map { $0.lowercased() })
             teamPrefix = app.teamIdentifier.map { $0.lowercased() + "." }
-            vendorPrefix = vendor.map { $0 + "." }
+            // What carries on from a two-part identifier is shown as the maker's, never selected.
+            vendorPrefix = (vendor ?? identifier.flatMap(Identifier.twoPartDomain)).map { $0 + "." }
             names = app.matchingNames.filter(Naming.isSignificant).map { $0.lowercased() }
             normalizedNames = Set(names.map(Naming.normalized))
             channelNames = Set(names.compactMap(Naming.withoutChannel).map(Naming.normalized))

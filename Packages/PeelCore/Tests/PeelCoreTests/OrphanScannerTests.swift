@@ -1970,6 +1970,17 @@ struct OrphanScannerTests {
         #expect(withoutIt.groups.map(\.identifier) == ["org.example-maker.installer"])
     }
 
+    @Test func whatCarriesOnAnInstalledAppsTwoPartIdentifierIsNoOrphan() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Preferences/org.example.ShipIt.plist")
+        let quill = InstalledApp(
+            url: URL(filePath: "/Applications/Quillnote.app"), bundleIdentifier: "org.example", name: "Quillnote"
+        )
+
+        #expect(await scanner(in: directory).scan(installedApps: installed + [quill]).groups.isEmpty)
+        #expect(await scanner(in: directory).scan(installedApps: installed).groups.map(\.identifier) == ["org.example.ShipIt"])
+    }
+
     @Test func anotherAppOfTheMakerClaimsItsGroupContainer() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/Library/Group Containers/group.com.vendor.notes")

@@ -157,6 +157,14 @@ enum Identifier {
         return (String(team), String(remainder))
     }
 
+    /// The maker's domain a two-part identifier is shaped like, such as `md.obsidian`, read after any
+    /// `catalystPrefix`, or nil for one of more parts, one that isn't valid, or a domain many makers share.
+    static func twoPartDomain(_ identifier: String) -> String? {
+        let domain = String(withoutCatalystPrefix(identifier.lowercased()))
+        guard componentCount(of: domain) == 2, isValid(domain), !sharedDomains.contains(domain) else { return nil }
+        return domain
+    }
+
     static func vendor(of identifier: String) -> String? {
         let components = withoutCatalystPrefix(identifier.lowercased()).split(separator: ".")
         guard components.count >= 3 else { return nil }

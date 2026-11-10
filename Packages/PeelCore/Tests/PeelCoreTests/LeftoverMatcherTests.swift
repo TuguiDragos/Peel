@@ -642,6 +642,20 @@ struct LeftoverMatcherTests {
         #expect(helper.confidence == .certain)
     }
 
+    @Test func whatCarriesOnATwoPartIdentifierIsShownAsTheMakersToLookAt() throws {
+        let obsidian = app("md.obsidian", name: "Obsidian")
+        let shipIt = try #require(match("md.obsidian.ShipIt", in: .caches, for: obsidian))
+        let helper = try #require(match("md.obsidian.helper.plist", in: .preferences, for: obsidian))
+
+        #expect(shipIt.confidence == .possible)
+        #expect(!shipIt.isRecommended)
+        #expect(helper.confidence == .possible)
+        #expect(match("md.obsidian.plist", in: .preferences, for: obsidian)?.confidence == .certain)
+        #expect(match("com.yourcompany.other", in: .caches, for: app("com.yourcompany", name: "Template")) == nil)
+        let catalyst = app("maccatalyst.md.obsidian", name: "Obsidian")
+        #expect(match("md.obsidian.ShipIt", in: .caches, for: catalyst)?.confidence == .possible)
+    }
+
     /// When one app claims an item by name and another by identifier, neither claim wins, whatever their ranks.
     @Test func aNameAndAnIdentifierThatBothClaimAnItemShareIt() throws {
         let target = app("com.example.notes", name: "Notes Pro")
