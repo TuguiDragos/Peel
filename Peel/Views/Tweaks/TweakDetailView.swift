@@ -50,7 +50,7 @@ struct TweakRow: View {
                         .minimumScaleFactor(0.8)
                     InfoNote(
                         name: String(localized: tweak.words.title),
-                        detail: Text(verbatim: note),
+                        detail: Text(verbatim: note(for: state)),
                         footnote: Text(verbatim: "\(tweak.domain) \(tweak.key)"),
                         caution: tweak.words.caution.map { Text($0) }
                     )
@@ -98,11 +98,14 @@ struct TweakRow: View {
         .padding(.leading, parent == nil ? 0 : 20)
     }
 
-    /// The note the circled i opens: what the tweak does, how the change takes effect, and whether macOS has its
-    /// own control for the setting. Each sentence gets its own paragraph instead of being joined with a space,
-    /// since Japanese and Chinese put no space between sentences.
-    private var note: String {
+    /// The note the circled i opens: what the tweak does, why Peel can't change a value held elsewhere, a tip, how the
+    /// change takes effect, and whether macOS has its own control for the setting. Each sentence gets its own
+    /// paragraph instead of being joined with a space, since Japanese and Chinese put no space between sentences.
+    private func note(for state: TweakState) -> String {
         var paragraphs = [String(localized: tweak.words.detail)]
+        if !state.isManaged, let elsewhere = state.heldElsewhere {
+            paragraphs.append(String(localized: elsewhere.why))
+        }
         if let aside = tweak.words.aside {
             paragraphs.append(String(localized: aside))
         }

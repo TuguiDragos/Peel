@@ -19298,6 +19298,112 @@
         }
       }
     },
+    "An administrator set this for every account on this Mac, and you haven’t set it yourself. Peel leaves it as it is." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Správce tuto hodnotu určil pro všechny účty v tomto Macu a vy jste ji sami nenastavili. Peel ji ponechá tak, jak je."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Administrator hat dies für alle Benutzeraccounts auf diesem Mac festgelegt, und du hast es nicht selbst festgelegt. Peel lässt es, wie es ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un administrador ha establecido esto para todas las cuentas de este Mac, y no lo has establecido tú. Peel lo deja como está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un administrateur a défini ce réglage pour tous les comptes de ce Mac, et vous ne l’avez pas défini vous-même. Peel le laisse tel quel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un amministratore l’ha impostata per tutti gli account di questo Mac, e tu non l’hai impostata. Peel la lascia com’è."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理者がこのMacのすべてのアカウントに対してこれを設定しており、自分では設定していません。Peelはこれをそのままにします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관리자가 이 Mac의 모든 계정에 대해 이 설정을 지정했으며, 사용자가 직접 설정하지는 않았습니다. Peel은 이 설정을 그대로 둡니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een beheerder heeft dit ingesteld voor elke account op deze Mac, en je hebt het niet zelf ingesteld. Peel laat het zoals het is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administrator ustawił to dla wszystkich kont na tym Macu, a na Twoim koncie nie ustawiono tego osobno. Peel zostawia to bez zmian."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um administrador definiu este ajuste para todas as contas deste Mac, e você não definiu um valor próprio. O Peel o deixa como está."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un administrator a setat această configurare pentru toate conturile de pe acest Mac, iar dvs. nu ați setat‑o personal. Peel o lasă așa cum este."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Администратор задал это значение для всех учетных записей на этом Mac, а Вы сами его не задавали. Peel оставляет его без изменений."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En administratör har ställt in det här för alla konton på den här datorn, och du har inte ställt in det själv. Peel lämnar det som det är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir yönetici bunu bu Mac’teki her hesap için ayarladı ve siz bunu kendiniz ayarlamadınız. Peel onu olduğu gibi bırakır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Адміністратор задав це для всіх облікових записів на цьому Mac, а ви самі цього не задавали. Peel залишає це без змін."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理员已为这台Mac上的所有账户设定了此项，而你自己没有设定它。Peel会保持其原样。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理者已為這部Mac上的所有帳號設定此項目，而你自己並未設定。Peel會將它維持原樣。"
+          }
+        }
+      }
+    },
     "An app from the same maker is still installed" : {
       "localizations" : {
         "cs" : {
@@ -224733,6 +224839,112 @@
         }
       }
     },
+    "This Mac has its own value for this setting, kept apart from your account’s, and macOS reads that one first. Peel doesn’t change it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento Mac má pro toto nastavení vlastní hodnotu, uloženou odděleně od hodnoty vašeho účtu, a systém macOS čte nejdřív ji. Peel ji nemění."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Mac hat einen eigenen Wert für diese Einstellung, getrennt von dem deines Benutzeraccounts, und macOS liest diesen zuerst. Peel ändert ihn nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este Mac tiene su propio valor para este ajuste, separado del de tu cuenta, y macOS lee ese primero. Peel no lo cambia."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce Mac a sa propre valeur pour ce réglage, distincte de celle de votre compte, et macOS lit celle-ci en premier. Peel ne la modifie pas."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo Mac ha un proprio valore per questa impostazione, separato da quello del tuo account, e macOS legge prima quello. Peel non lo modifica."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacには、お使いのアカウントの値とは別に、この設定の独自の値があり、macOSはそちらを先に読み込みます。Peelはこれを変更しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac에는 사용자 계정의 값과 별도로 보관되는 이 설정의 자체 값이 있으며, macOS는 그 값을 먼저 읽습니다. Peel은 이 값을 변경하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze Mac heeft een eigen waarde voor deze instelling, los van die van je account, en macOS leest die eerst. Peel wijzigt die niet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ten Mac ma własną wartość tego ustawienia, przechowywaną oddzielnie od wartości Twojego konta, i macOS odczytuje ją najpierw. Peel jej nie zmienia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este Mac tem um valor próprio para este ajuste, guardado separadamente do valor da sua conta, e o macOS lê esse valor primeiro. O Peel não o altera."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest Mac are o valoare proprie pentru această configurare, păstrată separat de cea a contului dvs., iar macOS o citește mai întâi pe aceasta. Peel nu o modifică."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У этого Mac есть собственное значение этого параметра, которое хранится отдельно от значения Вашей учетной записи, и macOS сначала читает именно его. Peel его не меняет."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den här datorn har ett eget värde för den här inställningen, skilt från ditt kontos, och macOS läser det värdet först. Peel ändrar det inte."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu Mac’in bu ayar için hesabınızınkinden ayrı tutulan kendi değeri var ve macOS önce onu okur. Peel onu değiştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей Mac має власне значення цього налаштування, окреме від значення вашого облікового запису, і macOS спершу читає саме його. Peel його не змінює."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台Mac对此设置有单独的值，与你账户的值分开保存，且macOS会优先读取该值。Peel不会更改它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這部Mac對此設定有自己的值，與你帳號的值分開保存，而macOS會優先讀取這個值。Peel不會更改它。"
+          }
+        }
+      }
+    },
     "This account can’t write %@, where Peel writes down each move. Peel removes nothing until it can, so that everything it moves can be put back." : {
       "localizations" : {
         "cs" : {
@@ -227743,6 +227955,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這是系統延伸功能"
+          }
+        }
+      }
+    },
+    "This is set for every app at once, in macOS’s global settings, so this switch for one app would change nothing." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato hodnota je nastavena pro všechny aplikace najednou v globálních nastaveních systému macOS, takže by tento přepínač pro jednu aplikaci nic nezměnil."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist in den globalen Einstellungen von macOS für alle Apps gleichzeitig festgelegt, daher würde dieser Schalter für eine einzelne App nichts ändern."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esto está establecido para todas las apps a la vez, en los ajustes globales de macOS, así que este interruptor para una sola app no cambiaría nada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce réglage est défini pour toutes les apps à la fois, dans les réglages globaux de macOS : ce commutateur pour une seule app ne changerait donc rien."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È impostata per tutte le app insieme, nelle impostazioni globali di macOS, quindi questo interruttore per una singola app non cambierebbe nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これはmacOSのグローバル設定で、すべてのアプリに対して一括で設定されているため、1つのアプリに対するこのスイッチでは何も変わりません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 설정은 macOS의 전역 설정에서 모든 앱에 한꺼번에 지정되어 있으므로, 한 앱에 대해 이 스위치를 사용해도 아무것도 바뀌지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit is voor alle apps tegelijk ingesteld, in de algemene instellingen van macOS, dus deze schakelaar voor één app zou niets veranderen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To ustawienie jest określone dla wszystkich aplikacji naraz w globalnych ustawieniach macOS, więc ten przełącznik dla jednej aplikacji niczego by nie zmienił."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Isto está definido para todos os apps de uma vez, nos ajustes globais do macOS, então este botão para um único app não mudaria nada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Această configurare este setată pentru toate aplicațiile deodată, în configurările globale ale sistemului macOS, așa că acest comutator pentru o singură aplicație nu ar schimba nimic."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это значение задано сразу для всех приложений в глобальных настройках macOS, поэтому этот переключатель для одного приложения ничего бы не изменил."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här är inställt för alla appar på en gång, i de globala inställningarna i macOS, så det här reglaget för en enda app skulle inte ändra något."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu ayar, macOS’in genel ayarlarında tüm uygulamalar için aynı anda yapılmış, bu yüzden tek bir uygulama için olan bu düğme hiçbir şeyi değiştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це задано для всіх програм одразу в глобальних налаштуваннях macOS, тож цей перемикач для однієї програми нічого б не змінив."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此项已在macOS的全局设置中为所有App统一设定，因此这个针对单个App的开关不会改变任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此項目已在macOS的全域設定中一次為所有App設定，因此這個只針對單一App的開關不會產生任何改變。"
           }
         }
       }

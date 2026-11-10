@@ -298,6 +298,18 @@ extension TweakState.Elsewhere {
         case .everyApp: "Set for every app"
         }
     }
+
+    /// Why the switch can't be used, said in the row's note.
+    var why: LocalizedStringResource {
+        switch self {
+        case .thisMac:
+            "This Mac has its own value for this setting, kept apart from your account’s, and macOS reads that one first. Peel doesn’t change it."
+        case .everyAccount:
+            "An administrator set this for every account on this Mac, and you haven’t set it yourself. Peel leaves it as it is."
+        case .everyApp:
+            "This is set for every app at once, in macOS’s global settings, so this switch for one app would change nothing."
+        }
+    }
 }
 
 extension Tweak.Restart {
