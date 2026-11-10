@@ -141857,6 +141857,112 @@
         }
       }
     },
+    "Peel couldn’t get this update’s notes. It asks again later." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelu se nepodařilo získat poznámky k této aktualizaci. Později se zeptá znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte die Versionshinweise zu diesem Update nicht abrufen. Peel fragt später erneut nach."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido obtener las notas de esta actualización. Volverá a pedirlas más tarde."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu obtenir les notes de cette mise à jour. Il les redemandera plus tard."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a ottenere le note di questo aggiornamento. Riproverà più tardi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこのアップデートのリリースノートを取得できませんでした。後でもう一度問い合わせます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 업데이트의 릴리즈 노트를 가져올 수 없었습니다. 나중에 다시 요청합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon de versienotities van deze update niet ophalen. Peel vraagt ze later opnieuw op."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł pobrać informacji o wersji tego uaktualnienia. Zapyta ponownie później."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu obter as notas desta atualização. Ele vai pedi-las novamente mais tarde."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut obține notele acestei actualizări. Le va cere din nou mai târziu."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось получить заметки к этому обновлению. Позже Peel запросит их снова."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte hämta versionsanmärkningarna för den här uppdateringen. Peel frågar igen senare."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bu güncellemenin notlarını alamadı. Daha sonra yeniden sorar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося отримати примітки до цього оновлення. Peel запитає їх знову пізніше."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能获取此更新的说明。它稍后会再次请求。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法取得此更新的版本附註，稍後會再次查詢。"
+          }
+        }
+      }
+    },
     "Peel couldn’t list the snapshots kept on this disk, which may hold some of its space." : {
       "localizations" : {
         "cs" : {

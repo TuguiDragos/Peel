@@ -19,6 +19,25 @@ struct ReleaseNotesMemoryTests {
         #expect(memory.notes(of: "org.example.editor", version: "2.0") == nil)
     }
 
+    @Test func notesNobodyAnsweredAboutAreNotSaidToBeMissing() {
+        var memory = ReleaseNotesMemory()
+        let before = memory.standing(of: "org.example.editor", version: "2.0")
+        memory.record(.offline, of: "org.example.editor", version: "2.0")
+        let offline = memory.standing(of: "org.example.editor", version: "2.0")
+        memory.record(.unanswered, of: "org.example.editor", version: "2.0")
+        let unanswered = memory.standing(of: "org.example.editor", version: "2.0")
+        memory.record(.notGiven, of: "org.example.editor", version: "2.0")
+        let notGiven = memory.standing(of: "org.example.editor", version: "2.0")
+        memory.record(.found(notes), of: "org.example.editor", version: "3.0")
+
+        #expect(before == .notAskedYet)
+        #expect(offline == .notAskedYet)
+        #expect(unanswered == .unanswered)
+        #expect(notGiven == .notGiven)
+        #expect(memory.standing(of: "org.example.editor", version: "3.0") == .found(notes))
+        #expect(memory.standing(of: "org.example.editor", version: "2.0") == .notAskedYet)
+    }
+
     @Test func asksAServerThatDidNotAnswerAgainLaterAndLessOften() {
         let start = Date(timeIntervalSince1970: 1_792_315_250)
         let hour: TimeInterval = 60 * 60

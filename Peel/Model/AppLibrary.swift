@@ -837,6 +837,14 @@ final class AppLibrary {
         return updateStatuses[app.id]?.version.flatMap { releaseNotes.notes(of: identifier, version: $0) }
     }
 
+    /// What is known of the notes of the update `app` is waiting for.
+    func releaseNotesStanding(of app: InstalledApp) -> ReleaseNotesMemory.Standing {
+        guard let identifier = app.bundleIdentifier, let version = updateStatuses[app.id]?.version else {
+            return .notAskedYet
+        }
+        return releaseNotes.standing(of: identifier, version: version)
+    }
+
     /// An update whose answer did not say what is new in it.
     private struct ReleaseNotesQuestion: Sendable {
         let app: InstalledApp

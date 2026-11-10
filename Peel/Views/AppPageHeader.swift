@@ -91,7 +91,7 @@ struct AppPageHeader: View {
            let source = status.source, let shown = status.displayVersion {
             UpdatePanel(
                 version: shown,
-                notes: library.releaseNotes(of: plan.app),
+                notes: library.releaseNotesStanding(of: plan.app),
                 link: source == .appStore ? nil : status.releaseNotes.map {
                     ReleaseNotesLink(url: $0, title: Self.linkTitle(of: status))
                 }

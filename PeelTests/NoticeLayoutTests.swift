@@ -1,5 +1,6 @@
 import AppKit
 @testable import Peel
+import PeelCore
 import SwiftUI
 import Testing
 
@@ -102,7 +103,7 @@ struct NoticeLayoutTests {
 struct UpdatePanelLayoutTests {
     private func panel(_ detail: String, width: CGFloat) async -> Frames {
         let frames = Frames()
-        let view = UpdatePanel(version: "2.0", notes: nil, link: nil) {
+        let view = UpdatePanel(version: "2.0", notes: .notAskedYet, link: nil) {
             Text(verbatim: detail)
         } action: {
             button("Open Tidewater", into: frames)
@@ -120,7 +121,7 @@ struct UpdatePanelLayoutTests {
 
     @Test func homebrewsUpgradeKeepsItsButtonBesideItsWords() async throws {
         let frames = Frames()
-        let view = UpdatePanel(version: "2.0", notes: nil, link: nil) {
+        let view = UpdatePanel(version: "2.0", notes: .notAskedYet, link: nil) {
             Text("Homebrew has it. Peel can run the upgrade for you.")
         } action: {
             Button(String(localized: AppPageHeader.homebrewUpgrade)) {}

@@ -30,6 +30,21 @@ public struct ReleaseNotesMemory: Sendable, Equatable, Codable {
         entries[identifier].flatMap { $0.version == version ? $0.notes : nil }
     }
 
+    /// What is known of the notes of an update: found, asked for and none given, asked for and no server answered,
+    /// or not asked for yet, as while a round is still checking or the Mac was offline.
+    public enum Standing: Sendable, Equatable {
+        case found(ReleaseNotes)
+        case notGiven
+        case unanswered
+        case notAskedYet
+    }
+
+    public func standing(of identifier: String, version: String) -> Standing {
+        guard let entry = entries[identifier], entry.version == version else { return .notAskedYet }
+        if let notes = entry.notes { return .found(notes) }
+        return entry.unanswered == nil ? .notGiven : .unanswered
+    }
+
     /// Whether the notes of `version` are still to be asked for: nobody asked yet, or no server answered and its wait
     /// is over, or at once when `force`, for a check the person asked for.
     public func asks(_ identifier: String, version: String, at now: Date = .now, force: Bool = false) -> Bool {

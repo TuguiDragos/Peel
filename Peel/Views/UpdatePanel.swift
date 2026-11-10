@@ -5,7 +5,7 @@ import SwiftUI
 /// is new in it or where the app says so.
 struct UpdatePanel<Detail: View, Action: View>: View {
     let version: String
-    let notes: ReleaseNotes?
+    let notes: ReleaseNotesMemory.Standing
     let link: ReleaseNotesLink?
     @ViewBuilder let detail: Detail
     @ViewBuilder let action: Action
@@ -19,17 +19,19 @@ struct UpdatePanel<Detail: View, Action: View>: View {
                     ActionRow { action }
                         .noticePart(.actions)
                 }
-                if let notes {
+                switch notes {
+                case .found(let notes):
                     Divider()
                     ReleaseNotesView(notes: notes, version: version, link: link)
-                } else if let link {
-                    HStack(alignment: .firstTextBaseline, spacing: 8) {
-                        Text("This update came with no notes.")
-                            .foregroundStyle(.secondary)
-                        Spacer(minLength: 8)
-                        link
+                case .notGiven where link != nil:
+                    saying("This update came with no notes.")
+                case .unanswered:
+                    saying("Peel couldn’t get this update’s notes. It asks again later.")
+                case .notGiven, .notAskedYet:
+                    if let link {
+                        HStack { Spacer(minLength: 8); link }
+                            .font(.callout)
                     }
-                    .font(.callout)
                 }
             }
         }
@@ -55,6 +57,17 @@ struct UpdatePanel<Detail: View, Action: View>: View {
                 .foregroundStyle(.secondary)
         }
         .alignmentGuide(.words) { $0[VerticalAlignment.center] }
+    }
+
+    /// A line on what is known of the notes, with the link to where the app tells of the update, when there is one.
+    private func saying(_ sentence: LocalizedStringResource) -> some View {
+        HStack(alignment: .firstTextBaseline, spacing: 8) {
+            Text(sentence)
+                .foregroundStyle(.secondary)
+            Spacer(minLength: 8)
+            link
+        }
+        .font(.callout)
     }
 }
 
