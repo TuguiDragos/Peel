@@ -159,10 +159,11 @@ what comes before the symbol, the Git branch, the symbol, whether the symbol tur
 and whether the symbol and the command start a line of their own. The colors are the Terminal theme's, and the branch
 comes from zsh's own
 [vcs_info](https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#Version-Control-Information).
-Peel writes no prompt until you turn on **Use Peel's prompt**. With it on, Peel asks zsh which prompt a new window
-shows, starting one as Terminal does, with your startup files: a prompt your `~/.zshrc` sets after Peel's line, as
-Starship does when it is set up below that line, or one a function sets before each command, as Powerlevel10k does, is
-the one zsh shows, and the Shell tab says so and names the function when there is one.
+Peel writes no prompt until you turn on **Use Peel's prompt**. With it on, **Ask zsh** asks zsh which prompt a new
+window shows, starting one as Terminal does, with your startup files: a prompt your `~/.zshrc` sets after Peel's line,
+as Starship does when it is set up below that line, or one a function sets before each command, as Powerlevel10k does,
+is the one zsh shows, and the Shell tab says so and names the function when there is one. Until you press it, Peel
+reads your startup files only as text.
 
 <table>
   <tr>

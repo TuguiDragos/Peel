@@ -361,7 +361,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
     since as it is, and returns a setting the person made themselves to Git's default.
   - A setting is offered only when the tool on the Mac knows it: zsh lists its options and functions
     (`ZshRequirements`), Git its keys (`git help --config`), and ssh accepts the options on its own command line.
-    zsh is also asked which `.zshrc` it reads and, while Peel's prompt is on, which prompt a new window shows
+    The tab finds the `.zshrc` zsh reads from the startup files' text, and zsh is asked, only when the person presses
+    Ask zsh, which `.zshrc` it reads and, while Peel's prompt is on, which prompt a new window shows
     (`ShellSessions`), by running it with the person's startup files as Terminal does; Peel changes none of them.
     The Tools tab installs nothing: `TerminalTool` gives each tool's Homebrew formulae and the lines its
     documentation gives, and Homebrew is asked, from its local copy of the definitions, whether it still offers
@@ -526,7 +527,7 @@ where a Homebrew install takes them from.
 | `~/Library/Application Support/Peel/left-for-an-administrator.json` | What an uninstall left that only an administrator can move, from a place the helper doesn't serve, so Orphaned Files lists it under Needs an Administrator once the app is gone. |
 | `~/Library/Application Support/Peel/dock-tiles.json` | The Dock icons an uninstall took out, and where each was, so History puts them back with their app. |
 | `~/Library/Application Support/Peel/app-folders.json` | The folders the user chose for Peel to look for apps in, beside the Applications folders. |
-| `~/Library/Application Support/Peel/homebrew.json` | The `brew` the user chose for a Homebrew in a folder of its own, which the app and `peel` run, and no other while it is chosen, even when it can no longer be run. |
+| `~/Library/Application Support/Peel/homebrew.json` | The `brew` the user chose for a Homebrew in a folder of its own, which the app and `peel` run, and no other while it is chosen, even when it can no longer be run or the file can't be read. Its upgrades and uninstalls go to Terminal, since any program of the account can write this file. |
 | `~/Library/Application Support/Peel/Terminal/zshrc`, `Terminal/ssh_config` | The shell and ssh settings chosen on the Terminal page, which zsh and ssh read through the lines the user adds. |
 | `~/Library/Application Support/Peel/release-notes.json` | What is new in each update that waits, as the app's own sources say it, so its page shows it with no connection. |
 | `~/Library/Application Support/Peel/*.lock` | The lock beside each file the app and `peel` both change, so a read and the write after it are one step (`FileLock`). |

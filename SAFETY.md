@@ -281,6 +281,7 @@ root of another disk), asked of the folder itself with every link resolved: a fo
 `.Trash`, a link into Messages, or iCloud Drive's own Trash, is refused. And it takes only the very item that
 went: History keeps which item it was (its inode and when it was made), so once the Trash is emptied, another
 item that lands in the same place, another project's `node_modules`, say, is never put back in its stead.
+Nor does it put anything back inside an app, since Peel moves an app only whole.
 History offers to forget a record only once its item has certainly left the Trash, asks first, and looks again
 just before; an item Peel isn't allowed to look at is shown as not known and kept.
 
@@ -640,7 +641,8 @@ A reset clears an app's settings and never the app itself.
 - Before anything moves, Peel saves the app's settings, and if that copy fails, nothing moves. Settings lists the saved
   copies, where each can be put back or moved to the Trash, since one can hold a license key, and they stay until you
   move them there. Putting one back asks first, and saves the settings the app has now as a copy of their own before it
-  replaces them.
+  replaces them. A copy is a folder any program of your account can add a file to, so it puts back only what a reset
+  of that app saves: one of Apple's settings only when it is the app's own, and none of an app you excluded.
 - What the app keeps for you (its Application Support folder, group containers, and application scripts) goes only
   when you select it, and is never offered for Mail, Messages, Notes, or Photos.
 - Inside a sandboxed app's container, a reset touches only the app's preferences, saved state, caches, logs, and web

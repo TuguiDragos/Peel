@@ -148,6 +148,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Homebrew
 
+- While the file that says which `brew` you chose in Settings can't be read, Peel runs none, and Settings, the
+  Homebrew page, and the Terminal page say so: before, it ran the one in `/opt/homebrew` or `/usr/local` instead.
 - What Check Health found shows each of Homebrew's lines whole: a sentence under a finding's summary was cut in the
   middle, as for a path.
 - A cask whose definition nests lists hundreds deep no longer makes Peel quit unexpectedly as it reads what Homebrew
@@ -186,6 +188,18 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   github.com.
 - A `PEEL_MEASURE` report is written through descriptors from the home folder down, so a link put at `Library`,
   `Logs`, or `Peel` on the way is never followed.
+- Homebrew, Git, and zsh as it reads your startup files start as their own responsible process, so they no longer
+  reach what you gave Peel, such as Full Disk Access: any program of your account can rewrite them. Only a Homebrew
+  upgrade or uninstall you ask for runs with Peel's App Management. After a removal, Peel finds your shell's startup
+  files without running them, and the Terminal page's Shell tab runs them only when you press Ask zsh.
+- A Homebrew chosen in Settings outside `/opt/homebrew` and `/usr/local` has its upgrades and uninstalls handed to
+  Terminal, since which `brew` Peel runs is a file any program of your account can write.
+- Put Back puts nothing inside an app: a record of History written by hand could place a file in another app's
+  bundle, and Peel moves an app only whole.
+- A saved copy of an app's settings puts back only what a reset of that app saves: one of Apple's settings only when
+  it is the app's own, and none of an app you excluded.
+- Peel's own updates come only from the feed its app names, and Peel sends no profile of your Mac, whatever its
+  preferences hold.
 
 ## 1.3.0 (2026-11-04)
 
