@@ -139837,6 +139837,112 @@
         }
       }
     },
+    "Peel can see everything it needs to. What only an administrator can move stays until an administrator installs Peel’s helper." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel vidí vše, co potřebuje. Co může přesunout jen správce, zůstane na místě, dokud správce nenainstaluje pomocníka Peelu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann alles sehen, was nötig ist. Was nur ein Administrator verschieben kann, bleibt, bis ein Administrator das Hilfsprogramm von Peel installiert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel puede ver todo lo que necesita. Lo que solo puede trasladar un administrador se queda donde está hasta que un administrador instale el asistente de Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel peut voir tout ce dont il a besoin. Ce que seul un administrateur peut déplacer reste en place tant qu’un administrateur n’a pas installé l’utilitaire de Peel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel può vedere tutto ciò che gli serve. Ciò che solo un amministratore può spostare resta dov’è finché un amministratore non installa l’assistente di Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは必要なものすべてにアクセスできます。管理者しか移動できないものは、管理者がPeelのヘルパーをインストールするまで残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 필요한 모든 항목을 볼 수 있습니다. 관리자만 이동할 수 있는 항목은 관리자가 Peel 보조 프로그램을 설치할 때까지 그대로 남습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan alles zien wat het nodig heeft. Wat alleen een beheerder kan verplaatsen, blijft staan totdat een beheerder het hulpprogramma van Peel installeert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel widzi wszystko, czego potrzebuje. To, co może przenieść tylko administrator, zostanie na miejscu, dopóki administrator nie zainstaluje pomocnika Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel consegue ver tudo o que precisa. O que só um administrador pode mover fica onde está até que um administrador instale o auxiliar do Peel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel poate vedea tot ce trebuie. Ce poate muta doar un administrator rămâne pe loc până când un administrator instalează instrumentul de ajutor Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel видит все, что ему нужно. То, что может переместить только администратор, останется на месте, пока администратор не установит помощника Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan se allt som behövs. Det som bara en administratör kan flytta blir kvar tills en administratör installerar Peels hjälpprogram."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ihtiyaç duyduğu her şeyi görebiliyor. Yalnızca bir yöneticinin taşıyabileceği şeyler, bir yönetici Peel’in yardımcısını yükleyene kadar yerinde kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel бачить усе, що їй потрібно. Те, що може перемістити лише адміністратор, лишатиметься на місці, доки адміністратор не інсталює помічника Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel可以看到它需要查看的所有内容。只有管理员才能移动的内容会留在原处，直到管理员安装Peel的帮助程序。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel能看到它所需的一切。只有管理者能移動的項目會保留在原處，直到管理者安裝Peel的輔助程式為止。"
+          }
+        }
+      }
+    },
     "Peel can’t look for duplicates in these folders." : {
       "localizations" : {
         "cs" : {
@@ -187865,6 +187971,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已為這部Mac設定"
+          }
+        }
+      }
+    },
+    "Set for this account" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nastaveno pro tento účet"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für diesen Benutzeraccount eingerichtet"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo listo para esta cuenta"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout est prêt pour ce compte"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impostato per questo account"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアカウントでは準備ができました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 계정에 설정됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingesteld voor deze account"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ustawione dla tego konta"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tudo pronto para esta conta"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setat pentru acest cont"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Задано для этой учетной записи"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inställt för det här kontot"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu hesap için ayarlandı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Задано для цього облікового запису"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此账户已一切就绪"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此帳號已準備就緒"
           }
         }
       }

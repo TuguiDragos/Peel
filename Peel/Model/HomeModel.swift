@@ -171,6 +171,17 @@ final class HomeModel {
 
     var needsAttention: Bool { !missingRequired.isEmpty }
 
+    /// What Home says once nothing this account can set up is missing.
+    enum AllSet {
+        case everything
+        /// Only an administrator can install Peel's helper, so what only an administrator can move stays.
+        case forThisAccount
+    }
+
+    static func allSet(helper: State) -> AllSet {
+        helper == .notThisAccount ? .forThisAccount : .everything
+    }
+
     /// What the Command Line row's note says to do, which is what its button offers and what Settings says. Nil once
     /// the tool is on the path.
     static func commandLineNextStep(

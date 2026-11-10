@@ -297,13 +297,17 @@ struct HomePermissionsContent: View {
                     .foregroundStyle(Album.orange)
                     .frame(width: 26, height: 26)
                 VStack(alignment: .leading, spacing: 1) {
-                    Text(home.hasChecked && !home.isStillChecking ? "You’re all set" : "Checking what Peel can reach")
+                    let hasLooked = home.hasChecked && !home.isStillChecking
+                    let forThisAccount = HomeModel.allSet(helper: home.state(of: .helper)) == .forThisAccount
+                    Text(!hasLooked ? "Checking what Peel can reach" : forThisAccount ? "Set for this account" : "You’re all set")
                         .font(.system(size: 12.5, weight: .bold, design: .rounded))
                         .foregroundStyle(Album.ink)
                     Text(
-                        home.hasChecked && !home.isStillChecking
-                            ? "Peel can see everything it needs to."
-                            : "Asking macOS what is allowed."
+                        !hasLooked
+                            ? "Asking macOS what is allowed."
+                            : forThisAccount
+                            ? "Peel can see everything it needs to. What only an administrator can move stays until an administrator installs Peel’s helper."
+                            : "Peel can see everything it needs to."
                     )
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
