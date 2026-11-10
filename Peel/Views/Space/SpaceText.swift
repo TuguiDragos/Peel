@@ -199,7 +199,7 @@ nonisolated extension SpaceItem {
             title: "iCloud Drive",
             detail: "All that iCloud Drive keeps downloaded on this Mac, small files and files not yet uploaded included.",
             hint: LocalizedStringResource(
-                "Peel’s own iCloud Drive page frees the files of \(CloudStorage.minimumSize.formatted(.byteCount(style: .file))) or more already safe in iCloud, one file at a time",
+                "Peel’s own iCloud Drive page removes the downloads of files of \(CloudStorage.minimumSize.formatted(.byteCount(style: .file))) or more that are already safe in iCloud",
                 comment: "%@ is a file size, such as 1 MB."
             ),
             isFreedByPeel: true

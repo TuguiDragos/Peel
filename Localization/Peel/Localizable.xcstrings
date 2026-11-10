@@ -164098,109 +164098,109 @@
         }
       }
     },
-    "Peel’s own iCloud Drive page frees the files of %@ or more already safe in iCloud, one file at a time" : {
+    "Peel’s own iCloud Drive page removes the downloads of files of %@ or more that are already safe in iCloud" : {
       "comment" : "%@ is a file size, such as 1 MB.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Soubory o velikosti alespoň %@, které už jsou bezpečně na iCloudu, uvolní vlastní stránka iCloud Drive v Peelu, soubor po souboru"
+            "value" : "Stažené kopie souborů o velikosti alespoň %@, které už jsou bezpečně na iCloudu, odstraní vlastní stránka iCloud Drive v Peelu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Seite „iCloud Drive“ in Peel gibt den Platz von Dateien ab %@ frei, die bereits sicher in iCloud liegen, Datei für Datei"
+            "value" : "Die Seite „iCloud Drive“ in Peel entfernt die Downloads von Dateien ab %@, die bereits sicher in iCloud liegen"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La propia página iCloud Drive de Peel libera los archivos de %@ o más que ya están a salvo en iCloud, archivo por archivo"
+            "value" : "La propia página iCloud Drive de Peel elimina las descargas de los archivos de %@ o más que ya están a salvo en iCloud"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La page iCloud Drive de Peel libère les fichiers de %@ ou plus déjà en sécurité dans iCloud, un fichier à la fois"
+            "value" : "La page iCloud Drive de Peel retire les téléchargements des fichiers de %@ ou plus déjà en sécurité dans iCloud"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La pagina iCloud Drive di Peel libera i file di almeno %@ già al sicuro su iCloud, un file alla volta"
+            "value" : "La pagina iCloud Drive di Peel rimuove i download dei file di almeno %@ già al sicuro su iCloud"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelの“iCloud Drive”ページで、すでにiCloudに安全に保存されている%@以上のファイルを、1ファイルずつ解放できます"
+            "value" : "Peelの“iCloud Drive”ページでは、すでにiCloudに安全に保存されている%@以上のファイルについて、ダウンロードしたものを削除できます"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel의 iCloud Drive 페이지에서 이미 iCloud에 안전하게 보관된 %@ 이상의 파일을 대상으로 한 번에 한 파일씩 공간을 확보할 수 있음"
+            "value" : "Peel의 iCloud Drive 페이지에서 크기가 %@ 이상이고 이미 iCloud에 안전하게 보관된 파일의 다운로드를 제거할 수 있음"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De pagina 'iCloud Drive' van Peel zelf maakt de bestanden van %@ of meer vrij die al veilig in iCloud staan, bestand voor bestand"
+            "value" : "De pagina 'iCloud Drive' van Peel zelf verwijdert de downloads van bestanden van %@ of meer die al veilig in iCloud staan"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Strona iCloud Drive w Peel zwalnia pliki o wielkości co najmniej %@, już bezpieczne w iCloud, plik po pliku"
+            "value" : "Strona iCloud Drive w Peel usuwa pobrane kopie plików o wielkości co najmniej %@, już bezpiecznych w iCloud"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A própria página iCloud Drive do Peel libera os arquivos de %@ ou mais que já estão seguros no iCloud, um de cada vez"
+            "value" : "A própria página iCloud Drive do Peel remove os downloads dos arquivos de %@ ou mais que já estão seguros no iCloud"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pagina iCloud Drive din Peel eliberează fișierele de cel puțin %@ aflate deja în siguranță pe iCloud, câte un fișier pe rând"
+            "value" : "Pagina iCloud Drive din Peel elimină descărcările fișierelor de cel puțin %@ aflate deja în siguranță pe iCloud"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Файлы размером %@ и более, которые уже надежно сохранены в iCloud, освобождает раздел «iCloud Drive» в самом Peel, по одному файлу"
+            "value" : "Загрузки файлов размером %@ и более, которые уже надежно сохранены в iCloud, удаляет раздел «iCloud Drive» в самом Peel"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peels egen sida iCloud Drive frigör filer på %@ eller mer som redan är säkert lagrade i iCloud, en fil i taget"
+            "value" : "Peels egen sida iCloud Drive tar bort hämtningarna av filer på %@ eller mer som redan är säkert lagrade i iCloud"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’in kendi iCloud Drive sayfası, iCloud’da zaten güvende olan %@ veya daha büyük dosyaları dosya dosya boşaltır"
+            "value" : "Peel’in kendi iCloud Drive sayfası, iCloud’da zaten güvende olan %@ veya daha büyük dosyaların indirilmiş kopyalarını kaldırır"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Файли розміром від %@, уже надійно збережені в iCloud, звільняє власна сторінка Peel «iCloud Drive», по одному файлу"
+            "value" : "Викачування файлів розміром від %@, уже надійно збережених в iCloud, вилучає власна сторінка Peel «iCloud Drive»"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel自己的“iCloud云盘”页面会逐个释放已安全储存在iCloud中、大小为%@或以上的文件"
+            "value" : "Peel自己的“iCloud云盘”页面会移除大小为%@或以上、已安全储存在iCloud中的文件的下载副本"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel自己的「iCloud雲碟」頁面可以逐一釋放已安全存放在iCloud中、大小達%@或以上的檔案"
+            "value" : "Peel自己的「iCloud雲碟」頁面可以為已安全存放在iCloud中、大小達%@或以上的檔案移除下載項目"
           }
         }
       }
