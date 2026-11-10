@@ -120,8 +120,8 @@ public struct OrphanScanner: Sendable {
                         return (location, found)
                     }
                     return (location, await Self.scan(
-                        location, ownership: ownership, jobs: jobs, linkedApps: linkedApps, goneApps: goneApps,
-                        goneNames: goneNames, goneFolders: goneFolders, home: home, root: root,
+                        location, ownership: ownership, jobs: jobs, linkedApps: linkedApps, goneNames: goneNames,
+                        goneFolders: goneFolders, home: home, root: root,
                         exclusions: exclusions, nestedFolderLimit: nestedFolderLimit, walk: walk
                     ))
                 }
@@ -643,15 +643,15 @@ public struct OrphanScanner: Sendable {
     }
 
     /// How an item is listed. A link is named for its tool, so it is listed under the app it leads into: the
-    /// identifier Peel remembers for that path, or the app's name. With `goneApps`, only an identifier that came with
-    /// one of those apps is listed (`cameWithAnAppThatLeft`).
+    /// identifier Peel remembers for that path, or the app's name. With `onlyWhatCameWithAnApp`, only an identifier
+    /// that came with an app Peel saw go is listed (`AppOwnership.cameWithAnAppThatLeft`).
     private static func orphanIdentifier(
         of url: URL,
         kind: SearchLocation.Kind,
         ownership: AppOwnership,
         jobs: BackgroundItemOwnership,
         linkedApps: LinkedApps = LinkedApps(),
-        cameWithOneOf goneApps: [String]? = nil
+        onlyWhatCameWithAnApp: Bool = false
     ) async -> Listing {
         if kind.isForLinks {
             guard let bundle = goneApp(behind: url, among: linkedApps) else { return .notListed }
@@ -674,7 +674,7 @@ public struct OrphanScanner: Sendable {
                         isAGoneAppStoreApp: ownership.isAGoneAppStoreApp
                     )
                 }),
-            goneApps.map({ cameWithAnAppThatLeft(identifier, goneApps: $0) }) ?? true,
+            !onlyWhatCameWithAnApp || ownership.cameWithAnAppThatLeft(identifier),
             !ownership.isClaimed(fileName: name, kind: kind, identifier: identifier),
             !ownership.isAToolsFolder(url, identifier: identifier),
             !jobs.ownsItem(named: identifier),
@@ -816,14 +816,6 @@ public struct OrphanScanner: Sendable {
         kind.isLoadedCode || kind == .temporaryItems
     }
 
-    /// Whether an item came with an app Peel saw go: its identifier is that app's, extends it, or is its maker's.
-    static func cameWithAnAppThatLeft(_ identifier: String, goneApps: [String]) -> Bool {
-        let plugIn = identifier.lowercased()
-        let maker = Identifier.vendor(of: plugIn)
-        return goneApps.contains { app in
-            plugIn == app || plugIn.hasPrefix(app + ".") || (maker != nil && maker == Identifier.vendor(of: app))
-        }
-    }
 
     private enum LocationResult: Sendable {
         /// `cutShort` is the location itself when the search inside its folders hit the limit, and `unreadable` the
@@ -846,7 +838,6 @@ public struct OrphanScanner: Sendable {
         ownership: AppOwnership,
         jobs: BackgroundItemOwnership,
         linkedApps: LinkedApps,
-        goneApps: [String],
         goneNames: [String: String],
         goneFolders: GoneFolders,
         home: String,
@@ -889,7 +880,7 @@ public struct OrphanScanner: Sendable {
                 ownership: ownership,
                 jobs: jobs,
                 linkedApps: linkedApps,
-                cameWithOneOf: listsOnlyWhatCameWithAnApp(location.kind) ? goneApps : nil
+                onlyWhatCameWithAnApp: listsOnlyWhatCameWithAnApp(location.kind)
             )
             if listing == .notListed {
                 listing = await goneApp(named: url, kind: location.kind, goneNames: goneNames, ownership: ownership)
@@ -921,7 +912,7 @@ public struct OrphanScanner: Sendable {
                 return .take(Candidate(url: url, identifier: named.identifier, parent: parent, folder: named.folder))
             }
             switch await orphanIdentifier(
-                of: url, kind: location.kind, ownership: ownership, jobs: jobs, cameWithOneOf: goneApps
+                of: url, kind: location.kind, ownership: ownership, jobs: jobs, onlyWhatCameWithAnApp: true
             ) {
             case .listed(let identifier): return .take(Candidate(url: url, identifier: identifier, parent: parent))
             case .notKnown: return .notKnown

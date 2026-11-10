@@ -77,6 +77,70 @@ struct OrphanScannerTests {
     }
 
 
+    /// The index only chooses which apps are asked: for every kind of claim, the answer is what asking each app gives.
+    @Test func ownershipAnswersAsAskingEveryAppDoes() {
+        let apps = [
+            InstalledApp(
+                url: URL(filePath: "/Applications/Tide.app"), bundleIdentifier: "org.example.tide", name: "Tide",
+                teamIdentifier: "ABCDE12345", applicationGroups: ["group.org.example.tide"],
+                embeddedBundleIdentifiers: ["org.example.tide.helper"]
+            ),
+            InstalledApp(
+                url: URL(filePath: "/Applications/Gale Nightly.app"), bundleIdentifier: "org.sample.gale.nightly",
+                name: "Gale Nightly"
+            ),
+            InstalledApp(url: URL(filePath: "/Applications/Harbor.app"), bundleIdentifier: "md.harbor", name: "Harbor"),
+            InstalledApp(
+                url: URL(filePath: "/Applications/Reed Pool.app"), bundleIdentifier: "com.maker.reedpool",
+                name: "Reed Pool"
+            ),
+            InstalledApp(
+                url: URL(filePath: "/Applications/Fern.app"), bundleIdentifier: "maccatalyst.net.fernworks.fern",
+                name: "Fern"
+            ),
+        ]
+        let names = [
+            "org.example.tide", "org.example.tide.helper", "group.org.example.tide", "org.example.tide-cache",
+            "org.example.tide_data", "abcde12345.org.other", "org.example.other", "Tide", "tide 2.1", "Gale", "gale",
+            "md.harbor.sync", "md.harbor", "Harbor", "harbor-data", "com.maker.other", "reed-pool-sdk",
+            "ReedPool-Data", "reed-pooling", "net.fernworks.other", "maccatalyst.net.fernworks.fern", "Fern", "fern",
+            "unrelated", "com.unknown.thing", "--", "Σ", "Ηarbor",
+        ]
+        let ownership = AppOwnership(installedApps: apps) { _ in false }
+        let profiles = apps.map(LeftoverMatcher.Profile.init)
+
+        for kind in [SearchLocation.Kind.applicationSupport, .preferences, .groupContainers, .caches] {
+            for name in names {
+                let key = LeftoverMatcher.key(from: name, kind: kind)
+                let candidates = [LeftoverMatcher.Candidate(key)]
+                    + (key.lowercased() != name.lowercased() ? [LeftoverMatcher.Candidate(name)] : [])
+                let askingEveryApp = profiles.contains { profile in
+                    candidates.contains { profile.claim(for: $0) != nil }
+                }
+                #expect(ownership.isClaimed(fileName: name, kind: kind, identifier: name) == askingEveryApp, "\(name)")
+            }
+        }
+    }
+
+    /// The gone apps' makers are worked out once, and an item still comes with a gone app as it did.
+    @Test func anItemComesWithAGoneAppItExtendsOrWhoseMakerItShares() {
+        let gone = ["org.example.tide", "com.maker.reed", "org.mixed.case"]
+        let ownership = AppOwnership(installedApps: [], goneApps: gone) { _ in false }
+        let identifiers = [
+            "org.example.tide", "org.example.tide.helper", "org.example.tidal", "com.maker.other.plugin", "com.maker",
+            "Org.Mixed.Case", "org.mixed.case.x", "net.other.thing", "maccatalyst.com.maker.fern",
+        ]
+
+        for identifier in identifiers {
+            let plugIn = identifier.lowercased()
+            let maker = Identifier.vendor(of: plugIn)
+            let expected = gone.contains { app in
+                plugIn == app || plugIn.hasPrefix(app + ".") || (maker != nil && maker == Identifier.vendor(of: app))
+            }
+            #expect(ownership.cameWithAnAppThatLeft(identifier) == expected, "\(identifier)")
+        }
+    }
+
     @Test func anInstalledReleaseChannelClaimsTheFoldersNamedForItsApp() {
         let nightly = InstalledApp(
             url: URL(filePath: "/Applications/Harbor Nightly.app"), bundleIdentifier: "org.example.harbor-nightly",

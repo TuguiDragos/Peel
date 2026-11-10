@@ -2,7 +2,12 @@ import Foundation
 
 struct AppOwnership: Sendable {
     private let profiles: [LeftoverMatcher.Profile]
-    private let goneApps: [String]
+    private let claimants: Claimants
+    /// Every run of whole words in the installed apps' names (`LeftoverMatcher.Profile.wordRuns`).
+    private let wordRuns: Set<String>
+    private let goneApps: Set<String>
+    /// The makers of the gone apps (`Identifier.vendor(of:)`).
+    private let goneMakers: Set<String>
     private let goneFromTheAppStore: Set<String>
     private let isRegisteredApp: @Sendable (String) -> Bool
     /// The identifiers the installed apps and the gone ones declared, lowercased.
@@ -20,11 +25,15 @@ struct AppOwnership: Sendable {
         isRegisteredApp: @escaping @Sendable (String) -> Bool
     ) {
         profiles = installedApps.map(LeftoverMatcher.Profile.init)
-        self.goneApps = goneApps.map { $0.lowercased() }
+        claimants = Claimants(profiles)
+        wordRuns = Set(profiles.flatMap(\.wordRuns))
+        let gone = goneApps.map { $0.lowercased() }
+        self.goneApps = Set(gone)
+        goneMakers = Set(gone.compactMap(Identifier.vendor(of:)))
         self.goneFromTheAppStore = Set(goneFromTheAppStore.map { $0.lowercased() })
         self.toolsFolders = toolsFolders
         self.isRegisteredApp = isRegisteredApp
-        declared = Set(installedApps.compactMap { $0.bundleIdentifier?.lowercased() } + self.goneApps)
+        declared = Set(installedApps.compactMap { $0.bundleIdentifier?.lowercased() } + gone)
     }
 
     /// Whether `name` is an identifier an app declared, or one with three parts or more followed by a dot, as
@@ -74,8 +83,8 @@ struct AppOwnership: Sendable {
             default: return true
             }
         }
-        if profiles.contains(where: { profile in
-            candidates.contains { profile.claim(for: $0).map(claims) ?? false }
+        if candidates.contains(where: { candidate in
+            claimants.of(candidate).contains { profiles[$0].claim(for: candidate).map(claims) ?? false }
         }) {
             return true
         }
@@ -98,13 +107,78 @@ struct AppOwnership: Sendable {
     /// only its name ties to a gone app may be that app's.
     func anInstalledAppsNameHolds(fileName: String, kind: SearchLocation.Kind) -> Bool {
         let candidate = LeftoverMatcher.Candidate(LeftoverMatcher.key(from: fileName, kind: kind))
-        return profiles.contains { $0.holdsAsWholeWords(candidate) }
+        return candidate.isLongEnoughToShare && wordRuns.contains(candidate.normalized)
+    }
+
+    /// Whether `identifier` is a gone app's, extends one after a dot, or is of a gone app's maker: a plug-in can come
+    /// with an app, and with no app at all from an installer.
+    func cameWithAnAppThatLeft(_ identifier: String) -> Bool {
+        let plugIn = identifier.lowercased()
+        if goneApp(beginning: plugIn) != nil { return true }
+        return Identifier.vendor(of: plugIn).map(goneMakers.contains) ?? false
     }
 
     /// The longest identifier of a gone app that `identifier` is, or begins with before a dot.
     private func goneApp(owning identifier: String) -> String? {
-        let key = OrphanScanner.groupingKey(for: identifier).lowercased()
-        return goneApps.filter { key == $0 || key.hasPrefix($0 + ".") }.max { $0.count < $1.count }
+        goneApp(beginning: OrphanScanner.groupingKey(for: identifier).lowercased())
+    }
+
+    /// The longest identifier of a gone app that `key`, lowercased, is or begins with before a dot.
+    private func goneApp(beginning key: String) -> String? {
+        if goneApps.contains(key) { return key }
+        return key.indices.filter { key[$0] == "." }.map { String(key[..<$0]) }.last(where: goneApps.contains)
+    }
+
+    /// The profiles that may claim a name, found by what each claims by: an item asks only those, and each still
+    /// answers by its own rule (`LeftoverMatcher.Profile.claim(for:)`).
+    private struct Claimants {
+        private var exact: [String: [Int]] = [:]
+        /// A prefix of an identifier and a team, each ending in its separator.
+        private var beginnings: [String: [Int]] = [:]
+        private var makers: [String: [Int]] = [:]
+        private var names: [String: [Int]] = [:]
+        /// The first letter of each name, for a key that begins with the name's words.
+        private var firstLetters: [Character: [Int]] = [:]
+
+        init(_ profiles: [LeftoverMatcher.Profile]) {
+            for (index, profile) in profiles.enumerated() {
+                for key in [profile.identifier].compactMap(\.self) + profile.embeddedIdentifiers.map(\.value)
+                    + profile.applicationGroups {
+                    exact[key, default: []].append(index)
+                }
+                for beginning in profile.prefixes + [profile.teamPrefix].compactMap(\.self) {
+                    beginnings[beginning, default: []].append(index)
+                }
+                if let maker = profile.vendorPrefix { makers[maker, default: []].append(index) }
+                for name in profile.normalizedNames.union(profile.channelNames) {
+                    names[name, default: []].append(index)
+                }
+                for letter in Set(profile.names.compactMap { Naming.normalized($0).first }) {
+                    firstLetters[letter, default: []].append(index)
+                }
+            }
+        }
+
+        /// The profiles that may claim `candidate`, in no particular order.
+        func of(_ candidate: LeftoverMatcher.Candidate) -> Set<Int> {
+            let key = candidate.key
+            var found = Set(exact[key] ?? [])
+            for end in key.indices where [".", "-", "_"].contains(key[end]) {
+                found.formUnion(beginnings[String(key[...end])] ?? [])
+            }
+            let withoutCatalyst = Identifier.withoutCatalystPrefix(key) + "."
+            for end in withoutCatalyst.indices where withoutCatalyst[end] == "." {
+                found.formUnion(makers[String(withoutCatalyst[...end])] ?? [])
+            }
+            for name in [candidate.normalized, candidate.withoutVersion].compactMap(\.self) {
+                found.formUnion(names[name] ?? [])
+            }
+            let words = key.split(whereSeparator: Naming.separators.contains).lazy.map { Naming.normalized(String($0)) }
+            if let letter = words.first(where: { !$0.isEmpty })?.first {
+                found.formUnion(firstLetters[letter] ?? [])
+            }
+            return found
+        }
     }
 
     static func launchServicesKnowsApp(withBundleIdentifier identifier: String) -> Bool {
