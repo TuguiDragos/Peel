@@ -547,11 +547,11 @@ extension UnusualCommand {
         case .runsFromTheSharedFolder:
             "Its program sits in /Users/Shared, where every account on this Mac can write. Software installed on purpose can do this too."
         case .downloads:
-            "Its command downloads from the internet each time it runs. Software installed on purpose can do this too."
+            "Its command is `curl` or `wget`, which reaches a network address each time it runs. Software installed on purpose can do this too."
         case .decodesBase64:
             "Its command decodes base64, which keeps what it runs from being read at a glance. Software installed on purpose can do this too."
         case .runsCodeFromItsSettings:
-            "It runs a script written into its own file rather than a program on disk. Software installed on purpose can do this too."
+            "A shell or a script interpreter runs code written in this job’s own file, so no script on disk shows what it does. Software installed on purpose can do this too."
         }
     }
 }

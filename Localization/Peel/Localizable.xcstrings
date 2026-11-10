@@ -14833,6 +14833,112 @@
         }
       }
     },
+    "A shell or a script interpreter runs code written in this job’s own file, so no script on disk shows what it does. Software installed on purpose can do this too." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shell nebo interpret skriptů spouští kód zapsaný přímo ve vlastním souboru této úlohy, takže to, co dělá, neukazuje žádný skript na disku. Totéž může dělat i záměrně nainstalovaný software."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Shell oder ein Skriptinterpreter führt Code aus, der direkt in der eigenen Datei dieses Jobs steht, daher zeigt kein Skript auf dem Datenträger, was dieser Code tut. Auch absichtlich installierte Software kann das tun."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un shell o un intérprete de scripts ejecuta código escrito en el propio archivo de esta tarea, así que ningún script del disco muestra lo que hace. El software instalado a propósito también puede hacerlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un shell ou un interpréteur de scripts exécute du code écrit dans le fichier même de cette tâche : aucun script présent sur le disque ne montre donc ce qu’elle fait. Un logiciel installé volontairement peut aussi le faire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una shell o un interprete di script esegue codice scritto nel file stesso di questo elemento, quindi nessuno script sul disco mostra cosa fa. Anche un software installato di proposito può farlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "シェルまたはスクリプトインタプリタが、このジョブ自身のファイルに書き込まれたコードを実行するため、何を実行するかを示すスクリプトはディスク上にありません。意図的にインストールしたソフトウェアでも、同じことをする場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "셸 또는 스크립트 인터프리터가 이 작업의 자체 파일에 작성된 코드를 실행하므로, 디스크에 있는 어떤 스크립트로도 이 작업이 무엇을 하는지 알 수 없습니다. 의도적으로 설치한 소프트웨어도 이렇게 할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een shell of een scriptinterpreter voert code uit die in het eigen bestand van deze taak is geschreven, dus geen enkel script op de schijf laat zien wat de taak doet. Software die bewust is geïnstalleerd, kan dit ook doen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Powłoka lub interpreter skryptów uruchamia kod zapisany we własnym pliku tego zadania, więc żaden skrypt na dysku nie pokazuje, co ono robi. Oprogramowanie zainstalowane celowo też może tak działać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um shell ou um interpretador de scripts executa um código escrito no próprio arquivo desta tarefa, então nenhum script no disco mostra o que esse código faz. Software instalado intencionalmente também pode fazer isso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un shell sau un interpretor de scripturi rulează cod scris chiar în fișierul acestei sarcini, așa că niciun script de pe disc nu arată ce face aceasta. Și software‑ul instalat intenționat poate face acest lucru."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оболочка или интерпретатор скриптов выполняет код, записанный прямо в файле этого задания, поэтому никакой скрипт на диске не покажет, что делает это задание. Так может делать и намеренно установленное ПО."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En kommandotolk eller en skripttolk kör kod som är skriven i det här jobbets egen fil, så inget skript på skivan visar vad koden gör. Programvara som installerats avsiktligt kan också göra så."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir kabuk veya betik yorumlayıcısı, bu işin kendi dosyasına yazılmış kodu çalıştırıyor, bu yüzden diskteki hiçbir betik ne yaptığını göstermiyor. Bilerek yüklenen yazılımlar da bunu yapabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оболонка або інтерпретатор скриптів виконує код, записаний прямо у файлі цього завдання, тож жоден скрипт на диску не показує, що воно робить. Так може робити й ПЗ, інстальоване навмисно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "shell或脚本解释器会运行写在此任务自身文件中的代码，因此磁盘上没有脚本能显示它会做什么。有意安装的软件也可能这样做。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shell或指令碼直譯器會執行寫在此工作自身檔案中的程式碼，因此磁碟上沒有任何指令碼能顯示它在做什麼。刻意安裝的軟體也可能這樣做。"
+          }
+        }
+      }
+    },
     "A small tool with administrator rights. It moves items to the Trash and puts them back, starts, stops, enables, or disables background items, and forgets installer receipts. It takes no other orders." : {
       "localizations" : {
         "cs" : {
@@ -83029,112 +83135,6 @@
         }
       }
     },
-    "It runs a script written into its own file rather than a program on disk. Software installed on purpose can do this too." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Položka spouští skript zapsaný přímo v jejím vlastním souboru, ne program na disku. Totéž může dělat i záměrně nainstalovaný software."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Es führt statt eines Programms auf dem Datenträger ein Skript aus, das direkt in seiner eigenen Datei steht. Auch absichtlich installierte Software kann das tun."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ejecuta un script escrito dentro de su propio archivo en lugar de un programa del disco. El software instalado a propósito también puede hacerlo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il exécute un script écrit dans son propre fichier plutôt qu’un programme présent sur le disque. Un logiciel installé volontairement peut aussi le faire."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Esegue uno script scritto nel suo stesso file anziché un programma presente sul disco. Anche un software installato di proposito può farlo."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ディスク上のプログラムではなく、自身のファイルに書き込まれたスクリプトを実行します。意図的にインストールしたソフトウェアでも、同じことをする場合があります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 항목은 디스크에 있는 프로그램이 아니라 자체 파일에 작성된 스크립트를 실행합니다. 의도적으로 설치한 소프트웨어도 이렇게 할 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het voert een script uit dat in het eigen bestand is geschreven, in plaats van een programma op de schijf. Software die bewust is geïnstalleerd, kan dit ook doen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ta rzecz uruchamia skrypt zapisany w jej własnym pliku, a nie program na dysku. Oprogramowanie zainstalowane celowo też może tak działać."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ele executa um script escrito no próprio arquivo, em vez de um programa no disco. Software instalado intencionalmente também pode fazer isso."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rulează un script scris în propriul fișier, nu un program de pe disc. Și software‑ul instalat intenționat poate face acest lucru."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Он запускает скрипт, записанный прямо в его файле, а не программу на диске. Так может делать и намеренно установленное ПО."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det kör ett skript som är skrivet i den egna filen i stället för ett program på skivan. Programvara som installerats avsiktligt kan också göra så."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diskteki bir program yerine kendi dosyasına yazılmış bir betik çalıştırıyor. Bilerek yüklenen yazılımlar da bunu yapabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Він запускає скрипт, записаний прямо у власному файлі, а не виконуваний файл на диску. Так може робити й ПЗ, інстальоване навмисно."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它运行的是写在其自身文件中的脚本，而不是磁盘上的程序。有意安装的软件也可能这样做。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它執行的是寫在自身檔案中的指令碼，而非磁碟上的程式。刻意安裝的軟體也可能這樣做。"
-          }
-        }
-      }
-    },
     "It sent Peel on to %@, which isn’t https, so Peel didn’t follow." : {
       "localizations" : {
         "cs" : {
@@ -85499,108 +85499,108 @@
         }
       }
     },
-    "Its command downloads from the internet each time it runs. Software installed on purpose can do this too." : {
+    "Its command is `curl` or `wget`, which reaches a network address each time it runs. Software installed on purpose can do this too." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Příkaz položky při každém spuštění stahuje data z internetu. Totéž může dělat i záměrně nainstalovaný software."
+            "value" : "Příkaz položky je `curl` nebo `wget`, který se při každém spuštění připojuje k síťové adrese. Totéž může dělat i záměrně nainstalovaný software."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sein Befehl lädt bei jeder Ausführung etwas aus dem Internet. Auch absichtlich installierte Software kann das tun."
+            "value" : "Sein Befehl ist `curl` oder `wget` und kontaktiert bei jeder Ausführung eine Netzwerkadresse. Auch absichtlich installierte Software kann das tun."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Su comando descarga contenido de internet cada vez que se ejecuta. El software instalado a propósito también puede hacerlo."
+            "value" : "Su comando es `curl` o `wget`, que accede a una dirección de red cada vez que se ejecuta. El software instalado a propósito también puede hacerlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sa commande télécharge du contenu depuis Internet à chaque exécution. Un logiciel installé volontairement peut aussi le faire."
+            "value" : "Sa commande est `curl` ou `wget`, qui contacte une adresse réseau à chaque exécution. Un logiciel installé volontairement peut aussi le faire."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il suo comando scarica da internet ogni volta che viene eseguito. Anche un software installato di proposito può farlo."
+            "value" : "Il suo comando è `curl` o `wget`, che contatta un indirizzo di rete ogni volta che viene eseguito. Anche un software installato di proposito può farlo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "コマンドが実行されるたびにインターネットからダウンロードします。意図的にインストールしたソフトウェアでも、同じことをする場合があります。"
+            "value" : "コマンドは`curl`または`wget`で、実行されるたびにネットワーク上のアドレスにアクセスします。意図的にインストールしたソフトウェアでも、同じことをする場合があります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 항목의 명령은 실행될 때마다 인터넷에서 다운로드합니다. 의도적으로 설치한 소프트웨어도 이렇게 할 수 있습니다."
+            "value" : "이 항목의 명령은 `curl` 또는 `wget`이며, 실행될 때마다 네트워크 주소에 연결합니다. 의도적으로 설치한 소프트웨어도 이렇게 할 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het commando downloadt iets van het internet telkens wanneer het wordt uitgevoerd. Software die bewust is geïnstalleerd, kan dit ook doen."
+            "value" : "Het commando is `curl` of `wget`, dat telkens wanneer het wordt uitgevoerd verbinding maakt met een netwerkadres. Software die bewust is geïnstalleerd, kan dit ook doen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Polecenie tej rzeczy przy każdym uruchomieniu pobiera dane z Internetu. Oprogramowanie zainstalowane celowo też może tak działać."
+            "value" : "Polecenie tej rzeczy to `curl` lub `wget`, które przy każdym uruchomieniu łączy się z adresem sieciowym. Oprogramowanie zainstalowane celowo też może tak działać."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O comando dele baixa conteúdo da internet sempre que é executado. Software instalado intencionalmente também pode fazer isso."
+            "value" : "O comando dele é `curl` ou `wget`, que acessa um endereço de rede sempre que é executado. Software instalado intencionalmente também pode fazer isso."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Comanda sa descarcă de pe internet de fiecare dată când rulează. Și software‑ul instalat intenționat poate face acest lucru."
+            "value" : "Comanda sa este `curl` sau `wget`, care contactează o adresă de rețea de fiecare dată când rulează. Și software‑ul instalat intenționat poate face acest lucru."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Его команда загружает данные из интернета при каждом запуске. Так может делать и намеренно установленное ПО."
+            "value" : "Его команда, `curl` или `wget`, при каждом запуске обращается к сетевому адресу. Так может делать и намеренно установленное ПО."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kommandot hämtar från internet varje gång det körs. Programvara som installerats avsiktligt kan också göra så."
+            "value" : "Kommandot är `curl` eller `wget`, som kontaktar en nätverksadress varje gång det körs. Programvara som installerats avsiktligt kan också göra så."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Komutu, her çalıştığında internetten indirme yapıyor. Bilerek yüklenen yazılımlar da bunu yapabilir."
+            "value" : "Komutu `curl` veya `wget` olduğu için her çalıştığında bir ağ adresine bağlanıyor. Bilerek yüklenen yazılımlar da bunu yapabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Його команда викачує дані з інтернету під час кожного запуску. Так може робити й ПЗ, інстальоване навмисно."
+            "value" : "Його командою є `curl` або `wget`, що звертається до мережевої адреси під час кожного запуску. Так може робити й ПЗ, інстальоване навмисно."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的命令每次运行时都会从互联网下载内容。有意安装的软件也可能这样做。"
+            "value" : "它的命令是`curl`或`wget`，每次运行时都会访问某个网络地址。有意安装的软件也可能这样做。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的指令每次執行時都會從網際網路下載內容。刻意安裝的軟體也可能這樣做。"
+            "value" : "它的指令是`curl`或`wget`，每次執行時都會連線到某個網路位址。刻意安裝的軟體也可能這樣做。"
           }
         }
       }
