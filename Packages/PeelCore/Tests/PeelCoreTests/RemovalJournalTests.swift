@@ -43,6 +43,28 @@ struct RemovalJournalTests {
         )
     }
 
+    /// Between the rename and the line written after it, a process watching the Trash asks whether what arrived is
+    /// Peel's: the line written before the move, with the item's identity, already says so.
+    @Test func anItemPeelIsMovingIsKnownAsPeelsOnceItIsInTheTrash() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let app = try directory.directory("home/Applications/Example.app")
+        let trash = try directory.directory("home/.Trash")
+        let departing = TrashedItem(
+            originalURL: app, trashedURL: trash.appending(path: "Example.app"), date: .now,
+            identity: .init(ofItemAt: app)
+        )
+        let removal = RecordedRemoval(batch: UUID(), part: RemovalPart(source: "Example", sourceKey: nil, tool: "applications"))
+        let journal = RemovalJournal(beside: history)
+        #expect(journal.note([departing], batch: removal.batch, recordedAs: removal, beforeTheMove: true))
+        let landed = trash.appending(path: "Example 2.app")
+        try FileManager.default.moveItem(at: app, to: landed)
+
+        let places = await RemovalLog(url: history).placesInTheTrash()
+
+        #expect(places.contains(PathPattern.comparablePath(of: landed)), "Watch the Trash takes an app Peel is moving for one you threw away")
+    }
+
     /// A removal cut short by a quit or a crash left what it moved in the journal: the next read of History takes it
     /// in, as an interrupted removal, and the journal lets it go.
     @Test func aRemovalCutShortIsInHistoryTheNextTimeItIsRead() async throws {

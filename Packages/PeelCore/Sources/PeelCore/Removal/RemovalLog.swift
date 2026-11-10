@@ -83,8 +83,9 @@ public actor RemovalLog {
     /// The places in the Trash where an item Peel moved still is, whichever process moved it: what History records
     /// and what a removal under way has written down so far. Spelled as `PathPattern.comparablePath` spells them.
     public func placesInTheTrash() -> Set<String> {
-        let written = journal.entries().filter { $0.isBeforeTheMove != true }
-        let items = (load().records ?? []).map(\.trashedItem) + written.map(\.item)
+        let entries = journal.entries()
+        let written = entries.filter { $0.isBeforeTheMove != true }.map(\.item)
+        let items = (load().records ?? []).map(\.trashedItem) + written + journal.landedBeforeTheirLine(among: entries)
         return Set(items.filter(\.isInTheTrash).map { PathPattern.comparablePath(of: $0.trashedURL) })
     }
 

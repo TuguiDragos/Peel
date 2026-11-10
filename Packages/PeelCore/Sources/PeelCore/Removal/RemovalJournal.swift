@@ -229,6 +229,20 @@ struct RemovalJournal: Sendable {
         return left
     }
 
+    /// Where the items moving now have landed, among `entries`: an item whose line was written before its move, with
+    /// none after it yet, found in its Trash by its identity. Whoever watches the Trash asks this between a rename and
+    /// the line written after it.
+    func landedBeforeTheirLine(among entries: [Entry]) -> [TrashedItem] {
+        let moved = Set(entries.filter { $0.isBeforeTheMove != true }.map(Departure.init))
+        let waiting = entries.filter { $0.isBeforeTheMove == true && !moved.contains(Departure($0)) }
+        guard !waiting.isEmpty else { return [] }
+        let mounted = MountedDisks.now()
+        return waiting.compactMap { entry in
+            guard case .inTheTrash(let item) = Self.landing(of: entry, on: mounted) else { return nil }
+            return item
+        }
+    }
+
     /// Where an item that was about to move is: in its Trash, under a name the move gives one, with both its places
     /// where its disk is mounted now, nowhere this line can account for (still in its place, gone from the Trash, or
     /// with no identity to know it by), or not known yet while that Trash's disk isn't connected.
