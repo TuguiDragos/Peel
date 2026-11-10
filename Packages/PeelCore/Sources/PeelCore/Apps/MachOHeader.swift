@@ -55,10 +55,10 @@ enum MachOHeader {
             guard let offset = bigEndianUInt32(header, at: 16) else { return false }
             return bytes(at: off_t(offset), count: 16).map(isAProgram)
         case fatMagic64:
-            guard let high = bigEndianUInt32(header, at: 16), let low = bigEndianUInt32(header, at: 20) else {
-                return false
-            }
-            return bytes(at: off_t(UInt64(high) << 32 | UInt64(low)), count: 16).map(isAProgram)
+            guard let high = bigEndianUInt32(header, at: 16), let low = bigEndianUInt32(header, at: 20),
+                  let offset = off_t(exactly: UInt64(high) << 32 | UInt64(low))
+            else { return false }
+            return bytes(at: offset, count: 16).map(isAProgram)
         default:
             return false
         }

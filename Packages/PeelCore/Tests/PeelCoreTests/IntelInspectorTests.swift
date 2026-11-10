@@ -55,6 +55,15 @@ struct IntelInspectorTests {
         #expect(readable { IntelInspector.programs(in: [printers], unreadable: &$0) }.map(\.lastPathComponent) == ["filter"])
     }
 
+    @Test func aSliceBeyondAnyFileIsNoProgram() throws {
+        let directory = try TemporaryDirectory()
+        var bytes = Data([0xCA, 0xFE, 0xBA, 0xBF, 0, 0, 0, 1, 0x01, 0, 0, 0x07, 0, 0, 0, 3])
+        bytes += Data([0x80, 0, 0, 0, 0, 0, 0, 0]) + Data(count: 16)
+        let tool = try directory.file("Printers/Vendor/tool", contents: bytes)
+
+        #expect(MachOHeader.isProgram(at: tool) == false)
+    }
+
     /// The drivers, the background items, and the tools are scanned after the apps, and those later steps must
     /// stop as well.
     @Test func aStoppedScanStops() async throws {
