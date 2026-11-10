@@ -99,8 +99,7 @@ final class PackageLibrary {
     /// How History names a removal of `receipts`: by their identifiers, or by how many there are past three.
     static func source(of receipts: [PackageReceipt]) -> (source: String, key: String?) {
         guard receipts.count > 3 else { return (receipts.map(\.identifier).joined(separator: ", "), nil) }
-        let count = AttributedString(localized: "^[\(receipts.count) receipt](inflect: true)", locale: Locale(identifier: "en"))
-        return (String(count.characters), "receipts.\(receipts.count)")
+        return ("\(receipts.count) receipts", "receipts.\(receipts.count)")
     }
 
     func forget(_ receipt: PackageReceipt, recording record: (TrashResult) async -> Void) async -> TrashResult {

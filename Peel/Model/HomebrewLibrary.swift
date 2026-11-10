@@ -598,8 +598,7 @@ final class HomebrewLibrary {
         }
         let named = forgotten.isEmpty ? casks : forgotten
         guard named.count > 3 else { return (named.map(\.name).joined(separator: ", "), nil) }
-        let count = AttributedString(localized: "^[\(named.count) cask](inflect: true)", locale: Locale(identifier: "en"))
-        return (String(count.characters), "casks.\(named.count)")
+        return ("\(named.count) casks", "casks.\(named.count)")
     }
 
     /// Stops the running upgrade: Homebrew is asked to stop, and killed if it does not.

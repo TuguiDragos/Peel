@@ -235,9 +235,8 @@ final class BulkRemovalPlan {
         guard named.count > 3 else {
             return RemovalPart(source: named.map(\.name).joined(separator: ", "), sourceKey: nil, tool: tool)
         }
-        let count = AttributedString(
-            localized: "^[\(named.count) app](inflect: true)", locale: Locale(identifier: "en")
-        )
-        return RemovalPart(source: String(count.characters), sourceKey: "apps.\(named.count)", tool: tool)
+        // Written in English, not looked up: the catalog would give the language Peel runs in, and past three the
+        // English is always plural.
+        return RemovalPart(source: "\(named.count) apps", sourceKey: "apps.\(named.count)", tool: tool)
     }
 }
