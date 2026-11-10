@@ -365,10 +365,12 @@ final class HomebrewLibrary {
         if !exclusions.hasBeenRead { return "Checking…" }
         switch exclusions.excludes(package, apps: appsOfCask(package), installation: installation) {
         case true?: return "Excluded in Settings"
-        case nil: return "Can’t be checked against your exclusions"
+        case nil: return Self.cantLookInside
         case false?: return nil
         }
     }
+
+    static let cantLookInside: LocalizedStringResource = "Peel couldn’t look inside this package’s folders to check them against your exclusions"
 
     func isExcluded(_ package: HomebrewPackage) -> Bool {
         ExclusionsStore.shared.exclusions.isKnown && exclusionAnswer(of: package) == true

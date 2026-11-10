@@ -29149,112 +29149,6 @@
         }
       }
     },
-    "Can’t be checked against your exclusions" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nelze porovnat s vašimi výjimkami"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abgleich mit deinen Ausschlüssen nicht möglich"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se puede comparar con tus exclusiones"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impossible de vérifier par rapport à vos exclusions"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impossibile confrontarlo con le tue esclusioni"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "除外リストと照合できません"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "제외 항목과 대조할 수 없음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kan niet worden gecontroleerd aan de hand van je uitsluitingen"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nie można sprawdzić pod kątem Twoich wykluczeń"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Não é possível comparar com as suas exclusões"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nu poate fi verificat în raport cu excluderile dvs."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не удается сверить с Вашими исключениями"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kan inte kontrolleras mot dina undantag"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hariç tutulanlarınızla karşılaştırılamıyor"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не вдається перевірити за вашими винятками"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "无法对照你的排除项进行检查"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無法依據你的排除項目進行檢查"
-          }
-        }
-      }
-    },
     "Can’t be read as a property list, so nothing can read these settings." : {
       "localizations" : {
         "cs" : {
@@ -144239,6 +144133,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法查看%@，因此那裡可能有這裡未列出的項目。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t look inside this package’s folders to check them against your exclusions" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl nahlédnout do složek tohoto balíčku, aby je porovnal s vašimi výjimkami"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte nicht in die Ordner dieses Pakets schauen, um sie mit deinen Ausschlüssen abzugleichen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido mirar dentro de las carpetas de este paquete para compararlas con tus exclusiones"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu examiner le contenu des dossiers de ce paquet pour les vérifier par rapport à vos exclusions"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a guardare nelle cartelle di questo pacchetto per confrontarle con le tue esclusioni"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、除外リストと照合するためにこのパッケージのフォルダの中を調べることができませんでした"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 제외 항목과 대조하기 위해 이 패키지의 폴더 안을 살펴볼 수 없었음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon niet in de mappen van dit pakket kijken om ze te controleren aan de hand van je uitsluitingen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł zajrzeć do folderów tego pakietu, aby sprawdzić je pod kątem Twoich wykluczeń"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu examinar o conteúdo das pastas deste pacote para compará-las com as suas exclusões"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut examina conținutul dosarelor acestui pachet pentru a le compara cu lista dvs. de excluderi"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось заглянуть в папки этого пакета, чтобы сверить их с Вашими исключениями"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte titta i det här paketets mappar för att kontrollera dem mot dina undantag"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, hariç tutulanlarınızla karşılaştırmak için bu paketin klasörlerinin içine bakamadı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося зазирнути в папки цього пакета, щоб перевірити їх за вашими винятками"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能查看此软件包的文件夹内部，以便对照你的排除项检查它们"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法查看此套件檔案夾的內部，以依據你的排除項目檢查它們"
           }
         }
       }
