@@ -27,7 +27,8 @@ extension AppSource {
         case .appStore: "App Store"
         case .homebrew: "Homebrew"
         case .setapp: LocalizedStringResource("Setapp", comment: "A product's name, never translated.")
-        case .direct: "Downloaded"
+        // Peel knows only that it came from none of the others, not that it was downloaded.
+        case .direct: "Other"
         }
     }
 }
