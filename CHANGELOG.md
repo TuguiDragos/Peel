@@ -335,6 +335,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   change to the exclusions or a Put Back no longer leaves the old list when you come back.
 - A `peel://` link, Uninstall with Peel in Finder, a Shortcut, or a notification's click no longer changes the page
   under an open sheet or question, nor gives up a removal waiting for an app to quit: the page opens once that is over.
+- An item Peel's helper could neither move nor take back to its folder keeps the helper's record, and Peel says the
+  helper keeps it and moves it to the Trash when it starts again. Before, it reached the Trash then with no way back
+  through Peel.
+- On an account whose home folder is on a different disk from macOS, Peel leaves to an administrator what only its
+  helper could move, with how to move it in Finder, since the helper moves nothing between disks. Before, Peel offered
+  the move and then showed macOS's own "Cross-device link" in English.
 
 #### `peel`
 
@@ -390,6 +396,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - What Duplicates remembers between scans can no longer get a file moved: it is a file any program of your account
   can write, and a digest written there made two different files look like copies, with one selected. Copies are now
   read again before they move.
+- Peel's helper no longer takes whole a folder it looks inside that sits inside another one it serves, such as the
+  folders of Avid's plug-ins and of Mail's plug-in bundles in `/Library/Application Support`.
+- Peel's helper judges an item by the name your disk keeps for it, so another spelling the disk opens as the same
+  folder, such as `Logſ` for `Logs`, no longer gets a folder Peel searches past the rules that keep it in place.
+- Peel's helper, Background Items, and the cleanup after a removal leave alone each copy launchd runs of one of macOS's
+  own jobs for a connection, such as `com.openssh.sshd` with a number after it while someone is logged in over SSH.
 
 ## 1.3.0 (2026-11-04)
 
