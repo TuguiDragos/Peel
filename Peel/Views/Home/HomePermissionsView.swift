@@ -248,14 +248,18 @@ struct HomePermissionsContent: View {
         } else if home.needsAttention {
             let notice = MissingPermissionsNotice(
                 helper: helper.standing,
-                othersMissing: home.missingRequired.contains { $0 != .helper }
+                othersMissing: home.missingRequired.contains { $0 != .helper },
+                helperBelongsToAnotherCopy: helper.isRegisteredByAnotherCopy
             )
             let toSetUp = home.missingRequired.filter { notice == .setUp || $0 != .helper }
             let missing = toSetUp.map { String(localized: $0.title) }.formatted(.list(type: .and))
+            let openTheOtherCopy = Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: true))
             let detail = switch notice {
             case .setUp: Text("Set up \(missing) below.")
             case .repairTheHelper: Text("Repair it below. Until then, Peel can’t move anything that needs an administrator.")
             case .setUpAndRepairTheHelper: Text("Set up \(missing) below, and repair the helper.")
+            case .helperOfAnotherCopy: openTheOtherCopy
+            case .setUpWithHelperOfAnotherCopy: Text("\(Text("Set up \(missing) below."))\n\n\(openTheOtherCopy)")
             }
             Notice(
                 title: notice == .repairTheHelper

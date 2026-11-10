@@ -13,4 +13,20 @@ struct MissingPermissionsNoticeTests {
             #expect(MissingPermissionsNotice(helper: helper, othersMissing: false) == .setUp)
         }
     }
+
+    /// The helper another copy of Peel installed has no Install button here, so the banner says to open that copy.
+    @Test func aHelperOfAnotherCopyIsNotSetUpBelow() {
+        #expect(
+            MissingPermissionsNotice(helper: .notInstalled, othersMissing: false, helperBelongsToAnotherCopy: true)
+                == .helperOfAnotherCopy
+        )
+        #expect(
+            MissingPermissionsNotice(helper: .notInstalled, othersMissing: true, helperBelongsToAnotherCopy: true)
+                == .setUpWithHelperOfAnotherCopy
+        )
+        #expect(
+            MissingPermissionsNotice(helper: .notInstalled, othersMissing: false, helperBelongsToAnotherCopy: false)
+                == .setUp
+        )
+    }
 }
