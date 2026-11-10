@@ -274401,6 +274401,112 @@
         }
       }
     },
+    "macOS runs this for an app bundled inside another, and no move of that app removes it: Finder asks macOS to remove only the extensions in an app’s own folder. Turn it off first in System Settings > General > Login Items & Extensions." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS spouští toto rozšíření pro aplikaci uvnitř jiné aplikace a žádné přesunutí této aplikace ho neodstraní: Finder žádá systém macOS, aby odstranil jen ta rozšíření, která jsou ve vlastní složce aplikace. Nejprve ho vypněte v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS führt diese Erweiterung für eine App aus, die in einer anderen App enthalten ist, und entfernt sie nicht, wenn diese App verschoben wird: Der Finder fordert macOS auf, nur die Erweiterungen im eigenen Ordner einer App zu entfernen. Deaktiviere sie zuerst unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ejecuta esta extensión para una app incluida dentro de otra, y ningún traslado de esa app la elimina: el Finder le pide a macOS que elimine solo las extensiones que están en la propia carpeta de una app. Desactívala antes en Ajustes del Sistema > General > Ítems de inicio y extensiones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS exécute cette extension pour une app contenue dans une autre, et aucun déplacement de cette app ne la supprime : le Finder ne demande à macOS de supprimer que les extensions situées dans le dossier propre à une app. Désactivez-la d’abord dans Réglages Système > Général > Ouverture et extensions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS la esegue per un’app inclusa in un’altra, e nessuno spostamento di quell’app la rimuove: il Finder chiede a macOS di rimuovere solo le estensioni nella cartella dell’app stessa. Disattivala prima in Impostazioni di Sistema > Generali > Elementi login ed estensioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSが実行しているこの機能拡張は、別のアプリに含まれているアプリのためのもので、そのアプリをどのように移動しても、インストールされたままになります。FinderがmacOSに削除を依頼するのは、アプリ自体のフォルダにある機能拡張だけです。“システム設定”＞“一般”＞“ログイン項目と機能拡張”で、先にこの機能拡張をオフにしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS는 다른 앱 안에 포함된 앱을 위해 이 확장 프로그램을 실행하며, 그 앱을 어떻게 이동해도 이 확장 프로그램은 제거되지 않습니다. Finder는 앱 자체의 폴더에 있는 확장 프로그램만 제거하도록 macOS에 요청하기 때문입니다. 먼저 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서 이 확장 프로그램을 끄십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS voert dit uit voor een app die in een andere app is meegeleverd, en geen enkele verplaatsing van die app verwijdert deze extensie: Finder vraagt macOS om alleen de extensies in de eigen map van een app te verwijderen. Schakel de extensie eerst uit in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS uruchamia to rozszerzenie dla aplikacji zawartej w innej aplikacji, a żadne przeniesienie tamtej aplikacji go nie usuwa: Finder prosi macOS, aby usunął tylko te rozszerzenia, które są we własnym folderze aplikacji. Najpierw wyłącz je w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS executa esta extensão para um app que vem dentro de outro, e mover esse app não a remove: o Finder pede ao macOS para remover apenas as extensões que estão na própria pasta de um app. Desative-a primeiro em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS rulează această extensie pentru o aplicație inclusă în alta, iar nicio mutare a acelei aplicații nu o elimină: Finder îi cere sistemului macOS să elimine doar extensiile din dosarul propriu al unei aplicații. Dezactivați‑o mai întâi în Configurări sistem > General > Lansare la login și extensii."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS запускает это расширение для приложения, вложенного в другое приложение, и расширение не удаляется, как бы ни перемещали это приложение: Finder просит macOS удалить только те расширения, которые находятся в собственной папке приложения. Сначала выключите его в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kör det här tillägget för en app som ingår i en annan app, och tillägget tas inte bort hur den appen än flyttas: Finder ber macOS att ta bort bara de tillägg som ligger i en apps egen mapp. Stäng först av det i Systeminställningar > Allmänt > Startobjekt och tillägg."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bu genişletmeyi başka bir uygulamanın içindeki bir uygulama için çalıştırır ve o uygulama nasıl taşınırsa taşınsın genişletme kaldırılmaz: Finder, macOS’ten yalnızca bir uygulamanın kendi klasöründeki genişletmeleri kaldırmasını ister. Önce genişletmeyi Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünden kapatın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS виконує це розширення для програми, вбудованої в іншу програму, і жодне переміщення цієї програми його не вилучає: Finder просить macOS вилучити лише ті розширення, що лежать у власній папці програми. Спершу вимкніть його в розділі Системні параметри > Загальні > Автозапуск і розширення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS为包含在另一个App中的某个App运行此扩展，并且无论怎样移动该App，都不会将其移除：“访达”只会请求macOS移除App自身文件夹中的扩展。请先在“系统设置”>“通用”>“登录项与扩展”中将其关闭。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS會為內含於另一個App中的App執行此延伸功能，而且無論如何移動該App，都不會移除它：Finder只會要求macOS移除App本身檔案夾中的延伸功能。請先在「系統設定」>「一般」>「登入項目與延伸功能」中將它關閉。"
+          }
+        }
+      }
+    },
     "macOS saves a snapshot before it installs an update." : {
       "localizations" : {
         "cs" : {

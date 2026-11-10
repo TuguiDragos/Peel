@@ -110,6 +110,20 @@ struct ExtensionTextTests {
         #expect(gone.rowDetail(showingVersion: true) == "\(String(localized: "\("Example"), no longer installed")) · \(words)")
     }
 
+    @Test func aSystemExtensionOfAnAppInsideAnotherNeverPromisesFindersMove() {
+        let inside = AppExtension(
+            identifier: "org.example.part", name: "Part", kind: .systemExtension, point: nil, owner: "Example",
+            url: nil, election: .on, teamIdentifier: nil, reportedState: nil,
+            installedFor: "/Applications/Example.app/Contents/Resources/Inner.app"
+        )
+        for isOn27 in [false, true] {
+            let resource = inside.systemExtensionNote(isOnMacOS27: isOn27, systemSettingsDeletesIt: false)
+            let note = String(localized: resource)
+            #expect(!note.contains("Trash in Finder"))
+            #expect(note.contains("Login Items & Extensions"))
+        }
+    }
+
     @Test func aSystemExtensionsNoteSaysWhatIsLeftToDoWithIt() {
         func system(
             election: AppExtension.Election = .on, goneApp: String? = nil, replacedBy: String? = nil

@@ -97,6 +97,13 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
     /// For a system extension, the path of the app macOS's record says it was installed for: the app it is held
     /// for, or once that app has moved, the app it was installed from.
     public let installedFor: String?
+
+    /// Whether the app macOS installed this for is bundled inside another app. Finder asks macOS to remove only the
+    /// extensions in the moved app's own folder, so no move of either app removes this one.
+    public var isForAnAppInsideAnother: Bool {
+        guard let installedFor else { return false }
+        return PathComponents.of(installedFor).dropLast().contains { $0.lowercased().hasSuffix(".app") }
+    }
     /// `installedFor`, when nothing is at that place anymore (`AppExtensions.goneApp(installedFor:)`).
     public let goneApp: String?
     /// The category `systemextensionsctl` lists a system extension under; nil for an app extension.

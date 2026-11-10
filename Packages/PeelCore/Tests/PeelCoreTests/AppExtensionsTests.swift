@@ -4,6 +4,19 @@ import PeelPrivileged
 import Testing
 
 struct AppExtensionsTests {
+    @Test func knowsAnExtensionMacOSRunsForAnAppInsideAnother() {
+        func installed(for place: String?) -> AppExtension {
+            AppExtension(
+                identifier: "org.example.part", name: "Part", kind: .systemExtension, point: nil, owner: "Example",
+                url: nil, election: .on, teamIdentifier: nil, reportedState: nil, installedFor: place
+            )
+        }
+
+        #expect(installed(for: "/Applications/Example.app/Contents/Resources/Inner.app").isForAnAppInsideAnother)
+        #expect(!installed(for: "/Applications/Example.app").isForAnAppInsideAnother)
+        #expect(!installed(for: nil).isForAnAppInsideAnother)
+    }
+
     @Test func eachExtensionIsTurnedOnAndOffWhereItsPointSays() {
         func extensionOf(_ point: String?, kind: AppExtension.Kind = .appExtension) -> AppExtension {
             AppExtension(
