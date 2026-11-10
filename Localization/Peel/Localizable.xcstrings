@@ -64318,108 +64318,108 @@
         }
       }
     },
-    "Homebrew deletes these for good: about %@ of downloads and old versions, and any formulae that were only there for something now gone, which that figure leaves out. Nothing goes to the Trash, and History can’t put it back." : {
+    "Homebrew deletes these for good: about %@ of downloads and old versions, and the formulae nothing needs anymore, which that figure leaves out. Nothing goes to the Trash, and History can’t put it back." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew tyto položky trvale smaže: asi %@ stažených souborů a starých verzí a také všechny formulae, které tu byly jen kvůli něčemu, co už neexistuje, a které tento údaj nezahrnuje. Nic se nepřesune do koše a Historie to nemůže vrátit zpět."
+            "value" : "Homebrew tyto položky trvale smaže: asi %@ stažených souborů a starých verzí a také formulae, které už nic nepotřebuje a které tento údaj nezahrnuje. Nic se nepřesune do koše a Historie to nemůže vrátit zpět."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew löscht Folgendes endgültig: etwa %@ an Downloads und alten Versionen sowie alle Formulae, die nur für etwas da waren, das nicht mehr vorhanden ist (in dieser Zahl nicht enthalten). Nichts wird in den Papierkorb gelegt, und im Verlauf lässt sich nichts davon zurücklegen."
+            "value" : "Homebrew löscht Folgendes endgültig: etwa %@ an Downloads und alten Versionen sowie die Formulae, die von nichts mehr benötigt werden (in dieser Zahl nicht enthalten). Nichts wird in den Papierkorb gelegt, und im Verlauf lässt sich nichts davon zurücklegen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew borra esto definitivamente: unos %@ de descargas y versiones antiguas, y las formulae que solo estaban ahí por algo que ya no está, que esa cifra no incluye. No va nada a la papelera e Historial no puede restaurarlo."
+            "value" : "Homebrew borra esto definitivamente: unos %@ de descargas y versiones antiguas, y las formulae de las que ya no depende nada, que esa cifra no incluye. No va nada a la papelera e Historial no puede restaurarlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew supprime définitivement ces éléments : environ %@ de téléchargements et d’anciennes versions, ainsi que les formulae qui n’étaient là que pour quelque chose qui a disparu depuis, que ce chiffre ne compte pas. Rien n’est placé dans la corbeille, et l’Historique ne peut pas les remettre en place."
+            "value" : "Homebrew supprime définitivement ces éléments : environ %@ de téléchargements et d’anciennes versions, ainsi que les formulae dont plus rien n’a besoin, que ce chiffre ne compte pas. Rien n’est placé dans la corbeille, et l’Historique ne peut pas les remettre en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew li elimina definitivamente: circa %@ tra download e vecchie versioni, più le eventuali formulae che servivano solo a qualcosa che ora non c’è più, che quella cifra non include. Nulla va nel Cestino e la Cronologia non può ripristinarli."
+            "value" : "Homebrew li elimina definitivamente: circa %@ tra download e vecchie versioni, più le formulae che non servono più a nulla, che quella cifra non include. Nulla va nel Cestino e la Cronologia non può ripristinarli."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewはこれらを完全に削除します。対象は約%@のダウンロードと古いバージョン、そしてすでになくなったもののためだけにあったformulaeで、formulaeの分はこのサイズに含まれていません。ゴミ箱には何も入らず、履歴から戻すこともできません。"
+            "value" : "Homebrewはこれらを完全に削除します。対象は約%@のダウンロードと古いバージョン、そしてもう何にも必要とされていないformulaeで、formulaeの分はこのサイズに含まれていません。ゴミ箱には何も入らず、履歴から戻すこともできません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew가 약 %@의 다운로드 파일과 이전 버전을 영구적으로 삭제하며, 이제는 없어진 항목 때문에만 설치되어 있던 formulae도 모두 삭제합니다. 이 formulae는 위 크기에 포함되지 않습니다. 아무것도 휴지통으로 이동하지 않으며, 기록에서 되돌려 놓을 수도 없습니다."
+            "value" : "Homebrew가 약 %@의 다운로드 파일과 이전 버전을 영구적으로 삭제하며, 더 이상 필요하지 않은 formulae도 삭제합니다. 이 formulae는 위 크기에 포함되지 않습니다. 아무것도 휴지통으로 이동하지 않으며, 기록에서 되돌려 놓을 수도 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew verwijdert deze definitief: ongeveer %@ aan downloads en oude versies, plus alle formulae die er alleen waren voor iets wat nu weg is en die niet in dat getal zijn meegeteld. Er gaat niets naar de prullenmand en Geschiedenis kan het niet terugzetten."
+            "value" : "Homebrew verwijdert deze definitief: ongeveer %@ aan downloads en oude versies, plus de formulae waar niets meer van afhankelijk is en die niet in dat getal zijn meegeteld. Er gaat niets naar de prullenmand en Geschiedenis kan het niet terugzetten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew usuwa to trwale: około %@ pobranych plików i starych wersji, a także wszystkie formulae zainstalowane tylko dla czegoś, czego już nie ma (tych ta wartość nie obejmuje). Nic nie trafia do Kosza, a Historia nie może tego przywrócić."
+            "value" : "Homebrew usuwa to trwale: około %@ pobranych plików i starych wersji, a także formulae, których nic już nie potrzebuje (tych ta wartość nie obejmuje). Nic nie trafia do Kosza, a Historia nie może tego przywrócić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew apaga estes itens definitivamente: cerca de %@ em downloads e versões antigas, e todas as formulae que só estavam lá por causa de algo que já não existe, que esse valor não inclui. Nada vai para o Lixo, e o Histórico não pode colocá-los de volta."
+            "value" : "O Homebrew apaga estes itens definitivamente: cerca de %@ em downloads e versões antigas, e as formulae de que nada mais precisa, que esse valor não inclui. Nada vai para o Lixo, e o Histórico não pode colocá-los de volta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew le șterge definitiv: aproximativ %@ în descărcări și versiuni vechi, plus orice formule care existau doar pentru ceva ce nu mai există, pe care această cifră nu le include. Nimic nu ajunge în Coș și nu le puteți pune înapoi din Istoric."
+            "value" : "Homebrew le șterge definitiv: aproximativ %@ în descărcări și versiuni vechi, plus formulele de care nu mai are nevoie nimic, pe care această cifră nu le include. Nimic nu ajunge în Coș și nu le puteți pune înapoi din Istoric."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew удаляет это безвозвратно: около %@ загрузок и старых версий, а также все formulae, которые были нужны только тому, чего уже нет (в эту цифру они не входят). Ничего не попадает в Корзину, и История не сможет это восстановить."
+            "value" : "Homebrew удаляет это безвозвратно: около %@ загрузок и старых версий, а также formulae, которые больше ничему не нужны (в эту цифру они не входят). Ничего не попадает в Корзину, и История не сможет это восстановить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew raderar det här permanent: ungefär %@ hämtningar och gamla versioner, och alla formulae som bara fanns där för något som nu är borta, vilka inte ingår i den siffran. Inget hamnar i papperskorgen och Historik kan inte lägga tillbaka det."
+            "value" : "Homebrew raderar det här permanent: ungefär %@ hämtningar och gamla versioner, och de formulae som inget längre behöver, vilka inte ingår i den siffran. Inget hamnar i papperskorgen och Historik kan inte lägga tillbaka det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew bunları kalıcı olarak siler: toplamı yaklaşık %@ olan indirmeler ve eski sürümler ile yalnızca artık olmayan bir şey için orada duran tüm formulae (bu rakama dahil değildir). Çöp Sepeti’ne hiçbir şey gitmez ve Geçmiş bunları yerine koyamaz."
+            "value" : "Homebrew bunları kalıcı olarak siler: toplamı yaklaşık %@ olan indirmeler ve eski sürümler ile artık hiçbir şeyin ihtiyaç duymadığı formulae (bu rakama dahil değildir). Çöp Sepeti’ne hiçbir şey gitmez ve Geçmiş bunları yerine koyamaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew видалить це назавжди: близько %@ викачаних файлів і старих версій, а також усі formulae, які були потрібні лише для того, чого вже немає (їх ця цифра не враховує). У Смітник нічого не потрапить, і Історія не зможе цього повернути."
+            "value" : "Homebrew видалить це назавжди: близько %@ викачаних файлів і старих версій, а також formulae, які більше нічому не потрібні (їх ця цифра не враховує). У Смітник нічого не потрапить, і Історія не зможе цього повернути."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew会永久删除以下内容：约%@的下载文件和旧版本，以及仅为某个现已不存在的软件包而安装的formulae（上述大小未包括这些）。任何内容都不会移到废纸篓，“历史记录”也无法将其放回原处。"
+            "value" : "Homebrew会永久删除以下内容：约%@的下载文件和旧版本，以及不再被需要的formulae（上述大小未包括这些）。任何内容都不会移到废纸篓，“历史记录”也无法将其放回原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew會永久刪除這些項目：約%@的下載檔案和舊版本，以及只為了現已不存在的項目而安裝的formulae（不計入上述數字）。不會丟到「垃圾桶」，「歷史記錄」也無法還原。"
+            "value" : "Homebrew會永久刪除這些項目：約%@的下載檔案和舊版本，以及不再被需要的formulae（不計入上述數字）。不會丟到「垃圾桶」，「歷史記錄」也無法還原。"
           }
         }
       }
@@ -64530,108 +64530,108 @@
         }
       }
     },
-    "Homebrew deletes these for good: the downloads and old versions it kept, and any formulae that were only there for something now gone. Nothing goes to the Trash, and History can’t put it back." : {
+    "Homebrew deletes these for good: the downloads and old versions it kept, and the formulae nothing needs anymore. Nothing goes to the Trash, and History can’t put it back." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew tyto položky trvale smaže: stažené soubory a staré verze, které si ponechal, a také všechny formulae, které tu byly jen kvůli něčemu, co už neexistuje. Nic se nepřesune do koše a Historie to nemůže vrátit zpět."
+            "value" : "Homebrew tyto položky trvale smaže: stažené soubory a staré verze, které si ponechal, a také formulae, které už nic nepotřebuje. Nic se nepřesune do koše a Historie to nemůže vrátit zpět."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew löscht Folgendes endgültig: die aufbewahrten Downloads und alten Versionen sowie alle Formulae, die nur für etwas da waren, das nicht mehr vorhanden ist. Nichts wird in den Papierkorb gelegt, und im Verlauf lässt sich nichts davon zurücklegen."
+            "value" : "Homebrew löscht Folgendes endgültig: die aufbewahrten Downloads und alten Versionen sowie die Formulae, die von nichts mehr benötigt werden. Nichts wird in den Papierkorb gelegt, und im Verlauf lässt sich nichts davon zurücklegen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew borra esto definitivamente: las descargas y versiones antiguas que guardaba, y las formulae que solo estaban ahí por algo que ya no está. No va nada a la papelera e Historial no puede restaurarlo."
+            "value" : "Homebrew borra esto definitivamente: las descargas y versiones antiguas que guardaba, y las formulae de las que ya no depende nada. No va nada a la papelera e Historial no puede restaurarlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew supprime définitivement ces éléments : les téléchargements et les anciennes versions qu’il a conservés, ainsi que les formulae qui n’étaient là que pour quelque chose qui a disparu depuis. Rien n’est placé dans la corbeille, et l’Historique ne peut pas les remettre en place."
+            "value" : "Homebrew supprime définitivement ces éléments : les téléchargements et les anciennes versions qu’il a conservés, ainsi que les formulae dont plus rien n’a besoin. Rien n’est placé dans la corbeille, et l’Historique ne peut pas les remettre en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew li elimina definitivamente: i download e le vecchie versioni che ha conservato, più le eventuali formulae che servivano solo a qualcosa che ora non c’è più. Nulla va nel Cestino e la Cronologia non può ripristinarli."
+            "value" : "Homebrew li elimina definitivamente: i download e le vecchie versioni che ha conservato, più le formulae che non servono più a nulla. Nulla va nel Cestino e la Cronologia non può ripristinarli."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewはこれらを完全に削除します。対象は、Homebrewが保持していたダウンロードと古いバージョン、そしてすでになくなったもののためだけにあったformulaeです。ゴミ箱には何も入らず、履歴から戻すこともできません。"
+            "value" : "Homebrewはこれらを完全に削除します。対象は、Homebrewが保持していたダウンロードと古いバージョン、そしてもう何にも必要とされていないformulaeです。ゴミ箱には何も入らず、履歴から戻すこともできません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew가 보관해 둔 다운로드 파일과 이전 버전, 그리고 이제는 없어진 항목 때문에만 설치되어 있던 formulae를 영구적으로 삭제합니다. 아무것도 휴지통으로 이동하지 않으며, 기록에서 되돌려 놓을 수도 없습니다."
+            "value" : "Homebrew가 보관해 둔 다운로드 파일과 이전 버전, 그리고 더 이상 필요하지 않은 formulae를 영구적으로 삭제합니다. 아무것도 휴지통으로 이동하지 않으며, 기록에서 되돌려 놓을 수도 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew verwijdert deze definitief: de downloads en oude versies die het heeft bewaard, en alle formulae die er alleen waren voor iets wat nu weg is. Er gaat niets naar de prullenmand en Geschiedenis kan het niet terugzetten."
+            "value" : "Homebrew verwijdert deze definitief: de downloads en oude versies die het heeft bewaard, en de formulae waar niets meer van afhankelijk is. Er gaat niets naar de prullenmand en Geschiedenis kan het niet terugzetten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew usuwa to trwale: zachowane pobrane pliki i stare wersje, a także wszystkie formulae zainstalowane tylko dla czegoś, czego już nie ma. Nic nie trafia do Kosza, a Historia nie może tego przywrócić."
+            "value" : "Homebrew usuwa to trwale: zachowane pobrane pliki i stare wersje, a także formulae, których nic już nie potrzebuje. Nic nie trafia do Kosza, a Historia nie może tego przywrócić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew apaga estes itens definitivamente: os downloads e as versões antigas que guardou, e todas as formulae que só estavam lá por causa de algo que já não existe. Nada vai para o Lixo, e o Histórico não pode colocá-los de volta."
+            "value" : "O Homebrew apaga estes itens definitivamente: os downloads e as versões antigas que guardou, e as formulae de que nada mais precisa. Nada vai para o Lixo, e o Histórico não pode colocá-los de volta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew le șterge definitiv: descărcările și versiunile vechi pe care le‑a păstrat, plus orice formule care existau doar pentru ceva ce nu mai există. Nimic nu ajunge în Coș și nu le puteți pune înapoi din Istoric."
+            "value" : "Homebrew le șterge definitiv: descărcările și versiunile vechi pe care le‑a păstrat, plus formulele de care nu mai are nevoie nimic. Nimic nu ajunge în Coș și nu le puteți pune înapoi din Istoric."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew удаляет это безвозвратно: сохраненные загрузки и старые версии, а также все formulae, которые были нужны только тому, чего уже нет. Ничего не попадает в Корзину, и История не сможет это восстановить."
+            "value" : "Homebrew удаляет это безвозвратно: сохраненные загрузки и старые версии, а также formulae, которые больше ничему не нужны. Ничего не попадает в Корзину, и История не сможет это восстановить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew raderar det här permanent: hämtningarna och de gamla versionerna som Homebrew har sparat, och alla formulae som bara fanns där för något som nu är borta. Inget hamnar i papperskorgen och Historik kan inte lägga tillbaka det."
+            "value" : "Homebrew raderar det här permanent: hämtningarna och de gamla versionerna som Homebrew har sparat, och de formulae som inget längre behöver. Inget hamnar i papperskorgen och Historik kan inte lägga tillbaka det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew bunları kalıcı olarak siler: sakladığı indirmeler ve eski sürümler ile yalnızca artık olmayan bir şey için orada duran tüm formulae. Çöp Sepeti’ne hiçbir şey gitmez ve Geçmiş bunları yerine koyamaz."
+            "value" : "Homebrew bunları kalıcı olarak siler: sakladığı indirmeler ve eski sürümler ile artık hiçbir şeyin ihtiyaç duymadığı formulae. Çöp Sepeti’ne hiçbir şey gitmez ve Geçmiş bunları yerine koyamaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew видалить це назавжди: збережені ним викачані файли й старі версії, а також усі formulae, які були потрібні лише для того, чого вже немає. У Смітник нічого не потрапить, і Історія не зможе цього повернути."
+            "value" : "Homebrew видалить це назавжди: збережені ним викачані файли й старі версії, а також formulae, які більше нічому не потрібні. У Смітник нічого не потрапить, і Історія не зможе цього повернути."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew会永久删除以下内容：它保留的下载文件和旧版本，以及仅为某个现已不存在的软件包而安装的formulae。任何内容都不会移到废纸篓，“历史记录”也无法将其放回原处。"
+            "value" : "Homebrew会永久删除以下内容：它保留的下载文件和旧版本，以及不再被需要的formulae。任何内容都不会移到废纸篓，“历史记录”也无法将其放回原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew會永久刪除這些項目：它保留的下載檔案和舊版本，以及只為了現已不存在的項目而安裝的formulae。不會丟到「垃圾桶」，「歷史記錄」也無法還原。"
+            "value" : "Homebrew會永久刪除這些項目：它保留的下載檔案和舊版本，以及不再被需要的formulae。不會丟到「垃圾桶」，「歷史記錄」也無法還原。"
           }
         }
       }
@@ -84770,352 +84770,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它仍指向這部Mac上的某個項目。"
-          }
-        }
-      }
-    },
-    "It uninstalls ^[%lld formula](inflect: true) that nothing needs anymore: %@." : {
-      "localizations" : {
-        "cs" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Odinstaluje %lld formulae, které už nic nepotřebuje: %@."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Odinstaluje %lld formulae, které už nic nepotřebuje: %@."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Odinstaluje %lld formula, kterou už nic nepotřebuje: %@."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Odinstaluje %lld formulae, které už nic nepotřebuje: %@."
-                }
-              }
-            }
-          }
-        },
-        "de" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Homebrew deinstalliert %lld Formula, die von nichts mehr benötigt wird: %@."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Homebrew deinstalliert %lld Formulae, die von nichts mehr benötigt werden: %@."
-                }
-              }
-            }
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "It uninstalls ^[%1$lld formula](inflect: true) that nothing needs anymore: %2$@."
-          }
-        },
-        "es" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Desinstala %lld de formulae de las que ya no depende nada: %@."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Desinstala %lld formula de la que ya no depende nada: %@."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Desinstala %lld formulae de las que ya no depende nada: %@."
-                }
-              }
-            }
-          }
-        },
-        "fr" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Il désinstalle %lld de formulae dont plus rien n’a besoin : %@."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Il désinstalle %lld formula dont plus rien n’a besoin : %@."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Il désinstalle %lld formulae dont plus rien n’a besoin : %@."
-                }
-              }
-            }
-          }
-        },
-        "it" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Disinstalla %lld di formulae che non servono più a nulla: %@."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Disinstalla %lld formula che non serve più a nulla: %@."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Disinstalla %lld formulae che non servono più a nulla: %@."
-                }
-              }
-            }
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "もう何にも必要とされていない%lld個のformulaをアンインストールします: %@。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew는 더 이상 필요하지 않은 formula %lld개를 제거합니다: %@."
-          }
-        },
-        "nl" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Het deïnstalleert %lld formula waar niets meer van afhankelijk is: %@."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Het deïnstalleert %lld formulae waar niets meer van afhankelijk is: %@."
-                }
-              }
-            }
-          }
-        },
-        "pl" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Odinstalowuje %lld formulae, których nic już nie potrzebuje: %@."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Odinstalowuje %lld formulae, których nic już nie potrzebuje: %@."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Odinstalowuje %lld formula, której nic już nie potrzebuje: %@."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Odinstalowuje %lld formulae, których nic już nie potrzebuje: %@."
-                }
-              }
-            }
-          }
-        },
-        "pt" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Ele desinstala %lld de formulae de que nada mais precisa: %@."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Ele desinstala %lld formula de que nada mais precisa: %@."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Ele desinstala %lld formulae de que nada mais precisa: %@."
-                }
-              }
-            }
-          }
-        },
-        "ro" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Dezinstalează %lld formule de care nu mai are nevoie nimic: %@."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Dezinstalează %lld formulă de care nu mai are nevoie nimic: %@."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Dezinstalează %lld de formule de care nu mai are nevoie nimic: %@."
-                }
-              }
-            }
-          }
-        },
-        "ru" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Homebrew удаляет %lld formulae, которые больше ничему не нужны: %@."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Homebrew удаляет %lld formulae, которые больше ничему не нужны: %@."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Homebrew удаляет %lld formula, которая больше ничему не нужна: %@."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Homebrew удаляет %lld formulae, которые больше ничему не нужны: %@."
-                }
-              }
-            }
-          }
-        },
-        "sv" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Homebrew avinstallerar %lld formula som inget längre behöver: %@."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Homebrew avinstallerar %lld formulae som inget längre behöver: %@."
-                }
-              }
-            }
-          }
-        },
-        "tr" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Artık hiçbir şeyin ihtiyaç duymadığı %lld formula da kaldırılır: %@."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Artık hiçbir şeyin ihtiyaç duymadığı %lld formula da kaldırılır: %@."
-                }
-              }
-            }
-          }
-        },
-        "uk" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Він деінсталює %lld formulae, які більше нічому не потрібні: %@."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Він деінсталює %lld formulae, які більше нічому не потрібні: %@."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Він деінсталює %lld formula, яка більше нічому не потрібна: %@."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Він деінсталює %lld formulae, які більше нічому не потрібні: %@."
-                }
-              }
-            }
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它会卸载%lld个不再被需要的formula：%@。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它會解除安裝%lld個不再被需要的formula：%@。"
           }
         }
       }
@@ -176064,108 +175718,108 @@
         }
       }
     },
-    "Removes what Homebrew kept after installing and upgrading: cached downloads, old versions, and formulae that were only there for something now gone. What you installed yourself stays." : {
+    "Removes what Homebrew kept after installing and upgrading: cached downloads, old versions, and the formulae nothing needs anymore. What you installed yourself stays." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odstraní, co si Homebrew ponechal po instalacích a upgradech: stažené soubory v mezipaměti, staré verze a formulae, které tu byly jen kvůli něčemu, co už neexistuje. Co jste nainstalovali sami, zůstane."
+            "value" : "Odstraní, co si Homebrew ponechal po instalacích a upgradech: stažené soubory v mezipaměti, staré verze a formulae, které už nic nepotřebuje. Co jste nainstalovali sami, zůstane."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Entfernt, was Homebrew nach Installationen und Upgrades aufbewahrt hat: zwischengespeicherte Downloads, alte Versionen und Formulae, die nur für etwas da waren, das nicht mehr vorhanden ist. Was du selbst installiert hast, bleibt."
+            "value" : "Entfernt, was Homebrew nach Installationen und Upgrades aufbewahrt hat: zwischengespeicherte Downloads, alte Versionen und die Formulae, die von nichts mehr benötigt werden. Was du selbst installiert hast, bleibt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Elimina lo que Homebrew guardó al instalar y actualizar paquetes: descargas en caché, versiones antiguas y formulae que solo estaban ahí por algo que ya no está. Lo que has instalado tú se queda."
+            "value" : "Elimina lo que Homebrew guardó al instalar y actualizar paquetes: descargas en caché, versiones antiguas y las formulae de las que ya no depende nada. Lo que has instalado tú se queda."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Supprime ce que Homebrew a conservé après les installations et les mises à niveau : les téléchargements en cache, les anciennes versions et les formulae qui n’étaient là que pour quelque chose qui a disparu depuis. Ce que vous avez installé vous-même reste en place."
+            "value" : "Supprime ce que Homebrew a conservé après les installations et les mises à niveau : les téléchargements en cache, les anciennes versions et les formulae dont plus rien n’a besoin. Ce que vous avez installé vous-même reste en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rimuove ciò che Homebrew ha conservato dopo installazioni e aggiornamenti: download nella cache, vecchie versioni e formulae che servivano solo a qualcosa che ora non c’è più. Ciò che hai installato tu resta."
+            "value" : "Rimuove ciò che Homebrew ha conservato dopo installazioni e aggiornamenti: download nella cache, vecchie versioni e le formulae che non servono più a nulla. Ciò che hai installato tu resta."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewがインストールやアップグレードの後に残したもの（キャッシュされたダウンロード、古いバージョン、すでになくなったもののためだけにあったformulae）を削除します。自分でインストールしたものは残ります。"
+            "value" : "Homebrewがインストールやアップグレードの後に残したもの（キャッシュされたダウンロード、古いバージョン、もう何にも必要とされていないformulae）を削除します。自分でインストールしたものは残ります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew가 설치 및 업그레이드 후에 보관해 둔 캐시된 다운로드 파일, 이전 버전, 그리고 이제는 없어진 항목 때문에만 설치되어 있던 formulae를 제거합니다. 직접 설치한 항목은 그대로 남습니다."
+            "value" : "Homebrew가 설치 및 업그레이드 후에 보관해 둔 캐시된 다운로드 파일, 이전 버전, 그리고 더 이상 필요하지 않은 formulae를 제거합니다. 직접 설치한 항목은 그대로 남습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verwijdert wat Homebrew na installeren en upgraden heeft bewaard: gecachte downloads, oude versies en formulae die er alleen waren voor iets wat nu weg is. Wat je zelf hebt geïnstalleerd, blijft staan."
+            "value" : "Verwijdert wat Homebrew na installeren en upgraden heeft bewaard: gecachte downloads, oude versies en de formulae waar niets meer van afhankelijk is. Wat je zelf hebt geïnstalleerd, blijft staan."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Usuwa to, co Homebrew zachował po instalowaniu i uaktualnianiu: pobrane pliki w pamięci podręcznej, stare wersje oraz formulae zainstalowane tylko dla czegoś, czego już nie ma. Pakiety zainstalowane przez Ciebie zostają."
+            "value" : "Usuwa to, co Homebrew zachował po instalowaniu i uaktualnianiu: pobrane pliki w pamięci podręcznej, stare wersje oraz formulae, których nic już nie potrzebuje. Pakiety zainstalowane przez Ciebie zostają."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remove o que o Homebrew guardou depois de instalar e fazer upgrade: downloads em cache, versões antigas e formulae que só estavam lá por causa de algo que já não existe. O que você mesmo instalou fica."
+            "value" : "Remove o que o Homebrew guardou depois de instalar e fazer upgrade: downloads em cache, versões antigas e as formulae de que nada mais precisa. O que você mesmo instalou fica."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Elimină ce a păstrat Homebrew după instalări și upgrade‑uri: descărcările din memoria tampon, versiunile vechi și formulele care existau doar pentru ceva ce nu mai există. Ce ați instalat dvs. rămâne."
+            "value" : "Elimină ce a păstrat Homebrew după instalări și upgrade‑uri: descărcările din memoria tampon, versiunile vechi și formulele de care nu mai are nevoie nimic. Ce ați instalat dvs. rămâne."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Удаляет то, что Homebrew сохранил после установок и обновлений: кэшированные загрузки, старые версии и formulae, которые были нужны только тому, чего уже нет. То, что Вы установили сами, остается."
+            "value" : "Удаляет то, что Homebrew сохранил после установок и обновлений: кэшированные загрузки, старые версии и formulae, которые больше ничему не нужны. То, что Вы установили сами, остается."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tar bort det som Homebrew har sparat efter installationer och uppgraderingar: cachade hämtningar, gamla versioner och formulae som bara fanns där för något som nu är borta. Det du själv har installerat finns kvar."
+            "value" : "Tar bort det som Homebrew har sparat efter installationer och uppgraderingar: cachade hämtningar, gamla versioner och de formulae som inget längre behöver. Det du själv har installerat finns kvar."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew’un yükleme ve yükseltmelerden sonra sakladıklarını kaldırır: önbelleğe alınmış indirmeler, eski sürümler ve yalnızca artık olmayan bir şey için orada duran formulae. Kendi yüklediğiniz şeyler kalır."
+            "value" : "Homebrew’un yükleme ve yükseltmelerden sonra sakladıklarını kaldırır: önbelleğe alınmış indirmeler, eski sürümler ve artık hiçbir şeyin ihtiyaç duymadığı formulae. Kendi yüklediğiniz şeyler kalır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Видаляє те, що Homebrew зберіг після інсталювання й оновлення: кешовані викачані файли, старі версії та formulae, які були потрібні лише для того, чого вже немає. Те, що ви інсталювали самі, лишається."
+            "value" : "Видаляє те, що Homebrew зберіг після інсталювання й оновлення: кешовані викачані файли, старі версії та formulae, які більше нічому не потрібні. Те, що ви інсталювали самі, лишається."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "移除Homebrew在安装和升级后保留的内容：缓存的下载文件、旧版本，以及仅为某个现已不存在的软件包而安装的formulae。你自己安装的内容会保留。"
+            "value" : "移除Homebrew在安装和升级后保留的内容：缓存的下载文件、旧版本，以及不再被需要的formulae。你自己安装的内容会保留。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "移除Homebrew在安裝和升級後保留的項目：快取的下載檔案、舊版本，以及只為了現已不存在的項目而安裝的formulae。你自己安裝的項目會保留。"
+            "value" : "移除Homebrew在安裝和升級後保留的項目：快取的下載檔案、舊版本，以及不再被需要的formulae。你自己安裝的項目會保留。"
           }
         }
       }
@@ -179770,6 +179424,352 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在「外掛模組」中檢視"
+          }
+        }
+      }
+    },
+    "Right now that is ^[%lld formula](inflect: true): %@." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Momentálně jsou to %lld formulae: %@."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Momentálně je to %lld formulae: %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Momentálně je to %lld formula: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Momentálně je to %lld formulae: %@."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Derzeit ist das %lld Formula: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Derzeit sind das %lld Formulae: %@."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Right now that is ^[%1$lld formula](inflect: true): %2$@."
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ahora mismo se trata de %lld de formulae: %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ahora mismo se trata de %lld formula: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ahora mismo se trata de %lld formulae: %@."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pour l’instant, il s’agit de %lld de formulae : %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pour l’instant, il s’agit de %lld formula : %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pour l’instant, il s’agit de %lld formulae : %@."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Al momento si tratta di %lld di formulae: %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Al momento si tratta di %lld formula: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Al momento si tratta di %lld formulae: %@."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在、該当するのは%lld個のformulaです: %@。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "현재 해당하는 항목은 formula %lld개입니다: %@."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Op dit moment is dat %lld formula: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Op dit moment zijn dat %lld formulae: %@."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Obecnie są to %lld formulae: %@."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Obecnie jest to %lld formulae: %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Obecnie jest to %lld formula: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Obecnie jest to %lld formulae: %@."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No momento, são %lld de formulae: %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No momento, é %lld formula: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No momento, são %lld formulae: %@."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "În acest moment, este vorba de %lld formule: %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "În acest moment, este vorba de %lld formulă: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "În acest moment, este vorba de %lld de formule: %@."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Сейчас это %lld formulae: %@."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Сейчас это %lld formulae: %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Сейчас это %lld formula: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Сейчас это %lld formulae: %@."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Just nu är det %lld formula: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Just nu är det %lld formulae: %@."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Şu anda bu kapsamda %lld formula var: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Şu anda bu kapsamda %lld formula var: %@."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Зараз це %lld formulae: %@."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Зараз це %lld formulae: %@."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Зараз це %lld formula: %@."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Зараз це %lld formulae: %@."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前有%lld个formula：%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前為%lld個formula：%@。"
           }
         }
       }

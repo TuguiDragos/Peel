@@ -150,23 +150,30 @@ struct HomebrewList: View {
         }
     }
 
-    /// What Clean Up deletes for good, with the formulae it would uninstall named, since those are packages.
     private var cleanUpWarning: String {
+        Self.cleanUpWarning(
+            reclaimable: homebrew.reclaimable, keepsDependencies: homebrew.overrides.contains(.keepsDependencies),
+            prefix: homebrew.installation?.prefix, formulae: homebrew.autoremovable
+        )
+    }
+
+    /// What Clean Up deletes for good, with the formulae it would uninstall named, since those are packages.
+    static func cleanUpWarning(
+        reclaimable: Int64?, keepsDependencies: Bool, prefix: URL?, formulae: [String]
+    ) -> String {
         var sentences: [String] = []
-        let keepsDependencies = homebrew.overrides.contains(.keepsDependencies)
-        if let reclaimable = homebrew.reclaimable, reclaimable > 0 {
+        if let reclaimable, reclaimable > 0 {
             sentences.append(keepsDependencies
                 ? String(localized: "Homebrew deletes these for good: about \(reclaimable.byteCount) of downloads and old versions. Nothing goes to the Trash, and History can’t put it back.")
-                : String(localized: "Homebrew deletes these for good: about \(reclaimable.byteCount) of downloads and old versions, and any formulae that were only there for something now gone, which that figure leaves out. Nothing goes to the Trash, and History can’t put it back."))
+                : String(localized: "Homebrew deletes these for good: about \(reclaimable.byteCount) of downloads and old versions, and the formulae nothing needs anymore, which that figure leaves out. Nothing goes to the Trash, and History can’t put it back."))
         } else {
             sentences.append(keepsDependencies
                 ? String(localized: "Homebrew deletes these for good: the downloads and old versions it kept. Nothing goes to the Trash, and History can’t put it back.")
-                : String(localized: "Homebrew deletes these for good: the downloads and old versions it kept, and any formulae that were only there for something now gone. Nothing goes to the Trash, and History can’t put it back."))
+                : String(localized: "Homebrew deletes these for good: the downloads and old versions it kept, and the formulae nothing needs anymore. Nothing goes to the Trash, and History can’t put it back."))
         }
-        if let prefix = homebrew.installation?.prefix {
+        if let prefix {
             sentences.append(Self.prunes(prefix))
         }
-        let formulae = homebrew.autoremovable
         if !formulae.isEmpty {
             sentences.append(Self.uninstalls(formulae))
         }
@@ -180,14 +187,14 @@ struct HomebrewList: View {
 
     /// The formulae Clean Up uninstalls, the first ones named as an alert names them. The row's note has them all.
     static func uninstalls(_ formulae: [String]) -> String {
-        String(inflecting: "It uninstalls ^[\(formulae.count) formula](inflect: true) that nothing needs anymore: \(RemovalFailureAlert.listedFormulae(formulae)).")
+        String(inflecting: "Right now that is ^[\(formulae.count) formula](inflect: true): \(RemovalFailureAlert.listedFormulae(formulae)).")
     }
 
     /// What the Clean Up row's note says: what Clean Up removes, and every formula it would uninstall now.
     private var cleanUpDetail: Text {
         var removes = homebrew.overrides.contains(.keepsDependencies)
             ? Text("Removes what Homebrew kept after installing and upgrading: cached downloads and old versions. What you installed yourself stays.")
-            : Text("Removes what Homebrew kept after installing and upgrading: cached downloads, old versions, and formulae that were only there for something now gone. What you installed yourself stays.")
+            : Text("Removes what Homebrew kept after installing and upgrading: cached downloads, old versions, and the formulae nothing needs anymore. What you installed yourself stays.")
         if let prefix = homebrew.installation?.prefix {
             removes = Text("\(removes)\n\n\(Self.prunes(prefix))")
         }
