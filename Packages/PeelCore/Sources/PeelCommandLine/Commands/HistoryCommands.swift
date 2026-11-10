@@ -68,7 +68,7 @@ struct HistoryCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "history",
         abstract: "List what Peel moved to the Trash.",
-        discussion: "The same History the Peel app shows, written by both. Put a removal back with `peel restore`. With --refused, lists what Peel was asked to move and wouldn't, which nothing else keeps."
+        discussion: "The same History the Peel app shows, written by both. Put a removal back with `peel restore`. With --refused, it lists what Peel was asked to move and wouldn't. Nothing else keeps that record."
     )
 
     static let defaultLimit = 20

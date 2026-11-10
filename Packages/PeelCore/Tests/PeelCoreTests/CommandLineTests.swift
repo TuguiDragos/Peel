@@ -1471,6 +1471,19 @@ struct CommandLineTests {
         #expect(command.resetPrivacy)
     }
 
+    /// Each help reads once through: the verb comes early, every code of the exit status has its meaning beside it,
+    /// and no pronoun is left without its noun.
+    @Test func theHelpReadsOnceThrough() {
+        func discussion(_ command: any ParsableCommand.Type) -> String { command.configuration.discussion }
+
+        #expect(discussion(PeelCommand.self).contains("Exit status: 0, it did what was asked; 1,"))
+        #expect(discussion(UninstallCommand.self).contains("The app moves first, and if it can't move, none of its files do."))
+        #expect(discussion(HistoryCommand.self).hasSuffix("Nothing else keeps that record."))
+        #expect(discussion(OrphansCommand.self).contains("Three kinds of item stay:"))
+        #expect(discussion(ProjectsCommand.self).contains("--remove moves only what Peel suggests. Listed but never suggested:"))
+        #expect(discussion(DuplicatesCommand.self).contains("A copy that stays still holds the same contents"))
+    }
+
     @Test func aRefusalForAProgramUsingTheItemSaysWhatToQuitOrStop() {
         #expect(TrashFailure.Reason.heldOpen(by: ["node", "java"]).summary == "in use by node, java; quit them, then try again")
         #expect(TrashFailure.Reason.heldOpenByAJob(by: ["FigmaAgent"]).summary == "in use by FigmaAgent; quit it, or stop it in the Peel app's Background Items if it has no window, then try again")
@@ -1799,7 +1812,7 @@ struct CommandLineTests {
         #expect(PeelCommand.exitCode(for: ValidationError("wrong")) == ExitCode(64))
         #expect(PeelCommand.exitCode(for: Output.declined) == ExitCode(2))
         #expect(PeelCommand.exitCode(for: ExitCode.failure) == ExitCode(1))
-        for phrase in ["0 when it did what was asked", "1 when something failed", "2 when you answered no", "64 when the command"] {
+        for phrase in ["0, it did what was asked", "1, something failed", "2, you answered no", "64, the command"] {
             #expect(help.contains(phrase))
         }
     }

@@ -6,7 +6,7 @@ struct OrphansCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "orphans",
         abstract: "List files left by apps that are no longer installed, and move a group to the Trash.",
-        discussion: "Nothing here is selected for you, so --remove takes the identifier of one group. What Peel refuses to move, what it leaves for you to choose in the app, and what needs administrator access, stays. What only an administrator can move is listed apart, with how to remove it in Finder."
+        discussion: "Nothing here is selected for you, so --remove takes the identifier of one group. Three kinds of item stay: what Peel refuses to move, what it leaves for you to choose in the app, and what needs administrator access. What only an administrator can move is listed apart, with how to remove it in Finder."
     )
 
     @Argument(help: "The group to move, as `peel orphans` names it in its first column.")
@@ -554,7 +554,7 @@ struct ProjectsCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "projects",
         abstract: "List what builds left behind in your projects, and move it to the Trash.",
-        discussion: "A folder only counts when the file that makes it sits beside it, its tool tagged it as a cache, or what it holds could only be its tool's, as with Python's __pycache__. Projects changed in the last 7 days or whose last change Peel couldn't tell, folders under a name that could mean anything, environments and installed packages, and folders Peel holds back, such as one Git tracks or one with a repository or a key inside, are listed but never suggested, and --remove moves only what is suggested."
+        discussion: "A folder only counts when the file that makes it sits beside it, its tool tagged it as a cache, or what it holds could only be its tool's, as with Python's __pycache__. --remove moves only what Peel suggests. Listed but never suggested: projects changed in the last 7 days, or whose last change Peel couldn't tell; folders under a name that could mean anything; environments and installed packages; and folders Peel holds back, such as one Git tracks or one with a repository or a key inside."
     )
 
     @Argument(help: "Folders your projects live in.", completion: .directory)
@@ -756,7 +756,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "duplicates",
         abstract: "Find folders and files with identical contents.",
-        discussion: "Without folders, Peel scans Desktop, Documents, Downloads, Pictures, Movies, and Music. The first copy of each group is the one Peel suggests keeping. A copy in a folder that syncs to your other devices, such as iCloud Drive, is listed as one that stays and is never moved, and so is a copy with Finder tags, a Finder comment, or a resource fork the others lack, which keeps the bytes for them, so the others can all go. A folder is a copy of another only when every file under it matches, so what a folder already speaks for isn't listed again on its own."
+        discussion: "Without folders, Peel scans Desktop, Documents, Downloads, Pictures, Movies, and Music. The first copy of each group is the one Peel suggests keeping. A copy in a folder that syncs to your other devices, such as iCloud Drive, is listed as one that stays and is never moved, and so is a copy with Finder tags, a Finder comment, or a resource fork the others lack. A copy that stays still holds the same contents, so every other copy in its group can go. A folder is a copy of another only when every file under it matches, so what a folder already speaks for isn't listed again on its own."
     )
 
     @Argument(help: "Folders to scan.", completion: .directory)
@@ -820,7 +820,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
         let urls = folders.map(URL.init(argument:))
         let missing = urls.filter { !isAFolder($0) }
         guard missing.isEmpty else {
-            throw ValidationError("\(missing.map(Output.path).joined(separator: ", ")): no such folder.")
+            throw ValidationError("\(missing.map(Output.path).joined(separator: ", ")): no such folder")
         }
         let rejected = urls.compactMap { url in finder.refusal(of: url).map { "\(Output.path(url)): \($0.summary)" } }
         guard rejected.isEmpty else {

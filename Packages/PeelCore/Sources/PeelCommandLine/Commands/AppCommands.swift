@@ -303,7 +303,7 @@ struct UninstallCommand: AsyncParsableCommand {
             Only leftovers Peel suggests are included. Items that need administrator access stay where they \
             are: the Peel app moves those its helper may move, and once the app is in the Trash, Orphaned Files \
             in the Peel app lists the rest under Needs an Administrator, with how to remove them in Finder.
-            The app itself moves first, so nothing of it goes to the Trash while it stays installed. Answering \
+            The app moves first, and if it can't move, none of its files do. Answering \
             no exits with code 2; a removal that couldn't finish exits 1, and so does a privacy reset that \
             didn't happen.
             """
@@ -1102,7 +1102,7 @@ struct UpdatesCommand: AsyncParsableCommand {
                 return [row.app.name, row.app.version ?? "", summary]
             })
         } else {
-            Output.line("Every app with an update feed is up to date.")
+            Output.line("Every app Peel could check is up to date.")
         }
         if let note = homebrew.note {
             Output.note(note)
