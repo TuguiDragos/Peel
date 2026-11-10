@@ -145119,6 +145119,112 @@
         }
       }
     },
+    "Peel couldn’t read %@, so it can’t tell whether what these jobs run is built for Intel only." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst %@, takže nedokáže určit, jestli je to, co tyto úlohy spouštějí, určené jen pro Intel."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte %@ nicht lesen und kann daher nicht sagen, ob das, was diese Jobs ausführen, nur für Intel entwickelt ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer %@, así que no puede saber si lo que ejecutan estas tareas está creado solo para Intel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lire %@ : il ne peut donc pas savoir si ce qu’exécutent ces tâches n’existe qu’en version Intel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere %@, quindi non può sapere se ciò che questi elementi eseguono è compilato solo per Intel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは%@を読み取れなかったため、これらのジョブが実行するものがIntel専用にビルドされているかどうかを判断できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 %@을(를) 읽을 수 없었으므로 이 작업들이 실행하는 항목이 Intel 전용으로 빌드되었는지 알 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon %@ niet lezen en kan dus niet zeggen of wat deze taken uitvoeren alleen voor Intel is gemaakt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać %@, więc nie wie, czy to, co uruchamiają te zadania, jest skompilowane tylko dla procesorów Intel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler %@, então não consegue saber se o que estas tarefas executam foi feito só para Intel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi %@, așa că nu poate spune dacă ce rulează aceste sarcini este compilat doar pentru Intel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать %@, поэтому неизвестно, собрано ли то, что запускают эти задания, только для Intel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa %@, så det går inte att säga om det som jobben kör är byggt bara för Intel."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel şu dosyaları okuyamadı: %@. Bu yüzden bu işlerin çalıştırdığı şeylerin yalnızca Intel için derlenip derlenmediğini söyleyemiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося прочитати %@, тож невідомо, чи те, що запускають ці завдання, створено лише для Intel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能读取%@，因此无法判断这些任务运行的内容是否仅为Intel构建。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取%@，因此無法判斷這些工作執行的內容是否僅為Intel建置。"
+          }
+        }
+      }
+    },
     "Peel couldn’t read %@, so it can’t tell whether what these jobs run needs Rosetta." : {
       "localizations" : {
         "cs" : {
@@ -145221,6 +145327,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法讀取%@，因此無法判斷這些工作執行的內容是否需要Rosetta。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t read %@, so it can’t tell whether what this job runs is built for Intel only." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst %@, takže nedokáže určit, jestli je to, co tato úloha spouští, určené jen pro Intel."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte %@ nicht lesen und kann daher nicht sagen, ob das, was dieser Job ausführt, nur für Intel entwickelt ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer %@, así que no puede saber si lo que ejecuta esta tarea está creado solo para Intel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lire %@ : il ne peut donc pas savoir si ce qu’exécute cette tâche n’existe qu’en version Intel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere %@, quindi non può sapere se ciò che questo elemento esegue è compilato solo per Intel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは%@を読み取れなかったため、このジョブが実行するものがIntel専用にビルドされているかどうかを判断できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 %@을(를) 읽을 수 없었으므로 이 작업이 실행하는 항목이 Intel 전용으로 빌드되었는지 알 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon %@ niet lezen en kan dus niet zeggen of wat deze taak uitvoert alleen voor Intel is gemaakt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać %@, więc nie wie, czy to, co uruchamia to zadanie, jest skompilowane tylko dla procesorów Intel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler %@, então não consegue saber se o que esta tarefa executa foi feito só para Intel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi %@, așa că nu poate spune dacă ce rulează această sarcină este compilat doar pentru Intel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать %@, поэтому неизвестно, собрано ли то, что запускает это задание, только для Intel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa %@, så det går inte att säga om det som jobbet kör är byggt bara för Intel."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel şu dosyayı okuyamadı: %@. Bu yüzden bu işin çalıştırdığı şeyin yalnızca Intel için derlenip derlenmediğini söyleyemiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося прочитати %@, тож невідомо, чи те, що запускає це завдання, створено лише для Intel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能读取%@，因此无法判断此任务运行的内容是否仅为Intel构建。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取%@，因此無法判斷此工作執行的內容是否僅為Intel建置。"
           }
         }
       }
@@ -145433,6 +145645,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法讀取%@，因此無法判斷哪些App已安裝。此處沒有列出任何項目，因為Peel看不到的App，其檔案看起來會像孤立檔案。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t read %@, so something there may be built for Intel only." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst %@, takže tam může být něco, co je určené jen pro Intel."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte %@ nicht lesen, daher könnte dort etwas nur für Intel entwickelt sein."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer %@, así que algo de ahí podría estar creado solo para Intel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lire %@ : il peut donc s’y trouver quelque chose qui n’existe qu’en version Intel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere %@, quindi lì potrebbe esserci qualcosa compilato solo per Intel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは%@を読み取れなかったため、そこにIntel専用にビルドされたものがある可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 %@을(를) 읽을 수 없었으므로 그곳에 Intel 전용으로 빌드된 항목이 있을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon %@ niet lezen, dus daar staat misschien iets wat alleen voor Intel is gemaakt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł zajrzeć do %@, więc coś tam może być skompilowane tylko dla procesorów Intel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler %@, então algo ali pode ter sido feito só para Intel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi %@, așa că ceva de acolo ar putea fi compilat doar pentru Intel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать %@, поэтому там может быть что-то, собранное только для Intel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa %@, så något där kan vara byggt bara för Intel."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel şu klasörleri okuyamadı: %@. Bu yüzden oradaki bir şey yalnızca Intel için derlenmiş olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося прочитати %@, тож щось там може бути створено лише для Intel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能读取%@，因此其中可能有仅为Intel构建的项目。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取%@，因此那裡可能有僅為Intel建置的項目。"
           }
         }
       }
