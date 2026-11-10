@@ -76,13 +76,20 @@ nonisolated struct RemovalBatch: Identifiable, Hashable {
         return source
     }
 
-    /// What Edit > Undo says for a removal of `parts` titled `title`: a reset is undone by name, anything else as a
-    /// removal.
-    static func undoTitle(of parts: [RemovalPart], title: String) -> String {
+    /// What Edit > Undo says for a removal of `parts` titled `title` that moved `records`: a reset by its app, an
+    /// uninstall by its apps, and anything else as Finder names a move, since a page's title is no thing that went.
+    static func undoTitle(of parts: [RemovalPart], title: String, records: [RemovalRecord]) -> String {
         if parts.count == 1, let key = parts[0].sourceKey, key.hasPrefix("reset.") {
             return String(localized: "Undo Reset \(String(key.dropFirst("reset.".count)))")
         }
-        return String(localized: "Undo Remove \(title)")
+        let movedAnApp = records.contains { $0.originalURL.pathExtension.lowercased() == "app" }
+        if movedAnApp, parts.allSatisfy({ $0.tool == Tool.applications.rawValue }) {
+            return String(localized: "Undo Remove \(title)")
+        }
+        if records.count == 1, let record = records.first {
+            return String(localized: "Undo Move of “\(record.originalURL.lastPathComponent)”")
+        }
+        return String(inflecting: "Undo Move of ^[\(records.count) Item](inflect: true)")
     }
 
     var size: SizeTotal { records.totalSize }
@@ -429,7 +436,9 @@ final class RemovalHistoryStore {
         justMoved = moved
         announcing(moved.movedAnnouncement)
         stats?.reload()
-        registerUndo(of: removal.records, title: RemovalBatch.undoTitle(of: parts, title: moved.title))
+        registerUndo(
+            of: removal.records, title: RemovalBatch.undoTitle(of: parts, title: moved.title, records: removal.records)
+        )
     }
 
     /// Makes the last batch undoable, as Finder does after a move to the Trash: Command-Z puts it back, and the

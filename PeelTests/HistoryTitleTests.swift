@@ -21,6 +21,35 @@ struct HistoryTitleTests {
             == String(inflecting: "^[\(5) receipt](inflect: true)"))
     }
 
+    /// A page's title is no thing that went: emptying Xcode's caches on the Developer page doesn't remove Xcode.
+    @Test func undoNamesTheMoveAndNotThePage() throws {
+        let record = { (path: String, tool: Tool) in
+            RemovalRecord(
+                batch: UUID(),
+                item: TrashedItem(
+                    originalURL: URL(filePath: path), trashedURL: URL(filePath: "/Users/me/.Trash/x"), date: .now
+                ),
+                size: 1, source: "Xcode", tool: tool.rawValue
+            )
+        }
+        let part = { (tool: Tool) in RemovalPart(source: "Xcode", sourceKey: nil, tool: tool.rawValue) }
+        let caches = [
+            record("/Users/me/Library/Developer/Xcode/DerivedData", .developer),
+            record("/Users/me/Library/Caches/com.apple.dt.Xcode", .developer),
+        ]
+
+        #expect(RemovalBatch.undoTitle(of: [part(.developer)], title: "Xcode", records: caches)
+            == String(inflecting: "Undo Move of ^[\(2) Item](inflect: true)"))
+        #expect(RemovalBatch.undoTitle(of: [part(.developer)], title: "Xcode", records: [caches[0]])
+            == String(localized: "Undo Move of “\("DerivedData")”"))
+        let app = record("/Applications/Xcode.app", .applications)
+        #expect(RemovalBatch.undoTitle(of: [part(.applications)], title: "Xcode", records: [app, caches[0]])
+            == String(localized: "Undo Remove \("Xcode")"))
+        let filesOnly = [record("/Users/me/Library/Caches/com.apple.dt.Xcode", .applications)]
+        #expect(RemovalBatch.undoTitle(of: [part(.applications)], title: "Xcode", records: filesOnly)
+            == String(localized: "Undo Move of “\("com.apple.dt.Xcode")”"))
+    }
+
     @Test func namesTheFirstPagesOfALongRemovalAndFindsItByAnyOfThem() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
@@ -47,7 +76,7 @@ struct HistoryTitleTests {
         let named = "project01, project02, project03, project04, and 26 more pages"
         let batch = try #require(history.batches.first)
         #expect(batch.title == named)
-        #expect(history.undoTitle == "Undo Remove \(named)")
+        #expect(history.undoTitle == String(inflecting: "Undo Move of ^[\(30) Item](inflect: true)"))
         let found = await SearchText.matching("project30", among: history.batches, keys: history.searchKeys)
         #expect(found?.map(\.id) == [batch.id])
         let refused = try #require(history.refusalBatches.first)
