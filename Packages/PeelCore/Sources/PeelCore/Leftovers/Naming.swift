@@ -138,7 +138,13 @@ enum Identifier {
            name[..<dot].allSatisfy({ $0.isASCII && ($0.isLetter || $0.isNumber) }) {
             return name.index(after: dot) < name.endIndex
         }
-        return name.hasPrefix("group.") && isReverseDNS(String(name.dropFirst("group.".count)))
+        return withoutGroupPrefix(name).map(isReverseDNS) == true
+    }
+
+    /// What a group's name carries after `group.`, the prefix macOS gives a group an app shares with its extensions,
+    /// or nil for a name without it.
+    static func withoutGroupPrefix(_ name: String) -> String? {
+        name.hasPrefix("group.") ? String(name.dropFirst("group.".count)) : nil
     }
 
     /// Splits "ABCDE12345.shared" into the team identifier and the rest.

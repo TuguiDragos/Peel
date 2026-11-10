@@ -32,6 +32,24 @@ struct LeftoverMatcherTests {
             .match(fileName: fileName, kind: kind)
     }
 
+    @Test func aGroupTheAppDoesNotDeclareIsShownByTheIdentifierItCarries() {
+        let tide = InstalledApp(
+            url: URL(filePath: "/Applications/Tide.app"), bundleIdentifier: "org.example.tide", name: "Tide"
+        )
+        let other = InstalledApp(
+            url: URL(filePath: "/Applications/Other.app"), bundleIdentifier: "org.example.tide.extra", name: "Other"
+        )
+
+        let undeclared = match("group.org.example.tide.extra", in: .groupContainers, for: tide)
+        let scripts = match("group.org.example.tide", in: .applicationScripts, for: tide)
+
+        #expect(undeclared?.confidence == .possible)
+        #expect(undeclared?.isRecommended == false)
+        #expect(scripts?.confidence == .possible)
+        #expect(match("group.org.example.tide.extra", in: .groupContainers, for: tide, with: [other]) == nil)
+        #expect(match("group.com.stranger.thing", in: .groupContainers, for: tide) == nil)
+    }
+
     /// A Safari web app's identifier is Safari's template followed by the web app's own UUID, so the files named
     /// exactly that are the web app's, though the name begins with `com.apple.`. Nothing else of Apple's is.
     @Test func aSafariWebAppClaimsOnlyWhatSafariNamedForIt() throws {

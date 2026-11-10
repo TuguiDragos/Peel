@@ -148,7 +148,7 @@ public struct CaskEvidence: Sendable, Hashable {
         (cask.leftoverPatterns + cask.emptyFolderPatterns).compactMap { pattern in
             var name = String((pattern.split(separator: "/").last ?? "").prefix { !"*?[{".contains($0) })
             while let last = name.last, ".-_".contains(last) { name.removeLast() }
-            if name.hasPrefix("group.") { name.removeFirst("group.".count) }
+            name = Identifier.withoutGroupPrefix(name) ?? name
             let lowered = name.lowercased()
             return Identifier.isReverseDNS(name) && !ProtectedData.isApplesName(lowered) ? lowered : nil
         }

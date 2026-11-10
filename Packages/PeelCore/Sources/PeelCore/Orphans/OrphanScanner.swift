@@ -484,8 +484,8 @@ public struct OrphanScanner: Sendable {
         isAGoneAppStoreApp: (String) -> Bool = { _ in false }
     ) -> String? {
         var identifier = key
-        if kind == .groupContainers || kind == .applicationScripts, identifier.hasPrefix("group.") {
-            identifier.removeFirst("group.".count)
+        if kind == .groupContainers || kind == .applicationScripts, let carried = Identifier.withoutGroupPrefix(key) {
+            identifier = carried
         }
         let lowercased = identifier.lowercased()
         if SafariWebApp.isIdentifier(identifier) || isAGoneAppStoreApp(identifier) { return identifier }
@@ -495,7 +495,7 @@ public struct OrphanScanner: Sendable {
             return identifier
         }
         if kind == .groupContainers, let remainder = Identifier.teamScoped(identifier)?.remainder {
-            let app = remainder.hasPrefix("group.") ? String(remainder.dropFirst("group.".count)) : remainder
+            let app = Identifier.withoutGroupPrefix(remainder) ?? remainder
             return isAGoneApp(app) ? app : identifier
         }
         if Identifier.isValid(identifier), isDeclared(identifier) {
@@ -547,10 +547,8 @@ public struct OrphanScanner: Sendable {
     /// The identifier without a team ID or `group.` in front, when what is left is reverse DNS. For example,
     /// "S8EX82NJP6.group.com.example.app" and "group.com.example.app" both group under "com.example.app".
     static func groupingKey(for identifier: String) -> String {
-        var key = Identifier.teamScoped(identifier)?.remainder ?? identifier
-        if key.hasPrefix("group.") {
-            key.removeFirst("group.".count)
-        }
+        let scoped = Identifier.teamScoped(identifier)?.remainder ?? identifier
+        let key = Identifier.withoutGroupPrefix(scoped) ?? scoped
         return Identifier.isReverseDNS(key) ? key : identifier
     }
 

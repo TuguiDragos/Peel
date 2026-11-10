@@ -117,7 +117,13 @@ struct LeftoverMatcher: Sendable {
         // A name still hidden here is the system's own: `.GlobalPreferences.plist` is the global domain.
         guard !key.hasPrefix(".") else { return nil }
         let candidate = Candidate(key, isMacOSs: !nested && SystemFolders.keeps(fileName, in: kind))
-        guard let evidence = target.claim(for: candidate) else { return nil }
+        guard let evidence = target.claim(for: candidate) else {
+            // A group the app doesn't declare is judged by the identifier it carries, as one to look at.
+            guard kind == .groupContainers || kind == .applicationScripts,
+                  let carried = Identifier.withoutGroupPrefix(key)
+            else { return nil }
+            return match(fileName: carried, kind: kind, at: url, nested: nested)?.atMost(.possible)
+        }
 
         var sharedWith: Set<String> = []
         var otherCopies: [URL] = []
