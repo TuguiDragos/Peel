@@ -402,6 +402,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   folder, such as `Logſ` for `Logs`, no longer gets a folder Peel searches past the rules that keep it in place.
 - Peel's helper, Background Items, and the cleanup after a removal leave alone each copy launchd runs of one of macOS's
   own jobs for a connection, such as `com.openssh.sshd` with a number after it while someone is logged in over SSH.
+- A Homebrew package's name is one word of every command Peel gives for Terminal, in quotes when the shell would read
+  it as something else, and Peel's own runs of `brew` pass names after `--`, so a name that begins with a dash is
+  never read as an option. A name comes from Homebrew's own files, which a tap can name anything.
 
 ## 1.3.0 (2026-11-04)
 
