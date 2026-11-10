@@ -120,13 +120,14 @@ public final class DirectoryHandle: Sendable {
 public struct ItemIdentity: Codable, Hashable, Sendable {
     public let device: Int64
     public let inode: UInt64
-    /// When the item was made, in nanoseconds since 1970.
+    /// When the item was made, in nanoseconds since 1970, wrapping instead of trapping outside 1677 to 2262: a
+    /// network share can report a date it doesn't know as 1601, and the value is only ever compared.
     public let birth: Int64
 
     public init(_ info: stat) {
         device = Int64(info.st_dev)
         inode = UInt64(info.st_ino)
-        birth = Int64(info.st_birthtimespec.tv_sec) * 1_000_000_000 + Int64(info.st_birthtimespec.tv_nsec)
+        birth = Int64(info.st_birthtimespec.tv_sec) &* 1_000_000_000 &+ Int64(info.st_birthtimespec.tv_nsec)
     }
 
     /// The identity of the item at `path` itself, never of what a link there leads to.

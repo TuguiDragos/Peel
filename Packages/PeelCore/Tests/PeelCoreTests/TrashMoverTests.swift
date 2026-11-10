@@ -24,6 +24,15 @@ struct TrashMoverTests {
         return try DirectoryHandle.at(url.path(percentEncoded: false)).get()
     }
 
+    @Test func anItemBornIn1601IsStillKnown() {
+        var info = stat()
+        info.st_dev = 1
+        info.st_ino = 42
+        info.st_birthtimespec = timespec(tv_sec: -11_644_473_600, tv_nsec: 0)
+
+        #expect(ItemIdentity(info) == ItemIdentity(info))
+    }
+
     @Test func aFileMovesWhereTheDiskCannotRefuseToReplace() throws {
         let directory = try TemporaryDirectory()
         let disk = try ScratchVolume(
