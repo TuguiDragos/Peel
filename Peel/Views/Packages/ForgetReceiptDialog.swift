@@ -29,20 +29,26 @@ struct ForgetReceiptDialog: ViewModifier {
                         outcome.report(result)
                     }
                 }
-                // While what the package installed is still here, Return keeps the receipt, so the message is read.
-                if receipt.installedApps.isEmpty {
-                    Button("Cancel", role: .cancel) {}
-                } else {
+                if Self.returnKeepsTheReceipt(receipt) {
                     Button("Cancel", role: .cancel) {}
                         .keyboardShortcut(.defaultAction)
+                } else {
+                    Button("Cancel", role: .cancel) {}
                 }
             } message: { receipt in
-                if receipt.installedApps.isEmpty {
-                    Text("The receipt goes to the Trash, so macOS no longer counts the package as installed. What it installed stays where it is.")
-                } else {
-                    Text("The receipt goes to the Trash. What the package installed stays and keeps working, but macOS, installers that check the receipt, and Peel stop knowing the package installed it, so Peel can no longer list what it put on this Mac.")
-                }
+                Text(Self.message(for: receipt))
             }
+    }
+
+    /// While anything the receipt lists may still be here, Return keeps the receipt: it is the only list of that.
+    static func returnKeepsTheReceipt(_ receipt: PackageReceipt) -> Bool {
+        !receipt.nothingLeftOnDisk
+    }
+
+    static func message(for receipt: PackageReceipt) -> LocalizedStringResource {
+        receipt.nothingLeftOnDisk
+            ? "The receipt goes to the Trash, so macOS no longer counts the package as installed. Nothing on it is left on this Mac, and History can put the receipt back."
+            : "The receipt goes to the Trash. What the package installed stays and keeps working, but macOS, installers that check the receipt, and Peel stop knowing the package installed it, so Peel can no longer list what it put on this Mac."
     }
 
     private var isAsking: Binding<Bool> {

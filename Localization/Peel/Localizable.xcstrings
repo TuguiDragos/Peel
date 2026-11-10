@@ -218148,108 +218148,108 @@
         }
       }
     },
-    "The receipt goes to the Trash, so macOS no longer counts the package as installed. What it installed stays where it is." : {
+    "The receipt goes to the Trash, so macOS no longer counts the package as installed. Nothing on it is left on this Mac, and History can put the receipt back." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Záznam o instalaci se přesune do koše, takže systém macOS už nebude balíček považovat za nainstalovaný. Co balíček nainstaloval, zůstane, kde je."
+            "value" : "Záznam o instalaci se přesune do koše, takže systém macOS už nebude balíček považovat za nainstalovaný. Z toho, co záznam uvádí, v tomto Macu už nic nezůstalo a Historie může záznam vrátit zpět."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Quittung wird in den Papierkorb gelegt, sodass macOS das Paket nicht mehr als installiert betrachtet. Was es installiert hat, bleibt, wo es ist."
+            "value" : "Die Quittung wird in den Papierkorb gelegt, sodass macOS das Paket nicht mehr als installiert betrachtet. Von dem, was auf ihr steht, ist auf diesem Mac nichts mehr da, und im Verlauf kannst du die Quittung zurücklegen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El recibo va a la papelera, así que macOS deja de contar el paquete como instalado. Lo que instaló se queda donde está."
+            "value" : "El recibo va a la papelera, así que macOS deja de contar el paquete como instalado. No queda en este Mac nada de lo que figura en él, e Historial puede restaurar el recibo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le reçu est placé dans la corbeille : macOS ne considère donc plus le paquet comme installé. Ce qu’il a installé reste en place."
+            "value" : "Le reçu est placé dans la corbeille : macOS ne considère donc plus le paquet comme installé. Il ne reste sur ce Mac rien de ce qui figure sur ce reçu, et l’Historique peut le remettre en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La ricevuta va nel Cestino, quindi macOS non considera più installato il pacchetto. Ciò che ha installato resta dov’è."
+            "value" : "La ricevuta va nel Cestino, quindi macOS non considera più installato il pacchetto. Di ciò che è elencato nella ricevuta non rimane nulla su questo Mac, e la Cronologia può ripristinarla."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "レシートはゴミ箱に入り、macOSはこのパッケージをインストール済みと見なさなくなります。パッケージがインストールしたものはそのまま残ります。"
+            "value" : "レシートはゴミ箱に入り、macOSはこのパッケージをインストール済みと見なさなくなります。レシートに記載されているものはこのMacに何も残っておらず、レシートは履歴から戻すことができます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "수신 정보가 휴지통으로 이동하므로 macOS는 더 이상 이 패키지를 설치된 것으로 간주하지 않습니다. 패키지가 설치한 항목은 그대로 남습니다."
+            "value" : "수신 정보가 휴지통으로 이동하므로 macOS는 더 이상 이 패키지를 설치된 것으로 간주하지 않습니다. 이 수신 정보에 나열된 항목은 이 Mac에 남아 있지 않으며, 기록에서 수신 정보를 되돌려 놓을 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het installatiebewijs gaat naar de prullenmand, zodat macOS het pakket niet meer als geïnstalleerd beschouwt. Wat het pakket heeft geïnstalleerd, blijft waar het is."
+            "value" : "Het installatiebewijs gaat naar de prullenmand, zodat macOS het pakket niet meer als geïnstalleerd beschouwt. Van wat erop staat, is op deze Mac niets meer over, en Geschiedenis kan het installatiebewijs terugzetten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Potwierdzenie trafi do Kosza, więc macOS przestanie uznawać pakiet za zainstalowany. To, co pakiet zainstalował, zostanie na swoim miejscu."
+            "value" : "Potwierdzenie trafi do Kosza, więc macOS przestanie uznawać pakiet za zainstalowany. Na tym Macu nie zostało nic z tego, co wymienia to potwierdzenie, a Historia może je przywrócić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O recibo vai para o Lixo, então o macOS deixa de considerar o pacote como instalado. O que ele instalou fica onde está."
+            "value" : "O recibo vai para o Lixo, então o macOS deixa de considerar o pacote como instalado. Não resta neste Mac nada do que consta no recibo, e o Histórico pode colocá-lo de volta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Înregistrarea este mutată în Coș, astfel încât macOS nu mai consideră pachetul instalat. Ce a instalat acesta rămâne unde se află."
+            "value" : "Înregistrarea este mutată în Coș, astfel încât macOS nu mai consideră pachetul instalat. Din ce listează aceasta nu a mai rămas nimic pe acest Mac, iar din Istoric puteți pune înregistrarea înapoi."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Квитанция перемещается в Корзину, и macOS больше не считает пакет установленным. То, что он установил, остается на месте."
+            "value" : "Квитанция перемещается в Корзину, и macOS больше не считает пакет установленным. Из того, что в ней указано, на этом Mac ничего не осталось, а История может восстановить квитанцию."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kvittot flyttas till papperskorgen, så macOS räknar inte längre paketet som installerat. Det som paketet installerade stannar där det är."
+            "value" : "Kvittot flyttas till papperskorgen, så macOS räknar inte längre paketet som installerat. Inget av det som står på kvittot finns kvar på den här datorn, och Historik kan lägga tillbaka kvittot."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Makbuz Çöp Sepeti’ne gider, böylece macOS paketi artık yüklü saymaz. Paketin yüklediği şeyler olduğu yerde kalır."
+            "value" : "Makbuz Çöp Sepeti’ne gider, böylece macOS paketi artık yüklü saymaz. Makbuzdaki şeylerden hiçbiri bu Mac’te kalmamış ve Geçmiş makbuzu yerine koyabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Квитанцію буде переміщено в Смітник, тож macOS більше не вважатиме пакет інстальованим. Те, що він інсталював, лишиться на місці."
+            "value" : "Квитанцію буде переміщено в Смітник, тож macOS більше не вважатиме пакет інстальованим. З того, що вказано в ній, на цьому Mac нічого не лишилося, а Історія зможе повернути квитанцію."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "回执会移到废纸篓，这样macOS就不再将该软件包视为已安装。它安装的内容会留在原处。"
+            "value" : "回执会移到废纸篓，这样macOS就不再将该软件包视为已安装。回执中列出的内容已全部不在这台Mac上了，“历史记录”可以将回执放回原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "收據會丟到「垃圾桶」，macOS就不再將此套件視為已安裝。它所安裝的內容會保留在原處。"
+            "value" : "收據會丟到「垃圾桶」，macOS就不再將此套件視為已安裝。收據上列出的項目已全部不在這部Mac上，「歷史記錄」可以將收據還原。"
           }
         }
       }
