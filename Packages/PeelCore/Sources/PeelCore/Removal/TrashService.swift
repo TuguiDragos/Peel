@@ -579,6 +579,8 @@ public struct TrashService: Sendable {
 
         var result = TrashResult()
         var moved = Folders()
+        // Set once the line written before a move can't be: nothing moves after it, since nothing would remember it.
+        var unrecorded: TrashFailure.Reason?
         ownMoves.began()
         func move(_ url: URL) {
             if let refusal = refusals[url] {
@@ -588,12 +590,22 @@ public struct TrashService: Sendable {
             // An item inside a folder that just moved went with it: it is neither moved again nor a failure.
             let path = PathPattern.comparablePath(of: url)
             guard !moved.hold(path) else { return }
+            if let unrecorded {
+                result.failures.append(TrashFailure(url: url, reason: unrecorded))
+                return
+            }
             if let refusal = refusing?(url) {
                 result.failures.append(TrashFailure(url: url, reason: refusal))
                 return
             }
             if let held = openFiles.refusal(of: url, lettingItsProgramsRun: apps.contains(url)) {
                 result.failures.append(TrashFailure(url: url, reason: held))
+                return
+            }
+            if let removal, let journal, !journal.note([departing(url)], batch: removal, beforeTheMove: true) {
+                let reason = TrashFailure.Reason.historyCannotBeWritten(journal.historyWriteProblem)
+                unrecorded = reason
+                result.failures.append(TrashFailure(url: url, reason: reason))
                 return
             }
             do {
@@ -819,6 +831,10 @@ public struct TrashService: Sendable {
         // A job's file goes first, and the job stops with it, so a program only that job runs moves in this pass too.
         let jobFiles = Set(jobs.map(\.plist))
         var stopped: [LaunchdCleanup.Job] = []
+        // Nothing goes to the helper once a line written before a move can't be, here or in the moves above.
+        var unrecorded = result.failures.lazy.map(\.reason).first { reason in
+            if case .historyCannotBeWritten = reason { true } else { false }
+        }
         for (index, batch) in [
             allowed.filter(jobFiles.contains),
             allowed.filter { !links.contains($0) && !jobFiles.contains($0) },
@@ -840,6 +856,14 @@ public struct TrashService: Sendable {
                     }
                 }
                 guard !request.isEmpty else { continue }
+                if unrecorded == nil, let journal,
+                   !journal.note(request.map(departing), batch: removal, beforeTheMove: true) {
+                    unrecorded = .historyCannotBeWritten(journal.historyWriteProblem)
+                }
+                if let unrecorded {
+                    result.failures += request.map { TrashFailure(url: $0, reason: unrecorded) }
+                    continue
+                }
                 let moved = await moveThroughHelper(request)
                 journal?.note(moved.trashed, batch: removal)
                 MoveCount.current?.add(moved.trashed.count)
@@ -1261,6 +1285,17 @@ public struct TrashService: Sendable {
         return trashedURL
     }
 
+    /// What the line written before `url` moves records: where it is, what it is there, and the place in its Trash
+    /// under its own name. The helper puts what it moves in the home's Trash, as a move puts an item on the home's
+    /// disk.
+    private func departing(_ url: URL) -> TrashedItem {
+        let trash = VolumeTrashes.trash(forItemAt: url, home: environment.homeDirectory)
+        return TrashedItem(
+            originalURL: url, trashedURL: trash.appending(path: url.lastPathComponent), date: .now,
+            identity: .init(ofItemAt: url)
+        )
+    }
+
     /// The item in `trash` with the device and inode in `link`. A move within a volume keeps the inode, while the
     /// name proves nothing: macOS renames an item whose name is taken, so an older item of the same name could be
     /// found instead.
@@ -1270,15 +1305,18 @@ public struct TrashService: Sendable {
     }
 
     /// The item in `trash` with the device and inode in `link`, under `name` or a name the helper gives when that one
-    /// is taken. Nothing is listed: without Full Disk Access macOS lets Peel search a Trash but not read it.
+    /// is taken.
     static func item(_ link: FileIdentity.Link, named name: String, in trash: URL) -> URL? {
+        item(named: name, in: trash) { FileIdentity.Link(device: $0.st_dev, inode: $0.st_ino) == link }
+    }
+
+    /// The item in `trash` that `isTheItem` knows, under `name` or a name a move gives when that one is taken. Nothing
+    /// is listed: without Full Disk Access macOS lets Peel search a Trash but not read it.
+    static func item(named name: String, in trash: URL, where isTheItem: (stat) -> Bool) -> URL? {
         guard let folder = try? DirectoryHandle.at(trash.path(percentEncoded: false)).get() else { return nil }
         for attempt in TrashMover.attempts {
             let candidate = TrashMover.name(name, attempt: attempt)
-            guard let info = folder.status(of: candidate) else { continue }
-            if FileIdentity.Link(device: info.st_dev, inode: info.st_ino) == link {
-                return trash.appending(path: candidate)
-            }
+            if let info = folder.status(of: candidate), isTheItem(info) { return trash.appending(path: candidate) }
         }
         return nil
     }

@@ -80,13 +80,18 @@ struct RemovalJournalTests {
         }
 
         let left = journal.entries()
-        #expect(left.map(\.batch) == [batch])
-        #expect(left.map(\.part) == [space])
+        #expect(Set(left.map(\.item.originalURL)) == [second], "the first part's lines stayed once History had it")
+        #expect(Set(left.map(\.batch)) == [batch])
+        #expect(Set(left.map(\.part)) == [space])
         // The process stops before it records the second part.
         journal.forget(Set(left))
+        let ended = try endedProcess()
         for entry in left {
             let recorded = RecordedRemoval(batch: entry.batch, part: try #require(entry.part))
-            journal.note([entry.item], batch: entry.batch, recordedAs: recorded, by: try endedProcess())
+            journal.note(
+                [entry.item], batch: entry.batch, recordedAs: recorded, beforeTheMove: entry.isBeforeTheMove == true,
+                by: ended
+            )
         }
 
         let records = try #require(await RemovalLog(url: history).load().records)
@@ -111,8 +116,12 @@ struct RemovalJournalTests {
         // The process stops before it records the part.
         let left = journal.entries()
         journal.forget(Set(left))
+        let ended = try endedProcess()
         for entry in left {
-            journal.note([entry.item], batch: entry.batch, recordedAs: recorded, by: try endedProcess())
+            journal.note(
+                [entry.item], batch: entry.batch, recordedAs: recorded, beforeTheMove: entry.isBeforeTheMove == true,
+                by: ended
+            )
         }
 
         let records = try #require(await RemovalLog(url: history).load().records)
@@ -147,7 +156,9 @@ struct RemovalJournalTests {
 
         #expect(result.emptied.map(\.lastPathComponent) == ["Example"])
         let sizes = Dictionary(
-            uniqueKeysWithValues: journal.entries().map { ($0.item.originalURL.lastPathComponent, $0.size) }
+            uniqueKeysWithValues: journal.entries().filter { $0.isBeforeTheMove != true }.map {
+                ($0.item.originalURL.lastPathComponent, $0.size)
+            }
         )
         #expect(sizes["Notes"] == .some(2_000))
         #expect(sizes["Example"] == .some(0))
@@ -294,7 +305,7 @@ struct RemovalJournalTests {
 
         let moved = await service.trash([folder])
         let item = try #require(moved.trashed.first)
-        #expect(journal.entries().count == 1)
+        #expect(Set(journal.entries().map(\.item.originalURL)) == [folder])
 
         #expect(await service.restore(item) == nil)
 
@@ -330,6 +341,113 @@ struct RemovalJournalTests {
         #expect(journal.entries().isEmpty)
     }
 
+    /// What a line written before a move says of an item, with the item where `landed` puts it.
+    private func leaving(
+        _ name: String, in directory: borrowing TemporaryDirectory, landing landed: (URL, URL) throws -> Void
+    ) throws -> TrashedItem {
+        let original = try directory.file("home/Library/Caches/\(name)", bytes: 10)
+        let trash = try directory.directory("home/.Trash")
+        let item = TrashedItem(
+            originalURL: original, trashedURL: trash.appending(path: name), date: .now,
+            identity: .init(ofItemAt: original)
+        )
+        try landed(original, trash)
+        return item
+    }
+
+    @Test func aLineWrittenBeforeAMoveFindsTheItemUnderTheNameItsTrashGaveIt() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        let renamed = directory.url.appending(path: "home/.Trash/\(TrashMover.name("com.example.app", attempt: 2))")
+        let item = try leaving("com.example.app", in: directory) { original, trash in
+            try directory.file("home/.Trash/com.example.app", bytes: 3)
+            try FileManager.default.moveItem(at: original, to: renamed)
+        }
+        journal.note([item], batch: UUID(), beforeTheMove: true, by: try endedProcess())
+
+        let records = try #require(await RemovalLog(url: history).load().records)
+
+        #expect(records.map(\.trashedURL.lastPathComponent) == [renamed.lastPathComponent])
+        #expect(records.map(\.originalURL) == [item.originalURL])
+        #expect(journal.entries().isEmpty)
+    }
+
+    @Test func aLineWrittenBeforeAMoveOfAnItemThatStayedOrLeftTheTrashIsLetGo() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        let stayed = try leaving("com.example.stayed", in: directory) { original, trash in
+            try FileManager.default.linkItem(at: original, to: trash.appending(path: "com.example.stayed"))
+        }
+        let gone = try leaving("com.example.gone", in: directory) { original, _ in
+            try FileManager.default.moveItem(at: original, to: directory.url.appending(path: "elsewhere"))
+            try directory.file("home/.Trash/com.example.gone", bytes: 10)
+        }
+        journal.note([stayed, gone], batch: UUID(), beforeTheMove: true, by: try endedProcess())
+
+        let records = try #require(await RemovalLog(url: history).load().records)
+
+        #expect(records.isEmpty)
+        #expect(journal.entries().isEmpty)
+    }
+
+    @Test func anItemHistoryHasIsNotTakenInAgainFromTheLineWrittenBeforeItMoved() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        let item = try leaving("com.example.app", in: directory) { original, trash in
+            try FileManager.default.moveItem(at: original, to: trash.appending(path: "com.example.app"))
+        }
+        let landed = TrashedItem(
+            originalURL: item.originalURL, trashedURL: item.trashedURL, date: .now, identity: item.identity
+        )
+        let record = RemovalRecord(batch: UUID(), item: landed, size: 10, source: "Editor", tool: "applications")
+        _ = await RemovalLog(url: history).add([record])
+        journal.note([item], batch: record.batch, beforeTheMove: true, by: try endedProcess())
+
+        let records = try #require(await RemovalLog(url: history).load().records)
+
+        #expect(records.map(\.id) == [record.id])
+        #expect(journal.entries().isEmpty)
+    }
+
+    @Test func anItemWithBothItsLinesComesBackOnce() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        let item = try leaving("com.example.app", in: directory) { original, trash in
+            try FileManager.default.moveItem(at: original, to: trash.appending(path: "com.example.app"))
+        }
+        let batch = UUID()
+        let ended = try endedProcess()
+        journal.note([item], batch: batch, beforeTheMove: true, by: ended)
+        journal.note([item], batch: batch, by: ended)
+
+        let records = try #require(await RemovalLog(url: history).load().records)
+
+        #expect(records.map(\.originalURL) == [item.originalURL])
+        #expect(journal.entries().isEmpty)
+    }
+
+    @Test func aLineWrittenBeforeAMoveOnADiskNotConnectedWaitsForIt() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        let known = try directory.file("known", bytes: 10)
+        let item = TrashedItem(
+            originalURL: URL(filePath: "/Volumes/org.example.Missing/Example"),
+            trashedURL: URL(filePath: "/Volumes/org.example.Missing/.Trashes/\(getuid())/Example"),
+            date: .now, identity: .init(ofItemAt: known)
+        )
+        journal.note([item], batch: UUID(), beforeTheMove: true, by: try endedProcess())
+
+        let records = try #require(await RemovalLog(url: history).load().records)
+
+        #expect(records.isEmpty)
+        #expect(journal.entries().count == 1)
+    }
+
     /// An older record at the same places, an item that moved there before and has left the Trash since, is
     /// another item: the one that moved now is still recorded.
     @Test func anOlderItemAtTheSamePlacesIsAnotherItem() async throws {
@@ -354,17 +472,108 @@ struct RemovalJournalTests {
         let first = try directory.file("home/Library/Caches/com.example.one/cache.db").deletingLastPathComponent()
         let second = try directory.file("home/Library/Caches/com.example.two/cache.db").deletingLastPathComponent()
         let journal = RemovalJournal(beside: directory.url.appending(path: "Peel/removals.json"))
-        let written = Mutex<[Int]>([])
+        let written = Mutex<[[String]]>([])
         let service = service(in: directory, journal: journal) { url in
-            written.withLock { $0.append(journal.entries().count) }
+            let lines = journal.entries().map {
+                $0.item.originalURL.lastPathComponent + ($0.isBeforeTheMove == true ? " before" : " after")
+            }
+            written.withLock { $0.append(lines) }
             return directory.url.appending(path: "home/.Trash/\(url.lastPathComponent)")
         }
 
         let result = await service.trash([first, second])
 
         #expect(result.trashed.count == 2)
-        #expect(written.withLock { $0 } == [0, 1], "the first item was not written down before the second moved")
-        #expect(Set(journal.entries().map(\.item.trashedURL)) == Set(result.trashed.map(\.trashedURL)))
+        #expect(written.withLock { $0 } == [
+            ["com.example.one before"], ["com.example.one before", "com.example.one after", "com.example.two before"],
+        ], "an item moved with no line, or before the one ahead of it was written down")
+        let after = journal.entries().filter { $0.isBeforeTheMove != true }
+        #expect(Set(after.map(\.item.trashedURL)) == Set(result.trashed.map(\.trashedURL)))
+    }
+
+    private func movingService(
+        in directory: borrowing TemporaryDirectory, journal: RemovalJournal
+    ) throws -> TrashService {
+        let trash = try directory.directory("home/.Trash")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let removalGuard = RemovalGuard(environment: environment)
+        return TrashService(environment: environment, journal: journal) { url in
+            try TrashService.moveToSystemTrash(url, trash: { _ in trash }, refusal: removalGuard.refusal(of:))
+        }
+    }
+
+    @Test(.permissionsHold) func nothingMovesOnceTheJournalCanNoLongerBeWritten() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("Peel")
+        let journal = RemovalJournal(beside: folder.appending(path: "removals.json"))
+        let files = try (1...3).map { try directory.file("home/Library/Caches/Example/\($0).txt") }
+        let service = try movingService(in: directory, journal: journal)
+        let path = folder.path(percentEncoded: false)
+
+        let result = await service.trash(files, refusing: { _ in
+            chmod(path, 0o500)
+            return nil
+        })
+        chmod(path, 0o700)
+
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.url) == files)
+        #expect(result.failures.allSatisfy { if case .historyCannotBeWritten = $0.reason { true } else { false } })
+        #expect(files.allSatisfy { !$0.isMissing })
+    }
+
+    @Test(.permissionsHold) func whatMovesBeforeTheJournalClosesIsWrittenDownAndNothingMovesAfter() async throws {
+        let directory = try TemporaryDirectory()
+        let journal = RemovalJournal(beside: directory.url.appending(path: "Peel/removals.json"))
+        let files = try (1...3).map { try directory.file("home/Library/Caches/Example/\($0).txt") }
+        let service = try movingService(in: directory, journal: journal)
+        let asked = Mutex(0)
+
+        let result = await service.trash(files, refusing: { _ in
+            if asked.withLock({ $0 += 1; return $0 }) == 2 { chmod(journal.url.path(percentEncoded: false), 0o400) }
+            return nil
+        })
+        chmod(journal.url.path(percentEncoded: false), 0o600)
+
+        #expect(result.trashed.map(\.originalURL) == [files[0]])
+        #expect(result.failures.map(\.url) == [files[1], files[2]])
+        #expect(Set(journal.entries().map(\.item.originalURL)) == [files[0]])
+    }
+
+    @Test(.permissionsHold) func noRequestGoesToTheHelperWhileTheJournalCannotTakeIt() async throws {
+        let directory = try TemporaryDirectory()
+        let journal = RemovalJournal(beside: directory.url.appending(path: "Peel/removals.json"))
+        let mine = try directory.file("home/Library/Caches/com.example.mine/cache.db").deletingLastPathComponent()
+        let helpers = try (1...2).map {
+            try directory.file("home/Library/Caches/com.example.root\($0)/cache.db").deletingLastPathComponent()
+        }
+        let asked = Mutex(0)
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            ),
+            moveThroughHelper: { urls in
+                asked.withLock { $0 += 1 }
+                return TrashResult(trashed: urls.map {
+                    TrashedItem(originalURL: $0, trashedURL: directory.url.appending(path: "home/.Trash/\($0.lastPathComponent)"), date: .now)
+                })
+            },
+            journal: journal,
+            moveToTrash: { url in
+                chmod(journal.url.path(percentEncoded: false), 0o400)
+                return directory.url.appending(path: "home/.Trash/\(url.lastPathComponent)")
+            }
+        )
+
+        let result = await service.trash([mine] + helpers, usingHelperFor: Set(helpers))
+        chmod(journal.url.path(percentEncoded: false), 0o600)
+
+        #expect(asked.withLock { $0 } == 0, "a request went to the helper with nothing written down")
+        #expect(Set(result.failures.map(\.url)) == Set(helpers))
     }
 
     @Test func whatTheHelperMovesIsWrittenDownAfterEachRequest() async throws {
@@ -373,14 +582,15 @@ struct RemovalJournalTests {
         let items = try (0...HelperRequest.maximumItems).map {
             try directory.file("home/Library/Caches/com.example.app\($0)/cache.db").deletingLastPathComponent()
         }
-        let written = Mutex<[Int]>([])
+        let written = Mutex<[(before: Int, after: Int)]>([])
         let service = TrashService(
             environment: SearchEnvironment(
                 homeDirectory: directory.url.appending(path: "home"),
                 rootDirectory: directory.url.appending(path: "root")
             ),
             moveThroughHelper: { urls in
-                written.withLock { $0.append(journal.entries().count) }
+                let before = journal.entries().filter { $0.isBeforeTheMove == true }.count
+                written.withLock { $0.append((before, journal.entries().count - before)) }
                 return TrashResult(trashed: urls.map {
                     TrashedItem(
                         originalURL: $0,
@@ -396,8 +606,9 @@ struct RemovalJournalTests {
         let result = await service.trash(items, usingHelperFor: Set(items))
 
         #expect(result.trashed.count == items.count)
-        #expect(written.withLock { $0 } == [0, HelperRequest.maximumItems], "a request went before the last answer was written down")
-        #expect(journal.entries().count == items.count)
+        #expect(written.withLock { $0.map(\.before) } == [HelperRequest.maximumItems, items.count])
+        #expect(written.withLock { $0.map(\.after) } == [0, HelperRequest.maximumItems], "a request went before the last answer was written down")
+        #expect(journal.entries().filter { $0.isBeforeTheMove != true }.count == items.count)
     }
 
     /// While History cannot be read nothing moves, since what moved could not be listed for Put Back. An item the
@@ -575,6 +786,8 @@ struct RemovalJournalTests {
             RemovalRecord(batch: UUID(), item: item(emptied), size: 1, source: "Emptied", tool: "applications"),
         ])
         RemovalJournal(beside: log.url).note([item(underWay)], batch: UUID(), by: .current)
+        let leaving = item(directory.url.appending(path: "Trash/Thrown.app"))
+        RemovalJournal(beside: log.url).note([leaving], batch: UUID(), beforeTheMove: true, by: .current)
 
         let places = await log.placesInTheTrash()
 

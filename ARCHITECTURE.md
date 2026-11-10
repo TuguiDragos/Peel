@@ -184,8 +184,11 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      what was selected on several pages.
    - As it records, History adds what moved to the totals Home and the menu bar panel show (`totals.json`, through
      `RemovalTotals`), so the app and `peel` count alike.
-   - Each item is also written down the moment it moves, and what the helper moves as soon as it answers each
-     request (`removals.journal`, through `RemovalJournal`), so what a removal moved before it was cut short reaches
+   - Each item is also written down before it moves, a request to the helper before it goes, and again once it moved
+     (`removals.journal`, through `RemovalJournal`); an item that can't be written down first doesn't move, nor does
+     anything after it in that removal. A line written before a move with none after it is settled on the disk when
+     it is taken in: the item still in its place never moved, and one in its Trash under a name a move gives, with the
+     identity the line keeps, is the one that moved. So what a removal moved before it was cut short reaches
      History the next time History is read, as what it was when History couldn't write it, since its line then keeps
      the record (`RemovalJournal.keep`), and otherwise under the name its page gave it: each line carries its batch
      and its part (`RecordedRemoval`), so what a part left there joins that removal under the part's name. Only a

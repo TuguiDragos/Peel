@@ -80,7 +80,8 @@ public actor RemovalLog {
     /// The places in the Trash where an item Peel moved still is, whichever process moved it: what History records
     /// and what a removal under way has written down so far. Spelled as `PathPattern.comparablePath` spells them.
     public func placesInTheTrash() -> Set<String> {
-        let items = (load().records ?? []).map(\.trashedItem) + journal.entries().map(\.item)
+        let written = journal.entries().filter { $0.isBeforeTheMove != true }
+        let items = (load().records ?? []).map(\.trashedItem) + written.map(\.item)
         return Set(items.filter(\.isInTheTrash).map { PathPattern.comparablePath(of: $0.trashedURL) })
     }
 
@@ -227,9 +228,20 @@ public actor RemovalLog {
     private func takingInInterrupted(_ records: [RemovalRecord]) -> [RemovalRecord] {
         keepAsideAnUnreadableJournal()
         let left = journal.left()
-        guard !left.isEmpty else { return records }
+        guard !left.lines.isEmpty else { return records }
         let recorded = Set(records.map { RemovalJournal.Key($0.trashedItem) })
-        let interrupted = left.filter { !recorded.contains(RemovalJournal.Key($0.item)) }.map(\.recordToTakeIn)
+        // An item a line written before its move was settled to has no time of landing to match by, so History is
+        // asked for the same item in the same places.
+        let places = { (item: TrashedItem) in
+            [item.originalURL, item.trashedURL].map(PathPattern.comparablePath(of:))
+        }
+        let settled = left.settled.filter { entry in
+            !records.contains {
+                places($0.trashedItem) == places(entry.item) && $0.trashedItem.identity == entry.item.identity
+            }
+        }
+        let interrupted = (left.written.filter { !recorded.contains(RemovalJournal.Key($0.item)) } + settled)
+            .map(\.recordToTakeIn)
         var updated = records
         if !interrupted.isEmpty {
             let taken = Set(interrupted.map(\.batch))
@@ -238,8 +250,9 @@ public actor RemovalLog {
             updated = written
             RemovalTotals.change(at: totals) { $0.add(interrupted) }
         }
-        if flush(url.path(percentEncoded: false)) {
-            journal.forget(Set(left))
+        // Lines that came to nothing while there is no History yet have nothing to wait for on the drive.
+        if interrupted.isEmpty && url.isMissing || flush(url.path(percentEncoded: false)) {
+            journal.forget(left.lines)
         }
         return updated
     }

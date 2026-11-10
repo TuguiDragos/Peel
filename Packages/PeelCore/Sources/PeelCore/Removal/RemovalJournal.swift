@@ -59,7 +59,7 @@ struct RemovalJournal: Sendable {
         let writer: Writer
         /// The move it was part of, so an interrupted one comes back as one entry of History.
         let batch: UUID
-        let item: TrashedItem
+        var item: TrashedItem
         /// The record History couldn't take, kept here so the item comes back as what it was.
         var record: RemovalRecord? = nil
         /// The part of the removal the item moved in, when the removal was recorded a part at a time.
@@ -68,6 +68,9 @@ struct RemovalJournal: Sendable {
         var disk: TrashedDisk? = nil
         var size: Int64? = nil
         var sharedStorage: Bool? = nil
+        /// Whether the line was written before the item moved: it names the Trash the item goes to, not where it
+        /// landed, and stands for the item until the line written once it moved.
+        var isBeforeTheMove: Bool? = nil
 
         /// History's record of the item: the one kept here, or else one of its part, with the size its page measured,
         /// or else that of an interrupted removal, which names no tool, since which tool moved the item is not known.
@@ -138,30 +141,34 @@ struct RemovalJournal: Sendable {
         RemovalLog.writeProblem(at: history)
     }
 
-    /// Writes down `items`, which moved together in `batch`, or in the removal and part `recorded` names, one line
-    /// each. An item the journal was in, Peel's own folder as Peel removes itself, is left out: History went with it,
-    /// and writing the line would make the folder again.
+    /// Writes down `items`, which move together in `batch`, or in the removal and part `recorded` names, one line
+    /// each, and answers whether every line was written. With `beforeTheMove`, the items have yet to move, and each
+    /// names the Trash it goes to. An item the journal was in, Peel's own folder as Peel removes itself, is left out:
+    /// History went with it, and writing the line would make the folder again.
+    @discardableResult
     func note(
         _ items: [TrashedItem], batch: UUID, recordedAs recorded: RecordedRemoval? = .current,
-        by writer: Writer = .current
-    ) {
+        beforeTheMove: Bool = false, by writer: Writer = .current
+    ) -> Bool {
         let journal = url.path(percentEncoded: false)
         let entry = { (item: TrashedItem) in
             Entry(
                 writer: writer, batch: recorded?.batch ?? batch, item: item, part: recorded?.part,
                 disk: TrashedDisk(of: item), size: recorded?.sizes[item.originalURL],
-                sharedStorage: recorded?.sharingStorage.contains(item.originalURL) == true ? true : nil
+                sharedStorage: recorded?.sharingStorage.contains(item.originalURL) == true ? true : nil,
+                isBeforeTheMove: beforeTheMove ? true : nil
             )
         }
-        let lines = items
-            .filter { !PathComponents.isPath(journal, atOrInside: $0.originalURL.path(percentEncoded: false)) }
-            .compactMap { item in (try? Self.encoder.encode(entry(item))) }
-        guard !lines.isEmpty else { return }
-        FileLock.whileHeld(beside: url) {
+        guard let lines = try? items
+            .filter({ !PathComponents.isPath(journal, atOrInside: $0.originalURL.path(percentEncoded: false)) })
+            .map({ try Self.encoder.encode(entry($0)) })
+        else { return false }
+        guard !lines.isEmpty else { return true }
+        return FileLock.whileHeld(beside: url) {
             let opened = PeelFolder.whileOpen(making: url.deletingLastPathComponent()) {
                 open(journal, O_RDWR | O_APPEND | O_CREAT | O_CLOEXEC, 0o600)
             }
-            guard let descriptor = opened, descriptor >= 0 else { return }
+            guard let descriptor = opened, descriptor >= 0 else { return false }
             defer { close(descriptor) }
             var data = Data()
             // A line cut short, as when the disk filled up, is ended first, so the next line is not read as part
@@ -174,7 +181,7 @@ struct RemovalJournal: Sendable {
             for line in lines {
                 data += line + Data("\n".utf8)
             }
-            _ = data.withUnsafeBytes { Darwin.write(descriptor, $0.baseAddress, $0.count) }
+            return data.withUnsafeBytes { Darwin.write(descriptor, $0.baseAddress, $0.count) } == data.count
         }
     }
 
@@ -185,17 +192,84 @@ struct RemovalJournal: Sendable {
         return FileLock.whileHeld(beside: url) { read() }
     }
 
-    /// The lines of processes that no longer run.
-    func left() -> [Entry] {
-        let entries = entries()
-        let running = Set(entries.map(\.writer)).filter(\.isRunning)
-        return entries.filter { !running.contains($0.writer) }
+    /// What the lines of processes that no longer run come to: what was written once it moved, what a line written
+    /// before a move with none after it settles to on the disk (`settled`), and the lines History lets go once it has
+    /// them. Such a line of an item whose Trash is on a disk that isn't connected stays for later.
+    struct Left {
+        var written: [Entry] = []
+        var settled: [Entry] = []
+        var lines: Set<Entry> = []
     }
 
-    /// Takes out the lines of `items`, which History now has.
+    func left() -> Left {
+        let entries = entries()
+        let running = Set(entries.map(\.writer)).filter(\.isRunning)
+        let stopped = entries.filter { !running.contains($0.writer) }
+        let moved = Set(stopped.filter { $0.isBeforeTheMove != true }.map(Departure.init))
+        var left = Left()
+        for entry in stopped {
+            if entry.isBeforeTheMove != true {
+                left.written.append(entry)
+            } else if !moved.contains(Departure(entry)) {
+                switch Self.landing(of: entry.item) {
+                case .inTheTrash(let place):
+                    var landed = entry
+                    landed.item = TrashedItem(
+                        originalURL: entry.item.originalURL, trashedURL: place, date: entry.item.date,
+                        identity: entry.item.identity
+                    )
+                    landed.disk = TrashedDisk(of: landed.item)
+                    landed.isBeforeTheMove = nil
+                    left.settled.append(landed)
+                case .notKnownYet: continue
+                case .nowhere: break
+                }
+            }
+            left.lines.insert(entry)
+        }
+        return left
+    }
+
+    /// Where an item that was about to move is: in its Trash, under a name the move gives one, nowhere this line
+    /// can account for (still in its place, gone from the Trash, or with no identity to know it by), or not known yet
+    /// while that Trash's disk isn't connected.
+    private enum Landing {
+        case inTheTrash(URL)
+        case nowhere
+        case notKnownYet
+    }
+
+    private static func landing(of item: TrashedItem) -> Landing {
+        guard let identity = item.identity else { return .nowhere }
+        var info = stat()
+        if lstat(item.originalURL.path(percentEncoded: false), &info) == 0, identity.isTheItem(info) { return .nowhere }
+        let trash = item.trashedURL.deletingLastPathComponent()
+        if trash.isOnADiskNotConnected { return .notKnownYet }
+        let found = TrashService.item(named: item.originalURL.lastPathComponent, in: trash, where: identity.isTheItem)
+        return found.map(Landing.inTheTrash) ?? .nowhere
+    }
+
+    /// An item leaving its place in one removal, by the process that moved it, which its two lines share.
+    private struct Departure: Hashable {
+        let writer: Writer
+        let batch: UUID
+        let originalURL: URL
+
+        init(_ entry: Entry) {
+            writer = entry.writer
+            batch = entry.batch
+            originalURL = entry.item.originalURL
+        }
+    }
+
+    /// Takes out the lines of `items`, which History now has, and the lines this process wrote before they moved.
     func forget(_ items: [TrashedItem]) {
         let keys = Set(items.map(Key.init))
-        forget { keys.contains(Key($0.item)) }
+        let places = Set(items.map(\.originalURL))
+        forget { entry in
+            keys.contains(Key(entry.item))
+                || entry.isBeforeTheMove == true && entry.writer == .current && places.contains(entry.item.originalURL)
+        }
     }
 
     /// Takes out `entries`.
