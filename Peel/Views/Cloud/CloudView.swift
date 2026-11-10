@@ -252,8 +252,12 @@ struct CloudView: View {
 
     @ViewBuilder private var sharedDownloadsNote: some View {
         if cloud.sharedDownloads > 0 {
-            Text("Peel doesn’t list ^[\(cloud.sharedDownloads) download](inflect: true) whose space on disk is shared with a copy iCloud keeps on this Mac once it has uploaded the file, or with another copy: removing a download like that frees nothing now.")
+            Text(verbatim: Self.sharedDownloadsWords(cloud.sharedDownloads))
         }
+    }
+
+    static func sharedDownloadsWords(_ count: Int) -> String {
+        String(inflecting: "Not listed: ^[\(count) download](inflect: true) sharing space on disk with another copy on this Mac, such as the one iCloud keeps after an upload. Removing one would free nothing now.")
     }
 
     /// Whether the note column is on: while a listed download has a note, so the note is drawn beside it.

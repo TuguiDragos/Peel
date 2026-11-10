@@ -118802,6 +118802,346 @@
         }
       }
     },
+    "Not listed: ^[%lld download](inflect: true) sharing space on disk with another copy on this Mac, such as the one iCloud keeps after an upload. Removing one would free nothing now." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Neuvedeno: %lld stažené soubory, které sdílejí místo na disku s jinými kopiemi v tomto Macu, například s těmi, které si iCloud ponechává po nahrání. Odstraněním kteréhokoli z nich by se teď nic neuvolnilo."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Neuvedeno: %lld staženého souboru, který sdílí místo na disku s jinými kopiemi v tomto Macu, například s těmi, které si iCloud ponechává po nahrání. Odstraněním kteréhokoli z nich by se teď nic neuvolnilo."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Neuvedeno: %lld stažený soubor, který sdílí místo na disku s jinou kopií v tomto Macu, například s tou, kterou si iCloud ponechává po nahrání. Jeho odstraněním by se teď nic neuvolnilo."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Neuvedeno: %lld stažených souborů, které sdílejí místo na disku s jinými kopiemi v tomto Macu, například s těmi, které si iCloud ponechává po nahrání. Odstraněním kteréhokoli z nich by se teď nic neuvolnilo."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nicht aufgeführt: %lld Download, der sich Speicherplatz mit einer anderen Kopie auf diesem Mac teilt, etwa mit der, die iCloud nach einem Upload aufbewahrt. Das Entfernen würde jetzt keinen Platz freigeben."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nicht aufgeführt: %lld Downloads, die sich Speicherplatz mit einer anderen Kopie auf diesem Mac teilen, etwa mit der, die iCloud nach einem Upload aufbewahrt. Das Entfernen eines davon würde jetzt keinen Platz freigeben."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Sin mostrar: %lld de descargas que comparten espacio en el disco con otra copia de este Mac, como la que guarda iCloud tras una subida. Eliminar una de ellas no liberaría nada ahora."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Sin mostrar: %lld descarga que comparte espacio en el disco con otra copia de este Mac, como la que guarda iCloud tras una subida. Eliminarla no liberaría nada ahora."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Sin mostrar: %lld descargas que comparten espacio en el disco con otra copia de este Mac, como la que guarda iCloud tras una subida. Eliminar una de ellas no liberaría nada ahora."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Non listés : %lld de téléchargements qui partagent leur espace disque avec une autre copie sur ce Mac, comme celle qu’iCloud conserve après un envoi. En retirer un ne libérerait rien pour l’instant."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Non listé : %lld téléchargement qui partage son espace disque avec une autre copie sur ce Mac, comme celle qu’iCloud conserve après un envoi. Le retirer ne libérerait rien pour l’instant."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Non listés : %lld téléchargements qui partagent leur espace disque avec une autre copie sur ce Mac, comme celle qu’iCloud conserve après un envoi. En retirer un ne libérerait rien pour l’instant."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Non elencati: %lld di download che condividono lo spazio sul disco con un’altra copia su questo Mac, come quella che iCloud conserva dopo un caricamento. Rimuoverne uno ora non libererebbe nulla."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Non elencato: %lld download che condivide lo spazio sul disco con un’altra copia su questo Mac, come quella che iCloud conserva dopo un caricamento. Rimuoverlo ora non libererebbe nulla."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Non elencati: %lld download che condividono lo spazio sul disco con un’altra copia su questo Mac, come quella che iCloud conserva dopo un caricamento. Rimuoverne uno ora non libererebbe nulla."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "表示されていないもの: このMac上の別のコピー（アップロード後にiCloudが保持するコピーなど）とディスク上の領域を共有している%lld個のダウンロード。いずれかを削除しても、現時点では何も解放されません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "나열되지 않음: 업로드 후 iCloud가 보관하는 복사본 등 이 Mac에 있는 다른 복사본과 디스크 공간을 공유하는 다운로드 %lld개. 지금은 이 중 하나를 제거해도 확보되는 공간이 없습니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Niet vermeld: %lld download die schijfruimte deelt met een andere kopie op deze Mac, zoals de kopie die iCloud na een upload bewaart. Als je die verwijdert, komt er nu niets vrij."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Niet vermeld: %lld downloads die schijfruimte delen met een andere kopie op deze Mac, zoals de kopie die iCloud na een upload bewaart. Als je er een verwijdert, komt er nu niets vrij."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nie wyświetlono: %lld pobrane pliki, które współdzielą miejsce na dysku z inną kopią na tym Macu, na przykład tą, którą iCloud zachowuje po przesłaniu. Usunięcie któregokolwiek z nich nie zwolniłoby teraz miejsca."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nie wyświetlono: %lld pobranych plików, które współdzielą miejsce na dysku z inną kopią na tym Macu, na przykład tą, którą iCloud zachowuje po przesłaniu. Usunięcie któregokolwiek z nich nie zwolniłoby teraz miejsca."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nie wyświetlono: %lld pobrany plik, który współdzieli miejsce na dysku z inną kopią na tym Macu, na przykład tą, którą iCloud zachowuje po przesłaniu. Usunięcie go nie zwolniłoby teraz miejsca."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nie wyświetlono: %lld pobranego pliku, który współdzieli miejsce na dysku z inną kopią na tym Macu, na przykład tą, którą iCloud zachowuje po przesłaniu. Usunięcie któregokolwiek z nich nie zwolniłoby teraz miejsca."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Não listados: %lld de downloads que compartilham espaço no disco com outra cópia neste Mac, como a que o iCloud guarda depois de um upload. Remover um deles não liberaria nada agora."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Não listado: %lld download que compartilha espaço no disco com outra cópia neste Mac, como a que o iCloud guarda depois de um upload. Removê-lo não liberaria nada agora."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Não listados: %lld downloads que compartilham espaço no disco com outra cópia neste Mac, como a que o iCloud guarda depois de um upload. Remover um deles não liberaria nada agora."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nu apar în listă: %lld descărcări care își împart spațiul de pe disc cu o altă copie de pe acest Mac, cum ar fi cea pe care o păstrează iCloud după o încărcare. Eliminarea uneia dintre ele nu ar elibera acum nimic."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nu apare în listă: %lld descărcare care își împarte spațiul de pe disc cu o altă copie de pe acest Mac, cum ar fi cea pe care o păstrează iCloud după o încărcare. Eliminarea ei nu ar elibera acum nimic."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nu apar în listă: %lld de descărcări care își împart spațiul de pe disc cu o altă copie de pe acest Mac, cum ar fi cea pe care o păstrează iCloud după o încărcare. Eliminarea uneia dintre ele nu ar elibera acum nimic."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показаны %lld загрузки, использующие общее пространство на диске с другой копией на этом Mac, например с той, которую iCloud хранит после выгрузки. Удаление такой загрузки сейчас ничего не освободит."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано %lld загрузок, использующих общее пространство на диске с другой копией на этом Mac, например с той, которую iCloud хранит после выгрузки. Удаление такой загрузки сейчас ничего не освободит."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показана %lld загрузка, использующая общее пространство на диске с другой копией на этом Mac, например с той, которую iCloud хранит после выгрузки. Удаление такой загрузки сейчас ничего не освободит."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано %lld загрузки, использующих общее пространство на диске с другой копией на этом Mac, например с той, которую iCloud хранит после выгрузки. Удаление такой загрузки сейчас ничего не освободит."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Listas inte: %lld hämtning som delar utrymme på skivan med en annan kopia på den här datorn, till exempel den som iCloud behåller efter en uppladdning. Att ta bort den skulle inte frigöra något nu."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Listas inte: %lld hämtningar som delar utrymme på skivan med en annan kopia på den här datorn, till exempel den som iCloud behåller efter en uppladdning. Att ta bort en av dem skulle inte frigöra något nu."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Listelenmedi: diskteki alanını bu Mac’teki başka bir kopyayla, örneğin iCloud’un karşıya yüklemeden sonra tuttuğu kopyayla paylaşan %lld indirilmiş dosya. Onu kaldırmak şu anda hiç yer boşaltmaz."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Listelenmedi: diskteki alanını bu Mac’teki başka bir kopyayla, örneğin iCloud’un karşıya yüklemeden sonra tuttuğu kopyayla paylaşan %lld indirilmiş dosya. Birini kaldırmak şu anda hiç yer boşaltmaz."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld викачування, які спільно використовують місце на диску з іншою копією на цьому Mac, як-от із тією, яку iCloud зберігає після вивантаження. Вилучення такого викачування зараз нічого не звільнило б."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld викачувань, які спільно використовують місце на диску з іншою копією на цьому Mac, як-от із тією, яку iCloud зберігає після вивантаження. Вилучення такого викачування зараз нічого не звільнило б."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld викачування, яке спільно використовує місце на диску з іншою копією на цьому Mac, як-от із тією, яку iCloud зберігає після вивантаження. Вилучення такого викачування зараз нічого не звільнило б."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не показано: %lld викачування, які спільно використовують місце на диску з іншою копією на цьому Mac, як-от із тією, яку iCloud зберігає після вивантаження. Вилучення такого викачування зараз нічого не звільнило б."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未列出：%lld个与这台Mac上另一个副本共享磁盘空间的下载文件，例如iCloud在上传后保留的副本。现在移除其中任何一个都不会释放空间。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未列出：%lld個與這部Mac上另一份副本共用磁碟空間的下載項目，例如iCloud在上傳後保留的副本。現在移除其中任何一個都不會釋放空間。"
+          }
+        }
+      }
+    },
     "Not loaded" : {
       "localizations" : {
         "cs" : {
@@ -148797,347 +149137,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會自行安裝更新項目。按一下即可在「應用程式」中查看等待中的更新項目。"
-          }
-        }
-      }
-    },
-    "Peel doesn’t list ^[%lld download](inflect: true) whose space on disk is shared with a copy iCloud keeps on this Mac once it has uploaded the file, or with another copy: removing a download like that frees nothing now." : {
-      "comment" : "Under the list in iCloud Drive. Once iCloud has uploaded a file, it may keep a copy of its own on this Mac that shares the file's space, which Finder doesn't show; removing such a download frees nothing.",
-      "localizations" : {
-        "cs" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nezobrazuje %lld stažené kopie, které sdílejí místo na disku s kopií, kterou iCloud po nahrání souboru uchovává v tomto Macu, nebo s jinou kopií: odstranění takové stažené kopie teď nic neuvolní."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nezobrazuje %lld stažené kopie, které sdílejí místo na disku s kopií, kterou iCloud po nahrání souboru uchovává v tomto Macu, nebo s jinou kopií: odstranění takové stažené kopie teď nic neuvolní."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nezobrazuje %lld staženou kopii, která sdílí místo na disku s kopií, kterou iCloud po nahrání souboru uchovává v tomto Macu, nebo s jinou kopií: odstranění takové stažené kopie teď nic neuvolní."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nezobrazuje %lld stažených kopií, které sdílejí místo na disku s kopií, kterou iCloud po nahrání souboru uchovává v tomto Macu, nebo s jinou kopií: odstranění takové stažené kopie teď nic neuvolní."
-                }
-              }
-            }
-          }
-        },
-        "de" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel zeigt %lld Download nicht an, der sich Speicherplatz mit einer Kopie teilt, die iCloud nach dem Hochladen der Datei auf diesem Mac aufbewahrt, oder mit einer anderen Kopie: Das Entfernen eines solchen Downloads gibt derzeit nichts frei."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel zeigt %lld Downloads nicht an, die sich Speicherplatz mit einer Kopie teilen, die iCloud nach dem Hochladen der Datei auf diesem Mac aufbewahrt, oder mit einer anderen Kopie: Das Entfernen eines solchen Downloads gibt derzeit nichts frei."
-                }
-              }
-            }
-          }
-        },
-        "es" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel no muestra %lld de descargas que comparten almacenamiento con una copia que iCloud guarda en este Mac una vez que ha subido el archivo, o con otra copia: eliminar una descarga así no libera nada por ahora."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel no muestra %lld descarga que comparte almacenamiento con una copia que iCloud guarda en este Mac una vez que ha subido el archivo, o con otra copia: eliminar una descarga así no libera nada por ahora."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel no muestra %lld descargas que comparten almacenamiento con una copia que iCloud guarda en este Mac una vez que ha subido el archivo, o con otra copia: eliminar una descarga así no libera nada por ahora."
-                }
-              }
-            }
-          }
-        },
-        "fr" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel ne liste pas %lld de téléchargements dont le stockage est partagé avec une copie qu’iCloud conserve sur ce Mac après avoir chargé le fichier, ou avec une autre copie : retirer un tel téléchargement ne libère rien pour l’instant."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel ne liste pas %lld téléchargement dont le stockage est partagé avec une copie qu’iCloud conserve sur ce Mac après avoir chargé le fichier, ou avec une autre copie : retirer un tel téléchargement ne libère rien pour l’instant."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel ne liste pas %lld téléchargements dont le stockage est partagé avec une copie qu’iCloud conserve sur ce Mac après avoir chargé le fichier, ou avec une autre copie : retirer un tel téléchargement ne libère rien pour l’instant."
-                }
-              }
-            }
-          }
-        },
-        "it" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel non elenca %lld di download che condividono lo spazio su disco con una copia che iCloud conserva su questo Mac dopo aver caricato il file, o con un’altra copia: rimuovere un download del genere ora non libera nulla."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel non elenca %lld download che condivide lo spazio su disco con una copia che iCloud conserva su questo Mac dopo aver caricato il file, o con un’altra copia: rimuovere un download del genere ora non libera nulla."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel non elenca %lld download che condividono lo spazio su disco con una copia che iCloud conserva su questo Mac dopo aver caricato il file, o con un’altra copia: rimuovere un download del genere ora non libera nulla."
-                }
-              }
-            }
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelは、ダウンロードしたもののうち、iCloudがファイルをアップロードした後にこのMac上に保持するコピー、または別のコピーとストレージを共有している%lld個を一覧に表示しません。このようなダウンロードしたものは、削除しても現在は何も解放されないためです。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel은 iCloud가 파일을 업로드한 후 이 Mac에 보관하는 복사본이나 다른 복사본과 디스크 공간을 공유하는 다운로드 %lld개를 목록에 표시하지 않습니다. 이런 다운로드는 제거해도 지금은 확보되는 공간이 없습니다."
-          }
-        },
-        "nl" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel laat %lld download weg die opslag deelt met een kopie die iCloud op deze Mac bewaart zodra het bestand is geüpload, of met een andere kopie: als je zo'n download verwijdert, komt er nu niets vrij."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel laat %lld downloads weg die opslag delen met een kopie die iCloud op deze Mac bewaart zodra het bestand is geüpload, of met een andere kopie: als je zo'n download verwijdert, komt er nu niets vrij."
-                }
-              }
-            }
-          }
-        },
-        "pl" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nie wyświetla %lld pobranych rzeczy, które współdzielą miejsce na dysku z kopią przechowywaną przez iCloud na tym Macu po przesłaniu pliku albo z inną kopią: usunięcie takiej pobranej rzeczy nie zwolni teraz żadnego miejsca."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nie wyświetla %lld pobranych rzeczy, które współdzielą miejsce na dysku z kopią przechowywaną przez iCloud na tym Macu po przesłaniu pliku albo z inną kopią: usunięcie takiej pobranej rzeczy nie zwolni teraz żadnego miejsca."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nie wyświetla %lld pobranej rzeczy, która współdzieli miejsce na dysku z kopią przechowywaną przez iCloud na tym Macu po przesłaniu pliku albo z inną kopią: usunięcie takiej pobranej rzeczy nie zwolni teraz żadnego miejsca."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nie wyświetla %lld pobranej rzeczy, która współdzieli miejsce na dysku z kopią przechowywaną przez iCloud na tym Macu po przesłaniu pliku albo z inną kopią: usunięcie takiej pobranej rzeczy nie zwolni teraz żadnego miejsca."
-                }
-              }
-            }
-          }
-        },
-        "pt" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "O Peel não lista %lld de downloads cujo espaço em disco é compartilhado com uma cópia que o iCloud mantém neste Mac depois de enviar o arquivo, ou com outra cópia: remover um download assim não libera nada agora."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "O Peel não lista %lld download cujo espaço em disco é compartilhado com uma cópia que o iCloud mantém neste Mac depois de enviar o arquivo, ou com outra cópia: remover um download assim não libera nada agora."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "O Peel não lista %lld downloads cujo espaço em disco é compartilhado com uma cópia que o iCloud mantém neste Mac depois de enviar o arquivo, ou com outra cópia: remover um download assim não libera nada agora."
-                }
-              }
-            }
-          }
-        },
-        "ro" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nu listează %lld descărcări care partajează spațiul de stocare fie cu o copie pe care iCloud o păstrează pe acest Mac după ce a încărcat fișierul, fie cu o altă copie: eliminarea unei astfel de descărcări nu eliberează nimic acum."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nu listează %lld descărcare care partajează spațiul de stocare fie cu o copie pe care iCloud o păstrează pe acest Mac după ce a încărcat fișierul, fie cu o altă copie: eliminarea unei astfel de descărcări nu eliberează nimic acum."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nu listează %lld de descărcări care partajează spațiul de stocare fie cu o copie pe care iCloud o păstrează pe acest Mac după ce a încărcat fișierul, fie cu o altă copie: eliminarea unei astfel de descărcări nu eliberează nimic acum."
-                }
-              }
-            }
-          }
-        },
-        "ru" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не показывает %lld загрузки, которые используют общее пространство на диске с копиями, хранимыми iCloud на этом Mac после выгрузки файлов, или с другими копиями: удаление такой загрузки сейчас ничего не освободит."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не показывает %lld загрузок, которые используют общее пространство на диске с копиями, хранимыми iCloud на этом Mac после выгрузки файлов, или с другими копиями: удаление такой загрузки сейчас ничего не освободит."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не показывает %lld загрузку, которая использует общее пространство на диске с копией, хранимой iCloud на этом Mac после выгрузки файла, или с другой копией: удаление такой загрузки сейчас ничего не освободит."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не показывает %lld загрузки, которые используют общее пространство на диске с копиями, хранимыми iCloud на этом Mac после выгрузки файлов, или с другими копиями: удаление такой загрузки сейчас ничего не освободит."
-                }
-              }
-            }
-          }
-        },
-        "sv" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel visar inte %lld hämtning vars lagringsutrymme delas med en kopia som iCloud behåller på den här datorn när filen har överförts, eller med en annan kopia: att ta bort en sådan hämtning frigör inget just nu."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel visar inte %lld hämtningar vars lagringsutrymme delas med en kopia som iCloud behåller på den här datorn när filen har överförts, eller med en annan kopia: att ta bort en sådan hämtning frigör inget just nu."
-                }
-              }
-            }
-          }
-        },
-        "tr" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel, iCloud’un dosyayı karşıya yükledikten sonra bu Mac’te tuttuğu bir kopyayla veya başka bir kopyayla aynı saklama alanını paylaşan %lld indirilen dosyayı listelemiyor: böyle bir dosyanın indirilen kopyasını kaldırmak şu anda hiç yer boşaltmaz."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel, iCloud’un dosyayı karşıya yükledikten sonra bu Mac’te tuttuğu bir kopyayla veya başka bir kopyayla aynı saklama alanını paylaşan %lld indirilen dosyayı listelemiyor: böyle bir dosyanın indirilen kopyasını kaldırmak şu anda hiç yer boşaltmaz."
-                }
-              }
-            }
-          }
-        },
-        "uk" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не показує %lld викачування, які спільно використовують сховище з копією, яку iCloud зберігає на цьому Mac після передавання файлу у хмару, або з іншою копією: вилучення такого викачування зараз нічого не звільнить."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не показує %lld викачувань, які спільно використовують сховище з копією, яку iCloud зберігає на цьому Mac після передавання файлу у хмару, або з іншою копією: вилучення такого викачування зараз нічого не звільнить."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не показує %lld викачування, яке спільно використовує сховище з копією, яку iCloud зберігає на цьому Mac після передавання файлу у хмару, або з іншою копією: вилучення такого викачування зараз нічого не звільнить."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не показує %lld викачування, які спільно використовують сховище з копією, яку iCloud зберігає на цьому Mac після передавання файлу у хмару, або з іншою копією: вилучення такого викачування зараз нічого не звільнить."
-                }
-              }
-            }
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel未列出%lld个已下载的文件，它们与iCloud在上传文件后保留在这台Mac上的副本或另一个副本共享储存空间：移除这类文件的下载目前不会释放任何空间。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel不會列出%lld個下載項目，它們的磁碟空間與iCloud上傳檔案後在這部Mac上保留的副本共用，或與另一個副本共用：移除這類下載項目現在不會釋放任何空間。"
           }
         }
       }
