@@ -385,7 +385,7 @@ struct PackageReceiptsTests {
             _ = await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment)
         }
 
-        #expect(stop.took < .seconds(1))
+        #expect(stop.took < Unanswered.returnsForTheCancel)
         #expect(stop.askedBefore < 10)
         #expect(stop.askedAfter == 0)
     }

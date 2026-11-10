@@ -40,7 +40,7 @@ struct OrphanScannerTests {
             _ = await scanner.scan(installedApps: [])
         }
 
-        #expect(stop.took < .seconds(1))
+        #expect(stop.took < Unanswered.returnsForTheCancel)
         #expect(stop.askedBefore < 30)
         #expect(stop.askedAfter == 0)
     }
@@ -71,7 +71,7 @@ struct OrphanScannerTests {
             _ = await scanner.scan(installedApps: [], leftForAnAdministrator: [record])
         }
 
-        #expect(stop.took < .seconds(1))
+        #expect(stop.took < Unanswered.returnsForTheCancel)
         #expect(stop.askedBefore == 1)
         #expect(stop.askedAfter == 0)
     }

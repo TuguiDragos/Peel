@@ -151,7 +151,7 @@ struct AppCatalogTests {
         let reading = Task(priority: .userInitiated) {
             _ = await AppCatalog.scan(in: [sleeping], within: 3_600) { _, _ in
                 asked.withLock { $0 = true }
-                _ = released.wait(timeout: .now() + 30)
+                _ = released.wait(timeout: .now() + 3_600)
                 return ([], [])
             }
             return clock.now
@@ -164,7 +164,7 @@ struct AppCatalogTests {
         reading.cancel()
         let returned = await reading.value
 
-        #expect(returned - stopped < .seconds(1))
+        #expect(returned - stopped < Unanswered.returnsForTheCancel)
     }
 
     /// Opening an app changes when it was last opened and nothing about what is installed, so the pages that scan

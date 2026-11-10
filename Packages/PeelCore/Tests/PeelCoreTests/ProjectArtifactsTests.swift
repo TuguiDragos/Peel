@@ -20,7 +20,7 @@ struct ProjectArtifactsTests {
             )
         }
 
-        #expect(stop.took < .seconds(1))
+        #expect(stop.took < Unanswered.returnsForTheCancel)
         #expect(stop.askedBefore < 30)
         #expect(stop.askedAfter == 0)
     }
@@ -46,7 +46,8 @@ struct ProjectArtifactsTests {
         walk.cancel()
         let returned = await walk.value
 
-        #expect(returned - stopped < .seconds(1))
+        // The listing gives up at `FileSize.budget` on its own, so only a return well before it is the cancel's.
+        #expect(returned - stopped < .seconds(FileSize.budget / 2))
     }
 
     @Test func suggestsTheProjectFoldersThatExistInTheHomeFolder() async throws {

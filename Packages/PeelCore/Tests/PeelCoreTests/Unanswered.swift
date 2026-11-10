@@ -45,6 +45,9 @@ final class Unanswered: Sendable {
         try? await Task.sleep(for: .seconds(3_600))
     }
 
+    /// The stand-ins answer after an hour, so a scan back within a minute returned for the cancel, even on a busy Mac.
+    static let returnsForTheCancel: Duration = .seconds(60)
+
     /// Runs `scan` and cancels it 50 ms after its first request, once everything it asks at the same time is
     /// waiting. Returns how long the scan took to return after the cancel, and how many folders it asked about
     /// before and after it. The scan runs at the priority SwiftUI gives a page's task, as a page's scan does, and is

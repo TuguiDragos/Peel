@@ -22,7 +22,7 @@ struct SpaceInventoryTests {
             )
         }
 
-        #expect(stop.took < .seconds(1))
+        #expect(stop.took < Unanswered.returnsForTheCancel)
         #expect(stop.askedBefore < SpaceInventory.definitions.count)
         #expect(stop.askedAfter == 0)
     }

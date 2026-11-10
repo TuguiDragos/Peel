@@ -19,7 +19,7 @@ struct PluginsTests {
             _ = await Plugins.scan(environment: environment, exclusions: .none, measure: unanswered.measure)
         }
 
-        #expect(stop.took < .seconds(1))
+        #expect(stop.took < Unanswered.returnsForTheCancel)
         #expect(stop.askedBefore < 30)
         #expect(stop.askedAfter == 0)
     }

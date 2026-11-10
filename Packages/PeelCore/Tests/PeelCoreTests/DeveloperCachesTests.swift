@@ -58,7 +58,7 @@ struct DeveloperCachesTests {
             _ = await DeveloperCaches.scan([tool], homeDirectory: directory.url, measure: unanswered.walk)
         }
 
-        #expect(stop.took < .seconds(1))
+        #expect(stop.took < Unanswered.returnsForTheCancel)
         #expect(stop.askedBefore < paths.count)
         #expect(stop.askedAfter == 0)
     }

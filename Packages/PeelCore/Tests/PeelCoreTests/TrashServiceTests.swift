@@ -1130,6 +1130,17 @@ struct TrashServiceTests {
         #expect(result.failures.map(\.reason) == [.attachedDiskImage, .attachedDiskImage])
     }
 
+    /// Waits until a fresh reading sees `url` held open, then until the service's own reading is due again.
+    private static func waitUntilHeldOpen(_ url: URL) {
+        while OpenFiles().holders(of: url).isEmpty { Thread.sleep(forTimeInterval: 0.01) }
+        Thread.sleep(forTimeInterval: Double(OpenFiles.lifetime.components.seconds) + 0.05)
+    }
+
+    private static func untilHeldOpen(_ url: URL) async {
+        while OpenFiles().holders(of: url).isEmpty { try? await Task.sleep(for: .milliseconds(10)) }
+        try? await Task.sleep(for: OpenFiles.lifetime + .milliseconds(50))
+    }
+
     @Test func readsTheOpenFilesAgainWhileAMoveGoesOn() async throws {
         let directory = try TemporaryDirectory()
         let service = try service(in: directory)
@@ -1147,7 +1158,7 @@ struct TrashServiceTests {
             cat.standardOutput = Pipe()
             try? cat.run()
             reader.withLock { $0 = cat }
-            Thread.sleep(forTimeInterval: 1.05)
+            Self.waitUntilHeldOpen(second)
             return nil
         }
 
@@ -1176,7 +1187,7 @@ struct TrashServiceTests {
                     cat.standardOutput = Pipe()
                     try? cat.run()
                     reader.withLock { $0 = cat }
-                    try? await Task.sleep(for: .milliseconds(1_050))
+                    await Self.untilHeldOpen(last)
                 }
                 return TrashResult(trashed: urls.map { TrashedItem(originalURL: $0, trashedURL: $0, date: .now) })
             },

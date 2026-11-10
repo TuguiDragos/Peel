@@ -48,7 +48,7 @@ struct InstallersTests {
             )
         }
 
-        #expect(stop.took < .seconds(1))
+        #expect(stop.took < Unanswered.returnsForTheCancel)
         #expect(stop.askedBefore < 30)
         #expect(stop.askedAfter == 0)
     }

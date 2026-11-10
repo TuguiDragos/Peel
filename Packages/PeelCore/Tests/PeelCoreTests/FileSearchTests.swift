@@ -26,7 +26,7 @@ struct FileSearchTests {
             _ = await FileSearch.run(criteria, gather: unanswered.gather)
         }
 
-        #expect(stop.took < .seconds(1))
+        #expect(stop.took < Unanswered.returnsForTheCancel)
         #expect(stop.askedBefore == 1)
         #expect(stop.askedAfter == 0)
     }

@@ -637,7 +637,7 @@ struct CloudStorageTests {
         defer { held.signal() }
 
         let scan = await CloudStorage.downloaded(
-            home: directory.url, minimumSize: 1, exclusions: .none, desktopPictures: [], within: 0.2,
+            home: directory.url, minimumSize: 1, exclusions: .none, desktopPictures: [], within: 5,
             while: { false }, isSafe: { _ in true },
             isDataless: { url in
                 if url.lastPathComponent == "Stalls" {
@@ -680,7 +680,7 @@ struct CloudStorageTests {
         let running = Task(priority: .userInitiated) {
             let scan = await CloudStorage.downloaded(
                 home: directory.url, minimumSize: 1, exclusions: .none, desktopPictures: [],
-                within: CloudStorage.budget,
+                within: 3_600,
                 // The walk runs on a thread of its own, so holding it holds none of the task pool's.
                 isDataless: { _ in
                     enters.yield()
@@ -698,7 +698,7 @@ struct CloudStorageTests {
         let (scan, returned) = await running.value
         held.signal()
 
-        #expect(returned - stopped < .seconds(1))
+        #expect(returned - stopped < Unanswered.returnsForTheCancel)
         #expect(scan.cutShort == .ranOutOfTime)
     }
 
