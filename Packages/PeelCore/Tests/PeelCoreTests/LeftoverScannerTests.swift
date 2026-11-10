@@ -2037,6 +2037,37 @@ struct LeftoverScannerTests {
         #expect(await found(beside: [paint]) == nil)
     }
 
+    @Test func takesNoFolderOfMacOSsAsTheMakersFolder() async throws {
+        let directory = try TemporaryDirectory()
+        let harbor = InstalledApp(
+            url: URL(filePath: "/Applications/Harbor.app"), bundleIdentifier: "com.icloud.someone.harbor", name: "Harbor"
+        )
+        let tide = InstalledApp(
+            url: URL(filePath: "/Applications/Tide.app"), bundleIdentifier: "org.example.tide", name: "Tide"
+        )
+        try directory.file("home/Library/Application Support/iCloud/Accounts/state.db", bytes: 64)
+        try directory.file("root/Library/Application Support/Example/Shared/state.db", bytes: 64)
+        try directory.file("home/Library/Caches/Example/feed.xml", bytes: 64)
+        func path(_ relative: String) -> String {
+            PathPattern.comparablePath(of: directory.url.appending(path: relative))
+        }
+        let apples = path("root/Library/Application Support/Example")
+        let scanner = LeftoverScanner(
+            environment: environment(in: directory), measure: LeftoverScanner.walk,
+            installedByApple: { PathPattern.comparablePath(of: $0) == apples }
+        )
+        func makersFolders(of app: InstalledApp) async -> [String] {
+            await scanner.scan(app, installedApps: [harbor, tide]).leftovers
+                .filter { $0.match.reason == .inItsMakersFolder }.map { PathPattern.comparablePath(of: $0.url) }
+        }
+
+        let harbors = await makersFolders(of: harbor)
+        let tides = await makersFolders(of: tide)
+
+        #expect(harbors.isEmpty)
+        #expect(tides == [path("home/Library/Caches/Example")])
+    }
+
     /// A kernel extension an app's driver installed stays in `/Library/Extensions` after the app goes. It is found by
     /// the identifier it declares and listed, but only an administrator can move it and Peel's helper does not serve
     /// that folder, so it can never be selected.

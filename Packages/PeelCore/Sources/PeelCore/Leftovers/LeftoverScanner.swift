@@ -254,7 +254,7 @@ public struct LeftoverScanner: Sendable {
         )
         let makers = await inItsMakersFolders(
             nobodysFolders, rows: inside.found, of: location, matcher: matcher, home: home, root: root,
-            exclusions: exclusions, measure: measure, refuses: refuses
+            exclusions: exclusions, measure: measure, refuses: refuses, installedByApple: installedByApple
         )
         return .found(
             leftovers + inside.found + makers, cutShort: inside.wasCutShort ? location : nil,
@@ -278,13 +278,15 @@ public struct LeftoverScanner: Sendable {
         root: String,
         exclusions: Exclusions,
         measure: @escaping Measure,
-        refuses: Refuses
+        refuses: Refuses,
+        installedByApple: @escaping InstalledByApple
     ) async -> [Leftover] {
         let names = matcher.makersFolderNames
         guard !names.isEmpty, makersPlaces.contains(location.kind) else { return [] }
         let rowPaths = rows.map { PathPattern.comparablePath(of: $0.url) }
         var found: [Found] = []
-        for folder in folders where names.contains(Naming.folderName(folder.lastPathComponent)) {
+        for folder in folders where names.contains(Naming.folderName(folder.lastPathComponent))
+            && !SystemFolders.keeps(folder.lastPathComponent, in: location.kind) {
             let inside = rowPaths.filter { PathComponents.isPath($0, inside: PathPattern.comparablePath(of: folder)) }
             var items = [folder]
             if !inside.isEmpty {
@@ -303,7 +305,8 @@ public struct LeftoverScanner: Sendable {
                 found.append(Found(url: url, match: match, parent: parent, foldersAbove: .itsOwn))
             }
         }
-        return await measured(found, kind: location.kind, home: home, root: root, measure: measure)
+        let taken = await withoutWhatAppleInstalled(found, home: home, installedByApple: installedByApple)
+        return await measured(taken, kind: location.kind, home: home, root: root, measure: measure)
     }
 
     /// Looks inside the folders not taken as the app's. Only a match strong enough to name the app on its own
