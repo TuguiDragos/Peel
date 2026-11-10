@@ -154198,7 +154198,7 @@
         }
       }
     },
-    "Peel lists at most ^[%lld file](inflect: true), yours first and largest first. Narrow the search to see the rest." : {
+    "Peel lists at most ^[%lld file](inflect: true): the largest first, with what apps keep in a Library folder last. Narrow the search to see the rest." : {
       "localizations" : {
         "cs" : {
           "variations" : {
@@ -154206,25 +154206,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zobrazuje nejvýše %lld soubory, nejprve vaše, seřazené od největšího. Chcete-li zobrazit ostatní, zužte hledání."
+                  "value" : "Peel zobrazuje nejvýše %lld soubory: nejprve největší a soubory, které aplikace uchovávají ve složkách Knihovna, až na konci. Chcete-li zobrazit ostatní, zužte hledání."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zobrazuje nejvýše %lld souboru, nejprve vaše, seřazené od největšího. Chcete-li zobrazit ostatní, zužte hledání."
+                  "value" : "Peel zobrazuje nejvýše %lld souboru: nejprve největší a soubory, které aplikace uchovávají ve složkách Knihovna, až na konci. Chcete-li zobrazit ostatní, zužte hledání."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zobrazuje nejvýše %lld soubor, nejprve vaše, seřazené od největšího. Chcete-li zobrazit ostatní, zužte hledání."
+                  "value" : "Peel zobrazuje nejvýše %lld soubor: nejprve největší a soubory, které aplikace uchovávají ve složkách Knihovna, až na konci. Chcete-li zobrazit ostatní, zužte hledání."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zobrazuje nejvýše %lld souborů, nejprve vaše, seřazené od největšího. Chcete-li zobrazit ostatní, zužte hledání."
+                  "value" : "Peel zobrazuje nejvýše %lld souborů: nejprve největší a soubory, které aplikace uchovávají ve složkách Knihovna, až na konci. Chcete-li zobrazit ostatní, zužte hledání."
                 }
               }
             }
@@ -154236,13 +154236,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel führt maximal %lld Datei auf, deine zuerst und die größte zuerst. Grenze die Suche ein, um den Rest zu sehen."
+                  "value" : "Peel führt maximal %lld Datei auf: die größte zuerst und zuletzt das, was Apps in einem Library-Ordner aufbewahren. Grenze die Suche ein, um den Rest zu sehen."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel führt maximal %lld Dateien auf, deine zuerst und die größten zuerst. Grenze die Suche ein, um den Rest zu sehen."
+                  "value" : "Peel führt maximal %lld Dateien auf: die größten zuerst und zuletzt das, was Apps in einem Library-Ordner aufbewahren. Grenze die Suche ein, um den Rest zu sehen."
                 }
               }
             }
@@ -154254,19 +154254,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel muestra como máximo %lld de archivos, los tuyos primero y de mayor a menor tamaño. Acota la búsqueda para ver el resto."
+                  "value" : "Peel muestra como máximo %lld de archivos: primero los más grandes y, al final, lo que las apps guardan en una carpeta Biblioteca. Acota la búsqueda para ver el resto."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel muestra como máximo %lld archivo, los tuyos primero y de mayor a menor tamaño. Acota la búsqueda para ver el resto."
+                  "value" : "Peel muestra como máximo %lld archivo: primero los más grandes y, al final, lo que las apps guardan en una carpeta Biblioteca. Acota la búsqueda para ver el resto."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel muestra como máximo %lld archivos, los tuyos primero y de mayor a menor tamaño. Acota la búsqueda para ver el resto."
+                  "value" : "Peel muestra como máximo %lld archivos: primero los más grandes y, al final, lo que las apps guardan en una carpeta Biblioteca. Acota la búsqueda para ver el resto."
                 }
               }
             }
@@ -154278,19 +154278,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel liste au maximum %lld de fichiers : les vôtres d’abord, et les plus volumineux en premier. Affinez la recherche pour voir les autres."
+                  "value" : "Peel liste au maximum %lld de fichiers : les plus volumineux d’abord, et ce que les apps conservent dans un dossier Bibliothèque en dernier. Affinez la recherche pour voir les autres."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel liste au maximum %lld fichier : les vôtres d’abord, et les plus volumineux en premier. Affinez la recherche pour voir les autres."
+                  "value" : "Peel liste au maximum %lld fichier : les plus volumineux d’abord, et ce que les apps conservent dans un dossier Bibliothèque en dernier. Affinez la recherche pour voir les autres."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel liste au maximum %lld fichiers : les vôtres d’abord, et les plus volumineux en premier. Affinez la recherche pour voir les autres."
+                  "value" : "Peel liste au maximum %lld fichiers : les plus volumineux d’abord, et ce que les apps conservent dans un dossier Bibliothèque en dernier. Affinez la recherche pour voir les autres."
                 }
               }
             }
@@ -154302,19 +154302,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel elenca al massimo %lld di file: i tuoi per primi, dal più grande al più piccolo. Restringi la ricerca per vedere il resto."
+                  "value" : "Peel elenca al massimo %lld di file: prima i più grandi, e per ultimo ciò che le app conservano in una cartella Libreria. Restringi la ricerca per vedere il resto."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel elenca al massimo %lld file: i tuoi per primi, dal più grande al più piccolo. Restringi la ricerca per vedere il resto."
+                  "value" : "Peel elenca al massimo %lld file: prima i più grandi, e per ultimo ciò che le app conservano in una cartella Libreria. Restringi la ricerca per vedere il resto."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel elenca al massimo %lld file: i tuoi per primi, dal più grande al più piccolo. Restringi la ricerca per vedere il resto."
+                  "value" : "Peel elenca al massimo %lld file: prima i più grandi, e per ultimo ciò che le app conservano in una cartella Libreria. Restringi la ricerca per vedere il resto."
                 }
               }
             }
@@ -154323,13 +154323,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelが一覧に表示するのは最大%lld個のファイルで、自分のファイルが先、大きいものから順に並んでいます。残りを表示するには、検索条件を絞り込んでください。"
+            "value" : "Peelが一覧に表示するのは最大%lld個のファイルで、大きいものから順に並び、アプリがライブラリフォルダに保管しているものは最後になります。残りを表示するには、検索条件を絞り込んでください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 파일을 최대 %lld개까지, 사용자의 파일부터 크기가 큰 순서로 표시합니다. 나머지를 보려면 검색 범위를 좁히십시오."
+            "value" : "Peel은 파일을 최대 %lld개까지 크기가 큰 순서로 표시하며, 앱이 라이브러리 폴더에 보관하는 파일은 마지막에 표시합니다. 나머지를 보려면 검색 범위를 좁히십시오."
           }
         },
         "nl" : {
@@ -154338,13 +154338,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel toont maximaal %lld bestand, eerst die van jou en de grootste bovenaan. Verfijn je zoekopdracht om de rest te zien."
+                  "value" : "Peel toont maximaal %lld bestand: de grootste eerst, met wat apps in een bibliotheekmap bewaren als laatste. Verfijn je zoekopdracht om de rest te zien."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel toont maximaal %lld bestanden, eerst die van jou en de grootste bovenaan. Verfijn je zoekopdracht om de rest te zien."
+                  "value" : "Peel toont maximaal %lld bestanden: de grootste eerst, met wat apps in een bibliotheekmap bewaren als laatste. Verfijn je zoekopdracht om de rest te zien."
                 }
               }
             }
@@ -154356,25 +154356,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel wyświetla maksymalnie %lld pliki, najpierw Twoje, od największych. Zawęź wyszukiwanie, aby zobaczyć resztę."
+                  "value" : "Peel wyświetla maksymalnie %lld pliki: od największych, a na końcu to, co aplikacje przechowują w folderze Biblioteki. Zawęź wyszukiwanie, aby zobaczyć resztę."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel wyświetla maksymalnie %lld plików, najpierw Twoje, od największych. Zawęź wyszukiwanie, aby zobaczyć resztę."
+                  "value" : "Peel wyświetla maksymalnie %lld plików: od największych, a na końcu to, co aplikacje przechowują w folderze Biblioteki. Zawęź wyszukiwanie, aby zobaczyć resztę."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel wyświetla maksymalnie %lld plik, najpierw Twoje, od największych. Zawęź wyszukiwanie, aby zobaczyć resztę."
+                  "value" : "Peel wyświetla maksymalnie %lld plik: od największych, a na końcu to, co aplikacje przechowują w folderze Biblioteki. Zawęź wyszukiwanie, aby zobaczyć resztę."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel wyświetla maksymalnie %lld pliku, najpierw Twoje, od największych. Zawęź wyszukiwanie, aby zobaczyć resztę."
+                  "value" : "Peel wyświetla maksymalnie %lld pliku: od największych, a na końcu to, co aplikacje przechowują w folderze Biblioteki. Zawęź wyszukiwanie, aby zobaczyć resztę."
                 }
               }
             }
@@ -154386,19 +154386,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "O Peel lista no máximo %lld de arquivos, com os seus e os maiores primeiro. Refine a busca para ver o resto."
+                  "value" : "O Peel lista no máximo %lld de arquivos: os maiores primeiro, com o que os apps guardam em uma pasta Biblioteca por último. Refine a busca para ver o resto."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "O Peel lista no máximo %lld arquivo, com os seus e os maiores primeiro. Refine a busca para ver o resto."
+                  "value" : "O Peel lista no máximo %lld arquivo: os maiores primeiro, com o que os apps guardam em uma pasta Biblioteca por último. Refine a busca para ver o resto."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "O Peel lista no máximo %lld arquivos, com os seus e os maiores primeiro. Refine a busca para ver o resto."
+                  "value" : "O Peel lista no máximo %lld arquivos: os maiores primeiro, com o que os apps guardam em uma pasta Biblioteca por último. Refine a busca para ver o resto."
                 }
               }
             }
@@ -154410,19 +154410,19 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel listează cel mult %lld fișiere: ale dvs. apar primele, iar cele mai mari înaintea celor mai mici. Restrângeți căutarea pentru a le vedea pe celelalte."
+                  "value" : "Peel listează cel mult %lld fișiere: întâi cele mai mari, iar la final ce păstrează aplicațiile într‑un dosar Bibliotecă. Restrângeți căutarea pentru a le vedea pe celelalte."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel listează cel mult %lld fișier: ale dvs. apar primele, iar cele mai mari înaintea celor mai mici. Restrângeți căutarea pentru a le vedea pe celelalte."
+                  "value" : "Peel listează cel mult %lld fișier: întâi cele mai mari, iar la final ce păstrează aplicațiile într‑un dosar Bibliotecă. Restrângeți căutarea pentru a le vedea pe celelalte."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel listează cel mult %lld de fișiere: ale dvs. apar primele, iar cele mai mari înaintea celor mai mici. Restrângeți căutarea pentru a le vedea pe celelalte."
+                  "value" : "Peel listează cel mult %lld de fișiere: întâi cele mai mari, iar la final ce păstrează aplicațiile într‑un dosar Bibliotecă. Restrângeți căutarea pentru a le vedea pe celelalte."
                 }
               }
             }
@@ -154434,25 +154434,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel показывает не более %lld файлов: первыми идут Ваши и самые большие. Уточните поиск, чтобы увидеть остальные."
+                  "value" : "Peel показывает не более %lld файлов: сначала самые большие, а то, что приложения хранят в папках «Библиотека», в конце. Уточните поиск, чтобы увидеть остальные."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel показывает не более %lld файлов: первыми идут Ваши и самые большие. Уточните поиск, чтобы увидеть остальные."
+                  "value" : "Peel показывает не более %lld файлов: сначала самые большие, а то, что приложения хранят в папках «Библиотека», в конце. Уточните поиск, чтобы увидеть остальные."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel показывает не более %lld файла: первыми идут Ваши и самые большие. Уточните поиск, чтобы увидеть остальные."
+                  "value" : "Peel показывает не более %lld файла: сначала самые большие, а то, что приложения хранят в папках «Библиотека», в конце. Уточните поиск, чтобы увидеть остальные."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel показывает не более %lld файла: первыми идут Ваши и самые большие. Уточните поиск, чтобы увидеть остальные."
+                  "value" : "Peel показывает не более %lld файла: сначала самые большие, а то, что приложения хранят в папках «Библиотека», в конце. Уточните поиск, чтобы увидеть остальные."
                 }
               }
             }
@@ -154464,13 +154464,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel listar högst %lld fil, dina egna först och de största först. Begränsa sökningen för att se resten."
+                  "value" : "Peel listar högst %lld fil: de största först, med det som appar sparar i en biblioteksmapp sist. Begränsa sökningen för att se resten."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel listar högst %lld filer, dina egna först och de största först. Begränsa sökningen för att se resten."
+                  "value" : "Peel listar högst %lld filer: de största först, med det som appar sparar i en biblioteksmapp sist. Begränsa sökningen för att se resten."
                 }
               }
             }
@@ -154482,13 +154482,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel en fazla %lld dosya listeler: önce sizinkiler, en büyükten başlayarak. Geri kalanını görmek için aramayı daraltın."
+                  "value" : "Peel en fazla %lld dosya listeler: en büyükler önce, uygulamaların bir Kitaplık klasöründe tuttukları ise en sonda. Geri kalanını görmek için aramayı daraltın."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel en fazla %lld dosya listeler: önce sizinkiler, en büyükten başlayarak. Geri kalanını görmek için aramayı daraltın."
+                  "value" : "Peel en fazla %lld dosya listeler: en büyükler önce, uygulamaların bir Kitaplık klasöründe tuttukları ise en sonda. Geri kalanını görmek için aramayı daraltın."
                 }
               }
             }
@@ -154500,25 +154500,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel показує щонайбільше %lld файли, спершу ваші та найбільші. Звузьте пошук, щоб побачити решту."
+                  "value" : "Peel показує щонайбільше %lld файли: спершу найбільші, а файли, які програми зберігають у папці «Бібліотека», останніми. Звузьте пошук, щоб побачити решту."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel показує щонайбільше %lld файлів, спершу ваші та найбільші. Звузьте пошук, щоб побачити решту."
+                  "value" : "Peel показує щонайбільше %lld файлів: спершу найбільші, а файли, які програми зберігають у папці «Бібліотека», останніми. Звузьте пошук, щоб побачити решту."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel показує щонайбільше %lld файл, спершу ваші та найбільші. Звузьте пошук, щоб побачити решту."
+                  "value" : "Peel показує щонайбільше %lld файл: спершу найбільші, а файли, які програми зберігають у папці «Бібліотека», останніми. Звузьте пошук, щоб побачити решту."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel показує щонайбільше %lld файла, спершу ваші та найбільші. Звузьте пошук, щоб побачити решту."
+                  "value" : "Peel показує щонайбільше %lld файла: спершу найбільші, а файли, які програми зберігають у папці «Бібліотека», останніми. Звузьте пошук, щоб побачити решту."
                 }
               }
             }
@@ -154527,13 +154527,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel最多列出%lld个文件，你的文件优先，并按从大到小排列。缩小搜索范围即可查看其余文件。"
+            "value" : "Peel最多列出%lld个文件：按从大到小排列，App保存在“资源库”文件夹中的内容排在最后。缩小搜索范围即可查看其余文件。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel最多列出%lld個檔案：你的檔案優先，並由大到小排列。請縮小搜尋範圍以查看其餘檔案。"
+            "value" : "Peel最多列出%lld個檔案：由大到小排列，App保存在「資源庫」檔案夾中的項目則排在最後。請縮小搜尋範圍以查看其餘檔案。"
           }
         }
       }

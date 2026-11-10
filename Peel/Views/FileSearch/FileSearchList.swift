@@ -8,6 +8,10 @@ struct FileSearchList: View {
     @State private var isShowingFilters = false
     @State private var isRescanning = false
 
+    static var capWords: String {
+        String(inflecting: "Peel lists at most ^[\(FileSearch.maximumResults) file](inflect: true): the largest first, with what apps keep in a Library folder last. Narrow the search to see the rest.")
+    }
+
     var body: some View {
         @Bindable var search = search
 
@@ -16,7 +20,7 @@ struct FileSearchList: View {
             // Says the limit rather than counting the rows, since exclusions added after the search take files
             // out of the list, and can empty it, while the rest stays unlisted.
             if search.results?.isTruncated == true {
-                Label("Peel lists at most ^[\(FileSearch.maximumResults) file](inflect: true), yours first and largest first. Narrow the search to see the rest.", systemImage: "exclamationmark.magnifyingglass")
+                Label(Self.capWords, systemImage: "exclamationmark.magnifyingglass")
                     .foregroundStyle(.secondary)
                     .listRowSeparator(.hidden)
             }
