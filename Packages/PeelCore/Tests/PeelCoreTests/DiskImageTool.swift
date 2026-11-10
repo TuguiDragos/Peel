@@ -13,6 +13,11 @@ enum DiskImageTool {
     /// Runs `hdiutil` with `arguments`, `input` on its standard input, and answers what it wrote on standard output.
     @discardableResult
     static func hdiutil(_ arguments: String..., input: Data = Data()) throws -> Data {
+        try hdiutil(arguments, input: input)
+    }
+
+    @discardableResult
+    static func hdiutil(_ arguments: [String], input: Data = Data()) throws -> Data {
         try run("/usr/bin/hdiutil", arguments, input: input)
     }
 
