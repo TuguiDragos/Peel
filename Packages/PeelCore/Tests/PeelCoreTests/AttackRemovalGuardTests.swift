@@ -582,6 +582,32 @@ struct AttackRemovalGuardTests {
         #expect(!guardian.allowsRemoval(of: renamed), "ATTACK SUCCEEDED: Mail itself moves under another name")
     }
 
+    @Test func refusesWhatSystemIntegrityProtectionMarksRestricted() throws {
+        let guardian = RemovalGuard(environment: .current)
+
+        for path in ["/Library/Apple", "/Applications/Safari.app"] {
+            var info = stat()
+            try #require(lstat(path, &info) == 0 && info.st_flags & UInt32(SF_RESTRICTED) != 0, "\(path) isn't restricted")
+            #expect(guardian.refusal(of: URL(filePath: path)) == .protectedLocation, "ATTACK SUCCEEDED: \(path) moves")
+        }
+    }
+
+    @Test(arguments: [
+        "photoslibrary", "photolibrary", "migratedphotolibrary", "musiclibrary", "tvlibrary", "imovielibrary",
+        "fcpbundle", "aplibrary",
+    ])
+    func refusesEveryKindOfLibraryAndTheFolderAroundIt(kind: String) throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let clip = try directory.file("home/Documents/Archive/Old.\(kind)/clip.mov")
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
+
+        #expect(!guardian.allowsRemoval(of: clip), "ATTACK SUCCEEDED: a clip moves out of a .\(kind)")
+        #expect(!guardian.allowsRemoval(of: home.appending(path: "Documents/Archive")), "the folder around a .\(kind)")
+    }
+
     @Test func aWalletKeptOnAnotherDiskThroughALink() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

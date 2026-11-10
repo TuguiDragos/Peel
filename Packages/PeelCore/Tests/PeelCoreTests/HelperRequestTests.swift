@@ -19,8 +19,10 @@ struct HelperRequestTests {
 
     @Test func refusesAnotherVersionBeforeAskingWhoIsCalling() {
         var asked = 0
-        #expect(throws: HelperRefusal.outOfDate) {
-            try admit(version: HelperIdentity.protocolVersion - 1, asked: &asked).get()
+        for version in [HelperIdentity.protocolVersion - 1, HelperIdentity.protocolVersion + 1] {
+            #expect(throws: HelperRefusal.outOfDate) {
+                try admit(version: version, asked: &asked).get()
+            }
         }
         #expect(asked == 0)
     }

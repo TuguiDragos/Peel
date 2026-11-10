@@ -86,6 +86,10 @@ public struct PrivilegedPathPolicy: Sendable {
 
     private static let protectedFlags = UInt32(SF_RESTRICTED) | UInt32(SF_IMMUTABLE) | UInt32(SF_NOUNLINK)
 
+    static func isProtected(flags: UInt32) -> Bool {
+        flags & protectedFlags != 0
+    }
+
     private let locations: [String]
     /// The served folders alone, without those the helper takes only a link or a manifest from.
     private let served: [String]
@@ -241,7 +245,7 @@ public struct PrivilegedPathPolicy: Sendable {
                 return .failure(.missing)
             }
             return judged(name, in: parent).flatMap { item in
-                guard info.st_flags & Self.protectedFlags == 0 else { return .failure(.protectedByFlags) }
+                guard !Self.isProtected(flags: info.st_flags) else { return .failure(.protectedByFlags) }
                 if links.contains(item.parent) {
                     guard info.st_mode & S_IFMT == S_IFLNK else { return .failure(.notALink) }
                     // Followed this time: nothing there, or a chain that loops, is a link that leads nowhere.

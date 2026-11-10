@@ -284,6 +284,9 @@ struct PrivilegedPathPolicyTests {
         ("../../etc", false),
         ("-rf", false),
         ("", false),
+        (".hidden.label", false),
+        (String(repeating: "a", count: 255), true),
+        (String(repeating: "a", count: 256), false),
     ])
     func validatesLabels(label: String, isValid: Bool) {
         #expect(PrivilegedPathPolicy.isValidLabel(label) == isValid)
@@ -335,9 +338,23 @@ struct PrivilegedPathPolicyTests {
             ).rejection == .loadsCode
         )
         #expect(
+            trusting.openDestination(
+                destination,
+                for: try trashed("others.plist", permissions: 0o646, in: directory, by: trusting)
+            ).rejection == .loadsCode
+        )
+        #expect(
             try trusting.openDestination(destination, for: try trashed("roots.plist", in: directory, by: trusting))
                 .get().path.hasSuffix("/LaunchDaemons/com.example.helper.plist")
         )
+    }
+
+    @Test func refusesWhatTheSystemFlagsKeep() {
+        for flag in [SF_IMMUTABLE, SF_RESTRICTED, SF_NOUNLINK] {
+            #expect(PrivilegedPathPolicy.isProtected(flags: UInt32(flag)))
+        }
+        #expect(!PrivilegedPathPolicy.isProtected(flags: UInt32(UF_IMMUTABLE)))
+        #expect(!PrivilegedPathPolicy.isProtected(flags: 0))
     }
 
     @Test func aPlugInFolderInsideAFolderThatTakesAnythingStillLoadsCode() throws {
