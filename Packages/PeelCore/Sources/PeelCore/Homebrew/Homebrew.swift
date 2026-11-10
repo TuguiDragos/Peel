@@ -1315,13 +1315,6 @@ public enum Homebrew {
         return URL(filePath: path, directoryHint: .isDirectory)
     }
 
-    /// The page a definition names, when it is one a browser opens: a tap can write any address there, and the Mac
-    /// would open another scheme with whatever app claims it.
-    private static func webPage(_ address: String) -> URL? {
-        guard let url = URL(string: address), ["http", "https"].contains(url.scheme?.lowercased()) else { return nil }
-        return url
-    }
-
     static func parseInstalled(_ data: Data, caskroom: URL? = nil) -> [HomebrewPackage]? {
         guard let response = try? JSONDecoder().decode(InfoResponse.self, from: data) else { return nil }
 
@@ -1331,7 +1324,7 @@ public enum Homebrew {
                 kind: .formula,
                 fullName: formula.fullName,
                 summary: formula.desc,
-                homepage: formula.homepage.flatMap(webPage),
+                homepage: formula.homepage.flatMap(URL.init(webPage:)),
                 installedVersion: formula.installed.last?.version,
                 latestVersion: formula.versions.stable.map { stable in
                     (formula.revision ?? 0) > 0 ? "\(stable)_\(formula.revision ?? 0)" : stable
@@ -1349,7 +1342,7 @@ public enum Homebrew {
                 kind: .cask,
                 fullName: cask.fullToken,
                 summary: cask.desc,
-                homepage: cask.homepage.flatMap(webPage),
+                homepage: cask.homepage.flatMap(URL.init(webPage:)),
                 installedVersion: cask.installed,
                 latestVersion: cask.version,
                 isOutdated: cask.outdated ?? false,

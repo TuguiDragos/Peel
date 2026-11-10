@@ -620,6 +620,20 @@ private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
         #expect(decided(later, .appStore, .unsupported) == .unsupported)
     }
 
+    @Test func anAppStorePageThatIsNoWebPageIsNotKept() async {
+        let sold = InstalledApp(
+            url: URL(filePath: "/Applications/Notes Pro.app"),
+            bundleIdentifier: "com.example.notes",
+            name: "Notes Pro",
+            version: "1.0",
+            isFromAppStore: true,
+            updateFeed: .appStore(.mac)
+        )
+
+        reply("itunes.apple.com", #"{"resultCount":1,"results":[{"kind":"mac-software","version":"2.0","trackViewUrl":"file:///Applications/Calculator.app"}]}"#)
+        #expect(await checker.status(for: sold) == .updateAvailable(version: "2.0", source: .appStore))
+    }
+
     @Test func aMacAppReadsNoIPhoneRecord() async {
         let sold = InstalledApp(
             url: URL(filePath: "/Applications/Notes Pro.app"),

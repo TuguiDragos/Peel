@@ -22,6 +22,17 @@ struct VersionComparisonTests {
     }
 }
 
+struct UpdateStatusTests {
+    @Test func aKeptPageIsGivenOnlyWhenABrowserOpensIt() throws {
+        let page = try #require(URL(string: "https://example.org/notes"))
+        #expect(UpdateStatus.updateAvailable(version: "2", releaseNotes: page).releaseNotes == page)
+        for address in ["file:///Applications/Calculator.app", "ssh://example.org", "x-apple.systempreferences:"] {
+            let kept = UpdateStatus.updateAvailable(version: "2", source: .homebrew, releaseNotes: URL(string: address))
+            #expect(kept.releaseNotes == nil, "\(address)")
+        }
+    }
+}
+
 struct AppcastTests {
     private func latestItem(in feed: String, systemVersion: String = "26.7.0") -> AppcastItem? {
         if case .latest(let item) = Appcast.read(Data(feed.utf8), systemVersion: systemVersion, isAppleSilicon: true) {

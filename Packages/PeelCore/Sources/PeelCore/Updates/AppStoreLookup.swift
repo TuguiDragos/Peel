@@ -35,7 +35,7 @@ enum AppStoreLookup {
         guard let record = results.first(where: isListed), let version = record.version else { return .notListed }
         return .listed(
             version: version,
-            page: record.trackViewUrl.flatMap(URL.init(string:)),
+            page: record.trackViewUrl.flatMap(URL.init(webPage:)),
             developer: record.artistName.flatMap { $0.isEmpty ? nil : $0 },
             notes: record.releaseNotes.flatMap { ReleaseNotes($0, format: .plainText) }
         )

@@ -52,8 +52,10 @@ public enum UpdateStatus: Sendable, Hashable, Codable {
         String(version.prefix { $0 != "," })
     }
 
+    /// The page to open for the update. A kept answer is read from a file any process of the account can write, so
+    /// an address a browser doesn't open is never given.
     public var releaseNotes: URL? {
-        if case .updateAvailable(_, _, let notes, _) = self { notes } else { nil }
+        if case .updateAvailable(_, _, let notes, _) = self, notes?.isWebPage == true { notes } else { nil }
     }
 
     /// Whether `releaseNotes` leads to the product's page and not to notes.
