@@ -40,6 +40,20 @@ struct AppLinksTests {
         #expect(scan.unreadable.isEmpty, "\(scan.unreadable)")
     }
 
+    @Test func aBundleWhoseContentsIsALinkIsNoApp() async throws {
+        let directory = try TemporaryDirectory()
+        let fixture = try fixture(in: directory)
+        let wrapped = try directory.directory("Applications/Wrapped.app")
+        try FileManager.default.createSymbolicLink(
+            at: wrapped.appending(path: "Contents"), withDestinationURL: fixture.real.appending(path: "Contents")
+        )
+
+        #expect(!AppInspector.isABundle(wrapped))
+        #expect(AppInspector.inspect(wrapped) == nil)
+        #expect(!AppCatalog.appBundles(in: fixture.applications).bundles.contains { $0.lastPathComponent == "Wrapped.app" })
+        #expect(AppInspector.isABundle(fixture.real))
+    }
+
     @Test func aLinkIsReadAsTheAppItLeadsTo() throws {
         let directory = try TemporaryDirectory()
         let fixture = try fixture(in: directory)

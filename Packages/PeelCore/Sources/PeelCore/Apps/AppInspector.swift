@@ -92,11 +92,15 @@ public enum AppInspector {
         url.pathExtension == "app"
     }
 
-    /// Whether `url` is an app bundle itself: a folder named as an app, not a link to one nor a file named like one.
+    /// Whether `url` is an app bundle itself: a folder named as an app, not a link to one nor a file named like one,
+    /// whose Info.plist doesn't sit behind a link either, which would make it another app.
     public static func isABundle(_ url: URL) -> Bool {
         var info = stat()
-        return isNamedAsAnApp(url) && lstat(PathPattern.comparablePath(of: url), &info) == 0
-            && info.st_mode & S_IFMT == S_IFDIR
+        guard isNamedAsAnApp(url), lstat(PathPattern.comparablePath(of: url), &info) == 0,
+              info.st_mode & S_IFMT == S_IFDIR
+        else { return false }
+        let infoFolder = PathPattern.comparablePath(of: AppBundleLayout(of: url).infoFolder)
+        return lstat(infoFolder, &info) != 0 || info.st_mode & S_IFMT != S_IFLNK
     }
 
     /// Whether what arrived in the Trash at `url` is an app that left this Mac: a bundle, since a link to one leaves
@@ -127,6 +131,7 @@ public enum AppInspector {
             let bundle = URL(filePath: destination, directoryHint: .isDirectory)
             return isABundle(bundle) ? inspect(bundle) : nil
         }
+        guard isABundle(url) else { return nil }
         let layout = AppBundleLayout(of: url)
         let contents = layout.infoFolder
         guard let info = infoDictionary(in: contents) else { return nil }
