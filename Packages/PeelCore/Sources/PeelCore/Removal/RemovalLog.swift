@@ -164,7 +164,7 @@ public actor RemovalLog {
     public static func freeSpace(at folder: URL) -> UInt64? {
         var info = statfs()
         guard statfs(folder.path(percentEncoded: false), &info) == 0 else { return nil }
-        return UInt64(info.f_bavail) * UInt64(info.f_bsize)
+        return UInt64(info.f_bavail).multipliedCapped(by: UInt64(info.f_bsize))
     }
 
     /// Keeps a History that cannot be read beside the new one, under another name, and starts recording again.

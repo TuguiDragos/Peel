@@ -14,6 +14,20 @@ struct DuplicateFinderTests {
         #expect(DuplicateScan.canChange(copies[1], among: copies, selected: [copies[0], copies[1]]), "a selected copy can always go back")
     }
 
+    @Test func foldersOfSparseFilesLongerThanAnyTotalCanHoldAreCompared() async throws {
+        let folder = try TemporaryDirectory()
+        for index in 0..<300 {
+            let file = try folder.file("a/sparse-\(index)", bytes: 0)
+            try #require(truncate(file.path(percentEncoded: false), (1 << 55) - 1) == 0)
+        }
+        var options = DuplicateScanOptions(folders: [folder.url])
+        options.minimumSize = 1
+
+        let scan = try await DuplicateFinder(homeDirectory: folder.url).scan(options)
+
+        #expect(scan.folderGroups.isEmpty)
+    }
+
     @Test func aReadThatNeverAnswersHoldsNeitherAStoppedScanNorItsThreads() async throws {
         let stuck = Stuck()
         let reading = Task {

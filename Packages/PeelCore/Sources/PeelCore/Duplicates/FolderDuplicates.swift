@@ -211,7 +211,7 @@ struct FolderDuplicates: Sendable {
                 folder.children.append((name, child))
             case .file(let name, let identity, let held):
                 folder.files.append((name, identity))
-                folder.held += held
+                folder.held = folder.held.addingCapped(held)
             case .leftOut:
                 folder.isWhole = false
             }
@@ -267,7 +267,7 @@ struct FolderDuplicates: Sendable {
         if let shape = folder.shape { return shape }
         var hasher = SHA256()
         var fileCount = folder.files.count
-        var size = folder.files.reduce(0) { $0 + $1.identity.size }
+        var size = folder.files.map(\.identity.size).cappedSum
         var held = folder.held
         for (name, identity) in folder.files.sorted(by: { $0.name < $1.name }) {
             hasher.update(data: Self.field("f", name, Self.number(identity.size)))
@@ -275,8 +275,8 @@ struct FolderDuplicates: Sendable {
         for (name, child) in folder.children.sorted(by: { $0.name < $1.name }) {
             let digest = shape(of: child)
             fileCount += child.fileCount
-            size += child.size
-            held += child.totalHeld
+            size = size.addingCapped(child.size)
+            held = held.addingCapped(child.totalHeld)
             hasher.update(data: Self.field("d", name, Array(digest)))
         }
         folder.fileCount = fileCount
@@ -410,8 +410,8 @@ struct FolderDuplicates: Sendable {
     }
 
     private static func reclaimable(_ folder: Folder) -> Int64 {
-        folder.files.reduce(0) { $0 + ReclaimableSpace.of(folder.url.appending(path: $1.name)) }
-            + folder.children.reduce(0) { $0 + reclaimable($1.folder) }
+        folder.files.map { ReclaimableSpace.of(folder.url.appending(path: $0.name)) }.cappedSum
+            .addingCapped(folder.children.map { reclaimable($0.folder) }.cappedSum)
     }
 
     private static func files(in folders: [Folder]) -> [(url: URL, identity: FileIdentity)] {

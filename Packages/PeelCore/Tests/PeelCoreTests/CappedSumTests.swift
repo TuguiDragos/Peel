@@ -10,6 +10,13 @@ struct CappedSumTests {
         #expect(Int.min.addingCapped(-1) == .min)
     }
 
+    @Test func multipliesUpToTheLargestNumberInsteadOfTrapping() {
+        #expect(Int64.max.multipliedCapped(by: 512) == .max)
+        #expect(UInt64.max.multipliedCapped(by: 4_096) == .max)
+        #expect(Int64.min.multipliedCapped(by: 2) == .min)
+        #expect(Int64(8).multipliedCapped(by: 512) == 4_096)
+    }
+
     @Test func sumsASequenceUpToTheLargestNumber() {
         #expect([Int64.max, 1, 2].cappedSum == .max)
         #expect([Int64(40), 2].cappedSum == 42)

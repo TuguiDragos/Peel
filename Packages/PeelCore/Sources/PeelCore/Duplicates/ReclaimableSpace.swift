@@ -6,14 +6,19 @@ enum ReclaimableSpace {
     static func allocated(_ url: URL) -> Int64 {
         var info = stat()
         guard lstat(url.path(percentEncoded: false), &info) == 0 else { return 0 }
-        return Int64(info.st_blocks) * 512
+        return blockBytes(info)
+    }
+
+    /// The bytes `info` says the file's blocks take, capped: a server can report any number of blocks.
+    private static func blockBytes(_ info: stat) -> Int64 {
+        Int64(info.st_blocks).multipliedCapped(by: 512)
     }
 
     /// The bytes the file holds: its length less its holes, so a file made only of holes holds nothing. APFS
     /// keeps holes, while HFS+, FAT, and exFAT fill them in. A compressed file counts at its full length, since
     /// its few blocks (none when its bytes sit in an extended attribute) come from compression, not holes.
     static func held(_ info: stat) -> Int64 {
-        info.st_flags & UInt32(UF_COMPRESSED) != 0 ? info.st_size : min(info.st_size, Int64(info.st_blocks) * 512)
+        info.st_flags & UInt32(UF_COMPRESSED) != 0 ? info.st_size : min(info.st_size, blockBytes(info))
     }
 
     /// The bytes removing the file would free: none while it has other hard links, and otherwise every block it
@@ -23,10 +28,10 @@ enum ReclaimableSpace {
         var info = stat()
         guard lstat(path, &info) == 0, info.st_nlink <= 1 else { return 0 }
         // exFAT and FAT answer the private size with zero, though they share no block.
-        guard canShareBlocks(path) else { return Int64(info.st_blocks) * 512 }
+        guard canShareBlocks(path) else { return blockBytes(info) }
         let blocks = forkAttributes(of: path)
         return freed(
-            allocated: Int64(info.st_blocks) * 512, privateSize: blocks?.privateSize, mayBeShared: blocks?.mayBeShared,
+            allocated: blockBytes(info), privateSize: blocks?.privateSize, mayBeShared: blocks?.mayBeShared,
             isCompressed: info.st_flags & UInt32(UF_COMPRESSED) != 0
         )
     }

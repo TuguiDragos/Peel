@@ -6,6 +6,13 @@ extension FixedWidthInteger {
         guard overflowed else { return sum }
         return other < 0 ? .min : .max
     }
+
+    /// The product, capped the same way: for the sizes a disk reports in blocks, which any server can make up.
+    public func multipliedCapped(by other: Self) -> Self {
+        let (product, overflowed) = multipliedReportingOverflow(by: other)
+        guard overflowed else { return product }
+        return (self < 0) == (other < 0) ? .max : .min
+    }
 }
 
 extension Sequence where Element: FixedWidthInteger {

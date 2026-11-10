@@ -13,7 +13,7 @@ enum FileDigest {
 
     /// The bytes that reading these files in full will take, leaving out files whose full digest is remembered.
     static func bytesToRead(_ identities: [FileIdentity], known: KnownDigests?) -> Int64 {
-        identities.filter { known?.full(of: $0) == nil }.reduce(0) { $0 + $1.size }
+        identities.filter { known?.full(of: $0) == nil }.map(\.size).cappedSum
     }
 
     /// Digests `items`, `concurrentReads` at a time, leaving out any that cannot be read. Each read runs as
