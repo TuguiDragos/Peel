@@ -25,10 +25,10 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     /// of that package, so it stays with it.
     public let enclosingPackage: URL?
     /// When the app was last opened, as Spotlight records it. Nil when it never was, or when nothing records it.
-    public let lastUsedDate: Date?
+    public private(set) var lastUsedDate: Date?
     /// Whether Spotlight records when the app is opened, so that no `lastUsedDate` means it never was. Spotlight
     /// keeps no record for an app in a folder it does not index.
-    public let isUseRecorded: Bool
+    public private(set) var isUseRecorded: Bool
     public let dateAdded: Date?
     public let updateFeed: UpdateFeed?
     /// The folder electron-updater keeps this app's downloads in, as its `app-update.yml` names it.
@@ -149,33 +149,10 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
 
     /// Returns a copy with what Spotlight records of the app's use, which can change while the bundle stays the same.
     func withUse(lastUsedDate date: Date?, isUseRecorded isRecorded: Bool) -> InstalledApp {
-        guard date != lastUsedDate || isRecorded != isUseRecorded else { return self }
-        return InstalledApp(
-            url: url,
-            bundleIdentifier: bundleIdentifier,
-            name: name,
-            bundleName: bundleName,
-            version: version,
-            buildVersion: buildVersion,
-            teamIdentifier: teamIdentifier,
-            developer: developer,
-            applicationGroups: applicationGroups,
-            embeddedBundleIdentifiers: embeddedBundleIdentifiers,
-            architectures: architectures,
-            isFromAppStore: isFromAppStore,
-            isSystemProtected: isSystemProtected,
-            enclosingPackage: enclosingPackage,
-            lastUsedDate: date,
-            isUseRecorded: isRecorded,
-            dateAdded: dateAdded,
-            updateFeed: updateFeed,
-            updaterFolder: updaterFolder,
-            velopackID: velopackID,
-            productFolders: productFolders,
-            webApp: webApp,
-            carriesSystemExtensions: carriesSystemExtensions,
-            isSealIntact: isSealIntact
-        )
+        var copy = self
+        copy.lastUsedDate = date
+        copy.isUseRecorded = isRecorded
+        return copy
     }
 
     static let runningBundle = PathPattern.comparablePath(of: Bundle.main.bundleURL)

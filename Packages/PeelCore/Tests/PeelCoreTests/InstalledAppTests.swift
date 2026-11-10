@@ -29,6 +29,18 @@ struct InstalledAppTests {
         #expect(!other.isTheRunningCopy)
     }
 
+    @Test func aCopyWithAnotherUseKeepsEverythingElse() {
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Tide.app"), bundleIdentifier: "org.example.tide", name: "Tide",
+            architectures: [.arm64, .x86_64], asksForIntelFirst: true, lastUsedDate: .distantPast
+        )
+
+        let copy = app.withUse(lastUsedDate: .now, isUseRecorded: false)
+
+        #expect(copy.prefersIntel)
+        #expect(copy.withUse(lastUsedDate: .distantPast, isUseRecorded: true) == app)
+    }
+
     @Test func anAppOpenedAgainIsTheSameBuildAndAnUpdateIsNot() {
         func app(version: String = "2.0", build: String = "200", team: String = "ABCDE12345",
                  architectures: Set<Architecture> = [.arm64], opened: Date? = nil) -> InstalledApp {
