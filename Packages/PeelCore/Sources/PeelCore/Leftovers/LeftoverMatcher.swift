@@ -155,8 +155,12 @@ struct LeftoverMatcher: Sendable {
                 continue
             }
             // A likely claim by name against one by identifier: neither wins, whatever their ranks, and the item
-            // is shared. Otherwise the stronger claim wins, as with Chrome and Chrome Canary, and equal ones share.
-            if rival.family != evidence.family, rival.confidence >= .likely, evidence.confidence >= .likely {
+            // is shared, as it is when what this app says it embeds extends the other's identifier. Otherwise the
+            // stronger claim wins, as with Chrome and Chrome Canary, and equal ones share.
+            if evidence.reason == .embeddedBundleIdentifier, rival.reason == .bundleIdentifierPrefix,
+               !other.isACopy(of: target) {
+                share(with: other)
+            } else if rival.family != evidence.family, rival.confidence >= .likely, evidence.confidence >= .likely {
                 share(with: other)
             } else if rival.rank > evidence.rank {
                 return nil
@@ -504,7 +508,7 @@ extension LeftoverMatcher {
                 guard Identifier.isValid(key) else { return unproven(.embeddedBundleIdentifier, candidate) }
                 return Evidence(
                     .embeddedBundleIdentifier,
-                    embedded.isTheAppsOrItsMakers ? .certain : .likely,
+                    embedded.isTheAppsOrItsMakers ? .certain : .possible,
                     specificity: key.count
                 )
             }

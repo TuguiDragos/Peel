@@ -193,7 +193,7 @@ struct LeftoverMatcherTests {
         #expect(helper.confidence == .certain)
 
         let electron = try #require(match("com.github.Electron.helper", in: .caches, for: docker))
-        #expect(electron.confidence == .likely)
+        #expect(electron.confidence == .possible)
     }
 
     @Test func whatAnAppEmbedsUnderItsOwnIdentifierIsCertainlyItsOwn() throws {
@@ -202,7 +202,22 @@ struct LeftoverMatcherTests {
 
         #expect(try #require(match("example.atlas.helper", in: .caches, for: short)).confidence == .certain)
         #expect(try #require(match("io.github.atlas.helper", in: .caches, for: hosted)).confidence == .certain)
-        #expect(try #require(match("org.example.updater", in: .caches, for: hosted)).confidence == .likely)
+        #expect(try #require(match("org.example.updater", in: .caches, for: hosted)).confidence == .possible)
+    }
+
+    @Test func whatAnAppSaysItEmbedsNeverTakesAnotherInstalledAppsFiles() throws {
+        let owner = app("com.example.owner", name: "Owner")
+        let claimer = app("org.example.claimer", name: "Claimer", embedded: ["com.example.owner.helper"])
+        let sibling = app("com.example.suite", name: "Suite", embedded: ["com.example.owner.agent"])
+
+        let taken = try #require(match("com.example.owner.helper.plist", in: .preferences, for: claimer, with: [owner]))
+        #expect(taken.sharedWith == ["com.example.owner"])
+        #expect(!taken.isRecommended)
+        let fromTheMaker = try #require(
+            match("com.example.owner.agent.plist", in: .preferences, for: sibling, with: [owner])
+        )
+        #expect(fromTheMaker.sharedWith == ["com.example.owner"])
+        #expect(!fromTheMaker.isRecommended)
     }
 
     @Test func applicationGroupSharedWithAnotherAppIsNotRecommended() throws {
