@@ -7,7 +7,7 @@ public enum HelperIdentity {
     public static let launchdPlistName = "com.tuguidragos.Peel.Helper.plist"
     /// Raise it whenever the helper changes, so Peel never works with a helper of another version. The helper
     /// refuses requests that carry any other version.
-    public static let protocolVersion = 22
+    public static let protocolVersion = 23
 }
 
 /// The complete set of privileged operations. The helper validates every argument itself.

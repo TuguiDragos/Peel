@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+@testable import PeelPrivileged
 import Testing
 
 struct SystemFoldersTests {

@@ -252,11 +252,24 @@ public enum ProtectedData: Sendable {
         return name.hasPrefix("com.apple.")
     }
 
-    /// True at or inside an item named as Apple names its own, directly in one of `macOSsOwnLibraryFolders`: a
+    /// True at or inside an item named as Apple names its own, or in Preferences and Application Support by a plain
+    /// name macOS keeps there (`SystemFolders`), directly in one of `macOSsOwnLibraryFolders`: a
     /// setting or a job of macOS itself, which nothing but macOS makes again. Not an account's own Library, where such
     /// a file holds the account's settings for an Apple app, which a reset clears. Expects the names lower-cased.
     private static func isMacOSsOwnInLibrary(_ names: [String]) -> Bool {
-        names.count > 2 && names[0] == "library" && macOSsOwnLibraryFolders.contains(names[1]) && isApplesName(names[2])
+        guard names.count > 2, names[0] == "library", macOSsOwnLibraryFolders.contains(names[1]) else { return false }
+        if isApplesName(names[2]) { return true }
+        return switch names[1] {
+        case "preferences": SystemFolders.holds(names[2], in: .preferences)
+        case "application support": SystemFolders.holds(names[2], in: .applicationSupport)
+        default: false
+        }
+    }
+
+    /// True for a receipt of one of Apple's packages, which macOS keeps of its own software. The names arrive
+    /// lower-cased.
+    private static func isAnApplesReceipt(_ names: [String]) -> Bool {
+        names.count == 5 && names[0...3] == ["private", "var", "db", "receipts"] && isApplesName(names[4])
     }
 
     /// True at or inside one of Apple's own group containers, where the system's apps keep the user's data,
@@ -583,7 +596,8 @@ public enum ProtectedData: Sendable {
         spellings.contains { spelling in
             let names = PathComponents.of(spelling)
             if names.contains(where: isALibrary) || isInADisksTrash(names) { return true }
-            if isGlobalPreferences(spelling) || isInAnApplesGroupContainer(names) || isMacOSsOwnInLibrary(names) {
+            if isGlobalPreferences(spelling) || isInAnApplesGroupContainer(names) || isMacOSsOwnInLibrary(names)
+                || isAnApplesReceipt(names) {
                 return true
             }
             if isInsideAWalletExtension(names) { return true }

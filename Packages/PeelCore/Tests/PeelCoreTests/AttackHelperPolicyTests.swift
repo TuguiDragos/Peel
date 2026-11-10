@@ -1,4 +1,5 @@
 import Foundation
+@testable import PeelCore
 @testable import PeelPrivileged
 import Testing
 
@@ -10,6 +11,23 @@ struct AttackHelperPolicyTests {
             systemLocations: [],
             applicationLocations: []
         )
+    }
+
+    @Test func whatMacOSKeepsUnderAPlainNameInTheMacsLibraryStays() throws {
+        let directory = try TemporaryDirectory()
+        let guardian = RemovalGuard(environment: SearchEnvironment(
+            homeDirectory: try directory.directory("home"), rootDirectory: try directory.directory("root")
+        ))
+        let macOSs = [
+            "/Library/Preferences/OpenDirectory", "/Library/Preferences/Logging", "/Library/Application Support/Apple",
+            "/Library/Application Support/CrashReporter", "/private/var/db/receipts/com.apple.pkg.example.bom",
+        ]
+        for path in macOSs {
+            #expect(ProtectedData.refuses(path, home: "/Users/someone"), "the helper's rules would move \(path)")
+            #expect(guardian.refusal(of: URL(filePath: path)) != nil, "the guard would move \(path)")
+        }
+        #expect(!ProtectedData.refuses("/private/var/db/receipts/org.example.vendor.pkg.bom", home: "/Users/someone"))
+        #expect(!ProtectedData.refuses("/Library/Application Support/org.example.vendor", home: "/Users/someone"))
     }
 
     /// The helper serves all of `<home>/Library`, so it must refuse the irreplaceable parts on its own.

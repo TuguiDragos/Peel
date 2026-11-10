@@ -1,9 +1,9 @@
 import Foundation
 
 /// What macOS keeps for its own services under a plain name in the Library folders Peel searches. No app claims one by
-/// its name, so an app called Knowledge never takes `Application Support/Knowledge`. Each name comes with what in the
-/// sealed system proves it.
-enum SystemFolders {
+/// its name, so an app called Knowledge never takes `Application Support/Knowledge`, and the helper moves none from the
+/// Mac's own Library. Each name comes with what in the sealed system proves it.
+package enum SystemFolders {
     /// What in the sealed system proves that a name is macOS's.
     enum Proof: Sendable {
         /// A part of the sealed system called by the name: a framework, a program, or the sandbox profile of one.
@@ -260,18 +260,19 @@ enum SystemFolders {
         "Cookies.binarycookies": .image("/System/Library/Frameworks/WebKit.framework/Versions/A/WebKit", naming: "Cookies.binarycookies"),
     ]
 
-    /// Whether macOS keeps an item called `fileName` for its own services in a folder of `kind`. A process keeps its
-    /// caches, its HTTP storage and its temporary items under the same name.
-    static func keeps(_ fileName: String, in kind: SearchLocation.Kind) -> Bool {
-        let names = switch kind {
+    package enum List: Sendable {
+        case applicationSupport, caches, logs, preferences, webKit, cookies, library
+    }
+
+    package static func holds(_ fileName: String, in list: List) -> Bool {
+        let names = switch list {
         case .applicationSupport: applicationSupportNames
-        case .caches, .httpStorages, .temporaryItems: cachesNames
+        case .caches: cachesNames
         case .logs: logsNames
         case .preferences: preferencesNames
         case .webKit: webKitNames
         case .cookies: cookiesNames
         case .library: libraryNames
-        default: noNames
         }
         return names.hold(fileName)
     }
@@ -283,7 +284,6 @@ enum SystemFolders {
     private static let webKitNames = Names(webKit)
     private static let cookiesNames = Names(cookies)
     private static let libraryNames = Names(library)
-    private static let noNames = Names([:])
 
     /// The names of one list, lowercased, those with a `*` read as patterns.
     private struct Names {
