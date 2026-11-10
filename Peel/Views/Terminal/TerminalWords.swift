@@ -169,7 +169,7 @@ extension TerminalTool {
         case .fzf: "Control-R searches your history, Control-T pastes files and folders, and Option-C, with Option as Meta, goes to a folder. With --color=16, it uses the Terminal theme’s colors."
         case .direnv: "Loads and unloads environment variables as you enter and leave a project’s folder, from its .envrc file once you allow it with `direnv allow`."
         case .zshAutosuggestions: "Shows the rest of a command in gray as you type, from your history, and the Right Arrow accepts it."
-        case .zshSyntaxHighlighting: "Colors the command line as you type, so a command that doesn’t exist shows before you press Return. Its line must be the last in ~/.zshrc."
+        case .zshSyntaxHighlighting: "Colors the command line as you type, so a command that doesn’t exist shows before you press Return. Its line must be the last in your .zshrc."
         case .delta: "Shows `git diff`, `git log`, and `git show` with syntax highlighting and line numbers. With BAT_THEME set to ansi, it uses the Terminal theme’s colors."
         case .gitLFS: "Lets Git clone and work with repositories that keep large files in Git LFS. `git lfs install` sets it up once for your account."
         case .lazygit: "Stage, commit, branch, rebase, and resolve conflicts from a full interface in Terminal. Run `lazygit` in a repository."
@@ -181,10 +181,10 @@ extension TerminalTool {
 }
 
 extension TerminalTool.Place {
-    var caption: LocalizedStringResource {
+    func caption(zshrc: String) -> LocalizedStringResource {
         switch self {
-        case .zshrc: "Then add to ~/.zshrc"
-        case .lastLineOfZshrc: "Then add as the last line of ~/.zshrc"
+        case .zshrc: "Then add to \(zshrc)"
+        case .lastLineOfZshrc: "Then add as the last line of \(zshrc)"
         case .terminal: "Then run in Terminal"
         }
     }

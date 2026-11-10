@@ -3,6 +3,16 @@ import SwiftUI
 
 struct ToolsTab: View {
     @Environment(TerminalToolLibrary.self) private var tools
+    @Environment(ShellLibrary.self) private var shell
+
+    /// The startup file zsh reads, as the Shell tab asked zsh, or the usual one until that is known.
+    private var zshrc: String {
+        shell.state?.startupFile?.abbreviatedPath ?? "~/.zshrc"
+    }
+
+    static func linesGoIn(_ zshrc: String) -> LocalizedStringResource {
+        "Their lines go in \(zshrc) in the order they are listed here."
+    }
 
     var body: some View {
         Form {
@@ -51,13 +61,13 @@ struct ToolsTab: View {
                 ForEach(TerminalTool.Group.allCases, id: \.self) { group in
                     Section {
                         ForEach(TerminalTool.allCases.filter { $0.group == group }, id: \.self) { tool in
-                            TerminalToolRow(tool: tool, state: state)
+                            TerminalToolRow(tool: tool, state: state, zshrc: zshrc)
                         }
                     } header: {
                         Text(group.title)
                     } footer: {
                         if group == .shell {
-                            Text("Their lines go in ~/.zshrc in the order they are listed here.")
+                            Text(Self.linesGoIn(zshrc))
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -73,6 +83,7 @@ private struct TerminalToolRow: View {
     @Environment(TerminalToolLibrary.self) private var tools
     let tool: TerminalTool
     let state: TerminalToolLibrary.State
+    let zshrc: String
 
     var body: some View {
         let isInstalled = state.installed.contains(tool)
@@ -128,7 +139,7 @@ private struct TerminalToolRow: View {
                                 CopyableLines(caption: setups.isEmpty ? nil : Text("Install"), lines: [tool.installCommand])
                             }
                             ForEach(setups, id: \.lines) { setup in
-                                CopyableLines(caption: Text(setup.place.caption), lines: setup.lines)
+                                CopyableLines(caption: Text(setup.place.caption(zshrc: zshrc)), lines: setup.lines)
                             }
                         }
                         .padding(.top, 4)

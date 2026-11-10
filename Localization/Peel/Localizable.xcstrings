@@ -35842,108 +35842,108 @@
         }
       }
     },
-    "Colors the command line as you type, so a command that doesn’t exist shows before you press Return. Its line must be the last in ~/.zshrc." : {
+    "Colors the command line as you type, so a command that doesn’t exist shows before you press Return. Its line must be the last in your .zshrc." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obarvuje příkazový řádek během psaní, takže je neexistující příkaz vidět dřív, než stisknete Return. Jeho řádek musí být v souboru ~/.zshrc poslední."
+            "value" : "Obarvuje příkazový řádek během psaní, takže je neexistující příkaz vidět dřív, než stisknete Return. Jeho řádek musí být ve vašem souboru .zshrc poslední."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Färbt die Befehlszeile beim Tippen ein, sodass du einen Befehl, den es nicht gibt, schon erkennst, bevor du den Zeilenschalter drückst. Die Zeile dafür muss die letzte in ~/.zshrc sein."
+            "value" : "Färbt die Befehlszeile beim Tippen ein, sodass du einen Befehl, den es nicht gibt, schon erkennst, bevor du den Zeilenschalter drückst. Die Zeile dafür muss die letzte in deiner .zshrc sein."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Colorea la línea de comandos mientras escribes, así que un comando que no existe se ve antes de que pulses Retorno. Su línea debe ser la última de ~/.zshrc."
+            "value" : "Colorea la línea de comandos mientras escribes, así que un comando que no existe se ve antes de que pulses Retorno. Su línea debe ser la última de tu .zshrc."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Colore la ligne de commande pendant la saisie : une commande qui n’existe pas se repère ainsi avant que vous appuyiez sur la touche Retour. Sa ligne doit être la dernière du fichier ~/.zshrc."
+            "value" : "Colore la ligne de commande pendant la saisie : une commande qui n’existe pas se repère ainsi avant que vous appuyiez sur la touche Retour. Sa ligne doit être la dernière de votre fichier .zshrc."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Colora la riga di comando mentre digiti, così un comando che non esiste si nota prima che tu prema il tasto A capo. La sua riga deve essere l’ultima del file ~/.zshrc."
+            "value" : "Colora la riga di comando mentre digiti, così un comando che non esiste si nota prima che tu prema il tasto A capo. La sua riga deve essere l’ultima del tuo file .zshrc."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "入力中のコマンドラインに色を付けるため、存在しないコマンドはReturnキーを押す前にわかります。このツールの行は、~/.zshrcの最後の行にする必要があります。"
+            "value" : "入力中のコマンドラインに色を付けるため、存在しないコマンドはReturnキーを押す前にわかります。このツールの行は、お使いの.zshrcの最後の行にする必要があります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "입력하는 동안 명령어 라인에 색상을 입히므로, Return 키를 누르기 전에 존재하지 않는 명령을 알아볼 수 있습니다. 이 도구의 줄은 ~/.zshrc의 마지막 줄이어야 합니다."
+            "value" : "입력하는 동안 명령어 라인에 색상을 입히므로, Return 키를 누르기 전에 존재하지 않는 명령을 알아볼 수 있습니다. 이 도구의 줄은 .zshrc의 마지막 줄이어야 합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kleurt de commandoregel terwijl je typt, zodat een commando dat niet bestaat al te zien is voordat je op Return drukt. De bijbehorende regel moet als laatste in ~/.zshrc staan."
+            "value" : "Kleurt de commandoregel terwijl je typt, zodat een commando dat niet bestaat al te zien is voordat je op Return drukt. De bijbehorende regel moet als laatste in je .zshrc staan."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Koloruje wiersz polecenia podczas wpisywania, więc nieistniejące polecenie widać, zanim naciśniesz klawisz Return. Wiersz tego narzędzia musi być ostatni w pliku ~/.zshrc."
+            "value" : "Koloruje wiersz polecenia podczas wpisywania, więc nieistniejące polecenie widać, zanim naciśniesz klawisz Return. Wiersz tego narzędzia musi być ostatni w Twoim pliku .zshrc."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Colore a linha de comando enquanto você digita, então um comando que não existe fica evidente antes de você pressionar a tecla Return. A linha dele deve ser a última do ~/.zshrc."
+            "value" : "Colore a linha de comando enquanto você digita, então um comando que não existe fica evidente antes de você pressionar a tecla Return. A linha dele deve ser a última do seu .zshrc."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Colorează linia de comandă pe măsură ce tastați, așa că o comandă care nu există iese în evidență înainte să apăsați Retur. Linia sa trebuie să fie ultima din ~/.zshrc."
+            "value" : "Colorează linia de comandă pe măsură ce tastați, așa că o comandă care nu există iese în evidență înainte să apăsați Retur. Linia sa trebuie să fie ultima din fișierul .zshrc al dvs."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Подсвечивает командную строку по мере ввода, поэтому несуществующую команду видно еще до того, как Вы нажмете Return. Его строка должна быть последней в ~/.zshrc."
+            "value" : "Подсвечивает командную строку по мере ввода, поэтому несуществующую команду видно еще до того, как Вы нажмете Return. Его строка должна быть последней в Вашем файле .zshrc."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Färglägger kommandoraden medan du skriver, så att ett kommando som inte finns syns innan du trycker på returtangenten. Dess rad måste stå sist i ~/.zshrc."
+            "value" : "Färglägger kommandoraden medan du skriver, så att ett kommando som inte finns syns innan du trycker på returtangenten. Dess rad måste stå sist i din .zshrc."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Siz yazarken komut satırını renklendirir; böylece var olmayan bir komutu Return tuşuna basmadan önce görürsünüz. Satırı, ~/.zshrc dosyasındaki son satır olmalıdır."
+            "value" : "Siz yazarken komut satırını renklendirir; böylece var olmayan bir komutu Return tuşuna basmadan önce görürsünüz. Satırı, .zshrc dosyanızdaki son satır olmalıdır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Розфарбовує командний рядок під час введення, тож команду, якої не існує, видно ще до того, як ви натиснете клавішу Return. Рядок цього інструмента має бути останнім у ~/.zshrc."
+            "value" : "Розфарбовує командний рядок під час введення, тож команду, якої не існує, видно ще до того, як ви натиснете клавішу Return. Рядок цього інструмента має бути останнім у вашому .zshrc."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在你键入时为命令行着色，因此在你按下Return键之前，就能看出哪个命令不存在。它的这一行必须是~/.zshrc中的最后一行。"
+            "value" : "在你键入时为命令行着色，因此在你按下Return键之前，就能看出哪个命令不存在。它的这一行必须是你的.zshrc中的最后一行。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在你輸入時為命令列上色，讓你在按下Return鍵之前就能看出不存在的指令。它的設定行必須是~/.zshrc中的最後一行。"
+            "value" : "在你輸入時為命令列上色，讓你在按下Return鍵之前就能看出不存在的指令。它的設定行必須是你的.zshrc中的最後一行。"
           }
         }
       }
@@ -161814,108 +161814,108 @@
         }
       }
     },
-    "Peel writes these to a file of its own, which zsh reads. Turning one off takes it out of that file, and your ~/.zshrc stays as it is." : {
+    "Peel writes these to a file of its own, which zsh reads. Turning one off takes it out of that file, and your own shell files stay as they are." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel tato nastavení zapisuje do vlastního souboru, který čte zsh. Vypnutím se nastavení z tohoto souboru odebere a váš soubor ~/.zshrc zůstane, jak je."
+            "value" : "Peel tato nastavení zapisuje do vlastního souboru, který čte zsh. Vypnutím se nastavení z tohoto souboru odebere a vaše vlastní soubory shellu zůstanou, jak jsou."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel schreibt diese Einstellungen in eine eigene Datei, die zsh liest. Wenn du eine deaktivierst, wird sie aus dieser Datei entfernt, und deine ~/.zshrc bleibt, wie sie ist."
+            "value" : "Peel schreibt diese Einstellungen in eine eigene Datei, die zsh liest. Wenn du eine deaktivierst, wird sie aus dieser Datei entfernt, und deine eigenen Shell-Dateien bleiben, wie sie sind."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel escribe estos ajustes en un archivo propio, que lee zsh. Al desactivar uno, se quita de ese archivo, y tu ~/.zshrc se queda como está."
+            "value" : "Peel escribe estos ajustes en un archivo propio, que lee zsh. Al desactivar uno, se quita de ese archivo, y tus propios archivos de shell se quedan como están."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel écrit ces réglages dans un fichier qui lui est propre, que zsh lit. En désactiver un le retire de ce fichier, et votre fichier ~/.zshrc reste tel quel."
+            "value" : "Peel écrit ces réglages dans un fichier qui lui est propre, que zsh lit. En désactiver un le retire de ce fichier, et vos propres fichiers de shell restent tels quels."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel scrive queste impostazioni in un proprio file, che zsh legge. Disattivarne una la toglie da quel file, e il tuo file ~/.zshrc resta com’è."
+            "value" : "Peel scrive queste impostazioni in un proprio file, che zsh legge. Disattivarne una la toglie da quel file, e i tuoi file della shell restano come sono."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelはこれらの設定を独自のファイルに書き込み、zshがそのファイルを読み込みます。オフにした設定はそのファイルから取り除かれ、お使いの~/.zshrcはそのまま残ります。"
+            "value" : "Peelはこれらの設定を独自のファイルに書き込み、zshがそのファイルを読み込みます。オフにした設定はそのファイルから取り除かれ、お使いのシェルファイルはそのまま残ります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 이 설정을 zsh가 읽는 Peel 전용 파일에 씁니다. 항목을 끄면 그 파일에서 해당 설정이 빠지며, 사용자의 ~/.zshrc 파일은 그대로 유지됩니다."
+            "value" : "Peel은 이 설정을 zsh가 읽는 Peel 전용 파일에 씁니다. 항목을 끄면 그 파일에서 해당 설정이 빠지며, 사용자의 셸 파일은 그대로 유지됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel schrijft deze naar een eigen bestand, dat zsh leest. Als je er een uitschakelt, wordt die uit dat bestand gehaald, en je ~/.zshrc blijft zoals het is."
+            "value" : "Peel schrijft deze naar een eigen bestand, dat zsh leest. Als je er een uitschakelt, wordt die uit dat bestand gehaald, en je eigen shellbestanden blijven zoals ze zijn."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zapisuje je we własnym pliku, który odczytuje zsh. Wyłączenie któregoś z nich usuwa je z tego pliku, a Twój plik ~/.zshrc pozostaje bez zmian."
+            "value" : "Peel zapisuje je we własnym pliku, który odczytuje zsh. Wyłączenie któregoś z nich usuwa je z tego pliku, a Twoje własne pliki powłoki pozostają bez zmian."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel grava estes ajustes em um arquivo próprio, que o zsh lê. Desativar um deles o retira desse arquivo, e o seu ~/.zshrc continua como está."
+            "value" : "O Peel grava estes ajustes em um arquivo próprio, que o zsh lê. Desativar um deles o retira desse arquivo, e os seus próprios arquivos do shell continuam como estão."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel scrie aceste configurări într‑un fișier propriu, pe care zsh îl citește. Dezactivarea uneia o scoate din acel fișier, iar fișierul dvs. ~/.zshrc rămâne așa cum este."
+            "value" : "Peel scrie aceste configurări într‑un fișier propriu, pe care zsh îl citește. Dezactivarea uneia o scoate din acel fișier, iar propriile dvs. fișiere de shell rămân așa cum sunt."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel записывает эти параметры в собственный файл, который читает zsh. Если выключить параметр, Peel уберет его из этого файла, а Ваш файл ~/.zshrc останется без изменений."
+            "value" : "Peel записывает эти параметры в собственный файл, который читает zsh. Если выключить параметр, Peel уберет его из этого файла, а Ваши собственные файлы оболочки останутся без изменений."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel skriver dessa i en egen fil, som zsh läser. Om du stänger av en av dem tas den bort ur filen, och din ~/.zshrc förblir som den är."
+            "value" : "Peel skriver dessa i en egen fil, som zsh läser. Om du stänger av en av dem tas den bort ur filen, och dina egna filer för kommandotolken förblir som de är."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel bunları kendine ait bir dosyaya yazar ve zsh bu dosyayı okur. Birini kapatmak onu bu dosyadan çıkarır; ~/.zshrc dosyanız ise olduğu gibi kalır."
+            "value" : "Peel bunları kendine ait bir dosyaya yazar ve zsh bu dosyayı okur. Birini kapatmak onu bu dosyadan çıkarır; kendi kabuk dosyalarınız ise olduğu gibi kalır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel записує їх у власний файл, який читає zsh. Якщо вимкнути одне з них, його буде вилучено з цього файлу, а ваш ~/.zshrc лишиться без змін."
+            "value" : "Peel записує їх у власний файл, який читає zsh. Якщо вимкнути одне з них, його буде вилучено з цього файлу, а ваші власні файли оболонки лишаться без змін."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel会将这些设置写入它自己的文件，由zsh读取。关闭某一项会将其从该文件中移除，你的~/.zshrc保持原样。"
+            "value" : "Peel会将这些设置写入它自己的文件，由zsh读取。关闭某一项会将其从该文件中移除，你自己的shell文件保持原样。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel會將這些設定寫入它自己的檔案，再由zsh讀取。關閉其中一項，會將它從該檔案中移除，你的~/.zshrc則維持原樣。"
+            "value" : "Peel會將這些設定寫入它自己的檔案，再由zsh讀取。關閉其中一項，會將它從該檔案中移除，你自己的Shell檔案則維持原樣。"
           }
         }
       }
@@ -220692,108 +220692,108 @@
         }
       }
     },
-    "Their lines go in ~/.zshrc in the order they are listed here." : {
+    "Their lines go in %@ in the order they are listed here." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jejich řádky patří do souboru ~/.zshrc v pořadí, v jakém jsou zde uvedeny."
+            "value" : "Jejich řádky patří do souboru %@ v pořadí, v jakém jsou zde uvedeny."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Zeilen dieser Tools kommen in der hier aufgeführten Reihenfolge in ~/.zshrc."
+            "value" : "Die Zeilen dieser Tools kommen in der hier aufgeführten Reihenfolge in %@."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sus líneas van en ~/.zshrc en el orden en que aparecen aquí."
+            "value" : "Sus líneas van en %@ en el orden en que aparecen aquí."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Leurs lignes se placent dans le fichier ~/.zshrc dans l’ordre où ces outils sont listés ici."
+            "value" : "Leurs lignes se placent dans le fichier %@ dans l’ordre où ces outils sont listés ici."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le loro righe vanno nel file ~/.zshrc nell’ordine in cui sono elencati qui."
+            "value" : "Le loro righe vanno nel file %@ nell’ordine in cui sono elencati qui."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これらのツールの行は、ここに表示されている順に~/.zshrcに追加してください。"
+            "value" : "これらのツールの行は、ここに表示されている順に%@に追加してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 도구들의 줄은 여기에 나열된 순서대로 ~/.zshrc에 넣어야 합니다."
+            "value" : "이 도구들의 줄은 여기에 나열된 순서대로 %@에 넣어야 합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hun regels komen in ~/.zshrc in de volgorde waarin ze hier staan."
+            "value" : "Hun regels komen in %@ in de volgorde waarin ze hier staan."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wiersze tych narzędzi należy umieścić w pliku ~/.zshrc w kolejności, w jakiej są tu wymienione."
+            "value" : "Wiersze tych narzędzi należy umieścić w pliku %@ w kolejności, w jakiej są tu wymienione."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As linhas destas ferramentas entram no ~/.zshrc na ordem em que estão listadas aqui."
+            "value" : "As linhas destas ferramentas entram no arquivo %@ na ordem em que estão listadas aqui."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Liniile lor se pun în ~/.zshrc în ordinea în care sunt listate aici."
+            "value" : "Liniile lor se pun în %@ în ordinea în care sunt listate aici."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Их строки добавляются в ~/.zshrc в том порядке, в каком они перечислены здесь."
+            "value" : "Их строки добавляются в %@ в том порядке, в каком они перечислены здесь."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deras rader ska stå i ~/.zshrc i den ordning som de listas här."
+            "value" : "Deras rader ska stå i %@ i den ordning som de listas här."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu araçların satırları, ~/.zshrc dosyasına burada listelendikleri sırayla girer."
+            "value" : "Bu araçların satırları, %@ dosyasına burada listelendikleri sırayla girer."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Їхні рядки додаються до ~/.zshrc у тому порядку, у якому їх тут наведено."
+            "value" : "Їхні рядки додаються до %@ у тому порядку, у якому їх тут наведено."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它们的行应按此处列出的顺序添加到~/.zshrc中。"
+            "value" : "它们的行应按此处列出的顺序添加到%@中。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它們的設定行要依照此處列出的順序加入~/.zshrc。"
+            "value" : "它們的設定行要依照此處列出的順序加入%@。"
           }
         }
       }
@@ -221223,214 +221223,214 @@
         }
       }
     },
-    "Then add as the last line of ~/.zshrc" : {
+    "Then add as the last line of %@" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Potom přidejte jako poslední řádek souboru ~/.zshrc"
+            "value" : "Potom přidejte jako poslední řádek souboru %@"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dann als letzte Zeile zu ~/.zshrc hinzufügen"
+            "value" : "Dann als letzte Zeile zu %@ hinzufügen"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Después, añade esto como última línea de ~/.zshrc"
+            "value" : "Después, añade esto como última línea de %@"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Puis ajoutez en dernière ligne du fichier ~/.zshrc"
+            "value" : "Puis ajoutez en dernière ligne du fichier %@"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Poi aggiungi come ultima riga del file ~/.zshrc"
+            "value" : "Poi aggiungi come ultima riga del file %@"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "次に、~/.zshrcの最後の行として追加"
+            "value" : "次に、%@の最後の行として追加"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "그런 다음 ~/.zshrc의 마지막 줄로 추가"
+            "value" : "그런 다음 %@의 마지막 줄로 추가"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voeg daarna toe als laatste regel van ~/.zshrc"
+            "value" : "Voeg daarna toe als laatste regel van %@"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Następnie dodaj jako ostatni wiersz pliku ~/.zshrc"
+            "value" : "Następnie dodaj jako ostatni wiersz pliku %@"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Depois, adicione como última linha do ~/.zshrc"
+            "value" : "Depois, adicione como última linha do arquivo %@"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apoi adăugați ca ultimă linie în ~/.zshrc"
+            "value" : "Apoi adăugați ca ultimă linie în %@"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Затем добавьте последней строкой в ~/.zshrc"
+            "value" : "Затем добавьте последней строкой в %@"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lägg sedan till som sista rad i ~/.zshrc"
+            "value" : "Lägg sedan till som sista rad i %@"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ardından ~/.zshrc dosyasına son satır olarak ekleyin"
+            "value" : "Ardından %@ dosyasına son satır olarak ekleyin"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Потім додайте останнім рядком у ~/.zshrc"
+            "value" : "Потім додайте останнім рядком у %@"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "然后添加为~/.zshrc的最后一行"
+            "value" : "然后添加为%@的最后一行"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "然後加入~/.zshrc作為最後一行"
+            "value" : "然後加入%@作為最後一行"
           }
         }
       }
     },
-    "Then add to ~/.zshrc" : {
+    "Then add to %@" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Potom přidejte do souboru ~/.zshrc"
+            "value" : "Potom přidejte do souboru %@"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dann zu ~/.zshrc hinzufügen"
+            "value" : "Dann zu %@ hinzufügen"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Después, añade esto a ~/.zshrc"
+            "value" : "Después, añade esto a %@"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Puis ajoutez au fichier ~/.zshrc"
+            "value" : "Puis ajoutez au fichier %@"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Poi aggiungi al file ~/.zshrc"
+            "value" : "Poi aggiungi al file %@"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "次に、~/.zshrcに追加"
+            "value" : "次に、%@に追加"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "그런 다음 ~/.zshrc에 추가"
+            "value" : "그런 다음 %@에 추가"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voeg daarna toe aan ~/.zshrc"
+            "value" : "Voeg daarna toe aan %@"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Następnie dodaj do pliku ~/.zshrc"
+            "value" : "Następnie dodaj do pliku %@"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Depois, adicione ao ~/.zshrc"
+            "value" : "Depois, adicione ao arquivo %@"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apoi adăugați în ~/.zshrc"
+            "value" : "Apoi adăugați în %@"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Затем добавьте в ~/.zshrc"
+            "value" : "Затем добавьте в %@"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lägg sedan till i ~/.zshrc"
+            "value" : "Lägg sedan till i %@"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ardından ~/.zshrc dosyasına ekleyin"
+            "value" : "Ardından %@ dosyasına ekleyin"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Потім додайте до ~/.zshrc"
+            "value" : "Потім додайте до %@"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "然后添加到~/.zshrc"
+            "value" : "然后添加到%@"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "然後加入~/.zshrc"
+            "value" : "然後加入%@"
           }
         }
       }
