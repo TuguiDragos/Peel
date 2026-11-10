@@ -12,6 +12,8 @@ struct ExtensionList: View {
         return all.filter { $0.matches(searchText) }
     }
 
+    static let noAnswer: LocalizedStringResource = "Peel asked macOS which extensions apps have added and got no answer, so it can’t list them. Rescan to try again."
+
     var body: some View {
         @Bindable var extensions = extensions
         let filtered = listed
@@ -92,7 +94,7 @@ struct ExtensionList: View {
         if extensions.unanswered.count == 1, let missing = extensions.unanswered.first {
             return Text(missing.unansweredNote)
         }
-        return Text("Peel asked macOS which extensions apps have added and got no answer. This list says nothing about what is on this Mac.")
+        return Text(Self.noAnswer)
     }
 
     private func phase(_ filtered: [AppExtension]) -> ScanPhase {

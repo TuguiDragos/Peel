@@ -9,6 +9,8 @@ struct PackageList: View {
     @State private var isRescanning = false
     @State private var receiptsToForget: [PackageReceipt]?
 
+    static let noAnswer: LocalizedStringResource = "Peel asked macOS which packages are installed and got no answer, so it can’t list them. Rescan to try again."
+
     var body: some View {
         @Bindable var packages = packages
         let filtered = filteredReceipts
@@ -57,7 +59,7 @@ struct PackageList: View {
                 ContentUnavailableView(
                     "macOS Didn’t Answer",
                     systemImage: "exclamationmark.triangle",
-                    description: Text("Peel asked macOS what was installed with a package and got no answer. This list says nothing about what is on this Mac.")
+                    description: Text(Self.noAnswer)
                 )
             } else if packages.receipts?.isEmpty == true {
                 ContentUnavailableView(

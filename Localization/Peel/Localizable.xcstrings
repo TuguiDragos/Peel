@@ -139986,214 +139986,214 @@
         }
       }
     },
-    "Peel asked macOS what was installed with a package and got no answer. This list says nothing about what is on this Mac." : {
+    "Peel asked macOS which extensions apps have added and got no answer, so it can’t list them. Rescan to try again." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel se zeptal systému macOS, co bylo nainstalováno pomocí balíčku, a nedostal žádnou odpověď. Tento seznam nic neříká o tom, co v tomto Macu je."
+            "value" : "Peel se zeptal systému macOS, jaká rozšíření aplikace přidaly, a nedostal žádnou odpověď, takže je nemůže zobrazit. Chcete-li to zkusit znovu, zvolte „Prohledat znovu“."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel hat macOS gefragt, was mit einem Paket installiert wurde, und keine Antwort erhalten. Diese Liste sagt nichts darüber aus, was sich auf diesem Mac befindet."
+            "value" : "Peel hat macOS gefragt, welche Erweiterungen Apps hinzugefügt haben, und keine Antwort erhalten, daher kann Peel sie nicht auflisten. Wähle „Erneut scannen“, um es noch einmal zu versuchen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ha preguntado a macOS qué se instaló mediante paquetes y no ha obtenido respuesta. Esta lista no dice nada de lo que hay en este Mac."
+            "value" : "Peel ha preguntado a macOS qué extensiones han añadido las apps y no ha obtenido respuesta, así que no puede mostrarlas. Vuelve a analizar para intentarlo de nuevo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a demandé à macOS ce qui a été installé avec un paquet, sans obtenir de réponse. Cette liste ne dit rien de ce qui se trouve sur ce Mac."
+            "value" : "Peel a demandé à macOS quelles extensions les apps ont ajoutées, sans obtenir de réponse : il ne peut donc pas les lister. Analysez à nouveau pour réessayer."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ha chiesto a macOS cosa è stato installato con un pacchetto e non ha ricevuto risposta. Questo elenco non dice nulla di ciò che c’è su questo Mac."
+            "value" : "Peel ha chiesto a macOS quali estensioni hanno aggiunto le app e non ha ricevuto risposta, quindi non può elencarle. Scegli “Analizza di nuovo” per riprovare."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは、パッケージでインストールされたものをmacOSに問い合わせましたが、応答がありませんでした。このリストは、このMacに何があるかを示すものではありません。"
+            "value" : "Peelは、アプリが追加した機能拡張をmacOSに問い合わせましたが、応答がなかったため、一覧を表示できません。再スキャンしてやり直してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 패키지로 설치된 항목을 macOS에 물었으나 응답을 받지 못했습니다. 이 목록으로는 이 Mac에 무엇이 있는지 알 수 없습니다."
+            "value" : "Peel이 앱에서 추가한 확장 프로그램을 macOS에 물었으나 응답을 받지 못했으므로 목록을 표시할 수 없습니다. ‘다시 스캔’을 선택하여 다시 시도하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel heeft macOS gevraagd wat er met een pakket is geïnstalleerd, maar kreeg geen antwoord. Deze lijst zegt niets over wat er op deze Mac staat."
+            "value" : "Peel heeft macOS gevraagd welke extensies apps hebben toegevoegd, maar kreeg geen antwoord, dus kan Peel ze niet tonen. Scan opnieuw om het nog eens te proberen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zapytał macOS, co zainstalowano za pomocą pakietów, i nie dostał odpowiedzi. Ta lista nic nie mówi o tym, co jest na tym Macu."
+            "value" : "Peel zapytał macOS, jakie rozszerzenia dodały aplikacje, i nie dostał odpowiedzi, więc nie może ich wyświetlić. Skanuj ponownie, aby spróbować jeszcze raz."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel perguntou ao macOS o que foi instalado com um pacote e não obteve resposta. Esta lista não diz nada sobre o que há neste Mac."
+            "value" : "O Peel perguntou ao macOS quais extensões os apps adicionaram e não obteve resposta, então não consegue listá-las. Escolha “Analisar Novamente” para tentar de novo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a întrebat macOS ce s‑a instalat cu pachetele de instalare și nu a primit niciun răspuns. Această listă nu spune nimic despre ce se află pe acest Mac."
+            "value" : "Peel a întrebat macOS ce extensii au adăugat aplicațiile și nu a primit niciun răspuns, așa că nu le poate lista. Rescanați pentru a încerca din nou."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel спросил у macOS, что было установлено из пакетов, и не получил ответа. Этот список ничего не говорит о том, что есть на этом Mac."
+            "value" : "Peel спросил у macOS, какие расширения добавили приложения, и не получил ответа, поэтому не может их показать. Нажмите «Сканировать заново», чтобы повторить попытку."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel frågade macOS vad som hade installerats med ett paket och fick inget svar. Listan säger ingenting om vad som finns på den här datorn."
+            "value" : "Peel frågade macOS vilka tillägg appar har lagt till och fick inget svar, så Peel kan inte lista dem. Välj ”Skanna igen” för att göra ett nytt försök."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, paketlerle neyin yüklendiğini macOS’e sordu ve yanıt alamadı. Bu liste, bu Mac’te ne olduğu hakkında hiçbir şey söylemiyor."
+            "value" : "Peel, uygulamaların hangi genişletmeleri eklediğini macOS’e sordu ve yanıt alamadı, bu yüzden onları listeleyemiyor. Yeniden denemek için yeniden tarayın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запитала macOS, що було інстальовано з пакетів, але не отримала відповіді. Цей список нічого не каже про те, що є на цьому Mac."
+            "value" : "Peel запитала macOS, які розширення додали програми, але не отримала відповіді, тож не може їх показати. Натисніть «Сканувати знову», щоб спробувати ще раз."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel询问了macOS通过软件包安装了哪些内容，但没有得到回应。此列表不能反映这台Mac上的实际情况。"
+            "value" : "Peel询问了macOS各App添加了哪些扩展，但没有得到回应，因此无法列出它们。请重新扫描以再试一次。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel詢問macOS透過套件安裝了哪些項目，但沒有得到回應。此列表無法說明這部Mac上有什麼。"
+            "value" : "Peel詢問macOS各App加入了哪些延伸功能，但沒有得到回應，因此無法列出它們。請重新掃描以再試一次。"
           }
         }
       }
     },
-    "Peel asked macOS which extensions apps have added and got no answer. This list says nothing about what is on this Mac." : {
+    "Peel asked macOS which packages are installed and got no answer, so it can’t list them. Rescan to try again." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel se zeptal systému macOS, jaká rozšíření aplikace přidaly, a nedostal žádnou odpověď. Tento seznam nic neříká o tom, co v tomto Macu je."
+            "value" : "Peel se zeptal systému macOS, jaké balíčky jsou nainstalované, a nedostal žádnou odpověď, takže je nemůže zobrazit. Chcete-li to zkusit znovu, zvolte „Prohledat znovu“."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel hat macOS gefragt, welche Erweiterungen Apps hinzugefügt haben, und keine Antwort erhalten. Diese Liste sagt nichts darüber aus, was sich auf diesem Mac befindet."
+            "value" : "Peel hat macOS gefragt, welche Pakete installiert sind, und keine Antwort erhalten, daher kann Peel sie nicht auflisten. Wähle „Erneut scannen“, um es noch einmal zu versuchen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ha preguntado a macOS qué extensiones han añadido las apps y no ha obtenido respuesta. Esta lista no dice nada de lo que hay en este Mac."
+            "value" : "Peel ha preguntado a macOS qué paquetes están instalados y no ha obtenido respuesta, así que no puede mostrarlos. Vuelve a analizar para intentarlo de nuevo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a demandé à macOS quelles extensions les apps ont ajoutées, sans obtenir de réponse. Cette liste ne dit rien de ce qui se trouve sur ce Mac."
+            "value" : "Peel a demandé à macOS quels paquets sont installés, sans obtenir de réponse : il ne peut donc pas les lister. Analysez à nouveau pour réessayer."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ha chiesto a macOS quali estensioni hanno aggiunto le app e non ha ricevuto risposta. Questo elenco non dice nulla di ciò che c’è su questo Mac."
+            "value" : "Peel ha chiesto a macOS quali pacchetti sono installati e non ha ricevuto risposta, quindi non può elencarli. Scegli “Analizza di nuovo” per riprovare."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは、アプリが追加した機能拡張をmacOSに問い合わせましたが、応答がありませんでした。このリストは、このMacに何があるかを示すものではありません。"
+            "value" : "Peelは、インストールされているパッケージをmacOSに問い合わせましたが、応答がなかったため、一覧を表示できません。再スキャンしてやり直してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 앱에서 추가한 확장 프로그램을 macOS에 물었으나 응답을 받지 못했습니다. 이 목록으로는 이 Mac에 무엇이 있는지 알 수 없습니다."
+            "value" : "Peel이 설치된 패키지를 macOS에 물었으나 응답을 받지 못했으므로 목록을 표시할 수 없습니다. ‘다시 스캔’을 선택하여 다시 시도하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel heeft macOS gevraagd welke extensies apps hebben toegevoegd, maar kreeg geen antwoord. Deze lijst zegt niets over wat er op deze Mac staat."
+            "value" : "Peel heeft macOS gevraagd welke pakketten zijn geïnstalleerd, maar kreeg geen antwoord, dus kan Peel ze niet tonen. Scan opnieuw om het nog eens te proberen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zapytał macOS, jakie rozszerzenia dodały aplikacje, i nie dostał odpowiedzi. Ta lista nic nie mówi o tym, co jest na tym Macu."
+            "value" : "Peel zapytał macOS, jakie pakiety są zainstalowane, i nie dostał odpowiedzi, więc nie może ich wyświetlić. Skanuj ponownie, aby spróbować jeszcze raz."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel perguntou ao macOS quais extensões os apps adicionaram e não obteve resposta. Esta lista não diz nada sobre o que há neste Mac."
+            "value" : "O Peel perguntou ao macOS quais pacotes estão instalados e não obteve resposta, então não consegue listá-los. Escolha “Analisar Novamente” para tentar de novo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a întrebat macOS ce extensii au adăugat aplicațiile și nu a primit niciun răspuns. Această listă nu spune nimic despre ce se află pe acest Mac."
+            "value" : "Peel a întrebat macOS ce pachete sunt instalate și nu a primit niciun răspuns, așa că nu le poate lista. Rescanați pentru a încerca din nou."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel спросил у macOS, какие расширения добавили приложения, и не получил ответа. Этот список ничего не говорит о том, что есть на этом Mac."
+            "value" : "Peel спросил у macOS, какие пакеты установлены, и не получил ответа, поэтому не может их показать. Нажмите «Сканировать заново», чтобы повторить попытку."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel frågade macOS vilka tillägg appar har lagt till och fick inget svar. Listan säger ingenting om vad som finns på den här datorn."
+            "value" : "Peel frågade macOS vilka paket som är installerade och fick inget svar, så Peel kan inte lista dem. Välj ”Skanna igen” för att göra ett nytt försök."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, uygulamaların hangi genişletmeleri eklediğini macOS’e sordu ve yanıt alamadı. Bu liste, bu Mac’te ne olduğu hakkında hiçbir şey söylemiyor."
+            "value" : "Peel, hangi paketlerin yüklü olduğunu macOS’e sordu ve yanıt alamadı, bu yüzden onları listeleyemiyor. Yeniden denemek için yeniden tarayın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запитала macOS, які розширення додали програми, але не отримала відповіді. Цей список нічого не каже про те, що є на цьому Mac."
+            "value" : "Peel запитала macOS, які пакети інстальовано, але не отримала відповіді, тож не може їх показати. Натисніть «Сканувати знову», щоб спробувати ще раз."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel询问了macOS各App添加了哪些扩展，但没有得到回应。此列表不能反映这台Mac上的实际情况。"
+            "value" : "Peel询问了macOS安装了哪些软件包，但没有得到回应，因此无法列出它们。请重新扫描以再试一次。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel詢問macOS各App加入了哪些延伸功能，但沒有得到回應。此列表無法說明這部Mac上有什麼。"
+            "value" : "Peel詢問macOS已安裝了哪些套件，但沒有得到回應，因此無法列出它們。請重新掃描以再試一次。"
           }
         }
       }
