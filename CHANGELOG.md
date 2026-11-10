@@ -206,6 +206,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - When the file that remembers where an app's Dock icon was can't be read whole, Peel keeps what it can and sets the
   rest aside, so the icon leaves the Dock again; when an icon stays, the alert after the move says why. On a Mac where
   a profile sets the Dock's apps, Also remove from the Dock isn't offered.
+- Removing a stray copy of an app no longer resets the privacy permissions of the copy that stays: macOS keeps one set
+  for every copy, so Also reset privacy permissions waits until no other copy stays, and its note says why.
 - An app's page shows a folder that begins with the app's name for you to look at whatever separates the name's words,
   such as `github-copilot-sdk` for GitHub Copilot.
 - An app whose name is two characters in Chinese, Japanese, or Korean, such as 抖音, finds the folders named for it, and
@@ -236,6 +238,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A link that leads into an app that's gone is listed from MacPorts' and your home's command folders too, and when it
   leads there through another link.
 - What an app whose name is two characters in Chinese, Japanese, or Korean left is listed once Peel saw it go.
+- A tool's cache the Developer page lists, such as Carthage's or Vercel CLI's, is no longer listed as left by an app
+  that's gone, unless Peel saw that app go.
 
 #### Intel Software
 
@@ -264,11 +268,18 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   been forgotten, as Forget Receipt does, and its page now says so.
 - Forgetting a cask whose apps are gone also takes the links into it from MacPorts' and your home's command folders,
   and those that lead into it through another link.
+- The command that gives a Homebrew owned by root back to this account names the account, so an administrator who
+  runs it after `su` gives the folder to the right account.
 
 #### Space
 
 - Homebrew Data, TeX Live, .NET SDKs, Wine, and an area whose app is gone say they are removed by hand in Finder, no
   longer that their own app or tool manages them.
+
+#### Developer
+
+- A tool's cache kept on another disk through a link, such as DerivedData on an external drive, is named on the tool's
+  page, in the list, and by `peel caches`, no longer left out without a word. Peel still doesn't follow the link.
 
 #### Build Artifacts
 
@@ -307,6 +318,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Every page
 
+- Where Peel gives a command that runs `sudo`, such as one that removes what an app leaves in `/etc`, a maker's
+  uninstaller, stopping a Homebrew service, or turning sleep back on, it says on an account that isn't an
+  administrator's that an administrator runs it, or you run it after `su`.
 - Edit > Select offers the Select Recommended, Select All, and Deselect All of the page in front, so what a page
   selects can be changed from the keyboard too.
 - Moving a file whose creation date a network share reports as unknown, such as 1601, no longer makes Peel quit
@@ -336,6 +350,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   `peel exclusions list` says how many entries of the exclusions file it couldn't read.
 - `peel history` no longer says History was damaged and started again when only the record of removals under way was
   set aside.
+- `peel uninstall --reset-privacy` refuses while another copy of the app stays, and says where it is, and
+  `peel uninstall` says on an account that isn't an administrator's who runs the `sudo` commands it gives.
 
 ### Security
 
