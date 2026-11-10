@@ -972,6 +972,17 @@ struct FileCommandTests {
         #expect(locations[1]["suggested"] as? Bool == false)
     }
 
+    @Test func saysWhatAToolKeepsElsewhere() throws {
+        var tool = DeveloperEnvironment(id: "xcode", name: "Xcode", systemImage: "hammer", appBundleIdentifiers: [], locations: [])
+        tool.keptElsewhere = [URL(filePath: "/Volumes/Work/Library/Developer/Xcode/DerivedData")]
+
+        let json = try Output.jsonText(CachesCommand.records(for: [tool]))
+        let records = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [[String: Any]])
+
+        #expect(records.first?["keptElsewhere"] as? [String] == ["/Volumes/Work/Library/Developer/Xcode/DerivedData"])
+        #expect(CachesCommand.notes(for: [tool]).contains { $0.contains("/Volumes/Work/Library/Developer/Xcode/DerivedData") })
+    }
+
     @Test func namesEachToolSoACommandCanAskForItAlone() throws {
         let directory = try TemporaryDirectory()
         let one = try environment("Chat", id: "electron.org.example.one", locations: [("Library/one", .cache)], in: directory)

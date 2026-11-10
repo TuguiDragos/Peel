@@ -33,5 +33,8 @@ struct DeveloperSummaryTests {
             localized: "\(modelsTotal) in ^[\(1) tool](inflect: true), none of it recommended."
         ).characters))
         #expect(words([]) == nil)
+        var elsewhere = tool([])
+        elsewhere.keptElsewhere = [URL(filePath: "/tmp/linked")]
+        #expect(words([caches, elsewhere]) == alone, "a tool with nothing here counts for nothing")
     }
 }

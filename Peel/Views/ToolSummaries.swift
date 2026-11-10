@@ -96,6 +96,7 @@ extension DeveloperLibrary {
     /// What was found, and how much of it Peel recommends when that is only part of it: models and archives count in
     /// the total and are never selected for the person.
     static func summary(of environments: [DeveloperEnvironment]) -> AttributedString? {
+        let environments = environments.filter { !$0.locations.isEmpty }
         let count = environments.count
         let total = SizeTotal(combining: environments.map(\.total))
         guard let found = Tool.developer.summary(of: Looked(count: count, size: total)) else { return nil }

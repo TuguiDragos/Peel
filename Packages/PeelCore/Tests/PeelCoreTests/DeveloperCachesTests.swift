@@ -5,6 +5,33 @@ import Testing
 
 struct DeveloperCachesTests {
     /// The public scan in a home of the test's own, with no user cache folder, so no real cache is read.
+    @Test func saysWhatAToolKeepsElsewhereThroughALink() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("ssd/DerivedData/MyApp-abcdefgh/Build/x.o", bytes: 4_000)
+        try directory.file("ssd/gradle-caches/modules-2/x.jar", bytes: 4_000)
+        try directory.directory("home/Library/Developer/Xcode")
+        try directory.directory("home/.gradle")
+        let derivedData = home.appending(path: "Library/Developer/Xcode/DerivedData")
+        let caches = home.appending(path: ".gradle/caches")
+        try FileManager.default.createSymbolicLink(
+            at: derivedData, withDestinationURL: directory.url.appending(path: "ssd/DerivedData")
+        )
+        try FileManager.default.createSymbolicLink(
+            at: caches, withDestinationURL: directory.url.appending(path: "ssd/gradle-caches")
+        )
+        let tools = DeveloperCaches.definitions.filter { ["xcode", "gradle"].contains($0.id) }
+
+        let found = await DeveloperCaches.scan(tools, homeDirectory: home)
+        let kept = Dictionary(uniqueKeysWithValues: found.map {
+            ($0.id, $0.keptElsewhere.map(PathPattern.comparablePath))
+        })
+
+        #expect(kept["xcode"] == [PathPattern.comparablePath(of: derivedData)])
+        #expect(kept["gradle"] == [PathPattern.comparablePath(of: caches)])
+        #expect(found.filter { !$0.locations.isEmpty }.isEmpty)
+    }
+
     private func scanned(_ home: URL, exclusions: Exclusions = .none) async -> [DeveloperEnvironment] {
         await DeveloperCaches.scan(
             in: SearchEnvironment(homeDirectory: home, rootDirectory: home), exclusions: exclusions

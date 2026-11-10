@@ -74,10 +74,16 @@ private struct DeveloperRow: View {
             Text(verbatim: environment.name)
                 .lineLimit(1)
         } details: {
-            Text("^[\(environment.locations.count) item](inflect: true)")
+            if environment.locations.isEmpty {
+                Text("Kept elsewhere")
+            } else {
+                Text("^[\(environment.locations.count) item](inflect: true)")
+            }
         } trailing: {
-            Text(environment.total.text)
-                .rowFigure()
+            if !environment.locations.isEmpty {
+                Text(environment.total.text)
+                    .rowFigure()
+            }
         }
     }
 }

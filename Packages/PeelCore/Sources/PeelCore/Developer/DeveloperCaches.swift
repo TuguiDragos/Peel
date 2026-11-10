@@ -120,6 +120,9 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
     public let locations: [Location]
     /// The beginnings of the identifiers of more apps that use these locations, each carrying its version after them.
     public var appIdentifierPrefixes: [String] = []
+    /// The folders the tool keeps elsewhere through a link, which Peel doesn't follow: moving the link frees nothing,
+    /// and what it leads to is the tool's own on that disk.
+    public var keptElsewhere: [URL] = []
 
     public var total: SizeTotal {
         SizeTotal(locations.map(\.size))
@@ -1663,11 +1666,14 @@ public enum DeveloperCaches {
         listening: Set<Int>
     ) async -> DeveloperEnvironment? {
         var found: [(url: URL, folder: Folder, project: String?)] = []
+        var linked: [URL] = []
         for folder in definition.folders {
-            let places = folder.places(
+            let all = folder.places(
                 home: homeDirectory, userCache: userCacheDirectory, userTemporary: userTemporaryDirectory,
                 preference: preference, settings: settings
-            )
+            ).filter { !exclusions.excludes($0) }
+            linked += all.filter(\.isSymbolicLink)
+            let places = all.filter { !$0.isSymbolicLink }
             let rows = places.flatMap { place in
                 folder.launchers.isEmpty
                     ? folder.rows(in: place) : folder.olderVersions(in: place, home: homeDirectory)
@@ -1720,14 +1726,15 @@ public enum DeveloperCaches {
                         ? .writtenRecently : nil)
             ))
         }
-        guard !locations.isEmpty else { return nil }
+        guard !locations.isEmpty || !linked.isEmpty else { return nil }
         return DeveloperEnvironment(
             id: definition.id,
             name: definition.name,
             systemImage: definition.systemImage,
             appBundleIdentifiers: definition.appBundleIdentifiers,
             locations: locations.sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) },
-            appIdentifierPrefixes: definition.appIdentifierPrefixes
+            appIdentifierPrefixes: definition.appIdentifierPrefixes,
+            keptElsewhere: linked.sorted { $0.path(percentEncoded: false) < $1.path(percentEncoded: false) }
         )
     }
 }

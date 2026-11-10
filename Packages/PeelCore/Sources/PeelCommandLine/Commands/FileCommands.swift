@@ -337,6 +337,8 @@ struct CachesCommand: AsyncParsableCommand {
         let id: String
         let size: MeasuredSize
         let locations: [Location]
+        /// The folders the tool keeps elsewhere through a link, which Peel doesn't follow.
+        let keptElsewhere: [String]
 
         struct Location: Encodable {
             let path: String
@@ -382,10 +384,10 @@ struct CachesCommand: AsyncParsableCommand {
 
         if output.json {
             try Output.json(Self.records(for: environments))
-        } else if environments.isEmpty {
+        } else if environments.allSatisfy(\.locations.isEmpty) {
             Output.line("No developer caches found.")
         } else {
-            for environment in environments {
+            for environment in environments where !environment.locations.isEmpty {
                 Output.line("\(Self.title(of: environment, among: environments))  \(Output.size(environment.total))")
                 Output.table(Self.rows(for: environment), indent: "  ")
             }
@@ -439,10 +441,17 @@ struct CachesCommand: AsyncParsableCommand {
     /// The folders macOS kept Peel out of, said on standard error whatever the output, so that an unknown size is not
     /// read as an empty folder.
     static func notes(for environments: [DeveloperEnvironment]) -> [String] {
+        var notes: [String] = []
         let unread = environments.flatMap(\.locations).filter(\.couldNotBeRead)
-        guard !unread.isEmpty else { return [] }
-        let isPrivacy = unread.contains { !$0.closedByPermissions }
-        return [Output.unreadableNote(for: unread.map(\.url), needsFullDiskAccess: isPrivacy)]
+        if !unread.isEmpty {
+            let isPrivacy = unread.contains { !$0.closedByPermissions }
+            notes.append(Output.unreadableNote(for: unread.map(\.url), needsFullDiskAccess: isPrivacy))
+        }
+        let elsewhere = environments.flatMap(\.keptElsewhere).map { Output.plain(Output.path($0)) }
+        if !elsewhere.isEmpty {
+            notes.append("Peel doesn't follow a link to a folder kept elsewhere, so it leaves out \(elsewhere.joined(separator: ", ")). What's there is the tool's own, on the disk the link leads to.")
+        }
+        return notes
     }
 
     static func records(for environments: [DeveloperEnvironment]) -> [Record] {
@@ -459,7 +468,8 @@ struct CachesCommand: AsyncParsableCommand {
                         heldBack: heldBack(of: $0),
                         reason: reason(for: $0)
                     )
-                }
+                },
+                keptElsewhere: environment.keptElsewhere.map(Output.path)
             )
         }
     }

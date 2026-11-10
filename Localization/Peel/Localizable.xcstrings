@@ -89636,6 +89636,112 @@
         }
       }
     },
+    "Kept elsewhere" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uloženo jinde"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anderswo aufbewahrt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se guarda en otro lugar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conservé ailleurs"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In un’altra posizione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "別の場所に保管"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 곳에 보관됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elders bewaard"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przechowywane gdzie indziej"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em outro local"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Păstrat în altă parte"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Хранится в другом месте"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sparas på annan plats"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başka bir yerde tutuluyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зберігається деінде"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存放在其他位置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存放在其他位置"
+          }
+        }
+      }
+    },
     "Kept for %@, a project no longer on this Mac" : {
       "localizations" : {
         "cs" : {
@@ -146750,6 +146856,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會更改這些設定。每個按鈕都會打開Apple指出可關閉該功能的位置。"
+          }
+        }
+      }
+    },
+    "Peel doesn’t follow a link to a folder kept elsewhere, so it leaves out %@. What’s there is the tool’s own, on the disk the link leads to." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nesleduje odkaz na složku uloženou jinde, a proto vynechává %@. Co tam je, patří samotnému nástroji a leží na disku, na který odkaz vede."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel folgt keinem Link zu einem anderswo aufbewahrten Ordner und lässt daher %@ aus. Was dort liegt, gehört dem Tool selbst und befindet sich auf dem Volume, auf das der Link verweist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no sigue un enlace a una carpeta guardada en otro lugar, así que deja fuera %@. Lo que hay ahí es de la propia herramienta, en el disco al que lleva el enlace."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne suit pas un lien vers un dossier conservé ailleurs : il laisse donc de côté %@. Ce qui s’y trouve appartient à l’outil, sur le disque vers lequel mène le lien."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non segue un link a una cartella che si trova altrove, quindi lascia fuori %@. Ciò che c’è lì appartiene allo strumento, sul disco a cui punta il link."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、別の場所に保管されているフォルダへのリンクをたどらないため、%@は対象に含めません。そこにあるものはツール自身のもので、リンク先のディスク上にあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 다른 곳에 보관된 폴더로 연결되는 링크를 따라가지 않으므로 %@을(를) 제외합니다. 그곳의 내용은 해당 도구의 것으로, 링크가 가리키는 디스크에 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel volgt geen link naar een map die elders wordt bewaard, dus laat Peel %@ weg. Wat daar staat, is van de tool zelf, op de schijf waarnaar de link leidt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie podąża za dowiązaniem do folderu przechowywanego gdzie indziej, więc pomija: %@. To, co tam jest, należy do narzędzia i znajduje się na dysku, do którego prowadzi dowiązanie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não segue um link para uma pasta que fica em outro local, então deixa de fora %@. O que está lá pertence à própria ferramenta, no disco para o qual o link aponta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu urmează un link către un dosar păstrat în altă parte, așa că omite %@. Conținutul de acolo îi aparține instrumentului și se află pe discul la care duce linkul."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не переходит по ссылке на папку, которая хранится в другом месте, поэтому пропускает %@. То, что там находится, принадлежит самому инструменту и лежит на диске, к которому ведет ссылка."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel följer inte en länk till en mapp som sparas på annan plats, så Peel utelämnar %@. Det som finns där tillhör verktyget och ligger på den skiva som länken leder till."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, başka bir yerde tutulan bir klasörü gösteren bir bağlantıyı izlemez, bu yüzden şunları dışarıda bırakır: %@. Oradakiler aracın kendisine aittir ve bağlantının gösterdiği diskte bulunur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не переходить за посиланням до папки, що зберігається деінде, тож пропускає %@. Те, що там є, належить самому інструменту й лежить на диску, до якого веде посилання."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会跟随指向存放在其他位置的文件夹的链接，因此会略过%@。那里的内容属于该工具本身，位于链接所指向的磁盘上。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會跟隨指向其他位置檔案夾的連結，因此不會列入%@。那裡的內容屬於該工具，位於連結所指向的磁碟上。"
           }
         }
       }

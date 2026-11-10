@@ -69,8 +69,12 @@ extension SpaceLibrary {
 }
 
 extension DeveloperLibrary {
+    /// The tools with something here: one whose folders are all kept elsewhere is no find.
     var looked: Looked? {
-        environments.map { Looked(count: $0.count, size: SizeTotal(combining: $0.map(\.total))) }
+        environments.map { all in
+            let found = all.filter { !$0.locations.isEmpty }
+            return Looked(count: found.count, size: SizeTotal(combining: found.map(\.total)))
+        }
     }
 }
 

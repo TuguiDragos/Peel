@@ -11,31 +11,8 @@ struct DeveloperDetailView: View {
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner()
 
-            Section {
-                ForEach(Array(environment.locations.enumerated()), id: \.element.id) { index, location in
-                    RemovalRow(
-                        url: location.url,
-                        icon: .symbol(location.kind.symbolName),
-                        detail: detail(for: location),
-                        warning: warning(for: location),
-                        lastWritten: location.lastWritten,
-                        size: location.size ?? 0,
-                        isMeasured: location.size != nil,
-                        isFirst: index == 0,
-                        selection: developer, isSelected: developer.isSelected(location.url)
-                    )
-                }
-                .listRowSeparator(.hidden)
-            } header: {
-                SectionHeaderLine {
-                    Text("Folders")
-                } actions: {
-                    SelectMenu(
-                        list: environment.selectableRows,
-                        place: Text(verbatim: environment.name),
-                        selection: developer
-                    )
-                }
+            if !environment.locations.isEmpty {
+                folders
             }
         }
         .scrollBarBelowSectionHeaders()
@@ -52,16 +29,54 @@ struct DeveloperDetailView: View {
         .toolbar(removing: .title)
     }
 
+    private var folders: some View {
+        Section {
+            ForEach(Array(environment.locations.enumerated()), id: \.element.id) { index, location in
+                RemovalRow(
+                    url: location.url,
+                    icon: .symbol(location.kind.symbolName),
+                    detail: detail(for: location),
+                    warning: warning(for: location),
+                    lastWritten: location.lastWritten,
+                    size: location.size ?? 0,
+                    isMeasured: location.size != nil,
+                    isFirst: index == 0,
+                    selection: developer, isSelected: developer.isSelected(location.url)
+                )
+            }
+            .listRowSeparator(.hidden)
+        } header: {
+            SectionHeaderLine {
+                Text("Folders")
+            } actions: {
+                SelectMenu(
+                    list: environment.selectableRows,
+                    place: Text(verbatim: environment.name),
+                    selection: developer
+                )
+            }
+        }
+    }
+
     private var header: some View {
         PageHeader(systemImage: environment.systemImage) {
             Text(verbatim: environment.name)
                 .pageTitle()
         } details: {
             FlowLayout {
-                Badge(
-                    title: Text("^[\(environment.locations.count) item](inflect: true)"),
-                    systemImage: "folder"
-                )
+                if !environment.locations.isEmpty {
+                    Badge(
+                        title: Text("^[\(environment.locations.count) item](inflect: true)"),
+                        systemImage: "folder"
+                    )
+                }
+                if !environment.keptElsewhere.isEmpty {
+                    NoteBadge(
+                        title: Text("Kept elsewhere"), systemImage: "link",
+                        name: String(localized: "Kept elsewhere"),
+                        detail: Text("Peel doesn’t follow a link to a folder kept elsewhere, so it leaves out \(RemovalFailureAlert.listedFolders(environment.keptElsewhere.map(\.abbreviatedPath))). What’s there is the tool’s own, on the disk the link leads to.")
+                    )
+                }
                 if keptByDefault > 0 {
                     NoteBadge(
                         title: Text("\(keptByDefault) kept"), systemImage: "hand.raised",
@@ -71,7 +86,9 @@ struct DeveloperDetailView: View {
                 }
             }
         } trailing: {
-            TotalLabel(total: environment.total, caption: Text("in here"))
+            if !environment.locations.isEmpty {
+                TotalLabel(total: environment.total, caption: Text("in here"))
+            }
         }
     }
 
