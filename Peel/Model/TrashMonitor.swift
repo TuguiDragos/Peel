@@ -120,7 +120,7 @@ final class TrashWatch {
     /// Told what came of starting again after the folder watched went away.
     var onRestart: ((Start) -> Void)?
     private var source: (any DispatchSourceFileSystemObject)?
-    private var isWaitingForTheTrash = false
+    private(set) var isWaitingForTheTrash = false
     private var known: Set<String> = []
     /// One listing at a time, and one more when events arrived while it ran: the Trash can hold thousands of
     /// items, and the event comes in on the main queue.
@@ -163,11 +163,13 @@ final class TrashWatch {
         isWaitingForTheTrash = false
     }
 
-    /// Looks again for a Trash that was waited for.
+    /// Looks again for a Trash that was waited for. The watch starts whether anyone listens or not: an optional call
+    /// leaves out its arguments when nothing is there.
     func lookForTheTrash() {
         guard isWaitingForTheTrash else { return }
         stop()
-        onRestart?(start(appeared: true))
+        let result = start(appeared: true)
+        onRestart?(result)
     }
 
     private func waitForTheTrash() -> Start {
@@ -195,7 +197,8 @@ final class TrashWatch {
                     self.lookForTheTrash()
                 } else if !events.isDisjoint(with: [.delete, .rename]) {
                     self.stop()
-                    self.onRestart?(self.start())
+                    let result = self.start()
+                    self.onRestart?(result)
                 } else if events.contains(.write) {
                     self.changed()
                 }
