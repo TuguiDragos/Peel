@@ -92,6 +92,19 @@ final class SelfUninstall {
         String(localized: "Only an administrator can remove Peel’s helper, so Peel can’t remove itself from this account. Log in as an administrator and choose Remove Peel there.")
     }
 
+    /// What Remove Peel's question says goes before the files: the helper while it is registered, since every
+    /// account on this Mac shares it, and the login item while it is on.
+    static func whatGoesFirst(helperIsRegistered: Bool, opensAtLogin: Bool) -> String? {
+        switch (helperIsRegistered, opensAtLogin) {
+        case (true, true):
+            String(localized: "Peel removes its helper, which serves every account on this Mac, so it goes for all of them, and stops opening at login.")
+        case (true, false):
+            String(localized: "Peel removes its helper, which serves every account on this Mac, so it goes for all of them.")
+        case (false, true): String(localized: "Peel stops opening at login.")
+        case (false, false): nil
+        }
+    }
+
     static var removeCommand: String {
         "sudo rm -f /usr/local/bin/peel"
     }
@@ -147,7 +160,7 @@ final class SelfUninstall {
             app: bundleURL,
             folder: PeelFolder.url,
             steps: SelfRemoval.Steps(
-                helperIsRegistered: { helper.status == .enabled || helper.status == .requiresApproval },
+                helperIsRegistered: { helper.isRegistered },
                 helperIsEnabled: { helper.status == .enabled },
                 uninstallHelper: { await helper.uninstall()?.reason },
                 work: work

@@ -157699,6 +157699,218 @@
         }
       }
     },
+    "Peel removes its helper, which serves every account on this Mac, so it goes for all of them, and stops opening at login." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel odstraní svého pomocníka, který slouží všem účtům v tomto Macu, takže zmizí pro všechny, a sám se přestane otevírat při přihlášení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel entfernt sein Hilfsprogramm, das allen Benutzeraccounts auf diesem Mac dient, daher steht es danach keinem mehr zur Verfügung, und Peel wird nicht mehr bei der Anmeldung geöffnet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel elimina su asistente, que sirve a todas las cuentas de este Mac, así que desaparece para todas ellas, y Peel deja de abrirse al iniciar sesión."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel supprime son utilitaire, qui sert tous les comptes de ce Mac : il est donc supprimé pour tous, et Peel ne s’ouvre plus avec la session."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel rimuove il suo assistente, che serve tutti gli account di questo Mac, quindi viene rimosso per tutti, e smette di aprirsi al login."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、このMacのすべてのアカウントで使われるヘルパーを取り除くため、ヘルパーはすべてのアカウントからなくなります。また、Peelはログイン時に開かなくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이 Mac의 모든 계정에서 사용하는 보조 프로그램을 제거하므로 모든 계정에서 보조 프로그램이 사라지며, Peel도 더 이상 로그인 시 열리지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verwijdert het hulpprogramma, dat voor elke account op deze Mac werkt, dus het verdwijnt voor alle accounts, en Peel wordt niet meer geopend bij inloggen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel odinstaluje swojego pomocnika, który obsługuje wszystkie konta na tym Macu, więc zniknie on dla nich wszystkich, a Peel przestanie się otwierać podczas logowania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel remove o próprio auxiliar, que atende todas as contas deste Mac, então ele é removido para todas elas, e o Peel deixa de abrir ao iniciar a sessão."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel își elimină instrumentul de ajutor, care deservește toate conturile de pe acest Mac, așa că acesta dispare pentru toate, iar Peel nu se mai deschide la login."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel удалит своего помощника, который обслуживает все учетные записи на этом Mac, поэтому помощник будет удален для всех них, а сам Peel перестанет открываться при входе."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tar bort sitt hjälpprogram, som betjänar alla konton på den här datorn, så det försvinner för dem alla, och Peel slutar öppnas vid inloggning."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, bu Mac’teki her hesaba hizmet veren yardımcısını kaldırır, bu yüzden yardımcı tüm hesaplar için kaldırılır; ayrıca Peel oturum açıldığında açılmayı bırakır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel вилучить свого помічника, який обслуговує всі облікові записи на цьому Mac, тож його не стане для всіх них, а сама Peel перестане відкриватися під час входу в систему."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会移除它的帮助程序。该帮助程序为这台Mac上的所有账户服务，因此会对所有账户一并移除。Peel也将不再在登录时打开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會移除它的輔助程式，由於輔助程式為這部Mac上的所有帳號提供服務，因此會對所有帳號一併移除，Peel也不會再於登入時打開。"
+          }
+        }
+      }
+    },
+    "Peel removes its helper, which serves every account on this Mac, so it goes for all of them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel odstraní svého pomocníka, který slouží všem účtům v tomto Macu, takže zmizí pro všechny."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel entfernt sein Hilfsprogramm, das allen Benutzeraccounts auf diesem Mac dient, daher steht es danach keinem mehr zur Verfügung."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel elimina su asistente, que sirve a todas las cuentas de este Mac, así que desaparece para todas ellas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel supprime son utilitaire, qui sert tous les comptes de ce Mac : il est donc supprimé pour tous."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel rimuove il suo assistente, che serve tutti gli account di questo Mac, quindi viene rimosso per tutti."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、このMacのすべてのアカウントで使われるヘルパーを取り除くため、ヘルパーはすべてのアカウントからなくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이 Mac의 모든 계정에서 사용하는 보조 프로그램을 제거하므로 모든 계정에서 보조 프로그램이 사라집니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verwijdert het hulpprogramma, dat voor elke account op deze Mac werkt, dus het verdwijnt voor alle accounts."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel odinstaluje swojego pomocnika, który obsługuje wszystkie konta na tym Macu, więc zniknie on dla nich wszystkich."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel remove o próprio auxiliar, que atende todas as contas deste Mac, então ele é removido para todas elas."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel își elimină instrumentul de ajutor, care deservește toate conturile de pe acest Mac, așa că acesta dispare pentru toate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel удалит своего помощника, который обслуживает все учетные записи на этом Mac, поэтому помощник будет удален для всех них."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tar bort sitt hjälpprogram, som betjänar alla konton på den här datorn, så det försvinner för dem alla."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, bu Mac’teki her hesaba hizmet veren yardımcısını kaldırır, bu yüzden yardımcı tüm hesaplar için kaldırılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel вилучить свого помічника, який обслуговує всі облікові записи на цьому Mac, тож його не стане для всіх них."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会移除它的帮助程序。该帮助程序为这台Mac上的所有账户服务，因此会对所有账户一并移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會移除它的輔助程式，由於輔助程式為這部Mac上的所有帳號提供服務，因此會對所有帳號一併移除。"
+          }
+        }
+      }
+    },
     "Peel removes itself in Settings" : {
       "localizations" : {
         "cs" : {
@@ -159076,6 +159288,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel在查看完所有位置前就已停止，因此沒有列出任何項目。"
+          }
+        }
+      }
+    },
+    "Peel stops opening at login." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se přestane otevírat při přihlášení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel wird nicht mehr bei der Anmeldung geöffnet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel deja de abrirse al iniciar sesión."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne s’ouvre plus avec la session."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel smette di aprirsi al login."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはログイン時に開かなくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 더 이상 로그인 시 열리지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel wordt niet meer geopend bij inloggen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel przestanie się otwierać podczas logowania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel deixa de abrir ao iniciar a sessão."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu se mai deschide la login."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel перестанет открываться при входе."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel slutar öppnas vid inloggning."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel oturum açıldığında açılmayı bırakır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel перестане відкриватися під час входу в систему."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel将不再在登录时打开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會再於登入時打開。"
           }
         }
       }

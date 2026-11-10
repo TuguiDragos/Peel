@@ -558,7 +558,14 @@ struct GeneralSettingsView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("Peel, the files that are certainly its own, and its folder in Application Support go to the Trash, all but the Terminal settings zsh and ssh read, and its settings are cleared. That folder holds History, your exclusions, App Folders, and Saved Settings, among others. What you set in Tweaks and on the Terminal page stays as it is. The space is freed when you empty the Trash.")
+            let files = Text("Peel, the files that are certainly its own, and its folder in Application Support go to the Trash, all but the Terminal settings zsh and ssh read, and its settings are cleared. That folder holds History, your exclusions, App Folders, and Saved Settings, among others. What you set in Tweaks and on the Terminal page stays as it is. The space is freed when you empty the Trash.")
+            if let first = SelfUninstall.whatGoesFirst(
+                helperIsRegistered: helper.isRegistered, opensAtLogin: home.loginItem.isOn
+            ) {
+                Text("\(first)\n\n\(files)")
+            } else {
+                files
+            }
         }
     }
 }
