@@ -365,6 +365,26 @@ private nonisolated final class TestClock: Sendable {
         #expect(library.shownUpdateStatus(of: app)?.version == "1.1")
     }
 
+    @Test func aCheckPeelStoppedDuringWaitsAsOneThatFailed() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try soldApp(in: folder)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        made.defaults.set(["org.example.sold"], forKey: SettingsKey.updatesBeingChecked)
+        let library = library(with: made.defaults, notesIn: folder)
+
+        #expect(await library.reveal([bundle]))
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.sold" })
+        AppcastProtocol.body.withLock { $0 = listing("1.1") }
+        await library.checkForUpdates([app])
+        #expect(library.shownUpdateStatus(of: app) == .failed, "the check that stopped Peel was made again at once")
+        #expect(made.defaults.stringArray(forKey: SettingsKey.updatesBeingChecked)?.isEmpty != false)
+
+        await library.checkForUpdates([app])
+        #expect(library.shownUpdateStatus(of: app) == .failed, "asked again before the wait after a failure")
+    }
+
     @Test func stoppingTheRoundOfEveryAppEndsIt() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }

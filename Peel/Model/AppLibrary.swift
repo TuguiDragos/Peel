@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 import Observation
 import PeelCore
@@ -53,6 +54,10 @@ private enum UpdateMemoryStore {
 @Observable
 final class AppLibrary {
     private static let concurrentUpdateChecks = 6
+    /// The apps whose check began and had no answer when Peel last stopped, perhaps because of what came back: the
+    /// first round takes each as a check that failed, rather than ask again at once.
+    private var checksCutShort: Set<String>
+    private var beingChecked: Set<String> = []
     private static let concurrentSizeReads = 4
     /// The number of months without being opened after which an app counts as unused.
     static let unusedMonths = 6
@@ -217,6 +222,12 @@ final class AppLibrary {
             versions: defaults.dictionary(forKey: SettingsKey.announcedUpdates) as? [String: String] ?? [:]
         )
         memory = UpdateMemoryStore.load(from: defaults)
+        checksCutShort = Set(defaults.stringArray(forKey: SettingsKey.updatesBeingChecked) ?? [])
+        NotificationCenter.default.addObserver(
+            forName: NSApplication.willTerminateNotification, object: nil, queue: nil
+        ) { [weak self] _ in
+            MainActor.assumeIsolated { self?.defaults.removeObject(forKey: SettingsKey.updatesBeingChecked) }
+        }
     }
 
     /// The apps the page beside the list shows: the chosen rows, or the selected batch when no row is chosen.
@@ -713,6 +724,11 @@ final class AppLibrary {
             var unreached: [(id: InstalledApp.ID, answer: UpdateAnswer)] = []
             @MainActor func askNext() {
                 guard let app = pending.next() else { return }
+                if let identifier = app.bundleIdentifier, checksCutShort.remove(identifier) != nil {
+                    _ = group.addTaskUnlessCancelled { (app.id, UpdateAnswer(status: .failed)) }
+                    return
+                }
+                app.bundleIdentifier.map { noteChecking($0, isChecking: true) }
                 let earlier = updateStatuses[app.id]
                 let notListedBefore = remembered(app)?.isNotListed == true
                 _ = group.addTaskUnlessCancelled {
@@ -727,6 +743,7 @@ final class AppLibrary {
                 askNext()
             }
             while case let (id, answer)? = await group.next() {
+                asked[id]?.bundleIdentifier.map { noteChecking($0, isChecking: false) }
                 // The update source changed since this round began, and the round that change started answers now.
                 guard updateRounds.answered(id, in: round) else {
                     group.cancelAll()
@@ -825,6 +842,15 @@ final class AppLibrary {
         let app: InstalledApp
         let answer: UpdateAnswer
         let version: String
+    }
+
+    private func noteChecking(_ identifier: String, isChecking: Bool) {
+        if isChecking {
+            beingChecked.insert(identifier)
+        } else {
+            beingChecked.remove(identifier)
+        }
+        defaults.set(beingChecked.sorted(), forKey: SettingsKey.updatesBeingChecked)
     }
 
     /// Asks the app's own addresses for the notes the round's answers did not carry, a few at a time.
