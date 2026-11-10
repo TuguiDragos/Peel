@@ -13,6 +13,22 @@ struct AttackHelperPolicyTests {
         )
     }
 
+    /// Neither a protected place nor one Peel searches, such a folder is kept only by the helper's own question.
+    @Test func theHelperRefusesAFolderThatOnlyHoldsAWalletsKeys() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/Bitcoin/wallets/wallet.dat")
+        try directory.file("home/Library/Application Support/Bitcoin/blocks/blk00000.dat")
+        try directory.file("home/Library/Ethereum/keystore/UTC--key")
+        func refusal(_ path: String) -> PrivilegedPathPolicy.Rejection? {
+            policy(directory).refusal(of: directory.url.appending(path: path).path(percentEncoded: false))
+        }
+
+        for holder in ["home/Library/Application Support/Bitcoin", "home/Library/Ethereum"] {
+            #expect(refusal(holder) == .irreplaceable, "ATTACK SUCCEEDED: root would move \(holder) and the keys in it")
+        }
+        #expect(refusal("home/Library/Application Support/Bitcoin/blocks") == nil, "the blockchain beside the keys")
+    }
+
     @Test func whatMacOSKeepsUnderAPlainNameInTheMacsLibraryStays() throws {
         let directory = try TemporaryDirectory()
         let guardian = RemovalGuard(environment: SearchEnvironment(
