@@ -783,6 +783,7 @@ struct BackgroundItemActionsTests {
 
         #expect(BackgroundItemActions.refusal(for: agent("com.apple.Finder.helper")) == refused)
         #expect(BackgroundItemActions.refusal(for: agent("com.openssh.ssh-agent")) == refused)
+        #expect(BackgroundItemActions.refusal(for: agent("com.openssh.ssh-agent.DFF8D2B5-E315-46B4-9087-D4072EBC64DC")) == refused)
         #expect(BackgroundItemActions.refusal(for: agent("com.example.agent")) == nil)
     }
 
@@ -800,6 +801,7 @@ struct BackgroundItemActionsTests {
         #expect(!job("-org.example.daemon", .daemon).canBeControlled)
         #expect(!job(HelperIdentity.helperIdentifier, .daemon).canBeControlled)
         #expect(!job("com.openssh.sshd", .daemon).canBeControlled)
+        #expect(!job("com.openssh.sshd.DFF8D2B5-E315-46B4-9087-D4072EBC64DC", .daemon).canBeControlled)
         #expect(BackgroundItemActions.refusal(for: job("org.example.a daemon", .daemon)) != nil)
 
         #expect(job("org.example.an agent", .agent).canBeControlled, "`launchctl` runs an agent without the helper")

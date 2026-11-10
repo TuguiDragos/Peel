@@ -17,6 +17,17 @@ public enum SystemDaemons {
     /// Where other vendors' daemons are installed.
     public static let installed = "/Library/LaunchDaemons"
 
+    /// True for one of `labels`, or for an instance of one: launchd runs a job started as inetd would start it
+    /// (`inetdCompatibility` in `man launchd.plist`) once for each connection, under its label, a dot, and a UUID.
+    public static func belongs(_ label: String, to labels: Set<String>) -> Bool {
+        var name = Substring(label)
+        while !labels.contains(String(name)) {
+            guard let dot = name.lastIndex(of: ".") else { return false }
+            name = name[..<dot]
+        }
+        return true
+    }
+
     /// The files in `directory` that declare `label`, two at most: a job is loaded only from the one file that
     /// declares it, since a file's name usually repeats its label but need not. Links are not followed.
     public static func files(declaring label: String, in directory: String = installed) -> [String] {

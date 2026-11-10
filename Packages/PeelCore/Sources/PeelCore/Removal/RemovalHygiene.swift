@@ -109,7 +109,8 @@ enum LaunchdCleanup {
 
     static func isAppsOwn(_ label: String) -> Bool {
         !label.hasPrefix("application.") && PrivilegedPathPolicy.isValidLabel(label) && label != HelperIdentity.helperIdentifier
-            && !SystemDaemons.shipped.contains(label) && !SystemAgents.shipped.contains(label)
+            && !SystemDaemons.belongs(label, to: SystemDaemons.shipped)
+            && !SystemDaemons.belongs(label, to: SystemAgents.shipped)
     }
 
     private static func bootout(_ label: String, in domain: String, isDaemon: Bool, canUseHelper: Bool) async -> Bool {
@@ -147,7 +148,8 @@ enum LaunchdCleanup {
             guard
                 let plist = BoundedRead.propertyList(at: url),
                 let label = plist["Label"] as? String, PrivilegedPathPolicy.isValidLabel(label),
-                !SystemDaemons.shipped.contains(label), !SystemAgents.shipped.contains(label)
+                !SystemDaemons.belongs(label, to: SystemDaemons.shipped),
+                !SystemDaemons.belongs(label, to: SystemAgents.shipped)
             else { return nil }
             return Job(
                 label: label, isDaemon: daemons.contains(parent), plist: url,

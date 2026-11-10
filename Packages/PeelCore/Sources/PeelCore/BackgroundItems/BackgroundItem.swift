@@ -127,7 +127,8 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// `/System/Library` and `/Library/Apple/System/Library`, never where the scan reads, so a listed job with
     /// such a label did not come with macOS. Peel shows it and never acts on it.
     public var usesALabelOfMacOS: Bool {
-        declaresAnAppleLabel || SystemDaemons.shipped.contains(label) || SystemAgents.shipped.contains(label)
+        declaresAnAppleLabel || SystemDaemons.belongs(label, to: SystemDaemons.shipped)
+            || SystemDaemons.belongs(label, to: SystemAgents.shipped)
     }
 
     /// True when Peel may start, stop, enable and disable the job: never under a label of macOS, for a system

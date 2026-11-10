@@ -418,11 +418,12 @@ public struct PrivilegedPathPolicy: Sendable {
 
     /// True for a job the helper may act on. The `com.apple.` prefix is not enough, since macOS also ships
     /// daemons such as `com.openssh.sshd`, `org.cups.cupsd`, and `com.vix.cron`, so every label macOS declares
-    /// is refused too. An empty list means the labels could not be read, and then everything is refused. The
-    /// helper never acts on itself: `bootout` would kill it before it answers, and `disable` persists across
-    /// boots (`man launchctl`), leaving nothing to undo it.
+    /// is refused too, and every instance launchd runs of one. An empty list means the labels could not be read,
+    /// and then everything is refused. The helper never acts on itself: `bootout` would kill it before it answers,
+    /// and `disable` persists across boots (`man launchctl`), leaving nothing to undo it.
     public static func allowsDaemon(_ label: String, shipped: Set<String> = SystemDaemons.shipped) -> Bool {
-        isValidLabel(label) && !shipped.isEmpty && !shipped.contains(label) && label != HelperIdentity.helperIdentifier
+        isValidLabel(label) && !shipped.isEmpty && !SystemDaemons.belongs(label, to: shipped)
+            && label != HelperIdentity.helperIdentifier
     }
 
     /// The path with every symlink resolved, or nil when it doesn't exist.

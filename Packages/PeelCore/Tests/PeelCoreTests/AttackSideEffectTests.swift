@@ -59,8 +59,14 @@ struct AttackSideEffectTests {
             "home/Library/LaunchAgents/ssh.plist",
             contents: PropertyListSerialization.data(fromPropertyList: ["Label": "com.openssh.ssh-agent"], format: .xml, options: 0)
         )
+        let instance = try directory.file(
+            "home/Library/LaunchAgents/ssh-instance.plist",
+            contents: PropertyListSerialization.data(
+                fromPropertyList: ["Label": "com.openssh.ssh-agent.DFF8D2B5-E315-46B4-9087-D4072EBC64DC"], format: .xml, options: 0
+            )
+        )
 
-        let jobs = LaunchdCleanup.jobs(for: [copy], environment: environment)
+        let jobs = LaunchdCleanup.jobs(for: [copy, instance], environment: environment)
 
         #expect(jobs.isEmpty, "ATTACK SUCCEEDED: moving a copy would boot out macOS's own \(jobs.map(\.label))")
     }

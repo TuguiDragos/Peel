@@ -716,9 +716,10 @@ and it fails closed.
 - A path with a control character in it is refused. The rules read the whole name and the system stops at
   the first zero byte, so such a name would be checked as one thing and moved as another.
 - It starts, stops, enables, and disables launch daemons only for other vendors. What macOS ships is
-  refused by the label each daemon declares, not by its file name, and if that list cannot be read it
-  refuses every daemon rather than allowing them all. It never acts on itself: Peel's helper is installed
-  and uninstalled in Settings, and Background Items shows it without controls.
+  refused by the label each daemon declares, not by its file name, and so is each copy launchd runs of one for a
+  connection, under that label followed by a dot and an identifier. If that list cannot be read it refuses every
+  daemon rather than allowing them all. It never acts on itself: Peel's helper is installed and uninstalled in Settings, and
+  Background Items shows it without controls.
 - From the folders command-line tools and their shell completions are linked into, `/usr/local/bin`,
   `/usr/local/sbin`, MacPorts' `/opt/local/bin` and `/opt/local/sbin`, and the completion folders of `/usr/local`
   (`share/zsh/site-functions`, `share/fish/vendor_completions.d`, `etc/bash_completion.d`, and

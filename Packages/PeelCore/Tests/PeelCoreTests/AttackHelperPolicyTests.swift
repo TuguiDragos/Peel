@@ -576,6 +576,19 @@ extension AttackHelperPolicyTests {
         #expect(PrivilegedPathPolicy.allowsDaemon("com.example.helper"))
     }
 
+    @Test func anInstanceOfADaemonMacOSShipsIsRefused() {
+        let shipped: Set<String> = ["com.openssh.sshd", "org.cups.cups-lpd"]
+        let instances = [
+            "com.openssh.sshd.DFF8D2B5-E315-46B4-9087-D4072EBC64DC",
+            "org.cups.cups-lpd.11111111-2222-3333-4444-555555555555",
+        ]
+        for label in instances {
+            #expect(!PrivilegedPathPolicy.allowsDaemon(label, shipped: shipped), "ATTACK SUCCEEDED: the helper would stop \(label)")
+        }
+        #expect(PrivilegedPathPolicy.allowsDaemon("com.openssh.sshd-wrapper", shipped: shipped))
+        #expect(PrivilegedPathPolicy.allowsDaemon("org.example.vendor.daemon", shipped: shipped))
+    }
+
     /// The helper builds its whole policy around this string: which home is the caller's, which Trash is opened.
     @Test func theHelperRefusesWhatAContainersDocumentsHoldOnItsOwn() throws {
         let directory = try TemporaryDirectory()
