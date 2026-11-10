@@ -228,7 +228,7 @@ struct BackgroundItemActionsTests {
     @Test func restartsOnlyAJobPeelMayControlAndAsksLaunchdToKillAndStartIt() async {
         var excluded = item(state: .running(pid: 42), plist: URL(filePath: "/Users/me/Library/LaunchAgents/job.plist"))
         excluded.isExcluded = true
-        await #expect(throws: BackgroundItemActions.Failure.launchctl(HelperRefusal.invalidRequest.rawValue)) {
+        await #expect(throws: BackgroundItemActions.Failure.notControlled) {
             try await BackgroundItemActions.restart(excluded)
         }
 
@@ -779,7 +779,7 @@ struct BackgroundItemActionsTests {
                 ownerURL: nil, isOrphan: false, state: .loaded, isDisabled: false
             )
         }
-        let refused = BackgroundItemActions.Failure.launchctl(HelperRefusal.invalidRequest.rawValue)
+        let refused = BackgroundItemActions.Failure.notControlled
 
         #expect(BackgroundItemActions.refusal(for: agent("com.apple.Finder.helper")) == refused)
         #expect(BackgroundItemActions.refusal(for: agent("com.openssh.ssh-agent")) == refused)

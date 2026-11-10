@@ -15,13 +15,15 @@ public enum BackgroundItemActions {
         /// launchd does not load a job that is disabled (`bootstrap` answers error 5), so it is enabled first.
         case disabled
         case turnedOffInSystemSettings
+        /// Peel doesn't act on the job as it is now, such as one excluded since the list was read: the page offers
+        /// nothing for a job like that, so this is what changed after.
+        case notControlled
     }
 
     /// Why Peel will not start, stop or switch `item`, or nil. These go by label, so a label macOS itself uses
-    /// would reach macOS's own job. The helper refuses one for a daemon, and the same answer holds here for an
-    /// agent, which `launchctl` runs without the helper.
+    /// would reach macOS's own job.
     static func refusal(for item: BackgroundItem) -> Failure? {
-        item.canBeControlled ? nil : .launchctl(HelperRefusal.invalidRequest.rawValue)
+        item.canBeControlled ? nil : .notControlled
     }
 
     /// How long Stop waits for the job's process to end, as long as `launchctl` itself gets.
@@ -135,7 +137,7 @@ public enum BackgroundItemActions {
     /// manages, and a job whose row would leave the list once disabled is never disabled from here.
     static func refusal(toSwitch item: BackgroundItem, on isEnabled: Bool) -> Failure? {
         if let refusal = refusal(for: item) { return refusal }
-        return !isEnabled && !item.mayBeDisabled ? .launchctl(HelperRefusal.invalidRequest.rawValue) : nil
+        return !isEnabled && !item.mayBeDisabled ? .notControlled : nil
     }
 
     @concurrent

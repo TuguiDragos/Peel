@@ -149047,6 +149047,112 @@
         }
       }
     },
+    "Peel doesn’t act on this job anymore: something about it, or your exclusions, changed since the list was read. Rescan to see why." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel s touto úlohou už nic nedělá: od načtení seznamu se změnilo něco na ní nebo ve vašich výjimkách. Chcete-li zjistit proč, zvolte „Prohledat znovu“."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel führt für diesen Job keine Aktionen mehr aus: An ihm oder an deinen Ausschlüssen hat sich etwas geändert, seit die Liste gelesen wurde. Wähle „Erneut scannen“, um den Grund zu sehen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ya no actúa sobre esta tarea: ha cambiado algo de ella, o de tus exclusiones, desde que se leyó la lista. Vuelve a analizar para ver por qué."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’agit plus sur cette tâche : quelque chose la concernant a changé depuis la lecture de la liste, ou vos exclusions ont changé. Analysez à nouveau pour savoir pourquoi."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non agisce più su questo elemento: qualcosa che lo riguarda, o le tue esclusioni, è cambiato da quando l’elenco è stato letto. Scegli “Analizza di nuovo” per vedere perché."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこのジョブをもう操作しません。リストを読み込んだ後に、このジョブまたは除外リストに変更があったためです。理由を確認するには、再スキャンしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 더 이상 이 작업을 처리하지 않습니다. 목록을 읽은 이후 이 작업 또는 제외 항목이 변경되었습니다. 이유를 보려면 ‘다시 스캔’을 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel doet niets meer met deze taak: er is iets aan de taak of aan je uitsluitingen veranderd sinds de lijst werd gelezen. Scan opnieuw om te zien waarom."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel już nie wykonuje działań na tym zadaniu: od odczytania listy zmieniło się coś w nim lub w Twoich wykluczeniach. Skanuj ponownie, aby zobaczyć dlaczego."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não age mais sobre esta tarefa: algo nela, ou nas suas exclusões, mudou desde que a lista foi lida. Escolha “Analisar Novamente” para ver por quê."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu mai acționează asupra acestei sarcini: de când a fost citită lista, s‑a schimbat ceva la ea sau la excluderile dvs. Rescanați pentru a vedea de ce."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel больше не выполняет действия с этим заданием: после чтения списка изменилось что-то в нем самом или в Ваших исключениях. Нажмите «Сканировать заново», чтобы узнать причину."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hanterar inte längre det här jobbet: något i det, eller dina undantag, har ändrats sedan listan lästes. Välj ”Skanna igen” för att se varför."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel artık bu iş üzerinde işlem yapmaz: liste okunduğundan bu yana işle ilgili bir şey ya da hariç tutulanlarınız değişti. Nedenini görmek için yeniden tarayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel більше не виконує дій із цим завданням: щось у ньому або у ваших винятках змінилося після того, як було прочитано список. Натисніть «Сканувати знову», щоб дізнатися чому."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不再对此任务执行操作：自读取列表以来，此任务的某些情况或你的排除项发生了变化。请重新扫描以查看原因。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不再對此工作執行任何動作：自讀取列表以來，此工作的某些內容或你的排除項目已有所變更。請重新掃描以查看原因。"
+          }
+        }
+      }
+    },
     "Peel doesn’t change these. Each button opens the place where Apple says to turn that feature off." : {
       "localizations" : {
         "cs" : {
