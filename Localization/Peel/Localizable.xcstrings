@@ -274933,108 +274933,108 @@
         }
       }
     },
-    "macOS stops an app from moving another developer’s app to the Trash unless you allow it. Without this, Peel can still clear an app’s files, but macOS may refuse to move the app itself." : {
+    "macOS stops an app from moving another developer’s app to the Trash unless you allow it. Without this, macOS may refuse to move an app, and Peel then leaves that app’s files where they are too." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS brání aplikaci přesunout do koše aplikaci jiného vývojáře, pokud to nepovolíte. Bez tohoto oprávnění může Peel dál odstraňovat soubory aplikace, ale macOS může odmítnout přesunout samotnou aplikaci."
+            "value" : "Systém macOS brání aplikaci přesunout do koše aplikaci jiného vývojáře, pokud to nepovolíte. Bez tohoto oprávnění může macOS odmítnout přesunout aplikaci a Peel pak ponechá na místě i soubory této aplikace."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS hindert eine App daran, die App eines anderen Entwicklers in den Papierkorb zu legen, sofern du es nicht erlaubst. Ohne diese Erlaubnis kann Peel zwar die Dateien einer App entfernen, aber macOS lehnt es möglicherweise ab, die App selbst zu verschieben."
+            "value" : "macOS hindert eine App daran, die App eines anderen Entwicklers in den Papierkorb zu legen, sofern du es nicht erlaubst. Ohne diese Erlaubnis lehnt macOS es möglicherweise ab, eine App zu verschieben, und Peel lässt dann auch die Dateien dieser App, wo sie sind."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS impide que una app traslade a la papelera la app de otro desarrollador a menos que lo permitas. Sin esto, Peel puede seguir eliminando los archivos de una app, pero puede que macOS se niegue a trasladar la propia app."
+            "value" : "macOS impide que una app traslade a la papelera la app de otro desarrollador a menos que lo permitas. Sin esto, puede que macOS se niegue a trasladar una app, y entonces Peel también deja los archivos de esa app donde están."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS empêche une app de placer dans la corbeille l’app d’un autre développeur, sauf si vous l’y autorisez. Sans cette autorisation, Peel peut toujours supprimer les fichiers d’une app, mais macOS peut refuser de déplacer l’app elle-même."
+            "value" : "macOS empêche une app de placer dans la corbeille l’app d’un autre développeur, sauf si vous l’y autorisez. Sans cette autorisation, macOS peut refuser de déplacer une app, et Peel laisse alors aussi les fichiers de cette app à leur place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS impedisce a un’app di spostare nel Cestino l’app di un’altra azienda di sviluppo, a meno che tu non lo consenta. Senza questo permesso, Peel può comunque rimuovere i file di un’app, ma macOS potrebbe rifiutarsi di spostare l’app stessa."
+            "value" : "macOS impedisce a un’app di spostare nel Cestino l’app di un’altra azienda di sviluppo, a meno che tu non lo consenta. Senza questo permesso, macOS potrebbe rifiutarsi di spostare un’app, e in quel caso Peel lascia dove sono anche i file di quell’app."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSは、許可されていない限り、アプリがほかの開発元のアプリをゴミ箱に入れることを阻止します。これがなくても、Peelはアプリのファイルを取り除けますが、macOSがアプリ本体の移動を拒否することがあります。"
+            "value" : "macOSは、許可されていない限り、アプリがほかの開発元のアプリをゴミ箱に入れることを阻止します。これがないと、macOSがアプリの移動を拒否することがあり、その場合はPeelもそのアプリのファイルをそのまま残します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS는 사용자가 허용하지 않는 한 앱이 다른 개발자의 앱을 휴지통으로 이동하지 못하게 합니다. 이 권한이 없어도 Peel은 앱의 파일을 정리할 수 있지만, macOS가 앱 자체의 이동을 거부할 수 있습니다."
+            "value" : "macOS는 사용자가 허용하지 않는 한 앱이 다른 개발자의 앱을 휴지통으로 이동하지 못하게 합니다. 이 권한이 없으면 macOS가 앱의 이동을 거부할 수 있으며, 그러면 Peel은 그 앱의 파일도 원래 위치에 그대로 둡니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS voorkomt dat een app de app van een andere ontwikkelaar naar de prullenmand verplaatst, tenzij je dat toestaat. Zonder deze toestemming kan Peel nog steeds de bestanden van een app opruimen, maar weigert macOS misschien de app zelf te verplaatsen."
+            "value" : "macOS voorkomt dat een app de app van een andere ontwikkelaar naar de prullenmand verplaatst, tenzij je dat toestaat. Zonder deze toestemming weigert macOS misschien een app te verplaatsen, en laat Peel de bestanden van die app ook staan waar ze zijn."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS nie pozwala jednej aplikacji przenosić do Kosza aplikacji innego dewelopera bez Twojej zgody. Bez tego Peel nadal może przenosić pliki aplikacji do Kosza, ale macOS może odmówić przeniesienia samej aplikacji."
+            "value" : "macOS nie pozwala jednej aplikacji przenosić do Kosza aplikacji innego dewelopera bez Twojej zgody. Bez tego macOS może odmówić przeniesienia aplikacji, a wtedy Peel zostawia na miejscu także jej pliki."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS impede que um app mova para o Lixo o app de outro desenvolvedor, a menos que você permita. Sem isso, o Peel ainda pode limpar os arquivos de um app, mas o macOS pode se recusar a mover o próprio app."
+            "value" : "O macOS impede que um app mova para o Lixo o app de outro desenvolvedor, a menos que você permita. Sem isso, o macOS pode se recusar a mover um app, e então o Peel também deixa os arquivos desse app onde estão."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS împiedică o aplicație să mute în Coș aplicația altui dezvoltator, dacă nu îi permiteți acest lucru. Fără această permisiune, Peel poate elimina în continuare fișierele unei aplicații, dar macOS poate refuza să mute aplicația însăși."
+            "value" : "macOS împiedică o aplicație să mute în Coș aplicația altui dezvoltator, dacă nu îi permiteți acest lucru. Fără această permisiune, macOS poate refuza să mute o aplicație, iar atunci Peel lasă și fișierele acelei aplicații unde se află."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS не дает приложению перемещать в Корзину приложения других разработчиков, если Вы этого не разрешили. Без этого разрешения Peel по-прежнему может удалять файлы приложения, но macOS может отказаться перемещать само приложение."
+            "value" : "macOS не дает приложению перемещать в Корзину приложения других разработчиков, если Вы этого не разрешили. Без этого разрешения macOS может отказаться перемещать приложение, и тогда Peel тоже оставит файлы этого приложения на месте."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS hindrar en app från att flytta en annan utvecklares app till papperskorgen om du inte tillåter det. Utan det här kan Peel fortfarande rensa bort en apps filer, men macOS kan vägra att flytta själva appen."
+            "value" : "macOS hindrar en app från att flytta en annan utvecklares app till papperskorgen om du inte tillåter det. Utan det här kan macOS vägra att flytta en app, och Peel lämnar då även den appens filer där de är."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Siz izin vermedikçe macOS, bir uygulamanın başka bir geliştiricinin uygulamasını Çöp Sepeti’ne taşımasını engeller. Bu izin olmadan da Peel bir uygulamanın dosyalarını temizleyebilir, ancak macOS uygulamanın kendisini taşımayı reddedebilir."
+            "value" : "Siz izin vermedikçe macOS, bir uygulamanın başka bir geliştiricinin uygulamasını Çöp Sepeti’ne taşımasını engeller. Bu izin olmadan macOS bir uygulamayı taşımayı reddedebilir; bu durumda Peel o uygulamanın dosyalarını da olduğu yerde bırakır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS не дає програмі переміщувати в Смітник програми інших розробників, якщо ви цього не дозволите. Без цього дозволу Peel і далі може вилучати файли програми, але macOS може відмовитися переміщувати саму програму."
+            "value" : "macOS не дає програмі переміщувати в Смітник програми інших розробників, якщо ви цього не дозволите. Без цього дозволу macOS може відмовитися переміщувати програму, і тоді Peel теж залишить файли цієї програми на місці."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "除非你允许，否则macOS会阻止一个App将另一开发者的App移到废纸篓。没有此权限，Peel仍可清除App的文件，但macOS可能会拒绝移动App本身。"
+            "value" : "除非你允许，否则macOS会阻止一个App将另一开发者的App移到废纸篓。没有此权限，macOS可能会拒绝移动某个App，此时Peel也会将该App的文件留在原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "除非你允許，否則macOS會阻止App將其他開發者的App丟到「垃圾桶」。沒有此權限，Peel仍可清除App的檔案，但macOS可能會拒絕移動App本身。"
+            "value" : "除非你允許，否則macOS會阻止App將其他開發者的App丟到「垃圾桶」。沒有此權限，macOS可能會拒絕移動某個App，此時Peel也會將該App的檔案保留在原處。"
           }
         }
       }
