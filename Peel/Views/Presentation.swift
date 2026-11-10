@@ -171,6 +171,15 @@ extension AdministratorCommand {
     }
 }
 
+extension PreferenceBackup.Restored {
+    /// What a Put Back of saved settings that didn't put everything back says after its title.
+    static func saidAfterIncomplete(clearedSome: Bool) -> String {
+        clearedSome
+            ? String(localized: "The settings that didn’t go back were cleared first, so the app starts them from scratch. The copy is still here to try again.")
+            : String(localized: "Part of the copy wasn’t put back, because it couldn’t be read or holds settings Peel leaves alone, so those settings stay as they are now. The rest went back.")
+    }
+}
+
 extension MissingPermissionsNotice {
     /// What Home's banner says under its title: what to set up below, named by `missing`, or what to do, with
     /// `otherCopy` for another copy's helper, and why to reopen Peel while Peel offers it.

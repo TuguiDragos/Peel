@@ -383,9 +383,7 @@ struct ResetSheet: View {
         case .incomplete(let clearedSome):
             VStack(alignment: .leading, spacing: 2) {
                 StatusLabel(title: Text("Not all of the saved settings could be put back."), tint: .red)
-                if clearedSome {
-                    Text("The settings that didn’t go back were cleared first, so the app starts them from scratch. The copy is still here to try again.")
-                }
+                Text(verbatim: PreferenceBackup.Restored.saidAfterIncomplete(clearedSome: clearedSome))
             }
             .font(.callout)
             .foregroundStyle(.secondary)

@@ -137278,6 +137278,112 @@
         }
       }
     },
+    "Part of the copy wasn’t put back, because it couldn’t be read or holds settings Peel leaves alone, so those settings stay as they are now. The rest went back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Část kopie nebyla vrácena zpět, protože ji nešlo přečíst nebo obsahuje nastavení, která Peel nechává nedotčená, takže tato nastavení zůstávají tak, jak jsou teď. Zbytek se vrátil zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Teil der Kopie wurde nicht zurückgelegt, weil er nicht gelesen werden konnte oder Einstellungen enthält, die Peel unangetastet lässt, daher bleiben diese Einstellungen, wie sie jetzt sind. Der Rest wurde zurückgelegt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parte de la copia no se ha restaurado, porque no se ha podido leer o contiene ajustes que Peel no toca, así que esos ajustes se quedan como están ahora. El resto sí se ha restaurado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une partie de la copie n’a pas été remise en place, car elle n’a pas pu être lue ou contient des réglages auxquels Peel ne touche pas : ces réglages restent donc tels qu’ils sont. Le reste a été remis en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una parte della copia non è stata ripristinata, perché non si poteva leggere o contiene impostazioni che Peel non tocca, quindi quelle impostazioni restano come sono ora. Il resto è stato ripristinato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コピーの一部は、読み取れなかったか、Peelが手を付けない設定が含まれていたため、戻されませんでした。それらの設定は現在のまま残ります。残りは戻されました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "복사본의 일부는 읽을 수 없거나 Peel이 그대로 두는 설정이 들어 있어 되돌려 놓지 않았으므로, 해당 설정은 현재 상태 그대로 유지됩니다. 나머지는 되돌려 놓았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een deel van de kopie is niet teruggezet, omdat het niet kon worden gelezen of instellingen bevat die Peel met rust laat, dus die instellingen blijven zoals ze nu zijn. De rest is teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Część kopii nie została przywrócona, ponieważ nie dało się jej odczytać albo zawiera ustawienia, których Peel nie rusza, więc te ustawienia pozostają takie, jakie są teraz. Reszta została przywrócona."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parte da cópia não foi colocada de volta, porque não pôde ser lida ou contém ajustes em que o Peel não mexe, então esses ajustes ficam como estão agora. O restante voltou."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O parte din copie nu a fost pusă înapoi, deoarece nu a putut fi citită sau conține configurări pe care Peel le lasă neatinse, așa că acele configurări rămân așa cum sunt acum. Restul a fost pus înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Часть копии не была восстановлена, потому что ее не удалось прочитать или в ней есть настройки, которые Peel не трогает, поэтому эти настройки остаются такими, как сейчас. Остальное восстановлено."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En del av kopian lades inte tillbaka, eftersom den inte gick att läsa eller innehåller inställningar som Peel lämnar orörda, så de inställningarna förblir som de är nu. Resten lades tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopyanın bir kısmı yerine konmadı, çünkü okunamadı veya Peel’in dokunmadığı ayarlar içeriyor; bu yüzden o ayarlar şu anki hâlleriyle kalır. Geri kalanı yerine kondu."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Частину копії не повернуто, бо її не вдалося прочитати або вона містить налаштування, яких Peel не чіпає, тож ці налаштування лишаються такими, як зараз. Решту повернуто."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "副本的一部分未放回原处，因为这部分未能读取，或者包含Peel不会触碰的设置，所以这些设置会保持当前的状态。其余部分已放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "副本中有部分內容未還原，因為它們無法讀取，或含有Peel不會動的設定，因此這些設定會維持目前的狀態。其餘部分已還原。"
+          }
+        }
+      }
+    },
     "Part of this folder is left to the Developer page." : {
       "localizations" : {
         "cs" : {

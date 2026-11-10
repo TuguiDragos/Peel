@@ -155,9 +155,7 @@ struct SavedSettingsSection: View {
         case .incomplete(let clearedSome):
             failure = Failure(
                 title: String(localized: "Not all of the settings saved for \(name) could be put back."),
-                message: clearedSome
-                    ? String(localized: "The settings that didn’t go back were cleared first, so the app starts them from scratch. The copy is still here to try again.")
-                    : ""
+                message: PreferenceBackup.Restored.saidAfterIncomplete(clearedSome: clearedSome)
             )
         case .notSaved(let why):
             failure = Failure(title: String(localized: "Peel couldn’t save the settings \(name) has now, so it put nothing back."), message: why.sentence)
