@@ -562,6 +562,9 @@ struct UninstallCommand: AsyncParsableCommand {
             ?? AppInspector.knownName(forBundleIdentifier: identifier)
     }
 
+    /// Said after a command that runs `sudo`, on an account that isn't an administrator's.
+    static let administratorRunsIt = "This account isn't an administrator, so an administrator runs this command, or you run it after `su` and an administrator's short name."
+
     /// What the removal does that the Trash can't bring back, and what the app leaves behind, said before the question.
     static func warnings(
         moving urls: Set<URL>,
@@ -569,7 +572,8 @@ struct UninstallCommand: AsyncParsableCommand {
         uninstallsItself: UninstallsItself?,
         leftInTheSystem: LeftInTheSystem?,
         commandToRunFirst: CommandToRunFirst?,
-        resettingPrivacy: Bool
+        resettingPrivacy: Bool,
+        isAdministrator: Bool = PrivilegedHelper.isAdministrator
     ) -> [String] {
         var warnings: [String] = []
         if resettingPrivacy {
@@ -611,7 +615,9 @@ struct UninstallCommand: AsyncParsableCommand {
                 " \($0) is a rule that lets anyone run the programs it names as an administrator, without a password."
             } ?? ""
             let them = left.paths.count == 1 ? "it" : "them"
-            warnings.append("\(app.name) leaves \(Output.list(left.paths)) on this Mac after it goes, which only an administrator can remove.\(rule) To remove \(them), run `\(left.command)`.")
+            let who = AdministratorCommand.needsAnAdministrator(left.command, isAdministrator: isAdministrator)
+                ? " " + administratorRunsIt : ""
+            warnings.append("\(app.name) leaves \(Output.list(left.paths)) on this Mac after it goes, which only an administrator can remove.\(rule) To remove \(them), run `\(left.command)`.\(who)")
         }
         return warnings
     }
@@ -655,7 +661,8 @@ struct UninstallCommand: AsyncParsableCommand {
     /// takes what it keeps in the system.
     static func removedElsewhere(
         _ target: InstalledApp,
-        installedSystemExtensions: CarriedSystemExtensions = .none
+        installedSystemExtensions: CarriedSystemExtensions = .none,
+        isAdministrator: Bool = PrivilegedHelper.isAdministrator
     ) -> CommandFailure? {
         switch RemovedElsewhere.of(target, installedSystemExtensions: installedSystemExtensions) {
         case nil:
@@ -674,7 +681,13 @@ struct UninstallCommand: AsyncParsableCommand {
             case .fromTheMakersPage: "download its uninstaller from \(uninstaller.maker)'s page"
             case .notOnTheMac: "follow \(uninstaller.maker)'s instructions, since the uninstaller they name isn't on this Mac"
             }
-            return CommandFailure("\(Output.plain(target.name)) is removed with \(uninstaller.maker)'s own uninstaller, which also takes what it keeps in the system: \(step). See \(uninstaller.instructions.absoluteString)")
+            let who = if case .command(let command) = uninstaller.step,
+                         AdministratorCommand.needsAnAdministrator(command, isAdministrator: isAdministrator) {
+                " " + administratorRunsIt
+            } else {
+                ""
+            }
+            return CommandFailure("\(Output.plain(target.name)) is removed with \(uninstaller.maker)'s own uninstaller, which also takes what it keeps in the system: \(step). See \(uninstaller.instructions.absoluteString)\(who)")
         case .byFinder(let carried) where !carried.isKnown:
             return CommandFailure("Peel can't look inside \(Output.plain(target.name)) to see which system extensions it carries, and macOS removes those only when the app goes to the Trash in Finder. Move the app to the Trash in Finder.")
         case .byFinder(let carried):

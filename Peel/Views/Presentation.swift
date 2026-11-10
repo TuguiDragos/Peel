@@ -164,6 +164,13 @@ extension CommandToRunFirst {
     }
 }
 
+extension AdministratorCommand {
+    /// Said after a command that runs `sudo`, on an account that isn't an administrator's.
+    static var note: Text {
+        Text("This account isn’t an administrator, so an administrator runs this command, or you run it after `su` and an administrator’s short name.")
+    }
+}
+
 extension LeftInTheSystem {
     /// What `app` leaves in macOS's own settings folders once it goes, with what a rule for `sudo` among it allows.
     func whatStays(after app: String) -> Text {

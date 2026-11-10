@@ -99,6 +99,12 @@ import Testing
         ) == [
             "Postgres leaves /etc/paths.d/postgresapp on this Mac after it goes, which only an administrator can remove. To remove it, run `sudo rm /etc/paths.d/postgresapp`.",
         ])
+        let standard = UninstallCommand.warnings(
+            moving: [app.url], of: app, uninstallsItself: nil,
+            leftInTheSystem: plan.leftInTheSystem, commandToRunFirst: nil,
+            resettingPrivacy: false, isAdministrator: false
+        )
+        #expect(standard.last?.hasSuffix(" " + UninstallCommand.administratorRunsIt) == true)
     }
 
     @Test func peelUninstallSaysWhatARuleForSudoLetsAnyoneDo() throws {

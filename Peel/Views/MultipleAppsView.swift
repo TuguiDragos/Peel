@@ -351,6 +351,7 @@ struct MultipleAppsView: View {
             lines.append(Text("\(app.name)’s root certificate stays trusted on this Mac after the app goes."))
             lines.append(root.step(in: app.name))
         }
+        var needsAnAdministrator = false
         for uninstallation in plan.bulk?.uninstallations ?? [] where urls.contains(uninstallation.app.url) {
             if let first = uninstallation.commandToRunFirst {
                 lines.append(first.note(for: uninstallation.app.name))
@@ -358,6 +359,10 @@ struct MultipleAppsView: View {
             guard let left = uninstallation.leftInTheSystem else { continue }
             lines.append(left.whatStays(after: uninstallation.app.name))
             lines.append(left.step)
+            needsAnAdministrator = needsAnAdministrator || AdministratorCommand.needsAnAdministrator(left.command)
+        }
+        if needsAnAdministrator {
+            lines.append(AdministratorCommand.note)
         }
         for app in going {
             let movesItsReceipt = plan.items.contains {

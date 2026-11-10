@@ -277,13 +277,15 @@ public struct HomebrewInstallation: Sendable, Hashable {
         public let folder: URL
         public let owner: Owner
 
-        /// What gives this account the folder back in Terminal: Homebrew's own advice (`cmd/update.sh`), or the
+        /// What gives this account the folder back in Terminal: Homebrew's own advice (`cmd/update.sh`) with this
+        /// account named, since an administrator may run it after `su`, as whom `$(whoami)` would answer, or the
         /// permission it lacks when it is already this account's. Nil for another account's, which is theirs to give.
         public var command: String? {
-            let path = PathPattern.comparablePath(of: folder).replacingOccurrences(of: "'", with: "'\\''")
+            let quoted = { (text: String) in text.replacingOccurrences(of: "'", with: "'\\''") }
+            let path = quoted(PathPattern.comparablePath(of: folder))
             return switch owner {
             case .thisAccount: "chmod u+w '\(path)'"
-            case .root: "sudo chown -R $(whoami) '\(path)'"
+            case .root: "sudo chown -R '\(quoted(NSUserName()))' '\(path)'"
             case .another: nil
             }
         }

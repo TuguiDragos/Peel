@@ -373,7 +373,7 @@ struct HomebrewDetailView: View {
     private var whatUsesIt: Text? {
         guard let inUse else { return nil }
         let programs = inUse.programs.formatted(.list(type: .and))
-        return switch (inUse.programs.isEmpty, inUse.stopCommand) {
+        let said: Text? = switch (inUse.programs.isEmpty, inUse.stopCommand) {
         case (true, nil): nil
         case (false, nil):
             Text("It is in use by \(programs). Homebrew deletes it even so, so quit what uses it first.")
@@ -382,6 +382,10 @@ struct HomebrewDetailView: View {
         case (true, let command?):
             Text("`brew services` keeps a job for it. Homebrew leaves the job behind with nothing to run, so stop it first: `\(command)`")
         }
+        guard let said, let command = inUse.stopCommand, AdministratorCommand.needsAnAdministrator(command) else {
+            return said
+        }
+        return Text("\(said)\n\n\(AdministratorCommand.note)")
     }
 
     private func upgrade() {

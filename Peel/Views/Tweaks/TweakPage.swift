@@ -87,6 +87,11 @@ private struct SleepNotice: View {
                     .buttonStyle(.bordered)
                     .controlSize(.small)
             }
+            if AdministratorCommand.needsAnAdministrator(SleepSetting.undoCommand) {
+                AdministratorCommand.note
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
         }
         .padding(.vertical, 4)
     }

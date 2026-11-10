@@ -33,6 +33,13 @@ struct MakersUninstallerNotice: View {
     }
 
     private var detail: Text {
+        guard case .command(let command) = uninstaller.step, AdministratorCommand.needsAnAdministrator(command) else {
+            return said
+        }
+        return Text("\(said)\n\n\(AdministratorCommand.note)")
+    }
+
+    private var said: Text {
         if let product = uninstaller.removes {
             Text("\(uninstaller.maker) documents removing \(product) by opening this app, which then removes itself too. Moving only this app would leave \(product) behind, so Peel leaves it for you to open.")
         } else {

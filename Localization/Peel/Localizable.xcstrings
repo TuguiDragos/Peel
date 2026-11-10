@@ -984,6 +984,118 @@
         }
       }
     },
+    "%@ belongs to root, so Homebrew can’t change it, and Homebrew doesn’t run as root. To give the folder back to this account, an administrator runs this in Terminal, or you run it after `su` and an administrator’s short name: %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Složka %1$@ patří uživateli root, takže ji Homebrew nemůže měnit, a pod uživatelem root Homebrew neběží. Chcete-li složku vrátit tomuto účtu, ať tento příkaz spustí v Terminálu správce, nebo ho spusťte sami po zadání `su` a krátkého jména správce: %2$@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ gehört root, daher kann Homebrew diesen Ordner nicht ändern, und Homebrew läuft nicht als root. Damit der Ordner wieder diesem Benutzeraccount gehört, führt ein Administrator diesen Befehl im Terminal aus, oder du führst ihn aus, nachdem du `su` und den Kurznamen eines Administrators eingegeben hast: %2$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ belongs to root, so Homebrew can’t change it, and Homebrew doesn’t run as root. To give the folder back to this account, an administrator runs this in Terminal, or you run it after `su` and an administrator’s short name: %2$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ pertenece a root, así que Homebrew no puede modificar esa carpeta, y Homebrew no se ejecuta como root. Para devolver la carpeta a esta cuenta, un administrador tiene que ejecutar esto en Terminal, o puedes ejecutarlo tú después de `su` y el nombre corto de un administrador: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ appartient à root : Homebrew ne peut donc pas le modifier, et Homebrew ne s’exécute pas en tant que root. Pour rendre le dossier à ce compte, un administrateur doit exécuter ceci dans Terminal, ou vous pouvez l’exécuter après `su` suivi du nom abrégé d’un administrateur : %2$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ appartiene a root, quindi Homebrew non può modificarla, e Homebrew non viene eseguito come root. Per restituire la cartella a questo account, un amministratore esegue questo comando in Terminale, oppure lo esegui tu dopo `su` e il nome breve di un amministratore: %2$@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@はrootが所有しているため、Homebrewは変更できません。また、Homebrewはrootとして実行されません。このフォルダの所有権をこのアカウントに戻すには、管理者がターミナルで以下のコマンドを実行するか、`su`と管理者のアカウント名を入力した後でこのコマンドを実行してください: %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@은(는) Root 사용자에게 속해 있으므로 Homebrew가 변경할 수 없으며, Homebrew는 Root 사용자로 실행되지 않습니다. 이 폴더를 이 계정에 되돌려 주려면 관리자가 터미널에서 다음을 실행해야 합니다. 또는 `su`와 관리자의 계정 이름을 입력한 다음 직접 실행하십시오: %2$@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ is van root, dus Homebrew kan die map niet wijzigen, en Homebrew wordt niet als root uitgevoerd. Om de map terug te geven aan deze account, voert een beheerder dit uit in Terminal, of voer je het zelf uit na `su` en de korte naam van een beheerder: %2$@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Folder %1$@ należy do użytkownika root, więc Homebrew nie może go zmieniać, a Homebrew nie działa jako root. Aby oddać ten folder temu kontu, administrator musi uruchomić w Terminalu to polecenie albo uruchom je po wpisaniu `su` i krótkiej nazwy administratora: %2$@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A pasta %1$@ pertence ao root, então o Homebrew não pode alterá-la, e o Homebrew não é executado como root. Para devolver a pasta a esta conta, um administrador deve executar isto no Terminal, ou você pode executá-lo depois de `su` e do nome abreviado de um administrador: %2$@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ aparține utilizatorului Root, așa că Homebrew nu îl poate modifica, iar Homebrew nu rulează ca utilizator Root. Pentru a da dosarul înapoi acestui cont, această comandă trebuie rulată în Terminal de un administrator sau de dvs., după `su` și numele scurt al unui administrator: %2$@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка %1$@ принадлежит root, поэтому Homebrew не может ее изменить, а от имени root Homebrew не запускается. Чтобы вернуть папку этой учетной записи, эту команду должен выполнить в Терминале администратор, или Вы можете выполнить ее сами, предварительно введя `su` и имя учетной записи администратора: %2$@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ tillhör rotanvändaren, så Homebrew kan inte ändra den, och Homebrew körs inte som rotanvändare. För att ge tillbaka mappen till det här kontot kör en administratör följande i Terminal, eller så kör du det själv efter `su` och en administratörs kontonamn: %2$@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ klasörünün sahibi root, bu yüzden Homebrew onu değiştiremez; Homebrew root olarak da çalışmaz. Klasörü bu hesaba geri vermek için bir yöneticinin şu komutu Terminal’de çalıştırması gerekir; ya da siz `su` ve bir yöneticinin kısa adını yazdıktan sonra komutu kendiniz çalıştırabilirsiniz: %@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка %1$@ належить root, тож Homebrew не може її змінювати, а від імені root Homebrew не працює. Щоб повернути папку цьому обліковому запису, адміністратор може виконати в Терміналі цю команду, або ви можете виконати її після команди `su` з коротким іменем адміністратора: %2$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@归root所有，因此Homebrew无法更改它，而Homebrew也不会以root身份运行。若要将该文件夹交还给此账户，请由管理员在“终端”中运行以下命令，或者由你先输入`su`和管理员的短名称，再运行该命令：%2$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@屬於root，因此Homebrew無法更改它，而Homebrew也不會以root身分執行。若要將該檔案夾交還給此帳號，需由管理者在「終端機」中執行此指令，或在輸入`su`和管理者的帳號名稱之後自行執行：%2$@"
+          }
+        }
+      }
+    },
     "%@ belongs to this account but can’t be written to, so Homebrew can’t change it. Allow it by running this in Terminal: %@" : {
       "localizations" : {
         "cs" : {
@@ -221583,6 +221695,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此帳號不是管理者，因此Peel的輔助程式只有在管理者核准後才會執行此動作。"
+          }
+        }
+      }
+    },
+    "This account isn’t an administrator, so an administrator runs this command, or you run it after `su` and an administrator’s short name." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento účet není účtem správce, takže tento příkaz musí spustit správce, nebo ho spusťte sami po zadání `su` a krátkého jména správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Benutzeraccount hat keine Administratorrechte, daher führt ein Administrator diesen Befehl aus, oder du führst ihn aus, nachdem du `su` und den Kurznamen eines Administrators eingegeben hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta cuenta no es de administrador, así que un administrador tiene que ejecutar este comando, o puedes ejecutarlo tú después de `su` y el nombre corto de un administrador."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce compte n’est pas administrateur : un administrateur doit donc exécuter cette commande, ou vous pouvez l’exécuter après `su` suivi du nom abrégé d’un administrateur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo non è un account di amministratore, quindi questo comando lo esegue un amministratore, oppure lo esegui tu dopo `su` e il nome breve di un amministratore."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアカウントは管理者ではないため、管理者がこのコマンドを実行するか、`su`と管理者のアカウント名を入力した後でこのコマンドを実行してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 계정은 관리자가 아니므로 관리자가 이 명령을 실행해야 합니다. 또는 `su`와 관리자의 계정 이름을 입력한 다음 직접 실행하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze account heeft geen beheerdersrechten, dus een beheerder voert dit commando uit, of je voert het zelf uit na `su` en de korte naam van een beheerder."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To konto nie jest kontem administratora, więc to polecenie musi uruchomić administrator albo uruchom je po wpisaniu `su` i krótkiej nazwy administratora."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta conta não é de administrador, então um administrador deve executar este comando, ou você pode executá-lo depois de `su` e do nome abreviado de um administrador."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest cont nu este un cont de administrator, așa că această comandă trebuie rulată de un administrator sau de dvs., după `su` și numele scurt al unui administrator."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У этой учетной записи нет прав администратора, поэтому эту команду должен выполнить администратор, или Вы можете выполнить ее сами, предварительно введя `su` и имя учетной записи администратора."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här kontot är inte ett administratörskonto, så en administratör kör det här kommandot, eller så kör du det själv efter `su` och en administratörs kontonamn."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu hesap bir yönetici hesabı değil, bu yüzden bu komutu bir yöneticinin çalıştırması gerekir; ya da siz `su` ve bir yöneticinin kısa adını yazdıktan sonra komutu kendiniz çalıştırabilirsiniz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей обліковий запис не має прав адміністратора, тож цю команду має виконати адміністратор, або ви можете виконати її після команди `su` з коротким іменем адміністратора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此账户不是管理员，因此需由管理员运行此命令，或者由你先输入`su`和管理员的短名称，再运行该命令。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此帳號不是管理者，因此需由管理者執行此指令，或在輸入`su`和管理者的帳號名稱之後自行執行。"
           }
         }
       }

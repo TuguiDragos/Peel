@@ -502,6 +502,9 @@ struct AppDetailView: View {
         if urls.contains(plan.app.url), let left = plan.uninstallation?.leftInTheSystem {
             lines.append(left.whatStays(after: plan.app.name))
             lines.append(left.step)
+            if AdministratorCommand.needsAnAdministrator(left.command) {
+                lines.append(AdministratorCommand.note)
+            }
         }
         let movesItsReceipt = plan.uninstallation?.scan.leftovers.contains {
             $0.kind == .homebrewReceipt && urls.contains($0.url)

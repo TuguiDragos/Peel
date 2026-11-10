@@ -116,7 +116,7 @@ struct HomebrewTests {
         let roots = HomebrewInstallation(version: "7.0.0", prefix: system, repository: system)
         let root = try #require(roots.judgedForThisAccount().unwritable)
         #expect(root.owner == .root)
-        #expect(root.command == "sudo chown -R $(whoami) '/usr/share'")
+        #expect(root.command == "sudo chown -R '\(NSUserName())' '/usr/share'")
     }
 
     @Test func aDisabledPackageWaitsForNoUpgrade() {

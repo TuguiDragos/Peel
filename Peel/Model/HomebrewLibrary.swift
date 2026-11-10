@@ -217,6 +217,12 @@ final class HomebrewLibrary {
                 title: "Homebrew Belongs to Another Account",
                 detail: "Homebrew on this Mac belongs to another account, so only that account can update or change it."
             )
+        case .root where AdministratorCommand.needsAnAdministrator(command):
+            return CantChange(
+                title: "This Account Can’t Change Homebrew",
+                detail: "\(folder) belongs to root, so Homebrew can’t change it, and Homebrew doesn’t run as root. To give the folder back to this account, an administrator runs this in Terminal, or you run it after `su` and an administrator’s short name: \(command)",
+                command: command
+            )
         case .root:
             return CantChange(
                 title: "This Account Can’t Change Homebrew",

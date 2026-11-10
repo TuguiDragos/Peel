@@ -1310,6 +1310,8 @@ struct CommandLineTests {
         )
 
         #expect(UninstallCommand.removedElsewhere(agent)?.description.contains("/GlobalProtect.app/Contents/Resources/uninstall_gp.sh`") == true)
+        let standard = UninstallCommand.removedElsewhere(agent, isAdministrator: false)?.description
+        #expect(standard?.contains(UninstallCommand.administratorRunsIt) == true)
         let said = UninstallCommand.removedElsewhere(withoutItsScript)?.description
         #expect(said?.contains("follow Palo Alto Networks's instructions, since the uninstaller they name isn't on this Mac.") == true)
         #expect(said?.contains("uninstall_gp.sh") == false)
