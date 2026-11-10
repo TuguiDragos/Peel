@@ -1144,6 +1144,36 @@ struct CommandLineTests {
         #expect(collected.notes.contains("While it stays, none of its files moves."))
     }
 
+    @Test func aDryRunAndTheLeftoversSayTheAppStaysWhileAProgramFromItRuns() async throws {
+        let directory = try TemporaryDirectory()
+        let info: [String: Any] = ["CFBundleIdentifier": "org.example.busy", "CFBundleName": "Busy"]
+        _ = try directory.file(
+            "Busy.app/Contents/Info.plist",
+            contents: try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+        )
+        let program = try directory.runningProgram("Busy.app/Contents/MacOS/Busy")
+        defer { program.terminate() }
+        let bundle = directory.url.appending(path: "Busy.app").path(percentEncoded: false)
+        let uninstall = try #require(
+            try PeelCommand.parseAsRoot(["uninstall", bundle, "--dry-run", "--json"]) as? UninstallCommand
+        )
+        let leftovers = try #require(try PeelCommand.parseAsRoot(["leftovers", bundle, "--json"]) as? LeftoversCommand)
+        let plan = Output.Collected()
+        let listed = Output.Collected()
+
+        try await Homebrew.$standIn.withValue(directory.url.appending(path: "no-brew")) {
+            try await Output.$collected.withValue(plan) { try await uninstall.run() }
+            try await Output.$collected.withValue(listed) { try await leftovers.run() }
+        }
+
+        let report = try #require(JSONSerialization.jsonObject(with: Data(plan.output.utf8)) as? [String: Any])
+        let items = try #require(report["items"] as? [[String: Any]])
+        #expect((report["appStays"] as? String)?.hasPrefix("Peel won't move") == true)
+        #expect(items.first?["stays"] as? String == "held-open")
+        let list = try #require(JSONSerialization.jsonObject(with: Data(listed.output.utf8)) as? [String: Any])
+        #expect((list["appStays"] as? String)?.hasPrefix("Peel won't move") == true)
+    }
+
     /// What stays is counted where the user can see it, and a size nobody knows is never added up as zero.
     @Test func countsWhatItKeepsForReviewAndWhatItCouldNotMeasure() {
         let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")

@@ -500,7 +500,7 @@ public struct TrashService: Sendable {
     /// Why each of `apps` would not move now in an uninstall, by the checks its move makes: the guard, History, a lock
     /// on the bundle, which nobody can rename, root included, and the programs holding it, unless only the app's own
     /// background programs do, which the move stops first. An app missing from the answer would move.
-    func refusalsNow(
+    package func refusalsNow(
         ofApps apps: [URL],
         lettingTheirProgramsRun running: Set<URL>
     ) async -> [URL: TrashFailure.Reason] {

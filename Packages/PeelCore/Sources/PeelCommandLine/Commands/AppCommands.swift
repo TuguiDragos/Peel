@@ -210,12 +210,19 @@ struct LeftoversCommand: AsyncParsableCommand {
             )
         }
         let leftovers = uninstallation.scan.leftovers.filter { all || $0.match.isRecommended }
-        let stays = UninstallCommand.whyItStays(uninstallation)
+        // In the order `peel uninstall` finds it.
+        var stays = await UninstallCommand.whileRunning(target, among: apps)?.description
+            ?? UninstallCommand.whyItStays(uninstallation)?.description
+        if stays == nil, let refusal = await UninstallCommand.refusalOfTheMove(
+            of: uninstallation, by: TrashService(exclusions: exclusions)
+        ) {
+            stays = UninstallCommand.wontMove(target, because: refusal)
+        }
 
         // Printed in JSON mode too, on standard error, so a script that reads an empty list still learns what
         // was left out or couldn't be checked.
         if let stays {
-            Output.note("\(stays.description) While it stays, `peel uninstall` moves none of its files.")
+            Output.note("\(stays) While it stays, `peel uninstall` moves none of its files.")
         }
         if uninstallation.isAppInTheTrash {
             Output.note(Self.inTheTrash(target))
@@ -226,7 +233,7 @@ struct LeftoversCommand: AsyncParsableCommand {
             let appSize = uninstallation.isAppMeasured ? uninstallation.appSize : nil
             let report = Report(
                 app: target, appSize: appSize, leftovers: leftovers, scan: uninstallation.scan,
-                appStays: stays?.description
+                appStays: stays
             )
             try Output.json(report)
             return
@@ -473,7 +480,7 @@ struct UninstallCommand: AsyncParsableCommand {
         if let failure = await whileRunning(target, among: apps) { throw failure }
     }
 
-    private static func whileRunning(_ target: InstalledApp, among apps: [InstalledApp]) async -> CommandFailure? {
+    static func whileRunning(_ target: InstalledApp, among apps: [InstalledApp]) async -> CommandFailure? {
         let belonging = await RunningCopies.belonging(to: target, among: RunningCopies.current, installedApps: apps)
         guard !belonging.isEmpty else { return nil }
         let jobs = await RunningCopies.keptRunningByJobs(inside: [target.url])
@@ -482,6 +489,20 @@ struct UninstallCommand: AsyncParsableCommand {
         let identifiers = Set(running.compactMap { $0.bundleIdentifier ?? $0.bundleURL.map(Output.path) })
             .sorted().map(Output.plain)
         return CommandFailure("Quit \(Output.plain(target.name)) first. Still running: \(identifiers.joined(separator: ", ")).")
+    }
+
+    /// Why the move would leave the app itself where it is now, by every check it makes, a program running from the
+    /// bundle among them, or nil when it would move.
+    static func refusalOfTheMove(
+        of uninstallation: Uninstallation, by service: TrashService
+    ) async -> TrashFailure.Reason? {
+        let app = uninstallation.app.url
+        let running: Set<URL> = uninstallation.uninstallsItself?.letsItsProgramsRun == true ? [app] : []
+        return await service.refusalsNow(ofApps: [app], lettingTheirProgramsRun: running)[app]
+    }
+
+    static func wontMove(_ app: InstalledApp, because reason: TrashFailure.Reason) -> String {
+        "Peel won't move \(Output.plain(Output.path(app.url))): \(reason.summary)."
     }
 
     /// Whether the app's icon comes out of the Dock: once the app itself is in the Trash, unless `--keep-in-dock`.
@@ -732,9 +753,13 @@ struct UninstallCommand: AsyncParsableCommand {
         if let note = UnreadableHistory.note() {
             Output.note(note)
         }
-        // The removal guard judges each item before printing, so the list shows what the move will really do.
-        let plan = UninstallPlan.make(uninstallation, keepLeftovers: keepLeftovers, refusal: service.refusal(of:))
-        let wontMove = plan.appStays.map { "Peel won't move \(Output.plain(Output.path(target.url))): \($0.summary)." }
+        // The removal guard judges each item before printing, and the app gets every check its move makes, so the list
+        // shows what the move will really do.
+        let appRefusal = await Self.refusalOfTheMove(of: uninstallation, by: service)
+        let plan = UninstallPlan.make(uninstallation, keepLeftovers: keepLeftovers) { url in
+            url == target.url ? appRefusal : service.refusal(of: url)
+        }
+        let wontMove = plan.appStays.map { Self.wontMove(target, because: $0) }
         if let wontMove {
             guard dryRun else {
                 _ = await plan.record(TrashResult(), from: target.name)
@@ -773,7 +798,7 @@ struct UninstallCommand: AsyncParsableCommand {
             if output.json {
                 let report = Self.report(
                     app: target, plan: plan, result: nil, privacy: nil, scan: uninstallation.scan,
-                    appStays: excluded ?? access ?? wontMove
+                    appStays: excluded ?? running ?? access ?? wontMove
                 )
                 try Output.json(report)
             } else if !plan.moving.isEmpty {
