@@ -262,6 +262,16 @@ public enum AppCatalog {
         }
     }
 
+    /// Which of `urls` are surely gone, read on a thread of its own within `FileSize.budget`, since an app shown from
+    /// outside the folders can be on a disk that stopped answering: none, when it doesn't answer in time.
+    public static func gone(
+        _ urls: [URL],
+        isMissing: @escaping @Sendable (URL) -> Bool = { $0.isMissing }
+    ) async -> Set<URL> {
+        guard !urls.isEmpty else { return [] }
+        return await SlowRead.answer(within: FileSize.budget) { _ in Set(urls.filter(isMissing)) } ?? []
+    }
+
     /// Sorts `apps` by name, then by path. This is the order the list is kept in, for any code that adds to it.
     public static func sorted(_ apps: [InstalledApp]) -> [InstalledApp] {
         apps.sorted(by: byName)

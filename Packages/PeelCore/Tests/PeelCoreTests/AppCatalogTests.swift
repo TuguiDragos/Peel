@@ -4,6 +4,21 @@ import Synchronization
 import Testing
 
 struct AppCatalogTests {
+    @MainActor @Test func anAppShownFromElsewhereIsLookedForOffTheMainThread() async throws {
+        let directory = try TemporaryDirectory()
+        let there = try directory.directory("Elsewhere/There.app")
+        let gone = directory.url.appending(path: "Elsewhere/Gone.app")
+        let lookedOnMain = Mutex<Bool?>(nil)
+
+        let found = await AppCatalog.gone([there, gone]) { url in
+            lookedOnMain.withLock { $0 = Thread.isMainThread }
+            return url.isMissing
+        }
+
+        #expect(found == [gone])
+        #expect(lookedOnMain.withLock { $0 } == false, "the window waits for a disk that may not answer")
+    }
+
     @Test func readsAFolderGivenAsALink() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("elsewhere/Example.app")

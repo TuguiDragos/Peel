@@ -280,12 +280,16 @@ final class AppLibrary {
         }
         let changes = folderChanges
         askedForReading = true
-        let found = await scanRun.run { [appFolders] in await AppCatalog.scan(choices: appFolders) }
+        let shown = revealed.map(\.url)
+        let read = await scanRun.run { [appFolders] in
+            (await AppCatalog.scan(choices: appFolders), await AppCatalog.gone(shown))
+        }
+        let found = read?.0
         if !scanRun.isRunning { askedForReading = false }
         if let found {
             showFolders(of: found, readSince: changes)
             keepUnreadable(of: found)
-            adopt(found.apps)
+            adopt(found.apps, vanished: read?.1 ?? [])
             // Launch does for this reading what `followChanges` does for the others.
             followedRevision = revision
         }
@@ -358,13 +362,16 @@ final class AppLibrary {
         await firstReading?.value
         lastRead = .now
         let changes = folderChanges
-        let read = await scanRun.run { [appFolders] in await AppCatalog.scan(choices: appFolders) }
+        let shown = revealed.map(\.url)
+        let read = await scanRun.run { [appFolders] in
+            (await AppCatalog.scan(choices: appFolders), await AppCatalog.gone(shown))
+        }
         if !scanRun.isRunning { askedForReading = false }
-        guard let scan = read else { return }
+        guard case let (scan, vanished)? = read else { return }
         showFolders(of: scan, readSince: changes)
         keepUnreadable(of: scan)
         let found = scan.apps
-        let listed = AppCatalog.sorted(found + stillThere(revealed, beside: found))
+        let listed = AppCatalog.sorted(found + stillThere(revealed, beside: found, vanished: vanished))
         guard listed != apps else { return }
         guard !AppCatalog.listsTheSameApps(listed, as: apps) else {
             apps = listed
@@ -373,7 +380,7 @@ final class AppLibrary {
             return
         }
         let gone = Set(apps.compactMap(\.bundleIdentifier)).subtracting(listed.compactMap(\.bundleIdentifier))
-        for app in adopt(found) { changedBuilds[app.id] = app }
+        for app in adopt(found, vanished: vanished) { changedBuilds[app.id] = app }
         // Remembered whenever the list changes, so an app installed and removed between two visits to Orphaned
         // Files is still known. Done last, so nothing above is left half done while this waits.
         await appMemory.remember(found, gone: gone)
@@ -447,8 +454,8 @@ final class AppLibrary {
     /// about an app that is gone or a build that was replaced, so an app removed and installed again never
     /// shows the old copy's size or update status. Both `load()` and `refresh()` come through here.
     @discardableResult
-    private func adopt(_ found: [InstalledApp]) -> [InstalledApp] {
-        revealed = stillThere(revealed, beside: found)
+    private func adopt(_ found: [InstalledApp], vanished: Set<URL>) -> [InstalledApp] {
+        revealed = stillThere(revealed, beside: found, vanished: vanished)
         appsInATrash = Set(revealed.filter { TrashService.isInsideATrash($0.url) }.map(\.id))
         let listed = AppCatalog.sorted(found + revealed)
         let previous = Dictionary(apps.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
@@ -479,12 +486,15 @@ final class AppLibrary {
         return changed
     }
 
-    /// The revealed apps that are still on disk and that the new reading of the folders did not find.
-    private func stillThere(_ revealed: [InstalledApp], beside found: [InstalledApp]) -> [InstalledApp] {
+    /// The revealed apps the new reading of the folders did not find, but for those `vanished` says are gone, which
+    /// was read off the main thread: one revealed since then is still there.
+    private func stillThere(
+        _ revealed: [InstalledApp],
+        beside found: [InstalledApp],
+        vanished: Set<URL>
+    ) -> [InstalledApp] {
         let listed = Set(found.map(\.id))
-        return revealed.filter {
-            !listed.contains($0.id) && FileManager.default.fileExists(atPath: $0.url.path(percentEncoded: false))
-        }
+        return revealed.filter { !listed.contains($0.id) && !vanished.contains($0.url) }
     }
 
     /// Restores the update answers saved by earlier runs, for apps still at the build they describe.
@@ -1173,10 +1183,11 @@ final class AppLibrary {
             return existing.id
         }
         guard AppInspector.isNamedAsAnApp(bundleURL), let app = await Self.inspect(bundleURL) else { return nil }
+        let vanished = await AppCatalog.gone(revealed.map(\.url))
         // Checked again, since two drops of the same bundle can both get this far before either is listed.
         if !apps.contains(where: { $0.id == app.id }) {
             revealed.append(app)
-            adopt(apps.filter { listed in !revealed.contains { $0.id == listed.id } })
+            adopt(apps.filter { listed in !revealed.contains { $0.id == listed.id } }, vanished: vanished)
         }
         return app.id
     }
