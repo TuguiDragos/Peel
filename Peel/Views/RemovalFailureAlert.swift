@@ -185,7 +185,7 @@ struct RemovalFailureAlert: ViewModifier {
         let references = outcome.shellReferences
         guard !references.isEmpty else { return [] }
         let places = references.map { String(localized: "\($0.file.abbreviatedPath), line \($0.line)") }
-        return [String(localized: "Your shell startup files still name what moved, at \(naming(places)). Peel reads these files and never changes them.")]
+        return [String(localized: "Your shell startup files still name what moved, at \(naming(places)). If a new Terminal window shows an error, remove or change those lines: Peel reads these files and never changes them.")]
     }
 
     private static func driverLines(_ outcome: RemovalOutcome) -> [String] {

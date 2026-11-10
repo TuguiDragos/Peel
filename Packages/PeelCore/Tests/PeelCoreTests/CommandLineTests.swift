@@ -233,6 +233,16 @@ struct CommandLineTests {
         #expect(UninstallCommand.startsFromTheTrashNote(for: app, after: TrashResult()) == nil)
     }
 
+    /// A line that runs what moved fails in every new shell, so the note says what the person can do about it.
+    @Test func theShellNoteSaysWhatToDoWithTheLines() {
+        let references = [
+            ShellReferences.Reference(file: URL(filePath: "/Users/me/.zshrc"), line: 12),
+            ShellReferences.Reference(file: URL(filePath: "/Users/me/.zprofile"), line: 3),
+        ]
+
+        #expect(UninstallCommand.shellNote(for: references) == "Your shell startup files still name what moved, at /Users/me/.zshrc:12, /Users/me/.zprofile:3. If a new shell shows an error, remove or change those lines: Peel reads them and never changes them.")
+    }
+
     /// A dry run moves nothing, so what would stop the move now, an app still running or a permission missing, is
     /// said beside the plan instead of standing in for it.
     @Test func aDryRunShowsThePlanAndSaysWhatWouldStopTheMove() throws {

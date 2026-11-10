@@ -534,6 +534,12 @@ struct UninstallCommand: AsyncParsableCommand {
         }
     }
 
+    /// The lines of the shell startup files that still name what moved, which the person edits and Peel never does.
+    static func shellNote(for references: [ShellReferences.Reference]) -> String {
+        let places = references.map { "\(Output.plain(Output.path($0.file))):\($0.line)" }.joined(separator: ", ")
+        return "Your shell startup files still name what moved, at \(places). If a new shell shows an error, remove or change those lines: Peel reads them and never changes them."
+    }
+
     /// What macOS still starts from the Trash once the app moved: its background items, at each login.
     static func startsFromTheTrashNote(for app: InstalledApp, after result: TrashResult) -> String? {
         guard result.startsFromTheTrash.contains(app.url) else { return nil }
@@ -901,8 +907,7 @@ struct UninstallCommand: AsyncParsableCommand {
             Output.note(Self.dockStayedNote(for: target, reason: dockIconStayed))
         }
         if !references.isEmpty {
-            let places = references.map { "\(Output.plain(Output.path($0.file))):\($0.line)" }.joined(separator: ", ")
-            Output.note("Your shell startup files still name what moved, at \(places). Peel reads them and never changes them.")
+            Output.note(Self.shellNote(for: references))
         }
         if !recorded {
             Output.note("Peel couldn't write this to its History, so drag these back out of the Trash in Finder if you need to.")

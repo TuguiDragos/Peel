@@ -251050,108 +251050,108 @@
         }
       }
     },
-    "Your shell startup files still name what moved, at %@. Peel reads these files and never changes them." : {
+    "Your shell startup files still name what moved, at %@. If a new Terminal window shows an error, remove or change those lines: Peel reads these files and never changes them." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Soubory, které váš shell načítá při spuštění, stále odkazují na to, co se přesunulo: %@. Peel tyto soubory jen čte a nikdy je nemění."
+            "value" : "Soubory, které váš shell načítá při spuštění, stále odkazují na to, co se přesunulo: %@. Pokud nové okno Terminálu zobrazí chybu, tyto řádky odstraňte nebo upravte: Peel tyto soubory jen čte a nikdy je nemění."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Startdateien deiner Shell verweisen noch auf das, was verschoben wurde, und zwar in %@. Peel liest diese Dateien nur und ändert sie nie."
+            "value" : "Die Startdateien deiner Shell verweisen noch auf das, was verschoben wurde, und zwar in %@. Wenn ein neues Terminal-Fenster einen Fehler anzeigt, entferne oder ändere diese Zeilen: Peel liest diese Dateien nur und ändert sie nie."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Los archivos de inicio de tu shell siguen mencionando lo que se ha trasladado, en %@. Peel lee estos archivos y nunca los cambia."
+            "value" : "Los archivos de inicio de tu shell siguen mencionando lo que se ha trasladado, en %@. Si una ventana nueva de Terminal muestra un error, elimina o cambia esas líneas: Peel lee estos archivos y nunca los cambia."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les fichiers que votre shell lit à son démarrage font encore référence à ce qui a été déplacé, dans %@. Peel lit ces fichiers et ne les modifie jamais."
+            "value" : "Les fichiers que votre shell lit à son démarrage font encore référence à ce qui a été déplacé, dans %@. Si une nouvelle fenêtre de Terminal affiche une erreur, supprimez ou modifiez ces lignes : Peel lit ces fichiers et ne les modifie jamais."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I file di avvio della tua shell fanno ancora riferimento a ciò che è stato spostato, in %@. Peel legge questi file e non li modifica mai."
+            "value" : "I file di avvio della tua shell fanno ancora riferimento a ciò che è stato spostato, in %@. Se una nuova finestra di Terminale mostra un errore, rimuovi o modifica quelle righe: Peel legge questi file e non li modifica mai."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "シェルの起動時に読み込まれるファイルには、ゴミ箱に入れた項目のパスがまだ残っています（%@）。Peelはこれらのファイルを読み取るだけで、変更することは決してありません。"
+            "value" : "シェルの起動時に読み込まれるファイルには、ゴミ箱に入れた項目のパスがまだ残っています（%@）。新しいターミナルウインドウにエラーが表示される場合は、それらの行を削除または変更してください。Peelはこれらのファイルを読み取るだけで、変更することは決してありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "셸 시작 파일 %@에 휴지통으로 이동한 항목의 경로가 아직 남아 있습니다. Peel은 이 파일을 읽기만 하며 절대 변경하지 않습니다."
+            "value" : "셸 시작 파일 %@에 휴지통으로 이동한 항목의 경로가 아직 남아 있습니다. 새 터미널 윈도우에 오류가 표시되면 해당 줄을 제거하거나 변경하십시오. Peel은 이 파일을 읽기만 하며 절대 변경하지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De opstartbestanden van je shell verwijzen nog naar wat is verplaatst: %@. Peel leest deze bestanden en wijzigt ze nooit."
+            "value" : "De opstartbestanden van je shell verwijzen nog naar wat is verplaatst: %@. Als een nieuw Terminal-venster een fout toont, verwijder of wijzig die regels dan: Peel leest deze bestanden en wijzigt ze nooit."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pliki startowe Twojej powłoki nadal odwołują się do tego, co przeniesiono do Kosza, w następujących miejscach: %@. Peel tylko odczytuje te pliki i nigdy ich nie zmienia."
+            "value" : "Pliki startowe Twojej powłoki nadal odwołują się do tego, co przeniesiono do Kosza, w następujących miejscach: %@. Jeśli nowe okno Terminala pokaże błąd, usuń lub zmień te wiersze: Peel tylko odczytuje te pliki i nigdy ich nie zmienia."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Os arquivos de inicialização do seu shell ainda apontam para o que foi movido, em %@. O Peel lê esses arquivos e nunca os altera."
+            "value" : "Os arquivos de inicialização do seu shell ainda apontam para o que foi movido, em %@. Se uma nova janela do Terminal mostrar um erro, remova ou altere essas linhas: o Peel lê esses arquivos e nunca os altera."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fișierele pe care shellul dvs. le citește la pornire încă fac referire la ce s‑a mutat, în %@. Peel citește aceste fișiere și nu le modifică niciodată."
+            "value" : "Fișierele pe care shellul dvs. le citește la pornire încă fac referire la ce s‑a mutat, în %@. Dacă o fereastră nouă din Terminal afișează o eroare, eliminați sau modificați acele linii: Peel citește aceste fișiere și nu le modifică niciodată."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пути к тому, что перемещено в Корзину, еще остались в файлах, которые Ваша оболочка читает при запуске: %@. Peel только читает эти файлы и никогда их не меняет."
+            "value" : "Пути к тому, что перемещено в Корзину, еще остались в файлах, которые Ваша оболочка читает при запуске: %@. Если в новом окне Терминала появится ошибка, удалите или измените эти строки: Peel только читает эти файлы и никогда их не меняет."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kommandotolkens startfiler hänvisar fortfarande till det som flyttades, i %@. Peel läser de här filerna men ändrar dem aldrig."
+            "value" : "Kommandotolkens startfiler hänvisar fortfarande till det som flyttades, i %@. Om ett nytt Terminal-fönster visar ett fel tar du bort eller ändrar de raderna: Peel läser de här filerna men ändrar dem aldrig."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kabuğunuzun başlangıç dosyaları hâlâ Çöp Sepeti’ne taşınanlara işaret ediyor: %@. Peel bu dosyaları yalnızca okur, hiçbir zaman değiştirmez."
+            "value" : "Kabuğunuzun başlangıç dosyaları hâlâ Çöp Sepeti’ne taşınanlara işaret ediyor: %@. Yeni bir Terminal penceresi hata gösterirse bu satırları silin veya değiştirin: Peel bu dosyaları yalnızca okur, hiçbir zaman değiştirmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Файли, які ваша оболонка читає під час запуску, досі посилаються на те, що переміщено: %@. Peel лише читає ці файли й ніколи їх не змінює."
+            "value" : "Файли, які ваша оболонка читає під час запуску, досі посилаються на те, що переміщено: %@. Якщо нове вікно Термінала показує помилку, вилучіть або змініть ці рядки: Peel лише читає ці файли й ніколи їх не змінює."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你的shell启动文件仍引用已移走的项目，位于%@。Peel只会读取这些文件，绝不会更改它们。"
+            "value" : "你的shell启动文件仍引用已移走的项目，位于%@。如果新的“终端”窗口显示错误，请移除或更改这些行：Peel只会读取这些文件，绝不会更改它们。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你的Shell啟動檔案仍指向已移動的項目，位於%@。Peel會讀取這些檔案，但絕不會更改它們。"
+            "value" : "你的Shell啟動檔案仍指向已移動的項目，位於%@。如果新的「終端機」視窗顯示錯誤，請移除或更改這些行：Peel會讀取這些檔案，但絕不會更改它們。"
           }
         }
       }

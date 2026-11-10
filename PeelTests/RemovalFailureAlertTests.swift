@@ -78,6 +78,18 @@ struct RemovalFailureAlertTests {
         #expect(RemovalFailureAlert.details(for: outcome).components(separatedBy: "\n\n").contains(line ?? ""))
     }
 
+    /// A line that runs what moved fails in every new Terminal window, so the alert says what to do about it.
+    @Test func theShellLineSaysWhatToDoWithTheLines() {
+        let outcome = RemovalOutcome()
+        let file = URL(filePath: "/Users/someone/.zshrc")
+        outcome.report(TrashResult(), shellReferences: [ShellReferences.Reference(file: file, line: 12)])
+        let place = String(localized: "\(file.abbreviatedPath), line \(12)")
+
+        #expect(RemovalFailureAlert.message(for: outcome).contains(String(
+            localized: "Your shell startup files still name what moved, at \(place). If a new Terminal window shows an error, remove or change those lines: Peel reads these files and never changes them."
+        )))
+    }
+
     @Test func saysThatMacOSStartsAMovedAppsItemsFromTheTrashOnEveryMacOS() {
         let outcome = RemovalOutcome()
         outcome.report(TrashResult(), startingFromTheTrash: ["Example"])
