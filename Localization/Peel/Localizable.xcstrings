@@ -16648,6 +16648,112 @@
         }
       }
     },
+    "Add the line below to your shell’s startup file to use `peel` from this account, then type `peel --help` in Terminal to see what it can do." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přidejte níže uvedený řádek do spouštěcího souboru svého shellu, abyste mohli `peel` používat z tohoto účtu, a pak zadáním `peel --help` v Terminálu zjistíte, co umí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Füge die Zeile unten zur Startdatei deiner Shell hinzu, um `peel` in diesem Benutzeraccount zu verwenden, und gib dann `peel --help` im Terminal ein, um zu sehen, was es kann."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade la línea de abajo al archivo de inicio de tu shell para usar `peel` desde esta cuenta y luego escribe `peel --help` en Terminal para ver lo que puede hacer."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez la ligne ci-dessous au fichier de démarrage de votre shell pour utiliser `peel` depuis ce compte, puis saisissez `peel --help` dans Terminal pour voir ce qu’il sait faire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi la riga qui sotto al file di avvio della tua shell per usare `peel` da questo account, poi digita `peel --help` in Terminale per vedere cosa può fare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアカウントで`peel`を使うには、以下の行をシェルの起動ファイルに追加してください。その後、ターミナルで`peel --help`と入力すると、できることを確認できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 계정에서 `peel`을 사용하려면 셸의 시작 파일에 아래 줄을 추가하십시오. 그런 다음 터미널에서 `peel --help`를 입력하면 이 도구로 할 수 있는 작업을 볼 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg de regel hieronder toe aan het opstartbestand van je shell om `peel` vanuit deze account te kunnen gebruiken, en typ daarna `peel --help` in Terminal om te zien wat het kan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dodaj poniższy wiersz do pliku startowego swojej powłoki, aby używać `peel` z tego konta, a potem wpisz `peel --help` w Terminalu, aby zobaczyć, co potrafi."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione a linha abaixo ao arquivo de inicialização do seu shell para usar o `peel` nesta conta e depois digite `peel --help` no Terminal para ver o que ele pode fazer."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adăugați linia de mai jos în fișierul de pornire al shellului dvs. pentru a folosi `peel` din acest cont, apoi tastați `peel --help` în Terminal pentru a vedea ce poate face."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы использовать `peel` в этой учетной записи, добавьте строку ниже в файл, который Ваша оболочка читает при запуске. Затем введите `peel --help` в Терминале, чтобы узнать, что он умеет."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lägg till raden nedan i kommandotolkens startfil för att kunna använda `peel` från det här kontot, och skriv sedan `peel --help` i Terminal för att se vad det kan göra."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` aracını bu hesaptan kullanmak için aşağıdaki satırı kabuğunuzun başlangıç dosyasına ekleyin, ardından neler yapabildiğini görmek için Terminal’de `peel --help` yazın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додайте рядок нижче у файл, який ваша оболонка читає під час запуску, щоб користуватися `peel` у цьому обліковому записі, а потім введіть `peel --help` у Терміналі, щоб побачити, що вона вміє."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将下面这一行添加到你的shell启动文件中，以便在此账户中使用`peel`，然后在“终端”中键入`peel --help`查看它能做什么。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將下面這一行加入你的Shell啟動檔案，即可在此帳號中使用`peel`，然後在「終端機」中輸入`peel --help`查看它能做什麼。"
+          }
+        }
+      }
+    },
     "Add this line to %@" : {
       "localizations" : {
         "cs" : {
@@ -267775,6 +267881,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "`ls`會以「終端機」主題的顏色顯示檔案夾、連結和程式。"
+          }
+        }
+      }
+    },
+    "`peel` is on your path. Type `peel --help` in Terminal to see what it can do." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` je ve vaší proměnné PATH. Zadáním `peel --help` v Terminálu zjistíte, co umí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` liegt in deinem Suchpfad. Gib `peel --help` im Terminal ein, um zu sehen, was es kann."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` está en la ruta de búsqueda de tu shell. Escribe `peel --help` en Terminal para ver lo que puede hacer."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` se trouve dans votre PATH. Saisissez `peel --help` dans Terminal pour voir ce qu’il sait faire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` è nel tuo percorso. Digita `peel --help` in Terminale per vedere cosa può fare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel`はパスに含まれています。ターミナルで`peel --help`と入力すると、できることを確認できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel`이 PATH에 포함되어 있습니다. 터미널에서 `peel --help`를 입력하면 이 도구로 할 수 있는 작업을 볼 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` staat in je zoekpad. Typ `peel --help` in Terminal om te zien wat het kan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` jest w Twojej ścieżce. Wpisz `peel --help` w Terminalu, aby zobaczyć, co potrafi."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O `peel` está no seu PATH. Digite `peel --help` no Terminal para ver o que ele pode fazer."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` se află în calea dvs. de căutare. Tastați `peel --help` în Terminal pentru a vedea ce poate face."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` есть в Вашем PATH. Введите `peel --help` в Терминале, чтобы узнать, что он умеет."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` finns i din sökväg. Skriv `peel --help` i Terminal för att se vad det kan göra."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` aracı arama yolunuzda bulunuyor. Neler yapabildiğini görmek için Terminal’de `peel --help` yazın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` є у вашому шляху пошуку команд. Введіть `peel --help` у Терміналі, щоб побачити, що вона вміє."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel`已在你的路径中。在“终端”中键入`peel --help`即可查看它能做什么。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel`已在你的執行路徑中。請在「終端機」中輸入`peel --help`查看它能做什麼。"
           }
         }
       }

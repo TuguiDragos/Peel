@@ -182,7 +182,19 @@ private func state(_ title: LocalizedStringResource, _ symbol: String, _ tint: C
     .background(.quaternary, in: .capsule)
 }
 
-private struct GeneralSettingsView: View {
+struct GeneralSettingsView: View {
+    /// What the command-line tool's note says to do, as the row stands: nothing to run once `peel` is on the path,
+    /// and a line for the shell on an account that isn't an administrator's.
+    static func commandLineNote(installed: Bool, standardAccount: Bool) -> LocalizedStringResource {
+        if installed {
+            return "`peel` is on your path. Type `peel --help` in Terminal to see what it can do."
+        }
+        if standardAccount {
+            return "Add the line below to your shell’s startup file to use `peel` from this account, then type `peel --help` in Terminal to see what it can do."
+        }
+        return "Run the command in Terminal to use `peel` from anywhere, then type `peel --help` to see what it can do."
+    }
+
     @State private var commandLine = HomeModel.commandLineStanding
     private var installCommand: String? { SettingsKey.commandLineInstallCommand(for: commandLine) }
     private static let place = CommandLineTool.place()
@@ -367,8 +379,10 @@ private struct GeneralSettingsView: View {
                         CopyButton(text: installCommand)
                     }
                 } label: {
-                    titled("Command-line tool",
-                           "Run the command in Terminal to use `peel` from anywhere, then type `peel --help` to see what it can do.")
+                    titled(
+                        "Command-line tool",
+                        Self.commandLineNote(installed: commandLine == .installed, standardAccount: isStandardAccount)
+                    )
                 }
                 switch Self.place {
                 case .applications:
