@@ -593,7 +593,7 @@ public struct OrphanScanner: Sendable {
     /// there or may be, on a disk that isn't connected or where Peel can't look, or into no app at all. A place an
     /// app Peel remembers had on another disk is judged by that disk's volume, wherever it is mounted now.
     static func goneApp(behind link: URL, among linkedApps: LinkedApps = LinkedApps()) -> URL? {
-        guard let components = link.leadsTo?.pathComponents else { return nil }
+        guard let components = link.leadsToInTheEnd?.pathComponents else { return nil }
         guard let app = components.firstIndex(where: { $0.hasSuffix(".app") }) else { return nil }
         let bundle = URL(
             filePath: NSString.path(withComponents: Array(components[...app])),

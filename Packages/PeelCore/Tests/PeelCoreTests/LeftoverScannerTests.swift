@@ -1817,6 +1817,43 @@ struct LeftoverScannerTests {
         #expect(links.filter { !$0.match.isRecommended }.isEmpty)
     }
 
+    @Test func followsALinkToWhereTheDiskSaysItLeads() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: directory.url.appending(path: "root/Applications/Tunewell.app", directoryHint: .isDirectory),
+            bundleIdentifier: "net.example.client",
+            name: "Tunewell"
+        )
+        try directory.file("root/Applications/Tunewell.app/Contents/MacOS/tunewell", bytes: 1_000)
+        let bin = try directory.directory("root/usr/local/bin")
+        let homebrew = try directory.directory("root/opt/homebrew/bin")
+        func link(_ name: String, in folder: URL, to destination: URL) throws {
+            try FileManager.default.createSymbolicLink(
+                atPath: folder.appending(path: name).path(percentEncoded: false),
+                withDestinationPath: destination.path(percentEncoded: false)
+            )
+        }
+        try link("tunewell", in: homebrew, to: app.url.appending(path: "Contents/MacOS/tunewell"))
+        try link("chained", in: bin, to: homebrew.appending(path: "tunewell"))
+        try link("spelled", in: bin, to: directory.url.appending(path: "root/applications/TUNEWELL.APP/contents/macos/tunewell"))
+        let isCaseSensitive = try directory.url.resourceValues(forKeys: [.volumeSupportsCaseSensitiveNamesKey])
+            .volumeSupportsCaseSensitiveNames == true
+        let spelledApp = InstalledApp(
+            url: directory.url.appending(path: "root/APPLICATIONS/Tunewell.app", directoryHint: .isDirectory),
+            bundleIdentifier: "net.example.client",
+            name: "Tunewell"
+        )
+        func links(for app: InstalledApp) async -> Set<String> {
+            let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+            return Set(scan.leftovers.filter { $0.match.reason == .linksToTheApp }.map(\.url.lastPathComponent))
+        }
+
+        #expect(await links(for: app) == (isCaseSensitive ? ["tunewell", "chained"] : ["tunewell", "chained", "spelled"]))
+        if !isCaseSensitive {
+            #expect(await links(for: spelledApp) == ["tunewell", "chained", "spelled"])
+        }
+    }
+
     /// An app put in an Applications folder through a link leaves the link behind once it goes, so a link there that
     /// leads to the app is the app's, as one in `/usr/local/bin` is. Nothing there that isn't a link is ever claimed: a
     /// folder named like the app, or a link to another app.

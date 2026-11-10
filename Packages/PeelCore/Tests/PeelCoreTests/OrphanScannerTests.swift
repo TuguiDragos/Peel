@@ -2072,6 +2072,24 @@ struct OrphanScannerTests {
         #expect(scan.groups.first?.items.count == 3)
     }
 
+    @Test func listsALinkThatLeadsIntoAnAppThatIsGoneThroughAnother() async throws {
+        let directory = try TemporaryDirectory()
+        let homebrew = try directory.directory("root/opt/homebrew/bin")
+        let bin = try directory.directory("root/usr/local/bin")
+        try FileManager.default.createSymbolicLink(
+            at: homebrew.appending(path: "gone"),
+            withDestinationURL: directory.url.appending(path: "root/Applications/Gone.app/Contents/MacOS/gone")
+        )
+        try FileManager.default.createSymbolicLink(
+            at: bin.appending(path: "gone"), withDestinationURL: homebrew.appending(path: "gone")
+        )
+
+        let scan = await scanner(in: directory).scan(installedApps: installed)
+
+        #expect(scan.groups.map(\.identifier) == ["Gone"])
+        #expect(scan.groups.first?.items.count == 2)
+    }
+
     @Test func aLinkIntoAnAppOnADiskThatIsNotConnectedIsNotListed() async throws {
         let directory = try TemporaryDirectory()
         let bin = try directory.directory("root/opt/homebrew/bin")

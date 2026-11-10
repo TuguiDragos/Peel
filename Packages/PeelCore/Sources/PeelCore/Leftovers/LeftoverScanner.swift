@@ -97,13 +97,14 @@ public struct LeftoverScanner: Sendable {
 
     @concurrent
     func scan(_ app: InstalledApp, matcher: LeftoverMatcher) async -> LeftoverScan {
+        // Spelled as on disk, as the end of a link is, so the two compare.
+        let bundle = PathPattern.comparablePath(of: PathPattern.canonicalWithoutOpening(app.url))
         let results = await withTaskGroup(of: (location: SearchLocation, result: LocationResult).self) { group in
             // Safari's web app container is read only for one of its web apps: anything inside another app's
             // container makes macOS ask for its data unless Peel has Full Disk Access.
             for location in environment.locations where location.kind != .safariWebApps || app.isASafariWebApp {
                 let home = environment.homeDirectory.path(percentEncoded: false)
                 let root = environment.rootDirectory.path(percentEncoded: false)
-                let bundle = PathPattern.comparablePath(of: app.url)
                 _ = group.addTaskUnlessCancelled {
                     [exclusions, measure, refuses, installedByApple, nestedFolderLimit] in
                     (location, await Self.scan(
@@ -644,7 +645,7 @@ public struct LeftoverScanner: Sendable {
     /// A link or an alias that leads to the app or inside it is that app's, whatever it is called. One that leads
     /// anywhere else is not claimed.
     private static func leadsInside(_ bundle: String, link url: URL) -> LeftoverMatch? {
-        guard let target = url.leadsTo else { return nil }
+        guard let target = url.leadsToInTheEnd else { return nil }
         let path = PathPattern.comparablePath(of: target)
         guard PathComponents.isPath(path, atOrInside: bundle) else { return nil }
         let reason: MatchReason = path == bundle ? .leadsToTheApp : .linksToTheApp

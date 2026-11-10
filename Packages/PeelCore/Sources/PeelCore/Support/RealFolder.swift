@@ -74,6 +74,18 @@ extension URL {
         }
     }
 
+    /// Where a link or a Finder alias here leads in the end, as the disk names it: each link on the way followed, and
+    /// the place spelled as on disk without opening anything, or as the last link wrote it when nothing is there.
+    var leadsToInTheEnd: URL? {
+        guard var end = leadsTo else { return nil }
+        for _ in 0..<Int(MAXSYMLINKS) {
+            guard let next = try? FileManager.default.destinationOfSymbolicLink(atPath: end.path(percentEncoded: false))
+            else { break }
+            end = URL(filePath: next, relativeTo: end.deletingLastPathComponent()).standardizedFileURL
+        }
+        return PathPattern.canonicalWithoutOpening(end)
+    }
+
     /// Whether this is a package, such as an app.
     var isAPackage: Bool {
         (try? resourceValues(forKeys: [.isPackageKey]).isPackage) == true

@@ -163,6 +163,36 @@ struct HomebrewReceiptTests {
         #expect(bin.appending(path: "tool").isThere)
     }
 
+    @Test func forgettingACaskTakesTheLinksThatLeadIntoItThroughAnother() throws {
+        let installed = try Installed()
+        let gone = installed.directory.url.appending(path: "root/Applications/Gone.app", directoryHint: .isDirectory)
+        let cask = HomebrewPackage(
+            name: "example", kind: .cask, installedVersion: "1.0", appTargets: [PathPattern.comparablePath(of: gone)]
+        ).kept(inCaskroom: installed.caskroom).checkingWhatItInstalled()
+        let wrapper = try installed.directory.file("root/opt/homebrew/Caskroom/example/1.0/.homebrew-command-wrappers/example")
+        let homebrew = try installed.directory.directory("root/opt/homebrew/bin")
+        let bin = try installed.directory.directory("root/usr/local/bin")
+        try FileManager.default.createSymbolicLink(at: homebrew.appending(path: "example"), withDestinationURL: wrapper)
+        try FileManager.default.createSymbolicLink(
+            at: homebrew.appending(path: "gone"), withDestinationURL: gone.appending(path: "Contents/MacOS/gone")
+        )
+        try FileManager.default.createSymbolicLink(
+            at: bin.appending(path: "example"), withDestinationURL: homebrew.appending(path: "example")
+        )
+        try FileManager.default.createSymbolicLink(
+            at: bin.appending(path: "gone"), withDestinationURL: homebrew.appending(path: "gone")
+        )
+
+        let root = PathPattern.comparablePath(of: installed.directory.url.appending(path: "root"))
+        let items = HomebrewReceipt.items(of: cask, environment: installed.environment)
+            .map { String(PathPattern.comparablePath(of: $0).dropFirst(root.count)) }
+
+        #expect(Set(items) == [
+            "/opt/homebrew/Caskroom/example", "/opt/homebrew/bin/example", "/opt/homebrew/bin/gone",
+            "/usr/local/bin/example", "/usr/local/bin/gone",
+        ])
+    }
+
     @Test func aCaskWhoseAppIsBackIsNotForgotten() async throws {
         let installed = try Installed()
         let app = try installed.app("Example", identifier: "org.example.app")

@@ -39,14 +39,13 @@ public enum HomebrewReceipt {
         return await service.trash(items, usingHelperFor: Set(items.filter(FileAccess.requiresPrivilegesToRemove)))
     }
 
-    /// The links directly in `folder` that lead to `destination` or inside it, read without following them.
+    /// The links directly in `folder` that lead, in the end, to `destination` or inside it.
     static func links(in folder: URL, leadingInto destination: String) -> [URL] {
         let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
+        let place = PathPattern.comparablePath(of: PathPattern.canonicalWithoutOpening(URL(filePath: destination)))
         return names.sorted().map { folder.appending(path: $0) }.filter { link in
-            let path = link.path(percentEncoded: false)
-            guard let target = try? FileManager.default.destinationOfSymbolicLink(atPath: path) else { return false }
-            let resolved = URL(filePath: target, relativeTo: folder).standardizedFileURL
-            return PathComponents.isPath(PathPattern.comparablePath(of: resolved), inside: destination)
+            guard link.isSymbolicLink, let end = link.leadsToInTheEnd else { return false }
+            return PathComponents.isPath(PathPattern.comparablePath(of: end), inside: place)
         }
     }
 }
