@@ -11,8 +11,8 @@ struct SpaceStepTests {
 
     private static let step = "Remove a version with a newer one beside it by dragging its folder to the Trash in Finder, or with Microsoft’s .NET Uninstall Tool. Finder asks for an administrator’s password for a version in /usr/local."
 
+    @available(macOS 27, *)
     @Test func aLongStepBesideItsLabelShowsEveryLine() async {
-        guard #available(macOS 27, *) else { return }
         let frame = Frame()
         let page = List {
             Section {

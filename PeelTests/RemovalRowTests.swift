@@ -17,8 +17,8 @@ struct RemovalRowTests {
         return NSHostingView(rootView: row.frame(width: width)).fittingSize.height
     }
 
+    @available(macOS 27, *)
     @Test func aRowTooNarrowForItsColumnsIsAsTallAsItsSecondLineFromItsFirstLayout() {
-        guard #available(macOS 27, *) else { return }
         #expect(height(atWidth: 300) > height(atWidth: 900))
     }
 }

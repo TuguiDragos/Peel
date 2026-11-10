@@ -1448,7 +1448,7 @@ struct TrashServiceTests {
         #expect(await service.refusalsNow(ofApps: [folder], lettingTheirProgramsRun: []) == [folder: .peelRunsFromIt])
     }
 
-    @MainActor @Test func leavesWhatAnotherAccountRunsFromWithAReasonOfItsOwn() {
+    @MainActor @Test(.anotherAccountRunsAnApp) func leavesWhatAnotherAccountRunsFromWithAReasonOfItsOwn() {
         let openFiles = OpenFiles()
         let unquittable = RunningCopies.current.filter { kill($0.identifier, 0) != 0 && errno == EPERM }
         for case let (process, bundle?) in unquittable.map({ ($0, $0.bundleURL) }) {

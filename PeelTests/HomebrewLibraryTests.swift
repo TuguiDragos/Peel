@@ -122,8 +122,7 @@ private struct StandInBrew {
         #expect(HomebrewLibrary.source(of: casks, after: TrashResult()).source == "alpha, beta, gamma")
     }
 
-    @Test func readsHomebrewAgainOnceItCheckedForNewVersions() async {
-        guard Homebrew.executableURL != nil, await Homebrew.hasLocalDefinitions() else { return }
+    @Test(.homebrewWithItsDefinitions) func readsHomebrewAgainOnceItCheckedForNewVersions() async {
         let homebrew = HomebrewLibrary()
         await homebrew.refresh()
         let read = homebrew.revision
@@ -135,8 +134,7 @@ private struct StandInBrew {
         #expect(homebrew.revision == read + 1)
     }
 
-    @Test func homebrewsOwnWorkEndsBeforePeelReadsWhatItChanged() async {
-        guard Homebrew.executableURL != nil, await Homebrew.hasLocalDefinitions() else { return }
+    @Test(.homebrewWithItsDefinitions) func homebrewsOwnWorkEndsBeforePeelReadsWhatItChanged() async {
         // Nothing is read yet, so Upgrade All finds nothing to upgrade and runs no `brew upgrade`.
         let homebrew = HomebrewLibrary()
 
@@ -149,8 +147,7 @@ private struct StandInBrew {
         #expect(homebrew.runningCommand == nil && !homebrew.isReadingWhatChanged && homebrew.progress == nil)
     }
 
-    @Test func whatAnUpgradeQuitOpensAgainBeforeAQuitOfPeelCanEnd() async {
-        guard Homebrew.executableURL != nil, await Homebrew.hasLocalDefinitions() else { return }
+    @Test(.homebrewWithItsDefinitions) func whatAnUpgradeQuitOpensAgainBeforeAQuitOfPeelCanEnd() async {
         // Nothing is read yet, so Upgrade All finds nothing to upgrade and runs no `brew upgrade`.
         let homebrew = HomebrewLibrary()
         var wasReading: Bool?
@@ -218,8 +215,7 @@ private struct StandInBrew {
         return url.path(percentEncoded: false)
     }
 
-    @Test func aReadingIsLeftForTheEndOfWhatHomebrewIsDoing() async {
-        guard Homebrew.executableURL != nil, await Homebrew.hasLocalDefinitions() else { return }
+    @Test(.homebrewWithItsDefinitions) func aReadingIsLeftForTheEndOfWhatHomebrewIsDoing() async {
         let homebrew = HomebrewLibrary()
         homebrew.runningCommand = .upgradeAll
         let before = homebrew.revision
@@ -229,8 +225,7 @@ private struct StandInBrew {
         #expect(homebrew.revision == before)
     }
 
-    @Test func forgetsMovesEndBeforePeelReadsWhatChanged() async {
-        guard Homebrew.executableURL != nil, await Homebrew.hasLocalDefinitions() else { return }
+    @Test(.homebrewWithItsDefinitions) func forgetsMovesEndBeforePeelReadsWhatChanged() async {
         let homebrew = HomebrewLibrary()
         // A made-up cask has no folder in the Caskroom, so nothing moves.
         let cask = HomebrewPackage(name: "org-example-gone", kind: .cask, installedVersion: "1.0")
@@ -273,5 +268,15 @@ private struct StandInBrew {
         }
         await work()
         return seen.shown
+    }
+}
+
+extension Trait where Self == ConditionTrait {
+    /// A test of this Mac's own Homebrew: a Mac without one, or without its definitions, reports it skipped.
+    static var homebrewWithItsDefinitions: Self {
+        .enabled("Homebrew is on this Mac with its own copy of its definitions") {
+            guard Homebrew.executableURL != nil else { return false }
+            return await Homebrew.hasLocalDefinitions()
+        }
     }
 }

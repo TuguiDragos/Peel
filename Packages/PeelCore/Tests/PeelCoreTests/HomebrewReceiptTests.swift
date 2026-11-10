@@ -29,9 +29,7 @@ struct HomebrewReceiptTests {
         #expect(Homebrew.folder(answering: "/opt/homebrew/Caskroom\n/usr/local/Caskroom\n") == nil)
     }
 
-    @Test func everyCaskInstalledOnThisMacIsReadAsItIsOnTheDisk() async throws {
-        guard Homebrew.executableURL != nil, await Homebrew.hasLocalDefinitions() else { return }
-
+    @Test(.homebrewWithItsDefinitions) func everyCaskInstalledOnThisMacIsReadAsItIsOnTheDisk() async throws {
         for cask in try await Homebrew.installedPackages() where cask.kind == .cask {
             let folder = try #require(cask.caskroomFolder, "\(cask.name)")
             var isFolder: ObjCBool = false

@@ -329,8 +329,11 @@ struct AppInspectorTests {
         let drawn = AppInspector.icon(ofAppAt: directory.url.appending(path: "Drawn.app", directoryHint: .isDirectory))
         let plain = AppInspector.icon(ofAppAt: directory.url.appending(path: "Plain.app", directoryHint: .isDirectory))
 
-        #expect(drawn.tiffRepresentation == NSImage(contentsOf: icns)?.tiffRepresentation)
-        #expect(plain.tiffRepresentation == NSWorkspace.shared.icon(for: .applicationBundle).tiffRepresentation)
+        #expect(try #require(drawn.tiffRepresentation) == (try #require(NSImage(contentsOf: icns)?.tiffRepresentation)))
+        #expect(
+            try #require(plain.tiffRepresentation)
+                == (try #require(NSWorkspace.shared.icon(for: .applicationBundle).tiffRepresentation))
+        )
     }
 
     @Test func anAppMacOSKnowsGetsItsIconAsFinderDrawsIt() {

@@ -96,7 +96,7 @@ struct RunningCopiesTests {
         #expect(toQuit.map(\.identifier) == [3, 4])
     }
 
-    @MainActor @Test func leavesOutWhatThisAccountCannotQuit() {
+    @MainActor @Test(.anotherAccountRunsAnApp) func leavesOutWhatThisAccountCannotQuit() {
         let running = RunningCopies.current
         let unquittable = running.filter { kill($0.identifier, 0) != 0 && errno == EPERM }
         for case let (process, bundle?) in unquittable.map({ ($0, $0.bundleURL) }) {

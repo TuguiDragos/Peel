@@ -136,15 +136,28 @@ struct CloudStorageTests {
         #expect(CloudStorage.containerName(of: URL(filePath: "/somewhere/else"), under: root) == "")
     }
 
-    @Test func namesAnAppsFolderAsMacOSShowsIt() {
-        let root = URL.homeDirectory.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory)
-        let containers = (try? FileManager.default.contentsOfDirectory(at: root, includingPropertiesForKeys: nil)) ?? []
-        for container in containers where container.lastPathComponent != "com~apple~CloudDocs" {
+    private static let mobileDocuments = URL.homeDirectory.appending(
+        path: "Library/Mobile Documents", directoryHint: .isDirectory
+    )
+
+    /// The app folders of this Mac's iCloud Drive that macOS gives a name, which only a Mac with iCloud Drive has.
+    private static func namedContainers() -> [(container: URL, shown: String)] {
+        let containers = (try? FileManager.default.contentsOfDirectory(
+            at: mobileDocuments, includingPropertiesForKeys: nil
+        )) ?? []
+        return containers.filter { $0.lastPathComponent != "com~apple~CloudDocs" }.compactMap { container in
             guard let shown = try? container.resourceValues(forKeys: [.ubiquitousItemContainerDisplayNameKey])
                 .ubiquitousItemContainerDisplayName, !shown.isEmpty
-            else { continue }
+            else { return nil }
+            return (container, shown)
+        }
+    }
+
+    @Test(.enabled("iCloud Drive on this Mac names an app's folder") { !namedContainers().isEmpty })
+    func namesAnAppsFolderAsMacOSShowsIt() {
+        for (container, shown) in Self.namedContainers() {
             let file = container.appending(path: "Documents/Report.pages")
-            #expect(CloudStorage.containerName(of: file, under: root) == shown, "\(container.lastPathComponent)")
+            #expect(CloudStorage.containerName(of: file, under: Self.mobileDocuments) == shown, "\(container.lastPathComponent)")
         }
     }
 

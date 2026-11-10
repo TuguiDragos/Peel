@@ -230,8 +230,9 @@ struct HomebrewTests {
         #expect(Homebrew.Cleanup.olderThan(days: 30).arguments == ["cleanup", "--prune=30"])
         #expect(Homebrew.Cleanup.everyDownload.arguments == ["cleanup", "--scrub"])
         #expect(Homebrew.repairTapsArguments == ["tap", "--repair"])
+    }
 
-        guard Homebrew.executableURL != nil else { return }
+    @Test(.homebrewOnThisMac) func homebrewsHelpDocumentsEachCleanUpOption() async throws {
         // No time limit: at a low priority on a busy machine Ruby alone can outlast one, and what this checks is
         // Homebrew's words.
         let cleanup = try await Homebrew.execute(["cleanup", "--help"], autoUpdate: false, timeout: nil).transcript()
@@ -373,7 +374,11 @@ struct HomebrewTests {
         if let read {
             #expect(([fetched] + confirmed).compactMap(\.self).contains { abs(read.timeIntervalSince($0)) < 0.001 })
         }
-        guard await Homebrew.hasLocalDefinitions() else { return }
+    }
+
+    @Test(.homebrewWithItsDefinitions) func everyInstalledPackageCarriesHomebrewsLastCheck() async throws {
+        let read = await Homebrew.lastUpdateCheck()
+
         #expect(try await Homebrew.installedPackages().allSatisfy { $0.lastUpdateCheck == read })
     }
 
@@ -972,8 +977,8 @@ struct HomebrewTests {
         await #expect(throws: Homebrew.CommandFailure.self) { try await Homebrew.brewfile(from: older) }
     }
 
-    @Test func homebrewsBrewfileNamesEveryPackageInstalledOnRequest() async throws {
-        guard let installation = await Homebrew.installation(), await Homebrew.hasLocalDefinitions() else { return }
+    @Test(.homebrewWithItsDefinitions) func homebrewsBrewfileNamesEveryPackageInstalledOnRequest() async throws {
+        let installation = try #require(await Homebrew.installation())
         let brewfile = try await Homebrew.brewfile(from: installation)
 
         for package in try await Homebrew.installedPackages() where package.isInstalledOnRequest {
@@ -1282,12 +1287,11 @@ struct HomebrewTests {
         #expect(Homebrew.definitionsTag(releases: "", macOS: 26, onAppleSilicon: true) == nil)
     }
 
-    @Test func homebrewsOwnTableNamesThisMacOS() async throws {
+    @Test(.homebrewOnThisMac) func homebrewsOwnTableNamesThisMacOS() async throws {
         let home = try TemporaryDirectory()
-        guard Homebrew.executableURL != nil,
-              let repository = await Homebrew.answerWithoutTheAPI(["--repository"], home: home.url)
-                .flatMap(Homebrew.folder(answering:))
-        else { return }
+        let repository = try #require(
+            await Homebrew.answerWithoutTheAPI(["--repository"], home: home.url).flatMap(Homebrew.folder(answering:))
+        )
 
         let tag = try #require(Homebrew.definitionsTag(repository: repository))
         #expect(tag.wholeMatch(of: /(arm64_)?[a-z][a-z0-9_]*/) != nil)
@@ -1328,8 +1332,7 @@ struct HomebrewTests {
         #expect(Homebrew.hasLocalDefinitions(inCache: cache.url, tag: "arm64_tahoe", readsTheTaps: true))
     }
 
-    @Test func askingAboutTheDefinitionsDownloadsNothing() async throws {
-        guard Homebrew.executableURL != nil else { return }
+    @Test(.homebrewOnThisMac) func askingAboutTheDefinitionsDownloadsNothing() async throws {
         let home = try TemporaryDirectory()
 
         #expect(await !Homebrew.hasLocalDefinitions(home: home.url))
@@ -1337,12 +1340,11 @@ struct HomebrewTests {
         #expect(!FileManager.default.fileExists(atPath: api.path(percentEncoded: false)), "Homebrew went online")
     }
 
-    @Test func askingAboutTheDefinitionsRunsNoDeveloperCommand() async throws {
+    @Test(.homebrewOnThisMac) func askingAboutTheDefinitionsRunsNoDeveloperCommand() async throws {
         let home = try TemporaryDirectory()
-        guard Homebrew.executableURL != nil,
-              let repository = await Homebrew.answerWithoutTheAPI(["--repository"], home: home.url)
-                .flatMap(Homebrew.folder(answering:))
-        else { return }
+        let repository = try #require(
+            await Homebrew.answerWithoutTheAPI(["--repository"], home: home.url).flatMap(Homebrew.folder(answering:))
+        )
         let folder = repository.appending(path: "Library/Homebrew/dev-cmd").path(percentEncoded: false)
         let developerCommands = Set(try FileManager.default.contentsOfDirectory(atPath: folder).map {
             ($0 as NSString).deletingPathExtension
