@@ -89,15 +89,7 @@ public struct OrphanScanner: Sendable {
             }
         )
         let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps).knowingJobs(in: launchdFolders)
-        let goneBundles = Dictionary(
-            gone.map {
-                (
-                    PathPattern.comparablePath(of: URL(filePath: $0.lastPath, directoryHint: .isDirectory)),
-                    $0.bundleIdentifier
-                )
-            },
-            uniquingKeysWith: { first, _ in first }
-        )
+        let linkedApps = LinkedApps(remembered, gone: gone)
 
         let goneNames = Dictionary(
             gone.compactMap { app in
@@ -120,7 +112,7 @@ public struct OrphanScanner: Sendable {
                         return (location, found)
                     }
                     return (location, await Self.scan(
-                        location, ownership: ownership, jobs: jobs, goneBundles: goneBundles, goneApps: goneApps,
+                        location, ownership: ownership, jobs: jobs, linkedApps: linkedApps, goneApps: goneApps,
                         goneNames: goneNames, goneFolders: goneFolders, home: home, root: root,
                         exclusions: exclusions, nestedFolderLimit: nestedFolderLimit, walk: walk
                     ))
@@ -428,7 +420,8 @@ public struct OrphanScanner: Sendable {
     ) -> (installed: [InstalledApp], gone: [RememberedApp]) {
         let listed = Set(installedApps.compactMap { $0.bundleIdentifier?.lowercased() })
         let unlisted = remembered.filter { !listed.contains($0.bundleIdentifier.lowercased()) }
-        let outOfSight = unlisted.compactMap { $0.stillInstalled() }
+        let mounted = MountedDisks.now()
+        let outOfSight = unlisted.compactMap { $0.stillInstalled(on: mounted) }
         let here = listed.union(outOfSight.compactMap { $0.bundleIdentifier?.lowercased() })
         return (installedApps + outOfSight, unlisted.filter { !here.contains($0.bundleIdentifier.lowercased()) })
     }
@@ -450,6 +443,7 @@ public struct OrphanScanner: Sendable {
         let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps).knowingJobs(in: launchdFolders)
         let folders = manifestFolders
         let goneFolders = GoneFolders(gone, installedApps: installedApps, home: environment.homeDirectory)
+        let linkedApps = LinkedApps(remembered, gone: gone)
         var kept: [OrphanItem] = []
         for item in items where !Self.servesAProgram(item.url, in: folders) {
             let isStillOrphaned = if item.kind == .nativeMessagingHosts {
@@ -464,7 +458,7 @@ public struct OrphanScanner: Sendable {
                     ownership: ownership
                 ) == .listed(app)
             } else if case .listed = await Self.orphanIdentifier(
-                of: item.url, kind: item.kind, ownership: ownership, jobs: jobs
+                of: item.url, kind: item.kind, ownership: ownership, jobs: jobs, linkedApps: linkedApps
             ) {
                 true
             } else {
@@ -598,15 +592,39 @@ public struct OrphanScanner: Sendable {
     }
 
     /// The app bundle a link leads into, when that bundle is gone. Nil for a link into an app that is still
-    /// there or may be, on a disk that isn't connected or where Peel can't look, or into no app at all.
-    static func goneApp(behind link: URL) -> URL? {
+    /// there or may be, on a disk that isn't connected or where Peel can't look, or into no app at all. A place an
+    /// app Peel remembers had on another disk is judged by that disk's volume, wherever it is mounted now.
+    static func goneApp(behind link: URL, among linkedApps: LinkedApps = LinkedApps()) -> URL? {
         guard let components = link.leadsTo?.pathComponents else { return nil }
         guard let app = components.firstIndex(where: { $0.hasSuffix(".app") }) else { return nil }
         let bundle = URL(
             filePath: NSString.path(withComponents: Array(components[...app])),
             directoryHint: .isDirectory
         )
+        if let disk = linkedApps.disks[PathPattern.comparablePath(of: bundle)] {
+            guard let here = disk.url(on: linkedApps.mounted, directoryHint: .isDirectory) else { return nil }
+            return here.isMissing ? bundle : nil
+        }
         return bundle.isMissing && !bundle.isOnADiskNotConnected ? bundle : nil
+    }
+
+    /// What a link into an app is judged by: the identifier Peel remembers for each place a gone app was, and the disk
+    /// of each place a remembered app had on another disk, with the disks mounted now.
+    struct LinkedApps: Sendable {
+        let identifiers: [String: String]
+        let disks: [String: DiskPlace]
+        let mounted: MountedDisks
+
+        init(_ remembered: [RememberedApp] = [], gone: [RememberedApp] = [], mounted: MountedDisks = .now()) {
+            let place = { (path: String) in
+                PathPattern.comparablePath(of: URL(filePath: path, directoryHint: .isDirectory))
+            }
+            identifiers = Dictionary(gone.map { (place($0.lastPath), $0.bundleIdentifier) }) { first, _ in first }
+            disks = Dictionary(
+                remembered.flatMap { ($0.disks ?? [:]).map { (place($0.key), $0.value) } }
+            ) { first, _ in first }
+            self.mounted = mounted
+        }
     }
 
     /// What Orphaned Files makes of an item: listed under an identifier, left out, or not known, for a folder that may
@@ -625,13 +643,14 @@ public struct OrphanScanner: Sendable {
         kind: SearchLocation.Kind,
         ownership: AppOwnership,
         jobs: BackgroundItemOwnership,
-        goneBundles: [String: String] = [:],
+        linkedApps: LinkedApps = LinkedApps(),
         cameWithOneOf goneApps: [String]? = nil
     ) async -> Listing {
         if kind.isForLinks {
-            guard let bundle = goneApp(behind: url) else { return .notListed }
+            guard let bundle = goneApp(behind: url, among: linkedApps) else { return .notListed }
             return .listed(
-                goneBundles[PathPattern.comparablePath(of: bundle)] ?? bundle.deletingPathExtension().lastPathComponent
+                linkedApps.identifiers[PathPattern.comparablePath(of: bundle)]
+                    ?? bundle.deletingPathExtension().lastPathComponent
             )
         }
         let name = url.lastPathComponent
@@ -818,7 +837,7 @@ public struct OrphanScanner: Sendable {
         _ location: SearchLocation,
         ownership: AppOwnership,
         jobs: BackgroundItemOwnership,
-        goneBundles: [String: String],
+        linkedApps: LinkedApps,
         goneApps: [String],
         goneNames: [String: String],
         goneFolders: GoneFolders,
@@ -861,7 +880,7 @@ public struct OrphanScanner: Sendable {
                 kind: location.kind,
                 ownership: ownership,
                 jobs: jobs,
-                goneBundles: goneBundles,
+                linkedApps: linkedApps,
                 cameWithOneOf: listsOnlyWhatCameWithAnApp(location.kind) ? goneApps : nil
             )
             if listing == .notListed {

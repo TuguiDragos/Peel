@@ -120,29 +120,77 @@ public struct TrashedDisk: Sendable, Codable, Hashable {
     /// Where the item came from, from the top of the disk. Nil in a record written before Peel kept it.
     public let originalPath: String?
 
+    init(volume: String, path: String, originalPath: String?) {
+        self.volume = volume
+        self.path = path
+        self.originalPath = originalPath
+    }
+
     /// The disk `item` went to the Trash on, or nil for the startup disk, which is always there, or when macOS doesn't
     /// say. The home's Trash is on the home's disk, which is there while anyone uses it, so nothing is asked for what
     /// is in the home.
     init?(of item: TrashedItem) {
-        let url = item.trashedURL
         let home = URL.homeDirectory.path(percentEncoded: false)
-        guard !PathComponents.isPath(url.path(percentEncoded: false), inside: home) else { return nil }
+        guard !PathComponents.isPath(item.trashedURL.path(percentEncoded: false), inside: home) else { return nil }
+        self.init(item, onTheDiskOf: item.trashedURL)
+    }
+
+    /// The disk `item` is about to go to the Trash on, read where it is now: its Trash is on the same disk.
+    init?(leaving item: TrashedItem) {
+        self.init(item, onTheDiskOf: item.originalURL)
+    }
+
+    private init?(_ item: TrashedItem, onTheDiskOf url: URL) {
+        guard let disk = DiskPlace.disk(of: url),
+              let path = DiskPlace.path(of: item.trashedURL, onTheDiskAt: disk.mount)
+        else { return nil }
+        self.init(
+            volume: disk.volume, path: path,
+            originalPath: DiskPlace.path(of: item.originalURL, onTheDiskAt: disk.mount)
+        )
+    }
+}
+
+/// A place on a disk other than the startup disk, known by the disk's volume rather than by the name it is mounted
+/// under, which another disk can take.
+public struct DiskPlace: Sendable, Codable, Hashable {
+    public let volume: String
+    /// The path from the top of the disk, without the place the disk is mounted at.
+    public let path: String
+
+    init(volume: String, path: String) {
+        self.volume = volume
+        self.path = path
+    }
+
+    /// Where `url` is, or nil for a place on the startup disk, which is always there, or when macOS doesn't say.
+    init?(of url: URL) {
+        guard let disk = Self.disk(of: url), let path = Self.path(of: url, onTheDiskAt: disk.mount) else { return nil }
+        self.init(volume: disk.volume, path: path)
+    }
+
+    /// Where the place is with the disks mounted as they are now, or nil while none of them has its volume.
+    func url(on disks: MountedDisks, directoryHint: URL.DirectoryHint = .inferFromPath) -> URL? {
+        disks.place(of: volume).map { URL(filePath: $0 == "/" ? "/" + path : $0 + "/" + path, directoryHint: directoryHint) }
+    }
+
+    /// The volume of the disk `url` is on and where that disk is mounted, or nil for the startup disk.
+    static func disk(of url: URL) -> (volume: String, mount: URL)? {
         let keys: Set<URLResourceKey> = [.volumeURLKey, .volumeUUIDStringKey, .volumeIsRootFileSystemKey]
         guard let values = try? url.resourceValues(forKeys: keys), values.volumeIsRootFileSystem != true,
               let volume = values.volumeUUIDString, let mount = values.volume
         else { return nil }
+        return (volume, mount)
+    }
+
+    /// `url`'s path from the top of the disk mounted at `mount`, or nil when it isn't on that disk.
+    static func path(of url: URL, onTheDiskAt mount: URL) -> String? {
         // The kernel's spelling, as the mount point is spelled: `resolvingSymlinksInPath` drops `/private`.
         let place = MountedDisks.path(of: mount)
-        let onTheDisk = { (url: URL) -> String? in
-            guard let located = PathPattern.located(url.path(percentEncoded: false)),
-                  PathComponents.isPath(located, inside: place)
-            else { return nil }
-            return String(located.dropFirst(place.count).drop { $0 == "/" })
-        }
-        guard let path = onTheDisk(url) else { return nil }
-        self.volume = volume
-        self.path = path
-        originalPath = onTheDisk(item.originalURL)
+        guard let located = PathPattern.located(url.path(percentEncoded: false)),
+              PathComponents.isPath(located, inside: place)
+        else { return nil }
+        return String(located.dropFirst(place.count).drop { $0 == "/" })
     }
 }
 

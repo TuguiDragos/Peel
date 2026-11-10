@@ -529,7 +529,7 @@ where a Homebrew install takes them from.
 | `~/Library/Application Support/Peel/exclusions.json` | The user's exclusions. |
 | `~/Library/Application Support/Peel/Preference Backups/` | The settings Peel saved before resetting an app, and before putting a saved copy back. |
 | `~/Library/Application Support/Peel/digests.bin` | What Duplicates already read, so an unchanged file on APFS isn't read again. |
-| `~/Library/Application Support/Peel/apps.json` | The apps Peel has seen, and those macOS knows on another disk that claimed a file, kept once they are gone or out of reach, so Orphaned Files can name what they left (`AppMemory`). |
+| `~/Library/Application Support/Peel/apps.json` | The apps Peel has seen, and those macOS knows on another disk that claimed a file, kept once they are gone or out of reach, so Orphaned Files can name what they left (`AppMemory`), each place on another disk with that disk's volume (`DiskPlace`), so a disk is known by its volume, not by the name another disk can take. |
 | `~/Library/Application Support/Peel/teams.json` | Which team signs each app, so a change of signer can be told (`TeamRegistry`). |
 | `~/Library/Application Support/Peel/orphan-owners.json` | The orphaned files the user said belong to an app, to a command-line tool Homebrew installed, by its formula, or to a command in the tool folders, by its name (`OrphanOwner`). |
 | `~/Library/Application Support/Peel/left-for-an-administrator.json` | What an uninstall left that only an administrator can move, from a place the helper doesn't serve, so Orphaned Files lists it under Needs an Administrator once the app is gone. |

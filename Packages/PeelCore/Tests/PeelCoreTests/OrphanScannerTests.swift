@@ -126,6 +126,20 @@ struct OrphanScannerTests {
         #expect(stillOrphaned.isEmpty)
     }
 
+    @Test func aLinkIntoAnAppOnADiskWhoseNameAnotherDiskTookLeadsIntoNoGoneApp() throws {
+        let directory = try TemporaryDirectory()
+        let place = "/Volumes/\(try AppMemoryTests.startupDisksName())/org.example.missing/On Disk.app"
+        let link = directory.url.appending(path: "On Disk")
+        try FileManager.default.createSymbolicLink(atPath: link.path(percentEncoded: false), withDestinationPath: place)
+        let remembered = RememberedApp(
+            bundleIdentifier: "org.example.ondisk", name: "On Disk", teamIdentifier: nil, lastSeen: .now,
+            lastPath: place, disks: [place: DiskPlace(volume: UUID().uuidString, path: "org.example.missing/On Disk.app")]
+        )
+
+        #expect(OrphanScanner.goneApp(behind: link, among: .init([remembered])) == nil)
+        #expect(OrphanScanner.goneApp(behind: link) != nil, "a link into a place no remembered disk holds goes by its name")
+    }
+
     @Test func whatAGoneAppStoreAppsOwnIdentifierNamesIsListedUnderApplesNameToo() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Containers/com.apple.iWork.Pages/Data/data")

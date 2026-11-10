@@ -19,6 +19,8 @@ public struct RememberedApp: Sendable, Hashable, Codable, Identifiable {
     public var goneSince: Date? = nil
     /// Whether the App Store signed it under its identifier (`InstalledApp.isSignedByTheAppStore`).
     public var isSignedByTheAppStore: Bool? = nil
+    /// Where each of its places on a disk other than the startup disk is, by that disk's volume.
+    public var disks: [String: DiskPlace]? = nil
 
     public var id: String { bundleIdentifier }
 }
@@ -27,12 +29,19 @@ extension RememberedApp {
     /// The app as it is now, when Peel cannot tell that it left: its bundle is still where Peel last saw it, the disk
     /// it was on is not connected, or macOS will not let Peel read its Info.plist. Nil once the place can be looked at
     /// and the app is not there.
-    func stillInstalled() -> InstalledApp? {
-        let places = ([lastPath] + (otherPaths ?? [])).map { URL(filePath: $0, directoryHint: .isDirectory) }
-        for place in places {
-            if let app = AppInspector.inspect(place), app.bundleIdentifier == bundleIdentifier { return app }
+    /// A place on another disk is known by that disk's volume: while no disk mounted has it, the app is out of sight,
+    /// and once one has it, the app is looked for there, wherever that disk is mounted now.
+    func stillInstalled(on mounted: MountedDisks = .now()) -> InstalledApp? {
+        let places = ([lastPath] + (otherPaths ?? [])).map { path in
+            let url = URL(filePath: path, directoryHint: .isDirectory)
+            guard let disk = disks?[path] else { return (url: url, isOutOfSight: url.isOnADiskNotConnected) }
+            return disk.url(on: mounted, directoryHint: .isDirectory).map { (url: $0, isOutOfSight: false) }
+                ?? (url: url, isOutOfSight: true)
         }
-        return places.first { $0.isOnADiskNotConnected || AppInspector.isClosed($0) }.map {
+        for place in places where !place.isOutOfSight {
+            if let app = AppInspector.inspect(place.url), app.bundleIdentifier == bundleIdentifier { return app }
+        }
+        return places.first { $0.isOutOfSight || AppInspector.isClosed($0.url) }.map(\.url).map {
             InstalledApp(
                 url: $0, bundleIdentifier: bundleIdentifier, name: name, teamIdentifier: teamIdentifier,
                 isSignedByTheAppStore: isSignedByTheAppStore == true
@@ -84,10 +93,10 @@ public struct AppMemory: Sendable {
             (known ?? []).map { ($0.bundleIdentifier, $0) },
             uniquingKeysWith: { first, _ in first }
         )
+        let mounted = MountedDisks.now()
         for identifier in gone {
-            guard var app = byIdentifier[identifier], app.goneSince == nil, app.stillInstalled() == nil else {
-                continue
-            }
+            guard var app = byIdentifier[identifier], app.goneSince == nil, app.stillInstalled(on: mounted) == nil
+            else { continue }
             app.goneSince = now
             byIdentifier[identifier] = app
         }
@@ -96,6 +105,8 @@ public struct AppMemory: Sendable {
             let path = PathPattern.comparablePath(of: app.url)
             let earlier = byIdentifier[identifier].map { [$0.lastPath] + ($0.otherPaths ?? []) } ?? []
             let others = earlier.filter { $0 != path }.prefix(Self.mostOtherPaths)
+            var disks = (byIdentifier[identifier]?.disks ?? [:]).filter { others.contains($0.key) }
+            disks[path] = DiskPlace(of: app.url)
             byIdentifier[identifier] = RememberedApp(
                 bundleIdentifier: identifier,
                 name: app.name,
@@ -104,7 +115,8 @@ public struct AppMemory: Sendable {
                 lastPath: path,
                 otherPaths: others.isEmpty ? nil : Array(others),
                 productFolders: app.productFolders.isEmpty ? nil : app.productFolders,
-                isSignedByTheAppStore: app.isSignedByTheAppStore ? true : nil
+                isSignedByTheAppStore: app.isSignedByTheAppStore ? true : nil,
+                disks: disks.isEmpty ? nil : disks
             )
         }
 

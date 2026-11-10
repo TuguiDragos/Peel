@@ -154,7 +154,8 @@ struct RemovalJournal: Sendable {
         let entry = { (item: TrashedItem) in
             Entry(
                 writer: writer, batch: recorded?.batch ?? batch, item: item, part: recorded?.part,
-                disk: TrashedDisk(of: item), size: recorded?.sizes[item.originalURL],
+                disk: beforeTheMove ? TrashedDisk(leaving: item) : TrashedDisk(of: item),
+                size: recorded?.sizes[item.originalURL],
                 sharedStorage: recorded?.sharingStorage.contains(item.originalURL) == true ? true : nil,
                 isBeforeTheMove: beforeTheMove ? true : nil
             )
@@ -206,19 +207,17 @@ struct RemovalJournal: Sendable {
         let running = Set(entries.map(\.writer)).filter(\.isRunning)
         let stopped = entries.filter { !running.contains($0.writer) }
         let moved = Set(stopped.filter { $0.isBeforeTheMove != true }.map(Departure.init))
+        let mounted = MountedDisks.now()
         var left = Left()
         for entry in stopped {
             if entry.isBeforeTheMove != true {
                 left.written.append(entry)
             } else if !moved.contains(Departure(entry)) {
-                switch Self.landing(of: entry.item) {
-                case .inTheTrash(let place):
+                switch Self.landing(of: entry, on: mounted) {
+                case .inTheTrash(let item):
                     var landed = entry
-                    landed.item = TrashedItem(
-                        originalURL: entry.item.originalURL, trashedURL: place, date: entry.item.date,
-                        identity: entry.item.identity
-                    )
-                    landed.disk = TrashedDisk(of: landed.item)
+                    landed.item = item
+                    landed.disk = TrashedDisk(of: item)
                     landed.isBeforeTheMove = nil
                     left.settled.append(landed)
                 case .notKnownYet: continue
@@ -230,25 +229,29 @@ struct RemovalJournal: Sendable {
         return left
     }
 
-    /// Where an item that was about to move is: in its Trash, under a name the move gives one, nowhere this line
-    /// can account for (still in its place, gone from the Trash, or with no identity to know it by), or not known yet
-    /// while that Trash's disk isn't connected.
+    /// Where an item that was about to move is: in its Trash, under a name the move gives one, with both its places
+    /// where its disk is mounted now, nowhere this line can account for (still in its place, gone from the Trash, or
+    /// with no identity to know it by), or not known yet while that Trash's disk isn't connected.
     private enum Landing {
-        case inTheTrash(URL)
+        case inTheTrash(TrashedItem)
         case nowhere
         case notKnownYet
     }
 
-    private static func landing(of item: TrashedItem) -> Landing {
-        guard let identity = item.identity else { return .nowhere }
+    private static func landing(of entry: Entry, on mounted: MountedDisks) -> Landing {
+        let record = entry.recordToTakeIn
+        guard let identity = record.trashedItem.identity else { return .nowhere }
+        guard record.isOnAConnectedDisk(mounted) else { return .notKnownYet }
+        let item = record.located(on: mounted).trashedItem
         var info = stat()
         if lstat(item.originalURL.path(percentEncoded: false), &info) == 0, identity.isTheItem(info) { return .nowhere }
         let trash = item.trashedURL.deletingLastPathComponent()
-        if trash.isOnADiskNotConnected { return .notKnownYet }
         let found = TrashService.item(
             named: item.originalURL.lastPathComponent, inode: identity.inode, in: trash, where: identity.isTheItem
         )
-        return found.map(Landing.inTheTrash) ?? .nowhere
+        return found.map {
+            .inTheTrash(TrashedItem(originalURL: item.originalURL, trashedURL: $0, date: item.date, identity: identity))
+        } ?? .nowhere
     }
 
     /// An item leaving its place in one removal, by the process that moved it, which its two lines share.
@@ -306,7 +309,7 @@ struct RemovalJournal: Sendable {
         }
     }
 
-    private func write(_ entries: [Entry]) {
+    func write(_ entries: [Entry]) {
         let data = entries.compactMap { try? Self.encoder.encode($0) }.reduce(into: Data()) { $0 += $1 + Data("\n".utf8) }
         try? PeelFolder.write(data, to: url)
     }

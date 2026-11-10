@@ -431,6 +431,50 @@ struct RemovalJournalTests {
         #expect(journal.entries().isEmpty)
     }
 
+    @Test func aLineWrittenBeforeAMoveWaitsForItsDiskWhenAnotherHasItsName() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        let known = try directory.file("known", bytes: 10)
+        let disk = "/Volumes/\(try AppMemoryTests.startupDisksName())"
+        var line = RemovalJournal.Entry(
+            writer: try endedProcess(), batch: UUID(),
+            item: TrashedItem(
+                originalURL: URL(filePath: disk + "/org.example.missing/Example"),
+                trashedURL: URL(filePath: disk + "/.Trashes/\(getuid())/Example"), date: .now,
+                identity: .init(ofItemAt: known)
+            )
+        )
+        line.disk = TrashedDisk(volume: UUID().uuidString, path: ".Trashes/\(getuid())/Example", originalPath: "org.example.missing/Example")
+        line.isBeforeTheMove = true
+        journal.write([line])
+
+        let records = try #require(await RemovalLog(url: history).load().records)
+
+        #expect(records.isEmpty)
+        #expect(journal.entries().count == 1)
+    }
+
+    @Test func aLineWrittenBeforeAMoveKnowsTheDiskTheItemLeavesFrom() throws {
+        let directory = try TemporaryDirectory()
+        let journal = RemovalJournal(beside: directory.url.appending(path: "Peel/removals.json"))
+        let disk = try ScratchVolume(fileSystem: "HFS+", mountedAt: directory.url.appending(path: "Disk"))
+        let file = disk.url.appending(path: "Example")
+        try Data("x".utf8).write(to: file)
+        let volume = try #require(try disk.url.resourceValues(forKeys: [.volumeUUIDStringKey]).volumeUUIDString)
+        let leaving = TrashedItem(
+            originalURL: file, trashedURL: disk.url.appending(path: ".Trashes/\(getuid())/Example"), date: .now,
+            identity: .init(ofItemAt: file)
+        )
+
+        journal.note([leaving], batch: UUID(), beforeTheMove: true)
+
+        let line = try #require(journal.entries().first)
+        #expect(line.disk?.volume == volume)
+        #expect(line.disk?.path == ".Trashes/\(getuid())/Example")
+        #expect(line.disk?.originalPath == "Example")
+    }
+
     @Test func anItemWithBothItsLinesComesBackOnce() async throws {
         let directory = try TemporaryDirectory()
         let history = directory.url.appending(path: "Peel/removals.json")

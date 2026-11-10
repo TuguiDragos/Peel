@@ -51,6 +51,45 @@ struct AppMemoryTests {
         #expect(remembered.first { $0.bundleIdentifier == "org.example.tide" }?.isSignedByTheAppStore == nil)
     }
 
+    /// The name the startup disk has under `/Volumes`, a name any other disk could also be mounted under.
+    static func startupDisksName() throws -> String {
+        let names = try FileManager.default.contentsOfDirectory(atPath: "/Volumes")
+        return try #require(names.first { URL(filePath: "/Volumes/\($0)").resolvingSymlinksInPath().path == "/" })
+    }
+
+    @Test func anAppOnADiskWhoseNameAnotherDiskTookStaysInstalled() throws {
+        let place = "/Volumes/\(try Self.startupDisksName())/org.example.missing/On Disk.app"
+        let app = RememberedApp(
+            bundleIdentifier: "org.example.ondisk", name: "On Disk", teamIdentifier: nil, lastSeen: .now,
+            lastPath: place, disks: [place: DiskPlace(volume: UUID().uuidString, path: "org.example.missing/On Disk.app")]
+        )
+        let unknown = RememberedApp(
+            bundleIdentifier: "org.example.ondisk", name: "On Disk", teamIdentifier: nil, lastSeen: .now, lastPath: place
+        )
+
+        #expect(app.stillInstalled(on: .now())?.url == URL(filePath: place, directoryHint: .isDirectory))
+        #expect(unknown.stillInstalled(on: .now()) == nil, "a place Peel knows no disk of goes by its name")
+    }
+
+    @Test func anAppOnADiskMountedElsewhereNowIsFoundThere() async throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(fileSystem: "HFS+", mountedAt: directory.url.appending(path: "First"))
+        let bundle = disk.url.appending(path: "Apps/On Disk.app", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: bundle.appending(path: "Contents"), withIntermediateDirectories: true)
+        let info = ["CFBundleIdentifier": "org.example.ondisk", "CFBundleName": "On Disk", "CFBundlePackageType": "APPL"]
+        try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+            .write(to: bundle.appending(path: "Contents/Info.plist"))
+        let app = try #require(AppInspector.inspect(bundle))
+        let memory = AppMemory(url: directory.url.appending(path: "apps.json"))
+        let remembered = try #require(await memory.remember([app]).first)
+
+        try disk.remount(at: directory.url.appending(path: "Second"))
+        let found = remembered.stillInstalled(on: .now())
+
+        #expect(found?.bundleIdentifier == "org.example.ondisk")
+        #expect(found?.url.deletingLastPathComponent().deletingLastPathComponent().lastPathComponent == "Second")
+    }
+
     @Test func keepsWhatItHasSeen() async throws {
         let directory = try TemporaryDirectory()
         let memory = AppMemory(url: directory.url.appending(path: "apps.json"))
