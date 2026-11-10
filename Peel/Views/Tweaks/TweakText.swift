@@ -11,6 +11,8 @@ extension Tweak {
         let title: LocalizedStringResource
         let detail: LocalizedStringResource
         var caution: LocalizedStringResource?
+        /// A tip or a reassurance, said in the note after `detail` without the warning a `caution` carries.
+        var aside: LocalizedStringResource?
         /// What a row that works only under this switch says while this switch is off.
         var whileOff: LocalizedStringResource?
     }
@@ -57,7 +59,7 @@ extension Tweak {
         "dock-static-only": Words(
             title: "Only apps that are running",
             detail: "The Dock shows what is open and nothing else, unless a configuration profile keeps apps in it.",
-            caution: "Apps you keep in the Dock are remembered, and come back when you turn this off."
+            aside: "Apps you keep in the Dock are remembered, and come back when you turn this off."
         ),
         "dock-show-recents": Words(
             title: "No recent apps in the Dock",
@@ -98,7 +100,7 @@ extension Tweak {
         "finder-hidden-files": Words(
             title: "Show hidden files",
             detail: "Files whose names start with a dot appear in every window.",
-            caution: "Shift-Command-Period in Finder does the same thing."
+            aside: "Shift-Command-Period in Finder does the same thing."
         ),
         "finder-extensions": Words(
             title: "Show every file extension",

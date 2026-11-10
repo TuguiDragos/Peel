@@ -103,6 +103,9 @@ struct TweakRow: View {
     /// since Japanese and Chinese put no space between sentences.
     private var note: String {
         var paragraphs = [String(localized: tweak.words.detail)]
+        if let aside = tweak.words.aside {
+            paragraphs.append(String(localized: aside))
+        }
         if let restart = tweak.restart.sentence {
             paragraphs.append(String(localized: restart))
         }
