@@ -179,20 +179,20 @@ extension Subprocess {
             }
         }
 
-        /// Waits for the program's end on a thread of its own. Its end is noted before it is reaped: until then its
-        /// number stands for nothing else, so a stop never signals another process.
+        /// Waits for the program's end as the kernel reports one, which comes only for an end: macOS's `waitid`
+        /// answers for a stopped program too, and this one starts stopped. Its end is noted before it is reaped:
+        /// until then its number stands for nothing else, so a stop never signals another process.
         func watch() {
-            let thread = Thread { [self] in
-                var info = siginfo_t()
-                while waitid(P_PID, id_t(pid), &info, WEXITED | WNOWAIT) == -1, errno == EINTR {}
+            let source = DispatchSource.makeProcessSource(identifier: pid, eventMask: .exit, queue: Subprocess.timers)
+            source.setEventHandler { [self] in
+                source.cancel()
                 ended {
                     var status: Int32 = 0
                     while waitpid(pid, &status, 0) == -1, errno == EINTR {}
                     return status
                 }
             }
-            thread.stackSize = 256 * 1_024
-            thread.start()
+            source.resume()
         }
 
         private func ended(reaping reap: () -> Int32 = { 0 }) {

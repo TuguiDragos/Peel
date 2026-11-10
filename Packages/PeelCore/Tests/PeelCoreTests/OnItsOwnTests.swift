@@ -134,6 +134,36 @@ struct OnItsOwnTests {
         #expect(await task.value == .failure(.canceled))
     }
 
+    @Test func aProgramThatStopsIsNotTakenForOneThatEnded() async throws {
+        let directory = try TemporaryDirectory()
+        let started = directory.url.appending(path: "started")
+        let resumed = directory.url.appending(path: "resumed")
+        let environment = environment
+        let task = Task {
+            await Subprocess.runOnItsOwn(
+                "/bin/sh", ["-c", #"echo $$ > "$0"; kill -STOP $$; touch "$1"; exec /bin/sleep 5"#,
+                            started.path(percentEncoded: false), resumed.path(percentEncoded: false)],
+                environment: environment, timeout: 3_600
+            )
+        }
+        var program: pid_t?
+        while program == nil {
+            try await Task.sleep(for: .milliseconds(20))
+            program = (try? String(contentsOf: started, encoding: .utf8)).flatMap {
+                pid_t($0.trimmingCharacters(in: .whitespacesAndNewlines))
+            }
+        }
+        try await Task.sleep(for: .milliseconds(200))
+        kill(try #require(program), SIGCONT)
+        while resumed.isMissing {
+            try await Task.sleep(for: .milliseconds(20))
+        }
+
+        task.cancel()
+
+        #expect(await task.value == .failure(.canceled))
+    }
+
     @Test func aCanceledTaskStartsNothing() async {
         let environment = environment
         let task = Task { () -> Result<Subprocess.Output, Subprocess.Failure> in
