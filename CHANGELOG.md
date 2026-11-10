@@ -115,6 +115,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   as an app that left.
 - Uninstalling an app also moves the alias that leads to it in `/Applications` or your home's Applications folder,
   which led nowhere once the app went, on an app's page, several apps' page, and `peel uninstall` alike.
+- An app's update feed that names thousands of languages for one release, or release notes with hundreds of HTML tags
+  open inside one another, no longer makes Peel quit unexpectedly while it checks for updates, in the app and in
+  `peel updates`.
 
 #### Orphaned Files
 
@@ -129,6 +132,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Without Full Disk Access, Orphaned Files and `peel orphans` no longer name `/Library/Bluetooth` and `/Library/Trial`,
   folders macOS keeps for itself, among the folders Peel couldn't look inside.
 
+#### Intel Software
+
+- A program file whose header places one of its parts beyond the end of any file no longer makes Peel quit
+  unexpectedly as it reads what the file is built for.
+
 #### Package Receipts
 
 - Moving an app from its receipt says first, as the app's own page does, that its root certificate stays trusted,
@@ -142,12 +150,21 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - What Check Health found shows each of Homebrew's lines whole: a sentence under a finding's summary was cut in the
   middle, as for a path.
+- A cask whose definition nests lists hundreds deep no longer makes Peel quit unexpectedly as it reads what Homebrew
+  answers. What sits deeper than any cask writes is left out.
 
 #### Build Artifacts
 
 - With no folder chosen, the usual places for projects on the Mac are listed under Choose a Folder…, a row each
   with its own Add button, in a list that scrolls when it holds more than the column has room for. Before, their
   buttons ran past the sidebar and the next column.
+- A repository whose index file is cut short no longer makes Peel quit unexpectedly. Its build folders are listed, not
+  selected, as in a repository whose list of tracked files Peel couldn't read, in the app and in `peel projects`.
+
+#### Duplicates
+
+- Folders of sparse files whose lengths add up past the largest size a number can hold no longer make a scan quit
+  unexpectedly, in the app and in `peel duplicates`.
 
 #### Every page
 
