@@ -19,10 +19,14 @@ struct PrivacySettingsView: View {
         Host(address: "api.osv.dev", purpose: "The list of known vulnerabilities Homebrew checks formulae against."),
     ]
 
+    static let whatPeelSends: LocalizedStringResource = "Peel sends no usage data and keeps no account. Update checks ask each app’s own feed, or the App Store for an app installed from it, about that app alone, and tell the App Store a country, since its answer depends on it: the country of the store an iPhone or iPad app came from, or else your Mac’s region. Taken together, the checks show the App Store which of its apps you have, and GitHub which of your apps update through it. Homebrew’s vulnerability scan, which you start yourself, is the one thing that sends a list of what is installed all at once: the source and version of each installed formula, to api.osv.dev. Report an Issue puts Peel’s version, your macOS version, and whether your Mac has Apple silicon or Intel in the address it opens."
+
+    static let homebrewGoesOnlineWhenAsked: LocalizedStringResource = "With this off, Peel contacts nothing on its own. Homebrew goes online only when you ask it to: Update, Upgrade (on the Homebrew page or on an app’s own page), Repair Taps, and the vulnerability scan, and to get its own copy of Ruby again when a failed update left it behind. Your own Homebrew settings, in a brew.env file, can change that, and the Homebrew page then says what they change."
+
     var body: some View {
         Form {
             Section("What Peel Sends") {
-                Text("Peel sends no usage data and keeps no account. Update checks ask each app’s own feed, or the App Store for an app bought there, about that app alone, and tell the App Store a country, since its answer depends on it: the country of the store an iPhone or iPad app came from, or else your Mac’s region. Taken together, the checks show the App Store which of its apps you have, and GitHub which of your apps update through it. Homebrew’s vulnerability scan, which you start yourself, is the one thing that sends a list of what is installed all at once: the source and version of each installed formula, to api.osv.dev. Report an Issue puts Peel’s version, your macOS version, and whether your Mac has Apple silicon or Intel in the address it opens.")
+                Text(Self.whatPeelSends)
                     .font(.callout)
             }
 
@@ -39,7 +43,7 @@ struct PrivacySettingsView: View {
                         .labelsHidden()
                         .accessibilityLabel(Text("Check for app updates"))
                 } label: {
-                    titled("Check for app updates", "With this off, Peel contacts nothing on its own. Homebrew goes online only when you ask it to: Update, Upgrade (there or on an app’s own page), Repair Taps, and the vulnerability scan, and to get its own copy of Ruby again when a failed update left it behind. Your own Homebrew settings, in a brew.env file, can change that, and the Homebrew page then says what they change.")
+                    titled("Check for app updates", Self.homebrewGoesOnlineWhenAsked)
                 }
             } header: {
                 Text("Hosts Peel Can Contact")

@@ -104,7 +104,7 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
 - **What it opens.** An app's page lists the kinds of files and links it opens by default, and what would open
   them once it's gone. Peel never changes that itself.
 - **Updates for your apps.** Peel checks your apps for new versions, through the update feed each app names, the App
-  Store for apps bought there, iPhone and iPad apps on the Mac included, or Homebrew, for apps it installed and, through
+  Store for apps from it, iPhone and iPad apps on the Mac included, or Homebrew, for apps it installed and, through
   the catalog of casks it keeps on this Mac, for apps whose bundle a cask names, in the order Prefer updates from in
   Settings > General sets, and shows what is new in the version that waits, as the app's own notes say it, even with no
   connection. Apps that came with macOS are left to Software Update, and apps from Setapp to Setapp, which keep them
