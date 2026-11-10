@@ -15,15 +15,19 @@ struct HomebrewSection: View {
     var body: some View {
         let unrunnable = HomebrewChoice().unrunnable()
         let refused = Homebrew.refusedInAUsualPlace()
+        let isUnreadable = unrunnable?.refusal == .unreadable
         let brew = unrunnable?.brew ?? refused?.brew ?? Homebrew.executableURL
         Section {
             LabeledContent {
                 HStack(spacing: 8) {
-                    Text(brew?.abbreviatedPath ?? String(localized: "Not found"))
+                    Text(
+                        brew?.abbreviatedPath
+                            ?? (isUnreadable ? String(localized: "Unknown") : String(localized: "Not found"))
+                    )
                         .lineLimit(1)
                         .truncationMode(.middle)
                     Button("Choose…") { isChoosing = true }
-                    if choice != nil {
+                    if choice != nil || isUnreadable {
                         Button("Use the Usual Places") { use(nil) }
                     }
                 }
@@ -103,6 +107,8 @@ extension HomebrewChoice.Refusal {
         case .ownedByAnotherAccount(nil):
             Text("Another account owns it, so that account could change what Peel would run. Peel runs only a brew your account or the system owns.")
         case .writableByEveryone: Text("Anyone on this Mac can change it, so Peel won’t run it.")
+        case .unreadable:
+            Text("Peel can’t read which `brew` you chose, so it runs none until you choose it again or use the usual places.")
         }
     }
 }

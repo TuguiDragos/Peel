@@ -13,7 +13,7 @@ final class TerminalToolLibrary {
         /// Where the tools are: under the `brew` Peel runs, or under one it won't run, which it never asks, since that
         /// a tool is there is only a look at a folder.
         var folder: URL? {
-            prefix ?? (refused ?? unrunnable)?.brew.deletingLastPathComponent().deletingLastPathComponent()
+            prefix ?? (refused ?? unrunnable)?.brew?.deletingLastPathComponent().deletingLastPathComponent()
         }
     }
 

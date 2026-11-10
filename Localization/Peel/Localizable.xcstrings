@@ -140797,6 +140797,112 @@
         }
       }
     },
+    "Peel can’t read which `brew` you chose, so it runs none until you choose it again or use the usual places." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže přečíst, který `brew` jste zvolili, a proto žádný nespouští, dokud ho znovu nezvolíte nebo nepoužijete obvyklá umístění."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann nicht lesen, welches `brew` du gewählt hast, und führt daher keines aus, bis du es erneut wählst oder die üblichen Orte verwendest."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede leer qué `brew` has seleccionado, así que no ejecuta ninguno hasta que vuelvas a seleccionarlo o uses las ubicaciones habituales."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas lire quel `brew` vous avez choisi : il n’en exécute donc aucun tant que vous ne l’avez pas choisi à nouveau ou que vous n’utilisez pas les emplacements habituels."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non riesce a leggere quale `brew` hai scelto, quindi non ne esegue nessuno finché non lo scegli di nuovo o non usi le posizioni abituali."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、どの`brew`が選択されたかを読み取れないため、もう一度選択するか、通常の場所を使うように戻すまで、どのHomebrewも実行しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 사용자가 어떤 `brew`를 선택했는지 읽을 수 없으므로, 다시 선택하거나 기본 위치를 사용하기 전까지는 어느 것도 실행하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan niet lezen welke `brew` je hebt gekozen, dus voert Peel er geen uit totdat je die opnieuw kiest of de gebruikelijke locaties gebruikt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może odczytać, który program `brew` wybrano, więc nie uruchamia żadnego, dopóki nie wybierzesz go ponownie albo nie wrócisz do zwykłych miejsc."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue ler qual `brew` você escolheu, então não executa nenhum até você escolhê-lo novamente ou usar os locais habituais."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate citi ce program `brew` ați ales, așa că nu rulează niciunul până când nu îl alegeți din nou sau nu folosiți locurile obișnuite."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удается прочитать, какой `brew` Вы выбрали, поэтому он не запускает ни один, пока Вы не выберете его снова или не станете использовать обычные папки."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte läsa vilken `brew` du har valt, så Peel kör ingen förrän du väljer den igen eller använder de vanliga platserna."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hangi `brew` programını seçtiğinizi okuyamıyor, bu yüzden siz onu yeniden seçene veya olağan yerleri kullanana kadar hiçbirini çalıştırmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може прочитати, який `brew` ви вибрали, тож не запускає жодного, доки ви не виберете його знову або не скористаєтеся звичними місцями."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法读取你选取了哪个`brew`，因此在你重新选取或改用常规位置之前，它一个也不会运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取你選擇的是哪個`brew`，因此在你重新選擇或改為使用常用位置之前，它不會執行任何一個。"
+          }
+        }
+      }
+    },
     "Peel can’t run this file." : {
       "localizations" : {
         "cs" : {

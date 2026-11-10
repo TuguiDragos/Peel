@@ -1,6 +1,7 @@
 import Darwin
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct HomebrewChoiceTests {
@@ -57,6 +58,37 @@ struct HomebrewChoiceTests {
         #expect(choice.load()?.path(percentEncoded: false) == brew.path(percentEncoded: false))
         #expect(choice.unrunnable()?.refusal == .notAProgram)
         #expect(Homebrew.executable(chosen: choice.load()) == nil)
+    }
+
+    @Test(arguments: ["{", "", "[\"/opt/brew/bin/brew\"]", "42"])
+    func aChoiceThatCannotBeReadRunsNoBrewUntilItIsChosenAgain(text: String) throws {
+        let directory = try TemporaryDirectory()
+        let brew = try program("opt/brew/bin/brew", in: directory)
+        let usual = try program("opt/homebrew/bin/brew", in: directory)
+        let file = try directory.file("Peel/homebrew.json", contents: Data(text.utf8))
+        let choice = HomebrewChoice(url: file)
+
+        #expect(choice.reading() == .unreadable)
+        #expect(choice.load() == nil)
+        #expect(choice.unrunnable() == HomebrewChoice.Unrunnable(brew: nil, refusal: .unreadable))
+        #expect(Homebrew.executable(choosing: choice, usualPlaces: [usual]) == nil)
+        #expect(Homebrew.mayHaveInstalledPeel(chosen: nil, isChoiceUnreadable: true, root: directory.url))
+
+        #expect(choice.save(brew) == nil)
+        #expect(choice.load()?.path(percentEncoded: false) == brew.path(percentEncoded: false))
+        #expect(DamagedFile.copies(of: file)?.count == 1)
+    }
+
+    @Test func noChoiceAndUsingTheUsualPlacesAreNotAChoiceThatCannotBeRead() throws {
+        let directory = try TemporaryDirectory()
+        let usual = try program("opt/homebrew/bin/brew", in: directory)
+        let choice = HomebrewChoice(url: directory.url.appending(path: "Peel/homebrew.json"))
+
+        #expect(choice.reading() == .nothingChosen)
+        #expect(Homebrew.executable(choosing: choice, usualPlaces: [usual]) == usual)
+        #expect(choice.save(nil) == nil)
+        #expect(choice.reading() == .nothingChosen)
+        #expect(choice.unrunnable() == nil)
     }
 
     @Test func runsABrewInAUsualPlaceOnlyByTheRuleAChosenOneFollows() throws {

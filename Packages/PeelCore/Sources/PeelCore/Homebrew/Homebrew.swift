@@ -636,7 +636,15 @@ public enum Homebrew {
     /// `PATH`, so `which brew` would find nothing. Taking the prefix from the environment would let anything that
     /// can set `HOMEBREW_PREFIX` choose which program Peel runs.
     public static var executableURL: URL? {
-        standIn ?? executable(chosen: HomebrewChoice().load())
+        standIn ?? executable(choosing: HomebrewChoice())
+    }
+
+    static func executable(choosing choice: HomebrewChoice, usualPlaces: [URL] = Homebrew.usualPlaces) -> URL? {
+        switch choice.reading() {
+        case .nothingChosen: executable(chosen: nil, usualPlaces: usualPlaces)
+        case .chosen(let brew): executable(chosen: brew, usualPlaces: usualPlaces)
+        case .unreadable: nil
+        }
     }
 
     /// A `brew` a test runs in place of this Mac's, whose folders it can't make unwritable or empty.
@@ -672,8 +680,10 @@ public enum Homebrew {
     /// the Caskroom of the `brew` chosen in Settings or of either place Homebrew installs itself, or one of those
     /// can't be looked into.
     public static func mayHaveInstalledPeel(
-        chosen: URL? = HomebrewChoice().load(), root: URL = URL(filePath: "/", directoryHint: .isDirectory)
+        chosen: URL? = HomebrewChoice().load(), isChoiceUnreadable: Bool = HomebrewChoice().reading() == .unreadable,
+        root: URL = URL(filePath: "/", directoryHint: .isDirectory)
     ) -> Bool {
+        guard !isChoiceUnreadable else { return true }
         let chosenPrefix = chosen.map { $0.deletingLastPathComponent().deletingLastPathComponent() }
         let prefixes = [chosenPrefix].compactMap(\.self)
             + usualPrefixes.map { root.appending(path: $0, directoryHint: .isDirectory) }
@@ -697,7 +707,7 @@ public enum Homebrew {
             guard let refusal = HomebrewChoice.refusal(of: brew, user: user) else { return nil }
             return switch refusal {
             case .ownedByAnotherAccount, .writableByEveryone: HomebrewChoice.Unrunnable(brew: brew, refusal: refusal)
-            case .notBrew, .notAProgram: nil
+            case .notBrew, .notAProgram, .unreadable: nil
             }
         }.first
     }

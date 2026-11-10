@@ -1,5 +1,6 @@
 public import Darwin
 public import Foundation
+import PeelPrivileged
 
 /// The `brew` the person chose in Settings, for a Homebrew in a prefix of its own such as `/opt/brew`, which
 /// Homebrew supports while the prefix is no longer than its default one. It is kept in the Peel folder, so the app
@@ -12,11 +13,20 @@ public struct HomebrewChoice: Sendable {
         /// Another account, `owner` by its short name when it has one, could change what it runs.
         case ownedByAnotherAccount(owner: String?)
         case writableByEveryone
+        /// The file that says which `brew` was chosen is there and can't be read.
+        case unreadable
     }
 
     public struct Unrunnable: Sendable, Equatable {
-        public let brew: URL
+        /// Nil when the choice itself can't be read.
+        public let brew: URL?
         public let refusal: Refusal
+    }
+
+    public enum Reading: Sendable, Equatable {
+        case nothingChosen
+        case chosen(URL)
+        case unreadable
     }
 
     public let url: URL
@@ -33,17 +43,30 @@ public struct HomebrewChoice: Sendable {
         PeelFolder.url(inHome: home).appending(path: "homebrew.json")
     }
 
-    /// The chosen `brew`, or nil when none was chosen. It stays chosen when it can no longer be run, so Peel runs
-    /// no other one in its place.
+    /// What the file says was chosen. A choice that can't be read, like one that can no longer be run, stays the
+    /// choice, so Peel runs no other `brew` in its place.
+    public func reading() -> Reading {
+        guard !url.isMissing else { return .nothingChosen }
+        guard let data = BoundedRead.data(at: url) else { return .unreadable }
+        do {
+            let path = try JSONDecoder().decode(String?.self, from: data)
+            return path.map { .chosen(URL(filePath: $0)) } ?? .nothingChosen
+        } catch {
+            return .unreadable
+        }
+    }
+
+    /// The chosen `brew`, or nil when none was chosen or the choice can't be read.
     public func load() -> URL? {
-        guard let data = BoundedRead.data(at: url), let path = try? JSONDecoder().decode(String?.self, from: data)
-        else { return nil }
-        return URL(filePath: path)
+        if case .chosen(let brew) = reading() { brew } else { nil }
     }
 
     public func unrunnable() -> Unrunnable? {
-        guard let brew = load(), let refusal = Self.refusal(of: brew) else { return nil }
-        return Unrunnable(brew: brew, refusal: refusal)
+        switch reading() {
+        case .nothingChosen: nil
+        case .unreadable: Unrunnable(brew: nil, refusal: .unreadable)
+        case .chosen(let brew): Self.refusal(of: brew).map { Unrunnable(brew: brew, refusal: $0) }
+        }
     }
 
     /// Keeps `brew` as the one to run, or forgets the choice when it is nil, and answers why it couldn't be saved, or
@@ -51,6 +74,9 @@ public struct HomebrewChoice: Sendable {
     @discardableResult
     public func save(_ brew: URL?) -> FileProblem? {
         do {
+            if reading() == .unreadable {
+                try DamagedFile.settingAside(url)
+            }
             try PeelFolder.write(try JSONEncoder().encode(brew?.path(percentEncoded: false)), to: url)
             return nil
         } catch {

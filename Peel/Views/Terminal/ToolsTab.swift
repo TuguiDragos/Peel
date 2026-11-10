@@ -21,8 +21,10 @@ struct ToolsTab: View {
                     Section {
                         VStack(alignment: .leading, spacing: 4) {
                             StatusLabel(title: Text("Peel doesn’t run this `brew`."))
-                            Text(refused.brew.abbreviatedPath)
-                                .font(.caption.monospaced())
+                            if let brew = refused.brew {
+                                Text(brew.abbreviatedPath)
+                                    .font(.caption.monospaced())
+                            }
                             refused.refusal.explanation
                                 .font(.callout)
                                 .foregroundStyle(.secondary)

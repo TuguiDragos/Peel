@@ -86,7 +86,7 @@ struct InventoryCommand: AsyncParsableCommand {
                 refused: Homebrew.refusedInAUsualPlace()
             )
         }
-        let isThere = HomebrewChoice().load() != nil || Homebrew.refusedInAUsualPlace() != nil
+        let isThere = HomebrewChoice().reading() != .nothingChosen || Homebrew.refusedInAUsualPlace() != nil
         if let note = homebrewNote(isInstalled: Homebrew.executableURL != nil || isThere, why: why) {
             Output.note(note)
         }
@@ -107,15 +107,18 @@ struct InventoryCommand: AsyncParsableCommand {
         isInstalled: Bool, unrunnable: HomebrewChoice.Unrunnable? = nil, refused: HomebrewChoice.Unrunnable? = nil
     ) -> String {
         if let unrunnable {
-            return "Peel runs only the brew chosen in its Settings, \(unrunnable.brew.path(percentEncoded: false)), and that one can't be run."
+            guard let brew = unrunnable.brew else {
+                return "Peel can't read which brew is chosen in its Settings, so it runs none."
+            }
+            return "Peel runs only the brew chosen in its Settings, \(brew.path(percentEncoded: false)), and that one can't be run."
         }
-        if let refused {
+        if let refused, let brew = refused.brew {
             let owner = switch refused.refusal {
             case .ownedByAnotherAccount(let owner?): "the account \(Output.plain(owner)) owns it"
             case .ownedByAnotherAccount(nil): "another account owns it"
             default: "anyone on this Mac can change it"
             }
-            return "Peel doesn't run the brew in \(refused.brew.path(percentEncoded: false)): \(owner)."
+            return "Peel doesn't run the brew in \(brew.path(percentEncoded: false)): \(owner)."
         }
         return isInstalled ? "Homebrew has no list of packages on this Mac. Run `brew update` first." : "Homebrew isn't installed."
     }

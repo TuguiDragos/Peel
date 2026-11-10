@@ -747,7 +747,9 @@ struct HomebrewList: View {
                 Label("Peel Can’t Run the `brew` You Chose", systemImage: "mug")
             } description: {
                 VStack(spacing: 6) {
-                    Text("Peel runs only the `brew` you chose in Settings, \(chosen.brew.abbreviatedPath), and that one can’t be run now.")
+                    if let brew = chosen.brew {
+                        Text("Peel runs only the `brew` you chose in Settings, \(brew.abbreviatedPath), and that one can’t be run now.")
+                    }
                     chosen.refusal.explanation
                 }
             } actions: {
@@ -758,7 +760,9 @@ struct HomebrewList: View {
                 Label("Peel Doesn’t Run This Homebrew", systemImage: "mug")
             } description: {
                 VStack(spacing: 6) {
-                    Text("Homebrew’s `brew` is in \(refused.brew.abbreviatedPath), and Peel doesn’t run it.")
+                    if let brew = refused.brew {
+                        Text("Homebrew’s `brew` is in \(brew.abbreviatedPath), and Peel doesn’t run it.")
+                    }
                     refused.refusal.explanation
                 }
             } actions: {
