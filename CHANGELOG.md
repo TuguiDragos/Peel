@@ -262,6 +262,17 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Leaving Orphaned Files, Space, Developer, Plug-ins, iCloud Drive, or Package Receipts while it scans again after a
   change to the exclusions or a Put Back no longer leaves the old list when you come back.
 
+#### `peel`
+
+- `peel uninstall` lists an app kept in a place it searches, such as an input method in `~/Library/Input Methods`, once
+  in its plan, its total, and its JSON, no longer a second time among the app's own leftovers.
+- `peel uninstall --dry-run` and `peel leftovers` say the app stays while a program from it runs, on the app's row and
+  in `appStays`, as the real run then refuses it, and the dry run's `appStays` also names an app still open.
+- When an app stays, because its maker or Finder removes it, macOS keeps it, or the move would refuse it,
+  `peel uninstall` no longer says its items needing an administrator can be removed with the Peel app.
+- `peel exclusions add`, `peel exclusions remove`, `peel projects`, and `peel duplicates` refuse an empty path, which
+  they read as the folder they ran from, and `peel exclusions add` names what it added.
+
 ### Security
 
 - Peel's helper, its guard, every scan, and Package Receipts refuse what macOS keeps under Apple's own name directly
