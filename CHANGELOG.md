@@ -225,6 +225,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   such as `org.example.plist`.
 - An app's page and several apps' page stay until their removal ends. Peel reading the app folders again partway took
   the page away with its progress, and a new page could offer the apps still waiting.
+- Several apps' page reads each folder once for all the apps you chose, rather than once for each, so twenty apps are
+  ready in about half the time.
+- An app's page asks `pkgutil` about the app's receipts once rather than twice, and asks nothing more of your account's
+  packages when it has none.
 
 #### Orphaned Files
 
@@ -250,6 +254,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - What an app whose name is two characters in Chinese, Japanese, or Korean left is listed once Peel saw it go.
 - A tool's cache the Developer page lists, such as Carthage's or Vercel CLI's, is no longer listed as left by an app
   that's gone, unless Peel saw that app go.
+- Orphaned Files and `peel orphans` ask only the apps that could own each item, so a Mac with hundreds of apps is
+  read much faster.
 
 #### Intel Software
 
@@ -359,6 +365,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   time Peel opens if it did.
 - The scan after a move measures again the folders Peel moved something out of or put something back into, no longer
   showing a size a slow measurement took before the move.
+- Move to Trash and Put Back no longer hold the window while Peel sets up the checks that keep what it protects in
+  place: they're set up in the work that moves, once for an uninstall.
 
 #### `peel`
 
