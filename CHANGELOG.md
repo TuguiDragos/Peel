@@ -64,6 +64,14 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - On macOS 27, a switch's long title on the Terminal and Shell tabs is no longer drawn smaller to make room for the
   switch.
 
+#### History
+
+- On exFAT and FAT32 disks, History no longer takes an empty file Peel put in the disk's Trash for gone once the disk
+  is plugged in again, nor, on FAT32, everything there once the Mac's clocks change for summer time or another time
+  zone, and Put Back brings them back.
+- The first empty file moved to the Trash of a freshly formatted card or stick is recorded in History, no longer
+  reported as something else that was at its place.
+
 #### Applications
 
 - An app's page, `peel leftovers`, and `peel uninstall` no longer say Peel couldn't look inside a folder macOS keeps for
@@ -179,9 +187,15 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - Folders of sparse files whose lengths add up past the largest size a number can hold no longer make a scan quit
   unexpectedly, in the app and in `peel duplicates`.
+- On exFAT and FAT32 disks, a file rewritten in place under its old date is read again, no longer offered as a copy
+  of the file it was a copy of: what Duplicates remembers between scans counts only on APFS. Right before a move,
+  Peel reads again each copy that goes and the copies that stay, and a copy moves only while one that stays holds the
+  same bytes, in the app and in `peel duplicates --remove`.
 
 #### Every page
 
+- Moving a file whose creation date a network share reports as unknown, such as 1601, no longer makes Peel quit
+  unexpectedly.
 - The buttons of a page with nothing to show, such as Not Everything Could Be Read, go one under another when they don't
   fit side by side, instead of running past the column.
 
@@ -219,6 +233,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   and one another maker's identifier names is listed for you to review.
 - A bundle whose code signature doesn't seal its Info.plist gets no maker or team from Peel, as if it were unsigned:
   the program inside was signed on its own, and its signature says nothing about the bundle around it.
+- What Duplicates remembers between scans can no longer get a file moved: it is a file any program of your account
+  can write, and a digest written there made two different files look like copies, with one selected. Copies are now
+  read again before they move.
 
 ## 1.3.0 (2026-11-04)
 

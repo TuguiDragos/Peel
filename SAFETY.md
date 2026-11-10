@@ -220,7 +220,10 @@ those places and in `/Library/Caches` what was written in the last 15 minutes st
 
 A move to the Trash, or back from it, never replaces what is already at the new name. Most disks refuse that by
 themselves; on one that cannot, such as exFAT, Peel first takes the name with an empty placeholder, which only a
-free name allows, and the move then replaces the placeholder.
+free name allows, and the move then replaces the placeholder. On exFAT and FAT32 an empty file gets another number
+whenever the disk is mounted, and FAT32 reads a file's times in the Mac's time zone of the moment, so History knows
+what Peel put in such a disk's Trash also by whether it is a folder and by a file's size, and lets its creation time
+be off by whole quarter hours.
 
 What Peel deletes outright holds nothing of yours: such a placeholder, when the move it was made for fails; the folder
 it makes to save an app's settings before a reset, when saving fails before anything is written in it; the folders it
@@ -540,10 +543,12 @@ On every list, Select All selects every row you can select, what Peel holds back
 Peel doesn't recommend; Return answers Select Recommended, or Cancel when nothing is recommended. Each held back row
 still shows its reason beside it.
 
-In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused. When a scan you
-started ends, Duplicates selects every copy of each group but the one it suggests keeping, and never one in
-`/Users/Shared`, which every account may use: check which copy stays before you move the others. Nothing inside a
-repository, a project, `node_modules`, a photo or music library, an
+In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused: right before the
+move, Peel reads again each copy that goes and the copies that stay, and a copy goes only while one that stays holds the
+same bytes. What Duplicates remembers between scans counts only on APFS, where every write leaves a time nothing can set
+back. When a scan you started ends, Duplicates selects every copy of each group but the one it suggests keeping,
+and never one in `/Users/Shared`, which every account may use: check which copy stays before you move the others.
+Nothing inside a repository, a project, `node_modules`, a photo or music library, an
 app, or another package is ever offered, nor a hidden file or folder, such as a tool's settings in `~/.config`. An app,
 another package, or anything hidden counts only toward the folder around it, a document its app keeps as a package among
 them, such as a Logic Pro or Scrivener project, even once the app is gone, while a folder holding a repository, a
