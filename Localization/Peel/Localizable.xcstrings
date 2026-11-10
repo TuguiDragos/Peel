@@ -141979,6 +141979,112 @@
         }
       }
     },
+    "Peel can’t read your exclusions, so it puts nothing back. Start the list over in the Exclusions tab." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže přečíst vaše výjimky, a proto nic nevrátí. Začněte seznam znovu na kartě Výjimky."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann deine Ausschlüsse nicht lesen und legt daher nichts zurück. Beginne die Liste unter „Ausschlüsse“ neu."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede leer tus exclusiones, así que no restaura nada. Vuelve a empezar la lista en la pestaña Exclusiones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas lire vos exclusions : il ne remet donc rien en place. Recommencez la liste dans l’onglet Exclusions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non riesce a leggere le tue esclusioni, quindi non ripristina nulla. Ricomincia l’elenco nella scheda Esclusioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは除外リストを読み取れないため、何も戻しません。“除外”タブでリストを最初からやり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 제외 항목을 읽을 수 없으므로 아무것도 되돌려 놓지 않습니다. 제외 항목 탭에서 목록을 처음부터 다시 시작하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan je uitsluitingen niet lezen, dus zet Peel niets terug. Begin opnieuw met de lijst op het tabblad 'Uitsluitingen'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może odczytać Twoich wykluczeń, więc niczego nie przywraca. Zacznij listę od nowa w karcie Wykluczenia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue ler as suas exclusões, então não coloca nada de volta. Recomece a lista na aba Exclusões."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu vă poate citi excluderile, așa că nu pune nimic înapoi. Reîncepeți lista în fila Excluderi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удается прочитать Ваши исключения, поэтому он ничего не восстанавливает. Начните список заново на вкладке «Исключения»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte läsa dina undantag, så Peel lägger inte tillbaka något. Börja om listan på fliken Undantag."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hariç tutulanlarınızı okuyamıyor, bu yüzden hiçbir şeyi yerine koymaz. Hariç Tutulanlar sekmesinde listeyi baştan başlatın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може прочитати ваші винятки, тож нічого не повертає. Почніть список наново на вкладці «Винятки»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法读取你的排除项，因此不会放回任何内容。请在“排除项”标签页中重新开始建立该列表。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取你的排除項目，因此不會還原任何項目。請在「排除項目」標籤頁中重新開始此列表。"
+          }
+        }
+      }
+    },
     "Peel can’t run this file." : {
       "localizations" : {
         "cs" : {
@@ -153013,6 +153119,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會動它和它的檔案。你可以在「設定」中更改。"
+          }
+        }
+      }
+    },
+    "Peel leaves its settings alone. Change that in the Exclusions tab." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nechává nastavení této aplikace nedotčená. Změnit to můžete na kartě Výjimky."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel lässt die Einstellungen der App unangetastet. Ändere das unter „Ausschlüsse“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no toca sus ajustes. Puedes cambiarlo en la pestaña Exclusiones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne touche pas à ses réglages. Modifiez cela dans l’onglet Exclusions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non tocca le sue impostazioni. Puoi cambiarlo nella scheda Esclusioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこのアプリの設定に手を付けません。これは“除外”タブで変更できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이 앱의 설정을 그대로 둡니다. 제외 항목 탭에서 이를 변경할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel laat de instellingen van de app met rust. Wijzig dat op het tabblad 'Uitsluitingen'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie rusza jej ustawień. Możesz to zmienić w karcie Wykluczenia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não mexe nos ajustes dele. Mude isso na aba Exclusões."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel îi lasă neatinse configurările. Puteți schimba acest lucru în fila Excluderi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не трогает его настройки. Это можно изменить на вкладке «Исключения»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel lämnar appens inställningar orörda. Du ändrar det på fliken Undantag."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bu uygulamanın ayarlarına dokunmaz. Bunu Hariç Tutulanlar sekmesinde değiştirin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не чіпає її налаштувань. Змінити це можна на вкладці «Винятки»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会触碰它的设置。你可以在“排除项”标签页中更改。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會動它的設定。你可以在「排除項目」標籤頁中更改。"
           }
         }
       }
@@ -223977,6 +224189,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此App已被排除"
+          }
+        }
+      }
+    },
+    "This app is excluded, so Peel leaves its settings alone. Change that in the Exclusions tab." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato aplikace je vyloučena, a proto Peel nechává její nastavení nedotčená. Změnit to můžete na kartě Výjimky."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese App ist ausgeschlossen, daher lässt Peel ihre Einstellungen unangetastet. Ändere das unter „Ausschlüsse“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta app está excluida, así que Peel no toca sus ajustes. Puedes cambiarlo en la pestaña Exclusiones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette app est exclue : Peel ne touche donc pas à ses réglages. Modifiez cela dans l’onglet Exclusions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questa app è esclusa, quindi Peel non tocca le sue impostazioni. Puoi cambiarlo nella scheda Esclusioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアプリは除外されているため、Peelはこのアプリの設定に手を付けません。これは“除外”タブで変更できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 앱은 제외되어 있으므로 Peel은 이 앱의 설정을 그대로 둡니다. 제외 항목 탭에서 이를 변경할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze app is uitgesloten, dus laat Peel de instellingen ervan met rust. Wijzig dat op het tabblad 'Uitsluitingen'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta aplikacja jest wykluczona, więc Peel nie rusza jej ustawień. Możesz to zmienić w karcie Wykluczenia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este app está na lista de exclusões, então o Peel não mexe nos ajustes dele. Mude isso na aba Exclusões."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Această aplicație este exclusă, așa că Peel îi lasă neatinse configurările. Puteți schimba acest lucru în fila Excluderi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это приложение исключено, поэтому Peel не трогает его настройки. Это можно изменить на вкладке «Исключения»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den här appen är undantagen, så Peel lämnar dess inställningar orörda. Du ändrar det på fliken Undantag."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu uygulama hariç tutuldu, bu yüzden Peel onun ayarlarına dokunmaz. Bunu Hariç Tutulanlar sekmesinde değiştirin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ця програма у винятках, тож Peel не чіпає її налаштувань. Змінити це можна на вкладці «Винятки»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此App已被排除，因此Peel不会触碰它的设置。你可以在“排除项”标签页中更改。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此App已被排除，因此Peel不會動它的設定。你可以在「排除項目」標籤頁中更改。"
           }
         }
       }

@@ -94,24 +94,30 @@ struct SavedSettingsSection: View {
                     copyToPutBack = copy
                 }
                 .disabled(isOpen || refusal != nil)
-                .help(putBackHelp(refusal: refusal, isOpen: isOpen, name: name))
+                .help(Text(verbatim: Self.putBackHelp(
+                    refusal: refusal, exclusionsUnreadable: exclusions.exclusions.isUnreadable, isOpen: isOpen,
+                    name: name
+                )))
             }
             .disabled(workingOn != nil)
         }
     }
 
-    private func putBackHelp(refusal: PreferenceBackup.Restored?, isOpen: Bool, name: String) -> Text {
+    /// What the Put Back button says it does or why it can't, here in Settings, beside the Exclusions tab.
+    static func putBackHelp(
+        refusal: PreferenceBackup.Restored?, exclusionsUnreadable: Bool, isOpen: Bool, name: String
+    ) -> String {
         switch refusal {
         case .exclusionsNotKnown?:
-            exclusions.exclusions.isUnreadable
-                ? Text("Peel removes nothing and puts nothing back until you start the list over in Settings.")
-                : Text("Checking…")
+            exclusionsUnreadable
+                ? String(localized: "Peel can’t read your exclusions, so it puts nothing back. Start the list over in the Exclusions tab.")
+                : String(localized: "Checking…")
         case .excluded?:
-            Text("Peel leaves it and its files alone. Change that in Settings.")
+            String(localized: "This app is excluded, so Peel leaves its settings alone. Change that in the Exclusions tab.")
         default:
             isOpen
-                ? Text("Quit \(name) first, or it can write its own settings over these.")
-                : Text("Puts these settings back, after saving the ones the app has now.")
+                ? String(localized: "Quit \(name) first, or it can write its own settings over these.")
+                : String(localized: "Puts these settings back, after saving the ones the app has now.")
         }
     }
 
@@ -171,7 +177,7 @@ struct SavedSettingsSection: View {
         case .excluded:
             failure = Failure(
                 title: String(localized: "This app is excluded"),
-                message: String(localized: "Peel leaves it and its files alone. Change that in Settings.")
+                message: String(localized: "Peel leaves its settings alone. Change that in the Exclusions tab.")
             )
         }
     }
