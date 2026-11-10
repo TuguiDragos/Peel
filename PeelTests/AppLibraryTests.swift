@@ -278,6 +278,26 @@ private nonisolated final class TestClock: Sendable {
         #expect(library.selectedApp?.bundleIdentifier == "org.example.sold")
     }
 
+    @Test func knowsAnAppItListedBeforeByItsIdentifier() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let listed = try caskApp("Listed", in: folder)
+        let never = try caskApp("Never", in: folder)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let memory = AppMemory(url: folder.appending(path: "apps.json"))
+        await memory.remember([try #require(AppInspector.inspect(listed))])
+        let library = AppLibrary(
+            defaults: made.defaults,
+            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json")),
+            appFolders: AppFolders(url: folder.appending(path: "app-folders.json")),
+            appMemory: memory
+        )
+
+        #expect(await library.hasListed(listed))
+        #expect(await !library.hasListed(never))
+    }
+
     @Test func anAppAskedForUnderAnotherSpellingOfItsPathIsListedOnce() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try soldApp(in: folder)

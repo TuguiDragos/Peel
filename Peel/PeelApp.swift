@@ -351,11 +351,19 @@ struct PeelApp: App {
         // which every page reads to lock the rows that need it, so nothing below waits for them.
         async let homeChecked: Void = Marks.interval("Home checks") { await home.refresh() }
         await exclusionsRead
-        trashMonitor.onApplicationTrashed = { [notifications, library] url in
+        trashMonitor.onApplicationTrashed = { [notifications, library] trashed in
             // An old copy thrown away while another is installed, as some updaters do, leaves nothing behind, and
             // neither does a link to an app.
-            guard AppInspector.isAnAppThatLeft(url, among: library.apps) else { return }
-            notifications.notify(applicationTrashed: url)
+            guard AppInspector.isAnAppThatLeft(trashed.url, among: library.apps) else { return }
+            guard trashed.cameInAFolder else {
+                notifications.notify(applicationTrashed: trashed.url)
+                return
+            }
+            // A folder can hold apps that were never installed, such as a build or an old copy.
+            Task {
+                guard await library.hasListed(trashed.url) else { return }
+                notifications.notify(applicationTrashed: trashed.url)
+            }
         }
         if watchesTrash {
             trashMonitor.start()

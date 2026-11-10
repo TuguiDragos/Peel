@@ -1206,6 +1206,14 @@ final class AppLibrary {
         lastNames?.names[reference] = name
         return name
     }
+
+    /// Whether Peel has listed the app at `url`, now or before, by its identifier. The memory of apps keeps those that
+    /// left, so the answer doesn't depend on whether the list was read again since the app went.
+    func hasListed(_ url: URL) async -> Bool {
+        guard let identifier = AppInspector.inspect(url)?.bundleIdentifier?.lowercased() else { return false }
+        if apps.contains(where: { $0.bundleIdentifier?.lowercased() == identifier }) { return true }
+        return await appMemory.load().contains { $0.bundleIdentifier.lowercased() == identifier }
+    }
 }
 
 /// Rescan's work: the reading of the folders, and then the round of checks it starts.

@@ -321,6 +321,19 @@ public enum AppCatalog {
         return (bundles, unreadable)
     }
 
+    /// The apps in `folder`, one that arrived in a Trash, found as the list finds them in a folder of apps, on a thread
+    /// of its own within `FileSize.budget`. A link, a package, or a hidden folder holds none: a link leads to apps that
+    /// are still where they were.
+    @concurrent
+    public static func apps(inAFolderThrownAway folder: URL) async -> [URL] {
+        // `lstat` follows a link whose name ends in a slash, as a folder's URL is written.
+        var info = stat()
+        guard lstat(PathPattern.comparablePath(of: folder), &info) == 0, info.st_mode & S_IFMT == S_IFDIR,
+              looksInside(folder)
+        else { return [] }
+        return await SlowRead.answer(within: FileSize.budget) { appBundles(in: folder, unless: $0).bundles } ?? []
+    }
+
     private static func byName(_ lhs: InstalledApp, _ rhs: InstalledApp) -> Bool {
         let order = lhs.name.localizedStandardCompare(rhs.name)
         if order != .orderedSame { return order == .orderedAscending }

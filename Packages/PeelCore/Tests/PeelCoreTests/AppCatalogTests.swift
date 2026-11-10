@@ -37,6 +37,32 @@ struct AppCatalogTests {
         #expect(found.bundles.isEmpty)
     }
 
+    @Test func findsTheAppsOfAFolderThrownAwayButNoneThroughALinkAPackageOrAHiddenFolder() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Trash/Suite/Suite.app/Contents")
+        try directory.directory("Trash/Suite/Tools/Helper.app/Contents")
+        try directory.directory("Trash/Suite.bundle/Inside.app/Contents")
+        try directory.directory("Trash/.Hidden/Inside.app/Contents")
+        try directory.directory("Installed/Kept/Kept.app/Contents")
+        let link = directory.url.appending(path: "Trash/Kept", directoryHint: .isDirectory)
+        try FileManager.default.createSymbolicLink(
+            at: link, withDestinationURL: directory.url.appending(path: "Installed/Kept")
+        )
+        let trash = directory.url.appending(path: "Trash", directoryHint: .isDirectory)
+
+        let suite = await AppCatalog.apps(
+            inAFolderThrownAway: trash.appending(path: "Suite", directoryHint: .isDirectory)
+        )
+        let others = await [
+            AppCatalog.apps(inAFolderThrownAway: link),
+            AppCatalog.apps(inAFolderThrownAway: trash.appending(path: "Suite.bundle", directoryHint: .isDirectory)),
+            AppCatalog.apps(inAFolderThrownAway: trash.appending(path: ".Hidden", directoryHint: .isDirectory)),
+        ]
+
+        #expect(suite.map(\.lastPathComponent).sorted() == ["Helper.app", "Suite.app"])
+        #expect(others == [[], [], []])
+    }
+
     private let yesterday = Date(timeIntervalSince1970: 1_800_000_000)
     private let today = Date(timeIntervalSince1970: 1_800_086_400)
 

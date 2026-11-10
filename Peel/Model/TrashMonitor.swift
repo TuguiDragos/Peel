@@ -3,6 +3,12 @@ import Foundation
 import Observation
 import PeelCore
 
+/// An app that arrived in a Trash: thrown away itself, or inside a folder that was.
+struct TrashedApp {
+    let url: URL
+    let cameInAFolder: Bool
+}
+
 /// Watches the Trash for apps the user moves there: the home's Trash, and the Trash of each other disk Peel lists
 /// apps on, where an app thrown away from that disk lands.
 @Observable
@@ -18,7 +24,7 @@ final class TrashMonitor {
 
     /// The home Trash's watch, the one macOS keeps behind Full Disk Access.
     private(set) var status = Status.off
-    var onApplicationTrashed: ((URL) -> Void)?
+    var onApplicationTrashed: ((TrashedApp) -> Void)?
 
     @ObservationIgnored private var home: TrashWatch?
     @ObservationIgnored private var volumeTrashes: [URL] = []
@@ -95,9 +101,10 @@ final class TrashMonitor {
     }
 }
 
-/// One Trash folder, watched for apps arriving. A Trash can be missing: a disk's appears only once something there
-/// first goes to the Trash, and the home's is made again only then after it is deleted. Until it is there, the folder
-/// it appears in is watched: the top of the disk, where `.Trashes` appears, or the home folder.
+/// One Trash folder, watched for apps arriving, on their own or inside a folder thrown away with them. A Trash can be
+/// missing: a disk's appears only once something there first goes to the Trash, and the home's is made again only then
+/// after it is deleted. Until it is there, the folder it appears in is watched: the top of the disk, where `.Trashes`
+/// appears, or the home folder.
 @MainActor
 final class TrashWatch {
     enum Start {
@@ -109,7 +116,7 @@ final class TrashWatch {
 
     let trash: URL
     private let waitingPlace: URL
-    private let onArrived: (URL) -> Void
+    private let onArrived: (TrashedApp) -> Void
     /// Told what came of starting again after the folder watched went away.
     var onRestart: ((Start) -> Void)?
     private var source: (any DispatchSourceFileSystemObject)?
@@ -122,7 +129,7 @@ final class TrashWatch {
 
     var isActive: Bool { source != nil }
 
-    init(trash: URL, waitsIn waitingPlace: URL, onArrived: @escaping (URL) -> Void) {
+    init(trash: URL, waitsIn waitingPlace: URL, onArrived: @escaping (TrashedApp) -> Void) {
         self.trash = trash
         self.waitingPlace = waitingPlace
         self.onArrived = onArrived
@@ -136,13 +143,13 @@ final class TrashWatch {
         if descriptor < 0, failure == ENOENT {
             return waitForTheTrash()
         }
-        guard descriptor >= 0, let applications = Self.names(in: trash) else {
+        guard descriptor >= 0, let names = Self.names(in: trash) else {
             if descriptor >= 0 { close(descriptor) }
             // Only a refusal from macOS means Full Disk Access is missing. No Trash yet, or no descriptors left,
             // leaves the watch off instead.
             return descriptor >= 0 || [EPERM, EACCES].contains(failure) ? .refused : .unavailable
         }
-        known = appeared ? [] : applications
+        known = appeared ? [] : names
         watch(descriptor)
         if appeared {
             changed()
@@ -219,25 +226,31 @@ final class TrashWatch {
             }
             let look = OwnTrashMoves.shared.look()
             guard
-                let applications = await Self.applications(in: trash),
+                let names = await Self.listing(of: trash),
                 // Nil while Peel is moving something itself: the end of that move looks again.
-                let arrived = OwnTrashMoves.shared.arrivals(applications, known: known, in: trash, since: look)
+                let arrived = OwnTrashMoves.shared.arrivals(names, known: known, in: trash, since: look)
             else { return }
-            self.known = applications
+            self.known = names
             // What Peel put there, from this process or from `peel` in Terminal, is no app the user threw away.
             let placedByPeel = arrived.isEmpty ? [] : await RemovalLog().placesInTheTrash()
             for name in arrived {
                 let url = trash.appending(path: name, directoryHint: .isDirectory)
                 guard !placedByPeel.contains(PathPattern.comparablePath(of: url)) else { continue }
-                onArrived(url)
+                if AppInspector.isNamedAsAnApp(url) {
+                    onArrived(TrashedApp(url: url, cameInAFolder: false))
+                } else {
+                    for app in await AppCatalog.apps(inAFolderThrownAway: url) {
+                        onArrived(TrashedApp(url: app, cameInAFolder: true))
+                    }
+                }
             }
         }
     }
 
-    /// Lists the apps in the Trash off the main actor, for events. The first listing, which decides whether
-    /// the watch can start at all, runs directly in `start()`.
+    /// Lists the Trash off the main actor, for events. The first listing, which decides whether the watch can start
+    /// at all, runs directly in `start()`.
     @concurrent
-    private static func applications(in trash: URL) async -> Set<String>? {
+    private static func listing(of trash: URL) async -> Set<String>? {
         names(in: trash)
     }
 
@@ -245,6 +258,6 @@ final class TrashWatch {
         guard let names = try? FileManager.default.contentsOfDirectory(atPath: trash.path(percentEncoded: false)) else {
             return nil
         }
-        return Set(names.filter { $0.hasSuffix(".app") })
+        return Set(names)
     }
 }
