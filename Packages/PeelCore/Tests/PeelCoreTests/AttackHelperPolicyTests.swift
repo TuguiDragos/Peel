@@ -63,7 +63,7 @@ struct AttackHelperPolicyTests {
 
         for path in paths {
             let result = policy(directory).open(directory.url.appending(path: path).path(percentEncoded: false))
-            #expect(result.isFailure, "ATTACK SUCCEEDED: the helper would move \(path)")
+            #expect(result.rejection == .irreplaceable, "ATTACK SUCCEEDED: the helper would move \(path)")
         }
     }
 
@@ -83,7 +83,7 @@ struct AttackHelperPolicyTests {
         ]
         for path in kept {
             let result = policy(directory).open(directory.url.appending(path: path).path(percentEncoded: false))
-            #expect(result.isFailure, "ATTACK SUCCEEDED: root would move \(path) and what it holds")
+            #expect(result.rejection == .irreplaceable, "ATTACK SUCCEEDED: root would move \(path) and what it holds")
         }
         #expect(!policy(directory).open(directory.url.appending(path: "home/Library/Caches/com.example.app").path(percentEncoded: false)).isFailure)
     }
@@ -99,7 +99,7 @@ struct AttackHelperPolicyTests {
             try? FileManager.default.moveItem(at: caches.appending(path: "Other"), to: caches.appending(path: "Vendor"))
         }
 
-        #expect(result.isFailure, "ATTACK SUCCEEDED: root would move a photo library from a folder swapped in after the check")
+        #expect(result.rejection == .irreplaceable, "ATTACK SUCCEEDED: root would move a photo library from a folder swapped in after the check")
     }
 
     @Test func anItemSwappedForAnotherAfterItWasOpenedStays() throws {
@@ -111,7 +111,7 @@ struct AttackHelperPolicyTests {
         try FileManager.default.moveItem(at: other, to: judged)
         let trash = try DirectoryHandle.at(try directory.directory("Trash").path(percentEncoded: false)).get()
 
-        #expect(TrashMover.move(item, into: trash).isFailure, "ATTACK SUCCEEDED: another item at the checked name moved")
+        #expect(TrashMover.move(item, into: trash).posixCode == .ENOENT, "ATTACK SUCCEEDED: another item at the checked name moved")
         #expect(FileManager.default.fileExists(atPath: judged.appending(path: "keep.db").path(percentEncoded: false)))
     }
 
@@ -130,7 +130,7 @@ struct AttackHelperPolicyTests {
         let caches = directory.url.appending(path: "home/Library/Caches").path(percentEncoded: false)
         let result = policy(directory).open(caches + "/dir/\u{301}login.keychain-db")
 
-        #expect(result.isFailure, "ATTACK SUCCEEDED: the helper would move a keychain through a link it never saw")
+        #expect(result.rejection == .irreplaceable, "ATTACK SUCCEEDED: the helper would move a keychain through a link it never saw")
     }
 
     /// The rules read a Swift string, and the kernel reads a C string that ends at the first NUL. So
@@ -144,7 +144,7 @@ struct AttackHelperPolicyTests {
 
         for name in ["Folder\u{0}.app", "Real.app\u{0}", "Real\n.app", "Real\u{7F}.app"] {
             let result = policy.open(path("root/Applications/", in: directory) + name)
-            #expect(result.isFailure, "ATTACK SUCCEEDED: \(name.debugDescription) was accepted")
+            #expect(result.rejection == .controlCharacter, "ATTACK SUCCEEDED: \(name.debugDescription) was accepted")
         }
         let trash = try #require(policy.openTrash(ownedBy: getuid()))
         #expect(policy.openInTrash(path("home/.Trash/", in: directory) + "Real.app\u{0}.txt", trash: trash) == nil)
@@ -161,7 +161,7 @@ struct AttackHelperPolicyTests {
 
         for spelling in ["Meſſages", "Keychainſ", "Keychains/login.keychain-db".replacingOccurrences(of: "s", with: "ſ")] {
             let result = policy(directory).open(library + "/" + spelling)
-            #expect(result.isFailure, "ATTACK SUCCEEDED: the helper would move \(spelling)")
+            #expect(result.rejection == .irreplaceable, "ATTACK SUCCEEDED: the helper would move \(spelling)")
         }
     }
 
@@ -179,7 +179,7 @@ struct AttackHelperPolicyTests {
             directory.url.appending(path: "home/Library/Caches/Vendor/Thesis.pages").path(percentEncoded: false)
         )
         // The helper resolves the link and then refuses what is behind it, on its own.
-        #expect(result.isFailure, "ATTACK SUCCEEDED: a symlinked parent reached iCloud Drive")
+        #expect(result.rejection == .irreplaceable, "ATTACK SUCCEEDED: a symlinked parent reached iCloud Drive")
     }
 
     /// `realpath(3)` fixes the case as well as the links, so the helper reads a differently cased path as the
@@ -488,7 +488,7 @@ extension AttackHelperPolicyTests {
 
     /// Put Back is driven by a JSON file that any process running as the user can rewrite. A crafted record must
     /// not plant a file in a folder that something running as root loads code from.
-    @Test func restoreRefusesEveryFolderThatLoadsCode() throws {
+    @Test func restoreRefusesToPlantALaunchDaemon() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("root/Library/LaunchDaemons")
         try directory.directory("root/Library/Caches")
@@ -500,7 +500,7 @@ extension AttackHelperPolicyTests {
         let payload = try #require(policy.openInTrash(path("home/.Trash/com.attacker.plist", in: directory), trash: trash))
 
         let planted = path("root/Library/LaunchDaemons/com.attacker.plist", in: directory)
-        #expect(policy.openDestination(planted, for: payload).isFailure, "ATTACK SUCCEEDED: a root launch daemon can be planted")
+        #expect(policy.openDestination(planted, for: payload).rejection == .loadsCode, "ATTACK SUCCEEDED: a root launch daemon can be planted")
     }
 
     /// `~/.Trash` belongs to the user, so they can put a link there. Following it would let them choose
@@ -550,7 +550,7 @@ extension AttackHelperPolicyTests {
         try directory.file(path)
 
         let result = policy(directory).open(directory.url.appending(path: path).path(percentEncoded: false))
-        #expect(result.isFailure, "ATTACK SUCCEEDED: root would move a document out of an app's container")
+        #expect(result.rejection == .irreplaceable, "ATTACK SUCCEEDED: root would move a document out of an app's container")
     }
 
     /// Peel looks inside each of these folders and offers what an app left there, never the folder itself.
@@ -560,7 +560,7 @@ extension AttackHelperPolicyTests {
             let path = "home/Library/" + folder.rawValue
             try directory.directory(path)
             let result = policy(directory).open(directory.url.appending(path: path).path(percentEncoded: false))
-            #expect(result.isFailure, "ATTACK SUCCEEDED: root would move \(path) whole")
+            #expect(result.rejection == .irreplaceable, "ATTACK SUCCEEDED: root would move \(path) whole")
         }
         let inside = try directory.directory("home/Library/Caches/com.example.app")
         #expect(!policy(directory).open(inside.path(percentEncoded: false)).isFailure)
@@ -583,14 +583,17 @@ extension AttackHelperPolicyTests {
             manifestLocations: [root + "root/Library/Application Support/Chromium/NativeMessagingHosts"]
         )
         func opens(_ path: String) -> Bool {
-            !policy.open(directory.url.appending(path: path).path(percentEncoded: false)).isFailure
+            policy.open(directory.url.appending(path: path).path(percentEncoded: false)).rejection == nil
+        }
+        func refusal(_ path: String) -> PrivilegedPathPolicy.Rejection? {
+            policy.open(directory.url.appending(path: path).path(percentEncoded: false)).rejection
         }
 
         for holder in [
             "home/Library/Application Support/Avid", "home/Library/Application Support/Avid/Audio", "home/Library/Audio",
             "home/Library/Audio/Plug-Ins", "root/Library/Application Support/Avid", "root/Library/Application Support/AVID",
         ] {
-            #expect(!opens(holder), "ATTACK SUCCEEDED: root would move \(holder) whole, and a folder Peel searches with it")
+            #expect(refusal(holder) == .irreplaceable, "ATTACK SUCCEEDED: root would move \(holder) whole, and a folder Peel searches with it")
         }
         #expect(opens("home/Library/Application Support/Avid/Pro Tools"))
         #expect(opens("root/Library/Application Support/Avid/Pro Tools"))
@@ -605,7 +608,7 @@ extension AttackHelperPolicyTests {
         try directory.file(caches + "/JetBrains/IntelliJIdea2026.2/LocalHistory/changes.storageData")
 
         let result = policy(directory).open(directory.url.appending(path: caches).path(percentEncoded: false))
-        #expect(result.isFailure, "ATTACK SUCCEEDED: root would move a Caches folder and the local history inside it")
+        #expect(result.rejection == .irreplaceable, "ATTACK SUCCEEDED: root would move a Caches folder and the local history inside it")
     }
 
     @Test func readsTheCallersHomeFolder() throws {
@@ -691,5 +694,17 @@ private extension Result {
         case .success: false
         case .failure: true
         }
+    }
+}
+
+private extension Result where Failure == PrivilegedPathPolicy.Rejection {
+    var rejection: PrivilegedPathPolicy.Rejection? {
+        if case .failure(let rejection) = self { rejection } else { nil }
+    }
+}
+
+private extension Result where Failure == POSIXError {
+    var posixCode: POSIXError.Code? {
+        if case .failure(let error) = self { error.code } else { nil }
     }
 }
