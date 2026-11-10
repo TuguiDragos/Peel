@@ -87,6 +87,32 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The alert after a removal says to remove or change the lines of your shell's startup files that still name what moved
   if a new Terminal window shows an error. `peel uninstall` says the same.
 
+#### Orphaned Files
+
+- The page with nothing to list says plainly what shows up there: files named for an app that isn't installed, and files
+  of apps Peel saw removed.
+
+#### Homebrew
+
+- Clean Up's question describes the formulae it uninstalls once, as the ones nothing needs anymore, and then names them,
+  and the row's note says the same.
+- Beside a stopped Uninstall or Upgrade, Peel says it couldn't look inside the package's folders to check them against
+  your exclusions, no longer only that it can't check them.
+
+#### Developer
+
+- The note on what a tool's page keeps out of a selection says the rule first and that each row says why, rather than
+  every tool's reasons in one long sentence on every page.
+
+#### iCloud Drive
+
+- The note on downloads that would free nothing says first that they aren't listed, then why.
+
+#### File Search
+
+- When the list is cut short, it says the largest files come first and what apps keep in a Library folder comes last, no
+  longer "yours first".
+
 ### Fixed
 
 #### Home
@@ -306,6 +332,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A program file whose header places one of its parts beyond the end of any file no longer makes Peel quit
   unexpectedly as it reads what the file is built for.
 - An app that asks macOS to open it as Intel stays listed after Peel reads your apps again.
+- On an Intel Mac, the notes on what Peel couldn't read say what's there may be built for Intel only, no longer that it
+  may need Rosetta.
 
 #### Package Receipts
 
@@ -315,6 +343,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Receipt Only, a package's page, and the question before Forget All say that nothing on a package's receipt is
   left, no longer that nothing the package put on your Mac is: a receipt lists the files in the package, not what
   its install scripts put in place.
+- Forget Receipt asks by what the package left on the disk, not by its apps: a package that left a driver or a tool
+  keeps the long question, with Return on Cancel, and a receipt with nothing left says so.
+- When macOS doesn't answer which packages are installed, the page says so and to rescan, no longer that a question
+  about one package went unanswered.
+- Asking to quit several of a package's apps before removing them asks in the plural, as several apps' page does.
 
 #### Homebrew
 
@@ -330,11 +363,24 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   and those that lead into it through another link.
 - The command that gives a Homebrew owned by root back to this account names the account, so an administrator who
   runs it after `su` gives the folder to the right account.
+- When Peel stops before starting Homebrew, as when a package left Homebrew's list or Peel can't tell which formulae
+  your exclusions keep, the sheet says Peel didn't run Homebrew, no longer that Homebrew couldn't finish, and an app's
+  page sends no notice of a failed upgrade.
+- The Dependency badge says Homebrew installed the formula for another package, no longer that another package needs it,
+  which Clean Up on the same page could contradict.
+- A cask's page says Forgetting… while Peel forgets the cask, no longer Running Homebrew…, since Homebrew doesn't run
+  then.
+- The note beside Known Vulnerabilities no longer says Homebrew checked the installed version when it checked the
+  current one.
 
 #### Space
 
 - Homebrew Data, TeX Live, .NET SDKs, Wine, and an area whose app is gone say they are removed by hand in Finder, no
   longer that their own app or tool manages them.
+- The iCloud Drive area's hint names the iCloud Drive page's Remove Downloads, no longer one file at a time.
+- The line on AI models says it counts what the Developer page lists, no longer every model on this Mac.
+- The Logs area says the crash reports go one by one and the folder they sit in stays, no longer that only the reports
+  are offered.
 
 #### Developer
 
@@ -375,6 +421,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - A system extension macOS runs for an app bundled inside another says to turn it off in Login Items & Extensions, as
   the app's page does, no longer that Finder's move removes it.
+- When macOS doesn't answer which extensions apps have added, the page says it can't list them and to rescan, no longer
+  that a list it doesn't show says nothing.
 
 #### Every page
 
