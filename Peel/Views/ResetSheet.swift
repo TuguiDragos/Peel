@@ -25,6 +25,8 @@ struct ResetSheet: View {
         _changedFiles = changedFiles
     }
 
+    static let changeOfMindNote: LocalizedStringResource = "The old settings were saved before they were cleared. Put them back from here, or later from Settings > General > Saved Settings, where the copy stays until you move it to the Trash. History won’t put the old files back once the app has written new ones in their place."
+
     var body: some View {
         VStack(spacing: 0) {
             if plan.didReset {
@@ -331,10 +333,7 @@ struct ResetSheet: View {
                     .listRowSeparator(.hidden)
                 } header: {
                     HeadingWithActions {
-                        heading(
-                            "If You Change Your Mind",
-                            "The old settings were saved before they were cleared. Put them back from here: once the app opens again, it writes new settings where the old ones were, and History won’t put the old files back over them."
-                        )
+                        heading("If You Change Your Mind", Self.changeOfMindNote)
                     } actions: {
                         Button("Show in Finder") {
                             NSWorkspace.shared.activateFileViewerSelecting([backup])
