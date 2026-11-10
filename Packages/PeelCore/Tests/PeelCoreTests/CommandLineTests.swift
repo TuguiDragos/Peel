@@ -996,6 +996,28 @@ struct CommandLineTests {
         #expect(report["leftForAnAdministrator"] as? Int == 1)
     }
 
+    @Test func sendsNothingToTheAppOrToOrphanedFilesWhileTheAppItselfStays() {
+        let place = URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory)
+        var beyond = leftover(URL(filePath: "/Library/Editor"), heldBack: .beyondTheHelper, requiresPrivileges: true)
+        beyond.isLeftForAnAdministrator = true
+        let leftovers = [leftover(URL(filePath: "/Library/Caches/com.example.editor"), requiresPrivileges: true), beyond]
+        let kept = InstalledApp(url: place, bundleIdentifier: "com.example.editor", name: "Editor", isSystemProtected: true)
+        let refused = InstalledApp(url: place, bundleIdentifier: "com.example.editor", name: "Editor")
+        let plans = [
+            UninstallPlan.make(uninstallation(app: kept, leftovers: leftovers), keepLeftovers: false) { _ in nil },
+            UninstallPlan.make(uninstallation(app: refused, leftovers: leftovers), keepLeftovers: false) {
+                $0 == place ? .guarded(.protectedLocation) : nil
+            },
+        ]
+
+        for plan in plans {
+            let scan = LeftoverScan(leftovers: [], unreadableLocations: [])
+            let notes = UninstallCommand.whatStays(plan, app: refused, homebrew: CaskLookup.Answer(), scan: scan)
+            #expect(plan.needsAdministrator == 0 && plan.leftForAnAdministrator == 0)
+            #expect(!notes.contains { $0.contains("the Peel app") })
+        }
+    }
+
     @Test func saysNothingWhenNothingWillStay() {
         let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
         let plan = UninstallPlan.make(

@@ -16,11 +16,13 @@ struct UninstallPlan {
     /// The bundle first, then the leftovers.
     let items: [Item]
     /// How many recommended leftovers need administrator access. The command line never asks for it, so they stay.
+    /// None while the app itself stays, in the Peel app too: then its files aren't leftovers.
     let needsAdministrator: Int
     /// How many leftovers are listed but not recommended, other than those the app's own uninstaller removes, the job
     /// that runs once the app has moved needs, or only an administrator can move.
     let needsReview: Int
-    /// How many leftovers stay for an administrator (`Uninstallation.leftForAnAdministrator`).
+    /// How many leftovers stay for an administrator (`Uninstallation.leftForAnAdministrator`), none while the app
+    /// itself stays.
     var leftForAnAdministrator = 0
     var letsItsProgramsRun = false
     var makersFolderNames: Set<String> = []
@@ -68,11 +70,13 @@ struct UninstallPlan {
             return Item(url: url, size: size, refusal: refusal(url))
         }
         let rest = keepLeftovers ? [] : uninstallation.scan.leftovers
-        let forAnAdministrator = Set(uninstallation.leftForAnAdministrator.map(\.url))
+        let appStays = uninstallation.appStays(canUseHelper: true)
+            || items.contains { $0.url == app && $0.refusal != nil }
+        let forAnAdministrator = appStays ? [] : Set(uninstallation.leftForAnAdministrator.map(\.url))
         return UninstallPlan(
             app: app,
             items: items,
-            needsAdministrator: rest.count(where: { $0.match.isRecommended && $0.requiresPrivileges }),
+            needsAdministrator: appStays ? 0 : rest.count(where: { $0.match.isRecommended && $0.requiresPrivileges }),
             needsReview: rest.count(where: {
                 !$0.match.isRecommended && $0.match.heldBack != .leftToItsUninstaller
                     && $0.match.heldBack != .neededWhenTheAppLeaves && !forAnAdministrator.contains($0.url)
