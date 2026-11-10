@@ -9,8 +9,10 @@ public struct LaunchAgentFile: Sendable {
     public enum Problem: Error, Sendable, Hashable {
         /// Not one of the agents `BackgroundItem.canBeEdited` allows.
         case cannotBeEdited
-        /// A link, a folder, or nothing at all where the file was.
-        case notAPlainFile
+        /// A link where the file was, which leads to the file to edit.
+        case aLink
+        /// Nothing where the file was, or something that isn't a file, such as a folder.
+        case notThere
         case notYours
         case tooLarge
         /// macOS wouldn't let Peel read it, and said why when it did.
@@ -81,7 +83,7 @@ public struct LaunchAgentFile: Sendable {
         guard item.canBeEdited, let url = item.plistURL else { return .failure(.cannotBeEdited) }
         var info = stat()
         guard lstat(url.path(percentEncoded: false), &info) == 0, info.st_mode & S_IFMT == S_IFREG else {
-            return .failure(.notAPlainFile)
+            return .failure(info.st_mode & S_IFMT == S_IFLNK ? .aLink : .notThere)
         }
         guard info.st_uid == owner else { return .failure(.notYours) }
         guard info.st_size <= maximumBytes else { return .failure(.tooLarge) }

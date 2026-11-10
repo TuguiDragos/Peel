@@ -110,6 +110,17 @@ struct LaunchAgentFileTests {
         #expect(read == ["Label": "org.example.edit", "ProgramArguments": ["/bin/sleep", "600"]] as NSDictionary)
     }
 
+    /// Only a link has a file it leads to: a file deleted since the scan, or a folder in its place, has none.
+    @Test func aFileThatIsGoneIsNotTakenForALink() async throws {
+        let home = try Home()
+        let item = agent(home.plist)
+        try FileManager.default.removeItem(at: home.plist)
+        #expect(await LaunchAgentFile.open(item).failure == .notThere)
+
+        try FileManager.default.createDirectory(at: home.plist, withIntermediateDirectories: false)
+        #expect(await LaunchAgentFile.open(item).failure == .notThere)
+    }
+
     @Test func refusesALinkAnotherAccountsFileAndOneTooLarge() async throws {
         let home = try Home()
         let item = agent(home.plist)
@@ -118,7 +129,7 @@ struct LaunchAgentFileTests {
         let target = try home.directory.file("dotfiles/org.example.edit.plist", contents: Data(job().utf8))
         try FileManager.default.removeItem(at: home.plist)
         try FileManager.default.createSymbolicLink(at: home.plist, withDestinationURL: target)
-        #expect(await LaunchAgentFile.open(item).failure == .notAPlainFile)
+        #expect(await LaunchAgentFile.open(item).failure == .aLink)
 
         try FileManager.default.removeItem(at: home.plist)
         _ = try home.directory.file(

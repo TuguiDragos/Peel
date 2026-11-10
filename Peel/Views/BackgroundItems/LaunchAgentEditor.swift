@@ -128,8 +128,9 @@ extension LaunchAgentFile.Problem {
     func explanation(label: String, url: URL?) -> String {
         switch self {
         case .cannotBeEdited: String(localized: "Peel edits only the agents in your own LaunchAgents folder.")
-        case .notAPlainFile:
-            String(localized: "It’s a link or not a plain file, so Peel doesn’t edit it here. Edit the file it leads to.")
+        case .aLink: String(localized: "It’s a link, so Peel doesn’t edit it here. Edit the file it leads to.")
+        case .notThere:
+            String(localized: "The file isn’t there anymore, or something else is in its place. Close this and choose Rescan.")
         case .notYours: String(localized: "Another account owns this file, so Peel doesn’t edit it.")
         case .tooLarge:
             String(localized: "This file is larger than 1 MB, more than a job’s file holds, so Peel doesn’t open it.")

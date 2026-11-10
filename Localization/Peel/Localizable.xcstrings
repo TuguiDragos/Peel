@@ -88926,108 +88926,108 @@
         }
       }
     },
-    "It’s a link or not a plain file, so Peel doesn’t edit it here. Edit the file it leads to." : {
+    "It’s a link, so Peel doesn’t edit it here. Edit the file it leads to." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je to odkaz nebo to není běžný soubor, takže ho tu Peel neupravuje. Upravte soubor, na který odkaz vede."
+            "value" : "Je to odkaz, takže ho tu Peel neupravuje. Upravte soubor, na který odkaz vede."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dies ist ein Link oder keine reguläre Datei, daher bearbeitet Peel es hier nicht. Bearbeite die Datei, auf die der Link verweist."
+            "value" : "Dies ist ein Link, daher bearbeitet Peel ihn hier nicht. Bearbeite die Datei, auf die der Link verweist."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Es un enlace o no es un archivo normal, así que Peel no lo edita aquí. Edita el archivo al que lleva."
+            "value" : "Es un enlace, así que Peel no lo edita aquí. Edita el archivo al que lleva."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "C’est un lien, ou ce n’est pas un fichier ordinaire : Peel ne le modifie donc pas ici. Modifiez le fichier vers lequel il mène."
+            "value" : "C’est un lien : Peel ne le modifie donc pas ici. Modifiez le fichier vers lequel il mène."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "È un link o non è un file normale, quindi Peel non lo modifica qui. Modifica il file a cui punta."
+            "value" : "È un link, quindi Peel non lo modifica qui. Modifica il file a cui punta."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "リンクであるか、通常のファイルではないため、Peelはここでは編集しません。リンク先のファイルを編集してください。"
+            "value" : "リンクであるため、Peelはここでは編集しません。リンク先のファイルを編集してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "링크이거나 일반 파일이 아니므로 Peel은 여기에서 편집하지 않습니다. 이 항목이 가리키는 파일을 편집하십시오."
+            "value" : "링크이므로 Peel은 여기에서 편집하지 않습니다. 이 항목이 가리키는 파일을 편집하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het is een link of geen gewoon bestand, dus Peel wijzigt het hier niet. Wijzig het bestand waarnaar het leidt."
+            "value" : "Het is een link, dus Peel wijzigt het hier niet. Wijzig het bestand waarnaar het leidt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To dowiązanie albo coś innego niż zwykły plik, więc Peel tego tutaj nie edytuje. Edytuj plik, do którego prowadzi to dowiązanie."
+            "value" : "To dowiązanie, więc Peel tego tutaj nie edytuje. Edytuj plik, do którego prowadzi to dowiązanie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "É um link ou não é um arquivo comum, então o Peel não o edita aqui. Edite o arquivo para o qual ele aponta."
+            "value" : "É um link, então o Peel não o edita aqui. Edite o arquivo para o qual ele aponta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Este un link sau nu este un fișier obișnuit, așa că Peel nu îl editează aici. Editați fișierul la care duce."
+            "value" : "Este un link, așa că Peel nu îl editează aici. Editați fișierul la care duce."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Это ссылка, или это не обычный файл, поэтому Peel не редактирует его здесь. Отредактируйте файл, к которому ведет ссылка."
+            "value" : "Это ссылка, поэтому Peel не редактирует его здесь. Отредактируйте файл, к которому ведет ссылка."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det är en länk eller inte en vanlig fil, så Peel redigerar den inte här. Redigera filen som den leder till."
+            "value" : "Det är en länk, så Peel redigerar den inte här. Redigera filen som den leder till."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu öğe bir bağlantı ya da normal bir dosya dışında bir şey, bu yüzden Peel onu burada düzenlemez. Gösterdiği dosyayı düzenleyin."
+            "value" : "Bu öğe bir bağlantı, bu yüzden Peel onu burada düzenlemez. Gösterdiği dosyayı düzenleyin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Це посилання або не звичайний файл, тому Peel не редагує його тут. Відредагуйте файл, до якого воно веде."
+            "value" : "Це посилання, тому Peel не редагує його тут. Відредагуйте файл, до якого воно веде."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它是链接或不是普通文件，因此Peel不会在此处编辑它。请编辑它指向的文件。"
+            "value" : "它是链接，因此Peel不会在此处编辑它。请编辑它指向的文件。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它是連結，或不是一般檔案，因此Peel不會在這裡編輯它。請編輯它所指向的檔案。"
+            "value" : "它是連結，因此Peel不會在這裡編輯它。請編輯它所指向的檔案。"
           }
         }
       }
@@ -214961,6 +214961,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此檔案大於Peel會寫入的任何大小，因此Peel不會讀取它。"
+          }
+        }
+      }
+    },
+    "The file isn’t there anymore, or something else is in its place. Close this and choose Rescan." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubor už tam není, nebo je na jeho místě něco jiného. Zavřete toto okno a zvolte „Prohledat znovu“."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Datei ist nicht mehr da, oder an ihrer Stelle befindet sich etwas anderes. Schließe dieses Fenster und wähle „Erneut scannen“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El archivo ya no está ahí, o hay otra cosa en su lugar. Cierra esto y elige “Volver a analizar”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le fichier n’est plus là, ou autre chose a pris sa place. Fermez cette fenêtre et choisissez « Analyser à nouveau »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il file non c’è più, oppure al suo posto c’è qualcos’altro. Chiudi questa finestra e scegli “Analizza di nuovo”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ファイルがもうその場所にないか、別のものに置き換わっています。これを閉じて、“再スキャン”を選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파일이 더 이상 그 위치에 없거나 다른 항목이 그 자리에 있습니다. 편집기를 닫고 ‘다시 스캔’을 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het bestand is er niet meer, of er staat iets anders op de plek ervan. Sluit dit en kies 'Scan opnieuw'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tego pliku już tam nie ma albo w jego miejscu jest coś innego. Zamknij to okno i wybierz Skanuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O arquivo não está mais lá, ou há outra coisa no lugar dele. Feche isto e escolha “Analisar Novamente”."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierul nu mai este acolo sau altceva se află în locul lui. Închideți această fereastră și alegeți „Rescanați”."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этого файла больше нет, или на его месте теперь что-то другое. Закройте это окно и нажмите «Сканировать заново»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filen finns inte längre där, eller så finns något annat på dess plats. Stäng det här och välj ”Skanna igen”."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosya artık orada değil ya da yerinde başka bir şey var. Bunu kapatın ve Yeniden Tara’yı seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файлу там уже немає, або на його місці щось інше. Закрийте це вікно й виберіть «Сканувати знову»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该文件已不在那里，或者其位置已被其他内容占据。请关闭此窗口，然后选取“重新扫描”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此檔案已不在那裡，或其位置上已有其他項目。請關閉此視窗，然後選擇「重新掃描」。"
           }
         }
       }
