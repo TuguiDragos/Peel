@@ -2105,6 +2105,46 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.first?.match.confidence == .certain)
     }
 
+    @Test func showsTheMakersThingsInPreferencesAsFilesAndNamedByItsDomain() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Harbor.app"), bundleIdentifier: "org.exampleharbor.Harbor",
+            name: "Harbor", developer: "Examplemaker Ltd"
+        )
+        let other = InstalledApp(
+            url: URL(filePath: "/Applications/Dock Master.app"), bundleIdentifier: "org.exampleharbor.dockmaster",
+            name: "Dock Master", developer: "Examplemaker Ltd"
+        )
+        try directory.file("home/Library/Preferences/Examplemaker/settings.plist", bytes: 64)
+        try directory.file("home/Library/Logs/examplemaker.log", bytes: 64)
+        try directory.file("home/Library/Preferences/org.exampleharbor.plist", bytes: 64)
+        try directory.file("home/Library/Saved Application State/org.exampleharbor.savedState/data.data", bytes: 64)
+        try directory.file("home/Library/Application Support/org.exampleharbor/state.db", bytes: 64)
+        let library = directory.url.appending(path: "home/Library").path(percentEncoded: false) + "/"
+        func found(beside others: [InstalledApp]) async -> [String: LeftoverMatch] {
+            let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
+                app, installedApps: [app] + others
+            )
+            return Dictionary(uniqueKeysWithValues: scan.leftovers.map {
+                (String($0.url.path(percentEncoded: false).dropFirst(library.count)), $0.match)
+            })
+        }
+        let byDomain = [
+            "Preferences/org.exampleharbor.plist", "Saved Application State/org.exampleharbor.savedState",
+            "Application Support/org.exampleharbor",
+        ]
+
+        let alone = await found(beside: [])
+        let beside = await found(beside: [other])
+
+        #expect(Set(alone.keys) == Set(byDomain + ["Preferences/Examplemaker", "Logs/examplemaker.log"]))
+        #expect(alone.values.filter { $0.confidence != .possible || $0.isRecommended }.isEmpty)
+        #expect(alone["Logs/examplemaker.log"]?.reason == .inItsMakersFolder)
+        #expect(alone["Preferences/org.exampleharbor.plist"]?.reason == .vendorPrefix)
+        #expect(Set(beside.keys) == Set(byDomain))
+        #expect(beside.values.filter { $0.sharedWith != ["org.exampleharbor.dockmaster"] }.isEmpty)
+    }
+
     @Test func showsWhatItsMakersFolderHoldsWhenItIsTheMakersLastApp() async throws {
         let directory = try TemporaryDirectory()
         let app = InstalledApp(

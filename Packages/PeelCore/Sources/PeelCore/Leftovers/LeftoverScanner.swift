@@ -263,7 +263,9 @@ public struct LeftoverScanner: Sendable {
         let parent = ParentAccess(location.url)
         var toMeasure: [Found] = []
         var nobodysFolders: [URL] = []
+        var makersItems: [URL] = []
         var jobs: [UnclaimedJob] = []
+        let makers = makersPlaces.contains(location.kind) ? matcher.makersFolderNames : []
 
         // The guard reads every spelling of a path from the disk, so it is asked only about what the scan would
         // take or walk into, and what it refuses is left out of both, as is what the person excluded.
@@ -286,6 +288,9 @@ public struct LeftoverScanner: Sendable {
             } else if NestedSearch.kinds.contains(location.kind), url.isRealFolder, !refuses(path, home),
                       !exclusions.excludes(url) {
                 nobodysFolders.append(url)
+            } else if namesTheMaker(name, kind: location.kind, names: makers), !refuses(path, home),
+                      !exclusions.excludes(url) {
+                makersItems.append(url)
             }
         }
 
@@ -296,23 +301,28 @@ public struct LeftoverScanner: Sendable {
             exclusions: exclusions, measure: measure, refuses: refuses, installedByApple: installedByApple,
             limit: nestedFolderLimit
         )
-        let makers = await inItsMakersFolders(
-            nobodysFolders, rows: inside.found, of: location, matcher: matcher, home: home, root: root,
+        let makersOwn = await inItsMakersFolders(
+            nobodysFolders + makersItems, rows: inside.found, of: location, matcher: matcher, home: home, root: root,
             exclusions: exclusions, measure: measure, refuses: refuses, installedByApple: installedByApple
         )
         return .found(
-            leftovers + inside.found + makers, cutShort: inside.wasCutShort ? location : nil,
+            leftovers + inside.found + makersOwn, cutShort: inside.wasCutShort ? location : nil,
             unreadable: inside.unreadable.map { SearchLocation(kind: location.kind, url: $0) }, jobs: jobs
         )
     }
 
     private static let makersPlaces: Set<SearchLocation.Kind> = [
-        .applicationSupport, .caches, .logs, .library, .sharedFolder,
+        .applicationSupport, .caches, .logs, .library, .sharedFolder, .preferences,
     ]
 
-    /// What the maker's own folders hold while the app is the maker's last: the folder whole when no row is in it,
-    /// else each item in it that is no row and holds none. Shown, never selected: the maker may have put there what
-    /// no app of its own made.
+    /// Whether `name`, in a location of `kind`, is the maker's as `names` write its folder: `elgato.log` in Logs too.
+    private static func namesTheMaker(_ name: String, kind: SearchLocation.Kind, names: Set<String>) -> Bool {
+        names.contains(Naming.folderName(LeftoverMatcher.key(from: name, kind: kind)))
+    }
+
+    /// What the maker's own folders and files hold while the app is the maker's last: a file or a folder whole when
+    /// no row is in it, else each item in it that is no row and holds none. Shown, never selected: the maker may have
+    /// put there what no app of its own made.
     private static func inItsMakersFolders(
         _ folders: [URL],
         rows: [Leftover],
@@ -329,7 +339,7 @@ public struct LeftoverScanner: Sendable {
         guard !names.isEmpty, makersPlaces.contains(location.kind) else { return [] }
         let rowPaths = rows.map { PathPattern.comparablePath(of: $0.url) }
         var found: [Found] = []
-        for folder in folders where names.contains(Naming.folderName(folder.lastPathComponent))
+        for folder in folders where namesTheMaker(folder.lastPathComponent, kind: location.kind, names: names)
             && !SystemFolders.keeps(folder.lastPathComponent, in: location.kind) {
             let inside = rowPaths.filter { PathComponents.isPath($0, inside: PathPattern.comparablePath(of: folder)) }
             var items = [folder]
