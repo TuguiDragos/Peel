@@ -37,7 +37,7 @@ enum AppStoreLookup {
             version: version,
             page: record.trackViewUrl.flatMap(URL.init(webPage:)),
             developer: record.artistName.flatMap { $0.isEmpty ? nil : $0 },
-            notes: record.releaseNotes.flatMap { ReleaseNotes($0, format: .plainText) }
+            notes: record.releaseNotes.flatMap(ReleaseNotes.init(plainText:))
         )
     }
 

@@ -274,7 +274,7 @@ struct AppcastTests {
     }
 
 
-    @Test func readsTheNotesAFeedWritesInsideAnItem() throws {
+    @Test func readsTheNotesAFeedWritesInsideAnItem() async throws {
         let feed = """
         <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel>
         <description>The channel's own words</description>
@@ -283,18 +283,18 @@ struct AppcastTests {
         </item></channel></rss>
         """
 
-        #expect(try #require(latestItem(in: feed)).notes == ReleaseNotes("<ul><li>New search</li></ul>", format: .html))
+        #expect(try await #require(latestItem(in: feed)).notes() == ReleaseNotes("<ul><li>New search</li></ul>", format: .html))
     }
 
     @Test(arguments: [("plain-text", ReleaseNotes.Format.plainText), ("Markdown", .markdown), ("html", .html)])
-    func readsTheFormatAFeedGivesItsNotes(_ name: String, _ format: ReleaseNotes.Format) throws {
+    func readsTheFormatAFeedGivesItsNotes(_ name: String, _ format: ReleaseNotes.Format) async throws {
         let feed = """
         <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item>
         <sparkle:version>2</sparkle:version><description sparkle:format="\(name)">New search</description>
         </item></channel></rss>
         """
 
-        #expect(try #require(latestItem(in: feed)).notes?.format == format)
+        #expect(try await #require(latestItem(in: feed)).notes()?.format == format)
     }
 
     @Test func picksTheNotesInTheReadersLanguage() {

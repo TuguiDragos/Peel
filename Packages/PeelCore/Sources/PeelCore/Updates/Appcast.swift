@@ -22,8 +22,9 @@ struct AppcastItem: Equatable {
 
     /// What is new, as the item writes it in its `description`. Read once the feed has been, since reading HTML
     /// while `XMLParser` is still reading the feed stops it.
-    var notes: ReleaseNotes? {
-        description.flatMap { ReleaseNotes($0, format: descriptionFormat) }
+    func notes() async -> ReleaseNotes? {
+        guard let description else { return nil }
+        return await ReleaseNotes(description, format: descriptionFormat)
     }
 
     var displayVersion: String? {

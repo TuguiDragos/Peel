@@ -860,7 +860,7 @@ private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
         #expect(answer.status.source == .homebrew)
         #expect(answer.notes == nil)
         #expect(CannedProtocol.asked.withLock { $0 }.isEmpty, "Homebrew's answer is found without asking anyone")
-        let notes = try #require(ReleaseNotes("New search", format: .html))
+        let notes = try #require(await ReleaseNotes("New search", format: .html))
         #expect(await checker.releaseNotes(for: sparkleApp(), answer: answer) == .found(notes))
         #expect(CannedProtocol.asked.withLock { $0 } == ["feed.example.com"])
 
@@ -890,20 +890,20 @@ private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
         let html = await answer(linking: "2.0.html", Data("<h2>2.0</h2><ul><li>New search</li></ul>".utf8), type: "text/html")
         #expect(html.notes == nil)
         #expect(html.notesPage == URL(string: "https://notes.example.com/2.0.html"))
-        let page = try #require(ReleaseNotes("<h2>2.0</h2><ul><li>New search</li></ul>", format: .html))
+        let page = try #require(await ReleaseNotes("<h2>2.0</h2><ul><li>New search</li></ul>", format: .html))
         #expect(await checker.releaseNotes(for: sparkleApp(), answer: html) == .found(page))
         #expect(CannedProtocol.asked.withLock { $0 } == ["feed.example.com", "notes.example.com"])
 
         let markdown = await answer(linking: "2.0.md", Data("## 2.0\n- New search".utf8), type: "text/plain")
-        let markdownNotes = try #require(ReleaseNotes("## 2.0\n- New search", format: .markdown))
+        let markdownNotes = try #require(await ReleaseNotes("## 2.0\n- New search", format: .markdown))
         #expect(await checker.releaseNotes(for: sparkleApp(), answer: markdown) == .found(markdownNotes))
 
         let text = await answer(linking: "notes", Data("New search".utf8), type: "text/plain")
-        let textNotes = try #require(ReleaseNotes("New search", format: .plainText))
+        let textNotes = try #require(await ReleaseNotes("New search", format: .plainText))
         #expect(await checker.releaseNotes(for: sparkleApp(), answer: text) == .found(textNotes))
 
         let latin = await answer(linking: "2.0.html", "<p>Café</p>".data(using: .isoLatin1)!, type: "text/html; charset=iso-8859-1")
-        let latinNotes = try #require(ReleaseNotes("<p>Café</p>", format: .html))
+        let latinNotes = try #require(await ReleaseNotes("<p>Café</p>", format: .html))
         #expect(await checker.releaseNotes(for: sparkleApp(), answer: latin) == .found(latinNotes))
     }
 

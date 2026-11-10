@@ -3,7 +3,7 @@ import Foundation
 import Testing
 
 struct ReleaseNotesMemoryTests {
-    private let notes = ReleaseNotes("New search", format: .plainText)!
+    private let notes = ReleaseNotes(plainText: "New search")!
 
     @Test func asksOnceForTheNotesOfEachVersion() {
         var memory = ReleaseNotesMemory()

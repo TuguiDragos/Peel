@@ -193,7 +193,7 @@ enum ElectronUpdater {
         default:
             notes = value
         }
-        return ReleaseNotes(notes, format: .markdown)
+        return ReleaseNotes(markdown: notes)
     }
 
     /// A block scalar's lines without their common indentation: kept as lines for `|`, and folded into paragraphs

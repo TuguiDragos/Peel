@@ -22,11 +22,26 @@ public struct ReleaseNotes: Sendable, Hashable, Codable {
     public let format: Format
     public let text: String
 
-    /// Nil for notes that show nothing once what cannot be shown is left out: images, scripts and styles.
-    public init?(_ text: String, format: Format) {
+    /// Nil for notes that show nothing once what cannot be shown is left out: images, scripts and styles. It waits
+    /// for HTML, which is read on a thread with room for it.
+    public init?(_ text: String, format: Format) async {
+        self.init(kept: text, format: format)
+        guard await !blocks().isEmpty else { return nil }
+    }
+
+    public init?(plainText text: String) {
+        self.init(kept: text, format: .plainText)
+        guard !Self.plainTextBlocks(self.text).isEmpty else { return nil }
+    }
+
+    public init?(markdown text: String) {
+        self.init(kept: text, format: .markdown)
+        guard !Self.markdownBlocks(self.text).isEmpty else { return nil }
+    }
+
+    private init(kept text: String, format: Format) {
         self.format = format
         self.text = String(text.trimmingCharacters(in: .whitespacesAndNewlines).prefix(Self.limit))
-        guard !blocks.isEmpty else { return nil }
     }
 
     /// Notes read from a file keep the limit too, whoever wrote them: the stack HTML is read on is sized for it.
@@ -37,11 +52,12 @@ public struct ReleaseNotes: Sendable, Hashable, Codable {
     }
 
     /// The notes as blocks of text. Nothing is loaded from anywhere, and a link is kept only when it is https.
-    public var blocks: [Block] {
+    @concurrent
+    public func blocks() async -> [Block] {
         switch format {
         case .plainText: Self.plainTextBlocks(text)
         case .markdown: Self.markdownBlocks(text)
-        case .html: HTMLReader.blocks(of: text)
+        case .html: await HTMLReader.blocks(of: text)
         }
     }
 
@@ -160,11 +176,11 @@ private struct HTMLReader {
     /// The heading or list item the words being read belong to; none for a paragraph.
     private var open: [Kind] = []
 
-    static func blocks(of html: String) -> [ReleaseNotes.Block] {
+    static func blocks(of html: String) async -> [ReleaseNotes.Block] {
         // Read from text rather than bytes: HTML's parser takes bytes as Latin-1 unless an old-style meta tag says
         // otherwise.
         let options: XMLNode.Options = [.documentTidyHTML, .nodeLoadExternalEntitiesNever]
-        return DeepStack.run(megabytes: parsersStack) {
+        return await DeepStack.run(megabytes: parsersStack) {
             var reader = HTMLReader()
             if let root = (try? XMLDocument(xmlString: html, options: options))?.rootElement() {
                 reader.read(root)

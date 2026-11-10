@@ -322,7 +322,7 @@ public struct UpdateChecker: Sendable {
                 version: latest, source: .developer, releaseNotes: item.releaseNotes,
                 linkIsTheProductsPage: item.notesAreTheProductsPage ? true : nil
             ),
-            notes: item.notes,
+            notes: await item.notes(),
             notesPage: item.notesPage
         )
     }
@@ -440,7 +440,7 @@ public struct UpdateChecker: Sendable {
             guard let item = releases?.first(where: { item in
                 item.displayVersion.map { VersionComparison.compare($0, version) == .orderedSame } ?? false
             }) else { return .notGiven }
-            if let notes = item.notes { return .found(notes) }
+            if let notes = await item.notes() { return .found(notes) }
             guard let page = item.notesPage else { return .notGiven }
             return await notes(at: page)
         case .electron(let url):
@@ -468,7 +468,7 @@ public struct UpdateChecker: Sendable {
                 ? nil : String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(encoding))
         }
         let text = String(data: data, encoding: encoding ?? .utf8) ?? String(decoding: data, as: UTF8.self)
-        let notes = ReleaseNotes(text, format: Self.format(ofNotesAt: page, type: reply.mimeType))
+        let notes = await ReleaseNotes(text, format: Self.format(ofNotesAt: page, type: reply.mimeType))
         return notes.map(ReleaseNotesLookup.found) ?? .notGiven
     }
 

@@ -64,8 +64,7 @@ struct ReleaseNotesView: View {
         .font(.callout)
         // Reading HTML takes a moment, so it is read away from the page and only again when the notes change.
         .task(id: notes) {
-            let notes = notes
-            blocks = await Task.detached { notes.blocks }.value
+            blocks = await notes.blocks()
         }
     }
 }
