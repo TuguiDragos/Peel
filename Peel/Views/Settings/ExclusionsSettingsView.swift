@@ -51,6 +51,10 @@ struct ExclusionsSettingsView: View {
         Binding(get: { !refused.isEmpty }, set: { if !$0 { refused = [] } })
     }
 
+    static let filesAndFoldersNote: LocalizedStringResource = "Peel never moves these, anything inside them, or a folder that holds one of them to the Trash, and never puts anything back into them. Its lists leave them out. Two pages still show them: Applications marks an app inside them as excluded, and Homebrew lists a package inside them but won’t upgrade or uninstall it. History still shows what moved before. Homebrew’s Clean Up keeps the formulae whose folder you exclude here, but this list doesn’t cover what else it deletes, such as its downloads."
+
+    static let appsNote: LocalizedStringResource = "Excluded apps still appear in Applications, but Peel won’t offer to remove or reset them, and won’t put one back from the Trash. A folder named exactly with an excluded app’s identifier, such as its caches or its container, and an update it downloaded are left out of every page and never moved. This list doesn’t cover the app’s other files, such as plug-ins or a folder named after it. To protect those, add them to Files and Folders above."
+
     var body: some View {
         Form {
             if exclusions.exclusions.isUnreadable {
@@ -108,7 +112,7 @@ struct ExclusionsSettingsView: View {
                     .help(Text("Remove"))
                 }
             } header: {
-                heading("Files and Folders", "Peel never moves anything inside these to the Trash, nor a folder that holds one of them, and leaves them out of its lists, but for Applications, which marks an app inside them as excluded, and Homebrew, which won’t uninstall a package inside them. History still shows what moved before. Homebrew’s Clean Up keeps the formulae whose folder you exclude here, but this list doesn’t cover what else it deletes, such as its downloads.")
+                heading("Files and Folders", Self.filesAndFoldersNote)
             }
 
             Section {
@@ -178,7 +182,7 @@ struct ExclusionsSettingsView: View {
                     .help(Text("Remove"))
                 }
             } header: {
-                heading("Apps", "Excluded apps still appear in Applications, but Peel won’t offer to remove or reset them. A folder named exactly with an excluded app’s identifier, such as its caches or its container, and an update it downloaded are left out of every page and never moved. The app’s other files, such as plug-ins or a folder named after it, go by files and folders only, so to protect them, exclude them above as well.")
+                heading("Apps", Self.appsNote)
             }
 
             Section {

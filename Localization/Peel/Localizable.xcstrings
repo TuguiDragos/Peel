@@ -48602,109 +48602,108 @@
         }
       }
     },
-    "Excluded apps still appear in Applications, but Peel won’t offer to remove or reset them. A folder named exactly with an excluded app’s identifier, such as its caches or its container, and an update it downloaded are left out of every page and never moved. The app’s other files, such as plug-ins or a folder named after it, go by files and folders only, so to protect them, exclude them above as well." : {
-      "comment" : "The note behind the circled i of the Apps section in Settings > Exclusions. Exactly: a folder whose whole name is the identifier, such as com.example.app, not one that only begins with it. An update it downloaded is the folder an app's updater keeps a downloaded update in.",
+    "Excluded apps still appear in Applications, but Peel won’t offer to remove or reset them, and won’t put one back from the Trash. A folder named exactly with an excluded app’s identifier, such as its caches or its container, and an update it downloaded are left out of every page and never moved. This list doesn’t cover the app’s other files, such as plug-ins or a folder named after it. To protect those, add them to Files and Folders above." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vyloučené aplikace se dál zobrazují na stránce Všechny aplikace, ale Peel nenabídne jejich odstranění ani resetování. Složka pojmenovaná přesně podle identifikátoru vyloučené aplikace, například její mezipaměti nebo kontejner, a aktualizace, kterou si aplikace stáhla, se nezobrazují na žádné stránce a Peel je nikdy nepřesune. Ostatní soubory aplikace, například plug-iny nebo složka pojmenovaná podle jejího názvu, se vylučují jen v části Soubory a složky, takže chcete-li je chránit, vylučte je výše také."
+            "value" : "Vyloučené aplikace se dál zobrazují na stránce Všechny aplikace, ale Peel nenabídne jejich odstranění ani resetování a žádnou z nich nevrátí z koše. Složka pojmenovaná přesně podle identifikátoru vyloučené aplikace, například její mezipaměti nebo kontejner, a aktualizace, kterou si aplikace stáhla, se nezobrazují na žádné stránce a Peel je nikdy nepřesune. Tento seznam se nevztahuje na ostatní soubory aplikace, například plug-iny nebo složku pojmenovanou podle jejího názvu. Chcete-li je chránit, přidejte je výše do části Soubory a složky."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ausgeschlossene Apps erscheinen weiterhin in „Programme“, aber Peel bietet nicht an, sie zu entfernen oder zurückzusetzen. Ein Ordner, der genau die ID einer ausgeschlossenen App als Namen trägt, etwa ihre Caches oder ihr Container, und ein Update, das sie geladen hat, erscheinen auf keiner Seite und werden nie verschoben. Für die übrigen Dateien der App, etwa Plug-ins oder einen nach ihr benannten Ordner, gilt nur die Liste „Dateien und Ordner“. Um sie zu schützen, schließe sie also oben ebenfalls aus."
+            "value" : "Ausgeschlossene Apps erscheinen weiterhin in „Programme“, aber Peel bietet nicht an, sie zu entfernen oder zurückzusetzen, und legt keine davon aus dem Papierkorb zurück. Ein Ordner, der genau die ID einer ausgeschlossenen App als Namen trägt, etwa ihre Caches oder ihr Container, und ein Update, das sie geladen hat, erscheinen auf keiner Seite und werden nie verschoben. Diese Liste umfasst nicht die übrigen Dateien der App, etwa Plug-ins oder einen nach ihr benannten Ordner. Um diese zu schützen, füge sie oben zu „Dateien und Ordner“ hinzu."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las apps excluidas siguen apareciendo en Aplicaciones, pero Peel no ofrecerá eliminarlas ni restablecerlas. Una carpeta cuyo nombre es exactamente el identificador de una app excluida, como sus cachés o su contenedor, y una actualización que haya descargado la app quedan fuera de todas las páginas y nunca van a la papelera. Los demás archivos de la app, como los módulos o una carpeta con su nombre, solo se rigen por la lista “Archivos y carpetas”, así que, para protegerlos, exclúyelos también más arriba."
+            "value" : "Las apps excluidas siguen apareciendo en Aplicaciones, pero Peel no ofrecerá eliminarlas ni restablecerlas, y no restaurará ninguna desde la papelera. Una carpeta cuyo nombre es exactamente el identificador de una app excluida, como sus cachés o su contenedor, y una actualización que haya descargado la app quedan fuera de todas las páginas y nunca van a la papelera. Esta lista no cubre los demás archivos de la app, como los módulos o una carpeta con su nombre. Para protegerlos, añádelos a la lista “Archivos y carpetas”, más arriba."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les apps exclues apparaissent toujours dans Applications, mais Peel ne propose pas de les supprimer ni de les réinitialiser. Un dossier dont le nom est exactement l’identifiant d’une app exclue, comme ses caches ou son conteneur, et une mise à jour qu’elle a téléchargée n’apparaissent sur aucune page et ne sont jamais déplacés. Pour les autres fichiers de l’app, comme ses modules ou un dossier qui porte son nom, seuls comptent les fichiers et les dossiers exclus : pour les protéger, excluez-les aussi ci-dessus."
+            "value" : "Les apps exclues apparaissent toujours dans Applications, mais Peel ne propose pas de les supprimer ni de les réinitialiser, et n’en remet aucune en place depuis la corbeille. Un dossier dont le nom est exactement l’identifiant d’une app exclue, comme ses caches ou son conteneur, et une mise à jour qu’elle a téléchargée n’apparaissent sur aucune page et ne sont jamais déplacés. Cette liste ne couvre pas les autres fichiers de l’app, comme ses modules ou un dossier qui porte son nom. Pour les protéger, ajoutez-les à la liste « Fichiers et dossiers » ci-dessus."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le app escluse compaiono ancora in Applicazioni, ma Peel non propone di rimuoverle o di reimpostarle. Una cartella il cui nome è esattamente l’identificatore di un’app esclusa, come le sue cache o il suo contenitore, e un aggiornamento che l’app ha scaricato non compaiono in nessuna pagina e non vengono mai spostati. Gli altri file dell’app, come i plugin o una cartella con il suo nome, contano solo come file e cartelle, quindi per proteggerli escludili anche qui sopra."
+            "value" : "Le app escluse compaiono ancora in Applicazioni, ma Peel non propone di rimuoverle o di reimpostarle, e non ne ripristina nessuna dal Cestino. Una cartella il cui nome è esattamente l’identificatore di un’app esclusa, come le sue cache o il suo contenitore, e un aggiornamento che l’app ha scaricato non compaiono in nessuna pagina e non vengono mai spostati. Questo elenco non copre gli altri file dell’app, come i plugin o una cartella con il suo nome. Per proteggerli, aggiungili a “File e cartelle” qui sopra."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "除外したアプリも“アプリケーション”には表示されますが、Peelがそれらのゴミ箱への移動やリセットを提案することはありません。キャッシュやコンテナなど、除外したアプリの識別子とまったく同じ名前のフォルダと、そのアプリがダウンロードしたアップデートは、どのページにも表示されず、Peelがゴミ箱に入れることも決してありません。プラグインやアプリの名前が付いたフォルダなど、アプリのその他のファイルは、ファイルとフォルダの除外だけが基準になるため、保護するには、上でそれらも除外してください。"
+            "value" : "除外したアプリも“アプリケーション”には表示されますが、Peelがそれらのゴミ箱への移動やリセットを提案することはなく、ゴミ箱から戻すこともありません。キャッシュやコンテナなど、除外したアプリの識別子とまったく同じ名前のフォルダと、そのアプリがダウンロードしたアップデートは、どのページにも表示されず、Peelがゴミ箱に入れることも決してありません。このリストは、プラグインやアプリの名前が付いたフォルダなど、アプリのその他のファイルには適用されません。それらを保護するには、上の“ファイルとフォルダ”に追加してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "제외된 앱도 응용 프로그램 페이지에는 계속 표시되지만, Peel은 해당 앱의 제거나 재설정을 제안하지 않습니다. 캐시나 컨테이너처럼 제외된 앱의 식별자와 이름이 정확히 같은 폴더와, 해당 앱이 다운로드한 업데이트는 어떤 페이지에도 표시되지 않으며 절대 이동되지 않습니다. 플러그인이나 앱 이름을 딴 폴더 등 앱의 다른 파일은 파일과 폴더만을 기준으로 판단되므로, 이를 보호하려면 위에서 해당 항목도 제외하십시오."
+            "value" : "제외된 앱도 응용 프로그램 페이지에는 계속 표시되지만, Peel은 해당 앱의 제거나 재설정을 제안하지 않으며 휴지통에서 되돌려 놓지도 않습니다. 캐시나 컨테이너처럼 제외된 앱의 식별자와 이름이 정확히 같은 폴더와, 해당 앱이 다운로드한 업데이트는 어떤 페이지에도 표시되지 않으며 절대 이동되지 않습니다. 플러그인이나 앱 이름을 딴 폴더 등 앱의 다른 파일에는 이 목록이 적용되지 않습니다. 이러한 파일을 보호하려면 위의 ‘파일 및 폴더’에 추가하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uitgesloten apps verschijnen nog steeds in 'Alle apps', maar Peel biedt niet aan om ze te verwijderen of opnieuw in te stellen. Een map die precies de ID van een uitgesloten app als naam heeft, zoals de caches of de container van die app, en een update die de app heeft gedownload, worden op geen enkele pagina getoond en nooit verplaatst. Voor de andere bestanden van de app, zoals plug-ins of een map met de naam van de app, geldt alleen wat je bij 'Bestanden en mappen' uitsluit, dus sluit die hierboven ook uit om ze te beschermen."
+            "value" : "Uitgesloten apps verschijnen nog steeds in 'Alle apps', maar Peel biedt niet aan om ze te verwijderen of opnieuw in te stellen, en zet er geen terug uit de prullenmand. Een map die precies de ID van een uitgesloten app als naam heeft, zoals de caches of de container van die app, en een update die de app heeft gedownload, worden op geen enkele pagina getoond en nooit verplaatst. Deze lijst geldt niet voor de andere bestanden van de app, zoals plug-ins of een map met de naam van de app. Voeg die hierboven toe aan 'Bestanden en mappen' om ze te beschermen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wykluczone aplikacje nadal są widoczne na stronie Wszystkie aplikacje, ale Peel nie zaproponuje ich odinstalowania ani wyzerowania. Folder nazwany dokładnie identyfikatorem wykluczonej aplikacji, taki jak folder jej pamięci podręcznej lub jej kontener, oraz pobrane przez nią uaktualnienie są pomijane na każdej stronie i nigdy nie są przenoszone. Pozostałe pliki aplikacji, takie jak wtyczki czy folder o jej nazwie, są traktowane tylko jako pliki i foldery, więc aby je chronić, wyklucz je także powyżej."
+            "value" : "Wykluczone aplikacje nadal są widoczne na stronie Wszystkie aplikacje, ale Peel nie zaproponuje ich odinstalowania ani wyzerowania i nie przywróci żadnej z nich z Kosza. Folder nazwany dokładnie identyfikatorem wykluczonej aplikacji, taki jak folder jej pamięci podręcznej lub jej kontener, oraz pobrane przez nią uaktualnienie są pomijane na każdej stronie i nigdy nie są przenoszone. Ta lista nie obejmuje innych plików aplikacji, takich jak wtyczki czy folder o jej nazwie. Aby je chronić, dodaj je powyżej do sekcji Pliki i foldery."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Os apps excluídos continuam aparecendo em Aplicativos, mas o Peel não oferece removê-los nem redefini-los. Uma pasta cujo nome é exatamente o identificador de um app excluído, como a pasta de caches ou o contêiner dele, e uma atualização que o app baixou ficam de fora de todas as páginas e nunca são movidas. Os demais arquivos do app, como plug-ins ou uma pasta com o nome dele, contam apenas como arquivos e pastas, então, para protegê-los, adicione-os também à lista acima."
+            "value" : "Os apps excluídos continuam aparecendo em Aplicativos, mas o Peel não oferece removê-los nem redefini-los, nem coloca de volta um que esteja no Lixo. Uma pasta cujo nome é exatamente o identificador de um app excluído, como a pasta de caches ou o contêiner dele, e uma atualização que o app baixou ficam de fora de todas as páginas e nunca são movidas. Esta lista não abrange os demais arquivos do app, como plug-ins ou uma pasta com o nome dele. Para protegê-los, adicione-os à lista Arquivos e Pastas, acima."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicațiile excluse apar în continuare în pagina Toate aplicațiile, dar Peel nu va propune să le elimine sau să le reseteze. Un dosar al cărui nume este exact identificatorul unei aplicații excluse, cum ar fi memoriile tampon sau containerul acesteia, și o actualizare descărcată de aplicație nu apar în nicio pagină și nu sunt mutate niciodată. Celelalte fișiere ale aplicației, cum ar fi plug-inurile sau un dosar care îi poartă numele, se exclud doar ca fișiere și dosare, așa că, pentru a le proteja, excludeți‑le și pe ele mai sus."
+            "value" : "Aplicațiile excluse apar în continuare în pagina Toate aplicațiile, dar Peel nu va propune să le elimine sau să le reseteze și nu va pune înapoi niciuna din Coș. Un dosar al cărui nume este exact identificatorul unei aplicații excluse, cum ar fi memoriile tampon sau containerul acesteia, și o actualizare descărcată de aplicație nu apar în nicio pagină și nu sunt mutate niciodată. Această listă nu acoperă celelalte fișiere ale aplicației, cum ar fi plug-inurile sau un dosar care îi poartă numele. Pentru a le proteja, adăugați‑le mai sus, la „Fișiere și dosare”."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Исключенные приложения по-прежнему отображаются в разделе «Программы», но Peel не предложит их удалить или сбросить. Папка, имя которой в точности совпадает с идентификатором исключенного приложения, например папка с его кэшами или его контейнер, а также загруженное им обновление не показываются ни на одной странице и никогда не перемещаются. Остальные файлы приложения, например плагины или папка, названная его именем, учитываются только как файлы и папки, поэтому, чтобы защитить и их, исключите их выше."
+            "value" : "Исключенные приложения по-прежнему отображаются в разделе «Программы», но Peel не предложит их удалить или сбросить и не восстановит такое приложение из Корзины. Папка, имя которой в точности совпадает с идентификатором исключенного приложения, например папка с его кэшами или его контейнер, а также загруженное им обновление не показываются ни на одной странице и никогда не перемещаются. Этот список не распространяется на другие файлы приложения, например плагины или папку, названную его именем. Чтобы защитить и их, добавьте их в раздел «Файлы и папки» выше."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Undantagna appar visas fortfarande på sidan Alla appar, men Peel erbjuder sig inte att ta bort eller nollställa dem. En mapp vars namn är exakt en undantagen apps identifierare, till exempel appens cachar eller behållare, och en uppdatering som appen har hämtat visas inte på någon sida och flyttas aldrig. Appens övriga filer, till exempel insticksfiler eller en mapp som har appens namn, behandlas bara som filer och mappar, så om du vill skydda dem måste du också undanta dem ovan."
+            "value" : "Undantagna appar visas fortfarande på sidan Alla appar, men Peel erbjuder sig inte att ta bort eller nollställa dem och lägger inte tillbaka någon av dem från papperskorgen. En mapp vars namn är exakt en undantagen apps identifierare, till exempel appens cachar eller behållare, och en uppdatering som appen har hämtat visas inte på någon sida och flyttas aldrig. Den här listan omfattar inte appens övriga filer, till exempel insticksfiler eller en mapp som har appens namn. Om du vill skydda dem lägger du till dem under ”Filer och mappar” ovan."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hariç tutulan uygulamalar Tüm Uygulamalar’da görünmeye devam eder, ancak Peel onları kaldırmayı veya sıfırlamayı önermez. Adı, hariç tutulan bir uygulamanın tanıtıcısıyla tam olarak aynı olan bir klasör (örneğin uygulamanın önbellekleri veya kapsayıcısı) ve uygulamanın indirdiği bir güncelleme hiçbir sayfada yer almaz ve asla taşınmaz. Uygulamanın yazılım ekleri veya adını taşıyan bir klasör gibi diğer dosyaları yalnızca dosya ve klasör olarak ele alınır; bu yüzden onları korumak için yukarıda ayrıca hariç tutun."
+            "value" : "Hariç tutulan uygulamalar Tüm Uygulamalar’da görünmeye devam eder, ancak Peel onları kaldırmayı veya sıfırlamayı önermez ve Çöp Sepeti’nden hiçbirini yerine koymaz. Adı, hariç tutulan bir uygulamanın tanıtıcısıyla tam olarak aynı olan bir klasör (örneğin uygulamanın önbellekleri veya kapsayıcısı) ve uygulamanın indirdiği bir güncelleme hiçbir sayfada yer almaz ve asla taşınmaz. Bu liste, uygulamanın yazılım ekleri veya adını taşıyan bir klasör gibi diğer dosyalarını kapsamaz. Bunları korumak için yukarıdaki Dosyalar ve Klasörler bölümüne ekleyin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Програми з винятків і далі показуються в розділі «Усі програми», але Peel не пропонуватиме їх вилучати чи скидати. Папка, назва якої точно збігається з ідентифікатором такої програми, як-от її кеші чи контейнер, а також викачане нею оновлення не показуються на жодній сторінці й ніколи не переміщуються. На інші файли програми, як-от плагіни чи папку з її назвою, поширюються лише винятки файлів і папок, тож, щоб захистити їх, додайте до винятків вище також їх."
+            "value" : "Програми з винятків і далі показуються в розділі «Усі програми», але Peel не пропонуватиме їх вилучати чи скидати й не повертатиме жодну з них зі Смітника. Папка, назва якої точно збігається з ідентифікатором такої програми, як-от її кеші чи контейнер, а також викачане нею оновлення не показуються на жодній сторінці й ніколи не переміщуються. Цей список не поширюється на інші файли програми, як-от плагіни чи папку з її назвою. Щоб захистити їх, додайте їх вище до розділу «Файли і папки»."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已排除的App仍会显示在“应用程序”中，但Peel不会提供移除或重置它们的选项。名称与已排除App的标识符完全一致的文件夹（例如它的缓存或容器）以及它下载的更新，不会出现在任何页面中，也绝不会被移走。该App的其他文件（例如插件或以它的名称命名的文件夹）只按“文件和文件夹”列表处理，因此若要保护它们，请同时在上方排除它们。"
+            "value" : "已排除的App仍会显示在“应用程序”中，但Peel不会提供移除或重置它们的选项，也不会将已排除的App从废纸篓放回原处。名称与已排除App的标识符完全一致的文件夹（例如它的缓存或容器）以及它下载的更新，不会出现在任何页面中，也绝不会被移走。此列表不涵盖该App的其他文件，例如插件或以它的名称命名的文件夹。若要保护这些文件，请将它们添加到上方的“文件和文件夹”中。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已排除的App仍會出現在「應用程式」中，但Peel不會提供移除或重置它們的選項。名稱與已排除App的識別碼完全相同的檔案夾（例如它的快取或容器），以及它下載的更新，任何頁面都不會列出，Peel也絕不會移動。App的其他檔案（例如外掛模組，或以App名稱命名的檔案夾）只依據檔案和檔案夾來排除，因此若要保護它們，也請在上方將它們排除。"
+            "value" : "已排除的App仍會出現在「應用程式」中，但Peel不會提供移除或重置它們的選項，也不會從「垃圾桶」還原它們。名稱與已排除App的識別碼完全相同的檔案夾（例如它的快取或容器），以及它下載的更新，任何頁面都不會列出，Peel也絕不會移動。此列表不涵蓋App的其他檔案，例如外掛模組，或以App名稱命名的檔案夾。若要保護這些項目，請將它們加入上方的「檔案與檔案夾」。"
           }
         }
       }
@@ -154581,108 +154580,108 @@
         }
       }
     },
-    "Peel never moves anything inside these to the Trash, nor a folder that holds one of them, and leaves them out of its lists, but for Applications, which marks an app inside them as excluded, and Homebrew, which won’t uninstall a package inside them. History still shows what moved before. Homebrew’s Clean Up keeps the formulae whose folder you exclude here, but this list doesn’t cover what else it deletes, such as its downloads." : {
+    "Peel never moves these, anything inside them, or a folder that holds one of them to the Trash, and never puts anything back into them. Its lists leave them out. Two pages still show them: Applications marks an app inside them as excluded, and Homebrew lists a package inside them but won’t upgrade or uninstall it. History still shows what moved before. Homebrew’s Clean Up keeps the formulae whose folder you exclude here, but this list doesn’t cover what else it deletes, such as its downloads." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel do koše nikdy nepřesune nic uvnitř těchto položek ani složku, která některou z nich obsahuje, a vynechává je ze svých seznamů, kromě stránky Všechny aplikace, která aplikaci uvnitř nich označí jako vyloučenou, a stránky Homebrew, která balíček uvnitř nich neodinstaluje. Historie dál ukazuje, co se přesunulo dříve. Homebrew při čištění (Vyčistit) ponechá formulae, jejichž složku zde vyloučíte, ale tento seznam se nevztahuje na nic dalšího, co maže, například na jeho stažené soubory."
+            "value" : "Peel do koše nikdy nepřesune tyto položky, nic z toho, co obsahují, ani složku, ve které je některá z nich, a nikdy do nich nic nevrátí. Ze svých seznamů je vynechává. Dvě stránky je přesto zobrazují: stránka Všechny aplikace označí aplikaci uvnitř nich jako vyloučenou a stránka Homebrew zobrazí balíček uvnitř nich, ale neprovede jeho upgrade ani odinstalaci. Historie dál zobrazuje, co se přesunulo dříve. Příkaz „Vyčistit“ na stránce Homebrew ponechá formulae, jejichž složku zde vyloučíte, ale tento seznam se nevztahuje na nic dalšího, co tento příkaz maže, například na stažené soubory."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel legt nie etwas, das sich darin befindet, in den Papierkorb und auch nie einen Ordner, der eines davon enthält, und zeigt sie in seinen Listen nicht an, außer auf der Seite „Programme“, wo eine App darin als ausgeschlossen markiert ist, und auf der Seite „Homebrew“, wo sich ein Paket darin nicht deinstallieren lässt. Der Verlauf führt weiterhin auf, was zuvor verschoben wurde. Das „Bereinigen“ von Homebrew behält die Formulae, deren Ordner du hier ausschließt, aber diese Liste gilt nicht für das, was es sonst noch löscht, etwa seine Downloads."
+            "value" : "Peel legt weder diese Objekte noch etwas darin noch einen Ordner, der eines davon enthält, in den Papierkorb und legt nie etwas in sie zurück. In den Listen von Peel fehlen sie. Zwei Seiten zeigen sie trotzdem an: „Programme“ kennzeichnet eine App darin als ausgeschlossen, und „Homebrew“ führt ein Paket darin auf, ohne ein Upgrade oder eine Deinstallation dafür auszuführen. Der Verlauf zeigt weiterhin, was zuvor verschoben wurde. „Bereinigen“ auf der Seite „Homebrew“ behält die Formulae, deren Ordner du hier ausschließt, aber diese Liste umfasst nicht, was dabei sonst noch gelöscht wird, etwa die Downloads von Homebrew."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nunca traslada a la papelera nada de lo que hay dentro de estos, ni una carpeta que contenga alguno de ellos, y los deja fuera de sus listas, salvo en Aplicaciones, donde una app que esté dentro de ellos aparece marcada como excluida, y en la página Homebrew, que no desinstalará ningún paquete que esté dentro de ellos. Historial sigue mostrando lo que se trasladó antes. La opción Limpiar de Homebrew conserva las formulae cuya carpeta excluyas aquí, pero esta lista no cubre lo demás que borra, como sus descargas."
+            "value" : "Peel nunca traslada a la papelera estos ítems, nada de lo que hay dentro de ellos ni una carpeta que contenga alguno de ellos, y nunca restaura nada dentro de ellos. Sus listas los dejan fuera. Dos páginas siguen mostrándolos: Aplicaciones marca como excluida una app que esté dentro de ellos, y Homebrew muestra un paquete que esté dentro de ellos, pero no lo actualizará ni lo desinstalará. Historial sigue mostrando lo que se trasladó antes. La opción Limpiar de Homebrew conserva las formulae cuya carpeta excluyas aquí, pero esta lista no cubre lo demás que borra, como sus descargas."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ne place jamais dans la corbeille ce qui se trouve dans ces éléments, ni un dossier qui en contient un, et les écarte de ses listes, sauf dans Applications, où une app qu’ils contiennent est marquée comme exclue, et sur la page Homebrew, où Peel refuse de désinstaller un paquet qu’ils contiennent. L’Historique affiche encore ce qui a été déplacé auparavant. La commande Nettoyer de Homebrew conserve les formulae dont vous excluez le dossier ici, mais cette liste ne couvre pas ce qu’elle supprime d’autre, comme les téléchargements de Homebrew."
+            "value" : "Peel ne place jamais dans la corbeille ces éléments, ce qu’ils contiennent ou un dossier qui contient l’un d’eux, et n’y remet jamais rien. Ses listes les laissent de côté. Deux pages les affichent tout de même : Applications marque comme exclue une app qui s’y trouve, et Homebrew liste un paquet qui s’y trouve, mais ne le met pas à niveau et ne le désinstalle pas. L’Historique affiche toujours ce qui a été déplacé auparavant. Nettoyer, sur la page Homebrew, conserve les formulae dont vous excluez le dossier ici, mais cette liste ne couvre pas le reste de ce que Nettoyer supprime, comme les téléchargements de Homebrew."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel non sposta mai nel Cestino nulla di ciò che si trova al loro interno, né una cartella che ne contiene uno, e non li include nei suoi elenchi, tranne in Applicazioni, che contrassegna come esclusa un’app al loro interno, e nella pagina Homebrew, che non disinstalla un pacchetto al loro interno. La Cronologia mostra ancora ciò che è stato spostato prima. “Ripulisci” di Homebrew conserva le formulae di cui escludi qui la cartella, ma questo elenco non copre le altre cose che elimina, come i suoi download."
+            "value" : "Peel non sposta mai nel Cestino questi elementi, ciò che contengono o una cartella che ne contiene uno, e non vi ripristina mai nulla. I suoi elenchi li lasciano fuori. Due pagine li mostrano comunque: Applicazioni segna come esclusa un’app al loro interno, e Homebrew elenca un pacchetto al loro interno ma non lo aggiorna né lo disinstalla. La Cronologia mostra ancora ciò che è stato spostato prima. “Ripulisci” di Homebrew conserva le formulae di cui escludi qui la cartella, ma questo elenco non copre il resto di ciò che elimina, come i suoi download."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは、これらの中にあるものも、これらのいずれかを含むフォルダも、決してゴミ箱に入れません。また、Peelの一覧に表示されることもありません。ただし、“アプリケーション”には、これらの中にあるアプリが除外済みとして表示され、“Homebrew”ページには、これらの中にあるパッケージが表示されますが、アンインストールはされません。以前に移動したものは引き続き履歴に表示されます。Homebrewの“クリーンアップ”は、ここでフォルダを除外したformulaeを残しますが、ダウンロードなど、それ以外に削除するものにはこのリストは適用されません。"
+            "value" : "Peelは、これらの項目、その中にあるもの、またはこれらのいずれかを含むフォルダをゴミ箱に入れることは決してなく、これらの中に何かを戻すことも決してありません。Peelのリストにも表示されません。ただし、2つのページには表示されます。“アプリケーション”では、これらの中にあるアプリが除外済みとして示され、“Homebrew”では、これらの中にあるパッケージが一覧に表示されますが、アップグレードやアンインストールは行われません。履歴には、以前に移動したものが引き続き表示されます。Homebrewの“クリーンアップ”では、ここでフォルダを除外したformulaeは残りますが、ダウンロードなど、それ以外に削除されるものにはこのリストは適用されません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 이 항목들과 그 안에 있는 어떤 것도, 이 중 하나를 포함하는 폴더도 절대 휴지통으로 이동하지 않으며, 이 항목들을 목록에 표시하지도 않습니다. 단, 응용 프로그램 페이지에서는 그 안에 있는 앱을 제외됨으로 표시하고, Homebrew 페이지에서는 그 안에 있는 패키지를 제거하지 않습니다. 이전에 이동한 항목은 기록에 계속 표시됩니다. Homebrew의 ‘정리’는 여기에서 폴더를 제외한 formulae를 유지하지만, 다운로드 파일 등 ‘정리’가 삭제하는 그 밖의 항목에는 이 목록이 적용되지 않습니다."
+            "value" : "Peel은 이 항목들과 그 안에 있는 어떤 것도, 이 중 하나를 포함하는 폴더도 절대 휴지통으로 이동하지 않으며, 이 항목들 안으로 어떤 것도 되돌려 놓지 않습니다. Peel의 목록에는 이 항목들이 표시되지 않지만, 두 페이지에는 계속 표시됩니다. 응용 프로그램 페이지에서는 그 안에 있는 앱을 제외됨으로 표시하고, Homebrew 페이지에서는 그 안에 있는 패키지를 나열하지만 업그레이드하거나 제거하지 않습니다. 이전에 이동한 항목은 기록에 계속 표시됩니다. Homebrew의 ‘정리’는 여기에서 폴더를 제외한 formulae를 유지하지만, 다운로드 파일 등 ‘정리’가 삭제하는 그 밖의 항목에는 이 목록이 적용되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel verplaatst nooit iets hierin naar de prullenmand, en ook geen map waarin een van deze staat, en toont ze niet in zijn lijsten, behalve op de pagina 'Alle apps', die een app hierin als uitgesloten markeert, en op de pagina 'Homebrew', die een pakket hierin niet deïnstalleert. Geschiedenis toont nog wel wat eerder is verplaatst. 'Ruim op' van Homebrew behoudt de formulae waarvan je de map hier uitsluit, maar deze lijst geldt niet voor wat 'Ruim op' verder definitief verwijdert, zoals de downloads van Homebrew."
+            "value" : "Peel verplaatst deze nooit naar de prullenmand, evenmin als iets wat erin staat of een map die er een van bevat, en zet er nooit iets in terug. De lijsten van Peel laten ze weg. Twee pagina's tonen ze nog wel: 'Alle apps' markeert een app die erin staat als uitgesloten, en 'Homebrew' toont een pakket dat erin staat, maar upgradet of deïnstalleert het niet. Geschiedenis toont nog wat eerder is verplaatst. 'Ruim op' van Homebrew behoudt de formulae waarvan je de map hier uitsluit, maar deze lijst geldt niet voor wat 'Ruim op' verder verwijdert, zoals de downloads."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nigdy nie przenosi do Kosza niczego, co jest w ich wnętrzu, ani folderu, który zawiera któryś z nich, i pomija je na swoich listach, z wyjątkiem strony Wszystkie aplikacje, która oznacza znajdującą się w nich aplikację jako wykluczoną, oraz strony Homebrew, która nie odinstaluje znajdującego się w nich pakietu. Historia nadal pokazuje to, co przeniesiono wcześniej. Polecenie Wyczyść samego Homebrew zachowuje formulae, których folder tu wykluczasz, ale ta lista nie obejmuje innych rzeczy, które to polecenie trwale usuwa, takich jak pobrane pliki."
+            "value" : "Peel nigdy nie przenosi do Kosza tych rzeczy, niczego, co jest w ich wnętrzu, ani folderu, który zawiera którąś z nich, i nigdy niczego do nich nie przywraca. Jego listy je pomijają. Dwie strony nadal je pokazują: strona Wszystkie aplikacje oznacza znajdującą się w nich aplikację jako wykluczoną, a strona Homebrew wymienia znajdujący się w nich pakiet, ale nie uaktualni go ani nie odinstaluje. Historia nadal pokazuje to, co przeniesiono wcześniej. Polecenie Wyczyść w Homebrew zachowuje formulae, których folder tu wykluczysz, ale ta lista nie obejmuje innych rzeczy, które usuwa, takich jak pobrane pliki."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel nunca move para o Lixo nada do que está dentro destes itens, nem uma pasta que contenha algum deles, e os deixa de fora das listas dele, exceto na página Aplicativos, que marca um app dentro deles como excluído, e na página Homebrew, que não desinstala nenhum pacote dentro deles. O Histórico ainda mostra o que foi movido antes. O comando Limpar do Homebrew mantém as formulae cuja pasta você adicionar aqui, mas esta lista não cobre o que mais ele apaga, como os downloads dele."
+            "value" : "O Peel nunca move para o Lixo estes itens, nem nada do que há dentro deles, nem uma pasta que contenha algum deles, e nunca coloca nada de volta dentro deles. As listas do Peel os deixam de fora. Duas páginas ainda os mostram: a página Aplicativos marca como excluído um app que esteja dentro deles, e a página Homebrew lista um pacote que esteja dentro deles, mas não faz upgrade dele nem o desinstala. O Histórico ainda mostra o que foi movido antes. O comando Limpar do Homebrew mantém as formulae cuja pasta você adicionar a esta lista, mas ela não abrange o resto do que ele apaga, como os downloads."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu mută niciodată în Coș nimic din interiorul acestora și nici un dosar care conține unul dintre ele, și le lasă în afara listelor sale, cu excepția paginii Toate aplicațiile, care marchează ca exclusă o aplicație din interiorul acestora, și a paginii Homebrew, care nu dezinstalează niciun pachet din interiorul acestora. Istoricul arată în continuare ce a fost mutat înainte. „Curățați” din pagina Homebrew păstrează formulele ale căror dosare le excludeți aici, dar această listă nu acoperă ce altceva șterge comanda, cum ar fi descărcările Homebrew."
+            "value" : "Peel nu mută niciodată în Coș aceste fișiere și dosare, nimic din interiorul lor și niciun dosar care conține unul dintre ele, și nu pune niciodată nimic înapoi în ele. Le lasă în afara listelor sale. Două pagini le afișează totuși: pagina Toate aplicațiile marchează ca exclusă o aplicație din interiorul lor, iar pagina Homebrew listează un pachet din interiorul lor, dar nu îi face upgrade și nu îl dezinstalează. Istoricul arată în continuare ce a fost mutat înainte. „Curățați” din pagina Homebrew păstrează formulele ale căror dosare le excludeți aici, dar această listă nu acoperă ce altceva șterge comanda, cum ar fi descărcările Homebrew."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel никогда не перемещает в Корзину ни то, что находится внутри них, ни папку, в которой лежит один из них, и не показывает их в своих списках, кроме раздела «Программы», который помечает приложение внутри них как исключенное, и раздела «Homebrew», который не будет удалять пакет внутри них. История по-прежнему показывает то, что было перемещено раньше. Команда Homebrew «Очистить» сохраняет formulae, папки которых Вы здесь исключили, но этот список не распространяется на остальное, что она удаляет, например на загрузки Homebrew."
+            "value" : "Peel никогда не перемещает в Корзину ни их самих, ни то, что находится внутри них, ни папку, в которой лежит один из них, и никогда ничего в них не восстанавливает. В списках Peel их нет. Тем не менее их показывают два раздела: «Программы» помечает приложение внутри них как исключенное, а «Homebrew» показывает пакет внутри них, но не обновляет и не удаляет его. История по-прежнему показывает то, что было перемещено раньше. Команда Homebrew «Очистить» сохраняет formulae, папки которых Вы здесь исключили, но этот список не распространяется на остальное, что она удаляет, например на загрузки Homebrew."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel flyttar aldrig något som ligger i dessa till papperskorgen, och inte heller en mapp som innehåller någon av dem. Peel visar dem inte heller i sina listor, utom på sidan Alla appar, där en app som ligger i dem är märkt som undantagen, och på sidan Homebrew, där ett paket som ligger i dem inte avinstalleras. Historik visar fortfarande det som flyttades tidigare. Homebrews upprensning behåller de formulae vars mapp du undantar här, men den här listan omfattar inte det övriga som upprensningen raderar, till exempel Homebrews hämtningar."
+            "value" : "Peel flyttar aldrig dessa till papperskorgen, inte heller något som ligger i dem eller en mapp som innehåller någon av dem, och lägger aldrig tillbaka något i dem. Peels listor utelämnar dem. Två sidor visar dem ändå: sidan Alla appar märker en app som ligger i dem som undantagen, och sidan Homebrew listar ett paket som ligger i dem men uppgraderar eller avinstallerar det inte. Historik visar fortfarande det som flyttades tidigare. Homebrews upprensning behåller de formulae vars mapp du undantar här, men den här listan omfattar inte det övriga som upprensningen raderar, till exempel Homebrews hämtningar."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel bunların içindeki hiçbir şeyi ve bunlardan birini içeren hiçbir klasörü asla Çöp Sepeti’ne taşımaz ve bunları Tüm Uygulamalar ile Homebrew dışındaki listelerine almaz: Tüm Uygulamalar bunların içindeki bir uygulamayı hariç tutulmuş olarak işaretler, Homebrew ise bunların içindeki bir paketin yüklemesini kaldırmaz. Geçmiş, daha önce taşınanları göstermeye devam eder. Klasörünü burada hariç tuttuğunuz her formula, Homebrew’un Temizle işleminde korunur; ancak bu liste, Temizle işleminin sildiği indirmeler gibi diğer şeyleri kapsamaz."
+            "value" : "Peel bunları, içlerindeki herhangi bir şeyi veya bunlardan birini barındıran bir klasörü hiçbir zaman Çöp Sepeti’ne taşımaz ve bunların içine hiçbir şeyi geri koymaz. Peel’in listelerinde bunlar yer almaz. İki sayfa bunları yine de gösterir: Tüm Uygulamalar, bunların içindeki bir uygulamayı hariç tutulan olarak işaretler; Homebrew ise bunların içindeki bir paketi listeler ama onu yükseltmez veya yüklemesini kaldırmaz. Geçmiş, daha önce taşınanları göstermeye devam eder. Klasörünü burada hariç tuttuğunuz her formula, Homebrew’un Temizle işleminde korunur; ancak bu liste, Temizle işleminin sildiği indirmeler gibi diğer şeyleri kapsamaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ніколи не переміщує в Смітник ні їх, ні того, що в них, ні папки, яка містить щось із них, і не показує їх у своїх списках, крім розділу «Усі програми», який позначає програму всередині них як додану до винятків, і сторінки «Homebrew», яка не деінсталює пакет усередині них. Історія й далі показує те, що було переміщено раніше. Команда Homebrew «Очистити» зберігає formulae, папки яких ви тут додали до винятків, але цей список не поширюється на інше, що вона видаляє, як-от викачані файли Homebrew."
+            "value" : "Peel ніколи не переміщує в Смітник ні їх, ні того, що в них, ні папки, яка містить щось із них, і ніколи нічого в них не повертає. У її списках їх немає. Їх усе ж показують дві сторінки: розділ «Усі програми» позначає програму всередині них як додану до винятків, а сторінка «Homebrew» показує пакет усередині них, але не оновлює й не деінсталює його. Історія й далі показує те, що було переміщено раніше. Команда Homebrew «Очистити» зберігає formulae, папки яких ви тут додали до винятків, але цей список не поширюється на інше, що вона видаляє, як-от викачані файли Homebrew."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel绝不会将这些项目中的任何内容移到废纸篓，也绝不会移动包含其中任一项目的文件夹，并且不会在它的列表中列出它们，但“应用程序”和Homebrew页面除外：“应用程序”会将这些项目中的App标记为已排除，Homebrew页面不会卸载这些项目中的软件包。“历史记录”仍会显示之前移走的内容。Homebrew的“清理”会保留你在此处排除其文件夹的formulae，但此列表不涵盖它删除的其他内容，例如它的下载文件。"
+            "value" : "Peel绝不会将这些项目、其中的任何内容或包含其中某一项的文件夹移到废纸篓，也绝不会将任何内容放回其中。Peel的各个列表都会略去它们。有两个页面仍会显示它们：“应用程序”会将其中的App标为已排除，Homebrew页面会列出其中的软件包，但不会升级或卸载它。“历史记录”仍会显示之前移走的内容。Homebrew的“清理”会保留你在此处排除了其文件夹的formulae，但此列表不涵盖它删除的其他内容，例如它的下载文件。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel絕不會將這些項目及其中的任何內容丟到「垃圾桶」，也絕不會移動包含其中任何一項的檔案夾，也不會在它的列表中列出它們，但「應用程式」和「Homebrew」頁面除外：「應用程式」會將位於這些項目中的App標示為已排除，「Homebrew」頁面則不會解除安裝位於這些項目中的套件。「歷史記錄」仍會顯示先前移動的項目。Homebrew的「清理」會保留你在此排除其檔案夾的formulae，但此列表不涵蓋它刪除的其他內容，例如它的下載檔案。"
+            "value" : "Peel絕不會將這些項目、其中的任何內容，或包含其中任一項目的檔案夾丟到「垃圾桶」，也絕不會將任何項目還原到它們之中。Peel的列表都不會列出它們。仍有兩個頁面會顯示它們：「應用程式」會將位於其中的App標示為已排除，而「Homebrew」會列出位於其中的套件，但不會升級或解除安裝它。「歷史記錄」仍會顯示先前已移動的項目。Homebrew的「清理」會保留你在此排除其檔案夾的formulae，但此列表不涵蓋它所刪除的其他項目，例如它的下載檔案。"
           }
         }
       }
