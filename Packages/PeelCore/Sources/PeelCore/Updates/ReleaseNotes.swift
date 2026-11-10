@@ -29,6 +29,13 @@ public struct ReleaseNotes: Sendable, Hashable, Codable {
         guard !blocks.isEmpty else { return nil }
     }
 
+    /// Notes read from a file keep the limit too, whoever wrote them: the stack HTML is read on is sized for it.
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        format = try container.decode(Format.self, forKey: .format)
+        text = String(try container.decode(String.self, forKey: .text).prefix(Self.limit))
+    }
+
     /// The notes as blocks of text. Nothing is loaded from anywhere, and a link is kept only when it is https.
     public var blocks: [Block] {
         switch format {
@@ -135,6 +142,19 @@ private struct HTMLReader {
         case item(depth: Int)
     }
 
+    /// What is left to do, the next step last. The steps wait in a list rather than on the stack, so notes nested
+    /// however deep are read in the same room.
+    private enum Step {
+        case read(XMLNode, lists: Int, style: AttributeContainer)
+        case endLine
+        /// Ends the heading or list item being read.
+        case close
+    }
+
+    /// The megabytes of stack the system's parser is given: it goes a step deeper for each tag open inside another,
+    /// and the deepest notes `ReleaseNotes.limit` characters can hold take it about two.
+    private static let parsersStack = 16
+
     private(set) var blocks: [ReleaseNotes.Block] = []
     private var line = AttributedString()
     /// The heading or list item the words being read belong to; none for a paragraph.
@@ -144,41 +164,61 @@ private struct HTMLReader {
         // Read from text rather than bytes: HTML's parser takes bytes as Latin-1 unless an old-style meta tag says
         // otherwise.
         let options: XMLNode.Options = [.documentTidyHTML, .nodeLoadExternalEntitiesNever]
-        var reader = HTMLReader()
-        if let root = (try? XMLDocument(xmlString: html, options: options))?.rootElement() {
-            reader.read(root, lists: 0, style: AttributeContainer())
-        } else if !html.contains("<") {
-            // Text with no tag at all is no document to the parser, while a browser shows it as a paragraph.
-            reader.add(html, style: AttributeContainer())
+        return DeepStack.run(megabytes: parsersStack) {
+            var reader = HTMLReader()
+            if let root = (try? XMLDocument(xmlString: html, options: options))?.rootElement() {
+                reader.read(root)
+            } else if !html.contains("<") {
+                // Text with no tag at all is no document to the parser, while a browser shows it as a paragraph.
+                reader.add(html, style: AttributeContainer())
+            }
+            reader.endLine()
+            return reader.blocks
         }
-        reader.endLine()
-        return reader.blocks
     }
 
-    private mutating func read(_ node: XMLNode, lists: Int, style: AttributeContainer) {
-        if node.kind == .text {
-            add(node.stringValue ?? "", style: style)
-            return
+    private mutating func read(_ root: XMLNode) {
+        var steps: [Step] = [.read(root, lists: 0, style: AttributeContainer())]
+        while let step = steps.popLast() {
+            switch step {
+            case .endLine:
+                endLine()
+            case .close:
+                endLine()
+                open.removeLast()
+            case .read(let node, let lists, let style):
+                if node.kind == .text {
+                    add(node.stringValue ?? "", style: style)
+                } else if let element = node as? XMLElement {
+                    steps += read(element, lists: lists, style: style)
+                }
+            }
         }
-        guard let element = node as? XMLElement else { return }
+    }
+
+    /// Reads what `element` itself says and answers what is left to do for it, the next step last: its children, and
+    /// after them the end of the block it opened.
+    private mutating func read(_ element: XMLElement, lists: Int, style: AttributeContainer) -> [Step] {
         let name = element.name?.lowercased() ?? ""
-        guard !Self.leftOut.contains(name) else { return }
-        var style = style
+        guard !Self.leftOut.contains(name) else { return [] }
+        var (lists, style) = (lists, style)
+        var after: Step?
         switch name {
         case "br":
             line.append(AttributedString("\n", attributes: style))
-            return
+            return []
         case "h1", "h2", "h3", "h4", "h5", "h6":
-            within(.heading, element, lists: lists, style: style)
-            return
+            endLine()
+            open.append(.heading)
+            after = .close
         case "li":
-            within(.item(depth: max(lists - 1, 0)), element, lists: lists, style: style)
-            return
+            endLine()
+            open.append(.item(depth: max(lists - 1, 0)))
+            after = .close
         case "ul", "ol":
             endLine()
-            readChildren(of: element, lists: lists + 1, style: style)
-            endLine()
-            return
+            lists += 1
+            after = .endLine
         case "a":
             if let href = element.attribute(forName: "href")?.stringValue, let url = URL(string: href),
                url.scheme == "https" {
@@ -191,27 +231,13 @@ private struct HTMLReader {
         case "code", "tt", "kbd", "samp":
             style.inlinePresentationIntent = (style.inlinePresentationIntent ?? []).union(.code)
         default:
-            break
+            if Self.separate.contains(name) {
+                endLine()
+                after = .endLine
+            }
         }
-        let separates = Self.separate.contains(name)
-        if separates { endLine() }
-        readChildren(of: element, lists: lists, style: style)
-        if separates { endLine() }
-    }
-
-    private mutating func readChildren(of element: XMLElement, lists: Int, style: AttributeContainer) {
-        for child in element.children ?? [] {
-            read(child, lists: lists, style: style)
-        }
-    }
-
-    /// Reads `element` as a heading or a list item: the words before it end their own block first.
-    private mutating func within(_ kind: Kind, _ element: XMLElement, lists: Int, style: AttributeContainer) {
-        endLine()
-        open.append(kind)
-        readChildren(of: element, lists: lists, style: style)
-        endLine()
-        open.removeLast()
+        let children = (element.children ?? []).reversed().map { Step.read($0, lists: lists, style: style) }
+        return (after.map { [$0] } ?? []) + children
     }
 
     /// Adds text as a browser shows it: every run of white space is one space, and none starts a line.

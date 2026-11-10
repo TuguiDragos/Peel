@@ -74,6 +74,59 @@ struct ReleaseNotesTests {
         #expect(links(notes) == [URL(string: "https://example.com")!])
     }
 
+    /// Each block's runs with what they carry: `b` strong, `i` emphasized, `c` code, `l` a link.
+    private func styles(_ html: String) -> [String] {
+        (ReleaseNotes(html, format: .html)?.blocks ?? []).map { block in
+            let text = switch block {
+            case .heading(let text), .paragraph(let text), .item(let text, _): text
+            }
+            return text.runs.map { run in
+                let intent = run.inlinePresentationIntent ?? []
+                let marks = (intent.contains(.stronglyEmphasized) ? "b" : "") + (intent.contains(.emphasized) ? "i" : "")
+                    + (intent.contains(.code) ? "c" : "") + (run.link == nil ? "" : "l")
+                return "[\(marks)]" + String(text[run.range].characters)
+            }.joined()
+        }
+    }
+
+    @Test func readsNestedBlocksInTheOrderAndStyleABrowserShowsThem() {
+        let html = """
+        Before<div>In <b>bold <i>both <a href="https://example.com/a">linked</a></i></b> after<h3>Head <code>code</code></h3>
+        tail<ol><li>One <em>more</em><ul><li>Two<blockquote>Quoted<br>line</blockquote>rest</li><li>Three</li></ul>
+        end</li><li><p>Four</p><p>Five</p></li></ol><table><tr><td>Cell</td><td><strong>Next</strong></td></tr></table>
+        <iframe src="https://example.com">hidden <b>too</b></iframe></div>After
+        """
+
+        #expect(outline(html) == [
+            "p Before", "p In bold both linked after", "h Head code", "p tail", "i0 One more", "i1 Two", "i1 Quoted\nline",
+            "i1 rest", "i1 Three", "i0 end", "i0 Four", "i0 Five", "p Cell Next", "p After",
+        ])
+        #expect(styles(html) == [
+            "[]Before", "[]In [b]bold [bi]both [bil]linked[] after", "[]Head [c]code", "[]tail", "[]One [i]more", "[]Two",
+            "[]Quoted\nline", "[]rest", "[]Three", "[]end", "[]Four", "[]Five", "[]Cell [b]Next", "[]After",
+        ])
+    }
+
+    /// Read where an update round and the notes' view read them, on a thread of Swift's pool, whose stack is small.
+    @Test(arguments: ["<ul><li>", "<div>", "<dl>", "<blockquote>", "<q>"])
+    func readsNotesNestedAsDeepAsTheLimitAllows(tags: String) async {
+        let levels = (ReleaseNotes.limit - 5) / tags.count
+        let html = String(repeating: tags, count: levels) + "words"
+
+        let notes = await Task.detached { ReleaseNotes(html, format: .html) }.value
+
+        #expect(outline(notes) == [tags == "<ul><li>" ? "i\(levels - 1) words" : "p words"])
+    }
+
+    @Test func keepsAtMostTheLimitOfNotesReadFromAFile() throws {
+        let long = String(repeating: "word ", count: ReleaseNotes.limit)
+        let kept = try JSONEncoder().encode(["format": "plainText", "text": long])
+
+        let notes = try JSONDecoder().decode(ReleaseNotes.self, from: kept)
+
+        #expect(notes.text.count == ReleaseNotes.limit)
+    }
+
     @Test func readsTextBesideBlocksInAnAppcastsDescription() {
         let html = "v2.0.2: Fixes a couple of issues <p>v2.0:</p> <ul> <li>The UI has been redesigned</li> </ul>"
 
