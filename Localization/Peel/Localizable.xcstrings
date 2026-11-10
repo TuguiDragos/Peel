@@ -142971,108 +142971,108 @@
         }
       }
     },
-    "Peel changes these with `git config --global`. Turning one off puts back what was there before Peel, or leaves it to Git." : {
+    "Peel changes these with `git config --global`. Turning one off puts back what was there before Peel, or removes it when you had set it yourself." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel tato nastavení mění příkazem `git config --global`. Vypnutím se vrátí to, co tu bylo před Peelem, nebo se nastavení přenechá Gitu."
+            "value" : "Peel tato nastavení mění příkazem `git config --global`. Vypnutím se vrátí to, co tu bylo před Peelem, nebo se nastavení odebere, pokud jste ho předtím nastavili sami."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ändert diese Einstellungen mit `git config --global`. Wenn du eine deaktivierst, wird wiederhergestellt, was vor Peel galt, oder die Einstellung wird Git überlassen."
+            "value" : "Peel ändert diese Einstellungen mit `git config --global`. Wenn du eine deaktivierst, wird wiederhergestellt, was vor Peel galt, oder sie wird entfernt, wenn du sie selbst festgelegt hattest."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel cambia estos ajustes con `git config --global`. Al desactivar uno, se restaura lo que había antes de Peel o se deja en manos de Git."
+            "value" : "Peel cambia estos ajustes con `git config --global`. Al desactivar uno, se restaura lo que había antes de Peel, o se elimina si lo habías establecido tú."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel modifie ces réglages avec `git config --global`. En désactiver un rétablit ce qui était en place avant Peel, ou le laisse à Git."
+            "value" : "Peel modifie ces réglages avec `git config --global`. En désactiver un rétablit ce qui était en place avant Peel, ou le supprime si vous l’aviez défini vous-même."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel modifica queste impostazioni con `git config --global`. Disattivarne una ripristina ciò che c’era prima di Peel, oppure la lascia a Git."
+            "value" : "Peel modifica queste impostazioni con `git config --global`. Disattivarne una ripristina ciò che c’era prima di Peel, oppure la rimuove se l’avevi impostata tu."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは`git config --global`でこれらの設定を変更します。オフにすると、Peelが変更する前の状態に戻すか、Gitに任せます。"
+            "value" : "Peelは`git config --global`でこれらの設定を変更します。オフにすると、Peelが変更する前の状態に戻ります。自分で設定していたものの場合は、その設定が取り除かれます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 `git config --global` 명령으로 이 설정을 변경합니다. 항목을 끄면 Peel이 변경하기 전의 설정을 되돌려 놓거나 Git에 맡깁니다."
+            "value" : "Peel은 `git config --global` 명령으로 이 설정을 변경합니다. 항목을 끄면 Peel이 변경하기 전의 설정을 되돌려 놓거나, 사용자가 직접 설정했던 경우에는 해당 설정을 제거합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel wijzigt deze met `git config --global`. Als je er een uitschakelt, wordt teruggezet wat er vóór Peel was, of wordt het aan Git overgelaten."
+            "value" : "Peel wijzigt deze met `git config --global`. Als je er een uitschakelt, wordt teruggezet wat er vóór Peel was, of wordt de instelling verwijderd als je die zelf had ingesteld."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zmienia je za pomocą `git config --global`. Wyłączenie któregoś z nich przywraca to, co było przed Peel, albo zostawia decyzję Gitowi."
+            "value" : "Peel zmienia je za pomocą `git config --global`. Wyłączenie któregoś z nich przywraca to, co było przed Peel, albo je usuwa, jeśli wcześniej ustawiono je samodzielnie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel altera estes ajustes com `git config --global`. Desativar um deles coloca de volta o que havia antes do Peel ou deixa a decisão com o Git."
+            "value" : "O Peel altera estes ajustes com `git config --global`. Desativar um deles coloca de volta o que havia antes do Peel ou o remove, quando foi você mesmo que o definiu."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel modifică aceste configurări prin `git config --global`. Dezactivarea uneia pune înapoi ce era înainte de Peel sau o lasă în seama lui Git."
+            "value" : "Peel modifică aceste configurări prin `git config --global`. Dezactivarea uneia pune înapoi ce era înainte de Peel sau o elimină, dacă ați setat‑o chiar dvs."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel меняет эти параметры с помощью `git config --global`. Если выключить параметр, вернется то, что было до Peel, или решать будет Git."
+            "value" : "Peel меняет эти параметры с помощью `git config --global`. Если выключить параметр, вернется то, что было до Peel, а если Вы задали его сами, он будет удален."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ändrar dessa med `git config --global`. Om du stänger av en av dem återställs det som gällde före Peel, eller så lämnas inställningen åt Git."
+            "value" : "Peel ändrar dessa med `git config --global`. Om du stänger av en av dem återställs det som gällde före Peel, eller så tas inställningen bort om du själv hade gjort den."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel bunları `git config --global` ile değiştirir. Birini kapatmak, Peel’den önce orada olanı geri getirir veya ayarı Git’e bırakır."
+            "value" : "Peel bunları `git config --global` ile değiştirir. Birini kapatmak, Peel’den önce orada olanı geri getirir veya ayarı kendiniz yapmışsanız onu kaldırır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel змінює їх командою `git config --global`. Якщо вимкнути одне з них, повернеться те, що було до Peel, або рішення залишиться за Git."
+            "value" : "Peel змінює їх командою `git config --global`. Якщо вимкнути одне з них, повернеться те, що було до Peel, або налаштування буде вилучено, якщо ви задали його самі."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel使用`git config --global`更改这些设置。关闭某一项会恢复Peel更改之前的设置，或交还给Git决定。"
+            "value" : "Peel使用`git config --global`更改这些设置。关闭某一项会恢复Peel更改之前的设置；如果该设置是你自己设定的，则会将其移除。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel會使用`git config --global`更改這些設定。關閉其中一項，會將它還原為Peel更改之前的狀態，或交由Git決定。"
+            "value" : "Peel會使用`git config --global`更改這些設定。關閉其中一項，會將它還原為Peel更改之前的狀態；如果是你自己設定的，則會將它移除。"
           }
         }
       }
@@ -190777,108 +190777,108 @@
         }
       }
     },
-    "Settings Peel changed go back to what they were, and the rest go back to Git’s defaults." : {
+    "Settings Peel changed go back to what they were. Settings you made yourself that are on here are removed from your Git settings, so Git’s defaults apply." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nastavení, která Peel změnil, se vrátí do původního stavu a ostatní se vrátí k výchozím hodnotám Gitu."
+            "value" : "Nastavení, která Peel změnil, se vrátí do původního stavu. Nastavení, která jste provedli sami a která jsou zde zapnutá, se z vašich nastavení Gitu odeberou, takže budou platit výchozí hodnoty Gitu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Einstellungen, die Peel geändert hat, erhalten wieder ihren früheren Wert, und für die übrigen gelten wieder die Standardwerte von Git."
+            "value" : "Einstellungen, die Peel geändert hat, erhalten wieder ihren früheren Wert. Einstellungen, die du selbst festgelegt hast und die hier aktiviert sind, werden aus deinen Git-Einstellungen entfernt, sodass die Standardwerte von Git gelten."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Los ajustes que ha cambiado Peel vuelven a como estaban, y el resto vuelve a los valores por omisión de Git."
+            "value" : "Los ajustes que ha cambiado Peel vuelven a como estaban. Los ajustes que estableciste tú y que están activados aquí se eliminan de tus ajustes de Git, así que se aplican los valores por omisión de Git."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les réglages que Peel a modifiés reprennent leur valeur d’avant, et les autres reviennent aux valeurs par défaut de Git."
+            "value" : "Les réglages que Peel a modifiés reprennent leur valeur d’avant. Les réglages que vous avez définis vous-même et qui sont activés ici sont supprimés de vos réglages Git : les valeurs par défaut de Git s’appliquent donc."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le impostazioni modificate da Peel tornano com’erano, e le altre tornano ai valori predefiniti di Git."
+            "value" : "Le impostazioni modificate da Peel tornano com’erano. Quelle che hai impostato tu e che qui sono attive vengono rimosse dalle tue impostazioni di Git, così valgono i valori predefiniti di Git."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelが変更した設定は元の値に戻り、それ以外はGitのデフォルトに戻ります。"
+            "value" : "Peelが変更した設定は元の値に戻ります。自分で設定したもののうち、ここでオンになっているものはGitの設定から取り除かれ、Gitのデフォルトが適用されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 변경한 설정은 원래대로 돌아가고, 나머지는 Git의 기본값으로 돌아갑니다."
+            "value" : "Peel이 변경한 설정은 원래대로 돌아갑니다. 사용자가 직접 지정했고 여기에서 켜져 있는 설정은 Git 설정에서 제거되므로 Git의 기본값이 적용됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Instellingen die Peel heeft gewijzigd, gaan terug naar wat ze waren, en de rest gaat terug naar de standaardinstellingen van Git."
+            "value" : "Instellingen die Peel heeft gewijzigd, gaan terug naar wat ze waren. Wat je zelf hebt ingesteld en hier is ingeschakeld, wordt uit je Git-instellingen verwijderd, zodat de standaardinstellingen van Git gelden."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ustawienia zmienione przez Peel wrócą do poprzednich wartości, a pozostałe do ustawień domyślnych Gita."
+            "value" : "Ustawienia zmienione przez Peel wrócą do poprzednich wartości. Ustawienia wprowadzone przez Ciebie, które są tu włączone, zostaną usunięte z Twoich ustawień Gita, więc będą obowiązywać ustawienia domyślne Gita."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Os ajustes que o Peel alterou voltam ao que eram, e os demais voltam aos padrões do Git."
+            "value" : "Os ajustes que o Peel alterou voltam ao que eram. Os ajustes que você mesmo fez e que estão ativados aqui são removidos dos seus ajustes do Git, então valem os padrões do Git."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configurările modificate de Peel revin la ce erau înainte, iar celelalte revin la valorile implicite ale lui Git."
+            "value" : "Configurările modificate de Peel revin la ce erau înainte. Configurările setate chiar de dvs. și activate aici sunt eliminate din configurările dvs. Git, așa că se aplică valorile implicite ale lui Git."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Параметры, которые изменил Peel, вернутся к прежним значениям, а для остальных будут действовать значения Git по умолчанию."
+            "value" : "Параметры, которые изменил Peel, вернутся к прежним значениям. Параметры, которые Вы задали сами и которые здесь включены, будут удалены из Ваших настроек Git, и для них будут действовать значения Git по умолчанию."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inställningar som Peel har ändrat återgår till hur de var, och resten återgår till förvalen i Git."
+            "value" : "Inställningar som Peel har ändrat återgår till hur de var. Inställningar som du själv har gjort och som är påslagna här tas bort från dina Git-inställningar, så att förvalen i Git gäller."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’in değiştirdiği ayarlar eski hâllerine döner, geri kalanlar ise Git’in saptanmış değerlerine döner."
+            "value" : "Peel’in değiştirdiği ayarlar eski hâllerine döner. Burada açık olan ve kendiniz yaptığınız ayarlar Git ayarlarınızdan kaldırılır; böylece Git’in saptanmış değerleri geçerli olur."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Налаштування, які змінила Peel, повернуться до попереднього стану, а решта повернеться до типових значень Git."
+            "value" : "Налаштування, які змінила Peel, повернуться до попереднього стану. Налаштування, які ви задали самі й які тут увімкнено, буде вилучено з ваших налаштувань Git, тож діятимуть типові значення Git."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel更改过的设置会恢复原样，其余设置则恢复为Git的默认值。"
+            "value" : "Peel更改过的设置会恢复原样。你自己设定、且在此处为打开状态的设置会从你的Git设置中移除，因此将采用Git的默认值。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel更改過的設定會還原為原本的狀態，其餘設定則回到Git的預設值。"
+            "value" : "Peel更改過的設定會還原為原本的狀態。你自己設定、且在這裡為開啟狀態的設定，會從你的Git設定中移除，改為套用Git的預設值。"
           }
         }
       }

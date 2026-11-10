@@ -5,6 +5,10 @@ struct GitTab: View {
     @Environment(GitLibrary.self) private var git
     @State private var isConfirmingTurnAllOff = false
 
+    static let turningOneOff: LocalizedStringResource = "Peel changes these with `git config --global`. Turning one off puts back what was there before Peel, or removes it when you had set it yourself."
+
+    static let afterTurningAllOff: LocalizedStringResource = "Settings Peel changed go back to what they were. Settings you made yourself that are on here are removed from your Git settings, so Git’s defaults apply."
+
     var body: some View {
         Form {
             if let state = git.state {
@@ -47,7 +51,7 @@ struct GitTab: View {
         .formStyle(.grouped)
         .edgeBar(.bottom) {
             TurnAllOffBar(
-                explanation: "Peel changes these with `git config --global`. Turning one off puts back what was there before Peel, or leaves it to Git.",
+                explanation: Self.turningOneOff,
                 isEnabled: git.hasSomethingOn
             ) {
                 isConfirmingTurnAllOff = true
@@ -57,7 +61,7 @@ struct GitTab: View {
             Button("Turn All Off") { git.turnAllOff() }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("Settings Peel changed go back to what they were, and the rest go back to Git’s defaults.")
+            Text(Self.afterTurningAllOff)
         }
     }
 }
