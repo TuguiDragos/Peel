@@ -32,7 +32,7 @@ public enum Subprocess {
         public var explanation: String {
             switch self {
             case .couldNotStart(let reason): reason
-            case .timedOut: "The tool didn’t answer in time, so it was stopped."
+            case .timedOut: "The command didn’t answer in time, so Peel ended it."
             case .canceled: "Stopped before it finished."
             }
         }

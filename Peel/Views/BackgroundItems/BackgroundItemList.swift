@@ -180,6 +180,9 @@ struct BackgroundItemList: View {
         switch reason {
         case .requiresPrivileges: Text("It needs administrator access, which Peel’s helper provides.")
         case .noFileToMove: Text("This one comes from the app itself, so there is no file to move. Remove the app to get rid of it.")
+        case .launchctl(let output) where FixedSentence(output) == .toolTimedOut:
+            // Peel and its helper give `launchctl` 30 seconds, and a job that ignores the signal outlasts them.
+            Text("The command didn’t answer within 30 seconds, so Peel ended it. The job may still stop or restart on its own.")
         case .launchctl(let output): Text(verbatim: FixedSentence.translated(output))
         case .trash(let reason): Text(verbatim: reason.explanation)
         case .disabled: Text("macOS won’t load this while it is disabled. Enable it first, then start it.")

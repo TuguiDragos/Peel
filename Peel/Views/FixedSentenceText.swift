@@ -33,7 +33,7 @@ extension FixedSentence {
         case .invalidRequest: "The request wasn’t valid."
         case .configurationMissing: "The configuration file is missing."
         case .declaredTwice: "Two files declare this job."
-        case .toolTimedOut: "The tool didn’t answer in time, so it was stopped."
+        case .toolTimedOut: "The command didn’t answer in time, so Peel ended it."
         case .toolStopped: "Stopped before it finished."
         case .notOnItsOwn: "Peel didn’t run it, since macOS couldn’t keep it from using Peel’s permissions."
         case .receiptMisplaced: "The receipt isn’t where macOS keeps receipts."

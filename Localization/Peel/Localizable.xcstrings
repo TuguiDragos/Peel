@@ -208962,6 +208962,218 @@
         }
       }
     },
+    "The command didn’t answer in time, so Peel ended it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Příkaz neodpověděl včas, a proto ho Peel ukončil."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Befehl hat nicht rechtzeitig geantwortet, daher hat Peel ihn beendet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El comando no ha respondido a tiempo, así que Peel lo ha detenido."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La commande n’a pas répondu à temps : Peel y a donc mis fin."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il comando non ha risposto in tempo, quindi Peel l’ha terminato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コマンドが時間内に応答しなかったため、Peelが終了させました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "명령이 제시간에 응답하지 않아 Peel이 명령을 종료했습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het commando reageerde niet op tijd, dus Peel heeft het beëindigd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Polecenie nie odpowiedziało na czas, więc Peel je zakończył."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O comando não respondeu a tempo, então o Peel o encerrou."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comanda nu a răspuns la timp, așa că Peel a oprit‑o."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Команда не ответила вовремя, поэтому Peel ее завершил."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kommandot svarade inte i tid, så Peel avslutade det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komut zamanında yanıt vermedi, bu yüzden Peel onu sonlandırdı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Команда не відповіла вчасно, тож Peel її завершила."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该命令未及时响应，因此Peel已将其结束。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指令未及時回應，因此Peel已將它結束。"
+          }
+        }
+      }
+    },
+    "The command didn’t answer within 30 seconds, so Peel ended it. The job may still stop or restart on its own." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Příkaz neodpověděl do 30 sekund, a proto ho Peel ukončil. Úloha se ale ještě může sama zastavit nebo restartovat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Befehl hat nicht innerhalb von 30 Sekunden geantwortet, daher hat Peel ihn beendet. Möglicherweise stoppt der Job noch von selbst oder startet neu."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El comando no ha respondido en 30 segundos, así que Peel lo ha detenido. Puede que la tarea aún se detenga o se reinicie por sí sola."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La commande n’a pas répondu dans les 30 secondes : Peel y a donc mis fin. La tâche peut encore s’arrêter ou redémarrer d’elle-même."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il comando non ha risposto entro 30 secondi, quindi Peel l’ha terminato. L’elemento potrebbe comunque interrompersi o riavviarsi da solo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コマンドが30秒以内に応答しなかったため、Peelが終了させました。ジョブはこの後も、自動的に停止または再起動することがあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "명령이 30초 안에 응답하지 않아 Peel이 명령을 종료했습니다. 작업이 스스로 중단되거나 다시 시작될 수도 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het commando reageerde niet binnen 30 seconden, dus Peel heeft het beëindigd. De taak kan nog vanzelf stoppen of opnieuw starten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Polecenie nie odpowiedziało w ciągu 30 sekund, więc Peel je zakończył. Zadanie może się jeszcze samo zatrzymać lub uruchomić ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O comando não respondeu em 30 segundos, então o Peel o encerrou. A tarefa ainda pode parar ou reiniciar sozinha."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comanda nu a răspuns în 30 de secunde, așa că Peel a oprit‑o. Sarcina se poate totuși opri sau reporni de la sine."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Команда не ответила за 30 секунд, поэтому Peel ее завершил. Задание еще может остановиться или перезапуститься само."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kommandot svarade inte inom 30 sekunder, så Peel avslutade det. Jobbet kan fortfarande stoppas eller startas om av sig självt."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komut 30 saniye içinde yanıt vermedi, bu yüzden Peel onu sonlandırdı. İş yine de kendiliğinden durabilir veya yeniden başlayabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Команда не відповіла протягом 30 секунд, тож Peel її завершила. Завдання ще може саме зупинитися або перезапуститися."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该命令在30秒内未响应，因此Peel已将其结束。此任务仍可能自行停止或重新启动。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指令未在30秒內回應，因此Peel已將它結束。此工作仍可能自行停止或重新啟動。"
+          }
+        }
+      }
+    },
     "The configuration file is missing." : {
       "localizations" : {
         "cs" : {
@@ -215433,112 +215645,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "前一個指令失敗時，符號會變成紅色，讓失敗更加醒目。"
-          }
-        }
-      }
-    },
-    "The tool didn’t answer in time, so it was stopped." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nástroj neodpověděl včas, a proto byl zastaven."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Tool hat nicht rechtzeitig geantwortet, daher wurde es gestoppt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La herramienta no ha respondido a tiempo, así que se ha detenido."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’outil n’a pas répondu à temps : il a donc été arrêté."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lo strumento non ha risposto in tempo, quindi è stato interrotto."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ツールが時間内に応答しなかったため、停止されました。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "도구가 제시간에 응답하지 않아 중단되었습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De tool reageerde niet op tijd en is daarom gestopt."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Narzędzie nie odpowiedziało na czas, więc zostało zatrzymane."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A ferramenta não respondeu a tempo, então foi interrompida."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instrumentul nu a răspuns la timp, așa că a fost oprit."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Инструмент не ответил вовремя, поэтому его остановили."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verktyget svarade inte i tid, så det stoppades."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Araç zamanında yanıt vermedi, bu yüzden durduruldu."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Інструмент не відповів вчасно, тож його зупинено."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "该工具未及时响应，因此已被停止。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "工具未及時回應，因此已被停止。"
           }
         }
       }
