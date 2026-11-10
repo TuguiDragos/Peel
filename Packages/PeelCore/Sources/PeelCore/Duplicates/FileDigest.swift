@@ -12,8 +12,9 @@ enum FileDigest {
     }
 
     /// The bytes that reading these files in full will take, leaving out files whose full digest is remembered.
-    static func bytesToRead(_ identities: [FileIdentity], known: KnownDigests?) -> Int64 {
-        identities.filter { known?.full(of: $0) == nil }.map(\.size).cappedSum
+    static func bytesToRead(_ files: [(url: URL, identity: FileIdentity)], known: KnownDigests?) -> Int64 {
+        files.filter { known?.forFile(at: $0.url, $0.identity)?.full(of: $0.identity) == nil }.map(\.identity.size)
+            .cappedSum
     }
 
     /// Digests `items`, `concurrentReads` at a time, leaving out any that cannot be read. Each read runs as
@@ -60,6 +61,7 @@ enum FileDigest {
         known: KnownDigests? = nil,
         isGivenUp: () -> Bool = { false }
     ) -> ContentDigest? {
+        let known = known?.forFile(at: url, identity)
         if let digest = known?.sample(of: identity) { return digest }
         // Each buffer is only as large as the read it serves, not `chunkLength`: this pass runs for every
         // candidate and reads at most 128 KiB of each.
@@ -86,6 +88,7 @@ enum FileDigest {
         isGivenUp: () -> Bool = { false },
         onRead: (Int) -> Void = { _ in }
     ) -> ContentDigest? {
+        let known = known?.forFile(at: url, identity)
         if let digest = known?.full(of: identity) { return digest }
         let digest = whole(url, identity: identity, isGivenUp: isGivenUp, onRead: onRead)
         if let digest { known?.keep(full: digest, of: identity) }

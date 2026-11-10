@@ -542,6 +542,79 @@ struct FolderDuplicateRemovalTests {
         #expect(FileManager.default.fileExists(atPath: copy.path(percentEncoded: false)))
     }
 
+    private func rewriteUnderItsOldDate(_ url: URL) throws {
+        let path = url.path(percentEncoded: false)
+        var original = stat()
+        try #require(lstat(path, &original) == 0)
+        let handle = try FileHandle(forWritingTo: url)
+        try handle.write(contentsOf: Data(repeating: 0, count: 64))
+        try handle.close()
+        var times = [original.st_atimespec, original.st_mtimespec]
+        try #require(utimensat(AT_FDCWD, path, &times, 0) == 0)
+    }
+
+    private func threeCopies(
+        in directory: borrowing TemporaryDirectory,
+        whileMovingTheFirst change: @escaping @Sendable ([URL]) throws -> Void
+    ) async throws -> (scan: DuplicateScan, folders: [URL], service: TrashService) {
+        let contents = Data((0..<5_000).map { _ in UInt8.random(in: 0...255) })
+        for folder in ["Documents", "Pictures", "Desktop"] {
+            try directory.file("home/\(folder)/Trip/photo.jpg", contents: contents)
+        }
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
+        let folders = try #require(scan.folderGroups.first).folders.map(\.url)
+        try #require(folders.count == 3)
+        let trash = try directory.directory("Trash")
+        let environment = SearchEnvironment(
+            homeDirectory: home, rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let first = PathPattern.comparablePath(of: folders[1])
+        let service = TrashService(environment: environment) { url in
+            if PathPattern.comparablePath(of: url) == first { try change(folders) }
+            let destination = trash.appending(path: UUID().uuidString)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+        return (scan, folders, service)
+    }
+
+    @Test func refusesACopyRewrittenUnderItsOldDateWhileTheOthersMove() async throws {
+        let directory = try TemporaryDirectory()
+        let (scan, folders, service) = try await threeCopies(in: directory) {
+            try rewriteUnderItsOldDate($0[2].appending(path: "photo.jpg"))
+        }
+
+        let result = await DuplicateRemoval.trash([], folders: [folders[1], folders[2]], from: scan, using: service)
+
+        #expect(result.trashed.map(\.originalURL) == [folders[1]])
+        #expect(result.failures.map(\.reason) == [.changedSinceScan])
+    }
+
+    @Test func refusesACopyWhoseKeptCopyIsRewrittenUnderItsOldDateWhileTheOthersMove() async throws {
+        let directory = try TemporaryDirectory()
+        let (scan, folders, service) = try await threeCopies(in: directory) {
+            try rewriteUnderItsOldDate($0[0].appending(path: "photo.jpg"))
+        }
+
+        let result = await DuplicateRemoval.trash([], folders: [folders[1], folders[2]], from: scan, using: service)
+
+        #expect(result.trashed.map(\.originalURL) == [folders[1]])
+        #expect(result.failures.map(\.reason) == [.lastCopy])
+    }
+
+    @Test func refusesWhenAFileInTheKeptCopyWasRewrittenUnderItsOldDate() async throws {
+        let directory = try TemporaryDirectory()
+        let (scan, kept, copy) = try await duplicates(in: directory)
+        try rewriteUnderItsOldDate(kept.appending(path: "photo.jpg"))
+
+        let result = await DuplicateRemoval.trash([], folders: [copy], from: scan, using: try service(in: directory))
+
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.reason) == [.lastCopy])
+        #expect(FileManager.default.fileExists(atPath: copy.path(percentEncoded: false)))
+    }
+
     /// A file put into the copy after the scan would go to the Trash with it, unread and uncompared.
     @Test func refusesACopyThatChangedSinceTheScan() async throws {
         let directory = try TemporaryDirectory()

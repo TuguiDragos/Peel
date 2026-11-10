@@ -4,8 +4,9 @@ import Synchronization
 
 /// Digests one duplicate scan computed, saved so the next scan does not read an unchanged file again. A file is
 /// known by its device and inode, its size, and its modification, status change, and creation times, never by
-/// its name, and no name is saved. Every write moves the status change time, which cannot be set back, so a file
-/// rewritten and given its old dates again is read again.
+/// its name, and no name is saved. On APFS every write moves the status change time, which cannot be set back, so a
+/// file rewritten and given its old dates again is read again. Other disks keep no such time, so nothing is
+/// remembered for a file on one.
 public struct DigestMemory: Sendable {
     /// The most files remembered, about 12 MB on disk: room for the files of a home folder that share a size with
     /// another file, which are the only ones read. The least recently used are forgotten first.
@@ -173,6 +174,7 @@ final class KnownDigests: Sendable {
     private struct State {
         var entries: [Key: Entry]
         var changed: Set<Key> = []
+        var isAPFS: [dev_t: Bool] = [:]
     }
 
     private let state: Mutex<State>
@@ -181,6 +183,18 @@ final class KnownDigests: Sendable {
     init(entries: [Key: Entry], day: UInt32) {
         state = Mutex(State(entries: entries))
         self.day = day
+    }
+
+    /// The memory for the file at `url`, or nil when it isn't on APFS.
+    func forFile(at url: URL, _ identity: FileIdentity) -> KnownDigests? {
+        let device = identity.link.device
+        if let isAPFS = state.withLock({ $0.isAPFS[device] }) { return isAPFS ? self : nil }
+        var volume = statfs()
+        let isAPFS = statfs(url.path(percentEncoded: false), &volume) == 0
+            && withUnsafeBytes(of: volume.f_fstypename) { String(decoding: $0.prefix { $0 != 0 }, as: UTF8.self) }
+                == "apfs"
+        state.withLock { $0.isAPFS[device] = isAPFS }
+        return isAPFS ? self : nil
     }
 
     func sample(of identity: FileIdentity) -> ContentDigest? {

@@ -92,7 +92,7 @@ struct FolderDuplicates: Sendable {
 
         let toRead = Self.files(in: alike).filter { FileDigest.isSampled(size: $0.identity.size) }
         let reading = ReadProgress(
-            bytesToRead: FileDigest.bytesToRead(toRead.map(\.identity), known: known),
+            bytesToRead: FileDigest.bytesToRead(toRead, known: known),
             report: progress
         )
         let read = await FileDigest.many(toRead) { file, isGivenUp in
@@ -110,28 +110,45 @@ struct FolderDuplicates: Sendable {
     /// Whether `folder` still holds exactly what the scan compared, listed again the same way. The exclusions and
     /// managed folders are not needed: a folder that held an excluded or managed item was never offered.
     static func holdsTheSameContents(_ folder: DuplicateFolder) -> Bool {
-        FolderDuplicates(neverProjects: folder.neverProjects).contents(of: folder.url).map { $0 == folder.contents }
-            ?? false
+        let finder = FolderDuplicates(neverProjects: folder.neverProjects)
+        return finder.listedAgain(folder.url).flatMap { finder.identity(of: $0) }?.hexadecimal == folder.contents
     }
 
-    private func contents(of url: URL) -> String? {
+    /// What `folder` holds, its bytes read again with no memory, and its entries then, status change times included.
+    /// Nil when anything in it can't be read.
+    static func readAgain(_ folder: DuplicateFolder) async -> (contents: SHA256.Digest, entries: SHA256.Digest)? {
+        let finder = FolderDuplicates(neverProjects: folder.neverProjects)
+        guard let listed = finder.listedAgain(folder.url), let entries = finder.identity(of: listed, exactly: true)
+        else { return nil }
+        let read = await FileDigest.many(Self.files(in: [listed])) { file, isGivenUp in
+            FileDigest.full(of: file.url, identity: file.identity, isGivenUp: isGivenUp)
+        }
+        var known: [ObjectIdentifier: SHA256.Digest?] = [:]
+        return finder.content(of: listed, using: Self.table(read), known: &known).map { ($0, entries) }
+    }
+
+    /// `folder`'s entries as they are now, status change times included.
+    static func entries(of folder: DuplicateFolder) -> SHA256.Digest? {
+        let finder = FolderDuplicates(neverProjects: folder.neverProjects)
+        return finder.listedAgain(folder.url).flatMap { finder.identity(of: $0, exactly: true) }
+    }
+
+    private func listedAgain(_ url: URL) -> Folder? {
         var info = stat()
         guard lstat(url.path(percentEncoded: false), &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { return nil }
-        guard let folder = try? list(
+        return try? list(
             url, identity: FileIdentity(info), depth: 0, isNeverOffered: false, isGivenUp: { false }, onListing: {}
         )
-        else { return nil }
-        return identity(of: folder).map(\.hexadecimal)
     }
 
-    private func identity(of folder: Folder) -> SHA256.Digest? {
+    private func identity(of folder: Folder, exactly: Bool = false) -> SHA256.Digest? {
         guard folder.isWhole else { return nil }
         var hasher = SHA256()
         for (name, identity) in folder.files.sorted(by: { $0.name < $1.name }) {
-            hasher.update(data: Self.field("f", name, identity.numbers))
+            hasher.update(data: Self.field("f", name, exactly ? identity.allNumbers : identity.numbers))
         }
         for (name, child) in folder.children.sorted(by: { $0.name < $1.name }) {
-            guard let digest = identity(of: child) else { return nil }
+            guard let digest = identity(of: child, exactly: exactly) else { return nil }
             hasher.update(data: Self.field("d", name, Array(digest)))
         }
         return hasher.finalize()
@@ -464,5 +481,9 @@ private extension FileIdentity {
         [UInt64(truncatingIfNeeded: link.device), UInt64(link.inode), UInt64(bitPattern: size),
          UInt64(truncatingIfNeeded: modificationTime), UInt64(truncatingIfNeeded: creationTime)]
             .flatMap { withUnsafeBytes(of: $0.littleEndian, Array.init) }
+    }
+
+    var allNumbers: [UInt8] {
+        numbers + withUnsafeBytes(of: UInt64(truncatingIfNeeded: statusChangeTime).littleEndian, Array.init)
     }
 }

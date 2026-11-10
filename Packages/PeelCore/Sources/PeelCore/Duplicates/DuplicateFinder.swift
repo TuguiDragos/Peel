@@ -252,7 +252,7 @@ public struct DuplicateFinder: Sendable {
         let toVerify = sampledGroups.filter { FileDigest.isSampled(size: $0[0].item.identity.size) }
             .flatMap { $0.map(\.item) }
         let reading = ReadProgress(
-            bytesToRead: FileDigest.bytesToRead(toVerify.map(\.identity), known: known),
+            bytesToRead: FileDigest.bytesToRead(toVerify.map { (url: $0.url, identity: $0.identity) }, known: known),
             report: progress
         )
         let verified = await FileDigest.many(toVerify) { candidate, isGivenUp in

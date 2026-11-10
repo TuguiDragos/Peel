@@ -1194,6 +1194,103 @@ struct DuplicateRemovalTests {
         #expect(FileManager.default.fileExists(atPath: copy.path(percentEncoded: false)))
     }
 
+    private func rewriteUnderItsOldDate(_ url: URL) throws {
+        let path = url.path(percentEncoded: false)
+        var original = stat()
+        try #require(lstat(path, &original) == 0)
+        let handle = try FileHandle(forWritingTo: url)
+        try handle.write(contentsOf: Data(repeating: 0, count: 64))
+        try handle.close()
+        var times = [original.st_atimespec, original.st_mtimespec]
+        try #require(utimensat(AT_FDCWD, path, &times, 0) == 0)
+    }
+
+    private func threeCopies(
+        in directory: borrowing TemporaryDirectory,
+        whileMovingTheFirst change: @escaping @Sendable ([URL]) throws -> Void
+    ) async throws -> (scan: DuplicateScan, files: [URL], service: TrashService) {
+        let contents = Data((0..<5_000).map { _ in UInt8.random(in: 0...255) })
+        for name in ["kept.bin", "kept copy.bin", "kept copy 2.bin"] {
+            try directory.file("home/Documents/\(name)", contents: contents)
+        }
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
+        let files = try #require(scan.groups.first).files.map(\.url)
+        try #require(files.count == 3)
+        let trash = try directory.directory("Trash")
+        let environment = SearchEnvironment(
+            homeDirectory: home, rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let first = files[1].lastPathComponent
+        let service = TrashService(environment: environment) { url in
+            if url.lastPathComponent == first { try change(files) }
+            let destination = trash.appending(path: UUID().uuidString)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+        return (scan, files, service)
+    }
+
+    @Test func refusesACopyRewrittenUnderItsOldDateWhileTheOthersMove() async throws {
+        let directory = try TemporaryDirectory()
+        let (scan, files, service) = try await threeCopies(in: directory) { try rewriteUnderItsOldDate($0[2]) }
+
+        let result = await DuplicateRemoval.trash([files[1], files[2]], from: scan, using: service)
+
+        #expect(result.trashed.map(\.originalURL) == [files[1]])
+        #expect(result.failures.map(\.reason) == [.changedSinceScan])
+    }
+
+    @Test func refusesACopyWhoseKeptCopyIsRewrittenUnderItsOldDateWhileTheOthersMove() async throws {
+        let directory = try TemporaryDirectory()
+        let (scan, files, service) = try await threeCopies(in: directory) { try rewriteUnderItsOldDate($0[0]) }
+
+        let result = await DuplicateRemoval.trash([files[1], files[2]], from: scan, using: service)
+
+        #expect(result.trashed.map(\.originalURL) == [files[1]])
+        #expect(result.failures.map(\.reason) == [.lastCopy])
+    }
+
+    @Test func refusesWhenTheKeptCopyWasRewrittenUnderItsOldDate() async throws {
+        let directory = try TemporaryDirectory()
+        let (scan, kept, copy) = try await duplicates(in: directory)
+        try rewriteUnderItsOldDate(kept)
+
+        let result = await DuplicateRemoval.trash([copy], from: scan, using: try service(in: directory))
+
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.reason) == [.lastCopy])
+        #expect(FileManager.default.fileExists(atPath: copy.path(percentEncoded: false)))
+    }
+
+    @Test func movesNoCopyThatOnlyARememberedDigestMadeAlike() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let contract = try directory.file("home/Documents/contract.tif", contents: Data(repeating: 1, count: 300_000))
+        let taxes = try directory.file("home/Documents/tax return.tif", contents: Data(repeating: 2, count: 300_000))
+        let memory = DigestMemory(url: directory.url.appending(path: "digests.bin"))
+        let known = memory.load()
+        let madeUp = try #require(ContentDigest(bytes: [UInt8](repeating: 7, count: 32)))
+        for url in [contract, taxes] {
+            let identity = try #require(FileIdentity.of(url))
+            known.keep(sample: madeUp, of: identity)
+            known.keep(full: madeUp, of: identity)
+        }
+        memory.save(known)
+        let scan = try await DuplicateFinder(homeDirectory: home, digestMemory: memory).scan(.everySize(in: [home]))
+        try #require(scan.groups.count == 1)
+
+        let service = try service(in: directory)
+
+        let result = await DuplicateRemoval.trash(scan.suggestedSelection, from: scan, using: service)
+
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.reason) == [.lastCopy])
+        for url in [contract, taxes] {
+            #expect(FileManager.default.fileExists(atPath: url.path(percentEncoded: false)))
+        }
+    }
+
     @Test func refusesCopiesChangedSinceTheScan() async throws {
         let directory = try TemporaryDirectory()
         let (scan, _, copy) = try await duplicates(in: directory)

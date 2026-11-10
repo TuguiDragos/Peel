@@ -148,6 +148,31 @@ struct DigestMemoryTests {
         #expect(names(try await scan(directory, memory: memory)).isEmpty)
     }
 
+    @Test(arguments: ["ExFAT", "MS-DOS FAT32"])
+    func readsAgainAFileOnADiskThatKeepsNoStatusChangeTime(fileSystem: String) async throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(
+            fileSystem: fileSystem, mountedAt: directory.url.appending(path: "home", directoryHint: .isDirectory)
+        )
+        let memory = DigestMemory(url: directory.url.appending(path: "digests.bin"))
+        let (first, second) = try twoDifferentFiles(in: directory)
+        try remember(digest(7), for: [first, second], in: memory)
+
+        let path = second.path(percentEncoded: false)
+        let before = try #require(FileIdentity.of(second))
+        var original = stat()
+        #expect(lstat(path, &original) == 0)
+        let handle = try FileHandle(forWritingTo: second)
+        try handle.write(contentsOf: randomData(count: 4_096))
+        try handle.close()
+        var times = [original.st_atimespec, original.st_mtimespec]
+        #expect(utimensat(AT_FDCWD, path, &times, 0) == 0)
+        #expect(try #require(FileIdentity.of(second)) == before)
+
+        #expect(names(try await scan(directory, memory: memory)).isEmpty)
+        withExtendedLifetime(disk) {}
+    }
+
     @Test func forgetsWhatWasUsedLeastRecentlyPastItsLimit() throws {
         let directory = try TemporaryDirectory()
         let memory = DigestMemory(url: directory.url.appending(path: "digests.bin"), limit: 2)
