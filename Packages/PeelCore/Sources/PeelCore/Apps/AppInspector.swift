@@ -83,6 +83,8 @@ public enum AppInspector {
         case noInfo
         /// Permissions keep this account from reading the Info.plist: its own, or those of a folder on its way.
         case infoClosed
+        /// macOS's privacy protection keeps Peel from reading the Info.plist, as in Downloads after Don't Allow.
+        case infoKeptByPrivacy
         /// The Info.plist opens but isn't a property list Peel can read.
         case infoDamaged
     }
@@ -120,7 +122,13 @@ public enum AppInspector {
         guard isABundle(url) else { return .notAnApp }
         let info = AppBundleLayout(of: url).infoFolder.appending(path: "Info.plist")
         if info.isMissing { return .noInfo }
-        return access(info.path(percentEncoded: false), R_OK) == 0 ? .infoDamaged : .infoClosed
+        return access(info.path(percentEncoded: false), R_OK) == 0 ? .infoDamaged : unreadableInfo(accessError: errno)
+    }
+
+    /// Why an Info.plist that is there can't be read, from what `access(2)` answered: `EPERM` is macOS's privacy
+    /// protection, which System Settings lifts, and anything else the permissions.
+    static func unreadableInfo(accessError: Int32) -> Unreadable {
+        accessError == EPERM ? .infoKeptByPrivacy : .infoClosed
     }
 
     public static func inspect(_ url: URL) -> InstalledApp? {

@@ -391,6 +391,11 @@ struct AppInspectorTests {
         #expect(calculator.developer == "Apple", "Apple signs its own apps as Software Signing")
     }
 
+    @Test func tellsMacOSsPrivacyFromThePermissionsWhenAnInfoPlistCantBeRead() {
+        #expect(AppInspector.unreadableInfo(accessError: EPERM) == .infoKeptByPrivacy)
+        #expect(AppInspector.unreadableInfo(accessError: EACCES) == .infoClosed)
+    }
+
     @Test func believesNoSignatureThatNeverSawTheBundlesInfoPlist() throws {
         let directory = try TemporaryDirectory()
         try plist(["CFBundleIdentifier": "org.example.tide", "CFBundleExecutable": "Tide"], at: "Tide.app/Contents/Info.plist", in: directory)

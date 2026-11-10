@@ -270105,6 +270105,112 @@
         }
       }
     },
+    "macOS keeps Peel from reading the Info.plist in %@. Allow Peel in System Settings > Privacy & Security > Files and Folders, or give it Full Disk Access." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS brání Peelu ve čtení souboru Info.plist v %@. Povolte Peel v Nastavení systému > Soukromí a zabezpečení > Soubory a složky, nebo mu udělte plný přístup k disku."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hindert Peel daran, die Info.plist in %@ zu lesen. Erlaube Peel den Zugriff unter „Systemeinstellungen“ > „Datenschutz & Sicherheit“ > „Dateien & Ordner“ oder gib Peel Festplattenvollzugriff."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS impide que Peel lea el Info.plist de %@. Da permiso a Peel en Ajustes del Sistema > Privacidad y seguridad > Archivos y carpetas, o dale acceso total al disco."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS empêche Peel de lire le fichier Info.plist dans %@. Autorisez Peel dans Réglages Système > Confidentialité et sécurité > Fichiers et dossiers, ou accordez-lui l’accès complet au disque."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS impedisce a Peel di leggere il file Info.plist in %@. Autorizza Peel in Impostazioni di Sistema > Privacy e sicurezza > File e cartelle, oppure dagli l’accesso completo al disco."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSにより、Peelは%@にあるInfo.plistを読み取れません。“システム設定”＞“プライバシーとセキュリティ”＞“ファイルとフォルダ”でPeelを許可するか、Peelにフルディスクアクセスを許可してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 Peel이 %@에 있는 Info.plist를 읽지 못하도록 막고 있습니다. 시스템 설정 > 개인정보 보호 및 보안 > 파일 및 폴더에서 Peel을 허용하거나, Peel에 전체 디스크 접근 권한을 부여하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS voorkomt dat Peel de Info.plist in %@ leest. Sta Peel toe in Systeeminstellingen > Privacy en beveiliging > Bestanden en mappen, of geef Peel volledige schijftoegang."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie pozwala Peel odczytać pliku Info.plist w %@. Pozwól Peel na dostęp w Ustawieniach systemowych > Prywatność i ochrona > Pliki i foldery albo nadaj mu pełny dostęp do dysku."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS impede que o Peel leia o Info.plist em %@. Permita o Peel em Ajustes do Sistema > Privacidade e Segurança > Arquivos e Pastas ou conceda a ele Acesso Total ao Disco."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS împiedică Peel să citească fișierul Info.plist din %@. Permiteți Peel în Configurări sistem > Intimitate și securitate > Fișiere și dosare sau acordați‑i Acces complet la disc."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не дает Peel прочитать Info.plist в %@. Разрешите Peel доступ в разделе «Системные настройки» > «Конфиденциальность и безопасность» > «Файлы и папки» или предоставьте ему полный доступ к диску."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hindrar Peel från att läsa Info.plist i %@. Tillåt Peel i Systeminställningar > Integritet och säkerhet > Filer och mappar, eller ge Peel full skivtillgång."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, Peel’in %@ içindeki Info.plist dosyasını okumasını engelliyor. Sistem Ayarları > Gizlilik ve Güvenlik > Dosyalar ve Klasörler bölümünde Peel’e izin verin veya ona Tam Disk Erişimi verin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не дає Peel прочитати Info.plist у %@. Дозвольте Peel доступ у розділі Системні параметри > Приватність і безпека > Файли та папки або надайте їй повний доступ до диска."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS阻止Peel读取%@中的Info.plist。请在“系统设置”>“隐私与安全性”>“文件与文件夹”中允许Peel，或授予Peel完全磁盘访问权限。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS阻止Peel讀取%@中的Info.plist。請在「系統設定」>「隱私權與安全性」>「檔案和檔案夾」中允許Peel，或授予它「完全取用磁碟」權限。"
+          }
+        }
+      }
+    },
     "macOS keeps Peel out of the folders it protects until Peel has Full Disk Access. Turn it on from Home." : {
       "localizations" : {
         "cs" : {
