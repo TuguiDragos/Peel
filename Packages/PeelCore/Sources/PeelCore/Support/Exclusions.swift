@@ -23,6 +23,8 @@ public struct Exclusions: Sendable, Codable, Hashable {
     public private(set) var whyUnreadable: FileProblem?
     /// False until the saved list has been read. Nothing is moved before, as for a list that cannot be read.
     public private(set) var hasBeenRead = true
+    /// How many entries of the saved list could not be read, and so leave nothing alone.
+    public fileprivate(set) var unreadableEntries = 0
 
     /// True when what the user excluded is known: the saved list was read, and could be.
     public var isKnown: Bool { hasBeenRead && !isUnreadable }
@@ -70,6 +72,21 @@ public struct Exclusions: Sendable, Codable, Hashable {
         }
     }
 
+    /// One saved path: a file address, as Peel writes it, or an absolute path, as a person may write one. `value` is
+    /// nil for anything else.
+    private struct PathEntry: Decodable {
+        let value: URL?
+
+        init(from decoder: any Decoder) {
+            let text = try? decoder.singleValueContainer().decode(String.self)
+            value = text.flatMap { text in
+                text.hasPrefix("/") ? URL(filePath: text) : URL(string: text).flatMap { url in
+                    url.isFileURL && url.path(percentEncoded: false).hasPrefix("/") ? url : nil
+                }
+            }
+        }
+    }
+
     public init(paths: Set<URL> = [], bundleIdentifiers: Set<String> = []) {
         // A URL with no path would exclude everything, so only file URLs with an absolute path are kept.
         self.paths = Set(
@@ -84,13 +101,12 @@ public struct Exclusions: Sendable, Codable, Hashable {
 
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        let paths = try container.decodeIfPresent([PathEntry].self, forKey: .paths) ?? []
+        let identifiers = try container.decodeIfPresent([Entry<String>].self, forKey: .bundleIdentifiers) ?? []
         self.init(
-            paths: Set(try container.decodeIfPresent([Entry<URL>].self, forKey: .paths)?.compactMap(\.value) ?? []),
-            bundleIdentifiers: Set(
-                try container.decodeIfPresent([Entry<String>].self, forKey: .bundleIdentifiers)?.compactMap(\.value)
-                    ?? []
-            )
+            paths: Set(paths.compactMap(\.value)), bundleIdentifiers: Set(identifiers.compactMap(\.value))
         )
+        unreadableEntries = paths.count(where: { $0.value == nil }) + identifiers.count(where: { $0.value == nil })
     }
 
     public var isEmpty: Bool { paths.isEmpty && bundleIdentifiers.isEmpty }
@@ -422,9 +438,13 @@ public struct ExclusionStore: Sendable {
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         do {
             let data = try encoder.encode(exclusions)
-            if read().isUnreadable { try DamagedFile.settingAside(url) }
+            // What couldn't be read isn't written again, so the file it was in is kept as it was.
+            let replaced = read()
+            if replaced.isUnreadable || replaced.unreadableEntries > 0 { try DamagedFile.settingAside(url) }
             try PeelFolder.write(data, to: url)
-            return .saved(exclusions)
+            var saved = exclusions
+            saved.unreadableEntries = 0
+            return .saved(saved)
         } catch {
             return .notSaved(exclusions, .failed(SystemError(error)))
         }

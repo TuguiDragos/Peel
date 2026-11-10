@@ -48,6 +48,7 @@ struct ExclusionsCommand: AsyncParsableCommand {
         private struct Record: Encodable {
             let paths: [String]
             let apps: [String]
+            let unreadableEntries: Int
         }
 
         func run() async throws {
@@ -62,8 +63,12 @@ struct ExclusionsCommand: AsyncParsableCommand {
             let paths = exclusions.paths.map(Output.path).sorted()
             let apps = exclusions.bundleIdentifiers.sorted()
 
+            if exclusions.unreadableEntries > 0 {
+                let count = exclusions.unreadableEntries
+                Output.note("Peel couldn't read \(Output.count(count, "entry", "entries")) in its exclusions file, so what \(count == 1 ? "it names isn't" : "they name aren't") left alone. The file is kept aside as it is the next time the list changes.")
+            }
             if output.json {
-                try Output.json(Record(paths: paths, apps: apps))
+                try Output.json(Record(paths: paths, apps: apps, unreadableEntries: exclusions.unreadableEntries))
             } else if exclusions.isEmpty {
                 Output.line("Peel isn't leaving anything alone.")
             } else {

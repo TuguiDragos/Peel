@@ -174,6 +174,18 @@ struct ExclusionCommandTests {
         #expect(collected.notes.contains("Later isn't there yet. Peel will leave it alone once it is."))
     }
 
+    @Test func listSaysHowManyEntriesItCouldNotRead() async throws {
+        let directory = try TemporaryDirectory()
+        let file = try directory.file("Peel/exclusions.json", contents: Data(#"{"bundleIdentifiers":[7],"paths":[]}"#.utf8))
+        let collected = Output.Collected()
+
+        try await Output.$collected.withValue(collected) {
+            try await list(in: ExclusionStore(url: file))
+        }
+
+        #expect(collected.notes.contains("Peel couldn't read 1 entry in its exclusions file, so what it names isn't left alone. The file is kept aside as it is the next time the list changes."))
+    }
+
     @Test func namesTheFolderThatLeavesAPathAlone() async throws {
         let directory = try TemporaryDirectory()
         let store = store(in: directory)

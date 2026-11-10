@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct ExclusionsTests {
@@ -319,6 +320,27 @@ struct ExclusionsTests {
         let urls = [URL(filePath: "/a/org.example.Notes/one"), URL(filePath: "/a/two")]
         let kept = Exclusions(bundleIdentifiers: ["org.example.Notes"]).keeping(urls) { $0 }
         #expect(kept == [URL(filePath: "/a/two")])
+    }
+
+    @Test func aPathWrittenByHandIsReadAndWhatCantBeReadIsKeptAside() async throws {
+        let directory = try TemporaryDirectory()
+        let file = try directory.file(
+            "Peel/exclusions.json",
+            contents: Data(#"{"bundleIdentifiers":["org.example.notes",7],"paths":["/Users/example/Project","~/Documents",null]}"#.utf8)
+        )
+        let store = ExclusionStore(url: file)
+        let project = URL(filePath: "/Users/example/Project/notes.txt")
+
+        let saved = await store.load()
+        #expect(saved.isKnown)
+        #expect(saved.excludes(project))
+        #expect(saved.unreadableEntries == 3)
+
+        _ = await store.change { $0.add([URL(filePath: "/Users/example/Music/Keep")]) }
+
+        #expect(DamagedFile.copies(of: file)?.count == 1)
+        #expect(await store.load().unreadableEntries == 0)
+        #expect(await store.load().excludes(project))
     }
 
     @Test func survivesBeingWrittenAndReadBack() async throws {
