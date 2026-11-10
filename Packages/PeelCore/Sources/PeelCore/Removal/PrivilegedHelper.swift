@@ -5,6 +5,9 @@ import Synchronization
 
 public enum PrivilegedHelper {
     static let unavailable = "Peel’s helper isn’t available."
+    /// What is said of an item still in its place when the helper's answer never came: a helper held up in a move
+    /// may still take it, and a line written before the request brings it into History once Peel opens again.
+    static let mayStillMove = "Peel’s helper didn’t answer in time, so whether it moved this isn’t known. If it did, History lists it the next time Peel opens."
 
     public enum Status: Sendable, Equatable {
         case notRegistered
@@ -257,8 +260,8 @@ public enum PrivilegedHelper {
         }
     }
 
-    /// How long a request is waited for before it counts as unanswered: longer than any request takes, at most
-    /// `HelperRequest.maximumItems` renames, or one `launchctl` run that the helper stops after 30 seconds.
+    /// How long a request is waited for before it counts as unanswered: longer than the helper works on one request's
+    /// items (`HelperRequest.timeToMove`), or than one `launchctl` run, which the helper stops after 30 seconds.
     static let requestWait: TimeInterval = 120
 
     /// How long the helper is given to say it is there: launchd starts a job at most once every 10 seconds
@@ -321,7 +324,8 @@ public enum PrivilegedHelper {
                 // Nothing was there when the request went, nor is now: neither moved nor a failure.
                 continue
             } else {
-                result.failures.append(TrashFailure(url: url, reason: .failed(reply?.failed[path] ?? Self.unavailable)))
+                let reason = reply.map { $0.failed[path] ?? Self.unavailable } ?? Self.mayStillMove
+                result.failures.append(TrashFailure(url: url, reason: .failed(reason)))
             }
         }
         return result

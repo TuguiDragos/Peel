@@ -28,12 +28,17 @@ public enum HelperOperations {
         }
         let policy = policy(admitted)
         guard let trash = policy.openTrash(ownedBy: admitted.user) else { return refusal(.noTrash) }
+        let deadline = ContinuousClock.now + .seconds(HelperRequest.timeToMove)
 
         var failed: [String: String] = [:]
         var items: [(path: String, item: OpenItem)] = []
         for path in paths {
             guard !HelperRequest.isTooLong(path) else {
                 failed[path] = HelperRefusal.pathTooLong.rawValue
+                continue
+            }
+            guard ContinuousClock.now < deadline else {
+                failed[path] = HelperRefusal.ranOutOfTime.rawValue
                 continue
             }
             switch policy.open(path) {
@@ -45,7 +50,9 @@ public enum HelperOperations {
         // back only what its ledger lists.
         guard
             let ledger = ledger(),
-            let result = TrashMover.moveRecorded(items, into: trash, ledger: ledger, movedBy: admitted.user)
+            let result = TrashMover.moveRecorded(
+                items, into: trash, ledger: ledger, movedBy: admitted.user, until: deadline
+            )
         else {
             return refusal(.cannotKeepRecord)
         }

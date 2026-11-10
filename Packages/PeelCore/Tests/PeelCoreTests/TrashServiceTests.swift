@@ -1637,6 +1637,10 @@ struct TrashServiceTests {
         #expect(result.trashed.map(\.originalURL) == [moved])
         #expect(result.trashed.first?.trashedURL.lastPathComponent == "moved 12.34.56.db")
         #expect(result.failures.map(\.url) == [stayed])
+        #expect(
+            result.failures.map(\.reason) == [.failed(PrivilegedHelper.mayStillMove)],
+            "with no answer, the helper may still be moving it: it is not known to have stayed"
+        )
     }
 
     @Test(.permissionsHold, arguments: [2, 11])

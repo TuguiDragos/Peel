@@ -13,7 +13,7 @@ public enum FixedSentence: CaseIterable, Sendable {
     case helperOutOfDate, accountNotAllowed, notAuthorized, tooManyItems, noTrash, pathTooLong, cannotKeepRecord
     case cannotReadRecord
     case notInTrash, notInHelpersRecord, invalidRequest, configurationMissing, declaredTwice, keptByTheHelper
-    case anotherDisk
+    case anotherDisk, ranOutOfTime, helperMayStillMove
     case toolTimedOut, toolStopped, notOnItsOwn
     case receiptMisplaced, receiptForgotten, homebrewNotInstalled, helperUnavailable, homebrewElsewhere
 
@@ -55,6 +55,8 @@ public enum FixedSentence: CaseIterable, Sendable {
         case .declaredTwice: HelperRefusal.declaredTwice.rawValue
         case .keptByTheHelper: HelperRefusal.keptByTheHelper.rawValue
         case .anotherDisk: HelperRefusal.anotherDisk.rawValue
+        case .ranOutOfTime: HelperRefusal.ranOutOfTime.rawValue
+        case .helperMayStillMove: PrivilegedHelper.mayStillMove
         case .toolTimedOut: Subprocess.Failure.timedOut.explanation
         case .toolStopped: Subprocess.Failure.canceled.explanation
         case .notOnItsOwn: Subprocess.notOnItsOwn

@@ -187,16 +187,19 @@ extension TrashMover {
         _ items: [(path: String, item: OpenItem)],
         into trash: DirectoryHandle,
         ledger: HelperLedger,
-        movedBy user: uid_t
+        movedBy user: uid_t,
+        until deadline: ContinuousClock.Instant? = nil
     ) -> (moved: [String: String], failed: [String: String])? {
-        moveRecorded(items, into: trash, ledger: ledger, movedBy: user, exclusively: renameExclusively)
+        moveRecorded(items, into: trash, ledger: ledger, movedBy: user, until: deadline, exclusively: renameExclusively)
     }
 
+    /// Moves nothing once `deadline` has passed: what is left stays, as the helper's answer says.
     static func moveRecorded(
         _ items: [(path: String, item: OpenItem)],
         into trash: DirectoryHandle,
         ledger: HelperLedger,
         movedBy user: uid_t,
+        until deadline: ContinuousClock.Instant? = nil,
         exclusively: ExclusiveRename
     ) -> (moved: [String: String], failed: [String: String])? {
         var firstPath: [ItemIdentity: String] = [:]
@@ -223,6 +226,11 @@ extension TrashMover {
         var stayed: [OpenItem] = []
         let staged: Void? = ledger.whileStaging { staging in
             for (path, item) in unique {
+                if let deadline, ContinuousClock.now >= deadline {
+                    failed[path] = HelperRefusal.ranOutOfTime.rawValue
+                    stayed.append(item)
+                    continue
+                }
                 let names = Self.names(for: item.name, inode: item.identity?.inode)
                 switch move(item, to: names, in: trash, through: staging, for: user, exclusively: exclusively) {
                 case .success(let name):

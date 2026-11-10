@@ -160432,6 +160432,112 @@
         }
       }
     },
+    "Peel’s helper didn’t answer in time, so whether it moved this isn’t known. If it did, History lists it the next time Peel opens." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocník Peelu neodpověděl včas, a proto není známo, zda tuto položku přesunul. Pokud ano, Historie ji zobrazí při příštím otevření Peelu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel hat nicht rechtzeitig geantwortet, daher ist unbekannt, ob es dies verschoben hat. Falls ja, führt der Verlauf es auf, wenn Peel das nächste Mal geöffnet wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El asistente de Peel no ha respondido a tiempo, así que no se sabe si ha trasladado esto. Si lo ha hecho, Historial lo mostrará la próxima vez que se abra Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire de Peel n’a pas répondu à temps : on ne sait donc pas s’il a déplacé cet élément. Si c’est le cas, l’Historique le listera à la prochaine ouverture de Peel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente di Peel non ha risposto in tempo, quindi non si sa se l’ha spostato. Se l’ha fatto, la Cronologia lo elencherà alla prossima apertura di Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーが時間内に応答しなかったため、これを移動したかどうかはわかりません。移動していた場合は、次にPeelを開いたときに履歴に表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램이 제시간에 응답하지 않았으므로 이 항목을 이동했는지 알 수 없습니다. 이동했다면 다음에 Peel을 열 때 기록에 나열됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel reageerde niet op tijd, dus het is niet bekend of het dit heeft verplaatst. Zo ja, dan vermeldt Geschiedenis het de volgende keer dat Peel wordt geopend."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnik Peel nie odpowiedział na czas, więc nie wiadomo, czy to przeniósł. Jeśli tak, Historia pokaże to przy następnym otwarciu Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar do Peel não respondeu a tempo, então não se sabe se ele moveu isto. Se tiver movido, o Histórico vai listá-lo na próxima vez que o Peel for aberto."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel nu a răspuns la timp, așa că nu se știe dacă a mutat acest articol. Dacă l‑a mutat, Istoricul îl va lista data viitoare când se deschide Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник Peel не ответил вовремя, поэтому неизвестно, переместил ли он этот объект. Если переместил, объект появится в Истории при следующем открытии Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram svarade inte i tid, så det är inte känt om hjälpprogrammet flyttade det här. I så fall listar Historik det nästa gång Peel öppnas."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı zamanında yanıt vermedi, bu yüzden bunu taşıyıp taşımadığı bilinmiyor. Taşıdıysa, Peel bir sonraki kez açıldığında Geçmiş onu listeler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник Peel не відповів вчасно, тож невідомо, чи він це перемістив. Якщо так, Історія покаже це, коли Peel відкриється наступного разу."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的帮助程序未及时响应，因此无法得知它是否移动了此项。如果它已移动，“历史记录”会在Peel下次打开时列出此项。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的輔助程式未及時回應，因此無法得知它是否已移動此項目。如果已移動，「歷史記錄」會在下次打開Peel時列出它。"
+          }
+        }
+      }
+    },
     "Peel’s helper had too many folders open at once. Try again." : {
       "localizations" : {
         "cs" : {
@@ -161388,6 +161494,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel的輔助程式會保存它所移動項目的記錄，而這份記錄已經以「%@」的名稱存放在「垃圾桶」中。在這份記錄回到「%@」之前，「歷史記錄」都無法還原輔助程式移動過的項目。"
+          }
+        }
+      }
+    },
+    "Peel’s helper ran out of time before it got to this, so it stays where it was. Try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocníkovi Peelu došel čas dřív, než se k této položce dostal, takže zůstává tam, kde byla. Zkuste to znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dem Hilfsprogramm von Peel ist die Zeit ausgegangen, bevor es zu diesem Objekt kam, daher bleibt das Objekt, wo es war. Versuche es erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al asistente de Peel se le ha acabado el tiempo antes de llegar a esto, así que se queda donde estaba. Inténtalo de nuevo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire de Peel a manqué de temps avant d’arriver à cet élément, qui reste donc à sa place. Réessayez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente di Peel ha esaurito il tempo prima di arrivare a questo elemento, quindi resta dov’era. Riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーがこれを処理する前に時間切れになったため、元の場所に残っています。やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램이 이 항목을 처리하기 전에 시간이 다 되었으므로 이 항목은 원래 위치에 그대로 있습니다. 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel had geen tijd meer voordat het hieraan toekwam, dus het blijft staan waar het stond. Probeer het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnikowi Peel skończył się czas, zanim do tego doszedł, więc ta rzecz została na miejscu. Spróbuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar do Peel ficou sem tempo antes de chegar a este item, então o item fica onde estava. Tente novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentului de ajutor Peel i s‑a terminat timpul înainte să ajungă la acest articol, așa că acesta rămâne unde era. Încercați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У помощника Peel закончилось время, прежде чем он дошел до этого объекта, поэтому объект остается на месте. Повторите попытку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram hann inte fram till det här innan tiden tog slut, så det stannar där det var. Försök igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısının süresi buna sıra gelmeden doldu, bu yüzden bu öğe olduğu yerde kalıyor. Yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У помічника Peel закінчився час, перш ніж він дійшов до цього, тож це лишається на місці. Спробуйте ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的帮助程序在处理到此项之前就已超时，因此此项仍留在原处。请重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的輔助程式在處理到此項目之前就已逾時，因此它仍留在原處。請再試一次。"
           }
         }
       }

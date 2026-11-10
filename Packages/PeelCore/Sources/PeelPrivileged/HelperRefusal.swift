@@ -21,4 +21,6 @@ public enum HelperRefusal: String, CaseIterable, Sendable {
     /// Everything the helper moves passes through a folder of its own on the startup disk, and a rename never leaves
     /// its disk, so nothing reaches a Trash on another disk.
     case anotherDisk = "Your home folder is on a different disk from macOS, and Peel’s helper never moves anything from one disk to another. You can move it in Finder."
+    /// The request's time to move ran out before the helper got to the item.
+    case ranOutOfTime = "Peel’s helper ran out of time before it got to this, so it stays where it was. Try again."
 }

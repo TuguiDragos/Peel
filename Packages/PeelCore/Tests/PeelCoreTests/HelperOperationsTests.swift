@@ -29,6 +29,25 @@ struct HelperOperationsTests {
         try directory.file("root/Library/Caches/\(name)", contents: Data("cache".utf8)).path(percentEncoded: false)
     }
 
+    @Test func aRequestWhoseTimeRanOutMovesNothingMoreAndSaysSo() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/.Trash")
+        let path = try cache("org.example.cache", in: directory)
+        let policy = served(directory)
+        let ledger = try ledger(directory)
+        let item = try policy.open(path).get()
+        let trash = try #require(policy.openTrash(ownedBy: getuid()))
+
+        let result = try #require(TrashMover.moveRecorded(
+            [(path, item)], into: trash, ledger: ledger, movedBy: getuid(), until: .now - .seconds(1)
+        ))
+
+        #expect(result.moved.isEmpty)
+        #expect(result.failed[path] == HelperRefusal.ranOutOfTime.rawValue)
+        #expect(FileManager.default.fileExists(atPath: path))
+        #expect(try ledger.origin(of: item, movedBy: getuid()) == nil)
+    }
+
     @Test func movesWhatTheHelperServesIntoTheCallersTrash() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/.Trash")

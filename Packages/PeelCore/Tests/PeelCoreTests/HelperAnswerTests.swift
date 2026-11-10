@@ -78,6 +78,10 @@ struct HelperAnswerTests {
     /// As long as a request waits, so only what the stand-in answers decides, however busy the suite keeps the Mac.
     private static let anyWait = PrivilegedHelper.requestWait
 
+    @Test func theHelperAnswersARequestBeforeTheAppStopsWaitingForIt() {
+        #expect(HelperRequest.timeToMove + 30 <= PrivilegedHelper.requestWait)
+    }
+
     @Test func theTimerThatEndsAWaitForTheHelperNeverWaitsBehindWorkOfLowerQuality() {
         #expect(PrivilegedHelper.timers.label == DispatchQueue.global(qos: .userInitiated).label)
     }

@@ -59,6 +59,7 @@ struct DocumentationTests {
             ("AGENTS.md", "Peel deletes outright only five things"),
             ("ARCHITECTURE.md", "answers, within \(Int(PrivilegedHelper.answerWait)) seconds"),
             ("ARCHITECTURE.md", "at most \(Int(PrivilegedHelper.requestWait)) seconds for a request"),
+            ("ARCHITECTURE.md", "begins nothing of a request after \(Int(HelperRequest.timeToMove)) seconds"),
             ("SAFETY.md", "quits \(idle) seconds after its last request ends"),
             ("AGENTS.md", "still open \(patience) seconds after Peel asked it"),
             ("ARCHITECTURE.md", "still open \(patience) seconds after Peel asked it"),

@@ -10,6 +10,9 @@ public enum HelperRequest {
     /// terminating NUL, so the longest real path is 1,023 bytes.
     public static let maximumItems = 100
     public static let maximumPathLength = 1_023
+    /// How long the helper works on one request's items: it begins nothing after this and answers with what it got
+    /// to, well before the app stops waiting for the answer, so nothing it moves goes untold.
+    public static let timeToMove: TimeInterval = 90
 
     public struct Caller: Sendable {
         public let user: uid_t

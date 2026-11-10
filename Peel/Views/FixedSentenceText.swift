@@ -35,6 +35,8 @@ extension FixedSentence {
         case .declaredTwice: "Two files declare this job."
         case .keptByTheHelper: "It couldn’t go back to its folder, so Peel’s helper keeps it and moves it to the Trash the next time the helper starts."
         case .anotherDisk: "Your home folder is on a different disk from macOS, and Peel’s helper never moves anything from one disk to another. You can move it in Finder."
+        case .ranOutOfTime: "Peel’s helper ran out of time before it got to this, so it stays where it was. Try again."
+        case .helperMayStillMove: "Peel’s helper didn’t answer in time, so whether it moved this isn’t known. If it did, History lists it the next time Peel opens."
         case .toolTimedOut: "The command didn’t answer in time, so Peel ended it."
         case .toolStopped: "Stopped before it finished."
         case .notOnItsOwn: "Peel didn’t run it, since macOS couldn’t keep it from using Peel’s permissions."

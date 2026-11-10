@@ -280,8 +280,10 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 - Its calls are declared by `PeelHelperProtocol`, in
   `Packages/PeelCore/Sources/PeelPrivileged/HelperInterface.swift`, and the app reaches them through
   `PrivilegedHelper`, which first asks whether the helper answers, within 15 seconds, and waits at most 120 seconds
-  for a request. Every request passes `HelperRequest.admit` before any work: the protocol version, at most 100 items,
-  no path longer than macOS allows, and then the account behind it.
+  for a request. The helper begins nothing of a request after 90 seconds and answers with what it got to
+  (`HelperRequest.timeToMove`), so its answer comes before Peel stops waiting. Every request passes
+  `HelperRequest.admit` before any work: the protocol version, at most 100 items, no path longer than macOS allows,
+  and then the account behind it.
 - It does three things: moves items to the Trash, puts them back, and starts, stops, enables, or disables another
   vendor's launch daemon, never one macOS ships and never itself. When Peel is removed, it also moves its own ledger
   to the Trash.
