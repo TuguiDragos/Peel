@@ -154,18 +154,21 @@ final class RemovalPlan {
             let exclusions = ExclusionsStore.shared.exclusions
             async let roles = DefaultApps.roles(of: app)
             async let isInTheDock = !(await DockTiles().holding([app.url])).isEmpty
+            // The uninstall and the page ask `pkgutil` about the same app.
+            let answers = PackageReceipts.Answers()
             let result = await Uninstallation.prepare(
                 app,
                 installedApps: installedApps,
                 exclusions: exclusions,
                 casks: casks,
                 receipts: receipts,
-                systemExtensions: systemExtensions
+                systemExtensions: systemExtensions,
+                answers: answers
             )
             return (
                 result,
                 await Self.look(inside: app),
-                await Self.packageReceipts(of: app, exclusions: exclusions),
+                await Self.packageReceipts(of: app, exclusions: exclusions, answers: answers),
                 revision,
                 await roles,
                 await isInTheDock
@@ -222,9 +225,10 @@ final class RemovalPlan {
     @concurrent
     private nonisolated static func packageReceipts(
         of app: InstalledApp,
-        exclusions: Exclusions
+        exclusions: Exclusions,
+        answers: PackageReceipts.Answers
     ) async -> ([PackageReceipt], [PackageReceipt.ID: [PackageReceipt.Item]]) {
-        let receipts = await PackageReceipts.receipts(installing: app.url, exclusions: exclusions)
+        let receipts = await PackageReceipts.receipts(installing: app.url, exclusions: exclusions, answers: answers)
         let files = receipts.map {
             ($0.id, VendorRemoval.filesOutsideBundle(of: $0, app: app, otherReceipts: receipts))
         }

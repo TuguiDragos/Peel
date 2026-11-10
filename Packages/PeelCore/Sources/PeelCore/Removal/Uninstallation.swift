@@ -43,17 +43,18 @@ public struct Uninstallation: Sendable {
         casks: [HomebrewPackage] = [],
         receipts: Set<String> = [],
         systemExtensions: AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS,
-        environment: SearchEnvironment = .current
+        environment: SearchEnvironment = .current,
+        answers: PackageReceipts.Answers = PackageReceipts.Answers()
     ) async -> Uninstallation {
         await prepare(
             app, installedApps: installedApps, exclusions: exclusions, casks: casks, receipts: receipts,
             systemExtensions: systemExtensions, environment: environment,
-            scanner: LeftoverScanner(environment: environment, exclusions: exclusions), rivals: nil
+            scanner: LeftoverScanner(environment: environment, exclusions: exclusions), rivals: nil, answers: answers
         )
     }
 
-    /// Prepares with `scanner`, which apps chosen together share with what it read, and `rivals`, worked out here when
-    /// nil. The scanner searches `environment` with `exclusions`.
+    /// Prepares with `scanner`, which apps chosen together share with what it read, `rivals`, worked out here when
+    /// nil, and what `pkgutil` answered. The scanner searches `environment` with `exclusions`.
     static func prepare(
         _ app: InstalledApp,
         installedApps: [InstalledApp],
@@ -63,7 +64,8 @@ public struct Uninstallation: Sendable {
         systemExtensions: AppExtensions.SystemExtensionsAnswer,
         environment: SearchEnvironment,
         scanner: LeftoverScanner,
-        rivals: LeftoverScanner.Rivals?
+        rivals: LeftoverScanner.Rivals?,
+        answers: PackageReceipts.Answers
     ) async -> Uninstallation {
         async let bundle = FileSize.contents(of: app.url)
         guard !exclusions.excludes(app) else {
@@ -95,7 +97,7 @@ public struct Uninstallation: Sendable {
         scan = scan.adding(
             await receiptLeftovers(
                 for: app, receipts: receipts, installedApps: installedApps, exclusions: exclusions,
-                environment: environment
+                environment: environment, pkgutil: answers.answer
             )
         )
         scan = scan.adding(
@@ -250,15 +252,19 @@ public struct Uninstallation: Sendable {
             for: app, receipts: receipts, installedApps: installedApps, exclusions: exclusions,
             environment: environment, accountHome: nil, pkgutil: pkgutil
         )
-        // A package installed for one account alone writes only in that account's home folder.
+        // A package installed for one account alone writes only in that account's home folder, and an account with
+        // no package of its own has nothing to find.
         let home = environment.homeDirectory
         let homeFolder = PathPattern.comparablePath(of: home)
         if PathComponents.isPath(PathPattern.comparablePath(of: app.url), inside: homeFolder) {
             let account = PackageReceipts.forAccount(home: home, pkgutil)
-            leftovers += await receiptLeftovers(
-                for: app, receipts: await PackageReceipts.identifiers(pkgutil: account), installedApps: installedApps,
-                exclusions: exclusions, environment: environment, accountHome: home, pkgutil: account
-            )
+            let packages = await PackageReceipts.identifiers(pkgutil: account)
+            if !packages.isEmpty {
+                leftovers += await receiptLeftovers(
+                    for: app, receipts: packages, installedApps: installedApps, exclusions: exclusions,
+                    environment: environment, accountHome: home, pkgutil: account
+                )
+            }
         }
         return leftovers
     }

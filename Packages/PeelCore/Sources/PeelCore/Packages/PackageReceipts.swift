@@ -1,5 +1,6 @@
 public import Foundation
 internal import PeelPrivileged
+import Synchronization
 
 public enum PackageReceipts {
     static let concurrentReceipts = 4
@@ -68,6 +69,29 @@ public enum PackageReceipts {
 
     /// Nil when the tool could not be run, failed, or timed out: no answer is not "nothing installed".
     typealias Pkgutil = @Sendable ([String]) async -> String?
+
+    /// What `pkgutil` answered during one preparation, each question asked once: an app's page asks about the app's
+    /// receipts for its uninstall and for itself, and apps chosen together ask the same about what is inside a bundle.
+    /// No answer is not kept.
+    public final class Answers: Sendable {
+        private let asking: Pkgutil
+        private let known = Mutex<[[String]: String]>([:])
+
+        public convenience init() {
+            self.init(asking: PackageReceipts.pkgutil)
+        }
+
+        init(asking: @escaping Pkgutil) {
+            self.asking = asking
+        }
+
+        func answer(_ arguments: [String]) async -> String? {
+            if let answer = known.withLock({ $0[arguments] }) { return answer }
+            let answer = await asking(arguments)
+            if let answer { known.withLock { $0[arguments] = answer } }
+            return answer
+        }
+    }
 
     /// `pkgutil` asked about what was installed for one account alone, which it knows by that account's home folder as
     /// the volume, and of which plain `pkgutil` says nothing.
@@ -174,8 +198,10 @@ public enum PackageReceipts {
     /// Returns the receipts of the packages that installed `url`, asking `pkgutil` about that one path instead
     /// of listing every package.
     @concurrent
-    public static func receipts(installing url: URL, exclusions: Exclusions = .none) async -> [PackageReceipt] {
-        await receipts(installing: url, exclusions: exclusions, pkgutil: pkgutil)
+    public static func receipts(
+        installing url: URL, exclusions: Exclusions = .none, answers: Answers = Answers()
+    ) async -> [PackageReceipt] {
+        await receipts(installing: url, exclusions: exclusions, pkgutil: answers.answer)
     }
 
     /// `pkgutil --file-info-plist` matches a path against the receipt's file list, which is relative to the
@@ -192,10 +218,13 @@ public enum PackageReceipts {
     ) async -> [PackageReceipt] {
         let wanted = PathPattern.comparablePath(of: PathPattern.canonical(url))
         let home = environment.homeDirectory
-        // A package installed for one account alone writes only in that account's home folder.
-        let isInTheHome = PathComponents.isPath(wanted, inside: PathPattern.comparablePath(of: home))
-        let asked: [(volume: URL?, pkgutil: Pkgutil)] =
-            [(nil, pkgutil)] + (isInTheHome ? [(home, forAccount(home: home, pkgutil))] : [])
+        // A package installed for one account alone writes only in that account's home folder, and an account with
+        // no package of its own has nothing to find.
+        var asked: [(volume: URL?, pkgutil: Pkgutil)] = [(nil, pkgutil)]
+        if PathComponents.isPath(wanted, inside: PathPattern.comparablePath(of: home)) {
+            let account = forAccount(home: home, pkgutil)
+            if !(await identifiers(pkgutil: account)).isEmpty { asked.append((home, account)) }
+        }
 
         var receipts: [PackageReceipt] = []
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)

@@ -125,6 +125,7 @@ public struct BulkUninstallation: Sendable {
         // Asked once for every app: macOS may have installed an extension for an app inside one of them.
         let installed = await systemExtensions()
         let rivals = await scanner.rivals(installedApps: installedApps)
+        let answers = PackageReceipts.Answers()
         var prepared: [Uninstallation] = []
         for app in apps where !Task.isCancelled {
             prepared.append(
@@ -137,7 +138,8 @@ public struct BulkUninstallation: Sendable {
                     systemExtensions: { installed },
                     environment: environment,
                     scanner: scanner,
-                    rivals: rivals
+                    rivals: rivals,
+                    answers: answers
                 )
             )
         }

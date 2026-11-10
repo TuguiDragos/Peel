@@ -1492,6 +1492,38 @@ struct UninstallationTests {
         #expect(found.map(\.match.isRecommended) == [true])
     }
 
+    /// An app's page asks about the app's receipts twice, for its uninstall and for its own page: each question goes to
+    /// `pkgutil` once, and an account with no package of its own is asked nothing more.
+    @Test func asksPkgutilEachQuestionOnceAndNothingMoreOfAnAccountWithoutPackages() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let environment = SearchEnvironment(
+            homeDirectory: home, rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let bundle = try directory.directory("home/Applications/Example.app")
+        let example = InstalledApp(url: bundle, bundleIdentifier: "org.example.app", name: "Example")
+        let asked = Mutex<[[String]: Int]>([:])
+        let answers = PackageReceipts.Answers { arguments in
+            asked.withLock { $0[arguments, default: 0] += 1 }
+            return arguments.last == "--pkgs-plist"
+                ? PkgutilAnswer.packages() : PkgutilAnswer.fileInfo(arguments.last ?? "")
+        }
+
+        _ = await Uninstallation.receiptLeftovers(
+            for: example, receipts: [], installedApps: [example], exclusions: .none, environment: environment,
+            pkgutil: answers.answer
+        )
+        _ = await PackageReceipts.receipts(
+            installing: bundle, exclusions: .none, pkgutil: answers.answer, environment: environment,
+            systemExtensions: { [] }
+        )
+
+        let questions = asked.withLock { $0 }
+        #expect(questions.filter { $0.value > 1 }.keys.map { $0.joined(separator: " ") }.sorted() == [])
+        #expect(questions.keys.filter { $0.first == "--volume" && $0.last != "--pkgs-plist" }.isEmpty)
+        #expect(questions.keys.contains(["--volume", home.path(percentEncoded: false), "--pkgs-plist"]))
+    }
+
     @Test func offersNoReceiptWhenNoneNamesTheApp() async throws {
         let directory = try TemporaryDirectory()
         let environment = SearchEnvironment(
