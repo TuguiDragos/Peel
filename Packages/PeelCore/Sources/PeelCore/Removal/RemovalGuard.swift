@@ -140,7 +140,25 @@ struct RemovalGuard: Sendable {
     /// Why `trashed` may not go back to `destination`, judged as a removal from there would be, for the kind of item
     /// `trashed` is: nothing is there yet to tell.
     func refusal(ofPuttingBack trashed: URL, at destination: URL) -> GuardRefusal? {
-        refusal(of: destination, typeOf: trashed)
+        if let located = PathPattern.located(Self.normalized(destination.path(percentEncoded: false))),
+           Self.isInsideAnApp(located) {
+            return .protectedLocation
+        }
+        return refusal(of: destination, typeOf: trashed)
+    }
+
+    /// Whether a folder `path` sits in is an app, which Peel moves only whole: nothing of one came from its inside.
+    private static func isInsideAnApp(_ path: String) -> Bool {
+        var folder = URL(filePath: path).deletingLastPathComponent()
+        while folder.pathComponents.count > 1 {
+            var info = stat()
+            if folder.pathExtension.caseInsensitiveCompare("app") == .orderedSame,
+               lstat(folder.appending(path: "Contents/Info.plist").path(percentEncoded: false), &info) == 0 {
+                return true
+            }
+            folder = folder.deletingLastPathComponent()
+        }
+        return false
     }
 
     /// True for the lower-cased spelling of a link directly in a folder tools or their completions are linked into.

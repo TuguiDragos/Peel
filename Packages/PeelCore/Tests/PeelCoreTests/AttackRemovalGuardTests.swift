@@ -425,6 +425,28 @@ struct AttackRemovalGuardTests {
     /// The place Put Back writes to does not exist yet, so asking about the file itself resolves nothing. The
     /// guard has to find out where it would really land: through a linked parent, or under a name the disk
     /// folds into a protected one (`ß` for `ss`, the long `ſ` for `s`).
+    @Test func nothingGoesBackInsideAnApp() throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        try directory.file("home/Applications/Owner.app/Contents/Info.plist")
+        try directory.directory("home/Applications/Owner.app/Contents/Resources")
+        try directory.directory("home/Library/Containers/org.example.app/Data/Library/Caches")
+        let trashed = try directory.file("home/.Trash/helper")
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: try directory.directory("root"))
+        )
+
+        for path in [
+            "Applications/Owner.app/Contents/MacOS/helper", "Applications/OWNER.APP/Contents/MacOS/helper",
+            "Applications/Owner.app/Contents/Resources/New Folder/helper",
+        ] {
+            #expect(guardian.refusal(ofPuttingBack: trashed, at: home.appending(path: path)) == .protectedLocation, "\(path)")
+        }
+        #expect(guardian.refusal(ofPuttingBack: trashed, at: home.appending(path: "Applications/Owner.app")) == nil)
+        let cache = home.appending(path: "Library/Containers/org.example.app/Data/Library/Caches/helper")
+        #expect(guardian.refusal(ofPuttingBack: trashed, at: cache) == nil)
+    }
+
     @Test func aDestinationThatDoesNotExistYet() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
