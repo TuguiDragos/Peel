@@ -194,6 +194,13 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Uninstalling an app finds the links into it in every folder commands run from, MacPorts' `/opt/local` and your home's
   `bin` and `.local/bin` included, and a link written in other capitals or leading there through another link. Peel's
   helper takes one that leads nowhere from MacPorts' folders as it does from `/usr/local`'s.
+- An app's page shows a folder that begins with the app's name for you to look at whatever separates the name's words,
+  such as `github-copilot-sdk` for GitHub Copilot.
+- An app whose name is two characters in Chinese, Japanese, or Korean, such as 抖音, finds the folders named for it, and
+  shares them with another app of its maker whose name begins the same way.
+- While an app is its maker's last, its page also shows for you to look at the maker's folder in Preferences, a file
+  named for the maker, such as `elgato.log`, and what is named exactly for the maker's domain in the app's identifier,
+  such as `org.example.plist`.
 
 #### Orphaned Files
 
@@ -216,6 +223,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   longer listed as left by an app that's gone.
 - A link that leads into an app that's gone is listed from MacPorts' and your home's command folders too, and when it
   leads there through another link.
+- What an app whose name is two characters in Chinese, Japanese, or Korean left is listed once Peel saw it go.
 
 #### Intel Software
 
@@ -257,6 +265,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   buttons ran past the sidebar and the next column.
 - A repository whose index file is cut short no longer makes Peel quit unexpectedly. Its build folders are listed, not
   selected, as in a repository whose list of tracked files Peel couldn't read, in the app and in `peel projects`.
+
+#### Installers and Backups
+
+- An installer is known as an installed app's when that app's name is two characters in Chinese, Japanese, or Korean.
 
 #### Duplicates
 
