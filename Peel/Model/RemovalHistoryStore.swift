@@ -468,6 +468,11 @@ final class RemovalHistoryStore {
         listedAfterPutBack.needsRescan(tool.rawValue, at: putBacks)
     }
 
+    /// Notes that `tool`'s page scanned again after the Put Back `count` names, once that scan landed.
+    func rescannedAfterPutBack(_ tool: Tool, at count: Int) {
+        listedAfterPutBack.scanned(tool.rawValue, at: count)
+    }
+
     /// Takes the records `ids` names out of what Undo would put back, once they are back or gone from History.
     private func keepUndoable(without ids: Set<RemovalRecord.ID>) {
         guard let undoable, !ids.isEmpty else { return }

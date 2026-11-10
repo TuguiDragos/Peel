@@ -123,6 +123,7 @@ struct RemovalOutcomeTests {
         await history.readAgainIfInUse()
 
         #expect(history.needsRescanAfterPutBack(.plugins))
+        history.rescannedAfterPutBack(.plugins, at: history.putBacks)
         await history.readAgainIfInUse()
         #expect(!history.needsRescanAfterPutBack(.plugins), "nothing left since")
     }
@@ -137,6 +138,8 @@ struct RemovalOutcomeTests {
         await history.undoLastRemoval()
 
         #expect(history.needsRescanAfterPutBack(.plugins))
+        #expect(history.needsRescanAfterPutBack(.plugins), "it still owes its scan")
+        history.rescannedAfterPutBack(.plugins, at: history.putBacks)
         #expect(!history.needsRescanAfterPutBack(.plugins), "once it has listed again")
         #expect(history.needsRescanAfterPutBack(.space))
     }

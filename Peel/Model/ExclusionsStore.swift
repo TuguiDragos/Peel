@@ -35,6 +35,11 @@ final class ExclusionsStore {
         scanned.needsRescan(page, at: revision)
     }
 
+    /// Notes that `page` scanned again under `revision`, once that scan landed.
+    func rescanned(_ page: String, at revision: Int) {
+        scanned.scanned(page, at: revision)
+    }
+
     /// Loads the saved list, at launch and whenever Peel comes forward, since `peel exclusions` can change it
     /// meanwhile. A page that scanned before it arrived filtered by nothing, so a loaded list that differs counts
     /// as a change.

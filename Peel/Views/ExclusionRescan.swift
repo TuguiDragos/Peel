@@ -37,8 +37,11 @@ private struct PutBackRescan: ViewModifier {
 
     func body(content: Content) -> some View {
         content.task(id: history.putBacks) {
+            let count = history.putBacks
             guard history.needsRescanAfterPutBack(tool) else { return }
             await rescan()
+            // A page that went away dropped its scan, so it still owes one when it comes back.
+            if !Task.isCancelled { history.rescannedAfterPutBack(tool, at: count) }
         }
     }
 }
@@ -76,8 +79,10 @@ private struct ExclusionRescan: ViewModifier {
 
     func body(content: Content) -> some View {
         content.task(id: exclusions.revision) {
+            let revision = exclusions.revision
             guard exclusions.needsRescan(page) else { return }
             await rescan()
+            if !Task.isCancelled { exclusions.rescanned(page, at: revision) }
         }
     }
 }
