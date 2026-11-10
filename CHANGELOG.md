@@ -181,6 +181,19 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   first.
 - A `peel://open` link whose path is longer than a file's can be is refused, no longer shown whole in an alert taller
   than the screen.
+- Uninstalling an app takes a background job whose program the app keeps among its own files, such as in its
+  Application Support folder, along with that folder, no longer leaving the job behind pointing at a program that's
+  gone, and shows one that only names the app among its arguments for you to look at.
+- An installer's receipt goes with an app only when it names the app's own identifier or carries on one at least three
+  parts long, so an app whose identifier is short, or not an identifier at all, no longer takes the receipts of other
+  packages that begin the same way.
+- An app's page shows a group container the app doesn't declare, such as one an extension or an older version left,
+  for you to look at, judged by the identifier it carries.
+- For an app whose identifier has two parts, such as `md.obsidian`, an app's page shows the files named by that
+  identifier and more, such as `md.obsidian.ShipIt`, for you to look at.
+- Uninstalling an app finds the links into it in every folder commands run from, MacPorts' `/opt/local` and your home's
+  `bin` and `.local/bin` included, and a link written in other capitals or leading there through another link. Peel's
+  helper takes one that leads nowhere from MacPorts' folders as it does from `/usr/local`'s.
 
 #### Orphaned Files
 
@@ -199,6 +212,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An app on another disk stays installed when another disk of the same name is plugged in, or its disk comes back under
   another name: Peel knows each disk by its volume, so the app's files, and a link into it, are no longer listed as left
   by an app that's gone.
+- A file named by an installed app's two-part identifier and more, such as `md.obsidian.ShipIt` beside Obsidian, is no
+  longer listed as left by an app that's gone.
+- A link that leads into an app that's gone is listed from MacPorts' and your home's command folders too, and when it
+  leads there through another link.
 
 #### Intel Software
 
@@ -225,6 +242,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   answers. What sits deeper than any cask writes is left out.
 - A cask with no app whose packages macOS has no receipt for is no longer said to be gone: the receipts may only have
   been forgotten, as Forget Receipt does, and its page now says so.
+- Forgetting a cask whose apps are gone also takes the links into it from MacPorts' and your home's command folders,
+  and those that lead into it through another link.
 
 #### Space
 
