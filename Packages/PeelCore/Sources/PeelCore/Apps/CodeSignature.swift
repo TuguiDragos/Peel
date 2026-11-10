@@ -15,8 +15,9 @@ enum CodeSignature {
     /// the leaf certificate was issued to that team, or when Apple did the signing. The information is read
     /// before the check only to build its requirement, and is returned only if the check passes.
     ///
-    /// The executable and the sealed resources are not hashed: the identifier, the team, and the entitlements
-    /// are covered without them, and hashing them costs seconds per app.
+    /// The executable and the sealed resources are not hashed: the identifier, the team, the entitlements, and
+    /// the Info.plist are covered without them, and hashing them costs seconds per app. A bundle whose signature
+    /// doesn't seal its Info.plist gets nil: the executable was signed on its own and could sit inside any bundle.
     static func information(at url: URL) -> [String: Any]? {
         var staticCode: SecStaticCode?
         guard SecStaticCodeCreateWithPath(url as CFURL, [], &staticCode) == errSecSuccess, let staticCode else {
@@ -27,6 +28,11 @@ enum CodeSignature {
         guard SecCodeCopySigningInformation(staticCode, flags, &copied) == errSecSuccess,
               let information = copied as? [String: Any]
         else {
+            return nil
+        }
+        var isFolder: ObjCBool = false
+        if FileManager.default.fileExists(atPath: url.path(percentEncoded: false), isDirectory: &isFolder),
+           isFolder.boolValue, information[kSecCodeInfoPList as String] == nil {
             return nil
         }
 

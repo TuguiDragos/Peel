@@ -391,6 +391,19 @@ struct AppInspectorTests {
         #expect(calculator.developer == "Apple", "Apple signs its own apps as Software Signing")
     }
 
+    @Test func believesNoSignatureThatNeverSawTheBundlesInfoPlist() throws {
+        let directory = try TemporaryDirectory()
+        try plist(["CFBundleIdentifier": "org.example.tide", "CFBundleExecutable": "Tide"], at: "Tide.app/Contents/Info.plist", in: directory)
+        try directory.directory("Tide.app/Contents/MacOS")
+        try FileManager.default.copyItem(at: URL(filePath: "/bin/cat"), to: directory.url.appending(path: "Tide.app/Contents/MacOS/Tide"))
+
+        let tide = try #require(AppInspector.inspect(directory.url.appending(path: "Tide.app")))
+
+        #expect(tide.developer == nil)
+        #expect(tide.teamIdentifier == nil)
+        #expect(CodeSignature.information(at: URL(filePath: "/bin/cat")) != nil)
+    }
+
     /// A Developer ID leaf certificate names who it was issued to, and the team in parentheses after the name must
     /// be the team the signature carries. Apple signs an App Store app again with a leaf that names nobody, and a
     /// development certificate names a person, not whoever ships the app.
