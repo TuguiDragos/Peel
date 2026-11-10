@@ -50,7 +50,7 @@ public struct RemovalTotals: Sendable, Equatable, Codable {
             let soFar = last?.batch == record.batch ? last?.bytes : nil
             let removal = Removal(batch: record.batch, bytes: soFar.map { $0.adding(size) } ?? size)
             last = removal
-            if removal.bytes.known > biggest.known {
+            if Self.isBigger(removal.bytes, than: biggest) {
                 biggest = removal.bytes
             }
         }
@@ -71,9 +71,15 @@ public struct RemovalTotals: Sendable, Equatable, Codable {
         bytes = bytes.adding(other.bytes)
         items = items.addingCapped(other.items)
         apps = apps.addingCapped(other.apps)
-        if other.biggest.known > biggest.known {
+        if Self.isBigger(other.biggest, than: biggest) {
             biggest = other.biggest
         }
+    }
+
+    /// Whether `size` is a bigger removal than `biggest`: more bytes known, or as many when it is only the least it can
+    /// be, which says more than an exact figure of the same bytes.
+    private static func isBigger(_ size: SizeTotal, than biggest: SizeTotal) -> Bool {
+        size.known > biggest.known || size.known == biggest.known && !size.isComplete && biggest.isComplete
     }
 
     static func url(beside history: URL) -> URL {

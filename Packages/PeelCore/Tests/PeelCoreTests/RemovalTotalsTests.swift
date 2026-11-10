@@ -63,6 +63,27 @@ struct RemovalTotalsTests {
         #expect(totals.items == 2)
     }
 
+    @Test func theBiggestRemovalIsTheLeastItCanBeWhicheverPartWasNotMeasured() {
+        for sizes in [[1_000, nil], [nil, 1_000]] as [[Int64?]] {
+            var totals = RemovalTotals()
+            let batch = UUID()
+            totals.add(sizes.enumerated().map {
+                record("/Users/x/Library/Caches/org.example.\($0.offset)", size: $0.element, batch: batch)
+            })
+            #expect(totals.biggest == SizeTotal(known: 1_000, isComplete: false))
+            #expect(totals.biggest == totals.bytes)
+        }
+        var kept = RemovalTotals(
+            bytes: SizeTotal(known: 1_000, isComplete: true), items: 1, apps: 0,
+            biggest: SizeTotal(known: 1_000, isComplete: true)
+        )
+        kept.takeIn(RemovalTotals(
+            bytes: SizeTotal(known: 1_000, isComplete: false), items: 2, apps: 0,
+            biggest: SizeTotal(known: 1_000, isComplete: false)
+        ))
+        #expect(kept.biggest == SizeTotal(known: 1_000, isComplete: false))
+    }
+
     @Test func countsAppsByTheBundlesThatMoved() async throws {
         let directory = try TemporaryDirectory()
         let history = directory.url.appending(path: "Peel/removals.json")
