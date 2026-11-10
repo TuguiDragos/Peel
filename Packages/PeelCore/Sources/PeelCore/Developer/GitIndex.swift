@@ -152,6 +152,7 @@ struct GitIndex: Sendable {
             if flags & 0x4000 != 0 {
                 guard version >= 3 else { throw Unreadable() }
                 offset += 2
+                guard offset <= end else { throw Unreadable() }
             }
             let path: [UInt8]
             if version == 4 {
@@ -272,7 +273,7 @@ struct GitIndex: Sendable {
     }
 
     private static func nul(in bytes: UnsafeRawBufferPointer, from start: Int, end: Int) throws -> Int {
-        guard let nul = bytes[start..<end].firstIndex(of: 0) else { throw Unreadable() }
+        guard start <= end, let nul = bytes[start..<end].firstIndex(of: 0) else { throw Unreadable() }
         return nul
     }
 }

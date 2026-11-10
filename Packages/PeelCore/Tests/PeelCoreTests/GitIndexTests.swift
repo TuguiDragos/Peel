@@ -120,6 +120,19 @@ struct GitIndexTests {
         #expect(!index.tracksSomething(atOrInside: project.appending(path: "Pods"), of: repository))
     }
 
+    @Test func anEntryThatEndsWhereTheChecksumBeginsMakesTheIndexUnreadable() throws {
+        let directory = try TemporaryDirectory()
+        let project = try makeProject(in: directory)
+        try directory.file("App/.git/HEAD", contents: Data("ref: refs/heads/main\n".utf8))
+        var index = Data("DIRC".utf8) + Data([0, 0, 0, 3, 0, 0, 0, 1])
+        index += Data(count: 24) + Data([0, 0, 0x81, 0xA4]) + Data(count: 12)
+        index += Data(repeating: 0x11, count: 20) + Data([0x40, 0x01]) + Data(repeating: 0x22, count: 20)
+        try directory.file("App/.git/index", contents: index)
+
+        let repository = try #require(GitIndex.repository(containing: project))
+        #expect(GitIndex.read(repository) == nil)
+    }
+
     @Test func aFolderOnlyNamedLikeATrackedOneIsNotTracked() async throws {
         let directory = try TemporaryDirectory()
         let project = try makeProject(in: directory)
