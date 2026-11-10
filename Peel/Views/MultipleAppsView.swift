@@ -429,7 +429,7 @@ struct MultipleAppsView: View {
                 let privacy = await PrivacyReset.reset(resetting(request.urls), beforeMovingWith: service)
                 let result = await history.moving(
                     plan.part(naming: []), sizes: request.sizes, sharingStorage: request.sharingStorage
-                ) { await plan.move(request) }
+                ) { await plan.move(request, using: service) }
                 let kept = plan.bulk?.appsThatKeptTheirFiles(after: result, selection: request.urls) ?? []
                 let left = plan.bulk?.leftForAnAdministrator(after: result) ?? []
                 await LeftForAnAdministrator().record(left)

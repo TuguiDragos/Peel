@@ -7,7 +7,9 @@ import Synchronization
 /// the disk folds. So `RemovalGuard` asks the same questions again of the objects themselves, read from the
 /// disk once for the protected folders and once for each folder an item sits in.
 struct ProtectedObjects: Sendable {
-    private typealias Object = FileIdentity.Link
+    typealias Object = FileIdentity.Link
+    /// Reads the object at a path, through a link or not.
+    typealias Read = @Sendable (_ path: String, _ followingLinks: Bool) -> Object?
 
     /// Nothing at or inside one of these may be removed.
     private let trees: Set<Object>
@@ -19,28 +21,36 @@ struct ProtectedObjects: Sendable {
     /// one folder, and each answer costs two `stat` calls per folder on the way up, so answers are kept for as
     /// long as this guard lives.
     private let known = Answers()
+    private let read: Read
 
     private final class Answers: Sendable {
         let isInsideATree = Mutex<[String: Bool]>([:])
     }
 
-    init(trees: some Sequence<String>, folders: some Sequence<String>) {
-        var found: Set<Object> = []
-        var around: Set<Object> = []
-        for path in trees {
-            found.formUnion(Self.objects(at: path))
-            around.formUnion(Self.ancestors(of: path).flatMap(Self.objects))
+    /// Many trees sit in the same folders, so each path is read once.
+    init(
+        trees: some Sequence<String>, folders: some Sequence<String>,
+        read: @escaping Read = ProtectedObjects.object(at:followingLinks:)
+    ) {
+        var objects: [String: Set<Object>] = [:]
+        func objectsAt(_ path: String) -> Set<Object> {
+            if let known = objects[path] { return known }
+            let found = Self.objects(at: path, reading: read)
+            objects[path] = found
+            return found
         }
-        self.trees = found
-        holders = around
-        self.folders = Set(folders.flatMap(Self.objects))
+        let trees = Set(trees)
+        self.trees = Set(trees.flatMap(objectsAt))
+        holders = Set(Set(trees.flatMap(Self.ancestors)).flatMap(objectsAt))
+        self.folders = Set(Set(folders).flatMap(objectsAt))
+        self.read = read
     }
 
     /// Why the item may not be removed: it is a tree or sits inside one, it is a protected folder, or it holds a
     /// tree. `located` is the path as the kernel names it, so its folders are the real ones. An item that does not
     /// exist yet has no inode: only the folders above it are checked, and the rules that read paths judge the rest.
     func refusal(of located: String) -> GuardRefusal? {
-        if let item = Self.object(at: located, followingLinks: false) {
+        if let item = read(located, false) {
             if trees.contains(item) { return .protectedLocation }
             if folders.contains(item) { return .staysItself }
             if holders.contains(item) { return .holdsProtectedData }
@@ -50,7 +60,9 @@ struct ProtectedObjects: Sendable {
 
     private func isInsideATree(_ folder: String) -> Bool {
         if let answer = known.isInsideATree.withLock({ $0[folder] }) { return answer }
-        let answer = ([folder] + Self.ancestors(of: folder)).contains { !Self.objects(at: $0).isDisjoint(with: trees) }
+        let answer = ([folder] + Self.ancestors(of: folder)).contains {
+            !Self.objects(at: $0, reading: read).isDisjoint(with: trees)
+        }
         known.isInsideATree.withLock { $0[folder] = answer }
         return answer
     }
@@ -68,11 +80,11 @@ struct ProtectedObjects: Sendable {
     }
 
     /// The link itself and what it leads to: the link is what would move, and the target is what would be lost.
-    private static func objects(at path: String) -> Set<Object> {
-        Set([object(at: path, followingLinks: false), object(at: path, followingLinks: true)].compactMap(\.self))
+    private static func objects(at path: String, reading read: Read) -> Set<Object> {
+        Set([read(path, false), read(path, true)].compactMap(\.self))
     }
 
-    private static func object(at path: String, followingLinks: Bool) -> Object? {
+    static func object(at path: String, followingLinks: Bool) -> Object? {
         var info = stat()
         guard (followingLinks ? stat(path, &info) : lstat(path, &info)) == 0 else { return nil }
         return Object(device: info.st_dev, inode: info.st_ino)

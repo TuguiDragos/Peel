@@ -200,10 +200,10 @@ final class BulkRemovalPlan {
         selectedURLs = bulk.map { choices.personChanged(from: selectedURLs, to: selection, in: $0) } ?? selection
     }
 
-    /// Moves what `request` asked about, whatever has been selected since.
-    func move(_ request: RemovalRequest) async -> TrashResult {
+    /// Moves what `request` asked about with `service`, whatever has been selected since.
+    func move(_ request: RemovalRequest, using service: TrashService) async -> TrashResult {
         guard let bulk else { return TrashResult() }
-        return await bulk.move(request.urls, using: TrashService(exclusions: ExclusionsStore.shared.exclusions))
+        return await bulk.move(request.urls, using: service)
     }
 
     /// Records `result` in History, what moved named by the apps it belonged to and what stayed by its own apps.

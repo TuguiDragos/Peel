@@ -556,7 +556,7 @@ struct AppDetailView: View {
                     tool: .applications, source: plan.app.name, sizes: request.sizes,
                     sharingStorage: request.sharingStorage
                 ) {
-                    await plan.move(request)
+                    await plan.move(request, using: service)
                 }
                 let keptItsFiles = plan.uninstallation?.keptItsFiles(after: result, selection: request.urls) == true
                 let left = plan.uninstallation?.leftForAnAdministrator(after: result) ?? []

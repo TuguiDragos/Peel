@@ -1,6 +1,7 @@
 import CoreServices
 public import Foundation
 internal import PeelPrivileged
+import Synchronization
 
 public struct TrashedItem: Sendable, Hashable, Codable {
     public let originalURL: URL
@@ -363,7 +364,8 @@ public struct TrashService: Sendable {
     typealias RegisterApp = @Sendable (_ app: URL) async -> Void
 
     let environment: SearchEnvironment
-    private let removalGuard: RemovalGuard
+    private let exclusions: Exclusions
+    private let judging: Judging
     private let stopJobs: StopJobs
     private let startJob: StartJob
     private let forgetDomains: ForgetDomains
@@ -374,18 +376,17 @@ public struct TrashService: Sendable {
     private let runningJobs: RunningJobs
     private let registrationAtLogin: RegistrationAtLogin
     private let registerApp: RegisterApp
-    private let moveToTrash: @Sendable (URL) throws -> URL
-    /// Makes `moveToTrash` for a guard, so a service made again for other exclusions moves the same way.
+    /// Makes the move for a guard, so a service made again for other exclusions moves the same way.
     private let movingJudgedBy: @Sendable (RemovalGuard) -> @Sendable (URL) throws -> URL
     private let ownMoves: OwnTrashMoves
     /// Where each item is written down as soon as it moves, so a removal cut short still reaches History.
     private let journal: RemovalJournal?
 
     public init(environment: SearchEnvironment = .current, exclusions: Exclusions = .none) {
-        let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
         self.init(
             environment: environment,
-            removalGuard: removalGuard,
+            exclusions: exclusions,
+            makingTheGuard: { RemovalGuard(environment: environment, exclusions: exclusions) },
             stopJobs: LaunchdCleanup.stop,
             startJob: LaunchdCleanup.start,
             forgetDomains: { await PreferenceCleanup.forgetDomains(for: $0, ownedBy: $1) },
@@ -420,11 +421,13 @@ public struct TrashService: Sendable {
         registerApp: @escaping RegisterApp = { _ in },
         ownMoves: OwnTrashMoves = OwnTrashMoves(),
         journal: RemovalJournal? = nil,
+        makingTheGuard: (@Sendable () -> RemovalGuard)? = nil,
         moveToTrash: @escaping @Sendable (URL) throws -> URL
     ) {
         self.init(
             environment: environment,
-            removalGuard: RemovalGuard(environment: environment, exclusions: exclusions),
+            exclusions: exclusions,
+            makingTheGuard: makingTheGuard ?? { RemovalGuard(environment: environment, exclusions: exclusions) },
             stopJobs: stopJobs,
             startJob: startJob,
             forgetDomains: forgetDomains,
@@ -443,7 +446,8 @@ public struct TrashService: Sendable {
 
     private init(
         environment: SearchEnvironment,
-        removalGuard: RemovalGuard,
+        exclusions: Exclusions,
+        makingTheGuard: @escaping @Sendable () -> RemovalGuard,
         stopJobs: @escaping StopJobs,
         startJob: @escaping StartJob,
         forgetDomains: @escaping ForgetDomains,
@@ -459,7 +463,11 @@ public struct TrashService: Sendable {
         journal: RemovalJournal?
     ) {
         self.environment = environment
-        self.removalGuard = removalGuard
+        self.exclusions = exclusions
+        judging = Judging {
+            let removalGuard = makingTheGuard()
+            return (removalGuard, movingJudgedBy(removalGuard))
+        }
         self.stopJobs = stopJobs
         self.startJob = startJob
         self.forgetDomains = forgetDomains
@@ -470,7 +478,6 @@ public struct TrashService: Sendable {
         self.runningJobs = runningJobs
         self.registrationAtLogin = registrationAtLogin
         self.registerApp = registerApp
-        self.moveToTrash = movingJudgedBy(removalGuard)
         self.movingJudgedBy = movingJudgedBy
         self.ownMoves = ownMoves
         self.journal = journal
@@ -479,9 +486,11 @@ public struct TrashService: Sendable {
     /// This service judging by `exclusions`: a command asks first, and what was excluded by the time the person
     /// answers stays, as each move in the app makes a service of its own.
     public func excluding(_ exclusions: Exclusions) -> TrashService {
-        TrashService(
+        let environment = environment
+        return TrashService(
             environment: environment,
-            removalGuard: RemovalGuard(environment: environment, exclusions: exclusions),
+            exclusions: exclusions,
+            makingTheGuard: { RemovalGuard(environment: environment, exclusions: exclusions) },
             stopJobs: stopJobs,
             startJob: startJob,
             forgetDomains: forgetDomains,
@@ -499,8 +508,35 @@ public struct TrashService: Sendable {
     }
 
     /// False while the saved exclusions are not read yet or cannot be read, when nothing moves.
-    public var knowsTheExclusions: Bool { removalGuard.knowsTheExclusions }
-    public var whyExclusionsAreUnreadable: FileProblem? { removalGuard.whyExclusionsAreUnreadable }
+    public var knowsTheExclusions: Bool { exclusions.isKnown }
+    public var whyExclusionsAreUnreadable: FileProblem? { exclusions.whyUnreadable }
+
+    private var removalGuard: RemovalGuard { judging.made.removalGuard }
+    private var moveToTrash: @Sendable (URL) throws -> URL { judging.made.move }
+
+    /// The guard and the move it judges, made the first time either is needed rather than with the service: the
+    /// moves run away from the main thread, and making a guard reads the disk for every place it keeps.
+    private final class Judging: Sendable {
+        typealias Made = (removalGuard: RemovalGuard, move: @Sendable (URL) throws -> URL)
+
+        private let make: @Sendable () -> Made
+        private let kept = Mutex<Made?>(nil)
+
+        init(_ make: @escaping @Sendable () -> Made) {
+            self.make = make
+        }
+
+        /// Made outside the lock. Two first uses at once both make one, and both get the one kept first.
+        var made: Made {
+            if let made = kept.withLock({ $0 }) { return made }
+            let made = make()
+            return kept.withLock { kept in
+                if let kept { return kept }
+                kept = made
+                return made
+            }
+        }
+    }
 
     func excludes(_ app: InstalledApp) -> Bool { removalGuard.excludes(app) }
     func excludes(ownerOf item: BackgroundItem) -> Bool { removalGuard.excludes(ownerOf: item) }

@@ -113,8 +113,16 @@ struct RemovalGuard: Sendable {
         paths += Set(paths).flatMap(ProtectedObjects.ancestors)
         paths += locations.filter { $0.kind.sitsInABrowsersOwnData }.map { $0.url.path(percentEncoded: false) }
         let trees = ProtectedData.homeTrees.map { home.appending(path: $0).path(percentEncoded: false) }
-        protectedPaths = Set(paths.flatMap(Self.names))
-        protectedTrees = Set((trees + ProtectedData.systemFolders).flatMap(Self.names)).map(PathComponents.of)
+        // Many of these paths repeat, and every spelling of one is read from the disk, so each is read once.
+        var named: [String: Set<String>] = [:]
+        func names(_ path: String) -> Set<String> {
+            if let known = named[path] { return known }
+            let found = Self.names(of: path)
+            named[path] = found
+            return found
+        }
+        protectedPaths = Set(paths.flatMap(names))
+        protectedTrees = Set((trees + ProtectedData.systemFolders).flatMap(names)).map(PathComponents.of)
         protectedObjects = ProtectedObjects(trees: trees + ProtectedData.systemFolders, folders: paths)
     }
 

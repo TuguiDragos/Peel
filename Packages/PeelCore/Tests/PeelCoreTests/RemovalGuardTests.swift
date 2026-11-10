@@ -1,8 +1,46 @@
 import Foundation
 @testable import PeelCore
+import Synchronization
 import Testing
 
 struct RemovalGuardTests {
+    /// The protected trees sit in the same few folders, so each folder above them is read once.
+    @Test func protectedObjectsReadEachPathOnce() throws {
+        let directory = try TemporaryDirectory()
+        let shared = try directory.directory("shared")
+        let trees = try (0..<100).map { try directory.directory("shared/tree\($0)").path(percentEncoded: false) }
+        let reads = Mutex<[String: Int]>([:])
+
+        _ = ProtectedObjects(trees: trees, folders: trees + trees) { path, followingLinks in
+            reads.withLock { $0["\(path) \(followingLinks)", default: 0] += 1 }
+            return ProtectedObjects.object(at: path, followingLinks: followingLinks)
+        }
+
+        #expect(reads.withLock { $0.filter { $0.value > 1 }.keys.sorted() } == [])
+        #expect(reads.withLock { $0["\(PathPattern.comparablePath(of: shared)) false"] } == 1)
+    }
+
+    /// Making a service is what a page does on the main thread when a move is confirmed, so the guard waits for its
+    /// first use, which the moves make away from it.
+    @Test func aServiceMakesItsGuardOnlyOnceItIsUsed() throws {
+        let directory = try TemporaryDirectory()
+        let environment = SearchEnvironment(
+            homeDirectory: try directory.directory("home"), rootDirectory: try directory.directory("root")
+        )
+        let made = Mutex(0)
+        let service = TrashService(environment: environment, makingTheGuard: {
+            made.withLock { $0 += 1 }
+            return RemovalGuard(environment: environment)
+        }) { $0 }
+
+        #expect(service.knowsTheExclusions)
+        #expect(service.refusalOfEveryMove == nil)
+        #expect(made.withLock { $0 } == 0)
+        _ = service.refusal(of: directory.url.appending(path: "home/file"))
+        _ = service.refusal(of: directory.url.appending(path: "home/other"))
+        #expect(made.withLock { $0 } == 1)
+    }
+
     /// The footprint covers the whole process, and suites running in parallel would add their own allocations to it,
     /// so the check runs in a process of its own.
     @Test func theGuardLetsGoOfWhatEachQuestionMade() async {

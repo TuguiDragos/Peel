@@ -240,12 +240,11 @@ final class RemovalPlan {
         VendorRemoval.uninstaller(for: app)
     }
 
-    /// Moves what `request` asked about, whatever has been selected since.
-    func move(_ request: RemovalRequest) async -> TrashResult {
+    /// Moves what `request` asked about with `service`, whatever has been selected since.
+    func move(_ request: RemovalRequest, using service: TrashService) async -> TrashResult {
         guard let uninstallation else { return TrashResult() }
         // These paths are about to hold something else, or nothing, so their cached icons are dropped.
         IconCache.forget(uninstallation.removalOrder(of: request.urls))
-        let service = TrashService(exclusions: ExclusionsStore.shared.exclusions)
         return await uninstallation.move(request.urls, using: service)
     }
 
