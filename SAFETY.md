@@ -329,7 +329,8 @@ The first three happen after a move, and only for what really moved:
   through the helper), and a job that was not running stays as it was.
 - **An uninstalled app's icon leaves the Dock**, unless you deselect Also remove from the Dock, and the Dock restarts.
   Putting the app back puts its icon back where it was. The icon of an app that was already in the Trash goes once the
-  files it left behind move, and doesn't come back.
+  files it left behind move, and doesn't come back. An icon leaves only once Peel has saved where it was, and a Dock a
+  profile sets is left as it is.
 
 ## What is selected for you
 

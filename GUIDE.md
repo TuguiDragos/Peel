@@ -79,7 +79,9 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   to the camera and the microphone. History can't undo this: the app asks again for each one.
 - **Its Dock icon too.** Peel takes the app's icon out of the Dock, where it would stay as a question mark,
   unless you deselect it, and History puts it back where it was when you put the app back. An app you had already
-  moved to the Trash loses its icon once the files it left behind move, and History doesn't put that icon back.
+  moved to the Trash loses its icon once the files it left behind move, and History doesn't put that icon back. Peel
+  takes an icon out only once it has saved where it was, and says so when it couldn't, and on a Mac where a profile
+  sets the Dock's apps it leaves the Dock alone.
 - **Its alias too.** A link or a Finder alias to the app in `/Applications` or your home's Applications folder, such as
   one to an app you keep on another disk, goes with the app, so nothing is left there that leads nowhere, and Orphaned Files lists one
   whose app is already gone.

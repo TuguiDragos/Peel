@@ -19822,6 +19822,112 @@
         }
       }
     },
+    "An icon stayed in the Dock." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V Docku zůstala jedna ikona."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Symbol ist im Dock geblieben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un icono se ha quedado en el Dock."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une icône est restée dans le Dock."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un’icona è rimasta nel Dock."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アイコンがDockに残りました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아이콘 하나가 Dock에 남았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er is een symbool in het Dock gebleven."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikona została w Docku."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um ícone ficou no Dock."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O pictogramă a rămas în Dock."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Значок остался в Dock."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En symbol blev kvar i Dock."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir simge Dock’ta kaldı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Іконка лишилася в Dock."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有一个图标仍留在程序坞中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有一個圖像仍留在Dock中。"
+          }
+        }
+      }
+    },
     "An update %@ downloaded" : {
       "localizations" : {
         "cs" : {
@@ -192838,6 +192944,112 @@
         }
       }
     },
+    "Some icons stayed in the Dock." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V Docku zůstaly některé ikony."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einige Symbole sind im Dock geblieben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algunos iconos se han quedado en el Dock."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Certaines icônes sont restées dans le Dock."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alcune icone sono rimaste nel Dock."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一部のアイコンがDockに残りました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일부 아이콘이 Dock에 남았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er zijn enkele symbolen in het Dock gebleven."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niektóre ikony zostały w Docku."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alguns ícones ficaram no Dock."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unele pictograme au rămas în Dock."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Некоторые значки остались в Dock."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vissa symboler blev kvar i Dock."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bazı simgeler Dock’ta kaldı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Деякі іконки лишилися в Dock."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "部分图标仍留在程序坞中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有些圖像仍留在Dock中。"
+          }
+        }
+      }
+    },
     "Some items couldn’t be moved to the Trash." : {
       "localizations" : {
         "cs" : {
@@ -206094,6 +206306,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dock會保持隱藏，直到指標觸及螢幕邊緣。"
+          }
+        }
+      }
+    },
+    "The Dock still shows %@: Peel takes an icon out only once it has saved where to put it back, and it couldn’t save that." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock stále zobrazuje %@: Peel odebere ikonu teprve tehdy, když si uloží, kam ji vrátit, a to se mu nepodařilo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Dock zeigt noch %@: Peel entfernt ein Symbol erst, wenn gesichert ist, wohin es zurückgelegt wird, und das ließ sich nicht sichern."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El Dock sigue mostrando %@: Peel solo quita un icono cuando ha guardado dónde volver a ponerlo, y no ha podido guardarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le Dock affiche encore %@ : Peel ne retire une icône qu’après avoir enregistré où la remettre, et il n’a pas pu l’enregistrer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il Dock mostra ancora %@: Peel toglie un’icona solo dopo aver salvato dove rimetterla, e non è riuscito a salvarlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dockにはまだ%@が表示されています。Peelがアイコンを取り除くのは、元に戻す場所を保存できた場合だけですが、それを保存できませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock에 %@이(가) 아직 표시되어 있습니다. Peel은 아이콘을 되돌려 놓을 위치를 저장한 후에만 Dock에서 아이콘을 빼는데, 이 위치를 저장할 수 없었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het Dock toont nog steeds %@: Peel haalt een symbool pas weg als het heeft bewaard waar het symbool terug moet, en dat kon Peel niet bewaren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock nadal pokazuje: %@. Peel usuwa ikonę z Docka dopiero wtedy, gdy zachowa informację, gdzie ją przywrócić, a nie udało mu się jej zachować."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Dock ainda mostra %@: o Peel só retira um ícone depois de salvar onde colocá-lo de volta, e não conseguiu salvar isso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "În Dock se află încă %@: Peel scoate o pictogramă doar după ce a salvat unde să o pună înapoi și nu a putut salva acest lucru."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В Dock по-прежнему есть %@: Peel убирает значок, только сохранив, куда его вернуть, а сохранить это не удалось."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock visar fortfarande %@: Peel tar bara bort en symbol när Peel har sparat var den ska läggas tillbaka, och det gick inte att spara."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock’ta hâlâ %@ görünüyor: Peel bir simgeyi ancak onu nereye geri koyacağını kaydettikten sonra çıkarır ve bunu kaydedemedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock досі показує %@: Peel прибирає іконку лише після того, як збереже, куди її повернути, а цього зберегти не вдалося."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "程序坞中仍显示%@：Peel只有先保存了图标的放回位置，才会将其移出，而它未能保存该位置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock仍顯示%@：Peel只有在儲存了圖像的放回位置之後，才會將圖像移出，而它無法儲存此資訊。"
+          }
+        }
+      }
+    },
+    "The Dock still shows %@: macOS didn’t save the change to the Dock." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock stále zobrazuje %@: systém macOS změnu Docku neuložil."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Dock zeigt noch %@: macOS hat die Änderung am Dock nicht gesichert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El Dock sigue mostrando %@: macOS no ha guardado el cambio en el Dock."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le Dock affiche encore %@ : macOS n’a pas enregistré la modification du Dock."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il Dock mostra ancora %@: macOS non ha salvato la modifica al Dock."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dockにはまだ%@が表示されています。macOSがDockへの変更を保存しませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock에 %@이(가) 아직 표시되어 있습니다. macOS가 Dock 변경 사항을 저장하지 않았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het Dock toont nog steeds %@: macOS heeft de wijziging van het Dock niet bewaard."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock nadal pokazuje: %@. macOS nie zachował zmiany w Docku."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Dock ainda mostra %@: o macOS não salvou a alteração no Dock."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "În Dock se află încă %@: macOS nu a salvat modificarea făcută în Dock."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В Dock по-прежнему есть %@: macOS не сохранила изменения в Dock."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock visar fortfarande %@: macOS sparade inte ändringen av Dock."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock’ta hâlâ %@ görünüyor: macOS, Dock’ta yapılan değişikliği kaydetmedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock досі показує %@: macOS не зберегла зміну в Dock."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "程序坞中仍显示%@：macOS没有保存对程序坞的更改。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dock仍顯示%@：macOS沒有儲存對Dock的變更。"
           }
         }
       }

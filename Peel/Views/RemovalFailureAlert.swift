@@ -5,8 +5,8 @@ import SwiftUI
 
 /// The alert every tool shows when a removal fails for some items: which ones, and why, with a button that
 /// fixes the cause when there is one. It also reports the privacy resets worth telling about, the audio drivers that
-/// wait for a restart, what stays for an administrator, and the background items macOS still starts from the Trash,
-/// since two alerts cannot be up at once.
+/// wait for a restart, what stays for an administrator, the background items macOS still starts from the Trash, and the
+/// icons that stayed in the Dock, since two alerts cannot be up at once.
 struct RemovalFailureAlert: ViewModifier {
     /// How many items the alert lists by path. The rest are only counted, to keep the alert short.
     static let mostListed = 4
@@ -115,6 +115,11 @@ struct RemovalFailureAlert: ViewModifier {
            !outcome.shellReferences.isEmpty {
             return Text("Your shell files still name what moved.")
         }
+        if outcome.failures.isEmpty, outcome.appsToQuit.isEmpty, outcome.privacy.isEmpty,
+           outcome.driversAwaitingARestart.isEmpty, outcome.appsStartingFromTheTrash.isEmpty,
+           outcome.shellReferences.isEmpty, let icons = outcome.dockIcons {
+            return icons.apps.count == 1 ? Text("An icon stayed in the Dock.") : Text("Some icons stayed in the Dock.")
+        }
         if outcome.failures.isEmpty, outcome.appsToQuit.isEmpty, outcome.privacy.isEmpty {
             return Text("Restart your Mac to finish.")
         }
@@ -132,7 +137,7 @@ struct RemovalFailureAlert: ViewModifier {
         lines += shortened(keptLines(outcome)) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome) { Self.listed($0) { String(inflecting: "^[\($0) more line](inflect: true)") } }
             + appManagementLines(outcome) + privacyLines(outcome, naming: Self.listed, shortening: Self.shortened)
-        lines += trashLines(outcome, naming: Self.listed)
+        lines += trashLines(outcome, naming: Self.listed) + dockLines(outcome, naming: Self.listed)
         return lines.joined(separator: "\n\n")
     }
 
@@ -174,6 +179,17 @@ struct RemovalFailureAlert: ViewModifier {
         return [String(localized: "macOS still starts the background items of \(names) from the Trash each time you log in, until you empty the Trash.")]
     }
 
+    /// One line for the apps whose icons stayed in the Dock, and why.
+    private static func dockLines(_ outcome: RemovalOutcome, naming: ([String]) -> String) -> [String] {
+        guard let icons = outcome.dockIcons else { return [] }
+        let names = naming(icons.apps)
+        return switch icons.reason {
+        case .notRemembered:
+            [String(localized: "The Dock still shows \(names): Peel takes an icon out only once it has saved where to put it back, and it couldn’t save that.")]
+        case .notSaved: [String(localized: "The Dock still shows \(names): macOS didn’t save the change to the Dock.")]
+        }
+    }
+
     /// A line for each app that stayed, since its files, which wait for it, stayed too and are not listed.
     private static func keptLines(_ outcome: RemovalOutcome) -> [String] {
         outcome.keptTheirFiles.map { String(localized: "\($0) stayed, and so did its files.") }
@@ -206,6 +222,7 @@ struct RemovalFailureAlert: ViewModifier {
             + shellLines(outcome) { $0.formatted(.list(type: .and)) } + appManagementLines(outcome)
             + privacyLines(outcome, naming: { $0.formatted(.list(type: .and)) }, shortening: { $0 })
         lines += trashLines(outcome) { $0.formatted(.list(type: .and)) }
+            + dockLines(outcome) { $0.formatted(.list(type: .and)) }
         return lines.joined(separator: "\n\n")
     }
 

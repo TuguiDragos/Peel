@@ -17,6 +17,23 @@ final class RemovalOutcome {
         let failure: RestoreFailure
     }
 
+    /// The apps whose icons stayed in the Dock once they moved, and why.
+    struct DockIcons: Hashable {
+        let apps: [String]
+        let reason: DockTiles.Stayed.Reason
+
+        init(apps: [String], reason: DockTiles.Stayed.Reason) {
+            self.apps = apps
+            self.reason = reason
+        }
+
+        /// The apps `stayed` names, each by the name `name` gives it, or nil when every icon went.
+        init?(_ stayed: DockTiles.Stayed?, naming name: (URL) -> String) {
+            guard let stayed, !stayed.apps.isEmpty else { return nil }
+            self.init(apps: stayed.apps.map(name), reason: stayed.reason)
+        }
+    }
+
     private(set) var failures: [TrashFailure] = []
     /// The privacy resets the removal ran that are worth telling the user about.
     private(set) var privacy: [Privacy] = []
@@ -32,6 +49,7 @@ final class RemovalOutcome {
     private(set) var leftForAnAdministrator = 0
     /// The lines of the shell startup files that still name what moved, which the person edits.
     private(set) var shellReferences: [ShellReferences.Reference] = []
+    private(set) var dockIcons: DockIcons?
     /// True when History couldn't record the removal, so Put Back has nothing to go on for what moved.
     private(set) var historyCouldNotRecord = false
     /// What an Undo left in the Trash: Undo is asked from any page, so what came of it is told here.
@@ -43,7 +61,7 @@ final class RemovalOutcome {
     var isEmpty: Bool {
         failures.isEmpty && privacy.isEmpty && appsToQuit.isEmpty && driversAwaitingARestart.isEmpty
             && appsStartingFromTheTrash.isEmpty && leftForAnAdministrator == 0 && shellReferences.isEmpty
-            && !historyCouldNotRecord && putBackFailures.isEmpty
+            && dockIcons == nil && !historyCouldNotRecord && putBackFailures.isEmpty
     }
 
     func noteHistoryCouldNotRecord() {
@@ -65,7 +83,8 @@ final class RemovalOutcome {
         keptTheirFiles: [String] = [],
         startingFromTheTrash: [String] = [],
         leftForAnAdministrator: Int = 0,
-        shellReferences: [ShellReferences.Reference] = []
+        shellReferences: [ShellReferences.Reference] = [],
+        dockIcons: DockIcons? = nil
     ) {
         let privacy = PrivacyReset.worthTelling(resets, after: result).map {
             Privacy(app: $0.app.name, result: $0.result)
@@ -74,6 +93,7 @@ final class RemovalOutcome {
         guard
             !result.failures.isEmpty || !privacy.isEmpty || !appsToQuit.isEmpty || !drivers.isEmpty
                 || !startingFromTheTrash.isEmpty || leftForAnAdministrator > 0 || !shellReferences.isEmpty
+                || dockIcons != nil
         else { return }
         failures = result.failures
         movedCount = result.trashed.count
@@ -83,6 +103,7 @@ final class RemovalOutcome {
         driversAwaitingARestart = drivers
         self.leftForAnAdministrator = leftForAnAdministrator
         self.shellReferences = shellReferences
+        self.dockIcons = dockIcons
         // Two copies of an app share its name and its background items.
         var named: Set<String> = []
         appsStartingFromTheTrash = startingFromTheTrash.filter { named.insert($0).inserted }
@@ -98,6 +119,7 @@ final class RemovalOutcome {
         appsStartingFromTheTrash = []
         leftForAnAdministrator = 0
         shellReferences = []
+        dockIcons = nil
         historyCouldNotRecord = false
         putBackFailures = []
         putBackAsked = 0

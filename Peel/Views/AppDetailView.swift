@@ -558,19 +558,23 @@ struct AppDetailView: View {
                 let keptItsFiles = plan.uninstallation?.keptItsFiles(after: result, selection: request.urls) == true
                 let left = plan.uninstallation?.leftForAnAdministrator(after: result) ?? []
                 await LeftForAnAdministrator().record(left)
+                let movedTheApp = result.trashed.contains(where: { $0.originalURL == plan.app.url })
+                var dockIcons: RemovalOutcome.DockIcons?
+                if plan.removesDockTile, movedTheApp || plan.isAppInTheTrash && !result.trashed.isEmpty {
+                    let forgotten: Set<URL> = plan.isAppInTheTrash ? [plan.app.url] : []
+                    let stayed = await DockTiles()
+                        .takeOut([plan.app.url], foundAt: result.trashedAt, forgetting: forgotten)
+                    dockIcons = RemovalOutcome.DockIcons(stayed) { _ in plan.app.name }
+                }
                 outcome.report(
                     result,
                     privacy: privacy,
                     keptTheirFiles: keptItsFiles ? [plan.app.name] : [],
                     startingFromTheTrash: result.startsFromTheTrash.contains(plan.app.url) ? [plan.app.name] : [],
                     leftForAnAdministrator: left.count,
-                    shellReferences: await ShellReferences.find(naming: result.trashed.map(\.originalURL))
+                    shellReferences: await ShellReferences.find(naming: result.trashed.map(\.originalURL)),
+                    dockIcons: dockIcons
                 )
-                let movedTheApp = result.trashed.contains(where: { $0.originalURL == plan.app.url })
-                if plan.removesDockTile, movedTheApp || plan.isAppInTheTrash && !result.trashed.isEmpty {
-                    let forgotten: Set<URL> = plan.isAppInTheTrash ? [plan.app.url] : []
-                    _ = await DockTiles().takeOut([plan.app.url], foundAt: result.trashedAt, forgetting: forgotten)
-                }
                 if let state = AppManagement.state(
                     after: result,
                     appBundles: [plan.app.url],

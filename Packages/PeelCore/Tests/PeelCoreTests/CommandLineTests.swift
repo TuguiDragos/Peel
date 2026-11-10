@@ -727,6 +727,29 @@ struct CommandLineTests {
         #expect(plan.total == SizeTotal(known: 807, isComplete: true))
     }
 
+    @Test func saysWhyAnAppsIconStayedInTheDock() throws {
+        let app = URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory)
+        let editor = InstalledApp(url: app, bundleIdentifier: "com.example.editor", name: "Editor")
+        let plan = UninstallPlan(
+            app: app, items: [UninstallPlan.Item(url: app, size: 4_096, refusal: nil)], needsAdministrator: 0,
+            needsReview: 0
+        )
+        let trashed = URL(filePath: "/Users/me/.Trash/Editor.app")
+        let moved = TrashResult(trashed: [TrashedItem(originalURL: app, trashedURL: trashed, date: .now)])
+
+        let nothing = LeftoverScan(leftovers: [], unreadableLocations: [])
+        let json = try Output.jsonText(UninstallCommand.report(
+            app: editor, plan: plan, result: moved, privacy: nil, scan: nothing, dockIconStayed: .notRemembered
+        ))
+        let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
+
+        #expect(report["dockIconStayed"] as? String == "notRemembered")
+        #expect(UninstallCommand.dockStayedNote(for: editor, reason: .notRemembered)
+            == "The Dock still shows Editor: Peel takes an icon out only once it has saved where to put it back, and it couldn't save that.")
+        #expect(UninstallCommand.dockStayedNote(for: editor, reason: .notSaved)
+            == "The Dock still shows Editor: macOS didn't save the change to the Dock.")
+    }
+
     /// `peel uninstall --json` says what stays and why, what moved and what failed, with every key in every record.
     @Test func theUninstallReportSaysWhatMovedWhatStayedAndWhy() throws {
         let app = URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory)
@@ -762,6 +785,7 @@ struct CommandLineTests {
         #expect(report["needsFullDiskAccess"] as? Bool == false)
         #expect(report["cutShortLocations"] as? [String] == [])
         #expect((report["shellReferences"] as? [Any])?.isEmpty == true)
+        #expect(report["dockIconStayed"] is NSNull)
 
         let named = try Output.jsonText(UninstallCommand.report(
             app: editor, plan: plan, result: result, privacy: nil, scan: nothing,

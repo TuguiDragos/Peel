@@ -388,6 +388,8 @@ struct UninstallCommand: AsyncParsableCommand {
         /// Why the app itself would stay, which only a dry run reports: a real run refuses instead.
         let appStays: String?
         let shellReferences: [ShellReference]
+        /// Why the app's icon stayed in the Dock, or `null` when it went, wasn't there, or was kept.
+        let dockIconStayed: String?
 
         struct ShellReference: Encodable {
             let file: String
@@ -410,6 +412,7 @@ struct UninstallCommand: AsyncParsableCommand {
             case cutShortLocations
             case appStays
             case shellReferences
+            case dockIconStayed
         }
 
         /// Encodes an unknown `privacyReset` and `appMoved` as `null`, for the reason `AppRecord` gives.
@@ -430,6 +433,7 @@ struct UninstallCommand: AsyncParsableCommand {
             try container.encode(cutShortLocations, forKey: .cutShortLocations)
             try container.encode(appStays, forKey: .appStays)
             try container.encode(shellReferences, forKey: .shellReferences)
+            try container.encode(dockIconStayed, forKey: .dockIconStayed)
         }
     }
 
@@ -441,7 +445,8 @@ struct UninstallCommand: AsyncParsableCommand {
         privacy: PrivacyReset.Result?,
         scan: LeftoverScan,
         appStays: String? = nil,
-        shellReferences: [ShellReferences.Reference] = []
+        shellReferences: [ShellReferences.Reference] = [],
+        dockIconStayed: DockTiles.Stayed.Reason? = nil
     ) -> Report {
         Report(
             app: AppRecord(app),
@@ -464,7 +469,8 @@ struct UninstallCommand: AsyncParsableCommand {
             needsFullDiskAccess: scan.needsFullDiskAccess,
             cutShortLocations: scan.cutShortLocations.map { Output.path($0.url) },
             appStays: appStays,
-            shellReferences: shellReferences.map { Report.ShellReference(file: Output.path($0.file), line: $0.line) }
+            shellReferences: shellReferences.map { Report.ShellReference(file: Output.path($0.file), line: $0.line) },
+            dockIconStayed: dockIconStayed?.rawValue
         )
     }
 
@@ -516,6 +522,16 @@ struct UninstallCommand: AsyncParsableCommand {
     static func dockNote(for app: InstalledApp, isInTheDock: Bool, keeping: Bool) -> String? {
         guard isInTheDock, !keeping else { return nil }
         return "Peel takes \(Output.plain(app.name))'s icon out of the Dock once it is in the Trash, and puts it back if you put the app back. Add --keep-in-dock to leave it."
+    }
+
+    /// Why the app's icon stayed in the Dock after it moved.
+    static func dockStayedNote(for app: InstalledApp, reason: DockTiles.Stayed.Reason) -> String {
+        let name = Output.plain(app.name)
+        return switch reason {
+        case .notRemembered:
+            "The Dock still shows \(name): Peel takes an icon out only once it has saved where to put it back, and it couldn't save that."
+        case .notSaved: "The Dock still shows \(name): macOS didn't save the change to the Dock."
+        }
     }
 
     /// What macOS still starts from the Trash once the app moved: its background items, at each login.
@@ -828,16 +844,18 @@ struct UninstallCommand: AsyncParsableCommand {
             return (reset, result, recorded)
         }
         let privacy = reset.map { Self.privacyOutcome($0, app: target, after: result) }
+        var dockIconStayed: DockTiles.Stayed.Reason?
         if isInTheDock, Self.takesOutDockIcon(of: target, after: result, keeping: keepInDock) {
             let forgotten: Set<URL> = TrashService.isInsideATrash(target.url) ? [target.url] : []
-            _ = await DockTiles().takeOut([target.url], foundAt: result.trashedAt, forgetting: forgotten)
+            dockIconStayed = await DockTiles()
+                .takeOut([target.url], foundAt: result.trashedAt, forgetting: forgotten)?.reason
         }
         let references = await ShellReferences.find(naming: result.trashed.map(\.originalURL))
 
         if output.json {
             let report = Self.report(
                 app: target, plan: plan, result: result, privacy: reset, scan: uninstallation.scan,
-                shellReferences: references
+                shellReferences: references, dockIconStayed: dockIconStayed
             )
             try Output.json(report)
             if let privacy, privacy.failed {
@@ -853,6 +871,9 @@ struct UninstallCommand: AsyncParsableCommand {
         }
         if let note = Self.startsFromTheTrashNote(for: target, after: result) {
             Output.note(note)
+        }
+        if let dockIconStayed {
+            Output.note(Self.dockStayedNote(for: target, reason: dockIconStayed))
         }
         if !references.isEmpty {
             let places = references.map { "\(Output.plain(Output.path($0.file))):\($0.line)" }.joined(separator: ", ")

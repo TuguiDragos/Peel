@@ -24,7 +24,7 @@ struct PackageDetailView: View {
 
     private func moveSelection() async {
         let sizes = [URL: Int64](measured: receipt.items.map { ($0.url, $0.size) })
-        let result = await history.moving(tool: .packages, source: receipt.identifier, sizes: sizes) {
+        let (result, stayed) = await history.moving(tool: .packages, source: receipt.identifier, sizes: sizes) {
             await packages.removeSelectedItems { result in
                 await history.record(
                     result,
@@ -34,7 +34,9 @@ struct PackageDetailView: View {
                 )
             }
         }
-        outcome.report(result)
+        outcome.report(result, dockIcons: RemovalOutcome.DockIcons(stayed) { url in
+            receipt.apps.first { $0.url == url }?.name ?? url.deletingPathExtension().lastPathComponent
+        })
     }
 
     var body: some View {

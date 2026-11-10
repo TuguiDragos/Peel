@@ -89,6 +89,22 @@ struct RemovalFailureAlertTests {
         #expect(RemovalFailureAlert.details(for: outcome).contains(line))
     }
 
+    @Test func saysWhichIconsStayedInTheDockAndWhy() {
+        let notRemembered = RemovalOutcome()
+        notRemembered.report(TrashResult(), dockIcons: RemovalOutcome.DockIcons(apps: ["Example"], reason: .notRemembered))
+        let notSaved = RemovalOutcome()
+        notSaved.report(TrashResult(), dockIcons: RemovalOutcome.DockIcons(apps: ["Example"], reason: .notSaved))
+        let couldNotSave = String(
+            localized: "The Dock still shows \("Example"): Peel takes an icon out only once it has saved where to put it back, and it couldn’t save that."
+        )
+        let notSavedLine = String(localized: "The Dock still shows \("Example"): macOS didn’t save the change to the Dock.")
+
+        #expect(!notRemembered.isEmpty)
+        #expect(RemovalFailureAlert.message(for: notRemembered).contains(couldNotSave))
+        #expect(RemovalFailureAlert.details(for: notRemembered).contains(couldNotSave))
+        #expect(RemovalFailureAlert.message(for: notSaved).contains(notSavedLine))
+    }
+
     @Test func namesTheAppsMacOSDidntRecognizeInOneParagraph() {
         let apps = ["Lantern", "Proxyman", "Seabird", "Seawall Launcher", "Owl", "Wren"].enumerated().map { index, name in
             InstalledApp(

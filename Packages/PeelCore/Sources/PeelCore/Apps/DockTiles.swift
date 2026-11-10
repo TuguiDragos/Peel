@@ -48,7 +48,7 @@ public struct DockPreferences: DockTileStore {
 public struct DockTiles: Sendable {
     /// The apps whose tiles stayed in the Dock, and why.
     public struct Stayed: Sendable, Equatable {
-        public enum Reason: Sendable, Equatable {
+        public enum Reason: String, Sendable, Equatable {
             /// Peel couldn't save where the tiles were, which History needs to put them back, so it took none out.
             case notRemembered
             /// macOS didn't save the Dock's lists.

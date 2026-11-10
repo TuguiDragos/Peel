@@ -428,22 +428,27 @@ struct MultipleAppsView: View {
                 let kept = plan.bulk?.appsThatKeptTheirFiles(after: result, selection: request.urls) ?? []
                 let left = plan.bulk?.leftForAnAdministrator(after: result) ?? []
                 await LeftForAnAdministrator().record(left)
-                outcome.report(
-                    result,
-                    privacy: privacy,
-                    keptTheirFiles: kept.map(\.name),
-                    startingFromTheTrash: plan.apps.filter { result.startsFromTheTrash.contains($0.url) }.map(\.name),
-                    leftForAnAdministrator: left.count,
-                    shellReferences: await ShellReferences.find(naming: result.trashed.map(\.originalURL))
-                )
+                var dockIcons: RemovalOutcome.DockIcons?
                 if plan.removesDockTiles {
                     let moved = Set(result.trashed.map(\.originalURL))
                     // Asked of every app that moved, since one opened after the last scan has a tile now, and of every
                     // app already in the Trash whose own files moved.
                     let inTheTrash = plan.appsInTheTrash(withFilesAmong: moved).map(\.url)
                     let apps = (plan.apps.map(\.url).filter(moved.contains) + inTheTrash).sorted { $0.path < $1.path }
-                    _ = await DockTiles().takeOut(apps, foundAt: result.trashedAt, forgetting: Set(inTheTrash))
+                    let stayed = await DockTiles().takeOut(apps, foundAt: result.trashedAt, forgetting: Set(inTheTrash))
+                    dockIcons = RemovalOutcome.DockIcons(stayed) { url in
+                        plan.apps.first { $0.url == url }?.name ?? url.deletingPathExtension().lastPathComponent
+                    }
                 }
+                outcome.report(
+                    result,
+                    privacy: privacy,
+                    keptTheirFiles: kept.map(\.name),
+                    startingFromTheTrash: plan.apps.filter { result.startsFromTheTrash.contains($0.url) }.map(\.name),
+                    leftForAnAdministrator: left.count,
+                    shellReferences: await ShellReferences.find(naming: result.trashed.map(\.originalURL)),
+                    dockIcons: dockIcons
+                )
                 if let state = AppManagement.state(
                     after: result,
                     appBundles: Set(plan.apps.map(\.url)),

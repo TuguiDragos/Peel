@@ -54,7 +54,9 @@ final class PackageLibrary {
         await refresh()
     }
 
-    func removeSelectedItems(recording record: (TrashResult) async -> Void) async -> TrashResult {
+    /// Moves the items selected to the Trash, and the tiles of the apps among them out of the Dock: what moved, and
+    /// the apps whose tiles stayed.
+    func removeSelectedItems(recording record: (TrashResult) async -> Void) async -> (TrashResult, DockTiles.Stayed?) {
         isWorking = true
         defer { isWorking = false }
         let items = selectedReceipt?.items.filter { selectedURLs.contains($0.url) } ?? []
@@ -73,11 +75,9 @@ final class PackageLibrary {
         }
         // An app's tile would stay in the Dock with a question mark, and History puts it back with the app.
         let apps = Self.appsThatMoved(in: result)
-        if !apps.isEmpty {
-            _ = await DockTiles().takeOut(apps, foundAt: result.trashedAt)
-        }
+        let stayed = apps.isEmpty ? nil : await DockTiles().takeOut(apps, foundAt: result.trashedAt)
         await refresh()
-        return result
+        return (result, stayed)
     }
 
     static func appsThatMoved(in result: TrashResult) -> [URL] {
