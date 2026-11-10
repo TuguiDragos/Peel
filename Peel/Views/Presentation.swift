@@ -280,10 +280,10 @@ extension TrashFailure.Reason {
         case .changedSinceScan: String(localized: "It changed after Peel looked at it. Scan again to review it.", bundle: bundle)
         case .changeNotKnown: String(localized: "Peel couldn’t read it in time to see whether it changed after Peel looked at it. Scan again to review it.", bundle: bundle)
         case .claimedSinceScan: String(localized: "Peel couldn’t confirm it is still nobody’s: an installed app may claim it now. Scan again to review it.", bundle: bundle)
-        case .lastCopy: String(localized: "The copy Peel was keeping has changed or moved since the scan, so this one may be the last.", bundle: bundle)
-        case .notPermitted: String(localized: "macOS didn’t allow it.", bundle: bundle)
+        case .lastCopy: String(localized: "The copy Peel was keeping has changed or moved since the scan, so this one may be the last, and Peel left it. Scan again to review it.", bundle: bundle)
+        case .notPermitted: String(localized: "macOS didn’t allow it and didn’t say why. Home shows which permissions Peel is missing.", bundle: bundle)
         case .locked: String(localized: "It is locked. In Finder, choose File > Get Info and deselect Locked, then try again.", bundle: bundle)
-        case .needsHelper: String(localized: "It needs administrator access, which Peel’s helper provides.", bundle: bundle)
+        case .needsHelper: String(localized: "It needs administrator access, which Peel’s helper provides. Home says what the helper needs.", bundle: bundle)
         case .movedWithoutATrace: String(localized: "It is in the Trash, but macOS didn’t say where, so it can only be put back from Finder.", bundle: bundle)
         case .somethingElseMoved(let name): String(localized: "Something else was at that path by the time it moved. It is in the Trash as \(name), and Finder can put it back.", bundle: bundle)
         case .historyUnreadable: String(localized: "Peel couldn’t read History, and it moves nothing it can’t put back.", bundle: bundle)
@@ -580,7 +580,7 @@ extension RestoreFailure {
         switch self {
         case .missingFromTrash: String(localized: "It is no longer in the Trash, so there is nothing to put back.")
         case .alreadyThere: String(localized: "Something is already there, and Peel never replaces it.")
-        case .needsHelper: String(localized: "It needs administrator access, which Peel’s helper provides.")
+        case .needsHelper: String(localized: "It needs administrator access, which Peel’s helper provides. Home says what the helper needs.")
         case .notAllowed(.excluded):
             String(localized: "Your exclusions in Settings keep Peel from putting anything back there. Take it off the list to put this back, or drag it out of the Trash in Finder.")
         case .notAllowed: String(localized: "Peel protects that place now, so it puts nothing back there. You can drag it out of the Trash in Finder.")
@@ -593,7 +593,7 @@ extension RestoreFailure {
             String(localized: "The folder it goes back to isn’t there anymore. Put that folder back first, or drag this out of the Trash in Finder.")
         case .needsAppManagement:
             String(localized: "macOS lets Peel put back another developer’s app only with App Management. Allow Peel in System Settings > Privacy & Security > App Management, then try again.")
-        case .notPermitted: String(localized: "macOS didn’t allow it.")
+        case .notPermitted: String(localized: "macOS didn’t allow it and didn’t say why. Home shows which permissions Peel is missing.")
         case .failed(let message): FixedSentence.translated(message)
         case .replacementStays(let reason):
             String(localized: "The version now in its place couldn’t move to the Trash first, so nothing changed.") + " "

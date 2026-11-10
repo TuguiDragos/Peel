@@ -185,7 +185,7 @@ struct BackgroundItemList: View {
 
     private func reasonMessage(_ reason: BackgroundItemActions.Failure) -> Text {
         switch reason {
-        case .requiresPrivileges: Text("It needs administrator access, which Peel’s helper provides.")
+        case .requiresPrivileges: Text("It needs administrator access, which Peel’s helper provides. Home says what the helper needs.")
         case .noFileToMove: Text("This one comes from the app itself, so there is no file to move. Remove the app to get rid of it.")
         case .launchctl(let output) where FixedSentence(output) == .toolTimedOut:
             // Peel and its helper give `launchctl` 30 seconds, and a job that ignores the signal outlasts them.

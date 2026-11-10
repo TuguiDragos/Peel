@@ -83620,108 +83620,108 @@
         }
       }
     },
-    "It needs administrator access, which Peel’s helper provides." : {
+    "It needs administrator access, which Peel’s helper provides. Home says what the helper needs." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vyžaduje oprávnění správce, které poskytuje pomocník Peelu."
+            "value" : "Vyžaduje oprávnění správce, které poskytuje pomocník Peelu. Co pomocník potřebuje, uvádí stránka Přehled."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dafür sind Administratorrechte nötig, die das Hilfsprogramm von Peel bereitstellt."
+            "value" : "Dafür sind Administratorrechte nötig, die das Hilfsprogramm von Peel bereitstellt. Die Startseite zeigt, was das Hilfsprogramm benötigt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Necesita acceso de administrador, que proporciona el asistente de Peel."
+            "value" : "Necesita acceso de administrador, que proporciona el asistente de Peel. La página Inicio indica lo que necesita el asistente."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cet élément nécessite un accès administrateur, que fournit l’utilitaire de Peel."
+            "value" : "Cet élément nécessite un accès administrateur, que fournit l’utilitaire de Peel. La page Accueil indique ce dont l’utilitaire a besoin."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Richiede l’accesso come amministratore, fornito dall’assistente di Peel."
+            "value" : "Richiede l’accesso come amministratore, fornito dall’assistente di Peel. La pagina Home indica di cosa ha bisogno l’assistente."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "管理者権限が必要です。この権限はPeelのヘルパーが提供します。"
+            "value" : "管理者権限が必要です。この権限はPeelのヘルパーが提供します。ヘルパーに必要なものは“ホーム”に表示されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "관리자 권한이 필요하며, 이 권한은 Peel 보조 프로그램이 제공합니다."
+            "value" : "관리자 권한이 필요하며, 이 권한은 Peel 보조 프로그램이 제공합니다. 보조 프로그램에 필요한 사항은 홈에서 확인할 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hiervoor is beheerderstoegang nodig, en die biedt het hulpprogramma van Peel."
+            "value" : "Hiervoor is beheerderstoegang nodig, en die biedt het hulpprogramma van Peel. Op de pagina 'Home' staat wat het hulpprogramma nodig heeft."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wymaga uprawnień administratora, które zapewnia pomocnik Peel."
+            "value" : "Wymaga uprawnień administratora, które zapewnia pomocnik Peel. Ekran główny pokazuje, czego potrzebuje pomocnik."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "É necessário acesso de administrador, que o auxiliar do Peel fornece."
+            "value" : "É necessário acesso de administrador, que o auxiliar do Peel fornece. A página Início diz do que o auxiliar precisa."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Necesită acces de administrator, pe care îl oferă instrumentul de ajutor Peel."
+            "value" : "Necesită acces de administrator, pe care îl oferă instrumentul de ajutor Peel. Pagina Acasă spune de ce are nevoie instrumentul de ajutor."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Для этого нужны права администратора, которые дает помощник Peel."
+            "value" : "Для этого нужны права администратора, которые дает помощник Peel. В разделе «Главная» сказано, что нужно помощнику."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det kräver administratörsbehörighet, som Peels hjälpprogram ger."
+            "value" : "Det kräver administratörsbehörighet, som Peels hjälpprogram ger. Sidan Hem visar vad hjälpprogrammet behöver."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yönetici erişimi gerektiriyor; bu erişimi Peel’in yardımcısı sağlar."
+            "value" : "Yönetici erişimi gerektiriyor; bu erişimi Peel’in yardımcısı sağlar. Yardımcının neye ihtiyaç duyduğunu Ana Sayfa söyler."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Потрібен доступ адміністратора, який надає помічник Peel."
+            "value" : "Потрібен доступ адміністратора, який надає помічник Peel. Що потрібно помічнику, сказано на сторінці «Домівка»."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它需要管理员权限，Peel的帮助程序可以提供这一权限。"
+            "value" : "它需要管理员权限，Peel的帮助程序可以提供这一权限。“主页”会说明帮助程序需要什么。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這需要管理者權限，而Peel的輔助程式能提供此權限。"
+            "value" : "這需要管理者權限，而Peel的輔助程式能提供此權限。「首頁」會說明輔助程式需要什麼。"
           }
         }
       }
@@ -213910,108 +213910,108 @@
         }
       }
     },
-    "The copy Peel was keeping has changed or moved since the scan, so this one may be the last." : {
+    "The copy Peel was keeping has changed or moved since the scan, so this one may be the last, and Peel left it. Scan again to review it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kopie, kterou Peel ponechával, se od prohledání změnila nebo přesunula, takže tato může být poslední."
+            "value" : "Kopie, kterou Peel ponechával, se od prohledání změnila nebo přesunula, takže tato může být poslední, a Peel ji nechal na místě. Prohledejte znovu a zkontrolujte ji."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Kopie, die Peel behalten hat, wurde seit dem Scan geändert oder verschoben, daher ist diese möglicherweise die letzte."
+            "value" : "Die Kopie, die Peel behalten hat, wurde seit dem Scan geändert oder verschoben, daher ist diese möglicherweise die letzte, und Peel hat sie nicht verschoben. Scanne erneut, um sie zu prüfen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La copia que Peel iba a conservar ha cambiado o se ha movido desde el análisis, así que esta podría ser la última."
+            "value" : "La copia que Peel iba a conservar ha cambiado o se ha movido desde el análisis, así que esta podría ser la última, y Peel la ha dejado. Vuelve a analizar para revisarla."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La copie que Peel conservait a été modifiée ou déplacée depuis l’analyse : celle-ci est donc peut-être la dernière."
+            "value" : "La copie que Peel conservait a été modifiée ou déplacée depuis l’analyse : celle-ci est donc peut-être la dernière, et Peel l’a laissée en place. Analysez à nouveau pour l’examiner."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La copia che Peel stava tenendo è cambiata o è stata spostata dopo l’analisi, quindi questa potrebbe essere l’ultima."
+            "value" : "La copia che Peel stava tenendo è cambiata o è stata spostata dopo l’analisi, quindi questa potrebbe essere l’ultima, e Peel l’ha lasciata. Esegui di nuovo l’analisi per rivederla."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelが残していたコピーがスキャン後に変更または移動されたため、これが最後のコピーかもしれません。"
+            "value" : "Peelが残していたコピーがスキャン後に変更または移動されたため、これが最後のコピーかもしれず、Peelはこれをそのままにしました。確認するには、もう一度スキャンしてください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 유지하던 복사본이 스캔 이후 변경되었거나 이동했으므로, 이 복사본이 마지막일 수 있습니다."
+            "value" : "Peel이 유지하던 복사본이 스캔 이후 변경되었거나 이동했으므로, 이 복사본이 마지막일 수 있어 Peel이 그대로 두었습니다. 다시 스캔하여 검토하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De kopie die Peel behield, is sinds de scan gewijzigd of verplaatst, dus deze is misschien de laatste."
+            "value" : "De kopie die Peel behield, is sinds de scan gewijzigd of verplaatst, dus deze is misschien de laatste, en Peel heeft die laten staan. Scan opnieuw om die te controleren."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kopia, którą Peel zachowywał, zmieniła się lub została przeniesiona od czasu skanowania, więc ta może być ostatnia."
+            "value" : "Kopia, którą Peel zachowywał, zmieniła się lub została przeniesiona od czasu skanowania, więc ta może być ostatnia i Peel ją zostawił. Skanuj ponownie, aby ją przejrzeć."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A cópia que o Peel estava mantendo mudou ou foi movida desde a análise, então esta pode ser a última."
+            "value" : "A cópia que o Peel estava mantendo mudou ou foi movida desde a análise, então esta pode ser a última, e o Peel a deixou onde está. Faça uma nova análise para revisá-la."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copia pe care o păstra Peel s‑a modificat sau a fost mutată de la scanare, așa că aceasta ar putea fi ultima."
+            "value" : "Copia pe care o păstra Peel s‑a modificat sau a fost mutată de la scanare, așa că aceasta ar putea fi ultima, iar Peel a lăsat‑o pe loc. Scanați din nou pentru a o revizui."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Копия, которую Peel собирался оставить, изменилась или переместилась после сканирования, поэтому эта может оказаться последней."
+            "value" : "Копия, которую Peel собирался оставить, изменилась или переместилась после сканирования, поэтому эта может оказаться последней, и Peel ее не тронул. Просканируйте снова, чтобы проверить ее."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kopian som Peel skulle behålla har ändrats eller flyttats sedan skanningen, så den här kan vara den sista."
+            "value" : "Kopian som Peel skulle behålla har ändrats eller flyttats sedan skanningen, så den här kan vara den sista, och Peel lät den vara. Skanna igen för att granska den."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’in tuttuğu kopya taramadan bu yana değişti veya taşındı, bu yüzden son kopya bu olabilir."
+            "value" : "Peel’in tuttuğu kopya taramadan bu yana değişti veya taşındı, bu yüzden son kopya bu olabilir ve Peel ona dokunmadı. Onu gözden geçirmek için yeniden tarayın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Копія, яку залишала Peel, змінилася або перемістилася після сканування, тож ця може бути останньою."
+            "value" : "Копія, яку залишала Peel, змінилася або перемістилася після сканування, тож ця може бути останньою, і Peel її не чіпала. Проскануйте ще раз, щоб її переглянути."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel要保留的那个副本在扫描后发生了变化或已被移动，因此这一个可能是最后一个副本。"
+            "value" : "Peel要保留的那个副本在扫描后发生了变化或已被移动，因此这一个可能是最后一个副本，Peel已将它留在原处。请再次扫描以重新检查。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel要保留的那份副本在掃描後已變更或移動，因此這份可能是最後一份。"
+            "value" : "Peel要保留的那份副本在掃描後已變更或移動，因此這份可能是最後一份，Peel已將它保留。請再次掃描以檢查它。"
           }
         }
       }
@@ -272928,108 +272928,108 @@
         }
       }
     },
-    "macOS didn’t allow it." : {
+    "macOS didn’t allow it and didn’t say why. Home shows which permissions Peel is missing." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS to nepovolil."
+            "value" : "Systém macOS to nepovolil a neuvedl proč. Stránka Přehled ukazuje, která oprávnění Peelu chybějí."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS hat es nicht erlaubt."
+            "value" : "macOS hat es nicht erlaubt und keinen Grund genannt. Die Startseite zeigt, welche Berechtigungen Peel fehlen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS no lo ha permitido."
+            "value" : "macOS no lo ha permitido y no ha dicho por qué. La página Inicio muestra qué permisos le faltan a Peel."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS ne l’a pas autorisé."
+            "value" : "macOS ne l’a pas autorisé et n’a pas indiqué pourquoi. La page Accueil indique les autorisations qui manquent à Peel."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS non l’ha consentito."
+            "value" : "macOS non l’ha consentito e non ha detto perché. La pagina Home mostra quali autorizzazioni mancano a Peel."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSが許可しませんでした。"
+            "value" : "macOSが許可せず、理由も示しませんでした。Peelに不足している権限は“ホーム”に表示されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS가 허용하지 않았습니다."
+            "value" : "macOS가 허용하지 않았으며 그 이유도 알려 주지 않았습니다. Peel에 없는 권한은 홈에서 확인할 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS stond het niet toe."
+            "value" : "macOS stond het niet toe en gaf niet aan waarom. De pagina 'Home' toont welke toestemmingen Peel mist."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS na to nie pozwolił."
+            "value" : "macOS na to nie pozwolił i nie podał powodu. Ekran główny pokazuje, jakich uprawnień brakuje Peel."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS não permitiu."
+            "value" : "O macOS não permitiu e não disse por quê. A página Início mostra quais permissões faltam ao Peel."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS nu a permis acest lucru."
+            "value" : "macOS nu a permis acest lucru și nu a spus de ce. Pagina Acasă arată ce permisiuni îi lipsesc lui Peel."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS этого не разрешила."
+            "value" : "macOS этого не разрешила и не объяснила причину. В разделе «Главная» показано, каких разрешений не хватает Peel."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS tillät det inte."
+            "value" : "macOS tillät det inte och sa inte varför. Sidan Hem visar vilka behörigheter Peel saknar."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS buna izin vermedi."
+            "value" : "macOS buna izin vermedi ve nedenini söylemedi. Peel’in hangi izinlerinin eksik olduğunu Ana Sayfa gösterir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS цього не дозволила."
+            "value" : "macOS цього не дозволила й не повідомила чому. На сторінці «Домівка» видно, яких дозволів бракує Peel."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS不允许此操作。"
+            "value" : "macOS不允许此操作，也没有说明原因。“主页”会显示Peel缺少哪些权限。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS不允許。"
+            "value" : "macOS不允許，也沒有說明原因。「首頁」會顯示Peel缺少哪些權限。"
           }
         }
       }
