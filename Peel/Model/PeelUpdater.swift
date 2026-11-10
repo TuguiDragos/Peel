@@ -16,6 +16,19 @@ final class PeelUpdater: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDele
     @ObservationIgnored private var controller: SPUStandardUpdaterController?
     @ObservationIgnored private var canCheck: NSKeyValueObservation?
 
+    /// The feed as the Info.plist names it. Sparkle reads its settings from Peel's preferences first, which any
+    /// program of the account can write, so the feed is handed to it and it takes no other.
+    nonisolated static let feed = Bundle.main.object(forInfoDictionaryKey: "SUFeedURL") as? String
+    /// Whether Sparkle checks on its own, and how often: Peel never writes them, so a value in its preferences is
+    /// somebody else's.
+    static let settingsLeftToTheInfoPlist = ["SUEnableAutomaticChecks", "SUScheduledCheckInterval"]
+
+    static func forgetSettingsLeftToTheInfoPlist(in defaults: UserDefaults) {
+        for key in settingsLeftToTheInfoPlist where defaults.object(forKey: key) != nil {
+            defaults.removeObject(forKey: key)
+        }
+    }
+
     #if DEBUG
     /// The updater as it stands once Sparkle has found `version`, for `HomeSnapshot`.
     convenience init(found version: String) {
@@ -31,6 +44,7 @@ final class PeelUpdater: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDele
         // check, linking them all to this Mac. Peel takes no cookies and forgets any it was given.
         HTTPCookieStorage.shared.cookieAcceptPolicy = .never
         HTTPCookieStorage.shared.removeCookies(since: .distantPast)
+        Self.forgetSettingsLeftToTheInfoPlist(in: .standard)
         let controller = SPUStandardUpdaterController(
             startingUpdater: false, updaterDelegate: self, userDriverDelegate: self
         )
@@ -53,6 +67,15 @@ final class PeelUpdater: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDele
         let checksForAppUpdates = UserDefaults.standard.isOn(SettingsKey.checksForAppUpdates, whenNeverSet: true)
         guard OwnUpdateCheck.mayAsk(askedByThePerson: updateCheck == .updates, checksForAppUpdates: checksForAppUpdates)
         else { throw UpdateChecksAreOff() }
+    }
+
+    nonisolated func feedURLString(for updater: SPUUpdater) -> String? {
+        Self.feed
+    }
+
+    /// Nothing about this Mac goes with a check, whatever `SUSendProfileInfo` holds in the preferences.
+    nonisolated func allowedSystemProfileKeys(for updater: SPUUpdater) -> [String]? {
+        []
     }
 
     func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
