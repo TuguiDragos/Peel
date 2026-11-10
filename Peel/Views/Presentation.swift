@@ -171,6 +171,20 @@ extension AdministratorCommand {
     }
 }
 
+extension TeamRegistry.Change {
+    /// What the change can mean and what to do about it, with the developer `named` when Peel knows who signs the app
+    /// now.
+    func explanation(named name: String?) -> String {
+        if current.isEmpty {
+            return String(localized: "It was first seen signed by team \(previous). A copy someone has changed looks like this, and so does one built from source. If you didn’t expect this, get the app again from its maker.")
+        }
+        guard let name else {
+            return String(localized: "It was first seen signed by team \(previous), and is signed by team \(current) now. A maker can change the team it signs with, as after a sale, but a copy someone else rebuilt looks the same. If you didn’t expect this, get the app again from its maker.")
+        }
+        return String(localized: "It was first seen signed by team \(previous), and is signed by \(name), team \(current), now. A maker can change the team it signs with, as after a sale, but a copy someone else rebuilt looks the same. If you didn’t expect this, get the app again from its maker.")
+    }
+}
+
 extension LeftInTheSystem {
     /// What `app` leaves in macOS's own settings folders once it goes, with what a rule for `sudo` among it allows.
     func whatStays(after app: String) -> Text {

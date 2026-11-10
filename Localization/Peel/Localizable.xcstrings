@@ -84653,214 +84653,332 @@
         }
       }
     },
-    "It was first seen signed by %@, and is signed by %@ now." : {
+    "It was first seen signed by team %@, and is signed by %@, team %@, now. A maker can change the team it signs with, as after a sale, but a copy someone else rebuilt looks the same. If you didn’t expect this, get the app again from its maker." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Poprvé byla zaznamenána s podpisem %@, teď ji podepisuje %@."
+            "value" : "Poprvé byla zaznamenána s podpisem týmu %@ a nyní má podpis %@, tým %@. Výrobce může změnit tým, pod kterým podepisuje, například po prodeji, ale stejně vypadá i kopie, kterou znovu sestavil někdo jiný. Pokud jste to nečekali, získejte aplikaci znovu od jejího výrobce."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Als Peel sie zum ersten Mal sah, war sie von %@ signiert, jetzt ist sie von %@ signiert."
+            "value" : "Als Peel sie zum ersten Mal sah, war sie vom Team %@ signiert, jetzt ist sie von %@, Team %@, signiert. Ein Hersteller kann das Team wechseln, mit dem er signiert, etwa nach einem Verkauf, aber eine Kopie, die jemand anderes neu erstellt hat, sieht genauso aus. Wenn du das nicht erwartet hast, lade die App erneut von ihrem Hersteller."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "It was first seen signed by team %1$@, and is signed by %2$@, team %3$@, now. A maker can change the team it signs with, as after a sale, but a copy someone else rebuilt looks the same. If you didn’t expect this, get the app again from its maker."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La primera vez que se vio, la firmaba %@, y ahora la firma %@."
+            "value" : "La primera vez que se vio, la firmaba el equipo %@, y ahora la firma %@, del equipo %@. Un fabricante puede cambiar el equipo con el que firma, por ejemplo tras una venta, pero una copia que otra persona ha recompilado se ve igual. Si no lo esperabas, vuelve a obtener la app de su fabricante."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel l’a d’abord vue signée par %@, et elle est désormais signée par %@."
+            "value" : "Peel l’a d’abord vue signée par l’équipe %@, et elle est maintenant signée par %@, de l’équipe %@. Un éditeur peut changer l’équipe avec laquelle il signe, par exemple après une vente, mais une copie recompilée par quelqu’un d’autre se présente de la même façon. Si vous ne vous y attendiez pas, obtenez à nouveau l’app auprès de son éditeur."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La prima volta risultava firmata da %@, e ora è firmata da %@."
+            "value" : "La prima volta risultava firmata dal team %@, ora è firmata da %@, team %@. Un produttore può cambiare il team con cui firma, ad esempio dopo una vendita, ma una copia ricompilata da qualcun altro appare allo stesso modo. Se non te lo aspettavi, scarica di nuovo l’app dal suo produttore."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "最初に確認されたときは“%@”によって署名されていましたが、現在は“%@”によって署名されています。"
+            "value" : "最初に確認されたときはチーム%@によって署名されていましたが、現在は“%@”（チーム%@）によって署名されています。アプリの売却後などに、開発元が署名に使うチームを変更することはありますが、別の誰かがビルドし直したコピーも同じように見えます。心当たりがない場合は、開発元からアプリを入手し直してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "처음 확인했을 때는 %@의 서명이 있었지만, 지금은 %@의 서명이 있습니다."
+            "value" : "처음 확인했을 때는 %@ 팀의 서명이 있었지만, 지금은 %@(%@ 팀)의 서명이 있습니다. 앱이 매각된 경우처럼 제작자가 서명에 사용하는 팀을 바꿀 수도 있지만, 다른 사람이 다시 빌드한 복사본도 똑같이 보입니다. 예상하지 못한 일이라면 제작자에게서 앱을 다시 받으십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toen Peel de app voor het eerst zag, was die ondertekend door %@, en nu door %@."
+            "value" : "Toen Peel de app voor het eerst zag, was die ondertekend door team %@, en nu is die ondertekend door %@, team %@. Een maker kan het team wijzigen waarmee die ondertekent, zoals na een verkoop, maar een kopie die iemand anders opnieuw heeft gebouwd, ziet er hetzelfde uit. Als je dit niet had verwacht, haal de app dan opnieuw bij de maker."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gdy Peel zobaczył ją pierwszy raz, była podpisana przez %@, a teraz jest podpisana przez %@."
+            "value" : "Gdy Peel zobaczył ją pierwszy raz, była podpisana przez zespół %@, a teraz jest podpisana przez %@ (zespół %@). Producent może zmienić zespół, którym podpisuje aplikację, na przykład po sprzedaży, ale kopia przebudowana przez kogoś innego wygląda tak samo. Jeśli się tego nie spodziewasz, pobierz aplikację ponownie od producenta."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quando foi visto pela primeira vez, estava assinado por %@, e agora é assinado por %@."
+            "value" : "Quando foi visto pela primeira vez, estava assinado pela equipe %@, e agora está assinado por %@, equipe %@. Um fabricante pode mudar a equipe com que assina, como depois de uma venda, mas uma cópia que outra pessoa recompilou fica igual. Se você não esperava isso, obtenha o app novamente diretamente do fabricante."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Când a fost văzută prima dată, era semnată de %@, iar acum este semnată de %@."
+            "value" : "Când a fost văzută prima dată, era semnată de echipa %@, iar acum este semnată de %@, echipa %@. Un producător poate schimba echipa cu care semnează, cum se întâmplă după o vânzare, dar la fel arată și o copie pe care altcineva a recompilat‑o. Dacă nu vă așteptați la acest lucru, obțineți din nou aplicația de la producătorul ei."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Когда Peel впервые его увидел, оно было подписано разработчиком %@, а теперь подписано разработчиком %@."
+            "value" : "Когда Peel впервые его увидел, оно было подписано командой %@, а сейчас подписано разработчиком %@ (команда %@). Производитель может сменить команду, которой подписывает приложение, например после продажи, но так же выглядит и копия, которую пересобрал кто-то другой. Если Вы этого не ожидали, загрузите приложение заново у его производителя."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Första gången Peel såg den var den signerad av %@, och nu är den signerad av %@."
+            "value" : "Första gången Peel såg den var den signerad av teamet %@, och nu är den signerad av %@, teamet %@. En tillverkare kan byta det team som den signerar med, till exempel efter en försäljning, men en kopia som någon annan har byggt om ser likadan ut. Om du inte väntade dig det här hämtar du appen igen från tillverkaren."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "İlk görüldüğünde %@ tarafından imzalanmıştı, şimdi %@ tarafından imzalanıyor."
+            "value" : "İlk görüldüğünde %@ takımı tarafından imzalanmıştı, şimdi ise %@ (%@ takımı) tarafından imzalanıyor. Bir üretici, örneğin bir satışın ardından, imza için kullandığı takımı değiştirebilir; ancak başka birinin yeniden derlediği bir kopya da aynı görünür. Bunu beklemediyseniz uygulamayı üreticisinden yeniden edinin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Уперше її було помічено з підписом %@, а тепер її підписує %@."
+            "value" : "Уперше її було помічено з підписом команди %@, а тепер її підписує %@, команда %@. Виробник може змінити команду, від імені якої підписує програми, як-от після продажу, але так само виглядає й копія, яку хтось інший зібрав заново. Якщо ви цього не очікували, отримайте програму заново від її виробника."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "最初发现它时，它由%@签名，现在则由%@签名。"
+            "value" : "最初发现它时，它由团队%1$@签名，而现在由%2$@（团队%3$@）签名。厂商可能会更换签名所用的团队（例如在出售之后），但被他人重新构建的副本看起来也会是这样。如果这出乎你的意料，请从其厂商处重新获取此App。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "首次看到此App時，它由%@簽署，現在則由%@簽署。"
+            "value" : "首次看到此App時，它由團隊%@簽署，現在則由%@（團隊%@）簽署。廠商可能會更改簽署時使用的團隊，例如在App被出售之後，但他人重新建置的副本看起來也一樣。如果這出乎你的意料，請從其廠商重新取得此App。"
           }
         }
       }
     },
-    "It was first seen signed by %@. A copy someone has changed looks like this, and so does one built from source." : {
+    "It was first seen signed by team %@, and is signed by team %@ now. A maker can change the team it signs with, as after a sale, but a copy someone else rebuilt looks the same. If you didn’t expect this, get the app again from its maker." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Poprvé byla zaznamenána s podpisem %@. Tak vypadá kopie, kterou někdo změnil, a stejně tak kopie sestavená ze zdrojového kódu."
+            "value" : "Poprvé byla zaznamenána s podpisem týmu %@ a nyní má podpis týmu %@. Výrobce může změnit tým, pod kterým podepisuje, například po prodeji, ale stejně vypadá i kopie, kterou znovu sestavil někdo jiný. Pokud jste to nečekali, získejte aplikaci znovu od jejího výrobce."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Als Peel sie zum ersten Mal sah, war sie von %@ signiert. So sieht eine Kopie aus, die jemand verändert hat, und ebenso eine, die aus dem Quellcode erstellt wurde."
+            "value" : "Als Peel sie zum ersten Mal sah, war sie vom Team %@ signiert, jetzt ist sie vom Team %@ signiert. Ein Hersteller kann das Team wechseln, mit dem er signiert, etwa nach einem Verkauf, aber eine Kopie, die jemand anderes neu erstellt hat, sieht genauso aus. Wenn du das nicht erwartet hast, lade die App erneut von ihrem Hersteller."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "It was first seen signed by team %1$@, and is signed by team %2$@ now. A maker can change the team it signs with, as after a sale, but a copy someone else rebuilt looks the same. If you didn’t expect this, get the app again from its maker."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La primera vez que se vio, la firmaba %@. Así se ve una copia que alguien ha modificado, y también una compilada a partir del código fuente."
+            "value" : "La primera vez que se vio, la firmaba el equipo %@, y ahora la firma el equipo %@. Un fabricante puede cambiar el equipo con el que firma, por ejemplo tras una venta, pero una copia que otra persona ha recompilado se ve igual. Si no lo esperabas, vuelve a obtener la app de su fabricante."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel l’a d’abord vue signée par %@. Une copie modifiée par quelqu’un se présente ainsi, tout comme une copie compilée à partir du code source."
+            "value" : "Peel l’a d’abord vue signée par l’équipe %@, et elle est maintenant signée par l’équipe %@. Un éditeur peut changer l’équipe avec laquelle il signe, par exemple après une vente, mais une copie recompilée par quelqu’un d’autre se présente de la même façon. Si vous ne vous y attendiez pas, obtenez à nouveau l’app auprès de son éditeur."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La prima volta risultava firmata da %@. Una copia modificata da qualcuno appare così, e anche una compilata dal codice sorgente."
+            "value" : "La prima volta risultava firmata dal team %@, ora è firmata dal team %@. Un produttore può cambiare il team con cui firma, ad esempio dopo una vendita, ma una copia ricompilata da qualcun altro appare allo stesso modo. Se non te lo aspettavi, scarica di nuovo l’app dal suo produttore."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "最初に確認されたときは“%@”によって署名されていました。誰かが変更したコピーはこのように見えます。ソースからビルドしたものも同様です。"
+            "value" : "最初に確認されたときはチーム%@によって署名されていましたが、現在はチーム%@によって署名されています。アプリの売却後などに、開発元が署名に使うチームを変更することはありますが、別の誰かがビルドし直したコピーも同じように見えます。心当たりがない場合は、開発元からアプリを入手し直してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "처음 확인했을 때는 %@의 서명이 있었습니다. 누군가 변경한 복사본이나 소스에서 직접 빌드한 복사본이 이렇게 보입니다."
+            "value" : "처음 확인했을 때는 %@ 팀의 서명이 있었지만, 지금은 %@ 팀의 서명이 있습니다. 앱이 매각된 경우처럼 제작자가 서명에 사용하는 팀을 바꿀 수도 있지만, 다른 사람이 다시 빌드한 복사본도 똑같이 보입니다. 예상하지 못한 일이라면 제작자에게서 앱을 다시 받으십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toen Peel de app voor het eerst zag, was die ondertekend door %@. Zo ziet een kopie eruit die iemand heeft gewijzigd, en ook een die vanuit de broncode is gebouwd."
+            "value" : "Toen Peel de app voor het eerst zag, was die ondertekend door team %@, en nu is die ondertekend door team %@. Een maker kan het team wijzigen waarmee die ondertekent, zoals na een verkoop, maar een kopie die iemand anders opnieuw heeft gebouwd, ziet er hetzelfde uit. Als je dit niet had verwacht, haal de app dan opnieuw bij de maker."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gdy Peel zobaczył ją pierwszy raz, była podpisana przez %@. Tak wygląda kopia, którą ktoś zmienił, a także kopia skompilowana ze źródeł."
+            "value" : "Gdy Peel zobaczył ją pierwszy raz, była podpisana przez zespół %@, a teraz jest podpisana przez zespół %@. Producent może zmienić zespół, którym podpisuje aplikację, na przykład po sprzedaży, ale kopia przebudowana przez kogoś innego wygląda tak samo. Jeśli się tego nie spodziewasz, pobierz aplikację ponownie od producenta."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quando foi visto pela primeira vez, estava assinado por %@. Uma cópia que alguém alterou fica assim, e uma compilada a partir do código-fonte também."
+            "value" : "Quando foi visto pela primeira vez, estava assinado pela equipe %@, e agora está assinado pela equipe %@. Um fabricante pode mudar a equipe com que assina, como depois de uma venda, mas uma cópia que outra pessoa recompilou fica igual. Se você não esperava isso, obtenha o app novamente diretamente do fabricante."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Când a fost văzută prima dată, era semnată de %@. Așa arată o copie modificată de cineva și tot așa arată una compilată din codul sursă."
+            "value" : "Când a fost văzută prima dată, era semnată de echipa %@, iar acum este semnată de echipa %@. Un producător poate schimba echipa cu care semnează, cum se întâmplă după o vânzare, dar la fel arată și o copie pe care altcineva a recompilat‑o. Dacă nu vă așteptați la acest lucru, obțineți din nou aplicația de la producătorul ei."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Когда Peel впервые его увидел, оно было подписано разработчиком %@. Так выглядит копия, которую кто-то изменил, а также копия, собранная из исходного кода."
+            "value" : "Когда Peel впервые его увидел, оно было подписано командой %@, а сейчас подписано командой %@. Производитель может сменить команду, которой подписывает приложение, например после продажи, но так же выглядит и копия, которую пересобрал кто-то другой. Если Вы этого не ожидали, загрузите приложение заново у его производителя."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Första gången Peel såg den var den signerad av %@. En kopia som någon har ändrat ser ut så här, och det gör även en som har byggts från källkod."
+            "value" : "Första gången Peel såg den var den signerad av teamet %@, och nu är den signerad av teamet %@. En tillverkare kan byta det team som den signerar med, till exempel efter en försäljning, men en kopia som någon annan har byggt om ser likadan ut. Om du inte väntade dig det här hämtar du appen igen från tillverkaren."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "İlk görüldüğünde %@ tarafından imzalanmıştı. Birinin değiştirdiği bir kopya böyle görünür, kaynak koddan derlenmiş bir kopya da."
+            "value" : "İlk görüldüğünde %@ takımı tarafından imzalanmıştı, şimdi ise %@ takımı tarafından imzalanıyor. Bir üretici, örneğin bir satışın ardından, imza için kullandığı takımı değiştirebilir; ancak başka birinin yeniden derlediği bir kopya da aynı görünür. Bunu beklemediyseniz uygulamayı üreticisinden yeniden edinin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Уперше її було помічено з підписом %@. Так виглядає копія, яку хтось змінив, а також копія, зібрана з вихідного коду."
+            "value" : "Уперше її було помічено з підписом команди %@, а тепер її підписує команда %@. Виробник може змінити команду, від імені якої підписує програми, як-от після продажу, але так само виглядає й копія, яку хтось інший зібрав заново. Якщо ви цього не очікували, отримайте програму заново від її виробника."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "最初发现它时，它由%@签名。被他人修改过的副本会是这种情况，从源代码构建的副本也是如此。"
+            "value" : "最初发现它时，它由团队%1$@签名，而现在由团队%2$@签名。厂商可能会更换签名所用的团队（例如在出售之后），但被他人重新构建的副本看起来也会是这样。如果这出乎你的意料，请从其厂商处重新获取此App。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "首次看到此App時，它由%@簽署。遭人修改過的副本會呈現這種情況，從原始碼建置的副本也是如此。"
+            "value" : "首次看到此App時，它由團隊%@簽署，現在則由團隊%@簽署。廠商可能會更改簽署時使用的團隊，例如在App被出售之後，但他人重新建置的副本看起來也一樣。如果這出乎你的意料，請從其廠商重新取得此App。"
+          }
+        }
+      }
+    },
+    "It was first seen signed by team %@. A copy someone has changed looks like this, and so does one built from source. If you didn’t expect this, get the app again from its maker." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poprvé byla zaznamenána s podpisem týmu %@. Tak vypadá kopie, kterou někdo změnil, a stejně tak kopie sestavená ze zdrojového kódu. Pokud jste to nečekali, získejte aplikaci znovu od jejího výrobce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als Peel sie zum ersten Mal sah, war sie vom Team %@ signiert. So sieht eine Kopie aus, die jemand verändert hat, und ebenso eine, die aus dem Quellcode erstellt wurde. Wenn du das nicht erwartet hast, lade die App erneut von ihrem Hersteller."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La primera vez que se vio, la firmaba el equipo %@. Así se ve una copia que alguien ha modificado, y también una compilada a partir del código fuente. Si no lo esperabas, vuelve a obtener la app de su fabricante."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel l’a d’abord vue signée par l’équipe %@. Une copie modifiée par quelqu’un se présente ainsi, tout comme une copie compilée à partir du code source. Si vous ne vous y attendiez pas, obtenez à nouveau l’app auprès de son éditeur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La prima volta risultava firmata dal team %@. Una copia modificata da qualcuno appare così, e anche una compilata dal codice sorgente. Se non te lo aspettavi, scarica di nuovo l’app dal suo produttore."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最初に確認されたときはチーム%@によって署名されていました。誰かが変更したコピーはこのように見えます。ソースからビルドしたものも同様です。心当たりがない場合は、開発元からアプリを入手し直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "처음 확인했을 때는 %@ 팀의 서명이 있었습니다. 누군가 변경한 복사본이나 소스에서 직접 빌드한 복사본이 이렇게 보입니다. 예상하지 못한 일이라면 제작자에게서 앱을 다시 받으십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toen Peel de app voor het eerst zag, was die ondertekend door team %@. Zo ziet een kopie eruit die iemand heeft gewijzigd, en ook een die vanuit de broncode is gebouwd. Als je dit niet had verwacht, haal de app dan opnieuw bij de maker."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy Peel zobaczył ją pierwszy raz, była podpisana przez zespół %@. Tak wygląda kopia, którą ktoś zmienił, a także kopia skompilowana ze źródeł. Jeśli się tego nie spodziewasz, pobierz aplikację ponownie od producenta."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando foi visto pela primeira vez, estava assinado pela equipe %@. Uma cópia que alguém alterou fica assim, e uma compilada a partir do código-fonte também. Se você não esperava isso, obtenha o app novamente diretamente do fabricante."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Când a fost văzută prima dată, era semnată de echipa %@. Așa arată o copie modificată de cineva și tot așa arată una compilată din codul sursă. Dacă nu vă așteptați la acest lucru, obțineți din nou aplicația de la producătorul ei."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда Peel впервые его увидел, оно было подписано командой %@. Так выглядит копия, которую кто-то изменил, а также копия, собранная из исходного кода. Если Вы этого не ожидали, загрузите приложение заново у его производителя."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Första gången Peel såg den var den signerad av teamet %@. En kopia som någon har ändrat ser ut så här, och det gör även en som har byggts från källkod. Om du inte väntade dig det här hämtar du appen igen från tillverkaren."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İlk görüldüğünde %@ takımı tarafından imzalanmıştı. Birinin değiştirdiği bir kopya böyle görünür, kaynak koddan derlenmiş bir kopya da. Bunu beklemediyseniz uygulamayı üreticisinden yeniden edinin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уперше її було помічено з підписом команди %@. Так виглядає копія, яку хтось змінив, а також копія, зібрана з вихідного коду. Якщо ви цього не очікували, отримайте програму заново від її виробника."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最初发现它时，它由团队%@签名。被他人修改过的副本会是这种情况，从源代码构建的副本也是如此。如果这出乎你的意料，请从其厂商处重新获取此App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "首次看到此App時，它由團隊%@簽署。遭人修改過的副本會呈現這種情況，從原始碼建置的副本也是如此。如果這出乎你的意料，請從其廠商重新取得此App。"
           }
         }
       }

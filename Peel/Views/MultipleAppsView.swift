@@ -321,10 +321,8 @@ struct MultipleAppsView: View {
             if let change = app.bundleIdentifier.flatMap({ library.teamChanges[$0] }) {
                 if change.current.isEmpty {
                     lines.append(String(localized: "No developer signs this app anymore."))
-                    lines.append(String(localized: "It was first seen signed by \(change.previous). A copy someone has changed looks like this, and so does one built from source."))
-                } else {
-                    lines.append(String(localized: "It was first seen signed by \(change.previous), and is signed by \(change.current) now."))
                 }
+                lines.append(change.explanation(named: library.developer(of: app)))
             }
         }
         return lines.isEmpty ? nil : lines.joined(separator: "\n\n")
