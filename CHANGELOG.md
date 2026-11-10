@@ -177,6 +177,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   longer as one whose permissions are closed.
 - `peel uninstall` no longer asks you to quit an app when only one of its extensions runs, and it ends those still
   running from the app once the app is in the Trash.
+- In Shortcuts, two copies of one app show where each is, and a Shortcut opens the copy you chose, no longer always the
+  first.
+- A `peel://open` link whose path is longer than a file's can be is refused, no longer shown whole in an alert taller
+  than the screen.
 
 #### Orphaned Files
 
@@ -272,6 +276,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Finder's names up to "name 10", then its name with its number on the disk.
 - Leaving Orphaned Files, Space, Developer, Plug-ins, iCloud Drive, or Package Receipts while it scans again after a
   change to the exclusions or a Put Back no longer leaves the old list when you come back.
+- A `peel://` link, Uninstall with Peel in Finder, a Shortcut, or a notification's click no longer changes the page
+  under an open sheet or question, nor gives up a removal waiting for an app to quit: the page opens once that is over.
 
 #### `peel`
 
