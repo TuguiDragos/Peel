@@ -146013,6 +146013,112 @@
         }
       }
     },
+    "Peel didn’t run it, since macOS couldn’t keep it from using Peel’s permissions." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ho nespustil, protože systém macOS nedokázal zajistit, aby nepoužíval oprávnění Peelu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hat es nicht ausgeführt, da macOS nicht verhindern konnte, dass es die Berechtigungen von Peel verwendet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no lo ha ejecutado, ya que macOS no podía impedir que usara los permisos de Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne l’a pas exécuté, car macOS n’a pas pu l’empêcher d’utiliser les autorisations de Peel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non l’ha eseguito, perché macOS non poteva impedirgli di usare le autorizzazioni di Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これがPeelの権限を使用するのをmacOSが防げなかったため、Peelはこれを実行しませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 이 프로그램이 Peel의 권한을 사용하지 못하도록 막을 수 없었으므로 Peel은 이 프로그램을 실행하지 않았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel heeft het niet uitgevoerd, omdat macOS niet kon voorkomen dat het de toestemmingen van Peel zou gebruiken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel go nie uruchomił, ponieważ macOS nie mógł mu uniemożliwić korzystania z uprawnień Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não o executou, já que o macOS não conseguiu impedir que ele usasse as permissões do Peel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu l‑a rulat, deoarece macOS nu l‑a putut împiedica să folosească permisiunile lui Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не запустил эту программу, потому что macOS не смогла запретить ей пользоваться разрешениями Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel körde det inte, eftersom macOS inte kunde hindra det från att använda Peels behörigheter."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel onu çalıştırmadı, çünkü macOS onun Peel’in izinlerini kullanmasını engelleyemedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не запустила його, бо macOS не змогла завадити йому користуватися дозволами Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel没有运行它，因为macOS未能阻止它使用Peel的权限。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel沒有執行它，因為macOS無法阻止它使用Peel的權限。"
+          }
+        }
+      }
+    },
     "Peel doesn’t change these. Each button opens the place where Apple says to turn that feature off." : {
       "localizations" : {
         "cs" : {

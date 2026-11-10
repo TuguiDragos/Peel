@@ -13,6 +13,7 @@ struct FixedSentenceTests {
         #expect(Set(HelperRefusal.allCases.map(\.rawValue)).isSubset(of: english))
         #expect(english.contains(Subprocess.Failure.timedOut.explanation))
         #expect(english.contains(Subprocess.Failure.canceled.explanation))
+        #expect(english.contains(Subprocess.notOnItsOwn))
     }
 
     @Test func aSentenceItKnowsIsRecognizedAndOneItDoesNotIsLeftAlone() {

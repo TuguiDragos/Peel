@@ -35,6 +35,7 @@ extension FixedSentence {
         case .declaredTwice: "Two files declare this job."
         case .toolTimedOut: "The tool didn’t answer in time, so it was stopped."
         case .toolStopped: "Stopped before it finished."
+        case .notOnItsOwn: "Peel didn’t run it, since macOS couldn’t keep it from using Peel’s permissions."
         case .receiptMisplaced: "The receipt isn’t where macOS keeps receipts."
         case .receiptForgotten: "It was already forgotten."
         case .homebrewNotInstalled: "Homebrew isn’t installed."
