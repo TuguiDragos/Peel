@@ -1038,7 +1038,7 @@ final class AppLibrary {
     struct Upgrade {
         /// The app as the upgrade left it.
         let app: InstalledApp
-        let succeeded: Bool
+        let ending: HomebrewLibrary.CommandResult.Ending
     }
 
     /// How the last upgrade of `app` went, while `app` is still the build it left.

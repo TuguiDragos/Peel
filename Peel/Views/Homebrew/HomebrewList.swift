@@ -828,11 +828,17 @@ struct HomebrewOutputView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Label {
-                Text(result.succeeded ? "Homebrew finished" : "Homebrew couldn’t finish")
-                    .font(.headline)
+                switch result.ending {
+                case .finished: Text("Homebrew finished").font(.headline)
+                case .failed: Text("Homebrew couldn’t finish").font(.headline)
+                case .notRun: Text("Peel didn’t run Homebrew").font(.headline)
+                }
             } icon: {
-                Image(systemName: result.succeeded ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
-                    .foregroundStyle(result.succeeded ? .green : .red)
+                switch result.ending {
+                case .finished: Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
+                case .failed: Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.red)
+                case .notRun: Image(systemName: "info.circle.fill").foregroundStyle(.secondary)
+                }
             }
             if replacedPeel {
                 Text("Homebrew updated Peel while it was open. Reopen Peel to finish.")

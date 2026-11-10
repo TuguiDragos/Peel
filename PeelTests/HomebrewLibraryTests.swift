@@ -101,6 +101,17 @@ private struct StandInBrew {
         #expect(homebrew.reclaimable == nil)
     }
 
+    @Test func aCommandPeelNeverStartedSaysSo() async throws {
+        let brew = try StandInBrew()
+        defer { brew.goAway() }
+        // Nothing is read yet, so Peel can't tell which formulae the exclusions cover and starts no cleanup.
+        let homebrew = HomebrewLibrary()
+
+        let result = await Homebrew.$standIn.withValue(brew.url) { await homebrew.run(.cleanup, showsResult: false) }
+
+        #expect(result?.ending == .notRun)
+    }
+
     @Test func namesInHistoryOnlyTheCasksWhoseRecordMoved() throws {
         let caskroom = URL(filePath: "/opt/homebrew/Caskroom", directoryHint: .isDirectory)
         let casks = ["alpha", "beta", "gamma"].map { HomebrewPackage(name: $0, kind: .cask).kept(inCaskroom: caskroom) }

@@ -275,13 +275,17 @@ struct AppPageHeader: View {
         guard let result = await homebrew.run(.upgrade(cask.id), showsResult: false, reopening: reopen) else { return }
         let succeeded = result.succeeded
         upgradeOutput = succeeded || homebrew.replacedPeel != nil ? nil : result
+        guard result.ending != .notRun else {
+            library.record(AppLibrary.Upgrade(app: app, ending: .notRun), of: app)
+            return
+        }
 
         // Homebrew's own answer is read again first: it is what says whether a version is behind, and the copy from
         // before the upgrade still said this one was. A new build gets a page of its own, which scans it.
         await library.refresh()
         library.loadHomebrewCasks(homebrew.caskEvidence, knowsItsOwnApps: homebrew.knowsItsOwnApps)
         let upgraded = library.apps.first { $0.id == app.id } ?? app
-        library.record(AppLibrary.Upgrade(app: upgraded, succeeded: succeeded), of: upgraded)
+        library.record(AppLibrary.Upgrade(app: upgraded, ending: result.ending), of: upgraded)
         await library.checkForUpdates([upgraded], force: true)
 
         // A notification either way, so the user learns how it went even after leaving the page.
@@ -294,18 +298,21 @@ struct AppPageHeader: View {
 
     @ViewBuilder
     private func outcome(of upgrade: AppLibrary.Upgrade) -> some View {
-        if upgrade.succeeded {
+        switch upgrade.ending {
+        case .finished:
             StatusLabel(
                 title: upgrade.app.version.map { Text("Now on \($0).") } ?? Text("Homebrew finished the upgrade."),
                 systemImage: "checkmark.circle.fill",
                 tint: .green
             )
-        } else {
+        case .failed:
             StatusLabel(
                 title: Text("Homebrew couldn’t finish the upgrade."),
                 systemImage: "exclamationmark.triangle.fill",
                 tint: .red
             )
+        case .notRun:
+            StatusLabel(title: Text("Peel didn’t run Homebrew."), systemImage: "info.circle.fill", tint: .secondary)
         }
     }
 

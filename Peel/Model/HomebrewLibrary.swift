@@ -77,9 +77,14 @@ final class HomebrewLibrary {
     }
 
     struct CommandResult: Identifiable {
+        /// How a command ended: Homebrew finished it, or failed, or Peel stopped before it started Homebrew.
+        enum Ending { case finished, failed, notRun }
+
         let id = UUID()
-        let succeeded: Bool
+        let ending: Ending
         let output: String
+
+        var succeeded: Bool { ending == .finished }
     }
 
     /// Checked again on every refresh, so Homebrew installed while Peel is open is found without a relaunch.
@@ -608,12 +613,12 @@ final class HomebrewLibrary {
             findings = nil
             advisories = nil
         }
-        let gone = CommandResult(succeeded: false, output: String(localized: "Homebrew no longer lists this package."))
+        let gone = CommandResult(ending: .notRun, output: String(localized: "Homebrew no longer lists this package."))
         if command.isUpgrade, await cleansUpAfterUpgrading() {
-            return CommandResult(succeeded: false, output: String(localized: Self.cleansUp))
+            return CommandResult(ending: .notRun, output: String(localized: Self.cleansUp))
         }
         if command.changesApps, Homebrew.leavesChangesToTerminal {
-            return CommandResult(succeeded: false, output: String(localized: FixedSentence.homebrewElsewhere.words))
+            return CommandResult(ending: .notRun, output: String(localized: FixedSentence.homebrewElsewhere.words))
         }
         var kept: [String] = []
         if command.deletesFormulae {
@@ -653,7 +658,7 @@ final class HomebrewLibrary {
                 // switch, so an answer Peel can't read is asked for again in prose rather than shown as an error.
                 guard installation?.reportsHealthAsJSON == true, let found = try? await Homebrew.health() else {
                     let report = await Homebrew.healthReport()
-                    return CommandResult(succeeded: !report.isEmpty, output: report)
+                    return CommandResult(ending: report.isEmpty ? .failed : .finished, output: report)
                 }
                 findings = found
                 // The report fills in a section of the page, which VoiceOver would not notice.
@@ -669,14 +674,14 @@ final class HomebrewLibrary {
                     : "Known vulnerabilities in ^[\(report.advisories.count) package](inflect: true).")
                 return nil
             }
-            return CommandResult(succeeded: true, output: output)
+            return CommandResult(ending: .finished, output: output)
         } catch {
-            return CommandResult(succeeded: false, output: error.output ?? "")
+            return CommandResult(ending: .failed, output: error.output ?? "")
         }
     }
 
     private var keepsNothing: CommandResult {
-        CommandResult(succeeded: false, output: String(localized: "Peel couldn’t make sure Homebrew keeps the formulae your exclusions cover, so it ran nothing. A brew.env file that sets HOMEBREW_NO_CLEANUP_FORMULAE replaces the list Peel gives it."))
+        CommandResult(ending: .notRun, output: String(localized: "Peel couldn’t make sure Homebrew keeps the formulae your exclusions cover, so it ran nothing. A brew.env file that sets HOMEBREW_NO_CLEANUP_FORMULAE replaces the list Peel gives it."))
     }
 
     /// The formulae the exclusions cover, read now, for a command the person runs in Terminal, or none when Peel
@@ -700,7 +705,7 @@ final class HomebrewLibrary {
         case .success(let names): kept = names
         case .failure(let closed):
             let folder = closed.folder.abbreviatedPath
-            return .nothingRuns(CommandResult(succeeded: false, output: String(localized: "Peel couldn’t look inside \(folder) to tell which formulae your exclusions cover, so it ran nothing.")))
+            return .nothingRuns(CommandResult(ending: .notRun, output: String(localized: "Peel couldn’t look inside \(folder) to tell which formulae your exclusions cover, so it ran nothing.")))
         }
         return await Homebrew.keepsEvery(kept) ? .formulae(kept) : .nothingRuns(keepsNothing)
     }
@@ -752,9 +757,9 @@ final class HomebrewLibrary {
         let written = await shown.value
         switch outcome {
         case .success(let output):
-            return CommandResult(succeeded: true, output: written.isEmpty ? output : written)
+            return CommandResult(ending: .finished, output: written.isEmpty ? output : written)
         case .failure(let failure):
-            return CommandResult(succeeded: false, output: written.isEmpty ? failure.output ?? "" : written)
+            return CommandResult(ending: .failed, output: written.isEmpty ? failure.output ?? "" : written)
         }
     }
 
