@@ -5,6 +5,8 @@ struct ShellTab: View {
     @Environment(ShellLibrary.self) private var shell
     @State private var isConfirmingTurnAllOff = false
 
+    static let afterTurningAllOff: LocalizedStringResource = "New windows start with only what your own shell files and macOS set."
+
     var body: some View {
         Form {
             if let state = shell.state {
@@ -68,7 +70,7 @@ struct ShellTab: View {
             Button("Turn All Off") { shell.turnAllOff() }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("New windows start with the prompt and settings macOS sets.")
+            Text(Self.afterTurningAllOff)
         }
     }
 }

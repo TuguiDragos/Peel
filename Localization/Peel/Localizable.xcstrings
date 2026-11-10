@@ -110700,108 +110700,108 @@
         }
       }
     },
-    "New windows start with the prompt and settings macOS sets." : {
+    "New windows start with only what your own shell files and macOS set." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nová okna se otevřou s výzvou a nastaveními, které určuje macOS."
+            "value" : "Nová okna se otevřou jen s tím, co nastavují vaše vlastní soubory shellu a systém macOS."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Neue Fenster beginnen mit der Eingabeaufforderung und den Einstellungen, die macOS festlegt."
+            "value" : "Neue Fenster beginnen nur mit dem, was deine eigenen Shell-Dateien und macOS festlegen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las ventanas nuevas empiezan con el indicador de la línea de comandos y los ajustes que establece macOS."
+            "value" : "Las ventanas nuevas empiezan solo con lo que establecen tus propios archivos de shell y macOS."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les nouvelles fenêtres s’ouvrent avec l’invite de commande et les réglages que définit macOS."
+            "value" : "Les nouvelles fenêtres s’ouvrent uniquement avec ce que définissent vos propres fichiers de shell et macOS."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le nuove finestre si aprono con il prompt e le impostazioni stabiliti da macOS."
+            "value" : "Le nuove finestre si aprono solo con ciò che stabiliscono i tuoi file della shell e macOS."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新規ウインドウは、macOSのデフォルトのプロンプトと設定で始まります。"
+            "value" : "新規ウインドウは、お使いのシェルファイルとmacOSが設定する内容だけで始まります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "새로운 윈도우는 macOS가 정한 프롬프트와 설정으로 시작됩니다."
+            "value" : "새로운 윈도우는 사용자의 셸 파일과 macOS가 정한 설정만으로 시작됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nieuwe vensters beginnen met de prompt en de instellingen van macOS."
+            "value" : "Nieuwe vensters beginnen alleen met wat je eigen shellbestanden en macOS instellen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nowe okna będą się otwierać ze znakiem zachęty i ustawieniami, które określa macOS."
+            "value" : "Nowe okna będą się otwierać tylko z tym, co ustawiają Twoje własne pliki powłoki i macOS."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As novas janelas começam com o prompt e os ajustes que o macOS define."
+            "value" : "As novas janelas começam apenas com o que os seus próprios arquivos do shell e o macOS definem."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ferestrele noi încep cu promptul și configurările stabilite de macOS."
+            "value" : "Ferestrele noi încep doar cu ce stabilesc propriile dvs. fișiere de shell și macOS."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Новые окна будут открываться с приглашением ввода и настройками, которые задает macOS."
+            "value" : "Новые окна будут открываться только с тем, что задают Ваши собственные файлы оболочки и macOS."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nya fönster börjar med den prompt och de inställningar som macOS ställer in."
+            "value" : "Nya fönster börjar bara med det som dina egna filer för kommandotolken och macOS ställer in."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yeni pencereler, macOS’in belirlediği bilgi istemi ve ayarlarla açılır."
+            "value" : "Yeni pencereler yalnızca kendi kabuk dosyalarınızın ve macOS’in belirlediği ayarlarla açılır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Нові вікна відкриватимуться із запрошенням і налаштуваннями, які задає macOS."
+            "value" : "Нові вікна відкриватимуться лише з тим, що задають ваші власні файли оболонки та macOS."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新窗口启动时将使用macOS设定的提示符和设置。"
+            "value" : "新窗口启动时将只使用你自己的shell文件和macOS所设定的内容。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新視窗會使用macOS設定的提示行和設定。"
+            "value" : "新視窗只會使用你自己的Shell檔案和macOS所設定的內容。"
           }
         }
       }
