@@ -293,14 +293,14 @@ extension TrashFailure.Reason {
         case .heldOpen(let processes):
             String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), then try again.", bundle: bundle)
         case .heldOpenByAJob(let processes) where processes.count > 1:
-            String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop them in Background Items if they have no window, then try again.", bundle: bundle)
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop them in Background Items (View > Background Items) if they have no window, then try again.", bundle: bundle)
         case .heldOpenByAJob(let processes):
-            String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop it in Background Items if it has no window, then try again.", bundle: bundle)
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop it in Background Items (View > Background Items) if it has no window, then try again.", bundle: bundle)
         case .peelRunsFromIt: String(localized: "Peel itself runs from here, and only Remove Peel, in Settings > General, removes Peel.", bundle: bundle)
         case .heldByAnotherAccount(let processes) where processes.count > 1:
-            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which run as another account or as the system, so neither you nor Peel can quit them. Stop them in Background Items, or with the app’s own uninstaller, then try again.", bundle: bundle)
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which run as another account or as the system, so neither you nor Peel can quit them. Stop them in Background Items (View > Background Items), or with the app’s own uninstaller, then try again.", bundle: bundle)
         case .heldByAnotherAccount(let processes):
-            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which runs as another account or as the system, so neither you nor Peel can quit it. Stop it in Background Items, or with the app’s own uninstaller, then try again.", bundle: bundle)
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which runs as another account or as the system, so neither you nor Peel can quit it. Stop it in Background Items (View > Background Items), or with the app’s own uninstaller, then try again.", bundle: bundle)
         case .openForAnotherUser(let processes) where processes.count > 1:
             String(localized: "It is in use by \(processes.formatted(.list(type: .and))) in another user’s account on this Mac. Quit them in that account, then try again.", bundle: bundle)
         case .openForAnotherUser(let processes):

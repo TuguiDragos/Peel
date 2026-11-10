@@ -648,14 +648,14 @@ extension TrashFailure.Reason {
         case .heldOpen(let processes):
             "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit it, then try again"
         case .heldOpenByAJob(let processes) where processes.count > 1:
-            "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit them, or stop them in Background Items if they have no window, then try again"
+            "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit them, or stop them in the Peel app's Background Items if they have no window, then try again"
         case .heldOpenByAJob(let processes):
-            "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit it, or stop it in Background Items if it has no window, then try again"
+            "in use by \(processes.map(Output.plain).joined(separator: ", ")); quit it, or stop it in the Peel app's Background Items if it has no window, then try again"
         case .peelRunsFromIt: "Peel runs from here; only Remove Peel, in the app's Settings > General, removes Peel"
         case .heldByAnotherAccount(let processes) where processes.count > 1:
-            "in use by \(processes.map(Output.plain).joined(separator: ", ")), running as another account or as the system, which Peel can't quit; stop them in Background Items or with the app's own uninstaller, then try again"
+            "in use by \(processes.map(Output.plain).joined(separator: ", ")), running as another account or as the system, which Peel can't quit; stop them in the Peel app's Background Items or with the app's own uninstaller, then try again"
         case .heldByAnotherAccount(let processes):
-            "in use by \(processes.map(Output.plain).joined(separator: ", ")), running as another account or as the system, which Peel can't quit; stop it in Background Items or with the app's own uninstaller, then try again"
+            "in use by \(processes.map(Output.plain).joined(separator: ", ")), running as another account or as the system, which Peel can't quit; stop it in the Peel app's Background Items or with the app's own uninstaller, then try again"
         case .openForAnotherUser(let processes) where processes.count > 1:
             "in use by \(processes.map(Output.plain).joined(separator: ", ")) in another user's account on this Mac; quit them in that account, then try again"
         case .openForAnotherUser(let processes):

@@ -68,6 +68,9 @@ struct RemovalFailureAlert: ViewModifier {
             if !outcome.appsStartingFromTheTrash.isEmpty {
                 Button("Open Login Items & Extensions") { SMAppService.openSystemSettingsLoginItems() }
             }
+            if Self.needsBackgroundItems(outcome) {
+                Button("Open Background Items") { Navigator.shared.requestedTool = .backgroundItems }
+            }
             if outcome.leftForAnAdministrator > 0 {
                 Button("Open Orphaned Files") {
                     orphans.selection = .forAnAdministrator
@@ -290,6 +293,16 @@ struct RemovalFailureAlert: ViewModifier {
         outcome.failures.contains { failure in
             failure.reason == .notPermitted && failure.url.pathExtension.lowercased() == "app"
                 && AppManagement.isRefusedForWantOfPermission(failure.url)
+        }
+    }
+
+    /// Whether a job holds something that didn't move, which Background Items can stop.
+    static func needsBackgroundItems(_ outcome: RemovalOutcome) -> Bool {
+        outcome.failures.contains { failure in
+            switch failure.reason {
+            case .heldOpenByAJob, .heldByAnotherAccount: true
+            default: false
+            }
         }
     }
 
