@@ -162,12 +162,19 @@ struct SpaceList: View {
 
     private static let whyNotMeasured: [HoldBack] = [.notMeasured, .couldNotBeRead, .closedByPermissions]
 
+    static func modelsSentence(_ reading: SizeTotal.Reading) -> LocalizedStringResource {
+        switch reading {
+        case .exactly(let size): "The AI models and datasets the Developer page lists take \(size.byteCount)."
+        case .atLeast(let size): "The AI models and datasets the Developer page lists take over \(size.byteCount)."
+        case .unknown: "Peel couldn’t measure the AI models and datasets the Developer page lists."
+        }
+    }
+
     private func modelsLine(_ total: SizeTotal) -> Text {
         switch total.reading {
-        case .exactly(let size): Text("AI models and datasets take \(size.byteCount) on this Mac.")
-        case .atLeast(let size): Text("AI models and datasets take over \(size.byteCount) on this Mac.")
+        case .exactly, .atLeast: Text(Self.modelsSentence(total.reading))
         case .unknown:
-            Text(verbatim: ([String(localized: "Peel couldn’t measure the AI models and datasets on this Mac.")]
+            Text(verbatim: ([String(localized: Self.modelsSentence(.unknown))]
                 + Self.whyNotMeasured.filter(space.modelsNotMeasured.contains).map {
                     switch $0 {
                     case .couldNotBeRead: String(localized: "macOS kept Peel out of a folder of theirs.")
