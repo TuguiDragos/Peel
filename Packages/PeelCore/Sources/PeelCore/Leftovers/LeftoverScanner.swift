@@ -10,7 +10,9 @@ public struct LeftoverScanner: Sendable {
     public let environment: SearchEnvironment
     public let exclusions: Exclusions
     private let measure: Measure
-    private let refuses: Refuses
+    /// What the scan reads of the disk, which copies of this scanner share: several apps scanned with one scanner
+    /// read each folder once.
+    private let reads: ScanReads
     private let installedByApple: InstalledByApple
     /// The most folders listed per location while searching inside folders the app does not claim.
     private let nestedFolderLimit: Int
@@ -21,19 +23,20 @@ public struct LeftoverScanner: Sendable {
 
     static let walk: Measure = { await FileSize.contents(of: $0) }
 
-    /// For tests, which say how each folder answers and can count what the guard is asked.
+    /// For tests, which say how each folder answers and can count what the guard is asked and what is listed.
     init(
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
         measure: @escaping Measure,
         refuses: @escaping Refuses = { ProtectedData.refuses($0, home: $1) },
         installedByApple: @escaping InstalledByApple = { await PackageReceipts.isInstalledByApple($0) },
-        nestedFolderLimit: Int = NestedSearch.folderLimit
+        nestedFolderLimit: Int = NestedSearch.folderLimit,
+        list: @escaping ScanReads.List = ScanReads.listing(of:)
     ) {
         self.environment = environment
         self.exclusions = exclusions
         self.measure = measure
-        self.refuses = refuses
+        reads = ScanReads(list: list, refuses: refuses)
         self.installedByApple = installedByApple
         self.nestedFolderLimit = nestedFolderLimit
     }
@@ -45,10 +48,17 @@ public struct LeftoverScanner: Sendable {
         await scan(app, matcher: matcher(for: app, installedApps: installedApps))
     }
 
-    /// What tells `app`'s files from those of every other app. The apps macOS ships are rivals too: Apple keeps
-    /// folders under their names (`Application Support/Music`) that an app of the same name would otherwise get
-    /// outright. So are the apps macOS knows outside the list that may use the same files (`appsElsewhere`).
-    func matcher(for app: InstalledApp, installedApps: [InstalledApp]) async -> LeftoverMatcher {
+    /// The apps every app's files are weighed against, with where the apps Peel remembers were. They are the same for
+    /// each app of one preparation, so apps chosen together share them.
+    struct Rivals: Sendable {
+        let apps: [InstalledApp]
+        let profiles: [LeftoverMatcher.Profile]
+        let places: [String: URL]
+    }
+
+    /// The apps macOS ships are rivals too: Apple keeps folders under their names (`Application Support/Music`) that
+    /// an app of the same name would otherwise get outright.
+    func rivals(installedApps: [InstalledApp]) async -> Rivals {
         let known = installedApps + (await AppCatalog.systemApps.value)
         // An app Peel saw installed is an app of its own once it is gone too, not a helper of this one.
         let remembered = await AppMemory(url: AppMemory.url(inHome: environment.homeDirectory)).load()
@@ -58,7 +68,19 @@ public struct LeftoverScanner: Sendable {
             },
             uniquingKeysWith: { first, _ in first }
         )
-        return LeftoverMatcher(app: app, installedApps: known + (await appsElsewhere(like: app, besides: known))) {
+        return Rivals(apps: known, profiles: known.map(LeftoverMatcher.Profile.init), places: places)
+    }
+
+    func matcher(for app: InstalledApp, installedApps: [InstalledApp]) async -> LeftoverMatcher {
+        await matcher(for: app, rivals: rivals(installedApps: installedApps))
+    }
+
+    /// What tells `app`'s files from those of every other app: the rivals, and the apps macOS knows outside the list
+    /// that may use the same files (`appsElsewhere`).
+    func matcher(for app: InstalledApp, rivals: Rivals) async -> LeftoverMatcher {
+        let elsewhere = await appsElsewhere(like: app, besides: rivals.apps)
+        let places = rivals.places
+        return LeftoverMatcher(app: app, rivals: rivals.profiles + elsewhere.map(LeftoverMatcher.Profile.init)) {
             AppInspector.applicationURL(forBundleIdentifier: $0) ?? places[$0.lowercased()]
         }
     }
@@ -106,7 +128,7 @@ public struct LeftoverScanner: Sendable {
                 let home = environment.homeDirectory.path(percentEncoded: false)
                 let root = environment.rootDirectory.path(percentEncoded: false)
                 _ = group.addTaskUnlessCancelled {
-                    [exclusions, measure, refuses, installedByApple, nestedFolderLimit] in
+                    [exclusions, measure, reads, installedByApple, nestedFolderLimit] in
                     (location, await Self.scan(
                         location,
                         matcher: matcher,
@@ -115,7 +137,7 @@ public struct LeftoverScanner: Sendable {
                         bundle: bundle,
                         exclusions: exclusions,
                         measure: measure,
-                        refuses: refuses,
+                        reads: reads,
                         installedByApple: installedByApple,
                         nestedFolderLimit: nestedFolderLimit
                     ))
@@ -243,24 +265,22 @@ public struct LeftoverScanner: Sendable {
         bundle: String,
         exclusions: Exclusions,
         measure: @escaping Measure,
-        refuses: Refuses,
+        reads: ScanReads,
         installedByApple: @escaping InstalledByApple,
         nestedFolderLimit: Int
     ) async -> LocationResult {
         let entries: [String]
-        do {
-            // Sorted, because Apple documents the order of a listing as undefined, and with a limit on how many
-            // folders are looked into, the order decides which ones.
-            entries = try FileManager.default.contentsOfDirectory(atPath: location.url.path(percentEncoded: false))
-                .sorted()
+        switch await reads.listing(of: location.url) {
+        case .names(let names):
+            entries = names
             ScanCount.current?.add(entries.count)
-        } catch CocoaError.fileReadNoSuchFile {
+        case .missing:
             return .found([], cutShort: nil, unreadable: [], jobs: [])
-        } catch {
+        case .unreadable:
             return .unreadable(location)
         }
 
-        let parent = ParentAccess(location.url)
+        let parent = await reads.parentAccess(location.url)
         var toMeasure: [Found] = []
         var nobodysFolders: [URL] = []
         var makersItems: [URL] = []
@@ -278,18 +298,19 @@ public struct LeftoverScanner: Sendable {
             guard PathPattern.comparablePath(of: url) != bundle else { continue }
             if let match = claim(name, at: url, kind: location.kind, matcher: matcher, bundle: bundle, home: home),
                !isSharedWithTheWholeMac(url, home: home) {
-                guard !refuses(path, home), !exclusions.excludes(url), !FileAccess.cannotBeRemoved(url) else {
-                    continue
-                }
+                guard await !reads.refuses(path, home: home), !exclusions.excludes(url),
+                      !FileAccess.cannotBeRemoved(url)
+                else { continue }
                 toMeasure.append(Found(url: url, match: match, parent: parent, foldersAbove: .itsOwn))
             } else if let program = LeftoverMatcher.program(ofJobAt: url, kind: location.kind),
-                      !refuses(path, home), !exclusions.excludes(url), !FileAccess.cannotBeRemoved(url) {
+                      await !reads.refuses(path, home: home), !exclusions.excludes(url),
+                      !FileAccess.cannotBeRemoved(url) {
                 jobs.append(UnclaimedJob(url: url, program: program, kind: location.kind, parent: parent))
-            } else if NestedSearch.kinds.contains(location.kind), url.isRealFolder, !refuses(path, home),
-                      !exclusions.excludes(url) {
+            } else if NestedSearch.kinds.contains(location.kind), await reads.isRealFolder(url),
+                      await !reads.refuses(path, home: home), !exclusions.excludes(url) {
                 nobodysFolders.append(url)
-            } else if namesTheMaker(name, kind: location.kind, names: makers), !refuses(path, home),
-                      !exclusions.excludes(url) {
+            } else if namesTheMaker(name, kind: location.kind, names: makers),
+                      await !reads.refuses(path, home: home), !exclusions.excludes(url) {
                 makersItems.append(url)
             }
         }
@@ -298,12 +319,12 @@ public struct LeftoverScanner: Sendable {
         let leftovers = await measured(taken, kind: location.kind, home: home, root: root, measure: measure)
         let inside = await nested(
             in: nobodysFolders, of: location, matcher: matcher, home: home, root: root, bundle: bundle,
-            exclusions: exclusions, measure: measure, refuses: refuses, installedByApple: installedByApple,
+            exclusions: exclusions, measure: measure, reads: reads, installedByApple: installedByApple,
             limit: nestedFolderLimit
         )
         let makersOwn = await inItsMakersFolders(
             nobodysFolders + makersItems, rows: inside.found, of: location, matcher: matcher, home: home, root: root,
-            exclusions: exclusions, measure: measure, refuses: refuses, installedByApple: installedByApple
+            exclusions: exclusions, measure: measure, reads: reads, installedByApple: installedByApple
         )
         return .found(
             leftovers + inside.found + makersOwn, cutShort: inside.wasCutShort ? location : nil,
@@ -332,7 +353,7 @@ public struct LeftoverScanner: Sendable {
         root: String,
         exclusions: Exclusions,
         measure: @escaping Measure,
-        refuses: Refuses,
+        reads: ScanReads,
         installedByApple: @escaping InstalledByApple
     ) async -> [Leftover] {
         let names = matcher.makersFolderNames
@@ -344,15 +365,14 @@ public struct LeftoverScanner: Sendable {
             let inside = rowPaths.filter { PathComponents.isPath($0, inside: PathPattern.comparablePath(of: folder)) }
             var items = [folder]
             if !inside.isEmpty {
-                let path = folder.path(percentEncoded: false)
-                let entries = (try? FileManager.default.contentsOfDirectory(atPath: path)) ?? []
-                items = entries.filter { !$0.hasPrefix(".") }.sorted().map { folder.appending(path: $0) }.filter { item in
+                let entries = if case .names(let names) = await reads.listing(of: folder) { names } else { [String]() }
+                items = entries.filter { !$0.hasPrefix(".") }.map { folder.appending(path: $0) }.filter { item in
                     !inside.contains { PathComponents.isPath($0, atOrInside: PathPattern.comparablePath(of: item)) }
                 }
             }
-            let parent = ParentAccess(inside.isEmpty ? location.url : folder)
+            let parent = await reads.parentAccess(inside.isEmpty ? location.url : folder)
             for url in items {
-                guard !refuses(url.path(percentEncoded: false), home), !exclusions.excludes(url),
+                guard await !reads.refuses(url.path(percentEncoded: false), home: home), !exclusions.excludes(url),
                       !FileAccess.cannotBeRemoved(url), !isSharedWithTheWholeMac(url, home: home)
                 else { continue }
                 let match = LeftoverMatch(reason: .inItsMakersFolder, confidence: .possible, sharedWith: [])
@@ -374,7 +394,7 @@ public struct LeftoverScanner: Sendable {
         bundle: String,
         exclusions: Exclusions,
         measure: @escaping Measure,
-        refuses: Refuses,
+        reads: ScanReads,
         installedByApple: @escaping InstalledByApple,
         limit: Int
     ) async -> (found: [Leftover], wasCutShort: Bool, unreadable: [URL]) {
@@ -386,13 +406,14 @@ public struct LeftoverScanner: Sendable {
                 ? runsSomethingInside(bundle, manifest: url)
                 : Self.match(name, at: url, kind: kind, matcher: matcher, home: home, nested: true)
         }
-        let search: NestedSearch.Findings<Found> = await NestedSearch.walk(inside: folders, of: kind, limit: limit) {
-            url, name, parent, canLookInside in
+        let search: NestedSearch.Findings<Found> = await NestedSearch.walk(
+            inside: folders, of: kind, limit: limit, reads: reads
+        ) { url, name, parent, canLookInside in
             let path = url.path(percentEncoded: false)
             let match = matching(url, named: name)
             if let match, match.confidence >= .likely,
                !isSharedWithTheWholeMac(url, home: home) {
-                guard !refuses(path, home), !exclusions.excludes(url) else { return .pass }
+                guard await !reads.refuses(path, home: home), !exclusions.excludes(url) else { return .pass }
                 // Whose the folders on the way are decides what its name is worth.
                 let between = url.deletingLastPathComponent().pathComponents.dropFirst(locationLength)
                 return .take(Found(
@@ -400,7 +421,9 @@ public struct LeftoverScanner: Sendable {
                     foldersAbove: foldersAbove(between, kind: kind, matcher: matcher)
                 ))
             }
-            guard canLookInside, url.isRealFolder, !refuses(path, home), !exclusions.excludes(url) else { return .pass }
+            guard canLookInside, await reads.isRealFolder(url), await !reads.refuses(path, home: home),
+                  !exclusions.excludes(url)
+            else { return .pass }
             return .lookInside
         }
         let taken = await withoutWhatAppleInstalled(search.found, home: home, installedByApple: installedByApple)

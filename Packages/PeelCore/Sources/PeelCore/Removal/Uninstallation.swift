@@ -45,6 +45,26 @@ public struct Uninstallation: Sendable {
         systemExtensions: AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS,
         environment: SearchEnvironment = .current
     ) async -> Uninstallation {
+        await prepare(
+            app, installedApps: installedApps, exclusions: exclusions, casks: casks, receipts: receipts,
+            systemExtensions: systemExtensions, environment: environment,
+            scanner: LeftoverScanner(environment: environment, exclusions: exclusions), rivals: nil
+        )
+    }
+
+    /// Prepares with `scanner`, which apps chosen together share with what it read, and `rivals`, worked out here when
+    /// nil. The scanner searches `environment` with `exclusions`.
+    static func prepare(
+        _ app: InstalledApp,
+        installedApps: [InstalledApp],
+        exclusions: Exclusions,
+        casks: [HomebrewPackage],
+        receipts: Set<String>,
+        systemExtensions: AppExtensions.SystemExtensionsAnswer,
+        environment: SearchEnvironment,
+        scanner: LeftoverScanner,
+        rivals: LeftoverScanner.Rivals?
+    ) async -> Uninstallation {
         async let bundle = FileSize.contents(of: app.url)
         guard !exclusions.excludes(app) else {
             return Uninstallation(
@@ -57,8 +77,9 @@ public struct Uninstallation: Sendable {
                 appSharesStorage: await bundle?.sharesMostOfItsStorage ?? false
             )
         }
-        let scanner = LeftoverScanner(environment: environment, exclusions: exclusions)
-        let matcher = await scanner.matcher(for: app, installedApps: installedApps)
+        let given = rivals
+        let rivals = if let given { given } else { await scanner.rivals(installedApps: installedApps) }
+        let matcher = await scanner.matcher(for: app, rivals: rivals)
         var scan = await scanner.scan(app, matcher: matcher)
         if let evidence = CaskEvidence.evidence(for: app, casks: casks, home: environment.homeDirectory) {
             scan = scan.adding(

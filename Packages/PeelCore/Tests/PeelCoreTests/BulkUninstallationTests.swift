@@ -1,5 +1,7 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
+import Synchronization
 import Testing
 
 struct BulkUninstallationTests {
@@ -414,5 +416,85 @@ struct BulkUninstallationTests {
         ])
 
         #expect(bulk.total == SizeTotal(known: 1_000 + 1_000 + 100, isComplete: true))
+    }
+
+    /// Five apps chosen together, each with its own folders and one in a folder of a vendor no app is named for.
+    private func fiveAppsWithTheirFiles(
+        in directory: borrowing TemporaryDirectory
+    ) throws -> (apps: [InstalledApp], environment: SearchEnvironment) {
+        let apps = try ["Tide", "Gale", "Moss", "Fern", "Reed"].map { name in
+            let identifier = "org.example.\(name.lowercased())"
+            try directory.file("home/Library/Application Support/\(name)/config.json")
+            try directory.file("home/Library/Application Support/Shared Vendor/\(name)/data.bin")
+            try directory.file("home/Library/Caches/\(identifier)/Cache.db")
+            try directory.file("home/Library/Preferences/\(identifier).plist")
+            try directory.file("home/Library/Logs/\(name)/\(name).log")
+            return InstalledApp(
+                url: try directory.directory("Applications/\(name).app"), bundleIdentifier: identifier, name: name
+            )
+        }
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: try directory.directory("root")
+        )
+        return (apps, environment)
+    }
+
+    @Test func appsChosenTogetherReadEachFolderOnceAndAskTheGuardOnce() async throws {
+        let directory = try TemporaryDirectory()
+        let (apps, environment) = try fiveAppsWithTheirFiles(in: directory)
+        let listed = Mutex<[String: Int]>([:])
+        let asked = Mutex<[String: Int]>([:])
+        let scanner = LeftoverScanner(
+            environment: environment,
+            measure: LeftoverScanner.walk,
+            refuses: { path, home in
+                asked.withLock { $0[path, default: 0] += 1 }
+                return ProtectedData.refuses(path, home: home)
+            },
+            list: { folder in
+                listed.withLock { $0[folder.path(percentEncoded: false), default: 0] += 1 }
+                return ScanReads.listing(of: folder)
+            }
+        )
+
+        let bulk = await BulkUninstallation.prepare(
+            apps, installedApps: apps, exclusions: .none, casks: [], receipts: [], systemExtensions: { [] },
+            environment: environment, scanner: scanner
+        )
+
+        #expect(bulk.items.count == apps.count * 6)
+        let vendor = environment.homeDirectory.appending(path: "Library/Application Support/Shared Vendor")
+        #expect(listed.withLock { $0[vendor.path(percentEncoded: false)] } == 1)
+        #expect(listed.withLock { $0.filter { $0.value > 1 }.keys.sorted() } == [])
+        #expect(asked.withLock { $0.filter { $0.value > 1 }.keys.sorted() } == [])
+    }
+
+    @Test func appsChosenTogetherFindWhatEachFindsAlone() async throws {
+        let directory = try TemporaryDirectory()
+        let (apps, environment) = try fiveAppsWithTheirFiles(in: directory)
+        func rows(_ uninstallation: Uninstallation) -> [String] {
+            uninstallation.scan.leftovers.map { leftover in
+                [
+                    leftover.url.path(percentEncoded: false), "\(leftover.match.confidence)",
+                    leftover.match.sharedWith.joined(separator: ","), "\(String(describing: leftover.match.heldBack))",
+                    "\(leftover.size)",
+                ].joined(separator: " ")
+            }.sorted()
+        }
+
+        let bulk = await BulkUninstallation.prepare(
+            apps, installedApps: apps, exclusions: .none, casks: [], receipts: [], systemExtensions: { [] },
+            environment: environment
+        )
+
+        for (app, together) in zip(apps, bulk.uninstallations) {
+            let alone = await Uninstallation.prepare(
+                app, installedApps: apps, exclusions: .none, casks: [], receipts: [], systemExtensions: { [] },
+                environment: environment
+            )
+            #expect(rows(together) == rows(alone), "\(app.name)")
+            #expect(!rows(alone).isEmpty, "\(app.name)")
+        }
     }
 }

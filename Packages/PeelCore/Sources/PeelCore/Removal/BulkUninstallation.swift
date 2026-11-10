@@ -103,8 +103,28 @@ public struct BulkUninstallation: Sendable {
         systemExtensions: AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS,
         environment: SearchEnvironment = .current
     ) async -> BulkUninstallation {
+        await prepare(
+            apps, installedApps: installedApps, exclusions: exclusions, casks: casks, receipts: receipts,
+            systemExtensions: systemExtensions, environment: environment,
+            scanner: LeftoverScanner(environment: environment, exclusions: exclusions)
+        )
+    }
+
+    /// Prepares every app with `scanner`, which searches `environment` with `exclusions`. The apps look through the
+    /// same places against the same rivals, so what does not depend on the app is read and worked out once.
+    static func prepare(
+        _ apps: [InstalledApp],
+        installedApps: [InstalledApp],
+        exclusions: Exclusions,
+        casks: [HomebrewPackage],
+        receipts: Set<String>,
+        systemExtensions: AppExtensions.SystemExtensionsAnswer,
+        environment: SearchEnvironment,
+        scanner: LeftoverScanner
+    ) async -> BulkUninstallation {
         // Asked once for every app: macOS may have installed an extension for an app inside one of them.
         let installed = await systemExtensions()
+        let rivals = await scanner.rivals(installedApps: installedApps)
         var prepared: [Uninstallation] = []
         for app in apps where !Task.isCancelled {
             prepared.append(
@@ -115,7 +135,9 @@ public struct BulkUninstallation: Sendable {
                     casks: casks,
                     receipts: receipts,
                     systemExtensions: { installed },
-                    environment: environment
+                    environment: environment,
+                    scanner: scanner,
+                    rivals: rivals
                 )
             )
         }

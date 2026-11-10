@@ -15,19 +15,28 @@ struct LeftoverMatcher: Sendable {
         installedApps: [InstalledApp],
         registeredApp: @escaping RegisteredApp = AppInspector.applicationURL(forBundleIdentifier:)
     ) {
+        self.init(app: app, rivals: installedApps.map(Profile.init), registeredApp: registeredApp)
+    }
+
+    /// `rivals` are the profiles of the apps `app`'s files are weighed against, which may hold `app` itself.
+    init(
+        app: InstalledApp,
+        rivals: [Profile],
+        registeredApp: @escaping RegisteredApp = AppInspector.applicationURL(forBundleIdentifier:)
+    ) {
         target = Profile(app)
         // By path, not by URL: two URLs for the same bundle can differ by a trailing slash.
         bundlePath = PathPattern.comparablePath(of: app.url)
         let path = bundlePath
         let real = PathPattern.comparablePath(of: PathPattern.canonical(app.url))
-        others = installedApps.filter { other in
-            guard PathPattern.comparablePath(of: other.url) != path else { return false }
+        let identifier = target.identifier
+        others = rivals.filter { other in
+            guard other.path != path else { return false }
             // Spelled in another case or reached through a link, it is still this app. As its own rival, it would
             // share every file with itself. Only a bundle with the same identifier is worth checking on disk.
-            guard other.bundleIdentifier == app.bundleIdentifier else { return true }
+            guard other.identifier == identifier else { return true }
             return PathPattern.comparablePath(of: PathPattern.canonical(other.url)) != real
         }
-        .map(Profile.init)
         self.registeredApp = registeredApp
     }
 

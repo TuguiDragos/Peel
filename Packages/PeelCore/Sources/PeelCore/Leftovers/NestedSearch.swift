@@ -38,13 +38,14 @@ enum NestedSearch {
     static let folderLimit = 5_000
 
     /// Lists `folders`, the entries of a location of `kind`, and every folder inside them that `visit` asks to look
-    /// inside, `depth` levels down and at most `limit` folders in all. `visit` is told whether a folder it asks to look
-    /// inside would still be listed. A folder of Apple's own, or one inside it, that cannot be listed is not returned,
-    /// since it holds no other app's files.
+    /// inside, `depth` levels down and at most `limit` folders in all, through `reads`. `visit` is told whether a
+    /// folder it asks to look inside would still be listed. A folder of Apple's own, or one inside it, that cannot be
+    /// listed is not returned, since it holds no other app's files.
     static func walk<Item>(
         inside folders: [URL],
         of kind: SearchLocation.Kind,
         limit: Int,
+        reads: ScanReads = ScanReads(),
         visit: (_ entry: URL, _ name: String, _ parent: ParentAccess, _ canLookInside: Bool) async -> Step<Item>
     ) async -> Findings<Item> {
         var findings = Findings<Item>()
@@ -64,20 +65,16 @@ enum NestedSearch {
                 let isApplesOwn = isInsideApplesOwn || ProtectedData.isApplesName(folderName)
                     || level == 0 && SystemFolders.keeps(folderName, in: kind)
                 let names: [String]
-                do {
-                    // Sorted, because Apple documents the order of a listing as undefined, and with a limit on how
-                    // many folders are listed, the order decides which ones.
-                    names = try FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))
-                        .sorted()
-                } catch CocoaError.fileReadNoSuchFile {
-                    continue
-                } catch {
+                switch await reads.listing(of: folder) {
+                case .names(let entries): names = entries
+                case .missing: continue
+                case .unreadable:
                     if !isApplesOwn { findings.unreadable.append(folder) }
                     continue
                 }
                 ScanCount.current?.add(names.count)
 
-                let parent = ParentAccess(folder)
+                let parent = await reads.parentAccess(folder)
                 for name in names {
                     let entry = folder.appending(path: name)
                     switch await visit(entry, name, parent, level + 1 < depth) {
