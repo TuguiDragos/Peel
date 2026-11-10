@@ -562,6 +562,26 @@ struct AttackRemovalGuardTests {
 
     /// A blockchain can outgrow the startup disk, so a wallet's folder is often kept on another one, with a link to it
     /// where the wallet looks. Its keys have to be known under the name of the disk they are on too.
+    /// Renamed after the guard was made, a protected folder answers to no protected name: the guard knows it by what
+    /// it is.
+    @Test func aProtectedFolderRenamedSinceTheGuardWasMadeIsStillKnown() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let mail = try directory.directory("home/Library/Mail")
+        try directory.file("home/Library/Mail/V10/letter.emlx")
+        try directory.directory("home/Library/Caches")
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
+        let renamed = home.appending(path: "Library/Caches/org.example.moved", directoryHint: .isDirectory)
+        try FileManager.default.moveItem(at: mail, to: renamed)
+        let letter = renamed.appending(path: "V10/letter.emlx")
+
+        #expect(!ProtectedData.refuses(letter.path(percentEncoded: false), home: home.path(percentEncoded: false)))
+        #expect(!guardian.allowsRemoval(of: letter), "ATTACK SUCCEEDED: a letter moves once Mail is renamed")
+        #expect(!guardian.allowsRemoval(of: renamed), "ATTACK SUCCEEDED: Mail itself moves under another name")
+    }
+
     @Test func aWalletKeptOnAnotherDiskThroughALink() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
