@@ -298,9 +298,8 @@ If you are unsure whether something belongs in the helper, it doesn't.
   to PNG files in that folder, made if it isn't there, in light and dark, each also with Increase Contrast, then
   quits; `PEEL_TERMINAL_EXPORT=<repository>/Terminal`, in a Debug build, writes the themes and pictures `Terminal/`
   holds, then quits, and a change to a theme or to the prompt preview needs it, since `TerminalThemeTests` compares
-  `Terminal/` with what Peel writes; `PEEL_MEASURE=<name>`, in every build, appends launch and
-  frame timings to `~/Library/Logs/Peel/<name>`; and `PEEL_TEST_VOLUME=<folder>` lets the tests use the Trash of
-  another volume, on a disk image made for it.
+  `Terminal/` with what Peel writes; and `PEEL_MEASURE=<name>`, in every build, appends launch and
+  frame timings to `~/Library/Logs/Peel/<name>`.
 
 ## Facts of macOS the code relies on
 

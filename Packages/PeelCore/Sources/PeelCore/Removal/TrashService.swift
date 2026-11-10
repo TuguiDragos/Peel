@@ -383,6 +383,11 @@ public struct TrashService: Sendable {
     private let journal: RemovalJournal?
 
     public init(environment: SearchEnvironment = .current, exclusions: Exclusions = .none) {
+        self.init(environment: environment, exclusions: exclusions, history: RemovalHistory.defaultURL)
+    }
+
+    /// The pieces every move of Peel's goes through, with the journal beside `history`.
+    init(environment: SearchEnvironment, exclusions: Exclusions, history: URL) {
         self.init(
             environment: environment,
             exclusions: exclusions,
@@ -399,7 +404,7 @@ public struct TrashService: Sendable {
             registerApp: { app in _ = LSRegisterURL(app as CFURL, true) },
             movingJudgedBy: { judge in { try Self.moveToSystemTrash($0, refusal: judge.refusal(of:)) } },
             ownMoves: .shared,
-            journal: RemovalJournal(beside: RemovalHistory.defaultURL)
+            journal: RemovalJournal(beside: history)
         )
     }
 

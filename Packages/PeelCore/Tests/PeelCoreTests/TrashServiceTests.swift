@@ -1335,22 +1335,13 @@ struct TrashServiceTests {
         #expect(right.trashed.map { $0.trashedURL.lastPathComponent } == ["honest.txt"])
     }
 
-    /// The folder `PEEL_TEST_VOLUME` names, on a scratch volume whose Trash is `.Trashes/<uid>`.
-    private static var scratchVolume: URL? {
-        guard let path = ProcessInfo.processInfo.environment["PEEL_TEST_VOLUME"], !path.isEmpty else { return nil }
-        var isDirectory: ObjCBool = false
-        guard FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory), isDirectory.boolValue else {
-            return nil
-        }
-        return URL(filePath: path, directoryHint: .isDirectory)
-    }
-
-    /// The same round trip through the Trash macOS picks for the volume. A scratch volume keeps it out of the
-    /// user's own Trash.
-    @Test(.enabled(if: scratchVolume != nil)) func reallyMovesAFolderToTheTrashOfAnotherVolume() async throws {
-        let volume = try #require(Self.scratchVolume)
-        let work = volume.appending(path: "PeelTrashRoundTrip-\(UUID().uuidString)", directoryHint: .isDirectory)
-        defer { try? FileManager.default.removeItem(at: work) }
+    /// The pieces every move of Peel's goes through, on a disk the test makes, whose Trash is `.Trashes/<uid>`, and
+    /// with a History of the test's own, so neither the person's Trash nor Peel's folder is touched.
+    @Test func reallyMovesAFolderToTheTrashOfAnotherVolume() async throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(fileSystem: "HFS+", mountedAt: directory.url.appending(path: "Disk"))
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let work = disk.url.appending(path: "PeelTrashRoundTrip", directoryHint: .isDirectory)
         let folder = work.appending(path: "home/Library/Caches/Example", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         let item = folder.appending(path: "note.txt")
@@ -1360,14 +1351,18 @@ struct TrashServiceTests {
             rootDirectory: work.appending(path: "root", directoryHint: .isDirectory)
         )
 
-        let result = await TrashService(environment: environment).trash([folder])
+        let result = await TrashService(environment: environment, exclusions: .none, history: history).trash([folder])
 
         #expect(result.failures.isEmpty)
+        #expect(FileManager.default.fileExists(
+            atPath: history.deletingLastPathComponent().appending(path: "removals.journal").path(percentEncoded: false)
+        ), "the line went to another journal than the one beside this History")
         let trashed = try #require(result.trashed.first)
         #expect(trashed.trashedURL.path(percentEncoded: false).contains("/.Trashes/"))
         #expect(FileManager.default.fileExists(atPath: trashed.trashedURL.path(percentEncoded: false)))
 
-        #expect(await TrashService(environment: environment).restore(trashed) == nil)
+        let service = TrashService(environment: environment, exclusions: .none, history: history)
+        #expect(await service.restore(trashed) == nil)
         #expect(FileManager.default.fileExists(atPath: item.path(percentEncoded: false)))
         #expect(!FileManager.default.fileExists(atPath: trashed.trashedURL.path(percentEncoded: false)), "a copy was left in the Trash")
     }
