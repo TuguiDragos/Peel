@@ -108,13 +108,16 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Finder does when it shows one, so macOS can find it.
 - Copy Uninstall Command on the page of Herd, GlobalProtect, Cloudflare WARP, or Background Music, and `peel uninstall`,
   name the maker's script where the app is, such as `~/Applications`, not always in `/Applications`. A maker's script
-  or uninstaller that isn't on the Mac is no longer offered.
+  or uninstaller that isn't on the Mac is no longer offered, and neither is a script something other than its maker
+  or the system could have changed: one inside the app only while the app's whole seal holds, and one elsewhere only
+  while it and every folder above it are root's alone.
 - A link named like an app leads to the app it points to, as it did for an app already in the list: the list no longer
   shows the link as an app, and a link opened from Finder, `peel://`, a drop, or `peel uninstall` no longer opened a
   page that selected the app's own files while only the link would move. A link thrown into the Trash no longer counts
-  as an app that left.
-- Uninstalling an app also moves the alias that leads to it in `/Applications` or your home's Applications folder,
-  which led nowhere once the app went, on an app's page, several apps' page, and `peel uninstall` alike.
+  as an app that left. A folder named like an app whose Contents leads to another app's is no app either.
+- Uninstalling an app also moves the alias that leads to it in `/Applications` or your home's Applications folder, a
+  link or one Finder made, which led nowhere once the app went, on an app's page, several apps' page, and
+  `peel uninstall` alike.
 - An app's update feed that names thousands of languages for one release, or release notes with hundreds of HTML tags
   open inside one another, no longer makes Peel quit unexpectedly while it checks for updates, in the app and in
   `peel updates`.
@@ -178,11 +181,13 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Peel's helper, its guard, every scan, and Package Receipts refuse what macOS keeps under Apple's own name directly
   in `/Library/Preferences`, `/Library/LaunchDaemons`, `/Library/LaunchAgents`, `/Library/PrivilegedHelperTools`, and
   `/Library/Application Support`, such as `com.apple.loginwindow.plist`, and the network settings in
-  `/Library/Preferences/SystemConfiguration`: the Mac's own settings and jobs, which nothing but macOS makes again,
-  so Peel neither moves one nor puts one back from the Trash. The helper judged such an item by its folder alone,
-  and a package's receipt could offer one.
-- A Homebrew package's homepage is shown as a link, and offered as a waiting update's page, only when it is a web
-  page; an address of another scheme in a tap's definition is left out.
+  `/Library/Preferences/SystemConfiguration`, what macOS keeps there under plain names, such as `OpenDirectory` and
+  `Logging` in Preferences or `Apple` and `CrashReporter` in Application Support, and the receipts of Apple's own
+  packages: the Mac's own settings, jobs, and records, which nothing but macOS makes again, so Peel neither moves one
+  nor puts one back from the Trash. The helper judged such an item by its folder alone, and a package's receipt could
+  offer one.
+- A Homebrew package's homepage, and the page the App Store names for an update, are shown as a link, and offered as a
+  waiting update's page, only when they are a web page; an address of another scheme is left out.
 - An Electron app's GitHub feed is asked for only when the owner, repository, and channel its own `app-update.yml`
   names are plain names; written into the address as they were, they could have asked for another page on
   github.com.

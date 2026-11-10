@@ -79,8 +79,8 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
 - **Its Dock icon too.** Peel takes the app's icon out of the Dock, where it would stay as a question mark,
   unless you deselect it, and History puts it back where it was when you put the app back. An app you had already
   moved to the Trash loses its icon once the files it left behind move, and History doesn't put that icon back.
-- **Its alias too.** A link to the app in `/Applications` or your home's Applications folder, such as one to an app you
-  keep on another disk, goes with the app, so nothing is left there that leads nowhere, and Orphaned Files lists one
+- **Its alias too.** A link or a Finder alias to the app in `/Applications` or your home's Applications folder, such as
+  one to an app you keep on another disk, goes with the app, so nothing is left there that leads nowhere, and Orphaned Files lists one
   whose app is already gone.
 - **When macOS needs more.** After a removal, Peel says when macOS keeps using what moved: an audio driver until
   you restart your Mac, and an app's login items, which macOS starts from the Trash until you empty it.
