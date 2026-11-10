@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Synchronization
 import Testing
 
@@ -8,6 +9,7 @@ struct DockTilesTests {
     private final class Store: DockTileStore {
         let saved = Mutex<[DockList: Data]>([:])
         let refusing = Mutex<Set<DockList>>([])
+        let forced = Mutex<Set<DockList>>([])
         let restarts = Atomic(0)
 
         init(_ tiles: [Any], recent: [Any]? = nil) {
@@ -32,6 +34,10 @@ struct DockTilesTests {
 
         func restartTheDock() async {
             restarts.add(1, ordering: .relaxed)
+        }
+
+        func isSetByAProfile(_ list: DockList) -> Bool {
+            forced.withLock { $0.contains(list) }
         }
 
         func paths(in list: DockList = .persistent) -> [String] {
@@ -87,7 +93,7 @@ struct DockTilesTests {
         let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
 
         #expect(await tiles.holding([studio]) == [studio])
-        #expect(await tiles.takeOut([studio]))
+        #expect(await tiles.takeOut([studio]) == nil)
         #expect(store.paths() == [
             "/System/Applications/Mail.app", "/Volumes/Other/org.example.Studio.app",
             "/Applications/org.example.Notes.app",
@@ -118,7 +124,7 @@ struct DockTilesTests {
         let tiles = DockTiles(store: store, memory: memory)
 
         #expect(await tiles.holding([trashed]) == [trashed])
-        #expect(await tiles.takeOut([trashed], forgetting: [trashed]))
+        #expect(await tiles.takeOut([trashed], forgetting: [trashed]) == nil)
         #expect(store.paths() == ["/System/Applications/Mail.app"])
         #expect(store.restarts.load(ordering: .relaxed) == 1)
         #expect(memory.isMissing, "a tile was remembered for an app History never moved")
@@ -165,7 +171,7 @@ struct DockTilesTests {
         try directory.directory(".Trash")
         let trashed = root.appending(path: ".Trash/org.example.Studio.app", directoryHint: .isDirectory)
         try FileManager.default.moveItem(at: moved, to: trashed)
-        #expect(await tiles.takeOut([moved], foundAt: [moved: trashed]))
+        #expect(await tiles.takeOut([moved], foundAt: [moved: trashed]) == nil)
         #expect(store.paths() == ["/System/Applications/Mail.app"])
 
         try FileManager.default.moveItem(at: trashed, to: moved)
@@ -179,7 +185,7 @@ struct DockTilesTests {
         let folder = directory.url.appending(path: "Peel", directoryHint: .isDirectory)
         let tiles = DockTiles(store: store, memory: folder.appending(path: "dock-tiles.json"))
 
-        #expect(await tiles.takeOut([studio], remembering: false))
+        #expect(await tiles.takeOut([studio], remembering: false) == nil)
         #expect(store.paths().isEmpty)
         #expect(store.restarts.load(ordering: .relaxed) == 1)
         #expect(folder.isMissing)
@@ -197,7 +203,7 @@ struct DockTilesTests {
         ])
         let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
 
-        #expect(await tiles.takeOut([studio, tools]))
+        #expect(await tiles.takeOut([studio, tools]) == nil)
         #expect(store.paths() == ["/System/Applications/Mail.app", "/Applications/org.example.Notes.app"])
         #expect(store.restarts.load(ordering: .relaxed) == 1)
 
@@ -222,7 +228,7 @@ struct DockTilesTests {
         let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
         let original = store.paths()
 
-        #expect(await tiles.takeOut([studio, tools]))
+        #expect(await tiles.takeOut([studio, tools]) == nil)
         await tiles.putBack([tools, studio])
 
         #expect(store.paths() == original)
@@ -241,7 +247,7 @@ struct DockTilesTests {
         let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
         let original = store.paths()
 
-        #expect(await tiles.takeOut([studio, tools]))
+        #expect(await tiles.takeOut([studio, tools]) == nil)
         await tiles.putBack([tools])
         await tiles.putBack([studio])
 
@@ -257,7 +263,7 @@ struct DockTilesTests {
         ])
         let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
 
-        #expect(await tiles.takeOut([studio]))
+        #expect(await tiles.takeOut([studio]) == nil)
         store.add(Self.tile("file:///System/Applications/Music.app/"))
         await tiles.putBack([studio])
 
@@ -279,7 +285,7 @@ struct DockTilesTests {
             let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
             let original = store.layout()
 
-            #expect(await tiles.takeOut([studio]))
+            #expect(await tiles.takeOut([studio]) == nil)
             store.add(Self.tile("file:///System/Applications/Music.app/"))
             await tiles.putBack([studio])
 
@@ -292,7 +298,7 @@ struct DockTilesTests {
         let store = Store([Self.tile("file:///Applications/org.example.Notes.app/")])
         let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
 
-        #expect(!(await tiles.takeOut([studio])))
+        #expect(await tiles.takeOut([studio]) == nil)
         await tiles.putBack([studio])
         #expect(store.paths() == ["/Applications/org.example.Notes.app"])
         #expect(store.restarts.load(ordering: .relaxed) == 0)
@@ -304,7 +310,7 @@ struct DockTilesTests {
         let store = Store([Self.tile("file:///Applications/org.example.Studio.app/")])
         let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
 
-        #expect(await tiles.takeOut([studio]))
+        #expect(await tiles.takeOut([studio]) == nil)
         _ = store.setTiles([Self.tile("file:///Applications/org.example.Studio.app/")], in: .persistent)
         await tiles.putBack([studio])
 
@@ -323,7 +329,7 @@ struct DockTilesTests {
         let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
 
         #expect(await tiles.holding([studio]) == [studio])
-        #expect(await tiles.takeOut([studio]))
+        #expect(await tiles.takeOut([studio]) == nil)
         #expect(store.paths(in: .recent) == ["/Applications/org.example.Notes.app"])
         #expect(store.paths() == ["/System/Applications/Mail.app"])
 
@@ -342,7 +348,7 @@ struct DockTilesTests {
         )
         let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
 
-        #expect(await tiles.takeOut([studio]))
+        #expect(await tiles.takeOut([studio]) == nil)
         #expect(store.paths().isEmpty)
         #expect(store.paths(in: .recent).isEmpty)
         #expect(store.restarts.load(ordering: .relaxed) == 1)
@@ -378,7 +384,7 @@ struct DockTilesTests {
         store.refusing.withLock { $0 = [.recent] }
         let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
 
-        #expect(await tiles.takeOut([studio]))
+        #expect(await tiles.takeOut([studio]) == DockTiles.Stayed(apps: [studio], reason: .notSaved))
         #expect(store.paths().isEmpty)
         #expect(store.paths(in: .recent) == ["/Applications/org.example.Studio.app"])
 
@@ -388,5 +394,59 @@ struct DockTilesTests {
 
         #expect(store.paths() == ["/Applications/org.example.Studio.app"])
         #expect(store.paths(in: .recent).isEmpty, "a tile that never left the Dock was put back")
+    }
+
+    @Test func aMemoryThatCannotBeReadWholeIsSetAsideAndKeepsWhatCanBeRead() async throws {
+        let directory = try TemporaryDirectory()
+        let memory = directory.url.appending(path: "dock-tiles.json")
+        let notes = URL(filePath: "/Applications/org.example.Notes.app", directoryHint: .isDirectory)
+        let store = Store([
+            Self.tile("file:///Applications/org.example.Notes.app/"), Self.tile("file:///Applications/org.example.Studio.app/"),
+        ])
+        let tiles = DockTiles(store: store, memory: memory)
+        #expect(await tiles.takeOut([notes]) == nil)
+        var entries = try #require(try JSONSerialization.jsonObject(with: Data(contentsOf: memory)) as? [String: Any])
+        entries["/Applications/org.example.Broken.app"] = 5
+        try JSONSerialization.data(withJSONObject: entries).write(to: memory)
+
+        #expect(await tiles.takeOut([studio]) == nil)
+        #expect(store.paths().isEmpty)
+        #expect(DamagedFile.copies(of: memory)?.count == 1)
+        await tiles.putBack([notes, studio])
+        #expect(Set(store.paths()) == ["/Applications/org.example.Notes.app", "/Applications/org.example.Studio.app"])
+    }
+
+    @Test func aMemoryThatIsNoJSONIsSetAsideSoTheTileStillLeavesTheDock() async throws {
+        let directory = try TemporaryDirectory()
+        let memory = try directory.file("dock-tiles.json", contents: Data("{".utf8))
+        let store = Store([Self.tile("file:///Applications/org.example.Studio.app/")])
+        let tiles = DockTiles(store: store, memory: memory)
+
+        #expect(await tiles.takeOut([studio]) == nil)
+        #expect(store.paths().isEmpty)
+        #expect(DamagedFile.copies(of: memory)?.count == 1)
+    }
+
+    @Test func aMemoryThatCannotBeOpenedKeepsTheTileAndSaysWhy() async throws {
+        let directory = try TemporaryDirectory()
+        let memory = try directory.directory("dock-tiles.json")
+        let store = Store([Self.tile("file:///Applications/org.example.Studio.app/")])
+        let tiles = DockTiles(store: store, memory: memory)
+
+        #expect(await tiles.takeOut([studio]) == DockTiles.Stayed(apps: [studio], reason: .notRemembered))
+        #expect(store.paths() == ["/Applications/org.example.Studio.app"])
+        #expect(store.restarts.load(ordering: .relaxed) == 0)
+    }
+
+    @Test func leavesAListAProfileSetsAlone() async throws {
+        let directory = try TemporaryDirectory()
+        let store = Store([Self.tile("file:///Applications/org.example.Studio.app/")])
+        store.forced.withLock { $0 = [.persistent] }
+        let tiles = DockTiles(store: store, memory: directory.url.appending(path: "dock-tiles.json"))
+
+        #expect(await tiles.holding([studio]).isEmpty)
+        #expect(await tiles.takeOut([studio]) == nil)
+        #expect(store.paths() == ["/Applications/org.example.Studio.app"])
+        #expect(store.restarts.load(ordering: .relaxed) == 0)
     }
 }

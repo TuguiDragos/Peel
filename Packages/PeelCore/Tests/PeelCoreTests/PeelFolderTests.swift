@@ -96,4 +96,5 @@ private struct EmptyDock: DockTileStore {
     func tiles(in list: DockList) -> [Any]? { [] }
     func setTiles(_ tiles: [Any], in list: DockList) -> Bool { true }
     func restartTheDock() async {}
+    func isSetByAProfile(_ list: DockList) -> Bool { false }
 }

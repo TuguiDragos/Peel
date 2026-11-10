@@ -1,4 +1,5 @@
 public import Foundation
+internal import PeelPrivileged
 
 /// The Dock's two lists of apps: those the person keeps in it, and the recent ones it shows beside them.
 public enum DockList: String, Codable, CaseIterable, Sendable {
@@ -11,6 +12,8 @@ public protocol DockTileStore: Sendable {
     func tiles(in list: DockList) -> [Any]?
     func setTiles(_ tiles: [Any], in list: DockList) -> Bool
     func restartTheDock() async
+    /// Whether a configuration profile sets the list, which then can't be changed.
+    func isSetByAProfile(_ list: DockList) -> Bool
 }
 
 /// The Dock's own lists of apps, read and written through CFPreferences as the Tweaks are, never in its file:
@@ -26,7 +29,7 @@ public struct DockPreferences: DockTileStore {
     }
 
     public func setTiles(_ tiles: [Any], in list: DockList) -> Bool {
-        guard !CFPreferencesAppValueIsForced(list.rawValue as CFString, Self.domain) else { return false }
+        guard !isSetByAProfile(list) else { return false }
         CFPreferencesSetAppValue(list.rawValue as CFString, tiles as CFArray, Self.domain)
         return CFPreferencesAppSynchronize(Self.domain)
     }
@@ -34,11 +37,28 @@ public struct DockPreferences: DockTileStore {
     public func restartTheDock() async {
         await TweakRestart.run(.dock)
     }
+
+    public func isSetByAProfile(_ list: DockList) -> Bool {
+        CFPreferencesAppValueIsForced(list.rawValue as CFString, Self.domain)
+    }
 }
 
 /// An app's tiles in the Dock, which keeps a gone app's tile as a question mark, and a recent one pointing at the app
 /// in the Trash. An uninstall can take them out, and History putting the app back puts them back where they were.
 public struct DockTiles: Sendable {
+    /// The apps whose tiles stayed in the Dock, and why.
+    public struct Stayed: Sendable, Equatable {
+        public enum Reason: Sendable, Equatable {
+            /// Peel couldn't save where the tiles were, which History needs to put them back, so it took none out.
+            case notRemembered
+            /// macOS didn't save the Dock's lists.
+            case notSaved
+        }
+
+        public let apps: [URL]
+        public let reason: Reason
+    }
+
     private struct Removed: Codable {
         let list: DockList
         let index: Int
@@ -109,25 +129,25 @@ public struct DockTiles: Sendable {
         self.memory = memory
     }
 
-    /// Those of `apps` that have a tile in the Dock.
+    /// Those of `apps` that have a tile Peel can take out of the Dock: none in a list a configuration profile sets.
     @concurrent
     public func holding(_ apps: [URL]) async -> Set<URL> {
         let asked = apps.map { Asked(app: $0, now: $0) }
-        let lists = DockList.allCases.compactMap { store.tiles(in: $0) }.map { Places($0, lookingFor: asked) }
+        let lists = changeableLists.compactMap { store.tiles(in: $0) }.map { Places($0, lookingFor: asked) }
         return Set(asked.filter { app in lists.contains { !$0.indices(of: app).isEmpty } }.map(\.app))
     }
 
-    /// Takes the tiles of `apps` out of the Dock, remembering where each was, and restarts the Dock once. False
-    /// when none had a tile, or when that could not be remembered or written. An app that has moved is looked for where
-    /// it went (`moves`). Peel removing itself remembers nothing, since its folder, where the memory is kept, has gone
+    /// Takes the tiles of `apps` out of the Dock, remembering where each was, and restarts the Dock once. Answers the
+    /// apps whose tiles stayed and why, or nil when none did. An app that has moved is looked for where it went
+    /// (`moves`). Peel removing itself remembers nothing, since its folder, where the memory is kept, has gone
     /// to the Trash, and the tile of an app in `forgotten` is not remembered either: such an app was already in the
     /// Trash, so History, which puts a tile back, never moved it.
     @concurrent
     public func takeOut(
         _ apps: [URL], foundAt moves: [URL: URL] = [:], remembering: Bool = true, forgetting forgotten: Set<URL> = []
-    ) async -> Bool {
+    ) async -> Stayed? {
         let asked = apps.map { Asked(app: $0, now: moves[$0] ?? $0) }
-        let lists = Dictionary(uniqueKeysWithValues: DockList.allCases.compactMap { list in
+        let lists = Dictionary(uniqueKeysWithValues: changeableLists.compactMap { list in
             store.tiles(in: list).map { (list, $0) }
         })
         let places = lists.mapValues { Places($0, lookingFor: asked) }
@@ -142,11 +162,13 @@ public struct DockTiles: Sendable {
             }
             if !found.isEmpty, kept.count == found.count { removed[key(one.app)] = kept }
         }
+        guard !removed.isEmpty else { return nil }
+        let withTiles = asked.map(\.app).filter { removed[key($0)] != nil }
         let forgottenKeys = Set(forgotten.map(key))
         let remembered = removed.filter { !forgottenKeys.contains($0.key) }
-        guard !removed.isEmpty,
-              !remembering || remembered.isEmpty || change({ $0.merge(remembered) { _, new in new } })
-        else { return false }
+        guard !remembering || remembered.isEmpty || change({ $0.merge(remembered) { _, new in new } }) else {
+            return Stayed(apps: withTiles, reason: .notRemembered)
+        }
         var written: Set<DockList> = []
         for (list, tiles) in lists {
             let taken = Set(removed.values.flatMap { $0.filter { $0.list == list }.map(\.index) })
@@ -164,16 +186,19 @@ public struct DockTiles: Sendable {
                 }
             }
         }
-        guard !written.isEmpty else { return false }
-        await store.restartTheDock()
-        return true
+        if !written.isEmpty {
+            await store.restartTheDock()
+        }
+        guard !failed.isEmpty else { return nil }
+        let stayed = withTiles.filter { app in removed[key(app)]?.contains { failed.contains($0.list) } == true }
+        return Stayed(apps: stayed, reason: .notSaved)
     }
 
     /// Puts back the tiles taken out for `apps`, each in its own list unless that list holds one for its app again,
     /// and restarts the Dock once. A tile goes back beside the tiles it sat between, so apps taken out together come
     /// back where they were, together or one at a time in any order, even after the person added other tiles.
     public func putBack(_ apps: [URL]) async {
-        guard let remembered = FileLock.whileReading(beside: memory, { read() }) else { return }
+        guard let remembered = FileLock.whileReading(beside: memory, { read() }), !remembered.isEmpty else { return }
         let removed = Set(apps.map(key)).compactMap { key in remembered[key].map { (key: key, entries: $0) } }
         var settled: [String: Set<DockList>] = [:]
         var changed = false
@@ -285,17 +310,40 @@ public struct DockTiles: Sendable {
         PathPattern.comparablePath(of: app)
     }
 
+    /// The Dock's lists no configuration profile sets.
+    private var changeableLists: [DockList] {
+        DockList.allCases.filter { !store.isSetByAProfile($0) }
+    }
+
     private func change(_ edit: (inout [String: [Removed]]) -> Void) -> Bool {
         FileLock.whileHeld(beside: memory) {
-            guard var entries = read() ?? (memory.isMissing ? [:] : nil) else { return false }
+            guard var entries = read() else { return false }
             edit(&entries)
             guard let data = try? JSONEncoder().encode(entries) else { return false }
             return (try? PeelFolder.write(data, to: memory)) != nil
         }
     }
 
+    /// The memory, empty while there is none, or nil when it can't be opened. One that opens and can't be read whole
+    /// keeps the entries that can, and is set aside, as Peel's other memories are, so a tile is remembered again.
     private func read() -> [String: [Removed]]? {
+        guard !memory.isMissing else { return [:] }
         guard let data = BoundedRead.data(at: memory) else { return nil }
-        return try? JSONDecoder().decode([String: [Removed]].self, from: data)
+        if let entries = try? JSONDecoder().decode([String: [Removed]].self, from: data) { return entries }
+        let readable = (try? JSONDecoder().decode([String: Entry].self, from: data))?.compactMapValues(\.removed) ?? [:]
+        guard DamagedFile.setAside(memory) != nil else { return nil }
+        if let data = try? JSONEncoder().encode(readable) {
+            _ = try? PeelFolder.write(data, to: memory)
+        }
+        return readable
+    }
+
+    /// One app's entry of the memory, decoded on its own: nil when it isn't one.
+    private struct Entry: Decodable {
+        let removed: [Removed]?
+
+        init(from decoder: any Decoder) {
+            removed = try? [Removed](from: decoder)
+        }
     }
 }
