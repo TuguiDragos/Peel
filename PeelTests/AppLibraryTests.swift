@@ -278,6 +278,29 @@ private nonisolated final class TestClock: Sendable {
         #expect(library.selectedApp?.bundleIdentifier == "org.example.sold")
     }
 
+    @Test func anAppAskedForUnderAnotherSpellingOfItsPathIsListedOnce() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try soldApp(in: folder)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let appFolders = AppFolders(url: folder.appending(path: "app-folders.json"))
+        appFolders.add([folder])
+        let library = AppLibrary(
+            defaults: made.defaults,
+            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json")),
+            appFolders: appFolders,
+            appMemory: AppMemory(url: folder.appending(path: "apps.json"))
+        )
+        let spelledOtherwise = URL(
+            filePath: bundle.path(percentEncoded: false).uppercased().replacing("/SOLD.APP/", with: "/Sold.app")
+        )
+
+        #expect(await library.revealRequested([spelledOtherwise]))
+
+        #expect(library.apps.filter { $0.bundleIdentifier == "org.example.sold" }.count == 1)
+    }
+
     @Test func saysWhenAnAppSomethingAskedForCanNotBeShown() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try soldApp(in: folder)
