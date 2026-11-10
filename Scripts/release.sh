@@ -227,6 +227,17 @@ rm -rf "$certificates"
     || { echo "REFUSED: the certificate that signed the app could not be read"; exit 1; }
 image="$build/Peel-$version.dmg"
 zsh Scripts/make_dmg.sh "$app" "$image"
+# What a person copies out of the image is checked as strictly as the app: an attribute the image added, such as a
+# Finder flag, fails `codesign --verify --strict` on the installed copy.
+mounted="$(mktemp -d)"
+hdiutil attach -quiet -nobrowse -noautoopen -readonly -mountpoint "$mounted" "$image"
+if ! codesign --verify --deep --strict --verbose=2 "$mounted/Peel.app"; then
+    hdiutil detach -quiet "$mounted"
+    echo "REFUSED: the app in the disk image fails a strict check of its signature"
+    exit 1
+fi
+hdiutil detach -quiet "$mounted"
+rmdir "$mounted"
 codesign --sign "$identity" --timestamp "$image"
 xcrun notarytool submit "$image" --keychain-profile "$profile" --wait
 xcrun stapler staple "$image"

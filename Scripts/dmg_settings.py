@@ -9,7 +9,6 @@ format = "ULFO"
 files = [app]
 symlinks = {"Applications": "/Applications"}
 icon = os.path.join(app, "Contents", "Resources", "Peel.icns")
-hide_extensions = [os.path.basename(app)]
 background = defines["background"]
 window_rect = ((200, 200), (width, height))
 default_view = "icon-view"
