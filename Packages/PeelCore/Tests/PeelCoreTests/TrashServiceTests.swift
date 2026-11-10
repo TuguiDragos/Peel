@@ -1282,6 +1282,31 @@ struct TrashServiceTests {
         #expect(try result.trashed.map { try Data(contentsOf: $0.trashedURL) } == [Data("first".utf8), Data("second".utf8)])
     }
 
+    /// The guard answers by name for the whole request, then again for the folder the move holds open, which became a
+    /// link into Messages in between.
+    @Test func refusesAnItemWhoseFolderLeadsSomewhereProtectedOnceItIsHeld() async throws {
+        let directory = try TemporaryDirectory()
+        let secret = try directory.file("home/Library/Messages/chat.db", contents: Data("secret".utf8))
+        let decoy = try directory.file("home/Library/Caches/org.example.app/chat.db", contents: Data("decoy".utf8))
+        let caches = directory.url.appending(path: "home/Library/Caches", directoryHint: .isDirectory)
+        let service = try realService(in: directory)
+
+        let result = await service.trash([decoy]) { _ in
+            try? FileManager.default.moveItem(
+                at: caches.appending(path: "org.example.app"), to: caches.appending(path: "org.example.app.real")
+            )
+            try? FileManager.default.createSymbolicLink(
+                atPath: caches.appending(path: "org.example.app").path(percentEncoded: false),
+                withDestinationPath: "../Messages"
+            )
+            return nil
+        }
+
+        #expect(result.trashed.isEmpty, "ATTACK SUCCEEDED: something moved from a folder swapped after the first check")
+        #expect(result.failures.map(\.reason) == [.guarded(.protectedLocation)])
+        #expect(try Data(contentsOf: secret) == Data("secret".utf8), "the file in Messages was moved")
+    }
+
     /// A volume where nothing was ever trashed has no Trash yet, and only `FileManager.trashItem` makes one.
     /// That call moves by name, so what it moved is checked against the item the guard judged.
     @Test func saysWhenAMoveByNameTookSomethingElse() async throws {
