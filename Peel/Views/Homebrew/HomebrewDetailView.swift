@@ -255,10 +255,10 @@ struct HomebrewDetailView: View {
     /// What is under way or in the way, and the step that brings the package up to date.
     private var stateAndUpgrade: some View {
         HStack {
-            if isRunning {
+            if let underWay {
                 ProgressView()
                     .controlSize(.small)
-                Text("Running Homebrew…")
+                Text(underWay)
                     .foregroundStyle(.secondary)
             } else if let uninstallRefusal {
                 Label { Text(uninstallRefusal) } icon: { Image(systemName: "hand.raised.fill") }
@@ -481,9 +481,20 @@ struct HomebrewDetailView: View {
         homebrew.exclusionRefusal(of: package)
     }
 
-    private var isRunning: Bool {
-        if homebrew.casksBeingForgotten.contains(package.id) { return true }
-        return switch homebrew.commandHomebrewRuns {
+    private var underWay: LocalizedStringResource? {
+        Self.underWay(
+            isForgetting: homebrew.casksBeingForgotten.contains(package.id), homebrewRunsForIt: homebrewRunsForIt
+        )
+    }
+
+    /// What the page says while something happens to the package: forgetting a cask is Peel's work, not Homebrew's.
+    static func underWay(isForgetting: Bool, homebrewRunsForIt: Bool) -> LocalizedStringResource? {
+        if isForgetting { return "Forgetting…" }
+        return homebrewRunsForIt ? "Running Homebrew…" : nil
+    }
+
+    private var homebrewRunsForIt: Bool {
+        switch homebrew.commandHomebrewRuns {
         case .upgrade(let id), .uninstall(let id): id == package.id
         case .upgradeAll: homebrew.upgradable.contains { $0.id == package.id }
         case .update, .cleanup, .clearOlderDownloads, .clearEveryDownload, .repairTaps, .health, .vulnerabilities, nil:
