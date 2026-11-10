@@ -31,10 +31,14 @@ public enum PackageReceipts {
     /// Returns whether `receipt` is the installer receipt of the app whose bundle identifier is `identifier`:
     /// the identifier itself, or the identifier followed by `.`, `-`, or `_`. A shared prefix is not enough,
     /// so `com.adguard.mac.vpn-pkg` (AdGuard VPN) never proves `com.adguard.mac.adguard` (AdGuard), and
-    /// `com.example.app2.pkg` never proves `com.example.app`. Both arguments must be in lowercase.
+    /// `com.example.app2.pkg` never proves `com.example.app`. As in matching files, the identifier has to be a valid
+    /// one, and three components long for a receipt that only begins with it: `com.microsoft` begins every Microsoft
+    /// package's. Both arguments must be in lowercase.
     public static func proves(_ receipt: String, isThe identifier: String) -> Bool {
-        guard !identifier.isEmpty else { return false }
-        return receipt == identifier || [".", "-", "_"].contains { receipt.hasPrefix(identifier + $0) }
+        guard Identifier.isValid(identifier) else { return false }
+        guard receipt != identifier else { return true }
+        return Identifier.componentCount(of: identifier) >= 3
+            && [".", "-", "_"].contains { receipt.hasPrefix(identifier + $0) }
     }
 
     /// The identifier among `identifiers` whose app `receipt` belongs to: the longest that proves it, since a receipt

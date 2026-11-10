@@ -5,6 +5,14 @@ import Synchronization
 import Testing
 
 struct PackageReceiptsTests {
+    @Test func aReceiptProvesOnlyAnIdentifierAsSpecificAsOneApps() {
+        #expect(!PackageReceipts.proves("com.vendor.suite.pkg", isThe: "com"))
+        #expect(!PackageReceipts.proves("com.microsoft.package.microsoft_excel.app", isThe: "com.microsoft"))
+        #expect(PackageReceipts.proves("com.microsoft", isThe: "com.microsoft"))
+        #expect(PackageReceipts.proves("com.adguard.mac.adguard.pkg", isThe: "com.adguard.mac.adguard"))
+        #expect(PackageReceipts.owner(of: "com.vendor.suite.pkg", among: ["com.vendor", "com"]) == nil)
+    }
+
     @Test func everyFolderPeelSearchesInTheLibraryIsShared() {
         for folder in LibraryFolder.local + LibraryFolder.plugIns {
             #expect(PackageReceipts.sharedDirectories.contains("/Library/" + folder.rawValue), "\(folder)")
