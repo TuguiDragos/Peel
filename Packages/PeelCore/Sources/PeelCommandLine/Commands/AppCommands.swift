@@ -624,7 +624,7 @@ struct UninstallCommand: AsyncParsableCommand {
 
     /// Why the app itself can't move: macOS keeps another developer's app from a terminal without App Management,
     /// which the person can allow, while an app in a folder they can't write to needs an administrator, whom the Peel
-    /// app asks through its helper, or Finder where the helper may not move it.
+    /// app asks through its helper, or Finder where the helper can't move it.
     static func whyItCannotMove(
         _ app: InstalledApp,
         isProtectedByPrivacy: Bool,
@@ -635,7 +635,7 @@ struct UninstallCommand: AsyncParsableCommand {
             return CommandFailure("macOS lets your terminal app move \(name) only with App Management. Allow it in System Settings > Privacy & Security > App Management, then try again, or remove it with the Peel app.")
         }
         guard !isBeyondTheHelper else {
-            return CommandFailure("Moving \(name) to the Trash needs administrator access, and Peel's helper isn't allowed to move it from there. Move it to the Trash in Finder, which asks for an administrator's password.")
+            return CommandFailure("Moving \(name) to the Trash needs administrator access, and Peel's helper can't move it from there. Move it to the Trash in Finder, which asks for an administrator's password.")
         }
         return CommandFailure("Moving \(name) to the Trash needs administrator access. Remove it with the Peel app.")
     }
@@ -945,7 +945,7 @@ struct UninstallCommand: AsyncParsableCommand {
         }
         if plan.leftForAnAdministrator > 0 {
             let them = plan.leftForAnAdministrator == 1 ? "it" : "them"
-            notes.append("\(Output.count(plan.leftForAnAdministrator, "item needs", "items need")) an administrator, and Peel's helper isn't allowed to move \(them). Once \(Output.plain(app.name)) is in the Trash, Orphaned Files in the Peel app lists \(them) under Needs an Administrator, with how to remove \(them).")
+            notes.append("\(Output.count(plan.leftForAnAdministrator, "item needs", "items need")) an administrator, and Peel's helper can't move \(them). Once \(Output.plain(app.name)) is in the Trash, Orphaned Files in the Peel app lists \(them) under Needs an Administrator, with how to remove \(them).")
         }
         if plan.needsReview > 0 {
             let them = plan.needsReview == 1 ? "it" : "them"

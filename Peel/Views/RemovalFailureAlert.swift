@@ -150,8 +150,8 @@ struct RemovalFailureAlert: ViewModifier {
         let count = outcome.leftForAnAdministrator
         guard count > 0 else { return [] }
         return count == 1
-            ? [String(localized: "One item stayed because only an administrator can move it, and Peel’s helper isn’t allowed to. Orphaned Files lists it under Needs an Administrator, with how to remove it.")]
-            : [String(inflecting: "^[\(count) item](inflect: true) stayed because only an administrator can move them, and Peel’s helper isn’t allowed to. Orphaned Files lists them under Needs an Administrator, with how to remove them.")]
+            ? [String(localized: "One item stayed because only an administrator can move it, and Peel’s helper can’t. Orphaned Files lists it under Needs an Administrator, with how to remove it.")]
+            : [String(inflecting: "^[\(count) item](inflect: true) stayed because only an administrator can move them, and Peel’s helper can’t. Orphaned Files lists them under Needs an Administrator, with how to remove them.")]
     }
 
     /// One line for the shell startup files that still name what moved: the person edits them, Peel never does.

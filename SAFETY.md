@@ -741,7 +741,9 @@ and it fails closed.
   the item it checked, and for a Put Back that the place takes it as it is now, so anything put in the item's place
   on the way goes back where it came from. An item that can neither reach its place nor go back stays there with
   its record, and goes to your Trash the next time the helper starts, as Peel then tells you. A rename can't leave
-  its disk, so it moves nothing outside the startup disk.
+  its disk, so it moves nothing to or from another disk than the startup disk: nothing outside it, and nothing at
+  all when your home folder, and so your Trash, is on another disk. Peel then leaves to you what needs an
+  administrator, with how to move it in Finder.
 - "Put Back" is asked for by a record any process running as you can rewrite, so the helper believes none of
   it. It keeps its own ledger, in a folder that is root's alone, of what it moved and from where: the item is
   recognized by what it is (not by its name or place in the Trash), and it goes back only to the exact place

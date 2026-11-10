@@ -71,7 +71,7 @@ struct PackageDetailView: View {
             if !forAnAdministrator.isEmpty {
                 Notice(
                     title: Text("Needs an Administrator"),
-                    detail: Text("Only an administrator can move these, and Peel’s helper isn’t allowed to move them from where they are. To remove one, show it in Finder, drag it to the Trash, then enter an administrator name and password when macOS asks."),
+                    detail: Text("Only an administrator can move these, and Peel’s helper can’t move them from where they are. To remove one, show it in Finder, drag it to the Trash, then enter an administrator name and password when macOS asks."),
                     kind: .note,
                     systemImage: "lock.shield"
                 ) {

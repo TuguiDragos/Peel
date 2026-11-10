@@ -20,7 +20,7 @@ public struct OrphanItem: Sendable, Hashable, Identifiable {
     public var installedFor: String?
     /// For a folder the gone app's own product file named for its data, that folder.
     public var productFolder: ProductFolder?
-    /// True when only an administrator can move it, from a place the helper may not move it from, and nothing else
+    /// True when only an administrator can move it, from where the helper can't move it, and nothing else
     /// holds it back.
     public var isLeftForAnAdministrator = false
 

@@ -322,7 +322,7 @@ public struct OrphanScanner: Sendable {
         }
     }
 
-    /// The item held back as `beyondTheHelper` when it needs an administrator where the helper may not move it, and
+    /// The item held back as `beyondTheHelper` when it needs an administrator where the helper can't move it, and
     /// left for an administrator when nothing else held it back.
     static func holdingBack(_ item: OrphanItem, beyond reach: HelperReach) -> OrphanItem {
         guard item.requiresPrivileges, item.leftAlone == nil, reach.isBeyond(item.url) else { return item }

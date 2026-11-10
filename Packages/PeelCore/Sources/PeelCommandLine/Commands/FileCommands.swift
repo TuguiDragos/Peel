@@ -223,8 +223,8 @@ struct OrphansCommand: AsyncParsableCommand {
 
     static let reducedSecurity = "If you set the startup disk's security to Reduced Security to install a .kext, it stays that way until you choose Full Security again: in the Recovery app, choose Utilities > Startup Security Utility."
 
-    /// How to remove what only an administrator can move, from a place Peel's helper may not move it from.
-    static let byHand = "Only an administrator can move what Needs an administrator lists, and Peel's helper isn't allowed to move it from there. To remove one, reveal it in Finder with `open -R <path>`, drag it to the Trash, then enter an administrator name and password when macOS asks."
+    /// How to remove what only an administrator can move, from where Peel's helper can't move it.
+    static let byHand = "Only an administrator can move what Needs an administrator lists, and Peel's helper can't move it from there. To remove one, reveal it in Finder with `open -R <path>`, drag it to the Trash, then enter an administrator name and password when macOS asks."
 
     static func administratorHeading(for scan: OrphanScan) -> String {
         "Needs an administrator  \(Output.size(SizeTotal(scan.forAnAdministrator.map(\.item.size))))"

@@ -1,8 +1,8 @@
 public import Foundation
 internal import PeelPrivileged
 
-/// What uninstalls left for an administrator: items only an administrator can move, from places the helper may not
-/// move them from. Once their app is gone nothing else names them, so they are kept here for Orphaned Files.
+/// What uninstalls left for an administrator: items only an administrator can move, from where the helper can't move
+/// them. Once their app is gone nothing else names them, so they are kept here for Orphaned Files.
 public struct LeftForAnAdministrator: Sendable {
     /// One item an uninstall left, with the apps it was found for and the claim that found it.
     public struct Record: Sendable, Hashable, Codable {

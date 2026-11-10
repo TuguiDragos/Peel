@@ -1,6 +1,6 @@
 public import Foundation
 
-/// An item only an administrator can move, from a place the helper may not move it from. Orphaned Files lists these
+/// An item only an administrator can move, from where the helper can't move it. Orphaned Files lists these
 /// apart, with how to remove them by hand.
 public struct AdministratorItem: Sendable, Hashable, Identifiable {
     public let item: OrphanItem

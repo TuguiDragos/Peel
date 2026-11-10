@@ -1006,7 +1006,7 @@ struct CommandLineTests {
             plan, app: app, homebrew: CaskLookup.Answer(), scan: LeftoverScan(leftovers: [], unreadableLocations: [])
         )
         #expect(notes == [
-            "1 item needs an administrator, and Peel's helper isn't allowed to move it. Once Editor is in the Trash, Orphaned Files in the Peel app lists it under Needs an Administrator, with how to remove it.",
+            "1 item needs an administrator, and Peel's helper can't move it. Once Editor is in the Trash, Orphaned Files in the Peel app lists it under Needs an Administrator, with how to remove it.",
             "1 file needs review and will stay. See it with `peel leftovers --all /Applications/Editor.app`.",
         ])
         #expect(UninstallPlan.make(editor, keepLeftovers: true, refusal: { _ in nil }).leftForAnAdministrator == 1)

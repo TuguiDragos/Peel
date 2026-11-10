@@ -2,7 +2,7 @@ import AppKit
 import PeelCore
 import SwiftUI
 
-/// What only an administrator can move, from places Peel's helper may not move it from, and how to remove it by hand.
+/// What only an administrator can move, from where Peel's helper can't move it, and how to remove it by hand.
 struct AdministratorItemsView: View {
     @Environment(OrphanLibrary.self) private var orphans
     let items: [AdministratorItem]
@@ -70,7 +70,7 @@ struct AdministratorItemsView: View {
             Text("Needs an Administrator")
                 .pageHeading()
         } details: {
-            Text("Only an administrator can move these, and Peel’s helper isn’t allowed to move them from where they are. To remove one, show it in Finder, drag it to the Trash, then enter an administrator name and password when macOS asks.")
+            Text("Only an administrator can move these, and Peel’s helper can’t move them from where they are. To remove one, show it in Finder, drag it to the Trash, then enter an administrator name and password when macOS asks.")
                 .font(.callout)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)

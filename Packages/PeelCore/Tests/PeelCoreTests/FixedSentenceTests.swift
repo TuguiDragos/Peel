@@ -16,6 +16,11 @@ struct FixedSentenceTests {
         #expect(english.contains(Subprocess.notOnItsOwn))
     }
 
+    @Test func aMoveThatWouldLeaveItsDiskIsRefusedInWordsPeelCanTranslate() {
+        let answer = TrashMover.StagedFailure.failed(POSIXError(.EXDEV)).explanation
+        #expect(FixedSentence(answer) != nil, "the person reads macOS's own English for a move the helper never makes")
+    }
+
     @Test func aSentenceItKnowsIsRecognizedAndOneItDoesNotIsLeftAlone() {
         #expect(FixedSentence(HelperRefusal.notInTrash.rawValue) == .notInTrash)
         #expect(FixedSentence("Bootstrap failed: 5: Input/output error") == nil)

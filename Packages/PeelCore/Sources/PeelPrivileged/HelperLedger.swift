@@ -138,6 +138,25 @@ public final class HelperLedger: Sendable {
         }
     }
 
+    /// Whether the helper can take anything to `trash`: everything it moves passes through `Staging`, beside the
+    /// ledger, and a rename never leaves its disk.
+    func reaches(_ trash: DirectoryHandle) -> Bool {
+        var folder = stat(), destination = stat()
+        return lstat(url.deletingLastPathComponent().path(percentEncoded: false), &folder) == 0
+            && fstat(trash.descriptor, &destination) == 0 && folder.st_dev == destination.st_dev
+    }
+
+    /// `reaches(_:)` for the Trash of `home`, read without opening anything, so the app knows before it offers a
+    /// move only the helper could make. A Trash not made yet will be in `home`; true when either can't be read.
+    public static func reachesTheTrash(of home: String) -> Bool {
+        var folder = stat(), trash = stat()
+        guard
+            lstat((defaultFolder as NSString).deletingLastPathComponent, &folder) == 0,
+            lstat(home + "/.Trash", &trash) == 0 || lstat(home, &trash) == 0
+        else { return true }
+        return folder.st_dev == trash.st_dev
+    }
+
     /// Moves what a move cut short left in `Staging` to the Trash of the account it was moving for.
     public static func recoverStaged(
         in folder: String = defaultFolder,

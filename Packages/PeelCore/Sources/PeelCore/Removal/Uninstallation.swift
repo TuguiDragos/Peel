@@ -14,7 +14,7 @@ public struct Uninstallation: Sendable {
     /// True when moving the bundle would free less than half the space it takes, because most of its files share
     /// their blocks with another copy, such as one in the Trash: `appSize` is then far below the app's size.
     public var appSharesStorage = false
-    /// True when the app needs administrator rights and the helper may not move it, so it is never selected.
+    /// True when the app needs administrator rights and the helper can't move it, so it is never selected.
     public var isAppBeyondTheHelper = false
     /// True when the app is already in the Trash, where Watch the Trash finds it: its bundle can't move again, so
     /// it is never selected or counted, and what it left behind still is.

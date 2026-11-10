@@ -292,8 +292,9 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 - A rename goes by name, so something else can take an item's name between the last look and the move. The helper
   takes every item through `Staging`, a folder beside its ledger that only root can reach, and checks there that what
   arrived is the item it opened and, for a Put Back, that the place takes it as it is now; anything else goes back
-  where it came from. So it moves nothing on another disk than its own folder's, nor where a rename can't refuse to
-  replace a name. What a move cut short leaves in `Staging` goes to its account's Trash when the helper starts and
+  where it came from. So it moves nothing to or from another disk than its own folder's, which also leaves an
+  account whose Trash is on another disk with nothing it can move (`HelperLedger.reaches`, asked once a request,
+  and `reachesTheTrash` for `HelperReach`), nor where a rename can't refuse to replace a name. What a move cut short leaves in `Staging` goes to its account's Trash when the helper starts and
   before Remove Peel moves the ledger (`HelperLedger.recoverStaged`); an item that could neither reach its place nor
   go back keeps its record meanwhile, and the answer says so (`StagedFailure.leftInStaging`).
 - It keeps a ledger of what it moved, in a folder only root can write (`/private/var/db/com.tuguidragos.Peel.Helper`),

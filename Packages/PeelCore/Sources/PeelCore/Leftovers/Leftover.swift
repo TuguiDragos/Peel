@@ -341,7 +341,7 @@ public struct Leftover: Sendable, Hashable, Identifiable {
     public let requiresPrivileges: Bool
     /// True for a preference file that is no property list (`PreferenceFile.isDamaged`).
     public var holdsDamagedSettings = false
-    /// True when only an administrator can move it, from a place the helper may not move it from, and nothing else
+    /// True when only an administrator can move it, from where the helper can't move it, and nothing else
     /// holds it back.
     public var isLeftForAnAdministrator = false
     /// What keeps it in step with the other devices, when it is held back as `inTheCloud`.

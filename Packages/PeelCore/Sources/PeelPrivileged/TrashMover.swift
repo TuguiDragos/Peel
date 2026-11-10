@@ -212,6 +212,10 @@ extension TrashMover {
             }
             unique.append((path, item))
         }
+        guard ledger.reaches(trash) else {
+            let refused = HelperRefusal.anotherDisk.rawValue
+            return ([:], Dictionary(items.map { ($0.path, refused) }, uniquingKeysWith: { first, _ in first }))
+        }
         guard ledger.record(unique.map(\.item), movedBy: user) else { return nil }
 
         var moved: [String: String] = [:]
@@ -258,6 +262,7 @@ extension TrashMover {
 
         var explanation: String {
             switch self {
+            case .failed(let error) where error.code == .EXDEV: HelperRefusal.anotherDisk.rawValue
             case .failed(let error): error.localizedDescription
             case .refused(let rejection): rejection.explanation
             case .notTheItem: PrivilegedPathPolicy.Rejection.missing.explanation

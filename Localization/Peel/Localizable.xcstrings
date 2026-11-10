@@ -93586,108 +93586,108 @@
         }
       }
     },
-    "Left alone: only an administrator can move this, and Peel’s helper isn’t allowed to move it from here." : {
+    "Left alone: only an administrator can move this, and Peel’s helper can’t move it from here." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nedotčeno: tuto položku může přesunout jen správce a pomocník Peelu ji odtud přesunout nesmí."
+            "value" : "Nedotčeno: tuto položku může přesunout jen správce a pomocník Peelu ji odtud přesunout nemůže."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unangetastet: Nur ein Administrator kann dies verschieben, und das Hilfsprogramm von Peel darf es von hier nicht verschieben."
+            "value" : "Unangetastet: Nur ein Administrator kann dies verschieben, und das Hilfsprogramm von Peel kann es von hier nicht verschieben."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No se toca: solo un administrador puede trasladar esto, y el asistente de Peel no tiene permiso para trasladarlo desde aquí."
+            "value" : "No se toca: solo un administrador puede trasladar esto, y el asistente de Peel no puede trasladarlo desde aquí."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Laissé en place : seul un administrateur peut le déplacer, et l’utilitaire de Peel n’est pas autorisé à le déplacer depuis cet emplacement."
+            "value" : "Laissé en place : seul un administrateur peut le déplacer, et l’utilitaire de Peel ne peut pas le déplacer depuis cet emplacement."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Resta dov’è: solo un amministratore può spostarlo, e all’assistente di Peel non è consentito spostarlo da qui."
+            "value" : "Resta dov’è: solo un amministratore può spostarlo, e l’assistente di Peel non può spostarlo da qui."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "対象外: これを移動できるのは管理者だけで、Peelのヘルパーはこの場所からの移動を許可されていません。"
+            "value" : "対象外: これを移動できるのは管理者だけで、Peelのヘルパーはこの場所から移動できません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "그대로 둠: 관리자만 이 항목을 이동할 수 있으며, Peel 보조 프로그램이 이 위치에서 이 항목을 이동하는 것은 허용되지 않습니다."
+            "value" : "그대로 둠: 관리자만 이 항목을 이동할 수 있으며, Peel 보조 프로그램은 이 위치에서 이 항목을 이동할 수 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blijft staan: alleen een beheerder kan dit verplaatsen, en het hulpprogramma van Peel mag het hier niet vandaan verplaatsen."
+            "value" : "Blijft staan: alleen een beheerder kan dit verplaatsen, en het hulpprogramma van Peel kan het hier niet vandaan verplaatsen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nietknięte: przenieść to może tylko administrator, a pomocnikowi Peel nie wolno przenosić tego stąd."
+            "value" : "Nietknięte: przenieść to może tylko administrator, a pomocnik Peel nie może przenieść tego stąd."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Preservado: só um administrador pode mover isto, e o auxiliar do Peel não tem permissão para movê-lo daqui."
+            "value" : "Preservado: só um administrador pode mover isto, e o auxiliar do Peel não pode movê-lo daqui."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lăsat neatins: doar un administrator poate muta acest articol, iar instrumentul de ajutor Peel nu are voie să îl mute de aici."
+            "value" : "Lăsat neatins: doar un administrator poate muta acest articol, iar instrumentul de ajutor Peel nu îl poate muta de aici."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Остается на месте: переместить это может только администратор, а помощнику Peel не разрешено перемещать это отсюда."
+            "value" : "Остается на месте: переместить это может только администратор, а помощник Peel не может переместить это отсюда."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rörs inte: bara en administratör kan flytta det här, och Peels hjälpprogram får inte flytta det härifrån."
+            "value" : "Rörs inte: bara en administratör kan flytta det här, och Peels hjälpprogram kan inte flytta det härifrån."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yerinde kalır: bunu yalnızca bir yönetici taşıyabilir ve Peel’in yardımcısının onu buradan taşımasına izin verilmiyor."
+            "value" : "Yerinde kalır: bunu yalnızca bir yönetici taşıyabilir ve Peel’in yardımcısı onu buradan taşıyamaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Лишається на місці: перемістити це може лише адміністратор, а помічнику Peel не дозволено переміщувати це звідси."
+            "value" : "Лишається на місці: перемістити це може лише адміністратор, а помічник Peel не може перемістити це звідси."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "留在原处：只有管理员才能移动此项，而Peel的帮助程序不能从此处移动它。"
+            "value" : "留在原处：只有管理员才能移动此项，而Peel的帮助程序无法从此处移动它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "原地保留：只有管理者能移動此項目，而Peel的輔助程式不能從這裡移動它。"
+            "value" : "原地保留：只有管理者能移動此項目，而Peel的輔助程式無法從這裡移動它。"
           }
         }
       }
@@ -130262,108 +130262,108 @@
         }
       }
     },
-    "One item stayed because only an administrator can move it, and Peel’s helper isn’t allowed to. Orphaned Files lists it under Needs an Administrator, with how to remove it." : {
+    "One item stayed because only an administrator can move it, and Peel’s helper can’t. Orphaned Files lists it under Needs an Administrator, with how to remove it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jedna položka zůstala na místě, protože ji může přesunout jen správce a pomocník Peelu ji přesunout nesmí. Stránka Osiřelé soubory ji zobrazuje v části Vyžaduje správce, kde najdete i postup, jak ji odstranit."
+            "value" : "Jedna položka zůstala na místě, protože ji může přesunout jen správce a pomocník Peelu ji přesunout nemůže. Stránka Osiřelé soubory ji zobrazuje v části Vyžaduje správce, kde najdete i postup, jak ji odstranit."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ein Objekt ist geblieben, weil nur ein Administrator es verschieben kann und das Hilfsprogramm von Peel es nicht verschieben darf. Die Seite „Verwaiste Dateien“ zeigt es unter „Benötigt einen Administrator“ an und erklärt, wie du es entfernst."
+            "value" : "Ein Objekt ist geblieben, weil nur ein Administrator es verschieben kann, das Hilfsprogramm von Peel aber nicht. Die Seite „Verwaiste Dateien“ zeigt es unter „Benötigt einen Administrator“ an und erklärt, wie du es entfernst."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un ítem se ha quedado porque solo un administrador puede trasladarlo, y el asistente de Peel no tiene permiso para hacerlo. La página Archivos huérfanos lo muestra en “Necesita un administrador”, donde se explica cómo eliminarlo."
+            "value" : "Un ítem se ha quedado porque solo un administrador puede trasladarlo, y el asistente de Peel no puede hacerlo. La página Archivos huérfanos lo muestra en “Necesita un administrador”, donde se explica cómo eliminarlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un élément est resté en place : seul un administrateur peut le déplacer, et l’utilitaire de Peel n’y est pas autorisé. La page Fichiers orphelins le liste sous « Nécessite un administrateur » et indique comment le supprimer."
+            "value" : "Un élément est resté en place : seul un administrateur peut le déplacer, et l’utilitaire de Peel ne peut pas le faire. La page Fichiers orphelins le liste sous « Nécessite un administrateur » et indique comment le supprimer."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un elemento è rimasto perché solo un amministratore può spostarlo, e all’assistente di Peel non è consentito farlo. “File orfani” lo elenca in “Richiede un amministratore”, con le istruzioni per rimuoverlo."
+            "value" : "Un elemento è rimasto perché solo un amministratore può spostarlo, e l’assistente di Peel non può farlo. “File orfani” lo elenca in “Richiede un amministratore”, con le istruzioni per rimuoverlo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "移動できるのは管理者だけで、Peelのヘルパーは移動を許可されていないため、1項目が残りました。この項目は“孤立ファイル”の“管理者が必要”に、取り除く方法とともに表示されます。"
+            "value" : "移動できるのは管理者だけで、Peelのヘルパーでは移動できないため、1項目が残りました。この項目は“孤立ファイル”の“管理者が必要”に、取り除く方法とともに表示されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "항목 1개는 관리자만 이동할 수 있으며, Peel 보조 프로그램이 이동하는 것은 허용되지 않으므로 그대로 남았습니다. 주인 없는 파일 페이지의 ‘관리자 필요’에 이 항목이 제거 방법과 함께 나열됩니다."
+            "value" : "항목 1개는 관리자만 이동할 수 있고 Peel 보조 프로그램은 이동할 수 없으므로 그대로 남았습니다. 주인 없는 파일 페이지의 ‘관리자 필요’에 이 항목이 제거 방법과 함께 나열됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eén onderdeel is blijven staan omdat alleen een beheerder het kan verplaatsen, en het hulpprogramma van Peel dat niet mag. De pagina 'Verweesde bestanden' toont het onder 'Beheerder vereist', met uitleg over hoe je het verwijdert."
+            "value" : "Eén onderdeel is blijven staan omdat alleen een beheerder het kan verplaatsen, en het hulpprogramma van Peel dat niet kan. De pagina 'Verweesde bestanden' toont het onder 'Beheerder vereist', met uitleg over hoe je het verwijdert."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jedna rzecz została na miejscu, ponieważ przenieść ją może tylko administrator, a pomocnikowi Peel nie wolno jej przenosić. Strona Osierocone pliki wyświetla ją w grupie „Wymaga administratora” wraz z instrukcją, jak się jej pozbyć."
+            "value" : "Jedna rzecz została na miejscu, ponieważ przenieść ją może tylko administrator, a pomocnik Peel tego nie może. Strona Osierocone pliki wyświetla ją w grupie „Wymaga administratora” wraz z instrukcją, jak się jej pozbyć."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Um item ficou porque só um administrador pode movê-lo, e o auxiliar do Peel não tem permissão para isso. A página Arquivos Órfãos lista esse item em “Requer um Administrador”, com instruções para removê-lo."
+            "value" : "Um item ficou porque só um administrador pode movê-lo, e o auxiliar do Peel não pode. A página Arquivos Órfãos lista esse item em “Requer um Administrador”, com instruções para removê-lo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un articol a rămas pe loc deoarece doar un administrator îl poate muta, iar instrumentul de ajutor Peel nu are voie să îl mute. Pagina Fișiere orfane îl listează la „Necesită un administrator” și explică cum îl puteți elimina."
+            "value" : "Un articol a rămas pe loc deoarece doar un administrator îl poate muta, iar instrumentul de ajutor Peel nu poate. Pagina Fișiere orfane îl listează la „Necesită un administrator” și explică cum îl puteți elimina."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Один объект остался на месте, потому что переместить его может только администратор, а помощнику Peel это не разрешено. Он есть в разделе «Осиротевшие файлы» > «Нужен администратор», где сказано, как его удалить."
+            "value" : "Один объект остался на месте, потому что переместить его может только администратор, а помощник Peel этого сделать не может. Он есть в разделе «Осиротевшие файлы» > «Нужен администратор», где сказано, как его удалить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ett objekt blev kvar eftersom bara en administratör kan flytta det och Peels hjälpprogram inte får göra det. Sidan Övergivna filer listar det under ”Kräver en administratör” och förklarar hur du tar bort det."
+            "value" : "Ett objekt blev kvar eftersom bara en administratör kan flytta det och Peels hjälpprogram inte kan göra det. Sidan Övergivna filer listar det under ”Kräver en administratör” och förklarar hur du tar bort det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir öğe olduğu yerde kaldı, çünkü onu yalnızca bir yönetici taşıyabilir ve Peel’in yardımcısının onu taşımasına izin verilmiyor. Sahipsiz Dosyalar, onu Yönetici Gerektirenler altında listeler ve nasıl kaldıracağınızı açıklar."
+            "value" : "Bir öğe olduğu yerde kaldı, çünkü onu yalnızca bir yönetici taşıyabilir ve Peel’in yardımcısı onu taşıyamaz. Sahipsiz Dosyalar, onu Yönetici Gerektirenler altında listeler ve nasıl kaldıracağınızı açıklar."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Один елемент лишився на місці, бо перемістити його може лише адміністратор, а помічнику Peel цього не дозволено. Розділ «Покинуті файли» показує його в групі «Потрібен адміністратор» і пояснює, як його вилучити."
+            "value" : "Один елемент лишився на місці, бо перемістити його може лише адміністратор, а помічник Peel не може. Розділ «Покинуті файли» показує його в групі «Потрібен адміністратор» і пояснює, як його вилучити."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有一个项目仍留在原处，因为只有管理员才能移动它，而Peel的帮助程序不能移动它。“孤立文件”会在“需要管理员”中列出它，并说明如何将其移除。"
+            "value" : "有一个项目仍留在原处，因为只有管理员才能移动它，而Peel的帮助程序无法移动它。“孤立文件”会在“需要管理员”中列出它，并说明如何将其移除。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有一個項目仍留在原處，因為只有管理者能移動它，而Peel的輔助程式不能移動它。「孤立檔案」會在「需要管理者」中列出它，並說明如何移除。"
+            "value" : "有一個項目仍留在原處，因為只有管理者能移動它，而Peel的輔助程式無法移動它。「孤立檔案」會在「需要管理者」中列出它，並說明如何移除。"
           }
         }
       }
@@ -131428,108 +131428,108 @@
         }
       }
     },
-    "Only an administrator can move these, and Peel’s helper isn’t allowed to move them from where they are. To remove one, show it in Finder, drag it to the Trash, then enter an administrator name and password when macOS asks." : {
+    "Only an administrator can move these, and Peel’s helper can’t move them from where they are. To remove one, show it in Finder, drag it to the Trash, then enter an administrator name and password when macOS asks." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tyto položky může přesunout jen správce a pomocník Peelu je nesmí přesunout z místa, kde jsou. Chcete-li některou z nich odstranit, zobrazte ji ve Finderu, přetáhněte ji do koše a potom zadejte jméno a heslo správce, až o ně macOS požádá."
+            "value" : "Tyto položky může přesunout jen správce a pomocník Peelu je nemůže přesunout z místa, kde jsou. Chcete-li některou z nich odstranit, zobrazte ji ve Finderu, přetáhněte ji do koše a potom zadejte jméno a heslo správce, až o ně macOS požádá."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nur ein Administrator kann diese verschieben, und das Hilfsprogramm von Peel darf sie von dort, wo sie sind, nicht verschieben. Um eines davon zu entfernen, zeige es im Finder an, ziehe es in den Papierkorb und gib dann den Adminnamen und das Adminpasswort ein, wenn macOS danach fragt."
+            "value" : "Nur ein Administrator kann diese verschieben, und das Hilfsprogramm von Peel kann sie von dort, wo sie sind, nicht verschieben. Um eines davon zu entfernen, zeige es im Finder an, ziehe es in den Papierkorb und gib dann den Adminnamen und das Adminpasswort ein, wenn macOS danach fragt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo un administrador puede trasladar estos ítems, y el asistente de Peel no tiene permiso para trasladarlos desde donde están. Para eliminar uno, muéstralo en el Finder, arrástralo a la papelera y, después, introduce un nombre de administrador y la contraseña cuando macOS te lo pida."
+            "value" : "Solo un administrador puede trasladar estos ítems, y el asistente de Peel no puede trasladarlos desde donde están. Para eliminar uno, muéstralo en el Finder, arrástralo a la papelera y, después, introduce un nombre de administrador y la contraseña cuando macOS te lo pida."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seul un administrateur peut déplacer ces éléments, et l’utilitaire de Peel n’est pas autorisé à les déplacer depuis leur emplacement. Pour en supprimer un, affichez-le dans le Finder, faites-le glisser dans la corbeille, puis saisissez un nom et un mot de passe d’administrateur lorsque macOS vous le demande."
+            "value" : "Seul un administrateur peut déplacer ces éléments, et l’utilitaire de Peel ne peut pas les déplacer depuis leur emplacement. Pour en supprimer un, affichez-le dans le Finder, faites-le glisser dans la corbeille, puis saisissez un nom et un mot de passe d’administrateur lorsque macOS vous le demande."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo un amministratore può spostare questi elementi, e all’assistente di Peel non è consentito spostarli da dove si trovano. Per rimuoverne uno, mostralo nel Finder, trascinalo nel Cestino, poi inserisci un nome e una password di amministratore quando macOS te lo chiede."
+            "value" : "Solo un amministratore può spostare questi elementi, e l’assistente di Peel non può spostarli da dove si trovano. Per rimuoverne uno, mostralo nel Finder, trascinalo nel Cestino, poi inserisci un nome e una password di amministratore quando macOS te lo chiede."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これらを移動できるのは管理者だけで、Peelのヘルパーはこれらがある場所からの移動を許可されていません。項目を取り除くには、Finderに表示してゴミ箱にドラッグし、macOSから求められたら管理者名とパスワードを入力してください。"
+            "value" : "これらを移動できるのは管理者だけで、Peelのヘルパーではこれらがある場所から移動できません。項目を取り除くには、Finderに表示してゴミ箱にドラッグし、macOSから求められたら管理者名とパスワードを入力してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "관리자만 이 항목들을 이동할 수 있으며, Peel 보조 프로그램이 현재 위치에서 이 항목들을 이동하는 것은 허용되지 않습니다. 항목을 제거하려면 Finder에서 해당 항목을 보고 휴지통으로 드래그한 다음, macOS가 요청하면 관리자 이름 및 암호를 입력하십시오."
+            "value" : "관리자만 이 항목들을 이동할 수 있으며, Peel 보조 프로그램은 현재 위치에서 이 항목들을 이동할 수 없습니다. 항목을 제거하려면 Finder에서 해당 항목을 보고 휴지통으로 드래그한 다음, macOS가 요청하면 관리자 이름 및 암호를 입력하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alleen een beheerder kan deze verplaatsen, en het hulpprogramma van Peel mag ze daar niet vandaan verplaatsen. Om een onderdeel te verwijderen, toon je het in Finder, sleep je het naar de prullenmand en voer je daarna de naam en het wachtwoord van een beheerder in als macOS erom vraagt."
+            "value" : "Alleen een beheerder kan deze verplaatsen, en het hulpprogramma van Peel kan ze daar niet vandaan verplaatsen. Om een onderdeel te verwijderen, toon je het in Finder, sleep je het naar de prullenmand en voer je daarna de naam en het wachtwoord van een beheerder in als macOS erom vraagt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Przenieść te rzeczy może tylko administrator, a pomocnikowi Peel nie wolno ich przenosić z miejsc, w których się znajdują. Aby pozbyć się jednej z nich, pokaż ją w Finderze, przeciągnij do Kosza, a następnie wprowadź nazwę i hasło administratora, gdy macOS o to poprosi."
+            "value" : "Przenieść te rzeczy może tylko administrator, a pomocnik Peel nie może ich przenieść z miejsc, w których się znajdują. Aby pozbyć się jednej z nich, pokaż ją w Finderze, przeciągnij do Kosza, a następnie wprowadź nazwę i hasło administratora, gdy macOS o to poprosi."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Só um administrador pode mover estes itens, e o auxiliar do Peel não tem permissão para movê-los de onde estão. Para remover um deles, mostre-o no Finder, arraste-o para o Lixo, depois insira o nome e a senha de um administrador quando o macOS pedir."
+            "value" : "Só um administrador pode mover estes itens, e o auxiliar do Peel não pode movê-los de onde estão. Para remover um deles, mostre-o no Finder, arraste-o para o Lixo, depois insira o nome e a senha de um administrador quando o macOS pedir."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Doar un administrator poate muta aceste articole, iar instrumentul de ajutor Peel nu are voie să le mute de unde se află. Pentru a elimina unul, afișați‑l în Finder, trageți‑l în Coș, apoi introduceți un nume de administrator și o parolă când macOS vi le cere."
+            "value" : "Doar un administrator poate muta aceste articole, iar instrumentul de ajutor Peel nu le poate muta de unde se află. Pentru a elimina unul, afișați‑l în Finder, trageți‑l în Coș, apoi introduceți un nume de administrator și o parolă când macOS vi le cere."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Переместить эти объекты может только администратор, а помощнику Peel не разрешено перемещать их оттуда, где они находятся. Чтобы удалить объект, покажите его в Finder, перетяните в Корзину, затем введите имя и пароль администратора, когда macOS их запросит."
+            "value" : "Переместить эти объекты может только администратор, а помощник Peel не может переместить их оттуда, где они находятся. Чтобы удалить объект, покажите его в Finder, перетяните в Корзину, затем введите имя и пароль администратора, когда macOS их запросит."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bara en administratör kan flytta de här, och Peels hjälpprogram får inte flytta dem från deras nuvarande plats. Om du vill ta bort ett av dem visar du det i Finder, drar det till papperskorgen och anger sedan ett administratörsnamn och lösenord när macOS ber om det."
+            "value" : "Bara en administratör kan flytta de här, och Peels hjälpprogram kan inte flytta dem från deras nuvarande plats. Om du vill ta bort ett av dem visar du det i Finder, drar det till papperskorgen och anger sedan ett administratörsnamn och lösenord när macOS ber om det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bunları yalnızca bir yönetici taşıyabilir ve Peel’in yardımcısının onları bulundukları yerden taşımasına izin verilmiyor. Bunlardan birini kaldırmak için onu Finder’da gösterin, Çöp Sepeti’ne sürükleyin, ardından macOS istediğinde bir yönetici adı ve parolası girin."
+            "value" : "Bunları yalnızca bir yönetici taşıyabilir ve Peel’in yardımcısı onları bulundukları yerden taşıyamaz. Bunlardan birini kaldırmak için onu Finder’da gösterin, Çöp Sepeti’ne sürükleyin, ardından macOS istediğinde bir yönetici adı ve parolası girin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Перемістити їх може лише адміністратор, а помічнику Peel не дозволено переміщувати їх звідти, де вони лежать. Щоб вилучити один із них, покажіть його у Finder, перетягніть його в Смітник, а потім введіть імʼя й пароль адміністратора, коли macOS запитає."
+            "value" : "Перемістити їх може лише адміністратор, а помічник Peel не може перемістити їх звідти, де вони лежать. Щоб вилучити один із них, покажіть його у Finder, перетягніть його в Смітник, а потім введіть імʼя й пароль адміністратора, коли macOS запитає."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "只有管理员才能移动这些项目，而Peel的帮助程序不能从其所在的位置移动它们。若要移除其中一项，请在“访达”中显示它，将它拖到废纸篓，然后在macOS要求时输入管理员名称和密码。"
+            "value" : "只有管理员才能移动这些项目，而Peel的帮助程序无法从其所在的位置移动它们。若要移除其中一项，请在“访达”中显示它，将它拖到废纸篓，然后在macOS要求时输入管理员名称和密码。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "只有管理者能移動這些項目，而Peel的輔助程式不能從所在位置移動它們。若要移除其中一個項目，請將它顯示於Finder並拖到「垃圾桶」，然後在macOS要求時輸入管理者名稱和密碼。"
+            "value" : "只有管理者能移動這些項目，而Peel的輔助程式無法從所在位置移動它們。若要移除其中一個項目，請將它顯示於Finder並拖到「垃圾桶」，然後在macOS要求時輸入管理者名稱和密碼。"
           }
         }
       }
@@ -247688,6 +247688,112 @@
         }
       }
     },
+    "Your home folder is on a different disk from macOS, and Peel’s helper never moves anything from one disk to another. You can move it in Finder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vaše domovská složka je na jiném disku než systém macOS a pomocník Peelu nikdy nic nepřesouvá z jednoho disku na druhý. Položku můžete přesunout ve Finderu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Benutzerordner liegt auf einem anderen Volume als macOS, und das Hilfsprogramm von Peel verschiebt nie etwas von einem Volume auf ein anderes. Du kannst das Objekt im Finder verschieben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu carpeta de inicio está en un disco distinto del de macOS, y el asistente de Peel nunca traslada nada de un disco a otro. Puedes trasladarlo en el Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre dossier de départ se trouve sur un autre disque que macOS, et l’utilitaire de Peel ne déplace jamais rien d’un disque à un autre. Vous pouvez déplacer cet élément dans le Finder."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La tua cartella Inizio è su un disco diverso da quello di macOS, e l’assistente di Peel non sposta mai nulla da un disco a un altro. Puoi spostarlo nel Finder."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホームフォルダがmacOSとは別のディスクにあり、Peelのヘルパーがディスクをまたいで項目を移動することは決してありません。Finderで移動できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "홈 폴더가 macOS와 다른 디스크에 있으며, Peel 보조 프로그램은 한 디스크에서 다른 디스크로 어떤 항목도 이동하지 않습니다. Finder에서 이 항목을 이동할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je thuismap staat op een andere schijf dan macOS, en het hulpprogramma van Peel verplaatst nooit iets van de ene schijf naar de andere. Je kunt het in Finder verplaatsen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twój folder domowy jest na innym dysku niż macOS, a pomocnik Peel nigdy niczego nie przenosi z jednego dysku na drugi. Możesz przenieść tę rzecz w Finderze."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A sua pasta pessoal está em um disco diferente do disco do macOS, e o auxiliar do Peel nunca move nada de um disco para outro. Você pode mover o item no Finder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosarul dvs. de reședință se află pe alt disc decât macOS, iar instrumentul de ajutor Peel nu mută niciodată nimic de pe un disc pe altul. Puteți muta articolul din Finder."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваша папка пользователя находится не на том диске, где macOS, а помощник Peel никогда не перемещает ничего с одного диска на другой. Этот объект можно переместить в Finder."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Din hemmapp ligger på en annan skiva än macOS, och Peels hjälpprogram flyttar aldrig något från en skiva till en annan. Du kan flytta det i Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana klasörünüz macOS’in bulunduğu diskten farklı bir diskte ve Peel’in yardımcısı hiçbir şeyi bir diskten başka bir diske taşımaz. Onu Finder’da taşıyabilirsiniz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваша Домівка розташована на іншому диску, ніж macOS, а помічник Peel ніколи не переміщує нічого з одного диска на інший. Перемістити це можна у Finder."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的个人文件夹与macOS位于不同的磁盘上，而Peel的帮助程序绝不会将任何内容从一个磁盘移到另一个磁盘。你可以在“访达”中移动它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的個人專屬檔案夾與macOS位於不同的磁碟上，而Peel的輔助程式絕不會將任何項目從一個磁碟移到另一個磁碟。你可以在Finder中移動它。"
+          }
+        }
+      }
+    },
     "Your latest changes work in Peel until it quits. When it opens again, and in the peel command, the list is as it was last saved." : {
       "localizations" : {
         "cs" : {
@@ -256956,7 +257062,7 @@
         }
       }
     },
-    "^[%lld item](inflect: true) stayed because only an administrator can move them, and Peel’s helper isn’t allowed to. Orphaned Files lists them under Needs an Administrator, with how to remove them." : {
+    "^[%lld item](inflect: true) stayed because only an administrator can move them, and Peel’s helper can’t. Orphaned Files lists them under Needs an Administrator, with how to remove them." : {
       "localizations" : {
         "cs" : {
           "variations" : {
@@ -256964,25 +257070,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld položky zůstaly na místě, protože je může přesunout jen správce a pomocník Peelu je přesunout nesmí. Stránka Osiřelé soubory je zobrazuje v části Vyžaduje správce, kde najdete i postup, jak je odstranit."
+                  "value" : "%lld položky zůstaly na místě, protože je může přesunout jen správce a pomocník Peelu je přesunout nemůže. Stránka Osiřelé soubory je zobrazuje v části Vyžaduje správce, kde najdete i postup, jak je odstranit."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld položky zůstalo na místě, protože je může přesunout jen správce a pomocník Peelu je přesunout nesmí. Stránka Osiřelé soubory je zobrazuje v části Vyžaduje správce, kde najdete i postup, jak je odstranit."
+                  "value" : "%lld položky zůstalo na místě, protože je může přesunout jen správce a pomocník Peelu je přesunout nemůže. Stránka Osiřelé soubory je zobrazuje v části Vyžaduje správce, kde najdete i postup, jak je odstranit."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld položka zůstala na místě, protože ji může přesunout jen správce a pomocník Peelu ji přesunout nesmí. Stránka Osiřelé soubory ji zobrazuje v části Vyžaduje správce, kde najdete i postup, jak ji odstranit."
+                  "value" : "%lld položka zůstala na místě, protože ji může přesunout jen správce a pomocník Peelu ji přesunout nemůže. Stránka Osiřelé soubory ji zobrazuje v části Vyžaduje správce, kde najdete i postup, jak ji odstranit."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld položek zůstalo na místě, protože je může přesunout jen správce a pomocník Peelu je přesunout nesmí. Stránka Osiřelé soubory je zobrazuje v části Vyžaduje správce, kde najdete i postup, jak je odstranit."
+                  "value" : "%lld položek zůstalo na místě, protože je může přesunout jen správce a pomocník Peelu je přesunout nemůže. Stránka Osiřelé soubory je zobrazuje v části Vyžaduje správce, kde najdete i postup, jak je odstranit."
                 }
               }
             }
@@ -256994,13 +257100,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld Objekt ist geblieben, weil nur ein Administrator es verschieben kann und das Hilfsprogramm von Peel es nicht verschieben darf. Die Seite „Verwaiste Dateien“ zeigt es unter „Benötigt einen Administrator“ an und erklärt, wie du es entfernst."
+                  "value" : "%lld Objekt ist geblieben, weil nur ein Administrator es verschieben kann, das Hilfsprogramm von Peel aber nicht. Die Seite „Verwaiste Dateien“ zeigt es unter „Benötigt einen Administrator“ an und erklärt, wie du es entfernst."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld Objekte sind geblieben, weil nur ein Administrator sie verschieben kann und das Hilfsprogramm von Peel sie nicht verschieben darf. Die Seite „Verwaiste Dateien“ zeigt sie unter „Benötigt einen Administrator“ an und erklärt, wie du sie entfernst."
+                  "value" : "%lld Objekte sind geblieben, weil nur ein Administrator sie verschieben kann, das Hilfsprogramm von Peel aber nicht. Die Seite „Verwaiste Dateien“ zeigt sie unter „Benötigt einen Administrator“ an und erklärt, wie du sie entfernst."
                 }
               }
             }
@@ -257012,19 +257118,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld de ítems se han quedado porque solo un administrador puede trasladarlos, y el asistente de Peel no tiene permiso para hacerlo. La página Archivos huérfanos los muestra en “Necesita un administrador”, donde se explica cómo eliminarlos."
+                  "value" : "%lld de ítems se han quedado porque solo un administrador puede trasladarlos, y el asistente de Peel no puede hacerlo. La página Archivos huérfanos los muestra en “Necesita un administrador”, donde se explica cómo eliminarlos."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld ítem se ha quedado porque solo un administrador puede trasladarlo, y el asistente de Peel no tiene permiso para hacerlo. La página Archivos huérfanos lo muestra en “Necesita un administrador”, donde se explica cómo eliminarlo."
+                  "value" : "%lld ítem se ha quedado porque solo un administrador puede trasladarlo, y el asistente de Peel no puede hacerlo. La página Archivos huérfanos lo muestra en “Necesita un administrador”, donde se explica cómo eliminarlo."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld ítems se han quedado porque solo un administrador puede trasladarlos, y el asistente de Peel no tiene permiso para hacerlo. La página Archivos huérfanos los muestra en “Necesita un administrador”, donde se explica cómo eliminarlos."
+                  "value" : "%lld ítems se han quedado porque solo un administrador puede trasladarlos, y el asistente de Peel no puede hacerlo. La página Archivos huérfanos los muestra en “Necesita un administrador”, donde se explica cómo eliminarlos."
                 }
               }
             }
@@ -257036,19 +257142,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld d’éléments sont restés en place : seul un administrateur peut les déplacer, et l’utilitaire de Peel n’y est pas autorisé. La page Fichiers orphelins les liste sous « Nécessite un administrateur » et indique comment les supprimer."
+                  "value" : "%lld d’éléments sont restés en place : seul un administrateur peut les déplacer, et l’utilitaire de Peel ne peut pas le faire. La page Fichiers orphelins les liste sous « Nécessite un administrateur » et indique comment les supprimer."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld élément est resté en place : seul un administrateur peut le déplacer, et l’utilitaire de Peel n’y est pas autorisé. La page Fichiers orphelins le liste sous « Nécessite un administrateur » et indique comment le supprimer."
+                  "value" : "%lld élément est resté en place : seul un administrateur peut le déplacer, et l’utilitaire de Peel ne peut pas le faire. La page Fichiers orphelins le liste sous « Nécessite un administrateur » et indique comment le supprimer."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld éléments sont restés en place : seul un administrateur peut les déplacer, et l’utilitaire de Peel n’y est pas autorisé. La page Fichiers orphelins les liste sous « Nécessite un administrateur » et indique comment les supprimer."
+                  "value" : "%lld éléments sont restés en place : seul un administrateur peut les déplacer, et l’utilitaire de Peel ne peut pas le faire. La page Fichiers orphelins les liste sous « Nécessite un administrateur » et indique comment les supprimer."
                 }
               }
             }
@@ -257060,19 +257166,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld di elementi sono rimasti perché solo un amministratore può spostarli, e all’assistente di Peel non è consentito farlo. “File orfani” li elenca in “Richiede un amministratore”, con le istruzioni per rimuoverli."
+                  "value" : "%lld di elementi sono rimasti perché solo un amministratore può spostarli, e l’assistente di Peel non può farlo. “File orfani” li elenca in “Richiede un amministratore”, con le istruzioni per rimuoverli."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld elemento è rimasto perché solo un amministratore può spostarlo, e all’assistente di Peel non è consentito farlo. “File orfani” lo elenca in “Richiede un amministratore”, con le istruzioni per rimuoverlo."
+                  "value" : "%lld elemento è rimasto perché solo un amministratore può spostarlo, e l’assistente di Peel non può farlo. “File orfani” lo elenca in “Richiede un amministratore”, con le istruzioni per rimuoverlo."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld elementi sono rimasti perché solo un amministratore può spostarli, e all’assistente di Peel non è consentito farlo. “File orfani” li elenca in “Richiede un amministratore”, con le istruzioni per rimuoverli."
+                  "value" : "%lld elementi sono rimasti perché solo un amministratore può spostarli, e l’assistente di Peel non può farlo. “File orfani” li elenca in “Richiede un amministratore”, con le istruzioni per rimuoverli."
                 }
               }
             }
@@ -257081,13 +257187,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "移動できるのは管理者だけで、Peelのヘルパーは移動を許可されていないため、%lld項目が残りました。これらの項目は“孤立ファイル”の“管理者が必要”に、取り除く方法とともに表示されます。"
+            "value" : "移動できるのは管理者だけで、Peelのヘルパーでは移動できないため、%lld項目が残りました。これらの項目は“孤立ファイル”の“管理者が必要”に、取り除く方法とともに表示されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "항목 %lld개는 관리자만 이동할 수 있으며, Peel 보조 프로그램이 이동하는 것은 허용되지 않으므로 그대로 남았습니다. 주인 없는 파일 페이지의 ‘관리자 필요’에 이 항목들이 제거 방법과 함께 나열됩니다."
+            "value" : "항목 %lld개는 관리자만 이동할 수 있고 Peel 보조 프로그램은 이동할 수 없으므로 그대로 남았습니다. 주인 없는 파일 페이지의 ‘관리자 필요’에 이 항목들이 제거 방법과 함께 나열됩니다."
           }
         },
         "nl" : {
@@ -257096,13 +257202,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld onderdeel is blijven staan omdat alleen een beheerder het kan verplaatsen, en het hulpprogramma van Peel dat niet mag. De pagina 'Verweesde bestanden' toont het onder 'Beheerder vereist', met uitleg over hoe je het verwijdert."
+                  "value" : "%lld onderdeel is blijven staan omdat alleen een beheerder het kan verplaatsen, en het hulpprogramma van Peel dat niet kan. De pagina 'Verweesde bestanden' toont het onder 'Beheerder vereist', met uitleg over hoe je het verwijdert."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld onderdelen zijn blijven staan omdat alleen een beheerder ze kan verplaatsen, en het hulpprogramma van Peel dat niet mag. De pagina 'Verweesde bestanden' toont ze onder 'Beheerder vereist', met uitleg over hoe je ze verwijdert."
+                  "value" : "%lld onderdelen zijn blijven staan omdat alleen een beheerder ze kan verplaatsen, en het hulpprogramma van Peel dat niet kan. De pagina 'Verweesde bestanden' toont ze onder 'Beheerder vereist', met uitleg over hoe je ze verwijdert."
                 }
               }
             }
@@ -257114,25 +257220,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld rzeczy zostały na miejscu, ponieważ przenieść je może tylko administrator, a pomocnikowi Peel nie wolno ich przenosić. Strona Osierocone pliki wyświetla je w grupie „Wymaga administratora” wraz z instrukcją, jak się ich pozbyć."
+                  "value" : "%lld rzeczy zostały na miejscu, ponieważ przenieść je może tylko administrator, a pomocnik Peel tego nie może. Strona Osierocone pliki wyświetla je w grupie „Wymaga administratora” wraz z instrukcją, jak się ich pozbyć."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld rzeczy zostało na miejscu, ponieważ przenieść je może tylko administrator, a pomocnikowi Peel nie wolno ich przenosić. Strona Osierocone pliki wyświetla je w grupie „Wymaga administratora” wraz z instrukcją, jak się ich pozbyć."
+                  "value" : "%lld rzeczy zostało na miejscu, ponieważ przenieść je może tylko administrator, a pomocnik Peel tego nie może. Strona Osierocone pliki wyświetla je w grupie „Wymaga administratora” wraz z instrukcją, jak się ich pozbyć."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld rzecz została na miejscu, ponieważ przenieść ją może tylko administrator, a pomocnikowi Peel nie wolno jej przenosić. Strona Osierocone pliki wyświetla ją w grupie „Wymaga administratora” wraz z instrukcją, jak się jej pozbyć."
+                  "value" : "%lld rzecz została na miejscu, ponieważ przenieść ją może tylko administrator, a pomocnik Peel tego nie może. Strona Osierocone pliki wyświetla ją w grupie „Wymaga administratora” wraz z instrukcją, jak się jej pozbyć."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld rzeczy zostało na miejscu, ponieważ przenieść je może tylko administrator, a pomocnikowi Peel nie wolno ich przenosić. Strona Osierocone pliki wyświetla je w grupie „Wymaga administratora” wraz z instrukcją, jak się ich pozbyć."
+                  "value" : "%lld rzeczy zostało na miejscu, ponieważ przenieść je może tylko administrator, a pomocnik Peel tego nie może. Strona Osierocone pliki wyświetla je w grupie „Wymaga administratora” wraz z instrukcją, jak się ich pozbyć."
                 }
               }
             }
@@ -257144,19 +257250,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld de itens ficaram porque só um administrador pode movê-los, e o auxiliar do Peel não tem permissão para isso. A página Arquivos Órfãos lista esses itens em “Requer um Administrador”, com instruções para removê-los."
+                  "value" : "%lld de itens ficaram porque só um administrador pode movê-los, e o auxiliar do Peel não pode. A página Arquivos Órfãos lista esses itens em “Requer um Administrador”, com instruções para removê-los."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld item ficou porque só um administrador pode movê-lo, e o auxiliar do Peel não tem permissão para isso. A página Arquivos Órfãos lista esse item em “Requer um Administrador”, com instruções para removê-lo."
+                  "value" : "%lld item ficou porque só um administrador pode movê-lo, e o auxiliar do Peel não pode. A página Arquivos Órfãos lista esse item em “Requer um Administrador”, com instruções para removê-lo."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld itens ficaram porque só um administrador pode movê-los, e o auxiliar do Peel não tem permissão para isso. A página Arquivos Órfãos lista esses itens em “Requer um Administrador”, com instruções para removê-los."
+                  "value" : "%lld itens ficaram porque só um administrador pode movê-los, e o auxiliar do Peel não pode. A página Arquivos Órfãos lista esses itens em “Requer um Administrador”, com instruções para removê-los."
                 }
               }
             }
@@ -257168,19 +257274,19 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld articole au rămas pe loc deoarece doar un administrator le poate muta, iar instrumentul de ajutor Peel nu are voie să le mute. Pagina Fișiere orfane le listează la „Necesită un administrator” și explică cum le puteți elimina."
+                  "value" : "%lld articole au rămas pe loc deoarece doar un administrator le poate muta, iar instrumentul de ajutor Peel nu poate. Pagina Fișiere orfane le listează la „Necesită un administrator” și explică cum le puteți elimina."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld articol a rămas pe loc deoarece doar un administrator îl poate muta, iar instrumentul de ajutor Peel nu are voie să îl mute. Pagina Fișiere orfane îl listează la „Necesită un administrator” și explică cum îl puteți elimina."
+                  "value" : "%lld articol a rămas pe loc deoarece doar un administrator îl poate muta, iar instrumentul de ajutor Peel nu poate. Pagina Fișiere orfane îl listează la „Necesită un administrator” și explică cum îl puteți elimina."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld de articole au rămas pe loc deoarece doar un administrator le poate muta, iar instrumentul de ajutor Peel nu are voie să le mute. Pagina Fișiere orfane le listează la „Necesită un administrator” și explică cum le puteți elimina."
+                  "value" : "%lld de articole au rămas pe loc deoarece doar un administrator le poate muta, iar instrumentul de ajutor Peel nu poate. Pagina Fișiere orfane le listează la „Necesită un administrator” și explică cum le puteți elimina."
                 }
               }
             }
@@ -257192,25 +257298,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld объекта остались на месте, потому что переместить их может только администратор, а помощнику Peel это не разрешено. Они есть в разделе «Осиротевшие файлы» > «Нужен администратор», где сказано, как их удалить."
+                  "value" : "%lld объекта остались на месте, потому что переместить их может только администратор, а помощник Peel этого сделать не может. Они есть в разделе «Осиротевшие файлы» > «Нужен администратор», где сказано, как их удалить."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld объектов остались на месте, потому что переместить их может только администратор, а помощнику Peel это не разрешено. Они есть в разделе «Осиротевшие файлы» > «Нужен администратор», где сказано, как их удалить."
+                  "value" : "%lld объектов остались на месте, потому что переместить их может только администратор, а помощник Peel этого сделать не может. Они есть в разделе «Осиротевшие файлы» > «Нужен администратор», где сказано, как их удалить."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld объект остался на месте, потому что переместить их может только администратор, а помощнику Peel это не разрешено. Они есть в разделе «Осиротевшие файлы» > «Нужен администратор», где сказано, как их удалить."
+                  "value" : "%lld объект остался на месте, потому что переместить их может только администратор, а помощник Peel этого сделать не может. Они есть в разделе «Осиротевшие файлы» > «Нужен администратор», где сказано, как их удалить."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld объекта остались на месте, потому что переместить их может только администратор, а помощнику Peel это не разрешено. Они есть в разделе «Осиротевшие файлы» > «Нужен администратор», где сказано, как их удалить."
+                  "value" : "%lld объекта остались на месте, потому что переместить их может только администратор, а помощник Peel этого сделать не может. Они есть в разделе «Осиротевшие файлы» > «Нужен администратор», где сказано, как их удалить."
                 }
               }
             }
@@ -257222,13 +257328,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld objekt blev kvar eftersom bara en administratör kan flytta det och Peels hjälpprogram inte får göra det. Sidan Övergivna filer listar det under ”Kräver en administratör” och förklarar hur du tar bort det."
+                  "value" : "%lld objekt blev kvar eftersom bara en administratör kan flytta det och Peels hjälpprogram inte kan göra det. Sidan Övergivna filer listar det under ”Kräver en administratör” och förklarar hur du tar bort det."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld objekt blev kvar eftersom bara en administratör kan flytta dem och Peels hjälpprogram inte får göra det. Sidan Övergivna filer listar dem under ”Kräver en administratör” och förklarar hur du tar bort dem."
+                  "value" : "%lld objekt blev kvar eftersom bara en administratör kan flytta dem och Peels hjälpprogram inte kan göra det. Sidan Övergivna filer listar dem under ”Kräver en administratör” och förklarar hur du tar bort dem."
                 }
               }
             }
@@ -257240,13 +257346,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld öğe olduğu yerde kaldı, çünkü onu yalnızca bir yönetici taşıyabilir ve Peel’in yardımcısının onu taşımasına izin verilmiyor. Sahipsiz Dosyalar, onu Yönetici Gerektirenler altında listeler ve nasıl kaldıracağınızı açıklar."
+                  "value" : "%lld öğe olduğu yerde kaldı, çünkü onu yalnızca bir yönetici taşıyabilir ve Peel’in yardımcısı onu taşıyamaz. Sahipsiz Dosyalar, onu Yönetici Gerektirenler altında listeler ve nasıl kaldıracağınızı açıklar."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld öğe olduğu yerde kaldı, çünkü onları yalnızca bir yönetici taşıyabilir ve Peel’in yardımcısının onları taşımasına izin verilmiyor. Sahipsiz Dosyalar, onları Yönetici Gerektirenler altında listeler ve nasıl kaldıracağınızı açıklar."
+                  "value" : "%lld öğe olduğu yerde kaldı, çünkü onları yalnızca bir yönetici taşıyabilir ve Peel’in yardımcısı onları taşıyamaz. Sahipsiz Dosyalar, onları Yönetici Gerektirenler altında listeler ve nasıl kaldıracağınızı açıklar."
                 }
               }
             }
@@ -257258,25 +257364,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld елементи лишилися на місці, бо перемістити їх може лише адміністратор, а помічнику Peel цього не дозволено. Розділ «Покинуті файли» показує їх у групі «Потрібен адміністратор» і пояснює, як їх вилучити."
+                  "value" : "%lld елементи лишилися на місці, бо перемістити їх може лише адміністратор, а помічник Peel не може. Розділ «Покинуті файли» показує їх у групі «Потрібен адміністратор» і пояснює, як їх вилучити."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld елементів лишилися на місці, бо перемістити їх може лише адміністратор, а помічнику Peel цього не дозволено. Розділ «Покинуті файли» показує їх у групі «Потрібен адміністратор» і пояснює, як їх вилучити."
+                  "value" : "%lld елементів лишилися на місці, бо перемістити їх може лише адміністратор, а помічник Peel не може. Розділ «Покинуті файли» показує їх у групі «Потрібен адміністратор» і пояснює, як їх вилучити."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld елемент лишився на місці, бо перемістити їх може лише адміністратор, а помічнику Peel цього не дозволено. Розділ «Покинуті файли» показує їх у групі «Потрібен адміністратор» і пояснює, як їх вилучити."
+                  "value" : "%lld елемент лишився на місці, бо перемістити їх може лише адміністратор, а помічник Peel не може. Розділ «Покинуті файли» показує їх у групі «Потрібен адміністратор» і пояснює, як їх вилучити."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld елемента лишилося на місці, бо перемістити їх може лише адміністратор, а помічнику Peel цього не дозволено. Розділ «Покинуті файли» показує їх у групі «Потрібен адміністратор» і пояснює, як їх вилучити."
+                  "value" : "%lld елемента лишилося на місці, бо перемістити їх може лише адміністратор, а помічник Peel не може. Розділ «Покинуті файли» показує їх у групі «Потрібен адміністратор» і пояснює, як їх вилучити."
                 }
               }
             }
@@ -257285,13 +257391,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有%lld个项目仍留在原处，因为只有管理员才能移动它们，而Peel的帮助程序不能移动它们。“孤立文件”会在“需要管理员”中列出它们，并说明如何将其移除。"
+            "value" : "有%lld个项目仍留在原处，因为只有管理员才能移动它们，而Peel的帮助程序无法移动它们。“孤立文件”会在“需要管理员”中列出它们，并说明如何将其移除。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有%lld個項目仍留在原處，因為只有管理者能移動它們，而Peel的輔助程式不能移動它們。「孤立檔案」會在「需要管理者」中列出它們，並說明如何移除。"
+            "value" : "有%lld個項目仍留在原處，因為只有管理者能移動它們，而Peel的輔助程式無法移動它們。「孤立檔案」會在「需要管理者」中列出它們，並說明如何移除。"
           }
         }
       }

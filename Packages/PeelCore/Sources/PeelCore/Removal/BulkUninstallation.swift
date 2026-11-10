@@ -21,7 +21,7 @@ public struct BulkUninstallation: Sendable {
         public var isKeptByMacOS = false
         /// False when the size could not be measured, so `size` is unknown rather than zero.
         public var isMeasured = true
-        /// Needs administrator rights, and the helper may not move it. Shown, never selected, never moved.
+        /// Needs administrator rights, and the helper can't move it. Shown, never selected, never moved.
         public var isBeyondTheHelper = false
         /// Only an administrator can move it, and nothing else holds it back, for every chosen app it belongs to.
         public var isLeftForAnAdministrator = false
@@ -136,7 +136,7 @@ public struct BulkUninstallation: Sendable {
 
     /// What a checkbox can select, by the rule of an app's own page: nothing Peel leaves alone or with something
     /// excluded inside, nothing that needs the helper while it cannot act, no app macOS keeps, that sits inside
-    /// another package, or that the helper may not move, and nothing of Peel.
+    /// another package, or that the helper can't move, and nothing of Peel.
     public func selectable(canUseHelper: Bool) -> Set<URL> {
         Set(items.filter { item in
             !item.isExcluded && item.removedElsewhere == nil && !item.isBeyondTheHelper && !item.isInTheTrash

@@ -538,12 +538,60 @@ extension AttackHelperPolicyTests {
 
         let refusal = HelperPutBack.run(trashed, to: original, for: getuid(), policy: policy, ledger: { ledger })
 
-        #expect(
-            refusal == POSIXError(.EXDEV).localizedDescription,
-            "the helper moved an item by name with nowhere to check it first"
-        )
+        #expect(refusal == HelperRefusal.anotherDisk.rawValue, "the helper moved an item by name with nowhere to check it first")
         #expect(FileManager.default.fileExists(atPath: trashed))
         #expect(!FileManager.default.fileExists(atPath: original))
+    }
+
+    @Test func nothingMovesForAHomeOnAnotherDisk() throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        let home = disk.url.appending(path: "home").path(percentEncoded: false)
+        try FileManager.default.createDirectory(atPath: home + "/.Trash", withIntermediateDirectories: true)
+        try directory.file("root/Applications/Example.app/Contents/Info.plist")
+        let applications = path("root/Applications", in: directory)
+        let policy = PrivilegedPathPolicy(
+            homeDirectory: home, systemLocations: [applications], applicationLocations: [applications]
+        )
+        let ledger = try #require(HelperLedger(at: directory.url.appending(path: "private/moved.plist")))
+        let original = applications + "/Example.app"
+        let item = try policy.open(original).get()
+        let trash = try #require(policy.openTrash(ownedBy: getuid()))
+        func changed() throws -> Date? {
+            let values = try URL(filePath: applications).resourceValues(forKeys: [.contentModificationDateKey])
+            return values.contentModificationDate
+        }
+        let before = try changed()
+
+        let result = try #require(
+            TrashMover.moveRecorded([(original, item)], into: trash, ledger: ledger, movedBy: getuid())
+        )
+
+        #expect(result.moved.isEmpty)
+        #expect(FixedSentence(result.failed[original] ?? "") != nil, "the person reads macOS's own English")
+        #expect(try changed() == before, "the app left its folder and came back, as if the helper could move it")
+        #expect(FileManager.default.fileExists(atPath: original + "/Contents/Info.plist"))
+        #expect(try ledger.origin(of: item, movedBy: getuid()) == nil)
+    }
+
+    @Test func whatTheHelperCannotTakeToATrashOnAnotherDiskIsLeftToAnAdministrator() throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        try FileManager.default.createDirectory(
+            at: disk.url.appending(path: "home/.Trash"), withIntermediateDirectories: true
+        )
+        try directory.directory("home/.Trash")
+        try directory.file("root/Applications/Example.app/Contents/Info.plist")
+        let root = directory.url.appending(path: "root")
+        let app = root.appending(path: "Applications/Example.app")
+
+        func reach(from home: URL) -> HelperReach {
+            HelperReach(environment: SearchEnvironment(homeDirectory: home, rootDirectory: root))
+        }
+        let away = reach(from: disk.url.appending(path: "home")), here = reach(from: directory.url.appending(path: "home"))
+
+        #expect(away.isBeyond(app), "Peel offers what the helper can only refuse")
+        #expect(!here.isBeyond(app))
     }
 
     private func path(_ relative: String, in directory: borrowing TemporaryDirectory) -> String {

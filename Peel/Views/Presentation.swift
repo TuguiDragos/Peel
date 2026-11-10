@@ -699,7 +699,7 @@ extension HoldBack {
         case .holdsAnotherAppsData:
             "Left alone: another app on this Mac keeps its own data inside, and moving this would take that data too."
         case .beyondTheHelper:
-            "Left alone: only an administrator can move this, and Peel’s helper isn’t allowed to move it from here."
+            "Left alone: only an administrator can move this, and Peel’s helper can’t move it from here."
         case .leftToItsUninstaller:
             "Left alone: the app’s own uninstaller removes this once the app is in the Trash, and History can’t bring it back."
         case .neededWhenTheAppLeaves:

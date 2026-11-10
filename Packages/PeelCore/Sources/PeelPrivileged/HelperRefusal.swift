@@ -18,4 +18,7 @@ public enum HelperRefusal: String, CaseIterable, Sendable {
     case declaredTwice = "Two files declare this job."
     /// The item left its folder for the helper's own and could neither reach its place nor go back.
     case keptByTheHelper = "It couldn’t go back to its folder, so Peel’s helper keeps it and moves it to the Trash the next time the helper starts."
+    /// Everything the helper moves passes through a folder of its own on the startup disk, and a rename never leaves
+    /// its disk, so nothing reaches a Trash on another disk.
+    case anotherDisk = "Your home folder is on a different disk from macOS, and Peel’s helper never moves anything from one disk to another. You can move it in Finder."
 }
