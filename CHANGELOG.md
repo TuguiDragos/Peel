@@ -121,6 +121,15 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An app's update feed that names thousands of languages for one release, or release notes with hundreds of HTML tags
   open inside one another, no longer makes Peel quit unexpectedly while it checks for updates, in the app and in
   `peel updates`.
+- An app's page opened from Finder, a `peel://` link, the Dock, or a drop on the list right after Peel starts waits
+  until Peel has read your apps, so it no longer selects files another installed app uses, and the app no longer
+  shows twice in the list when the path it was opened with is written another way.
+- Uninstalling an app no longer selects a file named after another installed app's identifier and a dash or an
+  underscore, such as `org.example.Folio.Express-custom.plist` while Folio Express is installed: it's that app's, and
+  its own page lists it.
+- When an app is the last of its maker's, an app's page and `peel leftovers --all` no longer list a folder macOS keeps
+  under the maker's name as the maker's, such as `/Library/Google` or `/Library/Application Support/Mozilla`, which
+  every Mac gets from Apple, and `peel uninstall` no longer says Orphaned Files will list one for an administrator.
 
 #### Orphaned Files
 
@@ -205,6 +214,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   it is the app's own, and none of an app you excluded.
 - Peel's own updates come only from the feed its app names, and Peel sends no profile of your Mac, whatever its
   preferences hold.
+- An app can no longer have another installed app's files selected for its uninstall by naming, among what its bundle
+  embeds, an identifier that begins with that app's: such a file is shared with the other app and left unselected,
+  and one another maker's identifier names is listed for you to review.
+- A bundle whose code signature doesn't seal its Info.plist gets no maker or team from Peel, as if it were unsigned:
+  the program inside was signed on its own, and its signature says nothing about the bundle around it.
 
 ## 1.3.0 (2026-11-04)
 

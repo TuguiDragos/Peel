@@ -341,7 +341,9 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
   nor its maker, such as another app's, one of Apple's, or a command-line tool's, is shown and never selected, since a
   folder of that name may be that program's own; so is something matched by name alone at the top of your home folder
   or of a Library, or in a maker's folder there. What the maker's own folder holds is shown the same way when no other
-  app of that maker is installed, since the maker may have put there what none of its apps made.
+  app of that maker is installed, since the maker may have put there what none of its apps made. A folder macOS keeps
+  under a maker's name, or one every Mac gets from Apple, such as `/Library/Google` or
+  `/Library/Application Support/Mozilla`, is no maker's.
 - **A name another app carries is shared with it.** Something matched by the app's name alone is left unselected
   while another installed app, whoever makes it, holds that name as whole words in its own, as Epic Games Launcher
   holds Epic: a folder called Epic may be that app's. A word in the name of an app that comes with macOS counts for
@@ -409,8 +411,8 @@ Settings, Disk Drill, Malwarebytes, Kaspersky, Avast Security, AVG AntiVirus, Tr
 Background Music) is listed the same way, and nothing of it can be selected: its page names the maker's uninstaller, or
 opens the app whose own command removes it, and links to the maker's instructions, since moved from its place, what it
 keeps in the system and the settings that manage it would stay behind. Peel knows it by the team its checked signature
-names and by its identifier, both as the maker documents or signs them, never by the identifier alone, which any app
-could claim. `peel uninstall` refuses it and names the same uninstaller. An uninstaller its maker documents opening to
+names, a signature that seals the app's own Info.plist, and by its identifier, both as the maker documents or signs
+them, never by the identifier alone, which any app could claim. `peel uninstall` refuses it and names the same uninstaller. An uninstaller its maker documents opening to
 remove a product, such as Google's Chrome Remote Desktop Host Uninstaller, Wacom Tablet Utility, or Avast Security
 Uninstaller, is treated the same way: moved on its own, it would leave the product installed, so its page offers to open
 it instead.

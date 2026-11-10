@@ -39,7 +39,8 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   and isn't listed, and an identifier a tool gives apps whose makers set none, such as Electron's `com.electron.`
   ones, ties no two apps to one maker. When no other app of its maker is installed, what the maker's own folder
   holds, such as `Application Support/Microsoft` for the last of Microsoft's apps, or `/Users/Shared/Epic Games` for
-  Epic's launcher, waits there too.
+  Epic's launcher, waits there too. A folder macOS keeps under a maker's name, such as `/Library/Google` on every Mac,
+  is no maker's.
 - **What only an administrator can move** stays where it is when Peel's helper isn't allowed to move it from there.
   Once the app is gone, Peel says how many items stayed, and Orphaned Files lists them under Needs an Administrator,
   with how to remove them in Finder.

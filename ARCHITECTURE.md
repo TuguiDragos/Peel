@@ -86,8 +86,8 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
    what it does and a UUID says nothing, so the identifier decides whose they are. A launch job is weighed by the
    program it runs, since anyone can name its file: a job that runs a program inside the app is the app's, and one
    that runs a program inside another installed app is that app's. What macOS keeps for its own services under a
-   plain name directly in a Library folder, such as `Application Support/Knowledge`, is no app's, whatever app is
-   called by that name (`SystemFolders`). The answer is a `LeftoverMatch`: a confidence
+   plain name directly in a Library folder, such as `Application Support/Knowledge`, is no app's or maker's, whatever
+   app is called by that name (`SystemFolders`). The answer is a `LeftoverMatch`: a confidence
    (`certain`, `likely`, or `possible`), the reason, the other installed apps that claim the file too (with the apps
    of the same maker that macOS knows outside the Applications folders, the apps Peel saw installed before, whose
    identifiers stay theirs once they are gone, and, for a file only the app's name claims, another maker's app whose
