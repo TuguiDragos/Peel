@@ -233,6 +233,8 @@ public struct LeftoverScanner: Sendable {
             guard !Task.isCancelled else { break }
             let url = location.url.appending(path: name)
             let path = url.path(percentEncoded: false)
+            // An app kept in a place an uninstall searches, as an input method is, is the app and not its own leftover.
+            guard PathPattern.comparablePath(of: url) != bundle else { continue }
             if let match = claim(name, at: url, kind: location.kind, matcher: matcher, bundle: bundle, home: home),
                !isSharedWithTheWholeMac(url, home: home) {
                 guard !refuses(path, home), !exclusions.excludes(url), !FileAccess.cannotBeRemoved(url) else {

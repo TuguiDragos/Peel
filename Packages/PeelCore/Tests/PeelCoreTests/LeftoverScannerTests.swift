@@ -2066,6 +2066,18 @@ struct LeftoverScannerTests {
         #expect(unsigned.leftovers.isEmpty)
     }
 
+    @Test func anAppKeptInAPlaceTheScanSearchesIsNoLeftoverOfItself() async throws {
+        let directory = try TemporaryDirectory()
+        let bundle = try directory.directory("home/Library/Input Methods/Typer.app")
+        try directory.file("home/Library/Input Methods/Typer.app/Contents/Info.plist", bytes: 64)
+        try directory.file("home/Library/Preferences/org.example.typer.plist", bytes: 64)
+        let typer = InstalledApp(url: bundle, bundleIdentifier: "org.example.typer", name: "Typer")
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(typer, installedApps: [typer])
+
+        #expect(scan.leftovers.map(\.url.lastPathComponent) == ["org.example.typer.plist"])
+    }
+
     @Test func takesNothingAProfileManagesAsTheAppsLeftovers() async throws {
         let directory = try TemporaryDirectory()
         let app = InstalledApp(
