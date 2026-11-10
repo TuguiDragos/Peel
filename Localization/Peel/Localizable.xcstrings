@@ -158072,108 +158072,108 @@
         }
       }
     },
-    "Peel won’t move itself from here: its folder needs an administrator. Log in as an administrator and choose Remove Peel there, or drag it to the Trash in Finder, which asks for one." : {
+    "Peel won’t move itself from here: its folder needs an administrator. Log in as an administrator and choose Remove Peel there. You can also drag Peel to the Trash in Finder, which asks for an administrator, but that leaves its helper, its login item, and its files behind." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel se odsud sám nepřesune: jeho složka vyžaduje oprávnění správce. Přihlaste se jako správce a tam zvolte „Odstranit Peel“, nebo ho přetáhněte do koše ve Finderu, který požádá o údaje správce."
+            "value" : "Peel se odsud sám nepřesune: jeho složka vyžaduje oprávnění správce. Přihlaste se jako správce a tam zvolte „Odstranit Peel“. Peel můžete také přetáhnout do koše ve Finderu, který požádá o údaje správce, ale jeho pomocník, položka přihlášení a soubory pak zůstanou na místě."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel verschiebt sich von hier aus nicht selbst: Der Ordner, in dem Peel liegt, erfordert einen Administrator. Melde dich als Administrator an und wähle dort „Peel entfernen“, oder ziehe Peel im Finder in den Papierkorb. Der Finder fragt nach einem Administrator."
+            "value" : "Peel verschiebt sich von hier aus nicht selbst: Der Ordner, in dem Peel liegt, erfordert einen Administrator. Melde dich als Administrator an und wähle dort „Peel entfernen“. Du kannst Peel auch im Finder in den Papierkorb ziehen; der Finder fragt dann nach einem Administrator, aber das Hilfsprogramm, das Anmeldeobjekt und die Dateien von Peel bleiben dabei zurück."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel no se trasladará a sí mismo desde aquí: su carpeta necesita un administrador. Inicia sesión como administrador y elige “Eliminar Peel” allí, o arrástralo a la papelera en el Finder, que pide un administrador."
+            "value" : "Peel no se trasladará a sí mismo desde aquí: su carpeta necesita un administrador. Inicia sesión como administrador y elige “Eliminar Peel” allí. También puedes arrastrar Peel a la papelera en el Finder, que pide un administrador, pero eso deja atrás su asistente, su ítem de inicio y sus archivos."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel refuse de se placer dans la corbeille depuis cet emplacement : son dossier nécessite un administrateur. Ouvrez une session en tant qu’administrateur et choisissez « Supprimer Peel » dans cette session, ou faites glisser Peel dans la corbeille depuis le Finder, qui demande l’autorisation d’un administrateur."
+            "value" : "Peel refuse de se placer dans la corbeille depuis cet emplacement : son dossier nécessite un administrateur. Ouvrez une session en tant qu’administrateur et choisissez « Supprimer Peel » dans cette session. Vous pouvez aussi faire glisser Peel dans la corbeille depuis le Finder, qui demande l’autorisation d’un administrateur, mais son utilitaire, son élément d’ouverture et ses fichiers restent alors en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Da qui Peel non sposta sé stesso: la sua cartella richiede un amministratore. Esegui il login come amministratore e scegli “Rimuovi Peel” da lì, oppure trascinalo nel Cestino dal Finder, che chiede l’autorizzazione di un amministratore."
+            "value" : "Da qui Peel non sposta sé stesso: la sua cartella richiede un amministratore. Esegui il login come amministratore e scegli “Rimuovi Peel” da lì. Puoi anche trascinare Peel nel Cestino dal Finder, che chiede l’autorizzazione di un amministratore, ma così restano il suo assistente, il suo elemento login e i suoi file."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelはここから自身を移動しません。Peelがあるフォルダでは管理者の権限が必要なためです。管理者としてログインし、そこで“Peelをアンインストール”を選択するか、Finderでゴミ箱にドラッグしてください。その際、Finderが管理者の認証を求めます。"
+            "value" : "Peelはここから自身を移動しません。Peelがあるフォルダでは管理者の権限が必要なためです。管理者としてログインし、そこで“Peelをアンインストール”を選択してください。Finderでゴミ箱にドラッグすることもでき、その際はFinderが管理者の認証を求めますが、Peelのヘルパー、ログイン項目、ファイルは残ります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 이 위치에서 자신을 이동하지 않습니다. Peel이 있는 폴더에 관리자 권한이 필요하기 때문입니다. 관리자로 로그인한 다음 그곳에서 ‘Peel 제거’를 선택하거나, Finder에서 Peel을 휴지통으로 드래그하십시오. Finder가 관리자 인증을 요청합니다."
+            "value" : "Peel은 이 위치에서 자신을 이동하지 않습니다. Peel이 있는 폴더에 관리자 권한이 필요하기 때문입니다. 관리자로 로그인한 다음 그곳에서 ‘Peel 제거’를 선택하십시오. Finder에서 Peel을 휴지통으로 드래그할 수도 있습니다. 이 경우 Finder가 관리자 인증을 요청하며, Peel 보조 프로그램, 로그인 항목 및 Peel의 파일은 남게 됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel verplaatst zichzelf niet vanaf deze plek: voor de map is een beheerder nodig. Log in als beheerder en kies daar 'Verwijder Peel', of sleep Peel in Finder naar de prullenmand, dan vraagt Finder om een beheerder."
+            "value" : "Peel verplaatst zichzelf niet vanaf deze plek: voor de map is een beheerder nodig. Log in als beheerder en kies daar 'Verwijder Peel'. Je kunt Peel ook in Finder naar de prullenmand slepen, waarna Finder om een beheerder vraagt, maar dan blijven het hulpprogramma, het inlogonderdeel en de bestanden van Peel achter."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nie przeniesie się sam do Kosza z tego miejsca: jego folder wymaga uprawnień administratora. Zaloguj się jako administrator i tam wybierz „Odinstaluj Peel” albo przeciągnij go do Kosza w Finderze, który poprosi o dane administratora."
+            "value" : "Peel nie przeniesie się sam do Kosza z tego miejsca: jego folder wymaga uprawnień administratora. Zaloguj się jako administrator i tam wybierz „Odinstaluj Peel”. Możesz też przeciągnąć Peel do Kosza w Finderze, który poprosi o dane administratora, ale wtedy zostaną jego pomocnik, rzecz otwierana podczas logowania i pliki."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel não vai se mover daqui: a pasta dele requer um administrador. Inicie sessão como administrador e escolha “Remover o Peel” lá, ou arraste-o para o Lixo no Finder, que pede um administrador."
+            "value" : "O Peel não vai se mover daqui: a pasta dele requer um administrador. Inicie sessão como administrador e escolha “Remover o Peel” lá. Você também pode arrastar o Peel para o Lixo no Finder, que pede um administrador, mas isso deixa para trás o auxiliar, o item de início de sessão e os arquivos do Peel."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu se mută singur de aici: dosarul său necesită un administrator. Faceți login ca administrator și alegeți „Eliminați Peel” de acolo sau trageți‑l în Coș din Finder, care cere un administrator."
+            "value" : "Peel nu se mută singur de aici: dosarul său necesită un administrator. Faceți login ca administrator și alegeți „Eliminați Peel” de acolo. Puteți, de asemenea, să trageți Peel în Coș din Finder, care cere un administrator, dar astfel rămân în urmă instrumentul său de ajutor, articolul său de lansat la login și fișierele sale."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не будет перемещать себя отсюда: для его папки нужен администратор. Войдите как администратор и выберите там «Удалить Peel» или перетащите его в Корзину в Finder: Finder запросит данные администратора."
+            "value" : "Peel не будет перемещать себя отсюда: для его папки нужен администратор. Войдите как администратор и выберите там «Удалить Peel». Можно также перетащить Peel в Корзину в Finder, который запросит данные администратора, но тогда останутся его помощник, его объект входа и его файлы."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel flyttar inte sig själv härifrån: mappen kräver en administratör. Logga in som administratör och välj ”Ta bort Peel” där, eller dra Peel till papperskorgen i Finder, som ber om en administratör."
+            "value" : "Peel flyttar inte sig själv härifrån: mappen kräver en administratör. Logga in som administratör och välj ”Ta bort Peel” där. Du kan också dra Peel till papperskorgen i Finder, som ber om en administratör, men då lämnas hjälpprogrammet, startobjektet och Peels filer kvar."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kendini buradan taşımaz: bulunduğu klasör bir yönetici gerektiriyor. Yönetici olarak oturum açın ve orada “Peel’i Kaldır” düğmesini tıklayın ya da onu Finder’da Çöp Sepeti’ne sürükleyin; Finder yönetici ister."
+            "value" : "Peel kendini buradan taşımaz: bulunduğu klasör bir yönetici gerektiriyor. Yönetici olarak oturum açın ve orada “Peel’i Kaldır” düğmesini tıklayın. Peel’i Finder’da Çöp Sepeti’ne de sürükleyebilirsiniz; Finder bir yönetici ister, ancak bu durumda Peel’in yardımcısı, oturum açma öğesi ve dosyaları geride kalır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не перемістить себе звідси: змінювати її папку може лише адміністратор. Увійдіть як адміністратор і виберіть там «Вилучити Peel» або перетягніть Peel у Смітник у Finder, який попросить дані адміністратора."
+            "value" : "Peel не перемістить себе звідси: змінювати її папку може лише адміністратор. Увійдіть як адміністратор і виберіть там «Вилучити Peel». Можна також перетягнути Peel у Смітник у Finder, який попросить дані адміністратора, але тоді залишаться її помічник, її елемент автозапуску та її файли."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel不会从此处移动自己：它所在的文件夹需要管理员权限。请以管理员身份登录，然后在那里选取“移除Peel”；或者在“访达”中将它拖到废纸篓，“访达”会要求管理员授权。"
+            "value" : "Peel不会从此处移动自己：它所在的文件夹需要管理员权限。请以管理员身份登录，然后在那里选取“移除Peel”。你也可以在“访达”中将Peel拖到废纸篓，“访达”会要求管理员授权，但这样会留下它的帮助程序、登录项和文件。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel不會從這裡移動自己：它所在的檔案夾需要管理者權限。請以管理者身分登入，並在那裡選擇「移除Peel」，或在Finder中將它拖到「垃圾桶」，Finder會要求管理者驗證。"
+            "value" : "Peel不會從這裡移動自己：它所在的檔案夾需要管理者權限。請以管理者身分登入，並在那裡選擇「移除Peel」。你也可以在Finder中將Peel拖到「垃圾桶」，Finder會要求管理者驗證，但這樣會留下它的輔助程式、登入項目和檔案。"
           }
         }
       }

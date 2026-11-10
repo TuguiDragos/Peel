@@ -5,6 +5,15 @@ import Testing
 
 @MainActor
 struct SelfUninstallWayTests {
+    /// Finder moves only the app, so the advice to use it says what it leaves.
+    @Test func theAdviceToUseFinderSaysWhatStaysBehind() {
+        let words = SelfUninstall.explanation(of: .needsAnAdministrator)
+
+        #expect(words.contains("Finder"))
+        #expect(words.contains("helper"))
+        #expect(words.contains("login item"))
+    }
+
     @Test func waitsForHomebrewToSayWhetherItInstalledThisCopy() {
         let cask = HomebrewPackage(name: "peel", kind: .cask, installedVersion: "1.2.1")
 
