@@ -86,6 +86,13 @@ struct TerminalPage: View {
         }
     }
 
+    /// Said while `tool` didn't say what it knows, so its tab's switches are off.
+    static func didNotAnswer(_ tool: String) -> LocalizedStringResource {
+        "\(tool) didn’t answer, so these settings are off for now. Peel asks again when you open this page or come back to Peel."
+    }
+
+    static let profilesUnreadable: LocalizedStringResource = "Peel couldn’t read Terminal’s profiles, so it changes none of them for now. Peel reads them again when you open this page or come back to Peel."
+
     private func refresh() async {
         terminal.refresh()
         tweaks.refresh()
@@ -180,7 +187,7 @@ private struct TerminalThemeInUse: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             } else if terminal.areProfilesUnreadable {
-                StatusLabel(title: Text("Terminal’s profiles couldn’t be read"), tint: .accentColor)
+                StatusLabel(title: Text(TerminalPage.profilesUnreadable), tint: .accentColor)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -240,7 +247,7 @@ private struct TerminalSettingsForm: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 } else if terminal.areProfilesUnreadable {
-                    StatusLabel(title: Text("Terminal’s profiles couldn’t be read"), tint: .accentColor)
+                    StatusLabel(title: Text(TerminalPage.profilesUnreadable), tint: .accentColor)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 } else if terminal.options == nil {

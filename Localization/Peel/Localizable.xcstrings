@@ -1632,6 +1632,112 @@
         }
       }
     },
+    "%@ didn’t answer, so these settings are off for now. Peel asks again when you open this page or come back to Peel." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ neodpověděl, takže tato nastavení jsou zatím vypnutá. Peel se zeptá znovu, až otevřete tuto stránku nebo se vrátíte do Peelu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ hat nicht geantwortet, daher sind diese Einstellungen vorerst nicht verfügbar. Peel fragt erneut, wenn du diese Seite öffnest oder zu Peel zurückkehrst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ no ha respondido, así que estos ajustes están desactivados por ahora. Peel volverá a preguntar cuando abras esta página o vuelvas a Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ n’a pas répondu : ces réglages sont donc désactivés pour l’instant. Peel l’interroge à nouveau lorsque vous ouvrez cette page ou revenez à Peel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ non ha risposto, quindi per ora queste impostazioni sono disattivate. Peel riprova quando apri questa pagina o torni a Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@から応答がなかったため、これらの設定は今のところ使用できません。このページを開くか、Peelに戻ったときに、Peelがもう一度問い合わせます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@이(가) 응답하지 않았으므로 지금은 이 설정을 사용할 수 없습니다. 이 페이지를 열거나 Peel로 돌아오면 Peel이 다시 묻습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ gaf geen antwoord, dus deze instellingen zijn voorlopig uitgeschakeld. Peel vraagt het opnieuw als je deze pagina opent of naar Peel terugkeert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ nie odpowiedział, więc te ustawienia są na razie wyłączone. Peel zapyta ponownie, gdy otworzysz tę stronę lub wrócisz do Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O %@ não respondeu, então estes ajustes estão desativados por enquanto. O Peel pergunta novamente quando você abre esta página ou volta ao Peel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ nu a răspuns, așa că aceste configurări sunt dezactivate deocamdată. Peel întreabă din nou când deschideți această pagină sau reveniți în Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ не ответил, поэтому эти настройки пока недоступны. Peel спросит снова, когда Вы откроете эту страницу или вернетесь в Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ svarade inte, så de här inställningarna är avstängda tills vidare. Peel frågar igen när du öppnar den här sidan eller återvänder till Peel."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ yanıt vermedi, bu yüzden bu ayarlar şimdilik kapalı. Bu sayfayı açtığınızda veya Peel’e döndüğünüzde Peel yeniden sorar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ не відповів, тож ці налаштування поки що вимкнено. Peel запитає знову, коли ви відкриєте цю сторінку або повернетеся до Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@没有回应，因此这些设置暂时处于关闭状态。当你打开此页面或返回Peel时，Peel会再次询问。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@沒有回應，因此這些設定暫時無法使用。當你打開此頁面或回到Peel時，Peel會再次詢問。"
+          }
+        }
+      }
+    },
     "%@ didn’t quit." : {
       "localizations" : {
         "cs" : {
@@ -58013,214 +58119,108 @@
         }
       }
     },
-    "Git couldn’t read its settings" : {
+    "Git couldn’t read your settings, so Peel changes nothing here. Run `git config --global --list` in Terminal to see what Git says." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git nemohl přečíst svá nastavení"
+            "value" : "Git nemohl přečíst vaše nastavení, a proto tu Peel nic nemění. Chcete-li zjistit, co Git uvádí, spusťte v Terminálu `git config --global --list`."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git konnte seine Einstellungen nicht lesen"
+            "value" : "Git konnte deine Einstellungen nicht lesen, daher ändert Peel hier nichts. Führe `git config --global --list` im Terminal aus, um zu sehen, was Git meldet."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git no ha podido leer sus ajustes"
+            "value" : "Git no ha podido leer tus ajustes, así que Peel no cambia nada aquí. Ejecuta `git config --global --list` en Terminal para ver lo que dice Git."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git n’a pas pu lire ses réglages"
+            "value" : "Git n’a pas pu lire vos réglages : Peel ne modifie donc rien ici. Exécutez `git config --global --list` dans Terminal pour voir ce que Git indique."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git non è riuscito a leggere le sue impostazioni"
+            "value" : "Git non è riuscito a leggere le tue impostazioni, quindi qui Peel non modifica nulla. Esegui `git config --global --list` in Terminale per vedere cosa dice Git."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gitが設定を読み取れませんでした"
+            "value" : "Gitが設定を読み取れなかったため、Peelはここでは何も変更しません。Gitの出力を確認するには、ターミナルで`git config --global --list`を実行してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git이 설정을 읽을 수 없음"
+            "value" : "Git이 설정을 읽을 수 없으므로 Peel은 여기에서 아무것도 변경하지 않습니다. Git이 알려 주는 내용을 보려면 터미널에서 `git config --global --list`를 실행하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git kon zijn instellingen niet lezen"
+            "value" : "Git kon je instellingen niet lezen, dus Peel wijzigt hier niets. Voer `git config --global --list` uit in Terminal om te zien wat Git meldt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git nie mógł odczytać swoich ustawień"
+            "value" : "Git nie mógł odczytać Twoich ustawień, więc Peel niczego tutaj nie zmienia. Uruchom `git config --global --list` w Terminalu, aby zobaczyć, co podaje Git."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Git não conseguiu ler os próprios ajustes"
+            "value" : "O Git não conseguiu ler os seus ajustes, então o Peel não altera nada aqui. Execute `git config --global --list` no Terminal para ver o que o Git diz."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git nu și‑a putut citi configurările"
+            "value" : "Git nu v‑a putut citi configurările, așa că Peel nu modifică nimic aici. Rulați `git config --global --list` în Terminal pentru a vedea ce spune Git."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git не смог прочитать свои настройки"
+            "value" : "Git не смог прочитать Ваши настройки, поэтому Peel здесь ничего не меняет. Выполните `git config --global --list` в Терминале, чтобы увидеть, что сообщает Git."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git kunde inte läsa sina inställningar"
+            "value" : "Git kunde inte läsa dina inställningar, så Peel ändrar ingenting här. Kör `git config --global --list` i Terminal för att se vad Git säger."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git kendi ayarlarını okuyamadı"
+            "value" : "Git ayarlarınızı okuyamadı, bu yüzden Peel burada hiçbir şeyi değiştirmez. Git’in ne söylediğini görmek için Terminal’de `git config --global --list` komutunu çalıştırın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git не зміг прочитати свої налаштування"
+            "value" : "Git не зміг прочитати ваші налаштування, тож Peel тут нічого не змінює. Виконайте `git config --global --list` у Терміналі, щоб побачити, що повідомляє Git."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git未能读取其设置"
+            "value" : "Git未能读取你的设置，因此Peel不会在此处进行任何更改。请在“终端”中运行`git config --global --list`，查看Git给出的信息。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git無法讀取它的設定"
-          }
-        }
-      }
-    },
-    "Git didn’t answer" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git neodpověděl"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git hat nicht geantwortet"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git no ha respondido"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git n’a pas répondu"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git non ha risposto"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gitから応答がありませんでした"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git이 응답하지 않음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git gaf geen antwoord"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git nie odpowiedział"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Git não respondeu"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git nu a răspuns"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git не ответил"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git svarade inte"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git yanıt vermedi"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git не відповів"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git没有回应"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Git沒有回應"
+            "value" : "Git無法讀取你的設定，因此Peel不會在這裡更改任何設定。請在「終端機」中執行`git config --global --list`，查看Git的回應。"
           }
         }
       }
@@ -146291,6 +146291,112 @@
         }
       }
     },
+    "Peel couldn’t read Terminal’s profiles, so it changes none of them for now. Peel reads them again when you open this page or come back to Peel." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst profily Terminálu, a proto zatím žádný z nich nemění. Peel je znovu přečte, až otevřete tuto stránku nebo se vrátíte do Peelu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte die Profile von Terminal nicht lesen und ändert daher vorerst keines davon. Peel liest sie erneut, wenn du diese Seite öffnest oder zu Peel zurückkehrst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer los perfiles de Terminal, así que por ahora no cambia ninguno. Peel volverá a leerlos cuando abras esta página o vuelvas a Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lire les profils de Terminal : il n’en modifie donc aucun pour l’instant. Peel les relit lorsque vous ouvrez cette page ou revenez à Peel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere i profili di Terminale, quindi per ora non ne modifica nessuno. Peel li legge di nuovo quando apri questa pagina o torni a Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはターミナルのプロファイルを読み取れなかったため、今のところどのプロファイルも変更しません。このページを開くか、Peelに戻ったときに、Peelがもう一度読み取ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 터미널의 프로파일을 읽을 수 없었으므로 지금은 어떤 프로파일도 변경하지 않습니다. 이 페이지를 열거나 Peel로 돌아오면 Peel이 프로파일을 다시 읽습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon de profielen van Terminal niet lezen, dus wijzigt Peel er voorlopig geen. Peel leest ze opnieuw als je deze pagina opent of naar Peel terugkeert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać profili Terminala, więc na razie żadnego nie zmienia. Peel odczyta je ponownie, gdy otworzysz tę stronę lub wrócisz do Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler os perfis do Terminal, então não altera nenhum deles por enquanto. O Peel os lê novamente quando você abre esta página ou volta ao Peel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi profilurile din Terminal, așa că deocamdată nu modifică niciunul dintre ele. Peel le citește din nou când deschideți această pagină sau reveniți în Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать профили Терминала, поэтому пока он не меняет ни один из них. Peel прочитает их снова, когда Вы откроете эту страницу или вернетесь в Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa Terminals profiler, så Peel ändrar ingen av dem tills vidare. Peel läser dem igen när du öppnar den här sidan eller återvänder till Peel."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, Terminal’in profillerini okuyamadı, bu yüzden şimdilik hiçbirini değiştirmez. Bu sayfayı açtığınızda veya Peel’e döndüğünüzde Peel onları yeniden okur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося прочитати профілі Термінала, тож поки що вона не змінює жодного з них. Peel прочитає їх знову, коли ви відкриєте цю сторінку або повернетеся до Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能读取“终端”的描述文件，因此暂时不会更改其中任何一个。当你打开此页面或返回Peel时，Peel会再次读取它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取「終端機」的描述檔，因此暫時不會更改任何描述檔。當你打開此頁面或回到Peel時，Peel會再次讀取它們。"
+          }
+        }
+      }
+    },
     "Peel couldn’t read it in time to see whether it changed after Peel looked at it. Scan again to review it." : {
       "localizations" : {
         "cs" : {
@@ -208180,112 +208286,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「終端機」會以此主題打開，每個新視窗也都會使用它。"
-          }
-        }
-      }
-    },
-    "Terminal’s profiles couldn’t be read" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Profily Terminálu nelze přečíst"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Profile von Terminal konnten nicht gelesen werden"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se han podido leer los perfiles de Terminal"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impossible de lire les profils de Terminal"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impossibile leggere i profili di Terminale"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ターミナルのプロファイルを読み取れませんでした"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "터미널의 프로필을 읽을 수 없음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Terminal-profielen konden niet worden gelezen"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nie udało się odczytać profili Terminala"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Não foi possível ler os perfis do Terminal"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Profilurile Terminal nu au putut fi citite"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не удалось прочитать профили Терминала"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Terminals profiler kunde inte läsas"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Terminal’in profilleri okunamadı"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не вдалося прочитати профілі Термінала"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未能读取“终端”的描述文件"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無法讀取「終端機」的描述檔"
           }
         }
       }
@@ -283508,112 +283508,6 @@
         }
       }
     },
-    "ssh didn’t answer" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ssh neodpověděl"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ssh hat nicht geantwortet"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ssh no ha respondido"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ssh n’a pas répondu"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ssh non ha risposto"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "sshから応答がありませんでした"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ssh가 응답하지 않음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ssh gaf geen antwoord"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ssh nie odpowiedział"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O ssh não respondeu"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ssh nu a răspuns"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ssh не ответил"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ssh svarade inte"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ssh yanıt vermedi"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ssh не відповів"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ssh没有回应"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ssh沒有回應"
-          }
-        }
-      }
-    },
     "ssh doesn’t read Peel’s settings yet" : {
       "localizations" : {
         "cs" : {
@@ -284246,112 +284140,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "可移除"
-          }
-        }
-      }
-    },
-    "zsh didn’t answer" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh neodpověděl"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh hat nicht geantwortet"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh no ha respondido"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh n’a pas répondu"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh non ha risposto"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zshから応答がありませんでした"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh가 응답하지 않음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh gaf geen antwoord"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh nie odpowiedział"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O zsh não respondeu"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh nu a răspuns"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh не ответил"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh svarade inte"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh yanıt vermedi"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh не відповів"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh没有回应"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh沒有回應"
           }
         }
       }

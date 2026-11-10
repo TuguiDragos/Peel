@@ -23,7 +23,7 @@ struct SSHTab: View {
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     } else if state.accepted == nil {
-                        StatusLabel(title: Text("ssh didn’t answer"), tint: .accentColor)
+                        StatusLabel(title: Text(TerminalPage.didNotAnswer("ssh")), tint: .accentColor)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     } else {

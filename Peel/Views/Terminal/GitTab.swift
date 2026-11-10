@@ -7,6 +7,8 @@ struct GitTab: View {
 
     static let turningOneOff: LocalizedStringResource = "Peel changes these with `git config --global`. Turning one off puts back what was there before Peel, or removes it when you had set it yourself."
 
+    static let settingsUnreadable: LocalizedStringResource = "Git couldn’t read your settings, so Peel changes nothing here. Run `git config --global --list` in Terminal to see what Git says."
+
     static let afterTurningAllOff: LocalizedStringResource = "Settings Peel changed go back to what they were. Settings you made yourself that are on here are removed from your Git settings, so Git’s defaults apply."
 
     var body: some View {
@@ -26,11 +28,11 @@ struct GitTab: View {
                     }
                 } else if state.settings == nil {
                     Section {
-                        StatusLabel(title: Text("Git couldn’t read its settings"), tint: .accentColor)
+                        StatusLabel(title: Text(Self.settingsUnreadable), tint: .accentColor)
                     }
                 } else if state.known == nil {
                     Section {
-                        StatusLabel(title: Text("Git didn’t answer"), tint: .accentColor)
+                        StatusLabel(title: Text(TerminalPage.didNotAnswer("Git")), tint: .accentColor)
                     }
                 } else if git.wasRefused {
                     Section {

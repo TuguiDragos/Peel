@@ -27,7 +27,7 @@ struct ShellTab: View {
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     } else if state.startupFile != nil, state.known == nil || shell.zshDidNotAnswer {
-                        StatusLabel(title: Text("zsh didn’t answer"), tint: .accentColor)
+                        StatusLabel(title: Text(TerminalPage.didNotAnswer("zsh")), tint: .accentColor)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     } else if state.startupFile != nil {
