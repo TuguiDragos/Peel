@@ -1,6 +1,7 @@
 import Foundation
 @testable import PeelCore
 import PeelPrivileged
+import Synchronization
 import Testing
 
 /// A program the account can rewrite runs as its own responsible process, or it doesn't run at all.
@@ -17,6 +18,20 @@ struct OnItsOwnTests {
         #expect(output.errorText == "err\n")
     }
 
+    @Test func aProgramsErrorsCanBeReadInTheOrderItWroteThemAndFollowedAsTheyCome() async throws {
+        let seen = Mutex("")
+        let output = try await Subprocess.runOnItsOwn(
+            "/bin/sh", ["-c", "echo first; echo second >&2; echo third"], environment: environment, timeout: nil,
+            errorsIntoOutput: true
+        ) { data in
+            seen.withLock { $0 += String(decoding: data, as: UTF8.self) }
+        }.get()
+
+        #expect(output.text == "first\nsecond\nthird\n")
+        #expect(output.standardError.isEmpty)
+        #expect(seen.withLock { $0 } == output.text)
+    }
+
     @Test func theProgramAnswersForItselfWhileOneStartedPlainlyAnswersToWhoeverStartedIt() throws {
         let system = try #require(Subprocess.Responsibility.system)
         let held = try Subprocess.Held.start("/bin/cat", [], environment: environment, asking: system).get()
@@ -24,7 +39,7 @@ struct OnItsOwnTests {
             kill(held.pid, SIGKILL)
             waitpid(held.pid, nil, 0)
             close(held.output)
-            close(held.errors)
+            if let errors = held.errors { close(errors) }
         }
         let plain = Process()
         plain.executableURL = URL(filePath: "/bin/cat")

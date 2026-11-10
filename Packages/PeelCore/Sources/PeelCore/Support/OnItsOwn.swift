@@ -30,32 +30,41 @@ extension Subprocess {
     /// login shell: macOS judges what a program may reach by the app that started it, and this one must not reach
     /// what was given to Peel. So it starts as its own responsible process, and runs only once macOS says it answers
     /// for itself. It gets no input, no open file of Peel's and only `environment`, and is stopped after `timeout`
-    /// seconds or when the task is canceled.
+    /// seconds, when there is one, or when the task is canceled. `errorsIntoOutput` and `onOutput` are `run`'s.
     @concurrent
     public static func runOnItsOwn(
-        _ executable: String, _ arguments: [String], environment: [String: String], timeout: TimeInterval
+        _ executable: String, _ arguments: [String], environment: [String: String], timeout: TimeInterval?,
+        errorsIntoOutput: Bool = false, onOutput: (@Sendable (Data) -> Void)? = nil
     ) async -> Result<Output, Failure> {
-        await runOnItsOwn(executable, arguments, environment: environment, timeout: timeout, asking: .system)
+        await runOnItsOwn(
+            executable, arguments, environment: environment, timeout: timeout, errorsIntoOutput: errorsIntoOutput,
+            onOutput: onOutput, asking: .system
+        )
     }
 
     @concurrent
     static func runOnItsOwn(
-        _ executable: String, _ arguments: [String], environment: [String: String], timeout: TimeInterval,
+        _ executable: String, _ arguments: [String], environment: [String: String], timeout: TimeInterval?,
+        errorsIntoOutput: Bool = false, onOutput: (@Sendable (Data) -> Void)? = nil,
         asking responsibility: Responsibility?
     ) async -> Result<Output, Failure> {
         guard !Task.isCancelled else { return .failure(.canceled) }
         let held: Held
-        switch Held.start(executable, arguments, environment: environment, asking: responsibility) {
+        switch Held.start(
+            executable, arguments, environment: environment, errorsIntoOutput: errorsIntoOutput, asking: responsibility
+        ) {
         case .success(let started): held = started
         case .failure(let failure): return .failure(failure)
         }
         let run = OwnRun(held.pid)
-        let output = Reader(held.output, onRead: nil)
-        let errors = Reader(held.errors, onRead: nil)
+        let output = Reader(held.output, onRead: onOutput)
+        let errors = held.errors.map { Reader($0, onRead: onOutput) }
         run.watch()
         kill(held.pid, SIGCONT)
-        timers.asyncAfter(deadline: .now() + timeout) { [weak run] in
-            run?.stop(because: .timedOut)
+        if let timeout {
+            timers.asyncAfter(deadline: .now() + timeout) { [weak run] in
+                run?.stop(because: .timedOut)
+            }
         }
         await withTaskCancellationHandler {
             await run.wait()
@@ -63,29 +72,30 @@ extension Subprocess {
             run.stop(because: .canceled)
         }
         let standardOutput = await output.data(within: drain)
-        let standardError = await errors.data(within: drain)
+        let standardError = await errors?.data(within: drain) ?? Data()
         close(held.output)
-        close(held.errors)
+        if let errors = held.errors { close(errors) }
         if let failure = run.failure { return .failure(failure) }
         return .success(Output(status: run.status, standardOutput: standardOutput, standardError: standardError))
     }
 
-    /// A program started and not yet let run, with the ends of its output and its errors Peel reads.
+    /// A program started and not yet let run, with the ends of its output and its errors Peel reads: one end for
+    /// both when its errors go into its output.
     struct Held {
         let pid: pid_t
         let output: Int32
-        let errors: Int32
+        let errors: Int32?
 
         /// Starts `executable` stopped, as its own responsible process, and keeps it only when macOS says so.
         static func start(
             _ executable: String, _ arguments: [String], environment: [String: String],
-            asking responsibility: Responsibility?
+            errorsIntoOutput: Bool = false, asking responsibility: Responsibility?
         ) -> Result<Held, Failure> {
             guard let responsibility else { return .failure(.couldNotStart(notOnItsOwn)) }
             var output: [Int32] = [-1, -1]
             var errors: [Int32] = [-1, -1]
             guard pipe(&output) == 0 else { return .failure(.couldNotStart(String(cString: strerror(errno)))) }
-            guard pipe(&errors) == 0 else {
+            guard errorsIntoOutput || pipe(&errors) == 0 else {
                 let reason = String(cString: strerror(errno))
                 output.forEach { close($0) }
                 return .failure(.couldNotStart(reason))
@@ -95,7 +105,7 @@ extension Subprocess {
             defer { posix_spawn_file_actions_destroy(&actions) }
             posix_spawn_file_actions_addopen(&actions, 0, "/dev/null", O_RDONLY, 0)
             posix_spawn_file_actions_adddup2(&actions, output[1], 1)
-            posix_spawn_file_actions_adddup2(&actions, errors[1], 2)
+            posix_spawn_file_actions_adddup2(&actions, errorsIntoOutput ? output[1] : errors[1], 2)
 
             var attributes: posix_spawnattr_t?
             posix_spawnattr_init(&attributes)
@@ -124,7 +134,7 @@ extension Subprocess {
                 failure = notOnItsOwn
             }
             close(output[1])
-            close(errors[1])
+            if !errorsIntoOutput { close(errors[1]) }
             if failure == nil, responsibility.responsible(pid) != pid {
                 kill(pid, SIGKILL)
                 waitpid(pid, nil, 0)
@@ -132,10 +142,10 @@ extension Subprocess {
             }
             if let failure {
                 close(output[0])
-                close(errors[0])
+                if !errorsIntoOutput { close(errors[0]) }
                 return .failure(.couldNotStart(failure))
             }
-            return .success(Held(pid: pid, output: output[0], errors: errors[0]))
+            return .success(Held(pid: pid, output: output[0], errors: errorsIntoOutput ? nil : errors[0]))
         }
     }
 

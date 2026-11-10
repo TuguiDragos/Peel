@@ -1,6 +1,7 @@
 import Foundation
 import Synchronization
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct HomebrewTests {
@@ -574,6 +575,41 @@ struct HomebrewTests {
             "/Users/org.example/Library/Fonts/Sample.ttf", "/opt/homebrew/share/man/man1/sample.1",
         ])
         #expect(cask.uninstallPatterns == ["~/Library/Application Support/Sample", "/Library/Sample", "/Library/Empty"])
+    }
+
+    /// Homebrew is the account's own: any of its programs can rewrite it. A command that only reads must not reach
+    /// what was given to Peel, while an upgrade or an uninstall, which the person asks for, replaces or removes apps
+    /// with Peel's App Management.
+    @Test(arguments: [(["info", "--json=v2", "--installed"], false), (["upgrade", "--cask", "sample"], true)])
+    func aHomebrewCommandAnswersForItselfUnlessItChangesApps(arguments: [String], changesApps: Bool) async throws {
+        let system = try #require(Subprocess.Responsibility.system)
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let started = directory.url.appending(path: "started")
+        let goOn = directory.url.appending(path: "go-on")
+        let brew = try directory.file("prefix/bin/brew", contents: Data("""
+            #!/bin/sh
+            echo $$ > \(started.path(percentEncoded: false).quotedForTheShell)
+            while [ ! -e \(goOn.path(percentEncoded: false).quotedForTheShell) ]; do /bin/sleep 0.05; done
+
+            """.utf8))
+        try directory.setPermissions(0o755, of: brew)
+        async let attempt = try? Homebrew.execute(
+            arguments, autoUpdate: false, timeout: 120, executable: brew, home: home, changesApps: changesApps
+        )
+        var running: pid_t?
+        while running == nil {
+            try await Task.sleep(for: .milliseconds(20))
+            running = (try? String(contentsOf: started, encoding: .utf8)).flatMap {
+                pid_t($0.trimmingCharacters(in: .whitespacesAndNewlines))
+            }
+        }
+
+        let answersForIt = running.map(system.responsible)
+        try Data().write(to: goOn)
+        _ = await attempt
+
+        #expect((answersForIt == running) == !changesApps)
     }
 
     /// Read where the casks Homebrew knows are read, on a thread of Swift's pool, whose stack is small.

@@ -1078,8 +1078,9 @@ public enum Homebrew {
         onOutput: @escaping @Sendable (Data) -> Void
     ) async throws(CommandFailure) -> String {
         let arguments = ["upgrade", package.kind == .cask ? "--cask" : "--formula", package.name]
-        return try await execute(arguments, autoUpdate: true, timeout: nil, inWritingOrder: true, onOutput: onOutput)
-            .transcript()
+        return try await execute(
+            arguments, autoUpdate: true, timeout: nil, inWritingOrder: true, onOutput: onOutput, changesApps: true
+        ).transcript()
     }
 
     /// Upgrades `packages` the same way.
@@ -1091,7 +1092,9 @@ public enum Homebrew {
         // Said once: both calls below would fail the same way.
         guard executableURL != nil else { throw CommandFailure(output: notInstalled) }
         return try await upgrade(packages) { arguments throws(CommandFailure) in
-            try await execute(arguments, autoUpdate: true, timeout: nil, inWritingOrder: true, onOutput: onOutput)
+            try await execute(
+                arguments, autoUpdate: true, timeout: nil, inWritingOrder: true, onOutput: onOutput, changesApps: true
+            )
         }
     }
 
@@ -1266,7 +1269,8 @@ public enum Homebrew {
     ) async throws(CommandFailure) -> String {
         let arguments = ["uninstall", package.kind == .cask ? "--cask" : "--formula", package.name]
         return try await execute(
-            arguments, autoUpdate: false, keeping: kept, timeout: longestCommand, inWritingOrder: true
+            arguments, autoUpdate: false, keeping: kept, timeout: longestCommand, inWritingOrder: true,
+            changesApps: true
         ).transcript()
     }
 
@@ -1455,6 +1459,9 @@ public enum Homebrew {
 
     /// Runs `brew`, or `executable` when a test stands in for it, since a real upgrade would change this Mac. A run
     /// shown to the person keeps what Homebrew writes `inWritingOrder`: its warnings and errors among its steps.
+    /// Homebrew is the account's own, which any of its programs can rewrite, so it runs on its own and reaches
+    /// nothing given to Peel. Only a command the person asks for that `changesApps`, an upgrade or an uninstall,
+    /// runs as Peel's, whose App Management it needs to replace or remove an app.
     static func execute(
         _ arguments: [String],
         autoUpdate: Bool,
@@ -1465,7 +1472,8 @@ public enum Homebrew {
         executable: URL? = executableURL,
         readsTheAPI: Bool = true,
         home: URL = .homeDirectory,
-        writesLinesAsTheyGo: Bool = true
+        writesLinesAsTheyGo: Bool = true,
+        changesApps: Bool = false
     ) async throws(CommandFailure) -> Attempt {
         guard let executable else {
             throw CommandFailure(output: Self.notInstalled)
@@ -1475,10 +1483,16 @@ public enum Homebrew {
             writesLinesAsTheyGo: writesLinesAsTheyGo
         )
         let launch = launch(of: executable, arguments)
-        switch await Subprocess.run(
-            launch.program, launch.arguments, environment: environment, timeout: timeout,
-            errorsIntoOutput: inWritingOrder, onOutput: onOutput
-        ) {
+        let result = changesApps
+            ? await Subprocess.run(
+                launch.program, launch.arguments, environment: environment, timeout: timeout,
+                errorsIntoOutput: inWritingOrder, onOutput: onOutput
+            )
+            : await Subprocess.runOnItsOwn(
+                launch.program, launch.arguments, environment: environment, timeout: timeout,
+                errorsIntoOutput: inWritingOrder, onOutput: onOutput
+            )
+        switch result {
         case .success(let output):
             return Attempt(status: output.status, standardOutput: output.text, standardError: output.errorText)
         case .failure(let failure):
