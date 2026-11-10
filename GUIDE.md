@@ -351,8 +351,9 @@ and how many items the others hold.
   upgrade. It deletes a formula from under what runs from it too, and leaves its `brew services` job behind, so the
   question before Uninstall names what uses the formula and the command that stops the job. On a Mac with Apple
   silicon, a Homebrew in `/usr/local` is an Intel one, so Peel runs it through Rosetta and the page says so. A cask
-  Homebrew still lists though its app isn't where Homebrew put it anymore, or, for a cask with no app, its packages
-  are gone, can't be upgraded. It is listed apart under Apps Already Gone, where Forget Cask, or Forget
+  Homebrew still lists though its app isn't where Homebrew put it anymore can't be upgraded, and a cask with no app
+  whose packages macOS has no receipt for may be gone or only have had its receipts forgotten. Both are listed apart
+  under Apps Already Gone, where Forget Cask, or Forget
   All for every one of them, moves Homebrew's record of it to the Trash, with the links Homebrew made into it in its
   command and completion folders, so Homebrew stops listing it, and History can put it back. Peel runs Homebrew
   without your shell's settings, so Homebrew reads its own from `~/.homebrew/brew.env` there: a proxy you want it to

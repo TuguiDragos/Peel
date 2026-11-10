@@ -83,8 +83,8 @@ struct HomebrewDetailView: View {
 
             if package.isMissingWhatItInstalled, package.appTargets.isEmpty {
                 Notice(
-                    title: Text("The Packages Are Already Gone"),
-                    detail: Text("Homebrew still lists this cask, but the packages it installed aren’t on this Mac anymore, so Homebrew can’t upgrade it. Forget Cask moves the cask’s Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back."),
+                    title: Text("macOS Has No Receipt for Its Packages"),
+                    detail: Text("Homebrew still lists this cask, but macOS has no installer receipt left for the packages it installed. They were uninstalled, or their receipts were forgotten and what they installed is still here. If nothing of it is left, Forget Cask moves the cask’s Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back."),
                     kind: .note
                 ) {}
             } else if package.isStoppedMidUpgrade {

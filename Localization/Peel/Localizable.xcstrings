@@ -68577,109 +68577,108 @@
         }
       }
     },
-    "Homebrew still lists these casks, but what they installed isn’t where Homebrew put it anymore, so it can’t upgrade them. Forgetting a cask moves its Homebrew receipt to the Trash, with the links Homebrew made into it in its command and completion folders, so Homebrew stops listing it. History can put it back." : {
-      "comment" : "On the Homebrew page, about forgetting a cask whose app is gone. Its command and completion folders are the folders Homebrew links a cask's commands and shell completions into.",
+    "Homebrew still lists these casks, but their apps aren’t where Homebrew put them anymore, or macOS has no receipt left for the packages they installed. Forgetting a cask moves its Homebrew receipt to the Trash, with the links Homebrew made into it in its command and completion folders, so Homebrew stops listing it. History can put it back." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew tyto casks stále uvádí, ale to, co nainstalovaly, už není tam, kam to Homebrew umístil, takže je nemůže upgradovat. Když cask zapomenete, jeho záznam Homebrew se přesune do koše spolu s odkazy, které do něj Homebrew vytvořil ve svých složkách pro příkazy a doplňování, takže Homebrew přestane cask uvádět. Historie ho může vrátit zpět."
+            "value" : "Homebrew tyto casks stále uvádí, ale jejich aplikace už nejsou tam, kam je Homebrew umístil, nebo systému macOS nezůstal žádný záznam o instalaci balíčků, které tyto casks nainstalovaly. Když cask zapomenete, jeho záznam Homebrew se přesune do koše spolu s odkazy, které do něj Homebrew vytvořil ve svých složkách pro příkazy a doplňování, takže Homebrew přestane cask uvádět. Historie ho může vrátit zpět."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew führt diese Casks weiterhin, aber was sie installiert haben, ist nicht mehr dort, wo Homebrew es abgelegt hat, daher kann Homebrew sie nicht upgraden. Beim Vergessen eines Casks wird seine Homebrew-Quittung zusammen mit den Links, die Homebrew in seinen Ordnern für Befehle und Shell-Vervollständigungen angelegt hat und die darauf verweisen, in den Papierkorb gelegt, sodass Homebrew den Cask nicht mehr führt. Im Verlauf kannst du ihn zurücklegen."
+            "value" : "Homebrew führt diese Casks weiterhin, aber ihre Apps sind nicht mehr dort, wo Homebrew sie abgelegt hat, oder macOS hat keine Quittung mehr für die Pakete, die sie installiert haben. Beim Vergessen eines Casks wird seine Homebrew-Quittung zusammen mit den Links, die Homebrew in seinen Ordnern für Befehle und Shell-Vervollständigungen angelegt hat und die darauf verweisen, in den Papierkorb gelegt, sodass Homebrew den Cask nicht mehr führt. Im Verlauf kannst du ihn zurücklegen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew sigue mostrando estos casks, pero lo que instalaron ya no está donde Homebrew lo puso, así que no puede actualizarlos. Al olvidar un cask, su recibo de Homebrew se traslada a la papelera, junto con los enlaces que Homebrew creó hacia él en sus carpetas de comandos y de autocompletado, así que Homebrew deja de mostrarlo. Historial puede restaurarlo."
+            "value" : "Homebrew sigue mostrando estos casks, pero sus apps ya no están donde Homebrew las puso, o macOS ya no tiene ningún recibo de los paquetes que instalaron. Al olvidar un cask, su recibo de Homebrew se traslada a la papelera, junto con los enlaces que Homebrew creó hacia él en sus carpetas de comandos y de autocompletado, así que Homebrew deja de mostrarlo. Historial puede restaurarlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew liste encore ces casks, mais ce qu’ils ont installé ne se trouve plus là où Homebrew l’a placé, si bien qu’il ne peut pas les mettre à niveau. Oublier un cask place son reçu Homebrew dans la corbeille, avec les liens que Homebrew a créés vers ce reçu dans ses dossiers de commandes et de complétions : Homebrew ne liste donc plus ce cask. L’Historique peut le remettre en place."
+            "value" : "Homebrew liste encore ces casks, mais leurs apps ne se trouvent plus là où Homebrew les a placées, ou macOS n’a plus aucun reçu pour les paquets qu’ils ont installés. Oublier un cask place son reçu Homebrew dans la corbeille, avec les liens que Homebrew a créés vers ce reçu dans ses dossiers de commandes et de complétions : Homebrew ne liste donc plus ce cask. L’Historique peut le remettre en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew elenca ancora questi casks, ma ciò che hanno installato non è più dove Homebrew l’aveva messo, quindi non può aggiornarli. Dimenticare un cask sposta la sua ricevuta Homebrew nel Cestino, insieme ai link che Homebrew ha creato verso di essa nelle sue cartelle dei comandi e dei completamenti, così Homebrew smette di elencarlo. La Cronologia può ripristinarla."
+            "value" : "Homebrew elenca ancora questi casks, ma le loro app non sono più dove Homebrew le aveva messe, oppure macOS non ha più alcuna ricevuta dei pacchetti che hanno installato. Dimenticare un cask sposta la sua ricevuta Homebrew nel Cestino, insieme ai link che Homebrew ha creato verso di essa nelle sue cartelle dei comandi e dei completamenti, così Homebrew smette di elencarlo. La Cronologia può ripristinarla."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewはこれらのcasksを引き続き一覧に表示していますが、インストールされたものはもうHomebrewがインストールした場所にないため、アップグレードできません。caskのHomebrewレシートをゴミ箱に入れると、Homebrewがコマンド用とシェル補完用のフォルダに作成した、レシート内へのリンクも一緒にゴミ箱に入り、Homebrewはそのcaskを一覧に表示しなくなります。履歴から戻すことができます。"
+            "value" : "Homebrewはこれらのcasksを引き続き一覧に表示していますが、それらのアプリがHomebrewのインストールした場所にもうないか、それらがインストールしたパッケージのレシートがmacOSに残っていません。caskのHomebrewレシートをゴミ箱に入れると、Homebrewがコマンド用とシェル補完用のフォルダに作成した、レシート内へのリンクも一緒にゴミ箱に入り、Homebrewはそのcaskを一覧に表示しなくなります。履歴から戻すことができます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew는 이 cask를 여전히 목록에 표시하지만, 이 cask가 설치한 항목이 더 이상 Homebrew가 설치한 위치에 없으므로 업그레이드할 수 없습니다. cask의 Homebrew 수신 정보를 제거하면 수신 정보와, 그 안으로 연결되도록 Homebrew가 명령 폴더와 자동 완성 폴더에 만든 링크가 휴지통으로 이동하므로 Homebrew가 더 이상 해당 cask를 목록에 표시하지 않습니다. 기록에서 되돌려 놓을 수 있습니다."
+            "value" : "Homebrew는 이 cask를 여전히 목록에 표시하지만, 이 cask의 앱이 더 이상 Homebrew가 설치한 위치에 없거나, 이 cask가 설치한 패키지의 수신 정보가 macOS에 남아 있지 않습니다. cask의 Homebrew 수신 정보를 제거하면 수신 정보와, 그 안으로 연결되도록 Homebrew가 명령 폴더와 자동 완성 폴더에 만든 링크가 휴지통으로 이동하므로 Homebrew가 더 이상 해당 cask를 목록에 표시하지 않습니다. 기록에서 되돌려 놓을 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew vermeldt deze casks nog, maar wat ze hebben geïnstalleerd, staat niet meer waar Homebrew het heeft neergezet, dus Homebrew kan ze niet upgraden. Als je een cask vergeet, gaat het Homebrew-bewijs naar de prullenmand, samen met de links ernaar die Homebrew in zijn mappen voor commando's en shell-aanvullingen heeft gemaakt, zodat Homebrew de cask niet meer vermeldt. Geschiedenis kan het terugzetten."
+            "value" : "Homebrew vermeldt deze casks nog, maar hun apps staan niet meer waar Homebrew ze heeft neergezet, of macOS heeft geen installatiebewijs meer voor de pakketten die ze hebben geïnstalleerd. Als je een cask vergeet, gaat het Homebrew-bewijs naar de prullenmand, samen met de links ernaar die Homebrew in zijn mappen voor commando's en shell-aanvullingen heeft gemaakt, zodat Homebrew de cask niet meer vermeldt. Geschiedenis kan het terugzetten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew nadal wymienia te casks, ale tego, co zainstalowały, nie ma już tam, gdzie Homebrew to umieścił, więc nie może ich uaktualnić. Zapomnienie cask przenosi jego potwierdzenie Homebrew do Kosza razem z dowiązaniami, które Homebrew do niego utworzył w swoich folderach poleceń i uzupełnień powłoki, więc Homebrew przestaje go wymieniać. Historia może to przywrócić."
+            "value" : "Homebrew nadal wymienia te casks, ale ich aplikacji nie ma już tam, gdzie Homebrew je umieścił, albo macOS nie ma już potwierdzenia instalacji pakietów, które zainstalowały. Zapomnienie cask przenosi jego potwierdzenie Homebrew do Kosza razem z dowiązaniami, które Homebrew do niego utworzył w swoich folderach poleceń i uzupełnień powłoki, więc Homebrew przestaje go wymieniać. Historia może to przywrócić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew ainda lista estes casks, mas o que eles instalaram não está mais onde o Homebrew colocou, então ele não consegue fazer upgrade deles. Esquecer um cask move para o Lixo o recibo do Homebrew dele, junto com os links que o Homebrew criou nas pastas de comandos e de autocompletar apontando para ele, e assim o Homebrew deixa de listar o cask. O Histórico pode colocá-lo de volta."
+            "value" : "O Homebrew ainda lista estes casks, mas os apps deles não estão mais onde o Homebrew os colocou, ou o macOS não tem mais nenhum recibo dos pacotes que eles instalaram. Esquecer um cask move para o Lixo o recibo do Homebrew dele, junto com os links que o Homebrew criou nas pastas de comandos e de autocompletar apontando para ele, e assim o Homebrew deixa de listar o cask. O Histórico pode colocá-lo de volta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew listează în continuare aceste cask‑uri, dar ceea ce au instalat nu mai este unde l‑a pus Homebrew, așa că nu le poate face upgrade. Dacă uitați un cask, înregistrarea Homebrew a acestuia este mutată în Coș, împreună cu linkurile care duc în ea, create de Homebrew în dosarele sale pentru comenzi și completări, astfel încât Homebrew nu îl mai listează. Îl puteți pune înapoi din Istoric."
+            "value" : "Homebrew listează în continuare aceste cask‑uri, dar aplicațiile lor nu mai sunt unde le‑a pus Homebrew sau macOS nu mai are nicio înregistrare pentru pachetele pe care le‑au instalat. Dacă uitați un cask, înregistrarea Homebrew a acestuia este mutată în Coș, împreună cu linkurile care duc în ea, create de Homebrew în dosarele sale pentru comenzi și completări, astfel încât Homebrew nu îl mai listează. Îl puteți pune înapoi din Istoric."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew по-прежнему считает эти casks установленными, но того, что они установили, больше нет там, куда это поместил Homebrew, поэтому он не может их обновить. Если забыть cask, его квитанция Homebrew переместится в Корзину вместе со ссылками на нее, которые Homebrew создал в своих папках для команд и автодополнения, и Homebrew перестанет считать его установленным. История может ее восстановить."
+            "value" : "Homebrew по-прежнему считает эти casks установленными, но их приложений больше нет там, куда их поместил Homebrew, или в macOS не осталось квитанций для пакетов, которые они установили. Если забыть cask, его квитанция Homebrew переместится в Корзину вместе со ссылками на нее, которые Homebrew создал в своих папках для команд и автодополнения, и Homebrew перестанет считать его установленным. История может ее восстановить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew listar fortfarande dessa casks, men det som de installerade finns inte längre där Homebrew placerade det, så Homebrew kan inte uppgradera dem. Om du glömmer en cask flyttas dess Homebrew-kvitto till papperskorgen, tillsammans med länkarna som Homebrew har skapat till det i sina mappar för kommandon och kompletteringar, så Homebrew listar inte längre casken. Historik kan lägga tillbaka det."
+            "value" : "Homebrew listar fortfarande dessa casks, men deras appar finns inte längre där Homebrew placerade dem, eller så har macOS inget kvitto kvar för de paket som de installerade. Om du glömmer en cask flyttas dess Homebrew-kvitto till papperskorgen, tillsammans med länkarna som Homebrew har skapat till det i sina mappar för kommandon och kompletteringar, så Homebrew listar inte längre casken. Historik kan lägga tillbaka det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew bu cask paketlerini hâlâ listeliyor, ancak yükledikleri artık Homebrew’un koyduğu yerde değil, bu yüzden Homebrew onları yükseltemiyor. Bir cask unutulduğunda ona ait Homebrew makbuzu, Homebrew’un komut ve tamamlama klasörlerinde oluşturduğu ve makbuzun içini gösteren bağlantılarla birlikte Çöp Sepeti’ne taşınır; böylece Homebrew o cask paketini artık listelemez. Geçmiş onu yerine koyabilir."
+            "value" : "Homebrew bu cask paketlerini hâlâ listeliyor, ancak uygulamaları artık Homebrew’un koyduğu yerde değil ya da yükledikleri paketlerin macOS’te hiçbir makbuzu kalmamış. Bir cask unutulduğunda ona ait Homebrew makbuzu, Homebrew’un komut ve tamamlama klasörlerinde oluşturduğu ve makbuzun içini gösteren bağlantılarla birlikte Çöp Sepeti’ne taşınır; böylece Homebrew o cask paketini artık listelemez. Geçmiş onu yerine koyabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew досі показує ці casks у своєму списку, але того, що вони інсталювали, уже немає там, куди це поклав Homebrew, тож він не може їх оновити. Якщо забути cask, його квитанцію Homebrew буде переміщено в Смітник разом із посиланнями на неї, які Homebrew створив у своїх папках для команд і доповнень оболонки, і Homebrew перестане показувати цей cask у своєму списку. Історія може це повернути."
+            "value" : "Homebrew досі показує ці casks у своєму списку, але їхніх програм уже немає там, куди їх поклав Homebrew, або в macOS не лишилося квитанцій для пакетів, які вони інсталювали. Якщо забути cask, його квитанцію Homebrew буде переміщено в Смітник разом із посиланнями на неї, які Homebrew створив у своїх папках для команд і доповнень оболонки, і Homebrew перестане показувати цей cask у своєму списку. Історія може це повернути."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew仍然列出这些casks，但它们安装的内容已不在Homebrew当初放置的位置，因此Homebrew无法升级它们。移除cask的记录会将其Homebrew回执连同Homebrew在命令和补全文件夹中创建的、指向其中的链接一起移到废纸篓，这样Homebrew就不再列出该cask。“历史记录”可以将其放回原处。"
+            "value" : "Homebrew仍然列出这些casks，但它们的App已不在Homebrew当初放置的位置，或者macOS已没有它们所安装的软件包的回执。移除cask的记录会将其Homebrew回执连同Homebrew在命令和补全文件夹中创建的、指向其中的链接一起移到废纸篓，这样Homebrew就不再列出该cask。“历史记录”可以将其放回原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew仍列出這些cask，但它們所安裝的內容已不在Homebrew當初放置的位置，因此Homebrew無法升級它們。移除cask會將它的Homebrew收據，連同Homebrew在其指令與補齊檔案夾中建立、指向收據內的連結，一起丟到「垃圾桶」，Homebrew就不再列出它。「歷史記錄」可以將它還原。"
+            "value" : "Homebrew仍列出這些cask，但它們的App已不在Homebrew當初放置的位置，或macOS已沒有它們所安裝套件的收據。移除cask會將它的Homebrew收據，連同Homebrew在其指令與補齊檔案夾中建立、指向收據內的連結，一起丟到「垃圾桶」，Homebrew就不再列出它。「歷史記錄」可以將它還原。"
           }
         }
       }
@@ -68790,108 +68789,108 @@
         }
       }
     },
-    "Homebrew still lists this cask, but the packages it installed aren’t on this Mac anymore, so Homebrew can’t upgrade it. Forget Cask moves the cask’s Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back." : {
+    "Homebrew still lists this cask, but macOS has no installer receipt left for the packages it installed. They were uninstalled, or their receipts were forgotten and what they installed is still here. If nothing of it is left, Forget Cask moves the cask’s Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew tento cask stále uvádí, ale balíčky, které nainstaloval, už v tomto Macu nejsou, takže ho Homebrew nemůže upgradovat. Tlačítko „Zapomenout cask“ přesune jeho záznam Homebrew do koše, takže Homebrew přestane cask uvádět a Historie ho může vrátit zpět."
+            "value" : "Homebrew tento cask stále uvádí, ale systému macOS nezůstal žádný záznam o instalaci balíčků, které cask nainstaloval. Balíčky byly odinstalovány, nebo byly jejich záznamy zapomenuty a to, co nainstalovaly, tu stále je. Pokud z toho nic nezůstalo, příkaz „Zapomenout cask“ přesune jeho záznam Homebrew do koše, takže ho Homebrew přestane uvádět, a Historie ho může vrátit zpět."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew führt diesen Cask weiterhin, aber die Pakete, die er installiert hat, sind nicht mehr auf diesem Mac, daher kann Homebrew ihn nicht upgraden. „Cask vergessen“ legt die Homebrew-Quittung des Casks in den Papierkorb, sodass Homebrew den Cask nicht mehr führt, und im Verlauf kannst du ihn zurücklegen."
+            "value" : "Homebrew führt diesen Cask weiterhin, aber macOS hat keine Paketquittung mehr für die Pakete, die er installiert hat. Sie wurden deinstalliert, oder ihre Quittungen wurden vergessen, und was sie installiert haben, ist noch da. Wenn davon nichts mehr übrig ist, legt „Cask vergessen“ die Homebrew-Quittung des Casks in den Papierkorb, sodass Homebrew ihn nicht mehr führt, und im Verlauf kannst du sie zurücklegen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew sigue mostrando este cask, pero los paquetes que instaló ya no están en este Mac, así que Homebrew no puede actualizarlo. “Olvidar cask” traslada a la papelera el recibo de Homebrew del cask, así que Homebrew deja de mostrarlo, e Historial puede restaurarlo."
+            "value" : "Homebrew sigue mostrando este cask, pero macOS ya no tiene ningún recibo del instalador de los paquetes que instaló. Esos paquetes se desinstalaron, o se olvidaron sus recibos y lo que instalaron sigue aquí. Si no queda nada de ello, “Olvidar cask” traslada a la papelera el recibo de Homebrew del cask, así que Homebrew deja de mostrarlo, e Historial puede restaurarlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew liste encore ce cask, mais les paquets qu’il a installés ne se trouvent plus sur ce Mac, si bien que Homebrew ne peut pas le mettre à niveau. « Oublier le cask » place le reçu Homebrew de ce cask dans la corbeille : Homebrew cesse alors de le lister, et l’Historique peut le remettre en place."
+            "value" : "Homebrew liste encore ce cask, mais macOS n’a plus aucun reçu d’installation pour les paquets qu’il a installés. Ces paquets ont été désinstallés, ou leurs reçus ont été oubliés et ce qu’ils ont installé se trouve toujours ici. S’il n’en reste rien, « Oublier le cask » place le reçu Homebrew du cask dans la corbeille : Homebrew ne le liste donc plus, et l’Historique peut le remettre en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew elenca ancora questo cask, ma i pacchetti che ha installato non sono più presenti su questo Mac, quindi Homebrew non può aggiornarlo. “Dimentica cask” sposta nel Cestino la ricevuta Homebrew del cask, così Homebrew smette di elencarlo, e la Cronologia può ripristinarla."
+            "value" : "Homebrew elenca ancora questo cask, ma macOS non ha più alcuna ricevuta Installer dei pacchetti che ha installato. Sono stati disinstallati, oppure le loro ricevute sono state dimenticate e ciò che hanno installato è ancora qui. Se non ne resta nulla, “Dimentica cask” sposta la ricevuta Homebrew del cask nel Cestino, così Homebrew smette di elencarlo, e la Cronologia può ripristinarla."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewはこのcaskを引き続き一覧に表示していますが、インストールされたパッケージはもうこのMacにないため、アップグレードできません。“Homebrewレシートをゴミ箱に入れる”をクリックすると、このcaskのHomebrewレシートがゴミ箱に入り、Homebrewはこのcaskを一覧に表示しなくなります。履歴から戻すこともできます。"
+            "value" : "Homebrewはこのcaskを引き続き一覧に表示していますが、このcaskがインストールしたパッケージのインストーラレシートがmacOSに残っていません。パッケージがアンインストールされたか、レシートだけが取り除かれて、インストールされたものがまだここにあります。インストールされたものが何も残っていない場合は、“Homebrewレシートをゴミ箱に入れる”を使うと、このcaskのHomebrewレシートがゴミ箱に入り、Homebrewはこのcaskを一覧に表示しなくなります。履歴から戻すこともできます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew는 이 cask를 여전히 목록에 표시하지만, 이 cask가 설치한 패키지가 더 이상 이 Mac에 없으므로 업그레이드할 수 없습니다. ‘수신 정보 제거’를 클릭하면 이 cask의 Homebrew 수신 정보가 휴지통으로 이동하므로 Homebrew가 더 이상 목록에 표시하지 않으며, 기록에서 되돌려 놓을 수 있습니다."
+            "value" : "Homebrew는 이 cask를 여전히 목록에 표시하지만, 이 cask가 설치한 패키지의 설치 수신 정보가 macOS에 남아 있지 않습니다. 패키지가 제거되었거나, 수신 정보만 제거되고 패키지가 설치한 항목은 아직 여기에 있는 경우입니다. 패키지가 설치한 항목 중 남아 있는 것이 없다면 ‘수신 정보 제거’로 cask의 Homebrew 수신 정보를 휴지통으로 이동할 수 있으며, 그러면 Homebrew가 더 이상 이 cask를 목록에 표시하지 않습니다. 기록에서 되돌려 놓을 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew vermeldt deze cask nog steeds, maar de pakketten die de cask heeft geïnstalleerd, staan niet meer op deze Mac, dus kan Homebrew de cask niet upgraden. 'Vergeet cask' verplaatst het Homebrew-bewijs ervan naar de prullenmand, zodat Homebrew de cask niet meer vermeldt, en Geschiedenis kan het terugzetten."
+            "value" : "Homebrew vermeldt deze cask nog, maar macOS heeft geen installatiebewijs meer voor de pakketten die de cask heeft geïnstalleerd. Die pakketten zijn gedeïnstalleerd, of hun installatiebewijzen zijn vergeten en wat ze hebben geïnstalleerd, staat nog op deze Mac. Als daar niets meer van over is, verplaatst 'Vergeet cask' het Homebrew-bewijs van de cask naar de prullenmand, zodat Homebrew de cask niet meer vermeldt, en Geschiedenis kan het terugzetten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew nadal wymienia ten cask, ale pakietów, które zainstalował, nie ma już na tym Macu, więc Homebrew nie może go uaktualnić. Przycisk „Zapomnij cask” przenosi potwierdzenie Homebrew tego cask do Kosza, więc Homebrew przestaje go wymieniać, a Historia może to przywrócić."
+            "value" : "Homebrew nadal wymienia ten cask, ale macOS nie ma już potwierdzenia instalacji pakietów, które zainstalował. Zostały odinstalowane albo ich potwierdzenia zapomniano, a to, co zainstalowały, nadal tu jest. Jeśli nic z tego nie zostało, polecenie Zapomnij cask przenosi potwierdzenie Homebrew tego cask do Kosza, więc Homebrew przestaje go wymieniać, a Historia może je przywrócić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew ainda lista este cask, mas os pacotes que ele instalou não estão mais neste Mac, então o Homebrew não consegue fazer upgrade dele. Esquecer Cask move para o Lixo o recibo do Homebrew do cask. Assim, o Homebrew deixa de listá-lo, e o Histórico pode colocá-lo de volta."
+            "value" : "O Homebrew ainda lista este cask, mas o macOS não tem mais nenhum recibo de instalação dos pacotes que ele instalou. Eles foram desinstalados, ou os recibos deles foram esquecidos e o que eles instalaram ainda está aqui. Se não restar nada do que eles instalaram, “Esquecer Cask” move para o Lixo o recibo do Homebrew do cask, para que o Homebrew deixe de listá-lo, e o Histórico pode colocá-lo de volta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew listează în continuare acest cask, dar pachetele pe care le‑a instalat nu mai sunt pe acest Mac, așa că Homebrew nu îi poate face upgrade. „Uitați cask‑ul” mută înregistrarea Homebrew a cask‑ului în Coș, astfel încât Homebrew nu îl mai listează, iar din Istoric îl puteți pune înapoi."
+            "value" : "Homebrew listează în continuare acest cask, dar macOS nu mai are nicio înregistrare de instalare pentru pachetele pe care le‑a instalat. Fie au fost dezinstalate, fie înregistrările lor au fost uitate, iar ce au instalat se află încă aici. Dacă nu a mai rămas nimic din ce au instalat, „Uitați cask‑ul” mută în Coș înregistrarea Homebrew a cask‑ului, astfel încât Homebrew nu îl mai listează, iar din Istoric o puteți pune înapoi."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew по-прежнему считает этот cask установленным, но пакетов, которые он установил, на этом Mac больше нет, поэтому Homebrew не может его обновить. Кнопка «Забыть cask» перемещает квитанцию Homebrew для этого cask в Корзину, и Homebrew перестает считать его установленным, а История может ее восстановить."
+            "value" : "Homebrew по-прежнему считает этот cask установленным, но в macOS не осталось квитанций установщика для пакетов, которые он установил. Эти пакеты были удалены, или их квитанции были забыты, а то, что они установили, все еще здесь. Если ничего из этого не осталось, кнопка «Забыть cask» перемещает квитанцию Homebrew для этого cask в Корзину, и Homebrew перестает считать его установленным, а История может ее восстановить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew listar fortfarande den här casken, men paketen som den installerade finns inte längre på den här datorn, så Homebrew kan inte uppgradera den. ”Glöm cask” flyttar caskens Homebrew-kvitto till papperskorgen, så Homebrew listar den inte längre, och Historik kan lägga tillbaka det."
+            "value" : "Homebrew listar fortfarande den här casken, men macOS har inget installationskvitto kvar för paketen som den installerade. Paketen har avinstallerats, eller så har deras kvitton glömts och det som de installerade finns kvar här. Om inget av det finns kvar flyttar ”Glöm cask” caskens Homebrew-kvitto till papperskorgen, så Homebrew listar den inte längre, och Historik kan lägga tillbaka det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew bu cask paketini hâlâ listeliyor, ancak yüklediği paketler artık bu Mac’te yok, bu yüzden Homebrew onu yükseltemiyor. “Cask Paketini Unut”, bu paketin Homebrew makbuzunu Çöp Sepeti’ne taşır; böylece Homebrew onu artık listelemez ve Geçmiş onu yerine koyabilir."
+            "value" : "Homebrew bu cask paketini hâlâ listeliyor, ancak yüklediği paketlerin macOS’te hiçbir yükleyici makbuzu kalmamış. Bu paketlerin yüklemesi kaldırılmış ya da makbuzları unutulmuş ve yükledikleri hâlâ burada. Yüklediklerinden hiçbir şey kalmadıysa “Cask Paketini Unut” düğmesi cask paketinin Homebrew makbuzunu Çöp Sepeti’ne taşır; böylece Homebrew onu artık listelemez ve Geçmiş onu yerine koyabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew досі показує цей cask у своєму списку, але пакетів, які він інсталював, уже немає на цьому Mac, тож Homebrew не може його оновити. Кнопка «Забути cask» переміщує в Смітник квитанцію Homebrew цього cask, і Homebrew перестане показувати його у своєму списку, а Історія може це повернути."
+            "value" : "Homebrew досі показує цей cask у своєму списку, але в macOS не лишилося квитанцій інсталятора для пакетів, які він інсталював. Ці пакети деінстальовано, або їхні квитанції забуто, а те, що вони інсталювали, досі тут. Якщо з цього нічого не лишилося, кнопка «Забути cask» переміщує квитанцію Homebrew цього cask у Смітник, тож Homebrew перестає показувати його у своєму списку, а Історія може її повернути."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew仍然列出此cask，但它安装的软件包已不在这台Mac上，因此Homebrew无法升级它。“移除cask记录”会将该cask的Homebrew回执移到废纸篓，这样Homebrew就不再列出它，并且“历史记录”可以将其放回原处。"
+            "value" : "Homebrew仍然列出此cask，但macOS已没有它所安装的软件包的安装器回执。这些软件包已被卸载，或者它们的回执已被移除，而它们安装的内容仍在这里。如果这些内容已全部不在，“移除cask记录”会将此cask的Homebrew回执移到废纸篓，这样Homebrew就不再列出它，“历史记录”也可以将其放回原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew仍列出此cask，但它所安裝的套件已不在這部Mac上，因此Homebrew無法升級它。「移除cask」會將此cask的Homebrew收據丟到「垃圾桶」，Homebrew就不再列出它，「歷史記錄」也可以將它還原。"
+            "value" : "Homebrew仍列出此cask，但macOS已沒有它所安裝套件的安裝收據。這些套件已被解除安裝，或者它們的收據已被移除，而它們安裝的內容仍在這裡。如果已沒有任何相關內容留下，「移除cask」會將此cask的Homebrew收據丟到「垃圾桶」，Homebrew就不再列出它，「歷史記錄」也可以將它還原。"
           }
         }
       }
@@ -206842,112 +206841,6 @@
         }
       }
     },
-    "The Packages Are Already Gone" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Balíčky už tu nejsou"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Pakete sind nicht mehr vorhanden"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Los paquetes ya no están"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les paquets ont déjà disparu"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I pacchetti non ci sono più"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "パッケージはすでになくなっています"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "패키지가 이미 사라짐"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De pakketten zijn al verdwenen"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pakietów już nie ma"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Os Pacotes Já Foram Removidos"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pachetele nu mai există"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пакетов уже нет"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Paketen är redan borta"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Paketler Artık Yok"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пакетів уже немає"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这些软件包已不存在"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "套件已不存在"
-          }
-        }
-      }
-    },
     "The Print dialog opens with its details showing." : {
       "localizations" : {
         "cs" : {
@@ -266049,6 +265942,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS沒有回應"
+          }
+        }
+      }
+    },
+    "macOS Has No Receipt for Its Packages" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS nemá záznam o instalaci jeho balíčků"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat keine Quittung für die Pakete des Casks"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no tiene ningún recibo de sus paquetes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’a aucun reçu pour ses paquets"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non ha ricevute per i suoi pacchetti"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSにパッケージのレシートがありません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS에 해당 패키지의 수신 정보가 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft geen installatiebewijs voor de pakketten ervan"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie ma potwierdzenia instalacji jego pakietów"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS Não Tem Recibo dos Pacotes do Cask"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu are nicio înregistrare pentru pachetele cask‑ului"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В macOS нет квитанций для его пакетов"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS har inget kvitto för caskens paket"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS’te Paketlerinin Makbuzu Yok"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У macOS немає квитанцій для його пакетів"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS没有其软件包的回执"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS沒有其套件的收據"
           }
         }
       }
