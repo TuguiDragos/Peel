@@ -194,9 +194,14 @@ public enum PreferenceBackup {
             domain(from: file.lastPathComponent).map { ($0, file) }
         }
         guard !saved.isEmpty else { return .copyUnreadable(.noSettings) }
+        // Only what a reset of this app would have saved, since anyone can add a file to the copy's folder.
+        let taken = saved.filter { domain, _ in
+            (!ProtectedData.isApplesName(domain.name) || PreferenceCleanup.isOwned(domain.name, by: bundleIdentifier))
+                && !exclusions.excludes(bundleIdentifier: domain.name)
+        }
         // A copy that is not a readable property list would put nothing back once the delete had cleared the
         // settings in use, so it is refused before anything is cleared.
-        let readable = saved.filter { isAPropertyList($0.1) }
+        let readable = taken.filter { isAPropertyList($0.1) }
         guard !readable.isEmpty else { return .copyUnreadable(.notAPropertyList) }
         let current = await save(readable.map(\.0), of: bundleIdentifier, in: directory, through: service, run: run)
         if case .failed(let why) = current { return .notSaved(why) }

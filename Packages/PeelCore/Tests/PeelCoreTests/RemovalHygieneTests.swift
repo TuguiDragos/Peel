@@ -422,6 +422,31 @@ struct RemovalHygieneTests {
         )
     }
 
+    @Test func aCopyPutsBackNeitherAnotherAppsAppleDomainNorAnExcludedApps() async throws {
+        let directory = try TemporaryDirectory()
+        let backups = try directory.directory("Backups")
+        let folder = try directory.directory("Backups/org.example.harmless 2026-11-09 120000")
+        let plist = try PropertyListSerialization.data(fromPropertyList: ["key": "value"], format: .xml, options: 0)
+        for domain in ["org.example.harmless", "org.example.helper", "com.apple.Safari", "com.example.somebody-else"] {
+            try plist.write(to: folder.appending(path: "\(domain).plist"))
+        }
+        let asked = Mutex<[[String]]>([])
+        let run: PreferenceBackup.Run = { arguments in
+            asked.withLock { $0.append(arguments) }
+            return Self.exporting(arguments)
+        }
+
+        let restored = await PreferenceBackup.restore(
+            from: folder, of: "org.example.harmless", in: backups,
+            exclusions: Exclusions(bundleIdentifiers: ["com.example.somebody-else"]), through: Self.service, run: run,
+            isOpen: { false }
+        )
+
+        let changed = Set(asked.withLock { $0 }.filter { $0.first == "delete" || $0.first == "import" }.map { $0[1] })
+        #expect(changed == ["org.example.harmless", "org.example.helper"])
+        #expect(restored == .incomplete(clearedSome: false))
+    }
+
     @Test func aCopyWithNothingToReadPutsNothingBack() async throws {
         let directory = try TemporaryDirectory()
         let backups = try directory.directory("Backups")
