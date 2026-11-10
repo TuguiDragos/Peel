@@ -426,9 +426,10 @@ extension LeftoverMatcher {
                         || vendor != nil && Identifier.vendor(of: embedded) == vendor
                 )
             }
+            // A name continues an identifier after a dot, a dash, or an underscore, as a package's receipt does.
             prefixes = ([identifier].compactMap(\.self) + embeddedIdentifiers.map(\.value))
                 .filter { Identifier.componentCount(of: $0) >= 3 }
-                .map { $0 + "." }
+                .flatMap { [$0 + ".", $0 + "-", $0 + "_"] }
             applicationGroups = Set(app.applicationGroups.map { $0.lowercased() })
             teamPrefix = app.teamIdentifier.map { $0.lowercased() + "." }
             vendorPrefix = vendor.map { $0 + "." }

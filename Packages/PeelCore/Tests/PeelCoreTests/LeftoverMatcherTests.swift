@@ -205,6 +205,16 @@ struct LeftoverMatcherTests {
         #expect(try #require(match("org.example.updater", in: .caches, for: hosted)).confidence == .possible)
     }
 
+    @Test func anIdentifierContinuedWithADashOrAnUnderscoreIsItsOwn() throws {
+        let folio = app("org.examplesoft.Folio", name: "Folio")
+        let express = app("org.examplesoft.Folio.Express", name: "Folio Express")
+
+        for name in ["org.examplesoft.Folio.Express-custom.plist", "org.examplesoft.Folio.Express_settings.plist"] {
+            #expect(match(name, in: .preferences, for: folio, with: [express]) == nil, "\(name)")
+            #expect(match(name, in: .preferences, for: express, with: [folio])?.reason == .bundleIdentifierPrefix)
+        }
+    }
+
     @Test func whatAnAppSaysItEmbedsNeverTakesAnotherInstalledAppsFiles() throws {
         let owner = app("com.example.owner", name: "Owner")
         let claimer = app("org.example.claimer", name: "Claimer", embedded: ["com.example.owner.helper"])
