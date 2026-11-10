@@ -28,6 +28,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Avast Security, AVG AntiVirus, Trend Micro Antivirus, Tuxera NTFS, and Background Music are left to their makers'
   uninstallers the same way. For Tuxera NTFS that is the script its page gives, since its button in System Settings
   deletes only Tuxera Disk Manager on macOS 27.
+- An app's page and several apps' page list under Commands to Run the commands a removal leaves you, such as
+  `battery uninstall` or the one that removes what an app leaves in `/etc`, each with a button to copy it, since the
+  question before the move can't be copied from. The alert after the move gives again those still to run, with Copy
+  Details.
 
 #### Orphaned Files
 
@@ -47,10 +51,41 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - The greeting catches up as soon as the Mac wakes, or its clock or time zone changes, instead of waiting for the hour
   it was due to change.
+- Reopen Peel comes with its reason: macOS gives Full Disk Access only to an app opened after it was turned on. Settings
+  and the note on folders Peel couldn't read say so too.
+
+#### History
+
+- History and Not Moved say why they no longer list older removals: History keeps its latest removals up to 20,000
+  items, and Not Moved up to 5,000. `peel history` says the same.
 
 #### Settings
 
 - The + and - under App Folders and the Exclusions lists are the same height.
+- Remove Peel's question says first that Peel's helper, which serves every account on this Mac, goes for all of them,
+  and that Peel stops opening at login, whenever there is one.
+- When Remove Peel needs an administrator, its advice says that dragging Peel to the Trash in Finder leaves its helper,
+  its login item, and its files behind.
+- The Exclusions notes say all an exclusion stops, more plainly: Peel puts nothing back into what you excluded, Homebrew
+  doesn't upgrade a package inside it, and an excluded app doesn't come back from the Trash.
+- Put Back in Saved Settings says why it leaves an app's settings alone, because the app is excluded or the exclusions
+  can't be read, and points to the Exclusions tab.
+- When a saved copy of settings goes back only in part, Settings and the Reset sheet say that the part Peel couldn't
+  read or leaves alone stays as it is now, and the rest went back.
+- The Command-line tool's note follows its row: it says `peel` is on your path once it is, and on an account that isn't
+  an administrator's, to add the line below to your shell's startup file.
+
+#### Applications
+
+- The note on an app whose signer changed says these are teams, who signs the app now when Peel knows, that a maker can
+  change its team, as after a sale, while a rebuilt copy looks the same, and to get the app again from its maker if you
+  didn't expect it.
+- The Reset sheet says the old settings can also go back later from Settings > General > Saved Settings, where the copy
+  stays until you move it to the Trash.
+- On macOS 27, the note on an app with a system extension says, as on macOS 26, that Peel leaves the app and its files
+  where they are, and that Orphaned Files lists what it left once the app is in the Trash.
+- The alert after a removal says to remove or change the lines of your shell's startup files that still name what moved
+  if a new Terminal window shows an error. `peel uninstall` says the same.
 
 ### Fixed
 
@@ -58,6 +93,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - Home's note on App Management no longer says Peel can still clear an app's files without it: when macOS refuses to
   move an app, its files stay too.
+- On an account that isn't an administrator's, with no helper, Home no longer says You're all set while what needs an
+  administrator can't move: it says Set for this account, and that such items stay until an administrator installs
+  Peel's helper.
+- With the helper installed by another copy of Peel, Home says to open that copy, no longer to set the helper up below,
+  where this copy has no button for it.
 
 #### Menu bar
 
@@ -105,6 +145,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Watch the Trash no longer tells of an app `peel` is moving to the Trash as one you threw away.
 - A path written by hand into the exclusions file, such as `/Users/name/Project`, is left alone, and an entry Peel can't
   read is kept in the old file, set aside the next time the list changes, no longer dropped without a trace.
+- Privacy no longer says the App Store is asked only about apps bought there: it is asked about every app installed from
+  it, free ones too. It also names the Homebrew page where it said there.
 
 #### Applications
 
@@ -229,6 +271,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   ready in about half the time.
 - An app's page asks `pkgutil` about the app's receipts once rather than twice, and asks nothing more of your account's
   packages when it has none.
+- The Source filter calls an app that came from none of the other sources Other, no longer Downloaded, since Peel
+  doesn't know it was downloaded, as the exported list already said.
 
 #### Orphaned Files
 
@@ -367,6 +411,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   showing a size a slow measurement took before the move.
 - Move to Trash and Put Back no longer hold the window while Peel sets up the checks that keep what it protects in
   place: they're set up in the work that moves, once for an uninstall.
+- Edit > Undo names what moved, as Finder does: Undo Move of the item, or of how many items. It keeps Undo Remove for an
+  uninstall that took an app, and no longer offers Undo Remove Xcode after Xcode's caches were emptied.
 
 #### `peel`
 
