@@ -1,5 +1,7 @@
 import Foundation
 @testable import Peel
+import PeelCore
+import Synchronization
 import Testing
 
 struct TrashWatchTests {
@@ -15,7 +17,7 @@ struct TrashWatchTests {
         var arrived: [TrashedApp] = []
         let watch = TrashWatch(trash: trash, waitsIn: folder) { arrived.append($0) }
         defer { watch.stop() }
-        guard case .watching = watch.start() else {
+        guard case .watching? = await watch.start() else {
             Issue.record("the watch did not start")
             return
         }
@@ -45,7 +47,7 @@ struct TrashWatchTests {
         var arrived: [TrashedApp] = []
         let watch = TrashWatch(trash: trash, waitsIn: folder) { arrived.append($0) }
         defer { watch.stop() }
-        guard case .watching = watch.start() else {
+        guard case .watching? = await watch.start() else {
             Issue.record("the watch did not start")
             return
         }
@@ -71,7 +73,7 @@ struct TrashWatchTests {
         var arrived: [TrashedApp] = []
         let watch = TrashWatch(trash: trash, waitsIn: folder) { arrived.append($0) }
         defer { watch.stop() }
-        guard case .watching = watch.start() else {
+        guard case .watching? = await watch.start() else {
             Issue.record("a missing Trash was not waited for")
             return
         }
@@ -96,7 +98,7 @@ struct TrashWatchTests {
         var arrived: [TrashedApp] = []
         let watch = TrashWatch(trash: trash, waitsIn: folder) { arrived.append($0) }
         defer { watch.stop() }
-        guard case .watching = watch.start() else {
+        guard case .watching? = await watch.start() else {
             Issue.record("the watch did not start")
             return
         }
@@ -127,7 +129,7 @@ struct TrashWatchTests {
         var arrived: [TrashedApp] = []
         let watch = TrashWatch(trash: trash, waitsIn: folder) { arrived.append($0) }
         defer { watch.stop() }
-        guard case .watching = watch.start() else {
+        guard case .watching? = await watch.start() else {
             Issue.record("a missing Trash was not waited for")
             return
         }
@@ -144,7 +146,7 @@ struct TrashWatchTests {
         #expect(arrived.map(\.url.lastPathComponent) == ["Example.app"])
     }
 
-    @Test func aTrashClosedByPermissionsIsNoMatterOfFullDiskAccess() throws {
+    @Test func aTrashClosedByPermissionsIsNoMatterOfFullDiskAccess() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let trash = folder.appending(path: "Trash", directoryHint: .isDirectory)
         try FileManager.default.createDirectory(at: trash, withIntermediateDirectories: true)
@@ -157,21 +159,59 @@ struct TrashWatchTests {
         let watch = TrashWatch(trash: trash, waitsIn: folder) { _ in }
         defer { watch.stop() }
 
-        #expect(watch.start() == .closedByPermissions)
+        #expect(await watch.start() == .closedByPermissions)
         #expect(TrashMonitor.Status(.closedByPermissions) == .closedByPermissions)
     }
 
-    @Test func waitsForATrashThatIsNotThereYet() throws {
+    @Test func waitsForATrashThatIsNotThereYet() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: folder) }
         let watch = TrashWatch(trash: folder.appending(path: "Trash"), waitsIn: folder) { _ in }
         defer { watch.stop() }
 
-        guard case .watching = watch.start() else {
+        guard case .watching? = await watch.start() else {
             Issue.record("a missing Trash was not waited for")
             return
         }
         #expect(watch.isActive)
+    }
+    @Test func theTrashIsListedOffTheMainThreadWhenAWatchStarts() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let trash = folder.appending(path: "Trash", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: trash, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let listedOnMain = Mutex<Bool?>(nil)
+        let watch = TrashWatch(trash: trash, waitsIn: folder, listing: { _ in
+            listedOnMain.withLock { $0 = Thread.isMainThread }
+            return []
+        }) { _ in }
+        defer { watch.stop() }
+
+        _ = await watch.start()
+
+        #expect(listedOnMain.withLock { $0 } == false, "the window waits for a disk that may not answer")
+    }
+
+    @Test func aStopWhileTheTrashOpensLeavesNothingWatched() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let trash = folder.appending(path: "Trash", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: trash, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let listing = DispatchSemaphore(value: 0), goOn = DispatchSemaphore(value: 0)
+        let watch = TrashWatch(trash: trash, waitsIn: folder, listing: { _ in
+            listing.signal()
+            goOn.wait()
+            return []
+        }) { _ in }
+        defer { watch.stop() }
+
+        let started = Task { await watch.start() }
+        await withCheckedContinuation { done in DispatchQueue.global().async { listing.wait(); done.resume() } }
+        watch.stop()
+        goOn.signal()
+
+        #expect(await started.value == nil)
+        #expect(!watch.isActive, "a stopped watch went on watching the Trash")
     }
 }

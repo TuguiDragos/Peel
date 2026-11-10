@@ -29,15 +29,20 @@ enum SlowRead {
     }
 
     /// Runs `read` on a thread of its own and returns its answer, or nil when it does not come within `budget`
-    /// or the task is canceled. A read that works in steps can check `isGivenUp` and stop once nobody waits.
+    /// or the task is canceled. A read that works in steps can check `isGivenUp` and stop once nobody waits, and an
+    /// answer that comes once nobody waits goes to `discarding`, for one that holds something to close.
     static func answer<T: Sendable>(
         within budget: TimeInterval,
         while isAsked: @escaping @Sendable () -> Bool = AppDataQuestion.isOnScreen,
+        discarding: @escaping @Sendable (T) -> Void = { _ in },
         _ read: @escaping @Sendable (_ isGivenUp: @escaping @Sendable () -> Bool) -> T
     ) async -> T? {
         guard !Task.isCancelled else { return nil }
         let answer = Answer<T>()
-        let thread = Thread { answer.give(read { answer.isGivenUp }) }
+        let thread = Thread {
+            let value = read { answer.isGivenUp }
+            if !answer.give(value) { discarding(value) }
+        }
         thread.stackSize = 512 * 1_024
         thread.start()
         return await answer.wait(budget, while: isAsked)
@@ -60,13 +65,17 @@ enum SlowRead {
             state.withLock { $0.isGivenUp }
         }
 
-        func give(_ value: T) {
-            let waiter = state.withLock { state in
+        /// Hands `value` to the waiter, and false when the waiter was woken before it came, so nobody takes it.
+        @discardableResult
+        func give(_ value: T) -> Bool {
+            let (taken, waiter) = state.withLock { state -> (Bool, CheckedContinuation<Void, Never>?) in
+                guard !state.isGivenUp else { return (false, nil) }
                 state.value = value
                 defer { state.waiter = nil }
-                return state.waiter
+                return (true, state.waiter)
             }
             waiter?.resume()
+            return taken
         }
 
         /// With no `budget`, only the answer or the task's cancellation wakes the waiter.

@@ -38,13 +38,15 @@ final class TrashMonitor {
     var onApplicationTrashed: ((TrashedApp) -> Void)?
 
     @ObservationIgnored private var home: TrashWatch?
+    /// The start under way, which a stop cancels.
+    @ObservationIgnored private var starting: Task<Void, Never>?
     @ObservationIgnored private var volumeTrashes: [URL] = []
     /// A disk's Trash is watched from the first time Peel lists an app on the disk until the disk goes away, so an
     /// app thrown away from it is seen even when it was the last one there.
     @ObservationIgnored private var volumes: [URL: TrashWatch] = [:]
 
     func start() {
-        guard home == nil else { return }
+        guard home == nil, starting == nil else { return }
         // The setting is about apps the user moves to the Trash, so Peel's own moves are told apart, from
         // before the first listing, and every Trash is looked at again once one ends.
         OwnTrashMoves.shared.whenSettled { [weak self] in
@@ -57,22 +59,31 @@ final class TrashMonitor {
         // Finder makes the home's Trash again only when something is next thrown away, so while it is missing the
         // home folder is watched for it.
         let watch = TrashWatch(trash: trash, waitsIn: .homeDirectory) { [weak self] in self?.onApplicationTrashed?($0) }
-        let started = watch.start()
-        status = Status(started)
-        guard started == .watching else {
-            OwnTrashMoves.shared.whenSettled(nil)
-            return
+        starting = Task { [weak self] in
+            let started = await watch.start()
+            guard let self, !Task.isCancelled, let started else {
+                watch.stop()
+                return
+            }
+            starting = nil
+            status = Status(started)
+            guard started == .watching else {
+                OwnTrashMoves.shared.whenSettled(nil)
+                return
+            }
+            home = watch
+            watch.onRestart = { [weak self] result in
+                guard result != .watching else { return }
+                self?.stop()
+                self?.status = Status(result)
+            }
+            startVolumes()
         }
-        home = watch
-        watch.onRestart = { [weak self] result in
-            guard result != .watching else { return }
-            self?.stop()
-            self?.status = Status(result)
-        }
-        startVolumes()
     }
 
     func stop() {
+        starting?.cancel()
+        starting = nil
         OwnTrashMoves.shared.whenSettled(nil)
         home?.stop()
         home = nil
@@ -90,7 +101,7 @@ final class TrashMonitor {
 
     private func startVolumes() {
         for trash in volumeTrashes {
-            if let watch = volumes[trash], watch.isActive {
+            if let watch = volumes[trash], watch.isActive || watch.isStarting {
                 // A Trash can appear inside `.Trashes`, which cannot be opened, so no event says when it does.
                 // The list of apps changing, as it does when one leaves its folder, is when to look again.
                 watch.lookForTheTrash()
@@ -99,8 +110,8 @@ final class TrashMonitor {
                 let watch = TrashWatch(trash: trash, waitsIn: volume) { [weak self] in
                     self?.onApplicationTrashed?($0)
                 }
-                _ = watch.start()
                 volumes[trash] = watch
+                Task { _ = await watch.start() }
             }
         }
     }
@@ -123,6 +134,8 @@ final class TrashWatch {
 
     let trash: URL
     private let waitingPlace: URL
+    /// How the Trash is listed, on a thread of its own.
+    private let listing: @Sendable (URL) -> Set<String>?
     private let onArrived: (TrashedApp) -> Void
     /// Told what came of starting again after the folder watched went away.
     var onRestart: ((Start) -> Void)?
@@ -133,42 +146,62 @@ final class TrashWatch {
     /// items, and the event comes in on the main queue.
     private var isListing = false
     private var needsAnotherLook = false
+    private(set) var isStarting = false
+    /// Counts the stops, so a start still opening a folder when one comes closes it instead of watching.
+    private var stops = 0
 
     var isActive: Bool { source != nil }
 
-    init(trash: URL, waitsIn waitingPlace: URL, onArrived: @escaping (TrashedApp) -> Void) {
+    init(
+        trash: URL,
+        waitsIn waitingPlace: URL,
+        listing: @escaping @Sendable (URL) -> Set<String>? = WatchedFolder.names(in:),
+        onArrived: @escaping (TrashedApp) -> Void
+    ) {
         self.trash = trash
         self.waitingPlace = waitingPlace
+        self.listing = listing
         self.onArrived = onArrived
     }
 
-    /// `appeared` is true for a Trash that appeared while it was waited for: whatever is in it came with it.
-    func start(appeared: Bool = false) -> Start {
+    /// Opens and lists the Trash off the main thread, as a disk that doesn't answer would hold it. `appeared` is true
+    /// for a Trash that appeared while it was waited for: whatever is in it came with it. Nil when the watch was
+    /// stopped before it ended, or another start was under way.
+    func start(appeared: Bool = false) async -> Start? {
         guard source == nil else { return .watching }
-        let descriptor = open(trash.path(percentEncoded: false), O_EVTONLY)
-        let failure = errno
-        if descriptor < 0, failure == ENOENT {
-            return waitForTheTrash()
+        guard !isStarting else { return nil }
+        isStarting = true
+        defer { isStarting = false }
+        let stopsBefore = stops
+        let opening = await WatchedFolder.open(trash, listing: listing)
+        guard stops == stopsBefore else {
+            if case .opened(let descriptor, _) = opening { close(descriptor) }
+            return nil
         }
-        guard descriptor >= 0, let names = Self.names(in: trash) else {
-            if descriptor >= 0 { close(descriptor) }
+        switch opening {
+        case .missing:
+            return await waitForTheTrash(unlessStoppedSince: stopsBefore)
+        case .opened(let descriptor, let names):
+            known = appeared ? [] : names
+            watch(descriptor)
+            if appeared {
+                changed()
+            }
+            return .watching
+        case .refused(let refusal):
             // Only a refusal from macOS's privacy protection means Full Disk Access is missing.
-            let refusal = descriptor >= 0 ? FullDiskAccess.whyUnlistable(trash) : FullDiskAccess.Refusal(error: failure)
             return switch refusal {
             case .privacy: .refused
             case .permissions: .closedByPermissions
             case .other, nil: .unavailable
             }
+        case .noAnswer:
+            return .unavailable
         }
-        known = appeared ? [] : names
-        watch(descriptor)
-        if appeared {
-            changed()
-        }
-        return .watching
     }
 
     func stop() {
+        stops += 1
         source?.cancel()
         source = nil
         isWaitingForTheTrash = false
@@ -179,13 +212,19 @@ final class TrashWatch {
     func lookForTheTrash() {
         guard isWaitingForTheTrash else { return }
         stop()
-        let result = start(appeared: true)
-        onRestart?(result)
+        Task {
+            guard let result = await start(appeared: true) else { return }
+            onRestart?(result)
+        }
     }
 
-    private func waitForTheTrash() -> Start {
-        let descriptor = open(waitingPlace.path(percentEncoded: false), O_EVTONLY)
-        guard descriptor >= 0 else { return .unavailable }
+    private func waitForTheTrash(unlessStoppedSince stopsBefore: Int) async -> Start? {
+        let descriptor = await WatchedFolder.openToWait(in: waitingPlace)
+        guard stops == stopsBefore else {
+            if let descriptor { close(descriptor) }
+            return nil
+        }
+        guard let descriptor else { return .unavailable }
         watch(descriptor)
         isWaitingForTheTrash = true
         return .watching
@@ -208,8 +247,10 @@ final class TrashWatch {
                     self.lookForTheTrash()
                 } else if !events.isDisjoint(with: [.delete, .rename]) {
                     self.stop()
-                    let result = self.start()
-                    self.onRestart?(result)
+                    Task {
+                        guard let result = await self.start() else { return }
+                        self.onRestart?(result)
+                    }
                 } else if events.contains(.write) {
                     self.changed()
                 }
@@ -230,7 +271,7 @@ final class TrashWatch {
             return
         }
         isListing = true
-        Task { [trash, known] in
+        Task { [trash, known, listing] in
             defer {
                 isListing = false
                 if needsAnotherLook {
@@ -240,7 +281,7 @@ final class TrashWatch {
             }
             let look = OwnTrashMoves.shared.look()
             guard
-                let names = await Self.listing(of: trash),
+                let names = await WatchedFolder.list(trash, listing: listing),
                 // Nil while Peel is moving something itself: the end of that move looks again.
                 let arrived = OwnTrashMoves.shared.arrivals(names, known: known, in: trash, since: look)
             else { return }
@@ -261,17 +302,4 @@ final class TrashWatch {
         }
     }
 
-    /// Lists the Trash off the main actor, for events. The first listing, which decides whether the watch can start
-    /// at all, runs directly in `start()`.
-    @concurrent
-    private static func listing(of trash: URL) async -> Set<String>? {
-        names(in: trash)
-    }
-
-    nonisolated private static func names(in trash: URL) -> Set<String>? {
-        guard let names = try? FileManager.default.contentsOfDirectory(atPath: trash.path(percentEncoded: false)) else {
-            return nil
-        }
-        return Set(names)
-    }
 }

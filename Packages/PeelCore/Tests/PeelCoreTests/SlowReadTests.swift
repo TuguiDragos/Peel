@@ -18,6 +18,24 @@ struct SlowReadTests {
         #expect(answer == nil)
     }
 
+    /// A descriptor in an answer nobody takes anymore would stay open, so such an answer goes to `discarding`.
+    @Test func anAnswerThatComesTooLateIsHandedToWhatDiscardsIt() async {
+        let release = DispatchSemaphore(value: 0), discarded = DispatchSemaphore(value: 0)
+        let late = Mutex<[Int]>([])
+        let answer = await SlowRead.answer(within: 0.05, discarding: { value in
+            late.withLock { $0.append(value) }
+            discarded.signal()
+        }) { _ in
+            release.wait()
+            return 7
+        }
+        release.signal()
+        await withCheckedContinuation { done in DispatchQueue.global().async { discarded.wait(); done.resume() } }
+
+        #expect(answer == nil)
+        #expect(late.withLock { $0 } == [7])
+    }
+
     /// A read that works in steps is told when nobody waits for it anymore, and stops. The loop's time limit
     /// only keeps a broken build from spinning forever, so a busy Mac makes the test slower, never wrong.
     @Test func tellsAReadThatNobodyWaitsForAnymore() async {
