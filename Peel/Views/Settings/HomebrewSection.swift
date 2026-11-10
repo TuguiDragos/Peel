@@ -66,7 +66,7 @@ struct HomebrewSection: View {
         }
         .fileDialogDefaultDirectory(URL(filePath: "/opt", directoryHint: .isDirectory))
         .alert("Peel can’t run this file.", isPresented: isShowingRefusal) {
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
         } message: {
             refusal?.explanation ?? Text(verbatim: "")
         }

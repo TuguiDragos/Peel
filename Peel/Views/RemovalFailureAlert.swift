@@ -79,7 +79,7 @@ struct RemovalFailureAlert: ViewModifier {
             }
             // The alert reports, so Return closes it. Otherwise the first other button would be the default, and Return
             // would copy the details or open Settings.
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
                 .keyboardShortcut(.defaultAction)
         } message: {
             Text(verbatim: Self.message(for: outcome))

@@ -88,7 +88,7 @@ struct BackgroundItemList: View {
         // Shown from the list, which stays on screen. An alert on the item's page would vanish with the page if
         // the rescan after the action removed the item, and then show up on the next item the user opens.
         .alert(alertTitle, isPresented: isShowingAlert) {
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
         } message: {
             alertMessage
         }

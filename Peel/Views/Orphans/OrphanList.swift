@@ -185,7 +185,7 @@ struct OrphanList: View {
             if orphans.owners == nil {
                 Button("Open Peel Settings") { SettingsPane.exclusions.open(with: openSettings) }
             }
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
                 .keyboardShortcut(.defaultAction)
         } message: {
             Text(verbatim: orphans.ownersNotSaved(notGiven?.why))

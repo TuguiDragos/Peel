@@ -501,6 +501,10 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   say what runs and show nothing half done: what the change left appears in one step, once a whole check has it
   (`HelperModel.change`). A failure goes back to whoever asked for the change and is shown there alone
   (`HelperFailureAlert`).
+- **A button in an alert takes Return or Escape, never both.** AppKit gives Return to the default button and Escape
+  to the cancel one, and a button given both answers to Return alone. So an alert's only OK has no cancel role and
+  closes with Return, an OK beside other buttons keeps `.keyboardShortcut(.defaultAction)`, and a question whose
+  answer moves something leaves Return to no button, so Escape cancels it (`AlertDefaultButtonTests`).
 - **An alert names the first few of a list that can grow.** AppKit never caps an alert's height, so a list of apps,
   pages, folders, or lines in one names its first four and counts the rest (`RemovalFailureAlert.mostListed`,
   `RemovalFailureAlert.firstItems`), and Copy Details, where the alert offers it, gives them all. What the person has

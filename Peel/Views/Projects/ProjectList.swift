@@ -98,7 +98,7 @@ struct ProjectList: View {
             .motion(.settle, .movement, value: projects.wasCutShort)
         }
         .alert(projects.refused.count == 1 ? "That folder can’t be searched." : "These folders can’t be searched.", isPresented: isShowingRefusal) {
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
         } message: {
             Text(verbatim: Self.reasons(projects.refused))
         }

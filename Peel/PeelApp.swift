@@ -388,7 +388,7 @@ struct PeelApp: App {
                 // Above every page, because removing an app takes its page away, along with any alert attached to it.
                 .removalFailureAlert()
                 .alert("Peel couldn’t reopen itself", isPresented: $home.couldNotRelaunch) {
-                    Button("OK", role: .cancel) {}
+                    Button("OK") {}
                 } message: {
                     Text("Quit Peel and open it again.")
                 }

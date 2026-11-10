@@ -263,12 +263,12 @@ struct ExclusionsSettingsView: View {
             "Peel couldn’t list these files again",
             isPresented: Binding(get: { notForgotten != nil }, set: { if !$0 { notForgotten = nil } })
         ) {
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
         } message: {
             if case .notSaved(let why) = notForgotten { Text(verbatim: orphans.ownersNotSaved(why)) }
         }
         .alert(refused.count == 1 ? "That folder can’t be excluded." : "These folders can’t be excluded.", isPresented: isShowingRefusal) {
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
         } message: {
             let paths = RemovalFailureAlert.firstItems(refused).joined(separator: "\n")
             refused.count == 1

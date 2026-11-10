@@ -226,7 +226,7 @@ struct CloudView: View {
             isPresented: Binding(get: { leftAlone != nil }, set: { if !$0 { leftAlone = nil } }),
             presenting: leftAlone
         ) { _ in
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
         } message: { leftAlone in
             Text(verbatim: leftAlone.message)
         }

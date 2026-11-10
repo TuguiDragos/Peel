@@ -64,7 +64,7 @@ struct SavedSettingsSection: View {
             Button("Cancel", role: .cancel) {}
         }
         .alert(failure?.title ?? "", isPresented: isShowingFailure) {
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
         } message: {
             Text(verbatim: failure?.message ?? "")
         }

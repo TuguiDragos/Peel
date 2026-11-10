@@ -168,7 +168,7 @@ struct ContentView: View {
             if shown.reason != .gone {
                 Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([shown.url]) }
             }
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
                 .keyboardShortcut(.defaultAction)
         } message: { shown in
             Text(shown.explanation)

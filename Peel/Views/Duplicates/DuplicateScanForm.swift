@@ -77,7 +77,7 @@ struct DuplicateScanForm: View {
             rejectedFolders.count == 1 ? "Peel can’t look for duplicates in this folder." : "Peel can’t look for duplicates in these folders.",
             isPresented: isShowingRejectedFolders
         ) {
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
         } message: {
             Text(verbatim: DuplicateList.reasons(rejectedFolders))
         }

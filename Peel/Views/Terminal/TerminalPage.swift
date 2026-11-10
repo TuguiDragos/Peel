@@ -80,7 +80,7 @@ struct TerminalPage: View {
             Text("While Terminal is open, it doesn’t see a change to its settings, and can undo it the next time it saves them.")
         }
         .alert("Terminal didn’t quit.", isPresented: Bindable(terminal).terminalDidNotQuit) {
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
         } message: {
             Text("It may be asking whether to stop a command that is still running.")
         }

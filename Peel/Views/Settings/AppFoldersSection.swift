@@ -83,7 +83,7 @@ struct AppFoldersSection: View {
             refused.count == 1 ? "That folder can’t be added." : "These folders can’t be added.",
             isPresented: isShowingRefusal
         ) {
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
         } message: {
             Self.message(for: refused)
         }

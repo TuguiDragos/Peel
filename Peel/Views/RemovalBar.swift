@@ -270,7 +270,7 @@ struct RemovalBar: View {
             isPresented: Binding(get: { tooMany != nil }, set: { if !$0 { tooMany = nil } }),
             presenting: tooMany
         ) { _ in
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
         } message: { tooMany in
             Text("History can keep at most ^[\(tooMany.most) item](inflect: true) in one removal, so it can put them back. Select fewer, and move the rest afterward.")
         }
@@ -282,7 +282,7 @@ struct RemovalBar: View {
                 // The question opens once the alert has closed: one window shows one of them at a time.
                 Button("Move the Rest") { Task { askToMove(rest) } }
             }
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
                 .keyboardShortcut(.defaultAction)
         }
     }

@@ -6,7 +6,7 @@ private struct HelperFailureAlert: ViewModifier {
 
     func body(content: Content) -> some View {
         content.alert(failure?.title ?? Text(verbatim: ""), isPresented: isShowingFailure) {
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
         } message: {
             Text(verbatim: failure?.reason ?? "")
         }

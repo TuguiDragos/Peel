@@ -26,7 +26,7 @@ struct StartOverButton: View {
             isPresented: Binding(get: { notSetAside != nil }, set: { if !$0 { notSetAside = nil } })
         ) {
             Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting([file]) }
-            Button("OK", role: .cancel) {}
+            Button("OK") {}
                 .keyboardShortcut(.defaultAction)
         } message: {
             Text(verbatim: notSetAside.said(after: String(localized: "Nothing changed."), about: file))

@@ -534,7 +534,6 @@ private struct GeneralSettingsView: View {
                 }
             }
             Button("Cancel", role: .cancel) {}
-                .keyboardShortcut(.defaultAction)
         } message: {
             Text("Peel, the files that are certainly its own, and its folder in Application Support go to the Trash, all but the Terminal settings zsh and ssh read, and its settings are cleared. That folder holds History, your exclusions, App Folders, and Saved Settings, among others. What you set in Tweaks and on the Terminal page stays as it is. The space is freed when you empty the Trash.")
         }
@@ -719,7 +718,6 @@ private struct HelperSettingsView: View {
                 Task { failure = await helper.uninstall() }
             }
             Button("Cancel", role: .cancel) {}
-                .keyboardShortcut(.defaultAction)
         } message: {
             Text("The helper serves every account on this Mac, so this removes it for all of them. Until it is installed again, Peel can’t move what only an administrator can change.")
         }
