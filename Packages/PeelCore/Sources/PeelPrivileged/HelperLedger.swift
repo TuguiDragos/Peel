@@ -115,7 +115,7 @@ public final class HelperLedger: Sendable {
                     }
                 }
                 giveEntries(to: user)
-                let names = TrashMover.finderNames(of: item.name)
+                let names = TrashMover.names(for: item.name, inode: item.identity?.inode)
                 let moved = TrashMover.place(item.name, from: item.parent, in: trash, as: names)
                     .map { (trash.path as NSString).appendingPathComponent($0) }
                 switch moved {
@@ -156,7 +156,8 @@ public final class HelperLedger: Sendable {
                 parts.count == 3, let user = uid_t(parts[0]), let home = homeDirectory(user),
                 let trash = PrivilegedPathPolicy(homeDirectory: home).openTrash(ownedBy: user)
             else { continue }
-            _ = TrashMover.place(entry, from: handle, in: trash, as: TrashMover.finderNames(of: parts[2]))
+            let names = TrashMover.names(for: parts[2], inode: handle.status(of: entry).map { UInt64($0.st_ino) })
+            _ = TrashMover.place(entry, from: handle, in: trash, as: names)
         }
     }
 

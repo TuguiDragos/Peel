@@ -374,6 +374,26 @@ struct HelperLedgerTests {
         #expect(left.count == 1 && left[0].hasPrefix("4242424."), "an item with no Trash to go to was lost")
     }
 
+    @Test func whatAMoveCutShortLeftGoesToItsTrashUnderItsInodeOnceTenNamesAreTaken() throws {
+        let directory = try TemporaryDirectory()
+        _ = try policy(in: directory)
+        _ = try ledger(in: directory)
+        try directory.directory("private/Staging")
+        try directory.setPermissions(0o700, of: "private/Staging")
+        let staged = try directory.file("private/Staging/\(getuid()).\(UUID().uuidString).notes.txt")
+        var info = stat()
+        #expect(lstat(staged.path(percentEncoded: false), &info) == 0)
+        let inode = info.st_ino
+        for attempt in 1...10 {
+            try directory.file("home/.Trash/\(TrashMover.name("notes.txt", attempt: attempt))")
+        }
+        let home = path("home", in: directory)
+
+        HelperLedger.recoverStaged(in: path("private", in: directory)) { $0 == getuid() ? home : nil }
+
+        #expect(FileManager.default.fileExists(atPath: path("home/.Trash/notes \(inode).txt", in: directory)))
+    }
+
     @Test func recoversNothingFromAFolderOthersCanReach() throws {
         let directory = try TemporaryDirectory()
         _ = try policy(in: directory)

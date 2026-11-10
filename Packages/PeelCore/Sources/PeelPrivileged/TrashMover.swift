@@ -2,9 +2,8 @@ import Darwin
 public import Foundation
 
 public enum TrashMover {
-    /// Renames `item` into `trash` through both folders' descriptors and returns its new path. When the name
-    /// is taken, it adds " 2", " 3", and so on, as Finder does. It never copies across volumes and never
-    /// resolves a path a second time.
+    /// Renames `item` into `trash` through both folders' descriptors and returns its new path, under the first of
+    /// `names(for:inode:)` that is free. It never copies across volumes and never resolves a path a second time.
     public static func move(_ item: OpenItem, into trash: DirectoryHandle) -> Result<String, POSIXError> {
         move(item, into: trash, exclusively: renameExclusively)
     }
@@ -14,8 +13,7 @@ public enum TrashMover {
         into trash: DirectoryHandle,
         exclusively: ExclusiveRename
     ) -> Result<String, POSIXError> {
-        for attempt in attempts {
-            let candidate = name(item.name, attempt: attempt)
+        for candidate in names(for: item.name, inode: item.identity?.inode) {
             switch rename(item, to: candidate, in: trash, exclusively: exclusively) {
             case .success:
                 return .success((trash.path as NSString).appendingPathComponent(candidate))
@@ -26,14 +24,26 @@ public enum TrashMover {
         return .failure(POSIXError(.EEXIST))
     }
 
-    public static let attempts = 1...1_000
+    /// The names a move tries for `name`, in turn: its own, "name 2" to "name 10" as Finder names a copy, then the
+    /// name with `inode`, the item's own number, which no other item on its disk has while it exists. So whoever looks
+    /// for the item knowing its inode can name every place it may be.
+    public static func names(for name: String, inode: UInt64?) -> [String] {
+        (1...10).map { Self.name(name, attempt: $0) } + (inode.map { [Self.name(name, adding: " \($0)")] } ?? [])
+    }
 
     /// The name `move` tries at `attempt`: the item's own, then "name 2", "name 3", and so on, as Finder names a copy.
     public static func name(_ name: String, attempt: Int) -> String {
-        guard attempt > 1 else { return name }
-        let base = (name as NSString).deletingPathExtension
+        attempt > 1 ? Self.name(name, adding: " \(attempt)") : name
+    }
+
+    /// `name` with `suffix` before its extension, its own part cut on whole characters so that all of it fits in a
+    /// name's 255 bytes.
+    static func name(_ name: String, adding suffix: String) -> String {
+        var base = (name as NSString).deletingPathExtension
         let pathExtension = (name as NSString).pathExtension
-        return pathExtension.isEmpty ? "\(base) \(attempt)" : "\(base) \(attempt).\(pathExtension)"
+        let rest = pathExtension.isEmpty ? suffix : "\(suffix).\(pathExtension)"
+        while !base.isEmpty, (base + rest).utf8.count > Int(NAME_MAX) { base.removeLast() }
+        return base + rest
     }
 
     /// Renames `item` to `name` in `directory` through both descriptors, refusing to replace anything there.
@@ -209,7 +219,7 @@ extension TrashMover {
         var stayed: [OpenItem] = []
         let staged: Void? = ledger.whileStaging { staging in
             for (path, item) in unique {
-                let names = finderNames(of: item.name)
+                let names = Self.names(for: item.name, inode: item.identity?.inode)
                 switch move(item, to: names, in: trash, through: staging, for: user, exclusively: exclusively) {
                 case .success(let name):
                     moved[path] = (trash.path as NSString).appendingPathComponent(name)
@@ -285,7 +295,7 @@ extension TrashMover {
         } else {
             failure = .notTheItem
         }
-        _ = place(staged, from: staging, in: item.parent, as: finderNames(of: item.name))
+        _ = place(staged, from: staging, in: item.parent, as: Self.names(for: item.name, inode: identity.inode))
         return .failure(failure)
     }
 
@@ -305,9 +315,5 @@ extension TrashMover {
             }
         }
         return .failure(POSIXError(.EEXIST))
-    }
-
-    static func finderNames(of name: String) -> some Sequence<String> {
-        attempts.lazy.map { Self.name(name, attempt: $0) }
     }
 }

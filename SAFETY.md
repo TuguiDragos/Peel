@@ -220,12 +220,13 @@ makes the folder it logs into, and launchd makes a missing log file again but ne
 whose folder had gone would not start at the next login. Peel can't see what such a service holds open, so in
 those places and in `/Library/Caches` what was written in the last 15 minutes stays.
 
-A move to the Trash, or back from it, never replaces what is already at the new name. Most disks refuse that by
-themselves; on one that cannot, such as exFAT, Peel first takes the name with an empty placeholder, which only a
-free name allows, and the move then replaces the placeholder. On exFAT and FAT32 an empty file gets another number
-whenever the disk is mounted, and FAT32 reads a file's times in the Mac's time zone of the moment, so History knows
-what Peel put in such a disk's Trash also by whether it is a folder and by a file's size, and lets its creation time
-be off by whole quarter hours.
+A move to the Trash, or back from it, never replaces what is already at the new name. When the name is taken, the item
+gets "name 2" up to "name 10", as Finder names a copy, and then its name with the number its disk gives it, which no
+other item there has. Most disks refuse to replace by themselves; on one that cannot, such as exFAT, Peel first takes
+the name with an empty placeholder, which only a free name allows, and the move then replaces the placeholder. On exFAT
+and FAT32 an empty file gets another number whenever the disk is mounted, and FAT32 reads a file's times in the Mac's
+time zone of the moment, so History knows what Peel put in such a disk's Trash also by whether it is a folder and by a
+file's size, and lets its creation time be off by whole quarter hours.
 
 What Peel deletes outright holds nothing of yours: such a placeholder, when the move it was made for fails; the folder
 it makes to save an app's settings before a reset, when saving fails before anything is written in it; the folders it

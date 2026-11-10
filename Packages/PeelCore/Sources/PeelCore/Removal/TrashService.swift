@@ -1307,15 +1307,16 @@ public struct TrashService: Sendable {
     /// The item in `trash` with the device and inode in `link`, under `name` or a name the helper gives when that one
     /// is taken.
     static func item(_ link: FileIdentity.Link, named name: String, in trash: URL) -> URL? {
-        item(named: name, in: trash) { FileIdentity.Link(device: $0.st_dev, inode: $0.st_ino) == link }
+        item(named: name, inode: UInt64(link.inode), in: trash) {
+            FileIdentity.Link(device: $0.st_dev, inode: $0.st_ino) == link
+        }
     }
 
-    /// The item in `trash` that `isTheItem` knows, under `name` or a name a move gives when that one is taken. Nothing
-    /// is listed: without Full Disk Access macOS lets Peel search a Trash but not read it.
-    static func item(named name: String, in trash: URL, where isTheItem: (stat) -> Bool) -> URL? {
+    /// The item in `trash` that `isTheItem` knows, under `name` or a name a move gives an item with `inode` when that
+    /// one is taken. Nothing is listed: without Full Disk Access macOS lets Peel search a Trash but not read it.
+    static func item(named name: String, inode: UInt64, in trash: URL, where isTheItem: (stat) -> Bool) -> URL? {
         guard let folder = try? DirectoryHandle.at(trash.path(percentEncoded: false)).get() else { return nil }
-        for attempt in TrashMover.attempts {
-            let candidate = TrashMover.name(name, attempt: attempt)
+        for candidate in TrashMover.names(for: name, inode: inode) {
             if let info = folder.status(of: candidate), isTheItem(info) { return trash.appending(path: candidate) }
         }
         return nil

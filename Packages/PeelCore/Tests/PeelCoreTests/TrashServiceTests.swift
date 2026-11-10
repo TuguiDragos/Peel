@@ -1639,20 +1639,25 @@ struct TrashServiceTests {
         #expect(result.failures.map(\.url) == [stayed])
     }
 
-    @Test(.permissionsHold) func whatTheHelperMovedIsFoundAgainInATrashPeelMayNotRead() throws {
+    @Test(.permissionsHold, arguments: [2, 11])
+    func whatTheHelperMovedIsFoundAgainInATrashPeelMayNotRead(taken: Int) throws {
         let directory = try TemporaryDirectory()
         let trash = try directory.directory("home/.Trash")
-        try directory.file("home/.Trash/moved.db")
+        for attempt in 1..<taken {
+            try directory.file("home/.Trash/\(TrashMover.name("moved.db", attempt: attempt))")
+        }
         let moved = try directory.file("root/Library/Application Support/Vendor/moved.db")
-        let links = [moved: FileIdentity.Link.of(moved)]
-        try FileManager.default.moveItem(at: moved, to: trash.appending(path: "moved 2.db"))
+        let link = try #require(FileIdentity.Link.of(moved))
+        let links = [moved: link]
+        let landed = try #require(TrashMover.names(for: "moved.db", inode: UInt64(link.inode)).dropFirst(taken - 1).first)
+        try FileManager.default.moveItem(at: moved, to: trash.appending(path: landed))
         try directory.setPermissions(0o300, of: "home/.Trash")
         defer { try? directory.setPermissions(0o755, of: "home/.Trash") }
 
         let result = PrivilegedHelper.result(for: [moved], reply: nil, links: links, trash: trash)
 
         #expect(result.trashed.map(\.originalURL) == [moved])
-        #expect(result.trashed.first?.trashedURL.lastPathComponent == "moved 2.db")
+        #expect(result.trashed.first?.trashedURL.lastPathComponent == landed)
         #expect(result.failures.isEmpty)
     }
 

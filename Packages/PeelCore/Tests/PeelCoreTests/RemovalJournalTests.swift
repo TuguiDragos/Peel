@@ -373,6 +373,25 @@ struct RemovalJournalTests {
         #expect(journal.entries().isEmpty)
     }
 
+    @Test func aLineWrittenBeforeAMoveFindsTheItemUnderItsInodeOnceTenNamesAreTaken() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        let item = try leaving("com.example.app", in: directory) { original, trash in
+            for attempt in 1...10 {
+                try Data().write(to: trash.appending(path: TrashMover.name("com.example.app", attempt: attempt)))
+            }
+            let opened = try OpenItem.at(original.path(percentEncoded: false)).get()
+            _ = try TrashMover.move(opened, into: DirectoryHandle.at(trash.path(percentEncoded: false)).get()).get()
+        }
+        journal.note([item], batch: UUID(), beforeTheMove: true, by: try endedProcess())
+
+        let records = try #require(await RemovalLog(url: history).load().records)
+
+        let inode = try #require(item.identity?.inode)
+        #expect(records.map(\.trashedURL.lastPathComponent) == ["com.example \(inode).app"])
+    }
+
     @Test func aLineWrittenBeforeAMoveOfAnItemThatStayedOrLeftTheTrashIsLetGo() async throws {
         let directory = try TemporaryDirectory()
         let history = directory.url.appending(path: "Peel/removals.json")

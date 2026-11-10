@@ -54,6 +54,48 @@ struct TrashMoverTests {
         #expect(try contents(of: trash) == ["notes.txt"])
     }
 
+    @Test func aNameTakenAThousandTimesStillFindsAFreeOne() throws {
+        let directory = try TemporaryDirectory()
+        let trash = try directory.directory("Trash")
+        for attempt in 1...1_000 {
+            try Data().write(to: trash.appending(path: TrashMover.name("note.txt", attempt: attempt)))
+        }
+        let file = try directory.file("work/note.txt")
+        let item = try OpenItem.at(file.path(percentEncoded: false)).get()
+        let bin = try DirectoryHandle.at(trash.path(percentEncoded: false)).get()
+
+        let moved = TrashMover.move(item, into: bin)
+
+        #expect((try? moved.get()) != nil)
+        #expect(!file.isThere)
+    }
+
+    @Test func triesFinderNamesUpToTenThenTheItemsInode() {
+        let names = TrashMover.names(for: "note.txt", inode: 81_234)
+
+        #expect(names.first == "note.txt")
+        #expect(names.dropFirst().prefix(9) == ["note 2.txt", "note 3.txt", "note 4.txt", "note 5.txt", "note 6.txt",
+                                                  "note 7.txt", "note 8.txt", "note 9.txt", "note 10.txt"])
+        #expect(names.last == "note 81234.txt")
+        #expect(TrashMover.names(for: "note.txt", inode: nil).count == 10)
+    }
+
+    @Test func aNameAsLongAsADiskAllowsStillGetsAnotherWhenTaken() throws {
+        let directory = try TemporaryDirectory()
+        let trash = try directory.directory("Trash")
+        let long = String(repeating: "é", count: 125) + ".txt"
+        try Data().write(to: trash.appending(path: long))
+        let file = try directory.file("work/\(long)")
+        let item = try OpenItem.at(file.path(percentEncoded: false)).get()
+        let bin = try DirectoryHandle.at(trash.path(percentEncoded: false)).get()
+
+        let moved = try TrashMover.move(item, into: bin).get()
+
+        #expect(URL(filePath: moved).lastPathComponent.utf8.count <= Int(NAME_MAX))
+        #expect(URL(filePath: moved).pathExtension == "txt")
+        #expect(!file.isThere)
+    }
+
     @Test func whatIsAlreadyThereIsNeverReplaced() throws {
         let directory = try TemporaryDirectory()
         let disk = try ScratchVolume(

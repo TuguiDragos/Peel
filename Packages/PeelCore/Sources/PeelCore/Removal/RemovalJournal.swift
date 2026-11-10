@@ -245,7 +245,9 @@ struct RemovalJournal: Sendable {
         if lstat(item.originalURL.path(percentEncoded: false), &info) == 0, identity.isTheItem(info) { return .nowhere }
         let trash = item.trashedURL.deletingLastPathComponent()
         if trash.isOnADiskNotConnected { return .notKnownYet }
-        let found = TrashService.item(named: item.originalURL.lastPathComponent, in: trash, where: identity.isTheItem)
+        let found = TrashService.item(
+            named: item.originalURL.lastPathComponent, inode: identity.inode, in: trash, where: identity.isTheItem
+        )
         return found.map(Landing.inTheTrash) ?? .nowhere
     }
 
