@@ -55,7 +55,10 @@ struct MultipleAppsView: View {
                         SectionHeaderLine {
                             Text("Apps")
                         } actions: {
-                            SelectMenu(list: list(of: plan.applications), place: Text("Apps"), selection: plan)
+                            SelectMenu(
+                                list: list(of: plan.applications), place: Text("Apps"), selection: plan,
+                                offersItsCommands: false
+                            )
                         }
                     }
 
@@ -74,7 +77,8 @@ struct MultipleAppsView: View {
                                 SelectMenu(
                                     list: list(of: plan.recommendedFiles),
                                     place: Text("Files They Leave Behind"),
-                                    selection: plan
+                                    selection: plan,
+                                    offersItsCommands: false
                                 )
                             }
                         }
@@ -98,7 +102,8 @@ struct MultipleAppsView: View {
                                 SelectMenu(
                                     list: list(of: plan.filesToReview),
                                     place: Text("Review Before Removing"),
-                                    selection: plan
+                                    selection: plan,
+                                    offersItsCommands: false
                                 )
                             }
                         }
@@ -107,6 +112,10 @@ struct MultipleAppsView: View {
             }
         }
         .scrollBarBelowSectionHeaders()
+        .selectCommands(
+            list: list(of: plan.applications + plan.recommendedFiles + plan.filesToReview), place: Text("Apps"),
+            selection: plan
+        )
         .dimmedWhileBusy(plan.isRemoving)
         .disabled(plan.isRemoving)
         .scanState(phase, isRescanning: isRescanning, fadesInResults: false, scan: plan.scanRun)

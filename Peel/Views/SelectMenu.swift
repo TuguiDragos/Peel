@@ -13,6 +13,9 @@ struct SelectMenu: View {
     private let isDisabled: Bool
     /// True where selecting means removing a download rather than moving to the Trash, as on iCloud Drive.
     private var removesDownloads = false
+    /// Whether this list's commands are the page's in the Edit menu: false on a page of several lists, which offers
+    /// them for all of its rows (`selectCommands`).
+    private var offersItsCommands = true
     @State private var notRecommended: Int?
     /// A command chosen before the list was whole, which runs once it is.
     @State private var waiting: Command?
@@ -29,13 +32,17 @@ struct SelectMenu: View {
         case pages(Int)
     }
 
-    init(list: SelectableRows<URL>, place: Text, selection: any RowSelection, removesDownloads: Bool = false) {
+    init(
+        list: SelectableRows<URL>, place: Text, selection: any RowSelection, removesDownloads: Bool = false,
+        offersItsCommands: Bool = true
+    ) {
         self.list = list
         self.selection = selection
         scope = .list(place)
         reading = nil
         isDisabled = false
         self.removesDownloads = removesDownloads
+        self.offersItsCommands = offersItsCommands
     }
 
     init(
@@ -62,6 +69,7 @@ struct SelectMenu: View {
                         .buttonStyle(.bordered)
                         .controlSize(.small)
                         .fixedSize()
+                        .focusedSceneValue(\.selectRows, offersItsCommands ? menuBarCommands : nil)
                 }
             case .pages:
                 Menu {
@@ -73,37 +81,10 @@ struct SelectMenu: View {
                 .help(Text("Select on every page in the list"))
             }
         }
-        .alert(
-            question,
-            isPresented: Binding(get: { notRecommended != nil }, set: { if !$0 { notRecommended = nil } })
-        ) {
-            // Return chooses the safe answer, so the question is read rather than passed with a key.
-            if !list.recommended.isEmpty {
-                Button("Select Recommended") {
-                    selection.select(list.selectingRecommended(in: selection.selectedURLs))
-                }
-                .keyboardShortcut(.defaultAction)
-            }
-            Button("Select All") { selection.select(list.selectingAll(in: selection.selectedURLs)) }
-            if list.recommended.isEmpty {
-                Button("Cancel", role: .cancel) {}
-                    .keyboardShortcut(.defaultAction)
-            } else {
-                Button("Cancel", role: .cancel) {}
-            }
-        } message: {
-            let count = notRecommended ?? 0
-            switch (list.recommended.isEmpty, removesDownloads) {
-            case (true, false):
-                Text("This selects ^[\(count) item](inflect: true) Peel doesn’t recommend removing. Check each one before you move it.")
-            case (false, false):
-                Text("This also selects ^[\(count) item](inflect: true) Peel doesn’t recommend removing. Check each one before you move it, or select only what Peel recommends.")
-            case (true, true):
-                Text("This selects ^[\(count) item](inflect: true) Peel doesn’t recommend removing. Check each one before you remove its download.")
-            case (false, true):
-                Text("This also selects ^[\(count) item](inflect: true) Peel doesn’t recommend removing. Check each one before you remove its download, or select only what Peel recommends.")
-            }
-        }
+        .selectAllQuestion(
+            question, notRecommended: $notRecommended, list: list, selection: selection,
+            removesDownloads: removesDownloads
+        )
         .onChange(of: waiting) { _, command in
             guard let command else { return }
             waiting = nil
@@ -127,6 +108,23 @@ struct SelectMenu: View {
         .disabled(isWhole && list.isAllSelected(in: selected))
         Button("Deselect All") { run(.none) }
             .disabled(list.isNoneSelected(in: selected))
+    }
+
+    /// The same commands for the Edit menu, so the keyboard reaches them.
+    private var menuBarCommands: SelectCommands {
+        let selected = selection.selectedURLs
+        let recommended = list.recommended.count < list.selectable.count ? MenuCommand(
+            title: "Select Recommended",
+            isEnabled: !list.recommended.isEmpty && !list.isRecommendedSelected(in: selected)
+        ) { run(.recommended) } : nil
+        let asks = !list.notRecommendedAdded(by: selected).isEmpty
+        return SelectCommands(
+            recommended: recommended,
+            all: MenuCommand(title: asks ? "Select All…" : "Select All", isEnabled: !list.isAllSelected(in: selected)) {
+                run(.all)
+            },
+            none: MenuCommand(title: "Deselect All", isEnabled: !list.isNoneSelected(in: selected)) { run(.none) }
+        )
     }
 
     private func choose(_ command: Command) {
@@ -160,6 +158,51 @@ struct SelectMenu: View {
         case .pages(let count):
             // An alert's title is drawn as plain text, which leaves inflection markup as written.
             Text(verbatim: String(inflecting: "Select everything on ^[\(count) page](inflect: true)?"))
+        }
+    }
+}
+
+extension View {
+    /// The question Select All asks before it also selects `notRecommended` rows Peel doesn't recommend.
+    func selectAllQuestion(
+        _ title: Text,
+        notRecommended: Binding<Int?>,
+        list: SelectableRows<URL>,
+        selection: any RowSelection,
+        removesDownloads: Bool
+    ) -> some View {
+        alert(
+            title,
+            isPresented: Binding(
+                get: { notRecommended.wrappedValue != nil }, set: { if !$0 { notRecommended.wrappedValue = nil } }
+            )
+        ) {
+            // Return chooses the safe answer, so the question is read rather than passed with a key.
+            if !list.recommended.isEmpty {
+                Button("Select Recommended") {
+                    selection.select(list.selectingRecommended(in: selection.selectedURLs))
+                }
+                .keyboardShortcut(.defaultAction)
+            }
+            Button("Select All") { selection.select(list.selectingAll(in: selection.selectedURLs)) }
+            if list.recommended.isEmpty {
+                Button("Cancel", role: .cancel) {}
+                    .keyboardShortcut(.defaultAction)
+            } else {
+                Button("Cancel", role: .cancel) {}
+            }
+        } message: {
+            let count = notRecommended.wrappedValue ?? 0
+            switch (list.recommended.isEmpty, removesDownloads) {
+            case (true, false):
+                Text("This selects ^[\(count) item](inflect: true) Peel doesn’t recommend removing. Check each one before you move it.")
+            case (false, false):
+                Text("This also selects ^[\(count) item](inflect: true) Peel doesn’t recommend removing. Check each one before you move it, or select only what Peel recommends.")
+            case (true, true):
+                Text("This selects ^[\(count) item](inflect: true) Peel doesn’t recommend removing. Check each one before you remove its download.")
+            case (false, true):
+                Text("This also selects ^[\(count) item](inflect: true) Peel doesn’t recommend removing. Check each one before you remove its download, or select only what Peel recommends.")
+            }
         }
     }
 }

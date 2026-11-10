@@ -61,6 +61,10 @@ struct AppDetailView: View {
             Text(verbatim: quitting.names)
         }
         .forceQuitOffer(quitting)
+        .selectCommands(
+            list: plan.selectableRows(recommendedRows + plan.needsReview.map(\.url)),
+            place: Text(verbatim: plan.app.name), selection: plan
+        )
         .onDisappear { quitting.giveUp() }
         .sheet(isPresented: $isShowingReset, onDismiss: {
             guard resetChangedFiles else { return }
@@ -390,7 +394,7 @@ struct AppDetailView: View {
                 .monospacedDigit()
         } actions: {
             if let list, let place {
-                SelectMenu(list: list, place: place, selection: plan)
+                SelectMenu(list: list, place: place, selection: plan, offersItsCommands: false)
             }
         }
     }

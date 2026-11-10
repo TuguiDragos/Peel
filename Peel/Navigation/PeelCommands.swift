@@ -11,6 +11,8 @@ extension FocusedValues {
     /// The page's Move to Trash, offered as a menu item as well as a button, because the bar at the bottom of the
     /// window can be off screen.
     @Entry var moveToTrash: MenuCommand?
+    /// The page's Select commands, which a list's Select menu offers too, for the keyboard.
+    @Entry var selectRows: SelectCommands?
 }
 
 /// The Rescan and Stop commands of the page in front, for the View menu. A focused value set by a toolbar item
@@ -56,6 +58,7 @@ struct PeelCommands: Commands {
     @FocusedBinding(\.selectedTool) private var selectedTool
     @FocusedBinding(\.searchField) private var searchField
     @FocusedValue(\.moveToTrash) private var moveToTrash
+    @FocusedValue(\.selectRows) private var selectRows
 
     var body: some Commands {
         // Undo takes back the typing while text is being edited, and otherwise the last removal, as Finder's
@@ -114,6 +117,23 @@ struct PeelCommands: Commands {
                 ExportListMenuContent(library: library, homebrew: homebrew)
             }
             .disabled(!InventoryExport.canExport(library: library, homebrew: homebrew) || sheetInFront.isShowing)
+        }
+
+        // Without a shortcut of its own: Select All in Edit belongs to the text field being typed in.
+        CommandGroup(after: .pasteboard) {
+            Menu("Select") {
+                if let recommended = selectRows?.recommended {
+                    Button(String(localized: recommended.title), action: recommended.perform)
+                        .disabled(!recommended.isEnabled)
+                }
+                if let all = selectRows?.all {
+                    Button(String(localized: all.title), action: all.perform).disabled(!all.isEnabled)
+                }
+                if let none = selectRows?.none {
+                    Button(String(localized: none.title), action: none.perform).disabled(!none.isEnabled)
+                }
+            }
+            .disabled(selectRows == nil || sheetInFront.isShowing)
         }
 
         CommandGroup(before: .textEditing) {
