@@ -41,6 +41,27 @@ struct CleanupTests {
         #expect(plan.total.known == 20)
     }
 
+    @Test func anExclusionAddedWhileTheQuestionIsUpKeepsItsItem() async throws {
+        let directory = try TemporaryDirectory()
+        let kept = try directory.file("home/Library/Caches/org.example.kept/blob", bytes: 20).deletingLastPathComponent()
+        let store = ExclusionStore(url: directory.url.appending(path: "Peel/exclusions.json"))
+        let service = try service(in: directory, exclusions: await store.load())
+        let plan = cleanup(items: [(kept, 20)], service: service)
+        #expect(plan.moving.map(\.url) == [kept])
+
+        try? await Output.$collected.withValue(Output.Collected()) {
+            try await plan.run(
+                question: "Move?", dryRun: false, yes: true, using: service,
+                recordingIn: RemovalLog(url: directory.url.appending(path: "Peel/removals.json")),
+                refusals: RefusalLog(url: directory.url.appending(path: "Peel/refusals.json")),
+                checkingAgain: { _ = await store.change { $0.add([kept]) } },
+                exclusionsNow: { await store.load() }
+            )
+        }
+
+        #expect(kept.isThere, "excluded after the list was printed and before the move, so it stays")
+    }
+
     @Test func refusesARemovalHistoryCouldNotKeep() async throws {
         let directory = try TemporaryDirectory()
         let service = try service(in: directory)

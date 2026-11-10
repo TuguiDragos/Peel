@@ -617,7 +617,8 @@ Mac can take.
 
 Anything you add to Exclusions is passed to every scanner, so a file or folder you exclude never appears
 in the first place: it is not "shown but skipped". The same case and symlink folding applies, so an
-exclusion cannot be sidestepped by spelling the path differently.
+exclusion cannot be sidestepped by spelling the path differently. The `peel` command reads them again once you answer
+its question, so what you exclude while it waits stays where it is.
 
 It holds in both directions. A folder with something excluded inside it is never moved either, because the excluded file
 would go with it: an app's leftover like that is shown with the reason and can't be selected, and the other tools leave

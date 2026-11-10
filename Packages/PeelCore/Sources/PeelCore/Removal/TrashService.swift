@@ -375,6 +375,8 @@ public struct TrashService: Sendable {
     private let registrationAtLogin: RegistrationAtLogin
     private let registerApp: RegisterApp
     private let moveToTrash: @Sendable (URL) throws -> URL
+    /// Makes `moveToTrash` for a guard, so a service made again for other exclusions moves the same way.
+    private let movingJudgedBy: @Sendable (RemovalGuard) -> @Sendable (URL) throws -> URL
     private let ownMoves: OwnTrashMoves
     /// Where each item is written down as soon as it moves, so a removal cut short still reaches History.
     private let journal: RemovalJournal?
@@ -394,7 +396,7 @@ public struct TrashService: Sendable {
             runningJobs: { await Launchctl.runningJobs() },
             registrationAtLogin: { await StartsAtLogin.registration(of: $0) },
             registerApp: { app in _ = LSRegisterURL(app as CFURL, true) },
-            moveToTrash: { try Self.moveToSystemTrash($0, refusal: removalGuard.refusal(of:)) },
+            movingJudgedBy: { judge in { try Self.moveToSystemTrash($0, refusal: judge.refusal(of:)) } },
             ownMoves: .shared,
             journal: RemovalJournal(beside: RemovalHistory.defaultURL)
         )
@@ -433,7 +435,7 @@ public struct TrashService: Sendable {
             runningJobs: runningJobs,
             registrationAtLogin: registrationAtLogin,
             registerApp: registerApp,
-            moveToTrash: moveToTrash,
+            movingJudgedBy: { _ in moveToTrash },
             ownMoves: ownMoves,
             journal: journal
         )
@@ -452,7 +454,7 @@ public struct TrashService: Sendable {
         runningJobs: @escaping RunningJobs,
         registrationAtLogin: @escaping RegistrationAtLogin,
         registerApp: @escaping RegisterApp,
-        moveToTrash: @escaping @Sendable (URL) throws -> URL,
+        movingJudgedBy: @escaping @Sendable (RemovalGuard) -> @Sendable (URL) throws -> URL,
         ownMoves: OwnTrashMoves,
         journal: RemovalJournal?
     ) {
@@ -468,9 +470,32 @@ public struct TrashService: Sendable {
         self.runningJobs = runningJobs
         self.registrationAtLogin = registrationAtLogin
         self.registerApp = registerApp
-        self.moveToTrash = moveToTrash
+        self.moveToTrash = movingJudgedBy(removalGuard)
+        self.movingJudgedBy = movingJudgedBy
         self.ownMoves = ownMoves
         self.journal = journal
+    }
+
+    /// This service judging by `exclusions`: a command asks first, and what was excluded by the time the person
+    /// answers stays, as each move in the app makes a service of its own.
+    public func excluding(_ exclusions: Exclusions) -> TrashService {
+        TrashService(
+            environment: environment,
+            removalGuard: RemovalGuard(environment: environment, exclusions: exclusions),
+            stopJobs: stopJobs,
+            startJob: startJob,
+            forgetDomains: forgetDomains,
+            moveThroughHelper: moveThroughHelper,
+            putBackDockTiles: putBackDockTiles,
+            runningInside: runningInside,
+            stopRunning: stopRunning,
+            runningJobs: runningJobs,
+            registrationAtLogin: registrationAtLogin,
+            registerApp: registerApp,
+            movingJudgedBy: movingJudgedBy,
+            ownMoves: ownMoves,
+            journal: journal
+        )
     }
 
     /// False while the saved exclusions are not read yet or cannot be read, when nothing moves.

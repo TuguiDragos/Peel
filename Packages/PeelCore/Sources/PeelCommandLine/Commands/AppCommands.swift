@@ -849,14 +849,16 @@ struct UninstallCommand: AsyncParsableCommand {
             let items = Output.count(plan.moving.count, "item", "items")
             try Output.confirm(resetPrivacy ? "Reset privacy permissions and move \(items) to the Trash?" : "Move \(items) to the Trash?")
         }
-        // Checked again: the scan and the question take time, and the app may have been opened meanwhile.
+        // Checked again: the scan and the question take time, and the app may have been opened, or something
+        // excluded, meanwhile.
         try await Self.refuseWhileRunning(target, among: apps)
+        let mover = service.excluding(await ExclusionStore().load())
 
         let (reset, result, recorded) = await Uninterrupted.run {
             // The privacy reset comes before the move, because `tccutil` only finds an app that is still in place.
-            let reset = resetPrivacy ? await PrivacyReset.reset([target], beforeMovingWith: service).first?.result : nil
+            let reset = resetPrivacy ? await PrivacyReset.reset([target], beforeMovingWith: mover).first?.result : nil
             let result = await RecordedRemoval.$current.withValue(plan.recordedAs(target.name)) {
-                await plan.move(using: service)
+                await plan.move(using: mover)
             }
             let recorded = await plan.record(result, from: target.name)
             await LeftForAnAdministrator().record(uninstallation.leftForAnAdministrator(after: result))

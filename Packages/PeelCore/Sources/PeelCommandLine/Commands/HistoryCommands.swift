@@ -437,13 +437,15 @@ struct RestoreCommand: AsyncParsableCommand {
         if !yes {
             try Output.confirm("Put \(Output.count(going.count, "item", "items")) back?")
         }
+        // What was excluded while the question was up stays in the Trash.
+        let putter = service.excluding(await ExclusionStore().load())
 
         let (restored, failures, forgotten) = await Uninterrupted.run {
             var restored: Set<UUID> = []
             var failures: [(RemovalRecord, RestoreFailure)] = []
             let ordered = going.inPutBackOrder
             // `peel` never uses the helper: items that need administrator access are left for the Peel app.
-            let answers = await service.restore(ordered.map(\.trashedItem), canUseHelper: false)
+            let answers = await putter.restore(ordered.map(\.trashedItem), canUseHelper: false)
             for (record, answer) in zip(ordered, answers.failures) {
                 if let failure = answer {
                     failures.append((record, failure))

@@ -54,7 +54,7 @@ struct Cleanup {
 
     /// Prints the list, with `notes` under it, and, unless `dryRun` is set, asks, moves what can go, and records it
     /// in History. A declined answer exits 2; a failed move, a plan where everything stays, and a move History could
-    /// not record exit 1.
+    /// not record exit 1. The move goes by the exclusions as `exclusionsNow` reads them once the person answers.
     func run(
         question: String,
         notes: [String] = [],
@@ -64,7 +64,8 @@ struct Cleanup {
         recordingIn log: RemovalLog = RemovalLog(),
         refusals: RefusalLog = RefusalLog(),
         move: (TrashService, [URL]) async -> TrashResult = { await $0.trash($1) },
-        checkingAgain: () async throws -> Void = {}
+        checkingAgain: () async throws -> Void = {},
+        exclusionsNow: () async -> Exclusions = { await ExclusionStore().load() }
     ) async throws {
         if let note = UnreadableHistory.note(at: log.url) {
             Output.note(note)
@@ -107,12 +108,13 @@ struct Cleanup {
             try Output.confirm(question)
         }
         try await checkingAgain()
+        let mover = service.excluding(await exclusionsNow())
 
         let (result, recorded) = await Uninterrupted.run {
             let sizes = [URL: Int64](measured: items.map { ($0.url, $0.size) })
             let part = RemovalPart(source: source, sourceKey: sourceKey, tool: tool)
             let recordedAs = RecordedRemoval(batch: UUID(), part: part, sizes: sizes)
-            let result = await RecordedRemoval.$current.withValue(recordedAs) { await move(service, moving.map(\.url)) }
+            let result = await RecordedRemoval.$current.withValue(recordedAs) { await move(mover, moving.map(\.url)) }
             let recorded = await Removals.record(
                 TrashResult(trashed: result.trashed, failures: result.failures + refused),
                 from: source,
