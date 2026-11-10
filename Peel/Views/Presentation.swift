@@ -825,7 +825,7 @@ extension OrphanConfidence {
 }
 
 extension URL {
-    var abbreviatedPath: String {
+    nonisolated var abbreviatedPath: String {
         (path(percentEncoded: false) as NSString).abbreviatingWithTildeInPath
     }
 

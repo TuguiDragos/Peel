@@ -99,42 +99,63 @@ struct ShowInPeel: AppIntent {
 
 /// An installed app, as Shortcuts and Spotlight offer it: chosen from the apps on the Mac rather than typed by
 /// hand. Its `id` is the app's reference: its bundle identifier, so a Shortcut keeps working after the app moves, or
-/// where it is when it has none.
+/// where it is when it has none. While another copy has the same identifier, the `id` carries the copy's place too,
+/// and so does its subtitle, since the identifier alone would always open the first copy.
 struct InstalledAppEntity: AppEntity {
     static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "App")
     static let defaultQuery = InstalledAppQuery()
 
     let id: String
     let name: String
+    let place: String?
 
     var displayRepresentation: DisplayRepresentation {
-        DisplayRepresentation(title: "\(name)")
+        DisplayRepresentation(title: "\(name)", subtitle: place.map { "\($0)" })
     }
 
-    init(_ app: InstalledApp) {
-        id = app.reference
+    init(_ app: InstalledApp, among apps: [InstalledApp], id: String? = nil) {
+        let identifier = app.bundleIdentifier?.lowercased()
+        let hasCopies = identifier != nil && apps.count { $0.bundleIdentifier?.lowercased() == identifier } > 1
+        self.id = id ?? (hasCopies ? app.reference + app.url.path(percentEncoded: false) : app.reference)
         name = app.name
+        place = hasCopies ? app.url.deletingLastPathComponent().abbreviatedPath : nil
+    }
+
+    /// The app `id` names among `apps`: the copy at the place it carries, else, for a copy that moved or a Shortcut
+    /// saved while there was one copy, the first app with its reference. An identifier holds no slash, and a path
+    /// begins with one.
+    static func app(withID id: String, among apps: [InstalledApp]) -> InstalledApp? {
+        guard let slash = id.firstIndex(of: "/"), slash != id.startIndex else {
+            return apps.first { $0.reference == id }
+        }
+        let reference = String(id[..<slash])
+        let place = PathPattern.comparablePath(of: URL(filePath: String(id[slash...])))
+        return apps.first { $0.reference == reference && PathPattern.comparablePath(of: $0.url) == place }
+            ?? apps.first { $0.reference == reference }
     }
 }
 
 struct InstalledAppQuery: EntityStringQuery {
     func entities(for identifiers: [String]) async throws -> [InstalledAppEntity] {
-        let wanted = Set(identifiers)
-        return await AppCatalog.installedApps().filter { wanted.contains($0.reference) }
-            .map(InstalledAppEntity.init)
+        let apps = await AppCatalog.installedApps()
+        return identifiers.compactMap { id in
+            InstalledAppEntity.app(withID: id, among: apps).map { InstalledAppEntity($0, among: apps, id: id) }
+        }
     }
 
     func entities(matching string: String) async throws -> [InstalledAppEntity] {
-        await AppCatalog.installedApps()
+        let apps = await AppCatalog.installedApps()
+        return apps
             .filter { app in
                 app.names.contains { SearchText.matches($0, string) }
                     || app.bundleIdentifier.map { SearchText.matches($0, string) } == true
             }
-            .map(InstalledAppEntity.init)
+            .map { InstalledAppEntity($0, among: apps) }
     }
 
     func suggestedEntities() async throws -> [InstalledAppEntity] {
-        await AppCatalog.installedApps().map(InstalledAppEntity.init)
+        let apps = await AppCatalog.installedApps()
+        return apps.map { InstalledAppEntity($0, among: apps) }
     }
 }
 
@@ -157,7 +178,7 @@ struct ShowLeftoversInPeel: AppIntent {
     func perform() async throws -> some IntentResult {
         // Checked again here, because the app may have been removed after it was chosen. The error lets the
         // Shortcut handle that case, instead of opening an empty page.
-        guard let installed = await AppCatalog.installedApps().first(where: { $0.reference == app.id }) else {
+        guard let installed = InstalledAppEntity.app(withID: app.id, among: await AppCatalog.installedApps()) else {
             throw NoSuchApp(name: app.name)
         }
         Navigator.shared.requestedApp = installed.url
