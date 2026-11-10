@@ -477,7 +477,7 @@ struct UninstallCommand: AsyncParsableCommand {
         let belonging = await RunningCopies.belonging(to: target, among: RunningCopies.current, installedApps: apps)
         guard !belonging.isEmpty else { return nil }
         let jobs = await RunningCopies.keptRunningByJobs(inside: [target.url])
-        let running = belonging.filter { !jobs.contains($0.identifier) }
+        let running = belonging.filter { !jobs.contains($0.identifier) && !$0.isAnExtension(inside: target.url) }
         guard !running.isEmpty else { return nil }
         let identifiers = Set(running.compactMap { $0.bundleIdentifier ?? $0.bundleURL.map(Output.path) })
             .sorted().map(Output.plain)
@@ -796,6 +796,10 @@ struct UninstallCommand: AsyncParsableCommand {
             }
             let recorded = await plan.record(result, from: target.name)
             await LeftForAnAdministrator().record(uninstallation.leftForAnAdministrator(after: result))
+            // An extension keeps running from the Trash, where nobody can quit it.
+            if let moved = result.trashed.first(where: { $0.originalURL == target.url }) {
+                SelfRemoval.endExtensions(runningFrom: moved.trashedURL)
+            }
             return (reset, result, recorded)
         }
         let privacy = reset.map { Self.privacyOutcome($0, app: target, after: result) }

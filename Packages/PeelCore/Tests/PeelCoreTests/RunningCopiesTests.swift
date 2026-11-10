@@ -3,6 +3,20 @@ import Foundation
 import Testing
 
 struct RunningCopiesTests {
+    @Test func anExtensionInsideTheAppIsNoProcessToQuit() {
+        let app = URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory)
+        func process(_ path: String) -> RunningCopies.Process {
+            RunningCopies.Process(
+                identifier: 1, bundleIdentifier: "org.example.app", bundleURL: URL(filePath: path, directoryHint: .isDirectory)
+            )
+        }
+
+        #expect(process("/Applications/Example.app/Contents/PlugIns/Finder.appex").isAnExtension(inside: app))
+        #expect(!process("/Applications/Example.app").isAnExtension(inside: app))
+        #expect(!process("/Applications/Example.app/Contents/Library/LoginItems/Helper.app").isAnExtension(inside: app))
+        #expect(!process("/Applications/Other.app/Contents/PlugIns/Finder.appex").isAnExtension(inside: app))
+    }
+
     private let chrome = InstalledApp(
         url: URL(filePath: "/Applications/Google Chrome.app", directoryHint: .isDirectory),
         bundleIdentifier: "com.google.Chrome",

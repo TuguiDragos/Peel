@@ -19,6 +19,14 @@ public enum RunningCopies {
             self.mayBeQuit = mayBeQuit
         }
 
+        /// Whether this is an app extension inside `app`, which its host keeps running and nobody quits.
+        public func isAnExtension(inside app: URL) -> Bool {
+            guard let bundleURL, bundleURL.pathExtension == "appex" else { return false }
+            return PathComponents.isPath(
+                PathPattern.comparablePath(of: bundleURL), inside: PathPattern.comparablePath(of: app)
+            )
+        }
+
         /// The name a person knows it by: its bundle's name as Finder shows it, else its identifier.
         public var name: String? {
             bundleURL.map(AppInspector.displayName) ?? bundleIdentifier
