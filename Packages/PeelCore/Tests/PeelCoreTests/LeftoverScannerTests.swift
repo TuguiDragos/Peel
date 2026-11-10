@@ -1675,6 +1675,70 @@ struct LeftoverScannerTests {
         #expect(found["net.example.nagger.plist"]?.reason == .launchdJob)
     }
 
+    @Test func findsAJobWhoseProgramIsInAFolderOfTheAppsOwn() async throws {
+        let directory = try TemporaryDirectory()
+        let helper = try directory.file("home/Library/Application Support/Tunewell/TunewellHelper")
+        let stranger = directory.url.appending(path: "home/Library/Application Support/Stranger/Helper")
+        try directory.file("home/Library/LaunchAgents/org.example.keeper.plist", contents: job(program: helper.path))
+        try directory.file("home/Library/LaunchAgents/org.example.stranger.plist", contents: job(program: stranger.path))
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+        let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map { ($0.url.lastPathComponent, $0.match) })
+
+        #expect(found["Tunewell"]?.isRecommended == true)
+        #expect(found["org.example.keeper.plist"]?.reason == .launchdJob)
+        #expect(found["org.example.keeper.plist"]?.confidence == found["Tunewell"]?.confidence)
+        #expect(found["org.example.keeper.plist"]?.isRecommended == true)
+        #expect(found["org.example.stranger.plist"] == nil)
+    }
+
+    @Test func aJobGoesWithTheFolderItsProgramIsInWhenThatFolderIsHeldBack() async throws {
+        let directory = try TemporaryDirectory()
+        let helper = try directory.file("home/Library/Application Support/Tunewell/TunewellHelper")
+        try directory.directory("home/Library/Application Support/Tunewell/.git")
+        try directory.file("home/Library/LaunchAgents/org.example.keeper.plist", contents: job(program: helper.path))
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+        let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map { ($0.url.lastPathComponent, $0.match) })
+
+        #expect(found["Tunewell"]?.heldBack != nil)
+        #expect(found["org.example.keeper.plist"]?.heldBack == found["Tunewell"]?.heldBack)
+    }
+
+    @Test func showsForReviewAJobThatNamesTheAppAmongItsArguments() async throws {
+        let directory = try TemporaryDirectory()
+        func job(_ label: String, arguments: [String]) throws -> Data {
+            try PropertyListSerialization.data(
+                fromPropertyList: ["Label": label, "ProgramArguments": arguments], format: .xml, options: 0
+            )
+        }
+        try directory.file(
+            "home/Library/LaunchAgents/org.example.opener.plist",
+            contents: try job("org.example.opener", arguments: ["/usr/bin/open", "-a", "/Applications/Tunewell.app"])
+        )
+        try directory.file(
+            "home/Library/LaunchAgents/org.example.shell.plist",
+            contents: try job("org.example.shell", arguments: [
+                "/bin/sh", "-c", "'/Applications/Tunewell.app/Contents/MacOS/Tunewell' --background",
+            ])
+        )
+        try directory.file(
+            "home/Library/LaunchAgents/org.example.other.plist",
+            contents: try job("org.example.other", arguments: ["/usr/bin/open", "-a", "/Applications/Tunewell.application"])
+        )
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+        let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map { ($0.url.lastPathComponent, $0.match) })
+
+        #expect(found["org.example.opener.plist"]?.confidence == .possible)
+        #expect(found["org.example.shell.plist"]?.confidence == .possible)
+        #expect(found["org.example.shell.plist"]?.isRecommended == false)
+        #expect(found["org.example.other.plist"] == nil)
+    }
+
     @Test func neverClaimsAJobByAProgramPathWithANul() async throws {
         let directory = try TemporaryDirectory()
         let program = "/Applications/Other.app/Contents/MacOS/Agent\u{0}/../../../../Tunewell.app/Contents/MacOS/Agent"

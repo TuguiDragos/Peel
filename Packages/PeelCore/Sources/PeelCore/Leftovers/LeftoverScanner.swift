@@ -126,19 +126,26 @@ public struct LeftoverScanner: Sendable {
         var found: [(location: SearchLocation, leftovers: [Leftover])] = []
         var unreadableLocations: [SearchLocation] = []
         var cutShortLocations: [SearchLocation] = []
+        var jobs: [UnclaimedJob] = []
         for (location, result) in results {
             switch result {
-            case .found(let leftovers, let cutShort, let unreadable):
+            case .found(let leftovers, let cutShort, let unreadable, let unclaimed):
                 found.append((location, leftovers))
                 if let cutShort { cutShortLocations.append(cutShort) }
                 unreadableLocations += unreadable
+                jobs += unclaimed
             case .unreadable(let location):
                 unreadableLocations.append(location)
             }
         }
+        let rows = Self.merged(found)
+        let jobsOfRows = await Self.jobs(
+            jobs, runningFrom: rows, home: environment.homeDirectory.path(percentEncoded: false),
+            root: environment.rootDirectory.path(percentEncoded: false), measure: measure
+        )
         // A folder another installed app reads too, or one around it, is that app's as well.
         let alsoRead = environment.locations.filter { !$0.alsoReadBy.isEmpty }
-        let leftovers = Self.merged(found).map { leftover in
+        let leftovers = (rows + jobsOfRows).map { leftover in
             let item = PathPattern.comparablePath(of: leftover.url)
             let readers = alsoRead
                 .filter { PathComponents.isPath(PathPattern.comparablePath(of: $0.url), atOrInside: item) }
@@ -187,10 +194,40 @@ public struct LeftoverScanner: Sendable {
     }
 
     private enum LocationResult: Sendable {
-        /// `cutShort` is the location itself when the search inside its folders hit the limit, and `unreadable` the
-        /// folders inside it that search could not look into.
-        case found([Leftover], cutShort: SearchLocation?, unreadable: [SearchLocation])
+        /// `cutShort` is the location itself when the search inside its folders hit the limit, `unreadable` the
+        /// folders inside it that search could not look into, and `jobs` the launchd jobs nothing claimed by name or
+        /// by a program inside the app.
+        case found([Leftover], cutShort: SearchLocation?, unreadable: [SearchLocation], jobs: [UnclaimedJob])
         case unreadable(SearchLocation)
+    }
+
+    /// A launchd job no claim took, with the program it runs, kept until the scan knows the app's own rows.
+    private struct UnclaimedJob: Sendable {
+        let url: URL
+        let program: String
+        let kind: SearchLocation.Kind
+        let parent: ParentAccess
+    }
+
+    /// The jobs among `jobs` whose program is at or inside a row that is the app's alone, as an updater kept in the
+    /// app's Application Support folder: each goes with that row, as sure of whose it is, and held back with it.
+    private static func jobs(
+        _ jobs: [UnclaimedJob], runningFrom rows: [Leftover], home: String, root: String, measure: @escaping Measure
+    ) async -> [Leftover] {
+        let own = rows.filter(\.match.isTheAppsAlone).map { (row: $0, path: PathPattern.comparablePath(of: $0.url)) }
+        var taken: [Leftover] = []
+        for job in jobs {
+            guard let row = own.first(where: { PathComponents.isPath(job.program, atOrInside: $0.path) })?.row else {
+                continue
+            }
+            let match = LeftoverMatch(reason: .launchdJob, confidence: row.match.confidence, sharedWith: [])
+            let leftover = await leftover(
+                at: job.url, kind: job.kind, match: match, parent: job.parent, home: home, root: root, measure: measure
+            )
+            let heldBack = leftover.match.heldBack == nil ? row.match.heldBack : nil
+            taken.append(heldBack.map(leftover.heldBack) ?? leftover)
+        }
+        return taken
     }
 
     /// Kinds of location that belong to macOS or to the user, where a match on the app's name alone is a guess:
@@ -217,7 +254,7 @@ public struct LeftoverScanner: Sendable {
                 .sorted()
             ScanCount.current?.add(entries.count)
         } catch CocoaError.fileReadNoSuchFile {
-            return .found([], cutShort: nil, unreadable: [])
+            return .found([], cutShort: nil, unreadable: [], jobs: [])
         } catch {
             return .unreadable(location)
         }
@@ -225,6 +262,7 @@ public struct LeftoverScanner: Sendable {
         let parent = ParentAccess(location.url)
         var toMeasure: [Found] = []
         var nobodysFolders: [URL] = []
+        var jobs: [UnclaimedJob] = []
 
         // The guard reads every spelling of a path from the disk, so it is asked only about what the scan would
         // take or walk into, and what it refuses is left out of both, as is what the person excluded.
@@ -241,6 +279,9 @@ public struct LeftoverScanner: Sendable {
                     continue
                 }
                 toMeasure.append(Found(url: url, match: match, parent: parent, foldersAbove: .itsOwn))
+            } else if let program = LeftoverMatcher.program(ofJobAt: url, kind: location.kind),
+                      !refuses(path, home), !exclusions.excludes(url), !FileAccess.cannotBeRemoved(url) {
+                jobs.append(UnclaimedJob(url: url, program: program, kind: location.kind, parent: parent))
             } else if NestedSearch.kinds.contains(location.kind), url.isRealFolder, !refuses(path, home),
                       !exclusions.excludes(url) {
                 nobodysFolders.append(url)
@@ -260,7 +301,7 @@ public struct LeftoverScanner: Sendable {
         )
         return .found(
             leftovers + inside.found + makers, cutShort: inside.wasCutShort ? location : nil,
-            unreadable: inside.unreadable.map { SearchLocation(kind: location.kind, url: $0) }
+            unreadable: inside.unreadable.map { SearchLocation(kind: location.kind, url: $0) }, jobs: jobs
         )
     }
 
@@ -526,6 +567,7 @@ public struct LeftoverScanner: Sendable {
         guard kind != .nativeMessagingHosts else { return runsSomethingInside(bundle, manifest: url) }
         guard let inside = runsSomethingInside(bundle, job: url, kind: kind) else {
             return match(name, at: url, kind: kind, matcher: matcher, home: home)
+                ?? namesSomethingInside(bundle, job: url, kind: kind)
         }
         let byName = matcher.match(fileName: name, kind: kind, at: url)
         return byName?.confidence == .certain ? byName : inside
@@ -577,6 +619,18 @@ public struct LeftoverScanner: Sendable {
               PathComponents.isPath(program, atOrInside: bundle)
         else { return nil }
         return LeftoverMatch(reason: .launchdJob, confidence: .certain, sharedWith: [])
+    }
+
+    /// A job that names something inside the app among its arguments, as `open -a` or `sh -c` run it, may be the
+    /// app's: shown for review, never selected, since an argument is no program.
+    private static func namesSomethingInside(
+        _ bundle: String, job url: URL, kind: SearchLocation.Kind
+    ) -> LeftoverMatch? {
+        guard kind == .launchAgents || kind == .launchDaemons, url.pathExtension == "plist",
+              let job = JobDefinition(contentsOf: url),
+              job.arguments.dropFirst().contains(where: { $0 == bundle || $0.contains(bundle + "/") })
+        else { return nil }
+        return LeftoverMatch(reason: .launchdJob, confidence: .possible, sharedWith: [])
     }
 
     /// A browser's native messaging manifest is the app's when the program it names, an absolute path, is inside it.
