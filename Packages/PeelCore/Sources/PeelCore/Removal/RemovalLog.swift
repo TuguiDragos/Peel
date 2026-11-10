@@ -12,6 +12,9 @@ public enum RemovalLogProblem: Sendable, Equatable {
     case couldNotRecord(FileProblem?)
     /// The log could not be written after a Put Back or a Forget, so it still lists those records.
     case couldNotUpdate(FileProblem?)
+    /// The journal of removals under way could not be read, so it was set aside under this name. History is whole,
+    /// but a removal cut short that only the journal held isn't listed, though what it moved is in the Trash.
+    case journalSetAside(URL)
 }
 
 /// The result of reading or changing the log. `records` is nil when the file was left
@@ -73,7 +76,7 @@ public actor RemovalLog {
 
     private func keepAsideAnUnreadableJournal() {
         if let setAside = journal.setAsideIfUnreadable() {
-            note(.damaged(setAside: setAside))
+            note(.journalSetAside(setAside))
         }
     }
 
@@ -205,8 +208,10 @@ public actor RemovalLog {
     /// otherwise clear the notice before the user sees it.
     private func note(_ problem: RemovalLogProblem?) {
         if problem == nil {
-            if case .damaged = self.problem { return }
-            if hasUnrecordedRemoval { return }
+            switch self.problem {
+            case .damaged, .journalSetAside: return
+            default: if hasUnrecordedRemoval { return }
+            }
         }
         self.problem = problem
     }

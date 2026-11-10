@@ -174,6 +174,15 @@ private struct HistoryProblemNotice: View {
                 title: Text("History couldn’t be updated"),
                 detail: Text(verbatim: why.said(after: String(localized: "What you put back or forgot may still be listed here, because the record couldn’t be saved."), about: history.historyFile))
             ) { EmptyView() }
+        case .journalSetAside(let setAside):
+            Notice(
+                title: Text("Peel couldn’t read its record of a removal under way"),
+                detail: Text("Peel kept that file aside. If a removal was cut short, what it moved is in the Trash but isn’t listed here: you can drag it back out in Finder.")
+            ) {
+                Button("Show in Finder") {
+                    NSWorkspace.shared.activateFileViewerSelecting([setAside])
+                }
+            }
         }
     }
 }

@@ -144210,6 +144210,112 @@
         }
       }
     },
+    "Peel couldn’t read its record of a removal under way" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst svůj záznam o probíhajícím odstraňování"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte seine Aufzeichnung eines laufenden Entfernens nicht lesen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer su registro de una eliminación en curso"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lire son registre d’une suppression en cours"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere il suo registro di una rimozione in corso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは進行中のゴミ箱への移動の記録を読み取れませんでした"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 진행 중인 제거의 기록을 읽을 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon de registratie van een lopende verwijdering niet lezen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać zapisu trwającego przenoszenia do Kosza"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler o registro de uma remoção em andamento"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi evidența unei eliminări în curs"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать журнал незавершенного удаления"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa sin förteckning över en pågående borttagning"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, devam eden bir kaldırma işlemine ait kaydını okuyamadı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося прочитати свій запис вилучення, що триває"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能读取正在进行的移除操作的记录"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取進行中移除作業的記錄"
+          }
+        }
+      }
+    },
     "Peel couldn’t read launchctl’s list of the jobs turned off, so it doesn’t start, stop, enable, or disable this one here." : {
       "localizations" : {
         "cs" : {
@@ -150514,6 +150620,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel本身正從這裡執行，而且只有「設定」>「一般」中的「移除Peel」才能移除Peel。"
+          }
+        }
+      }
+    },
+    "Peel kept that file aside. If a removal was cut short, what it moved is in the Trash but isn’t listed here: you can drag it back out in Finder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tento soubor ponechal stranou. Pokud bylo některé odstranění přerušeno, to, co se při něm přesunulo, je v koši, ale není tu uvedeno: ve Finderu to můžete přetáhnout zpět ven."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hat diese Datei separat aufbewahrt. Wurde ein Entfernen unterbrochen, liegt das, was dabei verschoben wurde, im Papierkorb, wird hier aber nicht aufgeführt: Du kannst es im Finder wieder herausziehen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ha guardado ese archivo aparte. Si una eliminación se interrumpió, lo que trasladó está en la papelera, pero no aparece aquí: puedes sacarlo arrastrándolo en el Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel a mis ce fichier de côté. Si une suppression a été interrompue, ce qu’elle a déplacé se trouve dans la corbeille mais n’est pas listé ici : vous pouvez l’en sortir dans le Finder, en le faisant glisser."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ha messo da parte quel file. Se una rimozione è stata interrotta, ciò che ha spostato è nel Cestino ma non è elencato qui: puoi trascinarlo fuori nel Finder."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはそのファイルを別に保管しました。ゴミ箱への移動が途中で中断された場合、移動した項目はゴミ箱にありますが、ここには表示されません。Finderでドラッグして取り出せます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 그 파일을 따로 보관했습니다. 제거가 중간에 중단되었다면 이동된 항목은 휴지통에 있지만 여기에 나열되지 않습니다. Finder에서 드래그하여 꺼낼 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel heeft dat bestand apart bewaard. Als een verwijdering is afgebroken, staat wat die heeft verplaatst in de prullenmand, maar wordt het hier niet vermeld: je kunt het in Finder er weer uit slepen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel odłożył ten plik na bok. Jeśli przenoszenie do Kosza zostało przerwane, to, co zdążyło zostać przeniesione, jest w Koszu, ale nie ma tego na tej liście: możesz przeciągnąć to z Kosza w Finderze."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel guardou esse arquivo à parte. Se uma remoção foi interrompida, o que ela moveu está no Lixo, mas não está listado aqui: você pode arrastá-lo para fora no Finder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel a păstrat deoparte acel fișier. Dacă o eliminare a fost întreruptă, ce a mutat se află în Coș, dar nu este listat aici: în Finder, îl puteți trage afară din Coș."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel сохранил этот файл отдельно. Если удаление было прервано, то, что оно переместило, находится в Корзине, но здесь не показано: в Finder это можно перетащить из Корзины обратно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sparade undan den filen. Om en borttagning avbröts ligger det som den flyttade i papperskorgen men listas inte här: du kan dra ut det igen i Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel o dosyayı ayrı olarak sakladı. Bir kaldırma işlemi yarıda kesildiyse taşıdıkları Çöp Sepeti’nde ama burada listelenmiyor: onları Finder’da sürükleyerek dışarı çıkarabilirsiniz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel зберегла цей файл окремо. Якщо вилучення було перервано, те, що воно перемістило, лежить у Смітнику, але тут не показується: у Finder це можна перетягнути зі Смітника назад."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel已将该文件另行保留。如果某次移除被中断，它移走的内容会在废纸篓中，但不会在此处列出：你可以在“访达”中将其拖出来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel已將該檔案另外保存。如果某次移除作業中途中斷，它所移動的項目會在「垃圾桶」中，但不會列在這裡：你可以在Finder中將它們拖出來。"
           }
         }
       }

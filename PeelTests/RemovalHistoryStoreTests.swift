@@ -59,7 +59,7 @@ struct RemovalHistoryStoreTests {
 
         #expect(history.writeProblem == nil)
         #expect(history.mayMove)
-        guard case .damaged = history.problem else {
+        guard case .journalSetAside = history.problem else {
             Issue.record("nothing said: \(String(describing: history.problem))")
             return
         }

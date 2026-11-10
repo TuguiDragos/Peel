@@ -291,6 +291,9 @@ extension RemovalLogProblem {
             "History couldn't be read, so Peel moves nothing until you start it over in the Peel app's History." + why.sentence
         case .couldNotRecord(let why): "History couldn't be saved, so the last removal isn't in it." + why.sentence
         case .couldNotUpdate(let why): "History couldn't be saved, so what was put back is still listed in it." + why.sentence
+        case .journalSetAside(let setAside):
+            "Peel couldn't read its record of a removal under way, so it kept it as \(Output.plain(Output.path(setAside)))."
+                + " If a removal was cut short, what it moved is in the Trash but isn't listed in History."
         }
     }
 }

@@ -1,4 +1,5 @@
 import Foundation
+@testable import PeelCommandLine
 @testable import PeelCore
 import PeelPrivileged
 import Synchronization
@@ -253,13 +254,14 @@ struct RemovalJournalTests {
 
         let outcome = await RemovalLog(url: history).load()
 
-        guard case .damaged(let aside) = outcome.problem else {
+        guard case .journalSetAside(let aside) = outcome.problem else {
             Issue.record("nothing said: \(String(describing: outcome.problem))")
             return
         }
         #expect(aside.isThere)
         #expect(journal.url.isMissing)
         #expect(RemovalLog.writeProblem(at: history) == nil)
+        #expect(outcome.problem?.summary == "Peel couldn't read its record of a removal under way, so it kept it as \(Output.plain(Output.path(aside))). If a removal was cut short, what it moved is in the Trash but isn't listed in History.")
     }
 
     @Test func aJournalThatCannotBeReadIsKeptAsideWithoutReadingHistory() async throws {
@@ -270,7 +272,7 @@ struct RemovalJournalTests {
 
         let problem = await RemovalLog(url: history).setAsideAnUnreadableJournal()
 
-        guard case .damaged(let aside) = problem else {
+        guard case .journalSetAside(let aside) = problem else {
             Issue.record("nothing said: \(String(describing: problem))")
             return
         }
