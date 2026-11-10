@@ -17,6 +17,61 @@ struct ShellSessionsTests {
         #expect(zshrc?.path(percentEncoded: false).hasSuffix("home/.config/zsh/.zshrc") == true)
     }
 
+    /// The startup files are the account's own, so the shell that runs them must not reach what was given to Peel.
+    @Test(arguments: [false, true])
+    func theShellThatRunsTheStartupFilesAnswersForItself(isInteractive: Bool) async throws {
+        let system = try #require(Subprocess.Responsibility.system)
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let started = directory.url.appending(path: "started")
+        let goOn = directory.url.appending(path: "go-on")
+        try directory.file("home/.zshenv", contents: Data("""
+            print -r -- $$ > \(started.path(percentEncoded: false).quotedForTheShell)
+            while [[ ! -e \(goOn.path(percentEncoded: false).quotedForTheShell) ]]; do /bin/sleep 0.05; done
+
+            """.utf8))
+        let zsh = ShellSessions.zsh(startupFile: home.appending(path: ".zshenv"))
+        async let answered: Void = {
+            if isInteractive {
+                _ = await zsh.promptShown(home: home, zdotdir: nil)
+            } else {
+                _ = await zsh.zshrc(home: home, zdotdir: nil)
+            }
+        }()
+        var shell: pid_t?
+        while shell == nil {
+            try await Task.sleep(for: .milliseconds(20))
+            shell = (try? String(contentsOf: started, encoding: .utf8)).flatMap {
+                pid_t($0.trimmingCharacters(in: .whitespacesAndNewlines))
+            }
+        }
+
+        let answersForIt = shell.map(system.responsible)
+        try Data().write(to: goOn)
+        await answered
+
+        #expect(answersForIt == shell)
+    }
+
+    @Test func whenZshCannotBeStartedOnItsOwnTheStartupFilesTextNamesTheFolderAndNothingRuns() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let ran = directory.url.appending(path: "ran")
+        try directory.file("home/.zshenv", contents: Data("""
+            export ZDOTDIR="$HOME/.config/zsh"
+            /usr/bin/touch \(ran.path(percentEncoded: false).quotedForTheShell)
+
+            """.utf8))
+        let zsh = ShellSessions.zsh(startupFile: home.appending(path: ".zshenv"))
+
+        let zshrc = await zsh.zshrc(home: home, zdotdir: nil, asking: nil)
+        let shown = await zsh.promptShown(home: home, zdotdir: nil, asking: nil)
+
+        #expect(zshrc?.path(percentEncoded: false).hasSuffix("home/.config/zsh/.zshrc") == true)
+        #expect(shown == nil)
+        #expect(ran.isMissing)
+    }
+
     @Test func askingZshAQuestionRunsNoLogoutFile() async throws {
         let directory = try TemporaryDirectory()
         let home = try directory.directory("home")

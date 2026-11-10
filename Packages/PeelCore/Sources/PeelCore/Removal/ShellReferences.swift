@@ -72,17 +72,7 @@ public enum ShellReferences {
         if let zsh = ShellSessions.of(terminalSetting: nil, loginShell: "/bin/zsh", zdotdir: zdotdir, home: home),
            case .zsh(let zshenv) = zsh {
             files.append(zshenv)
-            var folders = [zshenv.deletingLastPathComponent()]
-            let environment = zdotdir.map { ["ZDOTDIR": $0] } ?? [:]
-            for name in [".zshenv", ".zprofile"] {
-                for folder in folders {
-                    let file = folder.appending(path: name, directoryHint: .notDirectory)
-                    guard let data = BoundedRead.data(at: file, maximum: maximumBytes) else { continue }
-                    folders += ShellSessions.foldersGivenToZDOTDIR(
-                        in: String(decoding: data, as: UTF8.self), home: home, environment: environment
-                    )
-                }
-            }
+            let folders = ShellSessions.foldersNamedByStartupFiles(from: zshenv, home: home, zdotdir: zdotdir)
             files += folders.flatMap { folder in
                 [".zprofile", ".zshrc", ".zlogin"].map { folder.appending(path: $0, directoryHint: .notDirectory) }
             }

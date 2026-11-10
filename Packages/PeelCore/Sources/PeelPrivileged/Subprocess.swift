@@ -2,16 +2,22 @@ import Darwin
 public import Foundation
 import Synchronization
 
-/// The one way Peel and its helper run a tool. Every run stops when its task is canceled, and has a time limit
+/// How Peel and its helper run a tool of macOS's. Every run stops when its task is canceled, and has a time limit
 /// unless the person follows it and can stop it themselves: a removal waits for `launchctl` and `defaults`, and a
 /// tool that never answers must not hold it forever. The pipes are read with `read(2)`, because `FileHandle`'s
 /// `readDataToEndOfFile` and `availableData` raise an exception on failure that Swift cannot catch
-/// (`NSFileHandle.h`).
+/// (`NSFileHandle.h`). A program the account can rewrite is not run this way: Peel starts it with `runOnItsOwn`.
 public enum Subprocess {
     public struct Output: Sendable, Hashable {
         public let status: Int32
         public let standardOutput: Data
         public let standardError: Data
+
+        package init(status: Int32, standardOutput: Data, standardError: Data) {
+            self.status = status
+            self.standardOutput = standardOutput
+            self.standardError = standardError
+        }
 
         public var text: String { String(decoding: standardOutput, as: UTF8.self) }
         public var errorText: String { String(decoding: standardError, as: UTF8.self) }
@@ -33,12 +39,12 @@ public enum Subprocess {
     }
 
     /// How long a tool that was asked to stop is given before it is killed.
-    static let grace: TimeInterval = 2
+    package static let grace: TimeInterval = 2
     /// How long to wait for the rest of the output once the tool has ended. A process the tool started can
     /// outlive it and hold a pipe open, and the answer does not wait for that.
-    static let drain: TimeInterval = 0.5
+    package static let drain: TimeInterval = 0.5
     /// At utility quality these timers would wait behind any utility work queued before them.
-    static let timers = DispatchQueue.global(qos: .userInitiated)
+    package static let timers = DispatchQueue.global(qos: .userInitiated)
 
     /// Runs `executable` with `arguments`, and stops it after `timeout` seconds, when there is one, or when the task
     /// is canceled. When `environment` is given, it replaces Peel's own. Both streams are read while the tool runs,
@@ -160,7 +166,7 @@ public enum Subprocess {
 
     /// Reads one pipe on a thread of its own with `read(2)`, which reports an error where `FileHandle` raises.
     /// It never blocks for long: a pipe held open by something the tool left running is given up on.
-    private final class Reader: Sendable {
+    package final class Reader: Sendable {
         private struct State {
             var data = Data()
             var isDone = false
@@ -172,7 +178,7 @@ public enum Subprocess {
         /// Handed each piece as it is read, on the reading thread.
         private let onRead: (@Sendable (Data) -> Void)?
 
-        init(_ descriptor: Int32, onRead: (@Sendable (Data) -> Void)?) {
+        package init(_ descriptor: Int32, onRead: (@Sendable (Data) -> Void)?) {
             self.onRead = onRead
             let thread = Thread { [self] in
                 read(descriptor)
@@ -188,7 +194,7 @@ public enum Subprocess {
         }
 
         /// Everything read, once the pipe has closed or `limit` has passed since this was asked.
-        func data(within limit: TimeInterval) async -> Data {
+        package func data(within limit: TimeInterval) async -> Data {
             await withCheckedContinuation { continuation in
                 let isDone = state.withLock { state in
                     state.giveUpAt = .now + .seconds(limit)

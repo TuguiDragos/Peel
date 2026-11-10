@@ -36,16 +36,16 @@ public enum ShellSessions: Sendable, Equatable {
 
     /// The `.zshrc` zsh reads, where the line that sources Peel's file goes: in the folder `ZDOTDIR` names before zsh
     /// reads it, since `.zshenv` or `.zprofile` may set it (`man zsh`, STARTUP/SHUTDOWN FILES). zsh is asked as
-    /// Terminal starts it, a login shell, and the folder of `.zshenv` stands when it doesn't answer.
+    /// Terminal starts it, a login shell, on its own since it runs the account's files. When it doesn't answer, the
+    /// folder those files plainly give ZDOTDIR stands, or else the folder of `.zshenv`.
     public func zshrc(home: URL = .homeDirectory) async -> URL? {
         await zshrc(home: home, zdotdir: Self.sessionZDOTDIR)
     }
 
     /// `zdotdir` is set for zsh only when the session sets it, since `.zshenv` may keep a ZDOTDIR it finds
     /// (`${ZDOTDIR:-$HOME/.config/zsh}`).
-    func zshrc(home: URL, zdotdir: String?) async -> URL? {
+    func zshrc(home: URL, zdotdir: String?, asking responsibility: Subprocess.Responsibility? = .system) async -> URL? {
         guard case .zsh(let zshenv) = self else { return nil }
-        let folder = zshenv.deletingLastPathComponent()
         var environment = [
             "HOME": home.pathAsHOME,
             "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
@@ -53,9 +53,9 @@ public enum ShellSessions: Sendable, Equatable {
         if let zdotdir, !zdotdir.isEmpty {
             environment["ZDOTDIR"] = (zdotdir as NSString).standardizingPath
         }
-        let answer = await Subprocess.run(
+        let answer = await Subprocess.runOnItsOwn(
             "/bin/zsh", ["-l", "-c", #"print -r -- "peel-zdotdir:${ZDOTDIR:-$HOME}""#],
-            environment: environment, timeout: 10
+            environment: environment, timeout: 10, asking: responsibility
         )
         // The startup files may print too.
         let marker = "peel-zdotdir:/"
@@ -65,8 +65,26 @@ public enum ShellSessions: Sendable, Equatable {
         } else {
             nil
         }
-        return (named.map { URL(filePath: $0, directoryHint: .isDirectory) } ?? folder)
-            .appending(path: ".zshrc", directoryHint: .notDirectory)
+        let folder = named.map { URL(filePath: $0, directoryHint: .isDirectory) }
+            ?? Self.foldersNamedByStartupFiles(from: zshenv, home: home, zdotdir: zdotdir).last
+        return folder?.appending(path: ".zshrc", directoryHint: .notDirectory)
+    }
+
+    /// The folders zsh may read its startup files from, going by their text alone: the one `zshenv` is in, then each
+    /// folder a `.zshenv` or a `.zprofile` there plainly gives ZDOTDIR.
+    static func foldersNamedByStartupFiles(from zshenv: URL, home: URL, zdotdir: String?) -> [URL] {
+        var folders = [zshenv.deletingLastPathComponent()]
+        let environment = zdotdir.map { ["ZDOTDIR": $0] } ?? [:]
+        for name in [".zshenv", ".zprofile"] {
+            for folder in folders {
+                let file = folder.appending(path: name, directoryHint: .notDirectory)
+                guard let data = BoundedRead.data(at: file, maximum: ShellReferences.maximumBytes) else { continue }
+                folders += foldersGivenToZDOTDIR(
+                    in: String(decoding: data, as: UTF8.self), home: home, environment: environment
+                )
+            }
+        }
+        return folders
     }
 
     /// The folders a zsh startup file gives `ZDOTDIR`, read from its text and never by running it. Only an assignment
@@ -128,7 +146,9 @@ public enum ShellSessions: Sendable, Equatable {
 
     /// Asks the login shell, as Terminal starts it, for its prompt once every startup file and `precmd` hook has
     /// run, read between marks so the files' output is skipped. Nil when it isn't zsh or doesn't answer in time.
-    func promptShown(home: URL, zdotdir: String?) async -> ShownPrompt? {
+    func promptShown(
+        home: URL, zdotdir: String?, asking responsibility: Subprocess.Responsibility? = .system
+    ) async -> ShownPrompt? {
         guard case .zsh = self else { return nil }
         var environment = [
             "HOME": home.pathAsHOME,
@@ -153,7 +173,9 @@ public enum ShellSessions: Sendable, Equatable {
             print -rn -- $'\\0Peel\\0'"$PROMPT"; for peel_f in $peel_by; do print -rn -- $'\\0'"$peel_f"; done
             print -rn -- $'\\0End\\0'
             """
-        let answer = await Subprocess.run("/bin/zsh", ["-l", "-i", "-c", script], environment: environment, timeout: 10)
+        let answer = await Subprocess.runOnItsOwn(
+            "/bin/zsh", ["-l", "-i", "-c", script], environment: environment, timeout: 10, asking: responsibility
+        )
         guard case .success(let output) = answer, output.status == 0 else { return nil }
         let fields = output.standardOutput.split(separator: 0, omittingEmptySubsequences: false)
         guard let end = fields.lastIndex(of: Data("End".utf8)), let start = fields[..<end].lastIndex(of: Data("Peel".utf8)),
