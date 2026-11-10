@@ -4,6 +4,7 @@ import SwiftUI
 /// Over a list whose scan couldn't look into some folders: it names them, since something may be there that isn't
 /// listed, and says when Full Disk Access would open one of them.
 struct UnreadableFoldersNotice: View {
+    @Environment(HomeModel.self) private var home
     let folders: [URL]
     var needsFullDiskAccess = false
     @State private var counted = ClosedByPermissions()
@@ -17,7 +18,8 @@ struct UnreadableFoldersNotice: View {
             title: Text("Some folders couldn’t be read"),
             detail: Text(
                 verbatim: Self.detail(
-                    naming: folders.map(\.abbreviatedPath), closed: closed, needsFullDiskAccess: needsFullDiskAccess
+                    naming: folders.map(\.abbreviatedPath), closed: closed, needsFullDiskAccess: needsFullDiskAccess,
+                    reopens: needsFullDiskAccess && home.needsRelaunchForFullDiskAccess
                 )
             ),
             kind: needsFullDiskAccess ? .problem : .note
@@ -32,9 +34,11 @@ struct UnreadableFoldersNotice: View {
     /// The folders macOS lets a person allow one by one, apart from Full Disk Access.
     private static let asksForItsFolderAlone = ["~/Desktop", "~/Documents", "~/Downloads"]
 
-    /// The folders, the first few by path, why when their permissions are why, and then the advice when Full Disk
-    /// Access would open one of them.
-    static func detail(naming paths: [String], closed: Int, needsFullDiskAccess: Bool) -> String {
+    /// The folders, the first few by path, why when their permissions are why, then the advice when Full Disk Access
+    /// would open one of them, and why to reopen Peel while Peel offers it.
+    static func detail(
+        naming paths: [String], closed: Int, needsFullDiskAccess: Bool, reopens: Bool = false
+    ) -> String {
         let named = paths.isEmpty
             ? [] : [String(localized: "Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(paths)), so something may be there that isn’t listed here.")]
         let why = [whyNotRead(closed: closed, of: paths.count)].compactMap(\.self)
@@ -43,7 +47,8 @@ struct UnreadableFoldersNotice: View {
         let foldersAlone = !paths.filter(asksForItsFolderAlone.contains).isEmpty && needsFullDiskAccess
             ? [String(localized: "For Desktop, Documents, or Downloads alone, allow Peel in System Settings > Privacy & Security > Files & Folders.")]
             : []
-        return (named + why + advice + foldersAlone).joined(separator: "\n\n")
+        let reopen = reopens ? [HomeModel.reopenForFullDiskAccess] : []
+        return (named + why + advice + foldersAlone + reopen).joined(separator: "\n\n")
     }
 
     /// The sentence that says the permissions kept Peel out, given how many of how many items they closed.

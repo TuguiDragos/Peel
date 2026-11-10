@@ -72406,6 +72406,112 @@
         }
       }
     },
+    "If you turned on Full Disk Access, reopen Peel: macOS gives it only to an app opened after that." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokud jste zapnuli plný přístup k disku, otevřete Peel znovu: systém macOS ho uděluje jen aplikaci otevřené až poté."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn du den Festplattenvollzugriff aktiviert hast, öffne Peel erneut: macOS gewährt ihn nur einer App, die danach geöffnet wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si has activado el acceso total al disco, vuelve a abrir Peel: macOS solo se lo da a una app que se abra después."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si vous avez activé l’accès complet au disque, rouvrez Peel : macOS ne l’accorde qu’à une app ouverte après cela."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se hai attivato l’accesso completo al disco, riapri Peel: macOS lo concede solo a un’app aperta dopo l’attivazione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フルディスクアクセスをオンにした場合は、Peelを開き直してください。macOSがフルディスクアクセスを与えるのは、その後に開いたアプリだけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전체 디스크 접근 권한을 켰다면 Peel을 다시 여십시오. macOS는 권한을 켠 이후에 열린 앱에만 이 권한을 부여합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als je volledige schijftoegang hebt ingeschakeld, open Peel dan opnieuw: macOS geeft die alleen aan een app die daarna is geopend."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeśli włączono pełny dostęp do dysku, otwórz Peel ponownie: macOS przyznaje go tylko aplikacji otwartej po włączeniu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se você ativou o Acesso Total ao Disco, abra o Peel novamente: o macOS só o concede a um app aberto depois disso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dacă ați activat Acces complet la disc, redeschideți Peel: macOS îl acordă doar unei aplicații deschise după aceea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если Вы включили полный доступ к диску, откройте Peel заново: macOS предоставляет этот доступ только приложению, открытому после этого."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om du har slagit på full skivtillgång öppnar du Peel igen: macOS ger den bara till en app som öppnas efter det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tam Disk Erişimi’ni açtıysanız Peel’den çıkıp onu yeniden açın: macOS bu erişimi yalnızca bundan sonra açılan bir uygulamaya verir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Якщо ви ввімкнули повний доступ до диска, завершіть і знову відкрийте Peel: macOS надає цей доступ лише програмі, відкритій після цього."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你已打开完全磁盘访问权限，请重新打开Peel：macOS只会将此权限授予在此之后打开的App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你已開啟「完全取用磁碟」，請重新打開Peel：macOS只會將此權限授予在那之後打開的App。"
+          }
+        }
+      }
+    },
     "Image Units" : {
       "localizations" : {
         "cs" : {

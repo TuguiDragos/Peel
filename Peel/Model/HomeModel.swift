@@ -171,6 +171,11 @@ final class HomeModel {
 
     var needsAttention: Bool { !missingRequired.isEmpty }
 
+    /// Said wherever Peel offers to reopen: Full Disk Access reaches only an app opened after it was turned on.
+    static var reopenForFullDiskAccess: String {
+        String(localized: "If you turned on Full Disk Access, reopen Peel: macOS gives it only to an app opened after that.")
+    }
+
     /// What Home says once nothing this account can set up is missing.
     enum AllSet {
         case everything

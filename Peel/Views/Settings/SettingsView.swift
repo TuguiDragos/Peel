@@ -285,7 +285,14 @@ private struct GeneralSettingsView: View {
                        "When you move an app to the Trash yourself, Peel offers to remove the files it left behind. Peel watches the Trash while it is open, or while it is in the menu bar.")
                 if watchesTrash, trashMonitor.status == .needsFullDiskAccess {
                     HStack {
-                        StatusLabel(title: Text("Peel needs Full Disk Access to watch the Trash."), systemImage: "lock.trianglebadge.exclamationmark")
+                        VStack(alignment: .leading, spacing: 2) {
+                            StatusLabel(title: Text("Peel needs Full Disk Access to watch the Trash."), systemImage: "lock.trianglebadge.exclamationmark")
+                            if home.needsRelaunchForFullDiskAccess {
+                                Text(verbatim: HomeModel.reopenForFullDiskAccess)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
                         Spacer()
                         // Full Disk Access applies only to a new process, so once it may have been given, Peel offers
                         // to reopen.

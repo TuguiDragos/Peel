@@ -253,14 +253,11 @@ struct HomePermissionsContent: View {
             )
             let toSetUp = home.missingRequired.filter { notice == .setUp || $0 != .helper }
             let missing = toSetUp.map { String(localized: $0.title) }.formatted(.list(type: .and))
-            let openTheOtherCopy = Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: true))
-            let detail = switch notice {
-            case .setUp: Text("Set up \(missing) below.")
-            case .repairTheHelper: Text("Repair it below. Until then, Peel can’t move anything that needs an administrator.")
-            case .setUpAndRepairTheHelper: Text("Set up \(missing) below, and repair the helper.")
-            case .helperOfAnotherCopy: openTheOtherCopy
-            case .setUpWithHelperOfAnotherCopy: Text("\(Text("Set up \(missing) below."))\n\n\(openTheOtherCopy)")
-            }
+            let detail = Text(verbatim: notice.detail(
+                missing: missing,
+                otherCopy: String(localized: helper.standing.whyItCannotAct(registeredByAnotherCopy: true)),
+                reopens: home.needsRelaunchForFullDiskAccess
+            ))
             Notice(
                 title: notice == .repairTheHelper
                     ? Text("Peel’s helper isn’t answering")

@@ -171,6 +171,21 @@ extension AdministratorCommand {
     }
 }
 
+extension MissingPermissionsNotice {
+    /// What Home's banner says under its title: what to set up below, named by `missing`, or what to do, with
+    /// `otherCopy` for another copy's helper, and why to reopen Peel while Peel offers it.
+    func detail(missing: String, otherCopy: String, reopens: Bool) -> String {
+        let said = switch self {
+        case .setUp: String(localized: "Set up \(missing) below.")
+        case .repairTheHelper: String(localized: "Repair it below. Until then, Peel can’t move anything that needs an administrator.")
+        case .setUpAndRepairTheHelper: String(localized: "Set up \(missing) below, and repair the helper.")
+        case .helperOfAnotherCopy: otherCopy
+        case .setUpWithHelperOfAnotherCopy: "\(String(localized: "Set up \(missing) below."))\n\n\(otherCopy)"
+        }
+        return reopens ? "\(said)\n\n\(HomeModel.reopenForFullDiskAccess)" : said
+    }
+}
+
 extension TeamRegistry.Change {
     /// What the change can mean and what to do about it, with the developer `named` when Peel knows who signs the app
     /// now.
