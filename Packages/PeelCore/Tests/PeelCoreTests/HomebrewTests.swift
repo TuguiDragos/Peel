@@ -463,6 +463,26 @@ struct HomebrewTests {
         #expect(asked.withLock { $0 } == ["--formula", "--cask"])
     }
 
+    @Test func aPackagesNameIsOneWordOfACommandForTerminal() {
+        #expect(Homebrew.lastWord(naming: "postgresql@16") == "postgresql@16")
+        #expect(Homebrew.lastWord(naming: "example/tap/gtk+3") == "example/tap/gtk+3")
+        #expect(Homebrew.lastWord(naming: "example/tap/a;b") == "'example/tap/a;b'")
+        #expect(Homebrew.lastWord(naming: "a'b") == #"'a'\''b'"#)
+        #expect(Homebrew.lastWord(naming: "-h") == "-- -h")
+    }
+
+    @Test func aPackagesNameReachesBrewAsANameWhateverItBeginsWith() async throws {
+        let packages = [HomebrewPackage(name: "--greedy", kind: .cask, installedVersion: "1.0")]
+        let asked = Mutex<[[String]]>([])
+
+        _ = try await Homebrew.upgrade(packages) { arguments throws(Homebrew.CommandFailure) in
+            asked.withLock { $0.append(arguments) }
+            return Homebrew.Attempt(status: 0, standardOutput: "", standardError: "")
+        }
+
+        #expect(asked.withLock { $0 } == [["upgrade", "--cask", "--", "--greedy"]])
+    }
+
     /// Homebrew reads its own `brew.env` files after Peel's environment, and a line there with no value, such as
     /// `HOMEBREW_NO_INSTALL_CLEANUP=`, turns Peel's setting off (`bin/brew` and `env_config.rb`, 7.0.4). `brew config`
     /// lists what is in effect: these are its answers in Peel's environment with such a file, as it wrote them.

@@ -1083,7 +1083,8 @@ public enum Homebrew {
         while let asked = pending.popLast(), calls < mostCallsForOneQuestion, !Task.isCancelled {
             calls += 1
             guard let attempt = try? await execute(
-                ["info", "--json=v2", kind] + asked, autoUpdate: false, timeout: longestAnswer
+                arguments(["info", "--json=v2", kind], naming: Array(asked)), autoUpdate: false,
+                timeout: longestAnswer
             ) else { break }
             if attempt.status == 0 {
                 found += parseInstalled(Data(attempt.standardOutput.utf8)) ?? []
@@ -1103,7 +1104,9 @@ public enum Homebrew {
         _ package: HomebrewPackage,
         onOutput: @escaping @Sendable (Data) -> Void
     ) async throws(CommandFailure) -> String {
-        let arguments = ["upgrade", package.kind == .cask ? "--cask" : "--formula", package.name]
+        let arguments = Self.arguments(
+            ["upgrade", package.kind == .cask ? "--cask" : "--formula"], naming: [package.name]
+        )
         return try await execute(
             arguments, autoUpdate: true, timeout: nil, inWritingOrder: true, onOutput: onOutput, changesApps: true
         ).transcript()
@@ -1138,7 +1141,9 @@ public enum Homebrew {
             let names = packages.filter { $0.kind == kind }.map(\.name)
             guard !names.isEmpty else { continue }
             do {
-                let attempt = try await execute(["upgrade", kind == .cask ? "--cask" : "--formula"] + names)
+                let attempt = try await execute(
+                    arguments(["upgrade", kind == .cask ? "--cask" : "--formula"], naming: names)
+                )
                 output += attempt.output
                 didFail = didFail || attempt.status != 0
             } catch {
@@ -1293,7 +1298,9 @@ public enum Homebrew {
     public static func uninstall(
         _ package: HomebrewPackage, keeping kept: [String]
     ) async throws(CommandFailure) -> String {
-        let arguments = ["uninstall", package.kind == .cask ? "--cask" : "--formula", package.name]
+        let arguments = Self.arguments(
+            ["uninstall", package.kind == .cask ? "--cask" : "--formula"], naming: [package.name]
+        )
         return try await execute(
             arguments, autoUpdate: false, keeping: kept, timeout: longestCommand, inWritingOrder: true,
             changesApps: true
@@ -1350,6 +1357,20 @@ public enum Homebrew {
         guard let config = try? await execute(["config"], autoUpdate: false, keeping: kept, timeout: longestAnswer)
             .answer() else { return false }
         return Set(kept).isSubset(of: keptFormulae(inConfig: config))
+    }
+
+    /// A package's name as the last word of a `brew` command for Terminal: as it is when it holds only letters, digits,
+    /// and `._/@+-`, otherwise in single quotes, and after `--` when it begins with `-`. The name comes from Homebrew's
+    /// own files, and a file in a tap can be called anything.
+    public static func lastWord(naming name: String) -> String {
+        let isPlain = name.allSatisfy { $0.isASCII && ($0.isLetter || $0.isNumber || "._/@+-".contains($0)) }
+        return (name.hasPrefix("-") ? "-- " : "") + (isPlain ? name : name.quotedForTheShell)
+    }
+
+    /// `words` and then `names` for one of Peel's own runs of `brew`, after `--`, so that `brew` reads a name that
+    /// begins with `-` as a name and not as an option.
+    static func arguments(_ words: [String], naming names: [String]) -> [String] {
+        words + ["--"] + names
     }
 
     /// `command` for the person to run in Terminal, telling Homebrew to keep `kept`, the formulae the exclusions

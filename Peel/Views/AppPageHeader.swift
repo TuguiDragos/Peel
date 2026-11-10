@@ -216,7 +216,7 @@ struct AppPageHeader: View {
             if let cask = library.cask(for: plan.app) {
                 CopyButton(
                     text: Homebrew.terminalCommand(
-                        "brew upgrade --cask \(cask.fullName)", keeping: homebrew.keptFormulaeNow
+                        "brew upgrade --cask \(Homebrew.lastWord(naming: cask.fullName))", keeping: homebrew.keptFormulaeNow
                     ),
                     title: "Copy Upgrade Command"
                 )

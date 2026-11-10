@@ -25,8 +25,8 @@ public struct FormulaInUse: Sendable, Hashable {
         }
         // What `brew services start` writes, in the home's Library, or in the Mac's when it ran under `sudo`.
         let stopCommand =
-            hasAJob(in: home, "LaunchAgents") ? "brew services stop \(name)"
-            : hasAJob(in: root, "LaunchDaemons") ? "sudo brew services stop \(name)"
+            hasAJob(in: home, "LaunchAgents") ? "brew services stop \(Homebrew.lastWord(naming: name))"
+            : hasAJob(in: root, "LaunchDaemons") ? "sudo brew services stop \(Homebrew.lastWord(naming: name))"
             : nil
         let folder = cellar.appending(path: name, directoryHint: .isDirectory)
         let prefix = cellar.deletingLastPathComponent()

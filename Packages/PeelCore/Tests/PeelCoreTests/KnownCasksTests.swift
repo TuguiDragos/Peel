@@ -290,6 +290,7 @@ struct KnownCasksTests {
         echo "$*" >> '\(calls)'
         kind=$3
         shift 3
+        [ "$1" = -- ] && shift
         for name in "$@"; do
           case " \(unreadable) " in *" $name "*|*" * "*) echo "Error: '$name' is unreadable" >&2; exit 1;; esac
         done

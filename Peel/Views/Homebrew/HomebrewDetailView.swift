@@ -93,7 +93,10 @@ struct HomebrewDetailView: View {
                     detail: Text("Homebrew was stopped while it upgraded this cask, so its app is still in Homebrew’s folder rather than where it belongs. Reinstalling the cask in Terminal puts it back."),
                     kind: .caution
                 ) {
-                    CopyButton(text: "brew reinstall --cask \(package.fullName)", title: "Copy Reinstall Command")
+                    CopyButton(
+                        text: "brew reinstall --cask \(Homebrew.lastWord(naming: package.fullName))",
+                        title: "Copy Reinstall Command"
+                    )
                 }
             } else if package.isMissingWhatItInstalled {
                 Notice(
@@ -171,7 +174,8 @@ struct HomebrewDetailView: View {
                     if isUninstalledInTerminal {
                         CopyButton(
                             text: Homebrew.terminalCommand(
-                                "brew uninstall \(package.kind == .cask ? "--cask" : "--formula") \(package.fullName)",
+                                "brew uninstall \(package.kind == .cask ? "--cask" : "--formula") "
+                                    + Homebrew.lastWord(naming: package.fullName),
                                 keeping: homebrew.keptFormulaeNow
                             ),
                             title: "Copy Uninstall Command"
@@ -276,7 +280,8 @@ struct HomebrewDetailView: View {
                     let kind = package.kind == .cask ? "--cask" : "--formula"
                     CopyButton(
                         text: Homebrew.terminalCommand(
-                            "brew upgrade \(kind) \(package.fullName)", keeping: homebrew.keptFormulaeNow
+                            "brew upgrade \(kind) \(Homebrew.lastWord(naming: package.fullName))",
+                            keeping: homebrew.keptFormulaeNow
                         ),
                         title: "Copy Upgrade Command"
                     )

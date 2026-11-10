@@ -77,7 +77,7 @@ final class SelfUninstall {
     static func way(
         cask: HomebrewPackage?, homebrewKnowsItsApps: Bool, unanswered: HomebrewLibrary.Unanswered? = nil
     ) -> Way {
-        if let cask { return .homebrew("brew uninstall --zap --cask \(cask.name)") }
+        if let cask { return .homebrew("brew uninstall --zap --cask \(Homebrew.lastWord(naming: cask.name))") }
         if homebrewKnowsItsApps { return .removePeel }
         return unanswered.map(Way.homebrewDidNotAnswer) ?? .waitingForHomebrew
     }

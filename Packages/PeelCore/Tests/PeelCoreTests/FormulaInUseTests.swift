@@ -24,6 +24,8 @@ import Testing
         try directory.file("home/Library/LaunchAgents/homebrew.mxcl.tool@1.plist")
         #expect(found("tool@1").stopCommand == "brew services stop tool@1")
         #expect(found("other").isEmpty)
+        try directory.file("home/Library/LaunchAgents/homebrew.mxcl.tool;id.plist")
+        #expect(found("tool;id").stopCommand == "brew services stop 'tool;id'")
     }
 
     @Test func namesWhatAFormulaKeepsInVarAndEtcUnderItsName() throws {

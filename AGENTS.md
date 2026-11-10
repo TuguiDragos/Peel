@@ -359,6 +359,9 @@ If you are unsure whether something belongs in the helper, it doesn't.
 - **Homebrew warns on stderr and still exits 0**, and JSON with a warning after it is no longer JSON. An answer
   Peel reads comes from standard output alone (`Homebrew.Attempt`), while what the person is shown keeps both
   streams, in the order Homebrew wrote them.
+- **A package's name comes from Homebrew's own files**, and a file in a tap can be called anything: a command Peel
+  gives for Terminal writes it as one word (`Homebrew.lastWord(naming:)`), and Peel's own runs of `brew` put `--`
+  before the names (`Homebrew.arguments(_:naming:)`), so a name that begins with `-` is never read as an option.
 - **Never run `brew` by hand with `HOMEBREW_NO_INSTALL_FROM_API=1`**: Homebrew then clones its whole core tap, over
   a gigabyte. Peel sets it for one question only, whether Homebrew's copy of its definitions is on the Mac.
 - **Peel never runs one of Homebrew's developer commands** (those in its `dev-cmd` folder, `brew ruby` among them):

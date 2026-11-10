@@ -930,7 +930,7 @@ struct UninstallCommand: AsyncParsableCommand {
         let moving = Set(plan.moving.map(\.url))
         if moving.contains(app.url), moving.isDisjoint(with: records),
            let cask = CaskEvidence.installedCask(for: app, in: homebrew.casks) {
-            notes.append("Homebrew installed \(Output.plain(app.name)) and will keep listing it as installed. To take it off that list, run `brew uninstall --cask \(cask.name)`: Homebrew then carries out the cask's own uninstall steps, which can delete files for good.")
+            notes.append("Homebrew installed \(Output.plain(app.name)) and will keep listing it as installed. To take it off that list, run `brew uninstall --cask \(Homebrew.lastWord(naming: cask.name))`: Homebrew then carries out the cask's own uninstall steps, which can delete files for good.")
         }
         if !scan.unreadableLocations.isEmpty {
             let folders = scan.unreadableLocations.map(\.url)

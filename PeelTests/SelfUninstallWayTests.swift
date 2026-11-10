@@ -11,6 +11,8 @@ struct SelfUninstallWayTests {
         #expect(SelfUninstall.way(cask: nil, homebrewKnowsItsApps: false) == .waitingForHomebrew)
         #expect(SelfUninstall.way(cask: nil, homebrewKnowsItsApps: true) == .removePeel)
         #expect(SelfUninstall.way(cask: cask, homebrewKnowsItsApps: false) == .homebrew("brew uninstall --zap --cask peel"))
+        let odd = HomebrewPackage(name: "peel;id", kind: .cask, installedVersion: "1.2.1")
+        #expect(SelfUninstall.way(cask: odd, homebrewKnowsItsApps: false) == .homebrew("brew uninstall --zap --cask 'peel;id'"))
     }
 
     @Test func saysWhyHomebrewDidntSayWhetherItInstalledThisCopy() {

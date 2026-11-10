@@ -510,7 +510,7 @@ struct AppDetailView: View {
             $0.kind == .homebrewReceipt && urls.contains($0.url)
         } == true
         if urls.contains(plan.app.url), !movesItsReceipt, let cask = library.cask(for: plan.app) {
-            lines.append(Text("Homebrew installed this app and will keep listing it as installed. To take it off that list, run `brew uninstall --cask \(cask.name)`: Homebrew then carries out the cask’s own uninstall steps, which can delete files for good."))
+            lines.append(Text("Homebrew installed this app and will keep listing it as installed. To take it off that list, run `brew uninstall --cask \(Homebrew.lastWord(naming: cask.name))`: Homebrew then carries out the cask’s own uninstall steps, which can delete files for good."))
         }
         guard let first = lines.first else { return nil }
         return lines.dropFirst().reduce(first) { Text("\($0)\n\n\($1)") }
