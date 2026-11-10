@@ -18,8 +18,17 @@ public enum FixedSentence: CaseIterable, Sendable {
     case receiptMisplaced, receiptForgotten, homebrewNotInstalled, helperUnavailable, homebrewElsewhere
 
     public init?(_ message: String) {
-        guard let found = Self.allCases.first(where: { $0.english == message }) else { return nil }
+        guard let found = Self.allCases.first(where: { $0.english == message || $0.englishBefore.contains(message) })
+        else { return nil }
         self = found
+    }
+
+    /// What a helper of an earlier version sends for the same thing, since an update can leave one running.
+    var englishBefore: [String] {
+        switch self {
+        case .helperOutOfDate: ["Peel’s helper is out of date. Reinstall it in Settings."]
+        default: []
+        }
     }
 
     /// The English exactly as it is sent.

@@ -21,6 +21,12 @@ struct FixedSentenceTests {
         #expect(FixedSentence(answer) != nil, "the person reads macOS's own English for a move the helper never makes")
     }
 
+    /// A helper an update left running sends its own version's words, which the app still shows in today's.
+    @Test func anOlderHelpersWordsForAVersionMismatchAreStillRecognized() {
+        #expect(FixedSentence("Peel’s helper is out of date. Reinstall it in Settings.") == .helperOutOfDate)
+        #expect(!HelperRefusal.outOfDate.rawValue.contains("Reinstall"), "Settings offers Repair Helper")
+    }
+
     @Test func aSentenceItKnowsIsRecognizedAndOneItDoesNotIsLeftAlone() {
         #expect(FixedSentence(HelperRefusal.notInTrash.rawValue) == .notInTrash)
         #expect(FixedSentence("Bootstrap failed: 5: Input/output error") == nil)

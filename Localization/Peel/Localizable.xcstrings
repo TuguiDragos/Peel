@@ -139232,6 +139232,112 @@
         }
       }
     },
+    "Peel and its helper are from different versions. Repair the helper in Peel’s Settings." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel a jeho pomocník pocházejí z různých verzí. Opravte pomocníka v Nastavení Peelu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel und sein Hilfsprogramm stammen aus unterschiedlichen Versionen. Repariere das Hilfsprogramm in den Peel-Einstellungen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel y su asistente son de versiones distintas. Repara el asistente en los ajustes de Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel et son utilitaire ne sont pas de la même version. Réparez l’utilitaire dans les Réglages de Peel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel e il suo assistente sono di versioni diverse. Ripara l’assistente nelle Impostazioni di Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelとそのヘルパーのバージョンが異なります。Peelの“設定”でヘルパーを修復してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel과 보조 프로그램의 버전이 서로 다릅니다. Peel 설정에서 보조 프로그램을 복구하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel en het hulpprogramma zijn van verschillende versies. Herstel het hulpprogramma in de instellingen van Peel."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel i jego pomocnik pochodzą z różnych wersji. Napraw pomocnika w Ustawieniach Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel e o auxiliar dele são de versões diferentes. Repare o auxiliar nos Ajustes do Peel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel și instrumentul său de ajutor provin din versiuni diferite. Reparați instrumentul de ajutor din configurările Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel и его помощник относятся к разным версиям. Исправьте помощника в Настройках Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel och dess hjälpprogram kommer från olika versioner. Reparera hjälpprogrammet i Peels inställningar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ve yardımcısı farklı sürümlere ait. Yardımcıyı Peel Ayarları’nda onarın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel і її помічник мають різні версії. Полагодьте помічника в Параметрах Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel与其帮助程序的版本不同。请在Peel的“设置”中修复帮助程序。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel與其輔助程式的版本不同。請在Peel的「設定」中修復輔助程式。"
+          }
+        }
+      }
+    },
     "Peel asked %@ whether %@ has an update." : {
       "localizations" : {
         "cs" : {
@@ -162892,112 +162998,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel的輔助程式沒有從那裡移出此項目的記錄，因此它會留在「垃圾桶」中。你可以在Finder中將它拖出來。"
-          }
-        }
-      }
-    },
-    "Peel’s helper is out of date. Reinstall it in Settings." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocník Peelu je zastaralý. Přeinstalujte ho v Nastavení."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Hilfsprogramm von Peel ist veraltet. Installiere es in den Einstellungen neu."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El asistente de Peel está desactualizado. Reinstálalo en Ajustes."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’utilitaire de Peel est obsolète. Réinstallez-le dans les Réglages."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’assistente di Peel non è aggiornato. Reinstallalo nelle Impostazioni."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelのヘルパーが古くなっています。“設定”で再インストールしてください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel 보조 프로그램이 오래되었습니다. 설정에서 다시 설치하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het hulpprogramma van Peel is verouderd. Installeer het opnieuw in Instellingen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocnik Peel jest nieaktualny. Zainstaluj go ponownie w Ustawieniach."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O auxiliar do Peel está desatualizado. Reinstale-o nos Ajustes."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instrumentul de ajutor Peel este învechit. Reinstalați‑l din Configurări."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помощник Peel устарел. Переустановите его в Настройках."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peels hjälpprogram är inaktuellt. Installera om det i Inställningar."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel’in yardımcısı güncel değil. Onu Ayarlar’da yeniden yükleyin."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помічник Peel застарів. Перевстановіть його в Параметрах."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel的帮助程序已过时。请在“设置”中重新安装。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel的輔助程式已過時。請在「設定」中重新安裝。"
           }
         }
       }

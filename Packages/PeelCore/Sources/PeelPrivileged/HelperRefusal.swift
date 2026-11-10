@@ -2,7 +2,7 @@
 /// as root and cannot know the reader's language, so it sends English, and the app recognizes each sentence
 /// (`FixedSentence`) and shows it in the reader's language.
 public enum HelperRefusal: String, CaseIterable, Sendable {
-    case outOfDate = "Peel’s helper is out of date. Reinstall it in Settings."
+    case outOfDate = "Peel and its helper are from different versions. Repair the helper in Peel’s Settings."
     case notAllowed = "This account isn’t allowed to use Peel’s helper."
     /// An account that isn't an administrator asked without an administrator's approval in force.
     case notAuthorized = "An administrator didn’t allow this."

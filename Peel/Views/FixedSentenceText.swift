@@ -20,7 +20,7 @@ extension FixedSentence {
         case .onlyLinksThere: "Peel removes only links from that folder."
         case .leadsSomewhere: "It still leads to something on this Mac."
         case .onlyGoneProgramsThere: "From that folder, Peel removes only what starts a program that is no longer there."
-        case .helperOutOfDate: "Peel’s helper is out of date. Reinstall it in Settings."
+        case .helperOutOfDate: "Peel and its helper are from different versions. Repair the helper in Peel’s Settings."
         case .accountNotAllowed: "This account isn’t allowed to use Peel’s helper."
         case .notAuthorized: "An administrator didn’t allow this."
         case .tooManyItems: "Too many items in one request."
