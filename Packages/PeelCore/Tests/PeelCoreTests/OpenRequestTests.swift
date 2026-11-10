@@ -55,6 +55,14 @@ struct OpenRequestTests {
         }
     }
 
+    @Test func refusesALinkWhosePathIsLongerThanAFilesCanBe() throws {
+        let longest = URL(filePath: "/" + String(repeating: "a", count: 1_018) + ".app", directoryHint: .isDirectory)
+        let longer = URL(filePath: "/" + String(repeating: "a", count: 2_000) + ".app", directoryHint: .isDirectory)
+
+        #expect(OpenRequest.applicationURL(from: try link(for: longest)) != nil)
+        #expect(OpenRequest.applicationURL(from: try link(for: longer)) == nil)
+    }
+
     @Test func theFinderMenuIsForExactlyOneApp() {
         let app = URL(filePath: "/Applications/Foo.app", directoryHint: .isDirectory)
         let other = URL(filePath: "/Applications/Bar.app", directoryHint: .isDirectory)

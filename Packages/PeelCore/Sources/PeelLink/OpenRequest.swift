@@ -28,13 +28,14 @@ public enum OpenRequest {
         }
         // A scheme and a host are case insensitive (RFC 3986), and macOS hands Peel the link however they are
         // written. Any app or web page can send one, so a path a control character would make read as another
-        // is refused.
+        // is refused, and so is one longer than a file's path can be, which its alert would show whole.
         guard
             url.scheme?.lowercased() == "peel",
             url.host()?.lowercased() == "open",
             let path = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?
                 .first(where: { $0.name == "path" })?.value,
             path.hasPrefix("/"),
+            path.utf8.count <= Int(PATH_MAX),
             !path.unicodeScalars.contains(where: { $0.properties.generalCategory == .control })
         else { return nil }
         // The extension is read from a URL, not from the string: a bundle is a folder, and every sender of this
