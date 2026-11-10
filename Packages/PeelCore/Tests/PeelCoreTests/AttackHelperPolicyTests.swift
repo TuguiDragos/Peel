@@ -236,6 +236,30 @@ extension AttackHelperPolicyTests {
         }
     }
 
+    /// The request comes from a record any process of the account can rewrite, so only the ledger says where to.
+    @Test func putBackGoesOnlyWhereTheLedgerSaysTheItemCameFrom() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("root/Library/Caches")
+        try directory.directory("root/Library/LaunchDaemons")
+        try directory.directory("home/.Trash")
+        let policy = servingPolicy(directory, trusting: getuid())
+        let ledger = try #require(HelperLedger(at: directory.url.appending(path: "private/moved.plist")))
+        let original = path("root/Library/Caches/org.example.settings.plist", in: directory)
+        let trashed = try movedByTheHelper(
+            "root/Library/Caches/org.example.settings.plist", "the app's", policy: policy, ledger: ledger,
+            in: directory
+        )
+
+        for elsewhere in ["root/Library/Caches/org.example.other.plist", "root/Library/LaunchDaemons/org.example.job.plist"] {
+            let destination = path(elsewhere, in: directory)
+            let refusal = HelperPutBack.run(trashed, to: destination, for: getuid(), policy: policy, ledger: { ledger })
+            #expect(refusal == HelperRefusal.notInRecord.rawValue, "ATTACK SUCCEEDED: an item went back to \(elsewhere)")
+            #expect(!FileManager.default.fileExists(atPath: destination))
+        }
+        #expect(FileManager.default.fileExists(atPath: trashed))
+        #expect(HelperPutBack.run(trashed, to: original, for: getuid(), policy: policy, ledger: { ledger }) == nil)
+    }
+
     @Test func anObjectSwappedInDuringPutBackNeverReachesAFolderCodeIsLoadedFrom() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("root/Library/LaunchDaemons")
