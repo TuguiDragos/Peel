@@ -45,7 +45,9 @@ public struct MakersUninstaller: Sendable, Hashable {
 
     /// Each product with the signing team and the identifiers its maker's own pages or its signed bundle give, and the
     /// step and page of its maker's uninstall instructions. An identifier names itself and any longer one after a dot.
-    private static let known: [(team: String, identifiers: [String], maker: String, step: Documented, page: String)] = [
+    private typealias Product = (team: String, identifiers: [String], maker: String, step: Documented, page: String)
+
+    private static let known: [Product] = [
         (
             "PXPZ95SK77", ["com.paloaltonetworks.globalprotect"], "Palo Alto Networks",
             .script("Contents/Resources/uninstall_gp.sh", runner: "sudo"),
@@ -274,19 +276,23 @@ public struct MakersUninstaller: Sendable, Hashable {
 
     /// The maker's uninstaller for `app`, known by the team of its checked signature and by its identifier, both as
     /// the maker documents them. An identifier alone is what a bundle says of itself, and would let any app keep Peel
-    /// away from it. A script or an uninstaller that isn't on the Mac is never offered, since its step could only fail.
+    /// away from it. A script or an uninstaller that isn't on the Mac is never offered, since its step could only fail,
+    /// and a script, often run with `sudo`, only while the app's seal or root alone vouches for it.
     static func of(
         _ app: InstalledApp,
         home: URL = .homeDirectory,
-        isOnTheMac: (String) -> Bool = { !URL(filePath: $0).isMissing }
+        isOnTheMac: (String) -> Bool = { !URL(filePath: $0).isMissing },
+        isOnlyRoots: (URL) -> Bool = MakersUninstaller.onlyRootCanChange
     ) -> MakersUninstaller? {
-        guard let team = app.teamIdentifier, let identifier = app.bundleIdentifier?.lowercased() else { return nil }
-        guard let product = known.first(where: { product in
-            product.team == team && product.identifiers.contains { identifier == $0 || identifier.hasPrefix($0 + ".") }
-        }) else { return nil }
+        guard let team = app.teamIdentifier, let identifier = app.bundleIdentifier?.lowercased(),
+              let product = product(team: team, identifier: identifier)
+        else { return nil }
         func run(_ path: String, with runner: String?) -> Step {
-            let script = path.hasPrefix("/") ? URL(filePath: path) : app.url.appending(path: path)
-            guard isOnTheMac(script.path(percentEncoded: false)) else { return .notOnTheMac }
+            let isInsideTheApp = !path.hasPrefix("/")
+            let script = isInsideTheApp ? app.url.appending(path: path) : URL(filePath: path)
+            guard isOnTheMac(script.path(percentEncoded: false)),
+                  isInsideTheApp ? app.isSealIntact == true : isOnlyRoots(script)
+            else { return .notOnTheMac }
             return .command(([runner].compactMap(\.self) + [script.wordForTheShell(home: home)]).joined(separator: " "))
         }
         func open(_ uninstaller: URL) -> Step {
@@ -308,5 +314,31 @@ public struct MakersUninstaller: Sendable, Hashable {
         let step = chosen.step
         let removes: String? = if case .itself(let removing) = product.step { removing } else { nil }
         return MakersUninstaller(maker: product.maker, step: step, instructions: instructions, removes: removes)
+    }
+
+    private static func product(team: String, identifier: String) -> Product? {
+        known.first { product in
+            product.team == team && product.identifiers.contains { identifier == $0 || identifier.hasPrefix($0 + ".") }
+        }
+    }
+
+    static func keepsItsScriptInside(team: String?, identifier: String?) -> Bool {
+        guard let team, let identifier = identifier?.lowercased(),
+              case .script(let path, _) = product(team: team, identifier: identifier)?.step
+        else { return false }
+        return !path.hasPrefix("/")
+    }
+
+    /// Whether only root can change `url`: it and every folder above it are root's and closed to everyone else.
+    static func onlyRootCanChange(_ url: URL) -> Bool {
+        var path = URL(filePath: url.path(percentEncoded: false)).standardizedFileURL
+        while true {
+            var info = stat()
+            guard lstat(path.path(percentEncoded: false), &info) == 0, info.st_uid == 0,
+                  info.st_mode & (S_IWGRP | S_IWOTH) == 0
+            else { return false }
+            guard path.pathComponents.count > 1 else { return true }
+            path = path.deletingLastPathComponent()
+        }
     }
 }

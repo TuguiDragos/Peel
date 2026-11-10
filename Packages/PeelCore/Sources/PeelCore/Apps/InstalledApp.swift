@@ -47,6 +47,8 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     public let webApp: WebApp?
     /// Whether the bundle carries a system extension, which macOS removes only when Finder moves the app.
     public let carriesSystemExtensions: Bool
+    /// Whether the whole seal of the bundle holds, read only for an app whose maker keeps its uninstall script in it.
+    public let isSealIntact: Bool?
 
     /// Whether `other`, a reading of the same path, is the same build. Not `==`: the date an app was last opened
     /// changes every time it is opened, which is no reason to forget its size or check it for updates again.
@@ -79,7 +81,8 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         velopackID: String? = nil,
         productFolders: [ProductFolder] = [],
         webApp: WebApp? = nil,
-        carriesSystemExtensions: Bool = false
+        carriesSystemExtensions: Bool = false,
+        isSealIntact: Bool? = nil
     ) {
         self.url = url
         self.bundleIdentifier = bundleIdentifier.flatMap { $0.isEmpty ? nil : $0 }
@@ -105,6 +108,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         self.velopackID = velopackID
         self.productFolders = productFolders
         self.carriesSystemExtensions = carriesSystemExtensions
+        self.isSealIntact = isSealIntact
         let path = PathPattern.comparablePath(of: url)
         isPeelItself = Self.isPeel(self.bundleIdentifier, at: path)
         isTheRunningCopy = path == Self.runningBundle
@@ -169,7 +173,8 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
             velopackID: velopackID,
             productFolders: productFolders,
             webApp: webApp,
-            carriesSystemExtensions: carriesSystemExtensions
+            carriesSystemExtensions: carriesSystemExtensions,
+            isSealIntact: isSealIntact
         )
     }
 

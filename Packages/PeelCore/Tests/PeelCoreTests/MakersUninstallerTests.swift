@@ -6,14 +6,17 @@ struct MakersUninstallerTests {
     private func agent(_ identifier: String, team: String?, at path: String = "/Applications/Agent.app") -> InstalledApp {
         InstalledApp(
             url: URL(filePath: path, directoryHint: .isDirectory), bundleIdentifier: identifier, name: "Agent",
-            teamIdentifier: team
+            teamIdentifier: team, isSealIntact: true
         )
     }
 
     /// The step for `app`, as if every script and uninstaller its maker names were on the Mac, where a system wide
     /// installer puts them.
     private func step(_ app: InstalledApp) -> MakersUninstaller.Step? {
-        MakersUninstaller.of(app, home: URL(filePath: "/Users/me", directoryHint: .isDirectory)) { _ in true }?.step
+        MakersUninstaller.of(
+            app, home: URL(filePath: "/Users/me", directoryHint: .isDirectory), isOnTheMac: { _ in true },
+            isOnlyRoots: { _ in true }
+        )?.step
     }
 
     @Test func knowsAnAgentByTheTeamAndTheIdentifierItsMakerDocuments() {
@@ -211,10 +214,10 @@ struct MakersUninstallerTests {
         let anyConnect = agent("com.cisco.anyconnect.gui", team: "DE8Y96K9QP")
         let secureClient = "/opt/cisco/secureclient/bin/cisco_secure_client_uninstall.sh"
 
-        let found = MakersUninstaller.of(anyConnect) { $0 == secureClient }
+        let found = MakersUninstaller.of(anyConnect, isOnTheMac: { $0 == secureClient }, isOnlyRoots: { _ in true })
         #expect(found?.step == .command("sudo \(secureClient)"))
         #expect(found?.instructions.absoluteString.contains("224782") == true)
-        let older = MakersUninstaller.of(anyConnect) { $0 != secureClient }
+        let older = MakersUninstaller.of(anyConnect, isOnTheMac: { $0 != secureClient }, isOnlyRoots: { _ in true })
         #expect(older?.step == .command("sudo /opt/cisco/anyconnect/bin/vpn_uninstall.sh"))
         #expect(older?.instructions.absoluteString.contains("anyconnect410") == true)
         #expect(MakersUninstaller.of(anyConnect) { _ in false }?.step == .notOnTheMac)
@@ -227,7 +230,7 @@ struct MakersUninstallerTests {
         let script = try directory.file("My Apps/Background Music.app/Contents/Resources/uninstall.sh", bytes: 0)
         let music = InstalledApp(
             url: try directory.directory("My Apps/Background Music.app"), bundleIdentifier: "com.bearisdriving.BGM.App",
-            name: "Background Music", teamIdentifier: "PR7PXC66S5"
+            name: "Background Music", teamIdentifier: "PR7PXC66S5", isSealIntact: true
         )
         let herd = InstalledApp(
             url: try directory.directory("My Apps/Herd.app"), bundleIdentifier: "de.beyondco.herd", name: "Herd",
@@ -240,6 +243,50 @@ struct MakersUninstallerTests {
         #expect(MakersUninstaller.of(agent("com.zerotier.ZeroTier-UI", team: "8ZD9JUCZ4V")) { _ in false }?.step == .notOnTheMac)
         #expect(MakersUninstaller.of(agent("com.netskope.client", team: "24W52P9M7W")) { _ in false }?.step == .notOnTheMac)
         #expect(MakersUninstaller.of(agent("com.box.desktop", team: "M683GB7CPW")) { _ in false }?.step == .fromTheMakersPage)
+    }
+
+    @Test func aScriptNothingVouchesForGetsNoCommand() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Downloads/GlobalProtect.app/Contents/Resources/uninstall_gp.sh")
+        let unsealed = InstalledApp(
+            url: try directory.directory("Downloads/GlobalProtect.app"),
+            bundleIdentifier: "com.paloaltonetworks.GlobalProtect.client", name: "GlobalProtect",
+            teamIdentifier: "PXPZ95SK77", isSealIntact: false
+        )
+        let accounts = try directory.file("bin/opensc-uninstall")
+        let openSC = agent("org.opensc-project.mac.opensctoken", team: "L7897KTAHV")
+
+        #expect(MakersUninstaller.of(unsealed)?.step == .notOnTheMac)
+        #expect(MakersUninstaller.onlyRootCanChange(accounts) == false)
+        #expect(MakersUninstaller.onlyRootCanChange(URL(filePath: "/bin/sh")))
+        let openSCsStep = MakersUninstaller.of(openSC, isOnTheMac: { _ in true }, isOnlyRoots: { _ in false })?.step
+        #expect(openSCsStep == .notOnTheMac)
+    }
+
+    @Test func aSealHoldsOnlyWhileNothingInTheBundleChanged() throws {
+        let directory = try TemporaryDirectory()
+        let bundle = try directory.directory("Maker.app")
+        let info: [String: Any] = ["CFBundleIdentifier": "org.example.maker", "CFBundleExecutable": "Maker"]
+        try directory.file(
+            "Maker.app/Contents/Info.plist",
+            contents: try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+        )
+        try directory.directory("Maker.app/Contents/MacOS")
+        try FileManager.default.copyItem(
+            at: URL(filePath: "/bin/cat"), to: bundle.appending(path: "Contents/MacOS/Maker")
+        )
+        let script = try directory.file("Maker.app/Contents/Resources/uninstall.sh", contents: Data("exit 0\n".utf8))
+        let signing = try Process.run(
+            URL(filePath: "/usr/bin/codesign"),
+            arguments: ["--force", "--sign", "-", bundle.path(percentEncoded: false)]
+        )
+        signing.waitUntilExit()
+        try #require(signing.terminationStatus == 0)
+        #expect(CodeSignature.sealHolds(at: bundle))
+
+        try Data("exit 1\n".utf8).write(to: script)
+
+        #expect(!CodeSignature.sealHolds(at: bundle))
     }
 
     @Test func knowsSymantecEndpointProtectionByTheTeamItsSignatureNames() {

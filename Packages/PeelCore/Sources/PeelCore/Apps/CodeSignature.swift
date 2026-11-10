@@ -45,6 +45,16 @@ enum CodeSignature {
         return information
     }
 
+    /// Whether the bundle's whole seal holds: its executable and every resource, nothing added, nothing changed.
+    static func sealHolds(at url: URL) -> Bool {
+        var staticCode: SecStaticCode?
+        guard SecStaticCodeCreateWithPath(url as CFURL, [], &staticCode) == errSecSuccess, let staticCode else {
+            return false
+        }
+        return SecStaticCodeCheckValidity(staticCode, SecCSFlags(rawValue: UInt32(kSecCSStrictValidate)), nil)
+            == errSecSuccess
+    }
+
     /// Returns the maker that a checked signature's leaf certificate names, read from its subject:
     /// `Developer ID Application: <name> (<team>)`, where the team must be the one the signature carries, or
     /// "Apple" for Apple's own software, which has no team (`macOS Software Signing` for what macOS ships,

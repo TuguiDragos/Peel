@@ -1214,7 +1214,7 @@ struct CommandLineTests {
         _ = try directory.file("GlobalProtect.app/Contents/Resources/uninstall_gp.sh", bytes: 0)
         let agent = InstalledApp(
             url: try directory.directory("GlobalProtect.app"), bundleIdentifier: "com.paloaltonetworks.GlobalProtect.client",
-            name: "GlobalProtect", teamIdentifier: "PXPZ95SK77"
+            name: "GlobalProtect", teamIdentifier: "PXPZ95SK77", isSealIntact: true
         )
         let withoutItsScript = InstalledApp(
             url: try directory.directory("Old/GlobalProtect.app"), bundleIdentifier: "com.paloaltonetworks.GlobalProtect.client",
