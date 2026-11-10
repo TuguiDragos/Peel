@@ -183,6 +183,12 @@ struct RemovalGuard: Sendable {
 
     /// `item`, when given, is what would sit at `url`: an item coming back from the Trash.
     private func refusal(of url: URL, typeOf item: URL?) -> GuardRefusal? {
+        // A question reads the disk through Foundation, which leaves objects for the caller's autorelease pool, and
+        // callers ask about thousands of items in one loop.
+        autoreleasepool { judgement(of: url, typeOf: item) }
+    }
+
+    private func judgement(of url: URL, typeOf item: URL?) -> GuardRefusal? {
         guard url.isFileURL else { return .protectedLocation }
         guard exclusions.isKnown else { return .exclusionsNotKnown }
         let path = Self.normalized(url.path(percentEncoded: false))
