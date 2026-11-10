@@ -76,6 +76,10 @@ enum Appcast {
         }
     }
 
+    /// How many of an item's notes the system chooses among. `Bundle.preferredLocalizations` takes room on the stack
+    /// for each language it is offered, and a feed is read on a thread whose stack is small.
+    static let languagesOffered = 100
+
     /// Picks the release notes in the user's language, then notes with no language, then the first.
     /// `Bundle.preferredLocalizations` returns a language even when none matches (the first one offered, or `en`
     /// when none is offered), so its pick is used only when the user reads that language and notes have it.
@@ -84,7 +88,7 @@ enum Appcast {
         languages: [String] = Locale.preferredLanguages
     ) -> Value? {
         func base(_ tag: String) -> String { Locale(identifier: tag).language.languageCode?.identifier ?? tag }
-        let tagged = notes.map(\.language).filter { !$0.isEmpty }
+        let tagged = Array(notes.lazy.map(\.language).filter { !$0.isEmpty }.prefix(languagesOffered))
         if let best = Bundle.preferredLocalizations(from: tagged, forPreferences: languages).first,
            Set(languages.map(base)).contains(base(best)),
            let value = notes.first(where: { $0.language == best })?.value {
@@ -122,6 +126,7 @@ enum Appcast {
         /// The item's release notes links by element, in feed order, each with its `xml:lang` language or "".
         /// An item's `<link>` is usually the product page, so it is the last choice for release notes.
         private var notes: [String: [(language: String, value: URL)]] = [:]
+        private var noteLanguages: [String: Set<String>] = [:]
         private var noteLanguage = ""
         /// The item's `description` elements, each with its language and its `sparkle:format`.
         private var descriptions: [(language: String, value: (text: String, format: String?))] = []
@@ -140,7 +145,7 @@ enum Appcast {
             switch elementName {
             case "item" where path == ["rss", "channel"]:
                 current = AppcastItem()
-                (elementVersion, elementShortVersion, notes, descriptions) = (nil, nil, [:], [])
+                (elementVersion, elementShortVersion, notes, noteLanguages, descriptions) = (nil, nil, [:], [:], [])
             case "sparkle:releaseNotesLink", "releaseNotesLink", "sparkle:fullReleaseNotesLink", "link":
                 noteLanguage = attributes["xml:lang"] ?? ""
             case "description":
@@ -212,7 +217,7 @@ enum Appcast {
                 )
             case "sparkle:releaseNotesLink", "releaseNotesLink", "sparkle:fullReleaseNotesLink", "link":
                 if current != nil, let url = URL(string: value), url.scheme == "https",
-                   notes[elementName]?.contains(where: { $0.language == noteLanguage }) != true {
+                   noteLanguages[elementName, default: []].insert(noteLanguage).inserted {
                     notes[elementName, default: []].append((noteLanguage, url))
                 }
             case "description" where current != nil:

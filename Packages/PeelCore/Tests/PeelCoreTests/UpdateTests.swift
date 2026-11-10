@@ -111,6 +111,46 @@ struct AppcastTests {
         #expect(Appcast.read(feed(using: "&a1;"), systemVersion: "26.7.0", isAppleSilicon: true) != .unreadable)
     }
 
+    /// Read where an update round reads a feed, on a thread of Swift's pool: its stack is small, and the system's
+    /// pick among languages takes room there for each language it is offered.
+    @Test func anItemNamingThousandsOfLanguagesIsRead() async {
+        let notes = (0..<6_000).map { #"<description xml:lang="x\#($0)">notes \#($0)</description>"# }.joined()
+        let feed = Data("""
+        <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item>
+        <sparkle:version>200</sparkle:version>\(notes)
+        </item></channel></rss>
+        """.utf8)
+
+        let reading = await Task.detached {
+            Appcast.read(feed, systemVersion: "26.7.0", isAppleSilicon: true)
+        }.value
+
+        guard case .latest(let item) = reading else {
+            Issue.record("the feed wasn't read")
+            return
+        }
+        #expect(item.description == "notes 0")
+    }
+
+    @Test func anItemsLinksAreReadInTimeThatFollowsTheirNumber() {
+        let links = (0..<12_000).map { #"<link xml:lang="x\#($0)">https://example.com/\#($0)</link>"# }.joined()
+        let feed = Data("""
+        <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item>
+        <sparkle:version>200</sparkle:version>\(links)
+        </item></channel></rss>
+        """.utf8)
+        var reading: Appcast.Reading?
+
+        let took = processorTime { reading = Appcast.read(feed, systemVersion: "26.7.0", isAppleSilicon: true) }
+
+        guard case .latest(let item) = reading else {
+            Issue.record("the feed wasn't read")
+            return
+        }
+        #expect(item.releaseNotes == URL(string: "https://example.com/0"))
+        #expect(took < .seconds(1), "took \(took)")
+    }
+
     @Test func tellsAHealthyFeedWithNothingForThisMacFromOneItCannotRead() {
         let future = """
         <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel>
