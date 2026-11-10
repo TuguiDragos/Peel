@@ -155,6 +155,46 @@ struct KnownCasksTests {
         #expect(CaskEvidence.proves(electron, isThe: atlas))
     }
 
+    @Test func asksForEveryLineOfAGuessedCask() {
+        let fox = app("Fox", "org.example.fox")
+        let known: Set<String> = ["fox", "fox@esr", "fox@beta", "foxtrot", "other@esr"]
+
+        #expect(Set(CaskEvidence.tokens(for: [fox], among: known)) == ["fox", "fox@esr", "fox@beta"])
+    }
+
+    @Test(arguments: [
+        ("140.4.0", "fox@esr"), ("144.0.1", "fox"), ("144.0b9", "fox@beta"), ("7.0", "fox@6"), ("3.1", nil), (nil, "fox"),
+    ] as [(String?, String?)])
+    func aCopyIsComparedWithTheLineItIsOn(version: String?, line: String?) {
+        let copy = InstalledApp(
+            url: URL(filePath: "/Applications/Fox.app"), bundleIdentifier: "org.example.fox", name: "Fox",
+            version: version
+        )
+        let lines = [("fox@beta", "144.0b9"), ("fox@esr", "140.4.0"), ("fox", "144.0.2"), ("fox@5", "5.8"), ("fox@6", "6.5")]
+        let casks = lines.map {
+            HomebrewPackage(
+                name: $0.0, kind: .cask, latestVersion: $0.1, appNames: ["Fox.app"], quitIdentifiers: ["org.example.fox"]
+            ).noting(lastUpdateCheck: .now)
+        }
+
+        #expect(CaskEvidence.cask(for: copy, in: casks)?.name == line)
+        #expect(CaskEvidence.cask(for: copy, in: casks.filter { $0.name == "fox@5" })?.name == "fox@5")
+    }
+
+    @Test func twoLinesAtTheCopysVeryVersionGiveThePlainOne() {
+        let copy = InstalledApp(
+            url: URL(filePath: "/Applications/Fox.app"), bundleIdentifier: "org.example.fox", name: "Fox",
+            version: "145.0"
+        )
+        let casks = ["fox@beta", "fox"].map {
+            HomebrewPackage(
+                name: $0, kind: .cask, latestVersion: "145.0", appNames: ["Fox.app"], quitIdentifiers: ["org.example.fox"]
+            )
+        }
+
+        #expect(CaskEvidence.cask(for: copy, in: casks)?.name == "fox")
+    }
+
     @Test func aCaskThatQuitsTheAppsOwnHelperProvesAnAppWhoseIdentifierNamesNoMaker() {
         let atlas = app("Atlas", "com.electron.atlas")
         let ownHelper = HomebrewPackage(

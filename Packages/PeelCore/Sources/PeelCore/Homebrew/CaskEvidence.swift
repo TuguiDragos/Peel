@@ -45,10 +45,23 @@ public struct CaskEvidence: Sendable, Hashable {
     }
 
     /// Returns the cask whose definition describes this app. Several casks can describe one app (`firefox`,
-    /// `firefox@beta`, and `firefox@esr` all install `Firefox.app`), so the installed one is preferred.
+    /// `firefox@beta`, and `firefox@esr` all install `Firefox.app`), so the installed one is preferred, and otherwise
+    /// the line the copy is on: the one at the copy's very version, else the one whose version starts with the copy's
+    /// first number, the plain token first, else the closest one below it, and none when no line is. A copy whose
+    /// version can't be read gets the plain one.
     static func cask(for app: InstalledApp, in casks: [HomebrewPackage]) -> HomebrewPackage? {
         let proving = casks.filter { proves($0, isThe: app) }
-        return proving.first { $0.installedVersion != nil } ?? proving.first
+        if let installed = proving.first(where: { $0.installedVersion != nil }) { return installed }
+        guard proving.count > 1 else { return proving.first }
+        let isPlain = { (cask: HomebrewPackage) in !cask.name.contains("@") }
+        let major = { (version: String?) in version.flatMap { Int($0.prefix { $0.isASCII && $0.isNumber }) } }
+        guard let copy = major(app.version) else { return proving.first(where: isPlain) ?? proving.first }
+        let atIt = proving.filter { $0.latestVersion.map(UpdateStatus.shownVersion(of:)) == app.version }
+        if let line = atIt.first(where: isPlain) ?? atIt.first { return line }
+        let lines = proving.compactMap { cask in major(cask.latestVersion).map { (cask: cask, major: $0) } }
+        let onIt = lines.filter { $0.major == copy }
+        if let line = onIt.first(where: { isPlain($0.cask) }) ?? onIt.first { return line.cask }
+        return lines.filter { $0.major < copy }.max { $0.major < $1.major }?.cask
     }
 
     /// Returns the names a cask for this app could go by. Homebrew's token doesn't always follow the app's
@@ -155,18 +168,26 @@ public struct CaskEvidence: Sendable, Hashable {
         let known = await Homebrew.caskTokens()
         guard !known.isEmpty else { return [] }
 
-        var wanted: [String] = []
-        var seen: Set<String> = []
-        for app in apps {
-            for token in tokens(for: app) where known.contains(token) && seen.insert(token).inserted {
-                wanted.append(token)
-            }
-        }
-
-        let found = await Homebrew.casks(named: wanted).map {
+        let found = await Homebrew.casks(named: tokens(for: apps, among: known)).map {
             $0.noting(receipts: receipts).noting(lastUpdateCheck: checked)
         }
         return found.filter { cask in apps.contains { proves(cask, isThe: $0) } }
+    }
+
+    /// The tokens to ask Homebrew about for `apps`: the names a cask for each could go by, among those `known` has,
+    /// each with every line Homebrew keeps of it (`firefox@esr` beside `firefox`).
+    static func tokens(for apps: [InstalledApp], among known: Set<String>) -> [String] {
+        let lines = Dictionary(grouping: known.filter { $0.contains("@") }) { String($0.prefix { $0 != "@" }) }
+        var wanted: [String] = []
+        var seen: Set<String> = []
+        for app in apps {
+            for token in tokens(for: app) where known.contains(token) {
+                for named in [token] + (lines[token] ?? []).sorted() where seen.insert(named).inserted {
+                    wanted.append(named)
+                }
+            }
+        }
+        return wanted
     }
 
     /// Merges installed packages with the casks Homebrew only knows of, keeping the installed one when both
