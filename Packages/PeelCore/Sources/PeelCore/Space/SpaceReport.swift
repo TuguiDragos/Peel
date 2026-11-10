@@ -45,6 +45,9 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     /// True when the apps that make and clear this area are all gone from this Mac, so its words can't send the
     /// person to them.
     public var managingAppIsMissing = false
+    /// True when no app or tool looks after the area, or the ones that do are gone from this Mac, so the person
+    /// removes what it holds in Finder, as its page says how.
+    public var isRemovedByHand = false
     /// What each place takes, for an area whose places are the items of one folder.
     public var placeSizes: [URL: SizeTotal] = [:]
     /// A fact about some of its places, which the app puts into words.
@@ -158,6 +161,8 @@ public enum SpaceInventory {
         var keepsItsFolders = false
         var commands: [Command] = []
         var managedBy: ManagingApps?
+        /// True for an area no app or tool looks after, which the person clears in Finder.
+        var isRemovedByHand = false
         /// The places of an area that lists the items of folders it finds again at each scan.
         var places: (@Sendable (_ home: URL, _ root: URL) -> [URL])?
         /// The notes on such an area's places.
@@ -350,7 +355,8 @@ public enum SpaceInventory {
             id: "wine",
             category: .virtualMachines,
             paths: [".wine"],
-            handling: .readOnly
+            handling: .readOnly,
+            isRemovedByHand: true
         ),
         // Tart's machines (`VMStorageLocal` at bcc8084a). The images it caches are on the Developer page.
         Definition(
@@ -536,6 +542,7 @@ public enum SpaceInventory {
             category: .development,
             paths: [],
             handling: .readOnly,
+            isRemovedByHand: true,
             places: { home, root in HomebrewData.prefixes(home: home, root: root).flatMap(HomebrewData.folders(in:)) },
             placeNotes: HomebrewData.notes(on:)
         ),
@@ -544,6 +551,7 @@ public enum SpaceInventory {
             category: .development,
             paths: [],
             handling: .readOnly,
+            isRemovedByHand: true,
             places: { _, root in TeXLive.years(root: root) },
             placeNotes: TeXLive.notes(on:)
         ),
@@ -552,6 +560,7 @@ public enum SpaceInventory {
             category: .development,
             paths: [],
             handling: .readOnly,
+            isRemovedByHand: true,
             places: DotNetSDKs.versions(home:root:),
             placeNotes: DotNetSDKs.notes(on:)
         ),
@@ -789,6 +798,7 @@ public enum SpaceInventory {
                 containers: containers.count, areGroups: areGroups
             )
         }
+        let managingAppIsMissing = definition.managedBy.map { !$0.oneIsOnThisMac } ?? false
         return SpaceItem(
             id: definition.id,
             category: definition.category,
@@ -801,7 +811,8 @@ public enum SpaceInventory {
             onlyFilesIn: definition.onlyFilesIn(home: home, root: root),
             keepsItsFolders: definition.keepsItsFolders,
             commands: definition.commands.filter { $0.isKnown(simctlRuntimeHelp: help) }.map(\.line),
-            managingAppIsMissing: definition.managedBy.map { !$0.oneIsOnThisMac } ?? false,
+            managingAppIsMissing: managingAppIsMissing,
+            isRemovedByHand: definition.isRemovedByHand || managingAppIsMissing,
             inContainers: counted,
             placesNotCounted: counted.isEmpty ? nil : urls.filter { url in
                 !counted.contains { container(of: url, in: $0.parent) != nil }

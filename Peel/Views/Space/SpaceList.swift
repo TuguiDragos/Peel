@@ -257,7 +257,11 @@ private struct SpaceRow: View {
                 .lineLimit(2)
         } details: {
             if item.isReadOnly, !item.words.isFreedByPeel {
-                Text("Managed by its own app or tool")
+                if item.isRemovedByHand {
+                    Text("Removed by hand in Finder")
+                } else {
+                    Text("Managed by its own app or tool")
+                }
             }
         } trailing: {
             Text(item.size.text)

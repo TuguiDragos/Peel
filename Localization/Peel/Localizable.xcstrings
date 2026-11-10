@@ -171975,6 +171975,112 @@
         }
       }
     },
+    "Removed by hand in Finder" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstraňuje se ručně ve Finderu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird im Finder von Hand entfernt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se elimina a mano en el Finder"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se supprime manuellement dans le Finder"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si rimuove a mano nel Finder"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finderで手動で取り除く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder에서 직접 제거"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Handmatig te verwijderen in Finder"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuwa się ręcznie w Finderze"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remoção manual no Finder"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se elimină manual din Finder"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удаляется вручную в Finder"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tas bort manuellt i Finder"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder’da elle kaldırılır"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучається вручну у Finder"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需在“访达”中手动移除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Finder中手動移除"
+          }
+        }
+      }
+    },
     "Removed with %@’s own uninstaller" : {
       "localizations" : {
         "cs" : {
@@ -194853,108 +194959,108 @@
         }
       }
     },
-    "Space doesn’t touch this: the app that made it knows what is still needed." : {
+    "Space doesn’t touch this. How to free it, on this page, says what does." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stránka Místo na disku na toto nesahá: aplikace, která to vytvořila, ví, co je ještě potřeba."
+            "value" : "Stránka Místo na disku na toto nesahá. Čím místo uvolnit, popisuje na této stránce řádek „Jak místo uvolnit“."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Seite „Speicherplatz“ rührt dies nicht an: Die App, die es erstellt hat, weiß, was noch gebraucht wird."
+            "value" : "Die Seite „Speicherplatz“ rührt dies nicht an. Womit sich der Platz freigeben lässt, steht auf dieser Seite unter „So gibst du den Speicherplatz frei“."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La página Espacio no toca esto: la app que lo creó sabe lo que aún hace falta."
+            "value" : "La página Espacio no toca esto. La sección “Cómo liberarlo” de esta página indica qué sí lo toca."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La page Espace n’y touche pas : l’app qui l’a créé sait ce qui est encore nécessaire."
+            "value" : "La page Espace n’y touche pas. « Comment libérer cet espace », sur cette page, indique ce qui s’en charge."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La pagina Spazio non lo tocca: l’app che l’ha creato sa cosa serve ancora."
+            "value" : "La pagina Spazio non lo tocca. “Come liberarlo”, in questa pagina, indica cosa lo fa."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“容量”ではこれに手を付けません。何がまだ必要かは、これを作成したアプリが把握しています。"
+            "value" : "“容量”ではこれに手を付けません。何で解放できるかは、このページの“解放する方法”に記載されています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "공간 페이지는 이 항목을 건드리지 않습니다. 무엇이 아직 필요한지는 이 항목을 만든 앱이 알고 있습니다."
+            "value" : "공간 페이지는 이 항목을 건드리지 않습니다. 무엇으로 이 항목을 정리할 수 있는지는 이 페이지의 ‘공간 확보 방법’에 나와 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De pagina 'Schijfruimte' komt hier niet aan: de app die dit heeft gemaakt, weet wat nog nodig is."
+            "value" : "De pagina 'Schijfruimte' komt hier niet aan. Onder 'Hoe je dit vrijmaakt' op deze pagina staat wat dit wel vrijmaakt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Strona Miejsce tego nie dotyka: aplikacja, która to utworzyła, wie, co jest jeszcze potrzebne."
+            "value" : "Strona Miejsce tego nie dotyka. Sekcja „Jak zwolnić to miejsce” na tej stronie podaje, co może to zrobić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A página Espaço não mexe nisso: o app que o criou sabe o que ainda é necessário."
+            "value" : "A página Espaço não mexe nisso. A seção “Como liberar”, nesta página, diz o que libera esse espaço."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pagina Spațiu nu se atinge de el: aplicația care l‑a creat știe de ce mai are nevoie."
+            "value" : "Pagina Spațiu nu se atinge de el. Pe această pagină, rândul „Cum eliberați spațiul” spune ce anume îl eliberează."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Раздел «Место на диске» не трогает эти данные: приложение, которое их создало, знает, что еще нужно."
+            "value" : "Раздел «Место на диске» не трогает эти данные. Чем их можно освободить, сказано на этой странице в разделе «Как освободить место»."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sidan Utrymme rör inte det här: appen som skapade det vet vad som fortfarande behövs."
+            "value" : "Sidan Utrymme rör inte det här. Avsnittet ”Så frigör du det” på den här sidan berättar vad som gör det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Disk Alanı buna dokunmaz: onu oluşturan uygulama neyin hâlâ gerekli olduğunu bilir."
+            "value" : "Disk Alanı buna dokunmaz. Bunu neyin boşalttığını, bu sayfadaki “Nasıl boşaltılır” bölümü açıklar."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Розділ «Місце на диску» цього не чіпає: програма, яка це створила, знає, що ще потрібно."
+            "value" : "Розділ «Місце на диску» цього не чіпає. Що саме це звільняє, сказано на цій сторінці під заголовком «Як це звільнити»."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“空间占用”不会触碰它：创建它的App知道哪些内容仍然需要。"
+            "value" : "“空间占用”不会触碰它。本页的“如何释放空间”说明了可以用什么来释放它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「空間」不會動這個項目：製作它的App知道哪些內容仍然需要。"
+            "value" : "「空間」不會動這個項目。此頁面上的「如何釋放空間」會說明由什麼來處理它。"
           }
         }
       }

@@ -792,6 +792,21 @@ struct SpaceInventoryTests {
         #expect(!item(managedBy: nil).managingAppIsMissing)
     }
 
+    @Test func anAreaNothingLooksAfterIsRemovedByHand() {
+        let home = URL(filePath: "/Users/someone/", directoryHint: .isDirectory)
+        let gone = SpaceInventory.Definition(
+            id: "machines", category: .virtualMachines, paths: ["Machines"], handling: .readOnly,
+            managedBy: .init(identifiers: ["org.example.gone"], leftBehind: .holdsWorkMadeWithTheApp)
+        )
+        let size = SizeTotal(known: 0, isComplete: true)
+
+        let byHand = Set(SpaceInventory.definitions.filter(\.isRemovedByHand).map(\.id))
+        let item = SpaceInventory.item(gone, urls: [], size: size, home: home, root: home, simctlRuntimeHelp: nil)
+
+        #expect(byHand == ["homebrew-data", "tex-live", "dotnet-sdks", "wine"])
+        #expect(item.isRemovedByHand, "an area whose apps are gone is cleared in Finder")
+    }
+
     @Test func showsRustToolchainsAndAndroidNDKsForTheirToolsToRemove() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".rustup/toolchains/stable-aarch64-apple-darwin/bin/rustc", bytes: 400_000)
