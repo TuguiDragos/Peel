@@ -108,15 +108,17 @@ public struct CaskEvidence: Sendable, Hashable {
         let quits = cask.quitIdentifiers.map { $0.lowercased() }
 
         // A bundle's file name is whatever its maker called it, and two real casks install a `Caffeine.app`.
-        // So the name counts unless the cask quits identifiers and every one of them is some other maker's.
+        // So the name counts unless the identifiers the cask goes by, those it quits or else those its paths are
+        // named for, are all some other maker's.
         let bundleName = app.url.lastPathComponent
         if cask.appNames.contains(where: { $0.caseInsensitiveCompare(bundleName) == .orderedSame }) {
             let maker = identifier.flatMap(Identifier.vendor(of:))
-            let isTheAppsOrItsMakers = { (quit: String) in
-                identifier.map { quit.hasPrefix($0 + ".") } == true
-                    || maker != nil && Identifier.vendor(of: quit) == maker
+            let isTheAppsOrItsMakers = { (named: String) in
+                identifier.map { named == $0 || named.hasPrefix($0 + ".") } == true
+                    || maker != nil && Identifier.vendor(of: named) == maker
             }
-            if quits.isEmpty || quits.contains(where: isTheAppsOrItsMakers) {
+            let goesBy = quits.isEmpty ? identifiers(namingThePathsOf: cask) : quits
+            if goesBy.isEmpty || goesBy.contains(where: isTheAppsOrItsMakers) {
                 return true
             }
         }
@@ -125,6 +127,18 @@ public struct CaskEvidence: Sendable, Hashable {
         if quits.contains(identifier) { return true }
 
         return cask.receiptsOnThisMac.contains { PackageReceipts.proves($0, isThe: identifier) }
+    }
+
+    /// The identifiers the last names of `cask`'s paths read as, lowercased, Apple's left out: what a path removes is
+    /// named for whoever made it, while a folder above it can be Apple's or a framework's.
+    static func identifiers(namingThePathsOf cask: HomebrewPackage) -> [String] {
+        (cask.leftoverPatterns + cask.emptyFolderPatterns).compactMap { pattern in
+            var name = String((pattern.split(separator: "/").last ?? "").prefix { !"*?[{".contains($0) })
+            while let last = name.last, ".-_".contains(last) { name.removeLast() }
+            if name.hasPrefix("group.") { name.removeFirst("group.".count) }
+            let lowered = name.lowercased()
+            return Identifier.isReverseDNS(name) && !ProtectedData.isApplesName(lowered) ? lowered : nil
+        }
     }
 
     /// Returns the casks that describe `apps`, including apps Homebrew did not install. A cask lists what its

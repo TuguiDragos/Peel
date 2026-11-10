@@ -106,6 +106,55 @@ struct KnownCasksTests {
         #expect(CaskEvidence.proves(silent, isThe: domzilla))
     }
 
+    @Test func aBundleNameIsNotEnoughWhenTheCasksPathsAreNamedForSomeoneElse() {
+        let buzz = InstalledApp(
+            url: URL(filePath: "/Applications/Buzz.app"), bundleIdentifier: "org.example.buzz", name: "Buzz",
+            version: "0.5.28"
+        )
+        let other = HomebrewPackage(
+            name: "buzz", kind: .cask, latestVersion: "1.4.5", appNames: ["Buzz.app"],
+            leftoverPatterns: [
+                "~/Library/Preferences/com.example.buzz.plist",
+                "~/Library/Saved Application State/com.example.buzz.savedState",
+            ]
+        ).noting(lastUpdateCheck: .now)
+        let own = HomebrewPackage(
+            name: "example-buzz", kind: .cask, latestVersion: "0.5.28", appNames: ["Buzz.app"],
+            leftoverPatterns: ["~/Library/Preferences/org.example.buzz.plist"]
+        )
+        let plain = HomebrewPackage(
+            name: "plain-buzz", kind: .cask, appNames: ["Buzz.app"],
+            leftoverPatterns: [
+                "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments",
+                "~/Library/Caches/com.plausiblelabs.crashreporter.data/Buzz",
+                "~/Library/Caches/Buzz",
+            ]
+        )
+
+        #expect(!CaskEvidence.proves(other, isThe: buzz), "another product's cask was believed on the bundle's file name")
+        #expect(UpdateChecker.catalogCask(for: buzz, in: [other]) == nil)
+        #expect(UpdateChecker.catalogStatus(of: other, appVersion: buzz.version, at: .now) != nil, "the control")
+        let globbed = HomebrewPackage(
+            name: "globbed-buzz", kind: .cask, appNames: ["Buzz.app"],
+            leftoverPatterns: ["~/Library/Caches/com.example.crashreporter", "~/Library/Saved Application State/org.example.buzz.*"]
+        )
+        let grouped = HomebrewPackage(
+            name: "grouped-buzz", kind: .cask, appNames: ["Buzz.app"],
+            leftoverPatterns: ["~/Library/Caches/com.example.crashreporter", "~/Library/Group Containers/group.org.example.buzz"]
+        )
+        let atlas = app("Buzz", "com.electron.buzz")
+        let electron = HomebrewPackage(
+            name: "electron-buzz", kind: .cask, appNames: ["Buzz.app"],
+            leftoverPatterns: ["~/Library/Caches/com.example.crashreporter", "~/Library/Caches/com.electron.buzz"]
+        )
+
+        #expect(CaskEvidence.proves(own, isThe: buzz))
+        #expect(CaskEvidence.proves(plain, isThe: buzz))
+        #expect(CaskEvidence.proves(globbed, isThe: buzz))
+        #expect(CaskEvidence.proves(grouped, isThe: buzz))
+        #expect(CaskEvidence.proves(electron, isThe: atlas))
+    }
+
     @Test func aCaskThatQuitsTheAppsOwnHelperProvesAnAppWhoseIdentifierNamesNoMaker() {
         let atlas = app("Atlas", "com.electron.atlas")
         let ownHelper = HomebrewPackage(

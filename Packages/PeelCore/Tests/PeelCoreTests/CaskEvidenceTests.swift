@@ -359,7 +359,8 @@ struct CaskEvidenceTests {
         let cask = HomebrewPackage(
             name: "example", kind: .cask,
             appNames: ["Example.app"],
-            leftoverPatterns: ["~/Library/Caches/com.vendor.shared"]
+            leftoverPatterns: ["~/Library/Caches/com.vendor.shared"],
+            quitIdentifiers: ["com.example.app"]
         )
         let app = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "com.example.app", name: "Example")
         let other = InstalledApp(url: URL(filePath: "/Applications/Other.app"), bundleIdentifier: "com.vendor.shared", name: "Other")
