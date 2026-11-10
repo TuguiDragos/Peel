@@ -48,6 +48,16 @@ struct Release: Decodable {
     let prerelease: Bool
     let assets: [Asset]
     let body: String?
+    let targetCommitish: String?
+}
+
+struct Reference: Decodable {
+    struct Object: Decodable {
+        let sha: String
+        let type: String
+    }
+
+    let object: Object
 }
 
 let decoder = JSONDecoder()
@@ -71,6 +81,18 @@ func asset(_ name: String) -> Release.Asset? {
     return found
 }
 if release.prerelease { refusals.append("it is a prerelease, which is never the latest release") }
+// The tag GitHub makes when the release is published names the commit the source archives hold.
+if let made, let built = try? String(contentsOf: made.appending(path: "Peel-\(version).commit"), encoding: .utf8)
+    .trimmingCharacters(in: .whitespacesAndNewlines) {
+    var tagged = gh(["api", "repos/TuguiDragos/Peel/git/ref/tags/\(tag)"])
+        .flatMap { try? decoder.decode(Reference.self, from: $0) }
+    if let annotated = tagged, annotated.object.type == "tag" {
+        tagged = gh(["api", "repos/TuguiDragos/Peel/git/tags/\(annotated.object.sha)"])
+            .flatMap { try? decoder.decode(Reference.self, from: $0) }
+    }
+    let commit = tagged?.object.sha ?? release.targetCommitish
+    if commit != built { refusals.append("its tag would name \(commit ?? "no commit"), not \(built), which was built") }
+}
 // GitHub makes a heading's anchor from its text, so a link written for another date opens the top of the page.
 let changelog = (try? String(contentsOf: repository.appending(path: "CHANGELOG.md"), encoding: .utf8)) ?? ""
 let anchors = Set(changelog.split(separator: "\n").filter { $0.hasPrefix("## ") }.map { heading in

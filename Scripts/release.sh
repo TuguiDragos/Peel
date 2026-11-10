@@ -38,7 +38,8 @@ rm -rf "$build"
 mkdir -p "$build"
 
 echo "== Testing"
-if ! swift test --package-path Packages/PeelCore -Xswiftc -warnings-as-errors > "$build/test.log" 2>&1; then
+if ! swift test --package-path Packages/PeelCore --only-use-versions-from-resolved-file -Xswiftc -warnings-as-errors \
+    > "$build/test.log" 2>&1; then
     grep -E "error:|✘" "$build/test.log" | head -20 || tail -20 "$build/test.log"
     echo "REFUSED: the tests failed. The whole log is $build/test.log"
     exit 1
@@ -61,6 +62,7 @@ if ! xcodebuild archive \
     -destination 'generic/platform=macOS' \
     -archivePath "$archive" \
     -derivedDataPath "$build/DerivedData" \
+    -onlyUsePackageVersionsFromResolvedFile \
     ENABLE_POINTER_AUTHENTICATION=YES \
     MACOSX_DEPLOYMENT_TARGET=26.0 \
     > "$build/archive.log" 2>&1
@@ -75,6 +77,11 @@ if grep -q "warning:" "$build/archive.log"; then
     exit 1
 fi
 grep -E "ARCHIVE" "$build/archive.log" || true
+if [ -n "$(git status --porcelain)" ]; then
+    git status --short
+    echo "REFUSED: building changed the working tree, such as a Package.resolved."
+    exit 1
+fi
 
 echo "== Exporting with Developer ID"
 cat > "$build/ExportOptions.plist" <<'PLIST'
@@ -210,6 +217,8 @@ fi
 
 version="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Contents/Info.plist")"
 build_number="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$app/Contents/Info.plist")"
+# The commit these files were built from, which `check_release.swift` holds the release's tag to.
+git rev-parse HEAD > "$build/Peel-$version.commit"
 # Zip the app again after stapling, so the download carries its notarization ticket.
 final="$build/Peel-$version.zip"
 rm -f "$final"
