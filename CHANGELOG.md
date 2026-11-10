@@ -202,6 +202,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - Moving a file whose creation date a network share reports as unknown, such as 1601, no longer makes Peel quit
   unexpectedly.
+- An alert whose only button is OK closes with Return, and the questions before Remove Peel and before uninstalling
+  Peel's helper close with Escape, as on any Mac.
 - The buttons of a page with nothing to show, such as Not Everything Could Be Read, go one under another when they don't
   fit side by side, instead of running past the column.
 
