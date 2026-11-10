@@ -428,10 +428,10 @@ public enum Installers {
 
     private static func installedApp(named stem: String, in installedApps: [InstalledApp]) -> InstalledApp? {
         let normalized = Naming.normalized(stem)
-        guard normalized.count >= 3 else { return nil }
+        guard Naming.isLongEnough(normalized) else { return nil }
         let matches = installedApps.compactMap { app -> (app: InstalledApp, length: Int)? in
             let lengths = app.names
-                .filter { Naming.isSignificant($0) && Naming.normalized($0).count >= 3 && names(stem, and: $0) }
+                .filter { Naming.isSignificant($0) && names(stem, and: $0) }
                 .map { Naming.normalized($0).count }
             return lengths.max().map { (app, $0) }
         }

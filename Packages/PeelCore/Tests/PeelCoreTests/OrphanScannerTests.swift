@@ -2090,6 +2090,19 @@ struct OrphanScannerTests {
         #expect(scan.groups.first?.items.count == 2)
     }
 
+    @Test func namesAnItemByTheNameOfAGoneAppWrittenInTwoIdeograms() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/抖音/state.db")
+        let douyin = RememberedApp(
+            bundleIdentifier: "org.example.douyin", name: "抖音", teamIdentifier: nil,
+            lastSeen: .now.addingTimeInterval(-90 * 24 * 60 * 60), lastPath: "/Applications/抖音.app"
+        )
+
+        let groups = await scanner(in: directory).scan(installedApps: installed, remembered: [douyin]).groups
+
+        #expect(groups.map(\.identifier) == ["org.example.douyin"])
+    }
+
     @Test func aLinkIntoAnAppOnADiskThatIsNotConnectedIsNotListed() async throws {
         let directory = try TemporaryDirectory()
         let bin = try directory.directory("root/opt/homebrew/bin")

@@ -670,6 +670,27 @@ struct LeftoverMatcherTests {
         #expect(match("TidePoolData", in: .applicationSupport, for: tide) == nil)
     }
 
+    @Test func aMakerNamedInTwoIdeogramsHasAFolderOfItsOwn() {
+        let qq = InstalledApp(
+            url: URL(filePath: "/Applications/QQ.app"), bundleIdentifier: "org.example.qq", name: "QQ", developer: "腾讯 科技"
+        )
+
+        #expect(qq.makersFolderNames.contains("腾讯"))
+    }
+
+    @Test func aNameOfTwoIdeogramsKanaOrHangulSyllablesIsAName() throws {
+        let douyin = app("org.example.douyin", name: "抖音", team: "ABCDE12345")
+        let lite = app("org.example.douyinlite", name: "抖音极速版", team: "ABCDE12345")
+
+        #expect(match("抖音", in: .applicationSupport, for: douyin)?.reason == .name)
+        #expect(match("メモ", in: .applicationSupport, for: app("org.example.memo", name: "メモ"))?.reason == .name)
+        let hangul = app("org.example.memo", name: "메모")
+        #expect(match("메모".decomposedStringWithCanonicalMapping, in: .logs, for: hangul)?.reason == .name)
+        #expect(match("Zo", in: .applicationSupport, for: app("org.example.zo", name: "Zo")) == nil)
+        #expect(match("A抖", in: .applicationSupport, for: app("org.example.mixed", name: "A抖")) == nil)
+        #expect(match("抖音", in: .applicationSupport, for: douyin, with: [lite])?.sharedWith == ["org.example.douyinlite"])
+    }
+
     /// When one app claims an item by name and another by identifier, neither claim wins, whatever their ranks.
     @Test func aNameAndAnIdentifierThatBothClaimAnItemShareIt() throws {
         let target = app("com.example.notes", name: "Notes Pro")

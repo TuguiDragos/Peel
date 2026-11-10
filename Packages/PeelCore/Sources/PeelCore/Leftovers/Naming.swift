@@ -26,8 +26,30 @@ enum Naming {
 
     static func isSignificant(_ name: String) -> Bool {
         let normalized = normalized(name)
-        return normalized.count >= 3 && !genericNames.contains(normalized)
+        return isLongEnough(normalized) && !genericNames.contains(normalized)
     }
+
+    /// Whether a normalized name is long enough to say what it names: three characters, or two in Chinese, Japanese,
+    /// or Korean, where two ideographs, kana, or Hangul syllables make a whole word.
+    static func isLongEnough(_ normalized: String) -> Bool {
+        normalized.count >= (isEastAsian(normalized) ? 2 : 3)
+    }
+
+    /// True for a name written only in ideographs, kana, or Hangul, each character read by its first scalar, so a
+    /// syllable a disk keeps as its jamo counts once.
+    static func isEastAsian(_ name: String) -> Bool {
+        !name.isEmpty && name.allSatisfy { character in
+            character.unicodeScalars.first.map { scalar in
+                scalar.properties.isIdeographic || kanaAndHangul.contains { $0.contains(scalar.value) }
+            } ?? false
+        }
+    }
+
+    /// Unicode's blocks of Hangul Jamo, Hiragana, Katakana and its Phonetic Extensions, Hangul Syllables, and the
+    /// halfwidth katakana.
+    private static let kanaAndHangul: [ClosedRange<UInt32>] = [
+        0x1100...0x11FF, 0x3040...0x30FF, 0x31F0...0x31FF, 0xAC00...0xD7AF, 0xFF66...0xFF9F,
+    ]
 
     /// "MuseScore 4" → "MuseScore". Apps carry their major version in the name while their folders don't.
     static func withoutTrailingVersion(_ name: String) -> String? {

@@ -704,7 +704,7 @@ public struct OrphanScanner: Sendable {
     /// Rancher Desktop's. Nil for a name too short or too generic to tell.
     static func nameKey(of fileName: String) -> String? {
         let key = Naming.folderName(fileName)
-        return key.count >= 3 && !Naming.genericNames.contains(key) ? key : nil
+        return Naming.isSignificant(key) ? key : nil
     }
 
     /// The names the identifiers in `found` teach, each with its identifier: the third part of an app's identifier,

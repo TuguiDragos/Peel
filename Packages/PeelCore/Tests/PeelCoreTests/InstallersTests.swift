@@ -1196,6 +1196,13 @@ struct InstallersTests {
         #expect(Installers.installedApp(for: URL(filePath: "/x/Unrelated.dmg"), in: apps) == nil)
     }
 
+    @Test func matchesAnInstallerToANameOfTwoIdeograms() {
+        let apps = [app("抖音", bundleIdentifier: "org.example.douyin")]
+
+        #expect(Installers.installedApp(for: URL(filePath: "/x/抖音-2.4.dmg"), in: apps)?.name == "抖音")
+        #expect(Installers.installedApp(for: URL(filePath: "/x/抖音极速版.dmg"), in: apps) == nil)
+    }
+
     /// "Already installed" is what makes someone delete their only copy, so it is the name before the version
     /// that has to match, not any name the file name begins with.
     @Test func doesNotCallAnotherProductsInstallerTheInstalledApp() {

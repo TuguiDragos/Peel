@@ -228,7 +228,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         let words = (developer ?? "").split { !$0.isLetter && !$0.isNumber }.map { $0.lowercased() }
         for end in words.indices { folders.insert(words[...end].joined()) }
         let own = Set(matchingNames.map(Naming.normalized))
-        return folders.filter { $0.count >= 3 && !own.contains($0) }
+        return folders.filter { Naming.isLongEnough($0) && !own.contains($0) }
     }
 }
 

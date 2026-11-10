@@ -312,7 +312,7 @@ extension LeftoverMatcher {
         /// services in the folder the item is directly in.
         let isApple: Bool
 
-        var isLongEnoughToShare: Bool { normalized.count >= 4 }
+        var isLongEnoughToShare: Bool { normalized.count >= (Naming.isEastAsian(normalized) ? 2 : 4) }
 
         init(_ key: String, isMacOSs: Bool = false) {
             self.key = key.lowercased()
