@@ -206,7 +206,7 @@ nonisolated extension SpaceItem {
         ),
         "logs": Words(
             title: "Logs",
-            detail: "Logs that apps wrote in your Library and in their containers, and the crash reports macOS keeps for your account. Only the reports are offered one by one, never the folders they sit in."
+            detail: "Logs that apps wrote in your Library and in their containers, and the crash reports macOS keeps for your account. The crash reports are offered one by one, and the folder they sit in always stays."
         ),
         "caches": Words(
             title: "App Caches",
