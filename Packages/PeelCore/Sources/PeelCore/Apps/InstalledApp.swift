@@ -20,6 +20,8 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     /// Rosetta on Apple silicon.
     public let asksForIntelFirst: Bool
     public let isFromAppStore: Bool
+    /// Whether the App Store signed the bundle under its own identifier, which belongs to one developer's team alone.
+    public let isSignedByTheAppStore: Bool
     public let isSystemProtected: Bool
     /// The package the app sits inside, such as the app it is a helper of. Moved alone, the app would be cut out
     /// of that package, so it stays with it.
@@ -71,6 +73,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         architectures: Set<Architecture> = [.arm64],
         asksForIntelFirst: Bool = false,
         isFromAppStore: Bool = false,
+        isSignedByTheAppStore: Bool = false,
         isSystemProtected: Bool = false,
         enclosingPackage: URL? = nil,
         lastUsedDate: Date? = nil,
@@ -97,6 +100,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
         self.architectures = architectures
         self.asksForIntelFirst = asksForIntelFirst
         self.isFromAppStore = isFromAppStore
+        self.isSignedByTheAppStore = isSignedByTheAppStore
         self.isSystemProtected = isSystemProtected
         self.enclosingPackage = enclosingPackage
         self.lastUsedDate = lastUsedDate

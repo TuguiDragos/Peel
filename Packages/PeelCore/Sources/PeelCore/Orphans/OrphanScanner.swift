@@ -81,6 +81,7 @@ public struct OrphanScanner: Sendable {
         let knownToMacOS = AppsKnownToMacOS()
         let ownership = AppOwnership(
             installedApps: installedApps + systemApps, goneApps: goneApps,
+            goneFromTheAppStore: gone.filter { $0.isSignedByTheAppStore == true }.map(\.bundleIdentifier),
             isRegisteredApp: { [isRegisteredApp] identifier in
                 guard isRegisteredApp(identifier) else { return false }
                 knownToMacOS.note(identifier)
@@ -443,6 +444,7 @@ public struct OrphanScanner: Sendable {
         let ownership = AppOwnership(
             installedApps: installedApps + systemApps,
             goneApps: gone.map { $0.bundleIdentifier },
+            goneFromTheAppStore: gone.filter { $0.isSignedByTheAppStore == true }.map(\.bundleIdentifier),
             isRegisteredApp: isRegisteredApp
         )
         let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps).knowingJobs(in: launchdFolders)
@@ -484,14 +486,15 @@ public struct OrphanScanner: Sendable {
         forKey key: String,
         kind: SearchLocation.Kind,
         isDeclared: (String) -> Bool = { _ in false },
-        isAGoneApp: (String) -> Bool = { _ in false }
+        isAGoneApp: (String) -> Bool = { _ in false },
+        isAGoneAppStoreApp: (String) -> Bool = { _ in false }
     ) -> String? {
         var identifier = key
         if kind == .groupContainers || kind == .applicationScripts, identifier.hasPrefix("group.") {
             identifier.removeFirst("group.".count)
         }
         let lowercased = identifier.lowercased()
-        if SafariWebApp.isIdentifier(identifier) { return identifier }
+        if SafariWebApp.isIdentifier(identifier) || isAGoneAppStoreApp(identifier) { return identifier }
         guard !systemPrefixes.contains(where: lowercased.hasPrefix), !lowercased.contains("com.apple.") else { return nil }
 
         if Identifier.isReverseDNS(identifier) {
@@ -569,7 +572,8 @@ public struct OrphanScanner: Sendable {
         return names.contains { name in
             let key = LeftoverMatcher.key(from: name, kind: kind)
             guard let identifier = orphanIdentifier(
-                forKey: key, kind: kind, isDeclared: ownership.isDeclared, isAGoneApp: ownership.isAGoneApp
+                forKey: key, kind: kind, isDeclared: ownership.isDeclared, isAGoneApp: ownership.isAGoneApp,
+                isAGoneAppStoreApp: ownership.isAGoneAppStoreApp
             ) else { return false }
             return ownership.isClaimed(fileName: name, kind: kind, identifier: identifier)
         }
@@ -636,11 +640,12 @@ public struct OrphanScanner: Sendable {
             let identifier = (DeclaredIdentifier.nameSaysNothing(of: url, kind: kind)
                 ? nil : orphanIdentifier(
                     forKey: LeftoverMatcher.key(from: name, kind: kind), kind: kind, isDeclared: ownership.isDeclared,
-                    isAGoneApp: ownership.isAGoneApp
+                    isAGoneApp: ownership.isAGoneApp, isAGoneAppStoreApp: ownership.isAGoneAppStoreApp
                 ))
                 ?? DeclaredIdentifier.of(url, kind: kind).flatMap({
                     orphanIdentifier(
-                        forKey: $0, kind: kind, isDeclared: ownership.isDeclared, isAGoneApp: ownership.isAGoneApp
+                        forKey: $0, kind: kind, isDeclared: ownership.isDeclared, isAGoneApp: ownership.isAGoneApp,
+                        isAGoneAppStoreApp: ownership.isAGoneAppStoreApp
                     )
                 }),
             goneApps.map({ cameWithAnAppThatLeft(identifier, goneApps: $0) }) ?? true,

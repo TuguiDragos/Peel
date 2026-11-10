@@ -126,6 +126,38 @@ struct OrphanScannerTests {
         #expect(stillOrphaned.isEmpty)
     }
 
+    @Test func whatAGoneAppStoreAppsOwnIdentifierNamesIsListedUnderApplesNameToo() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Containers/com.apple.iWork.Pages/Data/data")
+        try directory.file("home/Library/Preferences/com.apple.iWork.Pages.plist")
+        try directory.file("home/Library/Caches/com.apple.iWork.Pages/data")
+        try directory.file("home/Library/Caches/com.apple.iWork.Keynote/data")
+        try directory.file("home/Library/Caches/com.apple.iWork.Pages.helper/data")
+        func pages(signedByTheAppStore: Bool?) -> RememberedApp {
+            RememberedApp(
+                bundleIdentifier: "com.apple.iWork.Pages", name: "Pages", teamIdentifier: "ABCDE12345",
+                lastSeen: .now.addingTimeInterval(-30 * 86_400), lastPath: "/Applications/Pages.app",
+                goneSince: .now.addingTimeInterval(-30 * 86_400), isSignedByTheAppStore: signedByTheAppStore
+            )
+        }
+        let calculator = InstalledApp(
+            url: URL(filePath: "/System/Applications/Calculator.app"), bundleIdentifier: "com.apple.calculator",
+            name: "Calculator", isSystemProtected: true
+        )
+        let scanner = scanner(in: directory, systemApps: [calculator])
+
+        let signed = await scanner.scan(installedApps: [], remembered: [pages(signedByTheAppStore: true)])
+        let unsigned = await scanner.scan(installedApps: [], remembered: [pages(signedByTheAppStore: nil)])
+        let still = await scanner.stillOrphaned(
+            signed.groups.flatMap(\.items), installedApps: [], remembered: [pages(signedByTheAppStore: true)]
+        )
+
+        #expect(signed.groups.map(\.identifier) == ["com.apple.iWork.Pages"])
+        #expect(signed.groups.first?.items.count == 3)
+        #expect(still.count == 3)
+        #expect(unsigned.groups.isEmpty)
+    }
+
     @Test(arguments: ["ABCDE12345.md.example", "ABCDE12345.group.md.example"])
     func aTeamContainerOfATwoPartAppJoinsItsGroup(container: String) async throws {
         let directory = try TemporaryDirectory()

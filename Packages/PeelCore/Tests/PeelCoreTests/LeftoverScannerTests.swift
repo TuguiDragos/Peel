@@ -2037,6 +2037,35 @@ struct LeftoverScannerTests {
         #expect(await found(beside: [paint]) == nil)
     }
 
+    @Test func anAppTheAppStoreSignedFindsWhatItsOwnIdentifierNamesUnderApplesNameToo() async throws {
+        let directory = try TemporaryDirectory()
+        let own = [
+            "Containers/com.apple.iWork.Pages", "Preferences/com.apple.iWork.Pages.plist",
+            "Caches/com.apple.iWork.Pages", "Application Scripts/com.apple.iWork.Pages",
+            "Saved Application State/com.apple.iWork.Pages.savedState",
+        ]
+        for place in own + ["Caches/com.apple.iWork.Keynote", "Caches/com.apple.iWork.TSKit"] {
+            try directory.file("home/Library/\(place)/data", bytes: 64)
+        }
+        func pages(signedByTheAppStore: Bool) -> InstalledApp {
+            InstalledApp(
+                url: URL(filePath: "/Applications/Pages.app"), bundleIdentifier: "com.apple.iWork.Pages", name: "Pages",
+                teamIdentifier: "ABCDE12345", embeddedBundleIdentifiers: ["com.apple.iWork.TSKit"],
+                isFromAppStore: true, isSignedByTheAppStore: signedByTheAppStore
+            )
+        }
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let signedPages = pages(signedByTheAppStore: true)
+
+        let signed = await scanner.scan(signedPages, installedApps: [signedPages])
+        let unsigned = await scanner.scan(pages(signedByTheAppStore: false), installedApps: [])
+
+        let found = Set(signed.leftovers.map(\.url.lastPathComponent))
+        #expect(found == Set(own.map { URL(filePath: $0).lastPathComponent }))
+        #expect(signed.leftovers.allSatisfy { $0.match.confidence == .certain })
+        #expect(unsigned.leftovers.isEmpty)
+    }
+
     @Test func takesNothingAProfileManagesAsTheAppsLeftovers() async throws {
         let directory = try TemporaryDirectory()
         let app = InstalledApp(

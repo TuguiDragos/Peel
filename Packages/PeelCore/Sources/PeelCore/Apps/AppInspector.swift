@@ -179,6 +179,7 @@ public enum AppInspector {
             architectures: architectures,
             asksForIntelFirst: asksForIntelFirst,
             isFromAppStore: isFromAppStore,
+            isSignedByTheAppStore: signing.appStoreIdentifier.map { $0 == bundleIdentifier } == true,
             isSystemProtected: isSystemProtected,
             enclosingPackage: url.enclosingPackage,
             lastUsedDate: use.lastUsedDate,
@@ -303,18 +304,22 @@ public enum AppInspector {
         return nil
     }
 
+    /// What a checked signature says of the bundle at `url`; `appStoreIdentifier` is the identifier the App Store
+    /// signed it under, nil unless the App Store did.
     static func signingInformation(
         for url: URL
-    ) -> (teamIdentifier: String?, developer: String?, applicationGroups: [String]) {
-        guard let information = CodeSignature.information(at: url) else { return (nil, nil, []) }
+    ) -> (teamIdentifier: String?, developer: String?, applicationGroups: [String], appStoreIdentifier: String?) {
+        guard let information = CodeSignature.information(at: url) else { return (nil, nil, [], nil) }
         let team = information[kSecCodeInfoTeamIdentifier as String] as? String
         let leaf = (information[kSecCodeInfoCertificates as String] as? [SecCertificate])?.first
+        let isTheAppStores = leaf.map(CodeSignature.isTheAppStoresLeaf) == true
         return (
             team,
             leaf.flatMap { SecCertificateCopySubjectSummary($0) as String? }.flatMap {
                 CodeSignature.developer(fromLeaf: $0, team: team)
             },
-            applicationGroups(in: information)
+            applicationGroups(in: information),
+            isTheAppStores ? information[kSecCodeInfoIdentifier as String] as? String : nil
         )
     }
 

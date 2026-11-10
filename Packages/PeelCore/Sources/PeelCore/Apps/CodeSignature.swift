@@ -6,9 +6,9 @@ import Security
 /// `SecCode.h`: "To ensure that only valid data is returned [...] you must successfully call one of the
 /// CheckValidity functions on the code before calling CopySigningInformation."
 enum CodeSignature {
-    /// The certificate field that marks the leaf of a Mac App Store app. Apple signs such apps again itself, on
-    /// the developer's behalf.
-    private static let appStoreLeaf = "field.1.2.840.113635.100.6.1.9"
+    /// The certificate extension that marks the leaf of a Mac App Store app. Apple signs such apps again itself, on
+    /// the developer's behalf, under the identifier the app was published with.
+    private static let appStoreMark = "1.2.840.113635.100.6.1.9"
 
     /// Returns the signing information of the code at `url`, or nil unless the signature is valid, leads back to
     /// Apple, and backs up the team it names. The team is a field the signer fills in, so it counts only when
@@ -40,7 +40,7 @@ enum CodeSignature {
         if let team = information[kSecCodeInfoTeamIdentifier as String] as? String {
             // The team is written into the requirement's text, so a malformed one could change what it asks.
             guard CodeSigning.isValidTeamIdentifier(team) else { return nil }
-            text += " and (anchor apple or certificate leaf[\(appStoreLeaf)] or certificate leaf[subject.OU] = \"\(team)\")"
+            text += " and (anchor apple or certificate leaf[field.\(appStoreMark)] or certificate leaf[subject.OU] = \"\(team)\")"
         }
         var requirement: SecRequirement?
         guard
@@ -72,6 +72,11 @@ enum CodeSignature {
         guard summary.hasPrefix(prefix), let team, summary.hasSuffix(" (\(team))") else { return nil }
         let name = summary.dropFirst(prefix.count).dropLast(team.count + 3).trimmingCharacters(in: .whitespaces)
         return name.isEmpty ? nil : name
+    }
+
+    /// Whether `leaf`, the first certificate of a checked signature, is the one the App Store signs its apps with.
+    static func isTheAppStoresLeaf(_ leaf: SecCertificate) -> Bool {
+        (SecCertificateCopyValues(leaf, [appStoreMark] as CFArray, nil) as? [String: Any])?[appStoreMark] != nil
     }
 
     static func teamIdentifier(at url: URL) -> String? {

@@ -409,7 +409,9 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 - **Orphaned Files.** `OrphanScanner` lists what no installed app claims, under the app Peel saw go when it can name it
   (`AppMemory`), and selects nothing for the person. Where a name proves nothing by itself, the folders of code macOS
   loads, which an installer can fill with no app, and the account's temporary folder, where every program writes files
-  named as it likes, it lists only what came with an app Peel saw go (`listsOnlyWhatCameWithAnApp`). Once every location
+  named as it likes, it lists only what came with an app Peel saw go (`listsOnlyWhatCameWithAnApp`). A name under
+  Apple's (`com.apple.`) is never listed, except one that is exactly the identifier the App Store signed a gone app
+  under, Apple's own App Store apps among them (`RememberedApp.isSignedByTheAppStore`). Once every location
   is read, the identifiers it found teach their apps' names (`learnedNames`), which it looks for in the places an app
   keeps a folder under its name; a name, remembered or learned, is compared without case, spaces, or punctuation
   (`nameKey`). An app macOS knows on another disk that claims something is remembered too

@@ -17,6 +17,8 @@ public struct RememberedApp: Sendable, Hashable, Codable, Identifiable {
     /// When Peel, running, read the apps again and found it gone from where it was. Nil when it left while Peel was
     /// closed, since a launch weeks later can't say when.
     public var goneSince: Date? = nil
+    /// Whether the App Store signed it under its identifier (`InstalledApp.isSignedByTheAppStore`).
+    public var isSignedByTheAppStore: Bool? = nil
 
     public var id: String { bundleIdentifier }
 }
@@ -31,7 +33,10 @@ extension RememberedApp {
             if let app = AppInspector.inspect(place), app.bundleIdentifier == bundleIdentifier { return app }
         }
         return places.first { $0.isOnADiskNotConnected || AppInspector.isClosed($0) }.map {
-            InstalledApp(url: $0, bundleIdentifier: bundleIdentifier, name: name, teamIdentifier: teamIdentifier)
+            InstalledApp(
+                url: $0, bundleIdentifier: bundleIdentifier, name: name, teamIdentifier: teamIdentifier,
+                isSignedByTheAppStore: isSignedByTheAppStore == true
+            )
         }
     }
 }
@@ -98,7 +103,8 @@ public struct AppMemory: Sendable {
                 lastSeen: now,
                 lastPath: path,
                 otherPaths: others.isEmpty ? nil : Array(others),
-                productFolders: app.productFolders.isEmpty ? nil : app.productFolders
+                productFolders: app.productFolders.isEmpty ? nil : app.productFolders,
+                isSignedByTheAppStore: app.isSignedByTheAppStore ? true : nil
             )
         }
 

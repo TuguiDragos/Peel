@@ -406,6 +406,7 @@ extension LeftoverMatcher {
         let ownFolderNames: Set<String>
         let makersFolderNames: Set<String>
         let isApplesOwn: Bool
+        let isSignedByTheAppStore: Bool
         let isASafariWebApp: Bool
         /// Where the app's updater keeps its downloads, below the home, lowercased.
         let updaterPlaces: Set<String>
@@ -444,6 +445,7 @@ extension LeftoverMatcher {
             ownFolderNames = app.ownFolderNames
             makersFolderNames = app.makersFolderNames
             isApplesOwn = app.isSystemProtected || teamPrefix == Self.appleTeam
+            isSignedByTheAppStore = app.isSignedByTheAppStore
             isASafariWebApp = app.isASafariWebApp
             // Only electron-builder's `<name>-updater`: any other name could be a folder other programs share.
             let electron = app.updaterFolder.map { $0.lowercased() }.flatMap { $0.hasSuffix("-updater") ? $0 : nil }
@@ -496,10 +498,11 @@ extension LeftoverMatcher {
         func evidence(for candidate: Candidate) -> Evidence? {
             let key = candidate.key
             // Everything an app says about itself (its identifier, what it embeds, the groups it claims)
-            // comes from a bundle anyone can write. Only an app Apple signed may answer for Apple's files, and a
-            // Safari web app for the files named exactly by its own identifier, which Safari made for it alone.
-            let isItsOwnWebAppName = isASafariWebApp && key == identifier
-            guard !candidate.isApple || isApplesOwn || isItsOwnWebAppName else { return nil }
+            // comes from a bundle anyone can write. Only an app Apple signed may answer for Apple's files, a Safari
+            // web app for the files named exactly by its own identifier, which Safari made for it alone, and an app
+            // the App Store signed for the files named exactly by the identifier it signed it under.
+            let isItsOwnName = key == identifier && (isASafariWebApp || isSignedByTheAppStore)
+            guard !candidate.isApple || isApplesOwn || isItsOwnName else { return nil }
 
             if key == identifier {
                 guard Identifier.isValid(key) else { return unproven(.bundleIdentifier, candidate) }

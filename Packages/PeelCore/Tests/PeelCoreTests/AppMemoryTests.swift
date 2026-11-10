@@ -34,6 +34,23 @@ struct AppMemoryTests {
         }
     }
 
+    @Test func keepsWhetherTheAppStoreSignedIt() async throws {
+        let directory = try TemporaryDirectory()
+        let memory = AppMemory(url: directory.url.appending(path: "apps.json"))
+        let pages = InstalledApp(
+            url: URL(filePath: "/Volumes/org.example.Missing/Pages.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.apple.iWork.Pages", name: "Pages", isSignedByTheAppStore: true
+        )
+
+        _ = await memory.remember([pages, app("Tide", "org.example.tide")])
+        let remembered = await memory.load()
+        let signed = remembered.first { $0.bundleIdentifier == "com.apple.iWork.Pages" }
+
+        #expect(signed?.isSignedByTheAppStore == true)
+        #expect(signed?.stillInstalled()?.isSignedByTheAppStore == true)
+        #expect(remembered.first { $0.bundleIdentifier == "org.example.tide" }?.isSignedByTheAppStore == nil)
+    }
+
     @Test func keepsWhatItHasSeen() async throws {
         let directory = try TemporaryDirectory()
         let memory = AppMemory(url: directory.url.appending(path: "apps.json"))

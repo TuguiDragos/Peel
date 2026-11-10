@@ -467,6 +467,48 @@ struct AppInspectorTests {
         #expect(CodeSignature.information(at: directory.url) == nil)
     }
 
+    @Test func knowsTheAppStoresLeafByTheMarkAppleGivesIt() throws {
+        let data = try #require(Data(base64Encoded: Self.appStoreLeaf, options: .ignoreUnknownCharacters))
+        let appStore = try #require(SecCertificateCreateWithData(nil, data as CFData))
+        let calculator = URL(filePath: "/System/Applications/Calculator.app")
+        let signature = try #require(CodeSignature.information(at: calculator))
+        let calculatorsLeaf = try #require((signature[kSecCodeInfoCertificates as String] as? [SecCertificate])?.first)
+
+        #expect(CodeSignature.isTheAppStoresLeaf(appStore))
+        #expect(!CodeSignature.isTheAppStoresLeaf(calculatorsLeaf))
+        #expect(AppInspector.inspect(calculator)?.isSignedByTheAppStore == false)
+    }
+
+    /// The leaf the App Store signs its apps with, as Xcode from the App Store carries it.
+    private static let appStoreLeaf = """
+        MIIFnzCCBIegAwIBAgIQRoPnSDqZZsM9X4Kk7VQvCTANBgkqhkiG9w0BAQsFADB1MUQwQgYDVQQD
+        DDtBcHBsZSBXb3JsZHdpZGUgRGV2ZWxvcGVyIFJlbGF0aW9ucyBDZXJ0aWZpY2F0aW9uIEF1dGhv
+        cml0eTELMAkGA1UECwwCRzUxEzARBgNVBAoMCkFwcGxlIEluYy4xCzAJBgNVBAYTAlVTMB4XDTI2
+        MDYyOTE0MTIyMVoXDTI4MDcyMDE5NTIxMlowTTEpMCcGA1UEAwwgQXBwbGUgTWFjIE9TIEFwcGxp
+        Y2F0aW9uIFNpZ25pbmcxEzARBgNVBAoMCkFwcGxlIEluYy4xCzAJBgNVBAYTAlVTMIIBIjANBgkq
+        hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArBU5N7m4tL1il7l9WQIGYbZR/D1cLnVkG4Ga7kLt0FTG
+        qhZb8gIAXSe/OHx0VpBNaSfqGvdxQJGa2okkQJZXC8IKq1oFNuCWluMykoiWmq1Z6S9PdQQTBq58
+        5xPY8cXaVBZ/4SvUMapDGGMs0i2zst+9C9w57YpowTa93GZqVZQYX/5TMajWzPGiyE5Ri1JQSsmE
+        onHA9wr0TTqfETFHMnyvPgz4oHOBUMfiUY69V3ekatl1Wpxtocurc+htOS8oieExNJcXPqhIOYIj
+        bYoU+w2Ac5UL80p0MUpy2uEDuRp5aj31g9PEdXJcMMcIsHR5pyUAcIKsbvXPzAguoIZHkQIDAQAB
+        o4ICUTCCAk0wDAYDVR0TAQH/BAIwADAfBgNVHSMEGDAWgBQZi5eNSltheFf0pVw1Eoo5COOwdTBw
+        BggrBgEFBQcBAQRkMGIwLQYIKwYBBQUHMAKGIWh0dHA6Ly9jZXJ0cy5hcHBsZS5jb20vd3dkcmc1
+        LmRlcjAxBggrBgEFBQcwAYYlaHR0cDovL29jc3AuYXBwbGUuY29tL29jc3AwMy13d2RyZzUxMDCC
+        AR0GA1UdIASCARQwggEQMIIBDAYJKoZIhvdjZAUBMIH+MIHDBggrBgEFBQcCAjCBtgyBs1JlbGlh
+        bmNlIG9uIHRoaXMgY2VydGlmaWNhdGUgYnkgYW55IHBhcnR5IGFzc3VtZXMgYWNjZXB0YW5jZSBv
+        ZiB0aGUgdGhlbiBhcHBsaWNhYmxlIHN0YW5kYXJkIHRlcm1zIGFuZCBjb25kaXRpb25zIG9mIHVz
+        ZSwgY2VydGlmaWNhdGUgcG9saWN5IGFuZCBjZXJ0aWZpY2F0aW9uIHByYWN0aWNlIHN0YXRlbWVu
+        dHMuMDYGCCsGAQUFBwIBFipodHRwczovL3d3dy5hcHBsZS5jb20vY2VydGlmaWNhdGVhdXRob3Jp
+        dHkwFgYDVR0lAQH/BAwwCgYIKwYBBQUHAwMwMAYDVR0fBCkwJzAloCOgIYYfaHR0cDovL2NybC5h
+        cHBsZS5jb20vd3dkcmc1LmNybDAdBgNVHQ4EFgQULy6zoNfRyW8iNMRrHNXme8TbxLowDgYDVR0P
+        AQH/BAQDAgeAMBAGCiqGSIb3Y2QGAQkEAgUAMA0GCSqGSIb3DQEBCwUAA4IBAQCCe/efLPrf5rab
+        KabwyodKXJGFW1seafp7VED24QTC0VQexy07vrXhQ+N+QxCIczu4d31wS5pw8CxDtDkNOgNPyL2O
+        FABi/nlOtd2Z0+TeakSGOfptLEOL/mZ2zHfLSRntwszx7eEWgezSKYJ697jD0maT6Hw/BsGEOI/9
+        AIVNSM5ktGHpKNBV4ZEYM5Dm7Am19hbewPWxKJlkuGY2sARWZjP7X8L4hSADI3xTcE2uDT05acQH
+        Ls4NARrV03PNAhDV0Q46c3IyFy6BLC19kA09ez5oa9/Qnd6qyUDOZubx7rPByOSkwwkxuyxUJG3H
+        IQ2fMtthGgmkNh8Vd6qC/SIi
+        """
+
     private static let fileMerge = "/Applications/Xcode.app/Contents/Applications/FileMerge.app"
 
     /// A copy of FileMerge that calls itself `com.apple.Music` must not be read as Apple's team, or it could

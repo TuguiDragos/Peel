@@ -3,18 +3,22 @@ import Foundation
 struct AppOwnership: Sendable {
     private let profiles: [LeftoverMatcher.Profile]
     private let goneApps: [String]
+    private let goneFromTheAppStore: Set<String>
     private let isRegisteredApp: @Sendable (String) -> Bool
     /// The identifiers the installed apps and the gone ones declared, lowercased.
     private let declared: Set<String>
 
-    /// `goneApps` are the identifiers of the apps Peel saw installed that are gone.
+    /// `goneApps` are the identifiers of the apps Peel saw installed that are gone, and `goneFromTheAppStore` those
+    /// of them the App Store signed under their identifier.
     init(
         installedApps: [InstalledApp],
         goneApps: [String] = [],
+        goneFromTheAppStore: [String] = [],
         isRegisteredApp: @escaping @Sendable (String) -> Bool
     ) {
         profiles = installedApps.map(LeftoverMatcher.Profile.init)
         self.goneApps = goneApps.map { $0.lowercased() }
+        self.goneFromTheAppStore = Set(goneFromTheAppStore.map { $0.lowercased() })
         self.isRegisteredApp = isRegisteredApp
         declared = Set(installedApps.compactMap { $0.bundleIdentifier?.lowercased() } + self.goneApps)
     }
@@ -33,6 +37,11 @@ struct AppOwnership: Sendable {
 
     func isAGoneApp(_ identifier: String) -> Bool {
         goneApps.contains(identifier.lowercased())
+    }
+
+    /// Whether `identifier` is a gone app's that the App Store signed under it, which names that app's files alone.
+    func isAGoneAppStoreApp(_ identifier: String) -> Bool {
+        goneFromTheAppStore.contains(identifier.lowercased())
     }
 
     /// Returns whether an installed app has any claim on the item, even a weak one, or macOS knows an app by the
