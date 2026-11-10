@@ -576,6 +576,22 @@ struct HomebrewTests {
         #expect(cask.uninstallPatterns == ["~/Library/Application Support/Sample", "/Library/Sample", "/Library/Empty"])
     }
 
+    /// Read where the casks Homebrew knows are read, on a thread of Swift's pool, whose stack is small.
+    @Test func leavesOutWhatAStanzaNestsDeeperThanAnyCaskWrites() async throws {
+        let deep = String(repeating: "[", count: 400) + #""~/Library/Deep""# + String(repeating: "]", count: 400)
+        let json = """
+        {"formulae": [], "casks": [{"token": "sample", "version": "1", "outdated": false, "artifacts": [
+          {"zap": [{"trash": ["~/Library/Sample", \(deep)], "rmdir": [[["~/Library/Folder"]]]}]}
+        ]}]}
+        """
+
+        let packages = await Task.detached { Homebrew.parseInstalled(Data(json.utf8)) }.value
+
+        let cask = try #require(packages?.first)
+        #expect(cask.leftoverPatterns == ["~/Library/Sample"])
+        #expect(cask.emptyFolderPatterns == ["~/Library/Folder"])
+    }
+
     @Test func parsesInstalledFormulaeAndCasks() throws {
         let json = """
         {

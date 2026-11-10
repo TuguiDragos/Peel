@@ -531,19 +531,49 @@ indirect enum CaskValue: Decodable, Sendable {
     case boolean(Bool)
     case other
 
-    init(from decoder: any Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(String.self) {
-            self = .string(value)
-        } else if let value = try? container.decode([CaskValue].self) {
-            self = .list(value)
-        } else if let value = try? container.decode([String: CaskValue].self) {
-            self = .dictionary(value)
-        } else if let value = try? container.decode(Bool.self) {
-            self = .boolean(value)
-        } else {
-            self = .other
+    /// How many lists and dictionaries one inside another are read. A stanza nests four at most, and each one read
+    /// is a step deeper on the stack, where an answer of Homebrew's is read on a thread with a small one.
+    static let deepestNesting = 16
+
+    private struct Key: CodingKey {
+        let stringValue: String
+        var intValue: Int? { nil }
+
+        init(stringValue: String) {
+            self.stringValue = stringValue
         }
+
+        init?(intValue: Int) {
+            nil
+        }
+    }
+
+    init(from decoder: any Decoder) throws {
+        self = Self.read(decoder, levels: Self.deepestNesting)
+    }
+
+    /// The value `decoder` holds, with a list or a dictionary read only while `levels` are left.
+    private static func read(_ decoder: any Decoder, levels: Int) -> CaskValue {
+        let single = try? decoder.singleValueContainer()
+        if let value = try? single?.decode(String.self) { return .string(value) }
+        guard levels > 0 else { return .other }
+        if var list = try? decoder.unkeyedContainer() {
+            var values: [CaskValue] = []
+            while !list.isAtEnd, let element = try? list.superDecoder() {
+                values.append(read(element, levels: levels - 1))
+            }
+            return .list(values)
+        }
+        if let dictionary = try? decoder.container(keyedBy: Key.self) {
+            var values: [String: CaskValue] = [:]
+            for key in dictionary.allKeys {
+                guard let element = try? dictionary.superDecoder(forKey: key) else { continue }
+                values[key.stringValue] = read(element, levels: levels - 1)
+            }
+            return .dictionary(values)
+        }
+        if let value = try? single?.decode(Bool.self) { return .boolean(value) }
+        return .other
     }
 
     var strings: [String] {
