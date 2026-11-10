@@ -29,8 +29,8 @@ extension RememberedApp {
     /// The app as it is now, when Peel cannot tell that it left: its bundle is still where Peel last saw it, the disk
     /// it was on is not connected, or macOS will not let Peel read its Info.plist. Nil once the place can be looked at
     /// and the app is not there.
-    /// A place on another disk is known by that disk's volume: while no disk mounted has it, the app is out of sight,
-    /// and once one has it, the app is looked for there, wherever that disk is mounted now.
+    /// A place on another disk is known by that disk's volume: while no disk mounted has it, or more than one does, the
+    /// app is out of sight, and once one has it, the app is looked for there, wherever that disk is mounted now.
     func stillInstalled(on mounted: MountedDisks = .now()) -> InstalledApp? {
         let places = ([lastPath] + (otherPaths ?? [])).map { path in
             let url = URL(filePath: path, directoryHint: .isDirectory)

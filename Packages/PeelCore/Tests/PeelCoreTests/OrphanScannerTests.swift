@@ -140,6 +140,21 @@ struct OrphanScannerTests {
         #expect(OrphanScanner.goneApp(behind: link) != nil, "a link into a place no remembered disk holds goes by its name")
     }
 
+    @Test func aLinkIntoAnAppOnADiskThatSharesItsVolumeLeadsIntoNoGoneApp() async throws {
+        let directory = try TemporaryDirectory()
+        let (disks, apps) = try await AppMemoryTests.appsOnTwinDisks(in: directory.url, serial: 0x5EED_0002)
+        let links = try apps.enumerated().map { index, app in
+            let link = directory.url.appending(path: "twin \(index)")
+            try FileManager.default.createSymbolicLink(
+                atPath: link.path(percentEncoded: false), withDestinationPath: app.lastPath + "/Contents/MacOS/Twin"
+            )
+            return link
+        }
+
+        #expect(links.compactMap { OrphanScanner.goneApp(behind: $0, among: .init(apps)) }.isEmpty)
+        withExtendedLifetime(disks) {}
+    }
+
     @Test func whatAGoneAppStoreAppsOwnIdentifierNamesIsListedUnderApplesNameToo() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Containers/com.apple.iWork.Pages/Data/data")

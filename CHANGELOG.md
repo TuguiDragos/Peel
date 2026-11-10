@@ -78,6 +78,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   reported as something else that was at its place.
 - Each item is written down before it moves, and a removal stops when that can't be done, as on a disk that just filled
   up, so what moved reaches History even if Peel quits before writing it.
+- An item in the Trash of a disk that shares its volume with another disk plugged in at the same time, as a clone does,
+  or an exFAT card formatted in the same second as another, is no longer looked for on the other disk, so History no
+  longer takes it for gone and Put Back finds it.
 
 #### Applications
 

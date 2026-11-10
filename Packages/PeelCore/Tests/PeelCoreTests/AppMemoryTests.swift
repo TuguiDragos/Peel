@@ -90,6 +90,34 @@ struct AppMemoryTests {
         #expect(found?.url.deletingLastPathComponent().deletingLastPathComponent().lastPathComponent == "Second")
     }
 
+    static func appsOnTwinDisks(
+        in folder: URL, serial: UInt32
+    ) async throws -> (disks: [ScratchVolume], apps: [RememberedApp]) {
+        let disks = try ["First", "Second"].map {
+            try ScratchVolume(fileSystem: "ExFAT", mountedAt: folder.appending(path: $0), serial: serial)
+        }
+        let apps = try disks.enumerated().map { index, disk in
+            let bundle = disk.url.appending(path: "Apps/Twin \(index).app", directoryHint: .isDirectory)
+            try FileManager.default.createDirectory(at: bundle.appending(path: "Contents"), withIntermediateDirectories: true)
+            let info = ["CFBundleIdentifier": "org.example.twin\(index)", "CFBundlePackageType": "APPL"]
+            try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                .write(to: bundle.appending(path: "Contents/Info.plist"))
+            return try #require(AppInspector.inspect(bundle))
+        }
+        let memory = AppMemory(url: folder.appending(path: "apps.json"))
+        return (disks, await memory.remember(apps))
+    }
+
+    @Test func appsOnTwoDisksThatShareAVolumeAreNotTakenForGone() async throws {
+        let directory = try TemporaryDirectory()
+        let (disks, apps) = try await Self.appsOnTwinDisks(in: directory.url, serial: 0x5EED_0001)
+
+        let found = apps.compactMap { $0.stillInstalled(on: .now())?.bundleIdentifier }
+
+        #expect(found.sorted() == ["org.example.twin0", "org.example.twin1"])
+        withExtendedLifetime(disks) {}
+    }
+
     @Test func keepsWhatItHasSeen() async throws {
         let directory = try TemporaryDirectory()
         let memory = AppMemory(url: directory.url.appending(path: "apps.json"))

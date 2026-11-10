@@ -91,9 +91,10 @@ public struct RemovalRecord: Sendable, Codable, Hashable, Identifiable {
 
     /// False while the disk whose Trash holds the item is not connected. The item may still be there, so the
     /// record is not treated as missing. A disk is known by its volume, which stays with it when it is renamed, while
-    /// its name and place can be another disk's; a record written before Peel kept it goes by the name in its path.
+    /// its name and place can be another disk's; a record written before Peel kept it, or one whose volume several
+    /// mounted disks answer to, goes by the name in its path.
     public func isOnAConnectedDisk(_ disks: MountedDisks) -> Bool {
-        if let disk { return disks.place(of: disk.volume) != nil }
+        if let disk, !disks.isShared(disk.volume) { return disks.place(of: disk.volume) != nil }
         let components = trashedURL.pathComponents
         guard components.count > 2, components[1] == "Volumes" else { return true }
         return URL(filePath: "/Volumes/" + components[2]).isThere
@@ -169,7 +170,8 @@ public struct DiskPlace: Sendable, Codable, Hashable {
         self.init(volume: disk.volume, path: path)
     }
 
-    /// Where the place is with the disks mounted as they are now, or nil while none of them has its volume.
+    /// Where the place is with the disks mounted as they are now, or nil while none of them, or more than one, has its
+    /// volume.
     func url(on disks: MountedDisks, directoryHint: URL.DirectoryHint = .inferFromPath) -> URL? {
         disks.place(of: volume).map { URL(filePath: $0 == "/" ? "/" + path : $0 + "/" + path, directoryHint: directoryHint) }
     }
@@ -197,6 +199,9 @@ public struct DiskPlace: Sendable, Codable, Hashable {
 /// The disks mounted now, each by its volume's UUID, read once for whatever asks about many records.
 public struct MountedDisks: Sendable {
     private let places: [String: String]
+    /// The volumes more than one mounted disk answers to, which say nothing of which disk is which: a disk and its
+    /// clone, or FAT and exFAT disks formatted in the same second, whose serial macOS takes from the clock.
+    private let shared: Set<String>
 
     /// The disks mounted now, read off the main actor: macOS may wait on a disk that doesn't answer.
     @concurrent
@@ -210,11 +215,20 @@ public struct MountedDisks: Sendable {
         let places = volumes.compactMap { url in
             (try? url.resourceValues(forKeys: [key]).volumeUUIDString).flatMap(\.self).map { ($0, path(of: url)) }
         }
-        return MountedDisks(places: Dictionary(places, uniquingKeysWith: { first, _ in first }))
+        let byVolume = Dictionary(grouping: places, by: \.0)
+        return MountedDisks(
+            places: byVolume.compactMapValues { $0.count == 1 ? $0[0].1 : nil },
+            shared: Set(byVolume.keys.filter { byVolume[$0, default: []].count > 1 })
+        )
     }
 
+    /// Where the one disk with `volume` is mounted, or nil while none is, or while several are.
     func place(of volume: String) -> String? {
         places[volume]
+    }
+
+    func isShared(_ volume: String) -> Bool {
+        shared.contains(volume)
     }
 
     static func path(of url: URL) -> String {

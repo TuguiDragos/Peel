@@ -66,6 +66,29 @@ struct RemovalStandingTests {
         withExtendedLifetime(other) {}
     }
 
+    @Test func itemsOnTwoDisksThatShareAVolumeAreLookedForWhereTheyWere() throws {
+        let directory = try TemporaryDirectory()
+        let disks = try ["First", "Second"].map {
+            try ScratchVolume(
+                fileSystem: "ExFAT", mountedAt: directory.url.appending(path: $0, directoryHint: .isDirectory),
+                serial: 0x5EED_0003
+            )
+        }
+        let records = try disks.enumerated().map { index, disk in
+            let trashed = disk.url.appending(path: ".Trashes/\(getuid())/report \(index).txt")
+            try FileManager.default.createDirectory(
+                at: trashed.deletingLastPathComponent(), withIntermediateDirectories: true
+            )
+            try Data("report".utf8).write(to: trashed)
+            return record(trashed, size: 6)
+        }
+
+        let standing = RemovalStanding(records)
+
+        #expect(standing.inTrash == Set(records.map(\.id)))
+        withExtendedLifetime(disks) {}
+    }
+
     @Test func anItemGoesBackOnItsDiskWhereverThatDiskIsMountedNow() async throws {
         let directory = try TemporaryDirectory()
         let place = directory.url.appending(path: "Disk", directoryHint: .isDirectory)
