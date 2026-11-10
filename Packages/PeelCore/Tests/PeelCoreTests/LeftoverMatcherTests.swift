@@ -654,6 +654,8 @@ struct LeftoverMatcherTests {
         #expect(match("com.yourcompany.other", in: .caches, for: app("com.yourcompany", name: "Template")) == nil)
         let catalyst = app("maccatalyst.md.obsidian", name: "Obsidian")
         #expect(match("md.obsidian.ShipIt", in: .caches, for: catalyst)?.confidence == .possible)
+        #expect(match("md.obsidian.helper", in: .httpStorages, for: obsidian)?.confidence == .possible)
+        #expect(match("md.obsidianx.ShipIt", in: .caches, for: obsidian) == nil)
     }
 
     /// When one app claims an item by name and another by identifier, neither claim wins, whatever their ranks.
