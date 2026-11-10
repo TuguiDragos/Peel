@@ -18,6 +18,8 @@ struct HomebrewDetailView: View {
     @State private var extensionsAnswer: (apps: [URL], removedElsewhere: RemovedElsewhere?)?
     let package: HomebrewPackage
 
+    static let dependencyNote: LocalizedStringResource = "Homebrew installed this for another package, not because you asked for it."
+
     var body: some View {
         Form {
             Section {
@@ -62,7 +64,7 @@ struct HomebrewDetailView: View {
                                 NoteBadge(
                                     title: Text("Dependency"), systemImage: "link",
                                     name: String(localized: "Dependency"),
-                                    detail: Text("Homebrew installed this because another package needs it.")
+                                    detail: Text(Self.dependencyNote)
                                 )
                             }
                         }

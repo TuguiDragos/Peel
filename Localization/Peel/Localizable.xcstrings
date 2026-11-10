@@ -66652,112 +66652,6 @@
         }
       }
     },
-    "Homebrew installed this because another package needs it." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew ho nainstaloval, protože ho potřebuje jiný balíček."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew hat dies installiert, weil ein anderes Paket es benötigt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew lo instaló porque otro paquete lo necesita."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew l’a installé parce qu’un autre paquet en a besoin."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew l’ha installato perché serve a un altro pacchetto."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ほかのパッケージが必要としているため、Homebrewがこれをインストールしました。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "다른 패키지에 필요하기 때문에 Homebrew가 설치한 항목입니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew heeft dit geïnstalleerd omdat een ander pakket het nodig heeft."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew zainstalował ten pakiet, ponieważ potrzebuje go inny pakiet."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Homebrew instalou este pacote porque outro precisa dele."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew a instalat acest pachet deoarece un alt pachet are nevoie de el."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew установил этот пакет, потому что он нужен другому пакету."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew installerade det här eftersom ett annat paket behöver det."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew bunu, başka bir paket ona ihtiyaç duyduğu için yükledi."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew інсталював цей пакет, бо він потрібен іншому пакету."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew安装它，是因为另一个软件包需要它。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew安裝此項目，是因為另一個套件需要它。"
-          }
-        }
-      }
-    },
     "Homebrew installed this copy of Peel, so remove it with Homebrew, or Homebrew goes on listing it as installed. Run the command in Terminal: Homebrew deletes the app rather than moving it to the Trash, and moves Peel’s files to the Trash, its folder in Application Support among them. That folder holds History, your exclusions, App Folders, and Saved Settings, among others, and the shell and ssh settings from the Terminal page, which zsh and ssh then stop reading. Homebrew also stops Peel’s helper, asking for an administrator’s password, and deletes the helper’s record of what it moved, which History needs to put those items back." : {
       "localizations" : {
         "cs" : {
@@ -66860,6 +66754,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這份Peel副本是由Homebrew安裝的，因此請使用Homebrew移除它，否則Homebrew會繼續將它列為已安裝。請在「終端機」中執行此指令：Homebrew會刪除此App，而不是將它丟到「垃圾桶」，並會將Peel的檔案丟到「垃圾桶」，其中包括它在Application Support中的檔案夾。該檔案夾存有「歷史記錄」、你的排除項目、「App檔案夾」和「已儲存的設定」等內容，以及「終端機」頁面上的Shell和ssh設定，zsh和ssh隨後便不再讀取這些設定。Homebrew也會停止Peel的輔助程式（過程中會要求輸入管理者的密碼），並刪除輔助程式所移動項目的記錄，而「歷史記錄」需要這份記錄才能還原那些項目。"
+          }
+        }
+      }
+    },
+    "Homebrew installed this for another package, not because you asked for it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ho nainstaloval kvůli jinému balíčku, ne proto, že jste o to požádali."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew hat dies für ein anderes Paket installiert, nicht weil du es angefordert hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew lo instaló para otro paquete, no porque tú lo pidieras."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew l’a installé pour un autre paquet, et non parce que vous l’avez demandé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew l’ha installato per un altro pacchetto, non perché l’hai chiesto tu."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これは、自分でインストールしたものではなく、ほかのパッケージのためにHomebrewがインストールしたものです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용자가 요청해서가 아니라 다른 패키지를 위해 Homebrew가 설치한 항목입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew heeft dit voor een ander pakket geïnstalleerd, niet omdat jij erom vroeg."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew zainstalował ten pakiet dla innego pakietu, a nie na Twoją prośbę."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew instalou este pacote por causa de outro pacote, e não porque você pediu."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew a instalat acest pachet pentru un alt pachet, nu pentru că l‑ați cerut dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew установил этот пакет для другого пакета, а не по Вашей просьбе."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew installerade det här för ett annat paket, inte för att du bad om det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew bunu sizin isteğiniz üzerine değil, başka bir paket için yükledi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew інсталював цей пакет для іншого пакета, а не на ваше прохання."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew是为另一个软件包安装它的，而不是因为你要求安装它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew是為了另一個套件而安裝此項目，並非因為你要求安裝。"
           }
         }
       }
