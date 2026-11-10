@@ -54,6 +54,20 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Reopen Peel comes with its reason: macOS gives Full Disk Access only to an app opened after it was turned on. Settings
   and the note on folders Peel couldn't read say so too.
 
+#### Tweaks
+
+- Finder's shortcut for hidden files, and the note that apps kept in the Dock come back, read as tips in a setting's
+  note, no longer as cautions.
+- A setting held for this Mac, for every account, or for every app says in its note why its switch can't be used.
+- This Mac can't sleep says its command lets the Mac sleep again and runs in Terminal, and on an administrator's account
+  that it asks your password.
+
+#### Terminal
+
+- When zsh, Git, or ssh doesn't answer, or Terminal's profiles can't be read, the tab says its switches are off for now
+  and that Peel asks again, and when Git can't read your settings, it gives the command that shows what Git says.
+- The Git tab says that turning off a setting you made yourself removes it from your Git settings.
+
 #### History
 
 - History and Not Moved say why they no longer list older removals: History keeps its latest removals up to 20,000
@@ -113,6 +127,26 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - When the list is cut short, it says the largest files come first and what apps keep in a Library folder comes last, no
   longer "yours first".
 
+#### Background Items
+
+- Edit… tells a job file that is gone, or a folder in its place, from a link, and says to rescan.
+
+#### Every page
+
+- Refusals end with the next step: "macOS didn't allow it" adds that Home shows which permissions Peel is missing, a
+  reason that needs administrator access that Home says what the helper needs, and a copy that changed since the scan to
+  scan again.
+- When Peel's helper stops at a link in the tool folders that still leads somewhere, or at a job two files declare, it
+  says why and what to do.
+- When a background job holds what didn't move, the reason says where Background Items is, the alert after the move has
+  Open Background Items, and `peel` says the Peel app's Background Items.
+
+#### `peel`
+
+- `peel --help` and the help of `uninstall`, `history`, `orphans`, `projects`, and `duplicates` read once through, with
+  each exit code's meaning beside it, and the manual page says the same. `peel updates` says every app Peel could check
+  is up to date.
+
 ### Fixed
 
 #### Home
@@ -139,6 +173,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - On macOS 27, a switch's long title on the Terminal and Shell tabs is no longer drawn smaller to make room for the
   switch.
+- The Shell tab's Turn All Off no longer promises macOS's own prompt: what your own `.zshrc` sets still applies.
+- With ZDOTDIR set, the Tools tab names the `.zshrc` zsh reads, no longer `~/.zshrc`.
 
 #### History
 
@@ -416,6 +452,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   option each shell or interpreter takes code in counts, before its script.
 - When `launchctl` doesn't answer within 30 seconds, the alert says Peel ended the command and the job may still stop or
   restart on its own, no longer that it was stopped.
+- After a Save launchd didn't stop, an agent of the Background session is said to run as it was until the Mac restarts,
+  no longer until you log out.
+- A job Peel no longer acts on since the list was read says so and to rescan, no longer that the request wasn't valid.
 
 #### Extensions
 
@@ -461,6 +500,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   place: they're set up in the work that moves, once for an uninstall.
 - Edit > Undo names what moved, as Finder does: Undo Move of the item, or of how many items. It keeps Undo Remove for an
   uninstall that took an app, and no longer offers Undo Remove Xcode after Xcode's caches were emptied.
+- When Peel and its helper are from different versions, the helper says so and to repair it in Peel's Settings, no
+  longer to reinstall it, and a helper that doesn't answer is said not to answer, with Repair, no longer to be
+  unavailable.
 
 #### `peel`
 
