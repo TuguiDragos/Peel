@@ -582,15 +582,10 @@ public struct LeftoverScanner: Sendable {
         return LeftoverMatch(reason: .nativeMessagingHost, confidence: .certain, sharedWith: [])
     }
 
-    /// A link that leads to the app or inside it is that app's, whatever it is called. A link that leads anywhere
-    /// else is not claimed. The link is read without following it, and a relative one is taken from its folder.
+    /// A link or an alias that leads to the app or inside it is that app's, whatever it is called. One that leads
+    /// anywhere else is not claimed.
     private static func leadsInside(_ bundle: String, link url: URL) -> LeftoverMatch? {
-        guard
-            let destination = try? FileManager.default.destinationOfSymbolicLink(
-                atPath: url.path(percentEncoded: false)
-            )
-        else { return nil }
-        let target = URL(filePath: destination, relativeTo: url.deletingLastPathComponent()).standardizedFileURL
+        guard let target = url.leadsTo else { return nil }
         let path = PathPattern.comparablePath(of: target)
         guard PathComponents.isPath(path, atOrInside: bundle) else { return nil }
         let reason: MatchReason = path == bundle ? .leadsToTheApp : .linksToTheApp

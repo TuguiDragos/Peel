@@ -1757,6 +1757,24 @@ struct LeftoverScannerTests {
         #expect(!scan.leftovers.contains { ["Other.app", "Tunewell Helper.app"].contains($0.url.lastPathComponent) })
     }
 
+    @Test func findsTheAppsFinderAliasInTheApplicationsFolders() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: try directory.directory("root/Users/Shared/Apps/Tunewell.app"), bundleIdentifier: "net.example.client",
+            name: "Tunewell"
+        )
+        try directory.file("root/Users/Shared/Apps/Tunewell.app/Contents/Info.plist")
+        let alias = try directory.directory("home/Applications").appending(path: "Tunewell alias")
+        try URL.writeBookmarkData(try app.url.bookmarkData(options: .suitableForBookmarkFile), to: alias)
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+
+        let found = scan.leftovers.filter { $0.kind == .applicationLinks }
+        #expect(found.map(\.url.lastPathComponent) == ["Tunewell alias"])
+        #expect(found.first?.match.reason == .leadsToTheApp)
+        #expect(Uninstallation.place(of: alias, in: environment(in: directory)).kind == .applicationLinks)
+    }
+
     /// A path in an Applications folder that a cask names is of the links' kind only when it is a link: an app or a
     /// folder there stays where no scan looks, as before.
     @Test func onlyALinkInAnApplicationsFolderIsOfItsKind() throws {

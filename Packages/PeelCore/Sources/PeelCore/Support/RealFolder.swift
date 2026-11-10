@@ -53,6 +53,27 @@ extension URL {
         pathExtension.caseInsensitiveCompare("kext") == .orderedSame
     }
 
+    /// Where a link or a Finder alias here leads: a link read without following it, an alias resolved with nothing
+    /// mounted or asked, since it follows a target that moved, or else the place it noted, whose target is gone.
+    var leadsTo: URL? {
+        let path = path(percentEncoded: false)
+        if let destination = try? FileManager.default.destinationOfSymbolicLink(atPath: path) {
+            return URL(filePath: destination, relativeTo: deletingLastPathComponent()).standardizedFileURL
+        }
+        guard (try? resourceValues(forKeys: [.isAliasFileKey]).isAliasFile) == true,
+              let data = try? URL.bookmarkData(withContentsOf: self)
+        else { return nil }
+        var isStale = false
+        if let target = try? URL(
+            resolvingBookmarkData: data, options: [.withoutUI, .withoutMounting], bookmarkDataIsStale: &isStale
+        ) {
+            return target.standardizedFileURL
+        }
+        return URL.resourceValues(forKeys: [.pathKey], fromBookmarkData: data)?.path.map {
+            URL(filePath: $0).standardizedFileURL
+        }
+    }
+
     /// Whether this is a package, such as an app.
     var isAPackage: Bool {
         (try? resourceValues(forKeys: [.isPackageKey]).isPackage) == true

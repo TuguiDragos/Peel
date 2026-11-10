@@ -596,13 +596,7 @@ public struct OrphanScanner: Sendable {
     /// The app bundle a link leads into, when that bundle is gone. Nil for a link into an app that is still
     /// there or may be, on a disk that isn't connected or where Peel can't look, or into no app at all.
     static func goneApp(behind link: URL) -> URL? {
-        guard
-            let destination = try? FileManager.default.destinationOfSymbolicLink(
-                atPath: link.path(percentEncoded: false)
-            )
-        else { return nil }
-        let components = URL(filePath: destination, relativeTo: link.deletingLastPathComponent())
-            .standardizedFileURL.pathComponents
+        guard let components = link.leadsTo?.pathComponents else { return nil }
         guard let app = components.firstIndex(where: { $0.hasSuffix(".app") }) else { return nil }
         let bundle = URL(
             filePath: NSString.path(withComponents: Array(components[...app])),

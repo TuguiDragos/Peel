@@ -4,6 +4,19 @@ import Synchronization
 import Testing
 
 struct OrphanScannerTests {
+    @Test func aFinderAliasLeadsToTheAppThatWentAsALinkDoes() throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("Apps/Gone.app")
+        try directory.file("Apps/Gone.app/Contents/Info.plist")
+        let alias = try directory.directory("Applications").appending(path: "Gone alias")
+        try URL.writeBookmarkData(try app.bookmarkData(options: .suitableForBookmarkFile), to: alias)
+        #expect(OrphanScanner.goneApp(behind: alias) == nil)
+
+        try FileManager.default.removeItem(at: app)
+
+        #expect(OrphanScanner.goneApp(behind: alias)?.lastPathComponent == "Gone.app")
+    }
+
     @Test func aStoppedScanStops() async throws {
         let directory = try TemporaryDirectory()
         for index in 1...30 {
