@@ -59,6 +59,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Home's note on App Management no longer says Peel can still clear an app's files without it: when macOS refuses to
   move an app, its files stay too.
 
+#### Menu bar
+
+- The biggest removal no longer reads as an exact size when part of it couldn't be measured: it says Over, as the total
+  does.
+
 #### Tweaks
 
 - On macOS 27, a switch's long title is no longer drawn smaller, or cut, to make room for the switch, as in Romanian
@@ -81,6 +86,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An item in the Trash of a disk that shares its volume with another disk plugged in at the same time, as a clone does,
   or an exFAT card formatted in the same second as another, is no longer looked for on the other disk, so History no
   longer takes it for gone and Put Back finds it.
+- When the record of removals under way can't be read, History no longer says it was damaged and started again: it says
+  Peel couldn't read that record, and that what a removal cut short moved is in the Trash but isn't listed.
 
 #### Settings
 
@@ -92,6 +99,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   one that's installed.
 - When the Trash can't be read because of its own permissions, as a `.Trash` that `sudo` left owned by root, Settings
   says so, no longer that Peel needs Full Disk Access.
+- A path written by hand into the exclusions file, such as `/Users/name/Project`, is left alone, and an entry Peel can't
+  read is kept in the old file, set aside the next time the list changes, no longer dropped without a trace.
 
 #### Applications
 
@@ -194,6 +203,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Uninstalling an app finds the links into it in every folder commands run from, MacPorts' `/opt/local` and your home's
   `bin` and `.local/bin` included, and a link written in other capitals or leading there through another link. Peel's
   helper takes one that leads nowhere from MacPorts' folders as it does from `/usr/local`'s.
+- When the file that remembers where an app's Dock icon was can't be read whole, Peel keeps what it can and sets the
+  rest aside, so the icon leaves the Dock again; when an icon stays, the alert after the move says why. On a Mac where
+  a profile sets the Dock's apps, Also remove from the Dock isn't offered.
 - An app's page shows a folder that begins with the app's name for you to look at whatever separates the name's words,
   such as `github-copilot-sdk` for GitHub Copilot.
 - An app whose name is two characters in Chinese, Japanese, or Korean, such as 抖音, finds the folders named for it, and
@@ -320,6 +332,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   `peel uninstall` no longer says its items needing an administrator can be removed with the Peel app.
 - `peel exclusions add`, `peel exclusions remove`, `peel projects`, and `peel duplicates` refuse an empty path, which
   they read as the folder they ran from, and `peel exclusions add` names what it added.
+- `peel uninstall` says when the app's icon stayed in the Dock, and why, in a note and in `dockIconStayed`, and
+  `peel exclusions list` says how many entries of the exclusions file it couldn't read.
+- `peel history` no longer says History was damaged and started again when only the record of removals under way was
+  set aside.
 
 ### Security
 
