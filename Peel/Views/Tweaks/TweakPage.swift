@@ -71,12 +71,23 @@ struct TweakPage: View {
     }
 }
 
-private struct SleepNotice: View {
+struct SleepNotice: View {
+    /// What to do with the command, said above it. An account that isn't an administrator's reads who runs it below.
+    static func howToUndo(needsAnAdministrator: Bool) -> LocalizedStringResource {
+        needsAnAdministrator
+            ? "To let it sleep again, run this command in Terminal."
+            : "To let it sleep again, run this command in Terminal. It asks for your password."
+    }
+
     var body: some View {
+        let needsAnAdministrator = AdministratorCommand.needsAnAdministrator(SleepSetting.undoCommand)
         VStack(alignment: .leading, spacing: 6) {
             StatusLabel(title: Text("This Mac can’t sleep"), tint: .accentColor)
                 .font(.headline)
             Text("Something has turned sleep off altogether, even on a laptop with its lid closed. It survives a restart and System Settings doesn’t show it.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            Text(Self.howToUndo(needsAnAdministrator: needsAnAdministrator))
                 .font(.caption)
                 .foregroundStyle(.secondary)
             HStack(spacing: 8) {
@@ -87,7 +98,7 @@ private struct SleepNotice: View {
                     .buttonStyle(.bordered)
                     .controlSize(.small)
             }
-            if AdministratorCommand.needsAnAdministrator(SleepSetting.undoCommand) {
+            if needsAnAdministrator {
                 AdministratorCommand.note
                     .font(.caption)
                     .foregroundStyle(.secondary)

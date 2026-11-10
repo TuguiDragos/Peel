@@ -231395,6 +231395,218 @@
         }
       }
     },
+    "To let it sleep again, run this command in Terminal." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcete-li, aby Mac mohl znovu přejít do režimu spánku, spusťte v Terminálu tento příkaz."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Damit dieser Mac wieder in den Ruhezustand wechseln kann, führe diesen Befehl im Terminal aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para que pueda volver a entrar en reposo, ejecuta este comando en Terminal."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour que ce Mac puisse de nouveau suspendre son activité, exécutez cette commande dans Terminal."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per consentire di nuovo lo standby, esegui questo comando in Terminale."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再びスリープできるようにするには、ターミナルで以下のコマンドを実行してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac이 다시 잠자기 상태로 전환될 수 있게 하려면 터미널에서 이 명령을 실행하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voer dit commando uit in Terminal om de sluimerstand van de Mac weer mogelijk te maken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby Mac znów mógł przechodzić w stan uśpienia, uruchom to polecenie w Terminalu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para permitir que ele volte a entrar em repouso, execute este comando no Terminal."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pentru ca Mac‑ul să poată intra din nou în adormire, rulați această comandă în Terminal."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы снова разрешить режим сна, выполните эту команду в Терминале."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kör det här kommandot i Terminal om du vill att datorn ska kunna gå i vila igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeniden uyku moduna geçebilmesi için bu komutu Terminal’de çalıştırın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щоб знову дозволити режим сну, виконайте цю команду в Терміналі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要允许它再次进入睡眠，请在“终端”中运行此命令。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要讓它再次可以進入睡眠，請在「終端機」中執行此指令。"
+          }
+        }
+      }
+    },
+    "To let it sleep again, run this command in Terminal. It asks for your password." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcete-li, aby Mac mohl znovu přejít do režimu spánku, spusťte v Terminálu tento příkaz. Vyžádá si vaše heslo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Damit dieser Mac wieder in den Ruhezustand wechseln kann, führe diesen Befehl im Terminal aus. Er fragt nach deinem Passwort."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para que pueda volver a entrar en reposo, ejecuta este comando en Terminal. Te pedirá la contraseña."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour que ce Mac puisse de nouveau suspendre son activité, exécutez cette commande dans Terminal. Elle vous demande votre mot de passe."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per consentire di nuovo lo standby, esegui questo comando in Terminale. Ti chiederà la password."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再びスリープできるようにするには、ターミナルで以下のコマンドを実行してください。パスワードの入力を求められます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac이 다시 잠자기 상태로 전환될 수 있게 하려면 터미널에서 이 명령을 실행하십시오. 실행하면 암호를 묻습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voer dit commando uit in Terminal om de sluimerstand van de Mac weer mogelijk te maken. Je wordt om je wachtwoord gevraagd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby Mac znów mógł przechodzić w stan uśpienia, uruchom to polecenie w Terminalu. Poprosi ono o Twoje hasło."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para permitir que ele volte a entrar em repouso, execute este comando no Terminal. O comando pede a sua senha."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pentru ca Mac‑ul să poată intra din nou în adormire, rulați această comandă în Terminal. Vă va cere parola."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы снова разрешить режим сна, выполните эту команду в Терминале. Она запросит Ваш пароль."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kör det här kommandot i Terminal om du vill att datorn ska kunna gå i vila igen. Kommandot ber om ditt lösenord."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeniden uyku moduna geçebilmesi için bu komutu Terminal’de çalıştırın. Komut parolanızı ister."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щоб знову дозволити режим сну, виконайте цю команду в Терміналі. Вона попросить ваш пароль."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要允许它再次进入睡眠，请在“终端”中运行此命令。它会要求你输入密码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要讓它再次可以進入睡眠，請在「終端機」中執行此指令。它會要求輸入你的密碼。"
+          }
+        }
+      }
+    },
     "To remove it, run `%@`." : {
       "localizations" : {
         "cs" : {
