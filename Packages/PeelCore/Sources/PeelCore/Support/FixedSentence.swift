@@ -27,6 +27,8 @@ public enum FixedSentence: CaseIterable, Sendable {
     var englishBefore: [String] {
         switch self {
         case .helperOutOfDate: ["Peel’s helper is out of date. Reinstall it in Settings."]
+        case .leadsSomewhere: ["It still leads to something on this Mac."]
+        case .declaredTwice: ["Two files declare this job."]
         default: []
         }
     }

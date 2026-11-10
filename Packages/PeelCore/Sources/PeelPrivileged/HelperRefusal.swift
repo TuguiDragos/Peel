@@ -15,7 +15,7 @@ public enum HelperRefusal: String, CaseIterable, Sendable {
     case notInRecord = "Peel’s helper has no record of moving this from there, so it stays in the Trash. You can drag it back out in Finder."
     case invalidRequest = "The request wasn’t valid."
     case missingConfiguration = "The configuration file is missing."
-    case declaredTwice = "Two files declare this job."
+    case declaredTwice = "Two files in /Library/LaunchDaemons declare this job, so Peel’s helper can’t tell which one to load. Move one of them to the Trash first."
     /// The item left its folder for the helper's own and could neither reach its place nor go back.
     case keptByTheHelper = "It couldn’t go back to its folder, so Peel’s helper keeps it and moves it to the Trash the next time the helper starts."
     /// Everything the helper moves passes through a folder of its own on the startup disk, and a rename never leaves

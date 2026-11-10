@@ -1479,6 +1479,7 @@ struct CommandLineTests {
         #expect(TrashFailure.Reason.inUseByMacOS(by: ["geod", "appleaccountd"]).summary == "in use by macOS (geod, appleaccountd)")
         #expect(TrashFailure.Reason.openForAnotherUser(by: ["Spotify"]).summary == "in use by Spotify in another user's account on this Mac; quit it in that account, then try again")
         #expect(TrashFailure.Reason.heldByABuildTool(by: ["Gradle", "Kotlin"]).summary == "in use by Gradle, Kotlin; run `gradle --stop`, then try again")
+        #expect(TrashFailure.Reason.stillLeadsTo("/Applications/Example.app").summary == "is a link that still leads to /Applications/Example.app, and from this folder Peel's helper removes only links that lead nowhere")
     }
 
     /// The line printed about the privacy reset after the move, and whether it makes the command fail.

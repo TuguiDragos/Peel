@@ -666,7 +666,8 @@ extension TrashFailure.Reason {
             "in use as an input source; in System Settings > Keyboard > Text Input, click Edit beside Input Sources, select it and click Remove, then try again"
         case .inUseByMacOS(let processes): "in use by macOS (\(processes.map(Output.plain).joined(separator: ", ")))"
         case .attachedDiskImage: "a disk image open right now; eject it, then try again"
-        case .stillLeadsTo(let target): "still leads to \(Output.plain(target)) on this Mac"
+        case .stillLeadsTo(let target):
+            "is a link that still leads to \(Output.plain(target)), and from this folder Peel's helper removes only links that lead nowhere"
         case .failed(let message): Output.plain(message)
         }
     }

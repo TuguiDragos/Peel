@@ -78669,6 +78669,218 @@
         }
       }
     },
+    "It is a link that still leads to %@, and from this folder Peel’s helper removes only links that lead nowhere." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je to odkaz, který stále vede na %@, a z této složky pomocník Peelu odstraňuje jen odkazy, které nikam nevedou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist ein Link, der noch zu %@ führt, und aus diesem Ordner entfernt das Hilfsprogramm von Peel nur Links, die ins Leere führen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es un enlace que aún lleva a %@, y de esta carpeta el asistente de Peel solo elimina enlaces que no llevan a ninguna parte."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’est un lien qui mène encore à %@, et dans ce dossier, l’utilitaire de Peel ne supprime que les liens qui ne mènent nulle part."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È un link che punta ancora a %@, e da questa cartella l’assistente di Peel rimuove solo i link che non puntano a nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これはまだ%@を指しているリンクで、Peelのヘルパーがこのフォルダから取り除くのは、どこも指していないリンクだけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아직 %@(으)로 연결되는 링크이며, Peel 보조 프로그램은 이 폴더에서 아무 곳으로도 연결되지 않는 링크만 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is een link die nog steeds naar %@ leidt, en uit deze map verwijdert het hulpprogramma van Peel alleen links die nergens naartoe leiden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To dowiązanie, które nadal prowadzi do %@, a z tego folderu pomocnik Peel usuwa tylko dowiązania, które donikąd nie prowadzą."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É um link que ainda aponta para %@, e desta pasta o auxiliar do Peel só remove links que não apontam para lugar nenhum."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este un link care încă duce la %@, iar din acest dosar instrumentul de ajutor Peel elimină doar linkurile care nu duc nicăieri."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это ссылка, которая все еще ведет к %@, а из этой папки помощник Peel удаляет только ссылки, которые никуда не ведут."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är en länk som fortfarande leder till %@, och från den här mappen tar Peels hjälpprogram bara bort länkar som inte leder någonstans."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu, hâlâ %@ konumunu gösteren bir bağlantı ve Peel’in yardımcısı bu klasörden yalnızca hiçbir yeri göstermeyen bağlantıları kaldırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це посилання досі веде до %@, а з цієї папки помічник Peel вилучає лише посилання, що нікуди не ведуть."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是一个仍指向%@的链接，而Peel的帮助程序只会从此文件夹中移除不指向任何位置的链接。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是仍指向%@的連結，而Peel的輔助程式只會從此檔案夾移除未指向任何位置的連結。"
+          }
+        }
+      }
+    },
+    "It is a link that still leads to something on this Mac, and from that folder Peel’s helper removes only links that lead nowhere." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je to odkaz, který stále vede na něco v tomto Macu, a z této složky pomocník Peelu odstraňuje jen odkazy, které nikam nevedou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist ein Link, der noch zu etwas auf diesem Mac führt, und aus diesem Ordner entfernt das Hilfsprogramm von Peel nur Links, die ins Leere führen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es un enlace que aún lleva a algo que hay en este Mac, y de esa carpeta el asistente de Peel solo elimina enlaces que no llevan a ninguna parte."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’est un lien qui mène encore à quelque chose sur ce Mac, et dans ce dossier, l’utilitaire de Peel ne supprime que les liens qui ne mènent nulle part."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È un link che punta ancora a qualcosa su questo Mac, e da quella cartella l’assistente di Peel rimuove solo i link che non puntano a nulla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これはこのMacにあるものをまだ指しているリンクで、Peelのヘルパーがそのフォルダから取り除くのは、どこも指していないリンクだけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아직 이 Mac에 있는 항목으로 연결되는 링크이며, Peel 보조 프로그램은 그 폴더에서 아무 곳으로도 연결되지 않는 링크만 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is een link die nog steeds naar iets op deze Mac leidt, en uit die map verwijdert het hulpprogramma van Peel alleen links die nergens naartoe leiden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To dowiązanie, które nadal prowadzi do czegoś na tym Macu, a z tamtego folderu pomocnik Peel usuwa tylko dowiązania, które donikąd nie prowadzą."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É um link que ainda aponta para algo neste Mac, e dessa pasta o auxiliar do Peel só remove links que não apontam para lugar nenhum."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este un link care încă duce la ceva de pe acest Mac, iar din acel dosar instrumentul de ajutor Peel elimină doar linkurile care nu duc nicăieri."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это ссылка, которая все еще ведет к чему-то на этом Mac, а из этой папки помощник Peel удаляет только ссылки, которые никуда не ведут."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är en länk som fortfarande leder till något på den här datorn, och från den mappen tar Peels hjälpprogram bara bort länkar som inte leder någonstans."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu, hâlâ bu Mac’teki bir şeyi gösteren bir bağlantı ve Peel’in yardımcısı o klasörden yalnızca hiçbir yeri göstermeyen bağlantıları kaldırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це посилання досі веде до чогось на цьому Mac, а з тієї папки помічник Peel вилучає лише посилання, що нікуди не ведуть."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是一个仍指向这台Mac上某个项目的链接，而Peel的帮助程序只会从该文件夹中移除不指向任何位置的链接。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是仍指向這部Mac上某個項目的連結，而Peel的輔助程式只會從該檔案夾移除未指向任何位置的連結。"
+          }
+        }
+      }
+    },
     "It is a repository, or sits inside one, and Peel leaves repositories alone." : {
       "localizations" : {
         "cs" : {
@@ -84464,218 +84676,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此App與另一個副本共用大部分儲存空間，因此移動它只釋放了其獨有的部分。"
-          }
-        }
-      }
-    },
-    "It still leads to %@ on this Mac." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stále vede na %@ v tomto Macu."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der Link führt noch zu %@ auf diesem Mac."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aún lleva a %@ en este Mac."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il mène encore à %@ sur ce Mac."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Punta ancora a %@ su questo Mac."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このMacの%@をまだ指しています。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "아직 이 Mac에 있는 %@(으)로 연결됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het leidt nog steeds naar %@ op deze Mac."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nadal prowadzi do %@ na tym Macu."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ainda aponta para %@ neste Mac."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Încă duce la %@ de pe acest Mac."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ссылка все еще ведет к %@ на этом Mac."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Länken leder fortfarande till %@ på den här datorn."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hâlâ bu Mac’teki %@ konumunu gösteriyor."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Посилання досі веде до %@ на цьому Mac."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它仍指向这台Mac上的%@。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它仍指向這部Mac上的%@。"
-          }
-        }
-      }
-    },
-    "It still leads to something on this Mac." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stále vede na něco v tomto Macu."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der Link führt noch zu etwas auf diesem Mac."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aún lleva a algo que hay en este Mac."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il mène encore à quelque chose sur ce Mac."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Punta ancora a qualcosa su questo Mac."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このMacにあるものをまだ指しています。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "아직 이 Mac에 있는 항목으로 연결됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het leidt nog steeds naar iets op deze Mac."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nadal prowadzi do czegoś na tym Macu."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ainda aponta para algo neste Mac."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Încă duce la ceva de pe acest Mac."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ссылка все еще ведет к чему-то на этом Mac."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Länken leder fortfarande till något på den här datorn."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hâlâ bu Mac’teki bir şeyi gösteriyor."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Посилання досі веде до чогось на цьому Mac."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它仍指向这台Mac上的某个项目。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它仍指向這部Mac上的某個項目。"
           }
         }
       }
@@ -234497,108 +234497,108 @@
         }
       }
     },
-    "Two files declare this job." : {
+    "Two files in /Library/LaunchDaemons declare this job, so Peel’s helper can’t tell which one to load. Move one of them to the Trash first." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tuto úlohu uvádějí dva soubory."
+            "value" : "Tuto úlohu uvádějí dva soubory ve složce /Library/LaunchDaemons, takže pomocník Peelu nedokáže určit, který z nich má načíst. Nejprve jeden z nich přesuňte do koše."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zwei Dateien definieren diesen Job."
+            "value" : "Zwei Dateien in /Library/LaunchDaemons definieren diesen Job, daher kann das Hilfsprogramm von Peel nicht erkennen, welche geladen werden soll. Lege zuerst eine davon in den Papierkorb."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dos archivos declaran esta tarea."
+            "value" : "Dos archivos de /Library/LaunchDaemons declaran esta tarea, así que el asistente de Peel no puede saber cuál cargar. Traslada antes uno de ellos a la papelera."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deux fichiers déclarent cette tâche."
+            "value" : "Deux fichiers de /Library/LaunchDaemons déclarent cette tâche : l’utilitaire de Peel ne peut donc pas savoir lequel charger. Placez d’abord l’un d’eux dans la corbeille."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Questo elemento è dichiarato da due file."
+            "value" : "Questo elemento è dichiarato da due file in /Library/LaunchDaemons, quindi l’assistente di Peel non sa quale caricare. Prima sposta uno dei due nel Cestino."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このジョブを宣言しているファイルが2つあります。"
+            "value" : "/Library/LaunchDaemons内の2つのファイルがこのジョブを宣言しているため、Peelのヘルパーはどちらを読み込むべきか判断できません。先にどちらかをゴミ箱に入れてください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 작업을 지정하는 파일이 두 개 있습니다."
+            "value" : "/Library/LaunchDaemons에 있는 두 파일이 이 작업을 지정하고 있으므로, Peel 보조 프로그램은 어느 파일을 로드해야 할지 알 수 없습니다. 먼저 둘 중 하나를 휴지통으로 이동하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze taak wordt in twee bestanden vermeld."
+            "value" : "Twee bestanden in /Library/LaunchDaemons vermelden deze taak, dus het hulpprogramma van Peel weet niet welk bestand het moet laden. Verplaats eerst een van beide naar de prullenmand."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To zadanie jest zadeklarowane w dwóch plikach."
+            "value" : "To zadanie deklarują dwa pliki w /Library/LaunchDaemons, więc pomocnik Peel nie może ustalić, który z nich wczytać. Najpierw przenieś jeden z nich do Kosza."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dois arquivos declaram esta tarefa."
+            "value" : "Dois arquivos em /Library/LaunchDaemons declaram esta tarefa, então o auxiliar do Peel não consegue saber qual deles carregar. Mova um deles para o Lixo primeiro."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Două fișiere declară această sarcină."
+            "value" : "Două fișiere din /Library/LaunchDaemons declară această sarcină, așa că instrumentul de ajutor Peel nu poate ști pe care dintre ele să îl încarce. Mutați mai întâi unul dintre ele în Coș."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Это задание объявлено в двух файлах."
+            "value" : "Это задание объявлено в двух файлах в /Library/LaunchDaemons, поэтому помощник Peel не может определить, какой из них загрузить. Сначала переместите один из них в Корзину."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det här jobbet anges i två filer."
+            "value" : "Två filer i /Library/LaunchDaemons anger det här jobbet, så Peels hjälpprogram kan inte avgöra vilken som ska läsas in. Flytta först en av dem till papperskorgen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu işi iki dosya tanımlıyor."
+            "value" : "/Library/LaunchDaemons içindeki iki dosya bu işi tanımlıyor, bu yüzden Peel’in yardımcısı hangisini yükleyeceğini bilemiyor. Önce bunlardan birini Çöp Sepeti’ne taşıyın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Це завдання оголошено у двох файлах."
+            "value" : "Це завдання оголошують два файли в /Library/LaunchDaemons, тож помічник Peel не може визначити, який із них завантажити. Спершу перемістіть один із них у Смітник."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有两个文件声明了此任务。"
+            "value" : "/Library/LaunchDaemons中有两个文件声明了此任务，因此Peel的帮助程序无法判断应载入哪一个。请先将其中一个移到废纸篓。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有兩個檔案宣告了此工作。"
+            "value" : "/Library/LaunchDaemons中有兩個檔案宣告了此工作，因此Peel的輔助程式無法判斷要載入哪一個。請先將其中一個丟到「垃圾桶」。"
           }
         }
       }

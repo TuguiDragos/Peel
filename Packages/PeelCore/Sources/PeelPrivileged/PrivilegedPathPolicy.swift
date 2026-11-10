@@ -36,7 +36,7 @@ public struct PrivilegedPathPolicy: Sendable {
             case .irreplaceable: "It holds something nothing could bring back, so Peel never moves it."
             case .loadsCode: "It could have changed while it was in the Trash, and code is loaded from that folder, so Peel’s helper puts back only what is root’s alone. You can drag it back out in Finder."
             case .notALink: "Peel removes only links from that folder."
-            case .leadsSomewhere: "It still leads to something on this Mac."
+            case .leadsSomewhere: "It is a link that still leads to something on this Mac, and from that folder Peel’s helper removes only links that lead nowhere."
             case .startsAProgram: "From that folder, Peel removes only what starts a program that is no longer there."
             }
         }

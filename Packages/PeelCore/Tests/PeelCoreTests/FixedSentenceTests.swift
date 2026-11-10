@@ -27,6 +27,14 @@ struct FixedSentenceTests {
         #expect(!HelperRefusal.outOfDate.rawValue.contains("Reinstall"), "Settings offers Repair Helper")
     }
 
+    /// Each says why the helper stops and what to do, and the words an older helper sends still read as the same.
+    @Test func theHelpersLinkAndTwoFileRefusalsSayWhyAndWhatToDo() {
+        #expect(PrivilegedPathPolicy.Rejection.leadsSomewhere.explanation.hasSuffix("removes only links that lead nowhere."))
+        #expect(HelperRefusal.declaredTwice.rawValue.hasSuffix("Move one of them to the Trash first."))
+        #expect(FixedSentence("It still leads to something on this Mac.") == .leadsSomewhere)
+        #expect(FixedSentence("Two files declare this job.") == .declaredTwice)
+    }
+
     @Test func aSentenceItKnowsIsRecognizedAndOneItDoesNotIsLeftAlone() {
         #expect(FixedSentence(HelperRefusal.notInTrash.rawValue) == .notInTrash)
         #expect(FixedSentence("Bootstrap failed: 5: Input/output error") == nil)

@@ -15,4 +15,13 @@ struct ReasonsSayTheStepTests {
         #expect(TrashFailure.Reason.needsHelper.explanation == needsHelper)
         #expect(RestoreFailure.needsHelper.explanation == needsHelper)
     }
+
+    /// The helper's two refusals and the app's own link reason say why the helper stops and what to do.
+    @Test func theLinkAndTwoFileReasonsSayWhy() {
+        let target = "/Applications/Example.app"
+
+        #expect(TrashFailure.Reason.stillLeadsTo(target).explanation == String(localized: "It is a link that still leads to \(URL(filePath: target).abbreviatedPath), and from this folder Peel’s helper removes only links that lead nowhere."))
+        #expect(FixedSentence.translated("It still leads to something on this Mac.") == String(localized: "It is a link that still leads to something on this Mac, and from that folder Peel’s helper removes only links that lead nowhere."))
+        #expect(FixedSentence.translated("Two files declare this job.") == String(localized: "Two files in /Library/LaunchDaemons declare this job, so Peel’s helper can’t tell which one to load. Move one of them to the Trash first."))
+    }
 }
