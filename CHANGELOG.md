@@ -132,6 +132,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An app's page opened from Finder, a `peel://` link, the Dock, or a drop on the list right after Peel starts waits
   until Peel has read your apps, so it no longer selects files another installed app uses, and the app no longer
   shows twice in the list when the path it was opened with is written another way.
+- An app installed by hand is no longer told of another product's version as its update, with that product's page, nor
+  shown its files for review, when Homebrew's catalog has another maker's cask that installs an app of the same name:
+  a cask that quits nothing counts for an app only while what its paths are named for is this app's or its maker's,
+  or names no app at all, in the app and in `peel updates` and `peel leftovers`.
+- A copy kept on another line of its product, such as Firefox ESR or an older major version, is compared with that
+  line's version in Homebrew's catalog, no longer with the newest line's.
 - Uninstalling an app no longer selects a file named after another installed app's identifier and a dash or an
   underscore, such as `org.example.Folio.Express-custom.plist` while Folio Express is installed: it's that app's, and
   its own page lists it.

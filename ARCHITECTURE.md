@@ -71,9 +71,11 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
 1. **Scan.** `Uninstallation.prepare` asks `LeftoverScanner` to look through every place an app keeps files
    (`SearchLocation`): Application Support, Caches, Containers, Preferences, launch agents, plug-in folders, the
    top of the home folder, and more. It adds the paths the app's Homebrew cask names in its `uninstall` and `zap`
-   stanzas, whether or not Homebrew installed the app (`CaskEvidence`); the installer receipt that proves the app,
-   its two files in `/private/var/db/receipts`, or in the home's `Library/Receipts` for a package installed for one
-   account, while what the package installed stays with the Package Receipts page, which lists it only while the
+   stanzas, whether or not Homebrew installed the app (`CaskEvidence`: a cask found by the bundle's name counts unless
+   every identifier it goes by, what it quits or else what its paths are named for, is another maker's, and of a
+   product's lines, such as `firefox@esr`, it is the one the copy's version is on); the installer receipt that proves
+   the app, its two files in `/private/var/db/receipts`, or in the home's `Library/Receipts` for a package installed
+   for one account, while what the package installed stays with the Package Receipts page, which lists it only while the
    receipt is there, so a receipt whose package left more outside the app is held back; the cask's own folder in
    Homebrew's Caskroom when Homebrew installed it (`HomebrewPackage.caskroomFolder`);
    and what an area the app manages keeps in the home folder, such as Xcode's simulators, unless a folder the scan
