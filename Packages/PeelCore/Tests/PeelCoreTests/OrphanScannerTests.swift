@@ -2103,6 +2103,34 @@ struct OrphanScannerTests {
         #expect(groups.map(\.identifier) == ["org.example.douyin"])
     }
 
+    @Test func leavesAToolsFolderTheDeveloperPageKnowsToIt() async throws {
+        let directory = try TemporaryDirectory()
+        let old = Date(timeIntervalSinceNow: -2 * 365 * 24 * 60 * 60)
+        for path in [
+            "home/Library/Caches/org.carthage.CarthageKit/dependencies/x.zip",
+            "home/Library/Caches/com.vercel.cli/cache.json",
+            "home/Library/Caches/com.panic.Nova/cache.db",
+            "home/Library/Caches/org.R-project.R/R/renv/cache/v5/x.tar",
+            "home/Library/Caches/org.example.gone/data.db",
+        ] {
+            let file = try directory.file(path)
+            try FileManager.default.setAttributes(
+                [.modificationDate: old], ofItemAtPath: file.path(percentEncoded: false)
+            )
+        }
+        let nova = RememberedApp(
+            bundleIdentifier: "com.panic.Nova", name: "Nova", teamIdentifier: nil,
+            lastSeen: .now.addingTimeInterval(-90 * 24 * 60 * 60), lastPath: "/Applications/Nova.app"
+        )
+
+        let alone = await scanner(in: directory).scan(installedApps: installed).groups.map(\.identifier)
+        let afterNova = await scanner(in: directory).scan(installedApps: installed, remembered: [nova]).groups
+            .map(\.identifier)
+
+        #expect(Set(alone) == ["org.R-project.R", "org.example.gone"])
+        #expect(Set(afterNova) == ["com.panic.Nova", "org.R-project.R", "org.example.gone"])
+    }
+
     @Test func aLinkIntoAnAppOnADiskThatIsNotConnectedIsNotListed() async throws {
         let directory = try TemporaryDirectory()
         let bin = try directory.directory("root/opt/homebrew/bin")

@@ -403,6 +403,14 @@ public enum DeveloperCaches {
             }
             return Set(owned).sorted { $0.joined(separator: "/") < $1.joined(separator: "/") }
         }
+
+        /// Whether `item` is itself one of the folders the table names, found without opening it.
+        func isOneOf(_ item: URL) -> Bool {
+            let names = PathComponents.of(PathPattern.canonicalWithoutOpening(item).path(percentEncoded: false))
+            return folders.contains { path, _ in
+                path.count == names.count && zip(path, names).allSatisfy { fnmatch($0, $1, FNM_CASEFOLD) == 0 }
+            }
+        }
     }
 
     /// The folders the Developer page offers, relative to the home folder. Only folders one tool owns outright

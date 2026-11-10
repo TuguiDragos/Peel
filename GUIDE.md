@@ -140,7 +140,8 @@ Space shows what fills your disk, area by area, and what each area is.
   connected, even with another disk of the same name plugged in, once Orphaned Files has looked with the disk connected.
   It also lists the files browsers keep to start a helper program that is gone. In your account's temporary folder,
   where every program writes files named as it likes, it lists only what came with an app it saw go, as it does for
-  plug-ins. Nothing is selected for you. A system extension's copy can't be selected, since only macOS removes it, and
+  plug-ins. A folder the Developer page knows as a tool's, such as Carthage's cache, is left to that page, unless Peel
+  saw the app it's named for go. Nothing is selected for you. A system extension's copy can't be selected, since only macOS removes it, and
   its row says how. Peel doesn't list what only a guess could tie to an app, so look for it yourself: a folder named
   only for a maker, such as `Google` in Application Support, a data folder only the app's documentation names, such as
   Tor Browser's `TorBrowser-Data`, a folder named like a gone app while another installed app's name holds that name,

@@ -7,6 +7,8 @@ struct AppOwnership: Sendable {
     private let isRegisteredApp: @Sendable (String) -> Bool
     /// The identifiers the installed apps and the gone ones declared, lowercased.
     private let declared: Set<String>
+    /// The folders the Developer page's table names as a tool's.
+    private let toolsFolders: DeveloperCaches.FoldersLeftToDeveloper?
 
     /// `goneApps` are the identifiers of the apps Peel saw installed that are gone, and `goneFromTheAppStore` those
     /// of them the App Store signed under their identifier.
@@ -14,11 +16,13 @@ struct AppOwnership: Sendable {
         installedApps: [InstalledApp],
         goneApps: [String] = [],
         goneFromTheAppStore: [String] = [],
+        toolsFolders: DeveloperCaches.FoldersLeftToDeveloper? = nil,
         isRegisteredApp: @escaping @Sendable (String) -> Bool
     ) {
         profiles = installedApps.map(LeftoverMatcher.Profile.init)
         self.goneApps = goneApps.map { $0.lowercased() }
         self.goneFromTheAppStore = Set(goneFromTheAppStore.map { $0.lowercased() })
+        self.toolsFolders = toolsFolders
         self.isRegisteredApp = isRegisteredApp
         declared = Set(installedApps.compactMap { $0.bundleIdentifier?.lowercased() } + self.goneApps)
     }
@@ -33,6 +37,13 @@ struct AppOwnership: Sendable {
             if declared.contains(components.joined(separator: ".")) { return true }
         }
         return false
+    }
+
+    /// Whether `url`, listed as `identifier`, is a folder the Developer page knows as a tool's, with no app Peel saw go
+    /// behind it: a tool such as Carthage has no app, and its folder only looks like one's.
+    func isAToolsFolder(_ url: URL, identifier: String) -> Bool {
+        guard let toolsFolders, goneApp(owning: identifier) == nil else { return false }
+        return toolsFolders.isOneOf(url)
     }
 
     func isAGoneApp(_ identifier: String) -> Bool {

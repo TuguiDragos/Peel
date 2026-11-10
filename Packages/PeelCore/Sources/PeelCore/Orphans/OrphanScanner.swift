@@ -18,6 +18,13 @@ public struct OrphanScanner: Sendable {
     private let walk: LeftoverScanner.Measure
     /// The most folders listed per location while looking inside folders no orphan is named after.
     private let nestedFolderLimit: Int
+
+    /// The folders the Developer page's table names as a tool's, read again for each scan.
+    private var toolsFolders: DeveloperCaches.FoldersLeftToDeveloper {
+        DeveloperCaches.FoldersLeftToDeveloper(
+            home: environment.homeDirectory, userCache: environment.userCacheDirectory, root: environment.rootDirectory
+        )
+    }
     private let systemExtensions: AppExtensions.SystemExtensionsAnswer
     private let installedByApple: LeftoverScanner.InstalledByApple
 
@@ -82,6 +89,7 @@ public struct OrphanScanner: Sendable {
         let ownership = AppOwnership(
             installedApps: installedApps + systemApps, goneApps: goneApps,
             goneFromTheAppStore: gone.filter { $0.isSignedByTheAppStore == true }.map(\.bundleIdentifier),
+            toolsFolders: toolsFolders,
             isRegisteredApp: { [isRegisteredApp] identifier in
                 guard isRegisteredApp(identifier) else { return false }
                 knownToMacOS.note(identifier)
@@ -438,6 +446,7 @@ public struct OrphanScanner: Sendable {
             installedApps: installedApps + systemApps,
             goneApps: gone.map { $0.bundleIdentifier },
             goneFromTheAppStore: gone.filter { $0.isSignedByTheAppStore == true }.map(\.bundleIdentifier),
+            toolsFolders: toolsFolders,
             isRegisteredApp: isRegisteredApp
         )
         let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps).knowingJobs(in: launchdFolders)
@@ -667,6 +676,7 @@ public struct OrphanScanner: Sendable {
                 }),
             goneApps.map({ cameWithAnAppThatLeft(identifier, goneApps: $0) }) ?? true,
             !ownership.isClaimed(fileName: name, kind: kind, identifier: identifier),
+            !ownership.isAToolsFolder(url, identifier: identifier),
             !jobs.ownsItem(named: identifier),
             !isStillAJob(url, kind: kind, jobs: jobs)
         else { return .notListed }
