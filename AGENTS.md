@@ -178,6 +178,12 @@ fail, the rule is right and the change is wrong.
   answer `ProtectedData.Finding`, and a folder with one inside they couldn't list is refused, unless only the helper
   can move it, which looks inside as root. The exclusions' look for an excluded app answers nil the same way
   (`Exclusions.appFolders(inside:)`), which refuses even what the helper would move: the helper has no exclusions.
+- **A program the account can rewrite never runs as Peel's.** macOS judges what a program may reach by the app that
+  started it, so `brew`, Git, and a shell that reads the account's startup files would reach what was given to Peel.
+  Each starts through `Subprocess.runOnItsOwn`: stopped, as its own responsible process, and let run only once macOS
+  says it answers for itself; when macOS offers no way to start it so, it doesn't run (`OnItsOwnTests`). The one
+  exception is a Homebrew upgrade or uninstall the person asks for, which needs Peel's App Management to replace or
+  remove an app (`Homebrew.execute`, `changesApps`). `Subprocess.run` is for macOS's own tools.
 
 ## The privileged helper
 

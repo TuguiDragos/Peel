@@ -173,6 +173,13 @@ have, and anything that destroys data that cannot be recovered.
   `pluginkit`, given an app's, a package's, or an extension's identifier, a launch job's label, or a
   path, and `brew`, including one chosen in Settings. Getting one to run with arguments an attacker
   chose, or getting Peel to run another program, is in scope.
+- The programs Peel runs that belong to your account: `brew`, Git, and zsh as it reads your startup
+  files, which the Terminal page asks where they are and which prompt they set. Any program of your
+  account can rewrite them, and macOS judges what a program may reach by the app that started it, so
+  Peel starts each as its own responsible process and runs none that macOS didn't start that way:
+  what was given to Peel, such as Full Disk Access, is not theirs. The one exception is a Homebrew
+  upgrade or uninstall you ask for, which replaces or removes an app and needs Peel's App Management
+  to do it. Getting one of these programs to reach what was given to Peel any other way is in scope.
 - What Peel writes besides moving files, each listed in
   [SAFETY.md](SAFETY.md#what-peel-changes-besides-moving-files): the Tweaks, which also restart the
   Dock, Finder, Control Center, or Window Manager with `killall`; the settings the Terminal page
