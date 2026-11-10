@@ -155733,108 +155733,108 @@
         }
       }
     },
-    "Peel runs the `brew` in /opt/homebrew or /usr/local. If your Homebrew is in a folder of its own, such as /opt/brew, choose its `brew`, and Peel and `peel` run that one." : {
+    "Peel runs the `brew` in /opt/homebrew or /usr/local. If your Homebrew is in a folder of its own, such as /opt/brew, choose its `brew`, and Peel and `peel` run that one. Its upgrades and uninstalls then go to Terminal." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel spouští `brew` ve složce /opt/homebrew nebo /usr/local. Pokud je váš Homebrew ve vlastní složce, například /opt/brew, zvolte jeho `brew` a Peel i `peel` pak budou spouštět právě ten."
+            "value" : "Peel spouští `brew` ve složce /opt/homebrew nebo /usr/local. Pokud je váš Homebrew ve vlastní složce, například /opt/brew, zvolte jeho `brew` a Peel i `peel` pak budou spouštět právě ten. Upgrady a odinstalace tohoto Homebrew se potom provádějí v Terminálu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel führt das `brew` in /opt/homebrew oder /usr/local aus. Liegt dein Homebrew in einem eigenen Ordner, etwa /opt/brew, wähle das zugehörige `brew`; dann führen Peel und `peel` dieses aus."
+            "value" : "Peel führt das `brew` in /opt/homebrew oder /usr/local aus. Liegt dein Homebrew in einem eigenen Ordner, etwa /opt/brew, wähle das zugehörige `brew`; dann führen Peel und `peel` dieses aus. Upgrades und Deinstallationen mit diesem Homebrew erfolgen dann im Terminal."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ejecuta el `brew` de /opt/homebrew o /usr/local. Si tu Homebrew está en una carpeta propia, como /opt/brew, selecciona su `brew`, y Peel y `peel` ejecutarán ese."
+            "value" : "Peel ejecuta el `brew` de /opt/homebrew o /usr/local. Si tu Homebrew está en una carpeta propia, como /opt/brew, selecciona su `brew`, y Peel y `peel` ejecutarán ese. Entonces, las actualizaciones y desinstalaciones con ese Homebrew se hacen en Terminal."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel exécute le `brew` situé dans /opt/homebrew ou /usr/local. Si votre Homebrew se trouve dans un dossier à part, comme /opt/brew, choisissez son `brew`, et Peel comme `peel` exécuteront celui-ci."
+            "value" : "Peel exécute le `brew` situé dans /opt/homebrew ou /usr/local. Si votre Homebrew se trouve dans un dossier à part, comme /opt/brew, choisissez son `brew`, et Peel comme `peel` exécuteront celui-ci. Ses mises à niveau et ses désinstallations se font alors dans Terminal."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel esegue il `brew` in /opt/homebrew o /usr/local. Se il tuo Homebrew è in una cartella tutta sua, come /opt/brew, scegli il suo `brew`, e Peel e `peel` eseguono quello."
+            "value" : "Peel esegue il `brew` in /opt/homebrew o /usr/local. Se il tuo Homebrew è in una cartella tutta sua, come /opt/brew, scegli il suo `brew`, e Peel e `peel` eseguono quello. In quel caso i suoi aggiornamenti e le sue disinstallazioni si fanno in Terminale."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは/opt/homebrewまたは/usr/localにある`brew`を実行します。Homebrewを/opt/brewなどの専用のフォルダに置いている場合は、そのHomebrewの`brew`を選択してください。Peelと`peel`がそれを実行するようになります。"
+            "value" : "Peelは/opt/homebrewまたは/usr/localにある`brew`を実行します。Homebrewを/opt/brewなどの専用のフォルダに置いている場合は、そのHomebrewの`brew`を選択してください。Peelと`peel`がそれを実行するようになります。その場合、アップグレードとアンインストールはターミナルで行うことになります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 /opt/homebrew 또는 /usr/local에 있는 `brew`를 실행합니다. Homebrew가 /opt/brew처럼 별도의 폴더에 있다면 그 폴더의 `brew`를 선택하십시오. 그러면 Peel과 `peel`이 그 파일을 실행합니다."
+            "value" : "Peel은 /opt/homebrew 또는 /usr/local에 있는 `brew`를 실행합니다. Homebrew가 /opt/brew처럼 별도의 폴더에 있다면 그 폴더의 `brew`를 선택하십시오. 그러면 Peel과 `peel`이 그 파일을 실행합니다. 이 경우 업그레이드와 제거는 터미널에서 실행해야 합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel voert de `brew` in /opt/homebrew of /usr/local uit. Staat je Homebrew in een eigen map, zoals /opt/brew, kies dan de `brew` daarvan, en Peel en `peel` voeren die uit."
+            "value" : "Peel voert de `brew` in /opt/homebrew of /usr/local uit. Staat je Homebrew in een eigen map, zoals /opt/brew, kies dan de `brew` daarvan, en Peel en `peel` voeren die uit. Upgrades en deïnstallaties met die Homebrew verlopen dan via Terminal."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel uruchamia `brew` z folderu /opt/homebrew lub /usr/local. Jeśli Twój Homebrew jest w osobnym folderze, takim jak /opt/brew, wybierz jego `brew`, a wtedy Peel i `peel` będą uruchamiać właśnie ten."
+            "value" : "Peel uruchamia `brew` z folderu /opt/homebrew lub /usr/local. Jeśli Twój Homebrew jest w osobnym folderze, takim jak /opt/brew, wybierz jego `brew`, a wtedy Peel i `peel` będą uruchamiać właśnie ten. Uaktualnienia i dezinstalacje tego Homebrew odbywają się wtedy w Terminalu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel executa o `brew` em /opt/homebrew ou /usr/local. Se o seu Homebrew estiver em uma pasta própria, como /opt/brew, escolha o `brew` dele, e o Peel e o `peel` passarão a executar esse."
+            "value" : "O Peel executa o `brew` em /opt/homebrew ou /usr/local. Se o seu Homebrew estiver em uma pasta própria, como /opt/brew, escolha o `brew` dele, e o Peel e o `peel` passarão a executar esse. Os upgrades e as desinstalações desse Homebrew passarão então a ser feitos no Terminal."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel rulează programul `brew` din /opt/homebrew sau din /usr/local. Dacă instalarea dvs. Homebrew se află într‑un dosar propriu, cum ar fi /opt/brew, alegeți programul `brew` al acesteia, iar Peel și `peel` îl vor rula pe acela."
+            "value" : "Peel rulează programul `brew` din /opt/homebrew sau din /usr/local. Dacă instalarea dvs. Homebrew se află într‑un dosar propriu, cum ar fi /opt/brew, alegeți programul `brew` al acesteia, iar Peel și `peel` îl vor rula pe acela. Upgrade‑urile și dezinstalările acesteia se fac apoi în Terminal."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запускает `brew` из /opt/homebrew или /usr/local. Если Ваш Homebrew находится в отдельной папке, например /opt/brew, выберите его `brew`, и Peel, и `peel` будут запускать именно его."
+            "value" : "Peel запускает `brew` из /opt/homebrew или /usr/local. Если Ваш Homebrew находится в отдельной папке, например /opt/brew, выберите его `brew`, и Peel, и `peel` будут запускать именно его. Тогда обновлять и удалять пакеты этого Homebrew нужно будет в Терминале."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kör `brew` i /opt/homebrew eller /usr/local. Om ditt Homebrew finns i en egen mapp, till exempel /opt/brew, väljer du dess `brew`, så kör Peel och `peel` just det."
+            "value" : "Peel kör `brew` i /opt/homebrew eller /usr/local. Om ditt Homebrew finns i en egen mapp, till exempel /opt/brew, väljer du dess `brew`, så kör Peel och `peel` just den. Uppgraderingar och avinstallationer görs då i Terminal."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, /opt/homebrew veya /usr/local içindeki `brew` programını çalıştırır. Homebrew’unuz /opt/brew gibi kendine ait bir klasördeyse onun `brew` programını seçin; Peel ve `peel` o programı çalıştırır."
+            "value" : "Peel, /opt/homebrew veya /usr/local içindeki `brew` programını çalıştırır. Homebrew’unuz /opt/brew gibi kendine ait bir klasördeyse onun `brew` programını seçin; Peel ve `peel` o programı çalıştırır. Bu durumda o Homebrew’un yükseltme ve yükleme kaldırma işlemleri Terminal’de yapılır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запускає `brew` у /opt/homebrew або /usr/local. Якщо ваш Homebrew в окремій папці, як-от /opt/brew, виберіть його `brew`, і Peel та `peel` запускатимуть саме його."
+            "value" : "Peel запускає `brew` у /opt/homebrew або /usr/local. Якщо ваш Homebrew в окремій папці, як-от /opt/brew, виберіть його `brew`, і Peel та `peel` запускатимуть саме його. Тоді оновлення й деінсталювання через цей Homebrew виконуватимуться в Терміналі."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel会运行/opt/homebrew或/usr/local中的`brew`。如果你的Homebrew位于单独的文件夹中（例如/opt/brew），请选取其中的`brew`，Peel和`peel`随后便会运行它。"
+            "value" : "Peel会运行/opt/homebrew或/usr/local中的`brew`。如果你的Homebrew位于单独的文件夹中（例如/opt/brew），请选取其中的`brew`，Peel和`peel`随后便会运行它。届时，该Homebrew的升级和卸载将在“终端”中进行。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel會執行/opt/homebrew或/usr/local中的`brew`。如果你的Homebrew位於自己的檔案夾中，例如/opt/brew，請選擇它的`brew`，Peel和`peel`就會執行那一個。"
+            "value" : "Peel會執行/opt/homebrew或/usr/local中的`brew`。如果你的Homebrew位於自己的檔案夾中，例如/opt/brew，請選擇它的`brew`，Peel和`peel`就會執行那一個。屆時，它的升級和解除安裝會改在「終端機」中進行。"
           }
         }
       }
@@ -156473,6 +156473,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel會自行更新，因此不會從這裡升級：Homebrew必須先結束Peel。"
+          }
+        }
+      }
+    },
+    "Peel upgrades and uninstalls only with a Homebrew where Homebrew installs itself, and the one chosen in Settings is elsewhere. Copy the command, then run it in Terminal." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel provádí upgrady a odinstalace jen pomocí Homebrew ve složce, kam se Homebrew sám instaluje, a ten, který je zvolený v Nastavení, je jinde. Zkopírujte příkaz a potom ho spusťte v Terminálu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel führt Upgrades und Deinstallationen nur mit einem Homebrew aus, das dort liegt, wo Homebrew sich selbst installiert, und das in den Einstellungen gewählte liegt anderswo. Kopiere den Befehl und führe ihn dann im Terminal aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel solo actualiza y desinstala paquetes con un Homebrew que esté en el lugar donde Homebrew se instala, y el seleccionado en Ajustes está en otro lugar. Copia el comando y, después, ejecútalo en Terminal."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne procède aux mises à niveau et aux désinstallations qu’avec un Homebrew situé là où Homebrew s’installe lui-même, et celui qui est choisi dans les Réglages se trouve ailleurs. Copiez la commande, puis exécutez-la dans Terminal."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel aggiorna e disinstalla solo con un Homebrew che si trova dove Homebrew si installa, e quello scelto nelle Impostazioni è altrove. Copia il comando, poi eseguilo in Terminale."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelがアップグレードとアンインストールを行うのは、Homebrewが通常インストールされる場所にあるHomebrewを使う場合だけですが、“設定”で選択したHomebrewは別の場所にあります。コマンドをコピーして、ターミナルで実行してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 Homebrew가 기본적으로 설치되는 위치에 있는 Homebrew를 사용할 때만 업그레이드와 제거를 수행하는데, 설정에서 선택한 Homebrew는 다른 위치에 있습니다. 명령을 복사한 다음 터미널에서 실행하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel upgradet en deïnstalleert alleen met een Homebrew op de plek waar Homebrew zichzelf installeert, en de Homebrew die in Instellingen is gekozen, staat ergens anders. Kopieer het commando en voer het daarna uit in Terminal."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel uaktualnia i odinstalowuje pakiety tylko za pomocą Homebrew w miejscu, w którym Homebrew sam się instaluje, a ten wybrany w Ustawieniach jest gdzie indziej. Skopiuj polecenie, a następnie uruchom je w Terminalu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel só faz upgrades e desinstalações com um Homebrew que esteja onde o próprio Homebrew se instala, e o que foi escolhido nos Ajustes está em outro lugar. Copie o comando e execute-o no Terminal."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel face upgrade‑uri și dezinstalări doar printr‑o instalare Homebrew aflată acolo unde se instalează Homebrew, iar cea aleasă în Configurări se află în altă parte. Copiați comanda, apoi rulați‑o în Terminal."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel обновляет и удаляет пакеты только с помощью Homebrew, установленного туда, куда Homebrew устанавливается сам, а выбранный в Настройках Homebrew находится в другом месте. Скопируйте команду, а затем выполните ее в Терминале."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel uppgraderar och avinstallerar bara med ett Homebrew som ligger där Homebrew installerar sig självt, och det Homebrew som har valts i Inställningar ligger någon annanstans. Kopiera kommandot och kör det sedan i Terminal."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, yükseltme ve yükleme kaldırma işlemlerini yalnızca Homebrew’un kendini yüklediği yerdeki bir Homebrew ile yapar; Ayarlar’da seçilen Homebrew ise başka bir yerde. Komutu kopyalayın, ardından Terminal’de çalıştırın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel оновлює й деінсталює пакети лише за допомогою Homebrew, розташованого там, куди Homebrew інсталюється сам, а вибраний у Параметрах розташований деінде. Скопіюйте команду, а потім виконайте її в Терміналі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel只会使用位于Homebrew默认安装位置的Homebrew进行升级和卸载，而在“设置”中选取的Homebrew位于其他位置。请拷贝该命令，然后在“终端”中运行它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel只會使用位於Homebrew預設安裝位置的Homebrew來升級和解除安裝，而在「設定」中選擇的Homebrew位於其他位置。請拷貝指令，然後在「終端機」中執行。"
+          }
+        }
+      }
+    },
+    "Peel upgrades and uninstalls only with a Homebrew where Homebrew installs itself." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel provádí upgrady a odinstalace jen pomocí Homebrew ve složce, kam se Homebrew sám instaluje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel führt Upgrades und Deinstallationen nur mit einem Homebrew aus, das dort liegt, wo Homebrew sich selbst installiert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel solo actualiza y desinstala paquetes con un Homebrew que esté en el lugar donde Homebrew se instala."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne procède aux mises à niveau et aux désinstallations qu’avec un Homebrew situé là où Homebrew s’installe lui-même."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel aggiorna e disinstalla solo con un Homebrew che si trova dove Homebrew si installa."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelがアップグレードとアンインストールを行うのは、Homebrewが通常インストールされる場所にあるHomebrewを使う場合だけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 Homebrew가 기본적으로 설치되는 위치에 있는 Homebrew를 사용할 때만 업그레이드와 제거를 수행합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel upgradet en deïnstalleert alleen met een Homebrew op de plek waar Homebrew zichzelf installeert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel uaktualnia i odinstalowuje pakiety tylko za pomocą Homebrew w miejscu, w którym Homebrew sam się instaluje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel só faz upgrades e desinstalações com um Homebrew que esteja onde o próprio Homebrew se instala."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel face upgrade‑uri și dezinstalări doar printr‑o instalare Homebrew aflată acolo unde se instalează Homebrew."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel обновляет и удаляет пакеты только с помощью Homebrew, установленного туда, куда Homebrew устанавливается сам."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel uppgraderar och avinstallerar bara med ett Homebrew som ligger där Homebrew installerar sig självt."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, yükseltme ve yükleme kaldırma işlemlerini yalnızca Homebrew’un kendini yüklediği yerdeki bir Homebrew ile yapar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel оновлює й деінсталює пакети лише за допомогою Homebrew, розташованого там, куди Homebrew інсталюється сам."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel只会使用位于Homebrew默认安装位置的Homebrew进行升级和卸载。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel只會使用位於Homebrew預設安裝位置的Homebrew來升級和解除安裝。"
           }
         }
       }
@@ -234177,6 +234389,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "要升級%lld個套件嗎？"
+          }
+        }
+      }
+    },
+    "Upgrades and Uninstalls Go to Terminal" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgrady a odinstalace se provádějí v Terminálu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgrades und Deinstallationen erfolgen im Terminal"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las actualizaciones y desinstalaciones se hacen en Terminal"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les mises à niveau et les désinstallations se font dans Terminal"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiornamenti e disinstallazioni si fanno in Terminale"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップグレードとアンインストールはターミナルで行います"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업그레이드 및 제거는 터미널에서 실행"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgrades en deïnstallaties verlopen via Terminal"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uaktualnienia i dezinstalacje odbywają się w Terminalu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgrades e Desinstalações São Feitos no Terminal"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgrade‑urile și dezinstalările se fac în Terminal"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновление и удаление выполняются в Терминале"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uppgraderingar och avinstallationer görs i Terminal"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yükseltme ve Yükleme Kaldırma İşlemleri Terminal’de Yapılır"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оновлення й деінсталювання виконуються в Терміналі"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "升级和卸载将在“终端”中进行"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "升級和解除安裝改在「終端機」中進行"
           }
         }
       }

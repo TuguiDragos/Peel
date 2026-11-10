@@ -599,6 +599,8 @@ indirect enum CaskValue: Decodable, Sendable {
 
 public enum Homebrew {
     static let notInstalled = "Homebrew isn’t installed."
+    static let changesOnlyWhereHomebrewInstallsItself =
+        "Peel upgrades and uninstalls only with a Homebrew where Homebrew installs itself."
 
     /// The folder that stops this account changing the Homebrew whose Cellar and repository these are, as `brew update`
     /// judges it (`cmd/update.sh`): the Cellar, when there is one, then the repository, each has to be writable.
@@ -644,6 +646,18 @@ public enum Homebrew {
     static let usualPrefixes = ["opt/homebrew", "usr/local"]
 
     static let usualPlaces = usualPrefixes.map { URL(filePath: "/\($0)/bin/brew") }
+
+    /// Whether Peel leaves Homebrew's upgrades and uninstalls to Terminal: they would run with Peel's App Management,
+    /// and any program of the account can write which `brew` was chosen in Settings.
+    public static var leavesChangesToTerminal: Bool {
+        leavesChangesToTerminal(running: executableURL)
+    }
+
+    static func leavesChangesToTerminal(running executable: URL?) -> Bool {
+        guard let executable, executable != standIn else { return false }
+        let path = executable.standardizedFileURL.path(percentEncoded: false)
+        return !usualPlaces.contains { $0.path(percentEncoded: false) == path }
+    }
 
     /// A `brew` in a usual place runs by the rule a chosen one does: this account's or root's, and nobody else can
     /// change it, since its code runs as this account whenever Peel asks Homebrew something.
@@ -1477,6 +1491,9 @@ public enum Homebrew {
     ) async throws(CommandFailure) -> Attempt {
         guard let executable else {
             throw CommandFailure(output: Self.notInstalled)
+        }
+        if changesApps, leavesChangesToTerminal(running: executable) {
+            throw CommandFailure(output: Self.changesOnlyWhereHomebrewInstallsItself)
         }
         let environment = environment(
             autoUpdate: autoUpdate, keeping: kept, executable: executable, readsTheAPI: readsTheAPI, home: home,

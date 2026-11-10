@@ -50,7 +50,7 @@ struct HomebrewSection: View {
                 StatusLabel(title: Text(notSaved(whyNotSaved)))
             }
         } header: {
-            titled("Homebrew", "Peel runs the `brew` in /opt/homebrew or /usr/local. If your Homebrew is in a folder of its own, such as /opt/brew, choose its `brew`, and Peel and `peel` run that one.")
+            titled("Homebrew", "Peel runs the `brew` in /opt/homebrew or /usr/local. If your Homebrew is in a folder of its own, such as /opt/brew, choose its `brew`, and Peel and `peel` run that one. Its upgrades and uninstalls then go to Terminal.")
         }
         .fileImporter(isPresented: $isChoosing, allowedContentTypes: [.item]) { result in
             guard let url = try? result.get() else { return }

@@ -208,6 +208,15 @@ struct HomebrewList: View {
                 Notice(title: Text("Homebrew’s Own Settings Change How Peel Runs It"), detail: Text(verbatim: explanation(of: overrides)), kind: .caution) {}
             }
         }
+        if homebrew.leavesChangesToTerminal {
+            Section {
+                Notice(
+                    title: Text("Upgrades and Uninstalls Go to Terminal"),
+                    detail: Text(HomebrewLibrary.homebrewElsewhere),
+                    kind: .note
+                ) {}
+            }
+        }
         if let unread = homebrew.unreadSettingsFile {
             Section {
                 Notice(
@@ -531,7 +540,7 @@ struct HomebrewList: View {
                             Badge(title: Text("Pinned"), systemImage: "pin")
                         } else if homebrew.isExcluded(package) {
                             Badge(title: Text("Excluded in Settings"), systemImage: "hand.raised.fill")
-                        } else if package.upgradeNeedsAnAdministrator {
+                        } else if package.upgradeNeedsAnAdministrator || homebrew.leavesChangesToTerminal {
                             Badge(title: Text("Needs Terminal"), systemImage: "terminal")
                         }
                     }

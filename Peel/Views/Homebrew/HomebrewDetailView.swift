@@ -144,7 +144,13 @@ struct HomebrewDetailView: View {
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     }
-                    if (package.waitsForAnUpgrade && package.upgradeNeedsAnAdministrator && !package.isPeelItself
+                    if homebrew.leavesChangesToTerminal,
+                       package.waitsForAnUpgrade && !package.isPeelItself && upgradeRefusal == nil
+                        || isUninstalledInTerminal {
+                        Text(HomebrewLibrary.homebrewElsewhere)
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                    } else if (package.waitsForAnUpgrade && package.upgradeNeedsAnAdministrator && !package.isPeelItself
                         && upgradeRefusal == nil) || isUninstalledInTerminal {
                         Text(needsTerminal)
                             .font(.callout)
@@ -165,7 +171,8 @@ struct HomebrewDetailView: View {
                     if isUninstalledInTerminal {
                         CopyButton(
                             text: Homebrew.terminalCommand(
-                                "brew uninstall --cask \(package.fullName)", keeping: homebrew.keptFormulaeNow
+                                "brew uninstall \(package.kind == .cask ? "--cask" : "--formula") \(package.fullName)",
+                                keeping: homebrew.keptFormulaeNow
                             ),
                             title: "Copy Uninstall Command"
                         )
@@ -264,7 +271,8 @@ struct HomebrewDetailView: View {
                     .buttonStyle(.borderedProminent)
                     .disabled(!updater.canCheckForUpdates)
                 } else if upgradeRefusal == nil,
-                          package.upgradeNeedsAnAdministrator || homebrew.overrides.contains(.cleansUp) {
+                          package.upgradeNeedsAnAdministrator || homebrew.overrides.contains(.cleansUp)
+                            || homebrew.leavesChangesToTerminal {
                     let kind = package.kind == .cask ? "--cask" : "--formula"
                     CopyButton(
                         text: Homebrew.terminalCommand(
@@ -414,7 +422,7 @@ struct HomebrewDetailView: View {
 
     /// A cask whose uninstall needs an administrator is offered as a command, unless it may not be uninstalled at all.
     private var isUninstalledInTerminal: Bool {
-        package.uninstallNeedsAnAdministrator && uninstallRefusal == nil
+        (package.uninstallNeedsAnAdministrator || homebrew.leavesChangesToTerminal) && uninstallRefusal == nil
     }
 
     /// Why Uninstall is unavailable, or nil when it's allowed. `brew uninstall` deletes permanently, outside

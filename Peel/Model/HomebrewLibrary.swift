@@ -66,6 +66,14 @@ final class HomebrewLibrary {
             case .upgrade, .upgradeAll, .update, .repairTaps, .health, .vulnerabilities: false
             }
         }
+
+        var changesApps: Bool {
+            switch self {
+            case .upgrade, .upgradeAll, .uninstall: true
+            case .update, .cleanup, .clearOlderDownloads, .clearEveryDownload, .repairTaps, .health,
+                 .vulnerabilities: false
+            }
+        }
     }
 
     struct CommandResult: Identifiable {
@@ -94,6 +102,7 @@ final class HomebrewLibrary {
     /// What Homebrew's own settings undo of how Peel runs it, or change of what it tells Peel, read with the packages
     /// and again before an upgrade.
     private(set) var overrides: Homebrew.Overrides = []
+    private(set) var leavesChangesToTerminal = false
     /// A `brew.env` the person keeps where Homebrew run from Peel doesn't look, read with the packages
     /// (`Homebrew.unreadSettingsFile(prefix:)`).
     private(set) var unreadSettingsFile: URL?
@@ -319,13 +328,13 @@ final class HomebrewLibrary {
     /// (`joinsUpgradeAll`, the exclusions), and all of them while Homebrew would clean up after an upgrade, which
     /// deletes old versions for good.
     var upgradable: [HomebrewPackage] {
-        guard !overrides.contains(.cleansUp) else { return [] }
+        guard !overrides.contains(.cleansUp), !leavesChangesToTerminal else { return [] }
         return outdated.filter { $0.joinsUpgradeAll && exclusionAnswer(of: $0) == false }
     }
 
     /// `upgradable`, asked anew of the exclusions and the disk, for what is about to run.
     var upgradableNow: [HomebrewPackage] {
-        guard !overrides.contains(.cleansUp) else { return [] }
+        guard !overrides.contains(.cleansUp), !Homebrew.leavesChangesToTerminal else { return [] }
         return ExclusionsStore.shared.exclusions.joiningUpgradeAll(
             outdated, appsOf: appsOfCask, installation: installation
         )
@@ -434,6 +443,7 @@ final class HomebrewLibrary {
             couldNotRead = error
         }
         self.installation = found
+        leavesChangesToTerminal = Homebrew.leavesChangesToTerminal
         // Keeps the last figure when this reading brought none: one that was right a moment ago beats none.
         if let preview {
             reclaimable = preview.bytes ?? reclaimable
@@ -463,6 +473,7 @@ final class HomebrewLibrary {
         let hadEvidence = !caskEvidence.isEmpty
         (packages, installation, hasAnswered, couldNotRead, needsDefinitions) = (nil, nil, false, nil, false)
         (reclaimable, autoremovable, overrides, findings, advisories) = (nil, [], [], nil, nil)
+        leavesChangesToTerminal = false
         (knownCasks, selection, unreadSettingsFile, settingsFolders) = ([], nil, nil, [])
         answers = Homebrew.Answers()
         revision += 1
@@ -595,6 +606,9 @@ final class HomebrewLibrary {
         if command.isUpgrade, await cleansUpAfterUpgrading() {
             return CommandResult(succeeded: false, output: String(localized: Self.cleansUp))
         }
+        if command.changesApps, Homebrew.leavesChangesToTerminal {
+            return CommandResult(succeeded: false, output: String(localized: FixedSentence.homebrewElsewhere.words))
+        }
         var kept: [String] = []
         if command.deletesFormulae {
             switch await keptFormulae() {
@@ -691,6 +705,8 @@ final class HomebrewLibrary {
 
     /// Said where Peel leaves upgrades to Terminal because Homebrew would clean up after them.
     static let cleansUp: LocalizedStringResource = "Homebrew cleans up after every upgrade, deleting old versions for good, so Peel leaves upgrades to Terminal."
+
+    static let homebrewElsewhere: LocalizedStringResource = "Peel upgrades and uninstalls only with a Homebrew where Homebrew installs itself, and the one chosen in Settings is elsewhere. Copy the command, then run it in Terminal."
 
     /// Asks Homebrew again right before an upgrade, since its settings can change while the page is open.
     private func cleansUpAfterUpgrading() async -> Bool {

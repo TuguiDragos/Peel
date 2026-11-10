@@ -181,6 +181,8 @@ struct AppPageHeader: View {
             "Homebrew needs an administrator’s password for this, and only Terminal can ask for it. Copy the command, then run it in Terminal."
         case .homebrew where homebrew.overrides.contains(.cleansUp):
             HomebrewLibrary.cleansUp
+        case .homebrew where homebrew.leavesChangesToTerminal:
+            HomebrewLibrary.homebrewElsewhere
         case .homebrew: "Homebrew has it. Peel can run the upgrade for you."
         case .developer, .automatic: "The maker has it. Update from inside the app."
         }
@@ -190,6 +192,7 @@ struct AppPageHeader: View {
     /// can give, or Homebrew would clean up after it.
     private var upgradeNeedsTerminal: Bool {
         library.cask(for: plan.app)?.upgradeNeedsAnAdministrator == true || homebrew.overrides.contains(.cleansUp)
+            || homebrew.leavesChangesToTerminal
     }
 
     private var upgradeRefusal: LocalizedStringResource? {

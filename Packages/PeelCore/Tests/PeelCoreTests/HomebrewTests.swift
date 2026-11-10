@@ -594,22 +594,54 @@ struct HomebrewTests {
 
             """.utf8))
         try directory.setPermissions(0o755, of: brew)
-        async let attempt = try? Homebrew.execute(
-            arguments, autoUpdate: false, timeout: 120, executable: brew, home: home, changesApps: changesApps
-        )
-        var running: pid_t?
-        while running == nil {
-            try await Task.sleep(for: .milliseconds(20))
-            running = (try? String(contentsOf: started, encoding: .utf8)).flatMap {
-                pid_t($0.trimmingCharacters(in: .whitespacesAndNewlines))
+        try await Homebrew.$standIn.withValue(brew) {
+            async let attempt = try? Homebrew.execute(
+                arguments, autoUpdate: false, timeout: 120, home: home, changesApps: changesApps
+            )
+            var running: pid_t?
+            while running == nil {
+                try await Task.sleep(for: .milliseconds(20))
+                running = (try? String(contentsOf: started, encoding: .utf8)).flatMap {
+                    pid_t($0.trimmingCharacters(in: .whitespacesAndNewlines))
+                }
             }
+
+            let answersForIt = running.map(system.responsible)
+            try Data().write(to: goOn)
+            _ = await attempt
+
+            #expect((answersForIt == running) == !changesApps)
         }
+    }
 
-        let answersForIt = running.map(system.responsible)
-        try Data().write(to: goOn)
-        _ = await attempt
+    @Test func aBrewChosenOutsideWhereHomebrewInstallsItselfChangesNothingAsPeel() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let ran = directory.url.appending(path: "ran")
+        let brew = try directory.file("opt/brew/bin/brew", contents: Data("""
+            #!/bin/sh
+            /usr/bin/touch \(ran.path(percentEncoded: false).quotedForTheShell)
 
-        #expect((answersForIt == running) == !changesApps)
+            """.utf8))
+        try directory.setPermissions(0o755, of: brew)
+
+        await #expect(throws: Homebrew.CommandFailure(output: Homebrew.changesOnlyWhereHomebrewInstallsItself)) {
+            _ = try await Homebrew.execute(
+                ["upgrade", "--cask", "org.example.app"], autoUpdate: false, timeout: 60, executable: brew, home: home,
+                changesApps: true
+            )
+        }
+        #expect(ran.isMissing)
+        _ = try await Homebrew.execute(["info"], autoUpdate: false, timeout: 60, executable: brew, home: home)
+        #expect(!ran.isMissing)
+    }
+
+    @Test func homebrewsChangesGoToTerminalOnlyForABrewChosenElsewhere() {
+        #expect(!Homebrew.leavesChangesToTerminal(running: nil))
+        #expect(!Homebrew.leavesChangesToTerminal(running: URL(filePath: "/opt/homebrew/bin/brew")))
+        #expect(!Homebrew.leavesChangesToTerminal(running: URL(filePath: "/usr/local/bin/brew")))
+        #expect(Homebrew.leavesChangesToTerminal(running: URL(filePath: "/opt/brew/bin/brew")))
+        #expect(Homebrew.leavesChangesToTerminal(running: URL(filePath: "/opt/homebrew/bin/../../brew/bin/brew")))
     }
 
     /// Read where the casks Homebrew knows are read, on a thread of Swift's pool, whose stack is small.

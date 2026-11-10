@@ -40,6 +40,7 @@ extension FixedSentence {
         case .receiptForgotten: "It was already forgotten."
         case .homebrewNotInstalled: "Homebrew isn’t installed."
         case .helperUnavailable: "Peel’s helper isn’t available."
+        case .homebrewElsewhere: "Peel upgrades and uninstalls only with a Homebrew where Homebrew installs itself."
         }
     }
 
