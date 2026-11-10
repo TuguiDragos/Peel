@@ -566,6 +566,25 @@ extension AttackHelperPolicyTests {
         #expect(!policy(directory).open(inside.path(percentEncoded: false)).isFailure)
     }
 
+    @Test func theHelperRefusesAFolderItServesThatSitsInsideAnotherItServes() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("root/Library/Application Support/Avid/Audio/Plug-Ins/Example.aaxplugin")
+        try directory.directory("root/Library/Application Support/Mail/Plug-ins/Bundles/Example.mailbundle")
+        let served = [
+            "Application Support", "Application Support/Avid/Audio/Plug-Ins", "Application Support/Mail/Plug-ins/Bundles",
+        ].map { directory.url.appending(path: "root/Library/" + $0).path(percentEncoded: false) }
+        let rules = PrivilegedPathPolicy(
+            homeDirectory: directory.url.appending(path: "home").path(percentEncoded: false),
+            systemLocations: served, applicationLocations: []
+        )
+
+        for folder in served.dropFirst() {
+            #expect((try? rules.open(folder).get()) == nil, "root would move \(folder) whole, with every vendor's plug-in in it")
+            #expect(rules.refusal(ofPuttingBack: folder, owner: 0, mode: S_IFDIR | 0o755) == nil)
+        }
+        #expect((try? rules.open(served[1] + "/Example.aaxplugin").get()) != nil)
+    }
+
     @Test func theHelperRefusesAFolderAroundOnePeelSearches() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/Library/Application Support/Avid/Audio/Plug-Ins")

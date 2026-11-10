@@ -91,8 +91,9 @@ public struct PrivilegedPathPolicy: Sendable {
     }
 
     private let locations: [String]
-    /// The served folders alone, without those the helper takes only a link or a manifest from.
-    private let served: [String]
+    /// The served folders alone, without those the helper takes only a link or a manifest from, lowercased, as
+    /// names from the root.
+    private let servedFolders: Set<[String]>
     private let restorable: [String]
     private let applicationLocations: [String]
     private let links: [String]
@@ -126,7 +127,8 @@ public struct PrivilegedPathPolicy: Sendable {
             guard stat(path, &info) == 0 else { return nil }
             return (info.st_dev, info.st_ino)
         }
-        served = (systemLocations + [homeDirectory + "/Library"]).compactMap(Self.realPath)
+        let served = (systemLocations + [homeDirectory + "/Library"]).compactMap(Self.realPath)
+        servedFolders = Set(served.map { PathComponents.of($0.lowercased()) })
         locations = served + links + manifests
         restorable = (restoreLocations + [homeDirectory + "/Library"]).compactMap(Self.realPath)
         self.applicationLocations = applicationLocations.compactMap(Self.realPath)
@@ -204,13 +206,12 @@ public struct PrivilegedPathPolicy: Sendable {
         guard let location = locations.first(where: { PathComponents.isPath(resolved, inside: $0) }) else {
             return .failure(.outsideAllowedLocations)
         }
-        // A folder on the way to one Peel looks inside stays too, since moving it would take that one along. One
-        // that is gone may come back from the Trash, as a folder only.
-        let lowered = resolved.lowercased()
-        let names = PathComponents.of(lowered)
+        // A folder Peel looks inside stays too, and so does one on the way to it, since moving it would take that
+        // one along. One that is gone may come back from the Trash, as a folder only.
+        let names = PathComponents.of(resolved.lowercased())
         guard puttingBackAFolder
             || (!searchedFolders.contains(where: { $0.count > names.count && $0.starts(with: names) })
-                && !served.contains(where: { PathComponents.isPath($0.lowercased(), inside: lowered) }))
+                && !servedFolders.contains(where: { $0.starts(with: names) }))
         else { return .failure(.irreplaceable) }
         // A tool's link sits directly in its folder, never deeper, and so does a browser's manifest.
         if links.contains(location), resolvedParent != location {
