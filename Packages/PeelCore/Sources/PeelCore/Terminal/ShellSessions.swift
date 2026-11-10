@@ -36,16 +36,25 @@ public enum ShellSessions: Sendable, Equatable {
 
     /// The `.zshrc` zsh reads, where the line that sources Peel's file goes: in the folder `ZDOTDIR` names before zsh
     /// reads it, since `.zshenv` or `.zprofile` may set it (`man zsh`, STARTUP/SHUTDOWN FILES). zsh is asked as
-    /// Terminal starts it, a login shell, on its own since it runs the account's files. When it doesn't answer, the
-    /// folder those files plainly give ZDOTDIR stands, or else the folder of `.zshenv`.
+    /// Terminal starts it, a login shell, on its own since it runs the account's files; nil when it doesn't answer.
     public func zshrc(home: URL = .homeDirectory) async -> URL? {
         await zshrc(home: home, zdotdir: Self.sessionZDOTDIR)
+    }
+
+    public func zshrcByTheText(home: URL = .homeDirectory) -> URL? {
+        zshrcByTheText(home: home, zdotdir: Self.sessionZDOTDIR)
+    }
+
+    func zshrcByTheText(home: URL, zdotdir: String?) -> URL? {
+        guard case .zsh(let zshenv) = self else { return nil }
+        return Self.foldersNamedByStartupFiles(from: zshenv, home: home, zdotdir: zdotdir).last?
+            .appending(path: ".zshrc", directoryHint: .notDirectory)
     }
 
     /// `zdotdir` is set for zsh only when the session sets it, since `.zshenv` may keep a ZDOTDIR it finds
     /// (`${ZDOTDIR:-$HOME/.config/zsh}`).
     func zshrc(home: URL, zdotdir: String?, asking responsibility: Subprocess.Responsibility? = .system) async -> URL? {
-        guard case .zsh(let zshenv) = self else { return nil }
+        guard case .zsh = self else { return nil }
         var environment = [
             "HOME": home.pathAsHOME,
             "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
@@ -59,15 +68,11 @@ public enum ShellSessions: Sendable, Equatable {
         )
         // The startup files may print too.
         let marker = "peel-zdotdir:/"
-        let named: String? = if case .success(let output) = answer, output.status == 0,
-            let line = output.text.split(separator: "\n").last(where: { $0.hasPrefix(marker) }) {
-            String(line.dropFirst(marker.count - 1))
-        } else {
-            nil
-        }
-        let folder = named.map { URL(filePath: $0, directoryHint: .isDirectory) }
-            ?? Self.foldersNamedByStartupFiles(from: zshenv, home: home, zdotdir: zdotdir).last
-        return folder?.appending(path: ".zshrc", directoryHint: .notDirectory)
+        guard case .success(let output) = answer, output.status == 0,
+              let line = output.text.split(separator: "\n").last(where: { $0.hasPrefix(marker) })
+        else { return nil }
+        return URL(filePath: String(line.dropFirst(marker.count - 1)), directoryHint: .isDirectory)
+            .appending(path: ".zshrc", directoryHint: .notDirectory)
     }
 
     /// The folders zsh may read its startup files from, going by their text alone: the one `zshenv` is in, then each

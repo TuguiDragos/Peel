@@ -51,6 +51,7 @@ struct TerminalPage: View {
             tweaks.forgetNotices()
             terminal.forgetRefusal()
             shell.forgetRefusal()
+            shell.forgetZshAnswer()
             ssh.forgetRefusal()
             git.forgetRefusal()
         }

@@ -24995,6 +24995,112 @@
         }
       }
     },
+    "Ask zsh" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeptat se zsh"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh fragen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preguntar a zsh"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interroger zsh"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiedi a zsh"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zshに問い合わせる"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh에 묻기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vraag zsh"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapytaj zsh"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perguntar ao zsh"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Întrebați zsh"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Спросить zsh"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fråga zsh"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh Kabuğuna Sor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запитати zsh"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "询问zsh"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "詢問zsh"
+          }
+        }
+      }
+    },
     "Asking Homebrew…" : {
       "localizations" : {
         "cs" : {
@@ -196970,6 +197076,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "以同一廠商的團隊ID開頭"
+          }
+        }
+      }
+    },
+    "Starts zsh as Terminal does, running your startup files, to learn which .zshrc it reads and which prompt it shows. Until then Peel reads those files only as text." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spustí zsh stejně jako Terminál, i s vašimi spouštěcími soubory, a zjistí tak, který soubor .zshrc se načítá a jakou výzvu zsh zobrazuje. Do té doby čte Peel tyto soubory jen jako text."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Startet zsh so, wie Terminal es tut, und führt dabei deine Startdateien aus, um zu erfahren, welche .zshrc gelesen und welche Eingabeaufforderung angezeigt wird. Bis dahin liest Peel diese Dateien nur als Text."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicia zsh como lo hace Terminal, ejecutando tus archivos de inicio, para saber qué .zshrc lee y qué indicador muestra. Hasta entonces, Peel solo lee esos archivos como texto."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lance zsh comme le fait Terminal, en exécutant vos fichiers de démarrage, pour savoir quel fichier .zshrc il lit et quelle invite de commande il affiche. D’ici là, Peel ne lit ces fichiers que comme du texte."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avvia zsh come fa Terminale, eseguendo i tuoi file di avvio, per sapere quale .zshrc legge e quale prompt mostra. Fino ad allora Peel legge quei file solo come testo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ターミナルと同じようにzshを起動してお使いの起動ファイルを実行し、zshがどの.zshrcを読み込み、どのプロンプトを表示するかを調べます。それまでは、Peelはこれらのファイルをテキストとして読み取るだけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "터미널과 같은 방식으로 zsh를 시작하고 셸 시작 파일을 실행하여, zsh가 어떤 .zshrc를 읽고 어떤 프롬프트를 표시하는지 확인합니다. 그 전까지 Peel은 이 파일들을 텍스트로만 읽습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start zsh zoals Terminal dat doet, waarbij je opstartbestanden worden uitgevoerd, om na te gaan welke .zshrc zsh leest en welke prompt het toont. Tot die tijd leest Peel die bestanden alleen als tekst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uruchamia zsh tak jak Terminal, wykonując Twoje pliki startowe, aby sprawdzić, który plik .zshrc odczytuje i jaki znak zachęty pokazuje. Do tego czasu Peel odczytuje te pliki tylko jako tekst."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicia o zsh como o Terminal faz, executando os seus arquivos de inicialização, para saber qual .zshrc ele lê e qual prompt ele mostra. Até lá, o Peel lê esses arquivos apenas como texto."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pornește zsh așa cum face Terminal, rulând fișierele dvs. de pornire, pentru a afla ce fișier .zshrc citește și ce prompt afișează. Până atunci, Peel citește aceste fișiere doar ca text."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запускает zsh так же, как это делает Терминал, с выполнением Ваших файлов запуска, чтобы узнать, какой файл .zshrc читает zsh и какое приглашение он показывает. До этого Peel читает эти файлы только как текст."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Startar zsh på samma sätt som Terminal och kör dina startfiler, för att ta reda på vilken .zshrc som läses och vilken prompt som visas. Tills dess läser Peel bara de filerna som text."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hangi .zshrc dosyasının okunduğunu ve hangi bilgi isteminin gösterildiğini öğrenmek için zsh kabuğunu Terminal’in yaptığı gibi, başlangıç dosyalarınızı çalıştırarak başlatır. O zamana kadar Peel bu dosyaları yalnızca metin olarak okur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запускає zsh так, як це робить Термінал, тобто з виконанням ваших файлів запуску, щоб дізнатися, який .zshrc він читає і яке запрошення показує. До того часу Peel читає ці файли лише як текст."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "像“终端”那样启动zsh并运行你的启动文件，以了解它读取哪个.zshrc、显示什么提示符。在此之前，Peel只会将这些文件作为文本读取。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "像「終端機」一樣啟動zsh並執行你的啟動檔案，以得知它讀取的是哪個.zshrc，以及顯示的是哪個提示行。在此之前，Peel只會將這些檔案當作文字讀取。"
           }
         }
       }

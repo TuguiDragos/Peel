@@ -89,13 +89,89 @@ struct TerminalLibrariesTests {
         try "export ZDOTDIR=\"$HOME\"\n".write(to: home.appending(path: ".zshenv"), atomically: true, encoding: .utf8)
 
         await library.refresh()
+        await library.askZsh()
         #expect(library.state?.isSourced == true)
         #expect(library.state?.shownPrompt == nil)
 
         library.setPrompt(Prompt())
         await library.refresh()
+        #expect(library.state?.shownPrompt == nil)
+        await library.askZsh()
         #expect(library.state?.shownPrompt?.setBeforeEachCommandBy == ["precmd"])
         #expect(library.state?.shownPrompt?.prompt == "mine> ")
+    }
+
+    @Test func theShellTabRunsNoStartupFileUntilZshIsAsked() async throws {
+        let home = try madeUpHome()
+        defer { try? FileManager.default.removeItem(at: home) }
+        let folder = home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory)
+        let terminal = FakeTerminalSettings()
+        terminal.shellSetting = "/bin/zsh"
+        let library = ShellLibrary(folder: folder, home: home, terminal: terminal)
+        let ran = home.appending(path: "ran")
+        try "/usr/bin/touch '\(ran.path(percentEncoded: false))'\nexport ZDOTDIR=\"$(print -r -- $HOME)/zsh\"\n"
+            .write(to: home.appending(path: ".zshenv"), atomically: true, encoding: .utf8)
+        let byTheText = home.appending(path: ".zshrc").path(percentEncoded: false)
+        let byZsh = home.appending(path: "zsh/.zshrc").path(percentEncoded: false)
+
+        await library.refresh()
+        #expect(!FileManager.default.fileExists(atPath: ran.path(percentEncoded: false)))
+        #expect(library.state?.startupFile?.path(percentEncoded: false) == byTheText)
+
+        await library.askZsh()
+        #expect(FileManager.default.fileExists(atPath: ran.path(percentEncoded: false)))
+        #expect(library.state?.startupFile?.path(percentEncoded: false) == byZsh)
+
+        await library.refresh()
+        #expect(library.state?.startupFile?.path(percentEncoded: false) == byZsh)
+        library.forgetZshAnswer()
+        await library.refresh()
+        #expect(library.state?.startupFile?.path(percentEncoded: false) == byTheText)
+    }
+
+    @Test func anAnswerZshGivesAfterThePageWentAwayIsNotKept() async throws {
+        let home = try madeUpHome()
+        defer { try? FileManager.default.removeItem(at: home) }
+        let folder = home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory)
+        let terminal = FakeTerminalSettings()
+        terminal.shellSetting = "/bin/zsh"
+        let library = ShellLibrary(folder: folder, home: home, terminal: terminal)
+        try "sleep 2\nexport ZDOTDIR=\"$(print -r -- $HOME)/zsh\"\n"
+            .write(to: home.appending(path: ".zshenv"), atomically: true, encoding: .utf8)
+        await library.refresh()
+
+        let asking = Task { await library.askZsh() }
+        try await Task.sleep(for: .milliseconds(500))
+        library.forgetZshAnswer()
+        await asking.value
+        await library.refresh()
+
+        let byTheText = home.appending(path: ".zshrc").path(percentEncoded: false)
+        #expect(library.state?.startupFile?.path(percentEncoded: false) == byTheText)
+    }
+
+    @Test func zshShowingPeelsPromptStillShowsItOnceItsPartsChange() async throws {
+        let home = try madeUpHome()
+        defer { try? FileManager.default.removeItem(at: home) }
+        let folder = home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory)
+        let terminal = FakeTerminalSettings()
+        terminal.shellSetting = "/bin/zsh"
+        let library = ShellLibrary(folder: folder, home: home, terminal: terminal)
+        try (library.line + "\n").write(to: home.appending(path: ".zshrc"), atomically: true, encoding: .utf8)
+        try "export ZDOTDIR=\"$HOME\"\n".write(to: home.appending(path: ".zshenv"), atomically: true, encoding: .utf8)
+        await library.refresh()
+        library.setPrompt(Prompt())
+        await library.askZsh()
+        #expect(library.state?.shownPrompt?.prompt == Prompt().value)
+        #expect(library.state?.promptAskedAbout == Prompt().value)
+
+        var changed = Prompt()
+        changed.isOnItsOwnLine.toggle()
+        library.setPrompt(changed)
+        await library.refresh()
+
+        #expect(library.state?.promptAskedAbout == Prompt().value)
+        #expect(library.state?.shownPrompt?.prompt == library.state?.promptAskedAbout)
     }
 
     @Test func aSwitchTurnedOnWhileZshAnswersStaysOn() async throws {
@@ -111,7 +187,7 @@ struct TerminalLibrariesTests {
         await library.refresh()
         library.setPrompt(Prompt())
 
-        let reading = Task { await library.refresh() }
+        let reading = Task { await library.askZsh() }
         try await Task.sleep(for: .seconds(1))
         library.set(.autoCD, to: true)
         await reading.value

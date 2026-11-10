@@ -24,7 +24,7 @@ struct ShellTab: View {
                         )
                             .font(.caption)
                             .foregroundStyle(.secondary)
-                    } else if state.startupFile != nil, state.known == nil {
+                    } else if state.startupFile != nil, state.known == nil || shell.zshDidNotAnswer {
                         StatusLabel(title: Text("zsh didn’t answer"), tint: .accentColor)
                             .font(.caption)
                             .foregroundStyle(.secondary)
@@ -101,6 +101,8 @@ private struct ShellLineRow: View {
                         detail: Text("Peel writes these settings only in a file of its own, which zsh reads through one line in \(startupFile.abbreviatedPath), so Peel never changes your own file. The command adds the line at the end. If you load tools such as fzf-tab there, move the line above them, since their settings have to come after Peel’s, but keep zsh-completions’ lines above it, or every new window builds the completion cache again. Turn All Off empties Peel’s file, and the line then does nothing."),
                         footnote: Text(verbatim: shell.file.abbreviatedPath)
                     )
+                    Spacer(minLength: 8)
+                    AskZshButton()
                 }
                 .font(.body.weight(.semibold))
                 if state.isSourced {
@@ -188,7 +190,7 @@ private struct PromptSection: View {
         } header: {
             Text("Prompt")
         } footer: {
-            if let notice = prompt.flatMap({ Self.notice(for: $0, in: state) }) {
+            if prompt != nil, let notice = Self.notice(in: state) {
                 StatusLabel(title: notice, tint: .accentColor)
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -201,15 +203,17 @@ private struct PromptSection: View {
     }
 
     /// Why zsh shows another prompt than Peel's, as zsh answered: Peel's line not read yet, a function that sets it
-    /// before each command, or a line after Peel's; when zsh didn't answer, what the startup file says.
-    private static func notice(for prompt: Prompt, in state: ShellLibrary.State) -> Text? {
+    /// before each command, or a line after Peel's; when zsh wasn't asked or didn't answer, what the startup file says.
+    private static func notice(in state: ShellLibrary.State) -> Text? {
         guard let startupFile = state.startupFile else { return nil }
         guard state.isSourced else {
             return Text("zsh shows this prompt once Peel’s line is in \(startupFile.abbreviatedPath).")
         }
         let afterPeels = Text("Your \(startupFile.abbreviatedPath) sets its own prompt after Peel’s line, so zsh shows that one.")
-        guard let shown = state.shownPrompt else { return state.setsItsOwnPrompt ? afterPeels : nil }
-        guard shown.prompt != prompt.value else { return nil }
+        guard let shown = state.shownPrompt, let asked = state.promptAskedAbout else {
+            return state.setsItsOwnPrompt ? afterPeels : nil
+        }
+        guard shown.prompt != asked else { return nil }
         if let function = shown.setBeforeEachCommandBy.last {
             return Text("A function your zsh runs before each command, \(function), sets its own prompt, so zsh shows that one.")
         }
@@ -233,5 +237,28 @@ private struct PromptSection: View {
                 shell.setPrompt(prompt)
             }
         )
+    }
+}
+
+private struct AskZshButton: View {
+    @Environment(ShellLibrary.self) private var shell
+
+    var body: some View {
+        BusyShown(isBusy: shell.isAskingZsh) { isShown in
+            HStack(spacing: 6) {
+                if isShown {
+                    ProgressView()
+                        .controlSize(.small)
+                }
+                Button("Ask zsh") {
+                    Task { await shell.askZsh() }
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+                .disabled(isShown)
+                .help("Starts zsh as Terminal does, running your startup files, to learn which .zshrc it reads and which prompt it shows. Until then Peel reads those files only as text.")
+            }
+            .font(.body)
+        }
     }
 }

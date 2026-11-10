@@ -67,8 +67,27 @@ struct ShellSessionsTests {
         let zshrc = await zsh.zshrc(home: home, zdotdir: nil, asking: nil)
         let shown = await zsh.promptShown(home: home, zdotdir: nil, asking: nil)
 
-        #expect(zshrc?.path(percentEncoded: false).hasSuffix("home/.config/zsh/.zshrc") == true)
+        #expect(zshrc == nil)
         #expect(shown == nil)
+        #expect(zsh.zshrcByTheText(home: home, zdotdir: nil)?.path(percentEncoded: false)
+            .hasSuffix("home/.config/zsh/.zshrc") == true)
+        #expect(ran.isMissing)
+    }
+
+    @Test func theStartupFilesTextNamesTheZshrcAndRunsNothing() throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let ran = directory.url.appending(path: "ran")
+        try directory.file("home/.zshenv", contents: Data("""
+            /usr/bin/touch \(ran.path(percentEncoded: false).quotedForTheShell)
+            export ZDOTDIR="$HOME/.config/zsh"
+
+            """.utf8))
+        let zsh = ShellSessions.zsh(startupFile: home.appending(path: ".zshenv"))
+
+        #expect(zsh.zshrcByTheText(home: home, zdotdir: nil)?.path(percentEncoded: false)
+            .hasSuffix("home/.config/zsh/.zshrc") == true)
+        #expect(ShellSessions.bash.zshrcByTheText(home: home, zdotdir: nil) == nil)
         #expect(ran.isMissing)
     }
 
