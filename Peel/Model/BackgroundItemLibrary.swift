@@ -154,7 +154,7 @@ final class BackgroundItemLibrary {
         case failed(ActionFailure)
         case enabledUntilLoaded(label: String, kind: BackgroundItem.Kind)
         /// The edited file is in place, but launchd doesn't run the job from it yet.
-        case edited(label: String, reload: LaunchAgentFile.Reload)
+        case edited(label: String, reload: LaunchAgentFile.Reload, endsAtLogout: Bool)
         /// The old file is in the Trash, and the edited one isn't whole in its place.
         case notEdited(label: String, url: URL, problem: LaunchAgentFile.Problem)
     }
@@ -195,7 +195,8 @@ final class BackgroundItemLibrary {
             return outcome
         }
         switch outcome {
-        case .saved(_, let reload?): alerts.add(.edited(label: item.label, reload: reload))
+        case .saved(_, let reload?):
+            alerts.add(.edited(label: item.label, reload: reload, endsAtLogout: item.endsAtLogout))
         case .oldFileInTheTrash(let problem, _):
             alerts.add(.notEdited(label: item.label, url: file.url, problem: problem))
         case .saved, .unchanged: break

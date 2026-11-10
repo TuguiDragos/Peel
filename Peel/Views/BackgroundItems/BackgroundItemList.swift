@@ -124,7 +124,7 @@ struct BackgroundItemList: View {
         switch backgroundItems.alerts.current {
         case .failed(let failure)?: failureTitle(failure)
         case .enabledUntilLoaded(let label, _)?: Text("“\(label)” is enabled.")
-        case .edited(let label, _)?: Text("“\(label)” is saved.")
+        case .edited(let label, _, _)?: Text("“\(label)” is saved.")
         case .notEdited(let label, _, _)?: Text("“\(label)” couldn’t be saved.")
         case nil: Text(verbatim: "")
         }
@@ -137,16 +137,23 @@ struct BackgroundItemList: View {
             Text("It isn’t loaded now, so it leaves this list until macOS loads it again, usually when the Mac restarts.")
         case .enabledUntilLoaded?:
             Text("It isn’t loaded now, so it leaves this list until macOS loads it again, usually the next time you log in.")
-        case .edited(_, let reload)?: reloadMessage(reload)
+        case .edited(_, let reload, let endsAtLogout)?: reloadMessage(reload, endsAtLogout: endsAtLogout)
         case .notEdited(_, let url, let problem)?: Text(verbatim: problem.explanationWithTheOldFileInTheTrash(url: url))
         case nil: Text(verbatim: "")
         }
     }
 
-    private func reloadMessage(_ reload: LaunchAgentFile.Reload) -> Text {
+    /// What becomes of a job launchd didn't stop after its file was saved: it runs as it was until its domain ends.
+    static func notStoppedWords(endsAtLogout: Bool) -> LocalizedStringResource {
+        endsAtLogout
+            ? "launchd didn’t stop it, so it runs as it was until you log out, and from the new file after that."
+            : "launchd didn’t stop it, so it runs as it was until the Mac restarts, and from the new file after that."
+    }
+
+    private func reloadMessage(_ reload: LaunchAgentFile.Reload, endsAtLogout: Bool) -> Text {
         switch reload {
         case .notStopped(let reason):
-            Text("launchd didn’t stop it, so it runs as it was until you log out, and from the new file after that.\n\n\(reasonMessage(reason))")
+            Text("\(Text(Self.notStoppedWords(endsAtLogout: endsAtLogout)))\n\n\(reasonMessage(reason))")
         case .notStarted(.disabled):
             Text("It’s disabled, so macOS loads it from the new file once you enable it.")
         case .notStarted(let reason):

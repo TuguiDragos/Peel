@@ -270792,108 +270792,214 @@
         }
       }
     },
-    "launchd didn’t stop it, so it runs as it was until you log out, and from the new file after that.\n\n%@" : {
+    "launchd didn’t stop it, so it runs as it was until the Mac restarts, and from the new file after that." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "launchd ji nezastavil, takže poběží jako dosud, dokud se neodhlásíte, a potom už z nového souboru.\n\n%@"
+            "value" : "launchd ji nezastavil, takže poběží jako dosud, dokud se Mac nerestartuje, a potom už z nového souboru."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "launchd hat es nicht gestoppt, daher läuft es bis zu deiner Abmeldung wie bisher weiter und danach so, wie es die neue Datei vorgibt.\n\n%@"
+            "value" : "launchd hat es nicht gestoppt, daher läuft es bis zum nächsten Neustart des Mac wie bisher weiter und danach so, wie es die neue Datei vorgibt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "launchd no lo ha detenido, así que se sigue ejecutando como estaba hasta que cierres sesión, y después, desde el archivo nuevo.\n\n%@"
+            "value" : "launchd no lo ha detenido, así que se sigue ejecutando como estaba hasta que se reinicie el Mac, y después, desde el archivo nuevo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "launchd ne l’a pas arrêté : il continue donc de s’exécuter tel qu’il était jusqu’à ce que vous fermiez votre session, puis à partir du nouveau fichier.\n\n%@"
+            "value" : "launchd ne l’a pas arrêté : il continue donc de s’exécuter tel qu’il était jusqu’au redémarrage du Mac, puis à partir du nouveau fichier."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "launchd non l’ha interrotto, quindi viene eseguito com’era finché non esegui il logout, e in seguito dal nuovo file.\n\n%@"
+            "value" : "launchd non l’ha interrotto, quindi viene eseguito com’era finché il Mac non si riavvia, e in seguito dal nuovo file."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "launchdがこのジョブを停止しなかったため、ログアウトするまでは以前の内容のまま実行され、その後は新しいファイルから実行されます。\n\n%@"
+            "value" : "launchdがこのジョブを停止しなかったため、Macを再起動するまでは以前の内容のまま実行され、その後は新しいファイルから実行されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "launchd가 이 항목을 중단하지 않았으므로, 로그아웃할 때까지는 이전 상태 그대로 실행되며 그 후에는 새로운 파일에 따라 실행됩니다.\n\n%@"
+            "value" : "launchd가 이 항목을 중단하지 않았으므로, Mac을 재시동할 때까지는 이전 상태 그대로 실행되며 그 후에는 새로운 파일에 따라 실행됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "launchd heeft het niet gestopt, dus het wordt uitgevoerd zoals het was totdat je uitlogt, en daarna vanuit het nieuwe bestand.\n\n%@"
+            "value" : "launchd heeft het niet gestopt, dus het wordt uitgevoerd zoals het was totdat de Mac opnieuw opstart, en daarna vanuit het nieuwe bestand."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "launchd nie zatrzymał zadania, więc działa ono tak jak dotąd, dopóki się nie wylogujesz, a potem zgodnie z nowym plikiem.\n\n%@"
+            "value" : "launchd nie zatrzymał zadania, więc działa ono tak jak dotąd do ponownego uruchomienia Maca, a potem zgodnie z nowym plikiem."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O launchd não o interrompeu, então ele continua sendo executado como estava até você finalizar a sessão e, depois disso, a partir do novo arquivo.\n\n%@"
+            "value" : "O launchd não o interrompeu, então ele continua sendo executado como estava até o Mac reiniciar e, depois disso, a partir do novo arquivo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "launchd nu l‑a oprit, așa că rulează așa cum era până când faceți logout, iar după aceea din fișierul nou.\n\n%@"
+            "value" : "launchd nu l‑a oprit, așa că rulează așa cum era până la repornirea Mac‑ului, iar după aceea din fișierul nou."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "launchd не остановил его, поэтому он будет работать как прежде, пока Вы не выйдете из системы, а после этого будет запускаться из нового файла.\n\n%@"
+            "value" : "launchd не остановил его, поэтому он будет работать как прежде до перезагрузки Mac, а после этого будет запускаться из нового файла."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "launchd stoppade det inte, så det körs som förut tills du loggar ut och därefter från den nya filen.\n\n%@"
+            "value" : "launchd stoppade det inte, så det körs som förut tills datorn startas om och därefter från den nya filen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "launchd onu durdurmadı, bu yüzden siz oturumu kapatana kadar eski hâliyle, sonrasında ise yeni dosyadan çalışır.\n\n%@"
+            "value" : "launchd onu durdurmadı, bu yüzden Mac yeniden başlatılana kadar eski hâliyle, sonrasında ise yeni dosyadan çalışır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "launchd не зупинив його, тож воно працюватиме як раніше, доки ви не вийдете із системи, а після цього запускатиметься з нового файлу.\n\n%@"
+            "value" : "launchd не зупинив його, тож воно працюватиме як раніше, доки Mac не перезапуститься, а після цього запускатиметься з нового файлу."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "launchd没有停止它，因此在你退出登录之前，它会照旧运行，之后则会从新文件运行。\n\n%@"
+            "value" : "launchd没有停止它，因此在Mac重新启动之前，它会照旧运行，之后则会从新文件运行。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "launchd沒有停止它，因此在你登出之前，它會照原樣執行，登出之後才會依新檔案執行。\n\n%@"
+            "value" : "launchd沒有停止它，因此在Mac重新開機之前，它會照原樣執行，重新開機之後才會依新檔案執行。"
+          }
+        }
+      }
+    },
+    "launchd didn’t stop it, so it runs as it was until you log out, and from the new file after that." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd ji nezastavil, takže poběží jako dosud, dokud se neodhlásíte, a potom už z nového souboru."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd hat es nicht gestoppt, daher läuft es bis zu deiner Abmeldung wie bisher weiter und danach so, wie es die neue Datei vorgibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd no lo ha detenido, así que se sigue ejecutando como estaba hasta que cierres sesión, y después, desde el archivo nuevo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd ne l’a pas arrêté : il continue donc de s’exécuter tel qu’il était jusqu’à ce que vous fermiez votre session, puis à partir du nouveau fichier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd non l’ha interrotto, quindi viene eseguito com’era finché non esegui il logout, e in seguito dal nuovo file."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchdがこのジョブを停止しなかったため、ログアウトするまでは以前の内容のまま実行され、その後は新しいファイルから実行されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd가 이 항목을 중단하지 않았으므로, 로그아웃할 때까지는 이전 상태 그대로 실행되며 그 후에는 새로운 파일에 따라 실행됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd heeft het niet gestopt, dus het wordt uitgevoerd zoals het was totdat je uitlogt, en daarna vanuit het nieuwe bestand."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd nie zatrzymał zadania, więc działa ono tak jak dotąd, dopóki się nie wylogujesz, a potem zgodnie z nowym plikiem."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O launchd não o interrompeu, então ele continua sendo executado como estava até você finalizar a sessão e, depois disso, a partir do novo arquivo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd nu l‑a oprit, așa că rulează așa cum era până când faceți logout, iar după aceea din fișierul nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd не остановил его, поэтому он будет работать как прежде, пока Вы не выйдете из системы, а после этого будет запускаться из нового файла."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd stoppade det inte, så det körs som förut tills du loggar ut och därefter från den nya filen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd onu durdurmadı, bu yüzden siz oturumu kapatana kadar eski hâliyle, sonrasında ise yeni dosyadan çalışır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd не зупинив його, тож воно працюватиме як раніше, доки ви не вийдете із системи, а після цього запускатиметься з нового файлу."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd没有停止它，因此在你退出登录之前，它会照旧运行，之后则会从新文件运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchd沒有停止它，因此在你登出之前，它會照原樣執行，登出之後才會依新檔案執行。"
           }
         }
       }

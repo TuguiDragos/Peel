@@ -231,8 +231,8 @@ struct BackgroundItemLibraryTests {
             _ = await library.save("text", editing: edited(agent), of: agent) { _ in recorded += 1 }
 
             switch (outcome, library.alerts.current) {
-            case (.saved, .edited(let label, .notStarted(.disabled))?):
-                #expect(label == agent.label && recorded == 1)
+            case (.saved, .edited(let label, .notStarted(.disabled), let endsAtLogout)?):
+                #expect(label == agent.label && recorded == 1 && endsAtLogout == agent.endsAtLogout)
             case (.oldFileInTheTrash, .notEdited(let label, let url, .incomplete(full))?):
                 #expect(label == agent.label && url == agent.plistURL && recorded == 1)
             case (.unchanged, nil):
