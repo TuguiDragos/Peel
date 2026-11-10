@@ -40,46 +40,12 @@ final class HelperService: NSObject, PeelHelperProtocol {
         withReply finish: @escaping @Sendable ([String: String], [String: String]) -> Void
     ) {
         lifetime.requestStarted()
-        let reply: @Sendable ([String: String], [String: String]) -> Void = { [lifetime] moved, failed in
-            finish(moved, failed)
-            lifetime.requestFinished()
-        }
-        func refuse(_ reason: String) {
-            reply([:], Dictionary(paths.prefix(HelperRequest.maximumItems).map { ($0, reason) }) { first, _ in first })
-        }
-        let caller: HelperRequest.Caller
-        do {
-            caller = try HelperRequest.admit(version: version, items: paths.count) {
-                Self.caller(approval: approval)
-            }.get()
-        } catch {
-            return refuse(error.rawValue)
-        }
-
-        let policy = PrivilegedPathPolicy(homeDirectory: caller.homeDirectory, ownTool: Self.ownTool)
-        guard let trash = policy.openTrash(ownedBy: caller.user) else { return refuse(HelperRefusal.noTrash.rawValue) }
-
-        var failed: [String: String] = [:]
-        var items: [(path: String, item: OpenItem)] = []
-        for path in paths {
-            guard !HelperRequest.isTooLong(path) else {
-                failed[path] = HelperRefusal.pathTooLong.rawValue
-                continue
-            }
-            switch policy.open(path) {
-            case .failure(let rejection): failed[path] = rejection.explanation
-            case .success(let item): items.append((path, item))
-            }
-        }
-        // Recorded before anything moves, so no item reaches the Trash without a record. The helper puts
-        // back only what its ledger lists.
-        guard
-            let ledger = HelperLedger(),
-            let result = TrashMover.moveRecorded(items, into: trash, ledger: ledger, movedBy: caller.user)
-        else {
-            return refuse(HelperRefusal.cannotKeepRecord.rawValue)
-        }
-        reply(result.moved, failed.merging(result.failed) { refused, _ in refused })
+        let result = HelperOperations.moveToTrash(
+            version: version, approval: approval, paths: paths, caller: Self.caller(approval:),
+            policy: { PrivilegedPathPolicy(homeDirectory: $0.homeDirectory, ownTool: Self.ownTool) }
+        )
+        finish(result.moved, result.failed)
+        lifetime.requestFinished()
     }
 
     func restoreItem(
@@ -90,36 +56,18 @@ final class HelperService: NSObject, PeelHelperProtocol {
         withReply finish: @escaping @Sendable (String?) -> Void
     ) {
         lifetime.requestStarted()
-        let reply = tracked(finish)
-        let caller: HelperRequest.Caller
-        do {
-            let paths = [trashPath, destination]
-            caller = try HelperRequest.admit(version: version, paths: paths) { Self.caller(approval: approval) }.get()
-        } catch {
-            return reply(error.rawValue)
-        }
-
-        let policy = PrivilegedPathPolicy(homeDirectory: caller.homeDirectory)
-        reply(HelperPutBack.run(trashPath, to: destination, for: caller.user, policy: policy))
+        tracked(finish)(HelperOperations.putBack(
+            version: version, approval: approval, from: trashPath, to: destination, caller: Self.caller(approval:),
+            policy: { PrivilegedPathPolicy(homeDirectory: $0.homeDirectory) }
+        ))
     }
 
     func moveLedgerToTrash(version: Int, withReply finish: @escaping @Sendable (String?) -> Void) {
         lifetime.requestStarted()
-        let reply = tracked(finish)
-        let caller: HelperRequest.Caller
-        do {
-            caller = try HelperRequest.admit(version: version) { Self.caller() }.get()
-        } catch {
-            return reply(error.rawValue)
-        }
-        guard let trash = PrivilegedPathPolicy(homeDirectory: caller.homeDirectory).openTrash(ownedBy: caller.user)
-        else {
-            return reply(HelperRefusal.noTrash.rawValue)
-        }
-        switch HelperLedger.moveFolder(into: trash, givingTo: caller.user) {
-        case .success: reply(nil)
-        case .failure(let error): reply(error.localizedDescription)
-        }
+        tracked(finish)(HelperOperations.moveLedgerToTrash(
+            version: version, caller: Self.caller(approval:),
+            policy: { PrivilegedPathPolicy(homeDirectory: $0.homeDirectory) }
+        ))
     }
 
     func runDaemonCommand(
@@ -131,29 +79,13 @@ final class HelperService: NSObject, PeelHelperProtocol {
     ) {
         lifetime.requestStarted()
         let reply = tracked(finish)
-        let admitted = HelperRequest.admit(version: version) { Self.caller(approval: approval) }
-        if case .failure(let refusal) = admitted {
-            return reply(refusal.rawValue)
+        let arguments: [String]
+        switch HelperOperations.daemonArguments(
+            version: version, approval: approval, command: command, label: label, caller: Self.caller(approval:)
+        ) {
+        case .success(let given): arguments = given
+        case .failure(let refused): return reply(refused.rawValue)
         }
-        guard let command = DaemonCommand(rawValue: command), PrivilegedPathPolicy.allowsDaemon(label) else {
-            return reply(HelperRefusal.invalidRequest.rawValue)
-        }
-        let target = "system/\(label)"
-        // The job's file is found by the `Label` inside it, since a file's name does not always match its label.
-        let plists = command == .bootstrap ? SystemDaemons.files(declaring: label) : []
-        if command == .bootstrap, plists.count != 1 {
-            reply((plists.isEmpty ? HelperRefusal.missingConfiguration : .declaredTwice).rawValue)
-            return
-        }
-        let arguments = switch command {
-        case .bootstrap: ["bootstrap", "system", plists[0]]
-        case .bootout: ["bootout", target]
-        case .kickstart: ["kickstart", target]
-        case .restart: ["kickstart", "-k", target]
-        case .enable: ["enable", target]
-        case .disable: ["disable", target]
-        }
-
         // 30 seconds: `kickstart -k` waits for the job to exit and start again, and the helper never waits forever.
         Task {
             switch await Subprocess.run("/bin/launchctl", arguments, timeout: 30) {

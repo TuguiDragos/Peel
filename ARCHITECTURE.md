@@ -58,7 +58,8 @@ whole suite without building the app.
   Trash, and what is refused.
 - `Packages/PeelCore/Sources/PeelPrivileged/ProtectedData.swift` and `PrivilegedPathPolicy.swift`: what nothing may
   remove, and what the helper may touch.
-- `PeelHelper/HelperService.swift`: the helper's operations.
+- `Packages/PeelCore/Sources/PeelPrivileged/HelperOperations.swift`: the helper's operations, which
+  `PeelHelper/HelperService.swift` serves over XPC.
 - `Packages/PeelCore/Sources/PeelCommandLine/PeelCommand.swift`, which registers the `peel` commands kept in
   `Commands/`, and `Support/Cleanup.swift`, the one path every command that removes what a scan found goes through.
 
