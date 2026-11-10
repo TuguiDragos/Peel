@@ -246,6 +246,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Every page
 
+- Edit > Select offers the Select Recommended, Select All, and Deselect All of the page in front, so what a page
+  selects can be changed from the keyboard too.
 - Moving a file whose creation date a network share reports as unknown, such as 1601, no longer makes Peel quit
   unexpectedly.
 - An alert whose only button is OK closes with Return, and the questions before Remove Peel and before uninstalling
