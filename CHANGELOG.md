@@ -82,6 +82,17 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   or an exFAT card formatted in the same second as another, is no longer looked for on the other disk, so History no
   longer takes it for gone and Put Back finds it.
 
+#### Settings
+
+- Watch the Trash tells of an app you throw away with the folder it's kept in, as Adobe's, Python's, and TeX's are,
+  once Peel has listed it.
+- Watch the Trash goes on watching another disk's Trash once it appears or is made again, so the first app thrown away
+  from a disk with no Trash yet is seen too.
+- Watch the Trash tells of an app thrown away while the disk image it came on is still mounted: the copy there isn't
+  one that's installed.
+- When the Trash can't be read because of its own permissions, as a `.Trash` that `sudo` left owned by root, Settings
+  says so, no longer that Peel needs Full Disk Access.
+
 #### Applications
 
 - An app's page, `peel leftovers`, and `peel uninstall` no longer say Peel couldn't look inside a folder macOS keeps for
