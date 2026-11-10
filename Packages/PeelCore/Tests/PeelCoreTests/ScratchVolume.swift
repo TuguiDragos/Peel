@@ -38,13 +38,17 @@ final class ScratchVolume {
         _ = try? DiskImageTool.hdiutil("detach", "-force", url.path)
     }
 
-    /// The same disk, detached and mounted again at `place`, as a disk renamed or plugged in again lands elsewhere. It
-    /// is unmounted without force, since a forced unmount skips writing out what the file system still holds.
-    func remount(at place: URL) throws {
+    /// The same disk, detached and mounted again at `place`, as a disk renamed or plugged in again lands elsewhere, or,
+    /// `readOnly`, as the disk image an app came on is mounted. It is unmounted without force, since a forced unmount
+    /// skips writing out what the file system still holds.
+    func remount(at place: URL, readOnly: Bool = false) throws {
         try DiskImageTool.hdiutil("detach", url.path)
         try FileManager.default.createDirectory(at: place, withIntermediateDirectories: true)
         let file = image.url.appending(path: "disk.dmg")
-        try DiskImageTool.hdiutil("attach", "-nobrowse", "-noautoopen", "-noverify", "-mountpoint", place.path, file.path)
+        try DiskImageTool.hdiutil(
+            ["attach", "-nobrowse", "-noautoopen", "-noverify"] + (readOnly ? ["-readonly"] : [])
+                + ["-mountpoint", place.path, file.path]
+        )
         url = place
     }
 }

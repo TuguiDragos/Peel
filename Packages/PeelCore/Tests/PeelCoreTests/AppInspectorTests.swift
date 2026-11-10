@@ -69,6 +69,28 @@ struct AppInspectorTests {
         #expect(!AppInspector.anotherCopyIsInstalled(of: moved, among: stillListed))
     }
 
+    @Test func aCopyOnTheDiskImageAnAppCameOnIsNoCopyInstalled() throws {
+        let directory = try TemporaryDirectory()
+        let info: [String: Any] = ["CFBundleIdentifier": "org.example.inspector.image", "CFBundlePackageType": "APPL"]
+        let data = try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+        let place = directory.url.appending(path: "Image", directoryHint: .isDirectory)
+        let disk = try ScratchVolume(fileSystem: "HFS+", mountedAt: place)
+        try FileManager.default.createDirectory(
+            at: place.appending(path: "Probe.app/Contents"), withIntermediateDirectories: true
+        )
+        try data.write(to: place.appending(path: "Probe.app/Contents/Info.plist"))
+        try disk.remount(at: place, readOnly: true)
+        let onTheImage = place.appending(path: "Probe.app", directoryHint: .isDirectory)
+        let trashed = try directory.file("home/.Trash/Probe.app/Contents/Info.plist", contents: data)
+            .deletingLastPathComponent().deletingLastPathComponent()
+        let kept = try directory.file("home/Applications/Probe.app/Contents/Info.plist", contents: data)
+            .deletingLastPathComponent().deletingLastPathComponent()
+
+        #expect(!AppInspector.anotherCopyIsInstalled(of: trashed, among: [], knownCopies: { _ in [onTheImage] }))
+        #expect(AppInspector.anotherCopyIsInstalled(of: trashed, among: [], knownCopies: { _ in [kept] }))
+        withExtendedLifetime(disk) {}
+    }
+
     /// The shapes a binary comes in: thin (the usual shape of an Intel-only app), and fat with 20-byte or 32-byte
     /// entries. A fat header that claims too many architectures to be real is read as nothing: a Java class file
     /// also starts with `cafebabe`, and its version sits where the count would be.

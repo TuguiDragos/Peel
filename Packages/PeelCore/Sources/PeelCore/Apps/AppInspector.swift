@@ -25,11 +25,25 @@ public enum AppInspector {
     /// one macOS knows, with the same identifier, that is still there. The list may still name the place the app was
     /// just moved from. An app with no valid identifier has no copies to tell apart.
     public static func anotherCopyIsInstalled(of url: URL, among installedApps: [InstalledApp]) -> Bool {
+        anotherCopyIsInstalled(of: url, among: installedApps, knownCopies: applicationURLs(forBundleIdentifier:))
+    }
+
+    /// `knownCopies` answers which copies macOS knows of an identifier, which a test can't make it know. A copy it
+    /// knows on a disk that can't be written and can be ejected, such as the disk image the app came on, isn't
+    /// installed.
+    static func anotherCopyIsInstalled(
+        of url: URL, among installedApps: [InstalledApp], knownCopies: (String) -> [URL]
+    ) -> Bool {
         guard let identifier = inspect(url)?.bundleIdentifier, Identifier.isValid(identifier) else { return false }
         let own = PathPattern.comparablePath(of: url)
         let copies = installedApps.filter { $0.bundleIdentifier?.lowercased() == identifier.lowercased() }.map(\.url)
-            + applicationURLs(forBundleIdentifier: identifier)
+            + knownCopies(identifier).filter { !isOnAReadOnlyDiskThatEjects($0) }
         return copies.contains { !isInATrash($0) && PathPattern.comparablePath(of: $0) != own && $0.isThere }
+    }
+
+    private static func isOnAReadOnlyDiskThatEjects(_ url: URL) -> Bool {
+        let values = try? url.resourceValues(forKeys: [.volumeIsReadOnlyKey, .volumeIsEjectableKey])
+        return values?.volumeIsReadOnly == true && values?.volumeIsEjectable == true
     }
 
     static func isInATrash(_ url: URL) -> Bool {
