@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import Synchronization
 import Testing
 
 struct GreetingTests {
@@ -198,26 +199,43 @@ struct AccessTests {
     }
 
     /// Uses a folder of its own rather than `/Applications`, where write access depends on the account.
-    @Test func readsAppManagementFromARemoval() throws {
+    @Test func readsAppManagementFromARemoval() async throws {
         let directory = try TemporaryDirectory()
         let bundle = try directory.directory("Applications/Example.app")
         let trashed = TrashResult(trashed: [TrashedItem(originalURL: bundle, trashedURL: URL(filePath: "/Users/x/.Trash/Example.app"), date: .now)])
-        #expect(AppManagement.state(after: trashed, appBundles: [bundle]) == nil, "an unsigned app moves without it")
-        #expect(AppManagement.state(after: trashed, appBundles: [bundle], ownTeam: "PEELTEAM01", teamOf: { _ in "OTHERTEAM1" }) == .granted)
-        #expect(AppManagement.state(after: trashed, appBundles: [bundle], ownTeam: "PEELTEAM01", teamOf: { _ in "PEELTEAM01" }) == nil)
+        #expect(await AppManagement.state(after: trashed, appBundles: [bundle]) == nil, "an unsigned app moves without it")
+        func state(signedBy team: String) async -> AccessState? {
+            await AppManagement.state(after: trashed, appBundles: [bundle], ownTeam: "PEELTEAM01", teamOf: { _ in team })
+        }
+        #expect(await state(signedBy: "OTHERTEAM1") == .granted)
+        #expect(await state(signedBy: "PEELTEAM01") == nil)
 
         let refused = TrashResult(failures: [TrashFailure(url: bundle, reason: .notPermitted)])
-        #expect(AppManagement.state(after: refused, appBundles: [bundle]) == .missing)
+        #expect(await AppManagement.state(after: refused, appBundles: [bundle]) == .missing)
         #expect(AppManagement.isRefusedForWantOfPermission(bundle), "the removal alert asks the same")
 
         let other = TrashResult(failures: [TrashFailure(url: bundle, reason: .failed("busy"))])
-        #expect(AppManagement.state(after: other, appBundles: [bundle]) == nil)
-        #expect(AppManagement.state(after: refused, appBundles: []) == nil)
+        #expect(await AppManagement.state(after: other, appBundles: [bundle]) == nil)
+        #expect(await AppManagement.state(after: refused, appBundles: []) == nil)
+    }
+
+    @MainActor @Test func whatARemovalShowsAboutAppManagementIsReadOffTheMainThread() async throws {
+        let directory = try TemporaryDirectory()
+        let bundle = try directory.directory("Applications/Example.app")
+        let trashed = TrashResult(trashed: [TrashedItem(originalURL: bundle, trashedURL: bundle, date: .now)])
+        let readOnMain = Mutex<Bool?>(nil)
+
+        _ = await AppManagement.state(after: trashed, appBundles: [bundle], ownTeam: nil) { _ in
+            readOnMain.withLock { $0 = Thread.isMainThread }
+            return nil
+        }
+
+        #expect(readOnMain.withLock { $0 } == false, "a signature is read while the window can't answer")
     }
 
     /// A bundle locked in Finder is refused with the same error, and turning App Management on changes nothing
     /// for it: Home must not ask for a permission that is not what is missing.
-    @Test func aRefusalOfALockedBundleSaysNothing() throws {
+    @Test func aRefusalOfALockedBundleSaysNothing() async throws {
         let directory = try TemporaryDirectory()
         let bundle = try directory.directory("Applications/Locked.app")
         let path = bundle.path(percentEncoded: false)
@@ -226,18 +244,18 @@ struct AccessTests {
         #expect(!AppManagement.isRefusedForWantOfPermission(bundle), "the removal alert must not ask for App Management either")
 
         let refused = TrashResult(failures: [TrashFailure(url: bundle, reason: .notPermitted)])
-        #expect(AppManagement.state(after: refused, appBundles: [bundle]) == nil)
+        #expect(await AppManagement.state(after: refused, appBundles: [bundle]) == nil)
     }
 
     /// A refusal where the account cannot write is about ownership, not App Management.
-    @Test(.permissionsHold) func aRefusalInAFolderThatCannotBeWrittenSaysNothing() throws {
+    @Test(.permissionsHold) func aRefusalInAFolderThatCannotBeWrittenSaysNothing() async throws {
         let directory = try TemporaryDirectory()
         let bundle = try directory.directory("Locked/Example.app")
         try directory.setPermissions(0o555, of: "Locked")
         defer { try? directory.setPermissions(0o755, of: "Locked") }
 
         let refused = TrashResult(failures: [TrashFailure(url: bundle, reason: .notPermitted)])
-        #expect(AppManagement.state(after: refused, appBundles: [bundle]) == nil)
+        #expect(await AppManagement.state(after: refused, appBundles: [bundle]) == nil)
     }
 
     @Test func callsRefusedRemovalsNotPermitted() {
@@ -256,14 +274,17 @@ struct AccessTests {
 
 struct AppManagementTests {
     /// The root helper needs no permission of Peel's, so a bundle it moved proves nothing about App Management.
-    @Test func aBundleTheHelperMovedProvesNothing() {
+    @Test func aBundleTheHelperMovedProvesNothing() async {
         let bundle = URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory)
         let trashed = TrashResult(trashed: [TrashedItem(originalURL: bundle, trashedURL: bundle, date: .now)])
 
-        let otherTeam = { (_: URL) in "OTHERTEAM1" }
-        #expect(AppManagement.state(after: trashed, appBundles: [bundle], ownTeam: "PEELTEAM01", teamOf: otherTeam) == .granted)
+        let otherTeam: @Sendable (URL) -> String? = { _ in "OTHERTEAM1" }
         #expect(
-            AppManagement.state(
+            await AppManagement.state(after: trashed, appBundles: [bundle], ownTeam: "PEELTEAM01", teamOf: otherTeam)
+                == .granted
+        )
+        #expect(
+            await AppManagement.state(
                 after: trashed, appBundles: [bundle], movedByTheHelper: [bundle], ownTeam: "PEELTEAM01", teamOf: otherTeam
             ) == nil
         )

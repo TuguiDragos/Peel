@@ -906,7 +906,7 @@ struct UninstallCommand: AsyncParsableCommand {
             Output.note("Peel couldn't write this to its History, so drag these back out of the Trash in Finder if you need to.")
         }
         if !result.failures.isEmpty {
-            Self.whatFailed(result, plan: plan, app: target).forEach(Output.note)
+            await Self.whatFailed(result, plan: plan, app: target).forEach(Output.note)
         }
         let everythingStayed = plan.moving.isEmpty && !plan.staying.isEmpty
         try Cleanup.end(
@@ -955,13 +955,13 @@ struct UninstallCommand: AsyncParsableCommand {
         return notes
     }
 
-    static func whatFailed(_ result: TrashResult, plan: UninstallPlan, app: InstalledApp) -> [String] {
+    static func whatFailed(_ result: TrashResult, plan: UninstallPlan, app: InstalledApp) async -> [String] {
         var notes = result.failures.map { "Couldn't move \(Output.plain(Output.path($0.url))): \($0.reason.summary)" }
         if result.trashed.isEmpty, plan.moving.count > 1 {
             notes.append("\(Output.plain(app.name)) stayed, so its files were left where they are.")
         }
         // macOS refuses to move another developer's app without App Management, and it names no permission.
-        if AppManagement.state(after: result, appBundles: [plan.app]) == .missing {
+        if await AppManagement.state(after: result, appBundles: [plan.app]) == .missing {
             notes.append("Allow your terminal app in System Settings > Privacy & Security > App Management, then try again.")
         }
         return notes

@@ -454,7 +454,7 @@ struct MultipleAppsView: View {
                     shellReferences: await ShellReferences.find(naming: result.trashed.map(\.originalURL)),
                     dockIcons: dockIcons
                 )
-                if let state = AppManagement.state(
+                if let state = await AppManagement.state(
                     after: result,
                     appBundles: Set(plan.apps.map(\.url)),
                     movedByTheHelper: plan.privilegedURLs

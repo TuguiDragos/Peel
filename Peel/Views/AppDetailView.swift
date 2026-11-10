@@ -578,7 +578,7 @@ struct AppDetailView: View {
                     shellReferences: await ShellReferences.find(naming: result.trashed.map(\.originalURL)),
                     dockIcons: dockIcons
                 )
-                if let state = AppManagement.state(
+                if let state = await AppManagement.state(
                     after: result,
                     appBundles: [plan.app.url],
                     movedByTheHelper: plan.privilegedURLs

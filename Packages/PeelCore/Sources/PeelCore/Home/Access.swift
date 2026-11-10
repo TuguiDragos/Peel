@@ -204,25 +204,27 @@ public enum AppManagement {
     /// only when it is signed by another team than Peel's: App Management keeps apps of one team from changing
     /// another's (WWDC 2022, "What's new in privacy"), so an unsigned app, or one of Peel's own team, moves without
     /// it. A bundle macOS refused to move from a folder the user can write to, when nothing locks it, means missing.
-    /// Bundles the root helper moved don't count, since the helper doesn't need Peel's permission.
+    /// Bundles the root helper moved don't count, since the helper doesn't need Peel's permission. Reading a signature
+    /// asks `trustd`, so it never runs on the main thread.
+    @concurrent
     public static func state(
         after result: TrashResult,
         appBundles: Set<URL>,
         movedByTheHelper: Set<URL> = []
-    ) -> AccessState? {
-        state(
-            after: result, appBundles: appBundles, movedByTheHelper: movedByTheHelper,
-            ownTeam: CodeSignature.teamIdentifier(at: Bundle.main.bundleURL), teamOf: CodeSignature.teamIdentifier(at:)
+    ) async -> AccessState? {
+        await state(
+            after: result, appBundles: appBundles, movedByTheHelper: movedByTheHelper, ownTeam: CodeSigning.currentTeam
         )
     }
 
+    @concurrent
     static func state(
         after result: TrashResult,
         appBundles: Set<URL>,
         movedByTheHelper: Set<URL> = [],
         ownTeam: String?,
-        teamOf: (URL) -> String? = CodeSignature.teamIdentifier(at:)
-    ) -> AccessState? {
+        teamOf: @Sendable (URL) -> String? = CodeSignature.teamIdentifier(at:)
+    ) async -> AccessState? {
         let asked = appBundles.subtracting(movedByTheHelper)
         let guarded = result.trashed.contains { item in
             asked.contains(item.originalURL) && teamOf(item.trashedURL).map { $0 != ownTeam } == true

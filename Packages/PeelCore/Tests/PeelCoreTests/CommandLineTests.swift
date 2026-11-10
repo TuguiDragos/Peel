@@ -1061,7 +1061,7 @@ struct CommandLineTests {
     }
 
     /// When the app itself stays, the message says its files stayed too. Every refusal is named.
-    @Test func saysWhyARemovalDidNotFinish() {
+    @Test func saysWhyARemovalDidNotFinish() async {
         let app = InstalledApp(url: URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.editor", name: "Editor")
         let cache = URL(filePath: "/Users/me/Library/Caches/com.example.editor")
         let plan = UninstallPlan.make(
@@ -1075,8 +1075,8 @@ struct CommandLineTests {
             failures: [TrashFailure(url: cache, reason: .changedSinceScan)]
         )
 
-        let nothingMoved = UninstallCommand.whatFailed(refused, plan: plan, app: app)
-        let appWentAndOneFileStayed = UninstallCommand.whatFailed(partly, plan: plan, app: app)
+        let nothingMoved = await UninstallCommand.whatFailed(refused, plan: plan, app: app)
+        let appWentAndOneFileStayed = await UninstallCommand.whatFailed(partly, plan: plan, app: app)
 
         #expect(nothingMoved[0] == "Couldn't move /Applications/Editor.app: not permitted")
         #expect(nothingMoved.contains("Editor stayed, so its files were left where they are."))
@@ -1282,7 +1282,7 @@ struct CommandLineTests {
         #expect(result.failures.map(\.url) == [bundle])
         #expect(result.failures.map(\.reason) == [.notPermitted])
         #expect(FileManager.default.fileExists(atPath: cache.path(percentEncoded: false)), "a leftover moved although the app stayed")
-        #expect(AppManagement.state(after: result, appBundles: [bundle]) == .missing)
+        #expect(await AppManagement.state(after: result, appBundles: [bundle]) == .missing)
     }
 
     /// Peel's own removal unregisters the helper and the login item first, which only the app does.
