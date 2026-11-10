@@ -99,11 +99,18 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   one that's installed.
 - When the Trash can't be read because of its own permissions, as a `.Trash` that `sudo` left owned by root, Settings
   says so, no longer that Peel needs Full Disk Access.
+- Watch the Trash opens and lists each Trash away from the window, so a disk that sleeps, or a network volume that
+  stopped answering, no longer freezes Peel when the watch starts or the list of apps changes; a Trash that doesn't
+  answer is left unwatched.
 - A path written by hand into the exclusions file, such as `/Users/name/Project`, is left alone, and an entry Peel can't
   read is kept in the old file, set aside the next time the list changes, no longer dropped without a trace.
 
 #### Applications
 
+- After an uninstall, the page no longer keeps the window waiting while it reads code signatures to learn whether Peel
+  has App Management.
+- An app shown from outside the app folders, through a `peel://` link, a drop, or Finder, is looked for away from the
+  window at every reading of the list, so one on a disk that stopped answering no longer freezes Peel.
 - An app's page, `peel leftovers`, and `peel uninstall` no longer say Peel couldn't look inside a folder macOS keeps for
   another account, such as one in `/Library/Caches/Desktop Pictures` on a Mac with a second account.
 - Without Full Disk Access, an app's page, `peel leftovers`, and `peel uninstall` no longer name `/Library/Bluetooth`
@@ -341,6 +348,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - On an account whose home folder is on a different disk from macOS, Peel leaves to an administrator what only its
   helper could move, with how to move it in Finder, since the helper moves nothing between disks. Before, Peel offered
   the move and then showed macOS's own "Cross-device link" in English.
+- An app's icon that Peel hasn't read yet is read away from the window: its row shows the plain app icon for a moment
+  rather than holding Peel, as it did for an app on a disk that doesn't answer.
 
 #### `peel`
 
