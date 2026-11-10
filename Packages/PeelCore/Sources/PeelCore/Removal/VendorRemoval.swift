@@ -5,15 +5,33 @@ internal import PeelPrivileged
 /// because the vendor's own tool knows more than any scanner.
 public enum VendorRemoval {
     /// An uninstaller for `app`: one inside its bundle or beside it, or else one named for the app in the
-    /// folders where makers keep their uninstallers.
+    /// folders where makers keep their uninstallers. Outside the bundle, a name says nothing of who made it, and other
+    /// programs can write those folders, so one counts only when `isTheMakers` says so.
     public static func uninstaller(
         for app: InstalledApp,
         applicationsFolders: [URL] = AppCatalog.defaultDirectories
     ) -> URL? {
-        shippedOrBeside(app, applicationsFolders: applicationsFolders) ?? namedForIt(app, in: applicationsFolders)
+        uninstaller(for: app, applicationsFolders: applicationsFolders, isTheMakers: isSignedByTheSameTeam)
     }
 
-    private static func shippedOrBeside(_ app: InstalledApp, applicationsFolders: [URL]) -> URL? {
+    static func uninstaller(
+        for app: InstalledApp,
+        applicationsFolders: [URL],
+        isTheMakers: (URL, InstalledApp) -> Bool
+    ) -> URL? {
+        shippedOrBeside(app, applicationsFolders: applicationsFolders, isTheMakers: isTheMakers)
+            ?? namedForIt(app, in: applicationsFolders, isTheMakers: isTheMakers)
+    }
+
+    /// Whether the uninstaller at `url` is signed by `app`'s team, as its checked signature says.
+    static func isSignedByTheSameTeam(_ url: URL, as app: InstalledApp) -> Bool {
+        guard let team = app.teamIdentifier else { return false }
+        return CodeSignature.teamIdentifier(at: url) == team
+    }
+
+    private static func shippedOrBeside(
+        _ app: InstalledApp, applicationsFolders: [URL], isTheMakers: (URL, InstalledApp) -> Bool
+    ) -> URL? {
         let fileManager = FileManager.default
         let insideBundle = ["Contents/Resources", "Contents/MacOS", "Contents/Helpers"].map {
             app.url.appending(path: $0, directoryHint: .isDirectory)
@@ -30,9 +48,10 @@ public enum VendorRemoval {
         for (folder, isInsideTheBundle) in folders {
             let names = (try? fileManager.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
             let isTheAppsUninstaller = { (name: String) in
-                isInsideTheBundle
-                    ? isUninstallerName(name, app: app)
-                    : isUninstallerNamedExactly(name, for: app) || isUninstaller(name, ofTheProductIn: folder, for: app)
+                guard !isInsideTheBundle else { return isUninstallerName(name, app: app) }
+                let isNamedForIt = isUninstallerNamedExactly(name, for: app)
+                    || isUninstaller(name, ofTheProductIn: folder, for: app)
+                return isNamedForIt && isTheMakers(folder.appending(path: name), app)
             }
             if let match = names.sorted().first(where: isTheAppsUninstaller) {
                 return folder.appending(path: match)
@@ -45,7 +64,9 @@ public enum VendorRemoval {
     /// Uninstaller), in its `Utilities` folder, or in a maker's folder inside `Utilities` (Adobe Installers).
     /// These folders hold every maker's uninstallers, so the name must be the app's name plus only the word
     /// Uninstall or Uninstaller: Uninstall Photoshop contains "Photos" but is not an uninstaller for Photos.
-    private static func namedForIt(_ app: InstalledApp, in applicationsFolders: [URL]) -> URL? {
+    private static func namedForIt(
+        _ app: InstalledApp, in applicationsFolders: [URL], isTheMakers: (URL, InstalledApp) -> Bool
+    ) -> URL? {
         let fileManager = FileManager.default
         let utilities = applicationsFolders.map { $0.appending(path: "Utilities", directoryHint: .isDirectory) }
         let makers = utilities.flatMap { folder in
@@ -61,7 +82,8 @@ public enum VendorRemoval {
             let isTheAppsOwn = makers.contains(folder)
                 && app.names.contains { $0.lowercased() == folder.lastPathComponent.lowercased() }
             let isTheAppsUninstaller = { (name: String) in
-                isUninstallerNamedExactly(name, for: app) || isTheAppsOwn && uninstalledName(name) == ""
+                (isUninstallerNamedExactly(name, for: app) || isTheAppsOwn && uninstalledName(name) == "")
+                    && isTheMakers(folder.appending(path: name), app)
             }
             if let match = names.sorted().first(where: isTheAppsUninstaller) {
                 return folder.appending(path: match)

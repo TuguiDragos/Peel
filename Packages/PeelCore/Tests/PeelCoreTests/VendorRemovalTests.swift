@@ -20,13 +20,47 @@ struct VendorRemovalTests {
         AppCatalog.directories(in: SearchEnvironment(homeDirectory: directory.url, rootDirectory: directory.url))
     }
 
+    @Test func anUninstallerNamedForTheAppButSignedByNobodyIsNotTheMakers() throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("Applications")
+        try directory.file("Applications/Owner.app/Contents/Info.plist")
+        try directory.file("Applications/Uninstall Owner.app/Contents/Info.plist")
+        let owner = InstalledApp(
+            url: folder.appending(path: "Owner.app"), bundleIdentifier: "com.example.owner", name: "Owner",
+            teamIdentifier: "ABCDE12345"
+        )
+
+        #expect(VendorRemoval.uninstaller(for: owner, applicationsFolders: [folder]) == nil)
+    }
+
+    private static let fileMerge = "/Applications/Xcode.app/Contents/Applications/FileMerge.app"
+
+    @Test(.enabled(if: FileManager.default.fileExists(atPath: fileMerge)))
+    func anUninstallerSignedByTheAppsTeamIsTheMakers() throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("Applications")
+        try directory.file("Applications/Owner.app/Contents/Info.plist")
+        try FileManager.default.copyItem(
+            at: URL(filePath: Self.fileMerge), to: folder.appending(path: "Uninstall Owner.app")
+        )
+        func owner(team: String) -> InstalledApp {
+            InstalledApp(
+                url: folder.appending(path: "Owner.app"), bundleIdentifier: "com.example.owner", name: "Owner",
+                teamIdentifier: team
+            )
+        }
+
+        #expect(VendorRemoval.uninstaller(for: owner(team: "59GAB85EFG"), applicationsFolders: [folder]) != nil)
+        #expect(VendorRemoval.uninstaller(for: owner(team: "ABCDE12345"), applicationsFolders: [folder]) == nil)
+    }
+
     @Test func findsAnUninstallerShippedWithTheApp() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("Suite/Example.app/Contents/Resources/Uninstall Example.app")
         let example = app(in: directory, path: "Suite/Example.app", name: "Example")
 
         let uninstaller = try #require(
-            VendorRemoval.uninstaller(for: example, applicationsFolders: folders(in: directory))
+            VendorRemoval.namedUninstaller(for: example, applicationsFolders: folders(in: directory))
         )
         #expect(uninstaller.lastPathComponent == "Uninstall Example.app")
     }
@@ -37,7 +71,7 @@ struct VendorRemovalTests {
         try directory.directory("Suite/Example Uninstaller.app")
         let example = app(in: directory, path: "Suite/Example.app", name: "Example")
 
-        let uninstaller = VendorRemoval.uninstaller(for: example, applicationsFolders: folders(in: directory))
+        let uninstaller = VendorRemoval.namedUninstaller(for: example, applicationsFolders: folders(in: directory))
         #expect(uninstaller?.lastPathComponent == "Example Uninstaller.app")
     }
 
@@ -47,7 +81,7 @@ struct VendorRemovalTests {
         try directory.directory("Suite/Helper.app")
         let example = app(in: directory, path: "Suite/Example.app", name: "Example")
 
-        #expect(VendorRemoval.uninstaller(for: example, applicationsFolders: folders(in: directory)) == nil)
+        #expect(VendorRemoval.namedUninstaller(for: example, applicationsFolders: folders(in: directory)) == nil)
         #expect(!VendorRemoval.isUninstallerName("Helper.app", app: example))
         #expect(VendorRemoval.isUninstallerName("Uninstall.app", app: example))
     }
@@ -68,9 +102,9 @@ struct VendorRemovalTests {
         let inSuite = app(in: directory, path: "Suite/Example.app", name: "Example")
 
         #expect(VendorRemoval.isApplicationsFolder(URL(filePath: "/Applications/Example.app").deletingLastPathComponent()))
-        #expect(VendorRemoval.uninstaller(for: inApplications, applicationsFolders: applications) == nil)
+        #expect(VendorRemoval.namedUninstaller(for: inApplications, applicationsFolders: applications) == nil)
         #expect(
-            VendorRemoval.uninstaller(for: inSuite, applicationsFolders: applications) == nil,
+            VendorRemoval.namedUninstaller(for: inSuite, applicationsFolders: applications) == nil,
             "a vendor's folder holds its other products too"
         )
     }
@@ -85,9 +119,9 @@ struct VendorRemovalTests {
         let acme = app(in: directory, path: "Acme/Acme.app", name: "Acme")
         let acmePro = app(in: directory, path: "Acme/Acme Pro.app", name: "Acme Pro")
 
-        #expect(VendorRemoval.uninstaller(for: acme, applicationsFolders: applications) == nil)
+        #expect(VendorRemoval.namedUninstaller(for: acme, applicationsFolders: applications) == nil)
         #expect(
-            VendorRemoval.uninstaller(for: acmePro, applicationsFolders: applications)?.lastPathComponent
+            VendorRemoval.namedUninstaller(for: acmePro, applicationsFolders: applications)?.lastPathComponent
                 == "Uninstall Acme Pro.app"
         )
     }
@@ -107,9 +141,9 @@ struct VendorRemovalTests {
         let notes = app(in: directory, path: "Applications/Tools/Notes.app", name: "Notes")
         let applications = folders(in: directory)
 
-        #expect(VendorRemoval.uninstaller(for: viewer, applicationsFolders: applications)?.lastPathComponent == "Uninstall TurboVNC.app")
-        #expect(VendorRemoval.uninstaller(for: listener, applicationsFolders: applications)?.lastPathComponent == "Uninstall TurboVNC.app")
-        #expect(VendorRemoval.uninstaller(for: notes, applicationsFolders: applications) == nil)
+        #expect(VendorRemoval.namedUninstaller(for: viewer, applicationsFolders: applications)?.lastPathComponent == "Uninstall TurboVNC.app")
+        #expect(VendorRemoval.namedUninstaller(for: listener, applicationsFolders: applications)?.lastPathComponent == "Uninstall TurboVNC.app")
+        #expect(VendorRemoval.namedUninstaller(for: notes, applicationsFolders: applications) == nil)
     }
 
     @Test func findsAnUninstallerWithoutAName() throws {
@@ -122,8 +156,8 @@ struct VendorRemovalTests {
         let krisp = app(in: directory, path: "Applications/krisp.app", name: "krisp")
         let notes = app(in: directory, path: "Applications/Notes.app", name: "Notes")
 
-        #expect(VendorRemoval.uninstaller(for: krisp, applicationsFolders: [applications])?.lastPathComponent == "Uninstaller.app")
-        #expect(VendorRemoval.uninstaller(for: notes, applicationsFolders: [applications]) == nil)
+        #expect(VendorRemoval.namedUninstaller(for: krisp, applicationsFolders: [applications])?.lastPathComponent == "Uninstaller.app")
+        #expect(VendorRemoval.namedUninstaller(for: notes, applicationsFolders: [applications]) == nil)
     }
 
     /// In Homebrew's casks, an uninstaller app sits inside the bundle, beside it, at the top of `/Applications`
@@ -144,9 +178,12 @@ struct VendorRemovalTests {
         let photoshop = app(in: directory, path: "Applications/Adobe Photoshop 2025/Adobe Photoshop 2025.app", name: "Adobe Photoshop 2025")
         let photos = app(in: directory, path: "Applications/Photos.app", name: "Photos")
 
-        #expect(VendorRemoval.uninstaller(for: chrome, applicationsFolders: [applications])?.lastPathComponent == "Chrome Remote Desktop Host Uninstaller.app")
-        #expect(VendorRemoval.uninstaller(for: photoshop, applicationsFolders: [applications])?.lastPathComponent == "Uninstall Adobe Photoshop 2025.app")
-        #expect(VendorRemoval.uninstaller(for: photos, applicationsFolders: [applications]) == nil, "Photoshop's uninstaller names more than Photos")
+        #expect(VendorRemoval.namedUninstaller(for: chrome, applicationsFolders: [applications])?.lastPathComponent == "Chrome Remote Desktop Host Uninstaller.app")
+        #expect(
+            VendorRemoval.namedUninstaller(for: photoshop, applicationsFolders: [applications])?.lastPathComponent
+                == "Uninstall Adobe Photoshop 2025.app"
+        )
+        #expect(VendorRemoval.namedUninstaller(for: photos, applicationsFolders: [applications]) == nil, "Photoshop's uninstaller names more than Photos")
     }
 
     /// A folder the person chose for apps holds every maker's apps, as an Applications folder does, whatever it is
@@ -162,8 +199,8 @@ struct VendorRemovalTests {
         let inStudioApps = app(in: directory, path: "Studio Apps/Studio.app", name: "Studio")
         let inTools = app(in: directory, path: "Tools/Studio.app", name: "Studio")
 
-        #expect(VendorRemoval.uninstaller(for: inStudioApps, applicationsFolders: [chosen[0]]) == nil)
-        let named = VendorRemoval.uninstaller(for: inTools, applicationsFolders: chosen)
+        #expect(VendorRemoval.namedUninstaller(for: inStudioApps, applicationsFolders: [chosen[0]]) == nil)
+        let named = VendorRemoval.namedUninstaller(for: inTools, applicationsFolders: chosen)
         #expect(named?.lastPathComponent == "Studio Uninstaller.app")
     }
 
@@ -232,5 +269,12 @@ struct VendorRemovalTests {
         let files = VendorRemoval.filesOutsideBundle(of: receipt, app: example, otherReceipts: [receipt])
 
         #expect(files.map(\.url) == [plain(tool)], "the app's own bundle was listed as outside it")
+    }
+}
+
+private extension VendorRemoval {
+    /// The uninstaller the name rules find, whoever signed it: a signature with a given team can't be made on demand.
+    static func namedUninstaller(for app: InstalledApp, applicationsFolders: [URL]) -> URL? {
+        uninstaller(for: app, applicationsFolders: applicationsFolders, isTheMakers: { _, _ in true })
     }
 }
