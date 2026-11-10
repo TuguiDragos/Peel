@@ -16,4 +16,6 @@ public enum HelperRefusal: String, CaseIterable, Sendable {
     case invalidRequest = "The request wasn’t valid."
     case missingConfiguration = "The configuration file is missing."
     case declaredTwice = "Two files declare this job."
+    /// The item left its folder for the helper's own and could neither reach its place nor go back.
+    case keptByTheHelper = "It couldn’t go back to its folder, so Peel’s helper keeps it and moves it to the Trash the next time the helper starts."
 }

@@ -223,6 +223,9 @@ extension TrashMover {
                 switch move(item, to: names, in: trash, through: staging, for: user, exclusively: exclusively) {
                 case .success(let name):
                     moved[path] = (trash.path as NSString).appendingPathComponent(name)
+                case .failure(.leftInStaging):
+                    // It keeps its record, for the Trash it goes to when the helper starts again.
+                    failed[path] = StagedFailure.leftInStaging.explanation
                 case .failure(let failure):
                     failed[path] = failure.explanation
                     stayed.append(item)
@@ -250,12 +253,15 @@ extension TrashMover {
         case failed(POSIXError)
         case refused(PrivilegedPathPolicy.Rejection)
         case notTheItem
+        /// The item could neither reach its place nor go back, so it waits in `Staging` for the helper's next start.
+        case leftInStaging
 
         var explanation: String {
             switch self {
             case .failed(let error): error.localizedDescription
             case .refused(let rejection): rejection.explanation
             case .notTheItem: PrivilegedPathPolicy.Rejection.missing.explanation
+            case .leftInStaging: HelperRefusal.keptByTheHelper.rawValue
             }
         }
     }
@@ -282,8 +288,9 @@ extension TrashMover {
         while staged.utf8.count > Int(NAME_MAX) { staged.removeLast() }
         if case .failure(let error) = exclusively(item, staged, staging) { return .failure(.failed(error)) }
 
+        let arrived = staging.status(of: staged).flatMap { ItemIdentity($0) == identity ? $0 : nil }
         let failure: StagedFailure
-        if let arrived = staging.status(of: staged), ItemIdentity(arrived) == identity {
+        if let arrived {
             if let rejection = refusing(arrived) {
                 failure = .refused(rejection)
             } else {
@@ -295,7 +302,10 @@ extension TrashMover {
         } else {
             failure = .notTheItem
         }
-        _ = place(staged, from: staging, in: item.parent, as: Self.names(for: item.name, inode: identity.inode))
+        let back = place(staged, from: staging, in: item.parent, as: Self.names(for: item.name, inode: identity.inode))
+        // The item itself, when it can't go back either, stays here until the helper starts again and moves it to its
+        // account's Trash (`HelperLedger.recoverStaged`).
+        if case .failure = back, arrived != nil { return .failure(.leftInStaging) }
         return .failure(failure)
     }
 

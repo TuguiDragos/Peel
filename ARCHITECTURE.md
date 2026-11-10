@@ -294,7 +294,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   arrived is the item it opened and, for a Put Back, that the place takes it as it is now; anything else goes back
   where it came from. So it moves nothing on another disk than its own folder's, nor where a rename can't refuse to
   replace a name. What a move cut short leaves in `Staging` goes to its account's Trash when the helper starts and
-  before Remove Peel moves the ledger (`HelperLedger.recoverStaged`).
+  before Remove Peel moves the ledger (`HelperLedger.recoverStaged`); an item that could neither reach its place nor
+  go back keeps its record meanwhile, and the answer says so (`StagedFailure.leftInStaging`).
 - It keeps a ledger of what it moved, in a folder only root can write (`/private/var/db/com.tuguidragos.Peel.Helper`),
   and puts back only what that ledger knows. An item moves only once its record is on the drive (`DriveFlush`,
   `F_FULLFSYNC`), and History is on the drive before the journal lets a removal's items go. While the ledger can't be

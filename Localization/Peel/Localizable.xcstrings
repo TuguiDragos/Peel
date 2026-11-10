@@ -77822,6 +77822,112 @@
         }
       }
     },
+    "It couldn’t go back to its folder, so Peel’s helper keeps it and moves it to the Trash the next time the helper starts." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Položku se nepodařilo vrátit do její složky, a proto ji pomocník Peelu ponechá u sebe a při svém příštím spuštění ji přesune do koše."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es konnte nicht in seinen Ordner zurückverschoben werden, daher behält das Hilfsprogramm von Peel es und legt es beim nächsten Start des Hilfsprogramms in den Papierkorb."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No ha podido volver a su carpeta, así que el asistente de Peel lo conserva y lo trasladará a la papelera la próxima vez que se inicie el asistente."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il n’a pas pu retourner dans son dossier : l’utilitaire de Peel le conserve donc et le placera dans la corbeille à son prochain démarrage."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non è riuscito a tornare nella sua cartella, quindi l’assistente di Peel lo conserva e lo sposta nel Cestino al prossimo avvio dell’assistente."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "元のフォルダに戻せなかったため、Peelのヘルパーがこれを保管し、次にヘルパーが起動したときにゴミ箱に入れます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목을 원래 폴더로 되돌릴 수 없었으므로 Peel 보조 프로그램이 이 항목을 보관하며, 다음에 보조 프로그램이 시작될 때 휴지통으로 이동합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het kon niet terug naar de map waar het vandaan kwam, dus het hulpprogramma van Peel bewaart het en verplaatst het naar de prullenmand zodra het hulpprogramma de volgende keer start."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta rzecz nie mogła wrócić do swojego folderu, więc pomocnik Peel ją zachowuje i przeniesie do Kosza przy swoim następnym uruchomieniu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele não pôde voltar para a pasta dele, então o auxiliar do Peel o guarda e o move para o Lixo na próxima vez que o auxiliar for iniciado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu a putut reveni în dosarul său, așa că instrumentul de ajutor Peel îl păstrează și îl mută în Coș la următoarea sa pornire."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объект не удалось вернуть в его папку, поэтому помощник Peel хранит его у себя и переместит в Корзину при следующем запуске помощника."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det kunde inte läggas tillbaka i sin mapp, så Peels hjälpprogram behåller det och flyttar det till papperskorgen nästa gång hjälpprogrammet startar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klasörüne geri dönemedi, bu yüzden Peel’in yardımcısı onu tutar ve yardımcı bir sonraki kez başladığında onu Çöp Sepeti’ne taşır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Елемент не вдалося повернути в його папку, тож помічник Peel зберігає його в себе й перемістить у Смітник під час свого наступного запуску."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它未能回到原来的文件夹，因此Peel的帮助程序会保留它，并在下次启动时将其移到废纸篓。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它無法回到原本的檔案夾，因此Peel的輔助程式會保留它，並在輔助程式下次啟動時將它丟到「垃圾桶」。"
+          }
+        }
+      }
+    },
     "It doesn’t pass Gatekeeper, the check macOS makes before it opens an app." : {
       "localizations" : {
         "cs" : {

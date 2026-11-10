@@ -408,6 +408,63 @@ extension AttackHelperPolicyTests {
         #expect(try ledger.origin(of: item, movedBy: getuid()) == nil)
     }
 
+    @Test func anItemThatCannotGoBackToItsFolderKeepsItsRecord() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/.Trash")
+        let vendor = try directory.directory("home/Library/org.example.vendor").path(percentEncoded: false)
+        try directory.file("home/Library/org.example.vendor/tool", contents: Data("the tool".utf8))
+        let rules = policy(directory)
+        let ledger = try #require(HelperLedger(at: directory.url.appending(path: "private/moved.plist")))
+        let original = path("home/Library/org.example.vendor/tool", in: directory)
+        let item = try rules.open(original).get()
+        let trash = try #require(rules.openTrash(ownedBy: getuid()))
+        let losingBothFolders: TrashMover.ExclusiveRename = { item, name, folder in
+            let result = TrashMover.renameExclusively(item, to: name, in: folder)
+            _ = rmdir(vendor)
+            _ = rmdir(trash.path)
+            return result
+        }
+
+        let result = try #require(TrashMover.moveRecorded(
+            [(original, item)], into: trash, ledger: ledger, movedBy: getuid(), exclusively: losingBothFolders
+        ))
+
+        #expect(result.moved.isEmpty)
+        #expect(result.failed[original] == HelperRefusal.keptByTheHelper.rawValue)
+        let staging = path("private/Staging", in: directory)
+        let left = try #require(try FileManager.default.contentsOfDirectory(atPath: staging).first)
+        let staged = try OpenItem.at(staging + "/" + left).get()
+        #expect(try ledger.origin(of: staged, movedBy: getuid()) == item.path, "an item that left its folder has no record")
+    }
+
+    @Test func anItemPutBackThatCannotReturnToTheTrashKeepsItsRecord() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("root/Library/Caches")
+        try directory.directory("home/.Trash")
+        let policy = servingPolicy(directory, trusting: getuid())
+        let ledger = try #require(HelperLedger(at: directory.url.appending(path: "private/moved.plist")))
+        let original = path("root/Library/Caches/org.example.settings.plist", in: directory)
+        let trashed = try movedByTheHelper(
+            "root/Library/Caches/org.example.settings.plist", "the app's", policy: policy, ledger: ledger, in: directory
+        )
+        let caches = path("root/Library/Caches", in: directory), trash = path("home/.Trash", in: directory)
+        let losingBothFolders: TrashMover.ExclusiveRename = { item, name, folder in
+            let result = TrashMover.renameExclusively(item, to: name, in: folder)
+            _ = rmdir(caches)
+            _ = rmdir(trash)
+            return result
+        }
+
+        let answer = HelperPutBack.run(
+            trashed, to: original, for: getuid(), policy: policy, ledger: { ledger }, exclusively: losingBothFolders
+        )
+
+        #expect(answer == HelperRefusal.keptByTheHelper.rawValue)
+        let staging = path("private/Staging", in: directory)
+        let left = try #require(try FileManager.default.contentsOfDirectory(atPath: staging).first)
+        #expect(try ledger.origin(of: OpenItem.at(staging + "/" + left).get(), movedBy: getuid()) != nil)
+    }
+
     @Test func theHelperMovesNothingWhereARenameCannotRefuseToReplace() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("root/Library/Caches")
