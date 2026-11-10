@@ -37114,6 +37114,112 @@
         }
       }
     },
+    "Commands to Run" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Příkazy ke spuštění"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auszuführende Befehle"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comandos por ejecutar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commandes à exécuter"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comandi da eseguire"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "実行するコマンド"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "실행할 명령"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uit te voeren commando's"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Polecenia do uruchomienia"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comandos a Executar"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comenzi de rulat"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Команды для выполнения"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kommandon att köra"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çalıştırılacak Komutlar"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Команди для виконання"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要运行的命令"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要執行的指令"
+          }
+        }
+      }
+    },
     "Comparing files…" : {
       "localizations" : {
         "cs" : {
@@ -154569,6 +154675,112 @@
         }
       }
     },
+    "Peel never runs these itself. Copy each one and run it in Terminal, before the app goes or after, as its sentence says." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tyto příkazy nikdy sám nespouští. Každý z nich zkopírujte a spusťte v Terminálu před odstraněním aplikace, nebo až po něm, podle toho, co uvádí text u příkazu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel führt diese Befehle nie selbst aus. Kopiere jeden einzeln und führe ihn im Terminal aus, vor oder nach dem Entfernen der App, wie es der jeweilige Satz angibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nunca los ejecuta por sí mismo. Copia cada uno y ejecútalo en Terminal, antes de que se vaya la app o después, como indica su frase."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’exécute jamais lui-même ces commandes. Copiez chacune d’elles et exécutez-la dans Terminal, avant ou après la suppression de l’app, comme l’indique la phrase qui l’accompagne."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non esegue mai questi comandi da solo. Copiali uno alla volta ed eseguili in Terminale, prima o dopo la rimozione dell’app, come indica la frase di ciascuno."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelがこれらを自ら実行することは決してありません。それぞれをコピーし、各コマンドの説明に従って、アプリがゴミ箱に入る前か後にターミナルで実行してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이 명령들을 절대 직접 실행하지 않습니다. 각 명령을 복사하여, 명령마다 적힌 설명에 따라 앱이 제거되기 전이나 후에 터미널에서 실행하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel voert deze nooit zelf uit. Kopieer elk commando en voer het uit in Terminal, vóór of na het verwijderen van de app, zoals de zin erbij aangeeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nigdy sam ich nie uruchamia. Skopiuj każde z nich i uruchom w Terminalu przed odinstalowaniem aplikacji albo po nim, zgodnie z jego opisem."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel nunca executa estes comandos por conta própria. Copie cada um e execute-o no Terminal, antes ou depois de o app ir embora, como indica a frase de cada um."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu le rulează niciodată singur. Copiați fiecare comandă și rulați‑o în Terminal, înainte sau după eliminarea aplicației, după cum indică textul care o însoțește."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel никогда не выполняет эти команды сам. Скопируйте каждую из них и выполните ее в Терминале до удаления приложения или после, как сказано в пояснении к ней."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kör aldrig de här kommandona själv. Kopiera vart och ett och kör det i Terminal, innan appen tas bort eller efteråt, så som meningen vid kommandot anger."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunları hiçbir zaman kendisi çalıştırmaz. Her birini kopyalayın ve yanındaki cümlenin söylediği gibi, uygulama gitmeden önce veya gittikten sonra Terminal’de çalıştırın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ніколи не виконує їх сама. Скопіюйте кожну з них і виконайте в Терміналі до вилучення програми або після нього, як сказано в тексті біля неї."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel绝不会自行运行这些命令。请按照每条命令旁的说明，在App移除之前或之后将其拷贝并在“终端”中运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel絕不會自行執行這些指令。請拷貝每一個指令，並依照各指令的說明，在App移除之前或之後於「終端機」中執行。"
+          }
+        }
+      }
+    },
     "Peel no longer looks in these folders, so the apps in them aren’t listed." : {
       "localizations" : {
         "cs" : {
@@ -177811,6 +178023,112 @@
         }
       }
     },
+    "Run these commands in Terminal to finish." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro dokončení spusťte tyto příkazy v Terminálu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Führe diese Befehle im Terminal aus, um den Vorgang abzuschließen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ejecuta estos comandos en Terminal para terminar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exécutez ces commandes dans Terminal pour terminer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esegui questi comandi in Terminale per finire."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完了するには、ターミナルで以下の各コマンドを実行してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "완료하려면 터미널에서 이 명령들을 실행하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voer deze commando's uit in Terminal om het af te ronden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby dokończyć, uruchom te polecenia w Terminalu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Execute estes comandos no Terminal para concluir."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rulați aceste comenzi în Terminal pentru a finaliza."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы закончить, выполните эти команды в Терминале."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kör de här kommandona i Terminal för att slutföra."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitirmek için bu komutları Terminal’de çalıştırın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щоб завершити, виконайте ці команди в Терміналі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“终端”中运行这些命令以完成操作。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請在「終端機」中執行這些指令以完成作業。"
+          }
+        }
+      }
+    },
     "Run these in Terminal. Those that remove something delete it for good, without the Trash." : {
       "localizations" : {
         "cs" : {
@@ -178125,6 +178443,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在「終端機」中執行此指令"
+          }
+        }
+      }
+    },
+    "Run this command in Terminal to finish." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro dokončení spusťte tento příkaz v Terminálu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Führe diesen Befehl im Terminal aus, um den Vorgang abzuschließen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ejecuta este comando en Terminal para terminar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exécutez cette commande dans Terminal pour terminer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esegui questo comando in Terminale per finire."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完了するには、ターミナルで以下のコマンドを実行してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "완료하려면 터미널에서 이 명령을 실행하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voer dit commando uit in Terminal om het af te ronden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby dokończyć, uruchom to polecenie w Terminalu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Execute este comando no Terminal para concluir."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rulați această comandă în Terminal pentru a finaliza."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы закончить, выполните эту команду в Терминале."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kör det här kommandot i Terminal för att slutföra."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitirmek için bu komutu Terminal’de çalıştırın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щоб завершити, виконайте цю команду в Терміналі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“终端”中运行此命令以完成操作。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請在「終端機」中執行此指令以完成作業。"
           }
         }
       }

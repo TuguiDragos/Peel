@@ -120,6 +120,9 @@ struct RemovalFailureAlert: ViewModifier {
            outcome.shellReferences.isEmpty, let icons = outcome.dockIcons {
             return icons.apps.count == 1 ? Text("An icon stayed in the Dock.") : Text("Some icons stayed in the Dock.")
         }
+        if Self.hasOnlyCommandsLeft(outcome) {
+            return Text(verbatim: Self.runToFinish(outcome))
+        }
         if outcome.failures.isEmpty, outcome.appsToQuit.isEmpty, outcome.privacy.isEmpty {
             return Text("Restart your Mac to finish.")
         }
@@ -138,7 +141,30 @@ struct RemovalFailureAlert: ViewModifier {
             + shellLines(outcome) { Self.listed($0) { String(inflecting: "^[\($0) more line](inflect: true)") } }
             + appManagementLines(outcome) + privacyLines(outcome, naming: Self.listed, shortening: Self.shortened)
         lines += trashLines(outcome, naming: Self.listed) + dockLines(outcome, naming: Self.listed)
+            + commandLines(outcome, saying: !hasOnlyCommandsLeft(outcome))
         return lines.joined(separator: "\n\n")
+    }
+
+    /// True when the commands still to run are all the alert has to tell, so its title says them.
+    private static func hasOnlyCommandsLeft(_ outcome: RemovalOutcome) -> Bool {
+        !outcome.commandsLeft.isEmpty && outcome.failures.isEmpty && outcome.appsToQuit.isEmpty
+            && outcome.privacy.isEmpty && outcome.driversAwaitingARestart.isEmpty
+            && outcome.appsStartingFromTheTrash.isEmpty && outcome.leftForAnAdministrator == 0
+            && outcome.shellReferences.isEmpty && outcome.dockIcons == nil && !outcome.historyCouldNotRecord
+            && outcome.putBackFailures.isEmpty
+    }
+
+    private static func runToFinish(_ outcome: RemovalOutcome) -> String {
+        outcome.commandsLeft.count == 1
+            ? String(localized: "Run this command in Terminal to finish.")
+            : String(localized: "Run these commands in Terminal to finish.")
+    }
+
+    /// The commands still to run, each after its app's name, under the sentence that says so unless the title does.
+    private static func commandLines(_ outcome: RemovalOutcome, saying: Bool) -> [String] {
+        guard !outcome.commandsLeft.isEmpty else { return [] }
+        let commands = outcome.commandsLeft.map { String(localized: "\($0.app): \($0.command)") }
+        return (saying ? [runToFinish(outcome)] : []) + commands
     }
 
     private static func historyLines(_ outcome: RemovalOutcome) -> [String] {
@@ -200,10 +226,11 @@ struct RemovalFailureAlert: ViewModifier {
         return [String(localized: "If Peel isn’t allowed under App Management, macOS won’t let it move another developer’s app to the Trash.")]
     }
 
-    /// Offered for a failure, whose full path the alert shortens, and wherever the alert names only the first entries
-    /// of a list, so every name it leaves out can still be read.
+    /// Offered for a failure, whose full path the alert shortens, for a command left to run, and wherever the alert
+    /// names only the first entries of a list, so every name it leaves out can still be read.
     static func offersDetails(for outcome: RemovalOutcome) -> Bool {
-        !outcome.failures.isEmpty || !outcome.putBackFailures.isEmpty || message(for: outcome) != details(for: outcome)
+        !outcome.failures.isEmpty || !outcome.putBackFailures.isEmpty || !outcome.commandsLeft.isEmpty
+            || message(for: outcome) != details(for: outcome)
     }
 
     /// Copies every item with its full path, since the alert lists only the first few and its text can't be
@@ -222,7 +249,7 @@ struct RemovalFailureAlert: ViewModifier {
             + shellLines(outcome) { $0.formatted(.list(type: .and)) } + appManagementLines(outcome)
             + privacyLines(outcome, naming: { $0.formatted(.list(type: .and)) }, shortening: { $0 })
         lines += trashLines(outcome) { $0.formatted(.list(type: .and)) }
-            + dockLines(outcome) { $0.formatted(.list(type: .and)) }
+            + dockLines(outcome) { $0.formatted(.list(type: .and)) } + commandLines(outcome, saying: true)
         return lines.joined(separator: "\n\n")
     }
 

@@ -12,6 +12,12 @@ final class RemovalOutcome {
         let result: PrivacyReset.Result
     }
 
+    /// A command still to run once an app that moved is gone, as its page said.
+    struct CommandLeft: Hashable {
+        let app: String
+        let command: String
+    }
+
     struct PutBackFailure: Hashable {
         let url: URL
         let failure: RestoreFailure
@@ -50,6 +56,7 @@ final class RemovalOutcome {
     /// The lines of the shell startup files that still name what moved, which the person edits.
     private(set) var shellReferences: [ShellReferences.Reference] = []
     private(set) var dockIcons: DockIcons?
+    private(set) var commandsLeft: [CommandLeft] = []
     /// True when History couldn't record the removal, so Put Back has nothing to go on for what moved.
     private(set) var historyCouldNotRecord = false
     /// What an Undo left in the Trash: Undo is asked from any page, so what came of it is told here.
@@ -61,7 +68,7 @@ final class RemovalOutcome {
     var isEmpty: Bool {
         failures.isEmpty && privacy.isEmpty && appsToQuit.isEmpty && driversAwaitingARestart.isEmpty
             && appsStartingFromTheTrash.isEmpty && leftForAnAdministrator == 0 && shellReferences.isEmpty
-            && dockIcons == nil && !historyCouldNotRecord && putBackFailures.isEmpty
+            && dockIcons == nil && commandsLeft.isEmpty && !historyCouldNotRecord && putBackFailures.isEmpty
     }
 
     func noteHistoryCouldNotRecord() {
@@ -84,7 +91,8 @@ final class RemovalOutcome {
         startingFromTheTrash: [String] = [],
         leftForAnAdministrator: Int = 0,
         shellReferences: [ShellReferences.Reference] = [],
-        dockIcons: DockIcons? = nil
+        dockIcons: DockIcons? = nil,
+        commandsLeft: [CommandLeft] = []
     ) {
         let privacy = PrivacyReset.worthTelling(resets, after: result).map {
             Privacy(app: $0.app.name, result: $0.result)
@@ -93,7 +101,7 @@ final class RemovalOutcome {
         guard
             !result.failures.isEmpty || !privacy.isEmpty || !appsToQuit.isEmpty || !drivers.isEmpty
                 || !startingFromTheTrash.isEmpty || leftForAnAdministrator > 0 || !shellReferences.isEmpty
-                || dockIcons != nil
+                || dockIcons != nil || !commandsLeft.isEmpty
         else { return }
         failures = result.failures
         movedCount = result.trashed.count
@@ -104,6 +112,7 @@ final class RemovalOutcome {
         self.leftForAnAdministrator = leftForAnAdministrator
         self.shellReferences = shellReferences
         self.dockIcons = dockIcons
+        self.commandsLeft = commandsLeft
         // Two copies of an app share its name and its background items.
         var named: Set<String> = []
         appsStartingFromTheTrash = startingFromTheTrash.filter { named.insert($0).inserted }
@@ -120,6 +129,7 @@ final class RemovalOutcome {
         leftForAnAdministrator = 0
         shellReferences = []
         dockIcons = nil
+        commandsLeft = []
         historyCouldNotRecord = false
         putBackFailures = []
         putBackAsked = 0

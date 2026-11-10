@@ -44,6 +44,7 @@ struct MultipleAppsView: View {
                         toReview: !plan.filesToReview.isEmpty,
                         proxy: proxy
                     )
+                    CommandsToRunSection(commands: commands(moving: plan.selectedURLs))
 
                     Section {
                         RemovalColumnHeaders()
@@ -384,6 +385,20 @@ struct MultipleAppsView: View {
         })
     }
 
+    /// The commands the going of the chosen apps among `urls` leaves to the person.
+    private func commands(moving urls: Set<URL>) -> [CommandToRun] {
+        (plan.bulk?.uninstallations ?? []).filter { urls.contains($0.app.url) }.flatMap { uninstallation in
+            let app = uninstallation.app
+            let movesItsReceipt = plan.items.contains {
+                $0.kind == .homebrewReceipt && $0.apps.contains(app.reference) && urls.contains($0.url)
+            }
+            return CommandToRun.of(
+                app, first: uninstallation.commandToRunFirst, leftInTheSystem: uninstallation.leftInTheSystem,
+                cask: movesItsReceipt ? nil : library.cask(for: app), naming: list([app])
+            )
+        }
+    }
+
     /// The apps whose privacy permissions a removal of `urls` resets.
     private func resetting(_ urls: Set<URL>) -> [InstalledApp] {
         guard !urls.isEmpty, plan.resetsPrivacy else { return [] }
@@ -452,7 +467,9 @@ struct MultipleAppsView: View {
                     startingFromTheTrash: plan.apps.filter { result.startsFromTheTrash.contains($0.url) }.map(\.name),
                     leftForAnAdministrator: left.count,
                     shellReferences: await ShellReferences.find(naming: result.trashed.map(\.originalURL)),
-                    dockIcons: dockIcons
+                    dockIcons: dockIcons,
+                    commandsLeft: commands(moving: Set(result.trashed.map(\.originalURL))).filter(\.isForAfterwards)
+                        .map { RemovalOutcome.CommandLeft(app: $0.app, command: $0.command) }
                 )
                 if let state = await AppManagement.state(
                     after: result,

@@ -202,6 +202,7 @@ struct AppDetailView: View {
                 }
 
                 Group {
+                    CommandsToRunSection(commands: commands(moving: plan.selectedURLs))
                     recommendedSection
                     reviewSection
                     AppRemovalOptions(plan: plan)
@@ -506,14 +507,28 @@ struct AppDetailView: View {
                 lines.append(AdministratorCommand.note)
             }
         }
-        let movesItsReceipt = plan.uninstallation?.scan.leftovers.contains {
-            $0.kind == .homebrewReceipt && urls.contains($0.url)
-        } == true
-        if urls.contains(plan.app.url), !movesItsReceipt, let cask = library.cask(for: plan.app) {
+        if urls.contains(plan.app.url), let cask = caskStillListing(after: urls) {
             lines.append(Text("Homebrew installed this app and will keep listing it as installed. To take it off that list, run `brew uninstall --cask \(Homebrew.lastWord(naming: cask.name))`: Homebrew then carries out the cask’s own uninstall steps, which can delete files for good."))
         }
         guard let first = lines.first else { return nil }
         return lines.dropFirst().reduce(first) { Text("\($0)\n\n\($1)") }
+    }
+
+    /// The cask Homebrew keeps listing the app under once `urls` move, unless its record of the app is among them.
+    private func caskStillListing(after urls: Set<URL>) -> HomebrewPackage? {
+        let movesItsReceipt = plan.uninstallation?.scan.leftovers.contains {
+            $0.kind == .homebrewReceipt && urls.contains($0.url)
+        } == true
+        return movesItsReceipt ? nil : library.cask(for: plan.app)
+    }
+
+    /// The commands the app's going leaves to the person, while the app is among `urls`.
+    private func commands(moving urls: Set<URL>) -> [CommandToRun] {
+        guard urls.contains(plan.app.url) else { return [] }
+        return CommandToRun.of(
+            plan.app, first: plan.uninstallation?.commandToRunFirst,
+            leftInTheSystem: plan.uninstallation?.leftInTheSystem, cask: caskStillListing(after: urls)
+        )
     }
 
     /// Asks the question once the app has quit, since none of its files moves while it runs, and after scanning again
@@ -576,7 +591,9 @@ struct AppDetailView: View {
                     startingFromTheTrash: result.startsFromTheTrash.contains(plan.app.url) ? [plan.app.name] : [],
                     leftForAnAdministrator: left.count,
                     shellReferences: await ShellReferences.find(naming: result.trashed.map(\.originalURL)),
-                    dockIcons: dockIcons
+                    dockIcons: dockIcons,
+                    commandsLeft: commands(moving: Set(result.trashed.map(\.originalURL))).filter(\.isForAfterwards)
+                        .map { RemovalOutcome.CommandLeft(app: $0.app, command: $0.command) }
                 )
                 if let state = await AppManagement.state(
                     after: result,
