@@ -658,6 +658,18 @@ struct LeftoverMatcherTests {
         #expect(match("md.obsidianx.ShipIt", in: .caches, for: obsidian) == nil)
     }
 
+    @Test func aNamePrefixIsReadWordByWordWhateverSeparatesTheWords() throws {
+        let tide = app("org.example.tidepool", name: "Tide Pool")
+
+        #expect(match("Tide Pool SDK", in: .caches, for: tide)?.reason == .namePrefix)
+        #expect(match("tide-pool-sdk", in: .caches, for: tide)?.reason == .namePrefix)
+        #expect(match("tide_pool_helper", in: .logs, for: tide)?.reason == .namePrefix)
+        #expect(match("TidePool-Data", in: .applicationSupport, for: tide)?.reason == .namePrefix)
+        #expect(match("tide-pool-sdk", in: .caches, for: tide)?.confidence == .possible)
+        #expect(match("tide-pooling", in: .caches, for: tide) == nil)
+        #expect(match("TidePoolData", in: .applicationSupport, for: tide) == nil)
+    }
+
     /// When one app claims an item by name and another by identifier, neither claim wins, whatever their ranks.
     @Test func aNameAndAnIdentifierThatBothClaimAnItemShareIt() throws {
         let target = app("com.example.notes", name: "Notes Pro")

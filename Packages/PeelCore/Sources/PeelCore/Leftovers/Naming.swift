@@ -69,10 +69,18 @@ enum Naming {
         return isSignificant(base) ? base : nil
     }
 
-    /// True when `key` starts with `name` followed by a separator. Expects both arguments lowercased.
+    /// True when `key` begins with `name`'s words, whatever separates them, and goes on after them: `tide-pool-sdk`
+    /// and `TidePool-Data` begin with Tide Pool, `tide-pooling` doesn't. Expects both arguments lowercased.
     static func hasNamePrefix(_ key: String, name: String) -> Bool {
-        guard key.count > name.count, key.hasPrefix(name) else { return false }
-        return key.dropFirst(name.count).first.map(separators.contains) ?? false
+        let whole = normalized(name)
+        let words = key.split(whereSeparator: separators.contains)
+        var read = ""
+        for (index, word) in words.enumerated() {
+            read += normalized(String(word))
+            if read == whole { return index < words.count - 1 }
+            guard whole.hasPrefix(read) else { return false }
+        }
+        return false
     }
 }
 
