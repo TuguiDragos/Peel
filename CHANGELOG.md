@@ -54,6 +54,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 ### Fixed
 
+#### Home
+
+- Home's note on App Management no longer says Peel can still clear an app's files without it: when macOS refuses to
+  move an app, its files stay too.
+
 #### Tweaks
 
 - On macOS 27, a switch's long title is no longer drawn smaller, or cut, to make room for the switch, as in Romanian
@@ -71,6 +76,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   zone, and Put Back brings them back.
 - The first empty file moved to the Trash of a freshly formatted card or stick is recorded in History, no longer
   reported as something else that was at its place.
+- Each item is written down before it moves, and a removal stops when that can't be done, as on a disk that just filled
+  up, so what moved reaches History even if Peel quits before writing it.
 
 #### Applications
 
@@ -144,6 +151,18 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - When an app is the last of its maker's, an app's page and `peel leftovers --all` no longer list a folder macOS keeps
   under the maker's name as the maker's, such as `/Library/Google` or `/Library/Application Support/Mozilla`, which
   every Mac gets from Apple, and `peel uninstall` no longer says Orphaned Files will list one for an administrator.
+- On a Mac an organization manages, the settings a configuration profile puts in `/Library/Managed Preferences` are no
+  longer listed as an app's leftovers, nor left for an administrator once the app goes.
+- An app from the App Store finds the files named by its own identifier, Apple's own App Store apps included, whatever
+  team Apple signed them with.
+- Open Uninstaller is offered only for an uninstaller inside the app or one its own team signed, no longer for an app
+  merely named like one beside it or in an Applications folder.
+- An update's panel says the update came with no notes only once they were asked for and none came, and says when no
+  server answered that Peel asks again later.
+- An app whose Info.plist macOS's privacy protection keeps from Peel is named as such, with where to allow Peel, no
+  longer as one whose permissions are closed.
+- `peel uninstall` no longer asks you to quit an app when only one of its extensions runs, and it ends those still
+  running from the app once the app is in the Trash.
 
 #### Orphaned Files
 
@@ -157,11 +176,17 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   couldn't look inside.
 - Without Full Disk Access, Orphaned Files and `peel orphans` no longer name `/Library/Bluetooth` and `/Library/Trial`,
   folders macOS keeps for itself, among the folders Peel couldn't look inside.
+- What an App Store app left under its own identifier is listed once Peel saw it go, Apple's own App Store apps
+  included.
+- An app on another disk stays installed when another disk of the same name is plugged in, or its disk comes back under
+  another name: Peel knows each disk by its volume, so the app's files, and a link into it, are no longer listed as left
+  by an app that's gone.
 
 #### Intel Software
 
 - A program file whose header places one of its parts beyond the end of any file no longer makes Peel quit
   unexpectedly as it reads what the file is built for.
+- An app that asks macOS to open it as Intel stays listed after Peel reads your apps again.
 
 #### Package Receipts
 
@@ -180,6 +205,13 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   middle, as for a path.
 - A cask whose definition nests lists hundreds deep no longer makes Peel quit unexpectedly as it reads what Homebrew
   answers. What sits deeper than any cask writes is left out.
+- A cask with no app whose packages macOS has no receipt for is no longer said to be gone: the receipts may only have
+  been forgotten, as Forget Receipt does, and its page now says so.
+
+#### Space
+
+- Homebrew Data, TeX Live, .NET SDKs, Wine, and an area whose app is gone say they are removed by hand in Finder, no
+  longer that their own app or tool manages them.
 
 #### Build Artifacts
 
@@ -197,6 +229,20 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   of the file it was a copy of: what Duplicates remembers between scans counts only on APFS. Right before a move,
   Peel reads again each copy that goes and the copies that stay, and a copy moves only while one that stays holds the
   same bytes, in the app and in `peel duplicates --remove`.
+- A scan of many copies no longer holds about 18 KB for each until it ends, since each question to the guard lets go of
+  what it made.
+
+#### Background Items
+
+- Unusual command no longer flags a script run from disk with options of its own, such as `bash -e backup.sh`: only the
+  option each shell or interpreter takes code in counts, before its script.
+- When `launchctl` doesn't answer within 30 seconds, the alert says Peel ended the command and the job may still stop or
+  restart on its own, no longer that it was stopped.
+
+#### Extensions
+
+- A system extension macOS runs for an app bundled inside another says to turn it off in Login Items & Extensions, as
+  the app's page does, no longer that Finder's move removes it.
 
 #### Every page
 
@@ -206,6 +252,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Peel's helper close with Escape, as on any Mac.
 - The buttons of a page with nothing to show, such as Not Everything Could Be Read, go one under another when they don't
   fit side by side, instead of running past the column.
+- An item whose name the Trash already holds a thousand times, or a name as long as a disk allows, still moves: it gets
+  Finder's names up to "name 10", then its name with its number on the disk.
+- Leaving Orphaned Files, Space, Developer, Plug-ins, iCloud Drive, or Package Receipts while it scans again after a
+  change to the exclusions or a Put Back no longer leaves the old list when you come back.
 
 ### Security
 
