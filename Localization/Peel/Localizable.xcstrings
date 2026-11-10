@@ -63682,108 +63682,108 @@
         }
       }
     },
-    "Homebrew checked the installed version against OSV.dev, an open database of known vulnerabilities, and left out those its own patches already fix. “Fixed by its developers, version unknown” means OSV.dev names the changes that fix it, but no version that carries them." : {
+    "Homebrew checked this formula against OSV.dev, an open database of known vulnerabilities, and left out those its own patches already fix. “Fixed by its developers, version unknown” means OSV.dev names the changes that fix it, but no version that carries them." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew porovnal nainstalovanou verzi s OSV.dev, otevřenou databází známých zranitelností, a vynechal ty, které už opravuje svými vlastními záplatami. „Opraveno vývojáři projektu, verze s opravou není známa“ znamená, že OSV.dev uvádí změny, které zranitelnost opravují, ale neuvádí žádnou verzi, která by je obsahovala."
+            "value" : "Homebrew porovnal tuto formula s OSV.dev, otevřenou databází známých zranitelností, a vynechal ty, které už opravuje svými vlastními záplatami. „Opraveno vývojáři projektu, verze s opravou není známa“ znamená, že OSV.dev uvádí změny, které zranitelnost opravují, ale neuvádí žádnou verzi, která by je obsahovala."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew hat die installierte Version mit OSV.dev, einer offenen Datenbank bekannter Sicherheitslücken, abgeglichen und diejenigen ausgelassen, die bereits durch seine eigenen Patches behoben sind. „Von den Entwicklern behoben, Version unbekannt“ bedeutet, dass OSV.dev die Änderungen nennt, die die Sicherheitslücke beheben, aber keine Version, die sie enthält."
+            "value" : "Homebrew hat diese Formula mit OSV.dev, einer offenen Datenbank bekannter Sicherheitslücken, abgeglichen und diejenigen ausgelassen, die bereits durch seine eigenen Patches behoben sind. „Von den Entwicklern behoben, Version unbekannt“ bedeutet, dass OSV.dev die Änderungen nennt, die die Sicherheitslücke beheben, aber keine Version, die sie enthält."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew ha comparado la versión instalada con OSV.dev, una base de datos abierta de vulnerabilidades conocidas, y ha dejado fuera las que sus propios parches ya corrigen. “Corregida por sus desarrolladores, versión desconocida” significa que OSV.dev indica qué cambios corrigen la vulnerabilidad, pero no qué versión los incluye."
+            "value" : "Homebrew ha comparado esta formula con OSV.dev, una base de datos abierta de vulnerabilidades conocidas, y ha dejado fuera las que sus propios parches ya corrigen. “Corregida por sus desarrolladores, versión desconocida” significa que OSV.dev indica qué cambios corrigen la vulnerabilidad, pero no qué versión los incluye."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew a comparé la version installée à OSV.dev, une base de données ouverte de vulnérabilités connues, et a écarté celles que ses propres correctifs corrigent déjà. « Corrigée par les développeurs du logiciel, version inconnue » signifie qu’OSV.dev indique les modifications qui corrigent la vulnérabilité, mais aucune version qui les intègre."
+            "value" : "Homebrew a comparé cette formula à OSV.dev, une base de données ouverte de vulnérabilités connues, et a écarté celles que ses propres correctifs corrigent déjà. « Corrigée par les développeurs du logiciel, version inconnue » signifie qu’OSV.dev indique les modifications qui corrigent la vulnérabilité, mais aucune version qui les intègre."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew ha confrontato la versione installata con OSV.dev, un database aperto di vulnerabilità note, e ha lasciato fuori quelle già corrette dalle proprie patch. “Corretta dal team di sviluppo, versione sconosciuta” significa che OSV.dev indica le modifiche che correggono la vulnerabilità, ma nessuna versione che le contenga."
+            "value" : "Homebrew ha confrontato questa formula con OSV.dev, un database aperto di vulnerabilità note, e ha lasciato fuori quelle già corrette dalle proprie patch. “Corretta dal team di sviluppo, versione sconosciuta” significa che OSV.dev indica le modifiche che correggono la vulnerabilità, ma nessuna versione che le contenga."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewは、インストール済みのバージョンをOSV.dev（既知の脆弱性のオープンなデータベース）と照合し、自身のパッチですでに修正されている脆弱性を除外しました。“開発元により修正済み、修正を含むバージョンは不明”は、OSV.devがその脆弱性を修正する変更を示しているものの、それらを含むバージョンを示していないことを意味します。"
+            "value" : "Homebrewは、このformulaをOSV.dev（既知の脆弱性のオープンなデータベース）と照合し、自身のパッチですでに修正されている脆弱性を除外しました。“開発元により修正済み、修正を含むバージョンは不明”は、OSV.devがその脆弱性を修正する変更を示しているものの、それらを含むバージョンを示していないことを意味します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew는 설치된 버전을 알려진 취약점의 공개 데이터베이스인 OSV.dev와 대조하고, 자체 패치로 이미 수정된 취약점은 제외했습니다. ‘프로젝트 개발자가 수정했으나 수정된 버전은 알 수 없음’은 OSV.dev가 취약점을 수정하는 변경 사항은 알려 주지만, 그 변경 사항이 포함된 버전은 알려 주지 않는다는 뜻입니다."
+            "value" : "Homebrew는 이 formula를 알려진 취약점의 공개 데이터베이스인 OSV.dev와 대조하고, 자체 패치로 이미 수정된 취약점은 제외했습니다. ‘프로젝트 개발자가 수정했으나 수정된 버전은 알 수 없음’은 OSV.dev가 취약점을 수정하는 변경 사항은 알려 주지만, 그 변경 사항이 포함된 버전은 알려 주지 않는다는 뜻입니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew heeft de geïnstalleerde versie gecontroleerd aan de hand van OSV.dev, een open database met bekende kwetsbaarheden, en heeft weggelaten wat zijn eigen patches al oplossen. 'Opgelost door de ontwikkelaars van het project, versie onbekend' betekent dat OSV.dev de wijzigingen noemt die de kwetsbaarheid oplossen, maar geen versie waarin ze zijn opgenomen."
+            "value" : "Homebrew heeft deze formula gecontroleerd aan de hand van OSV.dev, een open database met bekende kwetsbaarheden, en heeft weggelaten wat zijn eigen patches al oplossen. 'Opgelost door de ontwikkelaars van het project, versie onbekend' betekent dat OSV.dev de wijzigingen noemt die de kwetsbaarheid oplossen, maar geen versie waarin ze zijn opgenomen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew porównał zainstalowaną wersję z OSV.dev, otwartą bazą danych znanych luk w zabezpieczeniach, i pominął te, które naprawił już własnymi łatkami. „Naprawiona przez deweloperów projektu, wersja nieznana” oznacza, że OSV.dev podaje zmiany, które naprawiają lukę, ale nie podaje żadnej wersji, która je zawiera."
+            "value" : "Homebrew porównał tę formula z OSV.dev, otwartą bazą danych znanych luk w zabezpieczeniach, i pominął te, które naprawił już własnymi łatkami. „Naprawiona przez deweloperów projektu, wersja nieznana” oznacza, że OSV.dev podaje zmiany, które naprawiają lukę, ale nie podaje żadnej wersji, która je zawiera."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew comparou a versão instalada com o OSV.dev, um banco de dados aberto de vulnerabilidades conhecidas, e deixou de fora aquelas que as correções do próprio Homebrew já resolvem. “Corrigida pelos desenvolvedores do projeto, versão desconhecida” significa que o OSV.dev indica as alterações que corrigem a vulnerabilidade, mas nenhuma versão que as inclua."
+            "value" : "O Homebrew comparou esta formula com o OSV.dev, um banco de dados aberto de vulnerabilidades conhecidas, e deixou de fora aquelas que as correções do próprio Homebrew já resolvem. “Corrigida pelos desenvolvedores do projeto, versão desconhecida” significa que o OSV.dev indica as alterações que corrigem a vulnerabilidade, mas nenhuma versão que as inclua."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew a comparat versiunea instalată cu OSV.dev, o bază de date deschisă de vulnerabilități cunoscute, și le‑a omis pe cele remediate deja de propriile sale corecții. „Remediată de dezvoltatorii proiectului, versiune necunoscută” înseamnă că OSV.dev indică modificările care o remediază, dar nu și o versiune care să le conțină."
+            "value" : "Homebrew a comparat această formulă cu OSV.dev, o bază de date deschisă de vulnerabilități cunoscute, și le‑a omis pe cele remediate deja de propriile sale corecții. „Remediată de dezvoltatorii proiectului, versiune necunoscută” înseamnă că OSV.dev indică modificările care o remediază, dar nu și o versiune care să le conțină."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew сверил установленную версию с OSV.dev, открытой базой данных известных уязвимостей, и не включил те из них, которые уже исправлены патчами самого Homebrew. «Исправлено разработчиками проекта, но неизвестно, в какой версии» означает, что OSV.dev называет изменения, которые исправляют уязвимость, но не называет ни одной версии, которая их содержит."
+            "value" : "Homebrew сверил эту formula с OSV.dev, открытой базой данных известных уязвимостей, и не включил те из них, которые уже исправлены патчами самого Homebrew. «Исправлено разработчиками проекта, но неизвестно, в какой версии» означает, что OSV.dev называет изменения, которые исправляют уязвимость, но не называет ни одной версии, которая их содержит."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew kontrollerade den installerade versionen mot OSV.dev, en öppen databas över kända sårbarheter, och utelämnade dem som Homebrews egna patchar redan korrigerar. ”Korrigerad av projektets utvecklare, okänt i vilken version” betyder att OSV.dev anger de ändringar som korrigerar sårbarheten, men ingen version som innehåller dem."
+            "value" : "Homebrew kontrollerade den här formulan mot OSV.dev, en öppen databas över kända sårbarheter, och utelämnade dem som Homebrews egna patchar redan korrigerar. ”Korrigerad av projektets utvecklare, okänt i vilken version” betyder att OSV.dev anger de ändringar som korrigerar sårbarheten, men ingen version som innehåller dem."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew, yüklü sürümü, bilinen güvenlik açıklarını içeren herkese açık bir veritabanı olan OSV.dev ile karşılaştırdı ve kendi yamalarıyla zaten düzeltilmiş olanları dışarıda bıraktı. “Geliştiricileri tarafından düzeltildi, sürüm bilinmiyor” ifadesi, OSV.dev’in güvenlik açığını düzelten değişiklikleri belirttiği ama bu değişiklikleri içeren hiçbir sürüm belirtmediği anlamına gelir."
+            "value" : "Homebrew bu formula için, bilinen güvenlik açıklarını içeren herkese açık bir veritabanı olan OSV.dev ile karşılaştırma yaptı ve kendi yamalarıyla zaten düzeltilmiş olanları dışarıda bıraktı. “Geliştiricileri tarafından düzeltildi, sürüm bilinmiyor” ifadesi, OSV.dev’in güvenlik açığını düzelten değişiklikleri belirttiği ama bu değişiklikleri içeren hiçbir sürüm belirtmediği anlamına gelir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew перевірив інстальовану версію за OSV.dev, відкритою базою даних відомих вразливостей, і не врахував ті, що їх уже виправляють його власні патчі. «Виправлено в коді проєкту, версія невідома» означає, що OSV.dev називає зміни, які виправляють вразливість, але не називає жодної версії, яка їх містить."
+            "value" : "Homebrew перевірив цю formula за OSV.dev, відкритою базою даних відомих вразливостей, і не врахував ті, що їх уже виправляють його власні патчі. «Виправлено в коді проєкту, версія невідома» означає, що OSV.dev називає зміни, які виправляють вразливість, але не називає жодної версії, яка їх містить."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew已对照开放的已知漏洞数据库OSV.dev检查了已安装的版本，并略去了自己的补丁已修复的漏洞。“已由其开发者修复，但包含修复的版本未知”表示OSV.dev指明了修复该漏洞的更改，但没有指明包含这些更改的版本。"
+            "value" : "Homebrew已对照开放的已知漏洞数据库OSV.dev检查了此formula，并略去了自己的补丁已修复的漏洞。“已由其开发者修复，但包含修复的版本未知”表示OSV.dev指明了修复该漏洞的更改，但没有指明包含这些更改的版本。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew已依據開放的已知漏洞資料庫OSV.dev檢查已安裝的版本，並略過了它自己的修補程式已修正的漏洞。「已由其開發者修正，含有修正的版本未知」表示OSV.dev列出了修正此漏洞的變更，但沒有列出包含這些變更的版本。"
+            "value" : "Homebrew已依據開放的已知漏洞資料庫OSV.dev檢查此formula，並略過了它自己的修補程式已修正的漏洞。「已由其開發者修正，含有修正的版本未知」表示OSV.dev列出了修正此漏洞的變更，但沒有列出包含這些變更的版本。"
           }
         }
       }

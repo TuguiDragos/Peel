@@ -7,6 +7,8 @@ struct HomebrewVulnerabilitySections: View {
     let advisory: HomebrewAdvisory
     let package: HomebrewPackage
 
+    static let howHomebrewChecked: LocalizedStringResource = "Homebrew checked this formula against OSV.dev, an open database of known vulnerabilities, and left out those its own patches already fix. “Fixed by its developers, version unknown” means OSV.dev names the changes that fix it, but no version that carries them."
+
     var body: some View {
         Section {
             Group {
@@ -20,10 +22,7 @@ struct HomebrewVulnerabilitySections: View {
             }
             .fixedSize(horizontal: false, vertical: true)
         } header: {
-            heading(
-                "Known Vulnerabilities",
-                "Homebrew checked the installed version against OSV.dev, an open database of known vulnerabilities, and left out those its own patches already fix. “Fixed by its developers, version unknown” means OSV.dev names the changes that fix it, but no version that carries them."
-            )
+            heading("Known Vulnerabilities", Self.howHomebrewChecked)
         }
         let bySeverity = Dictionary(grouping: advisory.vulnerabilities, by: \.severity)
         ForEach(bySeverity.keys.sorted(by: >), id: \.self) { severity in
