@@ -94,6 +94,7 @@ struct ExclusionsCommand: AsyncParsableCommand {
             guard !paths.isEmpty || app != nil else {
                 throw ValidationError("Give a path, or --app.")
             }
+            try refuseEmptyPaths(paths)
             let broad = paths.map(URL.init(argument:)).filter { Exclusions.isTooBroad($0) }
             guard broad.isEmpty else {
                 throw ValidationError("\(broad.map { Output.plain(Output.path($0)) }.joined(separator: ", ")): too broad to exclude. Name a folder inside it.")
@@ -125,14 +126,18 @@ struct ExclusionsCommand: AsyncParsableCommand {
                 Output.note("\(Output.plain(Output.path(url))) isn't there yet. Peel will leave it alone once it is.")
             }
             var after = current
-            after.add(added)
-            let newIdentifier = identifier.map { !current.bundleIdentifiers.contains($0) } ?? false
-            let new = after.paths.count - current.paths.count + (newIdentifier ? 1 : 0)
+            var placesOn: [URL] = []
+            for url in added where !after.lists(url) {
+                after.add([url])
+                placesOn.append(url)
+            }
+            let identifierOn = identifier.flatMap { current.bundleIdentifiers.contains($0) ? nil : $0 }
+            let names = (placesOn.map(Output.path) + [identifierOn].compactMap(\.self)).map(Output.plain)
             try await ExclusionsCommand.change(in: store) { [identifier, added] exclusions in
                 exclusions.add(added)
                 if let identifier { exclusions.bundleIdentifiers.insert(identifier) }
             }
-            Output.line(new == 0 ? "Peel was already leaving that alone." : "Peel will leave \(Output.count(new, "item", "items")) alone.")
+            Output.line(names.isEmpty ? "Peel was already leaving that alone." : "Peel will leave \(names.joined(separator: ", ")) alone.")
         }
     }
 
@@ -149,6 +154,7 @@ struct ExclusionsCommand: AsyncParsableCommand {
             guard !paths.isEmpty || app != nil else {
                 throw ValidationError("Give a path, or --app.")
             }
+            try refuseEmptyPaths(paths)
         }
 
         func run() async throws {

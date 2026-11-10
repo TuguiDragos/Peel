@@ -157,7 +157,7 @@ struct ExclusionCommandTests {
         #expect(await saved(store).isEmpty, "the app stayed excluded while the command said it was not")
     }
 
-    @Test func saysAPathIsNotThereYetAndCountsOnlyWhatWentOn() async throws {
+    @Test func saysAPathIsNotThereYetAndNamesOnlyWhatWentOn() async throws {
         let directory = try TemporaryDirectory()
         let store = store(in: directory)
         let kept = try directory.directory("home/Keep")
@@ -169,7 +169,8 @@ struct ExclusionCommandTests {
             try await add([kept.path(percentEncoded: false), missing.path(percentEncoded: false)], in: store)
         }
 
-        #expect(collected.output.contains("Peel will leave 1 item alone."))
+        #expect(collected.output.contains("/home/Later alone."))
+        #expect(!collected.output.contains("/home/Keep"))
         #expect(collected.notes.contains("Later isn't there yet. Peel will leave it alone once it is."))
     }
 
@@ -311,5 +312,14 @@ struct ExclusionCommandTests {
         #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(["exclusions", "add"]) }
         #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(["exclusions", "remove"]) }
         #expect(try PeelCommand.parseAsRoot(["exclusions", "add", NSHomeDirectory() + "/Documents/Keep"]) is ExclusionsCommand.AddCommand)
+    }
+
+    @Test func refusesAnEmptyPathRatherThanTakeTheFolderItRunsFrom() {
+        for arguments in [
+            ["exclusions", "add", ""], ["exclusions", "remove", "Keep", ""], ["projects", ""], ["duplicates", ""],
+        ] {
+            let error = #expect(throws: (any Error).self) { try PeelCommand.parseAsRoot(arguments) }
+            #expect(error.map(PeelCommand.message(for:)) == "A path can't be empty. Write . for the current folder.")
+        }
     }
 }

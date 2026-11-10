@@ -598,6 +598,7 @@ struct ProjectsCommand: AsyncParsableCommand {
     /// Fails when none of the folders can be searched, giving the reason for each, rather than report that
     /// nothing built was found.
     func validate() throws {
+        try refuseEmptyPaths(folders)
         try removal.validate(removing: remove, with: output)
         let refused = folders.map(URL.init(argument:)).compactMap { root in
             ProjectArtifacts.refusal(for: root).map { "\(Output.plain(Output.path(root))): \($0.summary)" }
@@ -802,6 +803,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
     /// Checks the folders here rather than in `run()`: only while it parses does ArgumentParser know which
     /// subcommand's usage to print. The finder needs no exclusions, since they don't decide what can be scanned.
     func validate() throws {
+        try refuseEmptyPaths(folders)
         try removal.validate(removing: remove, with: output)
         // One finder for every folder: each new finder resolves the home folder's links again.
         let finder = DuplicateFinder()

@@ -114,6 +114,13 @@ struct ByteSize: ExpressibleByArgument, Equatable {
     }
 }
 
+/// Refuses an empty path, which `URL(argument:)` reads as the folder the command runs from: a script whose variable was
+/// never set has to stop rather than work there.
+func refuseEmptyPaths(_ paths: [String]) throws {
+    guard paths.contains(where: \.isEmpty) else { return }
+    throw ValidationError("A path can't be empty. Write . for the current folder.")
+}
+
 /// Returns whether `url` is an existing folder, so a wrong path gets an error rather than an empty result.
 func isAFolder(_ url: URL) -> Bool {
     var isDirectory: ObjCBool = false
