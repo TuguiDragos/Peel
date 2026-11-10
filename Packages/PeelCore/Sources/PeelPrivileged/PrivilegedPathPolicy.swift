@@ -177,17 +177,25 @@ public struct PrivilegedPathPolicy: Sendable {
 
         let parent = "/" + components.dropLast().joined(separator: "/")
         guard let resolvedParent = Self.realPath(parent) else { return .failure(.unresolvableParent) }
-        return judge(name, in: resolvedParent, locations: locations, puttingBackAFolder: puttingBackAFolder)
+        let onDisk = Self.spelledOnDisk((resolvedParent == "/" ? "" : resolvedParent) + "/" + name, in: AT_FDCWD)
+        return judge(
+            name, spelledOnDisk: onDisk?.name, in: resolvedParent, locations: locations,
+            puttingBackAFolder: puttingBackAFolder
+        )
     }
 
     /// The checks on `name` in a folder named with no link left in its path, as `realpath` or the kernel names it.
+    /// They read the name the disk keeps for what is there, since a disk that folds case and letters opens `Logſ` as
+    /// `Logs`, while the item keeps the name it was asked by, which the ledger records and History asks to put back.
     private func judge(
         _ name: String,
+        spelledOnDisk diskName: String?,
         in resolvedParent: String,
         locations: [String],
         puttingBackAFolder: Bool = false
     ) -> Result<Resolved, Rejection> {
-        let resolved = (resolvedParent == "/" ? "" : resolvedParent) + "/" + name
+        let folder = resolvedParent == "/" ? "" : resolvedParent
+        let resolved = folder + "/" + (diskName ?? name)
         guard
             !ProtectedData.refuses(resolved, home: homeDirectory),
             !searchedFolders.contains(PathComponents.of(resolved.lowercased())),
@@ -221,10 +229,10 @@ public struct PrivilegedPathPolicy: Sendable {
             || manifests.contains(where: { PathComponents.isPath(resolved, inside: $0) && resolvedParent != $0 }) {
             return .failure(.outsideAllowedLocations)
         }
-        if applicationLocations.contains(location), !name.hasSuffix(".app") {
+        if applicationLocations.contains(location), !(diskName ?? name).hasSuffix(".app") {
             return .failure(.notAnApplication)
         }
-        return .success(Resolved(parent: resolvedParent, name: name, path: resolved))
+        return .success(Resolved(parent: resolvedParent, name: name, path: folder + "/" + name))
     }
 
     /// What the helper would answer before opening anything, nil when it would go on to open `path`.
@@ -239,13 +247,23 @@ public struct PrivilegedPathPolicy: Sendable {
         open(path, beforeOpening: {})
     }
 
-    func open(_ path: String, beforeOpening: () -> Void) -> Result<OpenItem, Rejection> {
+    func open(
+        _ path: String,
+        beforeOpening: () -> Void,
+        beforeReadingItsName: () -> Void = {}
+    ) -> Result<OpenItem, Rejection> {
         openFolder(of: path, beforeOpening: beforeOpening).flatMap { name, parent in
             var info = stat()
             guard name.withCString({ fstatat(parent.descriptor, $0, &info, AT_SYMLINK_NOFOLLOW) }) == 0 else {
                 return .failure(.missing)
             }
-            return judged(name, in: parent).flatMap { item in
+            beforeReadingItsName()
+            // The name the disk keeps is read with the item's identity in one call, so the rules judge the item
+            // that moves.
+            guard let onDisk = Self.spelledOnDisk(name, in: parent.descriptor),
+                  onDisk.device == info.st_dev, onDisk.file == UInt64(info.st_ino)
+            else { return .failure(.missing) }
+            return judged(name, spelledOnDisk: onDisk.name, in: parent).flatMap { item in
                 guard !Self.isProtected(flags: info.st_flags) else { return .failure(.protectedByFlags) }
                 if links.contains(item.parent) {
                     guard info.st_mode & S_IFMT == S_IFLNK else { return .failure(.notALink) }
@@ -313,7 +331,10 @@ public struct PrivilegedPathPolicy: Sendable {
     public func openDestination(_ path: String, for trashed: OpenItem) -> Result<OpenItem, Rejection> {
         let aFolder = trashed.mode.map { $0 & S_IFMT == S_IFDIR } ?? false
         return openFolder(of: path, beforeOpening: {}, puttingBackAFolder: aFolder).flatMap { name, parent in
-            judged(name, in: parent, puttingBackAFolder: aFolder).flatMap { item in
+            judged(
+                name, spelledOnDisk: Self.spelledOnDisk(name, in: parent.descriptor)?.name, in: parent,
+                puttingBackAFolder: aFolder
+            ).flatMap { item in
                 if links.contains(item.parent) {
                     guard let mode = trashed.mode, mode & S_IFMT == S_IFLNK else { return .failure(.notALink) }
                 }
@@ -347,11 +368,14 @@ public struct PrivilegedPathPolicy: Sendable {
     /// Checks `name` again in the folder `parent` holds, as the kernel names it now.
     private func judged(
         _ name: String,
+        spelledOnDisk diskName: String?,
         in parent: DirectoryHandle,
         puttingBackAFolder: Bool = false
     ) -> Result<Resolved, Rejection> {
         guard let folder = parent.currentPath else { return .failure(.unresolvableParent) }
-        return judge(name, in: folder, locations: locations, puttingBackAFolder: puttingBackAFolder)
+        return judge(
+            name, spelledOnDisk: diskName, in: folder, locations: locations, puttingBackAFolder: puttingBackAFolder
+        )
     }
 
     /// Opens the user's own Trash. A link in place of `.Trash` is refused, and the folder must belong to
@@ -410,5 +434,31 @@ public struct PrivilegedPathPolicy: Sendable {
         guard let resolved = realpath(path, nil) else { return nil }
         defer { free(resolved) }
         return String(cString: resolved)
+    }
+
+    /// The name the disk keeps for `name` in the folder `descriptor` holds, with the device and file number of what
+    /// is there, read in one call without opening it or following a link; nil when nothing is there.
+    static func spelledOnDisk(_ name: String, in descriptor: Int32) -> (name: String, device: dev_t, file: UInt64)? {
+        var request = attrlist()
+        request.bitmapcount = u_short(ATTR_BIT_MAP_COUNT)
+        request.commonattr = attrgroup_t(ATTR_CMN_NAME) | attrgroup_t(ATTR_CMN_DEVID) | attrgroup_t(ATTR_CMN_FILEID)
+        // Layout: UInt32 length, the name's reference, the device, the file number, then the name's bytes.
+        var buffer = [UInt8](repeating: 0, count: 32 + 4 * Int(NAME_MAX))
+        let status = buffer.withUnsafeMutableBytes { bytes in
+            name.withCString {
+                getattrlistat(descriptor, $0, &request, bytes.baseAddress, bytes.count, UInt(FSOPT_NOFOLLOW))
+            }
+        }
+        guard status == 0 else { return nil }
+        return buffer.withUnsafeBytes { bytes in
+            let reference = bytes.loadUnaligned(fromByteOffset: 4, as: attrreference_t.self)
+            let start = 4 + Int(reference.attr_dataoffset), length = Int(reference.attr_length)
+            guard length > 0, start + length <= bytes.count else { return nil }
+            return (
+                String(decoding: bytes[start..<(start + length - 1)], as: UTF8.self),
+                bytes.loadUnaligned(fromByteOffset: 12, as: dev_t.self),
+                bytes.loadUnaligned(fromByteOffset: 16, as: UInt64.self)
+            )
+        }
     }
 }

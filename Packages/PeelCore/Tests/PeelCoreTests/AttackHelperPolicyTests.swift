@@ -165,6 +165,39 @@ struct AttackHelperPolicyTests {
         }
     }
 
+    @Test func anotherSpellingOfAFolderPeelSearchesFindsNoWayIn() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/Library/Logs/org.example.app")
+        try directory.directory("home/Library/LaunchAgents")
+        try directory.directory("home/Library/Audio/Plug-Ins/Components")
+        let library = directory.url.appending(path: "home/Library").path(percentEncoded: false)
+
+        for spelling in ["Log\u{17F}", "LaunchAgent\u{17F}", "Audio/Plug-Ins/Component\u{17F}", "Audio/Plug-In\u{17F}"] {
+            let result = policy(directory).open(library + "/" + spelling)
+            #expect(result.rejection == .irreplaceable, "ATTACK SUCCEEDED: the helper would move \(spelling) whole")
+            #expect(policy(directory).refusal(of: library + "/" + spelling) == .irreplaceable)
+        }
+        let asked = try policy(directory).open(library + "/Log\u{17F}/ORG.EXAMPLE.APP").get()
+        #expect(asked.name == "ORG.EXAMPLE.APP", "the ledger records the name History asks to put back")
+    }
+
+    @Test func aFolderSwappedForAnotherSpellingBeforeItsNameIsReadStays() throws {
+        let directory = try TemporaryDirectory()
+        let decoy = try directory.directory("home/Library/Log\u{17F}")
+        let aside = try directory.directory("home/Library/Aside")
+        let library = decoy.deletingLastPathComponent()
+        let logs = library.appending(path: "Logs"), other = library.appending(path: "Other")
+        func move(_ from: URL, to: URL) { try? FileManager.default.moveItem(at: from, to: to) }
+
+        let result = policy(directory).open(
+            decoy.path(percentEncoded: false),
+            beforeOpening: { move(decoy, to: other); move(aside, to: logs) },
+            beforeReadingItsName: { move(logs, to: aside); move(other, to: decoy) }
+        )
+
+        #expect(result.rejection == .missing, "ATTACK SUCCEEDED: the rules judged another folder than the Logs that moves")
+    }
+
     /// A symbolic link in a parent folder that leads into iCloud Drive.
     @Test func theHelperResolvesASymlinkedParent() throws {
         let directory = try TemporaryDirectory()

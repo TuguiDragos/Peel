@@ -205,7 +205,9 @@ disk that somebody may have replaced.
   connection (`PrivilegedHelper.ask`): XPC delivers a reply at the quality its message went out with, so a reply to a
   lower one waits while Peel is busy, and the wait for it ends first.
 - It never uses a path again after checking it: it opens the folder, checks the item there as the kernel names the
-  folder (`F_GETPATH`), and works only through that descriptor, so a folder swapped after the check leads nowhere.
+  folder (`F_GETPATH`) and under the name the disk keeps for it, read with its identity in one call
+  (`getattrlistat`), since the disk opens `Logſ` as `Logs`, and works only through that descriptor, so a folder
+  swapped after the check leads nowhere.
 - A rename still goes by name, so every item the helper moves passes through `Staging`, beside its ledger, which only
   root can reach (`HelperLedger.whileStaging`), and is checked there before it goes on; anything but the item goes
   back. Moving through `Staging` takes a rename within one disk that can refuse to replace a name, so the helper

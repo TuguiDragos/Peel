@@ -733,7 +733,9 @@ and it fails closed.
   the app, so it goes once the app is gone, and one that still starts a program stays. A browser starts what a
   manifest there names, so these folders take back only what is owned by root and writable by nobody else.
 - It never reuses a path after checking it. It opens the parent directory, checks the item there as the system
-  names that directory, and works only through that descriptor, so a folder swapped after the check leads nowhere.
+  names that directory and under the name the disk keeps for the item, since a disk that ignores case answers to
+  other spellings of it too, and works only through that descriptor, so a folder swapped after the check leads
+  nowhere.
   It takes each item through a folder of its own that only root can reach, and checks there that what arrived is
   the item it checked, and for a Put Back that the place takes it as it is now, so anything put in the item's place
   on the way goes back where it came from. A rename can't leave its disk, so it moves nothing outside the startup
