@@ -102,6 +102,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Watch the Trash opens and lists each Trash away from the window, so a disk that sleeps, or a network volume that
   stopped answering, no longer freezes Peel when the watch starts or the list of apps changes; a Trash that doesn't
   answer is left unwatched.
+- Watch the Trash no longer tells of an app `peel` is moving to the Trash as one you threw away.
 - A path written by hand into the exclusions file, such as `/Users/name/Project`, is left alone, and an entry Peel can't
   read is kept in the old file, set aside the next time the list changes, no longer dropped without a trace.
 
@@ -222,6 +223,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - While an app is its maker's last, its page also shows for you to look at the maker's folder in Preferences, a file
   named for the maker, such as `elgato.log`, and what is named exactly for the maker's domain in the app's identifier,
   such as `org.example.plist`.
+- An app's page and several apps' page stay until their removal ends. Peel reading the app folders again partway took
+  the page away with its progress, and a new page could offer the apps still waiting.
 
 #### Orphaned Files
 
@@ -350,6 +353,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   the move and then showed macOS's own "Cross-device link" in English.
 - An app's icon that Peel hasn't read yet is read away from the window: its row shows the plain app icon for a moment
   rather than holding Peel, as it did for an app on a disk that doesn't answer.
+- A long removal through Peel's helper ends with the helper's answer, so what it moved is in History and what it didn't
+  get to stays, said so. Before, Peel stopped waiting first and called what the helper moved after that not moved.
+  When the helper doesn't answer at all, Peel says it doesn't know whether an item moved, and History lists it the next
+  time Peel opens if it did.
+- The scan after a move measures again the folders Peel moved something out of or put something back into, no longer
+  showing a size a slow measurement took before the move.
 
 #### `peel`
 
@@ -367,6 +376,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   set aside.
 - `peel uninstall --reset-privacy` refuses while another copy of the app stays, and says where it is, and
   `peel uninstall` says on an account that isn't an administrator's who runs the `sudo` commands it gives.
+- `peel orphans`, `peel caches`, `peel projects`, `peel duplicates`, `peel uninstall`, and `peel restore` read the
+  exclusions again once you answer their question, so what you excluded meanwhile stays, with the reason, as in the app.
 
 ### Security
 
