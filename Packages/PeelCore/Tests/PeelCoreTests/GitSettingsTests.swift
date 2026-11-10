@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 private struct GitHome: ~Copyable {
@@ -293,5 +294,40 @@ struct GitSettingsTests {
                 == homebrew.appending(path: "bin/git")
         )
         #expect(GitConfig.find(developerFolder: folder.appending(path: "Missing"), homebrewPrefix: nil, home: folder) == nil)
+    }
+}
+
+struct GitOnItsOwnTests {
+    /// Git can be the one Homebrew installed, in a folder any program of the account can write.
+    @Test func theGitPeelRunsAnswersForItself() async throws {
+        let system = try #require(Subprocess.Responsibility.system)
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        try directory.file("home/.gitconfig", contents: Data("[user]\n\tname = Someone\n".utf8))
+        let started = directory.url.appending(path: "started")
+        let goOn = directory.url.appending(path: "go-on")
+        let git = try directory.file("prefix/bin/git", contents: Data("""
+            #!/bin/sh
+            echo $$ > \(started.path(percentEncoded: false).quotedForTheShell)
+            while [ ! -e \(goOn.path(percentEncoded: false).quotedForTheShell) ]; do /bin/sleep 0.05; done
+
+            """.utf8))
+        try directory.setPermissions(0o755, of: git)
+        let prefix = directory.url.appending(path: "prefix")
+        let config = try #require(GitConfig.find(developerFolder: nil, homebrewPrefix: prefix, home: home))
+        async let settings = config.settings()
+        var running: pid_t?
+        while running == nil {
+            try await Task.sleep(for: .milliseconds(20))
+            running = (try? String(contentsOf: started, encoding: .utf8)).flatMap {
+                pid_t($0.trimmingCharacters(in: .whitespacesAndNewlines))
+            }
+        }
+
+        let answersForIt = running.map(system.responsible)
+        try Data().write(to: goOn)
+        _ = await settings
+
+        #expect(answersForIt == running)
     }
 }

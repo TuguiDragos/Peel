@@ -128,8 +128,9 @@ public struct GitConfig: Sendable {
         }
     }
 
+    /// Git can be Homebrew's, in a folder any program of the account can write, so it runs on its own.
     private func run(_ arguments: [String]) async -> Result<Subprocess.Output, Subprocess.Failure> {
-        await Subprocess.run(
+        await Subprocess.runOnItsOwn(
             executable.path(percentEncoded: false),
             arguments,
             environment: ["HOME": home.pathAsHOME, "PATH": "/usr/bin:/bin:/usr/sbin:/sbin"],
