@@ -148,7 +148,7 @@ struct ContentView: View {
         .onOpenURL { url in
             guard let applicationURL = OpenRequest.applicationURL(from: url) else { return }
             Task {
-                if await library.reveal([applicationURL]) {
+                if await library.revealRequested([applicationURL]) {
                     show(.applications)
                 }
             }

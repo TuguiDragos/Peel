@@ -259,6 +259,25 @@ private nonisolated final class TestClock: Sendable {
         Data(#"{"resultCount":1,"results":[{"kind":"mac-software","version":"\#(version)"}]}"#.utf8)
     }
 
+    @Test func aRequestMadeBeforeTheFirstReadingWaitsForTheOtherApps() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try soldApp(in: folder)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let library = AppLibrary(
+            defaults: made.defaults,
+            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json")),
+            appFolders: AppFolders(url: folder.appending(path: "app-folders.json")),
+            appMemory: AppMemory(url: folder.appending(path: "apps.json"))
+        )
+
+        #expect(await library.revealRequested([bundle]))
+
+        #expect(library.hasLoaded)
+        #expect(library.selectedApp?.bundleIdentifier == "org.example.sold")
+    }
+
     @Test func saysWhenAnAppSomethingAskedForCanNotBeShown() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try soldApp(in: folder)

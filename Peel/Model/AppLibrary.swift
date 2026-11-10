@@ -249,9 +249,12 @@ final class AppLibrary {
         Listing(revision: revision, unreadable: unreadable, listOfFoldersUnreadable: listOfFoldersUnreadable)
     }
 
-    /// The first reading of the folders, at launch. A reading asked for meanwhile, as when the folder watch hears of a
-    /// change, waits for this one, which alone puts back what earlier runs learned.
+    /// The first reading of the folders, at launch or when a request to show an app arrives before it. A reading asked
+    /// for meanwhile, as when the folder watch hears of a change, waits for this one, which alone puts back what
+    /// earlier runs learned, and whoever asks for it second waits for the same one.
     func load() async {
+        if let firstReading { return await firstReading.value }
+        guard !hasLoaded else { return }
         let reading = Task { await readFirst() }
         firstReading = reading
         await reading.value
@@ -1097,6 +1100,14 @@ final class AppLibrary {
     }
 
     var teamRecordFile: URL { teamRegistry.url }
+
+    /// Shows the apps something outside the list asked for: a link, the Finder item, a drop. It waits for the first
+    /// reading of the apps, since a page scanned before it knows no other app and would take their files for its own.
+    @discardableResult
+    func revealRequested(_ urls: [URL]) async -> Bool {
+        await load()
+        return await reveal(urls)
+    }
 
     /// Selects the apps together, adding each first when it lives outside the scanned folders, for example in
     /// the Trash. The first Peel can't read is left for the window to say (`couldNotShow`), and false means none
