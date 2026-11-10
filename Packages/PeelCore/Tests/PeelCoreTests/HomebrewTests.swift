@@ -609,28 +609,26 @@ struct HomebrewTests {
         let goOn = directory.url.appending(path: "go-on")
         let brew = try directory.file("prefix/bin/brew", contents: Data("""
             #!/bin/sh
-            echo $$ > \(started.path(percentEncoded: false).quotedForTheShell)
+            echo $$ > \(started.path(percentEncoded: false).quotedForTheShell).new
+            /bin/mv \(started.path(percentEncoded: false).quotedForTheShell).new \(started.path(percentEncoded: false).quotedForTheShell)
             while [ ! -e \(goOn.path(percentEncoded: false).quotedForTheShell) ]; do /bin/sleep 0.05; done
 
             """.utf8))
         try directory.setPermissions(0o755, of: brew)
-        try await Homebrew.$standIn.withValue(brew) {
-            async let attempt = try? Homebrew.execute(
-                arguments, autoUpdate: false, timeout: 120, home: home, changesApps: changesApps
-            )
-            var running: pid_t?
-            while running == nil {
-                try await Task.sleep(for: .milliseconds(20))
-                running = (try? String(contentsOf: started, encoding: .utf8)).flatMap {
-                    pid_t($0.trimmingCharacters(in: .whitespacesAndNewlines))
-                }
-            }
+        let start = try ProgramStart(in: directory.url, started: started, goOn: goOn, system: system)
+        await Homebrew.$standIn.withValue(brew) {
+            async let attempt: Void = {
+                _ = try? await Homebrew.execute(
+                    arguments, autoUpdate: false, timeout: 120, home: home, changesApps: changesApps
+                )
+                start.runEnded()
+            }()
 
-            let answersForIt = running.map(system.responsible)
-            try Data().write(to: goOn)
-            _ = await attempt
+            let answer = await start.answer
+            await attempt
 
-            #expect((answersForIt == running) == !changesApps)
+            #expect(answer != nil, "brew ended before it named itself")
+            #expect(answer.map { $0.responsible == $0.pid } == !changesApps)
         }
     }
 

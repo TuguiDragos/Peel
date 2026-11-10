@@ -26,31 +26,27 @@ struct ShellSessionsTests {
         let started = directory.url.appending(path: "started")
         let goOn = directory.url.appending(path: "go-on")
         try directory.file("home/.zshenv", contents: Data("""
-            print -r -- $$ > \(started.path(percentEncoded: false).quotedForTheShell)
+            print -r -- $$ > \(started.path(percentEncoded: false).quotedForTheShell).new
+            /bin/mv \(started.path(percentEncoded: false).quotedForTheShell).new \(started.path(percentEncoded: false).quotedForTheShell)
             while [[ ! -e \(goOn.path(percentEncoded: false).quotedForTheShell) ]]; do /bin/sleep 0.05; done
 
             """.utf8))
         let zsh = ShellSessions.zsh(startupFile: home.appending(path: ".zshenv"))
+        let start = try ProgramStart(in: directory.url, started: started, goOn: goOn, system: system)
         async let answered: Void = {
             if isInteractive {
                 _ = await zsh.promptShown(home: home, zdotdir: nil)
             } else {
                 _ = await zsh.zshrc(home: home, zdotdir: nil)
             }
+            start.runEnded()
         }()
-        var shell: pid_t?
-        while shell == nil {
-            try await Task.sleep(for: .milliseconds(20))
-            shell = (try? String(contentsOf: started, encoding: .utf8)).flatMap {
-                pid_t($0.trimmingCharacters(in: .whitespacesAndNewlines))
-            }
-        }
 
-        let answersForIt = shell.map(system.responsible)
-        try Data().write(to: goOn)
+        let answer = await start.answer
         await answered
 
-        #expect(answersForIt == shell)
+        #expect(answer != nil, "zsh ended before it named itself")
+        #expect(answer.map { $0.responsible == $0.pid } == true)
     }
 
     @Test func whenZshCannotBeStartedOnItsOwnTheStartupFilesTextNamesTheFolderAndNothingRuns() async throws {

@@ -308,26 +308,21 @@ struct GitOnItsOwnTests {
         let goOn = directory.url.appending(path: "go-on")
         let git = try directory.file("prefix/bin/git", contents: Data("""
             #!/bin/sh
-            echo $$ > \(started.path(percentEncoded: false).quotedForTheShell)
+            echo $$ > \(started.path(percentEncoded: false).quotedForTheShell).new
+            /bin/mv \(started.path(percentEncoded: false).quotedForTheShell).new \(started.path(percentEncoded: false).quotedForTheShell)
             while [ ! -e \(goOn.path(percentEncoded: false).quotedForTheShell) ]; do /bin/sleep 0.05; done
 
             """.utf8))
         try directory.setPermissions(0o755, of: git)
         let prefix = directory.url.appending(path: "prefix")
         let config = try #require(GitConfig.find(developerFolder: nil, homebrewPrefix: prefix, home: home))
-        async let settings = config.settings()
-        var running: pid_t?
-        while running == nil {
-            try await Task.sleep(for: .milliseconds(20))
-            running = (try? String(contentsOf: started, encoding: .utf8)).flatMap {
-                pid_t($0.trimmingCharacters(in: .whitespacesAndNewlines))
-            }
-        }
+        let start = try ProgramStart(in: directory.url, started: started, goOn: goOn, system: system)
+        async let settings: Void = { _ = await config.settings(); start.runEnded() }()
 
-        let answersForIt = running.map(system.responsible)
-        try Data().write(to: goOn)
-        _ = await settings
+        let answer = await start.answer
+        await settings
 
-        #expect(answersForIt == running)
+        #expect(answer != nil, "Git ended before it named itself")
+        #expect(answer.map { $0.responsible == $0.pid } == true)
     }
 }
