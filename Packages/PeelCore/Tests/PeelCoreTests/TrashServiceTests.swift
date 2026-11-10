@@ -1631,6 +1631,67 @@ struct TrashServiceTests {
         #expect(result.failures.isEmpty)
     }
 
+    @Test(arguments: ["ExFAT", "MS-DOS FAT32"])
+    func theFirstMoveOnAFATDiskRecordsAnEmptyFile(fileSystem: String) async throws {
+        let directory = try TemporaryDirectory()
+        let place = directory.url.appending(path: "Disk", directoryHint: .isDirectory)
+        let disk = try ScratchVolume(fileSystem: fileSystem, mountedAt: place)
+        let file = place.appending(path: "folder/empty.txt")
+        try FileManager.default.createDirectory(at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try Data().write(to: file)
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let removalGuard = RemovalGuard(environment: environment)
+        let service = TrashService(environment: environment) { url in
+            try TrashService.moveToSystemTrash(url, refusal: removalGuard.refusal(of:))
+        }
+
+        let result = await service.trash([file])
+
+        #expect(result.failures.isEmpty)
+        #expect(result.trashed.map(\.originalURL) == [file])
+        withExtendedLifetime(disk) {}
+    }
+
+    @Test func aMoveByNameThatTookAnItemOfAnotherDiskSaysSo() throws {
+        let directory = try TemporaryDirectory()
+        let disks = try ["Judged", "Other"].map { name in
+            try ScratchVolume(
+                fileSystem: "APFS", mountedAt: directory.url.appending(path: name, directoryHint: .isDirectory)
+            )
+        }
+        let notes = try disks.map { disk in
+            let note = disk.url.appending(path: "folder/note.txt")
+            try FileManager.default.createDirectory(
+                at: note.deletingLastPathComponent(), withIntermediateDirectories: true
+            )
+            try Data("note".utf8).write(to: note)
+            let born = Date(timeIntervalSince1970: 1_700_000_000)
+            try FileManager.default.setAttributes([.creationDate: born], ofItemAtPath: note.path(percentEncoded: false))
+            return note
+        }
+        try #require(FileIdentity.of(notes[0])?.link.inode == FileIdentity.of(notes[1])?.link.inode)
+        let otherTrash = disks[1].url.appending(path: ".Trashes/\(getuid())", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: otherTrash, withIntermediateDirectories: true)
+
+        #expect(throws: TrashService.SomethingElseMoved.self) {
+            try TrashService.moveToSystemTrash(
+                notes[0],
+                trash: { _ in throw CocoaError(.featureUnsupported) },
+                byName: { _ in
+                    let destination = otherTrash.appending(path: "note.txt")
+                    try FileManager.default.moveItem(at: notes[1], to: destination)
+                    return destination
+                },
+                refusal: { _ in nil }
+            )
+        }
+        #expect(notes[0].isThere)
+        withExtendedLifetime(disks) {}
+    }
+
     @Test func anItemAlreadyGoneIsNeitherMovedNorAFailure() async throws {
         let directory = try TemporaryDirectory()
         let environment = SearchEnvironment(

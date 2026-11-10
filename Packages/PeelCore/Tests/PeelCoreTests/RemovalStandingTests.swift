@@ -100,6 +100,83 @@ struct RemovalStandingTests {
         withExtendedLifetime(other) {}
     }
 
+    @Test(arguments: ["MS-DOS FAT32", "ExFAT"])
+    func anEmptyFileStaysKnownInTheTrashOnceItsDiskIsPluggedInAgain(fileSystem: String) async throws {
+        let directory = try TemporaryDirectory()
+        let place = directory.url.appending(path: "Disk", directoryHint: .isDirectory)
+        let disk = try ScratchVolume(fileSystem: fileSystem, mountedAt: place)
+        let trash = place.appending(path: ".Trashes/\(getuid())", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: trash, withIntermediateDirectories: true)
+        let trashed = trash.appending(path: "empty.txt")
+        try Data().write(to: trashed)
+        let item = TrashedItem(
+            originalURL: place.appending(path: "empty.txt"), trashedURL: trashed, date: .now,
+            identity: .init(ofItemAt: trashed)
+        )
+        let moved = RemovalRecord(batch: UUID(), item: item, size: 0, source: "Example", tool: "search")
+        #expect(moved.standing == .inTheTrash)
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        try disk.remount(at: place)
+
+        let located = moved.located(on: .now())
+        #expect(located.standing == .inTheTrash)
+        #expect(await TrashService(environment: environment).restore(located.trashedItem) == nil)
+        #expect(place.appending(path: "empty.txt").isThere)
+        withExtendedLifetime(disk) {}
+    }
+
+    @Test func anotherFileWhereAnEmptyOneWasOnFAT32IsNotTakenForIt() throws {
+        let directory = try TemporaryDirectory()
+        let place = directory.url.appending(path: "Disk", directoryHint: .isDirectory)
+        let disk = try ScratchVolume(fileSystem: "MS-DOS FAT32", mountedAt: place)
+        let trashed = place.appending(path: "report.txt")
+        let path = trashed.path(percentEncoded: false)
+        let born = Date(timeIntervalSince1970: 1_700_000_000)
+        try Data().write(to: trashed)
+        try FileManager.default.setAttributes([.creationDate: born], ofItemAtPath: path)
+        let item = TrashedItem(
+            originalURL: place.appending(path: "folder/report.txt"), trashedURL: trashed, date: .now,
+            identity: .init(ofItemAt: trashed)
+        )
+
+        try FileManager.default.removeItem(at: trashed)
+        try Data("another".utf8).write(to: trashed)
+        try FileManager.default.setAttributes([.creationDate: born], ofItemAtPath: path)
+
+        #expect(item.standing == .gone)
+        withExtendedLifetime(disk) {}
+    }
+
+    /// FAT32 keeps a time with no time zone, so once the Mac's offset from UTC changes, the same entry reads hours off.
+    @Test(arguments: [
+        ("MS-DOS FAT32", 3_600.0, true), ("MS-DOS FAT32", -45 * 60.0, true), ("MS-DOS FAT32", 10.0, false),
+        ("MS-DOS FAT32", 27 * 3_600.0, false), ("APFS", 3_600.0, false),
+    ])
+    func anItemReadWholeQuarterHoursOffOnFAT32IsStillTheItem(
+        fileSystem: String, shift: TimeInterval, isTheItem: Bool
+    ) throws {
+        let directory = try TemporaryDirectory()
+        let place = directory.url.appending(path: "Disk", directoryHint: .isDirectory)
+        let disk = try ScratchVolume(fileSystem: fileSystem, mountedAt: place)
+        let trashed = place.appending(path: "report.txt")
+        try Data("report".utf8).write(to: trashed)
+        let item = TrashedItem(
+            originalURL: place.appending(path: "folder/report.txt"), trashedURL: trashed, date: .now,
+            identity: .init(ofItemAt: trashed)
+        )
+        let path = trashed.path(percentEncoded: false)
+        let born = try #require(try FileManager.default.attributesOfItem(atPath: path)[.creationDate] as? Date)
+
+        try FileManager.default.setAttributes([.creationDate: born.addingTimeInterval(shift)], ofItemAtPath: path)
+
+        #expect(item.standing == (isTheItem ? .inTheTrash : .gone))
+        withExtendedLifetime(disk) {}
+    }
+
     @Test func aRecordThatDoesNotSayWhereItCameFromOnItsDiskKeepsThePlaceItNames() throws {
         let directory = try TemporaryDirectory()
         let disk = try ScratchVolume(fileSystem: "MS-DOS FAT32", mountedAt: directory.url.appending(path: "Disk"))

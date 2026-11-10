@@ -20,16 +20,58 @@ public struct TrashedItem: Sendable, Hashable, Codable {
     public struct Identity: Sendable, Hashable, Codable {
         let inode: UInt64
         let birth: Int64
+        /// Whether it is a folder, and a file's size, kept for an item on a disk that gives it no lasting number,
+        /// such as FAT32 or exFAT. Nil on any other disk, and in what was recorded before Peel kept it.
+        let shape: Shape?
 
-        init(_ identity: ItemIdentity) {
+        struct Shape: Sendable, Hashable, Codable {
+            let isFolder: Bool
+            let size: Int64
+
+            init(mode: mode_t, size: Int64) {
+                isFolder = mode & S_IFMT == S_IFDIR
+                self.size = isFolder ? 0 : size
+            }
+        }
+
+        init(_ identity: ItemIdentity, shape: Shape? = nil) {
             inode = identity.inode
             birth = identity.birth
+            self.shape = shape
         }
 
         /// The identity of the item at `url` itself, never of what a link there leads to.
         init?(ofItemAt url: URL) {
-            guard let identity = ItemIdentity(ofItemAt: url.path(percentEncoded: false)) else { return nil }
-            self.init(identity)
+            var info = stat()
+            guard lstat(url.path(percentEncoded: false), &info) == 0 else { return nil }
+            self.init(ItemIdentity(info), shape: Self.shape(info.st_mode, info.st_size, at: url))
+        }
+
+        /// The identity of `item`, opened at `url`, as it was when it was opened.
+        init?(_ item: OpenItem, at url: URL) {
+            guard let identity = item.identity, let mode = item.mode, let size = item.size else { return nil }
+            self.init(identity, shape: Self.shape(mode, size, at: url))
+        }
+
+        private static func shape(_ mode: mode_t, _ size: Int64, at url: URL) -> Shape? {
+            let values = try? url.resourceValues(forKeys: [.volumeSupportsPersistentIDsKey])
+            return values?.volumeSupportsPersistentIDs == false ? Shape(mode: mode, size: size) : nil
+        }
+
+        func isTheItem(_ info: stat) -> Bool {
+            isTheItem(ItemIdentity(info), shape: Shape(mode: info.st_mode, size: info.st_size))
+        }
+
+        /// On a disk that gives an item no lasting number, an empty file gets another inode at every mount and every
+        /// rename, and FAT32 reads a time in the Mac's time zone of the moment. So there the kind and size have to
+        /// match, an empty file's inode is not compared, and the birth may be off by whole quarter hours, at most the
+        /// 26 hours between the farthest time zones.
+        func isTheItem(_ now: ItemIdentity, shape readNow: Shape) -> Bool {
+            guard let shape else { return inode == now.inode && birth == now.birth }
+            let quarterHour: UInt64 = 15 * 60 * 1_000_000_000
+            let shift = (now.birth &- birth).magnitude
+            return shape == readNow && (inode == now.inode || (!shape.isFolder && shape.size == 0))
+                && shift % quarterHour == 0 && shift <= 26 * 4 * quarterHour
         }
     }
 
@@ -47,8 +89,9 @@ public struct TrashedItem: Sendable, Hashable, Codable {
 
     /// True while the version that took this one's place stands there, never a link taken for it.
     public var replacementStandsInItsPlace: Bool {
-        guard let replacedBy else { return false }
-        return Identity(ofItemAt: originalURL) == replacedBy
+        var info = stat()
+        guard let replacedBy, lstat(originalURL.path(percentEncoded: false), &info) == 0 else { return false }
+        return replacedBy.isTheItem(info)
     }
 
     /// Where the item stands now, as the disk says.
@@ -68,7 +111,7 @@ public struct TrashedItem: Sendable, Hashable, Codable {
             return .notKnown(SystemError(domain: NSPOSIXErrorDomain, code: Int(code)))
         }
         guard let identity else { return .inTheTrash }
-        return Identity(ItemIdentity(info)) == identity ? .inTheTrash : .gone
+        return identity.isTheItem(info) ? .inTheTrash : .gone
     }
 
     /// Whether the item is still where it went in the Trash: something is there and, when Peel knows which item
@@ -1019,8 +1062,10 @@ public struct TrashService: Sendable {
     /// folder is made and again before the move, which never replaces an item there; a refused Put Back's go again.
     static func putBack(_ item: TrashedItem, refusal: (URL) -> GuardRefusal?) throws {
         let trashed = try OpenItem.at(item.trashedURL.path(percentEncoded: false)).get()
-        if let identity = item.identity, trashed.identity.map(TrashedItem.Identity.init) != identity {
-            throw NotTheItemThatMoved()
+        if let identity = item.identity {
+            guard let now = trashed.identity, let mode = trashed.mode, let size = trashed.size,
+                  identity.isTheItem(now, shape: .init(mode: mode, size: size))
+            else { throw NotTheItemThatMoved() }
         }
         let name = item.originalURL.lastPathComponent
         var nearest = item.originalURL.deletingLastPathComponent().path(percentEncoded: false)
@@ -1176,10 +1221,12 @@ public struct TrashService: Sendable {
         guard let named = try? trash(held) else {
             // A volume where nothing was ever trashed has no Trash yet, and only `FileManager.trashItem` creates
             // one. That call moves by name, so the item it moved is checked against the one the guard allowed.
+            let judged = TrashedItem.Identity(item, at: held)
             let trashedURL = try byName(held)
-            guard ItemIdentity(ofItemAt: trashedURL.path(percentEncoded: false)) == item.identity else {
-                throw SomethingElseMoved(trashedURL: trashedURL)
-            }
+            var info = stat()
+            guard let judged, lstat(trashedURL.path(percentEncoded: false), &info) == 0,
+                  Int64(info.st_dev) == item.identity?.device, judged.isTheItem(info)
+            else { throw SomethingElseMoved(trashedURL: trashedURL) }
             return trashedURL
         }
         // Another account can make `.Trashes/<uid>` on a shared disk before its owner does, and read what lands there.

@@ -118,7 +118,7 @@ public final class DirectoryHandle: Sendable {
 /// Identifies an item by its device, inode, and birth time. A rename or a move within its volume keeps all
 /// three, and the birth time tells apart an item that reuses a freed inode number.
 public struct ItemIdentity: Codable, Hashable, Sendable {
-    let device: Int64
+    public let device: Int64
     public let inode: UInt64
     /// When the item was made, in nanoseconds since 1970.
     public let birth: Int64
@@ -146,7 +146,8 @@ public final class OpenItem: Sendable {
     /// Read through the parent's descriptor without following a link. Nil for a place nothing is in yet.
     public let identity: ItemIdentity?
     let owner: uid_t?
-    let mode: mode_t?
+    public let mode: mode_t?
+    public let size: Int64?
 
     init(path: String, name: String, parent: DirectoryHandle, status: stat? = nil) {
         self.path = path
@@ -155,6 +156,7 @@ public final class OpenItem: Sendable {
         identity = status.map(ItemIdentity.init)
         owner = status?.st_uid
         mode = status?.st_mode
+        size = status?.st_size
     }
 
     /// The item at `path`, held through a descriptor on the folder it sits in. Links in the folder's path are
