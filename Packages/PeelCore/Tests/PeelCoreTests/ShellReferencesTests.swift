@@ -51,12 +51,31 @@ struct ShellReferencesTests {
         #expect(found.map(\.line) == [5, 6, 7, 8])
     }
 
+    @Test func findsTheFolderZshenvNamesWithoutRunningAnyStartupFile() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        for name in [".zshenv", ".zprofile", ".zlogin"] {
+            let ran = home.appending(path: "ran\(name)").path(percentEncoded: false)
+            let sets = name == ".zshenv" ? "export ZDOTDIR=\"$HOME/.config/zsh\"\n" : ""
+            try directory.file("home/\(name)", contents: Data("\(sets): > '\(ran)'\n".utf8))
+        }
+        try directory.file("home/.config/zsh/.zshrc", contents: Data("source /Applications/Pad.app/Contents/env.sh\n".utf8))
+        let moved = [URL(filePath: "/Applications/Pad.app", directoryHint: .isDirectory)]
+
+        let found = await ShellReferences.find(naming: moved, home: home)
+
+        #expect(found.map { "\($0.file.lastPathComponent):\($0.line)" } == [".zshrc:1"])
+        #expect(found.first?.file.deletingLastPathComponent().lastPathComponent == "zsh")
+        let left = try FileManager.default.contentsOfDirectory(atPath: home.path(percentEncoded: false))
+        #expect(left.filter { $0.hasPrefix("ran") }.isEmpty)
+    }
+
     @Test func readsTheStartupFilesOfEachShellOnce() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         try directory.directory("home")
 
-        let files = await ShellReferences.startupFiles(home: home).map(\.lastPathComponent)
+        let files = ShellReferences.startupFiles(home: home).map(\.lastPathComponent)
 
         #expect(files == [
             ".zshenv", ".zprofile", ".zshrc", ".zlogin", ".bash_profile", ".bash_login", ".bashrc", ".profile",

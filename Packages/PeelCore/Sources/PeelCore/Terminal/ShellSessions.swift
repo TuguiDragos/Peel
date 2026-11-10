@@ -69,6 +69,50 @@ public enum ShellSessions: Sendable, Equatable {
             .appending(path: ".zshrc", directoryHint: .notDirectory)
     }
 
+    /// The folders a zsh startup file gives `ZDOTDIR`, read from its text and never by running it. Only an assignment
+    /// written plainly counts: a path, with `~`, `$HOME`, or `${NAME:-default}`. One a shell would have to work out
+    /// names no folder.
+    static func foldersGivenToZDOTDIR(in text: String, home: URL, environment: [String: String]) -> [URL] {
+        text.split(whereSeparator: \.isNewline).compactMap { line in
+            var words = line.drop(while: \.isWhitespace)
+            for prefix in ["export ", "typeset -x ", "typeset -gx "] where words.hasPrefix(prefix) {
+                words = words.dropFirst(prefix.count).drop(while: \.isWhitespace)
+            }
+            guard words.hasPrefix("ZDOTDIR=") else { return nil }
+            return plainFolder(words.dropFirst("ZDOTDIR=".count), home: home, environment: environment)
+        }
+    }
+
+    private static func plainFolder(_ written: Substring, home: URL, environment: [String: String]) -> URL? {
+        var value: String
+        var isQuoted = false
+        if let quote = written.first, quote == "\"" || quote == "'" {
+            let rest = written.dropFirst()
+            guard let end = rest.firstIndex(of: quote) else { return nil }
+            value = String(rest[..<end])
+            isQuoted = true
+            // Nothing inside single quotes stands for anything else.
+            if quote == "'" { return absoluteFolder(value) }
+        } else {
+            value = String(written.prefix { !$0.isWhitespace && $0 != ";" })
+        }
+        let homePath = home.pathAsHOME
+        value = value.replacing("${HOME}", with: homePath).replacing(/\$HOME(?![A-Za-z0-9_])/, with: homePath)
+        while let named = value.firstMatch(of: /\$\{([A-Za-z_][A-Za-z0-9_]*):[-=]([^{}]*)\}/) {
+            let set = environment[String(named.output.1)].flatMap { $0.isEmpty ? nil : $0 }
+            value.replaceSubrange(named.range, with: set ?? String(named.output.2))
+        }
+        if !isQuoted, value == "~" || value.hasPrefix("~/") {
+            value = homePath + value.dropFirst()
+        }
+        return absoluteFolder(value)
+    }
+
+    private static func absoluteFolder(_ path: String) -> URL? {
+        guard path.hasPrefix("/"), !path.contains(where: { "$`\\(){}*?[".contains($0) }) else { return nil }
+        return URL(filePath: (path as NSString).standardizingPath, directoryHint: .isDirectory)
+    }
+
     /// The prompt a new zsh shows, as zsh itself answers.
     public struct ShownPrompt: Equatable, Sendable {
         /// What `PROMPT` holds once every startup file has run and the hooks zsh runs before a prompt have run.

@@ -79,6 +79,28 @@ struct ShellSessionsTests {
         #expect(await ShellSessions.bash.zshrc(home: home, zdotdir: nil) == nil)
     }
 
+    @Test func readsTheFolderAStartupFileGivesZdotdirOnlyWhenItIsWrittenPlainly() {
+        let home = URL(filePath: "/Users/someone", directoryHint: .isDirectory)
+        let folders = { (text: String, environment: [String: String]) in
+            ShellSessions.foldersGivenToZDOTDIR(in: text, home: home, environment: environment)
+                .map { $0.path(percentEncoded: false) }
+        }
+        #expect(folders("ZDOTDIR=~/.zsh\n", [:]) == ["/Users/someone/.zsh/"])
+        #expect(folders("export ZDOTDIR=\"$HOME/.config/zsh\"  # where zsh looks\n", [:]) == ["/Users/someone/.config/zsh/"])
+        #expect(folders("  typeset -x ZDOTDIR='/Users/Shared/z sh'\n", [:]) == ["/Users/Shared/z sh/"])
+        #expect(folders("export ZDOTDIR=${XDG_CONFIG_HOME:-${HOME}/.config}/zsh\n", [:]) == ["/Users/someone/.config/zsh/"])
+        #expect(folders("export ZDOTDIR=${XDG_CONFIG_HOME:-$HOME/.config}/zsh\n", ["XDG_CONFIG_HOME": "/Users/someone/xdg"])
+            == ["/Users/someone/xdg/zsh/"])
+        #expect(folders("ZDOTDIR=/a\nZDOTDIR=/b;\n", [:]) == ["/a/", "/b/"])
+        let unreadable = [
+            "# ZDOTDIR=/commented", "ZDOTDIR=$(cat ~/.zdotdir)", "ZDOTDIR=`pwd`", "ZDOTDIR=$OTHER/zsh", "ZDOTDIR=relative/zsh",
+            "ZDOTDIR='$HOME/literal'", "ZDOTDIR=\"/unclosed", "MY_ZDOTDIR=/x", "ZDOTDIR=",
+        ]
+        for line in unreadable {
+            #expect(folders(line, [:]).isEmpty, "\(line)")
+        }
+    }
+
     @Test func zshStartsWithZdotdirOnlyWhenTheSessionSetsIt() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url

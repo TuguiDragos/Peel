@@ -21,7 +21,7 @@ public enum ShellReferences {
         let spellings = moved.flatMap { spellings(of: $0, home: home) }.map { Array($0.lowercased().utf8) }
         guard !spellings.isEmpty else { return [] }
         var references: [Reference] = []
-        for file in await startupFiles(home: home) {
+        for file in startupFiles(home: home) {
             guard let data = BoundedRead.data(at: file, maximum: maximumBytes) else { continue }
             let lines = String(decoding: data, as: UTF8.self).split(separator: "\n", omittingEmptySubsequences: false)
             for (index, line) in lines.enumerated() where !line.drop(while: \.isWhitespace).hasPrefix("#") {
@@ -63,15 +63,29 @@ public enum ShellReferences {
     private static let endsAPath = Set(" \t\r\u{0B}\u{0C}/\"'`:;,|&()}]<>".utf8)
 
     /// The files zsh, bash, tcsh and fish read when a shell starts: `.zshenv` where the session's ZDOTDIR or the home
-    /// puts it, zsh's other three in the folder zsh names once `.zshenv` has run, and the rest in the home folder.
-    static func startupFiles(home: URL) async -> [URL] {
+    /// puts it, zsh's other three there and in each folder `.zshenv` or `.zprofile` plainly gives ZDOTDIR, and the
+    /// rest in the home folder. No shell is asked: one would run those very files, which any program of the account
+    /// can write, as a child of Peel.
+    static func startupFiles(home: URL) -> [URL] {
         var files: [URL] = []
         let zdotdir = ShellSessions.sessionZDOTDIR
         if let zsh = ShellSessions.of(terminalSetting: nil, loginShell: "/bin/zsh", zdotdir: zdotdir, home: home),
            case .zsh(let zshenv) = zsh {
             files.append(zshenv)
-            let folder = (await zsh.zshrc(home: home, zdotdir: zdotdir) ?? zshenv).deletingLastPathComponent()
-            files += [".zprofile", ".zshrc", ".zlogin"].map { folder.appending(path: $0, directoryHint: .notDirectory) }
+            var folders = [zshenv.deletingLastPathComponent()]
+            let environment = zdotdir.map { ["ZDOTDIR": $0] } ?? [:]
+            for name in [".zshenv", ".zprofile"] {
+                for folder in folders {
+                    let file = folder.appending(path: name, directoryHint: .notDirectory)
+                    guard let data = BoundedRead.data(at: file, maximum: maximumBytes) else { continue }
+                    folders += ShellSessions.foldersGivenToZDOTDIR(
+                        in: String(decoding: data, as: UTF8.self), home: home, environment: environment
+                    )
+                }
+            }
+            files += folders.flatMap { folder in
+                [".zprofile", ".zshrc", ".zlogin"].map { folder.appending(path: $0, directoryHint: .notDirectory) }
+            }
         }
         let others = [
             ".bash_profile", ".bash_login", ".bashrc", ".profile", ".tcshrc", ".cshrc", ".login",
