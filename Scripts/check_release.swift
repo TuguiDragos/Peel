@@ -47,6 +47,7 @@ struct Release: Decodable {
     let draft: Bool
     let prerelease: Bool
     let assets: [Asset]
+    let body: String?
 }
 
 let decoder = JSONDecoder()
@@ -70,6 +71,17 @@ func asset(_ name: String) -> Release.Asset? {
     return found
 }
 if release.prerelease { refusals.append("it is a prerelease, which is never the latest release") }
+// GitHub makes a heading's anchor from its text, so a link written for another date opens the top of the page.
+let changelog = (try? String(contentsOf: repository.appending(path: "CHANGELOG.md"), encoding: .utf8)) ?? ""
+let anchors = Set(changelog.split(separator: "\n").filter { $0.hasPrefix("## ") }.map { heading in
+    String(heading.dropFirst(3).lowercased().compactMap { character -> Character? in
+        character == " " ? "-" : character.isLetter || character.isNumber || "-_".contains(character) ? character : nil
+    })
+})
+for part in (release.body ?? "").components(separatedBy: "CHANGELOG.md#").dropFirst() {
+    let anchor = String(part.prefix { $0.isLetter || $0.isNumber || "-_".contains($0) })
+    if !anchors.contains(anchor) { refusals.append("its notes link to CHANGELOG.md#\(anchor), which no heading has") }
+}
 let feedAsset = asset("appcast.xml")
 let imageAsset = asset(image)
 let archiveAsset = asset(archive)
