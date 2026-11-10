@@ -40,8 +40,9 @@ public struct SearchLocation: Sendable, Hashable {
         /// The top of the home folder, where a few apps keep a folder of their own beside the ones every
         /// account starts with: `~/Postman`, `~/VirtualBox VMs`.
         case homeFolder
-        /// `/usr/local/bin` and `/usr/local/sbin`, where an app links the command line tools it carries. Only a
-        /// link into the app counts as the app's: a tool is named for what it does (`docker`), not for its maker.
+        /// The folders commands are run from by name (`CommandFolders`), where an app, a package manager, or a person
+        /// links a tool. Only a link into the app counts as the app's: a tool is named for what it does (`docker`),
+        /// not for its maker.
         case commandLineTools
         /// The folders an app's installer links the shell completions of its tools into, for zsh, fish, bash, and
         /// PowerShell, as a Homebrew cask does. As for a tool, only a link into the app counts as the app's.
@@ -183,6 +184,13 @@ public struct SearchEnvironment: Sendable {
         )
     }
 
+    /// The folders commands are run from by name (`CommandFolders`), under this root and home.
+    var commandFolders: [URL] {
+        (CommandFolders.usrLocal + CommandFolders.homebrew + CommandFolders.macPorts).map {
+            rootDirectory.appending(path: $0, directoryHint: .isDirectory)
+        } + CommandFolders.home.map { homeDirectory.appending(path: $0, directoryHint: .isDirectory) }
+    }
+
     /// True for an app at `path` that a person keeps on its own. One inside the home's Library or the Mac's is part
     /// of another app (a helper, an agent, an update being prepared, a build) and goes with that app.
     func keepsOnItsOwn(appAt path: String) -> Bool {
@@ -243,11 +251,7 @@ public struct SearchEnvironment: Sendable {
         if let userTemporaryDirectory {
             locations.append(SearchLocation(kind: .temporaryItems, url: userTemporaryDirectory))
         }
-        // Homebrew links a cask's commands into its own `bin`: `/usr/local/bin` on Intel, `/opt/homebrew/bin` on
-        // Apple silicon (Cask Cookbook, `binary`).
-        locations += ["usr/local/bin", "usr/local/sbin", "opt/homebrew/bin"].map {
-            SearchLocation(kind: .commandLineTools, url: rootDirectory.appending(path: $0, directoryHint: .isDirectory))
-        }
+        locations += commandFolders.map { SearchLocation(kind: .commandLineTools, url: $0) }
         locations += [rootDirectory, homeDirectory].map {
             SearchLocation(kind: .applicationLinks, url: $0.appending(path: "Applications", directoryHint: .isDirectory))
         }

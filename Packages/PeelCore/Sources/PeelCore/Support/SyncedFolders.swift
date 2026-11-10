@@ -102,14 +102,12 @@ public enum SyncApp: String, Sendable, Hashable, CaseIterable {
         return runs(program) ?? true
     }
 
-    /// The folders Homebrew (on Apple silicon and on Intel) and MacPorts link programs into, and the home's `bin`,
-    /// where Syncthing's guide for macOS without Homebrew puts its program (docs.syncthing.net, Starting Syncthing
+    /// The folders commands are run from by name, where Homebrew and MacPorts link programs and Syncthing's guide for
+    /// macOS without Homebrew puts its own, in the home's `bin` (docs.syncthing.net, Starting Syncthing
     /// Automatically), with a launchd agent that starts it.
     static func programFolders(home: URL = .homeDirectory) -> [String] {
-        [
-            "/opt/homebrew/bin", "/usr/local/bin", "/opt/local/bin",
-            home.appending(path: "bin").path(percentEncoded: false),
-        ]
+        SearchEnvironment(homeDirectory: home, rootDirectory: URL(filePath: "/", directoryHint: .isDirectory))
+            .commandFolders.map { PathPattern.comparablePath(of: $0) }
     }
 
     /// Whether a process runs a program named `name`, or nil when the processes can't be listed.

@@ -707,9 +707,9 @@ and it fails closed.
 - It serves a fixed list of folders and refuses everything else: `/Applications`, for apps only; eight folders
   of `/Library` (Application Support, Caches, Preferences, Logs, LaunchAgents, LaunchDaemons,
   PrivilegedHelperTools, and StartupItems) and the 24 that hold plug-ins; the installer receipts in
-  `/private/var/db/receipts`; the links in `/usr/local/bin`, `/usr/local/sbin`, and the four folders of
-  `/usr/local` that shell completions are linked into; the folders of `/Library` browsers read native messaging
-  manifests from; and the Library of the administrator who asks.
+  `/private/var/db/receipts`; the links in `/usr/local/bin`, `/usr/local/sbin`, MacPorts' `/opt/local/bin` and
+  `/opt/local/sbin`, and the four folders of `/usr/local` that shell completions are linked into; the folders of
+  `/Library` browsers read native messaging manifests from; and the Library of the administrator who asks.
 - It takes at most 100 items in one request, and quits 30 seconds after its last request ends, or as soon as
   it is idle once an update has replaced it, so it isn't left running.
 - A path with a control character in it is refused. The rules read the whole name and the system stops at
@@ -719,11 +719,12 @@ and it fails closed.
   refuses every daemon rather than allowing them all. It never acts on itself: Peel's helper is installed
   and uninstalled in Settings, and Background Items shows it without controls.
 - From the folders command-line tools and their shell completions are linked into, `/usr/local/bin`,
-  `/usr/local/sbin`, and the completion folders of `/usr/local` (`share/zsh/site-functions`,
-  `share/fish/vendor_completions.d`, `etc/bash_completion.d`, and `share/pwsh/completions`), it takes only a link,
-  never a file, and only one that leads nowhere. Peel sends an app's links there after the app itself, so they go
-  once the app is gone, and a link that still leads to something stays. The one exception is a link to the `peel`
-  command inside the Peel the helper runs from, which Remove Peel hands it before the helper goes.
+  `/usr/local/sbin`, MacPorts' `/opt/local/bin` and `/opt/local/sbin`, and the completion folders of `/usr/local`
+  (`share/zsh/site-functions`, `share/fish/vendor_completions.d`, `etc/bash_completion.d`, and
+  `share/pwsh/completions`), it takes only a link, never a file, and only one that leads nowhere. Peel sends an app's
+  links there after the app itself, so they go once the app is gone, and a link that still leads to something stays.
+  The one exception is a link to the `peel` command inside the Peel the helper runs from, which Remove Peel hands it
+  before the helper goes.
 - From the folders of `/Library` browsers read native messaging manifests from (`Google/Chrome`,
   `Google/ChromeForTesting`, and `Microsoft/Edge`, and Chromium's and Mozilla's in Application Support, each in its
   `NativeMessagingHosts`), it takes only a manifest that starts nothing: a link that leads nowhere, or a file that

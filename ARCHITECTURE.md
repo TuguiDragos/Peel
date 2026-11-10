@@ -123,8 +123,9 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
    - `TrashService` asks `RemovalGuard` about each item first, holds the folder around the item open, asks again
      about what the kernel calls that folder, and moves the item through it, so the thing judged is the thing
      moved. Items only an administrator can move go through the helper, and the links an app's tools and their
-     shell completions left in `/usr/local` go last, once the app they lead into has moved. A browser's manifest in
-     `/Library` goes through the helper too, which takes it only once the program it names is gone.
+     shell completions left in `/usr/local` or MacPorts' `/opt/local` go last, once the app they lead into has
+     moved. A browser's manifest in `/Library` goes through the helper too, which takes it only once the program
+     it names is gone.
    - An item stays where it is while a program holds it (`OpenFiles`): a file one of the user's programs holds
      open, the program any process runs from it, or a script in it a program such as Node.js was given to run.
      When only an app's own background programs hold it, the move stops their launch jobs, moves the app, and

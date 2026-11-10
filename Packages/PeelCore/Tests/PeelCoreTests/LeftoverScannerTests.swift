@@ -1791,6 +1791,32 @@ struct LeftoverScannerTests {
         #expect(try #require(found["tunewell-cli"]?.size) < 64_000)
     }
 
+    @Test func findsALinkIntoTheAppInEveryFolderCommandsRunFrom() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: directory.url.appending(path: "root/Applications/Tunewell.app", directoryHint: .isDirectory),
+            bundleIdentifier: "net.example.client",
+            name: "Tunewell"
+        )
+        try directory.file("root/Applications/Tunewell.app/Contents/MacOS/tunewell", bytes: 1_000)
+        let tool = app.url.appending(path: "Contents/MacOS/tunewell").path(percentEncoded: false)
+        let folders = ["root/opt/homebrew/sbin", "root/opt/local/bin", "root/opt/local/sbin", "home/bin", "home/.local/bin"]
+        for folder in folders {
+            try FileManager.default.createSymbolicLink(
+                atPath: try directory.directory(folder).appending(path: "tunewell").path(percentEncoded: false),
+                withDestinationPath: tool
+            )
+        }
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+        let links = scan.leftovers.filter { $0.url.lastPathComponent == "tunewell" }
+
+        #expect(Set(links.map { PathPattern.comparablePath(of: $0.url.deletingLastPathComponent()) })
+            == Set(folders.map { PathPattern.comparablePath(of: directory.url.appending(path: $0)) }))
+        #expect(links.filter { $0.kind != .commandLineTools || $0.match.reason != .linksToTheApp }.isEmpty)
+        #expect(links.filter { !$0.match.isRecommended }.isEmpty)
+    }
+
     /// An app put in an Applications folder through a link leaves the link behind once it goes, so a link there that
     /// leads to the app is the app's, as one in `/usr/local/bin` is. Nothing there that isn't a link is ever claimed: a
     /// folder named like the app, or a link to another app.
@@ -2218,6 +2244,30 @@ struct LeftoverScannerTests {
         #expect(kext.requiresPrivileges)
         #expect(kext.match.heldBack == .beyondTheHelper)
         #expect(scan.leftovers.count == 1, "the kext was reached twice or its folder was offered")
+    }
+
+    @Test(.permissionsHold) func theHelperTakesALinkIntoTheAppFromMacPortsFolders() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: directory.url.appending(path: "root/Applications/Tunewell.app", directoryHint: .isDirectory),
+            bundleIdentifier: "net.example.client",
+            name: "Tunewell"
+        )
+        try directory.file("root/Applications/Tunewell.app/Contents/MacOS/tunewell", bytes: 1_000)
+        let bin = try directory.directory("root/opt/local/bin")
+        try FileManager.default.createSymbolicLink(
+            atPath: bin.appending(path: "tunewell").path(percentEncoded: false),
+            withDestinationPath: app.url.appending(path: "Contents/MacOS/tunewell").path(percentEncoded: false)
+        )
+        try directory.setPermissions(0o555, of: "root/opt/local/bin")
+        defer { try? directory.setPermissions(0o755, of: "root/opt/local/bin") }
+
+        let found = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+        let scan = found.holdingBack(beyond: HelperReach(environment: environment(in: directory)), leaving: app.url)
+
+        let link = try #require(scan.leftovers.first { $0.url.lastPathComponent == "tunewell" })
+        #expect(link.requiresPrivileges)
+        #expect(link.match.heldBack == nil)
     }
 
     /// A startup item an app's package installed in `/Library/StartupItems` is found by its folder's name and moved

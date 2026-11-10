@@ -2056,6 +2056,22 @@ struct OrphanScannerTests {
         #expect(Set(try #require(groups["com.remembered.app"]).items.map(\.url.lastPathComponent)) == ["rem", "com.remembered.app"])
     }
 
+    @Test func listsLinksIntoAnAppThatIsGoneInEveryFolderCommandsRunFrom() async throws {
+        let directory = try TemporaryDirectory()
+        let tool = directory.url.appending(path: "root/Applications/Gone.app/Contents/MacOS/gone").path(percentEncoded: false)
+        for folder in ["root/opt/local/sbin", "home/bin", "home/.local/bin"] {
+            try FileManager.default.createSymbolicLink(
+                atPath: try directory.directory(folder).appending(path: "gone").path(percentEncoded: false),
+                withDestinationPath: tool
+            )
+        }
+
+        let scan = await scanner(in: directory).scan(installedApps: installed)
+
+        #expect(scan.groups.map(\.identifier) == ["Gone"])
+        #expect(scan.groups.first?.items.count == 3)
+    }
+
     @Test func aLinkIntoAnAppOnADiskThatIsNotConnectedIsNotListed() async throws {
         let directory = try TemporaryDirectory()
         let bin = try directory.directory("root/opt/homebrew/bin")

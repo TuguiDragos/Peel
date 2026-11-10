@@ -67,7 +67,7 @@ public struct PrivilegedPathPolicy: Sendable {
     /// The folders command-line tools and their shell completions are linked into. The helper takes only a link from
     /// them, and only one that leads nowhere: what an app's tool leaves there once the app is gone. The one exception
     /// is a link to Peel's own tool, which Remove Peel hands over while Peel is still in place (`ownTool`).
-    public static let linkLocations = ["/usr/local/bin", "/usr/local/sbin"]
+    public static let linkLocations = (CommandFolders.usrLocal + CommandFolders.macPorts).map { "/" + $0 }
         + shellCompletionFolders.map { "/usr/local/" + $0 }
 
     /// Where shell completions are linked under a prefix: Homebrew's four for a cask (`Cask::Config`), the first of

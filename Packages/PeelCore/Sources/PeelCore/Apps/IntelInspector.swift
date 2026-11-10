@@ -94,13 +94,13 @@ public enum IntelInspector {
             paths.map { base.appending(path: $0).path(percentEncoded: false) }
         }
         return [
-            (under(environment.rootDirectory, ["usr/local/bin", "usr/local/sbin", "usr/local/libexec"]), .usrLocal),
-            (under(environment.rootDirectory, ["opt/local/bin", "opt/local/sbin", "opt/local/libexec"]), .macPorts),
-            (under(environment.homeDirectory, ["bin", ".local/bin"]), .home),
+            (under(environment.rootDirectory, CommandFolders.usrLocal + ["usr/local/libexec"]), .usrLocal),
+            (under(environment.rootDirectory, CommandFolders.macPorts + ["opt/local/libexec"]), .macPorts),
+            (under(environment.homeDirectory, CommandFolders.home), .home),
         ]
     }
 
-    /// The folders a command is run from by name: the tool folders but `libexec`, whose helpers nobody calls.
+    /// The tool folders but `libexec`, whose helpers nobody runs by name.
     static func commandDirectories(_ environment: SearchEnvironment) -> [String] {
         toolDirectories(environment).flatMap(\.folders).filter { !$0.hasSuffix("/libexec") }
     }

@@ -12,7 +12,7 @@ public enum MatchReason: String, Sendable, Hashable {
     case namePrefix
     /// A launchd job whose program sits inside the app, whatever the file is called.
     case launchdJob
-    /// A link in `/usr/local/bin` or `/usr/local/sbin` that leads to a tool inside the app.
+    /// A link in a folder commands are run from (`CommandFolders`) that leads to a tool inside the app.
     case linksToTheApp
     /// A link that leads to the app itself, such as an alias in an Applications folder.
     case leadsToTheApp
