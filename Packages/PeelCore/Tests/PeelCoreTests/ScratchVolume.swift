@@ -12,28 +12,21 @@ final class ScratchVolume {
         self.url = url
         let file = image.url.appending(path: "disk.dmg")
         try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
-        try Self.hdiutil("create", "-quiet", "-size", "64m", "-fs", fileSystem, "-volname", "Scratch", "-type", "UDIF", file.path)
-        try Self.hdiutil("attach", "-quiet", "-nobrowse", "-noautoopen", "-noverify", "-mountpoint", url.path, file.path)
+        try DiskImageTool.hdiutil("create", "-size", "64m", "-fs", fileSystem, "-volname", "Scratch", "-type", "UDIF", file.path)
+        try DiskImageTool.hdiutil("attach", "-nobrowse", "-noautoopen", "-noverify", "-mountpoint", url.path, file.path)
     }
 
     deinit {
-        try? Self.hdiutil("detach", "-quiet", "-force", url.path)
+        _ = try? DiskImageTool.hdiutil("detach", "-force", url.path)
     }
 
-    /// The same disk, detached and mounted again at `place`, as a disk renamed or plugged in again lands elsewhere.
+    /// The same disk, detached and mounted again at `place`, as a disk renamed or plugged in again lands elsewhere. It
+    /// is unmounted without force, since a forced unmount skips writing out what the file system still holds.
     func remount(at place: URL) throws {
-        try Self.hdiutil("detach", "-quiet", "-force", url.path)
+        try DiskImageTool.hdiutil("detach", url.path)
         try FileManager.default.createDirectory(at: place, withIntermediateDirectories: true)
         let file = image.url.appending(path: "disk.dmg")
-        try Self.hdiutil("attach", "-quiet", "-nobrowse", "-noautoopen", "-noverify", "-mountpoint", place.path, file.path)
+        try DiskImageTool.hdiutil("attach", "-nobrowse", "-noautoopen", "-noverify", "-mountpoint", place.path, file.path)
         url = place
-    }
-
-    private static func hdiutil(_ arguments: String...) throws {
-        let process = try Process.run(URL(filePath: "/usr/bin/hdiutil"), arguments: arguments)
-        process.waitUntilExit()
-        guard process.terminationStatus == 0 else {
-            throw CocoaError(.fileWriteUnknown, userInfo: [NSLocalizedDescriptionKey: arguments.joined(separator: " ")])
-        }
     }
 }

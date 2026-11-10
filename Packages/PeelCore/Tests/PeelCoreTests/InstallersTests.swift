@@ -275,19 +275,10 @@ struct InstallersTests {
     }
 
     private func makeEncryptedImage(at url: URL) throws {
-        let process = Process()
-        process.executableURL = URL(filePath: "/usr/bin/hdiutil")
-        process.arguments = [
-            "create", "-quiet", "-encryption", "AES-128", "-stdinpass", "-size", "1m", "-fs", "APFS", "-volname", "Probe",
-            url.path(percentEncoded: false),
-        ]
-        let password = Pipe()
-        process.standardInput = password
-        try process.run()
-        password.fileHandleForWriting.write(Data("probe".utf8))
-        try password.fileHandleForWriting.close()
-        process.waitUntilExit()
-        #expect(process.terminationStatus == 0)
+        try DiskImageTool.hdiutil(
+            "create", "-encryption", "AES-128", "-stdinpass", "-size", "1m", "-fs", "APFS", "-volname", "Probe",
+            url.path(percentEncoded: false), input: Data("probe".utf8)
+        )
     }
 
     @Test func findsADiskImageInTheISOFormat() async throws {
