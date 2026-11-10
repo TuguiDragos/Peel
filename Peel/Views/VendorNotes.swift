@@ -22,6 +22,24 @@ struct SystemExtensionNotice: View {
         }
     }
 
+    /// What the note says on macOS 27: how macOS removes the extensions, then what Peel leaves. Each sentence is a
+    /// literal of its own, so the string catalog finds every one.
+    static func saidOn27(
+        names: String, app: String, isOne: Bool, systemSettingsDeletesThem: Bool
+    ) -> [LocalizedStringResource] {
+        let removal: LocalizedStringResource = switch (isOne, systemSettingsDeletesThem) {
+        case (true, true):
+            "macOS installed \(names) with \(app), and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too. If it is still listed afterward, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension."
+        case (false, true):
+            "macOS installed \(names) with \(app), and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too. If they are still listed afterward, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside each and choose Delete Extension."
+        case (true, false):
+            "macOS installed \(names) with \(app), and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too."
+        case (false, false):
+            "macOS installed \(names) with \(app), and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too."
+        }
+        return [removal, "Peel leaves the app and its files where they are: Orphaned Files lists what it left once the app is in the Trash."]
+    }
+
     // Each sentence is a literal of its own, so the string catalog finds every one.
     private var detail: Text {
         guard extensions.isKnown else {
@@ -30,16 +48,11 @@ struct SystemExtensionNotice: View {
         let names = extensions.names.formatted(.list(type: .and))
         let isOne = extensions.names.count == 1
         if #available(macOS 27, *) {
-            return switch (isOne, extensions.systemSettingsDeletesThem) {
-            case (true, true):
-                Text("macOS installed \(names) with \(app.name), and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too. If it is still listed afterward, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension.")
-            case (false, true):
-                Text("macOS installed \(names) with \(app.name), and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too. If they are still listed afterward, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside each and choose Delete Extension.")
-            case (true, false):
-                Text("macOS installed \(names) with \(app.name), and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too.")
-            case (false, false):
-                Text("macOS installed \(names) with \(app.name), and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too.")
-            }
+            let said = Self.saidOn27(
+                names: names, app: app.name, isOne: isOne,
+                systemSettingsDeletesThem: extensions.systemSettingsDeletesThem
+            )
+            return Text(verbatim: said.map { String(localized: $0) }.joined(separator: "\n\n"))
         }
         return isOne
             ? Text("macOS installed \(names), a system extension that came with \(app.name), and removes it only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves the app and its files where they are: move it to the Trash in Finder, and Orphaned Files then lists what it left.")

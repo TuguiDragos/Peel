@@ -153229,6 +153229,112 @@
         }
       }
     },
+    "Peel leaves the app and its files where they are: Orphaned Files lists what it left once the app is in the Trash." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ponechá aplikaci i její soubory na místě: jakmile bude aplikace v koši, stránka Osiřelé soubory zobrazí, co po sobě zanechala."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel lässt die App und ihre Dateien, wo sie sind: Die Seite „Verwaiste Dateien“ zeigt an, was die App hinterlassen hat, sobald sie im Papierkorb ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel deja la app y sus archivos donde están: cuando la app esté en la papelera, la página Archivos huérfanos mostrará lo que haya dejado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel laisse l’app et ses fichiers à leur place : la page Fichiers orphelins liste ce qu’elle a laissé une fois l’app dans la corbeille."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel lascia l’app e i suoi file dove sono: “File orfani” elenca ciò che si è lasciata dietro una volta che l’app è nel Cestino."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはアプリとそのファイルをそのままにします。アプリがゴミ箱に入った後に残ったものは、“孤立ファイル”に表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 앱과 앱의 파일을 그대로 둡니다. 앱이 휴지통으로 이동하면 앱이 남긴 항목이 주인 없는 파일 페이지에 나열됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel laat de app en de bestanden ervan staan waar ze zijn: de pagina 'Verweesde bestanden' toont wat de app heeft achtergelaten zodra de app in de prullenmand staat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zostawia aplikację i jej pliki na miejscu: gdy aplikacja trafi do Kosza, strona Osierocone pliki wyświetli to, co po sobie pozostawiła."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel deixa o app e os arquivos dele onde estão: a página Arquivos Órfãos lista o que o app deixou para trás assim que ele estiver no Lixo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel lasă aplicația și fișierele ei unde se află: după ce aplicația ajunge în Coș, pagina Fișiere orfane listează ce a lăsat aceasta în urmă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel оставляет приложение и его файлы на месте: когда приложение окажется в Корзине, то, что от него осталось, покажет раздел «Осиротевшие файлы»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel lämnar appen och dess filer där de är: sidan Övergivna filer listar det som appen lämnade kvar när den ligger i papperskorgen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel uygulamayı ve dosyalarını oldukları yerde bırakır: uygulama Çöp Sepeti’ne gittiğinde geride bıraktıklarını Sahipsiz Dosyalar listeler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel залишає програму та її файли на місці: розділ «Покинуті файли» покаже те, що програма залишила по собі, щойно вона опиниться в Смітнику."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会将该App及其文件留在原处：该App进入废纸篓后，“孤立文件”会列出它留下的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會將此App及其檔案保留在原處：App丟到「垃圾桶」後，「孤立檔案」會列出它留下的項目。"
+          }
+        }
+      }
+    },
     "Peel lists at most ^[%lld file](inflect: true), yours first and largest first. Narrow the search to see the rest." : {
       "localizations" : {
         "cs" : {
