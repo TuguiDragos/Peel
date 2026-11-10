@@ -141,7 +141,7 @@ struct OnItsOwnTests {
         let environment = environment
         let task = Task {
             await Subprocess.runOnItsOwn(
-                "/bin/sh", ["-c", #"echo $$ > "$0"; kill -STOP $$; touch "$1"; exec /bin/sleep 5"#,
+                "/bin/sh", ["-c", #"echo $$ > "$0"; kill -STOP $$; touch "$1"; exec /bin/sleep 600"#,
                             started.path(percentEncoded: false), resumed.path(percentEncoded: false)],
                 environment: environment, timeout: 3_600
             )
