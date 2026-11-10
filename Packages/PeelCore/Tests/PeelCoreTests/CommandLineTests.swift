@@ -300,6 +300,18 @@ struct CommandLineTests {
         #expect(collected.output == "  1 kB  /a\n  2 kB  /b\n  3 kB  /c\n")
     }
 
+    @Test func aBundleThatIsNoAppIsNotTakenForOne() throws {
+        let directory = try TemporaryDirectory()
+        let pane = try directory.directory("PreferencePanes/Fake.prefPane")
+        _ = try directory.file("PreferencePanes/Fake.prefPane/Contents/Info.plist", contents: Data(
+            #"<plist version="1.0"><dict><key>CFBundleIdentifier</key><string>org.example.pane</string></dict></plist>"#.utf8
+        ))
+
+        #expect(throws: AppLookup.Failure.notAnApp(pane.path(percentEncoded: false))) {
+            try AppLookup.app(matching: pane.path(percentEncoded: false), in: [])
+        }
+    }
+
     /// A link to an app that isn't listed finds that app too, never the link, whose identity is the app's own.
     @Test func aLinkFindsTheAppItLeadsToWhenItIsNotListed() throws {
         let directory = try TemporaryDirectory()
