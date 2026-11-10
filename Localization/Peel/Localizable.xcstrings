@@ -82822,6 +82822,686 @@
         }
       }
     },
+    "It keeps only its latest removals, up to ^[%lld item](inflect: true). What the older ones couldn’t move stayed where it was." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uchovává jen nejnovější odstranění, celkem nejvýše %lld položky. Co starší odstranění nedokázala přesunout, zůstalo na svém místě."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uchovává jen nejnovější odstranění, celkem nejvýše %lld položky. Co starší odstranění nedokázala přesunout, zůstalo na svém místě."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uchovává jen nejnovější odstranění, celkem nejvýše %lld položku. Co starší odstranění nedokázala přesunout, zůstalo na svém místě."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uchovává jen nejnovější odstranění, celkem nejvýše %lld položek. Co starší odstranění nedokázala přesunout, zůstalo na svém místě."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Es werden nur die neuesten Einträge behalten, insgesamt bis zu %lld Objekt. Was bei älteren Einträgen nicht verschoben werden konnte, ist geblieben, wo es war."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Es werden nur die neuesten Einträge behalten, insgesamt bis zu %lld Objekte. Was bei älteren Einträgen nicht verschoben werden konnte, ist geblieben, wo es war."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Solo conserva sus eliminaciones más recientes, hasta un máximo de %lld de ítems. Lo que las más antiguas no pudieron trasladar se quedó donde estaba."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Solo conserva sus eliminaciones más recientes, hasta un máximo de %lld ítem. Lo que las más antiguas no pudieron trasladar se quedó donde estaba."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Solo conserva sus eliminaciones más recientes, hasta un máximo de %lld ítems. Lo que las más antiguas no pudieron trasladar se quedó donde estaba."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cette liste ne conserve que ses suppressions les plus récentes, dans la limite de %lld d’éléments. Ce que les plus anciennes n’ont pas pu déplacer est resté à sa place."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cette liste ne conserve que ses suppressions les plus récentes, dans la limite de %lld élément. Ce que les plus anciennes n’ont pas pu déplacer est resté à sa place."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Cette liste ne conserve que ses suppressions les plus récentes, dans la limite de %lld éléments. Ce que les plus anciennes n’ont pas pu déplacer est resté à sa place."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Conserva solo le rimozioni più recenti, fino a %lld di elementi. Ciò che le più vecchie non sono riuscite a spostare è rimasto dov’era."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Conserva solo le rimozioni più recenti, fino a %lld elemento. Ciò che le più vecchie non sono riuscite a spostare è rimasto dov’era."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Conserva solo le rimozioni più recenti, fino a %lld elementi. Ciò che le più vecchie non sono riuscite a spostare è rimasto dov’era."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持されるのは最新の記録だけで、最大%lld項目までです。それより古い記録で移動できなかった項目は、元の場所に残っています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최근 제거 기록만 최대 항목 %lld개까지 보관합니다. 그보다 오래된 제거에서 이동하지 못한 항목은 원래 위치에 그대로 남았습니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Alleen de laatste verwijderingen worden bewaard, tot maximaal %lld onderdeel. Wat de oudere verwijderingen niet konden verplaatsen, is gebleven waar het was."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Alleen de laatste verwijderingen worden bewaard, tot maximaal %lld onderdelen. Wat de oudere verwijderingen niet konden verplaatsen, is gebleven waar het was."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przechowuje tylko ostatnie przeniesienia do Kosza, maksymalnie %lld rzeczy. To, czego starsze z nich nie mogły przenieść, zostało na miejscu."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przechowuje tylko ostatnie przeniesienia do Kosza, maksymalnie %lld rzeczy. To, czego starsze z nich nie mogły przenieść, zostało na miejscu."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przechowuje tylko ostatnie przeniesienia do Kosza, maksymalnie %lld rzecz. To, czego starsze z nich nie mogły przenieść, zostało na miejscu."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przechowuje tylko ostatnie przeniesienia do Kosza, maksymalnie %lld rzeczy. To, czego starsze z nich nie mogły przenieść, zostało na miejscu."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "São guardadas apenas as remoções mais recentes, até %lld de itens. O que as mais antigas não conseguiram mover ficou onde estava."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "São guardadas apenas as remoções mais recentes, até %lld item. O que as mais antigas não conseguiram mover ficou onde estava."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "São guardadas apenas as remoções mais recentes, até %lld itens. O que as mais antigas não conseguiram mover ficou onde estava."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Păstrează doar cele mai recente eliminări, până la %lld articole. Ce nu au putut muta eliminările mai vechi a rămas unde era."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Păstrează doar cele mai recente eliminări, până la %lld articol. Ce nu au putut muta eliminările mai vechi a rămas unde era."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Păstrează doar cele mai recente eliminări, până la %lld de articole. Ce nu au putut muta eliminările mai vechi a rămas unde era."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Хранятся только последние удаления, не более %lld объектов. То, что при более ранних удалениях не удалось переместить, осталось на месте."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Хранятся только последние удаления, не более %lld объектов. То, что при более ранних удалениях не удалось переместить, осталось на месте."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Хранятся только последние удаления, не более %lld объекта. То, что при более ранних удалениях не удалось переместить, осталось на месте."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Хранятся только последние удаления, не более %lld объекта. То, что при более ранних удалениях не удалось переместить, осталось на месте."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Listan sparar bara de senaste borttagningarna, upp till %lld objekt. Det som de äldre borttagningarna inte kunde flytta stannade där det var."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Listan sparar bara de senaste borttagningarna, upp till %lld objekt. Det som de äldre borttagningarna inte kunde flytta stannade där det var."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Yalnızca en son kaldırma işlemlerini tutar (en fazla %lld öğe). Daha eski işlemlerin taşıyamadıkları olduğu yerde kaldı."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Yalnızca en son kaldırma işlemlerini tutar (en fazla %lld öğe). Daha eski işlemlerin taşıyamadıkları olduğu yerde kaldı."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Зберігаються лише останні вилучення, загалом до %lld елементів. Те, чого старіші вилучення не змогли перемістити, лишилося на місці."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Зберігаються лише останні вилучення, загалом до %lld елементів. Те, чого старіші вилучення не змогли перемістити, лишилося на місці."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Зберігаються лише останні вилучення, загалом до %lld елемента. Те, чого старіші вилучення не змогли перемістити, лишилося на місці."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Зберігаються лише останні вилучення, загалом до %lld елемента. Те, чого старіші вилучення не змогли перемістити, лишилося на місці."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它只保留最近的移除记录，最多%lld个项目。更早的移除中未能移动的内容仍留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它只保留最近幾次的移除，最多%lld個項目。較早的移除作業未能移動的項目仍留在原處。"
+          }
+        }
+      }
+    },
+    "It keeps only its latest removals, up to ^[%lld item](inflect: true). What the older ones moved is still in the Trash unless you emptied it." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uchovává jen nejnovější odstranění, celkem nejvýše %lld položky. Co starší odstranění přesunula, je stále v koši, pokud jste ho nevysypali."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uchovává jen nejnovější odstranění, celkem nejvýše %lld položky. Co starší odstranění přesunula, je stále v koši, pokud jste ho nevysypali."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uchovává jen nejnovější odstranění, celkem nejvýše %lld položku. Co starší odstranění přesunula, je stále v koši, pokud jste ho nevysypali."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uchovává jen nejnovější odstranění, celkem nejvýše %lld položek. Co starší odstranění přesunula, je stále v koši, pokud jste ho nevysypali."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Es werden nur die neuesten Einträge behalten, insgesamt bis zu %lld Objekt. Was bei älteren Einträgen verschoben wurde, liegt noch im Papierkorb, sofern du ihn nicht entleert hast."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Es werden nur die neuesten Einträge behalten, insgesamt bis zu %lld Objekte. Was bei älteren Einträgen verschoben wurde, liegt noch im Papierkorb, sofern du ihn nicht entleert hast."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Solo conserva sus eliminaciones más recientes, hasta un máximo de %lld de ítems. Lo que trasladaron las más antiguas sigue en la papelera, salvo que la hayas vaciado."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Solo conserva sus eliminaciones más recientes, hasta un máximo de %lld ítem. Lo que trasladaron las más antiguas sigue en la papelera, salvo que la hayas vaciado."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Solo conserva sus eliminaciones más recientes, hasta un máximo de %lld ítems. Lo que trasladaron las más antiguas sigue en la papelera, salvo que la hayas vaciado."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "L’Historique ne conserve que ses suppressions les plus récentes, dans la limite de %lld d’éléments. Ce que les plus anciennes ont déplacé se trouve toujours dans la corbeille, sauf si vous l’avez vidée."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "L’Historique ne conserve que ses suppressions les plus récentes, dans la limite de %lld élément. Ce que les plus anciennes ont déplacé se trouve toujours dans la corbeille, sauf si vous l’avez vidée."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "L’Historique ne conserve que ses suppressions les plus récentes, dans la limite de %lld éléments. Ce que les plus anciennes ont déplacé se trouve toujours dans la corbeille, sauf si vous l’avez vidée."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Conserva solo le rimozioni più recenti, fino a %lld di elementi. Ciò che le più vecchie hanno spostato è ancora nel Cestino, a meno che tu non l’abbia svuotato."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Conserva solo le rimozioni più recenti, fino a %lld elemento. Ciò che le più vecchie hanno spostato è ancora nel Cestino, a meno che tu non l’abbia svuotato."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Conserva solo le rimozioni più recenti, fino a %lld elementi. Ciò che le più vecchie hanno spostato è ancora nel Cestino, a meno che tu non l’abbia svuotato."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持されるのは最新の記録だけで、最大%lld項目までです。それより古い記録で移動した項目は、ゴミ箱を空にしていなければ、まだゴミ箱にあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최근 제거 기록만 최대 항목 %lld개까지 보관합니다. 그보다 오래된 제거에서 이동된 항목은 휴지통을 비우지 않았다면 아직 휴지통에 있습니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Alleen de laatste verwijderingen worden bewaard, tot maximaal %lld onderdeel. Wat de oudere verwijderingen hebben verplaatst, staat nog in de prullenmand, tenzij je die hebt geleegd."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Alleen de laatste verwijderingen worden bewaard, tot maximaal %lld onderdelen. Wat de oudere verwijderingen hebben verplaatst, staat nog in de prullenmand, tenzij je die hebt geleegd."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przechowuje tylko ostatnie przeniesienia do Kosza, maksymalnie %lld rzeczy. To, co przeniosły starsze z nich, nadal jest w Koszu, chyba że go opróżniono."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przechowuje tylko ostatnie przeniesienia do Kosza, maksymalnie %lld rzeczy. To, co przeniosły starsze z nich, nadal jest w Koszu, chyba że go opróżniono."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przechowuje tylko ostatnie przeniesienia do Kosza, maksymalnie %lld rzecz. To, co przeniosły starsze z nich, nadal jest w Koszu, chyba że go opróżniono."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Przechowuje tylko ostatnie przeniesienia do Kosza, maksymalnie %lld rzeczy. To, co przeniosły starsze z nich, nadal jest w Koszu, chyba że go opróżniono."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "São guardadas apenas as remoções mais recentes, até %lld de itens. O que as mais antigas moveram continua no Lixo, a menos que você o tenha esvaziado."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "São guardadas apenas as remoções mais recentes, até %lld item. O que as mais antigas moveram continua no Lixo, a menos que você o tenha esvaziado."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "São guardadas apenas as remoções mais recentes, até %lld itens. O que as mais antigas moveram continua no Lixo, a menos que você o tenha esvaziado."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Păstrează doar cele mai recente eliminări, până la %lld articole. Ce au mutat eliminările mai vechi se află în continuare în Coș, dacă nu l‑ați golit."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Păstrează doar cele mai recente eliminări, până la %lld articol. Ce au mutat eliminările mai vechi se află în continuare în Coș, dacă nu l‑ați golit."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Păstrează doar cele mai recente eliminări, până la %lld de articole. Ce au mutat eliminările mai vechi se află în continuare în Coș, dacă nu l‑ați golit."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Хранятся только последние удаления, не более %lld объектов. То, что было перемещено при более ранних удалениях, по-прежнему находится в Корзине, если Вы ее не очистили."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Хранятся только последние удаления, не более %lld объектов. То, что было перемещено при более ранних удалениях, по-прежнему находится в Корзине, если Вы ее не очистили."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Хранятся только последние удаления, не более %lld объекта. То, что было перемещено при более ранних удалениях, по-прежнему находится в Корзине, если Вы ее не очистили."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Хранятся только последние удаления, не более %lld объекта. То, что было перемещено при более ранних удалениях, по-прежнему находится в Корзине, если Вы ее не очистили."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historik sparar bara de senaste borttagningarna, upp till %lld objekt. Det som de äldre borttagningarna flyttade ligger fortfarande i papperskorgen, om du inte har tömt den."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Historik sparar bara de senaste borttagningarna, upp till %lld objekt. Det som de äldre borttagningarna flyttade ligger fortfarande i papperskorgen, om du inte har tömt den."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Yalnızca en son kaldırma işlemlerini tutar (en fazla %lld öğe). Daha eski işlemlerin taşıdıkları, Çöp Sepeti’ni boşaltmadıysanız hâlâ orada duruyor."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Yalnızca en son kaldırma işlemlerini tutar (en fazla %lld öğe). Daha eski işlemlerin taşıdıkları, Çöp Sepeti’ni boşaltmadıysanız hâlâ orada duruyor."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Зберігаються лише останні вилучення, загалом до %lld елементів. Те, що перемістили старіші вилучення, досі лежить у Смітнику, якщо ви його не очистили."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Зберігаються лише останні вилучення, загалом до %lld елементів. Те, що перемістили старіші вилучення, досі лежить у Смітнику, якщо ви його не очистили."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Зберігаються лише останні вилучення, загалом до %lld елемента. Те, що перемістили старіші вилучення, досі лежить у Смітнику, якщо ви його не очистили."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Зберігаються лише останні вилучення, загалом до %lld елемента. Те, що перемістили старіші вилучення, досі лежить у Смітнику, якщо ви його не очистили."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它只保留最近的移除记录，最多%lld个项目。除非你已清倒废纸篓，否则更早的移除所移走的内容仍在废纸篓中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它只保留最近幾次的移除，最多%lld個項目。除非你已清空「垃圾桶」，否則較早的移除作業所移動的項目仍在「垃圾桶」中。"
+          }
+        }
+      }
+    },
     "It leaves the Services menu and Quick Actions, and it may be one someone made in Automator on this Mac." : {
       "localizations" : {
         "cs" : {
@@ -242500,112 +243180,6 @@
         }
       }
     },
-    "What each refused stayed where it was." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Co bylo při každém z nich odmítnuto, zůstalo na svém místě."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Was dabei jeweils abgelehnt wurde, ist geblieben, wo es war."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lo que se rechazó en cada una se quedó donde estaba."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce que chacune a refusé est resté à sa place."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ciò che ognuna ha rifiutato è rimasto dov’era."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "それぞれの記録で移動を拒否された項目は、元の場所に残っています。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "각 제거 때 거부된 항목은 원래 위치에 그대로 남았습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wat bij elke verwijdering is geweigerd, is gebleven waar het was."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "To, czego odmówiono przy każdym z nich, pozostało na miejscu."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O que foi recusado em cada uma ficou onde estava."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce a refuzat fiecare eliminare a rămas unde era."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Все, что не было перемещено при удалении, осталось на месте."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det som nekades vid varje borttagning stannade där det var."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Her birinde reddedilenler olduğu yerde kaldı."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Те, що Peel тоді відмовилася перемістити, лишилося на місці."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每次移除中被拒绝的内容都仍留在原处。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每次移除時遭拒絕的項目都保留在原處。"
-          }
-        }
-      }
-    },
     "What is selected goes to the Trash, and History can put it back. The folders it sits in stay, since macOS expects to find them." : {
       "localizations" : {
         "cs" : {
@@ -244298,113 +244872,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "如何處理"
-          }
-        }
-      }
-    },
-    "What was moved is still in the Trash unless you emptied it." : {
-      "comment" : "Under that note: what those older removals moved stays in the Trash until the person empties it.",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Co se přesunulo, je stále v koši, pokud jste ho nevysypali."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Was verschoben wurde, liegt noch im Papierkorb, sofern du ihn nicht entleert hast."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lo que se trasladó sigue en la papelera, salvo que la hayas vaciado."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce qui a été déplacé se trouve toujours dans la corbeille, sauf si vous l’avez vidée."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ciò che è stato spostato è ancora nel Cestino, a meno che tu non l’abbia svuotato."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移動した項目は、ゴミ箱を空にしていなければ、まだゴミ箱にあります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "휴지통을 비우지 않았다면 이동된 항목은 아직 휴지통에 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wat is verplaatst, staat nog in de prullenmand, tenzij je die hebt geleegd."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "To, co przeniesiono, nadal jest w Koszu, chyba że go opróżniono."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O que foi movido continua no Lixo, a menos que você o tenha esvaziado."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce s‑a mutat se află în continuare în Coș, dacă nu l‑ați golit."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "То, что было перемещено, по-прежнему находится в Корзине, если Вы ее не очистили."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det som flyttades ligger fortfarande i papperskorgen, om du inte har tömt den."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Taşınanlar, Çöp Sepeti’ni boşaltmadıysanız hâlâ orada duruyor."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Те, що було переміщено, досі лежить у Смітнику, якщо ви його не очистили."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "除非你已清倒废纸篓，否则移走的内容仍在废纸篓中。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "除非你已清空「垃圾桶」，否則已移動的項目仍在「垃圾桶」中。"
           }
         }
       }

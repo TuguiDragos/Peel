@@ -62,7 +62,7 @@ public enum RefusalLogProblem: Sendable, Equatable {
 /// items the user asked to move go in, never what a scan held back. Access goes through an actor and an
 /// advisory lock on the file, as in `RemovalLog`, because the `peel` tool writes here too.
 public actor RefusalLog {
-    static let maximumRecords = 5_000
+    public static let maximumRecords = 5_000
     static let maximumBytes = 16 * 1_024 * 1_024
 
     public nonisolated let url: URL

@@ -231,7 +231,8 @@ struct HistoryCommand: AsyncParsableCommand {
         let reachesTheEnd = batches.count == all.count
         if outcome.noLongerListed > 0, reachesTheEnd {
             let removals = Output.count(outcome.noLongerListed, "older removal", "older removals")
-            Output.note("History no longer lists \(removals). What was moved is still in the Trash unless you emptied it.")
+            let limit = Output.number(RemovalLog.maximumRecords)
+            Output.note("History no longer lists \(removals): it keeps only its latest removals, up to \(limit) items. What the older ones moved is still in the Trash unless you emptied it.")
         }
         // What stayed is listed apart, by --refused, so the list says how many removals of its time left something.
         let since = reachesTheEnd ? nil : batches.last?.date
@@ -316,7 +317,8 @@ struct HistoryCommand: AsyncParsableCommand {
         }
         if read.noLongerListed > 0 {
             let older = Output.count(read.noLongerListed, "older removal", "older removals")
-            Output.note("This list no longer lists \(older). What each refused stayed where it was.")
+            let limit = Output.number(RefusalLog.maximumRecords)
+            Output.note("The record of refusals no longer lists \(older): it keeps only its latest removals, up to \(limit) items. What the older ones couldn't move stayed where it was.")
         }
     }
 }

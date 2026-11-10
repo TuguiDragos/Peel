@@ -263,7 +263,8 @@ struct HistoryCommandTests {
         let listed = Batch.all(in: try #require(await removals.load().records)).count
         try #require(listed > 1 && listed < count)
         let leftOut = Output.count(count - listed, "older removal", "older removals")
-        let note = "History no longer lists \(leftOut). What was moved is still in the Trash unless you emptied it.\n"
+        let limit = Output.number(RemovalLog.maximumRecords)
+        let note = "History no longer lists \(leftOut): it keeps only its latest removals, up to \(limit) items. What the older ones moved is still in the Trash unless you emptied it.\n"
 
         #expect(try await noted(["history"], from: logs) == note)
         #expect(try await noted(["history", "--json"], from: logs) == note)
@@ -738,7 +739,10 @@ struct HistoryCommandTests {
             $0.countRefusalsNoLongerListed(2)
         }
 
-        #expect(try await noted(["history", "--refused"], from: logs).contains("no longer lists 2 older removals"))
+        let limit = Output.number(RefusalLog.maximumRecords)
+        #expect(try await noted(["history", "--refused"], from: logs).contains(
+            "The record of refusals no longer lists 2 older removals: it keeps only its latest removals, up to \(limit) items. What the older ones couldn't move stayed where it was."
+        ))
     }
 
     @Test func aDryRunPutsNothingBack() async throws {

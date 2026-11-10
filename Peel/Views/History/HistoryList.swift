@@ -35,6 +35,15 @@ struct HistoryList: View {
             || history.untoldRefusalsNoLongerListed != nil
     }
 
+    /// What the page says under each count of older removals left out, with the limit that left them out.
+    static var historyKeepsItsLatest: String {
+        String(inflecting: "It keeps only its latest removals, up to ^[\(RemovalLog.maximumRecords) item](inflect: true). What the older ones moved is still in the Trash unless you emptied it.")
+    }
+
+    static var notMovedKeepsItsLatest: String {
+        String(inflecting: "It keeps only its latest removals, up to ^[\(RefusalLog.maximumRecords) item](inflect: true). What the older ones couldn’t move stayed where it was.")
+    }
+
     var body: some View {
         @Bindable var history = history
         // Filtered once per body, since the list and the overlay both use the result.
@@ -74,7 +83,7 @@ struct HistoryList: View {
                 if let count = history.untoldNoLongerListed {
                     Notice(
                         title: Text("History no longer lists ^[\(count) older removal](inflect: true)"),
-                        detail: Text("What was moved is still in the Trash unless you emptied it."),
+                        detail: Text(verbatim: Self.historyKeepsItsLatest),
                         kind: .note
                     ) { EmptyView() }
                     .transition(.opacity)
@@ -83,7 +92,7 @@ struct HistoryList: View {
                 if let count = history.untoldRefusalsNoLongerListed {
                     Notice(
                         title: Text("Not Moved no longer lists ^[\(count) older removal](inflect: true)"),
-                        detail: Text("What each refused stayed where it was."),
+                        detail: Text(verbatim: Self.notMovedKeepsItsLatest),
                         kind: .note
                     ) { EmptyView() }
                     .transition(.opacity)
