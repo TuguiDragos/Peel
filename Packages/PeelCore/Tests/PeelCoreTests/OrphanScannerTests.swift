@@ -1954,8 +1954,6 @@ struct OrphanScannerTests {
         #expect(heldBack == ["caches: none", "sharedFolder: sharedWithEveryone"])
     }
 
-    /// A group container is there for a maker's apps to share, so another app of that maker claims it as it claims
-    /// the maker's other files, with `group.` in front of the name or not.
     @Test func aMakersInstallerFolderStaysWhileAnotherAppOfTheMakerIsInstalled() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/org.example-maker.installer/state.db")
@@ -1981,6 +1979,8 @@ struct OrphanScannerTests {
         #expect(await scanner(in: directory).scan(installedApps: installed).groups.map(\.identifier) == ["org.example.ShipIt"])
     }
 
+    /// A group container is there for a maker's apps to share, so another app of that maker claims it as it claims
+    /// the maker's other files, with `group.` in front of the name or not.
     @Test func anotherAppOfTheMakerClaimsItsGroupContainer() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/Library/Group Containers/group.com.vendor.notes")
