@@ -547,7 +547,7 @@ struct AppDetailView: View {
         let plan = plan
         defer { plan.question.finish() }
         guard await plan.processesToQuit().isEmpty else { return requestRemoval() }
-        let result = await progress.run(toMove: request.urls.count) {
+        let result = await library.whileRemovingApps { await progress.run(toMove: request.urls.count) {
             await QuitGuard.shared.run {
                 // The one step that goes before the move: `tccutil` only finds an app that is still in its place.
                 let service = TrashService(exclusions: ExclusionsStore.shared.exclusions)
@@ -591,7 +591,7 @@ struct AppDetailView: View {
                 )
                 return result
             }
-        }
+        } }
 
         if result.trashed.contains(where: { $0.originalURL == plan.app.url }) {
             await library.refresh()

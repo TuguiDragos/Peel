@@ -421,7 +421,7 @@ struct MultipleAppsView: View {
         let plan = plan
         defer { plan.question.finish() }
         guard await plan.toQuit().processes.isEmpty else { return requestRemoval() }
-        let result = await progress.run(toMove: request.urls.count) {
+        let result = await library.whileRemovingApps { await progress.run(toMove: request.urls.count) {
             await QuitGuard.shared.run {
                 // The privacy reset runs before the move, because `tccutil` only finds an app that is still in its
                 // place.
@@ -464,7 +464,7 @@ struct MultipleAppsView: View {
                 await plan.record(result, sizes: request.sizes, sharingStorage: request.sharingStorage, in: history)
                 return result
             }
-        }
+        } }
         // When an app bundle moved, reloading the library changes the selection, which rebuilds this page. When
         // only files moved, the plan is refreshed here: otherwise they would stay listed, and moving them again
         // would fail for each one.

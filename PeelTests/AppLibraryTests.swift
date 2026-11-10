@@ -321,6 +321,25 @@ private nonisolated final class TestClock: Sendable {
         #expect(library.apps.filter { $0.bundleIdentifier == "org.example.sold" }.count == 1)
     }
 
+    @Test func aReadingOfTheAppsWaitsWhileARemovalOfAppsRuns() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let library = library(with: made.defaults, notesIn: folder)
+        var reading: Task<Void, Never>?
+
+        await library.whileRemovingApps {
+            reading = Task { await library.refresh() }
+            for _ in 0..<1_000 { await Task.yield() }
+            #expect(!library.scanRun.isRunning, "a reading took the moving apps off the list, and their page with them")
+        }
+        await reading?.value
+
+        #expect(library.removalsOfApps == 0)
+    }
+
     @Test func anAppShownFromElsewhereLeavesTheListOnceItIsGone() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try soldApp(in: folder)

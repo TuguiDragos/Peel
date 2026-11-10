@@ -97,6 +97,9 @@ final class AppLibrary {
     /// the readings Peel starts on its own change it quietly.
     var isReadingAsAsked: Bool { scanRun.isRunning && askedForReading }
     private var askedForReading = false
+    /// The removals of apps under way, which a reading of the folders waits for: it would take the apps that left off
+    /// the list, and with them the page that shows the removal.
+    private(set) var removalsOfApps = 0
     private(set) var updateStatuses: [InstalledApp.ID: UpdateStatus] = [:] {
         didSet { updatesRevision += 1 }
     }
@@ -301,6 +304,21 @@ final class AppLibrary {
         }
     }
 
+    /// Runs `work`, a removal of apps, with the readings of the folders waiting until it ends. Whoever runs it reads
+    /// the folders again only once it has ended.
+    func whileRemovingApps<Result>(_ work: () async -> Result) async -> Result {
+        removalsOfApps += 1
+        defer { removalsOfApps -= 1 }
+        return await work()
+    }
+
+    func untilNoRemovalOfApps() async {
+        guard removalsOfApps > 0 else { return }
+        for await count in Observations({ self.removalsOfApps }) where count == 0 {
+            break
+        }
+    }
+
     /// Calls `refresh()` unless a reading of the folders started in the last 30 seconds, even one still running. For
     /// Peel coming forward: the folder watcher sees every real change, so a recent read is enough.
     func refreshUnlessRecent() async {
@@ -360,6 +378,7 @@ final class AppLibrary {
     /// is dropped rather than shown for a version it doesn't describe.
     func refresh() async {
         await firstReading?.value
+        await untilNoRemovalOfApps()
         lastRead = .now
         let changes = folderChanges
         let shown = revealed.map(\.url)
