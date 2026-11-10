@@ -163,12 +163,19 @@ struct PackageDetailView: View {
             }
         }
         .forgetReceiptDialog(for: $receiptToForget, forget: packages.forget)
-        .alert(Text("Quit \(quitting.names) before removing it."), isPresented: Bindable(quitting).isAsking) {
+        .alert(
+            Text(Self.quitTitle(names: quitting.names, several: quitting.namesSeveral)),
+            isPresented: Bindable(quitting).isAsking
+        ) {
             Button(quitting.namesSeveral ? "Quit Apps" : "Quit \(quitting.names)") { quitting.quit() }
             Button("Cancel", role: .cancel) { quitting.giveUp() }
         }
         .forceQuitOffer(quitting)
         .onDisappear { quitting.giveUp() }
+    }
+
+    static func quitTitle(names: String, several: Bool) -> LocalizedStringResource {
+        several ? "Quit these apps before removing them." : "Quit \(names) before removing it."
     }
 
     /// Read from the exclusions, not the scan, so it holds as soon as they change.
