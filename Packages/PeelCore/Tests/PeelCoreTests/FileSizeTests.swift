@@ -398,6 +398,41 @@ struct FileSizeTests {
         #expect(walks.withLock { $0 } == 3, "an old answer was handed over")
     }
 
+    @Test func aLateAnswerIsNotHandedOverOncePeelMovedSomethingOutOfTheFolder() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("late")
+        let cache = try directory.file("late/inside/a.bin", bytes: 4_096)
+        let trash = try directory.directory("home/.Trash")
+        let walks = Mutex(0)
+        let turn = DispatchSemaphore(value: 0)
+        defer { (0..<2).forEach { _ in turn.signal() } }
+        let walking: FileSize.Walker = { url, scan, isStopped in
+            turn.wait()
+            defer { walks.withLock { $0 += 1 } }
+            return FileSize.walk(url, countingFor: scan, unless: isStopped)
+        }
+        #expect(await FileSize.contents(of: folder, within: 0, walking: walking, keepingLateAnswersFor: .zero) == nil)
+        turn.signal()
+        while walks.withLock({ $0 }) == 0 { try await Task.sleep(for: .milliseconds(5)) }
+        try await Task.sleep(for: .milliseconds(50))
+        let service = TrashService(
+            environment: SearchEnvironment(homeDirectory: directory.url.appending(path: "home"), rootDirectory: directory.url)
+        ) { url in
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        _ = await service.trash([cache])
+        turn.signal()
+        let after = await FileSize.contents(
+            of: folder, within: 5, walking: walking, keepingLateAnswersFor: .seconds(3600)
+        )
+
+        #expect(walks.withLock { $0 } == 2, "an answer from before Peel moved something out of the folder was handed over")
+        #expect(after?.size == 0)
+    }
+
     /// A walk nobody wants anymore stops at the next entry instead of reading the folder to its end.
     @Test func aWalkNobodyWantsStopsWhereItIs() throws {
         let directory = try TemporaryDirectory()

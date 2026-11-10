@@ -665,6 +665,7 @@ public struct TrashService: Sendable {
         }
         urls.filter { !jobFiles.contains($0) }.forEach(move)
         ownMoves.ended(landedAt: result.trashed.map(\.trashedURL))
+        FileSize.forgetAnswers(holding: result.trashed.map(\.originalURL))
         await forgetDomains(result.trashed.map(\.originalURL), owner)
         result.note(stopped)
         return result
@@ -897,6 +898,7 @@ public struct TrashService: Sendable {
             }
         }
         ownMoves.ended(landedAt: helperResult.trashed.map(\.trashedURL))
+        FileSize.forgetAnswers(holding: helperResult.trashed.map(\.originalURL))
         result.trashed += helperResult.trashed
         result.failures += helperResult.failures
         await forgetDomains(helperResult.trashed.map(\.originalURL), nil)
@@ -968,6 +970,7 @@ public struct TrashService: Sendable {
             restored.movedAside.append(answer.movedAside)
         }
         let back = zip(items, restored.failures).filter { $0.1 == nil }.map(\.0.originalURL)
+        FileSize.forgetAnswers(holding: back)
         if !back.isEmpty {
             await putBackDockTiles(back)
         }

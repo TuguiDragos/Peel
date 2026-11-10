@@ -1,5 +1,6 @@
 import Darwin
 public import Foundation
+internal import PeelPrivileged
 import Synchronization
 
 /// What one walk of a folder found.
@@ -71,6 +72,11 @@ public enum FileSize {
     /// question asked again soon after, as Applications asks again for an app it could not measure, and short
     /// enough that no scan is fed a folder as it was long before.
     static let lateAnswerLife = Duration.seconds(60)
+
+    /// Forgets the answers kept for the folders holding `urls`, which Peel just moved or put back.
+    static func forgetAnswers(holding urls: [URL]) {
+        Walks.forget(holding: urls.map { PathPattern.comparablePath(of: $0) })
+    }
 
     /// How a scanner asks for a size. Tests hand in their own, to stand in for a folder that does not answer.
     typealias Measure = @Sendable (URL) async -> Int64?
@@ -441,6 +447,18 @@ private enum Walks {
         switch entry {
         case .walking(let current), .abandoned(let current): current === answer
         case .landed, nil: false
+        }
+    }
+
+    /// Forgets what is known or on its way for each folder at or around one of `paths`, which changed: the next
+    /// question walks it again, and a walk still going is not kept when it lands.
+    static func forget(holding paths: [String]) {
+        guard !paths.isEmpty else { return }
+        entries.withLock { entries in
+            for folder in Array(entries.keys) {
+                guard paths.contains(where: { PathComponents.isPath($0, atOrInside: folder) }) else { continue }
+                entries[folder] = nil
+            }
         }
     }
 
