@@ -493,8 +493,8 @@ and takes you straight to the right place in System Settings, or, for the comman
 | Notifications (optional) | Tell you when your apps have updates, when Homebrew finishes an upgrade or runs into a problem, when your disk is almost full if you turn that warning on, and, with Watch the Trash on, when you move an app to the Trash yourself. While they're off, Settings > General says so under those two switches. |
 | Folders macOS asks about | Without Full Disk Access, macOS asks the first time Peel looks in Desktop, Documents, or Downloads for installers, duplicates, what builds left, and what iCloud Drive keeps there, or at your cloud folders to measure them. On macOS 26 it also asks before Peel looks inside another app's data for what it would leave behind; on macOS 27 it refuses without asking, and Peel says which folders it couldn't read. |
 | Finder Extension (optional) | Add Uninstall with Peel to the menu you get when you Control-click an app in Finder. |
-| Open at Login (optional) | Start Peel when you log in. With Show in Menu Bar on, it keeps running after you close its window, so Watch the Trash keeps working. |
-| Command Line (optional) | Use `peel` from anywhere in Terminal. Home's Copy button, like Settings > General, copies the command that puts it on your path, and Terminal asks for your password when you run it. |
+| Open Peel at Login (optional) | Start Peel when you log in. With Show in Menu Bar on, it keeps running after you close its window, so Watch the Trash keeps working. |
+| Command-Line Tool (optional) | Use `peel` from anywhere in Terminal. Home's Copy button, like Settings > General, copies the command that puts it on your path, and Terminal asks for your password when you run it. |
 
 Install the helper from Home, or with Install Helper in Settings > Helper, from an administrator's account, then allow
 it in System Settings > General > Login Items & Extensions. Once it works, an account that isn't an administrator uses

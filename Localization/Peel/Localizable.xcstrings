@@ -36584,112 +36584,6 @@
         }
       }
     },
-    "Command Line" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Příkazový řádek"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Befehlszeile"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Línea de comandos"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ligne de commande"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Riga di comando"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "コマンドライン"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "명령어 라인"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Commandoregel"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wiersz polecenia"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linha de Comando"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linie de comandă"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Командная строка"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kommandorad"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Komut Satırı"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Командний рядок"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "命令行"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "命令列"
-          }
-        }
-      }
-    },
     "Command Line Tools" : {
       "localizations" : {
         "cs" : {
@@ -61977,6 +61871,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「歷史記錄」將不再列出已不在「垃圾桶」中的項目，因此你的Mac上不會有任何變更。"
+          }
+        }
+      }
+    },
+    "History was damaged" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historie byla poškozená"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Verlauf war beschädigt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historial estaba dañado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’Historique était endommagé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La Cronologia era danneggiata"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "履歴が破損していました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기록이 손상됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geschiedenis was beschadigd"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historia była uszkodzona"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Histórico estava danificado"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Istoricul a fost deteriorat"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "История была повреждена"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historik var skadad"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçmiş bozuktu"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Історію пошкоджено"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“历史记录”已损坏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「歷史記錄」已損毀"
           }
         }
       }
@@ -134987,6 +134987,112 @@
         }
       }
     },
+    "Open Peel at Login" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevírat Peel při přihlášení"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bei der Anmeldung öffnen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Peel al iniciar sesión"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir Peel avec la session"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri Peel al login"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログイン時にPeelを開く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로그인 시 Peel 열기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Peel bij inloggen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otwieraj Peel podczas logowania"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir o Peel no Início da Sessão"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deschideți Peel la login"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открывать Peel при входе"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öppna Peel vid inloggning"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oturum Açıldığında Peel’i Aç"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкривати Peel під час входу в систему"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "登录时打开Peel"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "登入時打開Peel"
+          }
+        }
+      }
+    },
     "Open Peel at login" : {
       "localizations" : {
         "cs" : {
@@ -135831,112 +135937,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已打開的App會維持舊設定，直到你重新打開它們；而對此有自己設定的App則會維持自己的設定。"
-          }
-        }
-      }
-    },
-    "Open at Login" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Otevřít při přihlášení"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bei der Anmeldung öffnen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abrir al iniciar sesión"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvrir avec la session"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apri al login"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ログイン時に開く"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "로그인 시 열기"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open bij inloggen"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Otwieraj podczas logowania"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abrir no Início da Sessão"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deschideți la login"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Открывать при входе"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Öppna vid inloggning"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oturum Açıldığında Aç"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Відкривати під час входу в систему"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "登录时打开"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在登入時打開"
           }
         }
       }
@@ -220619,218 +220619,6 @@
         }
       }
     },
-    "The record of past removals can’t be read" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Záznam o dřívějších odstraněních nelze přečíst"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Aufzeichnung dessen, was bisher entfernt wurde, kann nicht gelesen werden"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se puede leer el registro de eliminaciones anteriores"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impossible de lire le registre des suppressions passées"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impossibile leggere il registro delle rimozioni precedenti"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "これまでにゴミ箱に入れた記録を読み取れません"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "지난 제거 기록을 읽을 수 없음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De registratie van eerdere verwijderingen kan niet worden gelezen"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nie można odczytać zapisu wcześniejszych przeniesień do Kosza"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Não é possível ler o registro das remoções anteriores"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Evidența eliminărilor anterioare nu poate fi citită"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не удается прочитать журнал прошлых удалений"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Förteckningen över tidigare borttagningar kan inte läsas"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geçmiş kaldırma işlemlerinin kaydı okunamıyor"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не вдається прочитати запис попередніх вилучень"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "无法读取过往的移除记录"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無法讀取過去的移除記錄"
-          }
-        }
-      }
-    },
-    "The record of past removals was damaged" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Záznam o dřívějších odstraněních byl poškozený"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Aufzeichnung dessen, was bisher entfernt wurde, war beschädigt"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El registro de eliminaciones anteriores estaba dañado"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le registre des suppressions passées était endommagé"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il registro delle rimozioni precedenti era danneggiato"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "これまでにゴミ箱に入れた記録が破損していました"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "지난 제거 기록이 손상됨"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De registratie van eerdere verwijderingen was beschadigd"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zapis wcześniejszych przeniesień do Kosza był uszkodzony"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O registro das remoções anteriores estava danificado"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Evidența eliminărilor anterioare a fost deteriorată"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Журнал прошлых удалений был поврежден"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Förteckningen över tidigare borttagningar var skadad"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geçmiş kaldırma işlemlerinin kaydı bozuktu"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Запис попередніх вилучень пошкоджено"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "过往的移除记录已损坏"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "過去的移除記錄已損毀"
-          }
-        }
-      }
-    },
     "The request wasn’t valid." : {
       "localizations" : {
         "cs" : {
@@ -239256,42 +239044,42 @@
         }
       }
     },
-    "Until it can read the record, or you start over, Peel removes nothing, because anything it moved now couldn’t be put back. Starting over keeps the old file beside a new one. Items it lists can then only be dragged back out of the Trash in Finder." : {
+    "Until it can read History, or you start over, Peel removes nothing, because anything it moved now couldn’t be put back. Starting over keeps the old file beside a new one. Items it lists can then only be dragged back out of the Trash in Finder." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dokud Peel nedokáže záznam přečíst nebo dokud nezačnete znovu, nic neodstraní, protože kdyby teď něco přesunul, nešlo by to vrátit zpět. Když začnete znovu, starý soubor se ponechá vedle nového. Položky, které Historie zobrazuje, pak bude možné z koše vrátit jen přetažením ve Finderu."
+            "value" : "Dokud Peel nedokáže Historii přečíst nebo dokud nezačnete znovu, nic neodstraní, protože kdyby teď něco přesunul, nešlo by to vrátit zpět. Když začnete znovu, starý soubor se ponechá vedle nového. Položky, které Historie zobrazuje, pak bude možné z koše vrátit jen přetažením ve Finderu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bis Peel die Aufzeichnung lesen kann oder du neu beginnst, entfernt Peel nichts, da sich nicht zurücklegen ließe, was jetzt verschoben würde. Wenn du neu beginnst, bleibt die alte Datei neben einer neuen erhalten. Die Objekte, die der Verlauf aufführt, lassen sich dann nur noch im Finder aus dem Papierkorb ziehen."
+            "value" : "Bis Peel den Verlauf lesen kann oder du neu beginnst, entfernt Peel nichts, da sich nicht zurücklegen ließe, was jetzt verschoben würde. Wenn du neu beginnst, bleibt die alte Datei neben einer neuen erhalten. Die Objekte, die der Verlauf aufführt, lassen sich dann nur noch im Finder aus dem Papierkorb ziehen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hasta que pueda leer el registro, o hasta que vuelvas a empezar, Peel no elimina nada, porque cualquier cosa que trasladara ahora no se podría restaurar. Al volver a empezar, el archivo antiguo se conserva junto a uno nuevo. Los ítems que figuran en ese registro solo podrán sacarse entonces de la papelera arrastrándolos en el Finder."
+            "value" : "Hasta que pueda leer Historial, o hasta que vuelvas a empezar, Peel no elimina nada, porque cualquier cosa que trasladara ahora no se podría restaurar. Al volver a empezar, el archivo antiguo se conserva junto a uno nuevo. Los ítems que figuran en el archivo antiguo solo podrán sacarse entonces de la papelera arrastrándolos en el Finder."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tant que Peel ne peut pas lire le registre, ou que vous ne l’avez pas recommencé, il ne supprime rien, car tout ce qu’il déplacerait maintenant serait impossible à remettre en place. Si vous recommencez, l’ancien fichier est conservé à côté d’un nouveau. Les éléments que l’Historique liste ne pourront alors être sortis de la corbeille que dans le Finder, en les faisant glisser."
+            "value" : "Tant que Peel ne peut pas lire l’Historique, ou que vous ne l’avez pas recommencé, il ne supprime rien, car tout ce qu’il déplacerait maintenant serait impossible à remettre en place. Si vous recommencez, l’ancien fichier est conservé à côté d’un nouveau. Les éléments que l’Historique liste ne pourront alors être sortis de la corbeille que dans le Finder, en les faisant glisser."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finché non riesce a leggere il registro, o finché non ricominci da capo, Peel non rimuove nulla, perché qualsiasi cosa spostasse ora non si potrebbe ripristinare. Se ricominci da capo, il vecchio file viene conservato accanto a uno nuovo. Gli elementi elencati dalla Cronologia, a quel punto, si potranno solo trascinare fuori dal Cestino nel Finder."
+            "value" : "Finché non riesce a leggere la Cronologia, o finché non ricominci da capo, Peel non rimuove nulla, perché qualsiasi cosa spostasse ora non si potrebbe ripristinare. Se ricominci da capo, il vecchio file viene conservato accanto a uno nuovo. Gli elementi che elenca, a quel punto, si potranno solo trascinare fuori dal Cestino nel Finder."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "記録を読み取れるようになるか、最初からやり直すまで、Peelは何もゴミ箱に入れません。今何かを移動すると、それを戻せなくなるためです。最初からやり直すと、古いファイルは新しいファイルの横に保管されます。その場合、古い記録にある項目は、Finderでゴミ箱からドラッグして取り出すしかなくなります。"
+            "value" : "履歴を読み取れるようになるか、最初からやり直すまで、Peelは何もゴミ箱に入れません。今何かを移動すると、それを戻せなくなるためです。最初からやり直すと、古いファイルは新しいファイルの横に保管されます。その場合、古い履歴にある項目は、Finderでゴミ箱からドラッグして取り出すしかなくなります。"
           }
         },
         "ko" : {
@@ -239303,61 +239091,61 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Totdat Peel de registratie kan lezen of jij opnieuw begint, verwijdert Peel niets, omdat wat Peel nu zou verplaatsen, niet kan worden teruggezet. Als je opnieuw begint, wordt het oude bestand naast een nieuw bestand bewaard. Onderdelen die Geschiedenis vermeldt, kun je dan alleen nog in Finder uit de prullenmand slepen."
+            "value" : "Totdat Peel Geschiedenis kan lezen of jij opnieuw begint, verwijdert Peel niets, omdat wat Peel nu zou verplaatsen, niet kan worden teruggezet. Als je opnieuw begint, wordt het oude bestand naast een nieuw bestand bewaard. Onderdelen die Geschiedenis vermeldt, kun je dan alleen nog in Finder uit de prullenmand slepen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dopóki Peel nie będzie mógł odczytać zapisu albo nie zaczniesz od nowa, niczego nie przeniesie do Kosza, ponieważ niczego, co by teraz przeniósł, nie dałoby się przywrócić. Gdy zaczniesz od nowa, stary plik zostanie zachowany obok nowego. Rzeczy wymienione w Historii będzie wtedy można przywrócić tylko przez przeciągnięcie ich z Kosza w Finderze."
+            "value" : "Dopóki Peel nie będzie mógł odczytać Historii albo nie zaczniesz od nowa, niczego nie przeniesie do Kosza, ponieważ niczego, co by teraz przeniósł, nie dałoby się przywrócić. Gdy zaczniesz od nowa, stary plik zostanie zachowany obok nowego. Rzeczy wymienione w Historii będzie wtedy można przywrócić tylko przez przeciągnięcie ich z Kosza w Finderze."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Até conseguir ler o registro, ou até você recomeçar, o Peel não remove nada, porque nada do que ele movesse agora poderia ser colocado de volta. Ao recomeçar, o arquivo antigo é guardado ao lado de um novo. Depois disso, os itens do registro só podem ser arrastados para fora do Lixo no Finder."
+            "value" : "Até conseguir ler o Histórico, ou até você recomeçar, o Peel não remove nada, porque nada do que ele movesse agora poderia ser colocado de volta. Ao recomeçar, o arquivo antigo é guardado ao lado de um novo. Depois disso, os itens que ele lista só podem ser arrastados para fora do Lixo no Finder."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Până când poate citi evidența sau până când o reîncepeți, Peel nu elimină nimic, deoarece orice ar muta acum nu ar putea fi pus înapoi. Dacă o reîncepeți, fișierul vechi este păstrat lângă unul nou. Articolele listate de Istoric pot fi apoi doar trase afară din Coș, în Finder."
+            "value" : "Până când poate citi Istoricul sau până când îl reîncepeți, Peel nu elimină nimic, deoarece orice ar muta acum nu ar putea fi pus înapoi. Dacă îl reîncepeți, fișierul vechi este păstrat lângă unul nou. Articolele pe care le listează fișierul vechi pot fi apoi doar trase afară din Coș, în Finder."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пока Peel не сможет прочитать журнал или пока Вы не начнете его заново, Peel ничего не удаляет, потому что то, что он переместил бы сейчас, нельзя было бы восстановить. Если начать заново, старый файл сохранится рядом с новым. Объекты, перечисленные в Истории, тогда можно будет вернуть, только перетащив их из Корзины в Finder."
+            "value" : "Пока Peel не сможет прочитать Историю или пока Вы не начнете ее заново, Peel ничего не удаляет, потому что то, что он переместил бы сейчас, нельзя было бы восстановить. Если начать заново, старый файл сохранится рядом с новым. Объекты, перечисленные в старом файле, тогда можно будет вернуть, только перетащив их из Корзины в Finder."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tills Peel kan läsa förteckningen, eller tills du börjar om, tar Peel inte bort något, eftersom inget som Peel flyttade nu skulle kunna läggas tillbaka. När du börjar om sparas den gamla filen bredvid en ny. Objekten som listas i den gamla filen kan då bara dras ut ur papperskorgen igen i Finder."
+            "value" : "Tills Peel kan läsa Historik, eller tills du börjar om, tar Peel inte bort något, eftersom inget som Peel flyttade nu skulle kunna läggas tillbaka. När du börjar om sparas den gamla filen bredvid en ny. Objekten som listas i den gamla filen kan då bara dras ut ur papperskorgen igen i Finder."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, kaydı okuyabilene veya siz baştan başlayana kadar hiçbir şeyi kaldırmaz, çünkü şimdi taşıyacağı hiçbir şey yerine konamazdı. Baştan başladığınızda eski dosya yeni bir dosyanın yanında saklanır. Bu durumda Geçmiş’in listelediği öğeler ancak Finder’da sürüklenerek Çöp Sepeti’nden çıkarılabilir."
+            "value" : "Peel, Geçmiş’i okuyabilene veya siz baştan başlayana kadar hiçbir şeyi kaldırmaz, çünkü şimdi taşıyacağı hiçbir şey yerine konamazdı. Baştan başladığınızda eski dosya yeni bir dosyanın yanında saklanır. Bu durumda Geçmiş’in listelediği öğeler ancak Finder’da sürüklenerek Çöp Sepeti’nden çıkarılabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Доки Peel не зможе прочитати запис або доки ви не почнете наново, Peel нічого не вилучає, бо те, що вона зараз перемістила б, не можна було б повернути. Коли ви починаєте наново, старий файл зберігається поруч із новим. Після цього елементи, які показує Історія, можна буде лише перетягнути у Finder зі Смітника назад."
+            "value" : "Доки Peel не зможе прочитати Історію або доки ви не почнете наново, Peel нічого не вилучає, бо те, що вона зараз перемістила б, не можна було б повернути. Коли ви починаєте наново, старий файл зберігається поруч із новим. Після цього елементи, перелічені в старому файлі, можна буде лише перетягнути у Finder зі Смітника назад."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在Peel能够读取该记录或你重新开始之前，Peel不会移除任何内容，因为如果它现在移动任何内容，都将无法放回原处。重新开始会将旧文件保留在新文件旁边。届时，该记录中列出的项目只能在“访达”中从废纸篓里拖出来。"
+            "value" : "在Peel能够读取“历史记录”或你重新开始之前，Peel不会移除任何内容，因为如果它现在移动任何内容，都将无法放回原处。重新开始会将旧文件保留在新文件旁边。届时，旧文件中列出的项目只能在“访达”中从废纸篓里拖出来。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在Peel能讀取這份記錄或你重新開始之前，Peel不會移除任何項目，因為它現在移動的任何項目都將無法還原。重新開始時，舊檔案會保留在新檔案旁邊。屆時，「歷史記錄」列出的項目只能在Finder中從「垃圾桶」拖出來。"
+            "value" : "在Peel能讀取「歷史記錄」或你重新開始之前，Peel不會移除任何項目，因為它現在移動的任何項目都將無法還原。重新開始時，舊檔案會保留在新檔案旁邊。屆時，舊檔案中列出的項目只能在Finder中從「垃圾桶」拖出來。"
           }
         }
       }

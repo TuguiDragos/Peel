@@ -169,7 +169,7 @@ private struct HistoryProblemNotice: View {
         switch problem {
         case .damaged(let setAside):
             Notice(
-                title: Text("The record of past removals was damaged"),
+                title: Text("History was damaged"),
                 detail: Text("Peel kept the old file and continued with what it could still read. Items already in the Trash are still there: you can drag them back out in Finder.")
             ) {
                 Button("Show in Finder") {
@@ -178,8 +178,8 @@ private struct HistoryProblemNotice: View {
             }
         case .unreadable(let why):
             Notice(
-                title: Text("The record of past removals can’t be read"),
-                detail: Text(verbatim: why.said(after: String(localized: "Until it can read the record, or you start over, Peel removes nothing, because anything it moved now couldn’t be put back. Starting over keeps the old file beside a new one. Items it lists can then only be dragged back out of the Trash in Finder."), about: history.historyFile))
+                title: Text("Peel couldn’t read History"),
+                detail: Text(verbatim: why.said(after: String(localized: "Until it can read History, or you start over, Peel removes nothing, because anything it moved now couldn’t be put back. Starting over keeps the old file beside a new one. Items it lists can then only be dragged back out of the Trash in Finder."), about: history.historyFile))
             ) {
                 StartOverButton(file: history.historyFile, startedOver: "Started History over.") {
                     await history.startOver()

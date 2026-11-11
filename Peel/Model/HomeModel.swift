@@ -44,8 +44,8 @@ final class HomeModel {
             case .appManagement: "App Management"
             case .notifications: "Notifications"
             case .finderExtension: "Finder Extension"
-            case .openAtLogin: "Open at Login"
-            case .commandLine: "Command Line"
+            case .openAtLogin: "Open Peel at Login"
+            case .commandLine: "Command-Line Tool"
             }
         }
 
