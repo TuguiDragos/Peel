@@ -577,7 +577,9 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   slogans, no "not X, but Y", and no lists of three kept for their rhythm.
 - `docs/` is Peel's website. Only its text changes, and only to stay true to the app; its questions are written
   twice in `index.html`, the page and its data, and a change updates `dateModified` there and `lastmod` in
-  `sitemap.xml`. A link to another site opens in a new tab, with `rel="noopener"`.
+  `sitemap.xml`. A link to another site opens in a new tab, with `rel="noopener"`, but for the two Download buttons
+  (`data-download`), which start the download where `main.js` finds the disk image and otherwise open the latest
+  release in the same tab.
 
 ## Commits and pull requests
 
