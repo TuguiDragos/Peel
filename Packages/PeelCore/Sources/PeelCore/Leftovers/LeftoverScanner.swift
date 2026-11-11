@@ -411,7 +411,10 @@ public struct LeftoverScanner: Sendable {
         ) { url, name, parent, canLookInside in
             let path = url.path(percentEncoded: false)
             let match = matching(url, named: name)
-            if let match, match.confidence >= .likely,
+            // Below a location's own entries only strong evidence counts, and the app's name without its channel
+            // word, which is only possible and so never selected.
+            if let match,
+               match.confidence >= .likely || matcher.namesTheAppWithoutItsChannel(fileName: name, kind: kind),
                !isSharedWithTheWholeMac(url, home: home) {
                 guard await !reads.refuses(path, home: home), !exclusions.excludes(url) else { return .pass }
                 // Whose the folders on the way are decides what its name is worth.
@@ -573,8 +576,8 @@ public struct LeftoverScanner: Sendable {
     /// In the home folder and at the top of a Library, the app's name alone is weak evidence: a hidden `~/.jotter`
     /// can belong to a command-line tool of the same name rather than to the Jotter app, and hold work that exists
     /// nowhere else. This is decided here and not in the matcher, because `nested(in:)` takes an item only on strong
-    /// evidence, and weaker evidence would drop items such as `~/.config/zed` from the scan instead of showing them
-    /// unselected.
+    /// evidence or the app's name without its channel word, and weaker evidence would drop items such as
+    /// `~/.config/zed` from the scan instead of showing them unselected.
     private static func heldBack(
         _ match: LeftoverMatch,
         at url: URL,

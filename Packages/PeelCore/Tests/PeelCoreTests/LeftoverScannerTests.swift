@@ -1659,6 +1659,27 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.allSatisfy { $0.kind == .frameworks })
     }
 
+    @Test func aFolderNamedForTheAppWithoutItsChannelIsShownBelowALocationToo() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/.config/tide/settings.json")
+        try directory.file("home/Library/Application Support/Tide/state.db")
+        let preview = InstalledApp(
+            url: URL(filePath: "/Applications/Tide Preview.app"), bundleIdentifier: "org.example.tidepreview",
+            name: "Tide Preview"
+        )
+
+        let scan = await LeftoverScanner(environment: environment(in: directory))
+            .scan(preview, installedApps: [preview])
+        let found = Dictionary(
+            uniqueKeysWithValues: scan.leftovers.map { ($0.url.path(percentEncoded: false), $0.match) }
+        )
+        let home = directory.url.appending(path: "home").path(percentEncoded: false)
+
+        #expect(found["\(home)/Library/Application Support/Tide"]?.confidence == .possible)
+        #expect(found["\(home)/.config/tide"]?.confidence == .possible)
+        #expect(found["\(home)/.config/tide"]?.isRecommended == false)
+    }
+
     @Test func filesOfAnAppPeelSawGoAreNotTakenForAnAppWhoseIdentifierBeginsTheirs() async throws {
         let directory = try TemporaryDirectory()
         let environment = environment(in: directory)

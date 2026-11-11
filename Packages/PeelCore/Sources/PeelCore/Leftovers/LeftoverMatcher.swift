@@ -117,6 +117,11 @@ struct LeftoverMatcher: Sendable {
         )
     }
 
+    /// Whether the item called `fileName` in a location of `kind` is named for this app without its channel word.
+    func namesTheAppWithoutItsChannel(fileName: String, kind: SearchLocation.Kind) -> Bool {
+        target.namesItWithoutItsChannel(Candidate(Self.key(from: fileName, kind: kind)))
+    }
+
     /// This app's claim on the item called `fileName` in a location of `kind`, found at `url` when the caller knows it,
     /// and `nested` when it sits below the location's own entries.
     func match(
@@ -504,11 +509,15 @@ extension LeftoverMatcher {
         /// which claims only for review, since the release the folder belongs to may be installed elsewhere.
         func claim(for candidate: Candidate) -> Evidence? {
             if let evidence = evidence(for: candidate) { return evidence }
-            guard !candidate.isApple,
-                  channelNames.contains(candidate.normalized)
-                      || candidate.withoutVersion.map(channelNames.contains) == true
-            else { return nil }
+            guard namesItWithoutItsChannel(candidate) else { return nil }
             return Evidence(.name, .possible, specificity: candidate.normalized.count)
+        }
+
+        /// Whether the candidate is one of this app's names without its channel word, as Zed is Zed Preview's.
+        func namesItWithoutItsChannel(_ candidate: Candidate) -> Bool {
+            !candidate.isApple
+                && (channelNames.contains(candidate.normalized)
+                    || candidate.withoutVersion.map(channelNames.contains) == true)
         }
 
         func evidence(for candidate: Candidate) -> Evidence? {
