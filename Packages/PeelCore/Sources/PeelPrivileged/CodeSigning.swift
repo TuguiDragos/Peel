@@ -6,7 +6,9 @@ public enum CodeSigning {
     /// Apple Development certificate. Naming them stops any other certificate issued to the same team, such
     /// as an installer or App Store one, from satisfying a requirement that only names the team.
     private static let developerIDLeaf = "field.1.2.840.113635.100.6.1.13"
+    #if DEBUG
     private static let developmentLeaf = "field.1.2.840.113635.100.6.1.12"
+    #endif
 
     /// The team identifier of the running process, or nil for an ad hoc or unsigned build. It is read once,
     /// since it cannot change while the process runs.
@@ -54,7 +56,8 @@ public enum CodeSigning {
         )
     }
 
-    /// Builds either requirement, so a test in a Debug build can check the one a shipped Peel uses.
+    /// Builds either requirement in a Debug build, so a test can check the one a shipped Peel uses. A Release build
+    /// holds the strict one alone, so a shipped helper can never be handed the other.
     static func requirement(
         identifier: String,
         teamIdentifier: String,
@@ -64,9 +67,11 @@ public enum CodeSigning {
         let base = "identifier \"\(identifier)\" and anchor apple generic"
             + " and certificate leaf[subject.OU] = \"\(teamIdentifier)\""
             + (minimumBuild.map { " and info[CFBundleVersion] >= \"\($0)\"" } ?? "")
-        guard !allowingDevelopmentBuilds else {
+        #if DEBUG
+        if allowingDevelopmentBuilds {
             return base + " and (certificate leaf[\(developerIDLeaf)] or certificate leaf[\(developmentLeaf)])"
         }
+        #endif
         return base
             + " and certificate 1[\(developerIDAuthority)]"
             + " and certificate leaf[\(developerIDLeaf)]"

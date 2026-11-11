@@ -161,6 +161,13 @@ jobs:
           if strings "$app/Contents/MacOS/Peel" | grep -q PEEL_HOSTS_TESTS; then
             echo "::error::The Release build carries the test host."; exit 1
           fi
+          # So is the requirement that lets an Apple Development build reach the helper, found by the mark
+          # it asks of the leaf certificate, 1.2.840.113635.100.6.1.12.
+          for binary in Peel PeelHelper; do
+            if strings -a -arch all "$app/Contents/MacOS/$binary" | grep -q '100\.6\.1\.12'; then
+              echo "::error::The Release build's $binary would let an Apple Development build reach the helper."; exit 1
+            fi
+          done
 
       # The accessibility audit drives the pointer, so it runs by hand before a release. Here it is only built.
       - name: Build the accessibility audit

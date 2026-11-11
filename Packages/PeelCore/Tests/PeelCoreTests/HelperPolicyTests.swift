@@ -19,13 +19,13 @@ struct HelperPolicyTests {
         #expect(shipped.contains("! entitlement[\"com.apple.security.get-task-allow\"] exists"))
         #expect(!shipped.contains("100.6.1.12"), "an Apple Development build satisfies the shipped requirement")
 
-        // A Debug build also accepts an Apple Development certificate, for the Debug build beside it.
+        // Only a Debug build also accepts an Apple Development certificate, for the Debug build beside it.
         let development = CodeSigning.requirement(
             identifier: "com.tuguidragos.Peel",
             teamIdentifier: "6R6J264YA2",
             allowingDevelopmentBuilds: true
         )
-        #expect(development.contains("100.6.1.12"))
+        #expect(development.contains("100.6.1.12") == CodeSigning.isADebugBuild)
         #expect(development.hasPrefix("identifier \"com.tuguidragos.Peel\" and anchor apple generic"))
 
         // Both are the requirement language, not strings that only look like it.
@@ -80,6 +80,30 @@ struct HelperPolicyTests {
         #expect(teams.count == 1)
         let team = try #require(teams.first)
         #expect(constraint == ["team-identifier": team, "signing-identifier": HelperIdentity.helperIdentifier])
+    }
+
+    /// The helper's own files sit outside the package, so the test reads them: without either requirement any program
+    /// could reach it, and an operation that went around `HelperOperations` would admit any request.
+    @Test func theHelperHoldsEveryConnectionToItsRequirementAndEveryRequestToItsAdmission() throws {
+        let helper = StringCatalogTests.repository.appending(path: "PeelHelper")
+        let main = try String(contentsOf: helper.appending(path: "main.swift"), encoding: .utf8)
+        let delegate = try String(contentsOf: helper.appending(path: "HelperListenerDelegate.swift"), encoding: .utf8)
+        let service = try String(contentsOf: helper.appending(path: "HelperService.swift"), encoding: .utf8)
+
+        #expect(main.contains("listener.setConnectionCodeSigningRequirement(requirement)"))
+        #expect(delegate.contains("connection.setCodeSigningRequirement(codeSigningRequirement)"))
+        let operations = service.matches(of: /func \w+\(\s*version: Int/).count
+        #expect(operations == 4)
+        #expect(service.matches(of: /HelperOperations\.\w+\(\s*version: version/).count == operations)
+    }
+
+    @Test func refusesWhatMacOSMarksAsProtectedOnEveryMac() {
+        let policy = PrivilegedPathPolicy(homeDirectory: NSHomeDirectory())
+        func refusal(_ path: String) -> PrivilegedPathPolicy.Rejection? {
+            if case .failure(let rejection) = policy.open(path) { rejection } else { nil }
+        }
+
+        #expect(refusal("/Applications/Safari.app") == .protectedByFlags)
     }
 
     /// Which one is compiled in follows the build, so a shipped helper can never be handed the looser text.

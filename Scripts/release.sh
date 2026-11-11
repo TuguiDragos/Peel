@@ -151,6 +151,14 @@ do
     fi
 done
 
+# The requirement that lets an Apple Development build reach the helper is a Debug build's alone.
+for binary in "$app/Contents/MacOS/Peel" "$app/Contents/MacOS/PeelHelper"; do
+    if strings -a -arch all "$binary" | grep -q '100\.6\.1\.12'; then
+        echo "REFUSED: $binary would let an Apple Development build reach the helper"
+        exit 1
+    fi
+done
+
 # Sparkle's XPC services are for sandboxed apps; Peel's build leaves them out, and nothing may bring them back.
 [ -z "$(find "$sparkle" -name '*.xpc')" ] || { echo "REFUSED: Sparkle.framework carries XPC services"; exit 1; }
 
