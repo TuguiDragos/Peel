@@ -194,4 +194,24 @@ struct RemovalTotalsTests {
         #expect(outcome.records?.count == 1)
         #expect(RemovalTotals.read(beside: history) == RemovalTotals())
     }
+
+    @Test func twoWritersUnderDifferentLocksLoseNoCount() throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Peel")
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let record = RemovalRecord(
+            batch: UUID(),
+            item: TrashedItem(
+                originalURL: URL(filePath: "/Users/me/Library/Caches/org.example.cache"),
+                trashedURL: URL(filePath: "/Users/me/.Trash/org.example.cache"), date: .now
+            ),
+            size: 1, source: "Space", tool: "space"
+        )
+
+        DispatchQueue.concurrentPerform(iterations: 2) { _ in
+            for _ in 0..<200 { RemovalTotals.change(at: RemovalTotals.url(beside: history)) { $0.add([record]) } }
+        }
+
+        #expect(RemovalTotals.read(beside: history).items == 400)
+    }
 }

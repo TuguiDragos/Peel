@@ -92,13 +92,16 @@ public struct RemovalTotals: Sendable, Equatable, Codable {
     }
 
     /// Changes the totals at `url`. A file that opens and is not the totals is kept aside under another name, and
-    /// counting starts again; one that cannot be opened is left as it is. False when nothing was written.
+    /// counting starts again; one that cannot be opened is left as it is. False when nothing was written. History and
+    /// the refusals both change them under their own locks, so the totals take a lock of their own, inside those.
     @discardableResult
     static func change(at url: URL, _ change: (inout RemovalTotals) -> Void) -> Bool {
-        guard var totals = stored(at: url) ?? startedAgain(at: url) else { return false }
-        change(&totals)
-        guard let data = try? JSONEncoder().encode(totals) else { return false }
-        return (try? PeelFolder.write(data, to: url)) != nil
+        FileLock.whileHeld(beside: url) {
+            guard var totals = stored(at: url) ?? startedAgain(at: url) else { return false }
+            change(&totals)
+            guard let data = try? JSONEncoder().encode(totals) else { return false }
+            return (try? PeelFolder.write(data, to: url)) != nil
+        }
     }
 
     /// The totals at `url`: none yet when there is no file, and nil when the file cannot be read as the totals.
