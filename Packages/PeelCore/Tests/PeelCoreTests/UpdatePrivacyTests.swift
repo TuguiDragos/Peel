@@ -152,4 +152,28 @@ private final class OneRequestServer: Sendable {
         #expect(configuration.requestCachePolicy == .reloadIgnoringLocalCacheData)
         #expect(configuration.httpCookieStorage == nil)
     }
+
+    @Test func keepsANotesLinkOnlyWhenItIsAWholeHTTPSAddress() throws {
+        func item(linking link: String) throws -> AppcastItem {
+            let feed = """
+            <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item>
+            <sparkle:releaseNotesLink>\(link)</sparkle:releaseNotesLink>
+            <enclosure url="https://example.com/a.zip" sparkle:version="200" sparkle:shortVersionString="2.0"/>
+            </item></channel></rss>
+            """
+            let releases = Appcast.releases(in: Data(feed.utf8), systemVersion: "26.0.0", isAppleSilicon: true)
+            return try #require(releases?.first)
+        }
+
+        #expect(try item(linking: "https://example.com/notes.html").notesPage != nil)
+        let refused = [
+            "http://example.com/notes.html", "file:///etc/hosts", "notes.html", "//example.com/notes.html",
+            "https:notes.html", "https:///notes.html",
+        ]
+        for link in refused {
+            let read = try item(linking: link)
+            #expect(read.notesPage == nil, "\(link)")
+            #expect(read.releaseNotes == nil, "\(link)")
+        }
+    }
 }

@@ -119,14 +119,18 @@ grep -E "EXPORT" "$build/export.log" || true
 
 echo "== What every program is signed with"
 sparkle="$app/Contents/Frameworks/Sparkle.framework"
-for binary in \
-    "$app" \
-    "$app/Contents/MacOS/PeelHelper" \
-    "$app/Contents/PlugIns/PeelFinder.appex" \
-    "$app/Contents/Helpers/peel" \
-    "$sparkle" \
-    "$sparkle/Versions/B/Autoupdate" \
-    "$sparkle/Versions/B/Updater.app"
+# Each program, with the only entitlements it may carry: one that loosens the hardened runtime, such as
+# `disable-library-validation`, would let other code run inside a program the helper trusts.
+programs=(
+    "$app" ""
+    "$app/Contents/MacOS/PeelHelper" "com.apple.application-identifier"
+    "$app/Contents/PlugIns/PeelFinder.appex" "com.apple.security.app-sandbox"
+    "$app/Contents/Helpers/peel" "com.apple.application-identifier"
+    "$sparkle" ""
+    "$sparkle/Versions/B/Autoupdate" "com.apple.application-identifier"
+    "$sparkle/Versions/B/Updater.app" ""
+)
+for binary allowed in "${programs[@]}"
 do
     echo "-- $binary"
     [ -e "$binary" ] || { echo "   REFUSED: $binary is not there"; exit 1; }
@@ -149,6 +153,9 @@ do
         echo "   REFUSED: $binary carries com.apple.security.get-task-allow"
         exit 1
     fi
+    carried="$(sed -n 's/^  "\([^"]*\)" =>.*/\1/p' <<< "$printed" | sort | paste -sd ' ' -)"
+    [[ "$carried" == "$allowed" ]] \
+        || { echo "   REFUSED: $binary carries ${carried:-no entitlements}, and only ${allowed:-none} may be"; exit 1; }
 done
 
 # The requirement that lets an Apple Development build reach the helper is a Debug build's alone.

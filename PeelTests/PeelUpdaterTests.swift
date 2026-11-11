@@ -1,3 +1,4 @@
+import Foundation
 @testable import Peel
 import Sparkle
 import Testing
@@ -23,6 +24,39 @@ struct PeelUpdaterTests {
         #expect(PeelUpdater.feed == "https://github.com/TuguiDragos/Peel/releases/latest/download/appcast.xml")
         #expect(updater.responds(to: givesTheFeed))
         #expect(updater.responds(to: givesTheProfile))
+    }
+
+    @Test func tellsAServerOnlyThatPeelAsksAndKeepsNoCookie() {
+        let updater = PeelUpdater()
+        let controller = SPUStandardUpdaterController(
+            startingUpdater: false, updaterDelegate: updater, userDriverDelegate: updater
+        )
+        let policy = HTTPCookieStorage.shared.cookieAcceptPolicy
+        defer { HTTPCookieStorage.shared.cookieAcceptPolicy = policy }
+        HTTPCookieStorage.shared.cookieAcceptPolicy = .always
+
+        PeelUpdater.configure(controller.updater)
+
+        #expect(controller.updater.userAgentString == "Peel")
+        #expect(controller.updater.httpHeaders == ["Accept-Language": "*"])
+        #expect(HTTPCookieStorage.shared.cookieAcceptPolicy == .never)
+        #expect(HTTPCookieStorage.shared.cookies?.isEmpty != false)
+    }
+
+    @Test func asksOnItsOwnOnlyWhileUpdateChecksAreOn() throws {
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let updater = PeelUpdater(defaults: made.defaults)
+        let controller = SPUStandardUpdaterController(
+            startingUpdater: false, updaterDelegate: updater, userDriverDelegate: updater
+        )
+
+        made.defaults.set(false, forKey: SettingsKey.checksForAppUpdates)
+        #expect(throws: (any Error).self) { try updater.updater(controller.updater, mayPerform: .updatesInBackground) }
+        #expect(throws: (any Error).self) { try updater.updater(controller.updater, mayPerform: .updateInformation) }
+        #expect(throws: Never.self) { try updater.updater(controller.updater, mayPerform: .updates) }
+        made.defaults.set(true, forKey: SettingsKey.checksForAppUpdates)
+        #expect(throws: Never.self) { try updater.updater(controller.updater, mayPerform: .updatesInBackground) }
     }
 
     @Test func forgetsTheSettingsItNeverWritesAndNoOther() throws {

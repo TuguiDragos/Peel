@@ -621,6 +621,9 @@ tree whose package tests pass with warnings as errors, builds Sparkle from its s
 
 - in which any program, Sparkle's included, can be debugged, or is not signed with Peel's Developer ID, the hardened
   runtime, and a secure timestamp;
+- in which a program carries an entitlement beyond its own: none for the app, Sparkle, and its Updater, the application
+  identifier alone for the helper, `peel`, and Sparkle's Autoupdate, and the sandbox alone for the Finder extension;
+- in which Peel or its helper still holds the requirement that lets an Apple Development build reach the helper;
 - in which any program or library lacks its arm64e, arm64, or x86_64 slice, or has its class data unsigned;
 - in which Sparkle carries its XPC services, or a language is missing;
 - or which `syspolicy_check distribution` says macOS would not open.

@@ -15,6 +15,11 @@ final class PeelUpdater: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDele
     private(set) var canCheckForUpdates = false
     @ObservationIgnored private var controller: SPUStandardUpdaterController?
     @ObservationIgnored private var canCheck: NSKeyValueObservation?
+    @ObservationIgnored private let defaults: UserDefaults
+
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+    }
 
     /// The feed as the Info.plist names it. Sparkle reads its settings from Peel's preferences first, which any
     /// program of the account can write, so the feed is handed to it and it takes no other.
@@ -40,18 +45,12 @@ final class PeelUpdater: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDele
 
     func start() {
         guard controller == nil else { return }
-        // Sparkle asks through a session that keeps cookies, and GitHub sets one that would come back with every later
-        // check, linking them all to this Mac. Peel takes no cookies and forgets any it was given.
-        HTTPCookieStorage.shared.cookieAcceptPolicy = .never
-        HTTPCookieStorage.shared.removeCookies(since: .distantPast)
         Self.forgetSettingsLeftToTheInfoPlist(in: .standard)
         let controller = SPUStandardUpdaterController(
             startingUpdater: false, updaterDelegate: self, userDriverDelegate: self
         )
         self.controller = controller
-        // Peel's own update checks tell a server no more than this either.
-        controller.updater.userAgentString = "Peel"
-        controller.updater.httpHeaders = ["Accept-Language": "*"]
+        Self.configure(controller.updater)
         let options: NSKeyValueObservingOptions = [.initial, .new]
         canCheck = controller.updater.observe(\.canCheckForUpdates, options: options) { [weak self] updater, _ in
             MainActor.assumeIsolated { self?.canCheckForUpdates = updater.canCheckForUpdates }
@@ -59,12 +58,23 @@ final class PeelUpdater: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDele
         controller.startUpdater()
     }
 
+    /// What Peel's own checks tell a server, set before Sparkle starts.
+    static func configure(_ updater: SPUUpdater) {
+        // Sparkle asks through a session that keeps cookies, and GitHub sets one that would come back with every later
+        // check, linking them all to this Mac. Peel takes no cookies and forgets any it was given.
+        HTTPCookieStorage.shared.cookieAcceptPolicy = .never
+        HTTPCookieStorage.shared.removeCookies(since: .distantPast)
+        // Peel's own update checks tell a server no more than this either.
+        updater.userAgentString = "Peel"
+        updater.httpHeaders = ["Accept-Language": "*"]
+    }
+
     func checkForUpdates() {
         controller?.checkForUpdates(nil)
     }
 
     func updater(_ updater: SPUUpdater, mayPerform updateCheck: SPUUpdateCheck) throws {
-        let checksForAppUpdates = UserDefaults.standard.isOn(SettingsKey.checksForAppUpdates, whenNeverSet: true)
+        let checksForAppUpdates = defaults.isOn(SettingsKey.checksForAppUpdates, whenNeverSet: true)
         guard OwnUpdateCheck.mayAsk(askedByThePerson: updateCheck == .updates, checksForAppUpdates: checksForAppUpdates)
         else { throw UpdateChecksAreOff() }
     }

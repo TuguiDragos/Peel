@@ -217,7 +217,7 @@ enum Appcast {
                     value.lowercased().components(separatedBy: separators).filter { !$0.isEmpty }
                 )
             case "sparkle:releaseNotesLink", "releaseNotesLink", "sparkle:fullReleaseNotesLink", "link":
-                if current != nil, let url = URL(string: value), url.scheme == "https",
+                if current != nil, let url = URL(string: value), url.scheme == "https", url.host?.isEmpty == false,
                    noteLanguages[elementName, default: []].insert(noteLanguage).inserted {
                     notes[elementName, default: []].append((noteLanguage, url))
                 }
