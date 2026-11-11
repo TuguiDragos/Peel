@@ -175,6 +175,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   switch.
 - The Shell tab's Turn All Off no longer promises macOS's own prompt: what your own `.zshrc` sets still applies.
 - With ZDOTDIR set, the Tools tab names the `.zshrc` zsh reads, no longer `~/.zshrc`.
+- The Tools tab's link to each tool's page, in the tool's note, can be opened with VoiceOver and, with keyboard
+  navigation on, from the keyboard.
 
 #### History
 
@@ -209,6 +211,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   read is kept in the old file, set aside the next time the list changes, no longer dropped without a trace.
 - Privacy no longer says the App Store is asked only about apps bought there: it is asked about every app installed from
   it, free ones too. It also names the Homebrew page where it said there.
+- Installing, repairing, or uninstalling Peel's helper, from Settings or from Home, tells VoiceOver how it went.
 
 #### Applications
 
@@ -335,6 +338,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   packages when it has none.
 - The Source filter calls an app that came from none of the other sources Other, no longer Downloaded, since Peel
   doesn't know it was downloaded, as the exported list already said.
+- Reset Privacy Permissions… in an app's More menu tells VoiceOver how it went, and so does a Reset that only reset the
+  app's privacy permissions.
+- A leftover that is a link, such as a data folder moved to another disk and linked back, says where it leads and that
+  moving it moves only the link, where it read as an empty folder.
+- After a removal, a line of a shell startup file that names the app with an accented letter is found however the letter
+  was typed.
 
 #### Orphaned Files
 
@@ -362,6 +371,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   that's gone, unless Peel saw that app go.
 - Orphaned Files and `peel orphans` ask only the apps that could own each item, so a Mac with hundreds of apps is
   read much faster.
+- A file that is a link says where it leads and that moving it moves only the link.
 
 #### Intel Software
 
@@ -503,6 +513,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - When Peel and its helper are from different versions, the helper says so and to repair it in Peel's Settings, no
   longer to reinstall it, and a helper that doesn't answer is said not to answer, with Repair, no longer to be
   unavailable.
+- Escape a second time in a list's search field gives the keyboard to that list, no longer to the sidebar, where the
+  next arrow opened another page.
+- The links inside About's credits can be opened with VoiceOver and, with keyboard navigation on, from the keyboard.
 
 #### `peel`
 
@@ -522,6 +535,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   `peel uninstall` says on an account that isn't an administrator's who runs the `sudo` commands it gives.
 - `peel orphans`, `peel caches`, `peel projects`, `peel duplicates`, `peel uninstall`, and `peel restore` read the
   exclusions again once you answer their question, so what you excluded meanwhile stays, with the reason, as in the app.
+- `peel leftovers`, `peel uninstall`, and `peel orphans` say where an item that is a link leads, and their JSON says it
+  in `leadsTo`.
+- `peel history` and `peel restore` name a removal of more than three apps, casks, or receipts in English, as the rest
+  of the tool does, no longer in the language Peel's window was in.
 
 ### Security
 
