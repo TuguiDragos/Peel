@@ -47,7 +47,10 @@ fi
 grep -E "Test run with" "$build/test.log" || true
 ran=$(grep -oE "Test run with [0-9]+ tests" "$build/test.log" | tail -1 | grep -oE "[0-9]+")
 least=$(awk '$1 == "PeelCore" { print $2 }' .github/test-floor.txt)
-[ "${ran:-0}" -ge "$least" ] || { echo "REFUSED: $ran tests ran, fewer than the $least .github/test-floor.txt names"; exit 1; }
+if [ "${ran:-0}" -lt "$least" ]; then
+    echo "REFUSED: $ran tests ran, fewer than the $least .github/test-floor.txt names"
+    exit 1
+fi
 echo "Run by hand too, as AGENTS.md says: PEEL_TEST_THIS_MAC=1 with SuggestedSelectionOnThisMacTests, and PeelUITests"
 
 echo "== Sparkle"
