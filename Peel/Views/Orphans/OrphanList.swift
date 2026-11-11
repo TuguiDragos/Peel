@@ -19,6 +19,15 @@ struct OrphanList: View {
         let forAnAdministrator = filteredForAnAdministrator
 
         List(selection: $orphans.selection) {
+            if orphans.scan?.otherAccountsMayOwn == true {
+                Notice(
+                    title: Text("This Mac has other accounts"),
+                    detail: Text("An app one of them keeps in its own Applications folder isn’t visible from here, so check what you move from /Library."),
+                    kind: .note
+                ) {}
+                    .padding(.vertical, 6)
+                    .listRowSeparator(.hidden)
+            }
             if !forAnAdministrator.isEmpty {
                 AdministratorRow(items: forAnAdministrator)
                     .tag(OrphanPage.forAnAdministrator)

@@ -20251,6 +20251,112 @@
         }
       }
     },
+    "An app one of them keeps in its own Applications folder isn’t visible from here, so check what you move from /Library." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace, kterou některý z těchto účtů uchovává ve své vlastní složce Aplikace, odsud není vidět, a proto zkontrolujte, co přesouváte ze složky /Library."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine App, die einer dieser Benutzeraccounts in seinem eigenen Ordner „Programme“ aufbewahrt, ist von hier aus nicht sichtbar. Prüfe daher, was du aus /Library verschiebst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desde aquí no se ve una app que una de ellas guarde en su propia carpeta Aplicaciones, así que revisa lo que trasladas desde /Library."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une app que l’un d’eux conserve dans son propre dossier Applications n’est pas visible d’ici : vérifiez donc ce que vous déplacez depuis /Library."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un’app che uno di loro conserva nella propria cartella Applicazioni non è visibile da qui, quindi controlla ciò che sposti da /Library."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "それらのアカウントのいずれかが自身の“アプリケーション”フォルダに保管しているアプリは、ここからは見えないため、/Libraryから移動するものを確認してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 계정 중 하나가 자신의 응용 프로그램 폴더에 보관한 앱은 여기에서 보이지 않으므로, /Library에서 이동하는 항목을 꼼꼼히 확인하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een app die een van die accounts in de eigen map 'Apps' bewaart, is van hieruit niet zichtbaar, dus controleer wat je uit /Library verplaatst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacji, którą któreś z nich trzyma we własnym folderze Aplikacje, nie widać stąd, więc sprawdź, co przenosisz z /Library."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um app que uma delas guarda na própria pasta Aplicativos não fica visível daqui, então confira o que você mover de /Library."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O aplicație pe care unul dintre ele o păstrează în propriul dosar Aplicații nu este vizibilă de aici, așa că verificați ce mutați din /Library."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение, которое одна из них хранит в своей папке «Программы», отсюда не видно, поэтому проверяйте, что Вы перемещаете из /Library."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En app som ett av dem har i sin egen mapp Appar syns inte härifrån, så kontrollera det du flyttar från /Library."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu hesaplardan birinin kendi Uygulamalar klasöründe tuttuğu bir uygulama buradan görünmez, bu yüzden /Library içinden taşıyacaklarınızı denetleyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програму, яку один із цих облікових записів зберігає у власній папці «Програми», звідси не видно, тож перевіряйте, що переміщуєте з /Library."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中某个账户保存在其自己的“应用程序”文件夹中的App在此处不可见，因此请检查你要从/Library移动的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中某個帳號存放在自己「應用程式」檔案夾中的App，從這裡無法看到，因此請檢查你從/Library移動的項目。"
+          }
+        }
+      }
+    },
     "An app that needs you stops jumping up and down in the Dock." : {
       "localizations" : {
         "cs" : {
@@ -226017,6 +226123,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這部Mac對此設定有自己的值，與你帳號的值分開保存，而macOS會優先讀取這個值。Peel不會更改它。"
+          }
+        }
+      }
+    },
+    "This Mac has other accounts" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento Mac má další účty"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf diesem Mac gibt es weitere Benutzeraccounts"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este Mac tiene otras cuentas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce Mac a d’autres comptes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo Mac ha altri account"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacにはほかのアカウントがあります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac에 다른 계정이 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze Mac heeft andere accounts"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ten Mac ma inne konta"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este Mac tem outras contas"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest Mac are și alte conturi"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На этом Mac есть другие учетные записи"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den här datorn har andra konton"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu Mac’te başka hesaplar var"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На цьому Mac є інші облікові записи"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台Mac上还有其他账户"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這部Mac上還有其他帳號"
           }
         }
       }

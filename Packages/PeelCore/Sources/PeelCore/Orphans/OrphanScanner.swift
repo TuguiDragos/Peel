@@ -225,15 +225,23 @@ public struct OrphanScanner: Sendable {
             ownership: ownership,
             reach: reach
         )
+        let forAnAdministrator = (Self.claiming(apart, by: records) + recorded)
+            .sorted { Self.comesBefore($0.item, $1.item) }
+        let home = environment.homeDirectory.path(percentEncoded: false)
+        let listed = groups.flatMap { $0.items.map(\.url) } + forAnAdministrator.map(\.item.url)
+        let outsideTheHome = listed.contains {
+            !PathComponents.isPath($0.path(percentEncoded: false), atOrInside: home)
+        }
+        let users = environment.rootDirectory.appending(path: "Users", directoryHint: .isDirectory)
         return OrphanScan(
             groups: groups,
             unreadableLocations: unreadableLocations.sorted(by: byPath),
             needsFullDiskAccess: unreadableLocations.contains { FullDiskAccess.canList($0.url) == .missing },
             cutShortLocations: cutShortLocations.sorted(by: byPath),
-            forAnAdministrator: (Self.claiming(apart, by: records) + recorded)
-                .sorted { Self.comesBefore($0.item, $1.item) },
+            forAnAdministrator: forAnAdministrator,
             appsOnOtherDisks: knownToMacOS.identifiers.flatMap(knownPlaces).filter(isOnAnotherDisk)
-                .compactMap { AppInspector.inspect($0) }
+                .compactMap { AppInspector.inspect($0) },
+            otherAccountsMayOwn: outsideTheHome && OtherAccounts.exist(in: users)
         )
     }
 

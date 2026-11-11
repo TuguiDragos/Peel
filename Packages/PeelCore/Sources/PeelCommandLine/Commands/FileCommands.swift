@@ -171,6 +171,9 @@ struct OrphansCommand: AsyncParsableCommand {
         notes += scan.cutShortLocations.map {
             "There are more folders in \(Output.plain(Output.path($0.url))) than Peel looks inside, so an orphaned file may be in a folder Peel didn't reach."
         }
+        if scan.otherAccountsMayOwn {
+            notes.append("This Mac has other accounts. An app one of them keeps in its own Applications folder isn't visible from here, so check what you move from /Library.")
+        }
         if !scan.forAnAdministrator.isEmpty {
             notes.append(byHand)
         }

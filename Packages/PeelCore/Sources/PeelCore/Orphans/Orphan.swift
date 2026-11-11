@@ -117,6 +117,9 @@ public struct OrphanScan: Sendable {
     public var forAnAdministrator: [AdministratorItem] = []
     /// Apps macOS knows on another disk that claimed something: Peel remembers them for when that disk isn't connected.
     public var appsOnOtherDisks: [InstalledApp] = []
+    /// True when this Mac has other accounts and something listed is outside this account's home: an app one of them
+    /// keeps in its own Applications folder is out of Peel's sight, and what it left in `/Library` looks orphaned.
+    public var otherAccountsMayOwn = false
 
     /// The same scan without the group `id`, as when the person said it belongs to an app.
     public func without(_ id: OrphanGroup.ID) -> OrphanScan {
