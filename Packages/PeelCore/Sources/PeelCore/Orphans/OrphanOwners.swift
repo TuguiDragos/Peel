@@ -140,10 +140,15 @@ public struct OrphanOwners: Sendable {
 
     private func change(_ edit: (inout [String: OrphanOwner]) -> Void) -> ListChange {
         FileLock.whileHeld(beside: url) {
-            guard var owners = read() ?? (url.isMissing ? [:] : nil) else { return .notSaved(readProblem()) }
-            edit(&owners)
+            let stored = url.isMissing ? Entries() : BoundedRead.data(at: url).flatMap(Entries.init)
+            guard var entries = stored else { return .notSaved(readProblem()) }
+            let before = entries.owners
+            edit(&entries.owners)
+            for group in Set(before.keys).union(entries.owners.keys) where before[group] != entries.owners[group] {
+                entries.unknown[group] = nil
+            }
             do {
-                try PeelFolder.write(try JSONEncoder().encode(owners), to: url)
+                try PeelFolder.write(try entries.encoded(), to: url)
                 return .saved
             } catch {
                 return .notSaved(.failed(SystemError(error)))
@@ -152,16 +157,39 @@ public struct OrphanOwners: Sendable {
     }
 
     private func read() -> [String: OrphanOwner]? {
-        BoundedRead.data(at: url).flatMap(decoded)
+        BoundedRead.data(at: url).flatMap(Entries.init)?.owners
     }
 
     /// Why the list there can't be read, or nil when it can, for a caller that holds the lock.
     private func readProblem() -> FileProblem? {
         guard let data = BoundedRead.data(at: url) else { return BoundedRead.whyUnreadable(url) }
-        return decoded(data) == nil ? .damaged : nil
+        return Entries(data) == nil ? .damaged : nil
     }
 
-    private func decoded(_ data: Data) -> [String: OrphanOwner]? {
-        try? JSONDecoder().decode([String: OrphanOwner].self, from: data)
+    /// The list's entries, each read on its own: one this version doesn't know, such as an owner a newer Peel wrote,
+    /// gives its group no owner here and is written back as it was, so a newer Peel finds it again.
+    private struct Entries {
+        var owners: [String: OrphanOwner] = [:]
+        var unknown: [String: Any] = [:]
+
+        init() {}
+
+        /// Nil when the file isn't a list of entries at all.
+        init?(_ data: Data) {
+            guard let entries = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else { return nil }
+            for (group, value) in entries {
+                let entry = try? JSONSerialization.data(withJSONObject: value, options: .fragmentsAllowed)
+                if let owner = entry.flatMap({ try? JSONDecoder().decode(OrphanOwner.self, from: $0) }) {
+                    owners[group] = owner
+                } else {
+                    unknown[group] = value
+                }
+            }
+        }
+
+        func encoded() throws -> Data {
+            let known = try JSONSerialization.jsonObject(with: JSONEncoder().encode(owners)) as? [String: Any] ?? [:]
+            return try JSONSerialization.data(withJSONObject: unknown.merging(known) { _, owner in owner })
+        }
     }
 }

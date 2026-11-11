@@ -178,6 +178,11 @@ fail, the rule is right and the change is wrong.
   answer `ProtectedData.Finding`, and a folder with one inside they couldn't list is refused, unless only the helper
   can move it, which looks inside as root. The exclusions' look for an excluded app answers nil the same way
   (`Exclusions.appFolders(inside:)`), which refuses even what the helper would move: the helper has no exclusions.
+- **A file of Peel's keeps what another version wrote.** People go back to an older Peel and on to a newer one, and
+  their files stay. A reader takes an entry it doesn't know as no entry and writes it back as it was (`OrphanOwners`),
+  or keeps the whole file aside before it writes the rest again (`LeftForAnAdministrator`); a form an older Peel
+  couldn't read goes in a file of another name, since a list carries no mark of its form; and a number written to disk
+  names its value, never its case's place (`MatchConfidence`).
 - **A program the account can rewrite never runs as Peel's.** macOS judges what a program may reach by the app that
   started it, so `brew`, Git, and a shell that reads the account's startup files would reach what was given to Peel.
   Each starts through `Subprocess.runOnItsOwn`: stopped, as its own responsible process, and let run only once macOS

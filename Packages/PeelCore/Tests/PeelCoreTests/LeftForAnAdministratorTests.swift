@@ -91,4 +91,11 @@ struct LeftForAnAdministratorTests {
         let set = try FileManager.default.contentsOfDirectory(atPath: directory.url.path(percentEncoded: false))
         #expect(set.contains { $0.contains("damaged") }, "the file as it was is not kept: \(set)")
     }
+
+    @Test func aConfidenceOnDiskKeepsItsNumber() throws {
+        let read = try ["0", "1", "2"].map { try JSONDecoder().decode(MatchConfidence.self, from: Data($0.utf8)) }
+
+        #expect(read == [.possible, .likely, .certain])
+        #expect(try String(decoding: JSONEncoder().encode(MatchConfidence.certain), as: UTF8.self) == "2")
+    }
 }

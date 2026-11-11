@@ -41,10 +41,11 @@ public enum MatchReason: String, Sendable, Hashable {
     case inItsMakersFolder
 }
 
+/// Written to disk as its number, which is why each case names its own.
 public enum MatchConfidence: Int, Sendable, Hashable, Comparable {
-    case possible
-    case likely
-    case certain
+    case possible = 0
+    case likely = 1
+    case certain = 2
 
     public static func < (lhs: Self, rhs: Self) -> Bool { lhs.rawValue < rhs.rawValue }
 }

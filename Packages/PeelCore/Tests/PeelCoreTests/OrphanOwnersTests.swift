@@ -49,4 +49,27 @@ struct OrphanOwnersTests {
                 == ["org.example.given", "org.example.tool", "org.example.lost", "org.example.cmd", "org.example.nocmd"]
         )
     }
+
+    @Test func anOwnerThisVersionDoesNotKnowCostsOnlyItsOwnGroup() throws {
+        let directory = try TemporaryDirectory()
+        let file = try directory.file(
+            "Peel/orphan-owners.json",
+            contents: Data(#"{"org.example.group":"org.example.owner","org.example.other":{"kindFromLater":"x"}}"#.utf8)
+        )
+
+        #expect(OrphanOwners(url: file).load() == ["org.example.group": .app("org.example.owner")])
+    }
+
+    @Test func aChangeKeepsWhatThisVersionDoesNotKnowAsItWas() throws {
+        let directory = try TemporaryDirectory()
+        let file = try directory.file(
+            "Peel/orphan-owners.json", contents: Data(#"{"org.example.other":{"kindFromLater":"x"}}"#.utf8)
+        )
+
+        #expect(OrphanOwners(url: file).give("org.example.group", to: .formula("mole")) == .saved)
+
+        let written = try #require(try JSONSerialization.jsonObject(with: Data(contentsOf: file)) as? [String: Any])
+        #expect((written["org.example.other"] as? [String: String]) == ["kindFromLater": "x"])
+        #expect((written["org.example.group"] as? [String: String]) == ["formula": "mole"])
+    }
 }
