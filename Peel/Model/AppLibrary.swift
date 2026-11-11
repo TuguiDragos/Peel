@@ -230,7 +230,7 @@ final class AppLibrary {
         NotificationCenter.default.addObserver(
             forName: NSApplication.willTerminateNotification, object: nil, queue: nil
         ) { [weak self] _ in
-            MainActor.assumeIsolated { self?.defaults.removeObject(forKey: SettingsKey.updatesBeingChecked) }
+            MainActor.assumeIsolated { self?.rememberChecks(asPeelQuits: true) }
         }
     }
 
@@ -754,20 +754,26 @@ final class AppLibrary {
             var unreached: [(id: InstalledApp.ID, answer: UpdateAnswer)] = []
             @MainActor func askNext() {
                 guard let app = pending.next() else { return }
+                // A stopped round asks nothing more: what it didn't ask keeps its mark and isn't being checked.
                 if let identifier = app.bundleIdentifier, checksCutShort.remove(identifier) != nil {
-                    _ = group.addTaskUnlessCancelled { (app.id, UpdateAnswer(status: .failed)) }
+                    if group.addTaskUnlessCancelled(operation: { (app.id, UpdateAnswer(status: .failed)) }) {
+                        rememberChecks()
+                    } else {
+                        checksCutShort.insert(identifier)
+                    }
                     return
                 }
                 app.bundleIdentifier.map { noteChecking($0, isChecking: true) }
                 let earlier = updateStatuses[app.id]
                 let notListedBefore = remembered(app)?.isNotListed == true
-                _ = group.addTaskUnlessCancelled {
+                let isAsked = group.addTaskUnlessCancelled {
                     let answer = await checker.answer(
                         for: app, preference: preference, casks: casks,
                         earlier: earlier, notListedBefore: notListedBefore
                     )
                     return (app.id, answer)
                 }
+                if !isAsked { app.bundleIdentifier.map { noteChecking($0, isChecking: false) } }
             }
             for _ in 0..<Self.concurrentUpdateChecks {
                 askNext()
@@ -888,7 +894,18 @@ final class AppLibrary {
         } else {
             beingChecked.remove(identifier)
         }
-        defaults.set(beingChecked.sorted(), forKey: SettingsKey.updatesBeingChecked)
+        rememberChecks()
+    }
+
+    /// Keeps where the next launch reads them the apps being checked and those whose check Peel's last stop cut short
+    /// that no round has answered yet. A check under way as Peel quits didn't stop it.
+    private func rememberChecks(asPeelQuits: Bool = false) {
+        let kept = asPeelQuits ? checksCutShort : beingChecked.union(checksCutShort)
+        if kept.isEmpty {
+            defaults.removeObject(forKey: SettingsKey.updatesBeingChecked)
+        } else {
+            defaults.set(kept.sorted(), forKey: SettingsKey.updatesBeingChecked)
+        }
     }
 
     /// Asks the app's own addresses for the notes the round's answers did not carry, a few at a time.

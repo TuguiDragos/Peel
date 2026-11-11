@@ -465,6 +465,46 @@ private nonisolated final class TestClock: Sendable {
         #expect(library.shownUpdateStatus(of: app) == .failed, "asked again before the wait after a failure")
     }
 
+    @Test func aStoppedRoundNotesOnlyWhatItAskedAndKeepsWhatAStopOfPeelCutShort() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundles = try (1...8).map { try caskApp("Fed\($0)", in: folder, feed: "https://feed.example.com/\($0).xml") }
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        made.defaults.set(["org.example.fed8"], forKey: SettingsKey.updatesBeingChecked)
+        HeldProtocol.body.withLock {
+            $0 = Data(#"<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><item><enclosure url="https://feed.example.com/u.zip" sparkle:version="100" sparkle:shortVersionString="1.0" /></item></channel></rss>"#.utf8)
+        }
+        let (arrivals, arrival) = AsyncStream.makeStream(of: Void.self)
+        HeldProtocol.arrived.withLock { $0 = arrival }
+        defer { HeldProtocol.arrived.withLock { $0 = nil } }
+        let library = library(with: made.defaults, notesIn: folder, answeredBy: HeldProtocol.self)
+
+        #expect(await library.reveal(bundles))
+        let apps = library.apps.filter { $0.bundleIdentifier?.hasPrefix("org.example.fed") == true }
+            .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+        #expect(apps.count == 8)
+        let round = Task { await library.checkForUpdates(apps, force: true) }
+        for await _ in arrivals { break }
+        round.cancel()
+        (0..<6).forEach { _ in HeldProtocol.gate.signal() }
+        await round.value
+        Self.takeBackTheGatesLeftOpen()
+
+        #expect(made.defaults.stringArray(forKey: SettingsKey.updatesBeingChecked) == ["org.example.fed8"])
+        let last = try #require(apps.last)
+        HeldProtocol.gate.signal()
+        await library.checkForUpdates([last], force: true)
+        Self.takeBackTheGatesLeftOpen()
+        #expect(library.shownUpdateStatus(of: last) == .failed, "asked at once, its mark lost with the stopped round")
+        #expect(made.defaults.stringArray(forKey: SettingsKey.updatesBeingChecked) == nil)
+    }
+
+    /// Signals no held request took stay for the next test, which would find its request let through.
+    private static func takeBackTheGatesLeftOpen() {
+        while HeldProtocol.gate.wait(timeout: .now()) == .success {}
+    }
+
     @Test func stoppingTheRoundOfEveryAppEndsIt() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
