@@ -17602,7 +17602,7 @@
         }
       }
     },
-    "Adds the links missing from your taps’ manual pages and shell completions, and follows a tap whose main branch was renamed. It deletes nothing." : {
+    "Adds the missing links to your taps’ manual pages and shell completions, and follows a tap whose main branch was renamed. It deletes nothing." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -17619,7 +17619,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Añade los enlaces que faltan a las páginas de manual y al autocompletado de shell de tus taps, y sigue a un tap cuya rama principal se ha renombrado. No borra nada."
+            "value" : "Añade los enlaces que faltan hacia las páginas de manual y el autocompletado de shell de tus taps, y sigue a un tap cuya rama principal se ha renombrado. No borra nada."
           }
         },
         "fr" : {
@@ -17649,7 +17649,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voegt de ontbrekende links toe voor de man-pagina's en shell-aanvullingen van je taps, en volgt een tap waarvan de hoofdbranch een andere naam heeft gekregen. Er wordt niets verwijderd."
+            "value" : "Voegt de ontbrekende links naar de man-pagina's en shell-aanvullingen van je taps toe, en volgt een tap waarvan de hoofdbranch een andere naam heeft gekregen. Er wordt niets verwijderd."
           }
         },
         "pl" : {
@@ -17667,7 +17667,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adaugă legăturile care lipsesc pentru paginile de manual și completările shell ale tap‑urilor dvs. și urmărește un tap al cărui branch principal a fost redenumit. Nu șterge nimic."
+            "value" : "Adaugă linkurile care lipsesc către paginile de manual și completările shell ale tap‑urilor dvs. și urmărește un tap al cărui branch principal a fost redenumit. Nu șterge nimic."
           }
         },
         "ru" : {
@@ -17697,7 +17697,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "为你的taps补上手册页和shell补全中缺失的链接，并让主分支已改名的tap改用新名称。它不会删除任何内容。"
+            "value" : "为你的taps的手册页和shell补全补上缺失的链接，并让主分支已改名的tap改用新名称。它不会删除任何内容。"
           }
         },
         "zh-Hant" : {
@@ -63576,7 +63576,7 @@
         }
       }
     },
-    "Homebrew adds the links missing from its taps’ manual pages and shell completions, and points a tap whose main branch was renamed at the new name. It deletes nothing." : {
+    "Homebrew adds the missing links to its taps’ manual pages and shell completions, and points a tap whose main branch was renamed at the new name. It deletes nothing." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -63593,7 +63593,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew añade los enlaces que faltan a las páginas de manual y al autocompletado de shell de sus taps, y hace que un tap cuya rama principal se ha renombrado apunte al nombre nuevo. No borra nada."
+            "value" : "Homebrew añade los enlaces que faltan hacia las páginas de manual y el autocompletado de shell de sus taps, y hace que un tap cuya rama principal se ha renombrado apunte al nombre nuevo. No borra nada."
           }
         },
         "fr" : {
@@ -63623,7 +63623,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew voegt de ontbrekende links toe voor de man-pagina's en shell-aanvullingen van zijn taps, en laat een tap waarvan de hoofdbranch een andere naam heeft gekregen naar de nieuwe naam verwijzen. Er wordt niets verwijderd."
+            "value" : "Homebrew voegt de ontbrekende links naar de man-pagina's en shell-aanvullingen van zijn taps toe, en laat een tap waarvan de hoofdbranch een andere naam heeft gekregen naar de nieuwe naam verwijzen. Er wordt niets verwijderd."
           }
         },
         "pl" : {
@@ -63641,7 +63641,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew adaugă legăturile care lipsesc pentru paginile de manual și completările shell ale tap‑urilor sale și îndreaptă un tap al cărui branch principal a fost redenumit spre noul nume. Nu șterge nimic."
+            "value" : "Homebrew adaugă linkurile care lipsesc către paginile de manual și completările shell ale tap‑urilor sale și îndreaptă un tap al cărui branch principal a fost redenumit spre noul nume. Nu șterge nimic."
           }
         },
         "ru" : {
@@ -63671,7 +63671,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew会为其taps补上手册页和shell补全中缺失的链接，并将主分支已改名的tap指向新名称。它不会删除任何内容。"
+            "value" : "Homebrew会为其taps的手册页和shell补全补上缺失的链接，并将主分支已改名的tap指向新名称。它不会删除任何内容。"
           }
         },
         "zh-Hant" : {

@@ -146,7 +146,7 @@ struct HomebrewList: View {
         case .clearEveryDownload:
             Text("Homebrew deletes for good every download it keeps, even for the latest versions, except those of what is installed now, and what Clean Up deletes. Nothing goes to the Trash, and History can’t put it back.")
         default:
-            Text("Homebrew adds the links missing from its taps’ manual pages and shell completions, and points a tap whose main branch was renamed at the new name. It deletes nothing.")
+            Text("Homebrew adds the missing links to its taps’ manual pages and shell completions, and points a tap whose main branch was renamed at the new name. It deletes nothing.")
         }
     }
 
@@ -332,7 +332,7 @@ struct HomebrewList: View {
             }
             row(
                 title: "Repair Taps",
-                detail: Text("Adds the links missing from your taps’ manual pages and shell completions, and follows a tap whose main branch was renamed. It deletes nothing."),
+                detail: Text("Adds the missing links to your taps’ manual pages and shell completions, and follows a tap whose main branch was renamed. It deletes nothing."),
                 systemImage: "wrench.adjustable",
                 command: .repairTaps
             ) {
