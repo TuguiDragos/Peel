@@ -144,11 +144,12 @@ struct ContentView: View {
         .focusedSceneValue(\.selectedTool, shownTool)
         .quitBeforeHomebrew(homebrew.quittingToUpgrade, upgrading: true)
         .quitBeforeHomebrew(homebrew.quittingToUninstall, upgrading: false)
-        // The page changes only for a bundle that is an app, since any app or web page can send the link.
+        // The page changes only for a bundle that is an app, since any app or web page can send the link. Apps dropped
+        // on Peel's Dock icon together come one call each, so they are opened together on the next turn.
         .onOpenURL { url in
             guard let applicationURL = OpenRequest.applicationURL(from: url) else { return }
-            navigator.openedApp = applicationURL
-            applyPendingRequest()
+            navigator.open(applicationURL)
+            Task { applyPendingRequest() }
         }
         // A request that waited under a sheet, or for an app to quit, is applied once that is over.
         .onReceive(NotificationCenter.default.publisher(for: NSWindow.didEndSheetNotification)) { notice in
@@ -409,10 +410,10 @@ struct ContentView: View {
             navigator.requestedApp = nil
             Task { await library.reveal([app]) }
         }
-        if let opened = navigator.openedApp {
-            navigator.openedApp = nil
+        let opened = navigator.takeOpenedApps()
+        if !opened.isEmpty {
             Task {
-                if await library.revealRequested([opened]) {
+                if await library.revealRequested(opened) {
                     show(.applications)
                 }
             }

@@ -63,7 +63,7 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
 - **The Select menu** has Select Recommended, Select All, and Deselect All. Select All selects everything you can
   select, what Peel holds back included, and asks first when that takes anything Peel doesn't recommend. In
   Duplicates it has no Select All, since one copy of every group always stays.
-- **Several ways in.** Choose an app in the list, drop one on Peel's Dock icon, select several apps at once, or
+- **Several ways in.** Choose an app in the list, drop one or more on Peel's Dock icon, select several apps at once, or
   Control-click an app in Finder and choose Uninstall with Peel, once the Finder extension is on in System
   Settings; an app in macOS's own `/System` folder doesn't offer it, since nothing moves from there. With Watch the
   Trash on, Peel notices when you drag an app to the Trash yourself and offers to clear

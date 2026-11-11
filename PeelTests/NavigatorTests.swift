@@ -15,4 +15,16 @@ struct NavigatorTests {
         navigator.noteWaitingForAQuit(waiter, false)
         #expect(navigator.mayApplyRequests(windowHasASheet: false))
     }
+
+    @Test func appsOpenedTogetherAreTakenTogether() {
+        let navigator = Navigator.shared
+        let editor = URL(filePath: "/Applications/Editor.app", directoryHint: .isDirectory)
+        let viewer = URL(filePath: "/Applications/Viewer.app", directoryHint: .isDirectory)
+
+        navigator.open(editor)
+        navigator.open(viewer)
+
+        #expect(navigator.takeOpenedApps() == [editor, viewer])
+        #expect(navigator.takeOpenedApps().isEmpty)
+    }
 }
