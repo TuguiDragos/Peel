@@ -49,4 +49,20 @@ struct QuitGuardTests {
         #expect(reply == .terminateLater)
         #expect(record.stopped == 1 && record.answers == [true])
     }
+
+    @Test func aQuitDuringARemovalWaitsUntilTheLastOfItEnds() async {
+        var answers: [Bool] = []
+        let guardian = QuitGuard(asksToStop: { false }, answer: { answers.append($0) })
+        var reply: NSApplication.TerminateReply?
+        var answeredWhileOneStillRan = true
+
+        await guardian.run {
+            await guardian.run { reply = guardian.replyToQuit() }
+            answeredWhileOneStillRan = !answers.isEmpty
+        }
+
+        #expect(reply == .terminateLater)
+        #expect(!answeredWhileOneStillRan)
+        #expect(answers == [true])
+    }
 }
