@@ -31,8 +31,12 @@ final class AccessibilityAuditTests: XCTestCase {
 
     private static let settingsPanes = ["General", "Exclusions", "Privacy", "Helper"]
 
-    /// The pages whose list leads to a page of each row, audited once more with a row chosen.
-    private static let pagesOfRows: Set = ["Background Items", "Extensions", "Plug-ins"]
+    /// The pages whose list leads to a page of each row, audited once more with a row chosen. Duplicates and File
+    /// Search list nothing until someone scans, and iCloud Drive is one page.
+    private static let pagesOfRows: Set = [
+        "History", "Applications", "Orphaned Files", "Intel Software", "Package Receipts", "Homebrew", "Space",
+        "Developer", "Build Artifacts", "Installers and Backups", "Background Items", "Extensions", "Plug-ins",
+    ]
 
     func testEverythingInTheLightAppearance() {
         auditEverything(appearance: "Light")
@@ -59,6 +63,47 @@ final class AccessibilityAuditTests: XCTestCase {
         app.typeKey(.escape, modifierFlags: [])
         app.typeKey(.downArrow, modifierFlags: [])
         XCTAssertFalse(list.waitForNonExistence(timeout: 3), "Leaving the search field took the keyboard to the sidebar")
+        app.terminate()
+    }
+
+    /// What a page's list selects is in the menu bar too, so the keyboard reaches it with macOS's default settings.
+    func testAPagesSelectionIsInTheEditMenu() {
+        let app = XCUIApplication()
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US", "-ApplePersistenceIgnoreState", "YES"]
+        app.launch()
+        choose("Applications", inMenu: "View", of: app)
+        waitForTheScan(of: "Applications", in: app)
+        XCTAssertTrue(chooseARow(of: "Applications", in: app, moving: 2))
+        let edit = app.menuBars.menuBarItems["Edit"]
+        edit.click()
+        let select = edit.menus.firstMatch.children(matching: .menuItem)["Select"]
+        XCTAssertTrue(select.waitForExistence(timeout: 5), "Edit should have Select")
+        select.hover()
+        let commands = select.menus.firstMatch
+        XCTAssertTrue(commands.menuItems["Deselect All"].waitForExistence(timeout: 5), "The page's Deselect All")
+        XCTAssertTrue(commands.menuItems["Select Recommended"].exists, "The page's Select Recommended")
+        app.typeKey(.escape, modifierFlags: [])
+        app.typeKey(.escape, modifierFlags: [])
+        app.terminate()
+    }
+
+    /// An alert whose one button is OK closes with Return. It asks to exclude the home folder, which Peel refuses.
+    func testReturnClosesAnAlertWithOneButton() {
+        let app = XCUIApplication()
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US", "-ApplePersistenceIgnoreState", "YES"]
+        app.launch()
+        app.typeKey(",", modifierFlags: .command)
+        let settings = app.windows.containing(NSPredicate(format: "label == %@", "Helper")).firstMatch
+        XCTAssertTrue(settings.waitForExistence(timeout: 5))
+        XCTAssertTrue(click(toolbarItem("Exclusions", in: settings), named: "Settings, Exclusions"))
+        settings.buttons["Add Files or Folders\u{2026}"].firstMatch.click()
+        app.typeKey("g", modifierFlags: [.command, .shift])
+        app.typeText("~\n")
+        app.typeKey(.return, modifierFlags: [])
+        let alert = app.sheets.containing(NSPredicate(format: "label CONTAINS %@", "can\u{2019}t be excluded")).firstMatch
+        XCTAssertTrue(alert.waitForExistence(timeout: 5), "Peel should refuse to exclude the home folder")
+        app.typeKey(.return, modifierFlags: [])
+        XCTAssertTrue(alert.waitForNonExistence(timeout: 2), "Return should close an alert whose only button is OK")
         app.terminate()
     }
 
@@ -92,8 +137,10 @@ final class AccessibilityAuditTests: XCTestCase {
             waitForTheScan(of: page, in: app)
             guard let tabs = Self.tabs[page] else {
                 audit(page, appearance: appearance, of: app)
-                if Self.pagesOfRows.contains(page), chooseARow(of: page, in: app) {
+                // The second app, so the page isn't Peel's own.
+                if Self.pagesOfRows.contains(page), chooseARow(of: page, in: app, moving: page == "Applications" ? 2 : 1) {
                     audit("\(page), a row's page", appearance: appearance, of: app)
+                    if page == "Applications" { auditTheSheetAndANoteOfAnAppsPage(appearance: appearance, in: app) }
                 }
                 continue
             }
@@ -282,7 +329,7 @@ final class AccessibilityAuditTests: XCTestCase {
 
     /// Chooses a row of the page's list, whose own page the detail column then shows: a click below the rows gives the
     /// list the keyboard, and Down Arrow chooses the next row that can be chosen, past a section's heading.
-    private func chooseARow(of page: String, in app: XCUIApplication) -> Bool {
+    private func chooseARow(of page: String, in app: XCUIApplication, moving downs: Int = 1) -> Bool {
         let window = app.windows["main"]
         let named = NSPredicate(format: "label == %@", page)
         let outline = window.outlines.matching(named).firstMatch
@@ -292,8 +339,32 @@ final class AccessibilityAuditTests: XCTestCase {
             return false
         }
         list.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.97)).click()
-        list.typeKey(.downArrow, modifierFlags: [])
+        for _ in 0..<downs { list.typeKey(.downArrow, modifierFlags: []) }
         return true
+    }
+
+    /// The Reset sheet of the app whose page is shown, and the first circled i on that page, each closed with Escape.
+    /// Opening either changes nothing.
+    private func auditTheSheetAndANoteOfAnAppsPage(appearance: String, in app: XCUIApplication) {
+        let window = app.windows["main"]
+        let reset = window.buttons["Reset\u{2026}"].firstMatch
+        if reset.exists, reset.isEnabled {
+            reset.click()
+            let sheet = window.sheets.firstMatch
+            waitUntilShown(sheet, named: "The Reset sheet")
+            audit("Applications, the Reset sheet", appearance: appearance, of: app, window: sheet)
+            app.typeKey(.escape, modifierFlags: [])
+            XCTAssertTrue(sheet.waitForNonExistence(timeout: 5), "Escape should close the Reset sheet")
+        }
+        let note = window.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", "What ")).firstMatch
+        if note.exists {
+            note.click()
+            let popover = app.popovers.firstMatch
+            waitUntilShown(popover, named: "A circled i's note")
+            audit("Applications, a circled i's note", appearance: appearance, of: app, window: popover)
+            app.typeKey(.escape, modifierFlags: [])
+            XCTAssertTrue(popover.waitForNonExistence(timeout: 5), "Escape should close the note")
+        }
     }
 
     /// Waits for the page's scan to end. While one runs, the toolbar's Rescan turns into Stop, a moment after the
