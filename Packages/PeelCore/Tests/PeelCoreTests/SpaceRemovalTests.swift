@@ -16,10 +16,11 @@ struct SpaceRemovalTests {
         )
     }
 
-    private func environment(_ directory: borrowing TemporaryDirectory) -> SearchEnvironment {
+    private func environment(_ directory: borrowing TemporaryDirectory, userCache: URL? = nil) -> SearchEnvironment {
         SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
-            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            userCacheDirectory: userCache
         )
     }
 
@@ -238,8 +239,7 @@ struct SpaceRemovalTests {
                 )
             }
         }
-        var environment = environment(directory)
-        environment.userCacheDirectory = userCache
+        let environment = environment(directory, userCache: userCache)
         let report = await SpaceInventory.scan(
             home: home, root: directory.url.appending(path: "root"), userCache: userCache, minimumSize: 1,
             measure: LeftoverScanner.walk
@@ -307,8 +307,7 @@ struct SpaceRemovalTests {
         }
         try directory.file("C/clang/ModuleCache/index.pcm")
         let userCache = directory.url.appending(path: "C", directoryHint: .isDirectory)
-        var environment = environment(directory)
-        environment.userCacheDirectory = userCache
+        let environment = environment(directory, userCache: userCache)
         let caches = SpaceItem(
             id: "user-caches", category: .library, urls: [userCache], size: SizeTotal(known: 0, isComplete: true),
             handling: .trash, leavesMacOSsOwn: true
@@ -333,8 +332,7 @@ struct SpaceRemovalTests {
             try directory.directory("C/\(name)")
         }
         let userCache = directory.url.appending(path: "C", directoryHint: .isDirectory)
-        var environment = environment(directory)
-        environment.userCacheDirectory = userCache
+        let environment = environment(directory, userCache: userCache)
         let hidden = SpaceItem(
             id: "user-caches", category: .library, urls: [userCache], size: SizeTotal(known: 0, isComplete: true),
             handling: .trash, leavesMacOSsOwn: true

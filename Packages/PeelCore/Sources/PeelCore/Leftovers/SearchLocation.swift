@@ -1,6 +1,7 @@
 import Darwin
 public import Foundation
 internal import PeelPrivileged
+import Synchronization
 
 public struct SearchLocation: Sendable, Hashable {
     public enum Kind: String, Sendable, Hashable, CaseIterable {
@@ -85,6 +86,9 @@ public struct SearchLocation: Sendable, Hashable {
     /// For a browser's native messaging folder, the apps that read it besides the browser it is named for, each
     /// known by an identifier that is theirs or that theirs continues after a dot.
     let alsoReadBy: [String]
+    /// `url` as paths are compared, and its names, which every search asks of each location.
+    let root: String
+    let rootNames: [String]
 
     public init(kind: Kind, url: URL) {
         self.init(kind: kind, url: url, skipped: [])
@@ -95,6 +99,8 @@ public struct SearchLocation: Sendable, Hashable {
         self.url = url
         self.skipped = skipped
         self.alsoReadBy = alsoReadBy
+        root = PathPattern.comparablePath(of: url)
+        rootNames = PathComponents.of(root)
     }
 
     /// True when this location looks at an entry with this name.
@@ -158,10 +164,12 @@ extension SearchLocation.Kind {
 }
 
 public struct SearchEnvironment: Sendable {
-    public var homeDirectory: URL
-    public var rootDirectory: URL
-    public var userCacheDirectory: URL?
-    public var userTemporaryDirectory: URL?
+    public let homeDirectory: URL
+    public let rootDirectory: URL
+    public let userCacheDirectory: URL?
+    public let userTemporaryDirectory: URL?
+    /// Made on the first read and kept for every copy, since the folders it is made from never change.
+    private let searchedPlaces = SearchedPlaces()
 
     public init(
         homeDirectory: URL,
@@ -175,6 +183,23 @@ public struct SearchEnvironment: Sendable {
         self.userTemporaryDirectory = userTemporaryDirectory
     }
 
+    /// Every place a search looks in.
+    public var locations: [SearchLocation] {
+        searchedPlaces.made.withLock { made in
+            if let made { return made }
+            let searched = Self.searched(
+                home: homeDirectory, root: rootDirectory, userCache: userCacheDirectory,
+                userTemporary: userTemporaryDirectory
+            )
+            made = searched
+            return searched
+        }
+    }
+
+    private final class SearchedPlaces: Sendable {
+        let made = Mutex<[SearchLocation]?>(nil)
+    }
+
     public static var current: SearchEnvironment {
         SearchEnvironment(
             homeDirectory: .homeDirectory,
@@ -186,9 +211,13 @@ public struct SearchEnvironment: Sendable {
 
     /// The folders commands are run from by name (`CommandFolders`), under this root and home.
     var commandFolders: [URL] {
+        Self.commandFolders(root: rootDirectory, home: homeDirectory)
+    }
+
+    private static func commandFolders(root: URL, home: URL) -> [URL] {
         (CommandFolders.usrLocal + CommandFolders.homebrew + CommandFolders.macPorts).map {
-            rootDirectory.appending(path: $0, directoryHint: .isDirectory)
-        } + CommandFolders.home.map { homeDirectory.appending(path: $0, directoryHint: .isDirectory) }
+            root.appending(path: $0, directoryHint: .isDirectory)
+        } + CommandFolders.home.map { home.appending(path: $0, directoryHint: .isDirectory) }
     }
 
     /// True for an app at `path` that a person keeps on its own. One inside the home's Library or the Mac's is part
@@ -226,7 +255,12 @@ public struct SearchEnvironment: Sendable {
     /// is found there is listed and never moved.
     static let systemCodeFolders = ["Extensions", "Filesystems", SignInPlugIns.folder]
 
-    public var locations: [SearchLocation] {
+    private static func searched(
+        home homeDirectory: URL,
+        root rootDirectory: URL,
+        userCache userCacheDirectory: URL?,
+        userTemporary userTemporaryDirectory: URL?
+    ) -> [SearchLocation] {
         let userLibrary = homeDirectory.appending(path: "Library", directoryHint: .isDirectory)
         let localLibrary = rootDirectory.appending(path: "Library", directoryHint: .isDirectory)
 
@@ -251,7 +285,9 @@ public struct SearchEnvironment: Sendable {
         if let userTemporaryDirectory {
             locations.append(SearchLocation(kind: .temporaryItems, url: userTemporaryDirectory))
         }
-        locations += commandFolders.map { SearchLocation(kind: .commandLineTools, url: $0) }
+        locations += commandFolders(root: rootDirectory, home: homeDirectory).map {
+            SearchLocation(kind: .commandLineTools, url: $0)
+        }
         locations += [rootDirectory, homeDirectory].map {
             SearchLocation(kind: .applicationLinks, url: $0.appending(path: "Applications", directoryHint: .isDirectory))
         }

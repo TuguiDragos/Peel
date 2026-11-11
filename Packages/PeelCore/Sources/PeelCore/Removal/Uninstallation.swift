@@ -433,11 +433,8 @@ public struct Uninstallation: Sendable {
         let path = PathPattern.comparablePath(of: url)
         let names = PathComponents.of(path)
         let inside = environment.locations
-            .map { location in
-                let root = PathPattern.comparablePath(of: location.url)
-                return (location: location, root: root, below: Array(names.dropFirst(PathComponents.of(root).count)))
-            }
-            .filter { PathComponents.isPath(path, inside: $0.root) }
+            .filter { names.count > $0.rootNames.count && names.starts(with: $0.rootNames) }
+            .map { (location: $0, root: $0.root, below: Array(names.dropFirst($0.rootNames.count))) }
             // Two locations can share a root, like the hidden and plain halves of the home folder. The one that
             // considers this name is the one that would have found it.
             .filter { found in

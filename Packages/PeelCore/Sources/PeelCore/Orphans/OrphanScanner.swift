@@ -274,7 +274,7 @@ public struct OrphanScanner: Sendable {
             guard !listed.contains(item), seen.insert(item).inserted else { return nil }
             return merged[item]
         }
-        let places = environment.locations.map { PathPattern.comparablePath(of: $0.url) }
+        let places = environment.locations.map(\.root)
         let searched = unlisted.filter { record in
             let path = PathPattern.comparablePath(of: URL(filePath: record.path))
             return places.contains { PathComponents.isPath(path, inside: $0) }
