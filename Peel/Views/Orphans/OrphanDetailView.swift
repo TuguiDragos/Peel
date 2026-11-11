@@ -130,6 +130,7 @@ struct OrphanDetailView: View {
                     }
                 }
             }
+            Button("This Belongs To…") { orphans.groupToGive = group }
         } trailing: {
             let movable = group.movable(canUseHelper: helper.canAct)
             TotalLabel(total: movable, caption: Text("to remove"))

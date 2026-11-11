@@ -10,7 +10,6 @@ struct OrphanList: View {
     @State private var searchText = ""
     @State private var isRescanning = false
     @State private var notGiven: (name: String, why: FileProblem?)?
-    @State private var groupToGive: OrphanGroup?
 
     static let nothingYet: LocalizedStringResource = "What removed apps left behind appears here: files named for an app that isn’t installed, and files of apps Peel saw removed."
 
@@ -33,7 +32,7 @@ struct OrphanList: View {
         .contextMenu(forSelectionType: OrphanPage.self) { pages in
             if pages.count == 1, case .group(let id)? = pages.first,
                let group = filtered.first(where: { $0.id == id }) {
-                Button("This Belongs To…") { groupToGive = group }
+                Button("This Belongs To…") { orphans.groupToGive = group }
             }
         }
         .scanState(phase(filtered, forAnAdministrator), isRescanning: isRescanning, scan: orphans.scanRun) {
@@ -150,7 +149,9 @@ struct OrphanList: View {
         }
         .rescanOnExclusionChange("OrphanList") { await orphans.refresh(from: library) }
         .rescanAfterPutBack(.orphans) { await orphans.refresh(from: library) }
-        .sheet(item: $groupToGive) { group in
+        // The sheet is this page's: kept in the library, it would open again when the page comes back.
+        .onDisappear { orphans.groupToGive = nil }
+        .sheet(item: $orphans.groupToGive) { group in
             VStack(alignment: .leading, spacing: 12) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("This Belongs To")
@@ -167,13 +168,13 @@ struct OrphanList: View {
                     tools: homebrew.formulae,
                     commands: orphans.offeredCommands
                 ) { choice in
-                    groupToGive = nil
+                    orphans.groupToGive = nil
                     guard let owner = choice.owner else { return }
                     if case .notSaved(let why) = orphans.give(group, to: owner) { notGiven = (choice.name, why) }
                 }
                 HStack {
                     Spacer()
-                    Button("Cancel", role: .cancel) { groupToGive = nil }
+                    Button("Cancel", role: .cancel) { orphans.groupToGive = nil }
                         .keyboardShortcut(.cancelAction)
                 }
             }

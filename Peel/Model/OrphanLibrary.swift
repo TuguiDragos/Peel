@@ -16,6 +16,8 @@ final class OrphanLibrary {
     var isScanning: Bool { scanRun.isRunning }
     var isRemoving = false
     var selection: OrphanPage?
+    /// The group This Belongs To is open for, from the list's menu or the group's page.
+    var groupToGive: OrphanGroup?
     var selectedURLs: Set<URL> = []
 
     /// The apps list the scan was checked against. The page scans again when the list changes.
