@@ -344,10 +344,13 @@ enum KeptOnlyHere {
     /// Parallels', VMware Fusion's, UTM's, and Viable's packages, the `drive_c` Wine makes in every prefix, which
     /// CrossOver and Whisky call bottles, and the `86box.cfg` of an 86Box machine.
     static func namesAVirtualMachine(_ name: String) -> Bool {
-        // A walk asks this of every name, so a name that can't end like one is passed over before it is copied.
+        // A name that can't end like one is passed over before it is copied.
         guard let last = name.utf8.last, lastLetters.contains(last | 0x20) else { return false }
-        let name = name.lowercased()
-        return name == "drive_c" || name == "86box.cfg"
+        return namesAVirtualMachine(lowercased: name.lowercased())
+    }
+
+    static func namesAVirtualMachine(lowercased name: String) -> Bool {
+        name == "drive_c" || name == "86box.cfg"
             || virtualMachinePackages.contains { name.hasSuffix($0) && name.count > $0.count }
     }
 

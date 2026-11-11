@@ -235,10 +235,12 @@ public enum FileSize {
                 scan?.add(1)
                 // Matched by name alone: a Git worktree or submodule has a `.git` file, a plain repository a
                 // `.git` folder.
-                if repositoryMarkers.contains(file.lastPathComponent) { holdsRepository = true }
-                if isWallet(file.lastPathComponent) { holdsWallet = true }
-                if isPasswordDatabase(file.lastPathComponent) { holdsPasswordDatabase = true }
-                if !holdsVirtualMachines, KeptOnlyHere.namesAVirtualMachine(file.lastPathComponent) {
+                let name = file.lastPathComponent
+                let lowered = name.lowercased()
+                if repositoryMarkers.contains(name) { holdsRepository = true }
+                if !holdsWallet, isWallet(lowercased: lowered) { holdsWallet = true }
+                if !holdsPasswordDatabase, isPasswordDatabase(lowercased: lowered) { holdsPasswordDatabase = true }
+                if !holdsVirtualMachines, KeptOnlyHere.namesAVirtualMachine(lowercased: lowered) {
                     holdsVirtualMachines = true
                 }
                 if !holdsWorkMadeWithAnApp, enumerator.level == 2,
@@ -253,8 +255,7 @@ public enum FileSize {
                     if isDataless(file) { enumerator.skipDescendants() }
                     return .next
                 }
-                if !holdsWorkMadeWithAnApp, enumerator.level == 1,
-                   KeptOnlyHere.namesWorkMadeWithAnApp(file.lastPathComponent) {
+                if !holdsWorkMadeWithAnApp, enumerator.level == 1, KeptOnlyHere.namesWorkMadeWithAnApp(name) {
                     holdsWorkMadeWithAnApp = true
                 }
                 if let links = values.linkCount, links > 1, let identifier = values.fileIdentifier {
@@ -337,8 +338,11 @@ public enum FileSize {
     /// `encryption-identity.txt` (Zallet), `*-keypair.json` (a Solana program's key, which `cargo build-sbf` writes
     /// in `target/deploy` and which gives the program its address), and `.aptos`.
     static func isWallet(_ name: String) -> Bool {
-        let name = name.lowercased()
-        return walletNames.contains(name) || walletSuffixes.contains { name.hasSuffix($0) }
+        isWallet(lowercased: name.lowercased())
+    }
+
+    static func isWallet(lowercased name: String) -> Bool {
+        walletNames.contains(name) || walletSuffixes.contains { name.hasSuffix($0) }
             || walletPrefixes.contains { name.hasPrefix($0) }
     }
 
@@ -360,8 +364,11 @@ public enum FileSize {
     /// opened, or a vault 1Password 7 and earlier kept outside an account, in one of the formats it declares
     /// (`.opvault`, `.agilekeychain`, `.legacyagilekeychain`).
     static func isPasswordDatabase(_ name: String) -> Bool {
-        let name = name.lowercased()
-        return passwordDatabaseSuffixes.contains { name.hasSuffix($0) }
+        isPasswordDatabase(lowercased: name.lowercased())
+    }
+
+    static func isPasswordDatabase(lowercased name: String) -> Bool {
+        passwordDatabaseSuffixes.contains { name.hasSuffix($0) }
     }
 
     private static let passwordDatabaseSuffixes = [
