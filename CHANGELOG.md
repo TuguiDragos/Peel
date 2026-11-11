@@ -372,7 +372,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Removing a stray copy of an app no longer resets the privacy permissions of the copy that stays: macOS keeps one set
   for every copy, so Also reset privacy permissions waits until no other copy stays, and its note says why.
 - An app's page shows a folder that begins with the app's name for you to look at whatever separates the name's words,
-  such as `github-copilot-sdk` for GitHub Copilot.
+  such as `tide-pool-sdk` for an app called Tide Pool.
 - An app whose name is two characters in Chinese, Japanese, or Korean, such as 抖音, finds the folders named for it, and
   shares them with another app of its maker whose name begins the same way.
 - While an app is its maker's last, its page also shows for you to look at the maker's folder in Preferences, a file
