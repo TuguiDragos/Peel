@@ -292,7 +292,7 @@ struct MultipleAppsView: View {
             lines.append(String(localized: heldBack.explanation(keptInStepBy: item.syncedBy)))
         }
         if item.holdsDamagedSettings {
-            lines.append(String(localized: "Can’t be read as a property list, so nothing can read these settings."))
+            lines.append(String(localized: "This settings file is damaged, so no app can read it."))
         }
         if let leadsTo = item.leadsTo {
             lines.append(Leftover.linkNote(leadingTo: leadsTo))
@@ -347,7 +347,7 @@ struct MultipleAppsView: View {
             lines.append(Text("Apps that stay: \(list(staying))"))
         }
         if !resetting(urls).isEmpty {
-            lines.append(Text("The selected apps’ privacy permissions are cleared first, and History can’t bring them back."))
+            lines.append(Text("The selected apps’ privacy permissions are reset first, and History can’t bring them back."))
         }
         lines += (plan.bulk?.uninstallations ?? []).compactMap(\.uninstallsItself)
             .filter { urls.contains($0.app.url) }.map(\.warning)

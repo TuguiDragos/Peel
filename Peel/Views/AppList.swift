@@ -20,8 +20,8 @@ struct AppList: View {
             }
             if library.listOfFoldersUnreadable {
                 Notice(
-                    title: Text("App Folders"),
-                    detail: Text(verbatim: library.unreadableListOfFolders(saying: String(localized: "Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one."))),
+                    title: Text("Peel can’t read its list of app folders"),
+                    detail: Text(verbatim: library.unreadableListOfFolders(saying: String(localized: "Orphaned Files lists nothing until it can. Starting over keeps the old list beside a new one."))),
                     kind: .note
                 ) {
                     StartOverButton(file: library.foldersFile, startedOver: "Started the list of app folders over.") {

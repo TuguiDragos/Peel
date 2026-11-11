@@ -110924,112 +110924,6 @@
         }
       }
     },
-    "Never checked" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nikdy nekontrolováno"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nie geprüft"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se comprueba nunca"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jamais vérifiée"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mai verificata"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "確認しない"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "확인하지 않음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nooit gecontroleerd"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nigdy nie sprawdzano"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nunca verificado"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nu se verifică niciodată"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не проверяется"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kontrolleras aldrig"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hiçbir zaman denetlenmiyor"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ніколи не перевіряється"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "永不检查"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "永不檢查"
-          }
-        }
-      }
-    },
     "Never opened" : {
       "localizations" : {
         "cs" : {
@@ -115059,6 +114953,112 @@
         }
       }
     },
+    "No folder is on this list yet." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na tomto seznamu zatím není žádná složka."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf dieser Liste steht noch kein Ordner."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún no hay ninguna carpeta en esta lista."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun dossier ne figure encore dans cette liste."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In questo elenco non ci sono ancora cartelle."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このリストにはまだフォルダがありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아직 이 목록에 폴더가 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er staat nog geen map in deze lijst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na tej liście nie ma jeszcze żadnego folderu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainda não há nenhuma pasta nesta lista."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niciun dosar nu este încă în această listă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В этом списке пока нет папок."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det finns ingen mapp i listan än."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu listede henüz klasör yok."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У цьому списку ще немає папок."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此列表中还没有文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此列表中還沒有任何檔案夾。"
+          }
+        }
+      }
+    },
     "No folders or files with identical contents were found." : {
       "localizations" : {
         "cs" : {
@@ -115695,112 +115695,6 @@
         }
       }
     },
-    "No orphaned files are said to belong to an app or a tool." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "U žádných osiřelých souborů jste zatím neuvedli, že patří některé aplikaci nebo některému nástroji."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Für keine verwaisten Dateien wurde angegeben, dass sie zu einer App oder einem Befehlszeilentool gehören."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No has indicado que ningún archivo huérfano pertenezca a una app ni a una herramienta."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aucun fichier orphelin n’a été attribué à une app ou à un outil."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nessun file orfano è indicato come appartenente a un’app o a uno strumento."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アプリまたはコマンドラインツールに属すると指定した孤立ファイルはありません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "앱 또는 명령어 라인 도구의 소유로 지정한 주인 없는 파일이 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Er zijn geen verweesde bestanden die volgens jou bij een app of een commandoregeltool horen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nie wskazano żadnych osieroconych plików jako należących do aplikacji lub narzędzia."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nenhum arquivo órfão foi indicado como pertencente a um app ou a uma ferramenta."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nu ați atribuit încă niciun fișier orfan unei aplicații sau unui instrument."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Нет осиротевших файлов, отмеченных как принадлежащие приложению или инструменту."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Du har inte angett att några övergivna filer hör till en app eller ett verktyg."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bir uygulamaya veya araca ait olduğunu söylediğiniz sahipsiz dosya yok."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ви ще не вказали, що якісь покинуті файли належать програмі або інструменту."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "还没有被标为属于某个App或命令行工具的孤立文件。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你還沒有指定任何孤立檔案屬於某個App或命令列工具。"
-          }
-        }
-      }
-    },
     "No orphaned files were found, but Peel couldn’t look inside %@, so there may be some there." : {
       "localizations" : {
         "cs" : {
@@ -115903,112 +115797,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒有找到孤立檔案，但Peel無法查看%@，因此那裡可能還有。"
-          }
-        }
-      }
-    },
-    "No other folder is on this list yet." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Na tomto seznamu zatím není žádná další složka."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Auf dieser Liste steht noch kein anderer Ordner."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aún no hay ninguna otra carpeta en esta lista."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aucun autre dossier ne figure encore dans cette liste."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In questo elenco non ci sono ancora altre cartelle."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このリストにはまだほかのフォルダがありません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "아직 이 목록에 다른 폴더가 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Er staat nog geen andere map in deze lijst."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Na tej liście nie ma jeszcze żadnego innego folderu."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ainda não há nenhuma outra pasta nesta lista."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Niciun alt dosar nu este încă în această listă."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "В этом списке пока нет других папок."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det finns ingen annan mapp i listan än."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu listede henüz başka klasör yok."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "У цьому списку ще немає інших папок."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此列表中还没有其他文件夹。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此列表中還沒有其他檔案夾。"
           }
         }
       }
@@ -119339,6 +119127,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒有回應"
+          }
+        }
+      }
+    },
+    "Not checked" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nezkontrolováno"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht geprüft"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin comprobar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non vérifiée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non verificata"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未確認"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트 확인 안 함"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet gecontroleerd"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie sprawdzono"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não verificado"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu se verifică"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не проверено"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontrolleras inte"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denetlenmedi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не перевірено"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不检查更新"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未檢查"
           }
         }
       }
@@ -131383,6 +131277,112 @@
         }
       }
     },
+    "Once it’s gone, %@ would open these." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jakmile tato aplikace zmizí, otevírala by je aplikace %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobald die App entfernt ist, würde „%@“ diese öffnen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando ya no esté, los abriría %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une fois cette app supprimée, %@ les ouvrirait."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una volta rimossa l’app, li aprirebbe %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアプリがなくなった後は、“%@”がこれらを開くことになります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 앱이 없어지면 ‘%@’이(가) 이 항목을 열게 됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zodra de app weg is, zou %@ deze openen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy jej nie będzie, otwierałaby je aplikacja %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando ele for removido, %@ passará a abri-los."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "După ce aplicația dispare, le‑ar deschide %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "После его удаления их будет открывать приложение «%@»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När den är borta skulle %@ öppna dessa."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu uygulama gittikten sonra bunları %@ açar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щойно її не стане, їх відкриватиме %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一旦它被移除，将改由“%@”打开这些内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它移除後，會改由「%@」打開這些項目。"
+          }
+        }
+      }
+    },
     "Once put back, macOS loads this audio driver only after you restart your Mac." : {
       "localizations" : {
         "cs" : {
@@ -132125,108 +132125,108 @@
         }
       }
     },
-    "Only Homebrew can say whether %@ is up to date, but Peel can’t tell when Homebrew last checked for new versions, so it doesn’t count what Homebrew says." : {
+    "Only Homebrew can say whether %@ is up to date, but Peel can’t tell when Homebrew last checked for new versions, so it doesn’t count what Homebrew says. Update Homebrew on the Homebrew page, or run `brew update` in Terminal, and Peel can tell again." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jen Homebrew může říct, zda je aplikace %@ aktuální, ale Peel nedokáže zjistit, kdy Homebrew naposledy hledal nové verze, a proto nebere v úvahu to, co Homebrew uvádí."
+            "value" : "Jen Homebrew může říct, zda je aplikace %@ aktuální, ale Peel nedokáže zjistit, kdy Homebrew naposledy hledal nové verze, a proto nebere v úvahu to, co Homebrew uvádí. Aktualizujte Homebrew na stránce Homebrew nebo spusťte v Terminálu `brew update` a Peel to pak znovu dokáže zjistit."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nur Homebrew kann sagen, ob „%@“ auf dem neuesten Stand ist, aber Peel kann nicht erkennen, wann Homebrew zuletzt nach neuen Versionen gesucht hat, daher berücksichtigt Peel die Angaben von Homebrew nicht."
+            "value" : "Nur Homebrew kann sagen, ob „%@“ auf dem neuesten Stand ist, aber Peel kann nicht erkennen, wann Homebrew zuletzt nach neuen Versionen gesucht hat, daher berücksichtigt Peel die Angaben von Homebrew nicht. Aktualisiere Homebrew auf der Seite „Homebrew“ oder führe `brew update` im Terminal aus, dann kann Peel es wieder erkennen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo Homebrew puede decir si %@ está actualizada, pero Peel no puede saber cuándo buscó Homebrew versiones nuevas por última vez, así que no tiene en cuenta lo que dice Homebrew."
+            "value" : "Solo Homebrew puede decir si %@ está actualizada, pero Peel no puede saber cuándo buscó Homebrew versiones nuevas por última vez, así que no tiene en cuenta lo que dice Homebrew. Actualiza Homebrew en la página Homebrew, o ejecuta `brew update` en Terminal, y Peel podrá saberlo de nuevo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seul Homebrew peut dire si %@ est à jour, mais Peel ne peut pas savoir quand Homebrew a recherché de nouvelles versions pour la dernière fois, et ne tient donc pas compte de ce que dit Homebrew."
+            "value" : "Seul Homebrew peut dire si %@ est à jour, mais Peel ne peut pas savoir quand Homebrew a recherché de nouvelles versions pour la dernière fois, et ne tient donc pas compte de ce que dit Homebrew. Mettez à jour Homebrew sur la page Homebrew, ou exécutez `brew update` dans Terminal, et Peel pourra de nouveau le savoir."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo Homebrew può dire se %@ è aggiornata, ma Peel non può sapere quando Homebrew ha cercato nuove versioni per l’ultima volta, quindi non tiene conto di ciò che dice Homebrew."
+            "value" : "Solo Homebrew può dire se %@ è aggiornata, ma Peel non può sapere quando Homebrew ha cercato nuove versioni per l’ultima volta, quindi non tiene conto di ciò che dice Homebrew. Aggiorna Homebrew nella pagina Homebrew, o esegui `brew update` in Terminale, e Peel potrà di nuovo saperlo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“%@”が最新の状態かどうかがわかるのはHomebrewだけですが、Peelは、Homebrewが最後にいつ新しいバージョンを確認したかを判断できないため、Homebrewの回答を採用しません。"
+            "value" : "“%@”が最新の状態かどうかがわかるのはHomebrewだけですが、Peelは、Homebrewが最後にいつ新しいバージョンを確認したかを判断できないため、Homebrewの回答を採用しません。“Homebrew”ページでHomebrewをアップデートするか、ターミナルで`brew update`を実行すると、Peelが再び判断できるようになります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "‘%@’이(가) 최신 버전인지는 Homebrew만 알려 줄 수 있지만, Peel은 Homebrew가 마지막으로 새로운 버전이 있는지 확인한 시점을 알 수 없으므로 Homebrew의 응답을 반영하지 않습니다."
+            "value" : "‘%@’이(가) 최신 버전인지는 Homebrew만 알려 줄 수 있지만, Peel은 Homebrew가 마지막으로 새로운 버전이 있는지 확인한 시점을 알 수 없으므로 Homebrew의 응답을 반영하지 않습니다. Homebrew 페이지에서 Homebrew를 업데이트하거나 터미널에서 `brew update`를 실행하면 Peel이 다시 알 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alleen Homebrew kan zeggen of %@ up-to-date is, maar Peel kan niet nagaan wanneer Homebrew voor het laatst naar nieuwe versies heeft gezocht, dus telt Peel wat Homebrew zegt niet mee."
+            "value" : "Alleen Homebrew kan zeggen of %@ up-to-date is, maar Peel kan niet nagaan wanneer Homebrew voor het laatst naar nieuwe versies heeft gezocht, dus telt Peel wat Homebrew zegt niet mee. Werk Homebrew bij op de pagina 'Homebrew' of voer `brew update` uit in Terminal, dan kan Peel het weer nagaan."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tylko Homebrew może stwierdzić, czy aplikacja %@ jest aktualna, ale Peel nie może określić, kiedy Homebrew ostatnio sprawdzał dostępność nowych wersji, więc nie uwzględnia tego, co podaje Homebrew."
+            "value" : "Tylko Homebrew może stwierdzić, czy aplikacja %@ jest aktualna, ale Peel nie może określić, kiedy Homebrew ostatnio sprawdzał dostępność nowych wersji, więc nie uwzględnia tego, co podaje Homebrew. Odśwież Homebrew na stronie Homebrew lub uruchom `brew update` w Terminalu, a Peel znów będzie mógł to określić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Só o Homebrew pode dizer se %@ está atualizado, mas o Peel não consegue saber quando o Homebrew buscou novas versões pela última vez, então não leva em conta o que o Homebrew diz."
+            "value" : "Só o Homebrew pode dizer se %@ está atualizado, mas o Peel não consegue saber quando o Homebrew buscou novas versões pela última vez, então não leva em conta o que o Homebrew diz. Atualize o Homebrew na página Homebrew, ou execute `brew update` no Terminal, e o Peel poderá saber de novo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Doar Homebrew poate spune dacă aplicația %@ este actualizată, dar Peel nu poate ști când a căutat Homebrew ultima dată versiuni noi, așa că nu ține cont de ce spune Homebrew."
+            "value" : "Doar Homebrew poate spune dacă aplicația %@ este actualizată, dar Peel nu poate ști când a căutat Homebrew ultima dată versiuni noi, așa că nu ține cont de ce spune Homebrew. Actualizați Homebrew din pagina Homebrew sau rulați `brew update` în Terminal, iar Peel va putea ști din nou."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Только Homebrew может сообщить, установлена ли новейшая версия приложения «%@», но Peel не может определить, когда Homebrew в последний раз проверял наличие новых версий, и поэтому не учитывает то, что сообщает Homebrew."
+            "value" : "Только Homebrew может сообщить, установлена ли новейшая версия приложения «%@», но Peel не может определить, когда Homebrew в последний раз проверял наличие новых версий, и поэтому не учитывает то, что сообщает Homebrew. Обновите Homebrew на странице Homebrew или выполните `brew update` в Терминале, и Peel снова сможет это определить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bara Homebrew kan avgöra om %@ är uppdaterad, men Peel kan inte se när Homebrew senast letade efter nya versioner, så Peel godtar inte Homebrews svar."
+            "value" : "Bara Homebrew kan avgöra om %@ är uppdaterad, men Peel kan inte se när Homebrew senast letade efter nya versioner, så Peel godtar inte Homebrews svar. Uppdatera Homebrew på sidan Homebrew, eller kör `brew update` i Terminal, så kan Peel avgöra det igen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ uygulamasının güncel olup olmadığını yalnızca Homebrew söyleyebilir, ancak Peel, Homebrew’un yeni sürümleri en son ne zaman denetlediğini bilemiyor, bu yüzden Homebrew’un söylediklerini geçerli saymıyor."
+            "value" : "%@ uygulamasının güncel olup olmadığını yalnızca Homebrew söyleyebilir, ancak Peel, Homebrew’un yeni sürümleri en son ne zaman denetlediğini bilemiyor, bu yüzden Homebrew’un söylediklerini geçerli saymıyor. Homebrew’u Homebrew sayfasında güncellerseniz veya Terminal’de `brew update` komutunu çalıştırırsanız Peel bunu yeniden anlayabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сказати, чи потребує програма «%@» оновлення, може лише Homebrew, але Peel не може визначити, коли Homebrew востаннє перевіряв наявність нових версій, тож не враховує того, що повідомляє Homebrew."
+            "value" : "Сказати, чи потребує програма «%@» оновлення, може лише Homebrew, але Peel не може визначити, коли Homebrew востаннє перевіряв наявність нових версій, тож не враховує того, що повідомляє Homebrew. Оновіть Homebrew на сторінці Homebrew або виконайте `brew update` у Терміналі, і Peel знову зможе це визначити."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "只有Homebrew才能说明“%@”是否已是最新版本，但Peel无法判断Homebrew上次检查新版本是在何时，因此不会采用Homebrew给出的结果。"
+            "value" : "只有Homebrew才能说明“%@”是否已是最新版本，但Peel无法判断Homebrew上次检查新版本是在何时，因此不会采用Homebrew给出的结果。请在Homebrew页面上更新Homebrew，或在“终端”中运行`brew update`，之后Peel便能再次判断。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "只有Homebrew能說明「%@」是否已是最新版本，但Peel無法判斷Homebrew上次檢查新版本的時間，因此不會採信Homebrew的說法。"
+            "value" : "只有Homebrew能說明「%@」是否已是最新版本，但Peel無法判斷Homebrew上次檢查新版本的時間，因此不會採信Homebrew的說法。請在「Homebrew」頁面上更新Homebrew，或在「終端機」中執行`brew update`，Peel就能再次判斷。"
           }
         }
       }
@@ -137107,6 +137107,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "只要你指定它們所屬的App或命令列工具仍已安裝，「孤立檔案」就不會列出它們。這些檔案都沒有被移動。移除其中一項，即可再次列出它。"
+          }
+        }
+      }
+    },
+    "Orphaned Files lists nothing until it can. Starting over keeps the old list beside a new one." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stránka Osiřelé soubory nic nezobrazí, dokud to nebude možné. Když začnete znovu, starý seznam se ponechá vedle nového."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Seite „Verwaiste Dateien“ zeigt nichts an, bis Peel die Liste lesen kann. Wenn du neu beginnst, bleibt die alte Liste neben einer neuen erhalten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La página Archivos huérfanos no muestra nada hasta que Peel pueda leerla. Al volver a empezar, la lista antigua se conserva junto a una nueva."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La page Fichiers orphelins ne liste rien tant que Peel ne peut pas lire cette liste. Si vous recommencez, l’ancienne liste est conservée à côté d’une nouvelle."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“File orfani” non elenca nulla finché non ci riesce. Se ricominci da capo, il vecchio elenco viene conservato accanto a uno nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "リストを読み取れるようになるまで、“孤立ファイル”には何も表示されません。最初からやり直すと、古いリストは新しいリストの横に保管されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "목록을 읽을 수 있게 되기 전까지 주인 없는 파일 페이지는 아무것도 나열하지 않습니다. 처음부터 다시 시작하면 이전 목록은 새 목록 옆에 보관됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De pagina 'Verweesde bestanden' toont niets totdat Peel de lijst kan lezen. Als je opnieuw begint, wordt de oude lijst naast een nieuwe lijst bewaard."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do tego czasu strona Osierocone pliki niczego nie wyświetla. Gdy zaczniesz od nowa, stara lista zostanie zachowana obok nowej."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A página Arquivos Órfãos não lista nada até que o Peel consiga ler a lista. Ao recomeçar, a lista antiga é guardada ao lado de uma nova."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagina Fișiere orfane nu listează nimic până când lista nu poate fi citită. Dacă reîncepeți lista, cea veche este păstrată lângă una nouă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока Peel не сможет его прочитать, раздел «Осиротевшие файлы» ничего не показывает. Если начать заново, старый список сохранится рядом с новым."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sidan Övergivna filer listar ingenting förrän det går. När du börjar om sparas den gamla listan bredvid en ny."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sahipsiz Dosyalar, Peel bu listeyi okuyabilene kadar hiçbir şey listelemez. Baştan başladığınızda eski liste yeni bir listenin yanında saklanır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Розділ «Покинуті файли» нічого не показуватиме, доки Peel не зможе прочитати цей список. Коли ви починаєте наново, старий список зберігається поруч із новим."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Peel能够读取该列表之前，“孤立文件”不会列出任何内容。重新开始会将旧列表保留在新列表旁边。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Peel能讀取之前，「孤立檔案」不會列出任何項目。重新開始時，舊列表會保留在新列表旁邊。"
           }
         }
       }
@@ -142661,6 +142767,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法讀取它的檔案"
+          }
+        }
+      }
+    },
+    "Peel can’t read its list of app folders" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže přečíst svůj seznam složek aplikací"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann seine Liste der App-Ordner nicht lesen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede leer su lista de carpetas de apps"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas lire sa liste de dossiers d’apps"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non riesce a leggere il suo elenco di cartelle delle app"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはアプリのフォルダのリストを読み取れません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 앱 폴더 목록을 읽을 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan zijn lijst van mappen met apps niet lezen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może odczytać swojej listy folderów z aplikacjami"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue ler a lista de pastas de apps"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu își poate citi lista de dosare de aplicații"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удается прочитать свой список папок приложений"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte läsa sin lista över appmappar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, uygulama klasörleri listesini okuyamıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може прочитати свій список папок програм"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法读取其App文件夹列表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取它的App檔案夾列表"
           }
         }
       }
@@ -182139,112 +182351,6 @@
         }
       }
     },
-    "Run this brew for Homebrew?" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spouštět pro Homebrew tento brew?"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dieses brew für Homebrew ausführen?"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¿Ejecutar este brew para Homebrew?"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Exécuter ce brew pour Homebrew ?"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vuoi eseguire questo brew per Homebrew?"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このbrewをHomebrewとして実行しますか?"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew용으로 이 brew를 실행하겠습니까?"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze brew voor Homebrew uitvoeren?"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uruchamiać ten program brew dla Homebrew?"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Executar este brew para o Homebrew?"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rulați acest brew pentru Homebrew?"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Запускать этот brew для Homebrew?"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vill du köra den här brew för Homebrew?"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew için bu brew çalıştırılsın mı?"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Запускати цей brew для Homebrew?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "要为Homebrew运行此brew吗？"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "要為Homebrew執行這個brew嗎？"
-          }
-        }
-      }
-    },
     "Run this command in Terminal" : {
       "localizations" : {
         "cs" : {
@@ -202049,6 +202155,112 @@
         }
       }
     },
+    "Started over the list of orphaned files that belong to an app or a tool." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seznam osiřelých souborů, které patří aplikaci nebo nástroji, byl začat znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Liste der verwaisten Dateien, die zu einer App oder einem Befehlszeilentool gehören, wurde neu begonnen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se ha vuelto a empezar la lista de archivos huérfanos que pertenecen a una app o a una herramienta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La liste des fichiers orphelins appartenant à une app ou à un outil a été recommencée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ricominciato da capo l’elenco dei file orfani che appartengono a un’app o a uno strumento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリまたはコマンドラインツールに属する孤立ファイルのリストを最初からやり直しました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱 또는 명령어 라인 도구의 소유로 지정한 주인 없는 파일 목록을 처음부터 다시 시작했습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opnieuw begonnen met de lijst van verweesde bestanden die bij een app of een commandoregeltool horen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaczęto od nowa listę osieroconych plików należących do aplikacji lub narzędzia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A lista de arquivos órfãos que pertencem a um app ou a uma ferramenta foi recomeçada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lista fișierelor orfane care aparțin unei aplicații sau unui instrument a fost reîncepută."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Список осиротевших файлов, принадлежащих приложению или инструменту, начат заново."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Började om listan över övergivna filer som hör till en app eller ett verktyg."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir uygulamaya veya araca ait sahipsiz dosyalar listesi baştan başlatıldı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Список покинутих файлів, що належать програмі або інструменту, почато наново."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已重新开始建立属于某个App或命令行工具的孤立文件列表。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已重新開始屬於某個App或命令列工具的孤立檔案列表。"
+          }
+        }
+      }
+    },
     "Started the Not Moved list over." : {
       "localizations" : {
         "cs" : {
@@ -202363,112 +202575,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已重新開始排除項目列表。"
-          }
-        }
-      }
-    },
-    "Started the list of orphaned files that belong to an app or a tool over." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seznam osiřelých souborů, které patří aplikaci nebo nástroji, byl začat znovu."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Liste der verwaisten Dateien, die zu einer App oder einem Befehlszeilentool gehören, wurde neu begonnen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se ha vuelto a empezar la lista de archivos huérfanos que pertenecen a una app o a una herramienta."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La liste des fichiers orphelins appartenant à une app ou à un outil a été recommencée."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ricominciato da capo l’elenco dei file orfani che appartengono a un’app o a uno strumento."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アプリまたはコマンドラインツールに属する孤立ファイルのリストを最初からやり直しました。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "앱 또는 명령어 라인 도구의 소유로 지정한 주인 없는 파일 목록을 처음부터 다시 시작했습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opnieuw begonnen met de lijst van verweesde bestanden die bij een app of een commandoregeltool horen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zaczęto od nowa listę osieroconych plików należących do aplikacji lub narzędzia."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lista de arquivos órfãos que pertencem a um app ou a uma ferramenta recomeçada."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lista fișierelor orfane care aparțin unei aplicații sau unui instrument a fost reîncepută."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Список осиротевших файлов, принадлежащих приложению или инструменту, начат заново."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Började om listan över övergivna filer som hör till en app eller ett verktyg."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bir uygulamaya veya araca ait sahipsiz dosyalar listesi baştan başlatıldı."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Список покинутих файлів, що належать програмі або інструменту, почато наново."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已重新开始建立属于某个App或命令行工具的孤立文件列表。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已重新開始屬於某個App或命令列工具的孤立檔案列表。"
           }
         }
       }
@@ -214462,12 +214568,12 @@
         }
       }
     },
-    "The app’s privacy permissions are cleared first, and History can’t bring them back." : {
+    "The app’s privacy permissions are reset first, and History can’t bring them back." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Oprávnění aplikace pro soukromé údaje se nejprve vymažou a Historie je nemůže vrátit."
+            "value" : "Oprávnění aplikace pro soukromé údaje se nejprve resetují a Historie je nemůže vrátit."
           }
         },
         "de" : {
@@ -214479,49 +214585,49 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Primero se borran los permisos de privacidad de la app, e Historial no puede recuperarlos."
+            "value" : "Primero se restablecen los permisos de privacidad de la app, e Historial no puede recuperarlos."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les autorisations de confidentialité de l’app sont d’abord effacées, et l’Historique ne peut pas les rétablir."
+            "value" : "Les autorisations de confidentialité de l’app sont d’abord réinitialisées, et l’Historique ne peut pas les rétablir."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prima vengono cancellate le autorizzazioni per la privacy dell’app, e la Cronologia non può ripristinarle."
+            "value" : "Prima vengono reimpostate le autorizzazioni per la privacy dell’app, e la Cronologia non può ripristinarle."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリのプライバシー権限が先に消去され、履歴から元に戻すことはできません。"
+            "value" : "アプリのプライバシー権限が先にリセットされ、履歴から元に戻すことはできません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱의 개인정보 보호 권한이 먼저 지워지며, 기록에서 되살릴 수 없습니다."
+            "value" : "앱의 개인정보 보호 권한이 먼저 재설정되며, 기록에서 되살릴 수 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De privacytoestemmingen van de app worden eerst gewist, en Geschiedenis kan ze niet terugzetten."
+            "value" : "De privacytoestemmingen van de app worden eerst opnieuw ingesteld, en Geschiedenis kan ze niet terugzetten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Najpierw zostaną wyczyszczone uprawnienia prywatności aplikacji, a Historia nie może ich przywrócić."
+            "value" : "Najpierw zostaną wyzerowane uprawnienia prywatności aplikacji, a Historia nie może ich przywrócić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As permissões de privacidade do app são limpas primeiro, e o Histórico não pode trazê-las de volta."
+            "value" : "As permissões de privacidade do app são redefinidas primeiro, e o Histórico não pode trazê-las de volta."
           }
         },
         "ro" : {
@@ -214533,37 +214639,37 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сначала очищаются разрешения приложения на доступ, и История не сможет их вернуть."
+            "value" : "Сначала сбрасываются разрешения приложения на доступ, и История не сможет их вернуть."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Appens integritetsbehörigheter rensas först, och Historik kan inte få tillbaka dem."
+            "value" : "Appens integritetsbehörigheter nollställs först, och Historik kan inte få tillbaka dem."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Önce uygulamanın gizlilik izinleri temizlenir ve Geçmiş bunları geri getiremez."
+            "value" : "Önce uygulamanın gizlilik izinleri sıfırlanır ve Geçmiş bunları geri getiremez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Спершу буде очищено дозволи приватності програми, і Історія не зможе їх повернути."
+            "value" : "Спершу буде скинуто дозволи приватності програми, і Історія не зможе їх повернути."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App的隐私权限会先被清除，“历史记录”无法将其恢复。"
+            "value" : "App的隐私权限会先被重置，“历史记录”无法将其恢复。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App的隱私權限會先被清除，而「歷史記錄」無法將其恢復。"
+            "value" : "App的隱私權限會先被重置，而「歷史記錄」無法將其恢復。"
           }
         }
       }
@@ -215624,218 +215730,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此副本的設定檔不是Peel能讀取的格式。"
-          }
-        }
-      }
-    },
-    "The defaults command couldn’t copy %@." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Příkaz defaults nemohl zkopírovat %@."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der Befehl „defaults“ konnte %@ nicht kopieren."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El comando defaults no ha podido copiar %@."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La commande defaults n’a pas pu copier %@."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il comando defaults non è riuscito a copiare %@."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "defaultsコマンドが“%@”をコピーできませんでした。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "defaults 명령이 %@을(를) 복사할 수 없었습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het commando defaults kon %@ niet kopiëren."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Polecenie defaults nie mogło skopiować domeny %@."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O comando defaults não conseguiu copiar %@."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comanda defaults nu a putut copia %@."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Команде defaults не удалось скопировать настройки %@."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kommandot defaults kunde inte kopiera %@."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "defaults komutu %@ ayarlarını kopyalayamadı."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Команді defaults не вдалося скопіювати %@."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "defaults命令未能为%@制作副本。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "defaults指令無法拷貝「%@」。"
-          }
-        }
-      }
-    },
-    "The defaults command didn’t answer about %@." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Příkaz defaults na dotaz ohledně %@ neodpověděl."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der Befehl „defaults“ hat zu %@ keine Antwort gegeben."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El comando defaults no ha respondido sobre %@."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La commande defaults n’a pas répondu au sujet de %@."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il comando defaults non ha risposto riguardo a %@."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "defaultsコマンドから“%@”についての応答がありませんでした。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "defaults 명령이 %@에 대해 응답하지 않았습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het commando defaults gaf geen antwoord over %@."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Polecenie defaults nie odpowiedziało na pytanie o domenę %@."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O comando defaults não respondeu sobre %@."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comanda defaults nu a dat niciun răspuns despre %@."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Команда defaults не ответила на запрос о настройках %@."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kommandot defaults svarade inte om %@."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "defaults komutu %@ ayarları hakkında yanıt vermedi."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Команда defaults не відповіла щодо %@."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "defaults命令没有就%@给出回应。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "defaults指令對「%@」沒有回應。"
           }
         }
       }
@@ -218816,108 +218710,108 @@
         }
       }
     },
-    "The link points at Peel where it is now, %@, so it breaks if Peel moves. Apps live in the Applications folder." : {
+    "The link points at Peel where it is now, %@, so it breaks if Peel moves. Move Peel to the Applications folder first." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odkaz vede na Peel v jeho současném umístění, %@, takže přestane fungovat, když se Peel přesune. Aplikace patří do složky Aplikace."
+            "value" : "Odkaz vede na Peel v jeho současném umístění, %@, takže přestane fungovat, když se Peel přesune. Nejprve Peel přesuňte do složky Aplikace."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der Link verweist auf Peel an seinem jetzigen Ort, %@, und funktioniert daher nicht mehr, wenn Peel verschoben wird. Apps gehören in den Ordner „Programme“."
+            "value" : "Der Link verweist auf Peel an seinem jetzigen Ort, %@, und funktioniert daher nicht mehr, wenn Peel verschoben wird. Verschiebe Peel zuerst in den Ordner „Programme“."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El enlace apunta a Peel donde está ahora, %@, así que se rompe si Peel se mueve. Las apps van en la carpeta Aplicaciones."
+            "value" : "El enlace apunta a Peel donde está ahora, %@, así que se rompe si Peel se mueve. Mueve primero Peel a la carpeta Aplicaciones."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le lien pointe vers Peel à son emplacement actuel, %@ : il ne fonctionnera donc plus si Peel est déplacé. La place des apps est dans le dossier Applications."
+            "value" : "Le lien pointe vers Peel à son emplacement actuel, %@ : il ne fonctionnera donc plus si Peel est déplacé. Placez d’abord Peel dans le dossier Applications."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il link punta a Peel nella sua posizione attuale, %@, quindi smette di funzionare se Peel viene spostato. Le app stanno nella cartella Applicazioni."
+            "value" : "Il link punta a Peel nella sua posizione attuale, %@, quindi smette di funzionare se Peel viene spostato. Prima sposta Peel nella cartella Applicazioni."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "リンクは現在のPeelの場所（%@）を指しているため、Peelを移動するとリンクが切れます。アプリは“アプリケーション”フォルダに置くものです。"
+            "value" : "リンクは現在のPeelの場所（%@）を指しているため、Peelを移動するとリンクが切れます。先にPeelを“アプリケーション”フォルダに移動してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "링크가 현재 위치(%@)의 Peel을 가리키므로 Peel을 옮기면 링크가 작동하지 않습니다. 앱의 자리는 응용 프로그램 폴더입니다."
+            "value" : "링크가 현재 위치(%@)의 Peel을 가리키므로 Peel을 옮기면 링크가 작동하지 않습니다. 먼저 Peel을 응용 프로그램 폴더로 옮기십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De link verwijst naar Peel op de huidige plek, %@, dus de link werkt niet meer als Peel wordt verplaatst. Apps horen in de map 'Apps'."
+            "value" : "De link verwijst naar Peel op de huidige plek, %@, dus de link werkt niet meer als Peel wordt verplaatst. Verplaats Peel eerst naar de map 'Apps'."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dowiązanie wskazuje na Peel w obecnym miejscu, %@, więc przestanie działać, jeśli Peel zostanie przeniesiony. Miejsce aplikacji jest w folderze Aplikacje."
+            "value" : "Dowiązanie wskazuje na Peel w obecnym miejscu, %@, więc przestanie działać, jeśli Peel zostanie przeniesiony. Najpierw przenieś Peel do folderu Aplikacje."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O link aponta para o Peel onde ele está agora, %@, então para de funcionar se o Peel mudar de lugar. Os apps ficam na pasta Aplicativos."
+            "value" : "O link aponta para o Peel onde ele está agora, %@, então para de funcionar se o Peel mudar de lugar. Mova o Peel para a pasta Aplicativos primeiro."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Linkul indică spre Peel acolo unde se află acum, %@, așa că nu va mai funcționa dacă Peel este mutat. Locul aplicațiilor este în dosarul Aplicații."
+            "value" : "Linkul indică spre Peel acolo unde se află acum, %@, așa că nu va mai funcționa dacă Peel este mutat. Mutați mai întâi Peel în dosarul Aplicații."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ссылка указывает на Peel там, где он находится сейчас (%@), поэтому она перестанет работать, если Peel переместить. Приложениям место в папке «Программы»."
+            "value" : "Ссылка указывает на Peel там, где он находится сейчас (%@), поэтому она перестанет работать, если Peel переместить. Сначала переместите Peel в папку «Программы»."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Länken pekar på Peel där appen ligger nu, %@, så den slutar fungera om Peel flyttas. Appar hör hemma i mappen Appar."
+            "value" : "Länken pekar på Peel där appen ligger nu, %@, så den slutar fungera om Peel flyttas. Flytta först Peel till mappen Appar."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bağlantı, Peel’i şu an bulunduğu yerde (%@) gösteriyor, bu yüzden Peel taşınırsa bozulur. Uygulamaların yeri Uygulamalar klasörüdür."
+            "value" : "Bağlantı, Peel’i şu an bulunduğu yerde (%@) gösteriyor, bu yüzden Peel taşınırsa bozulur. Önce Peel’i Uygulamalar klasörüne taşıyın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Посилання вказує на Peel там, де вона зараз (%@), тож перестане працювати, якщо Peel переміститься. Місце програм у папці «Програми»."
+            "value" : "Посилання вказує на Peel там, де вона зараз (%@), тож перестане працювати, якщо Peel переміститься. Спершу перемістіть Peel у папку «Програми»."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "该链接指向Peel当前所在的位置%@，因此Peel一旦移动，链接就会失效。App应放在“应用程序”文件夹中。"
+            "value" : "该链接指向Peel当前所在的位置%@，因此Peel一旦移动，链接就会失效。请先将Peel移到“应用程序”文件夹中。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "連結指向Peel目前的位置（%@），因此如果Peel移動，連結就會失效。App應放在「應用程式」檔案夾中。"
+            "value" : "連結指向Peel目前的位置（%@），因此如果Peel移動，連結就會失效。請先將Peel移到「應用程式」檔案夾。"
           }
         }
       }
@@ -220937,12 +220831,12 @@
         }
       }
     },
-    "The selected apps’ privacy permissions are cleared first, and History can’t bring them back." : {
+    "The selected apps’ privacy permissions are reset first, and History can’t bring them back." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Oprávnění vybraných aplikací pro soukromé údaje se nejprve vymažou a Historie je nemůže vrátit."
+            "value" : "Oprávnění vybraných aplikací pro soukromé údaje se nejprve resetují a Historie je nemůže vrátit."
           }
         },
         "de" : {
@@ -220954,49 +220848,49 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Primero se borran los permisos de privacidad de las apps seleccionadas, e Historial no puede recuperarlos."
+            "value" : "Primero se restablecen los permisos de privacidad de las apps seleccionadas, e Historial no puede recuperarlos."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les autorisations de confidentialité des apps sélectionnées sont d’abord effacées, et l’Historique ne peut pas les rétablir."
+            "value" : "Les autorisations de confidentialité des apps sélectionnées sont d’abord réinitialisées, et l’Historique ne peut pas les rétablir."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prima vengono cancellate le autorizzazioni per la privacy delle app selezionate, e la Cronologia non può ripristinarle."
+            "value" : "Prima vengono reimpostate le autorizzazioni per la privacy delle app selezionate, e la Cronologia non può ripristinarle."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "選択したアプリのプライバシー権限が先に消去され、履歴から元に戻すことはできません。"
+            "value" : "選択したアプリのプライバシー権限が先にリセットされ、履歴から元に戻すことはできません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "선택한 앱의 개인정보 보호 권한이 먼저 지워지며, 기록에서 되살릴 수 없습니다."
+            "value" : "선택한 앱의 개인정보 보호 권한이 먼저 재설정되며, 기록에서 되살릴 수 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De privacytoestemmingen van de geselecteerde apps worden eerst gewist, en Geschiedenis kan ze niet terugzetten."
+            "value" : "De privacytoestemmingen van de geselecteerde apps worden eerst opnieuw ingesteld, en Geschiedenis kan ze niet terugzetten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Najpierw zostaną wyczyszczone uprawnienia prywatności zaznaczonych aplikacji, a Historia nie może ich przywrócić."
+            "value" : "Najpierw zostaną wyzerowane uprawnienia prywatności zaznaczonych aplikacji, a Historia nie może ich przywrócić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As permissões de privacidade dos apps selecionados são limpas primeiro, e o Histórico não pode trazê-las de volta."
+            "value" : "As permissões de privacidade dos apps selecionados são redefinidas primeiro, e o Histórico não pode trazê-las de volta."
           }
         },
         "ro" : {
@@ -221008,37 +220902,37 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сначала очищаются разрешения выбранных приложений на доступ, и История не сможет их вернуть."
+            "value" : "Сначала сбрасываются разрешения выбранных приложений на доступ, и История не сможет их вернуть."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De markerade apparnas integritetsbehörigheter rensas först, och Historik kan inte få tillbaka dem."
+            "value" : "De markerade apparnas integritetsbehörigheter nollställs först, och Historik kan inte få tillbaka dem."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Önce seçili uygulamaların gizlilik izinleri temizlenir ve Geçmiş bunları geri getiremez."
+            "value" : "Önce seçili uygulamaların gizlilik izinleri sıfırlanır ve Geçmiş bunları geri getiremez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Спершу буде очищено дозволи приватності вибраних програм, і Історія не зможе їх повернути."
+            "value" : "Спершу буде скинуто дозволи приватності вибраних програм, і Історія не зможе їх повернути."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "所选App的隐私权限会先被清除，“历史记录”无法将其恢复。"
+            "value" : "所选App的隐私权限会先被重置，“历史记录”无法将其恢复。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "所選App的隱私權限會先被清除，而「歷史記錄」無法將其恢復。"
+            "value" : "所選App的隱私權限會先被重置，而「歷史記錄」無法將其恢復。"
           }
         }
       }
@@ -222525,112 +222419,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "主題"
-          }
-        }
-      }
-    },
-    "Then %@ would open these." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pak by je otevírala aplikace %@."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dann würde „%@“ diese öffnen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entonces los abriría %@."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ les ouvrirait alors."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In quel caso li aprirebbe %@."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "その場合は“%@”がこれらを開きます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "그러면 ‘%@’이(가) 이 항목을 열게 됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dan zou %@ deze openen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wtedy otwierałaby je aplikacja %@."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nesse caso, %@ os abriria."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Atunci le‑ar deschide %@."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тогда их будет открывать приложение «%@»."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Då skulle %@ öppna dessa."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O zaman bunları %@ açar."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тоді їх відкриватиме %@."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "届时将改由“%@”打开这些内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "屆時會改由「%@」打開這些項目。"
           }
         }
       }
@@ -231307,6 +231095,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這會選取%lld個Peel不建議移除的項目。移除其下載項目前請逐一檢查。"
+          }
+        }
+      }
+    },
+    "This settings file is damaged, so no app can read it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento soubor nastavení je poškozený, takže ho žádná aplikace nedokáže přečíst."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Einstellungsdatei ist beschädigt, daher kann keine App sie lesen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este archivo de ajustes está dañado, así que ninguna app puede leerlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce fichier de réglages est endommagé : aucune app ne peut donc le lire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo file di impostazioni è danneggiato, quindi nessuna app può leggerlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この設定ファイルは破損しているため、どのアプリも読み取れません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 설정 파일은 손상되었으므로 어떤 앱도 읽을 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit instellingenbestand is beschadigd, dus geen enkele app kan het lezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ten plik ustawień jest uszkodzony, więc żadna aplikacja nie może go odczytać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este arquivo de ajustes está danificado, então nenhum app consegue lê-lo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest fișier de configurări este deteriorat, așa că nicio aplicație nu îl poate citi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот файл настроек поврежден, поэтому его не может прочитать ни одно приложение."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den här inställningsfilen är skadad, så ingen app kan läsa den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu ayar dosyası bozuk, bu yüzden hiçbir uygulama onu okuyamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей файл налаштувань пошкоджено, тож жодна програма не може його прочитати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此设置文件已损坏，因此任何App都无法读取它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此設定檔已損毀，因此沒有任何App能讀取它。"
           }
         }
       }
@@ -242564,6 +242458,112 @@
         }
       }
     },
+    "Use this brew?" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používat tento brew?"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses brew verwenden?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Usar este brew?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser ce brew ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuoi usare questo brew?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このbrewを使用しますか?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 brew를 사용하겠습니까?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze brew gebruiken?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Używać tego programu brew?"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar este brew?"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Folosiți acest brew?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовать этот brew?"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vill du använda den här brew?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu brew kullanılsın mı?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Використовувати цей brew?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要使用此brew吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要使用這個brew嗎？"
+          }
+        }
+      }
+    },
     "Usual Places for Projects" : {
       "localizations" : {
         "cs" : {
@@ -249043,108 +249043,108 @@
         }
       }
     },
-    "When less than a tenth of the disk your home folder is on is available, Peel sends a notification that opens Space. It checks only while it is running." : {
+    "When less than a tenth of the disk your home folder is on is available, Peel sends a notification. Clicking it opens Space, which shows what’s using the disk. It checks only while it is running." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Když je k dispozici méně než desetina disku, na kterém máte domovskou složku, Peel pošle oznámení, které otevře stránku Místo na disku. Kontroluje to, jen když běží."
+            "value" : "Když je k dispozici méně než desetina disku, na kterém máte domovskou složku, Peel pošle oznámení. Kliknutím na něj se otevře stránka Místo na disku, která ukazuje, co na disku zabírá místo. Kontroluje to, jen když běží."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wenn auf dem Volume mit deinem Benutzerordner weniger als ein Zehntel verfügbar ist, sendet Peel eine Mitteilung, die „Speicherplatz“ öffnet. Die Prüfung erfolgt nur, während Peel läuft."
+            "value" : "Wenn auf dem Volume mit deinem Benutzerordner weniger als ein Zehntel verfügbar ist, sendet Peel eine Mitteilung. Ein Klick darauf öffnet die Seite „Speicherplatz“, die zeigt, was den Platz auf dem Volume belegt. Die Prüfung erfolgt nur, während Peel läuft."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cuando queda disponible menos de la décima parte del disco donde está tu carpeta de inicio, Peel envía una notificación que abre la página Espacio. Solo lo comprueba mientras está en ejecución."
+            "value" : "Cuando queda disponible menos de la décima parte del disco donde está tu carpeta de inicio, Peel envía una notificación. Al hacer clic en ella, se abre la página Espacio, que muestra qué está ocupando el disco. Solo lo comprueba mientras está en ejecución."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lorsque moins d’un dixième du disque sur lequel se trouve votre dossier de départ est disponible, Peel envoie une notification qui ouvre la page Espace. La vérification n’a lieu que lorsque Peel est en cours d’exécution."
+            "value" : "Lorsque moins d’un dixième du disque sur lequel se trouve votre dossier de départ est disponible, Peel envoie une notification. Cliquer dessus ouvre la page Espace, qui montre ce qui occupe le disque. La vérification n’a lieu que lorsque Peel est en cours d’exécution."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quando è disponibile meno di un decimo del disco su cui si trova la tua cartella Inizio, Peel invia una notifica che apre la pagina Spazio. Verifica solo mentre è in esecuzione."
+            "value" : "Quando è disponibile meno di un decimo del disco su cui si trova la tua cartella Inizio, Peel invia una notifica. Facendo clic sulla notifica si apre la pagina Spazio, che mostra cosa occupa il disco. Verifica solo mentre è in esecuzione."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ホームフォルダがあるディスクの使用可能な領域が10分の1未満になると、Peelが“容量”を開く通知を送信します。確認はPeelの実行中にのみ行われます。"
+            "value" : "ホームフォルダがあるディスクの使用可能な領域が10分の1未満になると、Peelが通知を送信します。通知をクリックすると“容量”が開き、ディスクを使用しているものが表示されます。確認はPeelの実行中にのみ行われます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "홈 폴더가 있는 디스크의 사용 가능한 공간이 10분의 1 미만이 되면 Peel이 공간 페이지를 여는 알림을 보냅니다. Peel이 실행 중일 때만 확인합니다."
+            "value" : "홈 폴더가 있는 디스크의 사용 가능한 공간이 10분의 1 미만이 되면 Peel이 알림을 보냅니다. 알림을 클릭하면 디스크를 사용하고 있는 항목을 보여 주는 공간 페이지가 열립니다. Peel이 실행 중일 때만 확인합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Als er minder dan een tiende van de schijf met je thuismap beschikbaar is, stuurt Peel een melding die 'Schijfruimte' opent. Peel controleert dit alleen terwijl het actief is."
+            "value" : "Als er minder dan een tiende van de schijf met je thuismap beschikbaar is, stuurt Peel een melding. Als je erop klikt, wordt 'Schijfruimte' geopend, waar je ziet wat er ruimte op de schijf inneemt. Peel controleert dit alleen terwijl het actief is."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gdy na dysku, na którym jest Twój folder domowy, dostępna jest mniej niż jedna dziesiąta miejsca, Peel wysyła powiadomienie, które otwiera stronę Miejsce. Sprawdza to tylko wtedy, gdy jest uruchomiony."
+            "value" : "Gdy na dysku, na którym jest Twój folder domowy, dostępna jest mniej niż jedna dziesiąta miejsca, Peel wysyła powiadomienie. Kliknięcie go otwiera stronę Miejsce, która pokazuje, co zajmuje dysk. Peel sprawdza to tylko wtedy, gdy jest uruchomiony."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quando menos de um décimo do disco em que está a sua pasta pessoal estiver disponível, o Peel envia uma notificação que abre a página Espaço. Ele só verifica enquanto está em execução."
+            "value" : "Quando menos de um décimo do disco em que está a sua pasta pessoal estiver disponível, o Peel envia uma notificação. Clicar nela abre a página Espaço, que mostra o que está ocupando o disco. Ele só verifica enquanto está em execução."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Când mai puțin de o zecime din discul pe care se află dosarul dvs. de reședință este disponibilă, Peel trimite o notificare care deschide pagina Spațiu. Verifică doar cât timp rulează."
+            "value" : "Când mai puțin de o zecime din discul pe care se află dosarul dvs. de reședință este disponibilă, Peel trimite o notificare. Un clic pe ea deschide pagina Spațiu, care arată ce ocupă discul. Verifică doar cât timp rulează."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Когда на диске, где находится Ваша папка пользователя, доступно меньше десятой части места, Peel присылает уведомление, которое открывает раздел «Место на диске». Peel проверяет это, только пока запущен."
+            "value" : "Когда на диске, где находится Ваша папка пользователя, доступно меньше десятой части места, Peel присылает уведомление. Нажав на него, Вы откроете раздел «Место на диске», который показывает, чем занят диск. Peel проверяет это, только пока запущен."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "När mindre än en tiondel av skivan som din hemmapp ligger på är tillgänglig skickar Peel en notis som öppnar sidan Utrymme. Kontrollen görs bara medan Peel körs."
+            "value" : "När mindre än en tiondel av skivan som din hemmapp ligger på är tillgänglig skickar Peel en notis. Om du klickar på den öppnas sidan Utrymme, som visar vad som använder skivan. Kontrollen görs bara medan Peel körs."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ana klasörünüzün bulunduğu diskte kullanılabilir alan onda birin altına düştüğünde Peel, Disk Alanı’nı açan bir bildirim gönderir. Yalnızca çalışırken denetler."
+            "value" : "Ana klasörünüzün bulunduğu diskte kullanılabilir alan onda birin altına düştüğünde Peel bir bildirim gönderir. Bildirimi tıklamak, diski neyin kullandığını gösteren Disk Alanı’nı açar. Yalnızca çalışırken denetler."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Коли на диску, де розташована ваша Домівка, доступно менше десятої частини обсягу, Peel надсилає сповіщення, яке відкриває розділ «Місце на диску». Peel перевіряє це лише тоді, коли працює."
+            "value" : "Коли на диску, де розташована ваша Домівка, доступно менше десятої частини обсягу, Peel надсилає сповіщення. Якщо клацнути його, відкриється розділ «Місце на диску», де видно, що займає диск. Peel перевіряє це лише тоді, коли працює."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "当你的个人文件夹所在磁盘的可用空间不足十分之一时，Peel会发送一条通知，点按即可打开“空间占用”。仅在Peel运行时检查。"
+            "value" : "当你的个人文件夹所在磁盘的可用空间不足十分之一时，Peel会发送一条通知。点按通知即可打开“空间占用”，查看是什么占用了磁盘。仅在Peel运行时检查。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "當你的個人專屬檔案夾所在磁碟的可用空間少於十分之一時，Peel會傳送一則可打開「空間」的通知。Peel只有在執行時才會檢查。"
+            "value" : "當你的個人專屬檔案夾所在磁碟的可用空間少於十分之一時，Peel會傳送通知。按一下通知會打開「空間」，其中會顯示佔用磁碟的項目。Peel只有在執行時才會檢查。"
           }
         }
       }
@@ -252562,6 +252562,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你已排除它所屬的App，因此Peel會列出它，但不會在這裡啟動、停止、啟用、停用或移除它。"
+          }
+        }
+      }
+    },
+    "You haven’t said any orphaned files belong to an app or a tool." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "U žádných osiřelých souborů jste zatím neuvedli, že patří některé aplikaci nebo některému nástroji."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du hast für keine verwaisten Dateien angegeben, dass sie zu einer App oder einem Befehlszeilentool gehören."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No has indicado que ningún archivo huérfano pertenezca a una app ni a una herramienta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous n’avez attribué aucun fichier orphelin à une app ou à un outil."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non hai indicato nessun file orfano come appartenente a un’app o a uno strumento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリまたはコマンドラインツールに属する孤立ファイルを、まだ指定していません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용자가 앱 또는 명령어 라인 도구의 소유로 지정한 주인 없는 파일이 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je hebt van geen enkel verweesd bestand aangegeven dat het bij een app of een commandoregeltool hoort."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie wskazano żadnych osieroconych plików jako należących do aplikacji lub narzędzia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você não indicou nenhum arquivo órfão como pertencente a um app ou a uma ferramenta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu ați atribuit încă niciun fișier orfan unei aplicații sau unui instrument."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы пока не указали, что какие-либо осиротевшие файлы принадлежат приложению или инструменту."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du har inte angett att några övergivna filer hör till en app eller ett verktyg."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Henüz hiçbir sahipsiz dosyanın bir uygulamaya veya araca ait olduğunu söylemediniz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ви ще не вказали, що якісь покинуті файли належать програмі або інструменту."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你还没有将任何孤立文件标为属于某个App或命令行工具。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你還沒有指定任何孤立檔案屬於某個App或命令列工具。"
           }
         }
       }
@@ -274010,6 +274116,112 @@
         }
       }
     },
+    "macOS couldn’t copy the settings of %@." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS nemohl zkopírovat nastavení %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS konnte die Einstellungen von %@ nicht kopieren."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no ha podido copiar los ajustes de %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’a pas pu copier les réglages de %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non è riuscito a copiare le impostazioni di %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSが“%@”の設定をコピーできませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 %@의 설정을 복사할 수 없었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kon de instellingen van %@ niet kopiëren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie mógł skopiować ustawień domeny %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não conseguiu copiar os ajustes de %@."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu a putut copia configurările pentru %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не удалось скопировать настройки %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kunde inte kopiera inställningarna för %@."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, %@ ayarlarını kopyalayamadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не змогла скопіювати налаштування %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS未能为%@的设置制作副本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS無法拷貝「%@」的設定。"
+          }
+        }
+      }
+    },
     "macOS couldn’t reach it: %@" : {
       "localizations" : {
         "cs" : {
@@ -274324,6 +274536,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "對於App加入的部分工作，macOS沒有回應，因此這裡可能缺少它們。"
+          }
+        }
+      }
+    },
+    "macOS didn’t answer when Peel asked for the settings of %@." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS neodpověděl, když se ho Peel zeptal na nastavení %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat nicht geantwortet, als Peel die Einstellungen von %@ angefordert hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no ha respondido cuando Peel le ha pedido los ajustes de %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’a pas répondu lorsque Peel a demandé les réglages de %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non ha risposto quando Peel ha chiesto le impostazioni di %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelが“%@”の設定を要求したときに、macOSが応答しませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 %@의 설정을 요청했을 때 macOS가 응답하지 않았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS gaf geen antwoord toen Peel om de instellingen van %@ vroeg."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie odpowiedział, gdy Peel poprosił o ustawienia domeny %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não respondeu quando o Peel pediu os ajustes de %@."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu a răspuns când Peel a cerut configurările pentru %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не ответила, когда Peel запросил настройки %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS svarade inte när Peel bad om inställningarna för %@."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel %@ ayarlarını istediğinde macOS yanıt vermedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не відповіла, коли Peel запитала налаштування %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel请求%@的设置时，macOS没有回应。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel要求取得「%@」的設定時，macOS沒有回應。"
           }
         }
       }

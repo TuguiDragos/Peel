@@ -189,7 +189,7 @@ struct ExclusionsSettingsView: View {
                 if let owners = orphans.owners {
                     let groups = owners.keys.sorted()
                     if groups.isEmpty {
-                        Text("No orphaned files are said to belong to an app or a tool.")
+                        Text("You haven’t said any orphaned files belong to an app or a tool.")
                             .foregroundStyle(.secondary)
                     } else {
                         List(selection: $selectedGroups) {
@@ -236,7 +236,7 @@ struct ExclusionsSettingsView: View {
                         Spacer(minLength: 8)
                         StartOverButton(
                             file: OrphanOwners.defaultURL,
-                            startedOver: "Started the list of orphaned files that belong to an app or a tool over."
+                            startedOver: "Started over the list of orphaned files that belong to an app or a tool."
                         ) {
                             orphans.startOwnersOver()
                         }

@@ -325,7 +325,7 @@ struct GeneralSettingsView: View {
                     notificationsOff(Text("Peel isn’t allowed to send notifications, so it can’t offer to remove the files an app left behind."))
                 }
                 toggle("Warn when the disk is almost full", isOn: $warnsWhenDiskIsNearlyFull,
-                       "When less than a tenth of the disk your home folder is on is available, Peel sends a notification that opens Space. It checks only while it is running.")
+                       "When less than a tenth of the disk your home folder is on is available, Peel sends a notification. Clicking it opens Space, which shows what’s using the disk. It checks only while it is running.")
                 if warnsWhenDiskIsNearlyFull, PeelNotifications.areTurnedOff(home.notificationStatus) {
                     notificationsOff(Text("Peel isn’t allowed to send notifications, so it can’t warn you when the disk is almost full."))
                 }
@@ -398,7 +398,7 @@ struct GeneralSettingsView: View {
                         .foregroundStyle(.secondary)
                 case .elsewhere:
                     if commandLine == .installed || installCommand != nil, !isStandardAccount {
-                        Text("The link points at Peel where it is now, \(Text(verbatim: Bundle.main.bundleURL.abbreviatedPath)), so it breaks if Peel moves. Apps live in the Applications folder.")
+                        Text("The link points at Peel where it is now, \(Text(verbatim: Bundle.main.bundleURL.abbreviatedPath)), so it breaks if Peel moves. Move Peel to the Applications folder first.")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -613,7 +613,7 @@ extension GeneralSettingsView {
                     .lineLimit(1)
                     .truncationMode(.middle)
                 if item.isIgnored {
-                    Text("Never checked")
+                    Text("Not checked")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 } else if let version = item.skippedVersion {

@@ -435,8 +435,8 @@ extension PreferenceBackup.NotSaved {
     var sentence: String {
         switch self {
         case .noUsableIdentifier: String(localized: "The app has no identifier Peel can name a copy after.")
-        case .noAnswer(let domain): String(localized: "The defaults command didn’t answer about \(domain).")
-        case .notExported(let domain): String(localized: "The defaults command couldn’t copy \(domain).")
+        case .noAnswer(let domain): String(localized: "macOS didn’t answer when Peel asked for the settings of \(domain).")
+        case .notExported(let domain): String(localized: "macOS couldn’t copy the settings of \(domain).")
         case .noFolder(let why):
             why.said(after: String(localized: "Peel couldn’t make a folder for the copy."), about: PreferenceBackup.defaultDirectory)
         }

@@ -267,7 +267,7 @@ struct AppDetailView: View {
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         } else {
-                            Text("Then \(role.others.first ?? "") would open these.")
+                            Text("Once it’s gone, \(role.others.first ?? "") would open these.")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -458,7 +458,7 @@ struct AppDetailView: View {
             lines.append(String(localized: heldBack.explanation(keptInStepBy: leftover.syncedBy)))
         }
         if leftover.holdsDamagedSettings {
-            lines.append(String(localized: "Can’t be read as a property list, so nothing can read these settings."))
+            lines.append(String(localized: "This settings file is damaged, so no app can read it."))
         }
         if let leadsTo = leftover.leadsTo {
             lines.append(Leftover.linkNote(leadingTo: leadsTo))
@@ -492,7 +492,7 @@ struct AppDetailView: View {
         let urls = plan.question.request?.urls ?? []
         var lines: [Text] = []
         if !resetting(urls).isEmpty {
-            lines.append(Text("The app’s privacy permissions are cleared first, and History can’t bring them back."))
+            lines.append(Text("The app’s privacy permissions are reset first, and History can’t bring them back."))
         }
         if let uninstallsItself = plan.uninstallation?.uninstallsItself, urls.contains(uninstallsItself.app.url) {
             lines.append(uninstallsItself.warning)

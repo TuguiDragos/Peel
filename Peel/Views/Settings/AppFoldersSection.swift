@@ -31,7 +31,7 @@ struct AppFoldersSection: View {
                 .scrollContentBackground(.hidden)
                 .onDeleteCommand { removeSelected() }
             } else if library.folders != nil {
-                Text("No other folder is on this list yet.")
+                Text("No folder is on this list yet.")
                     .foregroundStyle(.secondary)
             } else {
                 HStack(spacing: 8) {

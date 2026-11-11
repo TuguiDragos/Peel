@@ -70,7 +70,7 @@ struct HomebrewSection: View {
         } message: {
             refusal?.explanation ?? Text(verbatim: "")
         }
-        .alert("Run this brew for Homebrew?", isPresented: isConfirming, presenting: confirming) { brew in
+        .alert("Use this brew?", isPresented: isConfirming, presenting: confirming) { brew in
             Button("Use It") { use(brew) }
             Button("Cancel", role: .cancel) {}
         } message: { brew in
