@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 /// A search field that lives in the column it filters, rather than in the window's title bar.
@@ -12,6 +13,7 @@ struct ColumnSearchField: View {
 
     @FocusState private var isFocused: Bool
     @State private var isRequested = false
+    @State private var column = Column()
 
     var body: some View {
         HStack(spacing: 6) {
@@ -21,10 +23,13 @@ struct ColumnSearchField: View {
             TextField(text: $text) { Text(prompt) }
                 .textFieldStyle(.plain)
                 .focused($isFocused)
-                // What `NSSearchField` does with Escape: the text goes, and a second press gives the field up.
+                // What `NSSearchField` does with Escape: the text goes, and a second press gives the keyboard to the
+                // list the field filters. Left to the window, it would go to the sidebar, where an arrow changes page.
                 .onExitCommand {
                     if text.isEmpty {
-                        isFocused = false
+                        if !column.focusTheList() {
+                            isFocused = false
+                        }
                     } else {
                         text = ""
                     }
@@ -55,6 +60,7 @@ struct ColumnSearchField: View {
         .font(.body)
         .padding(.horizontal, 10)
         .frame(height: 24)
+        .background(Column.Anchor(column: column))
         // Glass, as the system's own search field is: the list scrolls under it, and a flat fill would let the
         // rows' text show through the prompt.
         .glassEffect(.regular, in: .capsule)
@@ -73,6 +79,32 @@ struct ColumnSearchField: View {
             guard wants else { return }
             isFocused = true
             isRequested = false
+        }
+    }
+}
+
+/// The split view column the field sits in, found through AppKit as `SidebarFocus` finds the sidebar's.
+private final class Column {
+    weak var view: NSView?
+
+    func focusTheList() -> Bool {
+        guard let view, let window = view.window,
+              let list = view.enclosingSplitViewItem?.viewController.view.firstList(), list.window === window
+        else { return false }
+        return window.makeFirstResponder(list)
+    }
+
+    struct Anchor: NSViewRepresentable {
+        let column: Column
+
+        func makeNSView(context: Context) -> NSView {
+            let view = NSView()
+            column.view = view
+            return view
+        }
+
+        func updateNSView(_ nsView: NSView, context: Context) {
+            column.view = nsView
         }
     }
 }

@@ -39,7 +39,7 @@ private struct ListFocus: NSViewRepresentable {
         override func layout() {
             super.layout()
             if !hasFoundTheList {
-                hasFoundTheList = list(in: enclosingSplitViewItem?.viewController.view) != nil
+                hasFoundTheList = enclosingSplitViewItem?.viewController.view.firstList() != nil
                 hasFoundTheList ? PrivateStructure.found(.sidebarFocus) : PrivateStructure.check(.sidebarFocus)
             }
             takeFocusIfNothingHasIt()
@@ -49,18 +49,20 @@ private struct ListFocus: NSViewRepresentable {
             // As a tree of views comes into a window this view can get there before the list, and AppKit refuses a
             // first responder from outside the window.
             guard let window, window.firstResponder === window,
-                  let list = list(in: enclosingSplitViewItem?.viewController.view), list.window === window
+                  let list = enclosingSplitViewItem?.viewController.view.firstList(), list.window === window
             else { return }
             window.makeFirstResponder(list)
         }
+    }
+}
 
-        private func list(in view: NSView?) -> NSOutlineView? {
-            guard let view else { return nil }
-            if let outline = view as? NSOutlineView { return outline }
-            for child in view.subviews {
-                if let outline = list(in: child) { return outline }
-            }
-            return nil
+extension NSView {
+    /// The first list in this view or under it: the outline view a SwiftUI `List` is built on.
+    func firstList() -> NSOutlineView? {
+        if let outline = self as? NSOutlineView { return outline }
+        for child in subviews {
+            if let outline = child.firstList() { return outline }
         }
+        return nil
     }
 }

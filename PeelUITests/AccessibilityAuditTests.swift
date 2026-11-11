@@ -42,6 +42,26 @@ final class AccessibilityAuditTests: XCTestCase {
         auditEverything(appearance: "Dark")
     }
 
+    func testLeavingTheSearchFieldKeepsThePage() {
+        let app = XCUIApplication()
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US", "-ApplePersistenceIgnoreState", "YES"]
+        app.launch()
+        choose("Applications", inMenu: "View", of: app)
+        waitForTheScan(of: "Applications", in: app)
+        let window = app.windows["main"]
+        let named = NSPredicate(format: "label == %@", "Applications")
+        let outline = window.outlines.matching(named).firstMatch
+        let list = outline.exists ? outline : window.tables.matching(named).firstMatch
+        XCTAssertTrue(list.waitForExistence(timeout: 30))
+        app.typeKey("f", modifierFlags: .command)
+        app.typeText("a")
+        app.typeKey(.escape, modifierFlags: [])
+        app.typeKey(.escape, modifierFlags: [])
+        app.typeKey(.downArrow, modifierFlags: [])
+        XCTAssertFalse(list.waitForNonExistence(timeout: 3), "Leaving the search field took the keyboard to the sidebar")
+        app.terminate()
+    }
+
     private func auditEverything(appearance: String) {
         continueAfterFailure = true
         let app = XCUIApplication()
