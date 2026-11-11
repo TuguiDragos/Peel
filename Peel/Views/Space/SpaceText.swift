@@ -234,7 +234,7 @@ nonisolated extension SpaceItem {
         ),
         "homebrew-data": Words(
             title: "Homebrew Data",
-            detail: "What the formulas Homebrew installed keep in its var folder, such as a database’s data. Homebrew’s uninstall leaves it, so it can outlive its formula, and a folder no installed formula names says so. The services’ logs are listed apart, and the settings a formula keeps in Homebrew’s etc folder or in /etc stay where they are.",
+            detail: "What the formulae Homebrew installed keep in its var folder, such as a database’s data. Homebrew’s uninstall leaves it, so it can outlive its formula. A folder that no installed formula names is marked. The services’ logs are listed apart, and the settings a formula keeps in Homebrew’s etc folder or in /etc stay where they are.",
             hint: "Remove a folder in Finder once no formula needs it. Homebrew never removes it."
         ),
         "tex-live": Words(
