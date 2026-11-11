@@ -164,6 +164,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The biggest removal no longer reads as an exact size when part of it couldn't be measured: it says Over, as the total
   does.
 
+#### Notifications
+
+- Updates Peel finds while macOS doesn't show its notifications are told once you turn them on, no longer passed over
+  as told.
+
 #### Tweaks
 
 - On macOS 27, a switch's long title is no longer drawn smaller, or cut, to make room for the switch, as in Romanian
@@ -212,6 +217,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Privacy no longer says the App Store is asked only about apps bought there: it is asked about every app installed from
   it, free ones too. It also names the Homebrew page where it said there.
 - Installing, repairing, or uninstalling Peel's helper, from Settings or from Home, tells VoiceOver how it went.
+- The note under Hide from the Dock says that macOS may hide Peel's menu bar item when the menu bar is full, and that
+  Peel then opens from Finder or Spotlight.
 
 #### Applications
 
@@ -344,6 +351,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   moving it moves only the link, where it read as an empty folder.
 - After a removal, a line of a shell startup file that names the app with an accented letter is found however the letter
   was typed.
+- Several apps dropped together on Peel's icon in the Dock open one page for all of them, as a drop on the list does,
+  no longer the page of whichever came last.
+- An app whose name ends in `.APP` or `.App`, which macOS opens as an app, is listed, opens from Finder, a `peel://`
+  link, or a drop, and goes like any other, while a folder named only `.app` isn't taken for one.
+- An app built for iPhone, iPad, Apple TV, or Apple Watch, as Xcode leaves one in a build folder, is said to be built
+  for another Apple platform, no longer to have no Info.plist.
 
 #### Orphaned Files
 
@@ -380,6 +393,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An app that asks macOS to open it as Intel stays listed after Peel reads your apps again.
 - On an Intel Mac, the notes on what Peel couldn't read say what's there may be built for Intel only, no longer that it
   may need Rosetta.
+- A plug-in or a driver whose extension is written in capitals, such as `.PLUGIN`, is read as one.
 
 #### Package Receipts
 
@@ -539,6 +553,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   in `leadsTo`.
 - `peel history` and `peel restore` name a removal of more than three apps, casks, or receipts in English, as the rest
   of the tool does, no longer in the language Peel's window was in.
+- `peel restore` exits 1 when an item can't go back because it has left the Trash, and `peel orphans --remove` exits 1
+  when every file of the group stays, as their help says.
+- `peel uninstall --json` asks for `--yes` or `--dry-run` first, since its JSON shows no plan before the question.
+- `peel` says why it can't read an app given by its path, as the app does: it's built for another Apple platform, it
+  has no Info.plist, or macOS keeps your terminal app from reading it, no longer only that it isn't an app.
 
 ### Security
 
