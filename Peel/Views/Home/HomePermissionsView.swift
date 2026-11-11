@@ -277,7 +277,7 @@ struct HomePermissionsContent: View {
             let others = waiting.others.map { String(localized: $0.title) }.formatted(.list(type: .and))
             let sentences = [
                 waiting.allowsPeel
-                    ? String(localized: "Allow Peel in System Settings under Login Items & Extensions.") : nil,
+                    ? String(localized: "Allow Peel in System Settings > General > Login Items & Extensions.") : nil,
                 waiting.others.isEmpty ? nil : String(localized: "Check \(others) in System Settings."),
             ]
             Notice(

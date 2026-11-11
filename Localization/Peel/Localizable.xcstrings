@@ -9602,113 +9602,6 @@
         }
       }
     },
-    "%@, no longer on this Mac" : {
-      "comment" : "On a plug-in’s page, beside Installed with: %@ is the app the plug-in came with, which Peel saw installed and then saw go.",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, už není v tomto Macu"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, nicht mehr auf diesem Mac"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, ya no está en este Mac"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, qui n’est plus sur ce Mac"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, non più presente su questo Mac"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@（このMacにはもうありません）"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, 이 Mac에 더 이상 없음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, niet meer op deze Mac"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, której nie ma już na tym Macu"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, não está mais neste Mac"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, nu mai este pe acest Mac"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, которого больше нет на этом Mac"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, finns inte längre på den här datorn"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, artık bu Mac’te değil"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, якої вже немає на цьому Mac"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@，已不在这台Mac上"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@（已不在這部Mac上）"
-          }
-        }
-      }
-    },
     "%@: %@" : {
       "comment" : "What VoiceOver reads for a button. The first %@ is the action, such as Install. The second is what it acts on, such as Helper.",
       "localizations" : {
@@ -17390,112 +17283,6 @@
         }
       }
     },
-    "Added by" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Přidáno aplikací"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hinzugefügt von"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Añadido por"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajouté par"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aggiunto da"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "追加元"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "추가한 앱"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toegevoegd door"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dodany przez"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adicionado por"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adăugat de"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Кем добавлено"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tillagt av"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ekleyen"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Додано програмою"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "添加者"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "加入者"
-          }
-        }
-      }
-    },
     "Adds Uninstall with Peel to the menu you get when you Control-click an app in Finder." : {
       "localizations" : {
         "cs" : {
@@ -18874,108 +18661,108 @@
         }
       }
     },
-    "Allow Peel in System Settings under Login Items & Extensions." : {
+    "Allow Peel in System Settings > General > Login Items & Extensions." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Povolte Peel v Nastavení systému v části Aktivace položek a rozšíření při přihlášení."
+            "value" : "Povolte Peel v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erlaube Peel in den Systemeinstellungen unter „Anmeldeobjekte & Erweiterungen“."
+            "value" : "Erlaube Peel unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Da permiso a Peel en Ajustes del Sistema, en Ítems de inicio y extensiones."
+            "value" : "Da permiso a Peel en Ajustes del Sistema > General > Ítems de inicio y extensiones."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Autorisez Peel dans Réglages Système, sous Ouverture et extensions."
+            "value" : "Autorisez Peel dans Réglages Système > Général > Ouverture et extensions."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Autorizza Peel in Impostazioni di Sistema, in “Elementi login ed estensioni”."
+            "value" : "Autorizza Peel in Impostazioni di Sistema > Generali > Elementi login ed estensioni."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "システム設定の“ログイン項目と機能拡張”でPeelを許可してください。"
+            "value" : "“システム設定”＞“一般”＞“ログイン項目と機能拡張”でPeelを許可してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "시스템 설정의 로그인 항목 및 확장 프로그램에서 Peel을 허용하십시오."
+            "value" : "시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서 Peel을 허용하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sta Peel toe in Systeeminstellingen onder 'Inlogonderdelen en extensies'."
+            "value" : "Sta Peel toe in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "W Ustawieniach systemowych pozwól na działanie Peel w panelu Rzeczy i rozszerzenia otwierane podczas logowania."
+            "value" : "Pozwól na działanie Peel w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Permita o Peel nos Ajustes do Sistema, em Itens de Início de Sessão e Extensões."
+            "value" : "Permita o Peel em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Permiteți Peel în Configurări sistem, la Lansare la login și extensii."
+            "value" : "Permiteți Peel în Configurări sistem > General > Lansare la login și extensii."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Разрешите Peel в Системных настройках, в разделе «Объекты входа и расширения»."
+            "value" : "Разрешите Peel в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения»."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tillåt Peel i Systeminställningar under Startobjekt och tillägg."
+            "value" : "Tillåt Peel i Systeminställningar > Allmänt > Startobjekt och tillägg."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sistem Ayarları’nda, Oturum Açma Öğeleri ve Genişletmeler altında Peel’e izin verin."
+            "value" : "Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünde Peel’e izin verin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Дозвольте Peel у Системних параметрах, у розділі «Автозапуск і розширення»."
+            "value" : "Дозвольте Peel у розділі Системні параметри > Загальні > Автозапуск і розширення."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "请在“系统设置”的“登录项与扩展”中允许Peel。"
+            "value" : "请在“系统设置”>“通用”>“登录项与扩展”中允许Peel。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "請在「系統設定」的「登入項目與延伸功能」中允許Peel。"
+            "value" : "請在「系統設定」>「一般」>「登入項目與延伸功能」中允許Peel。"
           }
         }
       }
@@ -22446,108 +22233,108 @@
         }
       }
     },
-    "Another file declares the same job, and launchd didn’t say which of the two it loaded, so Peel doesn’t start, stop, enable, or disable it here." : {
+    "Another file declares the same job, and macOS didn’t say which of the two it loaded, so Peel doesn’t start, stop, enable, or disable it here." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stejnou úlohu uvádí i jiný soubor a launchd nesdělil, který z obou načetl, a proto ji tu Peel nespouští, nezastavuje, nezapíná ani nevypíná."
+            "value" : "Stejnou úlohu uvádí i jiný soubor a systém macOS nesdělil, který z obou načetl, a proto ji tu Peel nespouští, nezastavuje, nezapíná ani nevypíná."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eine andere Datei definiert denselben Job, und launchd hat nicht mitgeteilt, welche der beiden Dateien geladen ist, daher startet, stoppt, aktiviert oder deaktiviert Peel ihn hier nicht."
+            "value" : "Eine andere Datei definiert denselben Job, und macOS hat nicht mitgeteilt, welche der beiden Dateien geladen ist, daher startet, stoppt, aktiviert oder deaktiviert Peel ihn hier nicht."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otro archivo declara la misma tarea, y launchd no ha indicado cuál de los dos ha cargado, así que aquí Peel no la inicia, no la detiene, no la activa ni la desactiva."
+            "value" : "Otro archivo declara la misma tarea, y macOS no ha indicado cuál de los dos ha cargado, así que aquí Peel no la inicia, no la detiene, no la activa ni la desactiva."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un autre fichier déclare la même tâche, et launchd n’a pas indiqué lequel des deux il a chargé : Peel ne la démarre donc pas, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
+            "value" : "Un autre fichier déclare la même tâche, et macOS n’a pas indiqué lequel des deux il a chargé : Peel ne la démarre donc pas, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un altro file dichiara lo stesso elemento, e launchd non ha indicato quale dei due ha caricato, quindi qui Peel non lo avvia, non lo interrompe, non lo abilita e non lo disabilita."
+            "value" : "Un altro file dichiara lo stesso elemento, e macOS non ha indicato quale dei due ha caricato, quindi qui Peel non lo avvia, non lo interrompe, non lo abilita e non lo disabilita."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "別のファイルが同じジョブを宣言していて、launchdはそのどちらを読み込んだかを示さなかったため、Peelはここで開始、停止、有効化、無効化を行いません。"
+            "value" : "別のファイルが同じジョブを宣言していて、macOSはそのどちらを読み込んだかを示さなかったため、Peelはここで開始、停止、有効化、無効化を行いません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "다른 파일이 같은 작업을 지정하고 있으며 launchd가 둘 중 어느 파일을 로드했는지 알려 주지 않았으므로, Peel은 여기에서 이 항목을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
+            "value" : "다른 파일이 같은 작업을 지정하고 있으며 macOS가 둘 중 어느 파일을 로드했는지 알려 주지 않았으므로, Peel은 여기에서 이 항목을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een ander bestand vermeldt dezelfde taak, en launchd heeft niet gemeld welke van de twee het heeft geladen, dus Peel start het hier niet, stopt het niet en schakelt het niet in of uit."
+            "value" : "Een ander bestand vermeldt dezelfde taak, en macOS heeft niet gemeld welke van de twee het heeft geladen, dus Peel start het hier niet, stopt het niet en schakelt het niet in of uit."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inny plik deklaruje to samo zadanie, a launchd nie podał, który z tych dwóch plików wczytał, więc Peel tutaj tego zadania nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+            "value" : "Inny plik deklaruje to samo zadanie, a macOS nie podał, który z tych dwóch plików wczytał, więc Peel tutaj tego zadania nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Outro arquivo declara a mesma tarefa, e o launchd não disse qual dos dois carregou, por isso o Peel não a inicia, não a interrompe, não a ativa nem a desativa aqui."
+            "value" : "Outro arquivo declara a mesma tarefa, e o macOS não disse qual dos dois carregou, por isso o Peel não a inicia, não a interrompe, não a ativa nem a desativa aqui."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alt fișier declară aceeași sarcină, iar launchd nu a spus pe care dintre cele două fișiere l‑a încărcat, așa că Peel nu pornește, nu oprește, nu activează și nu dezactivează sarcina de aici."
+            "value" : "Alt fișier declară aceeași sarcină, iar macOS nu a spus pe care dintre cele două fișiere l‑a încărcat, așa că Peel nu pornește, nu oprește, nu activează și nu dezactivează sarcina de aici."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "То же задание объявлено в другом файле, и launchd не сообщил, какой из двух файлов он загрузил, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает его."
+            "value" : "То же задание объявлено в другом файле, и macOS не сообщила, какой из двух файлов она загрузила, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает его."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En annan fil anger samma jobb, och launchd sa inte vilken av de två som lästes in, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här."
+            "value" : "En annan fil anger samma jobb, och macOS sa inte vilken av de två som lästes in, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aynı işi başka bir dosya da tanımlıyor ve launchd ikisinden hangisini yüklediğini söylemedi, bu yüzden Peel onu burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
+            "value" : "Aynı işi başka bir dosya da tanımlıyor ve macOS ikisinden hangisini yüklediğini söylemedi, bu yüzden Peel onu burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Те саме завдання оголошує інший файл, а launchd не повідомив, який із двох завантажив, тож Peel тут його не запускає, не зупиняє, не вмикає й не вимикає."
+            "value" : "Те саме завдання оголошує інший файл, а macOS не повідомила, який із двох завантажила, тож Peel тут його не запускає, не зупиняє, не вмикає й не вимикає."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "另一个文件声明了相同的任务，而launchd没有说明它载入的是两者中的哪一个，因此Peel不会在此处启动、停止、启用或停用它。"
+            "value" : "另一个文件声明了相同的任务，而macOS没有说明它载入的是两者中的哪一个，因此Peel不会在此处启动、停止、启用或停用它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "另一個檔案宣告了相同的工作，而launchd沒有說明它載入的是這兩個檔案中的哪一個，因此Peel不會在這裡啟動、停止、啟用或停用它。"
+            "value" : "另一個檔案宣告了相同的工作，而macOS沒有說明它載入的是這兩個檔案中的哪一個，因此Peel不會在這裡啟動、停止、啟用或停用它。"
           }
         }
       }
@@ -75904,113 +75691,6 @@
         }
       }
     },
-    "Installed with" : {
-      "comment" : "A row’s label on a plug-in’s page: the app the plug-in came with.",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nainstalováno s aplikací"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Installiert mit"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instalado con"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Installé avec"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Installato con"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一緒にインストールされたアプリ"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "함께 설치된 앱"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geïnstalleerd met"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zainstalowano z aplikacją"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instalado com"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instalat cu"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Установлен вместе с приложением"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Installerad med"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Birlikte yüklendiği uygulama"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Інстальовано разом із"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "安装来源"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "隨同安裝的App"
-          }
-        }
-      }
-    },
     "Installer Receipt" : {
       "localizations" : {
         "cs" : {
@@ -83256,109 +82936,108 @@
         }
       }
     },
-    "It isn’t listed in System Settings, and launchd forgets it at the next logout or restart. Apps do this for work such as installing an update." : {
-      "comment" : "Under that title. Squirrel’s ShipIt, which installs an app’s update, is such a job.",
+    "It isn’t listed in System Settings, and macOS forgets it at the next logout or restart. Apps do this for work such as installing an update." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Není uvedena v Nastavení systému a launchd na ni při příštím odhlášení nebo restartu zapomene. Aplikace to dělají při úkonech, jako je instalace aktualizace."
+            "value" : "Není uvedena v Nastavení systému a systém macOS na ni při příštím odhlášení nebo restartu zapomene. Aplikace to dělají při úkonech, jako je instalace aktualizace."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Es ist nicht in den Systemeinstellungen aufgeführt, und launchd vergisst es bei der nächsten Abmeldung oder beim nächsten Neustart. Apps tun das für Aufgaben wie das Installieren eines Updates."
+            "value" : "Es ist nicht in den Systemeinstellungen aufgeführt, und macOS vergisst es bei der nächsten Abmeldung oder beim nächsten Neustart. Apps tun das für Aufgaben wie das Installieren eines Updates."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No aparece en Ajustes del Sistema, y launchd lo olvida en el próximo cierre de sesión o reinicio. Las apps hacen esto para trabajos como instalar una actualización."
+            "value" : "No aparece en Ajustes del Sistema, y macOS lo olvida en el próximo cierre de sesión o reinicio. Las apps hacen esto para trabajos como instalar una actualización."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il n’est pas listé dans Réglages Système, et launchd l’oublie à la prochaine fermeture de session ou au prochain redémarrage. Les apps procèdent ainsi pour des opérations comme l’installation d’une mise à jour."
+            "value" : "Il n’est pas listé dans Réglages Système, et macOS l’oublie à la prochaine fermeture de session ou au prochain redémarrage. Les apps procèdent ainsi pour des opérations comme l’installation d’une mise à jour."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non è elencato in Impostazioni di Sistema, e launchd lo dimentica al prossimo logout o riavvio. Le app lo fanno per attività come l’installazione di un aggiornamento."
+            "value" : "Non è elencato in Impostazioni di Sistema, e macOS lo dimentica al prossimo logout o riavvio. Le app lo fanno per attività come l’installazione di un aggiornamento."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "システム設定には表示されず、次回のログアウトまたは再起動でlaunchdから消えます。アプリは、アップデートのインストールなどの作業のためにこの方法を使います。"
+            "value" : "システム設定には表示されず、次回のログアウトまたは再起動でmacOSから消えます。アプリは、アップデートのインストールなどの作業のためにこの方法を使います。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 항목은 시스템 설정에 표시되지 않으며, 다음 로그아웃 또는 재시동 시 launchd가 이 항목을 잊습니다. 앱은 업데이트 설치 등의 작업을 위해 이렇게 합니다."
+            "value" : "이 항목은 시스템 설정에 표시되지 않으며, 다음 로그아웃 또는 재시동 시 macOS가 이 항목을 잊습니다. 앱은 업데이트 설치 등의 작업을 위해 이렇게 합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het wordt niet vermeld in Systeeminstellingen, en launchd vergeet het de volgende keer dat je uitlogt of de Mac opnieuw opstart. Apps doen dit voor werk zoals het installeren van een update."
+            "value" : "Het wordt niet vermeld in Systeeminstellingen, en macOS vergeet het de volgende keer dat je uitlogt of de Mac opnieuw opstart. Apps doen dit voor werk zoals het installeren van een update."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nie ma jej na liście w Ustawieniach systemowych, a launchd zapomni o niej przy następnym wylogowaniu lub ponownym uruchomieniu. Aplikacje robią tak na przykład przy instalowaniu uaktualnienia."
+            "value" : "Nie ma jej na liście w Ustawieniach systemowych, a macOS zapomni o niej przy następnym wylogowaniu lub ponownym uruchomieniu. Aplikacje robią tak na przykład przy instalowaniu uaktualnienia."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ele não aparece nos Ajustes do Sistema, e o launchd o esquece na próxima vez que você finalizar a sessão ou reiniciar o Mac. Os apps fazem isso, por exemplo, para instalar uma atualização."
+            "value" : "Ele não aparece nos Ajustes do Sistema, e o macOS o esquece na próxima vez que você finalizar a sessão ou reiniciar o Mac. Os apps fazem isso, por exemplo, para instalar uma atualização."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nu apare în Configurări sistem, iar launchd îl uită la următorul logout sau la următoarea repornire. Aplicațiile fac acest lucru pentru operațiuni precum instalarea unei actualizări."
+            "value" : "Nu apare în Configurări sistem, iar macOS îl uită la următorul logout sau la următoarea repornire. Aplicațiile fac acest lucru pentru operațiuni precum instalarea unei actualizări."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Он не отображается в Системных настройках, и launchd забудет о нем при следующем выходе из системы или перезагрузке. Приложения делают так, например, чтобы установить обновление."
+            "value" : "Он не отображается в Системных настройках, и macOS забудет о нем при следующем выходе из системы или перезагрузке. Приложения делают так, например, чтобы установить обновление."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det visas inte i Systeminställningar, och launchd glömmer det vid nästa utloggning eller omstart. Appar gör så för uppgifter som att installera en uppdatering."
+            "value" : "Det visas inte i Systeminställningar, och macOS glömmer det vid nästa utloggning eller omstart. Appar gör så för uppgifter som att installera en uppdatering."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sistem Ayarları’nda listelenmez ve launchd onu bir sonraki oturum kapatma veya yeniden başlatma sırasında unutur. Uygulamalar bunu, bir güncellemeyi yüklemek gibi işler için yapar."
+            "value" : "Sistem Ayarları’nda listelenmez ve macOS onu bir sonraki oturum kapatma veya yeniden başlatma sırasında unutur. Uygulamalar bunu, bir güncellemeyi yüklemek gibi işler için yapar."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Його немає в Системних параметрах, і launchd забуде його під час наступного виходу із системи або перезапуску. Програми вдаються до цього для такої роботи, як інсталювання оновлення."
+            "value" : "Його немає в Системних параметрах, і macOS забуде його під час наступного виходу із системи або перезапуску. Програми вдаються до цього для такої роботи, як інсталювання оновлення."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它不会列在“系统设置”中，launchd会在下次退出登录或重新启动时忘记它。App会为安装更新等工作这样做。"
+            "value" : "它不会列在“系统设置”中，macOS会在下次退出登录或重新启动时忘记它。App会为安装更新等工作这样做。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它不會列在「系統設定」中，而且launchd會在下次登出或重新開機時忘記它。App會為了安裝更新等工作而這樣做。"
+            "value" : "它不會列在「系統設定」中，而且macOS會在下次登出或重新開機時忘記它。App會為了安裝更新等工作而這樣做。"
           }
         }
       }
@@ -86708,109 +86387,108 @@
         }
       }
     },
-    "Its app gave it to launchd" : {
-      "comment" : "A note’s title on a background job’s page: the job’s app handed it to launchd itself (launchd’s term is “submitted”), rather than registering it with macOS.",
+    "Its app added it without a file" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Její aplikace ji předala launchd"
+            "value" : "Její aplikace ji přidala bez souboru"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die zugehörige App hat es an launchd übergeben"
+            "value" : "Die zugehörige App hat es ohne Datei hinzugefügt"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Su app lo entregó a launchd"
+            "value" : "Su app lo añadió sin ningún archivo"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Son app l’a confié à launchd"
+            "value" : "Son app l’a ajouté sans fichier"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La sua app l’ha affidato a launchd"
+            "value" : "La sua app l’ha aggiunto senza un file"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリがこれをlaunchdに直接渡しました"
+            "value" : "アプリがファイルを使わずにこれを追加しました"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 항목의 앱이 launchd에 직접 전달함"
+            "value" : "이 항목의 앱이 파일 없이 추가함"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De bijbehorende app heeft het aan launchd doorgegeven"
+            "value" : "De bijbehorende app heeft het zonder bestand toegevoegd"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jej aplikacja przekazała ją do launchd"
+            "value" : "Jej aplikacja dodała ją bez pliku"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O app dele o entregou ao launchd"
+            "value" : "O app dele o adicionou sem um arquivo"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicația sa l‑a transmis lui launchd"
+            "value" : "Aplicația sa l‑a adăugat fără un fișier"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Этот объект передало в launchd его приложение"
+            "value" : "Приложение добавило этот объект без файла"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Appen som det hör till har lämnat över det till launchd"
+            "value" : "Appen som det hör till lade till det utan någon fil"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulaması onu launchd’ye verdi"
+            "value" : "Uygulaması onu dosya olmadan ekledi"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Програма передала цей елемент у launchd"
+            "value" : "Програма додала цей елемент без файлу"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的App已将它交给launchd"
+            "value" : "它的App添加它时未使用文件"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的App將它交給了launchd"
+            "value" : "它的App未使用檔案就加入了它"
           }
         }
       }
@@ -94154,6 +93832,112 @@
         }
       }
     },
+    "Left alone: an app keeps work inside that exists nowhere else, such as an editor’s local history." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: aplikace v této položce uchovává práci, která neexistuje nikde jinde, například místní historii editoru."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: Eine App bewahrt darin Arbeit auf, die es nirgendwo sonst gibt, etwa den lokalen Verlauf eines Editors."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: una app guarda dentro trabajo que no existe en ningún otro sitio, como el historial local de un editor."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : une app y conserve du travail qui n’existe nulle part ailleurs, comme l’historique local d’un éditeur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: un’app vi conserva un lavoro che non esiste altrove, come la cronologia locale di un editor."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: エディタのローカル履歴など、ほかのどこにも存在しない作業内容をアプリが中に保管しています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: 편집기의 로컬 기록처럼 다른 곳에는 없는 작업을 앱이 안에 보관합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: een app bewaart er werk in dat nergens anders bestaat, zoals de lokale geschiedenis van een editor."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: aplikacja przechowuje w środku pracę, której nie ma nigdzie indziej, na przykład lokalną historię edytora."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: um app guarda dentro um trabalho que não existe em nenhum outro lugar, como o histórico local de um editor."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: o aplicație păstrează înăuntru lucrări care nu există nicăieri altundeva, cum ar fi istoricul local al unui editor."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: приложение хранит внутри результаты работы, которых больше нигде нет, например локальную историю редактора."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: en app sparar arbete i det som inte finns någon annanstans, till exempel en kodredigerares lokala historik."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: bir uygulama içinde başka hiçbir yerde bulunmayan çalışmalar tutar, örneğin bir düzenleyicinin yerel geçmişi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: програма зберігає всередині роботу, якої більше ніде немає, як-от локальну історію редактора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：有App在其中保存了在其他任何地方都不存在的内容，例如编辑器的本地历史记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：有App在其中保存不存在於其他任何地方的工作成果，例如編輯器的本機歷史記錄。"
+          }
+        }
+      }
+    },
     "Left alone: another app on this Mac keeps its own data inside, and moving this would take that data too." : {
       "localizations" : {
         "cs" : {
@@ -99041,6 +98825,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "由Homebrew cask列出"
+          }
+        }
+      }
+    },
+    "Listed only" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jen zobrazeno"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur aufgeführt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo se muestra"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listé uniquement"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo nell’elenco"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "表示のみ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "목록에만 표시됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen vermeld"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tylko na liście"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só listado"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar listat"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Только для просмотра"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara listat"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yalnızca listelenir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лише в списку"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅列出"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "僅列出"
           }
         }
       }
@@ -131911,218 +131801,6 @@
         }
       }
     },
-    "Once the file is in the Trash, the item is stopped for you. Other accounts logged in now run it until they log out, and none starts it again." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jakmile bude soubor v koši, položka se pro vás zastaví. Ostatní účty, které jsou teď přihlášené, ji nechají běžet, dokud se neodhlásí, a žádný ji znovu nespustí."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sobald die Datei im Papierkorb ist, wird das Objekt für dich gestoppt. Bei anderen Benutzeraccounts, die gerade angemeldet sind, läuft es weiter, bis sie sich abmelden, und bei keinem wird es erneut gestartet."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cuando el archivo esté en la papelera, el ítem se detendrá en tu cuenta. Las demás cuentas con la sesión iniciada en este momento lo seguirán ejecutando hasta que cierren sesión, y ninguna lo volverá a iniciar."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Une fois le fichier dans la corbeille, l’élément est arrêté pour vous. Les autres comptes dont la session est ouverte l’exécutent jusqu’à la fermeture de leur session, et aucun ne le relance."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Una volta che il file è nel Cestino, l’elemento viene interrotto per te. Per gli altri account che hanno eseguito il login resta in esecuzione fino al loro logout, e nessuno lo avvierà di nuovo."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ファイルがゴミ箱に入ると、お使いのアカウントではこの項目は停止します。現在ログインしているほかのアカウントでは、ログアウトするまで実行され続けますが、どのアカウントでも再び起動されることはありません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "파일이 휴지통으로 이동하면 사용자 계정에서는 이 항목이 중단됩니다. 지금 로그인되어 있는 다른 계정에서는 로그아웃할 때까지 이 항목이 실행되며, 이후 어느 계정에서도 다시 시작되지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zodra het bestand in de prullenmand staat, wordt het onderdeel voor jou gestopt. Bij andere accounts die nu zijn ingelogd, blijft het actief totdat ze uitloggen, en daarna start geen enkele account het opnieuw."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gdy plik znajdzie się w Koszu, ta rzecz zostanie zatrzymana na Twoim koncie. Na innych kontach, które są teraz zalogowane, będzie działać do wylogowania, a potem żadne z nich nie uruchomi jej ponownie."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Assim que o arquivo estiver no Lixo, o item é interrompido na sua conta. As outras contas com sessão iniciada agora o executam até finalizarem a sessão, e nenhuma o inicia novamente."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "După ce fișierul ajunge în Coș, articolul este oprit pentru dvs. Celelalte conturi conectate acum îl rulează până când fac logout și niciunul nu îl mai pornește după aceea."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Когда файл окажется в Корзине, объект будет остановлен для Вас. В других учетных записях, где сейчас выполнен вход, он будет выполняться до выхода из системы, и ни в одной из них он больше не запустится."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "När filen ligger i papperskorgen stoppas objektet för dig. Andra konton som är inloggade nu kör det tills de loggar ut, och inget av dem startar det igen."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dosya Çöp Sepeti’ne taşındığında öğe sizin için durdurulur. Şu anda oturumu açık olan diğer hesaplar, oturumlarını kapatana kadar onu çalıştırır ve sonra hiçbiri onu yeniden başlatmaz."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Щойно файл опиниться в Смітнику, елемент буде зупинено для вас. В інших облікових записах, у які зараз виконано вхід, він працюватиме, доки з них не вийдуть, і жоден із них не запустить його знову."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "文件进入废纸篓后，此项会在你的账户中停止。当前已登录的其他账户会继续运行它，直到它们退出登录，之后任何账户都不会再启动它。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "檔案丟到「垃圾桶」後，此項目就會為你停止。目前已登入的其他帳號會繼續執行它直到登出，之後也不會再有任何帳號啟動它。"
-          }
-        }
-      }
-    },
-    "Once the file is in the Trash, the item is stopped." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jakmile bude soubor v koši, položka se zastaví."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sobald die Datei im Papierkorb ist, wird das Objekt gestoppt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cuando el archivo esté en la papelera, el ítem se detendrá."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Une fois le fichier dans la corbeille, l’élément est arrêté."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appena il file è nel Cestino, l’elemento viene interrotto."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ファイルがゴミ箱に入ると、この項目は停止します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "파일이 휴지통으로 이동하면 이 항목은 중단됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zodra het bestand in de prullenmand staat, wordt het onderdeel gestopt."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gdy plik znajdzie się w Koszu, ta rzecz zostanie zatrzymana."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Assim que o arquivo estiver no Lixo, o item será parado."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "După ce fișierul ajunge în Coș, articolul este oprit."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Когда файл окажется в Корзине, объект будет остановлен."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "När filen ligger i papperskorgen stoppas objektet."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dosya Çöp Sepeti’ne taşınınca öğe durdurulur."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Щойно файл опиниться в Смітнику, елемент буде зупинено."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "文件移到废纸篓后，此项目即被停止。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "檔案丟到「垃圾桶」後，此項目就會停止。"
-          }
-        }
-      }
-    },
     "Once their downloads are removed, Finder still lists these files, with a cloud beside each name. Deleting a file is different: that removes it from iCloud and from your other devices, and Peel never does it here." : {
       "localizations" : {
         "cs" : {
@@ -161839,6 +161517,218 @@
         }
       }
     },
+    "Peel stops the job for your account once its file is in the Trash. Other accounts logged in now run it until they log out, and none starts it again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jakmile bude soubor úlohy v koši, Peel ji pro váš účet zastaví. Ostatní účty, které jsou teď přihlášené, ji nechají běžet, dokud se neodhlásí, a žádný ji znovu nespustí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel stoppt den Job für deinen Benutzeraccount, sobald seine Datei im Papierkorb ist. Bei anderen Benutzeraccounts, die gerade angemeldet sind, läuft er weiter, bis sie sich abmelden, und bei keinem wird er erneut gestartet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel detendrá la tarea en tu cuenta cuando su archivo esté en la papelera. Las demás cuentas con la sesión iniciada en este momento la seguirán ejecutando hasta que cierren sesión, y ninguna la volverá a iniciar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel arrête la tâche pour votre compte une fois son fichier dans la corbeille. Les autres comptes dont la session est ouverte l’exécutent jusqu’à la fermeture de leur session, et aucun ne la relance."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel interrompe l’elemento per il tuo account una volta che il suo file è nel Cestino. Per gli altri account che hanno eseguito il login resta in esecuzione fino al loro logout, e nessuno lo avvierà di nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ファイルがゴミ箱に入ると、Peelはお使いのアカウントでこのジョブを停止します。現在ログインしているほかのアカウントでは、ログアウトするまで実行され続けますが、どのアカウントでも再び起動されることはありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파일이 휴지통으로 이동하면 Peel이 사용자 계정에서 이 작업을 중단합니다. 지금 로그인되어 있는 다른 계정에서는 로그아웃할 때까지 이 작업이 실행되며, 이후 어느 계정에서도 다시 시작되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel stopt de taak voor je account zodra het bestand ervan in de prullenmand staat. Bij andere accounts die nu zijn ingelogd, blijft de taak actief totdat ze uitloggen, en daarna start geen enkele account die opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zatrzyma zadanie na Twoim koncie, gdy jego plik znajdzie się w Koszu. Na innych kontach, które są teraz zalogowane, będzie działać do wylogowania, a potem żadne z nich nie uruchomi go ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel interrompe a tarefa na sua conta assim que o arquivo dela estiver no Lixo. As outras contas com sessão iniciada agora a executam até finalizarem a sessão, e nenhuma a inicia novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel oprește sarcina pentru contul dvs. după ce fișierul ei ajunge în Coș. Celelalte conturi conectate acum o rulează până când fac logout și niciunul nu o mai pornește după aceea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда файл задания окажется в Корзине, Peel остановит задание для Вашей учетной записи. В других учетных записях, где сейчас выполнен вход, оно будет выполняться до выхода из системы, и ни в одной из них больше не запустится."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel stoppar jobbet för ditt konto när dess fil ligger i papperskorgen. Andra konton som är inloggade nu kör det tills de loggar ut, och inget av dem startar det igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, dosyası Çöp Sepeti’ne taşındığında işi hesabınız için durdurur. Şu anda oturumu açık olan diğer hesaplar, oturumlarını kapatana kadar onu çalıştırır ve sonra hiçbiri onu yeniden başlatmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel зупиняє завдання для вашого облікового запису, щойно його файл опиниться в Смітнику. В інших облікових записах, у які зараз виконано вхід, воно працюватиме, доки з них не вийдуть, і жоден із них не запустить його знову."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件进入废纸篓后，Peel会在你的账户中停止此任务。当前已登录的其他账户会继续运行它，直到它们退出登录，之后任何账户都不会再启动它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檔案丟到「垃圾桶」後，Peel就會為你的帳號停止此工作。目前已登入的其他帳號會繼續執行它直到登出，之後也不會再有任何帳號啟動它。"
+          }
+        }
+      }
+    },
+    "Peel stops the job once its file is in the Trash." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jakmile bude soubor úlohy v koši, Peel ji zastaví."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel stoppt den Job, sobald seine Datei im Papierkorb ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel detendrá la tarea cuando su archivo esté en la papelera."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel arrête la tâche une fois son fichier dans la corbeille."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel interrompe l’elemento appena il suo file è nel Cestino."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ファイルがゴミ箱に入ると、Peelはこのジョブを停止します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파일이 휴지통으로 이동하면 Peel이 이 작업을 중단합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel stopt de taak zodra het bestand ervan in de prullenmand staat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zatrzyma zadanie, gdy jego plik znajdzie się w Koszu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel interrompe a tarefa assim que o arquivo dela estiver no Lixo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel oprește sarcina după ce fișierul ei ajunge în Coș."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда файл задания окажется в Корзине, Peel остановит задание."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel stoppar jobbet när dess fil ligger i papperskorgen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, dosyası Çöp Sepeti’ne taşındığında işi durdurur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel зупиняє завдання, щойно його файл опиниться в Смітнику."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件移到废纸篓后，Peel会停止此任务。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "檔案丟到「垃圾桶」後，Peel就會停止此工作。"
+          }
+        }
+      }
+    },
     "Peel updates itself with [Sparkle](peel-license:Sparkle-LICENSE)" : {
       "comment" : "Sparkle is the open source framework that installs Peel’s updates. Keep the link as it is.",
       "localizations" : {
@@ -164942,6 +164832,430 @@
         }
       }
     },
+    "Peel’s helper couldn’t be installed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocníka Peelu nelze nainstalovat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel konnte nicht installiert werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido instalar el asistente de Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible d’installer l’utilitaire de Peel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile installare l’assistente di Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーをインストールできませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램을 설치할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel kon niet worden geïnstalleerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się zainstalować pomocnika Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível instalar o auxiliar do Peel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel nu a putut fi instalat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось установить помощника Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram kunde inte installeras."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı yüklenemedi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося інсталювати помічника Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能安装Peel的帮助程序。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法安裝Peel的輔助程式。"
+          }
+        }
+      }
+    },
+    "Peel’s helper couldn’t be removed, so Peel stayed where it was." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocníka Peelu se nepodařilo odstranit, a tak Peel zůstal na svém místě."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel konnte nicht entfernt werden, daher ist Peel geblieben, wo es war."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido eliminar el asistente de Peel, así que Peel se ha quedado donde estaba."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de supprimer l’utilitaire de Peel : Peel est donc resté à sa place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile rimuovere l’assistente di Peel, quindi Peel è rimasto dov’era."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーを取り除けなかったため、Peelは移動しませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램을 제거할 수 없었으므로 Peel은 원래 위치에 그대로 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel kon niet worden verwijderd, dus Peel is gebleven waar het was."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się odinstalować pomocnika Peel, więc Peel pozostał na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível remover o auxiliar do Peel, então o Peel ficou onde estava."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel nu a putut fi eliminat, așa că Peel a rămas unde era."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось удалить помощника Peel, поэтому Peel остался на месте."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram kunde inte tas bort, så Peel stannade där den var."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı kaldırılamadı, bu yüzden Peel olduğu yerde kaldı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося вилучити помічника Peel, тож Peel лишилася на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能移除Peel的帮助程序，因此Peel仍留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法移除Peel的輔助程式，因此Peel保留在原處。"
+          }
+        }
+      }
+    },
+    "Peel’s helper couldn’t be repaired." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocníka Peelu nelze opravit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel konnte nicht repariert werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido reparar el asistente de Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de réparer l’utilitaire de Peel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile riparare l’assistente di Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーを修復できませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램을 복구할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel kon niet worden hersteld."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się naprawić pomocnika Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível reparar o auxiliar do Peel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel nu a putut fi reparat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось исправить помощника Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram kunde inte repareras."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı onarılamadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося полагодити помічника Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能修复Peel的帮助程序。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法修復Peel的輔助程式。"
+          }
+        }
+      }
+    },
+    "Peel’s helper couldn’t be uninstalled." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocníka Peelu nelze odinstalovat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel konnte nicht deinstalliert werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido desinstalar el asistente de Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de désinstaller l’utilitaire de Peel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile disinstallare l’assistente di Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーをアンインストールできませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램을 제거할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel kon niet worden gedeïnstalleerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się odinstalować pomocnika Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível desinstalar o auxiliar do Peel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel nu a putut fi dezinstalat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось удалить помощника Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram kunde inte avinstalleras."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısının yüklemesi kaldırılamadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося деінсталювати помічника Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能卸载Peel的帮助程序。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法解除安裝Peel的輔助程式。"
+          }
+        }
+      }
+    },
     "Peel’s helper didn’t answer in time, so whether it moved this isn’t known. If it did, History lists it the next time Peel opens." : {
       "localizations" : {
         "cs" : {
@@ -165260,108 +165574,108 @@
         }
       }
     },
-    "Peel’s helper is waiting to be allowed in System Settings, under Login Items & Extensions." : {
+    "Peel’s helper is waiting to be allowed in System Settings > General > Login Items & Extensions." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pomocník Peelu čeká na povolení v Nastavení systému, v části Aktivace položek a rozšíření při přihlášení."
+            "value" : "Pomocník Peelu čeká na povolení v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Das Hilfsprogramm von Peel wartet darauf, in den Systemeinstellungen unter „Anmeldeobjekte & Erweiterungen“ erlaubt zu werden."
+            "value" : "Das Hilfsprogramm von Peel wartet darauf, unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“ erlaubt zu werden."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El asistente de Peel está esperando a que le des permiso en Ajustes del Sistema, en Ítems de inicio y extensiones."
+            "value" : "El asistente de Peel está esperando a que le des permiso en Ajustes del Sistema > General > Ítems de inicio y extensiones."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’utilitaire de Peel attend d’être autorisé dans Réglages Système, sous Ouverture et extensions."
+            "value" : "L’utilitaire de Peel attend d’être autorisé dans Réglages Système > Général > Ouverture et extensions."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’assistente di Peel attende di essere autorizzato in Impostazioni di Sistema, in “Elementi login ed estensioni”."
+            "value" : "L’assistente di Peel attende di essere autorizzato in Impostazioni di Sistema > Generali > Elementi login ed estensioni."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelのヘルパーは、システム設定の“ログイン項目と機能拡張”で許可されるのを待っています。"
+            "value" : "Peelのヘルパーは、“システム設定”＞“一般”＞“ログイン項目と機能拡張”で許可されるのを待っています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel 보조 프로그램이 시스템 설정의 로그인 항목 및 확장 프로그램에서 허용되기를 기다리고 있습니다."
+            "value" : "Peel 보조 프로그램이 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서 허용되기를 기다리고 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het hulpprogramma van Peel wacht op toestemming in Systeeminstellingen, onder 'Inlogonderdelen en extensies'."
+            "value" : "Het hulpprogramma van Peel wacht op toestemming in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pomocnik Peel czeka na zezwolenie w Ustawieniach systemowych, w panelu Rzeczy i rozszerzenia otwierane podczas logowania."
+            "value" : "Pomocnik Peel czeka na zezwolenie w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O auxiliar do Peel está esperando permissão nos Ajustes do Sistema, em Itens de Início de Sessão e Extensões."
+            "value" : "O auxiliar do Peel está esperando permissão em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Instrumentul de ajutor Peel așteaptă să fie permis în Configurări sistem, la Lansare la login și extensii."
+            "value" : "Instrumentul de ajutor Peel așteaptă să fie permis în Configurări sistem > General > Lansare la login și extensii."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Помощник Peel ждет разрешения в Системных настройках, в разделе «Объекты входа и расширения»."
+            "value" : "Помощник Peel ждет разрешения в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения»."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peels hjälpprogram väntar på att tillåtas i Systeminställningar, under Startobjekt och tillägg."
+            "value" : "Peels hjälpprogram väntar på att tillåtas i Systeminställningar > Allmänt > Startobjekt och tillägg."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’in yardımcısı, Sistem Ayarları’nda Oturum Açma Öğeleri ve Genişletmeler altında izin verilmesini bekliyor."
+            "value" : "Peel’in yardımcısı, Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünde izin verilmesini bekliyor."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Помічник Peel очікує дозволу в Системних параметрах, у розділі «Автозапуск і розширення»."
+            "value" : "Помічник Peel очікує дозволу в розділі Системні параметри > Загальні > Автозапуск і розширення."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel的帮助程序正在等待你在“系统设置”的“登录项与扩展”中允许。"
+            "value" : "Peel的帮助程序正在等待你在“系统设置”>“通用”>“登录项与扩展”中允许。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel的輔助程式正在等待你在「系統設定」的「登入項目與延伸功能」中允許。"
+            "value" : "Peel的輔助程式正在等待你在「系統設定」>「一般」>「登入項目與延伸功能」中允許。"
           }
         }
       }
@@ -165898,6 +166212,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel的輔助程式會保存它所移動項目的記錄，而這份記錄已經以「%@」的名稱存放在「垃圾桶」中。在這份記錄回到「%@」之前，「歷史記錄」都無法還原輔助程式移動過的項目。"
+          }
+        }
+      }
+    },
+    "Peel’s helper passes launchctl only a name of ASCII letters, digits, dots, hyphens, underscores, @ and +, not starting with a dot or a hyphen, so Peel doesn’t start, stop, enable, or disable this job here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocník Peelu předává příkazu launchctl jen název složený z písmen ASCII, číslic, teček, spojovníků, podtržítek, @ a +, který nezačíná tečkou ani spojovníkem, a proto Peel tuto úlohu zde nespouští, nezastavuje, nezapíná ani nevypíná."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel übergibt an launchctl nur Namen aus ASCII-Buchstaben, Ziffern, Punkten, Bindestrichen, Unterstrichen, @ und +, die nicht mit einem Punkt oder Bindestrich beginnen, daher startet, stoppt, aktiviert oder deaktiviert Peel diesen Job hier nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El asistente de Peel solo pasa a launchctl un nombre formado por letras ASCII, dígitos, puntos, guiones, guiones bajos, @ y +, que no empiece por un punto ni por un guion, así que aquí Peel no inicia, no detiene, no activa ni desactiva esta tarea."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire de Peel ne transmet à launchctl qu’un nom composé de lettres ASCII, de chiffres, de points, de traits d’union, de traits de soulignement, de @ et de +, qui ne commence ni par un point ni par un trait d’union : Peel ne démarre donc pas cette tâche, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente di Peel passa a launchctl solo un nome composto da lettere ASCII, cifre, punti, trattini, trattini bassi, @ e +, che non inizi con un punto o un trattino, quindi qui Peel non avvia, non interrompe, non abilita e non disabilita questo elemento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーがlaunchctlに渡すのは、ASCII英字、数字、ピリオド、ハイフン、アンダースコア、@、+だけで構成され、ピリオドやハイフンで始まらない名前に限られるため、Peelはここでこのジョブの開始、停止、有効化、無効化を行いません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램은 ASCII 영문자, 숫자, 마침표, 하이픈, 밑줄, @ 및 +로만 이루어지고 마침표나 하이픈으로 시작하지 않는 이름만 launchctl에 전달하므로, Peel은 여기에서 이 작업을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel geeft aan launchctl alleen namen door die bestaan uit ASCII-letters, cijfers, punten, koppeltekens, onderstrepingstekens, @ en +, en die niet met een punt of een koppelteken beginnen, dus Peel start deze taak hier niet, stopt die niet en schakelt die niet in of uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnik Peel przekazuje do launchctl tylko nazwę złożoną z liter ASCII, cyfr, kropek, łączników, podkreślników, @ i +, która nie zaczyna się od kropki ani od łącznika, więc Peel tutaj tego zadania nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar do Peel só passa para o launchctl um nome formado por letras ASCII, dígitos, pontos, hifens, sublinhados, @ e +, que não comece com ponto nem com hífen, por isso o Peel não inicia, não interrompe, não ativa nem desativa esta tarefa aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel transmite către launchctl doar un nume format din litere ASCII, cifre, puncte, cratime, liniuțe de subliniere, @ și +, care nu începe cu un punct sau cu o cratimă, așa că Peel nu pornește, nu oprește, nu activează și nu dezactivează această sarcină de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник Peel передает launchctl только имена из букв ASCII, цифр, точек, дефисов, подчеркиваний, @ и +, которые не начинаются с точки или дефиса, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает это задание."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram skickar bara sådana namn till launchctl som består av ASCII-bokstäver, siffror, punkter, bindestreck, understreck, @ och + och som inte börjar med en punkt eller ett bindestreck, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här jobbet härifrån."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı, launchctl komutuna yalnızca ASCII harf, rakam, nokta, kısa çizgi, alt çizgi, @ ve + karakterlerinden oluşan ve nokta ya da kısa çizgiyle başlamayan bir ad aktarır, bu yüzden Peel bu işi burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник Peel передає launchctl лише назву з літер ASCII, цифр, крапок, дефісів, знаків підкреслення, @ і +, яка не починається з крапки чи дефіса, тож Peel тут не запускає, не зупиняє, не вмикає й не вимикає це завдання."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的帮助程序只会将由ASCII字母、数字、点、连字符、下划线、@和+组成且不以点或连字符开头的名称传递给launchctl，因此Peel不会在此处启动、停止、启用或停用此任务。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的輔助程式只會將由ASCII字母、數字、句點、連字號、底線、@和+組成，且不以句點或連字號開頭的名稱傳遞給launchctl，因此Peel不會在這裡啟動、停止、啟用或停用此工作。"
           }
         }
       }
@@ -173941,112 +174361,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rancher Desktop的虛擬機器，其中存有所有映像檔、容器和磁碟區。"
-          }
-        }
-      }
-    },
-    "Read only" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jen ke čtení"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nur Lesen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solo lectura"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lecture seule"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sola lettura"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "閲覧のみ"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "읽기 전용"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alleen lezen"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tylko do odczytu"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Somente leitura"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Doar citire"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Только чтение"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Skrivskyddat"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salt okunur"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тільки перегляд"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只读"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "唯讀"
           }
         }
       }
@@ -207454,324 +207768,6 @@
         }
       }
     },
-    "Take it out of launchd now. Its app is in the Trash, so macOS starts it again at the next login until you empty the Trash." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ihned odebrat úlohu z launchd. Její aplikace leží v koši, takže systém macOS úlohu při příštím přihlášení znovu spustí, dokud nevysypete koš."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dieses Objekt jetzt aus launchd entfernen. Die zugehörige App ist im Papierkorb, daher startet macOS es ab der nächsten Anmeldung erneut, bis du den Papierkorb entleerst."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quítalo de launchd ahora. Su app está en la papelera, así que macOS lo vuelve a iniciar la próxima vez que inicies sesión, hasta que vacíes la papelera."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Retirer maintenant cet élément de launchd. Son app est dans la corbeille : macOS le relancera donc dès la prochaine ouverture de session, jusqu’à ce que vous vidiez la corbeille."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toglilo ora da launchd. La sua app è nel Cestino, quindi macOS lo avvia di nuovo al prossimo login, finché non svuoti il Cestino."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今すぐlaunchdから取り除きます。これを追加したアプリはゴミ箱にあるため、ゴミ箱を空にするまでは、次回のログイン時にmacOSがこれを再び起動します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "지금 launchd에서 제거하십시오. 이 항목의 앱이 휴지통에 있으므로, 휴지통을 비울 때까지는 다음 로그인 시 macOS가 이 항목을 다시 시작합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Haal het nu uit launchd. De bijbehorende app staat in de prullenmand, dus macOS start het opnieuw de volgende keer dat je inlogt, totdat je de prullenmand leegt."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usuń teraz tę rzecz z launchd. Należy ona do aplikacji w Koszu, więc macOS uruchamia ją ponownie przy kolejnym logowaniu, dopóki nie opróżnisz Kosza."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Retirar este item do launchd agora. O app dele está no Lixo, então o macOS vai iniciá-lo novamente na próxima vez que você iniciar a sessão, até você esvaziar o Lixo."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scoateți‑l acum din launchd. Aplicația sa este în Coș, așa că macOS îl pornește din nou la următorul login până când goliți Coșul."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Убрать его из launchd сейчас. Его приложение находится в Корзине, поэтому macOS снова запустит его при следующем входе в систему, если Вы не очистите Корзину."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ta bort det ur launchd nu. Appen ligger i papperskorgen, så macOS startar det igen vid nästa inloggning tills du tömmer papperskorgen."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bunu şimdi launchd’den çıkar. Uygulaması Çöp Sepeti’nde, bu yüzden Çöp Sepeti boşaltılana kadar macOS, bir sonraki oturum açışınızda bu öğeyi yeniden başlatır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вилучити його з launchd зараз. Його програма в Смітнику, тож macOS знову запускатиме його під час кожного наступного входу в систему, доки ви не очистите Смітник."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "立即将此任务从launchd中移除。它的App已在废纸篓中，因此在你清倒废纸篓之前，macOS会在下次登录时再次启动它。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "立即將它從launchd中移除。它的App在「垃圾桶」中，因此macOS會在下次登入時再次啟動它，直到你清空「垃圾桶」。"
-          }
-        }
-      }
-    },
-    "Take it out of launchd now: the app that added it is gone, and so is what it ran." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ihned odebrat úlohu z launchd: aplikace, která ji přidala, už tu není a není tu ani to, co spouštěla."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dieses Objekt jetzt aus launchd entfernen: Die App, die es hinzugefügt hat, ist nicht mehr vorhanden, und das, was es ausgeführt hat, auch nicht."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quítalo de launchd ahora: la app que lo añadió ya no está, y lo que ejecutaba tampoco."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Retirer maintenant cet élément de launchd : l’app qui l’a ajouté a disparu, tout comme ce qu’il exécutait."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toglilo ora da launchd: l’app che l’ha aggiunto non c’è più, e nemmeno ciò che eseguiva."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今すぐlaunchdから取り除きます。これを追加したアプリはなくなっていて、実行対象もありません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "지금 launchd에서 제거하십시오. 이 항목을 추가한 앱도, 이 항목이 실행하던 프로그램도 사라졌습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Haal het nu uit launchd: de app die het heeft toegevoegd, is er niet meer, en wat het uitvoerde ook niet."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usuń teraz tę rzecz z launchd: aplikacji, która ją dodała, już nie ma, podobnie jak tego, co ta rzecz uruchamiała."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Retirar este item do launchd agora: o app que o adicionou não existe mais, nem o que ele executava."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scoateți‑l acum din launchd: aplicația care l‑a adăugat nu mai există, la fel și ceea ce rula."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Убрать его из launchd сейчас: приложения, которое его добавило, больше нет, как и того, что он запускал."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ta bort det ur launchd nu: appen som lade till det är borta, liksom det som det körde."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bunu şimdi launchd’den çıkar: onu ekleyen uygulama da çalıştırdığı şey de artık yok."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вилучити його з launchd зараз: програми, яка його додала, уже немає, як і того, що він запускав."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "立即将此任务从launchd中移除：添加它的App已不存在，它运行的程序也已不存在。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "立即將它從launchd中移除：加入它的App已不存在，它所執行的程式也已不存在。"
-          }
-        }
-      }
-    },
-    "Take it out of launchd now: the app that added it is no longer installed." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ihned odebrat úlohu z launchd: aplikace, která ji přidala, už není nainstalována."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dieses Objekt jetzt aus launchd entfernen: Die App, die es hinzugefügt hat, ist nicht mehr installiert."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quítalo de launchd ahora: la app que lo añadió ya no está instalada."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Retirer maintenant cet élément de launchd : l’app qui l’a ajouté n’est plus installée."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toglilo ora da launchd: l’app che l’ha aggiunto non è più installata."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今すぐlaunchdから取り除きます。これを追加したアプリは現在はインストールされていません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "지금 launchd에서 제거하십시오. 이 항목을 추가한 앱이 더 이상 설치되어 있지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Haal het nu uit launchd: de app die het heeft toegevoegd, is niet meer geïnstalleerd."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usuń teraz tę rzecz z launchd: aplikacja, która ją dodała, nie jest już zainstalowana."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Retirar este item do launchd agora: o app que o adicionou não está mais instalado."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scoateți‑l acum din launchd: aplicația care l‑a adăugat nu mai este instalată."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Убрать его из launchd сейчас: приложение, которое его добавило, больше не установлено."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ta bort det ur launchd nu: appen som lade till det är inte längre installerad."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bunu şimdi launchd’den çıkar: onu ekleyen uygulama artık yüklü değil."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вилучити його з launchd зараз: програму, яка його додала, більше не інстальовано."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "立即将此任务从launchd中移除：添加它的App已不再安装。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "立即將它從launchd中移除：加入它的App已不再安裝。"
-          }
-        }
-      }
-    },
     "Taken before a macOS update" : {
       "localizations" : {
         "cs" : {
@@ -208510,6 +208506,324 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "暫時將它從launchd中移除。在macOS或其App再次加入它之前，它不會出現在此列表中。"
+          }
+        }
+      }
+    },
+    "Takes it out of launchd now. Its app is in the Trash, so macOS starts it again at the next login until you empty the Trash." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ihned odebere úlohu z launchd. Její aplikace leží v koši, takže systém macOS úlohu při příštím přihlášení znovu spustí, dokud nevysypete koš."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entfernt dieses Objekt jetzt aus launchd. Die zugehörige App ist im Papierkorb, daher startet macOS es ab der nächsten Anmeldung erneut, bis du den Papierkorb entleerst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo quita de launchd ahora. Su app está en la papelera, así que macOS lo vuelve a iniciar la próxima vez que inicies sesión, hasta que vacíes la papelera."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retire maintenant cet élément de launchd. Son app est dans la corbeille : macOS le relancera donc dès la prochaine ouverture de session, jusqu’à ce que vous vidiez la corbeille."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo toglie ora da launchd. La sua app è nel Cestino, quindi macOS lo avvia di nuovo al prossimo login, finché non svuoti il Cestino."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今すぐlaunchdから取り除きます。これを追加したアプリはゴミ箱にあるため、ゴミ箱を空にするまでは、次回のログイン時にmacOSがこれを再び起動します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금 launchd에서 제거합니다. 이 항목의 앱이 휴지통에 있으므로, 휴지통을 비울 때까지는 다음 로그인 시 macOS가 이 항목을 다시 시작합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haalt het nu uit launchd. De bijbehorende app staat in de prullenmand, dus macOS start het opnieuw de volgende keer dat je inlogt, totdat je de prullenmand leegt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuwa teraz tę rzecz z launchd. Należy ona do aplikacji w Koszu, więc macOS uruchamia ją ponownie przy kolejnym logowaniu, dopóki nie opróżnisz Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retira este item do launchd agora. O app dele está no Lixo, então o macOS vai iniciá-lo novamente na próxima vez que você iniciar a sessão, até você esvaziar o Lixo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Îl scoate acum din launchd. Aplicația sa este în Coș, așa că macOS îl pornește din nou la următorul login până când goliți Coșul."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Убирает его из launchd сейчас. Его приложение находится в Корзине, поэтому macOS снова запустит его при следующем входе в систему, если Вы не очистите Корзину."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tar bort det ur launchd nu. Appen ligger i papperskorgen, så macOS startar det igen vid nästa inloggning tills du tömmer papperskorgen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu şimdi launchd’den çıkarır. Uygulaması Çöp Sepeti’nde, bu yüzden siz Çöp Sepeti’ni boşaltana kadar macOS, bir sonraki oturum açışınızda bu öğeyi yeniden başlatır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучає його з launchd зараз. Його програма в Смітнику, тож macOS знову запускатиме його під час кожного наступного входу в систему, доки ви не очистите Смітник."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即将此任务从launchd中移除。它的App已在废纸篓中，因此在你清倒废纸篓之前，macOS会在下次登录时再次启动它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即將它從launchd中移除。它的App在「垃圾桶」中，因此macOS會在下次登入時再次啟動它，直到你清空「垃圾桶」。"
+          }
+        }
+      }
+    },
+    "Takes it out of launchd now: the app that added it is gone, and so is what it ran." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ihned odebere úlohu z launchd: aplikace, která ji přidala, už tu není a není tu ani to, co spouštěla."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entfernt dieses Objekt jetzt aus launchd: Die App, die es hinzugefügt hat, ist nicht mehr vorhanden, und das, was es ausgeführt hat, auch nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo quita de launchd ahora: la app que lo añadió ya no está, y lo que ejecutaba tampoco."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retire maintenant cet élément de launchd : l’app qui l’a ajouté a disparu, tout comme ce qu’il exécutait."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo toglie ora da launchd: l’app che l’ha aggiunto non c’è più, e nemmeno ciò che eseguiva."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今すぐlaunchdから取り除きます。これを追加したアプリはなくなっていて、実行対象もありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금 launchd에서 제거합니다. 이 항목을 추가한 앱도, 이 항목이 실행하던 프로그램도 사라졌습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haalt het nu uit launchd: de app die het heeft toegevoegd, is er niet meer, en wat het uitvoerde ook niet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuwa teraz tę rzecz z launchd: aplikacji, która ją dodała, już nie ma, podobnie jak tego, co ta rzecz uruchamiała."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retira este item do launchd agora: o app que o adicionou não existe mais, nem o que ele executava."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Îl scoate acum din launchd: aplicația care l‑a adăugat nu mai există, la fel și ceea ce rula."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Убирает его из launchd сейчас: приложения, которое его добавило, больше нет, как и того, что он запускал."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tar bort det ur launchd nu: appen som lade till det är borta, liksom det som det körde."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu şimdi launchd’den çıkarır: onu ekleyen uygulama da çalıştırdığı şey de artık yok."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучає його з launchd зараз: програми, яка його додала, уже немає, як і того, що він запускав."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即将此任务从launchd中移除：添加它的App已不存在，它运行的程序也已不存在。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即將它從launchd中移除：加入它的App已不存在，它所執行的程式也已不存在。"
+          }
+        }
+      }
+    },
+    "Takes it out of launchd now: the app that added it is no longer installed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ihned odebere úlohu z launchd: aplikace, která ji přidala, už není nainstalována."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entfernt dieses Objekt jetzt aus launchd: Die App, die es hinzugefügt hat, ist nicht mehr installiert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo quita de launchd ahora: la app que lo añadió ya no está instalada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retire maintenant cet élément de launchd : l’app qui l’a ajouté n’est plus installée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo toglie ora da launchd: l’app che l’ha aggiunto non è più installata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今すぐlaunchdから取り除きます。これを追加したアプリは現在はインストールされていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금 launchd에서 제거합니다. 이 항목을 추가한 앱이 더 이상 설치되어 있지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haalt het nu uit launchd: de app die het heeft toegevoegd, is niet meer geïnstalleerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuwa teraz tę rzecz z launchd: aplikacja, która ją dodała, nie jest już zainstalowana."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retira este item do launchd agora: o app que o adicionou não está mais instalado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Îl scoate acum din launchd: aplicația care l‑a adăugat nu mai este instalată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Убирает его из launchd сейчас: приложение, которое его добавило, больше не установлено."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tar bort det ur launchd nu: appen som lade till det är inte längre installerad."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu şimdi launchd’den çıkarır: onu ekleyen uygulama artık yüklü değil."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучає його з launchd зараз: програму, яка його додала, більше не інстальовано."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即将此任务从launchd中移除：添加它的App已不再安装。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即將它從launchd中移除：加入它的App已不再安裝。"
           }
         }
       }
@@ -217643,536 +217957,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此檔案夾本身的權限讓你的帳號無法進入。「完全取用磁碟」權限能讓Peel越過macOS的隱私權保護，但無法越過檔案夾本身的權限。"
-          }
-        }
-      }
-    },
-    "The helper couldn’t be installed." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocníka nelze nainstalovat."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Hilfsprogramm konnte nicht installiert werden."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se ha podido instalar el asistente."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impossible d’installer l’utilitaire."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impossibile installare l’assistente."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ヘルパーをインストールできませんでした。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "보조 프로그램을 설치할 수 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het hulpprogramma kon niet worden geïnstalleerd."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nie udało się zainstalować pomocnika."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Não foi possível instalar o auxiliar."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instrumentul de ajutor nu a putut fi instalat."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не удалось установить помощника."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hjälpprogrammet kunde inte installeras."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yardımcı yüklenemedi."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не вдалося інсталювати помічника."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未能安装帮助程序。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無法安裝輔助程式。"
-          }
-        }
-      }
-    },
-    "The helper couldn’t be removed, so Peel stayed where it was." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocníka se nepodařilo odstranit, a tak Peel zůstal na svém místě."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Hilfsprogramm konnte nicht entfernt werden, daher ist Peel geblieben, wo es war."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se ha podido eliminar el asistente, así que Peel se ha quedado donde estaba."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impossible de supprimer l’utilitaire : Peel est donc resté à sa place."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impossibile rimuovere l’assistente, quindi Peel è rimasto dov’era."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ヘルパーを取り除けなかったため、Peelは移動しませんでした。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "보조 프로그램을 제거할 수 없었으므로 Peel은 원래 위치에 그대로 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het hulpprogramma kon niet worden verwijderd, dus Peel is gebleven waar het was."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nie udało się odinstalować pomocnika, więc Peel pozostał na miejscu."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Não foi possível remover o auxiliar, então o Peel ficou onde estava."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instrumentul de ajutor nu a putut fi eliminat, așa că Peel a rămas unde era."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не удалось удалить помощника, поэтому Peel остался на месте."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hjälpprogrammet kunde inte tas bort, så Peel stannade där den var."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yardımcı kaldırılamadı, bu yüzden Peel olduğu yerde kaldı."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не вдалося вилучити помічника, тож Peel лишилася на місці."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未能移除帮助程序，因此Peel仍留在原处。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無法移除輔助程式，因此Peel保留在原處。"
-          }
-        }
-      }
-    },
-    "The helper couldn’t be repaired." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocníka nelze opravit."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Hilfsprogramm konnte nicht repariert werden."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se ha podido reparar el asistente."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impossible de réparer l’utilitaire."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impossibile riparare l’assistente."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ヘルパーを修復できませんでした。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "보조 프로그램을 복구할 수 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het hulpprogramma kon niet worden hersteld."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nie udało się naprawić pomocnika."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Não foi possível reparar o auxiliar."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instrumentul de ajutor nu a putut fi reparat."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не удалось исправить помощника."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hjälpprogrammet kunde inte repareras."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yardımcı onarılamadı."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не вдалося полагодити помічника."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未能修复帮助程序。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無法修復輔助程式。"
-          }
-        }
-      }
-    },
-    "The helper couldn’t be uninstalled." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocníka nelze odinstalovat."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Hilfsprogramm konnte nicht deinstalliert werden."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se ha podido desinstalar el asistente."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impossible de désinstaller l’utilitaire."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impossibile disinstallare l’assistente."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ヘルパーをアンインストールできませんでした。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "보조 프로그램을 제거할 수 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het hulpprogramma kon niet worden gedeïnstalleerd."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nie udało się odinstalować pomocnika."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Não foi possível desinstalar o auxiliar."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instrumentul de ajutor nu a putut fi dezinstalat."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не удалось удалить помощника."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hjälpprogrammet kunde inte avinstalleras."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yardımcının yüklemesi kaldırılamadı."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не вдалося деінсталювати помічника."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未能卸载帮助程序。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無法解除安裝輔助程式。"
-          }
-        }
-      }
-    },
-    "The helper passes launchctl only a name of ASCII letters, digits, dots, hyphens, underscores, @ and +, not starting with a dot or a hyphen, so Peel doesn’t start, stop, enable, or disable this job here." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocník předává příkazu launchctl jen název složený z písmen ASCII, číslic, teček, spojovníků, podtržítek, @ a +, který nezačíná tečkou ani spojovníkem, a proto Peel tuto úlohu zde nespouští, nezastavuje, nezapíná ani nevypíná."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Hilfsprogramm übergibt an launchctl nur Namen aus ASCII-Buchstaben, Ziffern, Punkten, Bindestrichen, Unterstrichen, @ und +, die nicht mit einem Punkt oder Bindestrich beginnen, daher startet, stoppt, aktiviert oder deaktiviert Peel diesen Job hier nicht."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El asistente solo pasa a launchctl un nombre formado por letras ASCII, dígitos, puntos, guiones, guiones bajos, @ y +, que no empiece por un punto ni por un guion, así que aquí Peel no inicia, no detiene, no activa ni desactiva esta tarea."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’utilitaire ne transmet à launchctl qu’un nom composé de lettres ASCII, de chiffres, de points, de traits d’union, de traits de soulignement, de @ et de +, qui ne commence ni par un point ni par un trait d’union : Peel ne démarre donc pas cette tâche, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’assistente passa a launchctl solo un nome composto da lettere ASCII, cifre, punti, trattini, trattini bassi, @ e +, che non inizi con un punto o un trattino, quindi qui Peel non avvia, non interrompe, non abilita e non disabilita questo elemento."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ヘルパーがlaunchctlに渡すのは、ASCII英字、数字、ピリオド、ハイフン、アンダースコア、@、+だけで構成され、ピリオドやハイフンで始まらない名前に限られるため、Peelはここでこのジョブの開始、停止、有効化、無効化を行いません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "보조 프로그램은 ASCII 영문자, 숫자, 마침표, 하이픈, 밑줄, @ 및 +로만 이루어지고 마침표나 하이픈으로 시작하지 않는 이름만 launchctl에 전달하므로, Peel은 여기에서 이 작업을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het hulpprogramma geeft aan launchctl alleen namen door die bestaan uit ASCII-letters, cijfers, punten, koppeltekens, onderstrepingstekens, @ en +, en die niet met een punt of een koppelteken beginnen, dus Peel start deze taak hier niet, stopt die niet en schakelt die niet in of uit."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocnik przekazuje do launchctl tylko nazwę złożoną z liter ASCII, cyfr, kropek, łączników, podkreślników, @ i +, która nie zaczyna się od kropki ani od łącznika, więc Peel tutaj tego zadania nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O auxiliar só passa para o launchctl um nome formado por letras ASCII, dígitos, pontos, hifens, sublinhados, @ e +, que não comece com ponto nem com hífen, por isso o Peel não inicia, não interrompe, não ativa nem desativa esta tarefa aqui."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instrumentul de ajutor transmite către launchctl doar un nume format din litere ASCII, cifre, puncte, cratime, liniuțe de subliniere, @ și +, care nu începe cu un punct sau cu o cratimă, așa că Peel nu pornește, nu oprește, nu activează și nu dezactivează această sarcină de aici."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помощник передает launchctl только имена из букв ASCII, цифр, точек, дефисов, подчеркиваний, @ и +, которые не начинаются с точки или дефиса, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает это задание."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hjälpprogrammet skickar bara sådana namn till launchctl som består av ASCII-bokstäver, siffror, punkter, bindestreck, understreck, @ och + och som inte börjar med en punkt eller ett bindestreck, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här jobbet härifrån."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yardımcı, launchctl komutuna yalnızca ASCII harf, rakam, nokta, kısa çizgi, alt çizgi, @ ve + karakterlerinden oluşan ve nokta ya da kısa çizgiyle başlamayan bir ad aktarır, bu yüzden Peel bu işi burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помічник передає launchctl лише назву з літер ASCII, цифр, крапок, дефісів, знаків підкреслення, @ і +, яка не починається з крапки чи дефіса, тож Peel тут не запускає, не зупиняє, не вмикає й не вимикає це завдання."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "帮助程序只会将由ASCII字母、数字、点、连字符、下划线、@和+组成且不以点或连字符开头的名称传递给launchctl，因此Peel不会在此处启动、停止、启用或停用此任务。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "輔助程式只會將由ASCII字母、數字、句點、連字號、底線、@和+組成，且不以句點或連字號開頭的名稱傳遞給launchctl，因此Peel不會在這裡啟動、停止、啟用或停用此工作。"
           }
         }
       }
@@ -272626,324 +272410,6 @@
         }
       }
     },
-    "launchd didn’t stop it, so it runs as it was until the Mac restarts, and from the new file after that." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd ji nezastavil, takže poběží jako dosud, dokud se Mac nerestartuje, a potom už z nového souboru."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd hat es nicht gestoppt, daher läuft es bis zum nächsten Neustart des Mac wie bisher weiter und danach so, wie es die neue Datei vorgibt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd no lo ha detenido, así que se sigue ejecutando como estaba hasta que se reinicie el Mac, y después, desde el archivo nuevo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd ne l’a pas arrêté : il continue donc de s’exécuter tel qu’il était jusqu’au redémarrage du Mac, puis à partir du nouveau fichier."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd non l’ha interrotto, quindi viene eseguito com’era finché il Mac non si riavvia, e in seguito dal nuovo file."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchdがこのジョブを停止しなかったため、Macを再起動するまでは以前の内容のまま実行され、その後は新しいファイルから実行されます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd가 이 항목을 중단하지 않았으므로, Mac을 재시동할 때까지는 이전 상태 그대로 실행되며 그 후에는 새로운 파일에 따라 실행됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd heeft het niet gestopt, dus het wordt uitgevoerd zoals het was totdat de Mac opnieuw opstart, en daarna vanuit het nieuwe bestand."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd nie zatrzymał zadania, więc działa ono tak jak dotąd do ponownego uruchomienia Maca, a potem zgodnie z nowym plikiem."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O launchd não o interrompeu, então ele continua sendo executado como estava até o Mac reiniciar e, depois disso, a partir do novo arquivo."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd nu l‑a oprit, așa că rulează așa cum era până la repornirea Mac‑ului, iar după aceea din fișierul nou."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd не остановил его, поэтому он будет работать как прежде до перезагрузки Mac, а после этого будет запускаться из нового файла."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd stoppade det inte, så det körs som förut tills datorn startas om och därefter från den nya filen."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd onu durdurmadı, bu yüzden Mac yeniden başlatılana kadar eski hâliyle, sonrasında ise yeni dosyadan çalışır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd не зупинив його, тож воно працюватиме як раніше, доки Mac не перезапуститься, а після цього запускатиметься з нового файлу."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd没有停止它，因此在Mac重新启动之前，它会照旧运行，之后则会从新文件运行。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd沒有停止它，因此在Mac重新開機之前，它會照原樣執行，重新開機之後才會依新檔案執行。"
-          }
-        }
-      }
-    },
-    "launchd didn’t stop it, so it runs as it was until you log out, and from the new file after that." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd ji nezastavil, takže poběží jako dosud, dokud se neodhlásíte, a potom už z nového souboru."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd hat es nicht gestoppt, daher läuft es bis zu deiner Abmeldung wie bisher weiter und danach so, wie es die neue Datei vorgibt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd no lo ha detenido, así que se sigue ejecutando como estaba hasta que cierres sesión, y después, desde el archivo nuevo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd ne l’a pas arrêté : il continue donc de s’exécuter tel qu’il était jusqu’à ce que vous fermiez votre session, puis à partir du nouveau fichier."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd non l’ha interrotto, quindi viene eseguito com’era finché non esegui il logout, e in seguito dal nuovo file."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchdがこのジョブを停止しなかったため、ログアウトするまでは以前の内容のまま実行され、その後は新しいファイルから実行されます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd가 이 항목을 중단하지 않았으므로, 로그아웃할 때까지는 이전 상태 그대로 실행되며 그 후에는 새로운 파일에 따라 실행됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd heeft het niet gestopt, dus het wordt uitgevoerd zoals het was totdat je uitlogt, en daarna vanuit het nieuwe bestand."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd nie zatrzymał zadania, więc działa ono tak jak dotąd, dopóki się nie wylogujesz, a potem zgodnie z nowym plikiem."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O launchd não o interrompeu, então ele continua sendo executado como estava até você finalizar a sessão e, depois disso, a partir do novo arquivo."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd nu l‑a oprit, așa că rulează așa cum era până când faceți logout, iar după aceea din fișierul nou."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd не остановил его, поэтому он будет работать как прежде, пока Вы не выйдете из системы, а после этого будет запускаться из нового файла."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd stoppade det inte, så det körs som förut tills du loggar ut och därefter från den nya filen."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd onu durdurmadı, bu yüzden siz oturumu kapatana kadar eski hâliyle, sonrasında ise yeni dosyadan çalışır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd не зупинив його, тож воно працюватиме як раніше, доки ви не вийдете із системи, а після цього запускатиметься з нового файлу."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd没有停止它，因此在你退出登录之前，它会照旧运行，之后则会从新文件运行。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd沒有停止它，因此在你登出之前，它會照原樣執行，登出之後才會依新檔案執行。"
-          }
-        }
-      }
-    },
-    "launchd runs this job from another file that declares the same name, so this file isn’t loaded. Peel doesn’t start, stop, enable, or disable it from here." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd spouští tuto úlohu z jiného souboru, který uvádí stejný název, takže tento soubor není načtený. Peel ji odtud nespouští, nezastavuje, nezapíná ani nevypíná."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd führt diesen Job aus einer anderen Datei aus, die denselben Namen angibt, daher ist diese Datei nicht geladen. Peel startet, stoppt, aktiviert oder deaktiviert ihn nicht von hier aus."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd ejecuta esta tarea desde otro archivo que declara el mismo nombre, así que este archivo no está cargado. Desde aquí, Peel no la inicia, no la detiene, no la activa ni la desactiva."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd exécute cette tâche à partir d’un autre fichier qui déclare le même nom : ce fichier-ci n’est donc pas chargé. Peel ne démarre pas cet élément, ne l’arrête pas, ne l’active pas et ne le désactive pas d’ici."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd esegue questo elemento da un altro file che dichiara lo stesso nome, quindi questo file non è caricato. Da qui Peel non lo avvia, non lo interrompe, non lo abilita e non lo disabilita."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchdは、同じ名前を宣言している別のファイルからこのジョブを実行しているため、このファイルは読み込まれていません。Peelはここから開始、停止、有効化、無効化を行いません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd가 같은 이름을 지정하는 다른 파일에서 이 작업을 실행하므로 이 파일은 로드되지 않습니다. Peel은 여기에서 이 항목을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd voert deze taak uit vanuit een ander bestand dat dezelfde naam vermeldt, dus dit bestand is niet geladen. Peel start het van hieruit niet, stopt het niet en schakelt het niet in of uit."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd uruchamia to zadanie z innego pliku, który deklaruje tę samą nazwę, więc ten plik nie jest wczytany. Peel go stąd nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O launchd executa esta tarefa a partir de outro arquivo que declara o mesmo nome, então este arquivo não está carregado. O Peel não a inicia, não a interrompe, não a ativa nem a desativa daqui."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd rulează această sarcină dintr‑un alt fișier care declară același nume, așa că acest fișier nu este încărcat. Peel nu îl pornește, nu îl oprește, nu îl activează și nu îl dezactivează de aici."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd запускает это задание из другого файла, в котором объявлено то же имя, поэтому этот файл не загружен. Peel не запускает, не останавливает, не включает и не выключает его отсюда."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd kör det här jobbet från en annan fil som anger samma namn, så den här filen är inte inläst. Peel varken startar, stoppar, aktiverar eller avaktiverar det härifrån."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd bu işi aynı adı tanımlayan başka bir dosyadan çalıştırıyor, bu yüzden bu dosya yüklü değil. Peel onu buradan başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd виконує це завдання з іншого файлу, який оголошує таку саму назву, тож цей файл не завантажено. Peel не запускає, не зупиняє, не вмикає й не вимикає його звідси."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd从另一个声明了相同名称的文件运行此任务，因此此文件未载入。Peel不会从此处启动、停止、启用或停用它。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchd會從另一個宣告相同名稱的檔案執行此工作，因此這個檔案未載入。Peel不會從這裡啟動、停止、啟用或停用它。"
-          }
-        }
-      }
-    },
     "macOS" : {
       "comment" : "The system's name, never translated.",
       "shouldTranslate" : false
@@ -276018,6 +275484,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS沒有說明原因。"
+          }
+        }
+      }
+    },
+    "macOS didn’t stop it, so it runs as it was until the Mac restarts, and from the new file after that." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS ji nezastavil, takže poběží jako dosud, dokud se Mac nerestartuje, a potom už z nového souboru."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat es nicht gestoppt, daher läuft es bis zum nächsten Neustart des Mac wie bisher weiter und danach so, wie es die neue Datei vorgibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no lo ha detenido, así que se sigue ejecutando como estaba hasta que se reinicie el Mac, y después, desde el archivo nuevo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ne l’a pas arrêté : il continue donc de s’exécuter tel qu’il était jusqu’au redémarrage du Mac, puis à partir du nouveau fichier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non l’ha interrotto, quindi viene eseguito com’era finché il Mac non si riavvia, e in seguito dal nuovo file."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがこのジョブを停止しなかったため、Macを再起動するまでは以前の内容のまま実行され、その後は新しいファイルから実行されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 이 항목을 중단하지 않았으므로, Mac을 재시동할 때까지는 이전 상태 그대로 실행되며 그 후에는 새로운 파일에 따라 실행됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft het niet gestopt, dus het wordt uitgevoerd zoals het was totdat de Mac opnieuw opstart, en daarna vanuit het nieuwe bestand."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie zatrzymał zadania, więc działa ono tak jak dotąd do ponownego uruchomienia Maca, a potem zgodnie z nowym plikiem."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não o interrompeu, então ele continua sendo executado como estava até o Mac reiniciar e, depois disso, a partir do novo arquivo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu l‑a oprit, așa că rulează așa cum era până la repornirea Mac‑ului, iar după aceea din fișierul nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не остановила его, поэтому он будет работать как прежде до перезагрузки Mac, а после этого будет запускаться из нового файла."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS stoppade det inte, så det körs som förut tills datorn startas om och därefter från den nya filen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS onu durdurmadı, bu yüzden Mac yeniden başlatılana kadar eski hâliyle, sonrasında ise yeni dosyadan çalışır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не зупинила його, тож воно працюватиме як раніше, доки Mac не перезапуститься, а після цього запускатиметься з нового файлу."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS没有停止它，因此在Mac重新启动之前，它会照旧运行，之后则会从新文件运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS沒有停止它，因此在Mac重新開機之前，它會照原樣執行，重新開機之後才會依新檔案執行。"
+          }
+        }
+      }
+    },
+    "macOS didn’t stop it, so it runs as it was until you log out, and from the new file after that." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS ji nezastavil, takže poběží jako dosud, dokud se neodhlásíte, a potom už z nového souboru."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat es nicht gestoppt, daher läuft es bis zu deiner Abmeldung wie bisher weiter und danach so, wie es die neue Datei vorgibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no lo ha detenido, así que se sigue ejecutando como estaba hasta que cierres sesión, y después, desde el archivo nuevo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ne l’a pas arrêté : il continue donc de s’exécuter tel qu’il était jusqu’à ce que vous fermiez votre session, puis à partir du nouveau fichier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non l’ha interrotto, quindi viene eseguito com’era finché non esegui il logout, e in seguito dal nuovo file."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがこのジョブを停止しなかったため、ログアウトするまでは以前の内容のまま実行され、その後は新しいファイルから実行されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 이 항목을 중단하지 않았으므로, 로그아웃할 때까지는 이전 상태 그대로 실행되며 그 후에는 새로운 파일에 따라 실행됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft het niet gestopt, dus het wordt uitgevoerd zoals het was totdat je uitlogt, en daarna vanuit het nieuwe bestand."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie zatrzymał zadania, więc działa ono tak jak dotąd, dopóki się nie wylogujesz, a potem zgodnie z nowym plikiem."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não o interrompeu, então ele continua sendo executado como estava até você finalizar a sessão e, depois disso, a partir do novo arquivo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu l‑a oprit, așa că rulează așa cum era până când faceți logout, iar după aceea din fișierul nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не остановила его, поэтому он будет работать как прежде, пока Вы не выйдете из системы, а после этого будет запускаться из нового файла."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS stoppade det inte, så det körs som förut tills du loggar ut och därefter från den nya filen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS onu durdurmadı, bu yüzden siz oturumu kapatana kadar eski hâliyle, sonrasında ise yeni dosyadan çalışır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не зупинила його, тож воно працюватиме як раніше, доки ви не вийдете із системи, а після цього запускатиметься з нового файлу."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS没有停止它，因此在你退出登录之前，它会照旧运行，之后则会从新文件运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS沒有停止它，因此在你登出之前，它會照原樣執行，登出之後才會依新檔案執行。"
           }
         }
       }
@@ -281823,6 +281501,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS會為內含於另一個App中的App執行此延伸功能，而且無論如何移動該App，都不會移除它：Finder只會要求macOS移除App本身檔案夾中的延伸功能。請先在「系統設定」>「一般」>「登入項目與延伸功能」中將它關閉。"
+          }
+        }
+      }
+    },
+    "macOS runs this job from another file that declares the same name, so this file isn’t loaded. Peel doesn’t start, stop, enable, or disable it from here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS spouští tuto úlohu z jiného souboru, který uvádí stejný název, takže tento soubor není načtený. Peel ji odtud nespouští, nezastavuje, nezapíná ani nevypíná."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS führt diesen Job aus einer anderen Datei aus, die denselben Namen angibt, daher ist diese Datei nicht geladen. Peel startet, stoppt, aktiviert oder deaktiviert ihn nicht von hier aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ejecuta esta tarea desde otro archivo que declara el mismo nombre, así que este archivo no está cargado. Desde aquí, Peel no la inicia, no la detiene, no la activa ni la desactiva."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS exécute cette tâche à partir d’un autre fichier qui déclare le même nom : ce fichier-ci n’est donc pas chargé. Peel ne démarre pas cet élément, ne l’arrête pas, ne l’active pas et ne le désactive pas d’ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS esegue questo elemento da un altro file che dichiara lo stesso nome, quindi questo file non è caricato. Da qui Peel non lo avvia, non lo interrompe, non lo abilita e non lo disabilita."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSは、同じ名前を宣言している別のファイルからこのジョブを実行しているため、このファイルは読み込まれていません。Peelはここから開始、停止、有効化、無効化を行いません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 같은 이름을 지정하는 다른 파일에서 이 작업을 실행하므로 이 파일은 로드되지 않습니다. Peel은 여기에서 이 항목을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS voert deze taak uit vanuit een ander bestand dat dezelfde naam vermeldt, dus dit bestand is niet geladen. Peel start het van hieruit niet, stopt het niet en schakelt het niet in of uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS uruchamia to zadanie z innego pliku, który deklaruje tę samą nazwę, więc ten plik nie jest wczytany. Peel go stąd nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS executa esta tarefa a partir de outro arquivo que declara o mesmo nome, então este arquivo não está carregado. O Peel não a inicia, não a interrompe, não a ativa nem a desativa daqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS rulează această sarcină dintr‑un alt fișier care declară același nume, așa că acest fișier nu este încărcat. Peel nu îl pornește, nu îl oprește, nu îl activează și nu îl dezactivează de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS запускает это задание из другого файла, в котором объявлено то же имя, поэтому этот файл не загружен. Peel не запускает, не останавливает, не включает и не выключает его отсюда."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS kör det här jobbet från en annan fil som anger samma namn, så den här filen är inte inläst. Peel varken startar, stoppar, aktiverar eller avaktiverar det härifrån."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS bu işi aynı adı tanımlayan başka bir dosyadan çalıştırıyor, bu yüzden bu dosya yüklü değil. Peel onu buradan başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS виконує це завдання з іншого файлу, який оголошує таку саму назву, тож цей файл не завантажено. Peel не запускає, не зупиняє, не вмикає й не вимикає його звідси."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS从另一个声明了相同名称的文件运行此任务，因此此文件未载入。Peel不会从此处启动、停止、启用或停用它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS會從另一個宣告相同名稱的檔案執行此工作，因此這個檔案未載入。Peel不會從這裡啟動、停止、啟用或停用它。"
           }
         }
       }

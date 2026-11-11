@@ -130,8 +130,8 @@ struct ExtensionDetailView: View {
                     detail: Text(kindNote)
                 )
                 NoteBadge(
-                    title: Text("Read only"), systemImage: "hand.raised",
-                    name: String(localized: "Read only"),
+                    title: Text("Listed only"), systemImage: "hand.raised",
+                    name: String(localized: "Listed only"),
                     detail: Text(explanation)
                 )
             }

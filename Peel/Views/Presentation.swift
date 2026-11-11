@@ -773,7 +773,7 @@ extension HoldBack {
         case .holdsKeys:
             "Left alone: a wallet or a key Peel protects is inside, so Peel leaves this folder where it is."
         case .holdsWorkKeptInACache:
-            "Peel won’t move this: an app keeps work inside that exists nowhere else, such as an editor’s local history."
+            "Left alone: an app keeps work inside that exists nowhere else, such as an editor’s local history."
         case .insideAnotherAppsFolder:
             "Not selected: only the name matches, and it sits inside a folder that belongs to macOS or to another installed app, which may be keeping it for itself."
         case .holdsAnotherAppsData:

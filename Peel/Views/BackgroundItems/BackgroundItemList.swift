@@ -146,8 +146,8 @@ struct BackgroundItemList: View {
     /// What becomes of a job launchd didn't stop after its file was saved: it runs as it was until its domain ends.
     static func notStoppedWords(endsAtLogout: Bool) -> LocalizedStringResource {
         endsAtLogout
-            ? "launchd didn’t stop it, so it runs as it was until you log out, and from the new file after that."
-            : "launchd didn’t stop it, so it runs as it was until the Mac restarts, and from the new file after that."
+            ? "macOS didn’t stop it, so it runs as it was until you log out, and from the new file after that."
+            : "macOS didn’t stop it, so it runs as it was until the Mac restarts, and from the new file after that."
     }
 
     private func reloadMessage(_ reload: LaunchAgentFile.Reload, endsAtLogout: Bool) -> Text {

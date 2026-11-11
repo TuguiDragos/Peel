@@ -807,7 +807,7 @@ private struct HelperSettingsView: View {
             helper.standing.offersInstall(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy)
                 ? nil : Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: true))
         case .waitingForApproval:
-            Text("Allow Peel in System Settings under Login Items & Extensions.")
+            Text("Allow Peel in System Settings > General > Login Items & Extensions.")
         case .notThisAccount:
             Text("Only an administrator can install, allow, or repair the helper. Once it works, Peel asks for an administrator’s name and password each time this account needs it.")
         case .notAnswering:

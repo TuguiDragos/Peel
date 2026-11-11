@@ -24,7 +24,7 @@ struct BackgroundItemDetailView: View {
                     Text(item.kind == .daemon ? "Daemon" : item.source == .systemLibrary ? "Agent, for every account" : "Agent")
                 }
                 if let owner = item.ownerBundleIdentifier {
-                    LabeledContent("Added by") {
+                    LabeledContent("Comes with") {
                         VStack(alignment: .trailing, spacing: 1) {
                             Text(verbatim: item.ownerName ?? library.name(forReference: owner))
                             if item.runsFromTheTrash {
@@ -156,7 +156,7 @@ struct BackgroundItemDetailView: View {
                 Section {
                     Notice(
                         title: Text("Another file with this name is loaded"),
-                        detail: Text("launchd runs this job from another file that declares the same name, so this file isn’t loaded. Peel doesn’t start, stop, enable, or disable it from here."),
+                        detail: Text("macOS runs this job from another file that declares the same name, so this file isn’t loaded. Peel doesn’t start, stop, enable, or disable it from here."),
                         kind: .note
                     ) {}
                 }
@@ -180,7 +180,7 @@ struct BackgroundItemDetailView: View {
                     case .notTakenByTheHelper:
                         Notice(
                             title: Text("Its name has characters the helper doesn’t take"),
-                            detail: Text("The helper passes launchctl only a name of ASCII letters, digits, dots, hyphens, underscores, @ and +, not starting with a dot or a hyphen, so Peel doesn’t start, stop, enable, or disable this job here."),
+                            detail: Text("Peel’s helper passes launchctl only a name of ASCII letters, digits, dots, hyphens, underscores, @ and +, not starting with a dot or a hyphen, so Peel doesn’t start, stop, enable, or disable this job here."),
                             kind: .note
                         ) {}
                     }
@@ -227,8 +227,8 @@ struct BackgroundItemDetailView: View {
             if item.isSubmittedByItsApp {
                 Section {
                     Notice(
-                        title: Text("Its app gave it to launchd"),
-                        detail: Text("It isn’t listed in System Settings, and launchd forgets it at the next logout or restart. Apps do this for work such as installing an update."),
+                        title: Text("Its app added it without a file"),
+                        detail: Text("It isn’t listed in System Settings, and macOS forgets it at the next logout or restart. Apps do this for work such as installing an update."),
                         kind: .note
                     ) {}
                 }
@@ -481,11 +481,11 @@ struct BackgroundItemDetailView: View {
     /// Why Remove is offered, as far as Peel knows where the job's program is.
     private var removeHelp: Text {
         if item.runsFromTheTrash {
-            return Text("Take it out of launchd now. Its app is in the Trash, so macOS starts it again at the next login until you empty the Trash.")
+            return Text("Takes it out of launchd now. Its app is in the Trash, so macOS starts it again at the next login until you empty the Trash.")
         }
         return item.isOrphan
-            ? Text("Take it out of launchd now: the app that added it is gone, and so is what it ran.")
-            : Text("Take it out of launchd now: the app that added it is no longer installed.")
+            ? Text("Takes it out of launchd now: the app that added it is gone, and so is what it ran.")
+            : Text("Takes it out of launchd now: the app that added it is no longer installed.")
     }
 
     @ViewBuilder
@@ -581,8 +581,8 @@ extension BackgroundItem {
         guard canBeControlled && !isNamedByItsFile || state == .notLoaded else { return stopsForGood }
         // An agent in `/Library/LaunchAgents` runs in every account logged in, and Stop reaches only this one.
         return kind == .agent && source == .systemLibrary
-            ? "Once the file is in the Trash, the item is stopped for you. Other accounts logged in now run it until they log out, and none starts it again."
-            : "Once the file is in the Trash, the item is stopped."
+            ? "Peel stops the job for your account once its file is in the Trash. Other accounts logged in now run it until they log out, and none starts it again."
+            : "Peel stops the job once its file is in the Trash."
     }
 }
 
@@ -594,7 +594,7 @@ extension BackgroundItemDetailView {
         case .disabledNotListed:
             "Peel couldn’t read launchctl’s list of the jobs turned off, so it doesn’t start, stop, enable, or disable this one here."
         case .whichFileNotSaid:
-            "Another file declares the same job, and launchd didn’t say which of the two it loaded, so Peel doesn’t start, stop, enable, or disable it here."
+            "Another file declares the same job, and macOS didn’t say which of the two it loaded, so Peel doesn’t start, stop, enable, or disable it here."
         case nil:
             "Peel asked macOS about it and got no answer it could read, so Peel doesn’t start, stop, enable, or disable it here."
         }

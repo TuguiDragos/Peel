@@ -202,7 +202,7 @@ final class SelfUninstall {
     }
 
     private static func failure(for stay: SelfRemoval.Stay) -> String {
-        let helperStayed = String(localized: "The helper couldn’t be removed, so Peel stayed where it was.")
+        let helperStayed = String(localized: "Peel’s helper couldn’t be removed, so Peel stayed where it was.")
         switch stay {
         case .helperIsNotThisAccounts:
             return onlyAnAdministrator

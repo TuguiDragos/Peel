@@ -102,7 +102,7 @@ struct InstallerDetailView: View {
             FlowLayout {
                 Badge(title: Text("^[\(rows.count) item](inflect: true)"), systemImage: "square.and.arrow.down")
                 if kind == .deviceBackup {
-                    Badge(title: Text("Read only"), systemImage: "hand.raised")
+                    Badge(title: Text("Listed only"), systemImage: "hand.raised")
                 }
             }
         } trailing: {

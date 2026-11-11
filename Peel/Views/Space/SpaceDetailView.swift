@@ -240,8 +240,8 @@ struct SpaceDetailView: View {
                 Badge(title: Text(item.category.title), systemImage: item.category.systemImage)
                 if item.isReadOnly {
                     NoteBadge(
-                        title: Text("Read only"), systemImage: "hand.raised",
-                        name: String(localized: "Read only"),
+                        title: Text("Listed only"), systemImage: "hand.raised",
+                        name: String(localized: "Listed only"),
                         detail: Text("Space doesn’t touch this. How to free it, on this page, says what does.")
                     )
                 }

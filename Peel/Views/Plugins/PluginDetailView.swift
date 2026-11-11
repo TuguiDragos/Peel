@@ -46,10 +46,10 @@ struct PluginDetailView: View {
                     .labeledContentStyle(.oneLine)
                 }
                 if let origin = plugin.origin {
-                    LabeledContent("Installed with") {
+                    LabeledContent("Comes with") {
                         switch origin {
                         case .installedApp(let name): Text(verbatim: name)
-                        case .goneApp(let name): Text("\(name), no longer on this Mac")
+                        case .goneApp(let name): Text("\(name), no longer installed")
                         }
                     }
                 }

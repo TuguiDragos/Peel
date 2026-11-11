@@ -61,7 +61,7 @@ extension PrivilegedHelper.Standing {
             registeredByAnotherCopy
                 ? "Peel’s helper was installed by another copy of Peel, and this copy can’t use it. Open the copy of Peel that installed it."
                 : "Install Peel’s helper, which does this as an administrator in the system folders it serves."
-        case .waitingForApproval: "Peel’s helper is waiting to be allowed in System Settings, under Login Items & Extensions."
+        case .waitingForApproval: "Peel’s helper is waiting to be allowed in System Settings > General > Login Items & Extensions."
         case .notThisAccount: "Only an administrator can install, allow, or repair Peel’s helper. Once it works, Peel asks for an administrator’s name and password for this."
         case .notAnswering: "Peel’s helper isn’t answering. Repair it in Settings."
         }

@@ -13,7 +13,7 @@ struct HelperReasonTests {
         #expect(reason(.notThisAccount, false) == String(localized: "Only an administrator can install, allow, or repair Peel’s helper. Once it works, Peel asks for an administrator’s name and password for this."))
         #expect(reason(.notInstalled, false) == String(localized: "Install Peel’s helper, which does this as an administrator in the system folders it serves."))
         #expect(reason(.notInstalled, true) == String(localized: "Peel’s helper was installed by another copy of Peel, and this copy can’t use it. Open the copy of Peel that installed it."))
-        #expect(reason(.waitingForApproval, false) == String(localized: "Peel’s helper is waiting to be allowed in System Settings, under Login Items & Extensions."))
+        #expect(reason(.waitingForApproval, false) == String(localized: "Peel’s helper is waiting to be allowed in System Settings > General > Login Items & Extensions."))
         #expect(reason(.notAnswering, false) == String(localized: "Peel’s helper isn’t answering. Repair it in Settings."))
     }
 
