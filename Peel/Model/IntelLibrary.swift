@@ -70,7 +70,7 @@ extension IntelFinding.Kind {
         case .plugin: "Plug-ins"
         case .driver: "Drivers"
         case .backgroundItem: "Background Items"
-        case .commandLineTool: "Command Line Tools"
+        case .commandLineTool: "Command-Line Tools"
         case .javaRuntime: "Java Runtimes"
         }
     }
