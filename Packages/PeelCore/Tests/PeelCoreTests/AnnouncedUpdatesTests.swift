@@ -14,7 +14,10 @@ struct AnnouncedUpdatesTests {
         var versions = ["org.example.editor": "2.0", "org.example.viewer": "5.0"]
         var told = AnnouncedUpdates()
         func new(_ waiting: [InstalledApp], whileChecking: Bool = false) -> [InstalledApp] {
-            told.takeNew(waiting, version: { versions[$0.reference] }, whileChecking: whileChecking, checksAreOn: true)
+            told.takeNew(
+                waiting, version: { versions[$0.reference] }, whileChecking: whileChecking, checksAreOn: true,
+                canTell: true
+            )
         }
 
         #expect(new([editor], whileChecking: true).isEmpty)
@@ -25,7 +28,8 @@ struct AnnouncedUpdatesTests {
         versions["org.example.editor"] = "2.1"
         var again = AnnouncedUpdates(versions: told.versions)
         let relaunched = again.takeNew(
-            [editor, viewer], version: { versions[$0.reference] }, whileChecking: false, checksAreOn: true
+            [editor, viewer], version: { versions[$0.reference] }, whileChecking: false, checksAreOn: true,
+            canTell: true
         )
         #expect(relaunched == [editor])
     }
@@ -35,13 +39,26 @@ struct AnnouncedUpdatesTests {
         let version = { (app: InstalledApp) in versions[app.reference] }
         var told = AnnouncedUpdates()
 
-        let whileOff = told.takeNew([editor], version: version, whileChecking: false, checksAreOn: false)
-        let onceOn = told.takeNew([editor], version: version, whileChecking: false, checksAreOn: true)
+        let whileOff = told.takeNew([editor], version: version, whileChecking: false, checksAreOn: false, canTell: true)
+        let onceOn = told.takeNew([editor], version: version, whileChecking: false, checksAreOn: true, canTell: true)
         told.note([viewer], version: version)
-        let noted = told.takeNew([viewer], version: version, whileChecking: false, checksAreOn: true)
+        let noted = told.takeNew([viewer], version: version, whileChecking: false, checksAreOn: true, canTell: true)
 
         #expect(whileOff.isEmpty)
         #expect(onceOn == [editor])
         #expect(noted.isEmpty, "an update noted as told is not told again")
+    }
+
+    @Test func keepsWhatMacOSDoesNotShowToTellOnceItDoes() {
+        let version = { (app: InstalledApp) in app.reference == "org.example.editor" ? "2.0" : nil }
+        var told = AnnouncedUpdates()
+
+        let whileHidden = told.takeNew(
+            [editor], version: version, whileChecking: false, checksAreOn: true, canTell: false
+        )
+        let onceShown = told.takeNew([editor], version: version, whileChecking: false, checksAreOn: true, canTell: true)
+
+        #expect(whileHidden.isEmpty)
+        #expect(onceShown == [editor])
     }
 }

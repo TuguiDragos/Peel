@@ -146,10 +146,13 @@ struct PeelApp: App {
         }
     }
 
-    /// Tells of the updates no notification has named yet, once no round of checks runs, whoever found them.
+    /// Tells of the updates no notification has named yet, once no round of checks runs, whoever found them, and once
+    /// macOS shows Peel's notifications, so what was found before they were on is told then.
     private func followUpdates() async {
-        for await _ in Observations({ (library.updatesRevision, library.revision, library.appsCheckingForUpdates) }) {
-            let found = library.updatesToAnnounce()
+        for await _ in Observations({
+            (library.updatesRevision, library.revision, library.appsCheckingForUpdates, home.notificationStatus)
+        }) {
+            let found = library.updatesToAnnounce(canTell: await PeelNotifications.mayShow())
             guard let first = found.first else { continue }
             notifications.notify(updatesAvailable: found.count, firstName: first.name, firstApp: first.url)
         }

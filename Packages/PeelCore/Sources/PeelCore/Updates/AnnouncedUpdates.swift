@@ -9,11 +9,12 @@ public struct AnnouncedUpdates: Equatable, Sendable {
 
     /// The apps in `waiting` whose update `version` hasn't been told of, which then count as told. None while a round
     /// of checks runs, so an update is told of once every round that may find it has ended, and none while the checks
-    /// are off, so what waits then is told once they are on again.
+    /// are off or macOS doesn't show Peel's notifications (`canTell`), so what waits then is told once it can be.
     public mutating func takeNew(
-        _ waiting: [InstalledApp], version: (InstalledApp) -> String?, whileChecking isChecking: Bool, checksAreOn: Bool
+        _ waiting: [InstalledApp], version: (InstalledApp) -> String?, whileChecking isChecking: Bool,
+        checksAreOn: Bool, canTell: Bool
     ) -> [InstalledApp] {
-        guard !isChecking, checksAreOn else { return [] }
+        guard !isChecking, checksAreOn, canTell else { return [] }
         return note(waiting, version: version)
     }
 

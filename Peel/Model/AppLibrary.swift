@@ -969,12 +969,13 @@ final class AppLibrary {
 
     /// The installed apps whose waiting update no notification has named, which then count as named
     /// (`AnnouncedUpdates`), kept across launches. None while Check for app updates is off.
-    func updatesToAnnounce() -> [InstalledApp] {
+    func updatesToAnnounce(canTell: Bool) -> [InstalledApp] {
         let new = announced.takeNew(
             appsWithUpdates,
             version: { updateStatuses[$0.id]?.version },
             whileChecking: !appsCheckingForUpdates.isEmpty,
-            checksAreOn: defaults.isOn(SettingsKey.checksForAppUpdates, whenNeverSet: true)
+            checksAreOn: defaults.isOn(SettingsKey.checksForAppUpdates, whenNeverSet: true),
+            canTell: canTell
         )
         if !new.isEmpty {
             defaults.set(announced.versions, forKey: SettingsKey.announcedUpdates)
