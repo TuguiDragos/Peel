@@ -251,6 +251,31 @@ extension Sequence<RemovalRecord> {
         SizeTotal(map(\.size))
     }
 
+    /// These records with, from `history`, each folder one of them sat in that went to the Trash too and whose place
+    /// is empty, such as a maker's folder an uninstall left empty: put back first, it comes back as it was.
+    public func withTheFoldersTheyLeft(in history: [RemovalRecord]) -> [RemovalRecord] {
+        var going = Array(self)
+        guard going.contains(where: { $0.originalURL.deletingLastPathComponent().isMissing }) else { return going }
+        var ids = Set(going.map(\.id))
+        let byPlace = Dictionary(grouping: history) { PathPattern.comparablePath(of: $0.originalURL) }
+        var index = 0
+        while index < going.count {
+            var folder = going[index].originalURL.deletingLastPathComponent()
+            while folder.pathComponents.count > 1, folder.isMissing {
+                let left = byPlace[PathPattern.comparablePath(of: folder)]?
+                    .filter { !ids.contains($0.id) && $0.trashedURL.isThere }
+                    .max { $0.date < $1.date }
+                if let left {
+                    going.append(left)
+                    ids.insert(left.id)
+                }
+                folder = folder.deletingLastPathComponent()
+            }
+            index += 1
+        }
+        return going
+    }
+
     /// Shallowest first, so a folder is put back before anything that was inside it. A child put back first would
     /// make a new folder at its parent's path, and the parent could then not be put back.
     public var inPutBackOrder: [RemovalRecord] {

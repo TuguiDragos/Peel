@@ -22,6 +22,31 @@ struct RemovalHistoryTests {
         #expect([inside, folder].inPutBackOrder.map(\.id) == [folder.id, inside.id])
     }
 
+    @Test func bringsAFolderAlongOnlyWhenItsPlaceIsEmptyAndItIsStillInTheTrash() throws {
+        let directory = try TemporaryDirectory()
+        let trash = try directory.directory("home/.Trash")
+        try directory.directory("home/.Trash/Example")
+        let support = try directory.directory("home/Library/Application Support")
+        func record(_ original: String, _ trashed: String) -> RemovalRecord {
+            RemovalRecord(
+                batch: UUID(),
+                item: TrashedItem(
+                    originalURL: support.appending(path: original), trashedURL: trash.appending(path: trashed),
+                    date: .now
+                ),
+                size: 0, source: "Notes", tool: "applications"
+            )
+        }
+        let inside = record("Example/Notes", "Notes")
+        let folder = record("Example", "Example")
+        let gone = record("Example", "Example 2")
+
+        #expect([inside].withTheFoldersTheyLeft(in: [inside, folder, gone]).map(\.id) == [inside.id, folder.id])
+        #expect([inside].withTheFoldersTheyLeft(in: [inside, gone]).map(\.id) == [inside.id])
+        try directory.directory("home/Library/Application Support/Example")
+        #expect([inside].withTheFoldersTheyLeft(in: [inside, folder]).map(\.id) == [inside.id])
+    }
+
     @Test func historyStaysWhereItAlwaysWas() throws {
         let support = try #require(
             FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first

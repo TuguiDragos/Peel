@@ -557,7 +557,8 @@ final class RemovalHistoryStore {
             var problems: [RemovalRecord.ID: RestoreFailure] = [:]
             var stayed: [(record: RemovalRecord, failure: RestoreFailure)] = []
             let disks = await MountedDisks.read()
-            let ordered = records.map { $0.located(on: disks) }.inPutBackOrder
+            let ordered = records.map { $0.located(on: disks) }
+                .withTheFoldersTheyLeft(in: self.records.map { $0.located(on: disks) }).inPutBackOrder
             let answers = await restoring(ordered.map(\.trashedItem), canUseHelper)
             for (record, answer) in zip(ordered, answers.failures) {
                 if let failure = answer {
@@ -581,7 +582,7 @@ final class RemovalHistoryStore {
             if !stayed.isEmpty {
                 outcome?.reportPutBack(stayed.map {
                     RemovalOutcome.PutBackFailure(url: $0.record.originalURL, failure: $0.failure)
-                }, of: records.count)
+                }, of: ordered.count)
             }
             selectedIDs.subtract(restored)
             if !restored.isEmpty {

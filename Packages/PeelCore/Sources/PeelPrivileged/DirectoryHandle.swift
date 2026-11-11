@@ -58,14 +58,17 @@ public final class DirectoryHandle: Sendable {
     }
 
     /// The folder `name` inside this one, made when nothing is there, and never a link or a file in its place. A
-    /// folder made here comes back with its identity, so the caller can take it away again.
+    /// folder made here is as closed as this one and writable by its owner alone, since the one that left may have
+    /// been, and comes back with its identity, so the caller can take it away again.
     public func child(
         _ name: String,
         makingIfMissing: Bool
     ) -> Result<(folder: DirectoryHandle, made: ItemIdentity?), POSIXError> {
         var made: ItemIdentity?
         if makingIfMissing {
-            if name.withCString({ mkdirat(descriptor, $0, 0o755) }) == 0 {
+            var around = stat()
+            let mode = fstat(descriptor, &around) == 0 ? around.st_mode & 0o755 : 0o755
+            if name.withCString({ mkdirat(descriptor, $0, mode) }) == 0 {
                 var info = stat()
                 guard name.withCString({ fstatat(descriptor, $0, &info, AT_SYMLINK_NOFOLLOW) }) == 0 else {
                     let failure = POSIXError.last

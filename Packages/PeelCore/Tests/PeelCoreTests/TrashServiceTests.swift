@@ -694,6 +694,42 @@ struct TrashServiceTests {
         #expect(asked.withLock { $0 } == ["org.example.Studio.app"])
     }
 
+    @Test func aFolderAnUninstallLeftEmptyComesBackItselfBeforeWhatWasInIt() async throws {
+        let directory = try TemporaryDirectory()
+        let service = try service(in: directory)
+        let notes = try directory.file("home/Library/Application Support/Example/Notes/notes.db")
+            .deletingLastPathComponent()
+        let maker = notes.deletingLastPathComponent()
+        try directory.setPermissions(0o700, of: "home/Library/Application Support/Example")
+        #expect(setxattr(maker.path(percentEncoded: false), "org.example.folder", "kept", 4, 0, 0) == 0)
+        let moved = await service.trash([notes]).trashed + service.trash([maker]).trashed
+        let records = moved.map { RemovalRecord(batch: UUID(), item: $0, size: 0, source: "Notes", tool: "applications") }
+
+        let going = records.filter { $0.originalURL == notes }.withTheFoldersTheyLeft(in: records).inPutBackOrder
+        let restored = await service.restore(going.map(\.trashedItem))
+
+        #expect(going.map(\.originalURL) == [maker, notes])
+        #expect(restored.failures.allSatisfy { $0 == nil })
+        var info = stat()
+        #expect(stat(maker.path(percentEncoded: false), &info) == 0 && info.st_mode & 0o777 == 0o700)
+        #expect(getxattr(maker.path(percentEncoded: false), "org.example.folder", nil, 0, 0, 0) == 4)
+        #expect(FileManager.default.fileExists(atPath: notes.appending(path: "notes.db").path(percentEncoded: false)))
+    }
+
+    @Test func aFolderPutBackMakesIsNoMoreOpenThanTheOneAroundIt() async throws {
+        let directory = try TemporaryDirectory()
+        let service = try service(in: directory)
+        let settings = try directory.file("home/.config/tool/settings.json")
+        try directory.setPermissions(0o700, of: "home/.config")
+        let moved = try #require(await service.trash([settings]).trashed.first)
+        try FileManager.default.removeItem(at: settings.deletingLastPathComponent())
+
+        #expect(await service.restore(moved) == nil)
+        var info = stat()
+        #expect(stat(settings.deletingLastPathComponent().path(percentEncoded: false), &info) == 0)
+        #expect(info.st_mode & 0o777 == 0o700)
+    }
+
     @Test func movesItemsToTrashAndRestoresThem() async throws {
         let directory = try TemporaryDirectory()
         let item = try directory.file("home/Library/Caches/com.example.app/cache.db")

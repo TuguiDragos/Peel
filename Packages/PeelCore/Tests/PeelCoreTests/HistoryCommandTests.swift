@@ -530,6 +530,41 @@ struct HistoryCommandTests {
         }
     }
 
+    @Test func aRemovalPutBackBringsBackTheFolderItSatInFromAnother() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let support = try directory.directory("home/Library/Application Support")
+        _ = try directory.file("home/.Trash/Notes/notes.db")
+        try directory.directory("home/.Trash/Example")
+        try directory.setPermissions(0o700, of: "home/.Trash/Example")
+        let trash = directory.url.appending(path: "home/.Trash")
+        let inside = RemovalRecord(
+            batch: UUID(),
+            item: TrashedItem(
+                originalURL: support.appending(path: "Example/Notes"), trashedURL: trash.appending(path: "Notes"),
+                date: .now
+            ),
+            size: 0, source: "Notes", tool: "applications"
+        )
+        let folder = RemovalRecord(
+            batch: UUID(),
+            item: TrashedItem(
+                originalURL: support.appending(path: "Example"), trashedURL: trash.appending(path: "Example"), date: .now
+            ),
+            size: 0, source: "Notes", tool: "applications"
+        )
+        _ = await logs.removals.add([inside, folder])
+
+        try await (command(["restore", String(inside.batch.uuidString.prefix(8)), "-y"]) as RestoreCommand)
+            .run(in: logs.removals, using: service(in: directory))
+
+        var info = stat()
+        #expect(stat(support.appending(path: "Example").path(percentEncoded: false), &info) == 0)
+        #expect(info.st_mode & 0o777 == 0o700)
+        #expect(FileManager.default.fileExists(atPath: support.appending(path: "Example/Notes/notes.db").path(percentEncoded: false)))
+        #expect(await logs.removals.load().records?.isEmpty == true)
+    }
+
     @Test func refusesAnIdentifierThatNamesNothing() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)
