@@ -28711,108 +28711,108 @@
         }
       }
     },
-    "Built for both. Its Info.plist asks macOS to open it as an Intel app, so on Apple silicon it runs through Rosetta." : {
+    "Built for both. The app itself asks macOS to open it as an Intel app, so on Apple silicon it runs through Rosetta." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplikace je určená pro procesory Intel i čipy Apple. Její soubor Info.plist žádá systém macOS, aby ji otevíral jako aplikaci pro Intel, takže na Macu s čipem Apple běží v prostředí Rosetta."
+            "value" : "Aplikace je určená pro procesory Intel i čipy Apple. Sama žádá systém macOS, aby ji otevíral jako aplikaci pro Intel, takže na Macu s čipem Apple běží v prostředí Rosetta."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Für beide Prozessorarten entwickelt. Die Info.plist der App weist macOS an, sie als Intel-App zu öffnen, daher läuft sie auf einem Mac mit Apple Chip über Rosetta."
+            "value" : "Für beide Prozessorarten entwickelt. Die App selbst weist macOS an, sie als Intel-App zu öffnen, daher läuft sie auf einem Mac mit Apple Chip über Rosetta."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Creada para ambos tipos de Mac. Su Info.plist le pide a macOS que la abra como una app para Intel, así que, en un Mac con chip de Apple, se ejecuta mediante Rosetta."
+            "value" : "Creada para ambos tipos de Mac. La propia app le pide a macOS que la abra como una app para Intel, así que, en un Mac con chip de Apple, se ejecuta mediante Rosetta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Conçue pour les deux types de Mac. Son fichier Info.plist demande à macOS de l’ouvrir en tant qu’app Intel : sur un Mac équipé d’une puce Apple, elle s’exécute donc avec Rosetta."
+            "value" : "Conçue pour les deux types de Mac. L’app elle-même demande à macOS de l’ouvrir en tant qu’app Intel : sur un Mac équipé d’une puce Apple, elle s’exécute donc avec Rosetta."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Per entrambi i tipi di processore. Il suo Info.plist chiede a macOS di aprirla come app Intel, quindi sui Mac con chip Apple funziona tramite Rosetta."
+            "value" : "Per entrambi i tipi di processore. L’app stessa chiede a macOS di aprirla come app Intel, quindi sui Mac con chip Apple funziona tramite Rosetta."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "両方のプロセッサ用にビルドされています。Info.plistでIntelプロセッサ用アプリとして開くようmacOSに要求しているため、AppleシリコンではRosetta経由で動作します。"
+            "value" : "両方のプロセッサ用にビルドされています。アプリ自体がIntelプロセッサ用アプリとして開くようmacOSに要求しているため、AppleシリコンではRosetta経由で動作します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apple silicon과 Intel 모두를 위해 빌드되었습니다. Info.plist에서 macOS에 Intel 앱으로 열도록 요청하므로, Apple silicon에서는 Rosetta를 통해 실행됩니다."
+            "value" : "Apple silicon과 Intel 모두를 위해 빌드되었습니다. 앱 자체가 macOS에 Intel 앱으로 열도록 요청하므로, Apple silicon에서는 Rosetta를 통해 실행됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gemaakt voor beide. De Info.plist van de app vraagt macOS om deze als Intel-app te openen, dus op Apple silicon wordt de app via Rosetta uitgevoerd."
+            "value" : "Gemaakt voor beide. De app zelf vraagt macOS om deze als Intel-app te openen, dus op Apple silicon wordt de app via Rosetta uitgevoerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skompilowano dla obu rodzajów procesorów. Plik Info.plist tej aplikacji prosi macOS o otwieranie jej jako aplikacji dla procesorów Intel, więc na Macu z układem scalonym Apple działa za pomocą Rosetty."
+            "value" : "Skompilowano dla obu rodzajów procesorów. Sama aplikacja prosi macOS o otwieranie jej jako aplikacji dla procesorów Intel, więc na Macu z układem scalonym Apple działa za pomocą Rosetty."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Feito para os dois tipos de Mac. O Info.plist dele pede ao macOS que o abra como um app Intel, então, em um Mac com Apple silicon, ele é executado pelo Rosetta."
+            "value" : "Feito para os dois tipos de Mac. O próprio app pede ao macOS que o abra como um app Intel, então, em um Mac com Apple silicon, ele é executado pelo Rosetta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pentru ambele tipuri de procesoare. Fișierul Info.plist al aplicației îi cere lui macOS să o deschidă ca aplicație Intel, așa că pe un Mac cu cip Apple rulează prin Rosetta."
+            "value" : "Pentru ambele tipuri de procesoare. Aplicația însăși îi cere lui macOS să o deschidă ca aplicație Intel, așa că pe un Mac cu cip Apple rulează prin Rosetta."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Собрано и для Intel, и для чипов Apple. Info.plist этого приложения просит macOS открывать его как приложение для Intel, поэтому на Mac с чипом Apple оно работает через Rosetta."
+            "value" : "Собрано и для Intel, и для чипов Apple. Само приложение просит macOS открывать его как приложение для Intel, поэтому на Mac с чипом Apple оно работает через Rosetta."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Byggd för båda. Dess Info.plist ber macOS att öppna den som en Intel-app, så på Apple Silicon körs den via Rosetta."
+            "value" : "Byggd för båda. Själva appen ber macOS att öppna den som en Intel-app, så på Apple Silicon körs den via Rosetta."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Her iki işlemci türü için de derlendi. Info.plist dosyası macOS’ten onu bir Intel uygulaması olarak açmasını istiyor, bu yüzden Apple Silicon çipli Mac’lerde Rosetta ile çalışır."
+            "value" : "Her iki işlemci türü için de derlendi. Uygulamanın kendisi macOS’ten onu bir Intel uygulaması olarak açmasını istiyor, bu yüzden Apple Silicon çipli Mac’lerde Rosetta ile çalışır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Створено для обох типів Mac. Info.plist програми просить macOS відкривати її як програму для Intel, тож на Apple Silicon вона працює через Rosetta."
+            "value" : "Створено для обох типів Mac. Сама програма просить macOS відкривати її як програму для Intel, тож на Apple Silicon вона працює через Rosetta."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "同时为Apple芯片和Intel处理器构建。它的Info.plist要求macOS将其作为Intel App打开，因此在Apple芯片上它会通过Rosetta运行。"
+            "value" : "同时为Apple芯片和Intel处理器构建。App本身要求macOS将其作为Intel App打开，因此在Apple芯片上它会通过Rosetta运行。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "同時為Intel和Apple晶片建置。它的Info.plist要求macOS將它作為Intel App打開，因此在Apple晶片上它會透過Rosetta執行。"
+            "value" : "同時為Intel和Apple晶片建置。App本身要求macOS將它作為Intel App打開，因此在Apple晶片上它會透過Rosetta執行。"
           }
         }
       }
@@ -29569,112 +29569,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "取消"
-          }
-        }
-      }
-    },
-    "Can’t be read as a property list, so nothing can read these settings." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nelze ho přečíst jako seznam vlastností, takže tato nastavení nedokáže přečíst nic."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kann nicht als Eigenschaftsliste gelesen werden, daher kann nichts diese Einstellungen lesen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se puede leer como lista de propiedades, así que nada puede leer estos ajustes."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce fichier ne peut pas être lu comme une liste de propriétés : rien ne peut donc lire ces réglages."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Non si può leggere come property list, quindi nessun programma può leggere queste impostazioni."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "プロパティリストとして読み取れないため、この設定を読み取れるものはありません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "속성 목록으로 읽을 수 없으므로 어떤 프로그램도 이 설정을 읽을 수 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kan niet als eigenschappenlijst worden gelezen, dus niets kan deze instellingen lezen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tego pliku nie można odczytać jako listy właściwości, więc nic nie odczyta tych ustawień."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Não pode ser lido como lista de propriedades, por isso nada consegue ler estes ajustes."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nu poate fi citit ca listă de proprietăți, deci nimic nu poate citi aceste configurări."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не удается прочитать как список свойств, поэтому эти настройки не может прочитать ни одна программа."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kan inte läsas som en egenskapslista, så ingenting kan läsa de här inställningarna."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Özellik listesi olarak okunamıyor, bu yüzden bu ayarları hiçbir şey okuyamaz."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Файл не вдається прочитати як список властивостей, тож ці налаштування ніщо не може прочитати."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "无法作为属性列表读取，因此任何程序都无法读取这些设置。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無法讀取為屬性列表，因此沒有任何程式能讀取這些設定。"
           }
         }
       }
@@ -109119,19 +109013,18 @@
         }
       }
     },
-    "Moving this frees less than its length of %@: another file shares its storage, or it takes less space than that." : {
-      "comment" : "A note beside a file in File Search, and in its details. %@ is the file's length, as Finder shows it, such as 10 GB; Peel shows what moving the file would free, which is less: a copy may share its storage, another name may keep it, or it may take less space on the disk than its length.",
+    "Moving this frees less than its size of %@: another file shares its storage, or it takes less room on disk than that." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Přesunutím tohoto souboru se uvolní méně, než kolik činí jeho délka %@: sdílí místo na disku s jiným souborem, nebo zabírá méně místa, než odpovídá jeho délce."
+            "value" : "Přesunutím tohoto souboru se uvolní méně, než kolik činí jeho velikost %@: sdílí místo na disku s jiným souborem, nebo na disku zabírá méně místa, než odpovídá jeho velikosti."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Das Verschieben dieser Datei gibt weniger als ihre Größe von %@ frei: Eine andere Datei teilt sich Speicherplatz mit ihr, oder sie belegt weniger Platz, als ihre Größe angibt."
+            "value" : "Das Verschieben dieser Datei gibt weniger als ihre Größe von %@ frei: Eine andere Datei teilt sich Speicherplatz mit ihr, oder sie belegt auf dem Datenträger weniger Platz, als ihre Größe angibt."
           }
         },
         "es" : {
@@ -109143,19 +109036,19 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Déplacer ce fichier libère moins que sa taille de %@ : un autre fichier partage son stockage, ou il occupe moins d’espace que cela."
+            "value" : "Déplacer ce fichier libère moins que sa taille de %@ : un autre fichier partage son stockage, ou il occupe moins d’espace sur le disque que cela."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spostare questo file libera meno della sua dimensione di %@: lo spazio che occupa è condiviso con un altro file, oppure è inferiore a quella dimensione."
+            "value" : "Spostare questo file libera meno della sua dimensione di %@: lo spazio che occupa è condiviso con un altro file, oppure sul disco occupa meno spazio di così."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これをゴミ箱に入れても、解放される容量はファイルサイズの%@より少なくなります。ほかのファイルとストレージを共有しているか、ディスク上で実際に使用している領域がそれより少ないためです。"
+            "value" : "これをゴミ箱に入れても、解放される容量はサイズの%@より少なくなります。ほかのファイルとストレージを共有しているか、ディスク上で実際に使用している領域がそれより少ないためです。"
           }
         },
         "ko" : {
@@ -109167,7 +109060,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Als je dit verplaatst, komt er minder ruimte vrij dan de bestandsgrootte van %@: een ander bestand deelt de opslag ervan, of het neemt minder ruimte in dan dat."
+            "value" : "Als je dit verplaatst, komt er minder ruimte vrij dan de grootte van %@: een ander bestand deelt de opslag ervan, of het neemt minder ruimte op de schijf in dan dat."
           }
         },
         "pl" : {
@@ -109179,25 +109072,25 @@
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mover este arquivo libera menos que %@, o tamanho dele: ele compartilha o armazenamento com outro arquivo ou ocupa menos espaço que isso."
+            "value" : "Mover este arquivo libera menos que %@, o tamanho dele: outro arquivo compartilha o armazenamento dele, ou ele ocupa menos espaço no disco que isso."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mutarea acestui fișier eliberează mai puțin decât lungimea sa de %@: un alt fișier îi partajează spațiul de stocare sau fișierul ocupă mai puțin spațiu decât atât."
+            "value" : "Mutarea acestui fișier eliberează mai puțin decât dimensiunea sa de %@: un alt fișier îi partajează spațiul de stocare sau fișierul ocupă mai puțin spațiu pe disc decât atât."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Перемещение этого файла освободит меньше, чем его длина в %@: другой файл использует с ним общее пространство на диске, или файл занимает на диске меньше места."
+            "value" : "Перемещение этого файла освободит меньше, чем его размер в %@: другой файл использует с ним общее пространство на диске, или файл занимает на диске меньше места."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Om du flyttar den här filen frigörs mindre än dess storlek på %@: en annan fil delar dess lagringsutrymme, eller så tar den mindre plats än så."
+            "value" : "Om du flyttar den här filen frigörs mindre än dess storlek på %@: en annan fil delar dess lagringsutrymme, eller så tar den mindre plats på skivan än så."
           }
         },
         "tr" : {
@@ -109209,7 +109102,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Переміщення цього файлу звільнить менше місця, ніж його розмір (%@): інший файл спільно використовує з ним сховище, або на диску він займає менше."
+            "value" : "Переміщення цього файлу звільнить менше місця, ніж його розмір (%@): інший файл спільно використовує з ним сховище, або на диску він займає менше місця."
           }
         },
         "zh-Hans" : {
@@ -109221,7 +109114,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "移動此檔案所釋放的空間會少於其長度%@：另一個檔案與它共用儲存空間，或它佔用的空間比這還少。"
+            "value" : "移動此檔案所釋放的空間會少於其大小%@：另一個檔案與它共用儲存空間，或它在磁碟上佔用的空間比這還少。"
           }
         }
       }
@@ -240528,108 +240421,108 @@
         }
       }
     },
-    "Updates an app downloaded with Sparkle, Squirrel, or electron-updater and keeps in its caches until it installs them. If one is gone, the app downloads it again the next time it updates." : {
+    "Updates an app downloaded and keeps until it installs them. If one is gone, the app downloads it again the next time it updates. Peel knows the ones kept by Sparkle, Squirrel, and electron-updater, which most apps use." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aktualizace, které aplikace stáhla pomocí Sparkle, Squirrel nebo electron-updater a uchovává je ve svých mezipamětech, dokud je nenainstaluje. Pokud některá z nich chybí, aplikace ji při příští aktualizaci stáhne znovu."
+            "value" : "Aktualizace, které aplikace stáhla a uchovává, dokud je nenainstaluje. Pokud některá z nich chybí, aplikace ji při příští aktualizaci stáhne znovu. Peel rozpozná aktualizace uložené nástroji Sparkle, Squirrel a electron-updater, které používá většina aplikací."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Updates, die eine App mit Sparkle, Squirrel oder electron-updater geladen hat und in ihren Caches aufbewahrt, bis sie sie installiert. Fehlt eines, lädt die App es beim nächsten Update erneut."
+            "value" : "Updates, die eine App geladen hat und aufbewahrt, bis sie sie installiert. Fehlt eines, lädt die App es beim nächsten Update erneut. Peel erkennt die Updates von Sparkle, Squirrel und electron-updater, den Tools, die die meisten Apps verwenden."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Actualizaciones que una app descargó con Sparkle, Squirrel o electron-updater y guarda en sus cachés hasta instalarlas. Si falta alguna, la app la vuelve a descargar la próxima vez que se actualice."
+            "value" : "Actualizaciones que una app ha descargado y guarda hasta instalarlas. Si falta alguna, la app la vuelve a descargar la próxima vez que se actualice. Peel conoce las que guardan Sparkle, Squirrel y electron-updater, que usan la mayoría de las apps."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mises à jour qu’une app a téléchargées avec Sparkle, Squirrel ou electron-updater et qu’elle conserve dans ses caches jusqu’à ce qu’elle les installe. Si l’une d’elles a disparu, l’app la télécharge à nouveau lors de sa prochaine mise à jour."
+            "value" : "Mises à jour qu’une app a téléchargées et qu’elle conserve jusqu’à ce qu’elle les installe. Si l’une d’elles a disparu, l’app la télécharge à nouveau lors de sa prochaine mise à jour. Peel connaît celles que conservent Sparkle, Squirrel et electron-updater, qu’utilisent la plupart des apps."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aggiornamenti che un’app ha scaricato con Sparkle, Squirrel o electron-updater e conserva nelle sue cache finché non li installa. Se uno non c’è più, l’app lo scarica di nuovo al prossimo aggiornamento."
+            "value" : "Aggiornamenti che un’app ha scaricato e conserva finché non li installa. Se uno non c’è più, l’app lo scarica di nuovo al prossimo aggiornamento. Peel riconosce quelli conservati da Sparkle, Squirrel ed electron-updater, che la maggior parte delle app usa."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリがSparkle、Squirrel、またはelectron-updaterでダウンロードし、インストールするまでキャッシュに保管しているアップデートです。なくなった場合は、アプリが次にアップデートするときに再びダウンロードします。"
+            "value" : "アプリがダウンロードし、インストールするまで保管しているアップデートです。なくなった場合は、アプリが次にアップデートするときに再びダウンロードします。Peelが認識するのは、ほとんどのアプリが使用しているSparkle、Squirrel、electron-updaterが保管しているものです。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱이 Sparkle, Squirrel 또는 electron-updater로 다운로드하여 설치할 때까지 캐시에 보관하는 업데이트입니다. 업데이트가 없어지면 앱이 다음에 업데이트할 때 다시 다운로드합니다."
+            "value" : "앱이 다운로드하여 설치할 때까지 보관하는 업데이트입니다. 업데이트가 없어지면 앱이 다음에 업데이트할 때 다시 다운로드합니다. Peel은 대부분의 앱이 사용하는 Sparkle, Squirrel 및 electron-updater가 보관하는 업데이트를 인식합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Updates die een app met Sparkle, Squirrel of electron-updater heeft gedownload en in de eigen caches bewaart totdat de app ze installeert. Is er een verdwenen, dan downloadt de app die opnieuw bij de volgende update."
+            "value" : "Updates die een app heeft gedownload en bewaart totdat de app ze installeert. Is er een verdwenen, dan downloadt de app die opnieuw bij de volgende update. Peel kent de updates die worden bewaard door Sparkle, Squirrel en electron-updater, de updaters die de meeste apps gebruiken."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uaktualnienia, które aplikacja pobrała za pomocą Sparkle, Squirrel lub electron-updater i przechowuje w swoich pamięciach podręcznych, dopóki ich nie zainstaluje. Jeśli któregoś zabraknie, aplikacja pobierze je ponownie przy następnym uaktualnieniu."
+            "value" : "Uaktualnienia, które aplikacja pobrała i przechowuje, dopóki ich nie zainstaluje. Jeśli któregoś zabraknie, aplikacja pobierze je ponownie przy następnym uaktualnieniu. Peel rozpoznaje te przechowywane przez Sparkle, Squirrel i electron-updater, których używa większość aplikacji."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atualizações que um app baixou com o Sparkle, o Squirrel ou o electron-updater e guarda nos seus caches até instalá-las. Se uma delas não estiver mais lá, o app a baixa novamente na próxima vez que se atualizar."
+            "value" : "Atualizações que um app baixou e guarda até instalá-las. Se uma delas não estiver mais lá, o app a baixa novamente na próxima vez que se atualizar. O Peel conhece as que são guardadas pelo Sparkle, pelo Squirrel e pelo electron-updater, que a maioria dos apps usa."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Actualizări pe care o aplicație le‑a descărcat cu Sparkle, Squirrel sau electron-updater și le păstrează în memoriile sale tampon până când le instalează. Dacă una lipsește, aplicația o descarcă din nou data viitoare când se actualizează."
+            "value" : "Actualizări pe care o aplicație le‑a descărcat și le păstrează până când le instalează. Dacă una lipsește, aplicația o descarcă din nou data viitoare când se actualizează. Peel le recunoaște pe cele păstrate de Sparkle, Squirrel și electron-updater, pe care le folosesc majoritatea aplicațiilor."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Обновления, которые приложение загрузило с помощью Sparkle, Squirrel или electron-updater и хранит в своих кэшах, пока не установит их. Если какого-то из них больше нет, приложение снова загрузит его при следующем обновлении."
+            "value" : "Обновления, которые приложение загрузило и хранит, пока не установит их. Если какого-то из них больше нет, приложение снова загрузит его при следующем обновлении. Peel знает обновления, которые хранят Sparkle, Squirrel и electron-updater: ими пользуется большинство приложений."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uppdateringar som en app har hämtat med Sparkle, Squirrel eller electron-updater och sparar i sina cachar tills den installerar dem. Om en av dem är borta hämtar appen den igen nästa gång den uppdateras."
+            "value" : "Uppdateringar som en app har hämtat och sparar tills den installerar dem. Om en av dem är borta hämtar appen den igen nästa gång den uppdateras. Peel känner till dem som sparas av Sparkle, Squirrel och electron-updater, som de flesta appar använder."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir uygulamanın Sparkle, Squirrel veya electron-updater ile indirdiği ve yükleyene kadar önbelleklerinde tuttuğu güncellemeler. Biri artık yoksa, uygulama bir sonraki güncellemesinde onu yeniden indirir."
+            "value" : "Bir uygulamanın indirdiği ve yükleyene kadar tuttuğu güncellemeler. Biri artık yoksa, uygulama bir sonraki güncellemesinde onu yeniden indirir. Peel, uygulamaların çoğunun kullandığı Sparkle, Squirrel ve electron-updater araçlarının tuttuklarını tanır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Оновлення, які програма викачала за допомогою Sparkle, Squirrel або electron-updater і зберігає у своїх кешах, доки не інсталює їх. Якщо одного з них немає, програма викачає його знову під час наступного оновлення."
+            "value" : "Оновлення, які програма викачала й зберігає, доки не інсталює їх. Якщо одного з них немає, програма викачає його знову під час наступного оновлення. Peel знає ті, що зберігають Sparkle, Squirrel і electron-updater, якими користується більшість програм."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App通过Sparkle、Squirrel或electron-updater下载、并在安装之前保留在其缓存中的更新。如果某个更新已不在，该App会在下次更新时重新下载它。"
+            "value" : "App下载、并在安装之前一直保留的更新。如果某个更新已不在，该App会在下次更新时重新下载它。Peel能识别由Sparkle、Squirrel和electron-updater保留的更新，大多数App都使用这些工具。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App透過Sparkle、Squirrel或electron-updater下載、並在安裝前保留在其快取中的更新項目。如果某個更新項目已不存在，App會在下次更新時重新下載它。"
+            "value" : "App下載並在安裝前保留的更新項目。如果某個更新項目已不存在，App會在下次更新時重新下載它。Peel能辨識由Sparkle、Squirrel和electron-updater保留的更新項目，大多數App都使用這些工具。"
           }
         }
       }

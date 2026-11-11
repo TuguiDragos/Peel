@@ -231,7 +231,7 @@ struct FileSearchList: View {
                 : nil,
             file.heldBack.map { String(localized: $0.explanation) },
             file.freesLessThanItsLength
-                ? String(localized: "Moving this frees less than its length of \(file.length.byteCount): another file shares its storage, or it takes less space than that.")
+                ? String(localized: "Moving this frees less than its size of \(file.length.byteCount): another file shares its storage, or it takes less room on disk than that.")
                 : nil,
         ].compactMap(\.self)
         return lines.isEmpty ? nil : lines.joined(separator: "\n\n")

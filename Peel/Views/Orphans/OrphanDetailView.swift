@@ -72,7 +72,7 @@ struct OrphanDetailView: View {
         let lines = [
             item.heldBack.map { String(localized: $0.explanation) },
             item.holdsDamagedSettings
-                ? String(localized: "Can’t be read as a property list, so nothing can read these settings.")
+                ? String(localized: "This settings file is damaged, so no app can read it.")
                 : nil,
             item.leadsTo.map(Leftover.linkNote(leadingTo:)),
         ].compactMap(\.self)

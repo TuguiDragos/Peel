@@ -162,7 +162,7 @@ extension IntelFinding {
     /// The name of what the page's badge says, and its note.
     var badge: (title: LocalizedStringResource, detail: LocalizedStringResource) {
         prefersIntel
-            ? ("Opens as Intel", "Built for both. Its Info.plist asks macOS to open it as an Intel app, so on Apple silicon it runs through Rosetta.")
+            ? ("Opens as Intel", "Built for both. The app itself asks macOS to open it as an Intel app, so on Apple silicon it runs through Rosetta.")
             : ("Intel only", "Built for Intel processors only. On Apple silicon it needs Rosetta.")
     }
 
