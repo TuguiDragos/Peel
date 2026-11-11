@@ -47,7 +47,7 @@ struct ToolsTab: View {
                             HStack(spacing: 5) {
                                 Text("Install Homebrew first")
                                     .font(.body.weight(.semibold))
-                                Link(destination: Homebrew.website) { Text(verbatim: "brew.sh") }
+                                Link(destination: Homebrew.website) { Text(verbatim: "brew.sh").minimumTarget() }
                                     .font(.caption)
                             }
                             CopyableLines(
