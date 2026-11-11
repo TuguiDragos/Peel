@@ -837,7 +837,7 @@ struct HomebrewTests {
         let (pieces, arrived) = AsyncStream.makeStream(of: Void.self)
         let run = Task {
             try await Homebrew.execute(
-                ["-c", "trap 'echo stopping; kill $!; exit 143' TERM; echo first; sleep 60 & wait"], autoUpdate: false,
+                ["-c", "trap 'echo stopping; kill $!; exit 143' TERM; echo first; sleep 3600 & wait"], autoUpdate: false,
                 timeout: nil,
                 onOutput: { piece in
                     written.withLock { $0.append(piece) }
