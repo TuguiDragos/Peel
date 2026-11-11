@@ -303,6 +303,7 @@ Some of what Peel does is not a move to the Trash. Each is here with how it is u
 | A launch job is stopped (`launchctl bootout`) once its file is in the Trash | Putting the file back from History, which starts the job again (`launchctl bootstrap`, a daemon through the helper) |
 | An uninstalled app's icon is taken out of the Dock, which restarts the Dock | Putting the app back from History puts its icon back where it was; the icon of an app that was already in the Trash doesn't come back |
 | An app's privacy permissions are reset, only when you choose it | Can't be undone: the app asks again for each permission |
+| An app Launch Services knows no copy of is registered with it before its privacy permissions are reset, since `tccutil` finds an app only through Launch Services, and an app History puts back is registered again | Nothing to undo: it is the same record macOS makes of an app Finder shows |
 | Homebrew uninstalls a package, or cleans up its downloads, the old versions it kept, and the formulae nothing needs anymore | Can't be undone: Homebrew deletes what it removes |
 | Homebrew upgrades a package, updates itself and its taps, or repairs its taps' links (Upgrade, Upgrade All, Update, Repair Taps) | Not through History: an upgrade replaces the version that was installed, and the earlier versions of a formula stay until you clean up |
 | An app that would not quit is force quit, only when you choose it | Can't be undone: what the app had not saved is lost |

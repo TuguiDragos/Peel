@@ -354,7 +354,9 @@ If you are unsure whether something belongs in the helper, it doesn't.
 - **Asking for an app's name or icon registers it with Launch Services.** `FileManager.displayName`, the
   `localizedNameKey` and `effectiveIconKey` resource values, and IconServices register the bundle they are asked
   about, so Peel asks them only about an app Launch Services already knows at that place, and names or draws any
-  other from its own files (`AppInspector.displayName`, `AppInspector.icon(ofAppAt:)`).
+  other from its own files (`AppInspector.displayName`, `AppInspector.icon(ofAppAt:)`). A privacy reset is the one
+  place that registers an app on purpose: `tccutil` finds an app only through Launch Services, so one it knows no
+  copy of is registered first (`PrivacyReset.reset`).
 - **Code that can run after Peel has moved stops trusting its bundle.** Peel's Finder extension can keep running
   from the Trash, where `NSImage(resource:)` traps on an asset it no longer finds, so it offers nothing once its
   bundle has left. Once Remove Peel has moved Peel, the main bundle still names the place it left, so the last words

@@ -106,6 +106,23 @@ struct DocumentationTests {
         ], "Name a new one in AGENTS.md, SAFETY.md, and ARCHITECTURE.md, and say why it holds nothing of the person's.")
     }
 
+    @Test func everyPlaceThatRegistersAnAppIsOneTheDocumentsName() throws {
+        var calls: [String: Int] = [:]
+        for file in try LineLengthTests.swiftFiles() where !file.path(percentEncoded: false).contains("/Tests/") {
+            let code = try String(contentsOf: file, encoding: .utf8).split(separator: "\n")
+                .filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("//") }
+            let count = code.reduce(0) { $0 + $1.matches(of: /\bLSRegisterURL\(/).count }
+            if count > 0 { calls[file.lastPathComponent] = count }
+        }
+
+        #expect(calls == ["PrivacyReset.swift": 1, "TrashService.swift": 1],
+                "Name a new one in SAFETY.md, SECURITY.md, ARCHITECTURE.md, and AGENTS.md.")
+        for document in ["SAFETY.md", "SECURITY.md"] {
+            let text = try String(contentsOf: LineLengthTests.repository.appending(path: document), encoding: .utf8)
+            #expect(text.contains("Launch Services"), "\(document)")
+        }
+    }
+
     @Test func everyAddressPrivacyMDNamesIsInSettingsPrivacy() throws {
         let privacy = try String(contentsOf: LineLengthTests.repository.appending(path: "PRIVACY.md"), encoding: .utf8)
         let addresses = privacy.split(separator: "\n").compactMap { line in

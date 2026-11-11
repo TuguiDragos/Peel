@@ -165,7 +165,8 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      `OpenFiles.refusal(heldBy:)` is the one rule.
    - The app's privacy permissions are reset, when that was chosen, just before the move and only once the
      checks the move makes first (the guard, History, and the programs holding it) say it will go
-     (`PrivacyReset`).
+     (`PrivacyReset`). An app Launch Services knows no copy of is registered there first, since `tccutil` finds an
+     app only through Launch Services.
 6. **Finish.** Only for what really moved: the launch jobs whose files went are stopped, macOS is told to
    forget the preference domains whose files went, and an uninstalled app's Dock icon comes out (`DockTiles`: the
    tile naming the app's place, or naming its identifier with a bookmark that finds the app where it went, so an app

@@ -188,9 +188,10 @@ have, and anything that destroys data that cannot be recovered.
   Dock, Finder, Control Center, or Window Manager with `killall`; the settings the Terminal page
   writes for Terminal, the shell, ssh, and Git; the Dock's lists, when an uninstall takes an app's
   icon out; the preference domains it forgets with `defaults delete`; the copies of an app's settings
-  a reset saves and puts back; and the Time Machine mark Build Artifacts sets. Getting any of them to
-  write anything but what the user chose, or to write it anywhere else, such as through a link, is
-  in scope.
+  a reset saves and puts back; the record Launch Services keeps of an app, made before a privacy
+  reset of an app it knows no copy of and again for an app Put Back brings back; and the Time Machine
+  mark Build Artifacts sets. Getting any of them to write anything but what the user chose, or to
+  write it anywhere else, such as through a link, is in scope.
 
 **Peel's website and its old Homebrew tap.**
 
