@@ -119,8 +119,8 @@ A cleaner should never cost you something you wanted.
 - **Nothing shared is selected.** A file another app also uses is shown, but never selected for you. A folder Peel
   couldn't measure or read is shown as unknown, never as empty, and isn't selected either.
 - **Peel shows its reasons.** When Peel holds a file back, the row says why.
-- **Checked again at the last moment.** Peel looks at each item once more right before it moves, so something
-  swapped in the meantime stays where it is.
+- **Checked again at the last moment.** Peel checks each item against its rules once more right before it moves,
+  so something Peel protects that took its place meanwhile stays where it is.
 
 [SAFETY.md](SAFETY.md) lists everything Peel protects, and [ARCHITECTURE.md](ARCHITECTURE.md) shows how a
 removal travels through the code.
