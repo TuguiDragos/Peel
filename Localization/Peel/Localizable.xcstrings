@@ -11749,25 +11749,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld složky ponechány"
+                  "value" : "%lld ponechané"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld složky ponecháno"
+                  "value" : "%lld ponechané"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld složka ponechána"
+                  "value" : "%lld ponechaná"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld složek ponecháno"
+                  "value" : "%lld ponechaných"
                 }
               }
             }
@@ -11797,19 +11797,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld conservadas"
+                  "value" : "%lld de conservados"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld conservada"
+                  "value" : "%lld conservado"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld conservadas"
+                  "value" : "%lld conservados"
                 }
               }
             }
@@ -11845,19 +11845,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld mantenute"
+                  "value" : "%lld mantenuti"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld mantenuta"
+                  "value" : "%lld mantenuto"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld mantenute"
+                  "value" : "%lld mantenuti"
                 }
               }
             }
@@ -11911,13 +11911,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld zachowany"
+                  "value" : "%lld zachowana"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld zachowanego"
+                  "value" : "%lld zachowanej"
                 }
               }
             }
@@ -11929,19 +11929,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld mantidas"
+                  "value" : "%lld mantidos"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld mantida"
+                  "value" : "%lld mantido"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld mantidas"
+                  "value" : "%lld mantidos"
                 }
               }
             }
@@ -11953,19 +11953,19 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld dosare păstrate"
+                  "value" : "%lld se păstrează"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld dosar păstrat"
+                  "value" : "%lld se păstrează"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld de dosare păstrate"
+                  "value" : "%lld se păstrează"
                 }
               }
             }
@@ -11977,25 +11977,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld папки остаются"
+                  "value" : "%lld остаются"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld папок остаются"
+                  "value" : "%lld остаются"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld папка остается"
+                  "value" : "%lld остается"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld папки остаются"
+                  "value" : "%lld остаются"
                 }
               }
             }
@@ -12025,13 +12025,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld klasör kalıyor"
+                  "value" : "%lld kalıyor"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld klasör kalıyor"
+                  "value" : "%lld kalıyor"
                 }
               }
             }
@@ -25004,7 +25004,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Přesunuté aplikace"
+            "value" : "Přesunuto aplikací"
           }
         },
         "de" : {
@@ -25088,7 +25088,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Переміщені програми"
+            "value" : "Переміщено програм"
           }
         },
         "zh-Hans" : {
@@ -86391,7 +86391,7 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Přesunuté položky"
+            "value" : "Přesunuto položek"
           }
         },
         "de" : {
@@ -86475,7 +86475,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Переміщені елементи"
+            "value" : "Переміщено елементів"
           }
         },
         "zh-Hans" : {
