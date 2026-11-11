@@ -166,6 +166,24 @@ struct OrphanScannerTests {
         #expect(!ownership.isClaimed(fileName: "ABCDE12345.org.other.thing", kind: .groupContainers, identifier: "ABCDE12345.org.other.thing"))
         #expect(!asked.withLock { $0 }.contains { $0.hasPrefix("ABCDE12345") || $0.hasPrefix("group.") })
     }
+    @Test func anOrphanThatIsALinkSaysWhereItLeads() async throws {
+        let directory = try TemporaryDirectory()
+        let data = try directory.directory("elsewhere/TideCache")
+        try directory.file("elsewhere/TideCache/cache.db", bytes: 64)
+        let caches = try directory.directory("home/Library/Caches")
+        try FileManager.default.createSymbolicLink(at: caches.appending(path: "org.example.tide"), withDestinationURL: data)
+        let gone = RememberedApp(
+            bundleIdentifier: "org.example.tide", name: "Tide", teamIdentifier: nil,
+            lastSeen: .now.addingTimeInterval(-30 * 86_400), lastPath: "/Applications/Tide.app",
+            goneSince: .now.addingTimeInterval(-30 * 86_400)
+        )
+
+        let scan = await scanner(in: directory).scan(installedApps: [], remembered: [gone])
+
+        let link = try #require(scan.groups.flatMap(\.items).first { $0.url.lastPathComponent == "org.example.tide" })
+        #expect(link.leadsTo == PathPattern.canonicalWithoutOpening(data))
+    }
+
     @Test func aTwoPartAppMacOSKnowsElsewhereKeepsItsFiles() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Preferences/md.example.plist")

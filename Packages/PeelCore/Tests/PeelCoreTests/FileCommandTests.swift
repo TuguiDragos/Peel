@@ -362,6 +362,21 @@ struct FileCommandTests {
         #expect(FileManager.default.fileExists(atPath: other.items[0].url.path(percentEncoded: false)))
     }
 
+    @Test func anOrphanThatIsALinkSaysWhereItLeads() throws {
+        let directory = try TemporaryDirectory()
+        var item = try orphan("com.example.gone", in: directory)
+        item.leadsTo = URL(filePath: "/Volumes/Archive/GoneData")
+        let group = OrphanGroup(identifier: "com.example.gone", items: [item])
+
+        let json = try Output.jsonText(OrphansCommand.report(for: OrphanScan(groups: [group], unreadableLocations: [])))
+        let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
+        let groups = try #require(report["groups"] as? [[String: Any]])
+        let files = try #require(groups.first?["files"] as? [[String: Any]])
+
+        #expect(OrphansCommand.rows(for: group)[0].last == "a link to /Volumes/Archive/GoneData")
+        #expect(files.first?["leadsTo"] as? String == "/Volumes/Archive/GoneData")
+    }
+
     @Test func thePlanOfAnUnsureGroupSaysWhy() {
         var group = OrphanGroup(identifier: "com.example.gone", items: [])
         #expect(OrphansCommand.unsureNote(for: group).isEmpty)

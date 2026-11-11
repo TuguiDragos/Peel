@@ -71,11 +71,14 @@ struct OrphansCommand: AsyncParsableCommand {
             let size: MeasuredSize
             /// Why `--remove` leaves the file where it is, or `null` when it would move it.
             let heldBack: String?
+            /// Where the file leads when it is a symbolic link, which moving it leaves in place, or `null`.
+            var leadsTo: String?
 
             private enum CodingKeys: String, CodingKey {
                 case path
                 case size
                 case heldBack
+                case leadsTo
             }
 
             /// Encodes a missing `heldBack` as `null`, for the reason `AppRecord` gives.
@@ -84,6 +87,7 @@ struct OrphansCommand: AsyncParsableCommand {
                 try container.encode(path, forKey: .path)
                 try container.encode(size, forKey: .size)
                 try container.encode(heldBack, forKey: .heldBack)
+                try container.encode(leadsTo, forKey: .leadsTo)
             }
         }
     }
@@ -200,7 +204,10 @@ struct OrphansCommand: AsyncParsableCommand {
                     why: group.confidence.summary,
                     files: group.items.map { item in
                         let size = MeasuredSize(item.size)
-                        return Report.File(path: Output.path(item.url), size: size, heldBack: item.heldBack?.rawValue)
+                        return Report.File(
+                            path: Output.path(item.url), size: size, heldBack: item.heldBack?.rawValue,
+                            leadsTo: item.leadsTo.map(Output.path)
+                        )
                     }
                 )
             },
@@ -260,7 +267,9 @@ struct OrphansCommand: AsyncParsableCommand {
 
     static func rows(for group: OrphanGroup) -> [[String]] {
         group.items.map { item in
-            [Output.size(item.size), Output.path(item.url)] + (item.heldBack.map { ["stays: \($0.summary)"] } ?? [])
+            let notes = [item.heldBack.map { "stays: \($0.summary)" }, item.leadsTo.map { "a link to \(Output.path($0))" }]
+                .compactMap(\.self)
+            return [Output.size(item.size), Output.path(item.url)] + (notes.isEmpty ? [] : [notes.joined(separator: ", ")])
         }
     }
 

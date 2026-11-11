@@ -74,6 +74,7 @@ struct OrphanDetailView: View {
             item.holdsDamagedSettings
                 ? String(localized: "Can’t be read as a property list, so nothing can read these settings.")
                 : nil,
+            item.leadsTo.map(Leftover.linkNote(leadingTo:)),
         ].compactMap(\.self)
         return lines.isEmpty ? nil : lines.joined(separator: "\n\n")
     }

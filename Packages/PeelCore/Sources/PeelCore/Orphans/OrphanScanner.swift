@@ -991,7 +991,9 @@ public struct OrphanScanner: Sendable {
             heldBack: heldBack,
             namedAfter: namedAfter,
             holdsDamagedSettings: kind == .preferences && PreferenceFile.isDamaged(url),
-            productFolder: folder
+            productFolder: folder,
+            // A link in a folder of links leads into the gone app, as its group says.
+            leadsTo: kind.isForLinks || !url.isSymbolicLink ? nil : url.leadsToInTheEnd
         )
     }
 }

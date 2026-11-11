@@ -23,6 +23,8 @@ public struct OrphanItem: Sendable, Hashable, Identifiable {
     /// True when only an administrator can move it, from where the helper can't move it, and nothing else
     /// holds it back.
     public var isLeftForAnAdministrator = false
+    /// Where it leads in the end, when it is a symbolic link: moving it moves the link, not what is there.
+    public var leadsTo: URL? = nil
 
     /// Why the item cannot be selected at all: `RemovalGuard` or the helper would refuse it.
     public var leftAlone: HoldBack? {
