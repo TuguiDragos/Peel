@@ -257,7 +257,7 @@ struct SpaceDetailView: View {
     }
 
     private var caption: Text {
-        if item.isReadOnly { return Text("in use") }
+        if item.isReadOnly { return Text("on this Mac") }
         return plan == nil ? Text("in here") : Text("to remove")
     }
 
