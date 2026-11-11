@@ -39,7 +39,7 @@ struct BackgroundItemList: View {
                 ContentUnavailableView(
                     "No Background Items",
                     systemImage: "gearshape.2",
-                    description: Text("Apps that run in the background will appear here. Apps set to open at login are in System Settings > General > Login Items & Extensions.")
+                    description: Text("Agents and daemons that apps add to run in the background appear here. Apps set to open at login are in System Settings > General > Login Items & Extensions.")
                 )
             } else {
                 ContentUnavailableView.search(text: searchText)
@@ -194,7 +194,7 @@ struct BackgroundItemList: View {
             Text("The command didn’t answer within 30 seconds, so Peel ended it. The job may still stop or restart on its own.")
         case .launchctl(let output): Text(verbatim: FixedSentence.translated(output))
         case .trash(let reason): Text(verbatim: reason.explanation)
-        case .disabled: Text("macOS won’t load this while it is disabled. Enable it first, then start it.")
+        case .disabled: Text("macOS won’t load this while it is disabled. Enable it first, then load it.")
         case .quarantinedPlist: Text("macOS won’t load this: its configuration file carries the mark macOS puts on downloads. Reinstalling the app that put it there may write it again without the mark.")
         case .turnedOffInSystemSettings: Text(.keptOffBySystemSettings)
         }

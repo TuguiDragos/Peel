@@ -15,7 +15,7 @@ struct UnreadableFoldersNotice: View {
 
     var body: some View {
         Notice(
-            title: Text("Some folders couldn’t be read"),
+            title: folders.count == 1 ? Text("A folder couldn’t be read") : Text("Some folders couldn’t be read"),
             detail: Text(
                 verbatim: Self.detail(
                     naming: folders.map(\.abbreviatedPath), closed: closed, needsFullDiskAccess: needsFullDiskAccess,

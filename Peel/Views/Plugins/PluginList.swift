@@ -81,7 +81,7 @@ struct PluginList: View {
                 ContentUnavailableView(
                     "No Plug-ins",
                     systemImage: "powerplug",
-                    description: Text("Plug-ins installed on this Mac will appear here.")
+                    description: Text("Plug-ins that apps install on this Mac appear here.")
                 )
             } else {
                 ContentUnavailableView.search(text: searchText)

@@ -183,7 +183,7 @@ private struct TerminalThemeInUse: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             } else if terminal.wasRefused {
-                StatusLabel(title: Text("macOS refused it"), tint: .accentColor)
+                StatusLabel(title: Text("macOS refused the change"), tint: .accentColor)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             } else if terminal.areProfilesUnreadable {
@@ -255,7 +255,7 @@ private struct TerminalSettingsForm: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 } else if terminal.wasRefused {
-                    StatusLabel(title: Text("macOS refused it"), tint: .accentColor)
+                    StatusLabel(title: Text("macOS refused the change"), tint: .accentColor)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

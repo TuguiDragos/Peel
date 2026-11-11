@@ -13461,6 +13461,112 @@
         }
       }
     },
+    "A folder couldn’t be read" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Složku nelze přečíst"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Ordner konnte nicht gelesen werden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha podido leer una carpeta"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un dossier n’a pas pu être lu"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile leggere una cartella"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フォルダを読み取れませんでした"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "폴더 하나를 읽을 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een map kon niet worden gelezen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się odczytać folderu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível ler uma pasta"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un dosar nu a putut fi citit"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось прочитать папку"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En mapp kunde inte läsas"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir klasör okunamadı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папку не вдалося прочитати"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能读取一个文件夹"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有一個檔案夾無法讀取"
+          }
+        }
+      }
+    },
     "A folder of theirs has permissions of its own that keep your account out." : {
       "localizations" : {
         "cs" : {
@@ -18128,6 +18234,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "代理程式"
+          }
+        }
+      }
+    },
+    "Agents and daemons that apps add to run in the background appear here. Apps set to open at login are in System Settings > General > Login Items & Extensions." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zde se zobrazí agenti a démoni, které aplikace přidávají, aby běželi na pozadí. Aplikace nastavené tak, aby se otevíraly při přihlášení, najdete v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agenten und Daemons, die Apps hinzufügen, um Aufgaben im Hintergrund auszuführen, werden hier angezeigt. Apps, die bei der Anmeldung geöffnet werden sollen, findest du unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aquí aparecen los agentes y demonios que añaden las apps para ejecutarse en segundo plano. Las apps configuradas para abrirse al iniciar sesión están en Ajustes del Sistema > General > Ítems de inicio y extensiones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les agents et les démons que les apps ajoutent pour s’exécuter en arrière-plan apparaissent ici. Les apps configurées pour s’ouvrir avec la session se trouvent dans Réglages Système > Général > Ouverture et extensions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qui appariranno gli agenti e i daemon che le app aggiungono per essere eseguiti in background. Le app impostate per aprirsi al login si trovano in Impostazioni di Sistema > Generali > Elementi login ed estensioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリがバックグラウンドで実行するために追加したエージェントとデーモンがここに表示されます。ログイン時に開くように設定されたアプリは、“システム設定”＞“一般”＞“ログイン項目と機能拡張”にあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱이 백그라운드에서 실행하기 위해 추가한 에이전트와 데몬이 여기에 표시됩니다. 로그인 시 열리도록 설정된 앱은 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agents en daemons die apps toevoegen om op de achtergrond te worden uitgevoerd, verschijnen hier. Apps die zo zijn ingesteld dat ze worden geopend als je inlogt, staan in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutaj pojawią się agenty i demony, które aplikacje dodają, aby działać w tle. Aplikacje, które mają się otwierać podczas logowania, znajdziesz w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os agentes e daemons que os apps adicionam para executar em segundo plano aparecem aqui. Os apps configurados para abrir no início da sessão ficam em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aici apar agenții și daemonii pe care aplicațiile îi adaugă pentru a rula în fundal. Aplicațiile setate să se deschidă la login se află în Configurări sistem > General > Lansare la login și extensii."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здесь появятся агенты и демоны, которые приложения добавляют для работы в фоновом режиме. Приложения, настроенные на открытие при входе, перечислены в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agenter och daemons som appar lägger till för att köras i bakgrunden visas här. Appar som är inställda på att öppnas vid inloggning finns i Systeminställningar > Allmänt > Startobjekt och tillägg."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulamaların arka planda çalışmak için eklediği aracılar ve arka plan programları burada görünür. Oturum açıldığında açılmaya ayarlı uygulamalar Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünde yer alır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тут зʼявляються агенти й демони, які програми додають для роботи у фоновому режимі. Програми, налаштовані відкриватися під час входу в систему, перелічено в розділі Системні параметри > Загальні > Автозапуск і розширення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App为在后台运行而添加的代理和监控程序将在此处显示。设置为在登录时打开的App位于“系统设置”>“通用”>“登录项与扩展”中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App為在背景執行而加入的代理程式和服務程式會顯示在此處。設定為在登入時打開的App位於「系統設定」>「一般」>「登入項目與延伸功能」中。"
           }
         }
       }
@@ -25102,113 +25314,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "會移除的App：%@"
-          }
-        }
-      }
-    },
-    "Apps that run in the background will appear here. Apps set to open at login are in System Settings > General > Login Items & Extensions." : {
-      "comment" : "Background Items when it lists nothing. The second sentence says where macOS keeps the apps a person set to open at login, which aren’t launchd jobs. Use macOS’s own words for the place.",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zde se zobrazí aplikace, které běží na pozadí. Aplikace nastavené tak, aby se otevíraly při přihlášení, najdete v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apps, die im Hintergrund laufen, werden hier angezeigt. Apps, die bei der Anmeldung geöffnet werden sollen, findest du unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aquí aparecerán las apps que se ejecutan en segundo plano. Las apps configuradas para abrirse al iniciar sesión están en Ajustes del Sistema > General > Ítems de inicio y extensiones."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les apps qui s’exécutent en arrière-plan apparaîtront ici. Les apps configurées pour s’ouvrir avec la session se trouvent dans Réglages Système > Général > Ouverture et extensions."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qui appariranno le app che vengono eseguite in background. Le app impostate per aprirsi al login si trovano in Impostazioni di Sistema > Generali > Elementi login ed estensioni."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "バックグラウンドで動作するアプリがここに表示されます。ログイン時に開くように設定されたアプリは、“システム設定”＞“一般”＞“ログイン項目と機能拡張”にあります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "백그라운드에서 실행되는 앱이 여기에 표시됩니다. 로그인 시 열리도록 설정된 앱은 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apps die op de achtergrond worden uitgevoerd, verschijnen hier. Apps die zo zijn ingesteld dat ze worden geopend als je inlogt, staan in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tutaj pojawią się aplikacje działające w tle. Aplikacje, które mają się otwierać podczas logowania, znajdziesz w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Os apps executados em segundo plano aparecerão aqui. Os apps configurados para abrir no início da sessão ficam em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aici vor apărea aplicațiile care rulează în fundal. Aplicațiile setate să se deschidă la login se află în Configurări sistem > General > Lansare la login și extensii."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Здесь появятся приложения, которые работают в фоновом режиме. Приложения, настроенные на открытие при входе, перечислены в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения»."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appar som körs i bakgrunden visas här. Appar som är inställda på att öppnas vid inloggning finns i Systeminställningar > Allmänt > Startobjekt och tillägg."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arka planda çalışan uygulamalar burada görünür. Oturum açıldığında açılmaya ayarlı uygulamalar Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünde yer alır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тут зʼявлятимуться програми, які працюють у фоновому режимі. Програми, налаштовані відкриватися під час входу в систему, перелічено в розділі Системні параметри > Загальні > Автозапуск і розширення."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在后台运行的App将在此处显示。设置为在登录时打开的App位于“系统设置”>“通用”>“登录项与扩展”中。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在背景執行的App會顯示在此處。設定為在登入時打開的App位於「系統設定」>「一般」>「登入項目與延伸功能」中。"
           }
         }
       }
@@ -78241,6 +78346,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它在Peel查看後有所變更。請重新掃描以檢查。"
+          }
+        }
+      }
+    },
+    "It changes the same setting as Personalized Ads in Privacy & Security. The ad service on this Mac learns of the change at once only from the switch there." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mění stejné nastavení jako Osobní reklama v části Soukromí a zabezpečení. Reklamní služba v tomto Macu se o změně ihned dozví jen z tamního přepínače."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ändert dieselbe Einstellung wie „Personalisierte Werbung“ unter „Datenschutz & Sicherheit“. Der Werbedienst auf diesem Mac erfährt nur über den Schalter dort sofort von der Änderung."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambia el mismo ajuste que Anuncios personalizados en Privacidad y seguridad. El servicio de anuncios de este Mac solo se entera del cambio en el momento si se hace con el interruptor de ahí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il modifie le même réglage que « Annonces personnalisées » dans Confidentialité et sécurité. Le service publicitaire de ce Mac n’est informé immédiatement du changement que par le commutateur qui s’y trouve."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifica la stessa impostazione di “Annunci personalizzati” in “Privacy e sicurezza”. Il servizio pubblicitario su questo Mac viene a sapere subito della modifica solo dall’interruttore che si trova lì."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“プライバシーとセキュリティ”の“パーソナライズされた広告”と同じ設定を変更します。このMacの広告サービスに変更がすぐに伝わるのは、そちらのスイッチを使った場合だけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "개인정보 보호 및 보안의 개인 맞춤형 광고와 같은 설정을 변경합니다. 이 Mac의 광고 서비스는 그곳의 스위치를 사용할 때만 변경 사항을 즉시 알게 됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit wijzigt dezelfde instelling als 'Gepersonaliseerde reclame' in 'Privacy en beveiliging'. De reclamedienst op deze Mac hoort alleen via de schakelaar daar direct van de wijziging."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zmienia to samo ustawienie co Reklamy spersonalizowane w sekcji Prywatność i ochrona. Usługa reklamowa na tym Macu dowiaduje się o zmianie od razu tylko dzięki tamtemu przełącznikowi."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele altera o mesmo ajuste que Anúncios Personalizados em Privacidade e Segurança. O serviço de anúncios deste Mac só fica sabendo da mudança na hora pelo botão de lá."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifică aceeași configurare ca Reclame personalizate din Intimitate și securitate. Serviciul de reclame de pe acest Mac află imediat despre schimbare doar de la comutatorul de acolo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Меняет ту же настройку, что и «Контекстная реклама» в разделе «Конфиденциальность и безопасность». Рекламная служба на этом Mac узнает об изменении сразу, только если переключить ее там."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det ändrar samma inställning som Personliga annonser under Integritet och säkerhet. Annonstjänsten på den här datorn får bara veta om ändringen direkt via reglaget där."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gizlilik ve Güvenlik’teki Kişiselleştirilmiş Reklamlar ile aynı ayarı değiştirir. Bu Mac’teki reklam hizmeti, değişikliği yalnızca oradaki düğmeden hemen öğrenir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Змінює те саме налаштування, що й «Персоналізована реклама» в розділі «Приватність і безпека». Рекламний сервіс на цьому Mac одразу дізнається про зміну лише від перемикача там."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它更改的设置与“隐私与安全性”中的“个性化广告”相同。只有通过那里的开关，这台Mac上的广告服务才会立即得知此更改。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它更改的設定與「隱私權與安全性」中的「個人化廣告」相同。只有在那裡切換開關，這部Mac上的廣告服務才會立即得知此變更。"
           }
         }
       }
@@ -167601,108 +167812,108 @@
         }
       }
     },
-    "Plug-ins installed on this Mac will appear here." : {
+    "Plug-ins that apps install on this Mac appear here." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zde se zobrazí plug-iny nainstalované v tomto Macu."
+            "value" : "Zde se zobrazí plug-iny, které aplikace do tohoto Macu instalují."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Auf diesem Mac installierte Plug-ins werden hier angezeigt."
+            "value" : "Plug-ins, die Apps auf diesem Mac installieren, werden hier angezeigt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aquí aparecerán los módulos instalados en este Mac."
+            "value" : "Aquí aparecen los módulos que las apps instalan en este Mac."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les modules installés sur ce Mac apparaîtront ici."
+            "value" : "Les modules que les apps installent sur ce Mac apparaissent ici."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Qui appariranno i plugin installati su questo Mac."
+            "value" : "Qui appariranno i plugin che le app installano su questo Mac."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このMacにインストールされているプラグインがここに表示されます。"
+            "value" : "アプリがこのMacにインストールしたプラグインがここに表示されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 Mac에 설치된 플러그인이 여기에 표시됩니다."
+            "value" : "앱이 이 Mac에 설치한 플러그인이 여기에 표시됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plug-ins die op deze Mac zijn geïnstalleerd, verschijnen hier."
+            "value" : "Plug-ins die apps op deze Mac installeren, verschijnen hier."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tutaj pojawią się wtyczki zainstalowane na tym Macu."
+            "value" : "Tutaj pojawią się wtyczki, które aplikacje instalują na tym Macu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Os plug-ins instalados neste Mac aparecerão aqui."
+            "value" : "Os plug-ins que os apps instalam neste Mac aparecem aqui."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aici vor apărea plug-inurile instalate pe acest Mac."
+            "value" : "Aici apar plug-inurile pe care aplicațiile le instalează pe acest Mac."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Здесь появятся плагины, установленные на этом Mac."
+            "value" : "Здесь появятся плагины, которые приложения устанавливают на этот Mac."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Insticksfiler som är installerade på den här datorn visas här."
+            "value" : "Insticksfiler som appar installerar på den här datorn visas här."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu Mac’te yüklü yazılım ekleri burada görünür."
+            "value" : "Uygulamaların bu Mac’e yüklediği yazılım ekleri burada görünür."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Тут зʼявлятимуться плагіни, інстальовані на цьому Mac."
+            "value" : "Тут зʼявляються плагіни, які програми інсталюють на цьому Mac."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "这台Mac上安装的插件将在此处显示。"
+            "value" : "App在这台Mac上安装的插件将在此处显示。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這部Mac上安裝的外掛模組會顯示在此處。"
+            "value" : "App在這部Mac上安裝的外掛模組會顯示在此處。"
           }
         }
       }
@@ -195687,108 +195898,108 @@
         }
       }
     },
-    "Shows `git diff`, `git log`, and `git show` with syntax highlighting and line numbers. With BAT_THEME set to ansi, it uses the Terminal theme’s colors." : {
+    "Shows `git diff`, `git log`, and `git show` with syntax highlighting and line numbers. With BAT_THEME set to ansi, which bat’s lines below set, it uses the Terminal theme’s colors." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zobrazuje `git diff`, `git log` a `git show` se zvýrazněním syntaxe a čísly řádků. Když je proměnná BAT_THEME nastavena na ansi, používá barvy motivu Terminálu."
+            "value" : "Zobrazuje `git diff`, `git log` a `git show` se zvýrazněním syntaxe a čísly řádků. Když je proměnná BAT_THEME nastavena na ansi, což dělají níže uvedené řádky nástroje bat, používá barvy motivu Terminálu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zeigt `git diff`, `git log` und `git show` mit Syntaxhervorhebung und Zeilennummern an. Ist BAT_THEME auf ansi gesetzt, verwendet delta die Farben des Terminal-Themas."
+            "value" : "Zeigt `git diff`, `git log` und `git show` mit Syntaxhervorhebung und Zeilennummern an. Ist BAT_THEME auf ansi gesetzt, wie es die Zeilen für bat weiter unten festlegen, verwendet delta die Farben des Terminal-Themas."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Muestra `git diff`, `git log` y `git show` con resaltado de sintaxis y números de línea. Si BAT_THEME tiene el valor ansi, usa los colores del tema de Terminal."
+            "value" : "Muestra `git diff`, `git log` y `git show` con resaltado de sintaxis y números de línea. Si BAT_THEME tiene el valor ansi, que establecen las líneas de bat de abajo, usa los colores del tema de Terminal."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Affiche `git diff`, `git log` et `git show` avec coloration syntaxique et numéros de ligne. Avec BAT_THEME réglé sur ansi, delta utilise les couleurs du thème de Terminal."
+            "value" : "Affiche `git diff`, `git log` et `git show` avec coloration syntaxique et numéros de ligne. Avec BAT_THEME réglé sur ansi, comme le font les lignes de bat ci-dessous, delta utilise les couleurs du thème de Terminal."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostra `git diff`, `git log` e `git show` con evidenziazione della sintassi e numeri di riga. Con BAT_THEME impostato su ansi, usa i colori del tema di Terminale."
+            "value" : "Mostra `git diff`, `git log` e `git show` con evidenziazione della sintassi e numeri di riga. Con BAT_THEME impostato su ansi, come fanno le righe di bat qui sotto, usa i colori del tema di Terminale."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "`git diff`、`git log`、`git show`の出力を、シンタックスハイライトと行番号付きで表示します。BAT_THEMEをansiに設定すると、ターミナルのテーマのカラーを使用します。"
+            "value" : "`git diff`、`git log`、`git show`の出力を、シンタックスハイライトと行番号付きで表示します。BAT_THEMEがansiに設定されていると（下のbatの行で設定されます）、ターミナルのテーマのカラーを使用します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "`git diff`, `git log`, `git show`의 결과를 구문 강조 및 줄 번호와 함께 보여 줍니다. BAT_THEME을 ansi로 설정하면 터미널 테마의 색상을 사용합니다."
+            "value" : "`git diff`, `git log`, `git show`의 결과를 구문 강조 및 줄 번호와 함께 보여 줍니다. 아래 bat의 줄에서 설정하는 것처럼 BAT_THEME을 ansi로 설정하면 터미널 테마의 색상을 사용합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toont `git diff`, `git log` en `git show` met syntaxiskleuring en regelnummers. Met BAT_THEME ingesteld op ansi gebruikt delta de kleuren van het Terminal-thema."
+            "value" : "Toont `git diff`, `git log` en `git show` met syntaxiskleuring en regelnummers. Met BAT_THEME ingesteld op ansi, wat de regels van bat hieronder instellen, gebruikt delta de kleuren van het Terminal-thema."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wyświetla wyniki `git diff`, `git log` i `git show` z podświetlaniem składni i numerami wierszy. Gdy BAT_THEME ma wartość ansi, używa kolorów motywu Terminala."
+            "value" : "Wyświetla wyniki `git diff`, `git log` i `git show` z podświetlaniem składni i numerami wierszy. Gdy BAT_THEME ma wartość ansi, którą ustawiają poniższe wiersze bat, używa kolorów motywu Terminala."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostra `git diff`, `git log` e `git show` com realce de sintaxe e números de linha. Com a variável BAT_THEME definida como ansi, o delta usa as cores do tema do Terminal."
+            "value" : "Mostra `git diff`, `git log` e `git show` com realce de sintaxe e números de linha. Com a variável BAT_THEME definida como ansi, como fazem as linhas do bat abaixo, o delta usa as cores do tema do Terminal."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afișează `git diff`, `git log` și `git show` cu evidențierea sintaxei și numere de linie. Când BAT_THEME are valoarea ansi, folosește culorile temei din Terminal."
+            "value" : "Afișează `git diff`, `git log` și `git show` cu evidențierea sintaxei și numere de linie. Când BAT_THEME are valoarea ansi, pe care o setează liniile pentru bat de mai jos, folosește culorile temei din Terminal."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Показывает `git diff`, `git log` и `git show` с подсветкой синтаксиса и номерами строк. Если для BAT_THEME задано значение ansi, delta использует цвета темы Терминала."
+            "value" : "Показывает `git diff`, `git log` и `git show` с подсветкой синтаксиса и номерами строк. Если для BAT_THEME задано значение ansi (его задают строки для bat ниже), delta использует цвета темы Терминала."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Visar `git diff`, `git log` och `git show` med syntaxmarkering och radnummer. Med BAT_THEME inställd på ansi använder delta Terminal-temats färger."
+            "value" : "Visar `git diff`, `git log` och `git show` med syntaxmarkering och radnummer. Med BAT_THEME inställd på ansi, som raderna för bat nedan ställer in, använder delta Terminal-temats färger."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "`git diff`, `git log` ve `git show` çıktılarını sözdizimi vurgulaması ve satır numaralarıyla gösterir. BAT_THEME ansi olarak ayarlandığında Terminal temasının renklerini kullanır."
+            "value" : "`git diff`, `git log` ve `git show` çıktılarını sözdizimi vurgulaması ve satır numaralarıyla gösterir. BAT_THEME, aşağıdaki bat satırlarının yaptığı gibi ansi olarak ayarlandığında Terminal temasının renklerini kullanır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Показує `git diff`, `git log` і `git show` з підсвічуванням синтаксису та номерами рядків. Коли BAT_THEME має значення ansi, delta використовує кольори теми Термінала."
+            "value" : "Показує `git diff`, `git log` і `git show` з підсвічуванням синтаксису та номерами рядків. Коли BAT_THEME має значення ansi, яке задають рядки bat нижче, delta використовує кольори теми Термінала."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "以语法高亮和行号显示`git diff`、`git log`和`git show`的输出。将BAT_THEME设为ansi时，它会使用“终端”主题的颜色。"
+            "value" : "以语法高亮和行号显示`git diff`、`git log`和`git show`的输出。将BAT_THEME设为ansi时（下方bat的那几行会进行此设置），它会使用“终端”主题的颜色。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "以語法上色和行號顯示`git diff`、`git log`和`git show`的輸出。將BAT_THEME設為ansi時，它會採用「終端機」主題的顏色。"
+            "value" : "以語法上色和行號顯示`git diff`、`git log`和`git show`的輸出。將BAT_THEME設為ansi時（下方bat的設定行會這樣設定），它會採用「終端機」主題的顏色。"
           }
         }
       }
@@ -219876,108 +220087,108 @@
         }
       }
     },
-    "The program it starts is gone, and no installed app claims it." : {
+    "The program it starts is gone, or it names none, and no installed app claims it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Program, který položka spouští, už neexistuje a žádná nainstalovaná aplikace se k ní nehlásí."
+            "value" : "Program, který položka spouští, už neexistuje nebo položka žádný neuvádí a žádná nainstalovaná aplikace se k ní nehlásí."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Das Programm, das es startet, ist nicht mehr da, und keine installierte App beansprucht es."
+            "value" : "Das Programm, das es startet, ist nicht mehr da, oder es nennt keines, und keine installierte App beansprucht es."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El programa que inicia ya no está y ninguna app instalada lo reclama."
+            "value" : "El programa que inicia ya no está, o no indica ninguno, y ninguna app instalada lo reclama."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le programme qu’il lance a disparu, et aucune app installée ne le revendique."
+            "value" : "Le programme qu’il lance a disparu, ou il n’en indique aucun, et aucune app installée ne le revendique."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il programma che avvia non c’è più e nessuna app installata lo riconosce come proprio."
+            "value" : "Il programma che avvia non c’è più, o non ne indica nessuno, e nessuna app installata lo riconosce come proprio."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "起動するプログラムがなくなっていて、インストール済みのどのアプリのものでもありません。"
+            "value" : "起動するプログラムがなくなっているか、プログラムが指定されておらず、インストール済みのどのアプリのものでもありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 항목이 시작하는 프로그램이 없어졌고, 이 항목을 소유한 설치된 앱도 없습니다."
+            "value" : "이 항목이 시작하는 프로그램이 없어졌거나 지정된 프로그램이 없으며, 이 항목을 소유한 설치된 앱도 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het programma dat het start, is er niet meer, en geen enkele geïnstalleerde app eist het op."
+            "value" : "Het programma dat het start, is er niet meer, of het noemt geen programma, en geen enkele geïnstalleerde app eist het op."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Program, który ta rzecz uruchamia, zniknął, a żadna zainstalowana aplikacja się do niej nie przyznaje."
+            "value" : "Program, który ta rzecz uruchamia, zniknął albo nie jest wskazany, a żadna zainstalowana aplikacja się do niej nie przyznaje."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O programa que ele inicia não existe mais, e nenhum app instalado o reivindica."
+            "value" : "O programa que ele inicia não existe mais, ou ele não indica nenhum, e nenhum app instalado o reivindica."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Programul pe care îl pornește nu mai există și nicio aplicație instalată nu îl revendică."
+            "value" : "Programul pe care îl pornește nu mai există sau nu este numit niciunul, iar nicio aplicație instalată nu îl revendică."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Программы, которую он запускает, больше нет, и он не принадлежит ни одному установленному приложению."
+            "value" : "Программы, которую он запускает, больше нет, или в нем не указана никакая программа, и он не принадлежит ни одному установленному приложению."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Programmet som det startar finns inte längre, och ingen installerad app gör anspråk på det."
+            "value" : "Programmet som det startar finns inte längre, eller så anger det inget program, och ingen installerad app gör anspråk på det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Başlattığı program artık yok ve yüklü hiçbir uygulama onu sahiplenmiyor."
+            "value" : "Başlattığı program artık yok ya da hiçbir program belirtmiyor ve yüklü hiçbir uygulama onu sahiplenmiyor."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Того, що він запускає, уже немає, і жодна інстальована програма не вважає його своїм."
+            "value" : "Виконуваного файлу, який він запускає, уже немає або його не вказано, і жодна інстальована програма не вважає цей елемент своїм."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它启动的程序已不存在，也没有已安装的App认领它。"
+            "value" : "它启动的程序已不存在，或者它没有指定任何程序，也没有已安装的App认领它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它所啟動的程式已不存在，也沒有任何已安裝的App認領它。"
+            "value" : "它所啟動的程式已不存在，或它沒有指定任何程式，而且沒有任何已安裝的App認領它。"
           }
         }
       }
@@ -220614,112 +220825,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "要求無效。"
-          }
-        }
-      }
-    },
-    "The same setting as Personalized Ads in Privacy & Security, though only the switch there tells the ad service on this Mac about the change at once." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stejné nastavení jako Osobní reklama v části Soukromí a zabezpečení, ale jen tamní přepínač o změně ihned informuje reklamní službu v tomto Macu."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dieselbe Einstellung wie „Personalisierte Werbung“ unter „Datenschutz & Sicherheit“, allerdings teilt nur der Schalter dort dem Werbedienst auf diesem Mac die Änderung sofort mit."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Es el mismo ajuste que Anuncios personalizados en Privacidad y seguridad, aunque solo el interruptor de ahí comunica el cambio en el momento al servicio de anuncios de este Mac."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le même réglage que « Annonces personnalisées » dans Confidentialité et sécurité, mais seul le commutateur qui s’y trouve signale immédiatement le changement au service publicitaire de ce Mac."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "È la stessa impostazione di “Annunci personalizzati” in “Privacy e sicurezza”, ma solo l’interruttore che si trova lì comunica subito la modifica al servizio pubblicitario su questo Mac."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "“プライバシーとセキュリティ”の“パーソナライズされた広告”と同じ設定です。ただし、変更をこのMacの広告サービスにすぐに伝えるのは、そちらのスイッチだけです。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "개인정보 보호 및 보안의 개인 맞춤형 광고와 같은 설정이지만, 변경 사항을 이 Mac의 광고 서비스에 즉시 알리는 것은 그곳의 스위치뿐입니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dezelfde instelling als 'Gepersonaliseerde reclame' in 'Privacy en beveiliging', al laat alleen de schakelaar daar de reclamedienst op deze Mac direct weten dat de instelling is gewijzigd."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "To samo ustawienie co Reklamy spersonalizowane w sekcji Prywatność i ochrona, ale tylko tamten przełącznik od razu informuje o zmianie usługę reklamową na tym Macu."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O mesmo ajuste que Anúncios Personalizados em Privacidade e Segurança, mas só o botão de lá avisa o serviço de anúncios deste Mac sobre a mudança na hora."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aceeași configurare ca Reclame personalizate din Intimitate și securitate, deși doar comutatorul de acolo anunță imediat serviciul de reclame de pe acest Mac despre schimbare."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Это та же настройка, что и «Контекстная реклама» в разделе «Конфиденциальность и безопасность», хотя только переключатель там сразу сообщает рекламной службе на этом Mac об изменении."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Samma inställning som Personliga annonser under Integritet och säkerhet, men bara reglaget där meddelar annonstjänsten på den här datorn om ändringen direkt."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gizlilik ve Güvenlik’teki Kişiselleştirilmiş Reklamlar ile aynı ayar; ancak değişikliği bu Mac’teki reklam hizmetine hemen bildiren yalnızca oradaki düğmedir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Те саме налаштування, що й «Персоналізована реклама» в розділі «Приватність і безпека», хоча лише перемикач там одразу повідомляє рекламному сервісу на цьому Mac про зміну."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "与“隐私与安全性”中的“个性化广告”是同一设置，不过只有那里的开关会立即将更改告知这台Mac上的广告服务。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "與「隱私權與安全性」中的「個人化廣告」是同一個設定，但只有在那裡切換開關，才會立即將變更通知這部Mac上的廣告服務。"
           }
         }
       }
@@ -248300,108 +248405,108 @@
         }
       }
     },
-    "When Terminal quits, it keeps no windows to open again, even though Desktop & Dock keeps other apps’ windows." : {
+    "When Terminal quits, it keeps no windows to open again, even when Desktop & Dock keeps other apps’ windows." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Při ukončení si Terminál neponechá žádná okna k opětovnému otevření, přestože nastavení v části Plocha a Dock ponechává okna ostatních aplikací."
+            "value" : "Při ukončení si Terminál neponechá žádná okna k opětovnému otevření, i když nastavení v části Plocha a Dock okna ostatních aplikací ponechává."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beim Beenden behält Terminal keine Fenster zum erneuten Öffnen, obwohl andere Apps ihre Fenster behalten, wie unter „Schreibtisch & Dock“ eingestellt."
+            "value" : "Beim Beenden behält Terminal keine Fenster zum erneuten Öffnen, auch wenn andere Apps ihre Fenster behalten, wie unter „Schreibtisch & Dock“ eingestellt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cuando Terminal se cierra, no guarda ninguna ventana para volver a abrirla, aunque Escritorio y Dock conserva las ventanas de las demás apps."
+            "value" : "Cuando Terminal se cierra, no guarda ninguna ventana para volver a abrirla, ni siquiera cuando Escritorio y Dock conserva las ventanas de las demás apps."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lorsque Terminal se ferme, il ne conserve aucune fenêtre à rouvrir, même si les réglages Bureau et Dock conservent celles des autres apps."
+            "value" : "Lorsque Terminal se ferme, il ne conserve aucune fenêtre à rouvrir, même lorsque les réglages Bureau et Dock conservent celles des autres apps."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quando Terminale si chiude, non conserva nessuna finestra da riaprire, anche se con le impostazioni “Scrivania e Dock” le altre app conservano le loro finestre."
+            "value" : "Quando Terminale si chiude, non conserva nessuna finestra da riaprire, anche quando con le impostazioni “Scrivania e Dock” le altre app conservano le loro finestre."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“デスクトップとDock”でほかのアプリのウインドウを残す設定になっていても、ターミナルは終了するときに、再度開くためのウインドウを残しません。"
+            "value" : "“デスクトップとDock”でほかのアプリのウインドウを残す設定になっている場合でも、ターミナルは終了するときに、再度開くためのウインドウを残しません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "데스크탑 및 Dock 설정에 따라 다른 앱의 윈도우는 유지되지만, 터미널은 종료될 때 다시 열 윈도우를 남겨 두지 않습니다."
+            "value" : "데스크탑 및 Dock 설정에 따라 다른 앱의 윈도우가 유지되는 경우에도, 터미널은 종료될 때 다시 열 윈도우를 남겨 두지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Als Terminal stopt, bewaart de app geen vensters om opnieuw te openen, ook al laat 'Bureaublad en Dock' andere apps hun vensters bewaren."
+            "value" : "Als Terminal stopt, bewaart de app geen vensters om opnieuw te openen, ook als 'Bureaublad en Dock' andere apps hun vensters laat bewaren."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gdy Terminal kończy pracę, nie zachowuje żadnych okien do ponownego otwarcia, mimo że inne aplikacje zachowują swoje okna zgodnie z ustawieniem w panelu Biurko i Dock."
+            "value" : "Gdy Terminal kończy pracę, nie zachowuje żadnych okien do ponownego otwarcia, nawet gdy inne aplikacje zachowują swoje okna zgodnie z ustawieniem w panelu Biurko i Dock."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ao ser encerrado, o Terminal não guarda nenhuma janela para reabrir, mesmo que o ajuste em Mesa e Dock mantenha as janelas dos outros apps."
+            "value" : "Ao ser encerrado, o Terminal não guarda nenhuma janela para reabrir, mesmo quando o ajuste em Mesa e Dock mantém as janelas dos outros apps."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Când Terminal se închide, nu păstrează nicio fereastră de redeschis, deși celelalte aplicații își păstrează ferestrele, conform configurării din Desktop și Dock."
+            "value" : "Când Terminal se închide, nu păstrează nicio fereastră de redeschis, chiar și atunci când, conform configurării din Desktop și Dock, celelalte aplicații își păstrează ferestrele."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Когда Терминал завершает работу, он не сохраняет окна, чтобы открыть их заново, хотя окна других приложений сохраняются, как задано в разделе «Рабочий стол и Dock»."
+            "value" : "Когда Терминал завершает работу, он не сохраняет окна, чтобы открыть их заново, даже если в разделе «Рабочий стол и Dock» задано сохранять окна других приложений."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "När Terminal avslutas behåller den inga fönster att öppna igen, trots att inställningen i Skrivbord och Dock låter andra appar behålla sina fönster."
+            "value" : "När Terminal avslutas behåller den inga fönster att öppna igen, även när inställningen i Skrivbord och Dock låter andra appar behålla sina fönster."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Terminal’den çıkıldığında, Masaüstü ve Dock’taki ayar diğer uygulamaların pencerelerini korusa da Terminal yeniden açmak üzere hiçbir pencere saklamaz."
+            "value" : "Terminal’den çıkıldığında, Masaüstü ve Dock’taki ayar diğer uygulamaların pencerelerini korurken bile Terminal yeniden açmak üzere hiçbir pencere saklamaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Коли Термінал завершує роботу, він не зберігає жодних вікон, щоб відкрити їх знову, хоча в розділі «Робочий стіл і Dock» налаштовано зберігати вікна інших програм."
+            "value" : "Коли Термінал завершує роботу, він не зберігає жодних вікон, щоб відкрити їх знову, навіть якщо в розділі «Робочий стіл і Dock» налаштовано зберігати вікна інших програм."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“终端”退出时不会保留任何窗口以供再次打开，即使“桌面与程序坞”中的设置会为其他App保留窗口。"
+            "value" : "“终端”退出时不会保留任何窗口以供再次打开，即使“桌面与程序坞”的设置会为其他App保留窗口也是如此。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "雖然「桌面與Dock」中的設定會保留其他App的視窗，但「終端機」結束時不會保留任何視窗供重新打開。"
+            "value" : "即使「桌面與Dock」中的設定會保留其他App的視窗，「終端機」結束時也不會保留任何視窗供重新打開。"
           }
         }
       }
@@ -276129,108 +276234,108 @@
         }
       }
     },
-    "macOS has its own control for this, so it can change back." : {
+    "macOS has its own control for this setting. If it changes there, this switch follows." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS má pro toto nastavení vlastní ovládací prvek, takže se může změnit zpět."
+            "value" : "Systém macOS má pro toto nastavení vlastní ovládací prvek. Pokud se tam změní, přizpůsobí se i tento přepínač."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS hat dafür eine eigene Einstellung, daher kann sich dies wieder ändern."
+            "value" : "macOS hat für diese Einstellung ein eigenes Steuerelement. Ändert sich die Einstellung dort, folgt dieser Schalter."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS tiene su propio control para esto, así que puede volver a cambiar."
+            "value" : "macOS tiene su propio control para este ajuste. Si cambia ahí, este interruptor también cambia."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS a sa propre option pour cela : ce réglage peut donc reprendre son ancienne valeur."
+            "value" : "macOS a sa propre option pour ce réglage. Si le réglage est modifié depuis cette option, ce commutateur suit le changement."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS ha un proprio controllo per questa impostazione, quindi da lì il valore può cambiare di nuovo."
+            "value" : "macOS ha un proprio controllo per questa impostazione. Se cambia lì, questo interruttore si adegua."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSにもこれを変更する項目があるため、元に戻ることがあります。"
+            "value" : "macOSにもこの設定を変更する項目があります。そちらで変更されると、このスイッチもそれに合わせて切り替わります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS에도 이 설정을 바꾸는 자체 제어 항목이 있으므로 원래대로 돌아갈 수 있습니다."
+            "value" : "macOS에도 이 설정을 바꾸는 자체 제어 항목이 있습니다. 그곳에서 설정이 바뀌면 이 스위치도 따라 바뀝니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS heeft hiervoor een eigen instelling, dus het kan ook weer terugveranderen."
+            "value" : "macOS heeft hiervoor een eigen instelling. Als die daar verandert, volgt deze schakelaar."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS ma własny przełącznik tego ustawienia, więc może ono wrócić do poprzedniej wartości."
+            "value" : "macOS ma własny przełącznik tego ustawienia. Jeśli zostanie tam zmieniony, ten przełącznik się dostosuje."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS tem um controle próprio para isto, então o ajuste pode voltar ao que era."
+            "value" : "O macOS tem um controle próprio para este ajuste. Se ele mudar lá, este botão acompanha a mudança."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS are propria comandă pentru această opțiune, așa că aceasta poate reveni la valoarea anterioară."
+            "value" : "macOS are propria comandă pentru această configurare. Dacă se schimbă acolo, acest comutator se schimbă și el."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В macOS есть собственная настройка для этого, поэтому значение может вернуться к прежнему."
+            "value" : "В macOS есть собственная настройка для этого параметра. Если изменить ее там, этот переключатель тоже изменится."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS har ett eget reglage för det här, så det kan ändras tillbaka."
+            "value" : "macOS har ett eget reglage för den här inställningen. Om den ändras där följer det här reglaget med."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS’in bunun için kendi ayarı var, bu yüzden bu ayar geri değişebilir."
+            "value" : "macOS’in bu ayar için kendi denetimi var. Ayar orada değişirse bu düğme de değişikliği izler."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "У macOS є власний елемент керування для цього, тож налаштування може повернутися назад."
+            "value" : "У macOS є власний елемент керування для цього налаштування. Якщо його змінити там, цей перемикач теж зміниться."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS自己也有此项的控制选项，因此它可能会被改回。"
+            "value" : "macOS自己也有此设置的控制选项。如果在那里更改了它，此开关也会随之改变。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS本身也有此項目的控制選項，因此它可能會被改回來。"
+            "value" : "macOS本身也有此設定的控制選項。如果在那裡更改了此設定，這個開關也會隨之改變。"
           }
         }
       }
@@ -280204,7 +280309,7 @@
         }
       }
     },
-    "macOS refused it" : {
+    "macOS refused the change" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -280215,43 +280320,43 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS hat es abgelehnt"
+            "value" : "macOS hat die Änderung abgelehnt"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS lo ha rechazado"
+            "value" : "macOS ha rechazado el cambio"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Refusé par macOS"
+            "value" : "macOS a refusé la modification"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS l’ha rifiutato"
+            "value" : "macOS ha rifiutato la modifica"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSに拒否されました"
+            "value" : "macOSに変更を拒否されました"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS가 거부함"
+            "value" : "macOS가 변경을 거부함"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS heeft het geweigerd"
+            "value" : "macOS heeft de wijziging geweigerd"
           }
         },
         "pl" : {
@@ -280263,7 +280368,7 @@
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recusado pelo macOS"
+            "value" : "O macOS recusou a alteração"
           }
         },
         "ro" : {
@@ -280281,13 +280386,13 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS nekade det"
+            "value" : "macOS nekade ändringen"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bunu reddetti"
+            "value" : "macOS değişikliği reddetti"
           }
         },
         "uk" : {
@@ -283207,108 +283312,108 @@
         }
       }
     },
-    "macOS won’t load this while it is disabled. Enable it first, then start it." : {
+    "macOS won’t load this while it is disabled. Enable it first, then load it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS tuto položku nenačte, dokud je vypnutá. Nejprve ji zapněte, potom ji spusťte."
+            "value" : "Systém macOS tuto položku nenačte, dokud je vypnutá. Nejprve ji zapněte, potom ji načtěte."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS lädt dieses Objekt nicht, solange es deaktiviert ist. Aktiviere es zuerst und starte es dann."
+            "value" : "macOS lädt dieses Objekt nicht, solange es deaktiviert ist. Aktiviere es zuerst und lade es dann."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS no cargará esto mientras esté desactivado. Actívalo primero y después inícialo."
+            "value" : "macOS no cargará esto mientras esté desactivado. Actívalo primero y después cárgalo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS refuse de charger cet élément tant qu’il est désactivé. Activez-le d’abord, puis démarrez-le."
+            "value" : "macOS refuse de charger cet élément tant qu’il est désactivé. Activez-le d’abord, puis chargez-le."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS non lo carica finché è disabilitato. Prima abilitalo, poi avvialo."
+            "value" : "macOS non lo carica finché è disabilitato. Prima abilitalo, poi caricalo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSはこれを読み込みません。無効になっているためです。先に有効にしてから、開始してください。"
+            "value" : "無効になっている間は、macOSはこれを読み込みません。先に有効にしてから、読み込んでください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 항목이 비활성화되어 있는 동안에는 macOS가 로드하지 않습니다. 먼저 활성화한 다음 시작하십시오."
+            "value" : "이 항목이 비활성화되어 있는 동안에는 macOS가 로드하지 않습니다. 먼저 활성화한 다음 로드하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS laadt dit niet zolang het is uitgeschakeld. Schakel het eerst in en start het daarna."
+            "value" : "macOS laadt dit niet zolang het is uitgeschakeld. Schakel het eerst in en laad het daarna."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS nie wczyta tej rzeczy, dopóki jest wyłączona. Najpierw ją włącz, a potem uruchom."
+            "value" : "macOS nie wczyta tej rzeczy, dopóki jest wyłączona. Najpierw ją włącz, a potem wczytaj."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS não carrega isto enquanto estiver desativado. Ative-o primeiro e depois inicie-o."
+            "value" : "O macOS não carrega isto enquanto estiver desativado. Ative-o primeiro e depois carregue-o."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS nu încarcă acest articol cât timp este dezactivat. Activați‑l mai întâi, apoi porniți‑l."
+            "value" : "macOS nu încarcă acest articol cât timp este dezactivat. Activați‑l mai întâi, apoi încărcați‑l."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS не загрузит этот объект, пока он выключен. Сначала включите его, затем запустите."
+            "value" : "macOS не загрузит этот объект, пока он выключен. Сначала включите его, затем загрузите."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS läser inte in det här så länge det är avaktiverat. Aktivera det först och starta det sedan."
+            "value" : "macOS läser inte in det här så länge det är avaktiverat. Aktivera det först och läs sedan in det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bunu etkin değilken yüklemez. Önce etkinleştirin, sonra başlatın."
+            "value" : "macOS bunu etkin değilken yüklemez. Önce etkinleştirin, sonra yükleyin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS не завантажить цей елемент, поки його вимкнено. Спершу увімкніть його, а потім запустіть."
+            "value" : "macOS не завантажить цей елемент, поки його вимкнено. Спершу увімкніть його, а потім завантажте."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS不会在此项停用期间载入它。请先“启用”此项，然后再“启动”它。"
+            "value" : "macOS不会在此项停用期间载入它。请先“启用”此项，然后再“载入”它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS不會在此項目停用時載入它。請先啟用它，然後再啟動它。"
+            "value" : "macOS不會在此項目停用時載入它。請先啟用它，然後再載入它。"
           }
         }
       }

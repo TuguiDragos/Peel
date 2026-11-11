@@ -195,7 +195,7 @@ extension Tweak {
         ),
         "privacy-personalised-ads": Words(
             title: "No personalized Apple ads",
-            detail: "The same setting as Personalized Ads in Privacy & Security, though only the switch there tells the ad service on this Mac about the change at once."
+            detail: "It changes the same setting as Personalized Ads in Privacy & Security. The ad service on this Mac learns of the change at once only from the switch there."
         ),
         "privacy-crash-reporter": Words(
             title: "No crash report window",
@@ -203,7 +203,7 @@ extension Tweak {
         ),
         "terminal-fresh-windows": Words(
             title: "Terminal doesn’t reopen its windows",
-            detail: "When Terminal quits, it keeps no windows to open again, even though Desktop & Dock keeps other apps’ windows."
+            detail: "When Terminal quits, it keeps no windows to open again, even when Desktop & Dock keeps other apps’ windows."
         ),
     ]
 }

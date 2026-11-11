@@ -113,7 +113,7 @@ struct TweakRow: View {
             paragraphs.append(String(localized: restart))
         }
         if tweak.hasASystemControl {
-            paragraphs.append(String(localized: "macOS has its own control for this, so it can change back."))
+            paragraphs.append(String(localized: "macOS has its own control for this setting. If it changes there, this switch follows."))
         }
         return paragraphs.joined(separator: "\n\n")
     }
@@ -134,7 +134,7 @@ struct TweakRow: View {
                 .foregroundStyle(.secondary)
         } else if tweaks.refused.contains(tweak.id) {
             // Explains why the switch went back after macOS refused the write.
-            StatusLabel(title: Text("macOS refused it"), tint: .accentColor)
+            StatusLabel(title: Text("macOS refused the change"), tint: .accentColor)
                 .labelStyle(.titleAndIcon)
                 .font(.caption)
                 .foregroundStyle(.secondary)

@@ -389,7 +389,7 @@ struct BackgroundItemDetailView: View {
                         NoteBadge(
                             title: Text("Nothing left to run"), systemImage: "questionmark.circle", tint: .orange,
                             name: String(localized: "Nothing left to run"),
-                            detail: Text("The program it starts is gone, and no installed app claims it.")
+                            detail: Text("The program it starts is gone, or it names none, and no installed app claims it.")
                         )
                     }
                     if item.runsFromTheTrash {
