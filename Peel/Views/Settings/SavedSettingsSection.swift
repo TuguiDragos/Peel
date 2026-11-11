@@ -85,15 +85,18 @@ struct SavedSettingsSection: View {
             Spacer(minLength: 8)
             HStack(spacing: 8) {
                 ShowInFinderButton(url: copy.folder)
+                    .accessibilityLabel(Text("Show the saved settings of \(name) in Finder"))
                 RowSymbolButton("Move to Trash", systemImage: "trash") {
                     copyToTrash = copy
                 }
                 .help(history.holdingReason.map { Text(verbatim: $0.explanation) } ?? Text("Move to Trash"))
                 .disabled(!history.mayMove)
+                .accessibilityLabel(Text("Move the saved settings of \(name) to the Trash"))
                 Button("Put Back") {
                     copyToPutBack = copy
                 }
                 .disabled(isOpen || refusal != nil)
+                .accessibilityLabel(Text("Put back the saved settings of \(name)"))
                 .help(Text(verbatim: Self.putBackHelp(
                     refusal: refusal, exclusionsUnreadable: exclusions.exclusions.isUnreadable, isOpen: isOpen,
                     name: name

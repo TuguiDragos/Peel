@@ -321,6 +321,7 @@ struct HomebrewList: View {
                 command: .clearOlderDownloads
             ) {
                 Button("Clear") { confirming = .clearOlderDownloads }
+                    .accessibilityLabel(Text("Clear Older Downloads"))
             }
             row(
                 title: "Clear Every Download",
@@ -329,6 +330,7 @@ struct HomebrewList: View {
                 command: .clearEveryDownload
             ) {
                 Button("Clear") { confirming = .clearEveryDownload }
+                    .accessibilityLabel(Text("Clear Every Download"))
             }
             row(
                 title: "Repair Taps",

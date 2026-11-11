@@ -49,6 +49,7 @@ struct CarriedPartsList: View {
                     .buttonStyle(.borderless)
                     .foregroundStyle(.secondary)
                     .help(Text("Deselect"))
+                    .accessibilityLabel(Text("Deselect \(part.title)"))
                 }
             }
         }
