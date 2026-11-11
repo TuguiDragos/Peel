@@ -884,7 +884,7 @@ public enum ProjectArtifacts {
         }
     }
 
-    static let maximumFolders = 40_000
+    public static let maximumFolders = 40_000
     /// Past this many entries read, a project's last change counts as unknown.
     static let maximumActivitySamples = 10_000
 

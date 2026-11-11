@@ -949,7 +949,7 @@ struct FileCommandTests {
 
         #expect(ProjectsCommand.notes(for: scan) == [
             "Peel couldn't look inside /Users/me/Library/Safari, so something may be there that isn't listed. Give your terminal app Full Disk Access in System Settings to read the folders macOS protects.",
-            "There were more folders than Peel looks at in one go, so this list isn't all of them.",
+            "Peel stopped after 40000 folders in one of the folders you gave, so projects deeper inside may be missing. Run `peel projects` on the folder your projects are in to see them.",
         ])
         let app = URL(filePath: "/Users/me/Code/app", directoryHint: .isDirectory)
         let closed = ProjectArtifacts.Scan(unreadableLocations: [app])

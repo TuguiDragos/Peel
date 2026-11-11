@@ -87,7 +87,7 @@ struct ProjectList: View {
         .edgeBar(.bottom) {
             Group {
                 if projects.wasCutShort {
-                    Text("There were more folders than Peel looks at in one go, so this list isn’t all of them.")
+                    Text("Peel stopped after \(ProjectArtifacts.maximumFolders.formatted()) folders in one of the folders you chose, so projects deeper inside may be missing. Choose the folder your projects are in to see them.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .padding(.horizontal, 12)

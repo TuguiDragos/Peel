@@ -668,7 +668,7 @@ struct ProjectsCommand: AsyncParsableCommand {
             )
         }
         if scan.wasCutShort {
-            notes.append("There were more folders than Peel looks at in one go, so this list isn't all of them.")
+            notes.append("Peel stopped after \(Output.number(ProjectArtifacts.maximumFolders)) folders in one of the folders you gave, so projects deeper inside may be missing. Run `peel projects` on the folder your projects are in to see them.")
         }
         return notes
     }

@@ -161416,6 +161416,112 @@
         }
       }
     },
+    "Peel stopped after %@ folders in one of the folders you chose, so projects deeper inside may be missing. Choose the folder your projects are in to see them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se zastavil po %@ složkách v jedné ze složek, které jste zvolili, takže projekty uložené hlouběji mohou chybět. Chcete-li je zobrazit, zvolte složku, ve které vaše projekty jsou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hat in einem der von dir gewählten Ordner nach %@ Ordnern aufgehört zu suchen, daher fehlen möglicherweise Projekte, die tiefer darin liegen. Wähle den Ordner, in dem deine Projekte liegen, um sie zu sehen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se ha detenido tras revisar %@ carpetas de una de las carpetas que has seleccionado, así que pueden faltar proyectos que estén más adentro. Selecciona la carpeta donde están tus proyectos para verlos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel s’est arrêté après %@ dossiers dans l’un des dossiers que vous avez choisis : des projets situés plus en profondeur peuvent donc manquer. Choisissez le dossier où se trouvent vos projets pour les voir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel si è fermato dopo %@ cartelle in una delle cartelle che hai scelto, quindi potrebbero mancare progetti più in profondità. Scegli la cartella in cui si trovano i tuoi progetti per vederli."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択したフォルダの1つで、Peelは%@個のフォルダを調べた時点で停止したため、それより深い場所にあるプロジェクトが表示されていない可能性があります。表示するには、プロジェクトがあるフォルダを選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택한 폴더 중 하나에서 Peel이 폴더 %@개를 살펴본 후 중단했으므로, 그보다 깊은 곳에 있는 프로젝트가 누락되었을 수 있습니다. 프로젝트를 보려면 프로젝트가 들어 있는 폴더를 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel is gestopt na %@ mappen in een van de mappen die je hebt gekozen, dus projecten die dieper liggen, ontbreken misschien. Kies de map waarin je projecten staan om ze te zien."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zatrzymał się po %@ folderach w jednym z wybranych folderów, więc może brakować projektów położonych głębiej. Wybierz folder, w którym są Twoje projekty, aby je zobaczyć."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel parou depois de %@ pastas em uma das pastas que você escolheu, então os projetos que estão mais fundo nela podem não aparecer. Escolha a pasta em que estão os seus projetos para vê-los."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel s‑a oprit după %@ de dosare într‑unul dintre dosarele alese de dvs., așa că este posibil să lipsească proiectele aflate mai în adâncime. Alegeți dosarul în care se află proiectele dvs. pentru a le vedea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel остановился, просмотрев %@ папок в одной из выбранных Вами папок, поэтому проекты, которые лежат глубже, могут не отображаться. Чтобы увидеть их, выберите папку, в которой находятся Ваши проекты."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel stannade efter %@ mappar i en av de mappar som du har valt, så projekt längre in kan saknas. Välj den mapp som dina projekt ligger i för att se dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, seçtiğiniz klasörlerden birinde %@ klasörden sonra durdu, bu yüzden daha derindeki projeler eksik olabilir. Onları görmek için projelerinizin bulunduğu klasörü seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel зупинилася після %@ папок в одній із вибраних вами папок, тож проєктів, розташованих глибше, може бракувати. Виберіть папку, у якій лежать ваші проєкти, щоб їх побачити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel在你选取的某个文件夹中查看了%@个文件夹后便停止了，因此更深层的项目可能未被列出。请选取你的项目所在的文件夹以查看它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel在你選擇的其中一個檔案夾中查看%@個檔案夾後就停止了，因此其中更深層的計畫案可能沒有列出。請選擇你的計畫案所在的檔案夾以查看它們。"
+          }
+        }
+      }
+    },
     "Peel stopped before it had looked everywhere, so nothing is listed." : {
       "localizations" : {
         "cs" : {
@@ -223160,112 +223266,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「iCloud雲碟」中的內容超出Peel在一次掃描的時限內能讀取的範圍，因此這個列表並不完整。"
-          }
-        }
-      }
-    },
-    "There were more folders than Peel looks at in one go, so this list isn’t all of them." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Složek bylo víc, než Peel projde najednou, takže tento seznam není úplný."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Es gab mehr Ordner, als Peel auf einmal durchsieht, daher ist diese Liste nicht vollständig."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Había más carpetas de las que Peel revisa de una vez, así que esta lista no las incluye todas."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il y avait plus de dossiers que Peel n’en examine en une seule fois : cette liste n’est donc pas complète."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le cartelle erano più di quante Peel ne esamini in una volta sola, quindi questo elenco non è completo."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelが一度に調べる数よりも多くのフォルダがあったため、このリストはすべてではありません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 한 번에 살펴보는 것보다 폴더가 많았으므로 이 목록이 전부는 아닙니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Er waren meer mappen dan Peel in één keer bekijkt, dus deze lijst is niet volledig."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Folderów było więcej, niż Peel przegląda za jednym razem, więc ta lista nie obejmuje wszystkich."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Havia mais pastas do que o Peel examina de uma só vez, então esta lista não mostra todas."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Au fost mai multe dosare decât examinează Peel într‑o singură trecere, așa că această listă nu le cuprinde pe toate."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Папок оказалось больше, чем Peel просматривает за один раз, поэтому этот список неполный."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det fanns fler mappar än Peel går igenom på en gång, så listan visar inte alla."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel’in tek seferde baktığından daha fazla klasör vardı, bu yüzden bu liste hepsini içermiyor."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Папок більше, ніж Peel переглядає за один раз, тож цей список неповний."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "文件夹数量超出了Peel一次查看的上限，因此这份列表并不完整。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "檔案夾數量超出Peel一次查看的範圍，因此這個列表並不完整。"
           }
         }
       }
