@@ -32,6 +32,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   `battery uninstall` or the one that removes what an app leaves in `/etc`, each with a button to copy it, since the
   question before the move can't be copied from. The alert after the move gives again those still to run, with Copy
   Details.
+- A leftover whose job launchd has loaded says it can run until it moves or is stopped in Background Items, on an app's
+  page, several apps' page, and from `peel uninstall`.
 
 #### Orphaned Files
 
@@ -39,6 +41,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   and `sbin`, MacPorts' `/opt/local/bin` and `sbin`, and your home's `bin` and `.local/bin`. Two of one name each say
   where they are. What a tool keeps under a dotted name stays out of the list while that tool is installed, and
   Settings > Exclusions shows the tool beside its group.
+- This Belongs To… is on an orphan group's page too, not only in the list's Control-click menu.
+- When this Mac has other accounts and something listed is outside your home, Orphaned Files and `peel orphans` say that
+  an app another account keeps in its own Applications folder isn't visible from here.
 
 #### Homebrew
 
@@ -53,6 +58,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   it was due to change.
 - Reopen Peel comes with its reason: macOS gives Full Disk Access only to an app opened after it was turned on. Settings
   and the note on folders Peel couldn't read say so too.
+- Home's rows read Open Peel at Login and Command-Line Tool, as Settings names them.
 
 #### Tweaks
 
@@ -72,6 +78,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - History and Not Moved say why they no longer list older removals: History keeps its latest removals up to 20,000
   items, and Not Moved up to 5,000. `peel history` says the same.
+- History says while it keeps aside a copy of History or of its journal it couldn't read, with Show in Finder, and `peel
+  history` notes each one.
 
 #### Settings
 
@@ -100,11 +108,19 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   where they are, and that Orphaned Files lists what it left once the app is in the Trash.
 - The alert after a removal says to remove or change the lines of your shell's startup files that still name what moved
   if a new Terminal window shows an error. `peel uninstall` says the same.
+- Uninstalling Bear shows its group container, which holds its notes, and leaves it unselected, as Things' is.
+- A channel build, such as Zed Preview, is offered its app's folders below a place named for the app, shown and never
+  selected.
+- Sort and Filter tells VoiceOver how many filters are on.
 
 #### Orphaned Files
 
 - The page with nothing to list says plainly what shows up there: files named for an app that isn't installed, and files
   of apps Peel saw removed.
+
+#### Package Receipts
+
+- A receipt of 20,000 lines opens in less than half the time.
 
 #### Homebrew
 
@@ -117,6 +133,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - The note on what a tool's page keeps out of a selection says the rule first and that each row says why, rather than
   every tool's reasons in one long sentence on every page.
+
+#### Build Artifacts
+
+- When a scan stops early, Build Artifacts and `peel projects` say after how many folders, and that choosing the folder
+  your projects are in shows the rest.
 
 #### iCloud Drive
 
@@ -131,6 +152,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - Edit… tells a job file that is gone, or a folder in its place, from a link, and says to rescan.
 
+#### Extensions
+
+- An extension's page calls its category Category, and its tooltip says what lists it there and what System Settings may
+  leave out.
+
 #### Every page
 
 - Refusals end with the next step: "macOS didn't allow it" adds that Home shows which permissions Peel is missing, a
@@ -140,6 +166,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   says why and what to do.
 - When a background job holds what didn't move, the reason says where Background Items is, the alert after the move has
   Open Background Items, and `peel` says the Peel app's Background Items.
+- Sentences across Peel say more exactly what is true, give the step to take, and call each thing by one name, such as
+  Listed only for what Peel only shows, and Comes with for the app a job, an extension, or a plug-in came with.
+- VoiceOver and Voice Control tell apart the buttons a list repeats on each row: Saved Settings' Show in Finder, Move to
+  Trash, and Put Back, Homebrew's two Clear buttons, and Deselect beside each page of a selection.
+- The words macOS shows the first time Peel reads Downloads, Desktop, or Documents say why, without listing tools.
+- A removal finds what holds each item faster, and measuring a folder and searching read each name once.
 
 #### `peel`
 
@@ -158,6 +190,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Peel's helper.
 - With the helper installed by another copy of Peel, Home says to open that copy, no longer to set the helper up below,
   where this copy has no button for it.
+- VoiceOver says Warning or Info for the mark of a notice on Home, as everywhere else, rather than the symbol's name.
 
 #### Menu bar
 
@@ -182,6 +215,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - With ZDOTDIR set, the Tools tab names the `.zshrc` zsh reads, no longer `~/.zshrc`.
 - The Tools tab's link to each tool's page, in the tool's note, can be opened with VoiceOver and, with keyboard
   navigation on, from the keyboard.
+- On a Mac without Homebrew, the Tools tab's brew.sh link has the 20-point target every link has.
 
 #### History
 
@@ -197,6 +231,13 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   longer takes it for gone and Put Back finds it.
 - When the record of removals under way can't be read, History no longer says it was damaged and started again: it says
   Peel couldn't read that record, and that what a removal cut short moved is in the Trash but isn't listed.
+- Each item's line in the journal reaches the drive before the item moves, so a power cut can't keep a move History
+  can't put back.
+- Putting back one item of an uninstall brings back the folder it sat in from the Trash, rather than making a new one,
+  in the app and in `peel restore`.
+- Nothing moves while the lock beside History or its journal can't be opened, and the page and `peel` say which file
+  stops it; two writers at once no longer lose a count of the lifetime totals.
+- Clearing the refusals while another is written no longer stops both for good.
 
 #### Settings
 
@@ -385,6 +426,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Orphaned Files and `peel orphans` ask only the apps that could own each item, so a Mac with hundreds of apps is
   read much faster.
 - A file that is a link says where it leads and that moving it moves only the link.
+- One entry of This Belongs To's list that this version can't read no longer brings every group back: each entry is read
+  on its own, and one another version wrote stays as it was.
 
 #### Intel Software
 
@@ -530,6 +573,13 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Escape a second time in a list's search field gives the keyboard to that list, no longer to the sidebar, where the
   next arrow opened another page.
 - The links inside About's credits can be opened with VoiceOver and, with keyboard navigation on, from the keyboard.
+- A link put where one of Peel's files goes is read through, and Peel never writes over it or through it.
+- The bar at the foot of a page no longer cuts its words or its button's title in a narrow column, such as File Search's
+  list in French or German: the button shows its symbol alone there.
+- Under Reduce Motion nothing slides when something appears or goes beside it, such as Put Back in Tweaks, a section of
+  a job's page, or the bar at the foot of a page.
+- In Korean the Locked checkbox is named as Get Info names it, and in Simplified Chinese and German a list of several
+  names no longer sits inside one pair of quotation marks.
 
 #### `peel`
 
@@ -605,6 +655,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A Homebrew package's name is one word of every command Peel gives for Terminal, in quotes when the shell would read
   it as something else, and Peel's own runs of `brew` pass names after `--`, so a name that begins with a dash is
   never read as an option. A name comes from Homebrew's own files, which a tap can name anything.
+- Peel's helper takes only a Developer ID build of Peel: the looser requirement for Apple Development builds is in Debug
+  builds alone, and the Checks workflow and `release.sh` refuse a Release binary that carries it.
+- The helper refuses an app that sits inside another app, moving it out or putting it back in.
+- The helper writes a line to the Mac's log for each request: what was asked, for which account, and what came of it,
+  with its paths kept private.
+- A link to an update's notes in a feed needs a host as well as https.
 
 ## 1.3.0 (2026-11-04)
 
