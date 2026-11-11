@@ -247,7 +247,6 @@ struct PrivilegedPathPolicyTests {
         #expect(policy.refusal(of: path("root/Applications/.app", in: directory)) == .notAnApplication)
     }
 
-    /// An app inside another is a part of it, and taking it would leave the app around it with its seal broken.
     @Test func takesAnAppButNoAppInsideAnother() throws {
         let directory = try TemporaryDirectory()
         let policy = try policy(in: directory)

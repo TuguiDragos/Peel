@@ -887,7 +887,6 @@ struct UninstallationTests {
         #expect(several.total == SizeTotal(plan.scan.leftovers.map { $0.isMeasured ? $0.size : nil }))
     }
 
-    /// Being part of another app is the one reason said, though the helper wouldn't take it either.
     @Test(.permissionsHold) func anAppInsideAnotherInApplicationsStaysOnlyAsItsPart() async throws {
         let directory = try TemporaryDirectory()
         let info = try PropertyListSerialization.data(

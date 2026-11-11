@@ -82,8 +82,6 @@ struct HelperPolicyTests {
         #expect(constraint == ["team-identifier": team, "signing-identifier": HelperIdentity.helperIdentifier])
     }
 
-    /// The helper's own files sit outside the package, so the test reads them: without either requirement any program
-    /// could reach it, and an operation that went around `HelperOperations` would admit any request.
     @Test func theHelperHoldsEveryConnectionToItsRequirementAndEveryRequestToItsAdmission() throws {
         let helper = StringCatalogTests.repository.appending(path: "PeelHelper")
         let main = try String(contentsOf: helper.appending(path: "main.swift"), encoding: .utf8)
