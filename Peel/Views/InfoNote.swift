@@ -9,6 +9,8 @@ struct InfoNote: View {
     var symbol: String?
     /// The technical line, when there is one worth keeping but not worth a row of its own.
     var footnote: Text?
+    /// A page the note leads to, shown as its last line.
+    var link: URL?
     /// Something to know before acting. It draws the circle in the accent color.
     var caution: Text?
     /// Only Home passes this; see `noteTint`.
@@ -29,6 +31,7 @@ struct InfoNote: View {
         detail: @autoclosure @escaping () -> Text?,
         symbol: String? = nil,
         footnote: Text? = nil,
+        link: URL? = nil,
         caution: Text? = nil,
         isAlbum: Bool = false,
         isInRow: Bool = false,
@@ -38,6 +41,7 @@ struct InfoNote: View {
         self.detail = detail
         self.symbol = symbol
         self.footnote = footnote
+        self.link = link
         self.caution = caution
         self.isAlbum = isAlbum
         self.isInRow = isInRow
@@ -67,7 +71,7 @@ struct InfoNote: View {
         .accessibilityLabel(isMarked ? Text("A caution about \(name)") : Text("What \(name) is for"))
         .popover(isPresented: isOpen, arrowEdge: .bottom) {
             NoteCard(
-                name: name, detail: detail(), symbol: symbol ?? mark, footnote: footnote, caution: caution,
+                name: name, detail: detail(), symbol: symbol ?? mark, footnote: footnote, link: link, caution: caution,
                 isAlbum: isAlbum
             )
         }
@@ -82,6 +86,7 @@ struct NoteCard: View {
     let detail: Text?
     var symbol: String?
     var footnote: Text?
+    var link: URL?
     var caution: Text?
     var isAlbum = false
 
@@ -115,6 +120,13 @@ struct NoteCard: View {
                         .textSelection(.enabled)
                         .padding(.top, 2)
                 }
+                if let link {
+                    LinkedText(Self.address(link))
+                        .font(.caption.monospaced())
+                        .foregroundStyle(.secondary)
+                        .textSelection(.enabled)
+                        .padding(.top, 2)
+                }
             }
             .fixedSize(horizontal: false, vertical: true)
         }
@@ -130,6 +142,14 @@ struct NoteCard: View {
         // Only the album's note is papered; a system popover brings its own material.
         .background(isAlbum ? Album.sheet : Color.clear)
         .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(link == nil ? [] : .isLink)
+    }
+
+    /// The page without its scheme, as the note shows it.
+    private static func address(_ url: URL) -> AttributedString {
+        var words = AttributedString("\(url.host() ?? "")\(url.path())")
+        words.link = url
+        return words
     }
 }
 

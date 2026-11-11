@@ -94,7 +94,7 @@ private struct TerminalToolRow: View {
                 InfoNote(
                     name: tool.name,
                     detail: Text(tool.detail),
-                    footnote: Text((try? AttributedString(markdown: "[\(tool.project.host() ?? "")\(tool.project.path())](\(tool.project.absoluteString))")) ?? AttributedString(tool.project.absoluteString))
+                    link: tool.project
                 )
                 Spacer(minLength: 8)
                 if isInstalled {

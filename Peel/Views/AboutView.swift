@@ -115,22 +115,37 @@ struct AboutContent: View {
             .multilineTextAlignment(.center)
             // Apache 2.0 asks that the notice travel with anything that ships the code, and the `peel` command does.
             // One sentence with the link inside, so a language can put it where its grammar wants it.
-            Text("The peel command uses [swift-argument-parser](peel-license:swift-argument-parser-LICENSE)", comment: "Keep the link as it is.")
+            LinkedText(
+                LocalizedStringResource(
+                    "The peel command uses [swift-argument-parser](peel-license:swift-argument-parser-LICENSE)",
+                    comment: "Keep the link as it is."
+                ),
+                reach: Self.creditReach
+            )
             // MIT asks the same of any substantial part of blobatar's code, and the face's motion is ported from it.
-            Text(
-                "The face’s motion is adapted from [blobatar](peel-license:blobatar-LICENSE)",
-                comment: "The face is Peel’s logo with eyes, at the head of the sidebar. Keep the link as it is."
+            LinkedText(
+                LocalizedStringResource(
+                    "The face’s motion is adapted from [blobatar](peel-license:blobatar-LICENSE)",
+                    comment: "The face is Peel’s logo with eyes, at the head of the sidebar. Keep the link as it is."
+                ),
+                reach: Self.creditReach
             )
             #if DEBUG
-            Text(
-                "The DEV icon is made with [blueprint](https://github.com/MustafaNatur/blueprint)",
-                tableName: "DebugBuild",
-                comment: "Only in a Debug build of Peel, whose icon wears a DEV badge and is drawn by blueprint, an open source tool. Keep the link as it is."
+            LinkedText(
+                LocalizedStringResource(
+                    "The DEV icon is made with [blueprint](https://github.com/MustafaNatur/blueprint)",
+                    table: "DebugBuild",
+                    comment: "Only in a Debug build of Peel, whose icon wears a DEV badge and is drawn by blueprint, an open source tool. Keep the link as it is."
+                ),
+                reach: Self.creditReach
             )
             #endif
-            Text(
-                "Peel updates itself with [Sparkle](peel-license:Sparkle-LICENSE)",
-                comment: "Sparkle is the open source framework that installs Peel’s updates. Keep the link as it is."
+            LinkedText(
+                LocalizedStringResource(
+                    "Peel updates itself with [Sparkle](peel-license:Sparkle-LICENSE)",
+                    comment: "Sparkle is the open source framework that installs Peel’s updates. Keep the link as it is."
+                ),
+                reach: Self.creditReach
             )
             Link(destination: Links.repository) {
                 Text(verbatim: "github.com/TuguiDragos/Peel")
