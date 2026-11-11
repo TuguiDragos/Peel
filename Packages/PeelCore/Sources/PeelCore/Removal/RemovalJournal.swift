@@ -182,9 +182,26 @@ struct RemovalJournal: Sendable {
             for line in lines {
                 data += line + Data("\n".utf8)
             }
-            return data.withUnsafeBytes { Darwin.write(descriptor, $0.baseAddress, $0.count) } == data.count
+            let wrote = data.withUnsafeBytes { Darwin.write(descriptor, $0.baseAddress, $0.count) } == data.count
+            guard wrote, beforeTheMove else { return wrote }
+            return Self.flush(descriptor, before: items)
         }
     }
+
+    /// Puts the lines just written on `descriptor` ahead of the moves they announce: a move must not reach a drive
+    /// before its line. An item on another drive than the journal's waits until the line is on its drive.
+    private static func flush(_ descriptor: Int32, before items: [TrashedItem]) -> Bool {
+        var journal = stat()
+        let acrossDrives = fstat(descriptor, &journal) != 0 || items.contains { item in
+            var info = stat()
+            return lstat(item.originalURL.path(percentEncoded: false), &info) != 0 || info.st_dev != journal.st_dev
+        }
+        if let flushStandIn { return flushStandIn(acrossDrives) }
+        return DriveFlush.ahead(of: descriptor, acrossDrives: acrossDrives)
+    }
+
+    /// For a test: a power cut can't be made on demand.
+    @TaskLocal static var flushStandIn: (@Sendable (_ acrossDrives: Bool) -> Bool)?
 
     /// Every line the journal holds. A line that does not decode is left out. Reading makes nothing on the disk:
     /// with no journal there is nothing to take in.

@@ -43,6 +43,53 @@ struct RemovalJournalTests {
         )
     }
 
+    @Test func anItemWhoseLineCantReachTheDriveStays() async throws {
+        let directory = try TemporaryDirectory()
+        let journal = RemovalJournal(beside: directory.url.appending(path: "Peel/removals.json"))
+        let file = try directory.file("home/Library/Caches/org.example.cache/data")
+        let trash = try directory.directory("home/.Trash")
+        let service = service(in: directory, journal: journal) { url in
+            let target = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: target)
+            return target
+        }
+        let flushes = Mutex<[Bool]>([])
+
+        let result = await RemovalJournal.$flushStandIn.withValue({ acrossDrives in
+            flushes.withLock { $0.append(acrossDrives) }
+            return false
+        }) {
+            await service.trash([file], usingHelperFor: [])
+        }
+
+        #expect(result.trashed.isEmpty)
+        #expect(file.isThere)
+        #expect(flushes.withLock { $0 } == [false])
+    }
+
+    @Test func anItemMovesOnlyOnceItsLineIsAheadOfTheMove() async throws {
+        let directory = try TemporaryDirectory()
+        let journal = RemovalJournal(beside: directory.url.appending(path: "Peel/removals.json"))
+        let file = try directory.file("home/Library/Caches/org.example.cache/data")
+        let trash = try directory.directory("home/.Trash")
+        let flushes = Mutex<[Bool]>([])
+        let service = service(in: directory, journal: journal) { url in
+            #expect(flushes.withLock { $0 } == [false], "the line before the move reaches the drive first")
+            let target = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: target)
+            return target
+        }
+
+        let result = await RemovalJournal.$flushStandIn.withValue({ acrossDrives in
+            flushes.withLock { $0.append(acrossDrives) }
+            return true
+        }) {
+            await service.trash([file], usingHelperFor: [])
+        }
+
+        #expect(result.trashed.map(\.originalURL) == [file])
+    }
+
     /// Between the rename and the line written after it, a process watching the Trash asks whether what arrived is
     /// Peel's: the line written before the move, with the item's identity, already says so.
     @Test func anItemPeelIsMovingIsKnownAsPeelsOnceItIsInTheTrash() async throws {

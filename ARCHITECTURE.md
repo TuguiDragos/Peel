@@ -187,7 +187,9 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      `RemovalTotals`), so the app and `peel` count alike.
    - Each item is also written down before it moves, a request to the helper before it goes, and again once it moved
      (`removals.journal`, through `RemovalJournal`); an item that can't be written down first doesn't move, nor does
-     anything after it in that removal. A line written before a move with none after it is settled on the disk when
+     anything after it in that removal. The line before a move reaches the drive ahead of it (`DriveFlush.ahead`: a
+     barrier on the journal's drive, a full flush for an item on another), so no power cut keeps a move without it.
+     A line written before a move with none after it is settled on the disk when
      it is taken in: the item still in its place never moved, and one in its Trash under a name a move gives, with the
      identity the line keeps, is the one that moved. So what a removal moved before it was cut short reaches
      History the next time History is read, as what it was when History couldn't write it, since its line then keeps

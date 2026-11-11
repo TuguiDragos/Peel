@@ -10,4 +10,11 @@ public enum DriveFlush {
         defer { close(descriptor) }
         return fcntl(descriptor, F_FULLFSYNC) == 0 || fsync(descriptor) == 0
     }
+
+    /// Keeps what was written to the open `descriptor` ahead of what comes after it on its drive (`F_BARRIERFSYNC`),
+    /// or, `acrossDrives`, waits until the drive holds it, since a barrier orders one drive's writes alone.
+    public static func ahead(of descriptor: Int32, acrossDrives: Bool) -> Bool {
+        if !acrossDrives, fcntl(descriptor, F_BARRIERFSYNC) == 0 { return true }
+        return fcntl(descriptor, F_FULLFSYNC) == 0 || fsync(descriptor) == 0
+    }
 }
