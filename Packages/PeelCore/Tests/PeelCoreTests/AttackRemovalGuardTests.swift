@@ -422,9 +422,6 @@ struct AttackRemovalGuardTests {
         }
     }
 
-    /// The place Put Back writes to does not exist yet, so asking about the file itself resolves nothing. The
-    /// guard has to find out where it would really land: through a linked parent, or under a name the disk
-    /// folds into a protected one (`ß` for `ss`, the long `ſ` for `s`).
     @Test func nothingGoesBackInsideAnApp() throws {
         let directory = try TemporaryDirectory()
         let home = try directory.directory("home")
@@ -447,6 +444,9 @@ struct AttackRemovalGuardTests {
         #expect(guardian.refusal(ofPuttingBack: trashed, at: cache) == nil)
     }
 
+    /// The place Put Back writes to does not exist yet, so asking about the file itself resolves nothing. The
+    /// guard has to find out where it would really land: through a linked parent, or under a name the disk
+    /// folds into a protected one (`ß` for `ss`, the long `ſ` for `s`).
     @Test func aDestinationThatDoesNotExistYet() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
@@ -560,8 +560,6 @@ struct AttackRemovalGuardTests {
         #expect(!guardian.allowsRemoval(of: disguised), "ATTACK SUCCEEDED: mail moved as a Mail plug-in through a link")
     }
 
-    /// A blockchain can outgrow the startup disk, so a wallet's folder is often kept on another one, with a link to it
-    /// where the wallet looks. Its keys have to be known under the name of the disk they are on too.
     /// Renamed after the guard was made, a protected folder answers to no protected name: the guard knows it by what
     /// it is.
     @Test func aProtectedFolderRenamedSinceTheGuardWasMadeIsStillKnown() throws {
@@ -608,6 +606,8 @@ struct AttackRemovalGuardTests {
         #expect(!guardian.allowsRemoval(of: home.appending(path: "Documents/Archive")), "the folder around a .\(kind)")
     }
 
+    /// A blockchain can outgrow the startup disk, so a wallet's folder is often kept on another one, with a link to it
+    /// where the wallet looks. Its keys have to be known under the name of the disk they are on too.
     @Test func aWalletKeptOnAnotherDiskThroughALink() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
