@@ -517,7 +517,7 @@ public enum IntelInspector {
             for case let item as URL in enumerator {
                 guard !Task.isCancelled else { break }
                 ScanCount.current?.add(1)
-                if driverExtensions.contains(item.pathExtension) { bundles.append(item) }
+                if driverExtensions.contains(item.pathExtension.lowercased()) { bundles.append(item) }
             }
             unreadable += refused.compactMap(FileAccess.refusedFolder)
         }
@@ -545,7 +545,7 @@ public enum IntelInspector {
             for case let item as URL in enumerator {
                 guard !Task.isCancelled else { break }
                 ScanCount.current?.add(1)
-                if driverExtensions.contains(item.pathExtension) {
+                if driverExtensions.contains(item.pathExtension.lowercased()) {
                     // `skipDescendants()` after a file would skip the next folder.
                     if (try? item.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory == true {
                         enumerator.skipDescendants()

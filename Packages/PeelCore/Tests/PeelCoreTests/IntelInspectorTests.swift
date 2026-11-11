@@ -122,6 +122,17 @@ struct IntelInspectorTests {
         #expect(walked.1.isEmpty)
     }
 
+    @Test func aDriverWhoseExtensionIsInCapitalsIsOneBundle() throws {
+        let directory = try TemporaryDirectory()
+        _ = try bundle(directory, "Printers/Upper.DRIVER", cpuTypes: [intel])
+        _ = try bundle(directory, "Printers/Mixed.Plugin", cpuTypes: [intel])
+        let printers = directory.url.appending(path: "Printers").path(percentEncoded: false)
+
+        let bundles = readable { IntelInspector.bundles(in: [printers], unreadable: &$0) }
+        #expect(bundles.map(\.lastPathComponent).sorted() == ["Mixed.Plugin", "Upper.DRIVER"])
+        #expect(readable { IntelInspector.programs(in: [printers], unreadable: &$0) }.isEmpty)
+    }
+
     @Test func walksTheFolderAfterAFileNamedLikeABundle() throws {
         let directory = try TemporaryDirectory()
         try directory.file("Printers/Backup.bundle", bytes: 16)
