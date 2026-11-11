@@ -730,6 +730,29 @@ struct TrashServiceTests {
         #expect(info.st_mode & 0o777 == 0o700)
     }
 
+    /// Another account can make `.Trashes/<uid>` on a shared disk first and read what lands there, so a Trash that
+    /// isn't this account's takes nothing.
+    @Test func movesNothingIntoATrashAnotherAccountOwns() async throws {
+        let directory = try TemporaryDirectory()
+        let file = try directory.file("home/Library/Caches/Example/org.example.foreign-trash.txt")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let removalGuard = RemovalGuard(environment: environment)
+        // Root's and writable by everyone: without the rule the item would land there.
+        let foreign = URL(filePath: "/private/tmp", directoryHint: .isDirectory)
+        let service = TrashService(environment: environment) { url in
+            try TrashService.moveToSystemTrash(url, trash: { _ in foreign }, refusal: removalGuard.refusal(of:))
+        }
+
+        let result = await service.trash([file])
+
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.reason) == [.notPermitted])
+        #expect(file.isThere)
+    }
+
     @Test func movesItemsToTrashAndRestoresThem() async throws {
         let directory = try TemporaryDirectory()
         let item = try directory.file("home/Library/Caches/com.example.app/cache.db")
