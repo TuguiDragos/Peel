@@ -26,9 +26,9 @@ struct ExtensionDetailView: View {
                     }
                 }
                 if let category = item.categoryName {
-                    LabeledContent("In System Settings") {
+                    LabeledContent("Category") {
                         Text(verbatim: category)
-                            .help(Text("In System Settings > General > Login Items & Extensions, By Category lists it under \(category)."))
+                            .help(Text("`systemextensionsctl` lists it under \(category). In System Settings > General > Login Items & Extensions, By Category shows extensions of this kind under the same name, though it may leave out one whose app is gone."))
                     }
                 }
                 if let owner = item.appName {

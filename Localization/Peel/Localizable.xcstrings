@@ -29793,6 +29793,112 @@
       "comment" : "Homebrew's own name for one of its two kinds of package, in the plural. It heads a section of the Homebrew page and labels a count there. Homebrew prints it in English whatever language the Mac uses, so it stays in English.",
       "shouldTranslate" : false
     },
+    "Category" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategorie"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategorie"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categoría"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Catégorie"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categoria"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カテゴリ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categorie"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategoria"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categoria"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categorie"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Категория"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategori"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategori"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Категорія"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "类别"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "類別"
+          }
+        }
+      }
+    },
     "Change the filters to see more apps." : {
       "localizations" : {
         "cs" : {
@@ -73143,218 +73249,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "影像"
-          }
-        }
-      }
-    },
-    "In System Settings" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "V Nastavení systému"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In den Systemeinstellungen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En Ajustes del Sistema"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dans Réglages Système"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In Impostazioni di Sistema"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "システム設定内"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "시스템 설정 내 위치"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In Systeeminstellingen"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "W Ustawieniach systemowych"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nos Ajustes do Sistema"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "În Configurări sistem"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "В Системных настройках"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I Systeminställningar"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sistem Ayarları’nda"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "У Системних параметрах"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在系统设置中"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在「系統設定」中"
-          }
-        }
-      }
-    },
-    "In System Settings > General > Login Items & Extensions, By Category lists it under %@." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "V Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení ho zobrazení Podle kategorie uvádí pod položkou %@."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“ führt „Nach Kategorie“ diese Erweiterung bei „%@“ auf."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En Ajustes del Sistema > General > Ítems de inicio y extensiones, la vista “Por categoría” la muestra en %@."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dans Réglages Système > Général > Ouverture et extensions, la vue « Par catégorie » l’affiche sous %@."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In Impostazioni di Sistema > Generali > Elementi login ed estensioni, “Per categoria” la elenca sotto “%@”."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "“システム設定”＞“一般”＞“ログイン項目と機能拡張”の“カテゴリ別”では、“%@”の下に表示されます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램의 ‘카테고리별’ 보기에서 ‘%@’ 아래에 나열됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In Systeeminstellingen > Algemeen > Inlogonderdelen en extensies staat deze extensie bij 'Op categorie' onder '%@'."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "W Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania widok Wg kategorii wymienia je w kategorii %@."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões, a visualização Por Categoria lista esta extensão em %@."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "În Configurări sistem > General > Lansare la login și extensii, vizualizarea „După categorie” o listează la %@."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "В разделе «Системные настройки» > «Основные» > «Объекты входа и расширения» в режиме «По категории» это расширение указано в группе «%@»."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I Systeminställningar > Allmänt > Startobjekt och tillägg listas det under %@ i vyn ”Efter kategori”."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünde Kategoriye Göre görünümü onu %@ altında listeler."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "У розділі Системні параметри > Загальні > Автозапуск і розширення, якщо вибрати «За категорією», його показано в категорії «%@»."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在“系统设置”>“通用”>“登录项与扩展”中，“按类别”将它列在“%@”下。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在「系統設定」>「一般」>「登入項目與延伸功能」中，「按照類別」會將它列在「%@」之下。"
           }
         }
       }
@@ -271347,6 +271241,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "`peel`已在你的執行路徑中。請在「終端機」中輸入`peel --help`查看它能做什麼。"
+          }
+        }
+      }
+    },
+    "`systemextensionsctl` lists it under %@. In System Settings > General > Login Items & Extensions, By Category shows extensions of this kind under the same name, though it may leave out one whose app is gone." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`systemextensionsctl` ho uvádí pod položkou %@. V Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení zobrazení Podle kategorie uvádí rozšíření tohoto druhu pod stejným názvem, i když může vynechat rozšíření, jehož aplikace už zmizela."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`systemextensionsctl` führt diese Erweiterung unter „%@“ auf. Unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“ zeigt „Nach Kategorie“ Erweiterungen dieser Art unter demselben Namen, lässt aber möglicherweise eine aus, deren App nicht mehr vorhanden ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`systemextensionsctl` la incluye en %@. En Ajustes del Sistema > General > Ítems de inicio y extensiones, la vista “Por categoría” muestra las extensiones de este tipo con el mismo nombre, aunque puede que omita una cuya app ya no está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`systemextensionsctl` la liste sous %@. Dans Réglages Système > Général > Ouverture et extensions, la vue « Par catégorie » affiche les extensions de ce type sous le même nom, mais elle peut omettre une extension dont l’app a disparu."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`systemextensionsctl` la elenca sotto “%@”. In Impostazioni di Sistema > Generali > Elementi login ed estensioni, “Per categoria” mostra le estensioni di questo tipo con lo stesso nome, anche se potrebbe tralasciarne una la cui app non c’è più."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`systemextensionsctl`では“%@”の下に表示されます。“システム設定”＞“一般”＞“ログイン項目と機能拡張”の“カテゴリ別”では、この種類の機能拡張が同じ名前の下に表示されますが、アプリがなくなった機能拡張は表示されないことがあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`systemextensionsctl`은 이 항목을 ‘%@’ 아래에 나열합니다. 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램의 ‘카테고리별’ 보기에도 이 종류의 확장 프로그램이 같은 이름 아래에 표시되지만, 앱이 없어진 확장 프로그램은 빠질 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`systemextensionsctl` vermeldt deze extensie onder '%@'. In Systeeminstellingen > Algemeen > Inlogonderdelen en extensies toont 'Op categorie' extensies van deze soort onder dezelfde naam, al ontbreekt daar misschien een extensie waarvan de app er niet meer is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`systemextensionsctl` wymienia je w kategorii %@. W Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania widok Wg kategorii pokazuje rozszerzenia tego rodzaju pod tą samą nazwą, choć może pominąć takie, którego aplikacji już nie ma."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O `systemextensionsctl` lista esta extensão em %@. Em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões, a visualização Por Categoria mostra as extensões deste tipo em uma categoria com o mesmo nome, embora possa deixar de fora uma cujo app não exista mais."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`systemextensionsctl` o listează la %@. În Configurări sistem > General > Lansare la login și extensii, vizualizarea „După categorie” afișează extensiile de acest tip sub același nume, deși poate omite una a cărei aplicație nu mai există."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`systemextensionsctl` указывает его в группе «%@». В разделе «Системные настройки» > «Основные» > «Объекты входа и расширения» в режиме «По категории» расширения этого типа показаны под тем же названием, хотя расширение, приложения которого уже нет, там может не отображаться."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`systemextensionsctl` listar det under %@. I Systeminställningar > Allmänt > Startobjekt och tillägg visar vyn ”Efter kategori” tillägg av det här slaget under samma namn, men den kan utelämna ett tillägg vars app är borta."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`systemextensionsctl` onu %@ altında listeler. Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünde Kategoriye Göre görünümü bu türdeki genişletmeleri aynı ad altında gösterir, ancak uygulaması artık olmayan bir genişletmeyi göstermeyebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`systemextensionsctl` показує його в категорії «%@». У розділі Системні параметри > Загальні > Автозапуск і розширення, якщо вибрати «За категорією», розширення цього типу показано під тією самою назвою, хоча там може не бути розширення, програми якого вже немає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`systemextensionsctl`将它列在“%@”下。在“系统设置”>“通用”>“登录项与扩展”中，“按类别”会以相同的名称显示此类扩展，但可能不会显示App已不存在的扩展。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`systemextensionsctl`將它列在「%@」之下。在「系統設定」>「一般」>「登入項目與延伸功能」中，「按照類別」會以相同名稱顯示此類延伸功能，但可能不會列出其App已不存在的延伸功能。"
           }
         }
       }

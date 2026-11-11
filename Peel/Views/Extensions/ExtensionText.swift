@@ -10,7 +10,8 @@ extension AppExtension {
         return ExtensionPoint(point).map { String(localized: $0.word) } ?? point
     }
 
-    /// The category System Settings lists a system extension under, in its own words, or nil when Peel has no word.
+    /// The category `systemextensionsctl` lists a system extension under, as System Settings names it, or nil when
+    /// Peel has no word.
     var categoryName: String? {
         SystemExtensionCategory(category).map { String(localized: $0.word) }
     }
