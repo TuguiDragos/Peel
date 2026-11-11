@@ -83,8 +83,8 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   takes an icon out only once it has saved where it was, and says so when it couldn't, and on a Mac where a profile
   sets the Dock's apps it leaves the Dock alone.
 - **Its alias too.** A link or a Finder alias to the app in `/Applications` or your home's Applications folder, such as
-  one to an app you keep on another disk, goes with the app, so nothing is left there that leads nowhere, and Orphaned Files lists one
-  whose app is already gone.
+  one to an app you keep on another disk, goes with the app, so nothing is left there that leads nowhere, and Orphaned
+  Files lists one whose app is already gone.
 - **When macOS needs more.** After a removal, Peel says when macOS keeps using what moved: an audio driver until
   you restart your Mac, and an app's login items, which macOS starts from the Trash until you empty it.
 - **A root certificate stays trusted.** Before an app such as Charles or Proxyman goes, or a tool such as mkcert,
@@ -141,16 +141,16 @@ Space shows what fills your disk, area by area, and what each area is.
   It also lists the files browsers keep to start a helper program that is gone. In your account's temporary folder,
   where every program writes files named as it likes, it lists only what came with an app it saw go, as it does for
   plug-ins. A folder the Developer page knows as a tool's, such as Carthage's cache, is left to that page, unless Peel
-  saw the app it's named for go. Nothing is selected for you. A system extension's copy can't be selected, since only macOS removes it, and
-  its row says how. Peel doesn't list what only a guess could tie to an app, so look for it yourself: a folder named
-  only for a maker, such as `Google` in Application Support, a data folder only the app's documentation names, such as
-  Tor Browser's `TorBrowser-Data`, a folder named like a gone app while another installed app's name holds that name,
-  such as one called Epic beside Epic Games Launcher, and a hidden folder in your home named like an app, since one such
-  as `~/.local` is shared by many command-line tools. What only an administrator can move, from a place Peel's helper
-  isn't allowed to move it from, is listed apart under Needs an Administrator, with how to remove it in Finder, and so
-  is what an uninstall left there, which nothing else would tie to the app once it is gone. A kernel extension there
-  says to restart once it is in the Trash and, on a Mac with Apple silicon, how to set the startup disk's security back
-  to Full Security if you lowered it to install one.
+  saw the app it's named for go. Nothing is selected for you. A system extension's copy can't be selected, since only
+  macOS removes it, and its row says how. Peel doesn't list what only a guess could tie to an app, so look for it
+  yourself: a folder named only for a maker, such as `Google` in Application Support, a data folder only the app's
+  documentation names, such as Tor Browser's `TorBrowser-Data`, a folder named like a gone app while another installed
+  app's name holds that name, such as one called Epic beside Epic Games Launcher, and a hidden folder in your home named
+  like an app, since one such as `~/.local` is shared by many command-line tools. What only an administrator can move,
+  from a place Peel's helper isn't allowed to move it from, is listed apart under Needs an Administrator, with how to
+  remove it in Finder, and so is what an uninstall left there, which nothing else would tie to the app once it is gone.
+  A kernel extension there says to restart once it is in the Trash and, on a Mac with Apple silicon, how to set the
+  startup disk's security back to Full Security if you lowered it to install one.
 - **Developer:** caches of developer tools, editors, browsers, and AI models. Nothing is selected for you, and Select
   Recommended passes by what you may want again; toolchains or anything holding an account are never listed.
 - **Build Artifacts:** what builds left in your projects, like `node_modules`, `DerivedData`, or `target`, each only

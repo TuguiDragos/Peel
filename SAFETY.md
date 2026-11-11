@@ -422,10 +422,10 @@ Background Music) is listed the same way, and nothing of it can be selected: its
 opens the app whose own command removes it, and links to the maker's instructions, since moved from its place, what it
 keeps in the system and the settings that manage it would stay behind. Peel knows it by the team its checked signature
 names, a signature that seals the app's own Info.plist, and by its identifier, both as the maker documents or signs
-them, never by the identifier alone, which any app could claim. `peel uninstall` refuses it and names the same uninstaller. An uninstaller its maker documents opening to
-remove a product, such as Google's Chrome Remote Desktop Host Uninstaller, Wacom Tablet Utility, or Avast Security
-Uninstaller, is treated the same way: moved on its own, it would leave the product installed, so its page offers to open
-it instead.
+them, never by the identifier alone, which any app could claim. `peel uninstall` refuses it and names the same
+uninstaller. An uninstaller its maker documents opening to remove a product, such as Google's Chrome Remote Desktop Host
+Uninstaller, Wacom Tablet Utility, or Avast Security Uninstaller, is treated the same way: moved on its own, it would
+leave the product installed, so its page offers to open it instead.
 
 An app carrying a system extension macOS installed, such as a VPN's network extension or a virtual camera, is listed
 the same way, and nothing of it can be selected: moved by Peel, the app would leave the extension installed, while
@@ -722,8 +722,8 @@ and it fails closed.
 - It starts, stops, enables, and disables launch daemons only for other vendors. What macOS ships is
   refused by the label each daemon declares, not by its file name, and so is each copy launchd runs of one for a
   connection, under that label followed by a dot and an identifier. If that list cannot be read it refuses every
-  daemon rather than allowing them all. It never acts on itself: Peel's helper is installed and uninstalled in Settings, and
-  Background Items shows it without controls.
+  daemon rather than allowing them all. It never acts on itself: Peel's helper is installed and uninstalled in Settings,
+  and Background Items shows it without controls.
 - From the folders command-line tools and their shell completions are linked into, `/usr/local/bin`,
   `/usr/local/sbin`, MacPorts' `/opt/local/bin` and `/opt/local/sbin`, and the completion folders of `/usr/local`
   (`share/zsh/site-functions`, `share/fish/vendor_completions.d`, `etc/bash_completion.d`, and
