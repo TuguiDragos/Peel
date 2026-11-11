@@ -773,7 +773,7 @@ struct HomebrewList: View {
                     refused.refusal.explanation
                 }
             } actions: {
-                Button("Homebrew Is in Another Folder") { SettingsPane.general.open(with: openSettings) }
+                Button("Choose Homebrew in Settings…") { SettingsPane.general.open(with: openSettings) }
             }
         } else if !homebrew.isInstalled {
             ContentUnavailableView {
@@ -788,7 +788,7 @@ struct HomebrewList: View {
                                 .minimumTarget()
                         }
                     }
-                    Button("Homebrew Is in Another Folder") { SettingsPane.general.open(with: openSettings) }
+                    Button("Choose Homebrew in Settings…") { SettingsPane.general.open(with: openSettings) }
                 }
             }
         } else if homebrew.needsDefinitions, homebrew.packages?.isEmpty != false, homebrew.runningCommand == nil,
