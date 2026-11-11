@@ -4,7 +4,6 @@ import PeelCore
 import Testing
 
 struct HistoryLimitNotesTests {
-    /// "No longer lists" read as a loss: each note says the limit that left the older removals out.
     @Test func eachNoteSaysTheLimitThatLeftOlderRemovalsOut() {
         let history = HistoryList.historyKeepsItsLatest
         let notMoved = HistoryList.notMovedKeepsItsLatest

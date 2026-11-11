@@ -106,7 +106,6 @@ struct OnItsOwnTests {
         #expect(!output.text.split(separator: " ").contains("/dev/fd/\(kept)"))
     }
 
-    /// The program is sent `SIGTERM` first, then `SIGKILL` if it ignores it.
     @Test func aProgramThatRunsPastItsTimeIsStoppedEvenWhenItIgnoresBeingAsked() async {
         let script = "trap '' TERM; while :; do sleep 1; done"
 

@@ -122,7 +122,6 @@ struct OrphanScannerTests {
         }
     }
 
-    /// The gone apps' makers are worked out once, and an item still comes with a gone app as it did.
     @Test func anItemComesWithAGoneAppItExtendsOrWhoseMakerItShares() {
         let gone = ["org.example.tide", "com.maker.reed", "org.mixed.case"]
         let ownership = AppOwnership(installedApps: [], goneApps: gone) { _ in false }

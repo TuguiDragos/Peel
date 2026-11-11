@@ -16,7 +16,6 @@ struct ReasonsSayTheStepTests {
         #expect(RestoreFailure.needsHelper.explanation == needsHelper)
     }
 
-    /// The helper's two refusals and the app's own link reason say why the helper stops and what to do.
     @Test func theLinkAndTwoFileReasonsSayWhy() {
         let target = "/Applications/Example.app"
 

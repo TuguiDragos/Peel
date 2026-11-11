@@ -3,7 +3,6 @@ import Foundation
 import Testing
 
 struct CleanUpQuestionTests {
-    /// The formulae Clean Up uninstalls are named once, as the ones nothing needs anymore, and then listed.
     @Test func theQuestionDescribesTheFormulaeOnceThenNamesThem() {
         let size = Int64(2_000_000_000)
         let formulae = ["alpha", "beta"]

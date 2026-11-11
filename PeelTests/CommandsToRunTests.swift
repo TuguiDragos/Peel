@@ -40,7 +40,6 @@ struct CommandsToRunTests {
         #expect(RemovalFailureAlert.details(for: outcome).hasPrefix(String(localized: "Run these commands in Terminal to finish.")))
     }
 
-    /// When the alert has something else to tell, its title says that, and the commands come under their own line.
     @Test func commandsLeftBesideAFailureComeUnderTheirOwnLine() {
         let outcome = RemovalOutcome()
         outcome.report(

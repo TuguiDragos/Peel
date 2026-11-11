@@ -1839,7 +1839,6 @@ struct TrashServiceTests {
         #expect(result.failures.map(\.url) == [stayed])
     }
 
-    /// A helper that answered without a word about an item didn't fail to answer, so it isn't said to.
     @Test func anAnswerSilentAboutAnItemIsNotCalledNoAnswer() throws {
         let directory = try TemporaryDirectory()
         let trash = try directory.directory("home/.Trash")
