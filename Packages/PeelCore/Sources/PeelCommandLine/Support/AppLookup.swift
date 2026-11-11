@@ -5,7 +5,7 @@ enum AppLookup {
     enum Failure: Error, Equatable, CustomStringConvertible {
         case notFound(String)
         case ambiguous(String, [String])
-        case notAnApp(String)
+        case unreadable(String, AppInspector.Unreadable)
         case excluded(String)
         case exclusionsUnreadable(String, FileProblem?)
 
@@ -15,12 +15,24 @@ enum AppLookup {
                 "No installed app matches \"\(Output.plain(query))\". Run `peel apps` to see installed apps."
             case .ambiguous(let query, let paths):
                 "Several apps match \"\(Output.plain(query))\". Use one of these paths:\n" + paths.map { "  \(Output.plain($0))" }.joined(separator: "\n")
-            case .notAnApp(let path):
-                "\(Output.plain(path)) isn't an app."
+            case .unreadable(let path, let reason):
+                Self.sentence(saying: reason, about: Output.plain(path))
             case .excluded(let name):
                 "\(Output.plain(name)) is excluded in Peel's settings, so Peel leaves it alone."
             case .exclusionsUnreadable(let path, let why):
                 "Peel couldn't read your exclusions at \(Output.plain(path)), so it left everything alone. Open Peel and click Start Over in Settings > Exclusions." + why.sentence
+            }
+        }
+
+        private static func sentence(saying reason: AppInspector.Unreadable, about path: String) -> String {
+            switch reason {
+            case .gone: "\(path) isn't there."
+            case .notAnApp: "\(path) isn't an app."
+            case .noInfo: "\(path) has no Info.plist, the file that says what an app is, so Peel can't read it as one."
+            case .infoClosed: "Permissions keep your account from reading the Info.plist in \(path), so Peel can't read it as an app."
+            case .infoKeptByPrivacy: "macOS keeps your terminal app from reading the Info.plist in \(path). Allow it in System Settings > Privacy & Security > Files and Folders, or give it Full Disk Access."
+            case .infoDamaged: "The Info.plist in \(path) isn't a property list Peel can read, so Peel can't read it as an app."
+            case .builtForAnotherPlatform: "\(path) is built for another Apple platform, not for the Mac, so Peel has nothing to uninstall."
             }
         }
     }
@@ -118,7 +130,8 @@ enum AppLookup {
         if let app = AppCatalog.app(at: URL(filePath: path), among: apps) {
             return app
         }
-        guard let app = inspect(URL(filePath: path, directoryHint: .isDirectory)) else { throw .notAnApp(query) }
+        let bundle = URL(filePath: path, directoryHint: .isDirectory)
+        guard let app = inspect(bundle) else { throw .unreadable(query, AppInspector.whyUnreadable(bundle)) }
         return app
     }
 

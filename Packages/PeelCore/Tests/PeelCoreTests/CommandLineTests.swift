@@ -317,8 +317,24 @@ struct CommandLineTests {
             #"<plist version="1.0"><dict><key>CFBundleIdentifier</key><string>org.example.pane</string></dict></plist>"#.utf8
         ))
 
-        #expect(throws: AppLookup.Failure.notAnApp(pane.path(percentEncoded: false))) {
+        #expect(throws: AppLookup.Failure.unreadable(pane.path(percentEncoded: false), .notAnApp)) {
             try AppLookup.app(matching: pane.path(percentEncoded: false), in: [])
+        }
+    }
+
+    @Test func anAppThatCantBeReadIsSaidWhy() throws {
+        let directory = try TemporaryDirectory()
+        _ = try directory.file("Debug-iphonesimulator/Pocket.app/Info.plist", contents: Data(
+            #"<plist version="1.0"><dict><key>CFBundleIdentifier</key><string>org.example.pocket</string></dict></plist>"#.utf8
+        ))
+        let pocket = directory.url.appending(path: "Debug-iphonesimulator/Pocket.app").path(percentEncoded: false)
+        let empty = try directory.directory("Mac/Empty.app/Contents").deletingLastPathComponent().path(percentEncoded: false)
+
+        #expect(throws: AppLookup.Failure.unreadable(pocket, .builtForAnotherPlatform)) {
+            try AppLookup.app(matching: pocket, in: [])
+        }
+        #expect(throws: AppLookup.Failure.unreadable(empty, .noInfo)) {
+            try AppLookup.app(matching: empty, in: [])
         }
     }
 
