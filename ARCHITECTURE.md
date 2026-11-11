@@ -649,14 +649,15 @@ in the keychain, a notary profile stored once with `xcrun notarytool store-crede
 unless given another), the update key in the Keychain under the account peel, made once with Sparkle's
 `generate_keys --account peel`, and uv (`brew install uv`), and it refuses to start without uv.
 
-A Release build of every program has pointer authentication (`ENABLE_POINTER_AUTHENTICATION`, an arm64e slice
-beside arm64 and x86_64), and the helper, in every build, the rest of Enhanced Security too. Xcode gives the Swift
-packages only the settings of the command line, so a Release build passes that setting there as well, with
-`MACOSX_DEPLOYMENT_TARGET=26.0`: a package that names no platform, such as swift-argument-parser, would otherwise
-be built for an older macOS with its class data unsigned, and the linker would then leave the class data of the
-whole `peel` tool unsigned. `release.sh` and the Checks workflow pass both, and Xcode's own Archive, which cannot,
-fails. A Debug build leaves pointer authentication off, since it builds only the Mac's own architecture, which the
-programs would read as arm64e and the packages as arm64.
+A Release build of every program has pointer authentication (`ENABLE_POINTER_AUTHENTICATION`, an arm64e slice beside
+arm64 and x86_64). The helper's target turns on Enhanced Security as well, whose other build settings act only on C
+and C++ code, and the helper is Swift alone; the protections Enhanced Security adds at run time are entitlements,
+which the helper doesn't carry. Xcode gives the Swift packages only the settings of the command line, so a Release
+build passes pointer authentication there as well, with `MACOSX_DEPLOYMENT_TARGET=26.0`: a package that names no
+platform, such as swift-argument-parser, would otherwise be built for an older macOS with its class data unsigned, and
+the linker would then leave the class data of the whole `peel` tool unsigned. `release.sh` and the Checks workflow
+pass both, and Xcode's own Archive, which cannot, fails. A Debug build leaves pointer authentication off, since it
+builds only the Mac's own architecture, which the programs would read as arm64e and the packages as arm64.
 
 A Debug build keeps the app's code in its own executable (`ENABLE_DEBUG_DYLIB` off for the app's target). With
 Xcode's default the code goes into a `Peel.debug.dylib` that a stub executable loads, and the App Intents step, which
