@@ -1763,7 +1763,11 @@ struct ProjectArtifactsTests {
         }
         try age(directory.url, days: 60)
 
-        let cache = try #require(await ProjectArtifacts.scan(roots: [directory.url]).artifacts.first)
+        // An hour for each read, so only the reading decides what is found, however busy the Mac.
+        let cache = try #require(await ProjectArtifacts.scan(
+            roots: [directory.url], exclusions: .none, measure: { await FileSize.contents(of: $0, within: 3_600) },
+            within: 3_600
+        ).artifacts.first)
 
         #expect(cache.project.lastPathComponent == "lib")
         #expect(cache.lastActivityIsCertain)

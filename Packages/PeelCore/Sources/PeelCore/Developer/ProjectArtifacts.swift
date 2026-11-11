@@ -906,8 +906,12 @@ public enum ProjectArtifacts {
         await scan(roots: roots, exclusions: exclusions, measure: LeftoverScanner.walk)
     }
 
+    /// `budget` is how long each read may take, as in production unless a test gives more.
     @concurrent
-    static func scan(roots: [URL], exclusions: Exclusions, measure: @escaping LeftoverScanner.Measure) async -> Scan {
+    static func scan(
+        roots: [URL], exclusions: Exclusions, measure: @escaping LeftoverScanner.Measure,
+        within budget: TimeInterval = FileSize.budget
+    ) async -> Scan {
         await withTaskGroup(of: Walked.self) { group in
             var refused: [(url: URL, reason: Refusal)] = []
             var searched: [(root: URL, folder: URL)] = []
@@ -924,7 +928,9 @@ public enum ProjectArtifacts {
                 // The highest chosen folder holding this one, so a project is the same whichever walk finds it first.
                 let top = folders.filter { PathComponents.isPath(key(of: folder), atOrInside: key(of: $0)) }
                     .min { key(of: $0).count < key(of: $1).count }
-                group.addTask { await artifacts(in: folder, within: top, exclusions: exclusions, measure: measure) }
+                group.addTask {
+                    await artifacts(in: folder, within: top, exclusions: exclusions, measure: measure, budget: budget)
+                }
             }
             var found: [ProjectArtifact] = []
             var seen: Set<URL> = []
@@ -945,7 +951,7 @@ public enum ProjectArtifacts {
                 !gone.contains { PathComponents.isPath(key(of: artifact.url), atOrInside: key(of: $0.folder)) }
             }
             return Scan(
-                artifacts: holdingBackWhatIsShared(await holdingBackWhatGitTracks(kept))
+                artifacts: holdingBackWhatIsShared(await holdingBackWhatGitTracks(kept, within: budget))
                     .sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) },
                 wasCutShort: wasCutShort,
                 unreadableLocations: unreadable.sorted {
@@ -1120,7 +1126,7 @@ public enum ProjectArtifacts {
         return PathComponents.of(kernelName).lazy.compactMap(skipped).first.map(Refusal.neverSearched)
     }
 
-    /// Walks `root` for artifacts. Each folder is read on a thread of its own, within `FileSize`'s budget, since a
+    /// Walks `root` for artifacts. Each folder is read on a thread of its own, within `budget`, since a
     /// folder on a network volume that stopped answering would otherwise hold one of the threads every scan
     /// shares, where a Stop cannot reach it. A project is looked for up to `top`, by default `root`. `listing` stands
     /// in for the listing in a test.
@@ -1129,6 +1135,7 @@ public enum ProjectArtifacts {
         within top: URL? = nil,
         exclusions: Exclusions,
         measure: LeftoverScanner.Measure,
+        budget: TimeInterval = FileSize.budget,
         listing: @escaping @Sendable (URL) -> [URL]? = contents(of:)
     ) async -> Walked {
         var pending: [Pending] = []
@@ -1151,7 +1158,7 @@ public enum ProjectArtifacts {
                 queue.removeFirst(next)
                 next = 0
             }
-            let answer = await SlowRead.answer(within: FileSize.budget) { _ in
+            let answer = await SlowRead.answer(within: budget) { _ in
                 look(in: folder, exclusions: exclusions, keepers: keepers, listing: listing)
             }
             // A folder that went away during the walk held nothing; one still there and not read is not known.
@@ -1171,7 +1178,9 @@ public enum ProjectArtifacts {
                 let url = folder.appending(path: artifact.name)
                 let project = artifact.isBesideItsToolsFile
                     ? folder
-                    : await project(above: folder, within: top ?? root, listing: listing, known: &projectFolders)
+                    : await project(
+                        above: folder, within: top ?? root, listing: listing, budget: budget, known: &projectFolders
+                    )
                 pending.append(Pending(url: url, project: project, found: artifact, contents: await measure(url)))
             }
 
@@ -1183,7 +1192,8 @@ public enum ProjectArtifacts {
             }
         }
         return Walked(
-            artifacts: await withLastActivity(pending), wasCutShort: next < queue.count, unreadable: unreadable,
+            artifacts: await withLastActivity(pending, within: budget), wasCutShort: next < queue.count,
+            unreadable: unreadable,
             keptInStep: keptInStep
         )
     }
@@ -1204,8 +1214,8 @@ public enum ProjectArtifacts {
     }
 
     /// Builds write into artifacts while nobody works on a project, so its last change passes by every one inside.
-    private static func withLastActivity(_ pending: [Pending]) async -> [ProjectArtifact] {
-        let activities = await lastActivities(of: pending.map(\.project), passingBy: pending.map(\.url))
+    private static func withLastActivity(_ pending: [Pending], within budget: TimeInterval) async -> [ProjectArtifact] {
+        let activities = await lastActivities(of: pending.map(\.project), passingBy: pending.map(\.url), within: budget)
         return pending.map { artifact in
             let activity = activities[key(of: artifact.project)] ?? Activity(date: nil, isCertain: false)
             let heldBack = HoldBack.seen(in: artifact.contents)
@@ -1272,6 +1282,7 @@ public enum ProjectArtifacts {
         above folder: URL,
         within root: URL,
         listing: @escaping @Sendable (URL) -> [URL]?,
+        budget: TimeInterval,
         known: inout [String: Bool]
     ) async -> URL {
         let top = key(of: root)
@@ -1284,7 +1295,7 @@ public enum ProjectArtifacts {
                 isProject = answer
             } else {
                 let place = candidate
-                isProject = await SlowRead.answer(within: FileSize.budget) { _ in
+                isProject = await SlowRead.answer(within: budget) { _ in
                     listing(place).map { holdsAProject(names: Set($0.map(\.lastPathComponent)), in: place) } ?? false
                 } ?? false
                 known[path] = isProject
