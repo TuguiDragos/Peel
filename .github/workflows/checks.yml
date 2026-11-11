@@ -76,6 +76,14 @@ jobs:
             cat "$log"
             exit 1
           fi
+          # A suite that stops running would pass as quietly as a whole run, so the count has a floor.
+          grep -E " skipped" "$log" || true
+          ran=$(grep -oE "Test run with [0-9]+ tests" "$log" | tail -1 | grep -oE "[0-9]+")
+          least=$(awk '$1 == "PeelCore" { print $2 }' .github/test-floor.txt)
+          if [ "${ran:-0}" -lt "$least" ]; then
+            echo "::error::$ran tests ran, fewer than the $least .github/test-floor.txt names."
+            exit 1
+          fi
 
       # Sparkle, which updates Peel, is built from its source at the commit the script names, with arm64e.
       - name: Build Sparkle
@@ -115,6 +123,13 @@ jobs:
             exit 1
           fi
           grep -E "Test run with" "$log"
+          grep -E " skipped" "$log" || true
+          ran=$(grep -oE "Test run with [0-9]+ tests" "$log" | tail -1 | grep -oE "[0-9]+")
+          least=$(awk '$1 == "Peel" { print $2 }' .github/test-floor.txt)
+          if [ "${ran:-0}" -lt "$least" ]; then
+            echo "::error::$ran tests ran, fewer than the $least .github/test-floor.txt names."
+            exit 1
+          fi
 
       # Release builds every binary for Apple silicon, with pointer authentication (arm64e) and without, and for Intel,
       # with the optimizer a Debug build leaves off. The settings are given here too, since only the command line
