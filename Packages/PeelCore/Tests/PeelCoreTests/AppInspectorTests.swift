@@ -686,4 +686,19 @@ struct AppInspectorTests {
 
         #expect(AppInspector.inspect(bundle) == nil)
     }
+
+    @Test func anAppBuiltForAnotherAppleDeviceIsSaidToBe() throws {
+        let info = try PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleIdentifier": "org.example.pocket"], format: .xml, options: 0
+        )
+        let directory = try TemporaryDirectory()
+        try directory.file("Debug-iphonesimulator/Pocket.app/Info.plist", contents: info)
+        try directory.directory("Mac/Empty.app/Contents")
+        let pocket = directory.url.appending(path: "Debug-iphonesimulator/Pocket.app", directoryHint: .isDirectory)
+        let empty = directory.url.appending(path: "Mac/Empty.app", directoryHint: .isDirectory)
+
+        #expect(AppInspector.inspect(pocket) == nil)
+        #expect(AppInspector.whyUnreadable(pocket) == .builtForAnotherPlatform)
+        #expect(AppInspector.whyUnreadable(empty) == .noInfo)
+    }
 }

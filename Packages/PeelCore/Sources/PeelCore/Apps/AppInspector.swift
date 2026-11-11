@@ -107,6 +107,9 @@ public enum AppInspector {
         case infoKeptByPrivacy
         /// The Info.plist opens but isn't a property list Peel can read.
         case infoDamaged
+        /// The Info.plist sits at the bundle's top, where an app for iPhone, iPad, Apple TV, Apple Watch, or Apple
+        /// Vision Pro keeps it: a Mac app keeps it in `Contents`.
+        case builtForAnotherPlatform
     }
 
     /// Whether `url` is an app bundle itself: a folder named as an app, not a link to one nor a file named like one,
@@ -136,7 +139,7 @@ public enum AppInspector {
         }
         guard isABundle(url) else { return .notAnApp }
         let info = AppBundleLayout(of: url).infoFolder.appending(path: "Info.plist")
-        if info.isMissing { return .noInfo }
+        if info.isMissing { return url.appending(path: "Info.plist").isThere ? .builtForAnotherPlatform : .noInfo }
         return access(info.path(percentEncoded: false), R_OK) == 0 ? .infoDamaged : unreadableInfo(accessError: errno)
     }
 

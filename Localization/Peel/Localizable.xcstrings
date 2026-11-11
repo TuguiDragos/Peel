@@ -6476,6 +6476,112 @@
         }
       }
     },
+    "%@ is built for another Apple platform, not for the Mac, so Peel has nothing to uninstall." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace %@ je určená pro jinou platformu Apple, ne pro Mac, takže Peel nemá co odinstalovat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ist für eine andere Apple-Plattform entwickelt, nicht für den Mac, daher hat Peel nichts zu deinstallieren."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ se ha creado para otra plataforma de Apple, no para el Mac, así que Peel no tiene nada que desinstalar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ est conçu pour une autre plateforme Apple, et non pour le Mac : Peel n’a donc rien à désinstaller."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ è compilata per un’altra piattaforma Apple, non per il Mac, quindi Peel non ha nulla da disinstallare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@はMac用ではなく、ほかのAppleプラットフォーム用にビルドされているため、Peelがアンインストールするものはありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@은(는) Mac이 아닌 다른 Apple 플랫폼용으로 빌드되었으므로 Peel이 제거할 항목이 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ is gemaakt voor een ander Apple-platform, niet voor de Mac, dus Peel heeft niets te deïnstalleren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja %@ jest skompilowana dla innej platformy Apple, a nie dla Maca, więc Peel nie ma czego odinstalować."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ foi feito para outra plataforma da Apple, não para o Mac, então o Peel não tem nada a desinstalar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ este compilat pentru o altă platformă Apple, nu pentru Mac, așa că Peel nu are nimic de dezinstalat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение %@ собрано для другой платформы Apple, а не для Mac, поэтому Peel нечего удалять."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ har byggts för en annan Apple-plattform, inte för Mac, så Peel har inget att avinstallera."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Mac için değil, başka bir Apple platformu için derlenmiş, bu yüzden Peel’in yüklemesini kaldıracağı bir şey yok."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ створено для іншої платформи Apple, а не для Mac, тож Peel немає чого деінсталювати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@是为另一个Apple平台而非Mac构建的，因此Peel没有可卸载的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@是為其他Apple平臺建置的，而非為Mac建置，因此Peel沒有可解除安裝的項目。"
+          }
+        }
+      }
+    },
     "%@ is in the Trash" : {
       "localizations" : {
         "cs" : {

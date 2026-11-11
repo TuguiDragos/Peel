@@ -354,6 +354,7 @@ extension AppInspector.Unreadable {
         case .infoClosed: String(localized: "Permissions keep your account from reading the Info.plist in \(path), so Peel can’t read it as an app.")
         case .infoKeptByPrivacy: String(localized: "macOS keeps Peel from reading the Info.plist in \(path). Allow Peel in System Settings > Privacy & Security > Files and Folders, or give it Full Disk Access.")
         case .infoDamaged: String(localized: "The Info.plist in \(path) isn’t a property list Peel can read, so Peel can’t read it as an app.")
+        case .builtForAnotherPlatform: String(localized: "\(path) is built for another Apple platform, not for the Mac, so Peel has nothing to uninstall.")
         }
     }
 }
