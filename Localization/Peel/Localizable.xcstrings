@@ -249557,108 +249557,108 @@
         }
       }
     },
-    "While Peel shows in the menu bar, its icon leaves the Dock when you close its last window, and comes back when you open Peel again from the menu bar, Finder, or Spotlight." : {
+    "While Peel shows in the menu bar, its icon leaves the Dock when you close its last window, and comes back when you open Peel again from the menu bar, Finder, or Spotlight. If the menu bar is full, macOS may hide Peel there, so open it from Finder or Spotlight." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Když se Peel zobrazuje v řádku nabídek, jeho ikona po zavření posledního okna zmizí z Docku a vrátí se, až Peel znovu otevřete z řádku nabídek, z Finderu nebo ze Spotlightu."
+            "value" : "Když se Peel zobrazuje v řádku nabídek, jeho ikona po zavření posledního okna zmizí z Docku a vrátí se, až Peel znovu otevřete z řádku nabídek, z Finderu nebo ze Spotlightu. Pokud je řádek nabídek plný, může v něm systém macOS Peel skrýt, takže ho otevřete z Finderu nebo ze Spotlightu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solange Peel in der Menüleiste angezeigt wird, verschwindet sein Symbol aus dem Dock, wenn du sein letztes Fenster schließt, und kehrt zurück, sobald du Peel erneut über die Menüleiste, den Finder oder Spotlight öffnest."
+            "value" : "Solange Peel in der Menüleiste angezeigt wird, verschwindet sein Symbol aus dem Dock, wenn du sein letztes Fenster schließt, und kehrt zurück, sobald du Peel erneut über die Menüleiste, den Finder oder Spotlight öffnest. Ist die Menüleiste voll, blendet macOS Peel dort möglicherweise aus. Öffne Peel dann über den Finder oder Spotlight."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mientras Peel se muestra en la barra de menús, su icono desaparece del Dock cuando cierras su última ventana y reaparece cuando vuelves a abrir Peel desde la barra de menús, el Finder o Spotlight."
+            "value" : "Mientras Peel se muestra en la barra de menús, su icono desaparece del Dock cuando cierras su última ventana y reaparece cuando vuelves a abrir Peel desde la barra de menús, el Finder o Spotlight. Si la barra de menús está llena, puede que macOS oculte Peel en ella, así que ábrelo desde el Finder o Spotlight."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tant que Peel s’affiche dans la barre des menus, son icône disparaît du Dock lorsque vous fermez sa dernière fenêtre, et y revient lorsque vous rouvrez Peel depuis la barre des menus, le Finder ou Spotlight."
+            "value" : "Tant que Peel s’affiche dans la barre des menus, son icône disparaît du Dock lorsque vous fermez sa dernière fenêtre, et y revient lorsque vous rouvrez Peel depuis la barre des menus, le Finder ou Spotlight. Si la barre des menus est pleine, macOS peut y masquer Peel : ouvrez-le alors depuis le Finder ou Spotlight."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mentre Peel è nella barra dei menu, la sua icona scompare dal Dock quando ne chiudi l’ultima finestra e ricompare quando riapri Peel dalla barra dei menu, dal Finder o da Spotlight."
+            "value" : "Mentre Peel è nella barra dei menu, la sua icona scompare dal Dock quando ne chiudi l’ultima finestra e ricompare quando riapri Peel dalla barra dei menu, dal Finder o da Spotlight. Se la barra dei menu è piena, macOS potrebbe nascondere lì Peel, quindi aprilo dal Finder o da Spotlight."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelがメニューバーに表示されている間は、最後のウインドウを閉じるとPeelのアイコンがDockに表示されなくなり、メニューバー、Finder、またはSpotlightからPeelをもう一度開くとDockに戻ります。"
+            "value" : "Peelがメニューバーに表示されている間は、最後のウインドウを閉じるとPeelのアイコンがDockに表示されなくなり、メニューバー、Finder、またはSpotlightからPeelをもう一度開くとDockに戻ります。メニューバーがいっぱいの場合、macOSがメニューバーのPeelを隠すことがあるため、その場合はFinderまたはSpotlightから開いてください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 메뉴 막대에 표시되는 동안에는 마지막 윈도우를 닫으면 아이콘이 Dock에서 사라지고, 메뉴 막대, Finder 또는 Spotlight에서 Peel을 다시 열면 아이콘이 다시 나타납니다."
+            "value" : "Peel이 메뉴 막대에 표시되는 동안에는 마지막 윈도우를 닫으면 아이콘이 Dock에서 사라지고, 메뉴 막대, Finder 또는 Spotlight에서 Peel을 다시 열면 아이콘이 다시 나타납니다. 메뉴 막대가 가득 차면 macOS가 메뉴 막대에서 Peel을 가릴 수 있으므로, 이때는 Finder나 Spotlight에서 Peel을 여십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zolang Peel in de menubalk staat, verdwijnt het symbool van Peel uit het Dock wanneer je het laatste venster sluit, en komt het terug wanneer je Peel opnieuw opent vanuit de menubalk, Finder of Spotlight."
+            "value" : "Zolang Peel in de menubalk staat, verdwijnt het symbool van Peel uit het Dock wanneer je het laatste venster sluit, en komt het terug wanneer je Peel opnieuw opent vanuit de menubalk, Finder of Spotlight. Als de menubalk vol is, verbergt macOS Peel daar misschien, dus open Peel dan vanuit Finder of Spotlight."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gdy Peel jest widoczny na pasku menu, jego ikona znika z Docka po zamknięciu jego ostatniego okna i wraca, gdy ponownie otworzysz Peel z paska menu, z Findera lub ze Spotlight."
+            "value" : "Gdy Peel jest widoczny na pasku menu, jego ikona znika z Docka po zamknięciu jego ostatniego okna i wraca, gdy ponownie otworzysz Peel z paska menu, z Findera lub ze Spotlight. Jeśli pasek menu jest pełny, macOS może tam ukryć Peel, więc otwórz go z Findera lub ze Spotlight."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enquanto o Peel aparece na barra de menus, o ícone dele sai do Dock quando você fecha a última janela dele, e volta quando você abre o Peel novamente pela barra de menus, pelo Finder ou pelo Spotlight."
+            "value" : "Enquanto o Peel aparece na barra de menus, o ícone dele sai do Dock quando você fecha a última janela dele, e volta quando você abre o Peel novamente pela barra de menus, pelo Finder ou pelo Spotlight. Se a barra de menus estiver cheia, o macOS pode ocultar o Peel nela, então abra-o pelo Finder ou pelo Spotlight."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cât timp Peel este afișat în bara de meniu, pictograma sa dispare din Dock când îi închideți ultima fereastră și revine când deschideți din nou Peel din bara de meniu, din Finder sau din Spotlight."
+            "value" : "Cât timp Peel este afișat în bara de meniu, pictograma sa dispare din Dock când îi închideți ultima fereastră și revine când deschideți din nou Peel din bara de meniu, din Finder sau din Spotlight. Dacă bara de meniu este plină, macOS poate ascunde Peel acolo, așa că deschideți‑l din Finder sau din Spotlight."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пока Peel отображается в строке меню, его значок убирается из Dock, когда Вы закрываете его последнее окно, и возвращается, когда Вы снова открываете Peel из строки меню, Finder или Spotlight."
+            "value" : "Пока Peel отображается в строке меню, его значок убирается из Dock, когда Вы закрываете его последнее окно, и возвращается, когда Вы снова открываете Peel из строки меню, Finder или Spotlight. Если строка меню заполнена, macOS может скрыть там Peel, поэтому открывайте его из Finder или Spotlight."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Så länge Peel visas i menyraden försvinner dess symbol från Dock när du stänger Peels sista fönster, och den kommer tillbaka när du öppnar Peel igen från menyraden, Finder eller Spotlight."
+            "value" : "Så länge Peel visas i menyraden försvinner dess symbol från Dock när du stänger Peels sista fönster, och den kommer tillbaka när du öppnar Peel igen från menyraden, Finder eller Spotlight. Om menyraden är full kan macOS gömma Peel där, så öppna då Peel från Finder eller Spotlight."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel menü çubuğunda gösterilirken, son penceresini kapattığınızda simgesi Dock’tan kaybolur ve Peel’i menü çubuğundan, Finder’dan veya Spotlight’tan yeniden açtığınızda geri gelir."
+            "value" : "Peel menü çubuğunda gösterilirken, son penceresini kapattığınızda simgesi Dock’tan kaybolur ve Peel’i menü çubuğundan, Finder’dan veya Spotlight’tan yeniden açtığınızda geri gelir. Menü çubuğu doluysa macOS Peel’i orada gizleyebilir, bu yüzden onu Finder’dan veya Spotlight’tan açın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поки Peel показується на смузі меню, її іконка зникає з Dock, коли ви закриваєте її останнє вікно, і повертається, коли ви знову відкриваєте Peel зі смуги меню, з Finder або зі Spotlight."
+            "value" : "Поки Peel показується на смузі меню, її іконка зникає з Dock, коли ви закриваєте її останнє вікно, і повертається, коли ви знову відкриваєте Peel зі смуги меню, з Finder або зі Spotlight. Якщо смуга меню заповнена, macOS може сховати там Peel, тож відкривайте її з Finder або зі Spotlight."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel在菜单栏显示时，它的图标会在你关闭其最后一个窗口后从程序坞中消失，并在你从菜单栏、“访达”或“聚焦”再次打开Peel时重新出现。"
+            "value" : "Peel在菜单栏显示时，它的图标会在你关闭其最后一个窗口后从程序坞中消失，并在你从菜单栏、“访达”或“聚焦”再次打开Peel时重新出现。如果菜单栏已满，macOS可能会将Peel隐藏在那里，此时请从“访达”或“聚焦”打开它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel在選單列中顯示時，其圖像會在你關閉其最後一個視窗時離開Dock，並在你從選單列、Finder或Spotlight再次打開Peel時回來。"
+            "value" : "Peel在選單列中顯示時，其圖像會在你關閉其最後一個視窗時離開Dock，並在你從選單列、Finder或Spotlight再次打開Peel時回來。如果選單列已滿，macOS可能會在那裡隱藏Peel，此時請從Finder或Spotlight打開它。"
           }
         }
       }

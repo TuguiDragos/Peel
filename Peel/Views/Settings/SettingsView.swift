@@ -183,6 +183,8 @@ private func state(_ title: LocalizedStringResource, _ symbol: String, _ tint: C
 }
 
 struct GeneralSettingsView: View {
+    static let hidesFromDockNote: LocalizedStringResource = "While Peel shows in the menu bar, its icon leaves the Dock when you close its last window, and comes back when you open Peel again from the menu bar, Finder, or Spotlight. If the menu bar is full, macOS may hide Peel there, so open it from Finder or Spotlight."
+
     /// What the command-line tool's note says to do, as the row stands: nothing to run once `peel` is on the path,
     /// and a line for the shell on an account that isn't an administrator's.
     static func commandLineNote(installed: Bool, standardAccount: Bool) -> LocalizedStringResource {
@@ -290,8 +292,7 @@ struct GeneralSettingsView: View {
             Section("While Peel Runs") {
                 toggle("Show in Menu Bar", isOn: $showsInMenuBar,
                        "Peel stays in the menu bar after you close its window, with what each tool found and the updates waiting. Without it, Peel quits when you close its window.")
-                toggle("Hide from the Dock while no window is open", isOn: $hidesFromDock,
-                       "While Peel shows in the menu bar, its icon leaves the Dock when you close its last window, and comes back when you open Peel again from the menu bar, Finder, or Spotlight.",
+                toggle("Hide from the Dock while no window is open", isOn: $hidesFromDock, Self.hidesFromDockNote,
                        isDisabled: !showsInMenuBar)
                 toggle("Watch the Trash", isOn: $watchesTrash,
                        "When you move an app to the Trash yourself, Peel offers to remove the files it left behind. Peel watches the Trash while it is open, or while it is in the menu bar.")

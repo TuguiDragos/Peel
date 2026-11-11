@@ -3,7 +3,8 @@ import SwiftUI
 
 /// Decides whether Peel quits when its window closes, and when a quit goes ahead (`QuitGuard`). SwiftUI's
 /// documentation for `Window` says an app whose primary scene is a single window quits when that window closes.
-/// Peel keeps running without a window only while it shows in the menu bar, so it is never running unseen.
+/// Peel keeps running without a window only while Show in Menu Bar is on, though macOS hides the item itself when the
+/// menu bar has no room for it.
 @MainActor
 final class PeelAppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {

@@ -444,8 +444,9 @@ Privacy, which says what Peel sends and every place it may contact, and Helper.
 With Show in Menu Bar on, Peel's menu bar item lists what each tool found the last time it looked, a line per tool
 that opens it in Peel. It never adds them up into one figure and never selects anything for you. Turn on Hide from the
 Dock while no window is open as well, and Peel's icon leaves the Dock when you close its last window, then comes back
-when you open Peel again from the menu bar, Finder, or Spotlight. While Peel is hidden its icon stays in the Dock,
-and either that icon or Peel's menu bar item brings it back.
+when you open Peel again from the menu bar, Finder, or Spotlight. If the menu bar is full, macOS may hide Peel's item
+there, and you open Peel from Finder or Spotlight. While Peel is hidden its icon stays in the Dock, and either that
+icon or Peel's menu bar item brings it back.
 
 ## The `peel` command
 

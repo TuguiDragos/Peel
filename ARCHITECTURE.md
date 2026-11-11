@@ -503,6 +503,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   (`DockPresence`): the activation policy turns to accessory with the last window, and back to regular, with Peel
   active, as soon as one opens. A window counts as open while it is minimized, or on screen and able to be main
   (`countsAsOpen`), since AppKit answers that a minimized window can't be main and the menu bar panel's never can.
+  macOS hides a menu bar item when the menu bar has no room for it, and `isInserted` stays true, so Peel can then run
+  with no window, no Dock icon, and no item to see; the setting's note says to open Peel from Finder or Spotlight.
 
 ## The `peel` tool
 
