@@ -92,7 +92,7 @@ struct HelperPolicyTests {
         #expect(delegate.contains("connection.setCodeSigningRequirement(codeSigningRequirement)"))
         let operations = service.matches(of: /func \w+\(\s*version: Int/).count
         #expect(operations == 4)
-        #expect(service.matches(of: /HelperOperations\.\w+\(\s*version: version/).count == operations)
+        #expect(service.matches(of: /HelperOperations\.\w+\(\s*account: [\w.]+, version: version/).count == operations)
     }
 
     @Test func refusesWhatMacOSMarksAsProtectedOnEveryMac() {

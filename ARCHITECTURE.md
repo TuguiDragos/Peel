@@ -293,6 +293,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   to the Trash.
 - It serves a fixed list of folders (`PrivilegedPathPolicy`), refuses everything else, and refuses whatever
   `ProtectedData` protects. It has no shell.
+- It writes a line to the unified log for each request (`HelperLog`): the request, the account, and what came of
+  it, with a line for each item it left where it was, its path private.
 - It opens folders by descriptor and works through them, so a path swapped for a link after the check leads
   nowhere.
 - A rename goes by name, so something else can take an item's name between the last look and the move. The helper

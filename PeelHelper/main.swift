@@ -1,6 +1,15 @@
 import Foundation
 import PeelPrivileged
 
+// Reading a signature checks its certificates, which Security warns about on the main thread, so the helper reads its
+// own on another thread first, and the two reads below take what it found.
+let signatureRead = DispatchSemaphore(value: 0)
+Thread.detachNewThread { [signatureRead] in
+    _ = (CodeSigning.currentTeamIdentifier(), CodeSigning.currentBuild)
+    signatureRead.signal()
+}
+signatureRead.wait()
+
 // Clients must be signed by the helper's own team and be no older a build than the helper, so an older copy of Peel
 // is never served. A helper with no team (unsigned or ad hoc) or no signed build does not run.
 guard let teamIdentifier = CodeSigning.currentTeamIdentifier(), let build = CodeSigning.currentBuild else {

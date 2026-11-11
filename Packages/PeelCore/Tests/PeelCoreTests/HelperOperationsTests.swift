@@ -1,5 +1,6 @@
 import Darwin
 import Foundation
+import OSLog
 @testable import PeelPrivileged
 import Synchronization
 import Testing
@@ -29,6 +30,55 @@ struct HelperOperationsTests {
         try directory.file("root/Library/Caches/\(name)", contents: Data("cache".utf8)).path(percentEncoded: false)
     }
 
+    private func logged(since start: Date) throws -> [String] {
+        let store = try OSLogStore(scope: .currentProcessIdentifier)
+        let subsystem = NSPredicate(format: "subsystem == %@", HelperIdentity.helperIdentifier)
+        return try store.getEntries(at: store.position(date: start), matching: subsystem)
+            .compactMap { ($0 as? OSLogEntryLog)?.composedMessage }
+    }
+
+    @Test func everyRequestLeavesALineWithItsAccountAndWhatCameOfIt() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/.Trash")
+        let items = [try cache("org.example.first", in: directory), try cache("org.example.second", in: directory)]
+        let long = directory.url.path(percentEncoded: false) + "root/Library/Caches/"
+            + String(repeating: "x", count: 1_100)
+        let policy = served(directory)
+        let ledger = try ledger(directory)
+        let start = Date.now
+
+        _ = HelperOperations.moveToTrash(
+            account: getuid(),
+            version: HelperIdentity.protocolVersion, approval: Data(), paths: items + [long],
+            caller: account(directory), policy: { _ in policy }, ledger: { ledger }
+        )
+        _ = HelperOperations.moveLedgerToTrash(
+            account: 4_242, version: HelperIdentity.protocolVersion, caller: { _ in .failure(.notAllowed) },
+            policy: { _ in policy }
+        )
+        _ = HelperOperations.daemonArguments(
+            account: 4_243, version: HelperIdentity.protocolVersion, approval: Data(), command: "kickstart",
+            label: "org.example.logged", caller: { _ in .failure(.notAuthorized) }
+        )
+        _ = await HelperOperations.launchctl(["kickstart", "system/org.example.logged"], for: 4_243) { _ in
+            .success(Subprocess.Output(status: 3, standardOutput: Data(), standardError: Data()))
+        }
+
+        let lines = try logged(since: start)
+        #expect(lines.contains("Move to the Trash for account \(getuid()): 2 moved, 1 refused"))
+        #expect(lines.contains { line in
+            line.hasPrefix("Move to the Trash for account \(getuid()) left ")
+                && line.hasSuffix(": \(HelperRefusal.pathTooLong.rawValue)")
+        })
+        #expect(lines.contains(
+            "Its ledger to the Trash for account 4242: refused. \(HelperRefusal.notAllowed.rawValue)"
+        ))
+        #expect(lines.contains(
+            "launchctl kickstart org.example.logged for account 4243: refused. \(HelperRefusal.notAuthorized.rawValue)"
+        ))
+        #expect(lines.contains("launchctl kickstart system/org.example.logged for account 4243: exit status 3"))
+    }
+
     @Test func aRequestWhoseTimeRanOutMovesNothingMoreAndSaysSo() throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/.Trash")
@@ -56,6 +106,7 @@ struct HelperOperationsTests {
         let ledger = try ledger(directory)
 
         let result = HelperOperations.moveToTrash(
+            account: getuid(),
             version: HelperIdentity.protocolVersion, approval: Data(), paths: [item], caller: account(directory),
             policy: { _ in policy }, ledger: { ledger }
         )
@@ -74,6 +125,7 @@ struct HelperOperationsTests {
         let ledger = try ledger(directory)
 
         let result = HelperOperations.moveToTrash(
+            account: getuid(),
             version: version, approval: Data(), paths: [item], caller: account(directory), policy: { _ in policy },
             ledger: { ledger }
         )
@@ -91,6 +143,7 @@ struct HelperOperationsTests {
         let ledger = try ledger(directory)
 
         let result = HelperOperations.moveToTrash(
+            account: getuid(),
             version: HelperIdentity.protocolVersion, approval: Data(), paths: items, caller: account(directory),
             policy: { _ in policy }, ledger: { ledger }
         )
@@ -107,6 +160,7 @@ struct HelperOperationsTests {
         let policy = served(directory)
 
         let result = HelperOperations.moveToTrash(
+            account: getuid(),
             version: HelperIdentity.protocolVersion, approval: Data(), paths: [item], caller: account(directory),
             policy: { _ in policy }, ledger: { nil }
         )
@@ -125,6 +179,7 @@ struct HelperOperationsTests {
         let ledger = try ledger(directory)
 
         let result = HelperOperations.moveToTrash(
+            account: getuid(),
             version: HelperIdentity.protocolVersion, approval: Data(), paths: [long, item], caller: account(directory),
             policy: { _ in policy }, ledger: { ledger }
         )
@@ -141,6 +196,7 @@ struct HelperOperationsTests {
         let ledger = try ledger(directory)
 
         let result = HelperOperations.moveToTrash(
+            account: getuid(),
             version: HelperIdentity.protocolVersion, approval: Data("approval".utf8), paths: [item],
             caller: { _ in .failure(.notAuthorized) }, policy: { _ in policy }, ledger: { ledger }
         )
@@ -155,6 +211,7 @@ struct HelperOperationsTests {
         let asked = Mutex(false)
 
         let refusal = HelperOperations.putBack(
+            account: getuid(),
             version: HelperIdentity.protocolVersion + 1, approval: Data(), from: "/tmp/in-the-trash", to: "/tmp/back",
             caller: { _ in asked.withLock { $0 = true }; return .failure(.notAllowed) }, policy: { _ in policy }
         )
@@ -172,6 +229,7 @@ struct HelperOperationsTests {
         let moved = Mutex(false)
 
         let refusal = HelperOperations.moveLedgerToTrash(
+            account: getuid(),
             version: HelperIdentity.protocolVersion,
             caller: { approval in
                 approvals.withLock { $0.append(approval) }
@@ -192,6 +250,7 @@ struct HelperOperationsTests {
 
         for command in ["kickstart", "bootout", "disable"] {
             let arguments = HelperOperations.daemonArguments(
+                account: getuid(),
                 version: HelperIdentity.protocolVersion, approval: Data(), command: command, label: label,
                 caller: { _ in .success(.init(user: getuid(), homeDirectory: NSHomeDirectory())) }
             )
@@ -202,6 +261,7 @@ struct HelperOperationsTests {
     @Test func aDaemonIsStartedOnlyFromTheOneFileThatDeclaresIt() {
         func arguments(_ command: String, files: [String]) -> Result<[String], HelperRefusal> {
             HelperOperations.daemonArguments(
+                account: getuid(),
                 version: HelperIdentity.protocolVersion, approval: Data(), command: command, label: "org.example.job",
                 caller: { _ in .success(.init(user: getuid(), homeDirectory: NSHomeDirectory())) },
                 files: { _ in files }
@@ -220,11 +280,13 @@ struct HelperOperationsTests {
 
     @Test func aDaemonCommandOfAnotherVersionOrAccountRunsNothing() {
         let other = HelperOperations.daemonArguments(
+            account: getuid(),
             version: HelperIdentity.protocolVersion - 1, approval: Data(), command: "kickstart",
             label: "org.example.job",
             caller: { _ in .success(.init(user: getuid(), homeDirectory: NSHomeDirectory())) }
         )
         let refused = HelperOperations.daemonArguments(
+            account: getuid(),
             version: HelperIdentity.protocolVersion, approval: Data(), command: "kickstart", label: "org.example.job",
             caller: { _ in .failure(.notAllowed) }
         )
