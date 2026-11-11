@@ -484,6 +484,9 @@ struct UninstallCommand: AsyncParsableCommand {
 
     func validate() throws {
         if !yes, !dryRun {
+            if output.json {
+                throw ValidationError("With --json, Peel shows no plan to answer. Add --yes, or --dry-run to see what would go.")
+            }
             try Output.requireConfirmable()
         }
     }

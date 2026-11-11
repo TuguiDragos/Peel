@@ -1542,6 +1542,16 @@ struct CommandLineTests {
         #expect(Output.declined != ExitCode.success)
     }
 
+    @Test func asksForYesWhenTheJSONLeavesNoPlanToAnswer() throws {
+        #expect {
+            try PeelCommand.parseAsRoot(["uninstall", "Editor", "--json"])
+        } throws: { error in
+            PeelCommand.message(for: error).contains("--json")
+        }
+        _ = try #require(try PeelCommand.parseAsRoot(["uninstall", "Editor", "--json", "--yes"]) as? UninstallCommand)
+        _ = try #require(try PeelCommand.parseAsRoot(["uninstall", "Editor", "--json", "--dry-run"]) as? UninstallCommand)
+    }
+
     // MARK: peel updates
 
     /// A check that failed is listed, in the table and in `--json`, so the report never reads as "every app is up to
