@@ -284,6 +284,65 @@ struct RefusalLogTests {
         #expect(DamagedFile.copies(of: url) == [])
     }
 
+    private func first(_ count: Int, of ends: AsyncStream<String>, within limit: Duration) async -> [String]? {
+        await withTaskGroup(of: [String]?.self) { group in
+            group.addTask {
+                var seen: [String] = []
+                for await end in ends {
+                    seen.append(end)
+                    if seen.count == count { return seen }
+                }
+                return nil
+            }
+            group.addTask {
+                try? await Task.sleep(for: limit)
+                return nil
+            }
+            let first = await group.next() ?? nil
+            group.cancelAll()
+            return first
+        }
+    }
+
+    @Test func aRefusalWrittenWhileTheListIsClearedWaitsForItAndIsKept() async throws {
+        let directory = try TemporaryDirectory()
+        let folder = try directory.directory("Trash")
+        let url = try directory.directory("Peel").appending(path: "refusals.json")
+        let log = RefusalLog(url: url)
+        let failure = TrashFailure(url: URL(filePath: "/org.example/refused"), reason: .notPermitted)
+        await log.add([failure], source: "Probe", tool: "applications")
+        let (reached, reach) = AsyncStream<Void>.makeStream()
+        let (released, release) = AsyncStream<Void>.makeStream()
+        let service = TrashService(
+            environment: SearchEnvironment(homeDirectory: directory.url, rootDirectory: directory.url),
+            runningJobs: {
+                reach.yield()
+                for await _ in released { break }
+                return []
+            }
+        ) { url in
+            let destination = folder.appending(path: UUID().uuidString + " " + url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+        let (ends, end) = AsyncStream<String>.makeStream()
+
+        Task { end.yield(await log.clear(through: service) ? "cleared" : "not cleared") }
+        for await _ in reached { break }
+        Task {
+            let problem = await log.add([failure], source: "Probe", tool: "applications")
+            end.yield(problem == nil ? "added" : "not added")
+        }
+        try await Task.sleep(for: .milliseconds(200))
+        release.yield()
+
+        let both = try #require(
+            await first(2, of: ends, within: .seconds(120)), "the clear and the refusal stopped each other"
+        )
+        #expect(Set(both) == ["cleared", "added"])
+        #expect(await log.load().records?.count == 1)
+    }
+
     @Test func clearMovesTheCopiesItSetAsideToo() async throws {
         let directory = try TemporaryDirectory()
         let (service, folder) = try trash(in: directory)
@@ -502,6 +561,6 @@ struct RefusalLogTests {
 extension RefusalLog {
     /// Measured on the actor's own thread, where the read runs.
     fileprivate func processorTimeToLoad() -> Duration {
-        processorTime { _ = load() }
+        processorTime { _ = loaded() }
     }
 }

@@ -70,6 +70,9 @@ public actor RefusalLog {
     private var kept: (file: FileIdentity, records: [RefusalRecord])?
     private var problem: RefusalLogProblem?
     private let readLimit: Int
+    /// A clear holds the file's lock while its files move, so every other call waits for it here: asking for the lock
+    /// this process already holds would stop this actor, and the clear with it.
+    private var clearing: Task<Bool, Never>?
 
     public init(url: URL = RemovalHistory.refusalsURL) {
         self.init(url: url, readLimit: Self.maximumBytes)
@@ -82,7 +85,13 @@ public actor RefusalLog {
 
     /// The records, with what is still to be said about the file (`note`). Nil records when the file could not be
     /// read: what was refused is then not known, which is not the same as nothing refused.
-    public func load() -> (records: [RefusalRecord]?, problem: RefusalLogProblem?, noLongerListed: Int) {
+    public func load() async -> (records: [RefusalRecord]?, problem: RefusalLogProblem?, noLongerListed: Int) {
+        await afterAnyClear()
+        return loaded()
+    }
+
+    /// What `load()` answers once no clear is running.
+    func loaded() -> (records: [RefusalRecord]?, problem: RefusalLogProblem?, noLongerListed: Int) {
         FileLock.whileReading(beside: url) {
             let records = current()
             return (records, problem, RemovalTotals.read(beside: url).refusalsNoLongerListed)
@@ -96,7 +105,8 @@ public actor RefusalLog {
     public func add(
         _ failures: [TrashFailure], source: String, sourceKey: String? = nil, tool: String, batch: UUID = UUID(),
         date: Date = .now
-    ) -> RefusalLogProblem? {
+    ) async -> RefusalLogProblem? {
+        await afterAnyClear()
         let records = failures.map {
             RefusalRecord(failure: $0, date: date, source: source, sourceKey: sourceKey, tool: tool, batch: batch)
         }
@@ -122,8 +132,9 @@ public actor RefusalLog {
     }
 
     /// Keeps a file that cannot be read beside a new one, under another name, and starts writing refusals down again.
-    public func startOver() -> StartOver {
-        FileLock.whileHeld(beside: url) {
+    public func startOver() async -> StartOver {
+        await afterAnyClear()
+        return FileLock.whileHeld(beside: url) {
             guard current() == nil else { return .notNeeded }
             let answer = StartOver.settingAside(url)
             if answer == .started { problem = nil }
@@ -132,13 +143,28 @@ public actor RefusalLog {
     }
 
     /// Whether nothing is left to forget: no refusal written down, no file that can't be read, and no copy set aside.
-    public func holdsNothing() -> Bool {
-        FileLock.whileReading(beside: url) { current() == [] && DamagedFile.copies(of: url) == [] }
+    public func holdsNothing() async -> Bool {
+        await afterAnyClear()
+        return FileLock.whileReading(beside: url) { current() == [] && DamagedFile.copies(of: url) == [] }
     }
 
     /// Moves the file and the copies set aside to the Trash, so every refusal is forgotten and can still be taken back
     /// from there. Only files move, never a folder or a link put in their place, and a refusal written meanwhile waits.
     public func clear(through service: TrashService) async -> Bool {
+        await afterAnyClear()
+        let clearing = Task {
+            defer { self.clearing = nil }
+            return await movingToTheTrash(through: service)
+        }
+        self.clearing = clearing
+        return await clearing.value
+    }
+
+    private func afterAnyClear() async {
+        while let clearing { _ = await clearing.value }
+    }
+
+    private func movingToTheTrash(through service: TrashService) async -> Bool {
         await FileLock.whileHeld(beside: url, waitingFor: {
             guard var files = DamagedFile.copies(of: url) else { return false }
             if !url.isMissing {
