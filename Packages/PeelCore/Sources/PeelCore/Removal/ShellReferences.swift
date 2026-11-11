@@ -18,20 +18,25 @@ public enum ShellReferences {
 
     @concurrent
     public static func find(naming moved: [URL], home: URL = .homeDirectory) async -> [Reference] {
-        let spellings = moved.flatMap { spellings(of: $0, home: home) }.map { Array($0.lowercased().utf8) }
+        // Both sides in one form: a name a program made on disk is often decomposed, a line typed by hand composed.
+        let spellings = moved.flatMap { spellings(of: $0, home: home) }.map(comparable)
         guard !spellings.isEmpty else { return [] }
         var references: [Reference] = []
         for file in startupFiles(home: home) {
             guard let data = BoundedRead.data(at: file, maximum: maximumBytes) else { continue }
             let lines = String(decoding: data, as: UTF8.self).split(separator: "\n", omittingEmptySubsequences: false)
             for (index, line) in lines.enumerated() where !line.drop(while: \.isWhitespace).hasPrefix("#") {
-                let line = Array(line.lowercased().utf8)
+                let line = comparable(String(line))
                 if spellings.contains(where: { holdsWhole($0, in: line) }) {
                     references.append(Reference(file: file, line: index + 1))
                 }
             }
         }
         return references
+    }
+
+    private static func comparable(_ text: String) -> [UInt8] {
+        Array(text.lowercased().decomposedStringWithCanonicalMapping.utf8)
     }
 
     /// Whether `line` holds `path` whole, or followed by a slash into it, both in UTF-8: `~/.config/pad` is not in

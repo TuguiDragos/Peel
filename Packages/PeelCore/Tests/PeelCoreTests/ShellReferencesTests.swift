@@ -28,6 +28,18 @@ struct ShellReferencesTests {
         #expect(await ShellReferences.find(naming: [], home: home).isEmpty)
     }
 
+    @Test func findsALineWhateverFormItsAccentsAreTypedIn() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("home/.zshrc", contents: Data("export PATH=\"/Applications/Caf\u{E9} Tide.app/Contents/MacOS:$PATH\"\n".utf8))
+
+        let found = await ShellReferences.find(
+            naming: [URL(filePath: "/Applications/Cafe\u{301} Tide.app", directoryHint: .isDirectory)], home: home
+        )
+
+        #expect(found.map(\.line) == [1])
+    }
+
     @Test func namesALineOnlyWhereThePathStandsWhole() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
