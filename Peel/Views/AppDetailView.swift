@@ -460,6 +460,9 @@ struct AppDetailView: View {
         if leftover.holdsDamagedSettings {
             lines.append(String(localized: "Can’t be read as a property list, so nothing can read these settings."))
         }
+        if let leadsTo = leftover.leadsTo {
+            lines.append(Leftover.linkNote(leadingTo: leadsTo))
+        }
         if let removedElsewhere = plan.removedElsewhere {
             lines.append(String(localized: removedElsewhere.explanation))
         }

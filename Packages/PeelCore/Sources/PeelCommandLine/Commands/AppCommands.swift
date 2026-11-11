@@ -269,6 +269,9 @@ struct LeftoversCommand: AsyncParsableCommand {
         if leftover.requiresPrivileges {
             summary += ", needs administrator access"
         }
+        if let leadsTo = leftover.leadsTo {
+            summary += ", a link to \(Output.path(leadsTo))"
+        }
         return summary
     }
 
@@ -336,11 +339,14 @@ struct UninstallCommand: AsyncParsableCommand {
             let size: MeasuredSize
             /// Why the item stays, in the words `peel history --refused` uses, or `null` when it moves.
             let stays: String?
+            /// Where the item leads when it is a symbolic link, which moving it leaves in place, or `null`.
+            var leadsTo: String?
 
             private enum CodingKeys: String, CodingKey {
                 case path
                 case size
                 case stays
+                case leadsTo
             }
 
             func encode(to encoder: any Encoder) throws {
@@ -348,6 +354,7 @@ struct UninstallCommand: AsyncParsableCommand {
                 try container.encode(path, forKey: .path)
                 try container.encode(size, forKey: .size)
                 try container.encode(stays, forKey: .stays)
+                try container.encode(leadsTo, forKey: .leadsTo)
             }
         }
 
@@ -453,7 +460,8 @@ struct UninstallCommand: AsyncParsableCommand {
             dryRun: result == nil,
             items: plan.items.map { item in
                 Report.Item(
-                    path: Output.path(item.url), size: MeasuredSize(item.size), stays: plan.whyItStays(item)?.word
+                    path: Output.path(item.url), size: MeasuredSize(item.size), stays: plan.whyItStays(item)?.word,
+                    leadsTo: item.leadsTo.map(Output.path)
                 )
             },
             moved: (result?.trashed ?? []).map { Output.path($0.originalURL) },
@@ -822,6 +830,11 @@ struct UninstallCommand: AsyncParsableCommand {
                 })
             }
             Output.line(plan.moving.isEmpty ? "Nothing here can be moved." : "Total: \(Output.size(plan.total))")
+            for item in plan.moving {
+                if let leadsTo = item.leadsTo {
+                    Output.note("\(Output.path(item.url)) is a link to \(Output.path(leadsTo)): only the link moves.")
+                }
+            }
         }
         let isInTheDock = !(await DockTiles().holding([target.url])).isEmpty
         // With `--json`, standard output is the report alone, so the warnings go where the notes go.

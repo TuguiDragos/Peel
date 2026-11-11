@@ -294,6 +294,9 @@ struct MultipleAppsView: View {
         if item.holdsDamagedSettings {
             lines.append(String(localized: "Can’t be read as a property list, so nothing can read these settings."))
         }
+        if let leadsTo = item.leadsTo {
+            lines.append(Leftover.linkNote(leadingTo: leadsTo))
+        }
         if item.isApplication, item.isBeyondTheHelper {
             lines.append(String(localized: HoldBack.beyondTheHelper.explanation))
         }

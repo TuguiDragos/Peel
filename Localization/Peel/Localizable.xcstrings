@@ -13991,6 +13991,112 @@
         }
       }
     },
+    "A link to %@. Moving it moves the link, not what it leads to." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odkaz na %@. Přesunutím se přesune odkaz, ne to, na co vede."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Link zu %@. Beim Verschieben wird der Link verschoben, nicht das, worauf er verweist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un enlace a %@. Al trasladarlo, se traslada el enlace, no aquello a lo que lleva."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un lien vers %@. Le déplacer déplace le lien, et non ce vers quoi il mène."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un link a %@. Spostarlo sposta il link, non ciò a cui punta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@へのリンクです。これを移動すると、リンク先ではなくリンク自体が移動します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@(으)로 연결되는 링크입니다. 이 항목을 이동하면 링크가 가리키는 대상이 아니라 링크가 이동됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een link naar %@. Als je de link verplaatst, verplaats je alleen de link, niet waar die naartoe leidt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dowiązanie do %@. Przeniesienie go przenosi dowiązanie, a nie to, do czego prowadzi."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um link para %@. Movê-lo move o link, não aquilo para o qual ele aponta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un link către %@. Mutarea lui mută linkul, nu ceea ce indică acesta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ссылка на %@. При перемещении перемещается сама ссылка, а не то, к чему она ведет."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En länk till %@. Om du flyttar den flyttas länken, inte det som den leder till."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ konumunu gösteren bir bağlantı. Onu taşımak, gösterdiği yeri değil bağlantıyı taşır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Посилання на %@. Якщо його перемістити, переміститься саме посилання, а не те, до чого воно веде."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指向%@的链接。移动它只会移动链接，而不会移动它指向的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指向%@的連結。移動它只會移動連結，而不會移動它所指向的項目。"
+          }
+        }
+      }
+    },
     "A name can’t have a slash or a colon in it." : {
       "localizations" : {
         "cs" : {

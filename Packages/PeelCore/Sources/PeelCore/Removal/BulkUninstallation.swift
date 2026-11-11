@@ -39,6 +39,8 @@ public struct BulkUninstallation: Sendable {
         public var holdsDamagedSettings = false
         /// What keeps it in step with the other devices, when it is held back as `inTheCloud`.
         public var syncedBy: SyncKeeper?
+        /// Where it leads, when it is a symbolic link (`Leftover.leadsTo`).
+        public var leadsTo: URL?
 
         public var id: URL { url }
 
@@ -294,7 +296,8 @@ public struct BulkUninstallation: Sendable {
                     isInTheTrash: existing.isInTheTrash || item.isInTheTrash,
                     enclosingPackage: existing.enclosingPackage ?? item.enclosingPackage,
                     holdsDamagedSettings: existing.holdsDamagedSettings || item.holdsDamagedSettings,
-                    syncedBy: existing.syncedBy ?? item.syncedBy
+                    syncedBy: existing.syncedBy ?? item.syncedBy,
+                    leadsTo: existing.leadsTo ?? item.leadsTo
                 )
             } else {
                 byURL[item.url] = item
@@ -325,7 +328,8 @@ public struct BulkUninstallation: Sendable {
                     isLeftForAnAdministrator: leftover.isLeftForAnAdministrator,
                     removedElsewhere: uninstallation.removedElsewhere,
                     holdsDamagedSettings: leftover.holdsDamagedSettings,
-                    syncedBy: leftover.syncedBy
+                    syncedBy: leftover.syncedBy,
+                    leadsTo: leftover.leadsTo
                 ))
             }
             add(Item(

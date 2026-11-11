@@ -46,6 +46,8 @@ struct LeftoverRecord: Encodable {
     let heldBack: String?
     /// The app that syncs the item and its marker, when it is held back for syncing through one, or `null`.
     let syncedBy: SyncRecord?
+    /// Where the item leads when it is a symbolic link, which moving it leaves in place, or `null`.
+    let leadsTo: String?
     let sharedWith: [String]
     /// Other copies of the app that use the item too, by their place, since they share its identifier.
     let otherCopies: [String]
@@ -59,6 +61,7 @@ struct LeftoverRecord: Encodable {
         confidence = leftover.match.confidence.summary
         heldBack = leftover.match.heldBack?.rawValue
         syncedBy = leftover.match.heldBack == .inTheCloud ? leftover.syncedBy?.record : nil
+        leadsTo = leftover.leadsTo.map(Output.path)
         sharedWith = leftover.match.sharedWith
         otherCopies = leftover.match.otherCopies.map(Output.path)
         isRecommended = leftover.match.isRecommended
@@ -72,6 +75,7 @@ struct LeftoverRecord: Encodable {
         case confidence
         case heldBack
         case syncedBy
+        case leadsTo
         case sharedWith
         case otherCopies
         case isRecommended
@@ -87,6 +91,7 @@ struct LeftoverRecord: Encodable {
         try container.encode(confidence, forKey: .confidence)
         try container.encode(heldBack, forKey: .heldBack)
         try container.encode(syncedBy, forKey: .syncedBy)
+        try container.encode(leadsTo, forKey: .leadsTo)
         try container.encode(sharedWith, forKey: .sharedWith)
         try container.encode(otherCopies, forKey: .otherCopies)
         try container.encode(isRecommended, forKey: .isRecommended)

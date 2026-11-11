@@ -617,6 +617,21 @@ struct CommandLineTests {
         #expect(records[0]["isRecommended"] as? Bool == false)
     }
 
+    @Test func aLeftoverThatIsALinkSaysWhereItLeads() throws {
+        let match = LeftoverMatch(reason: .name, confidence: .likely, sharedWith: [])
+        var leftover = Leftover(
+            url: URL(filePath: "/Users/me/Library/Application Support/Tide"), kind: .applicationSupport, match: match,
+            size: 0, isMeasured: true, requiresPrivileges: false
+        )
+        leftover.leadsTo = URL(filePath: "/Volumes/Archive/TideData")
+
+        let json = try Output.jsonText([LeftoverRecord(leftover)])
+        let records = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [[String: Any]])
+
+        #expect(records[0]["leadsTo"] as? String == "/Volumes/Archive/TideData")
+        #expect(LeftoversCommand.summary(of: leftover).hasSuffix(", a link to /Volumes/Archive/TideData"))
+    }
+
     @Test func aPathReadsTheSameWhetherOrNotAnythingIsThere() throws {
         let directory = try TemporaryDirectory()
         let there = try directory.file("there.txt")

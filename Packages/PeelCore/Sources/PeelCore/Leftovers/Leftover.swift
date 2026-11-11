@@ -346,6 +346,8 @@ public struct Leftover: Sendable, Hashable, Identifiable {
     public var isLeftForAnAdministrator = false
     /// What keeps it in step with the other devices, when it is held back as `inTheCloud`.
     public var syncedBy: SyncKeeper? = nil
+    /// Where it leads in the end, when it is a symbolic link: moving it moves the link, not what is there.
+    public var leadsTo: URL? = nil
 
     public var id: URL { url }
 
@@ -353,7 +355,7 @@ public struct Leftover: Sendable, Hashable, Identifiable {
         Leftover(
             url: url, kind: kind, match: match.sharing(with: apps), size: size, isMeasured: isMeasured,
             requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings,
-            isLeftForAnAdministrator: isLeftForAnAdministrator, syncedBy: syncedBy
+            isLeftForAnAdministrator: isLeftForAnAdministrator, syncedBy: syncedBy, leadsTo: leadsTo
         )
     }
 
@@ -364,7 +366,7 @@ public struct Leftover: Sendable, Hashable, Identifiable {
         return Leftover(
             url: url, kind: kind, match: match.forReview(reason), size: size, isMeasured: isMeasured,
             requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings,
-            isLeftForAnAdministrator: isLeftForAnAdministrator, syncedBy: syncedBy
+            isLeftForAnAdministrator: isLeftForAnAdministrator, syncedBy: syncedBy, leadsTo: leadsTo
         )
     }
 }

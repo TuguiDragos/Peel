@@ -483,6 +483,13 @@ extension HistoryWriteProblem {
     }
 }
 
+extension Leftover {
+    /// What a row says of a leftover that is a symbolic link, whose move leaves the place it leads to.
+    static func linkNote(leadingTo place: URL) -> String {
+        String(localized: "A link to \(place.abbreviatedPath). Moving it moves the link, not what it leads to.")
+    }
+}
+
 extension PrivacyReset.Result {
     /// What became of a reset asked for from an app's page, in the words the page shows under its buttons.
     func outcome(for app: String) -> LocalizedStringResource {

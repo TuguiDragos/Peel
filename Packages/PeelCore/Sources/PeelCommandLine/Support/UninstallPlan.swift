@@ -10,6 +10,8 @@ struct UninstallPlan {
         let size: Int64?
         /// Why the item stays, or nil when it moves: the removal guard's answer for the item on disk.
         let refusal: TrashFailure.Reason?
+        /// Where it leads, when it is a symbolic link (`Leftover.leadsTo`).
+        var leadsTo: URL?
     }
 
     let app: URL
@@ -67,7 +69,7 @@ struct UninstallPlan {
             let size = url == app
                 ? (uninstallation.isAppMeasured ? uninstallation.appSize : nil)
                 : (leftover?.isMeasured == true ? leftover?.size : nil)
-            return Item(url: url, size: size, refusal: refusal(url))
+            return Item(url: url, size: size, refusal: refusal(url), leadsTo: leftover?.leadsTo)
         }
         let rest = keepLeftovers ? [] : uninstallation.scan.leftovers
         let appStays = uninstallation.appStays(canUseHelper: true)

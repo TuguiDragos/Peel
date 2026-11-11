@@ -29,6 +29,31 @@ struct LeftoverScannerTests {
         #expect(LeftoverScanner.merged([found(in: recent), found(in: support)]).map(\.kind) == [.recentDocuments])
     }
 
+    @Test func aLeftoverThatIsALinkSaysWhereItLeads() async throws {
+        let directory = try TemporaryDirectory()
+        let data = try directory.directory("elsewhere/TideData")
+        try directory.file("elsewhere/TideData/library.db", bytes: 64)
+        let support = try directory.directory("home/Library/Application Support")
+        try FileManager.default.createSymbolicLink(at: support.appending(path: "Tide"), withDestinationURL: data)
+        let app = InstalledApp(
+            url: try directory.directory("root/Applications/Tide.app"), bundleIdentifier: "org.example.tide", name: "Tide"
+        )
+        let applications = try directory.directory("home/Applications")
+        try FileManager.default.createSymbolicLink(at: applications.appending(path: "Tide.app"), withDestinationURL: app.url)
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
+
+        let link = try #require(plan.scan.leftovers.first { $0.url.lastPathComponent == "Tide" })
+        #expect(link.leadsTo == PathPattern.canonicalWithoutOpening(data))
+        #expect(link.size == 0)
+        let alias = try #require(plan.scan.leftovers.first { $0.match.reason == .leadsToTheApp })
+        #expect(alias.leadsTo == nil)
+    }
+
     @Test func findsAFolderAnAppHidWithADotBeforeItsIdentifier() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/Library/Application Support/.org.example.app.backups")

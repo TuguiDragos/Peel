@@ -554,8 +554,17 @@ public struct LeftoverScanner: Sendable {
             isMeasured: contents.map { !$0.couldNotBeRead } ?? false,
             requiresPrivileges: requiresPrivileges,
             holdsDamagedSettings: kind == .preferences && PreferenceFile.isDamaged(url),
-            syncedBy: syncedBy
+            syncedBy: syncedBy,
+            leadsTo: leadsElsewhere(url, match: match)
         )
+    }
+
+    /// Where a symbolic link leads in the end, read without opening anything, unless it leads into what goes with
+    /// the app: the app itself, or its Homebrew receipt. A Finder alias is left out, since reading it opens it.
+    private static func leadsElsewhere(_ url: URL, match: LeftoverMatch) -> URL? {
+        let intoWhatGoes: [MatchReason] = [.linksToTheApp, .leadsToTheApp, .leadsIntoItsHomebrewReceipt]
+        guard !intoWhatGoes.contains(match.reason), url.isSymbolicLink else { return nil }
+        return url.leadsToInTheEnd
     }
 
     /// The reason to show a leftover but leave it unselected, or nil. The scan never lists what the guard refuses
