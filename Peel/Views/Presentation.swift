@@ -375,6 +375,7 @@ extension FileProblem {
         case .notAFile: String(localized: "Something other than a file, such as a folder, is where the file should be.")
         case .tooLarge: String(localized: "The file is larger than Peel ever writes it, so Peel doesn’t read it.")
         case .damaged: String(localized: "The file’s contents aren’t in a form Peel can read.")
+        case .aLink: String(localized: "It’s a link, so Peel reads the file it leads to but doesn’t write over it.")
         case .failed(let error): String(localized: "macOS answered: \(error.description(of: url))")
         }
     }
@@ -482,6 +483,8 @@ extension HistoryWriteProblem {
             String(localized: "This account can’t write \(journal.abbreviatedPath), where Peel writes down each move. Peel removes nothing until it can, so that everything it moves can be put back.", bundle: bundle)
         case .lockClosed(let lock):
             String(localized: "This account can’t open \(lock.abbreviatedPath), which keeps two programs from writing History at once. Peel removes nothing until it can, so that everything it moves can be put back.", bundle: bundle)
+        case .aLink(let link):
+            String(localized: "\(link.abbreviatedPath) is a link, and Peel keeps History only in files of its own. Peel removes nothing until the link is gone, so that everything it moves can be put back.", bundle: bundle)
         }
     }
 }

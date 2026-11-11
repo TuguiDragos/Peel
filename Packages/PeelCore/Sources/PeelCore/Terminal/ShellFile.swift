@@ -62,7 +62,7 @@ public enum ShellFile {
             try PeelFolder.write(Data(contents(of: choices).utf8), to: url)
             return nil
         } catch {
-            return .failed(SystemError(error))
+            return FileProblem(error)
         }
     }
 

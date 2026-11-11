@@ -80,7 +80,7 @@ public struct HomebrewChoice: Sendable {
             try PeelFolder.write(try JSONEncoder().encode(brew?.path(percentEncoded: false)), to: url)
             return nil
         } catch {
-            return .failed(SystemError(error))
+            return FileProblem(error)
         }
     }
 

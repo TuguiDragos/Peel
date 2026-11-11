@@ -167,7 +167,7 @@ struct RemovalJournal: Sendable {
         guard !lines.isEmpty else { return true }
         return FileLock.whileHeld(beside: url) {
             let opened = PeelFolder.whileOpen(making: url.deletingLastPathComponent()) {
-                open(journal, O_RDWR | O_APPEND | O_CREAT | O_CLOEXEC, 0o600)
+                open(journal, O_RDWR | O_APPEND | O_CREAT | O_NOFOLLOW | O_CLOEXEC, 0o600)
             }
             guard let descriptor = opened, descriptor >= 0 else { return false }
             defer { close(descriptor) }

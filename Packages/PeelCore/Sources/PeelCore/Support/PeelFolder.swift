@@ -34,8 +34,10 @@ public enum PeelFolder {
     }
 
     /// Writes one of Peel's files whole: it goes to a temporary file that is then renamed, so a crash leaves either
-    /// the old file or the new one.
+    /// the old file or the new one. A link in its place is the person's: writing over it would part it from the file
+    /// it leads to, and writing through it would write wherever any program pointed it, so neither happens.
     static func write(_ data: Data, to file: URL) throws {
+        guard !file.isSymbolicLink else { throw FileProblem.aLink }
         let wrote: Void? = try whileOpen(making: file.deletingLastPathComponent()) {
             try data.write(to: file, options: .atomic)
         }

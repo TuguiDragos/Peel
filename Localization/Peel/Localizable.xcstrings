@@ -6370,6 +6370,112 @@
         }
       }
     },
+    "%@ is a link, and Peel keeps History only in files of its own. Peel removes nothing until the link is gone, so that everything it moves can be put back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ je odkaz a Peel uchovává Historii jen ve vlastních souborech. Dokud odkaz nezmizí, Peel nic neodstraní, aby vše, co přesune, šlo vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ist ein Link, und Peel bewahrt den Verlauf nur in eigenen Dateien auf. Peel entfernt nichts, bis der Link nicht mehr vorhanden ist, damit sich alles, was Peel verschiebt, zurücklegen lässt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ es un enlace, y Peel solo guarda Historial en archivos propios. Peel no elimina nada hasta que desaparezca el enlace, para que todo lo que traslade se pueda restaurar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ est un lien, et Peel ne conserve l’Historique que dans des fichiers qui lui sont propres. Peel ne supprime rien tant que ce lien n’a pas disparu, afin que tout ce qu’il déplace puisse être remis en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ è un link, e Peel conserva la Cronologia solo in file propri. Peel non rimuove nulla finché il link non viene tolto, in modo che tutto ciò che sposta si possa ripristinare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@はリンクですが、Peelは履歴を独自のファイルにのみ保管します。リンクがなくなるまで、Peelは何もゴミ箱に入れません。移動するものをすべて戻せるようにするためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@은(는) 링크이며, Peel은 자체 파일에만 기록을 보관합니다. 링크가 없어지기 전까지 Peel은 이동하는 모든 항목을 되돌려 놓을 수 있도록 아무것도 제거하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ is een link, en Peel bewaart Geschiedenis alleen in eigen bestanden. Peel verwijdert niets totdat de link weg is, zodat alles wat Peel verplaatst, kan worden teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ to dowiązanie, a Peel przechowuje Historię tylko we własnych plikach. Peel niczego nie przeniesie do Kosza, dopóki to dowiązanie nie zniknie, aby wszystko, co przeniesie, można było przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ é um link, e o Peel só guarda o Histórico em arquivos próprios. O Peel não remove nada até o link deixar de existir, para que tudo o que ele mover possa ser colocado de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ este un link, iar Peel păstrează Istoricul doar în fișiere proprii. Peel nu elimină nimic până când linkul nu dispare, pentru ca tot ce mută să poată fi pus înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ является ссылкой, а Peel хранит Историю только в собственных файлах. Peel ничего не удаляет, пока эта ссылка не исчезнет, чтобы все, что он перемещает, можно было восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ är en länk, och Peel sparar Historik bara i egna filer. Peel tar inte bort något förrän länken är borta, så att allt som Peel flyttar kan läggas tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ bir bağlantı ve Peel, Geçmiş’i yalnızca kendine ait dosyalarda tutar. Peel, bağlantı ortadan kalkana kadar hiçbir şeyi kaldırmaz, böylece taşıyacağı her şey yerine konabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ є посиланням, а Peel зберігає Історію лише у власних файлах. Peel нічого не вилучає, доки цього посилання не стане, щоб усе, що Peel переміщує, можна було повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@是一个链接，而Peel只会将“历史记录”保存在它自己的文件中。在该链接被移除之前，Peel不会移除任何内容，以确保它移动的所有内容都能放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@是連結，而Peel只會將「歷史記錄」保存在它自己的檔案中。在此連結消失之前，Peel不會移除任何項目，以確保它移動的所有項目都能還原。"
+          }
+        }
+      }
+    },
     "%@ is already installed" : {
       "localizations" : {
         "cs" : {
@@ -89358,6 +89464,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它是連結，因此Peel不會在這裡編輯它。請編輯它所指向的檔案。"
+          }
+        }
+      }
+    },
+    "It’s a link, so Peel reads the file it leads to but doesn’t write over it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je to odkaz, takže Peel čte soubor, na který vede, ale nepřepisuje ho."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist ein Link, daher liest Peel die Datei, auf die er verweist, überschreibt sie aber nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es un enlace, así que Peel lee el archivo al que lleva, pero no lo sobrescribe."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’est un lien : Peel lit donc le fichier vers lequel il mène, mais n’écrit pas par-dessus."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È un link, quindi Peel legge il file a cui punta ma non lo sovrascrive."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "リンクであるため、Peelはリンク先のファイルを読み取りますが、上書きはしません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "링크이므로 Peel은 링크가 가리키는 파일을 읽기만 하고 덮어쓰지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is een link, dus Peel leest het bestand waarnaar die leidt, maar schrijft er niet overheen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To dowiązanie, więc Peel odczytuje plik, do którego prowadzi, ale go nie nadpisuje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É um link, então o Peel lê o arquivo para o qual ele aponta, mas não grava por cima dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este un link, așa că Peel citește fișierul la care duce, dar nu scrie peste el."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это ссылка, поэтому Peel читает файл, к которому она ведет, но не перезаписывает его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är en länk, så Peel läser filen som den leder till men skriver inte över den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu öğe bir bağlantı, bu yüzden Peel gösterdiği dosyayı okur ama onun üzerine yazmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це посилання, тому Peel читає файл, до якого воно веде, але не перезаписує його."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是链接，因此Peel会读取它指向的文件，但不会覆盖该文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是連結，因此Peel會讀取它所指向的檔案，但不會覆寫該檔案。"
           }
         }
       }

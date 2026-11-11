@@ -38,7 +38,7 @@ enum FileLock {
 
     private static func openLock(beside url: URL) -> Int32? {
         let descriptor = PeelFolder.whileOpen(making: url.deletingLastPathComponent()) {
-            open(url.path(percentEncoded: false) + ".lock", O_CREAT | O_RDWR | O_CLOEXEC, 0o600)
+            open(url.path(percentEncoded: false) + ".lock", O_CREAT | O_RDWR | O_NOFOLLOW | O_CLOEXEC, 0o600)
         }
         return descriptor.flatMap { $0 >= 0 ? $0 : nil }
     }

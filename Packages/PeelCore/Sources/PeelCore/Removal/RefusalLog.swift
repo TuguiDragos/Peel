@@ -232,7 +232,7 @@ public actor RefusalLog {
             kept = FileIdentity.of(url).map { ($0, fitted.records) }
             return nil
         } catch {
-            return .failed(SystemError(error))
+            return FileProblem(error)
         }
     }
 }

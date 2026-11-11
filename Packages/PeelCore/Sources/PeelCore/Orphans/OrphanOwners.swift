@@ -151,7 +151,7 @@ public struct OrphanOwners: Sendable {
                 try PeelFolder.write(try entries.encoded(), to: url)
                 return .saved
             } catch {
-                return .notSaved(.failed(SystemError(error)))
+                return .notSaved(FileProblem(error))
             }
         }
     }

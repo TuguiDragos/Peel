@@ -165,6 +165,7 @@ public actor RemovalLog {
         let journal = RemovalJournal(beside: url)
         // Without its lock, a change runs alone, and two processes writing at once each lose the other's records.
         let locks = [url, journal.url].map { URL(filePath: $0.path(percentEncoded: false) + ".lock") }
+        if let link = ([url, journal.url] + locks).first(where: \.isSymbolicLink) { return .aLink(link) }
         let closed = locks.first { !$0.isMissing && access($0.path(percentEncoded: false), R_OK | W_OK) != 0 }
         if let closed { return .lockClosed(closed) }
         return journal.writeProblem
@@ -336,7 +337,7 @@ public actor RemovalLog {
             return fitted.records
         } catch {
             // An unrecorded removal is the most serious problem, so a later failure never replaces it.
-            if !hasUnrecordedRemoval { note(failure(.failed(SystemError(error)))) }
+            if !hasUnrecordedRemoval { note(failure(FileProblem(error))) }
             return nil
         }
     }

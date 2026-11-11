@@ -5,5 +5,12 @@ public enum FileProblem: Error, Sendable, Hashable {
     case tooLarge
     /// What it holds isn't in the form Peel writes, as after an edit by hand.
     case damaged
+    /// It is a symbolic link: Peel reads the file it leads to and writes over neither.
+    case aLink
     case failed(SystemError)
+
+    /// What went wrong as a problem: one of these as it is, anything else as what macOS answered.
+    public init(_ error: any Error) {
+        self = error as? FileProblem ?? .failed(SystemError(error))
+    }
 }

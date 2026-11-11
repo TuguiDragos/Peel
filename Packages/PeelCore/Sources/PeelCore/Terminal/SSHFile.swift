@@ -66,7 +66,7 @@ public enum SSHFile {
             try PeelFolder.write(Data(contents(of: settings).utf8), to: url)
             return nil
         } catch {
-            return .failed(SystemError(error))
+            return FileProblem(error)
         }
     }
 

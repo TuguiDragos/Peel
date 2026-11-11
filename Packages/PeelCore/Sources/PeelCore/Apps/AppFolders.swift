@@ -153,7 +153,7 @@ public struct AppFolders: Sendable {
                 try PeelFolder.write(try JSONEncoder().encode(paths), to: url)
                 return .saved
             } catch {
-                return .notSaved(.failed(SystemError(error)))
+                return .notSaved(FileProblem(error))
             }
         }
     }

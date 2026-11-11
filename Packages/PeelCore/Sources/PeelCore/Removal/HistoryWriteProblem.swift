@@ -13,6 +13,9 @@ public enum HistoryWriteProblem: Sendable, Hashable {
     /// This account can't open `lock`, which keeps two writers of History, or of the journal, from writing over each
     /// other.
     case lockClosed(URL)
+    /// `link`, History, the journal, or a lock of theirs, is a symbolic link, and Peel writes them only as files of
+    /// its own.
+    case aLink(URL)
 }
 
 extension HistoryWriteProblem {
@@ -26,6 +29,7 @@ extension HistoryWriteProblem {
         case .journalUnreadable(let journal): "journal\n" + journal.path(percentEncoded: false)
         case .journalNotWritable(let journal): "journal-write\n" + journal.path(percentEncoded: false)
         case .lockClosed(let lock): "lock\n" + lock.path(percentEncoded: false)
+        case .aLink(let link): "link\n" + link.path(percentEncoded: false)
         }
     }
 
@@ -43,6 +47,7 @@ extension HistoryWriteProblem {
         case "journal": self = .journalUnreadable(path)
         case "journal-write": self = .journalNotWritable(path)
         case "lock": self = .lockClosed(path)
+        case "link": self = .aLink(path)
         default: return nil
         }
     }

@@ -305,6 +305,7 @@ extension FileProblem {
         case .notAFile: " Something other than a file, such as a folder, is where the file should be."
         case .tooLarge: " The file is larger than Peel ever writes it, so Peel doesn't read it."
         case .damaged: " The file's contents aren't in a form Peel can read."
+        case .aLink: " It's a link, so Peel reads the file it leads to but doesn't write over it."
         case .failed(let error): " macOS answered: \(Output.plain(error.localizedDescription))"
         }
     }
@@ -623,6 +624,7 @@ extension HistoryWriteProblem {
         case .journalUnreadable(let journal): "\(Output.path(journal)) isn't a journal Peel can read"
         case .journalNotWritable(let journal): "this account can't write \(Output.path(journal))"
         case .lockClosed(let lock): "this account can't open \(Output.path(lock)), the lock beside History"
+        case .aLink(let link): "\(Output.path(link)) is a link, and Peel keeps History only in files of its own"
         }
     }
 }

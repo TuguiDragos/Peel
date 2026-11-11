@@ -139,7 +139,7 @@ public struct TeamRegistry: Sendable {
             try PeelFolder.write(try encoder.encode(entries), to: url)
             return nil
         } catch {
-            return .failed(SystemError(error))
+            return FileProblem(error)
         }
     }
 }

@@ -444,7 +444,7 @@ public struct ExclusionStore: Sendable {
             saved.unreadableEntries = 0
             return .saved(saved)
         } catch {
-            return .notSaved(exclusions, .failed(SystemError(error)))
+            return .notSaved(exclusions, FileProblem(error))
         }
     }
 }

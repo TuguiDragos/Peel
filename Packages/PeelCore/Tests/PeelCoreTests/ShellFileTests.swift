@@ -112,17 +112,16 @@ struct ShellFileTests {
         #expect(ShellFile.read(file) == nil)
     }
 
-    @Test func writingReplacesALinkInsteadOfWritingWhereItLeads() throws {
+    @Test func writesNeitherOverALinkNorWhereItLeads() throws {
         let directory = try TemporaryDirectory()
         let file = ShellFile.url(in: directory.url)
         let theirs = directory.url.appending(path: "theirs")
         try FileManager.default.createDirectory(at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
         try "theirs\n".write(to: theirs, atomically: true, encoding: .utf8)
         try FileManager.default.createSymbolicLink(at: file, withDestinationURL: theirs)
-        #expect(ShellFile.write(.init(settings: [.comments]), to: file) == nil)
+        #expect(ShellFile.write(.init(settings: [.comments]), to: file) == .aLink)
         #expect(try String(contentsOf: theirs, encoding: .utf8) == "theirs\n")
-        #expect(try file.resourceValues(forKeys: [.isSymbolicLinkKey]).isSymbolicLink == false)
-        #expect(ShellFile.read(file) == .init(settings: [.comments]))
+        #expect(try file.resourceValues(forKeys: [.isSymbolicLinkKey]).isSymbolicLink == true)
     }
 
     @Test func theLineIsFoundInTheStartupFileUnlessItIsACommentOrSpelledAnotherWay() throws {
