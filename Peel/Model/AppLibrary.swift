@@ -1203,7 +1203,7 @@ final class AppLibrary {
         if let existing = await Self.find(bundleURL, among: apps) {
             return existing.id
         }
-        guard AppInspector.isNamedAsAnApp(bundleURL), let app = await Self.inspect(bundleURL) else { return nil }
+        guard bundleURL.isNamedAsAnApp, let app = await Self.inspect(bundleURL) else { return nil }
         let vanished = await AppCatalog.gone(revealed.map(\.url))
         // Checked again, since two drops of the same bundle can both get this far before either is listed.
         if !apps.contains(where: { $0.id == app.id }) {

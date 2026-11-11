@@ -81,7 +81,7 @@ final class PackageLibrary {
     }
 
     static func appsThatMoved(in result: TrashResult) -> [URL] {
-        result.trashed.map(\.originalURL).filter { $0.pathExtension.caseInsensitiveCompare("app") == .orderedSame }
+        result.trashed.map(\.originalURL).filter(\.isNamedAsAnApp)
     }
 
     func forget(_ receipts: [PackageReceipt], recording record: (TrashResult) async -> Void) async -> TrashResult {

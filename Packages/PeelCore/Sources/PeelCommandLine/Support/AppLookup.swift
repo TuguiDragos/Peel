@@ -100,7 +100,7 @@ enum AppLookup {
 
     /// The bundle named `query` in `folder`, when `query` ends in `.app` and one is there.
     private static func localBundle(named query: String, in folder: URL) -> URL? {
-        guard query.lowercased().hasSuffix(".app") else { return nil }
+        guard URL(filePath: query).isNamedAsAnApp else { return nil }
         let url = URL(argument: query, relativeTo: folder)
         var isFolder: ObjCBool = false
         let isThere = FileManager.default.fileExists(atPath: url.path(percentEncoded: false), isDirectory: &isFolder)
@@ -128,7 +128,7 @@ enum AppLookup {
     }
 
     private static func bareName(_ query: String) -> String {
-        query.lowercased().hasSuffix(".app") ? String(query.dropLast(".app".count)) : query
+        URL(filePath: query).isNamedAsAnApp ? String(query.dropLast(".app".count)) : query
     }
 
     private static func normalizedPath(_ url: URL) -> String {

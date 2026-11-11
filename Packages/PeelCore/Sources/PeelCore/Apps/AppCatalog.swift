@@ -322,7 +322,7 @@ public enum AppCatalog {
         var bundles: [URL] = []
         for case let url as URL in enumerator {
             guard !isStopped() else { break }
-            if AppInspector.isNamedAsAnApp(url) {
+            if url.isNamedAsAnApp {
                 if AppInspector.isABundle(url) { bundles.append(url.standardizedFileURL) }
             } else if enumerator.level >= depth {
                 enumerator.skipDescendants()

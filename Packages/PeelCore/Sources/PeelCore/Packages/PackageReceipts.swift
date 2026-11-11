@@ -453,7 +453,7 @@ public enum PackageReceipts {
                 requiresPrivileges: requiresPrivileges,
                 refusal: removalGuard.refusal(of: url),
                 heldBack: heldBack,
-                removedElsewhere: url.pathExtension.caseInsensitiveCompare("app") == .orderedSame
+                removedElsewhere: url.isNamedAsAnApp
                     ? removedApps[place]
                     : apps.lazy.filter { PathComponents.isPath(PathPattern.comparablePath(of: $0.url), inside: place) }
                         .compactMap(rule).first ?? removedWithItsApp,
@@ -522,7 +522,7 @@ public enum PackageReceipts {
             guard let (_, _, installLocation) = await description(of: identifier, pkgutil: pkgutil) else { continue }
             for folder in lines(of: await pkgutil(["--files", identifier, "--only-dirs"])) {
                 let app = path(of: folder, in: installLocation)
-                if app.pathExtension.lowercased() == "app" { apps.insert(PathPattern.comparablePath(of: app)) }
+                if app.isNamedAsAnApp { apps.insert(PathPattern.comparablePath(of: app)) }
             }
         }
         return apps.sorted()
@@ -634,17 +634,14 @@ public enum PackageReceipts {
     /// `path` when it is an app, or else the apps a level or two inside it, as far as the guard looks for an excluded
     /// one. An app inside another bundle is that bundle's own.
     static func appPaths(in path: String) -> [String] {
-        let isAnApp = { (path: String) in
-            (path as NSString).pathExtension.caseInsensitiveCompare("app") == .orderedSame
-        }
-        guard !isAnApp(path) else { return [path] }
+        guard !PathComponents.isNamedAsAnApp(path) else { return [path] }
         guard !isBundle(path, exists: { URL(filePath: $0).isThere }), let names = namesInside(path) else { return [] }
         return names.sorted().flatMap { name -> [String] in
             let inside = (path as NSString).appendingPathComponent(name)
-            if isAnApp(inside) { return URL(filePath: inside).isRealFolder ? [inside] : [] }
+            if PathComponents.isNamedAsAnApp(inside) { return URL(filePath: inside).isRealFolder ? [inside] : [] }
             guard !isBundle(inside, exists: { URL(filePath: $0).isThere }) else { return [] }
             return (namesInside(inside) ?? []).sorted().map { (inside as NSString).appendingPathComponent($0) }
-                .filter { isAnApp($0) && URL(filePath: $0).isRealFolder }
+                .filter { PathComponents.isNamedAsAnApp($0) && URL(filePath: $0).isRealFolder }
         }
     }
 

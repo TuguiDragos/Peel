@@ -453,7 +453,7 @@ public enum Installers {
         }
         guard let inside, inside.count > 4 else { return nil }
         let suffix = (inside as NSString).pathExtension.lowercased()
-        let isAnApp = suffix == "app" && names.contains { name in
+        let isAnApp = PathComponents.isNamedAsAnApp(inside) && names.contains { name in
             let parts = PathComponents.of(name)
             return parts.count > 1 && parts[0] == inside
         }
@@ -513,7 +513,7 @@ public enum Installers {
     ) async -> [InstallerItem] {
         var items: [InstallerItem] = []
         for folder in folders {
-            for url in files(in: folder.url) where url.pathExtension.lowercased() == "app" && isMacOSInstaller(url) {
+            for url in files(in: folder.url) where url.isNamedAsAnApp && isMacOSInstaller(url) {
                 guard !Task.isCancelled else { return items }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
                 let (size, seen, newest) = await measured(url, by: measure)

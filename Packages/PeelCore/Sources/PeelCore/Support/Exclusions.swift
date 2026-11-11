@@ -208,9 +208,7 @@ public struct Exclusions: Sendable, Codable, Hashable {
     /// Whether `url` is an app whose own Info.plist declares an excluded identifier: its bundle is named for the app,
     /// so no name says so. It reads the disk.
     func isAnExcludedApp(_ url: URL) -> Bool {
-        guard !bundleIdentifiers.isEmpty, url.pathExtension.caseInsensitiveCompare("app") == .orderedSame else {
-            return false
-        }
+        guard !bundleIdentifiers.isEmpty, url.isNamedAsAnApp else { return false }
         return AppInspector.bundleIdentifier(ofAppAt: url).map(excludes(bundleIdentifier:)) == true
     }
 

@@ -237,6 +237,16 @@ struct PrivilegedPathPolicyTests {
         }
     }
 
+    @Test func takesAnAppWhateverTheCaseOfItsNameAndNoFolderOnlyCalledSo() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        try directory.directory("root/Applications/Upper.APP")
+        try directory.directory("root/Applications/.app")
+
+        #expect(policy.refusal(of: path("root/Applications/Upper.APP", in: directory)) == nil)
+        #expect(policy.refusal(of: path("root/Applications/.app", in: directory)) == .notAnApplication)
+    }
+
     @Test func rejectsUnsafePaths() throws {
         let directory = try TemporaryDirectory()
         let policy = try policy(in: directory)

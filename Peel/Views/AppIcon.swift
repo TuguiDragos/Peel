@@ -90,17 +90,14 @@ enum IconCache {
         return cache
     }
 
-    nonisolated private static func isApp(_ url: URL) -> Bool {
-        url.pathExtension.lowercased() == "app"
-    }
-
     nonisolated private static func images(for url: URL) -> NSCache<NSString, NSImage> {
-        isApp(url) ? apps : files
+        url.isNamedAsAnApp ? apps : files
     }
 
     /// An app's icon is asked of `AppInspector`, which asks IconServices only about an app Launch Services knows.
     nonisolated private static func image(for url: URL) -> NSImage {
-        isApp(url) ? AppInspector.icon(ofAppAt: url) : NSWorkspace.shared.icon(forFile: url.path(percentEncoded: false))
+        url.isNamedAsAnApp
+            ? AppInspector.icon(ofAppAt: url) : NSWorkspace.shared.icon(forFile: url.path(percentEncoded: false))
     }
 
     /// What a row shows for an app until its own icon is built.
@@ -115,7 +112,7 @@ enum IconCache {
         _ = IconArrivals.shared.count
         let path = url.path(percentEncoded: false)
         if let image = images(for: url).object(forKey: path as NSString) { return image }
-        guard isApp(url) else {
+        guard url.isNamedAsAnApp else {
             let image = image(for: url)
             images(for: url).setObject(image, forKey: path as NSString)
             return image

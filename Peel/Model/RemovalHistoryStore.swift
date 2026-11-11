@@ -82,7 +82,7 @@ nonisolated struct RemovalBatch: Identifiable, Hashable {
         if parts.count == 1, let key = parts[0].sourceKey, key.hasPrefix("reset.") {
             return String(localized: "Undo Reset \(String(key.dropFirst("reset.".count)))")
         }
-        let movedAnApp = records.contains { $0.originalURL.pathExtension.lowercased() == "app" }
+        let movedAnApp = records.contains { $0.originalURL.isNamedAsAnApp }
         if movedAnApp, parts.allSatisfy({ $0.tool == Tool.applications.rawValue }) {
             return String(localized: "Undo Remove \(title)")
         }

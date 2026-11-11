@@ -24,7 +24,7 @@ struct AppBundleLayout {
     /// An app bundle: named `.app`, with the Info.plist its layout keeps. A folder only named so, such as the web data
     /// or the cache an app keeps under its identifier (`~/Library/WebKit/org.example.tool.app`), is not one.
     static func isAnApp(_ url: URL) -> Bool {
-        guard url.pathExtension.caseInsensitiveCompare("app") == .orderedSame else { return false }
+        guard url.isNamedAsAnApp else { return false }
         var status = stat()
         let info = AppBundleLayout(of: url).infoFolder.appending(path: "Info.plist")
         return lstat(info.path(percentEncoded: false), &status) == 0
@@ -36,9 +36,7 @@ struct AppBundleLayout {
         let link = bundle.appending(path: "WrappedBundle").path(percentEncoded: false)
         guard let destination = try? FileManager.default.destinationOfSymbolicLink(atPath: link) else { return nil }
         let names = PathComponents.of(destination)
-        guard names.count == 2, names[0] == "Wrapper", names[1].hasSuffix(".app"), names[1] != ".app" else {
-            return nil
-        }
+        guard names.count == 2, names[0] == "Wrapper", PathComponents.isNamedAsAnApp(names[1]) else { return nil }
         return bundle.appending(path: "Wrapper", directoryHint: .isDirectory)
             .appending(path: names[1], directoryHint: .isDirectory)
     }

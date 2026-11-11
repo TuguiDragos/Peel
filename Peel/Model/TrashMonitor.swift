@@ -291,7 +291,7 @@ final class TrashWatch {
             for name in arrived {
                 let url = trash.appending(path: name, directoryHint: .isDirectory)
                 guard !placedByPeel.contains(PathPattern.comparablePath(of: url)) else { continue }
-                if AppInspector.isNamedAsAnApp(url) {
+                if url.isNamedAsAnApp {
                     onArrived(TrashedApp(url: url, cameInAFolder: false))
                 } else {
                     for app in await AppCatalog.apps(inAFolderThrownAway: url) {

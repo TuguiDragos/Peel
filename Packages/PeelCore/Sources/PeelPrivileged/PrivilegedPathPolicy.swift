@@ -143,7 +143,7 @@ public struct PrivilegedPathPolicy: Sendable {
     public static func peelTool(besideHelperAt executable: String) -> String? {
         let names = PathComponents.of(executable)
         guard names.count >= 4, Array(names.suffix(3).dropLast()) == ["Contents", "MacOS"],
-              names[names.count - 4].hasSuffix(".app")
+              PathComponents.isNamedAsAnApp(names[names.count - 4])
         else { return nil }
         return "/" + (names.dropLast(2) + ["Helpers", "peel"]).joined(separator: "/")
     }
@@ -229,7 +229,7 @@ public struct PrivilegedPathPolicy: Sendable {
             || manifests.contains(where: { PathComponents.isPath(resolved, inside: $0) && resolvedParent != $0 }) {
             return .failure(.outsideAllowedLocations)
         }
-        if applicationLocations.contains(location), !(diskName ?? name).hasSuffix(".app") {
+        if applicationLocations.contains(location), !PathComponents.isNamedAsAnApp(diskName ?? name) {
             return .failure(.notAnApplication)
         }
         return .success(Resolved(parent: resolvedParent, name: name, path: folder + "/" + name))

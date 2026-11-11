@@ -47,6 +47,11 @@ extension URL {
         (try? resourceValues(forKeys: [.isUbiquitousItemKey]).isUbiquitousItem) == true
     }
 
+    /// Whether the name is an app's, as macOS reads it: its extension is `app`, written in any case.
+    public var isNamedAsAnApp: Bool {
+        PathComponents.isNamedAsAnApp(lastPathComponent)
+    }
+
     /// True for a kernel extension, which macOS takes out of the kernel only when the Mac restarts: since macOS 11,
     /// third-party kernel extensions load as one collection when the Mac starts up.
     public var isKernelExtension: Bool {

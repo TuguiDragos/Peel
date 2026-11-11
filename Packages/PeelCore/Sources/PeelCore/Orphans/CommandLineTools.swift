@@ -25,7 +25,7 @@ public struct CommandLineTools: Sendable {
         let cellarPath = cellar.map { PathPattern.comparablePath(of: $0) }
         let offered = tools.filter { tool in
             let program = PathPattern.comparablePath(of: tool.program)
-            return !tool.program.pathComponents.contains { $0.hasSuffix(".app") }
+            return !tool.program.pathComponents.contains(where: PathComponents.isNamedAsAnApp)
                 && !(cellarPath.map { PathComponents.isPath(program, atOrInside: $0) } ?? false)
         }
         return CommandLineTools(

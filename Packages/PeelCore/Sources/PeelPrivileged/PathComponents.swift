@@ -1,3 +1,5 @@
+import Foundation
+
 /// Reads a path name by name. `String` compares `Character`s, and a slash followed by a combining mark is one
 /// `Character`: `split(separator: "/")` then leaves that slash inside a name, where the kernel still reads it as a
 /// separator, and `hasPrefix("…/Keychains/")` misses a file whose name begins with the mark. So a path is split at
@@ -18,5 +20,17 @@ public enum PathComponents {
     public static func isPath(_ path: some StringProtocol, inside folder: some StringProtocol) -> Bool {
         let names = of(path), folderNames = of(folder)
         return names.count > folderNames.count && names.starts(with: folderNames)
+    }
+
+    /// Whether `name` is an app's, as macOS reads it: its extension is `app` in any case, so `Tool.APP` is an app and
+    /// a folder named only `.app` is not. A path is read by its last name.
+    public static func isNamedAsAnApp(_ name: String) -> Bool {
+        (name as NSString).pathExtension.caseInsensitiveCompare("app") == .orderedSame
+    }
+
+    /// The path of the outermost app the absolute `path` is or sits in, nil when it is in none.
+    public static func outermostApp(of path: some StringProtocol) -> String? {
+        let names = of(path)
+        return names.firstIndex(where: isNamedAsAnApp).map { "/" + names[...$0].joined(separator: "/") }
     }
 }

@@ -102,7 +102,7 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
     /// extensions in the moved app's own folder, so no move of either app removes this one.
     public var isForAnAppInsideAnother: Bool {
         guard let installedFor else { return false }
-        return PathComponents.of(installedFor).dropLast().contains { $0.lowercased().hasSuffix(".app") }
+        return PathComponents.of(installedFor).dropLast().contains(where: PathComponents.isNamedAsAnApp)
     }
     /// `installedFor`, when nothing is at that place anymore (`AppExtensions.goneApp(installedFor:)`).
     public let goneApp: String?
@@ -166,8 +166,10 @@ extension AppExtension {
     public var appURL: URL? {
         switch kind {
         case .appExtension:
-            guard let path = url?.path(percentEncoded: false), let end = path.range(of: ".app/") else { return nil }
-            return URL(filePath: String(path[..<end.lowerBound]) + ".app", directoryHint: .isDirectory)
+            guard let path = url?.path(percentEncoded: false), let app = PathComponents.outermostApp(of: path) else {
+                return nil
+            }
+            return URL(filePath: app, directoryHint: .isDirectory)
         case .systemExtension:
             return goneApp == nil ? installedFor.map { URL(filePath: $0, directoryHint: .isDirectory) } : nil
         }
@@ -402,11 +404,7 @@ public enum AppExtensions {
 
     /// The app an extension at `path` is part of: the outermost app bundle it is inside, or the app itself.
     static func app(ofExtensionAt path: String) -> URL? {
-        guard
-            let end = path.range(of: ".app/")
-                ?? (path.hasSuffix(".app") ? path.range(of: ".app", options: .backwards) : nil)
-        else { return nil }
-        return URL(filePath: String(path[..<end.lowerBound]) + ".app")
+        PathComponents.outermostApp(of: path).map { URL(filePath: $0) }
     }
 
     /// Nil when macOS gave no answer Peel can read, which is not the same as none installed.
@@ -605,10 +603,7 @@ public enum AppExtensions {
     /// The path of the app a record says its extension was installed for: the app macOS holds it for, or, once
     /// Finder has moved that app and the record holds none, the app its original copy sat in.
     static func installedFor(_ record: SystemExtensionRecord) -> String? {
-        if let container = record.container { return container }
-        let names = PathComponents.of(record.origin ?? "")
-        guard let app = names.firstIndex(where: { $0.hasSuffix(".app") }) else { return nil }
-        return "/" + names[...app].joined(separator: "/")
+        record.container ?? PathComponents.outermostApp(of: record.origin ?? "")
     }
 
     static func goneApp(installedFor: String?) -> String? {

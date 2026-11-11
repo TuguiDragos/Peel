@@ -589,7 +589,7 @@ public enum CloudStorage {
     /// The name Finder shows. An app is named as `AppInspector` names it, since asking the system for the name of
     /// an app Launch Services doesn't know there registers it.
     static func shownName(of url: URL) -> String {
-        url.pathExtension.caseInsensitiveCompare("app") == .orderedSame
+        url.isNamedAsAnApp
             ? AppInspector.displayName(of: url)
             : FileManager.default.displayName(atPath: url.path(percentEncoded: false))
     }

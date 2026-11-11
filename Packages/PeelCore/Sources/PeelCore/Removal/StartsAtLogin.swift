@@ -18,7 +18,7 @@ enum StartsAtLogin {
     static func labels(declaredBy app: URL) -> [String] {
         let library = app.appending(path: "Contents/Library", directoryHint: .isDirectory)
         let loginItems = entries(of: library.appending(path: "LoginItems", directoryHint: .isDirectory))
-            .filter { $0.pathExtension == "app" }
+            .filter(\.isNamedAsAnApp)
             .compactMap(identifier(of:))
         let agents = entries(of: library.appending(path: "LaunchAgents", directoryHint: .isDirectory))
             .filter { $0.pathExtension == "plist" }
@@ -48,7 +48,7 @@ enum StartsAtLogin {
             found.append((own, .agent, Declaration(runsAtLoad: true, keepsAlive: nil)))
         }
         let loginItems = entries(of: library.appending(path: "LoginItems", directoryHint: .isDirectory))
-            .lazy.filter { $0.pathExtension == "app" }.prefix(mostAsked).compactMap(identifier(of:))
+            .lazy.filter(\.isNamedAsAnApp).prefix(mostAsked).compactMap(identifier(of:))
         found += loginItems.map { ($0, .agent, Declaration(runsAtLoad: true, keepsAlive: true)) }
         for (folder, kind) in [("LaunchAgents", BackgroundItem.Kind.agent), ("LaunchDaemons", .daemon)] {
             let jobs = entries(of: library.appending(path: folder, directoryHint: .isDirectory))

@@ -192,7 +192,8 @@ public enum CommandLineTool {
     /// Whether `url` is where a copy of Peel keeps its tool: `<name>.app/Contents/Helpers/peel`.
     private static func isAPeelsTool(_ url: URL) -> Bool {
         let names = url.pathComponents
-        return names.count >= 4 && names.suffix(3) == ["Contents", "Helpers", "peel"] && names[names.count - 4].hasSuffix(".app")
+        return names.count >= 4 && names.suffix(3) == ["Contents", "Helpers", "peel"]
+            && PathComponents.isNamedAsAnApp(names[names.count - 4])
     }
 }
 

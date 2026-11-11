@@ -72,8 +72,7 @@ public enum VendorRemoval {
         let makers = utilities.flatMap { folder in
             ((try? fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: [.isDirectoryKey])) ?? [])
                 .filter {
-                    $0.pathExtension != "app"
-                        && (try? $0.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true
+                    !$0.isNamedAsAnApp && (try? $0.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true
                 }
         }
         for folder in applicationsFolders + utilities + makers {
@@ -109,17 +108,16 @@ public enum VendorRemoval {
     /// What an uninstaller's name says it removes, lowercased: its words but Uninstall and Uninstaller, empty for
     /// one called only that, and nil for a name without either word or for no app.
     private static func uninstalledName(_ name: String) -> String? {
-        guard name.lowercased().hasSuffix(".app") else { return nil }
+        guard PathComponents.isNamedAsAnApp(name) else { return nil }
         let words = name.dropLast(4).lowercased().split(separator: " ")
         let rest = words.filter { $0 != "uninstall" && $0 != "uninstaller" }
         return rest.count < words.count ? rest.joined(separator: " ") : nil
     }
 
     static func isUninstallerName(_ name: String, app: InstalledApp) -> Bool {
-        guard name.hasSuffix(".app") else { return false }
-        let lowercased = name.lowercased()
-        guard lowercased.contains("uninstall") else { return false }
-        let base = lowercased.replacingOccurrences(of: ".app", with: "")
+        guard PathComponents.isNamedAsAnApp(name) else { return false }
+        let base = name.dropLast(4).lowercased()
+        guard base.contains("uninstall") else { return false }
         guard !app.names.contains(where: { base.contains($0.lowercased()) }) else { return true }
         return base.hasPrefix("uninstall") || base.hasSuffix("uninstaller")
     }

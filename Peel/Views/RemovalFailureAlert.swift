@@ -291,7 +291,7 @@ struct RemovalFailureAlert: ViewModifier {
 
     private static func movesNeedAppManagement(_ outcome: RemovalOutcome) -> Bool {
         outcome.failures.contains { failure in
-            failure.reason == .notPermitted && failure.url.pathExtension.lowercased() == "app"
+            failure.reason == .notPermitted && failure.url.isNamedAsAnApp
                 && AppManagement.isRefusedForWantOfPermission(failure.url)
         }
     }

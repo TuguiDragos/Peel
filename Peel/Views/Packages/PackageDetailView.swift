@@ -91,7 +91,7 @@ struct PackageDetailView: View {
                 ForEach(Array(receipt.items.enumerated()), id: \.element.id) { index, item in
                     RemovalRow(
                         url: item.url,
-                        icon: item.url.pathExtension == "app" ? .file(item.url) : .symbol("doc"),
+                        icon: item.url.isNamedAsAnApp ? .file(item.url) : .symbol("doc"),
                         detail: item.refusal?.explanation,
                         warning: item.refusal == nil ? note(for: item) : nil,
                         size: item.size ?? 0,

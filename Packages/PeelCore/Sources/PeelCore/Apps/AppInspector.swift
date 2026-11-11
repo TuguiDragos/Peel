@@ -109,16 +109,11 @@ public enum AppInspector {
         case infoDamaged
     }
 
-    /// Whether `url` is named as an app, which is all Peel asks before reading a bundle it doesn't list.
-    public static func isNamedAsAnApp(_ url: URL) -> Bool {
-        url.pathExtension == "app"
-    }
-
     /// Whether `url` is an app bundle itself: a folder named as an app, not a link to one nor a file named like one,
     /// whose Info.plist doesn't sit behind a link either, which would make it another app.
     public static func isABundle(_ url: URL) -> Bool {
         var info = stat()
-        guard isNamedAsAnApp(url), lstat(PathPattern.comparablePath(of: url), &info) == 0,
+        guard url.isNamedAsAnApp, lstat(PathPattern.comparablePath(of: url), &info) == 0,
               info.st_mode & S_IFMT == S_IFDIR
         else { return false }
         let infoFolder = PathPattern.comparablePath(of: AppBundleLayout(of: url).infoFolder)
@@ -133,7 +128,7 @@ public enum AppInspector {
 
     public static func whyUnreadable(_ url: URL) -> Unreadable {
         if url.isMissing { return .gone }
-        guard isNamedAsAnApp(url) else { return .notAnApp }
+        guard url.isNamedAsAnApp else { return .notAnApp }
         if url.isSymbolicLink {
             // `canonicalWithoutOpening` answers the link itself when it leads nowhere or round in a loop.
             let destination = PathPattern.canonicalWithoutOpening(url)
@@ -290,7 +285,7 @@ public enum AppInspector {
     static func displayName(of url: URL, identifier: String?) -> String {
         let name = identifier.map { isKnown(url, as: $0) } == true
             ? FileManager.default.displayName(atPath: url.path(percentEncoded: false)) : url.lastPathComponent
-        return name.hasSuffix(".app") ? String(name.dropLast(4)) : name
+        return PathComponents.isNamedAsAnApp(name) ? String(name.dropLast(4)) : name
     }
 
     private static func isKnown(_ url: URL, as identifier: String) -> Bool {

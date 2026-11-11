@@ -217,8 +217,7 @@ public struct BackgroundItemOwnership: Sendable {
 
     /// The outermost app bundle `program` sits in, with the identifier its Info.plist declares.
     static func bundle(holding program: String?) -> (path: String, identifier: String)? {
-        guard let program, let range = program.range(of: ".app/") else { return nil }
-        let path = String(program[..<range.lowerBound]) + ".app"
+        guard let program, let path = PathComponents.outermostApp(of: program) else { return nil }
         let contents = URL(filePath: path, directoryHint: .isDirectory)
             .appending(path: "Contents", directoryHint: .isDirectory)
         guard let identifier = AppInspector.infoDictionary(in: contents)?["CFBundleIdentifier"] as? String else {

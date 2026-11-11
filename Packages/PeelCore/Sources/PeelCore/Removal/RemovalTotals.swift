@@ -44,7 +44,7 @@ public struct RemovalTotals: Sendable, Equatable, Codable {
             bytes = bytes.adding(size)
             items = items.addingCapped(1)
             let url = record.originalURL
-            if url.pathExtension.lowercased() == "app", !url.pathComponents.contains("Library") {
+            if url.isNamedAsAnApp, !url.pathComponents.contains("Library") {
                 apps = apps.addingCapped(1)
             }
             let soFar = last?.batch == record.batch ? last?.bytes : nil
