@@ -351,17 +351,33 @@ public enum PackageReceipts {
         return false
     }
 
-    /// A receipt and the full paths of everything it lists, so `installs(_:)` can tell whether it installed a path.
+    /// A receipt and everything it lists, so `installs(_:)` can tell whether it installed a path.
     struct Found {
         let receipt: PackageReceipt
-        let paths: [String]
+        let files: [String]
         /// Where the package put what it lists. One installed into a bundle, an app's own folder, made that bundle.
-        var installLocation: String?
+        var installLocation: URL?
 
         func installs(_ path: String) -> Bool {
+            guard let installLocation, !files.isEmpty else { return false }
             let comparable = { PathPattern.comparablePath(of: PathPattern.canonical(URL(filePath: $0))) }
-            return paths.contains { comparable($0) == path }
-                || !paths.isEmpty && installLocation.map(comparable) == path
+            let name = (path as NSString).lastPathComponent.lowercased()
+            // The kernel names a line otherwise only when it is a link or one of a file's several names.
+            let lists = files.contains { file in
+                let full = PackageReceipts.path(of: file, in: installLocation).path(percentEncoded: false)
+                guard (full as NSString).lastPathComponent.lowercased() == name || mayBeNamedOtherwise(full) else {
+                    return false
+                }
+                return comparable(full) == path
+            }
+            return lists || comparable(installLocation.path(percentEncoded: false)) == path
+        }
+
+        private func mayBeNamedOtherwise(_ path: String) -> Bool {
+            var info = stat()
+            guard lstat(path, &info) == 0 else { return false }
+            let kind = info.st_mode & S_IFMT
+            return kind == S_IFLNK || kind == S_IFREG && info.st_nlink > 1
         }
     }
 
@@ -386,7 +402,7 @@ public enum PackageReceipts {
                 volume: askedVolume ?? URL(filePath: "/", directoryHint: .isDirectory),
                 items: [], nothingLeftOnDisk: false, isFileListKnown: false
             )
-            return Found(receipt: unknown, paths: [])
+            return Found(receipt: unknown, files: [])
         }
 
         let listing = await pkgutil(["--files", identifier])
@@ -479,8 +495,8 @@ public enum PackageReceipts {
                 installedThroughItsScripts: throughScripts,
                 apps: ownApps
             ),
-            paths: files.map { path(of: $0, in: installLocation).path(percentEncoded: false) },
-            installLocation: installLocation.path(percentEncoded: false)
+            files: files,
+            installLocation: installLocation
         )
     }
 
@@ -563,27 +579,29 @@ public enum PackageReceipts {
         let shared = Set(sharedDirectories.map { $0.lowercased() })
         let sharedAtHome = Set(sharedInTheHome.map { $0.lowercased() })
         let accountFolder = accountHome.map { ($0 as NSString).standardizingPath.lowercased() }
-        let isShared = { (path: String) in
-            let path = path.lowercased()
+        let isSharedWhenLowered = { (path: String) in
             guard let accountFolder, path == accountFolder || path.hasPrefix(accountFolder + "/") else {
                 return shared.contains(path)
             }
             return sharedAtHome.contains(path == accountFolder ? "/" : String(path.dropFirst(accountFolder.count)))
         }
+        let isShared = { (path: String) in isSharedWhenLowered(path.lowercased()) }
+        let lowered = paths.map { $0.lowercased() }
         // A package can be built with a bundle as its install location, an app's own folder, and lists only what is
         // inside it. The bundle is still one item.
         if !isShared(root), isBundle(root, exists: exists) {
             return ([root], ProtectedData.refuses(root, home: home) ? [] : [root], [])
         }
 
-        let outermost = Set(paths.filter { path in
-            guard !isShared(path), path != root else { return false }
+        let outermost = Set(zip(paths, lowered).filter { path, lowered in
+            guard !isSharedWhenLowered(lowered), path != root else { return false }
             let parent = (path as NSString).deletingLastPathComponent
-            return parent == root || isShared(parent) || !listed.contains(parent)
-        })
+            return parent == root || isSharedWhenLowered((lowered as NSString).deletingLastPathComponent)
+                || !listed.contains(parent)
+        }.map(\.0))
         .filter(exists)
 
-        let folded = Set(paths.map { $0.lowercased() })
+        let folded = Set(lowered)
         var othersFilled: Set<String> = []
         let onDisk = outermost
             .flatMap {

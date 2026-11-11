@@ -426,6 +426,35 @@ struct PackageReceiptsTests {
         #expect(gone.nothingLeftOnDisk && !gone.installedThroughItsScripts)
     }
 
+    @Test func aReceiptThatListsALinkToTheAppIsStillTheAppsReceipt() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        try directory.file("Applications/Mixer.app/Contents/Info.plist", bytes: 16)
+        try FileManager.default.createSymbolicLink(
+            at: volume.appending(path: "Applications/Shortcut.app"),
+            withDestinationURL: volume.appending(path: "Applications/Mixer.app")
+        )
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments.first {
+            case "--pkg-info-plist":
+                let info = ["volume": volume.path(percentEncoded: false), "install-location": ""]
+                let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                return data.flatMap { String(data: $0, encoding: .utf8) }
+            case "--files": return "Applications\nApplications/Shortcut.app"
+            case "--file-info-plist": return PkgutilAnswer.fileInfo(arguments[1], packages: "org.example.shortcut")
+            default: return nil
+            }
+        }
+        let environment = SearchEnvironment(homeDirectory: volume.appending(path: "home"), rootDirectory: volume)
+
+        let found = await PackageReceipts.receipts(
+            installing: volume.appending(path: "Applications/Mixer.app"), exclusions: .none, pkgutil: pkgutil,
+            environment: environment
+        )
+
+        #expect(found.map(\.identifier) == ["org.example.shortcut"])
+    }
+
     @Test func aPackageWhoseAppIsStillThereNamesIt() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url)
