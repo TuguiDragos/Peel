@@ -152,8 +152,13 @@ struct OnItsOwnTests {
                 pid_t($0.trimmingCharacters(in: .whitespacesAndNewlines))
             }
         }
+        let stopped = try #require(program)
+        for _ in 0..<500 where !Self.isStopped(stopped) {
+            try await Task.sleep(for: .milliseconds(10))
+        }
+        #expect(Self.isStopped(stopped), "the program never stopped, so nothing was asked of the wait")
         try await Task.sleep(for: .milliseconds(200))
-        kill(try #require(program), SIGCONT)
+        kill(stopped, SIGCONT)
         while resumed.isMissing {
             try await Task.sleep(for: .milliseconds(20))
         }
@@ -161,6 +166,13 @@ struct OnItsOwnTests {
         task.cancel()
 
         #expect(await task.value == .failure(.canceled))
+    }
+
+    private static func isStopped(_ pid: pid_t) -> Bool {
+        var info = kinfo_proc()
+        var size = MemoryLayout<kinfo_proc>.stride
+        var name: [Int32] = [CTL_KERN, KERN_PROC, KERN_PROC_PID, pid]
+        return sysctl(&name, 4, &info, &size, nil, 0) == 0 && Int32(info.kp_proc.p_stat) == SSTOP
     }
 
     @Test func aCanceledTaskStartsNothing() async {
