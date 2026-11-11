@@ -82,8 +82,8 @@ files scattered across your Library, sometimes gigabytes of them. Peel finds wha
 file belongs to it and how sure it is, and moves what you choose to the Trash. Nothing of yours is deleted without
 asking first, and History puts back what went to the Trash.
 
-- **[Uninstall apps completely](GUIDE.md#uninstall-apps-completely):** the app and every file it left, each with the
-  reason it matched. Applications also shows what's new in the next version of the apps you keep.
+- **[Uninstall apps completely](GUIDE.md#uninstall-apps-completely):** the app and the files Peel can tie to it, each
+  with the reason it matched. Applications also shows what's new in the next version of the apps you keep.
 - **[Free up disk space](GUIDE.md#free-up-disk-space):** what apps you removed left behind, caches of developer tools,
   what builds left in your projects, duplicates, installers and backups, local copies of files already safe in
   iCloud, and what fills your disk.
