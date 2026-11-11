@@ -126,109 +126,109 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel tu hledá instalátory a duplicitní soubory a také stažené položky z iCloudu, které může odstranit, když je tato složka na iCloud Drivu. Dokud k tomu nedáte pokyn, nic se neodstraní."
+            "value" : "Peel tuto složku čte, když se do ní podívá některý z jeho nástrojů nebo když otevřete aplikaci, která je v ní uložená. Nic se neodstraní, dokud o tom sami nerozhodnete."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel sucht hier nach Installern und doppelten Dateien sowie nach iCloud-Downloads, die Peel entfernen kann, wenn dieser Ordner in iCloud Drive liegt. Ohne deine Zustimmung wird nichts entfernt."
+            "value" : "Peel liest diesen Ordner, wenn eines seiner Tools hier nachsieht oder wenn du eine App öffnest, die hier liegt. Ohne deine Zustimmung wird nichts entfernt."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Peel looks here for installers and duplicate files, and for iCloud downloads it can remove when this folder is in iCloud Drive. Nothing is removed until you say so."
+            "value" : "Peel reads this folder when one of its tools looks here or when you open an app that is kept here. Nothing is removed until you say so."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel busca aquí instaladores y archivos duplicados, y descargas de iCloud que puede eliminar cuando esta carpeta está en iCloud Drive. No se elimina nada hasta que tú lo digas."
+            "value" : "Peel lee esta carpeta cuando una de sus herramientas busca aquí o cuando abres una app que se guarda aquí. No se elimina nada hasta que tú lo digas."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel recherche ici des programmes d’installation et des fichiers en double, ainsi que des téléchargements iCloud qu’il peut retirer lorsque ce dossier se trouve dans iCloud Drive. Rien n’est supprimé tant que vous ne l’avez pas demandé."
+            "value" : "Peel lit ce dossier lorsque l’un de ses outils l’examine ou lorsque vous ouvrez une app qui s’y trouve. Rien n’est supprimé sans votre accord."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel cerca qui installer e file duplicati, e i download di iCloud che può rimuovere quando questa cartella è su iCloud Drive. Non viene rimosso nulla finché non lo dici tu."
+            "value" : "Peel legge questa cartella quando uno dei suoi strumenti la esamina o quando apri un’app che si trova qui. Nulla viene rimosso finché non lo decidi tu."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelはここでインストーラや重複ファイルを探します。また、このフォルダがiCloud Driveにある場合は、iCloudからダウンロードしたもののうち削除できるものも探します。指示するまで、何もゴミ箱に入れません。"
+            "value" : "Peelは、いずれかのツールでここを調べるとき、またはここに保管されているアプリを開くときに、このフォルダを読み取ります。指示するまで、何もゴミ箱に入れません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 이곳에서 설치 프로그램과 중복된 파일을 찾고, 이 폴더가 iCloud Drive에 있으면 제거할 수 있는 iCloud 다운로드도 찾습니다. 사용자가 요청하기 전에는 아무것도 제거되지 않습니다."
+            "value" : "Peel은 자체 도구 중 하나가 이곳을 살펴보거나 사용자가 Peel에서 이곳에 있는 앱을 열 때 이 폴더를 읽습니다. 사용자가 요청하기 전에는 아무것도 제거되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zoekt hier naar installatieprogramma's en dubbele bestanden, en naar iCloud-downloads die het kan verwijderen als deze map op iCloud Drive staat. Er wordt niets verwijderd totdat jij dat zegt."
+            "value" : "Peel leest deze map als een van de tools van Peel hier kijkt of als je een app opent die hier staat. Er wordt niets verwijderd totdat jij dat zegt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel szuka tutaj instalatorów i zduplikowanych plików, a także pobranych rzeczy z iCloud, które może usunąć, gdy ten folder jest na iCloud Drive. Nic nie trafi do Kosza, dopóki o tym nie zdecydujesz."
+            "value" : "Peel odczytuje ten folder, gdy któreś z jego narzędzi tu zagląda lub gdy otwierasz aplikację, która jest tu przechowywana. Nic nie trafi do Kosza, dopóki o tym nie zdecydujesz."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel procura aqui instaladores e arquivos duplicados, e downloads do iCloud que ele pode remover quando esta pasta está no iCloud Drive. Nada é removido até você pedir."
+            "value" : "O Peel lê esta pasta quando uma das ferramentas dele procura algo aqui ou quando você abre um app que fica aqui. Nada é removido até que você peça."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel caută aici programe de instalare și fișiere duplicate, precum și descărcări iCloud pe care le poate elimina când acest dosar este pe iCloud Drive. Nu se elimină nimic până nu cereți dvs."
+            "value" : "Peel citește acest dosar când unul dintre instrumentele sale caută aici sau când deschideți o aplicație care se află aici. Nu se elimină nimic până nu cereți dvs."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ищет здесь установщики и дубликаты файлов, а также загрузки iCloud, которые он может удалить, когда эта папка находится в iCloud Drive. Ничего не удаляется без Вашего решения."
+            "value" : "Peel читает эту папку, когда сюда заглядывает один из его инструментов или когда Вы открываете в Peel приложение, которое хранится здесь. Ничего не удаляется без Вашего решения."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel letar här efter installerare och dubblettfiler, och efter iCloud-hämtningar som Peel kan ta bort när den här mappen ligger i iCloud Drive. Inget tas bort förrän du säger till."
+            "value" : "Peel läser den här mappen när ett av Peels verktyg tittar här eller när du öppnar en app som ligger här. Inget tas bort förrän du säger till."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel burada yükleyicileri ve yinelenen dosyaları, bu klasör iCloud Drive’daysa kaldırabileceği iCloud indirilenlerini de arar. Siz söyleyene kadar hiçbir şey kaldırılmaz."
+            "value" : "Peel, araçlarından biri buraya baktığında veya burada tutulan bir uygulamayı açtığınızda bu klasörü okur. Siz söylemedikçe hiçbir şey kaldırılmaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel шукає тут інсталятори й файли-дублікати, а також викачування iCloud, які може вилучити, коли ця папка зберігається в iCloud Drive. Нічого не вилучається, доки ви не скажете."
+            "value" : "Peel читає цю папку, коли один з її інструментів шукає тут або коли ви відкриваєте програму, яка тут зберігається. Нічого не вилучається, доки ви не скажете."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel会在这里查找安装器和重复文件；如果此文件夹位于iCloud云盘中，还会查找可以移除的iCloud下载。在你确认之前，不会移除任何内容。"
+            "value" : "当Peel的某个工具查看此处，或你打开存放在此处的App时，Peel会读取此文件夹。未经你同意，不会移除任何内容。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel會在這裡尋找安裝程式和重複的檔案；當此檔案夾位於「iCloud雲碟」中時，也會尋找它可以移除的iCloud下載項目。在你下達指示之前，不會移除任何項目。"
+            "value" : "當Peel的某個工具查看此處，或當你打開存放在此處的App時，Peel會讀取此檔案夾。在你決定之前，不會移除任何項目。"
           }
         }
       }
@@ -239,109 +239,109 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel tu hledá instalátory, duplicitní soubory a to, co zbylo po sestavení, a také stažené položky z iCloudu, které může odstranit, když je tato složka na iCloud Drivu. Dokud k tomu nedáte pokyn, nic se neodstraní."
+            "value" : "Peel tuto složku čte, když se do ní podívá některý z jeho nástrojů nebo když otevřete aplikaci, která je v ní uložená. Nic se neodstraní, dokud o tom sami nerozhodnete."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel sucht hier nach Installern, doppelten Dateien und dem, was Builds hinterlassen haben, sowie nach iCloud-Downloads, die Peel entfernen kann, wenn dieser Ordner in iCloud Drive liegt. Ohne deine Zustimmung wird nichts entfernt."
+            "value" : "Peel liest diesen Ordner, wenn eines seiner Tools hier nachsieht oder wenn du eine App öffnest, die hier liegt. Ohne deine Zustimmung wird nichts entfernt."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Peel looks here for installers, duplicate files, and what builds left behind, and for iCloud downloads it can remove when this folder is in iCloud Drive. Nothing is removed until you say so."
+            "value" : "Peel reads this folder when one of its tools looks here or when you open an app that is kept here. Nothing is removed until you say so."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel busca aquí instaladores, archivos duplicados y lo que dejaron las compilaciones, y descargas de iCloud que puede eliminar cuando esta carpeta está en iCloud Drive. No se elimina nada hasta que tú lo digas."
+            "value" : "Peel lee esta carpeta cuando una de sus herramientas busca aquí o cuando abres una app que se guarda aquí. No se elimina nada hasta que tú lo digas."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel recherche ici des programmes d’installation, des fichiers en double et ce que les compilations ont laissé derrière elles, ainsi que des téléchargements iCloud qu’il peut retirer lorsque ce dossier se trouve dans iCloud Drive. Rien n’est supprimé tant que vous ne l’avez pas demandé."
+            "value" : "Peel lit ce dossier lorsque l’un de ses outils l’examine ou lorsque vous ouvrez une app qui s’y trouve. Rien n’est supprimé sans votre accord."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel cerca qui installer, file duplicati e ciò che le build si sono lasciate dietro, e i download di iCloud che può rimuovere quando questa cartella è su iCloud Drive. Non viene rimosso nulla finché non lo dici tu."
+            "value" : "Peel legge questa cartella quando uno dei suoi strumenti la esamina o quando apri un’app che si trova qui. Nulla viene rimosso finché non lo decidi tu."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelはここでインストーラ、重複ファイル、ビルドが残したものを探します。また、このフォルダがiCloud Driveにある場合は、iCloudからダウンロードしたもののうち削除できるものも探します。指示するまで、何もゴミ箱に入れません。"
+            "value" : "Peelは、いずれかのツールでここを調べるとき、またはここに保管されているアプリを開くときに、このフォルダを読み取ります。指示するまで、何もゴミ箱に入れません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 이곳에서 설치 프로그램, 중복된 파일, 빌드가 남긴 항목을 찾고, 이 폴더가 iCloud Drive에 있으면 제거할 수 있는 iCloud 다운로드도 찾습니다. 사용자가 요청하기 전에는 아무것도 제거되지 않습니다."
+            "value" : "Peel은 자체 도구 중 하나가 이곳을 살펴보거나 사용자가 Peel에서 이곳에 있는 앱을 열 때 이 폴더를 읽습니다. 사용자가 요청하기 전에는 아무것도 제거되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zoekt hier naar installatieprogramma's, dubbele bestanden en wat builds hebben achtergelaten, en naar iCloud-downloads die het kan verwijderen als deze map op iCloud Drive staat. Er wordt niets verwijderd totdat jij dat zegt."
+            "value" : "Peel leest deze map als een van de tools van Peel hier kijkt of als je een app opent die hier staat. Er wordt niets verwijderd totdat jij dat zegt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel szuka tutaj instalatorów, zduplikowanych plików i tego, co pozostawiły kompilacje, a także pobranych rzeczy z iCloud, które może usunąć, gdy ten folder jest na iCloud Drive. Nic nie trafi do Kosza, dopóki o tym nie zdecydujesz."
+            "value" : "Peel odczytuje ten folder, gdy któreś z jego narzędzi tu zagląda lub gdy otwierasz aplikację, która jest tu przechowywana. Nic nie trafi do Kosza, dopóki o tym nie zdecydujesz."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel procura aqui instaladores, arquivos duplicados e o que as compilações deixaram para trás, e downloads do iCloud que ele pode remover quando esta pasta está no iCloud Drive. Nada é removido até você pedir."
+            "value" : "O Peel lê esta pasta quando uma das ferramentas dele procura algo aqui ou quando você abre um app que fica aqui. Nada é removido até que você peça."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel caută aici programe de instalare, fișiere duplicate și ce au lăsat în urmă compilările, precum și descărcări iCloud pe care le poate elimina când acest dosar este pe iCloud Drive. Nu se elimină nimic până nu cereți dvs."
+            "value" : "Peel citește acest dosar când unul dintre instrumentele sale caută aici sau când deschideți o aplicație care se află aici. Nu se elimină nimic până nu cereți dvs."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ищет здесь установщики, дубликаты файлов и то, что осталось после сборок, а также загрузки iCloud, которые он может удалить, когда эта папка находится в iCloud Drive. Ничего не удаляется без Вашего решения."
+            "value" : "Peel читает эту папку, когда сюда заглядывает один из его инструментов или когда Вы открываете в Peel приложение, которое хранится здесь. Ничего не удаляется без Вашего решения."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel letar här efter installerare, dubblettfiler och det som byggen har lämnat kvar, och efter iCloud-hämtningar som Peel kan ta bort när den här mappen ligger i iCloud Drive. Inget tas bort förrän du säger till."
+            "value" : "Peel läser den här mappen när ett av Peels verktyg tittar här eller när du öppnar en app som ligger här. Inget tas bort förrän du säger till."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel burada yükleyicileri, yinelenen dosyaları ve derlemelerin geride bıraktıklarını, bu klasör iCloud Drive’daysa kaldırabileceği iCloud indirilenlerini de arar. Siz söyleyene kadar hiçbir şey kaldırılmaz."
+            "value" : "Peel, araçlarından biri buraya baktığında veya burada tutulan bir uygulamayı açtığınızda bu klasörü okur. Siz söylemedikçe hiçbir şey kaldırılmaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel шукає тут інсталятори, файли-дублікати й те, що залишили по собі збірки, а також викачування iCloud, які може вилучити, коли ця папка зберігається в iCloud Drive. Нічого не вилучається, доки ви не скажете."
+            "value" : "Peel читає цю папку, коли один з її інструментів шукає тут або коли ви відкриваєте програму, яка тут зберігається. Нічого не вилучається, доки ви не скажете."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel会在这里查找安装器、重复文件以及构建留下的内容；如果此文件夹位于iCloud云盘中，还会查找可以移除的iCloud下载。在你确认之前，不会移除任何内容。"
+            "value" : "当Peel的某个工具查看此处，或你打开存放在此处的App时，Peel会读取此文件夹。未经你同意，不会移除任何内容。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel會在這裡尋找安裝程式、重複的檔案，以及建置留下的項目；當此檔案夾位於「iCloud雲碟」中時，也會尋找它可以移除的iCloud下載項目。在你下達指示之前，不會移除任何項目。"
+            "value" : "當Peel的某個工具查看此處，或當你打開存放在此處的App時，Peel會讀取此檔案夾。在你決定之前，不會移除任何項目。"
           }
         }
       }
@@ -352,109 +352,109 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel tu hledá instalátory a duplicitní soubory. Dokud k tomu nedáte pokyn, nic se neodstraní."
+            "value" : "Peel tuto složku čte, když se do ní podívá některý z jeho nástrojů nebo když otevřete aplikaci, která je v ní uložená. Nic se neodstraní, dokud o tom sami nerozhodnete."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel sucht hier nach Installern und doppelten Dateien. Ohne deine Zustimmung wird nichts entfernt."
+            "value" : "Peel liest diesen Ordner, wenn eines seiner Tools hier nachsieht oder wenn du eine App öffnest, die hier liegt. Ohne deine Zustimmung wird nichts entfernt."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Peel looks here for installers and duplicate files. Nothing is removed until you say so."
+            "value" : "Peel reads this folder when one of its tools looks here or when you open an app that is kept here. Nothing is removed until you say so."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel busca aquí instaladores y archivos duplicados. No se elimina nada hasta que tú lo digas."
+            "value" : "Peel lee esta carpeta cuando una de sus herramientas busca aquí o cuando abres una app que se guarda aquí. No se elimina nada hasta que tú lo digas."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel recherche ici des programmes d’installation et des fichiers en double. Rien n’est supprimé tant que vous ne l’avez pas demandé."
+            "value" : "Peel lit ce dossier lorsque l’un de ses outils l’examine ou lorsque vous ouvrez une app qui s’y trouve. Rien n’est supprimé sans votre accord."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel cerca qui installer e file duplicati. Non viene rimosso nulla finché non lo dici tu."
+            "value" : "Peel legge questa cartella quando uno dei suoi strumenti la esamina o quando apri un’app che si trova qui. Nulla viene rimosso finché non lo decidi tu."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelはここでインストーラや重複ファイルを探します。指示するまで、何もゴミ箱に入れません。"
+            "value" : "Peelは、いずれかのツールでここを調べるとき、またはここに保管されているアプリを開くときに、このフォルダを読み取ります。指示するまで、何もゴミ箱に入れません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 이곳에서 설치 프로그램과 중복된 파일을 찾습니다. 사용자가 요청하기 전에는 아무것도 제거되지 않습니다."
+            "value" : "Peel은 자체 도구 중 하나가 이곳을 살펴보거나 사용자가 Peel에서 이곳에 있는 앱을 열 때 이 폴더를 읽습니다. 사용자가 요청하기 전에는 아무것도 제거되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zoekt hier naar installatieprogramma's en dubbele bestanden. Er wordt niets verwijderd totdat jij dat zegt."
+            "value" : "Peel leest deze map als een van de tools van Peel hier kijkt of als je een app opent die hier staat. Er wordt niets verwijderd totdat jij dat zegt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel szuka tutaj instalatorów i zduplikowanych plików. Nic nie trafi do Kosza, dopóki o tym nie zdecydujesz."
+            "value" : "Peel odczytuje ten folder, gdy któreś z jego narzędzi tu zagląda lub gdy otwierasz aplikację, która jest tu przechowywana. Nic nie trafi do Kosza, dopóki o tym nie zdecydujesz."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel procura aqui instaladores e arquivos duplicados. Nada é removido até você pedir."
+            "value" : "O Peel lê esta pasta quando uma das ferramentas dele procura algo aqui ou quando você abre um app que fica aqui. Nada é removido até que você peça."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel caută aici programe de instalare și fișiere duplicate. Nu se elimină nimic până nu cereți dvs."
+            "value" : "Peel citește acest dosar când unul dintre instrumentele sale caută aici sau când deschideți o aplicație care se află aici. Nu se elimină nimic până nu cereți dvs."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ищет здесь установщики и дубликаты файлов. Ничего не удаляется без Вашего решения."
+            "value" : "Peel читает эту папку, когда сюда заглядывает один из его инструментов или когда Вы открываете в Peel приложение, которое хранится здесь. Ничего не удаляется без Вашего решения."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel letar här efter installerare och dubblettfiler. Inget tas bort förrän du säger till."
+            "value" : "Peel läser den här mappen när ett av Peels verktyg tittar här eller när du öppnar en app som ligger här. Inget tas bort förrän du säger till."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel burada yükleyicileri ve yinelenen dosyaları arar. Siz söyleyene kadar hiçbir şey kaldırılmaz."
+            "value" : "Peel, araçlarından biri buraya baktığında veya burada tutulan bir uygulamayı açtığınızda bu klasörü okur. Siz söylemedikçe hiçbir şey kaldırılmaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel шукає тут інсталятори й файли-дублікати. Нічого не вилучається, доки ви не скажете."
+            "value" : "Peel читає цю папку, коли один з її інструментів шукає тут або коли ви відкриваєте програму, яка тут зберігається. Нічого не вилучається, доки ви не скажете."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel会在这里查找安装器和重复文件。在你确认之前，不会移除任何内容。"
+            "value" : "当Peel的某个工具查看此处，或你打开存放在此处的App时，Peel会读取此文件夹。未经你同意，不会移除任何内容。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel會在這裡尋找安裝程式和重複的檔案。在你下達指示之前，不會移除任何項目。"
+            "value" : "當Peel的某個工具查看此處，或當你打開存放在此處的App時，Peel會讀取此檔案夾。在你決定之前，不會移除任何項目。"
           }
         }
       }
