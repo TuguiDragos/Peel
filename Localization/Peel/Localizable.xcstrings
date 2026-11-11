@@ -19934,6 +19934,112 @@
         }
       }
     },
+    "An app it installed is excluded" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace, kterou balíček nainstaloval, je vyloučena"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine von diesem Paket installierte App ist ausgeschlossen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una app que instaló está excluida"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une app qu’il a installée est exclue"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un’app che ha installato è esclusa"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このパッケージがインストールしたアプリが除外されています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 패키지가 설치한 앱이 제외됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een app die dit pakket heeft geïnstalleerd, is uitgesloten"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja zainstalowana przez ten pakiet jest wykluczona"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um app que este pacote instalou está na lista de exclusões"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O aplicație instalată de acest pachet este exclusă"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение, которое он установил, исключено"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En app som paketet installerade är undantagen"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yüklediği bir uygulama hariç tutuldu"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програма, яку інсталював цей пакет, у винятках"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它安装的某个App已被排除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它安裝的某個App已被排除"
+          }
+        }
+      }
+    },
     "An app keeps this in its Library folder, and may be using it right now." : {
       "localizations" : {
         "cs" : {
@@ -128832,108 +128938,108 @@
         }
       }
     },
-    "Nothing on this package’s receipt is left on disk." : {
+    "Nothing on this package’s receipt is left on this Mac." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Na disku nezůstalo nic z toho, co uvádí záznam o instalaci tohoto balíčku."
+            "value" : "V tomto Macu nezůstalo nic z toho, co uvádí záznam o instalaci tohoto balíčku."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Von dem, was auf der Quittung dieses Pakets steht, ist nichts mehr übrig."
+            "value" : "Von dem, was auf der Quittung dieses Pakets steht, ist auf diesem Mac nichts mehr übrig."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No queda en el disco nada de lo que figura en el recibo de este paquete."
+            "value" : "No queda en este Mac nada de lo que figura en el recibo de este paquete."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il ne reste sur le disque rien de ce qui figure sur le reçu de ce paquet."
+            "value" : "Il ne reste sur ce Mac rien de ce qui figure sur le reçu de ce paquet."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sul disco non rimane nulla di ciò che è elencato nella ricevuta di questo pacchetto."
+            "value" : "Su questo Mac non rimane nulla di ciò che è elencato nella ricevuta di questo pacchetto."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このパッケージのレシートに記載されているものは、ディスクに何も残っていません。"
+            "value" : "このパッケージのレシートに記載されているものは、このMacに何も残っていません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 패키지의 수신 정보에 나열된 항목 중 디스크에 남아 있는 것이 없습니다."
+            "value" : "이 패키지의 수신 정보에 나열된 항목 중 이 Mac에 남아 있는 것이 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Van wat er op het installatiebewijs van dit pakket staat, is op de schijf niets meer over."
+            "value" : "Van wat er op het installatiebewijs van dit pakket staat, is op deze Mac niets meer over."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Na dysku nie zostało nic z tego, co wymienia potwierdzenie tego pakietu."
+            "value" : "Na tym Macu nie zostało nic z tego, co wymienia potwierdzenie tego pakietu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nada do que consta no recibo deste pacote restou no disco."
+            "value" : "Nada do que consta no recibo deste pacote restou neste Mac."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pe disc nu a mai rămas nimic din ce listează înregistrarea acestui pachet."
+            "value" : "Pe acest Mac nu a mai rămas nimic din ce listează înregistrarea acestui pachet."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Из того, что указано в квитанции этого пакета, на диске ничего не осталось."
+            "value" : "Из того, что указано в квитанции этого пакета, на этом Mac ничего не осталось."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inget av det som står på det här paketets kvitto finns kvar på skivan."
+            "value" : "Inget av det som står på det här paketets kvitto finns kvar på den här datorn."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu paketin makbuzundaki hiçbir şey diskte kalmamış."
+            "value" : "Bu paketin makbuzundaki hiçbir şey bu Mac’te kalmamış."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "З того, що вказано у квитанції цього пакета, на диску нічого не лишилося."
+            "value" : "З того, що вказано у квитанції цього пакета, на цьому Mac нічого не лишилося."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "磁盘上已没有此软件包的回执中列出的任何内容。"
+            "value" : "这台Mac上已没有此软件包的回执中列出的任何内容。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此套件的收據上列出的項目已全部不在磁碟上。"
+            "value" : "此套件的收據上列出的項目已全部不在這部Mac上。"
           }
         }
       }
@@ -204169,6 +204275,112 @@
         }
       }
     },
+    "Still on this Mac from this package: %@." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Z tohoto balíčku stále zůstává v tomto Macu: %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Von diesem Paket noch auf diesem Mac: %@."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que queda en este Mac de este paquete: %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce qui reste de ce paquet sur ce Mac : %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ancora su questo Mac da questo pacchetto: %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このパッケージからインストールされ、まだこのMacにあるもの: %@。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 패키지로 설치되어 아직 이 Mac에 있는 항목: %@."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Van dit pakket staat nog op deze Mac: %@."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na tym Macu nadal jest z tego pakietu: %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que ainda resta deste pacote neste Mac: %@."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se află încă pe acest Mac, din acest pachet: %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Из этого пакета на этом Mac все еще есть: %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Från det här paketet finns följande kvar på den här datorn: %@."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu paketten hâlâ bu Mac’te olanlar: %@."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Те, що з цього пакета досі є на цьому Mac: %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此软件包中仍在这台Mac上的内容：%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此套件中仍在這部Mac上的項目：%@。"
+          }
+        }
+      }
+    },
     "Stop" : {
       "localizations" : {
         "cs" : {
@@ -247346,112 +247558,6 @@
         }
       }
     },
-    "What this package installed is still on this Mac: %@." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "To, co tento balíček nainstaloval, je stále v tomto Macu: %@."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Was dieses Paket installiert hat, ist noch auf diesem Mac: %@."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lo que instaló este paquete sigue en este Mac: %@."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce que ce paquet a installé se trouve toujours sur ce Mac : %@."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ciò che questo pacchetto ha installato è ancora su questo Mac: %@."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このパッケージがインストールしたものは、まだこのMacにあります: %@。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 패키지가 설치한 항목이 아직 이 Mac에 있습니다: %@."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wat dit pakket heeft geïnstalleerd, staat nog op deze Mac: %@."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "To, co zainstalował ten pakiet, nadal jest na tym Macu: %@."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O que este pacote instalou ainda está neste Mac: %@."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce a instalat acest pachet se află încă pe acest Mac: %@."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "То, что установил этот пакет, все еще находится на этом Mac: %@."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det som det här paketet installerade finns fortfarande på den här datorn: %@."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu paketin yükledikleri hâlâ bu Mac’te: %@."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Те, що інсталював цей пакет, досі є на цьому Mac: %@."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此软件包安装的内容仍在这台Mac上：%@。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此套件安裝的內容仍在這部Mac上：%@。"
-          }
-        }
-      }
-    },
     "What to Do About It" : {
       "localizations" : {
         "cs" : {
@@ -282253,108 +282359,108 @@
         }
       }
     },
-    "macOS still counts this package as installed, but nothing on its receipt is left on disk." : {
+    "macOS still counts this package as installed, but nothing on its receipt is left on this Mac." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS tento balíček stále považuje za nainstalovaný, ale z toho, co uvádí jeho záznam o instalaci, na disku nic nezůstalo."
+            "value" : "Systém macOS tento balíček stále považuje za nainstalovaný, ale z toho, co uvádí jeho záznam o instalaci, v tomto Macu nic nezůstalo."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS betrachtet dieses Paket noch als installiert, aber nichts von dem, was auf seiner Quittung steht, ist noch da."
+            "value" : "macOS betrachtet dieses Paket noch als installiert, aber nichts von dem, was auf seiner Quittung steht, ist noch auf diesem Mac."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS sigue contando este paquete como instalado, pero no queda en el disco nada de lo que figura en su recibo."
+            "value" : "macOS sigue contando este paquete como instalado, pero no queda en este Mac nada de lo que figura en su recibo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS considère toujours ce paquet comme installé, mais il ne reste sur le disque rien de ce qui figure sur son reçu."
+            "value" : "macOS considère toujours ce paquet comme installé, mais il ne reste sur ce Mac rien de ce qui figure sur son reçu."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS considera ancora installato questo pacchetto, ma di ciò che è elencato nella sua ricevuta non rimane nulla sul disco."
+            "value" : "macOS considera ancora installato questo pacchetto, ma di ciò che è elencato nella sua ricevuta non rimane nulla su questo Mac."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSはこのパッケージをまだインストール済みと見なしていますが、レシートに記載されているものはディスクに何も残っていません。"
+            "value" : "macOSはこのパッケージをまだインストール済みと見なしていますが、レシートに記載されているものはこのMacに何も残っていません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS는 이 패키지를 아직 설치된 것으로 간주하지만, 패키지의 수신 정보에 나열된 항목은 디스크에 남아 있지 않습니다."
+            "value" : "macOS는 이 패키지를 아직 설치된 것으로 간주하지만, 패키지의 수신 정보에 나열된 항목은 이 Mac에 남아 있지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS beschouwt dit pakket nog als geïnstalleerd, maar van wat er op het installatiebewijs staat, is op de schijf niets meer over."
+            "value" : "macOS beschouwt dit pakket nog als geïnstalleerd, maar van wat er op het installatiebewijs staat, is op deze Mac niets meer over."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS nadal uznaje ten pakiet za zainstalowany, ale na dysku nie zostało nic z tego, co wymienia jego potwierdzenie."
+            "value" : "macOS nadal uznaje ten pakiet za zainstalowany, ale na tym Macu nie zostało nic z tego, co wymienia jego potwierdzenie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS ainda considera este pacote como instalado, mas nada do que consta no recibo dele restou no disco."
+            "value" : "O macOS ainda considera este pacote como instalado, mas nada do que consta no recibo dele restou neste Mac."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS consideră în continuare acest pachet instalat, dar din ce listează înregistrarea sa nu a mai rămas nimic pe disc."
+            "value" : "macOS consideră în continuare acest pachet instalat, dar din ce listează înregistrarea sa nu a mai rămas nimic pe acest Mac."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS по-прежнему считает этот пакет установленным, но из того, что указано в его квитанции, на диске ничего не осталось."
+            "value" : "macOS по-прежнему считает этот пакет установленным, но из того, что указано в его квитанции, на этом Mac ничего не осталось."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS räknar fortfarande det här paketet som installerat, men inget av det som står på paketets kvitto finns kvar på skivan."
+            "value" : "macOS räknar fortfarande det här paketet som installerat, men inget av det som står på paketets kvitto finns kvar på den här datorn."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bu paketi hâlâ yüklü sayıyor ama paketin makbuzundaki şeylerden hiçbiri diskte kalmamış."
+            "value" : "macOS bu paketi hâlâ yüklü sayıyor ama paketin makbuzundaki şeylerden hiçbiri bu Mac’te kalmamış."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS досі вважає цей пакет інстальованим, але з того, що вказано в його квитанції, на диску нічого не лишилося."
+            "value" : "macOS досі вважає цей пакет інстальованим, але з того, що вказано в його квитанції, на цьому Mac нічого не лишилося."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS仍将此软件包视为已安装，但它的回执中列出的内容已全部不在磁盘上了。"
+            "value" : "macOS仍将此软件包视为已安装，但它的回执中列出的内容已全部不在这台Mac上了。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS仍將此套件視為已安裝，但它的收據上列出的項目已全部不在磁碟上。"
+            "value" : "macOS仍將此套件視為已安裝，但它的收據上列出的項目已全部不在這部Mac上。"
           }
         }
       }

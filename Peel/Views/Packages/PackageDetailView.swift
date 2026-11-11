@@ -47,7 +47,7 @@ struct PackageDetailView: View {
 
             if isForAnExcludedApp {
                 Notice(
-                    title: Text("This app is excluded"),
+                    title: Text("An app it installed is excluded"),
                     detail: Text("The app this package installed is excluded in Settings, so Peel leaves its receipt alone too."),
                     kind: .note
                 ) {
@@ -226,7 +226,7 @@ struct PackageDetailView: View {
         } else if receipt.installedThroughItsScripts {
             "This package’s scripts put its files in place, so its receipt doesn’t say where they are."
         } else if receipt.nothingLeftOnDisk {
-            "Nothing on this package’s receipt is left on disk."
+            "Nothing on this package’s receipt is left on this Mac."
         } else {
             "What this package installed is either excluded in Settings or sits in a folder Peel never touches."
         }
@@ -253,13 +253,13 @@ struct PackageDetailView: View {
                     NoteBadge(
                         title: Text("Receipt only"), systemImage: "doc.questionmark",
                         name: String(localized: "Receipt only"),
-                        detail: Text("macOS still counts this package as installed, but nothing on its receipt is left on disk.")
+                        detail: Text("macOS still counts this package as installed, but nothing on its receipt is left on this Mac.")
                     )
                 } else if !receipt.installedApps.isEmpty {
                     NoteBadge(
                         title: Text("Still installed"), systemImage: "app.badge.checkmark",
                         name: String(localized: "Still installed"),
-                        detail: Text("What this package installed is still on this Mac: \(RemovalFailureAlert.listed(receipt.installedApps)).")
+                        detail: Text("Still on this Mac from this package: \(RemovalFailureAlert.listed(receipt.installedApps)).")
                     )
                 }
             }
