@@ -18980,108 +18980,108 @@
         }
       }
     },
-    "Almost all of a device’s data and settings, backed up to this Mac. Peel shows what is here. A backup is deleted in System Settings > General > Storage > iOS Files, or in Finder." : {
+    "Almost all of a device’s data and settings, backed up to this Mac. Peel shows what is here and never touches it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Téměř všechna data a nastavení zařízení zálohovaná do tohoto Macu. Peel ukazuje, co tu je. Záloha se maže v Nastavení systému > Obecné > Úložiště > iOS soubory nebo ve Finderu."
+            "value" : "Téměř všechna data a nastavení zařízení zálohovaná do tohoto Macu. Peel ukazuje, co tu je, a nikdy na to nesahá."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fast alle Daten und Einstellungen eines Geräts, auf diesem Mac gesichert. Peel zeigt, was hier ist. Ein Backup wird unter „Systemeinstellungen“ > „Allgemein“ > „Speicher“ > „iOS-Dateien“ oder im Finder gelöscht."
+            "value" : "Fast alle Daten und Einstellungen eines Geräts, auf diesem Mac gesichert. Peel zeigt, was hier ist, und rührt es nie an."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Casi todos los datos y ajustes de un dispositivo, con copia de seguridad en este Mac. Peel muestra lo que hay aquí. Una copia de seguridad se elimina en Ajustes del Sistema > General > Almacenamiento > Archivos de iOS, o en el Finder."
+            "value" : "Casi todos los datos y ajustes de un dispositivo, con copia de seguridad en este Mac. Peel muestra lo que hay aquí y nunca lo toca."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La quasi-totalité des données et des réglages d’un appareil, sauvegardés sur ce Mac. Peel montre ce qui s’y trouve. Une sauvegarde se supprime dans Réglages Système > Général > Stockage > Fichiers iOS, ou dans le Finder."
+            "value" : "La quasi-totalité des données et des réglages d’un appareil, sauvegardés sur ce Mac. Peel montre ce qui s’y trouve et n’y touche jamais."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quasi tutti i dati e le impostazioni di un dispositivo, salvati con un backup su questo Mac. Peel mostra cosa c’è. Un backup si elimina in Impostazioni di Sistema > Generali > Spazio > File iOS, oppure nel Finder."
+            "value" : "Quasi tutti i dati e le impostazioni di un dispositivo, salvati con un backup su questo Mac. Peel mostra cosa c’è e non lo tocca mai."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このMacにバックアップされた、デバイスのほぼすべてのデータと設定です。Peelはここにあるものを表示します。バックアップの削除は、“システム設定”＞“一般”＞“ストレージ”＞“iOSファイル”またはFinderで行います。"
+            "value" : "このMacにバックアップされた、デバイスのほぼすべてのデータと設定です。Peelはここにあるものを表示しますが、手を付けることは決してありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "기기의 거의 모든 데이터와 설정을 이 Mac에 백업한 것입니다. Peel은 여기에 무엇이 있는지 보여 줍니다. 백업은 시스템 설정 > 일반 > 저장 공간 > iOS 파일 또는 Finder에서 삭제합니다."
+            "value" : "기기의 거의 모든 데이터와 설정을 이 Mac에 백업한 것입니다. Peel은 여기에 무엇이 있는지 보여 주기만 하며 절대 건드리지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bijna alle gegevens en instellingen van een apparaat, als back-up bewaard op deze Mac. Peel toont wat er staat. Een back-up wordt verwijderd in Systeeminstellingen > Algemeen > Opslag > iOS-bestanden, of in Finder."
+            "value" : "Bijna alle gegevens en instellingen van een apparaat, als back-up bewaard op deze Mac. Peel toont wat er staat en komt er nooit aan."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prawie wszystkie dane i ustawienia urządzenia, zachowane w backupie na tym Macu. Peel pokazuje, co tu jest. Backup usuwa się w Ustawieniach systemowych > Ogólne > Miejsce > Pliki iOS albo w Finderze."
+            "value" : "Prawie wszystkie dane i ustawienia urządzenia, zachowane w backupie na tym Macu. Peel pokazuje, co tu jest, i nigdy tego nie dotyka."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quase todos os dados e ajustes de um dispositivo, guardados em backup neste Mac. O Peel mostra o que está aqui. Um backup é apagado em Ajustes do Sistema > Geral > Armazenamento > Arquivos do iOS ou no Finder."
+            "value" : "Quase todos os dados e ajustes de um dispositivo, guardados em backup neste Mac. O Peel mostra o que está aqui e nunca mexe nisso."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aproape toate datele și configurările unui dispozitiv, salvate prin backup pe acest Mac. Peel arată ce se află aici. Un backup se șterge din Configurări sistem > General > Stocare > Fișiere iOS sau din Finder."
+            "value" : "Aproape toate datele și configurările unui dispozitiv, salvate prin backup pe acest Mac. Peel arată ce se află aici și nu se atinge niciodată de aceste backupuri."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Почти все данные и настройки устройства, сохраненные в резервной копии на этом Mac. Peel показывает, что здесь есть. Резервные копии удаляют в разделе «Системные настройки» > «Основные» > «Хранилище» > «Файлы iOS» или в Finder."
+            "value" : "Почти все данные и настройки устройства, сохраненные в резервной копии на этом Mac. Peel показывает, что здесь есть, и никогда этого не трогает."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nästan alla data och inställningar från en enhet, säkerhetskopierade till den här datorn. Peel visar vad som finns här. En säkerhetskopia raderas i Systeminställningar > Allmänt > Lagring > iOS-filer, eller i Finder."
+            "value" : "Nästan alla data och inställningar från en enhet, säkerhetskopierade till den här datorn. Peel visar vad som finns här och rör det aldrig."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu Mac’e yedeklenmiş, bir aygıtın verilerinin ve ayarlarının neredeyse tamamı. Peel burada ne olduğunu gösterir. Bir yedekleme, Sistem Ayarları > Genel > Saklama Alanı > iOS Dosyaları bölümünde veya Finder’da silinir."
+            "value" : "Bu Mac’e yedeklenmiş, bir aygıtın verilerinin ve ayarlarının neredeyse tamamı. Peel burada ne olduğunu gösterir ve ona hiçbir zaman dokunmaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Майже всі дані й налаштування пристрою, збережені в резервній копії на цьому Mac. Peel показує, що тут є. Резервну копію видаляють у розділі Системні параметри > Загальні > Сховище > Файли iOS або у Finder."
+            "value" : "Майже всі дані й налаштування пристрою, збережені в резервній копії на цьому Mac. Peel показує, що тут є, і ніколи цього не чіпає."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "设备几乎所有的数据和设置，备份在这台Mac上。Peel会显示这里有什么。备份可在“系统设置”>“通用”>“储存空间”>“iOS文件”中或在“访达”中删除。"
+            "value" : "设备几乎所有的数据和设置，备份在这台Mac上。Peel会显示这里有什么，但绝不会触碰它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "裝置幾乎所有的資料和設定，已備份到這部Mac上。Peel會顯示這裡有什麼。備份可在「系統設定」>「一般」>「儲存空間」>「iOS檔案」中或在Finder中刪除。"
+            "value" : "裝置幾乎所有的資料和設定，已備份到這部Mac上。Peel會顯示這裡有什麼，但絕不會動它。"
           }
         }
       }
@@ -42964,112 +42964,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "開發"
-          }
-        }
-      }
-    },
-    "Device Backups" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zálohy zařízení"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geräte-Backups"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copias de seguridad de dispositivos"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sauvegardes d’appareils"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Backup dei dispositivi"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "デバイスのバックアップ"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "기기 백업"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Back-ups van apparaten"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Backupy urządzeń"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Backups de Dispositivos"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Backupuri dispozitive"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Резервные копии устройств"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Säkerhetskopior av enheter"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aygıt Yedeklemeleri"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Резервні копії пристроїв"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "设备备份"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "裝置備份"
           }
         }
       }
@@ -71871,6 +71765,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "顯示檔案夾中有多少項目，以及還剩多少空間。"
+          }
+        }
+      }
+    },
+    "How to Delete a Backup" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jak smazat zálohu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "So löschst du ein Backup"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cómo eliminar una copia de seguridad"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment supprimer une sauvegarde"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Come eliminare un backup"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バックアップを削除する方法"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "백업 삭제 방법"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoe je een back-up verwijdert"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jak usunąć backup"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como Apagar um Backup"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cum ștergeți un backup"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как удалить резервную копию"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Så raderar du en säkerhetskopia"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir Yedekleme Nasıl Silinir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Як видалити резервну копію"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如何删除备份"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如何刪除備份"
           }
         }
       }

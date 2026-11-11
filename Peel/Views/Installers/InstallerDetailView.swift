@@ -63,7 +63,7 @@ struct InstallerDetailView: View {
                 } header: {
                     HeadingWithActions {
                         heading(
-                            "Device Backups",
+                            "How to Delete a Backup",
                             "A backup is deleted in System Settings > General > Storage > iOS Files, or in Finder from a connected device’s General > Manage Backups. Peel doesn’t touch them: what is inside came off a device and may be the only copy."
                         )
                     } actions: {
