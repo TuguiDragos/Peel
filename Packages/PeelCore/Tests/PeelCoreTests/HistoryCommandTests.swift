@@ -625,6 +625,27 @@ struct HistoryCommandTests {
             == "Peel can't look in the Trash right now, so it can't say what could go back. macOS answered: \(answered)")
     }
 
+    @Test func aRestoreFailsWhenAnItemLeftTheTrash() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        let taken = try removal(in: directory)
+        let emptied = RemovalRecord(
+            batch: taken.record.batch,
+            item: TrashedItem(
+                originalURL: directory.url.appending(path: "home/Documents/notes.txt"),
+                trashedURL: directory.url.appending(path: "home/.Trash/notes.txt"), date: .now
+            ),
+            size: 10, source: "Editor", tool: "applications"
+        )
+        _ = await logs.removals.add([taken.record, emptied])
+
+        let real = try await restoring(taken.record, "-y", from: logs, in: directory)
+
+        #expect(real.said.contains("Put 1 item back."))
+        #expect(real.said.contains("1 item is no longer in the Trash and can't be put back."))
+        #expect(real.failure != nil)
+    }
+
     @Test func aRestoreFailsWhenAnItemWaitsOnADiskThatIsNotConnected() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)

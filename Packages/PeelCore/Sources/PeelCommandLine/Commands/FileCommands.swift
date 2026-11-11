@@ -293,7 +293,8 @@ struct OrphansCommand: AsyncParsableCommand {
         guard !items.isEmpty else {
             Output.line("Every file of \(group.identifier) is one Peel leaves alone. See `peel orphans`.")
             staying.forEach(Output.note)
-            return
+            if removal.dryRun { return }
+            throw ExitCode.failure
         }
         let cleanup = Cleanup.of(
             items.map { (url: $0.url, size: $0.size) },

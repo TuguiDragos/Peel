@@ -428,7 +428,7 @@ struct FileCommandTests {
     }
 
     /// When Peel leaves every file of the group alone, there is nothing to ask about and nothing is recorded as
-    /// refused.
+    /// refused, and the command exits 1, since nothing it was asked to move moved.
     @Test func saysSoWhenTheWholeGroupIsLeftAlone() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)
@@ -438,18 +438,20 @@ struct FileCommandTests {
         let scan = OrphanScan(groups: [group], unreadableLocations: [])
         let collected = Output.Collected()
 
-        try await Output.$collected.withValue(collected) {
-            try await (command(["orphans", "--remove", "com.example.gone", "-y"]) as OrphansCommand)
-                .clean(
-                    "com.example.gone",
-                    in: scan,
-                    apps: [],
-                    remembered: [],
-                    scanner: scanner(in: directory),
-                    using: try service(in: directory),
-                    recordingIn: logs.removals,
-                    refusals: logs.refusals
-                )
+        await #expect(throws: ExitCode.failure) {
+            try await Output.$collected.withValue(collected) {
+                try await (command(["orphans", "--remove", "com.example.gone", "-y"]) as OrphansCommand)
+                    .clean(
+                        "com.example.gone",
+                        in: scan,
+                        apps: [],
+                        remembered: [],
+                        scanner: scanner(in: directory),
+                        using: try service(in: directory),
+                        recordingIn: logs.removals,
+                        refusals: logs.refusals
+                    )
+            }
         }
 
         #expect(await moved(logs).isEmpty)
