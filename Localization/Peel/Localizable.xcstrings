@@ -80251,7 +80251,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它正在被这台Mac上另一个用户账户中的“%@”使用。请在该账户中退出它们，然后重试。"
+            "value" : "它正在被这台Mac上另一个用户账户中的%@使用。请在该账户中退出它们，然后重试。"
           }
         },
         "zh-Hant" : {
@@ -94775,7 +94775,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "留在原处：macOS为此App中包含的某个App运行“%@”。请先在“系统设置”>“通用”>“登录项与扩展”中关闭这些扩展。"
+            "value" : "留在原处：macOS为此App中包含的某个App运行%@。请先在“系统设置”>“通用”>“登录项与扩展”中关闭这些扩展。"
           }
         },
         "zh-Hant" : {
@@ -95305,7 +95305,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "留在原处：只有macOS才能移除“%@”。请在“访达”中将App移到废纸篓。如果它们仍然存在，请在“系统设置”>“通用”>“登录项与扩展”中选取“按类别”，点按“网络扩展”旁边的“信息”按钮，然后点按每个扩展旁边的“更多”按钮，再选取“删除扩展”。"
+            "value" : "留在原处：只有macOS才能移除%@。请在“访达”中将App移到废纸篓。如果它们仍然存在，请在“系统设置”>“通用”>“登录项与扩展”中选取“按类别”，点按“网络扩展”旁边的“信息”按钮，然后点按每个扩展旁边的“更多”按钮，再选取“删除扩展”。"
           }
         },
         "zh-Hant" : {
@@ -172994,7 +172994,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beende „%@“, bevor du die zugehörigen Dateien entfernst."
+            "value" : "Beende %@, bevor du die zugehörigen Dateien entfernst."
           }
         },
         "es" : {
@@ -173078,7 +173078,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "请先退出“%@”，再移除它们的文件。"
+            "value" : "请先退出%@，再移除它们的文件。"
           }
         },
         "zh-Hant" : {
@@ -274735,7 +274735,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS未能识别“%@”，因此它们的隐私权限未重置。如果它们有权访问任何内容（例如摄像头），你可以在“系统设置”>“隐私与安全性”中关闭相应权限。"
+            "value" : "macOS未能识别%@，因此它们的隐私权限未重置。如果它们有权访问任何内容（例如摄像头），你可以在“系统设置”>“隐私与安全性”中关闭相应权限。"
           }
         },
         "zh-Hant" : {
@@ -276667,7 +276667,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS安装了“%@”，这些是随“%@”附带的系统扩展。只有在“访达”中将该App移到废纸篓时，macOS才会移除它们，有时要等到Mac下次重新启动时才移除。因此Peel会将该App及其文件留在原处：请在“访达”中将它移到废纸篓，之后“孤立文件”会列出它留下的文件。"
+            "value" : "macOS安装了%@，这些是随“%@”附带的系统扩展。只有在“访达”中将该App移到废纸篓时，macOS才会移除它们，有时要等到Mac下次重新启动时才移除。因此Peel会将该App及其文件留在原处：请在“访达”中将它移到废纸篓，之后“孤立文件”会列出它留下的文件。"
           }
         },
         "zh-Hant" : {
@@ -278364,7 +278364,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS会让音频驱动程序“%@”保持运行，直到你重新启动Mac。"
+            "value" : "macOS会让音频驱动程序%@保持运行，直到你重新启动Mac。"
           }
         },
         "zh-Hant" : {
