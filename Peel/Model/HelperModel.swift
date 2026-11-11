@@ -7,7 +7,7 @@ import PeelCore
 final class HelperModel {
     enum Action { case install, repair, uninstall }
 
-    private(set) var status = PrivilegedHelper.status
+    private(set) var status: PrivilegedHelper.Status
     private(set) var changing: Action?
     private(set) var isResponding: Bool?
 
@@ -45,13 +45,41 @@ final class HelperModel {
     private var checks = OverlappingChecks()
     @ObservationIgnored private let performing: (Action) async throws -> Void
     @ObservationIgnored private let announcing: (AttributedString) -> Void
+    @ObservationIgnored private let reading: () async -> Reading
+
+    /// What a check of the helper reads: its status, whether this account is an administrator, whether the helper
+    /// answers, and whether another copy of Peel registered it.
+    struct Reading {
+        var status: PrivilegedHelper.Status
+        var isAdministrator: Bool
+        var isResponding: Bool?
+        var isRegisteredByAnotherCopy: Bool
+    }
 
     init(
         performing: @escaping (Action) async throws -> Void = HelperModel.perform,
-        announcing: @escaping (AttributedString) -> Void = { AccessibilityNotification.Announcement($0).post() }
+        announcing: @escaping (AttributedString) -> Void = { AccessibilityNotification.Announcement($0).post() },
+        status: PrivilegedHelper.Status = PrivilegedHelper.status,
+        reading: @escaping () async -> Reading = HelperModel.read
     ) {
         self.performing = performing
         self.announcing = announcing
+        self.status = status
+        self.reading = reading
+    }
+
+    /// Asks macOS and the helper, the helper only once it is registered.
+    static func read() async -> Reading {
+        let status = await PrivilegedHelper.currentStatus()
+        let isAdministrator = await PrivilegedHelper.isAdministratorNow()
+        let isResponding = status == .enabled ? await PrivilegedHelper.isResponding() : nil
+        let isRegisteredByAnotherCopy = status == .notRegistered
+            ? await PrivilegedHelper.isRegisteredByAnyCopy()
+            : false
+        return Reading(
+            status: status, isAdministrator: isAdministrator, isResponding: isResponding,
+            isRegisteredByAnotherCopy: isRegisteredByAnotherCopy
+        )
     }
 
     /// What each change asks of macOS.
@@ -65,17 +93,12 @@ final class HelperModel {
 
     func checkConnection() async {
         let check = checks.start()
-        let status = await PrivilegedHelper.currentStatus()
-        let isAdministrator = await PrivilegedHelper.isAdministratorNow()
-        let isResponding = status == .enabled ? await PrivilegedHelper.isResponding() : nil
-        let isRegisteredByAnotherCopy = status == .notRegistered
-            ? await PrivilegedHelper.isRegisteredByAnyCopy()
-            : false
+        let read = await reading()
         guard checks.mayShow(check) else { return }
-        self.status = status
-        self.isAdministrator = isAdministrator
-        self.isResponding = isResponding
-        self.isRegisteredByAnotherCopy = isRegisteredByAnotherCopy
+        status = read.status
+        isAdministrator = read.isAdministrator
+        isResponding = read.isResponding
+        isRegisteredByAnotherCopy = read.isRegisteredByAnotherCopy
         hasChecked = true
     }
 

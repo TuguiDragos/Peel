@@ -10,7 +10,7 @@ struct HomeAppManagementTests {
         let madeUp = try MadeUpDefaults()
         defer { madeUp.forget() }
         let frontmost = FrontmostApp(observing: false)
-        let home = HomeModel(helper: HelperModel(), defaults: madeUp.defaults, frontmost: frontmost)
+        let home = HomeModel(helper: .notAsking(), defaults: madeUp.defaults, frontmost: frontmost)
 
         frontmost.note("com.apple.systempreferences")
         frontmost.note("org.example.other")
@@ -37,10 +37,10 @@ struct HomeAppManagementTests {
         let madeUp = try MadeUpDefaults()
         defer { madeUp.forget() }
         let frontmost = FrontmostApp(observing: false)
-        HomeModel(helper: HelperModel(), defaults: madeUp.defaults, frontmost: frontmost)
+        HomeModel(helper: .notAsking(), defaults: madeUp.defaults, frontmost: frontmost)
             .record(appManagement: .missing)
 
-        let home = HomeModel(helper: HelperModel(), defaults: madeUp.defaults, frontmost: frontmost)
+        let home = HomeModel(helper: .notAsking(), defaults: madeUp.defaults, frontmost: frontmost)
 
         #expect(!home.missingRequired.contains(.appManagement))
         #expect(home.waitingRequired.contains(.appManagement))
@@ -50,7 +50,7 @@ struct HomeAppManagementTests {
         let madeUp = try MadeUpDefaults()
         defer { madeUp.forget() }
         let frontmost = FrontmostApp(observing: false)
-        let home = HomeModel(helper: HelperModel(), defaults: madeUp.defaults, frontmost: frontmost)
+        let home = HomeModel(helper: .notAsking(), defaults: madeUp.defaults, frontmost: frontmost)
         await home.refresh()
         #expect(home.status(of: .appManagement) == "Known once Peel moves another developer’s app")
 
@@ -67,7 +67,7 @@ struct HomeAppManagementTests {
         let madeUp = try MadeUpDefaults()
         defer { madeUp.forget() }
         let frontmost = FrontmostApp(observing: false)
-        let home = HomeModel(helper: HelperModel(), defaults: madeUp.defaults, frontmost: frontmost)
+        let home = HomeModel(helper: .notAsking(), defaults: madeUp.defaults, frontmost: frontmost)
 
         #expect(!home.appManagementAwaitsARemoval)
         #expect(!home.waitingRequired.contains(.appManagement))
@@ -78,7 +78,7 @@ struct HomeAppManagementTests {
         defer { madeUp.forget() }
         let (gate, opens) = AsyncStream.makeStream(of: Void.self)
         let home = HomeModel(
-            helper: HelperModel(), defaults: madeUp.defaults, readsFinderExtension: (
+            helper: .notAsking(), defaults: madeUp.defaults, readsFinderExtension: (
                 isEnabled: { false },
                 runsFromAnotherCopy: {
                     for await _ in gate {}
@@ -100,7 +100,7 @@ struct HomeAppManagementTests {
         let madeUp = try MadeUpDefaults()
         defer { madeUp.forget() }
         let asked = Mutex(0)
-        let home = HomeModel(helper: HelperModel(), defaults: madeUp.defaults, readsModelName: {
+        let home = HomeModel(helper: .notAsking(), defaults: madeUp.defaults, readsModelName: {
             asked.withLock { $0 += 1 }
             return nil
         })

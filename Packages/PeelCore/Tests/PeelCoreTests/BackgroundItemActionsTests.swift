@@ -80,7 +80,9 @@ struct BackgroundItemActionsTests {
         var left = item(state: .loaded, plist: nil)
         left.loadsInTheBackgroundSession = true
 
-        try await BackgroundItemActions.stop(left)
+        try await BackgroundItemActions.stop(left, waitingUpTo: 30) { arguments in
+            arguments[0] == "print" ? (113, "Could not find service") : (3, "Boot-out failed: 3: No such process")
+        }
     }
 
     @Test func startGoesByWhatLaunchdHasNowRatherThanWhatThePageRead() {
@@ -232,18 +234,23 @@ struct BackgroundItemActionsTests {
             try await BackgroundItemActions.restart(excluded)
         }
 
-        // A made-up job launchd doesn't have: `kickstart -k` answers that it can't find it, and nothing else runs.
+        // A job launchd doesn't have: `kickstart -k` answers that it can't find it, and nothing else runs.
         let unknown = BackgroundItem(
-            label: "org.example.never-loaded-\(UUID().uuidString)", kind: .agent, source: .userLibrary, plistURL: nil,
+            label: "org.example.never-loaded", kind: .agent, source: .userLibrary, plistURL: nil,
             program: nil, runsAtLoad: false, keepsAlive: false, ownerBundleIdentifier: nil, ownerName: nil,
             ownerURL: nil, isOrphan: false, state: .running(pid: 42), isDisabled: false
         )
+        let asked = Mutex<[[String]]>([])
         await #expect {
-            try await BackgroundItemActions.restart(unknown)
+            try await BackgroundItemActions.restart(unknown) { arguments in
+                asked.withLock { $0.append(arguments) }
+                return (113, "Could not find service \"org.example.never-loaded\" in domain for user gui: 501")
+            }
         } throws: { error in
             guard case .launchctl(let output) = error as? BackgroundItemActions.Failure else { return false }
             return output.localizedCaseInsensitiveContains("could not find service")
         }
+        #expect(asked.withLock { $0 } == [["kickstart", "-k", "gui/\(getuid())/org.example.never-loaded"]])
     }
 
     @Test func startRunsALoadedJobAtOnceAndLoadsOneThatIsNot() {

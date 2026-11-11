@@ -125,11 +125,17 @@ public enum BackgroundItemActions {
     /// Stops the running job and starts it again at once (`launchctl kickstart -k`).
     @concurrent
     public static func restart(_ item: BackgroundItem) async throws(Failure) {
+        try await restart(item) { await Launchctl.run($0) }
+    }
+
+    static func restart(
+        _ item: BackgroundItem, launchctl: ([String]) async -> (status: Int32, output: String)
+    ) async throws(Failure) {
         if let refusal = refusal(toStart: item) { throw refusal }
         if item.requiresPrivileges {
             try await runPrivileged(.restart, for: item)
         } else {
-            try await run(["kickstart", "-k", target(of: item)])
+            try await run(["kickstart", "-k", target(of: item)], with: launchctl)
         }
     }
 
