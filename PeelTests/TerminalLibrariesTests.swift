@@ -141,7 +141,8 @@ struct TerminalLibrariesTests {
         await library.refresh()
 
         let asking = Task { await library.askZsh() }
-        try await Task.sleep(for: .milliseconds(500))
+        await Task.yield()
+        #expect(library.isAskingZsh)
         library.forgetZshAnswer()
         await asking.value
         await library.refresh()
