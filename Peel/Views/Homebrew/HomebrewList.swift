@@ -563,7 +563,7 @@ struct HomebrewList: View {
                             ProgressView().controlSize(.small).transition(.opacity)
                         }
                     }
-                    .motion(value: homebrew.commandHomebrewRuns == .upgradeAll)
+                    .motion(.step, .movement, value: homebrew.commandHomebrewRuns == .upgradeAll)
                     Button { isConfirmingUpgradeAll = true } label: {
                         Text("Upgrade All")
                             .minimumTarget()
@@ -611,7 +611,7 @@ struct HomebrewList: View {
                             ProgressView().controlSize(.small).transition(.opacity)
                         }
                     }
-                    .motion(value: homebrew.casksBeingForgotten.isEmpty)
+                    .motion(.step, .movement, value: homebrew.casksBeingForgotten.isEmpty)
                     Button { casksToForget = casks } label: {
                         Text("Forget All")
                             .minimumTarget()
@@ -700,7 +700,7 @@ struct HomebrewList: View {
                     ProgressView().controlSize(.small).transition(.opacity)
                 }
             }
-            .motion(value: homebrew.commandHomebrewRuns == command)
+            .motion(.step, .movement, value: homebrew.commandHomebrewRuns == command)
             // Only the controls are disabled while Homebrew is busy, so the info note can still be opened.
             trailing()
                 .buttonStyle(.bordered)

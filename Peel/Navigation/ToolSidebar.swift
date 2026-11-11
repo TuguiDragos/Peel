@@ -128,7 +128,7 @@ struct ToolSidebar: View {
                         .transition(.opacity)
                 }
             }
-            .motion(value: updater.newerVersion)
+            .motion(.step, .movement, value: updater.newerVersion)
             .padding(.leading, Head.leading)
             .padding(.trailing, Head.trailing)
             .padding(.vertical, Head.vertical)

@@ -192,7 +192,7 @@ private struct TerminalThemeInUse: View {
                     .foregroundStyle(.secondary)
             }
         }
-        .motion(value: terminal.canPutBack)
+        .motion(.step, .movement, value: terminal.canPutBack)
     }
 }
 

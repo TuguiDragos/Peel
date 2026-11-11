@@ -5,6 +5,7 @@ import SwiftUI
 /// A button that says it worked. Copying to the pasteboard changes nothing on screen, so without an answer
 /// the only way to know it took is to paste somewhere and look.
 struct CopyButton: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     /// Read when the button is clicked, so it copies what holds then.
     let text: () -> String
     var title: LocalizedStringResource = "Copy"
@@ -42,7 +43,7 @@ struct CopyButton: View {
             } icon: {
                 Image(systemName: hasCopied ? "checkmark" : "doc.on.doc")
             }
-            .contentTransition(.symbolEffect(.replace))
+            .contentTransition(reduceMotion ? .opacity : .symbolEffect(.replace))
         }
         .motion(.step, value: hasCopied)
         // Tied to the state rather than to a timer, so leaving the page cancels it and coming back is clean.

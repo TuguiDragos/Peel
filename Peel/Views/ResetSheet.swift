@@ -38,7 +38,7 @@ struct ResetSheet: View {
         .frame(width: 560, height: 520)
         // Escape closes a sheet even while its buttons are off.
         .interactiveDismissDisabled(plan.isResetting || isPuttingBack)
-        .motion(value: plan.didReset)
+        .motion(.step, .movement, value: plan.didReset)
         .confirmationDialog("Reset \(plan.app.name)?", isPresented: $isConfirming) {
             Button("Reset", role: .destructive) {
                 Task {

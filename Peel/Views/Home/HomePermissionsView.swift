@@ -41,8 +41,8 @@ struct HomePermissionsContent: View {
         .padding(.bottom, 34)
         .frame(maxWidth: 720, alignment: .leading)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .motion(value: home.states)
-        .motion(value: helper.changing)
+        .motion(.step, .movement, value: home.states)
+        .motion(.step, .movement, value: helper.changing)
         .helperFailureAlert($helperFailure)
     }
 

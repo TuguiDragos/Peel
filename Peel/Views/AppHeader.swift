@@ -99,6 +99,6 @@ struct AppHeader<Actions: View>: View {
                 )
             }
         }
-        .motion(value: hasWaitingUpdate)
+        .motion(.step, .movement, value: hasWaitingUpdate)
     }
 }

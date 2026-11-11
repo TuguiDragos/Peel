@@ -425,8 +425,8 @@ struct BackgroundItemDetailView: View {
         }
         .padding(.vertical, 4)
         // Only the badges fade to a new state: the buttons change at once, so two never show in one place.
-        .motion(value: item.state)
-        .motion(value: item.isDisabled)
+        .motion(.step, .movement, value: item.state)
+        .motion(.step, .movement, value: item.isDisabled)
     }
 
     /// The item's state, as one badge whose text, symbol, and color change with it. A badge per state would swap

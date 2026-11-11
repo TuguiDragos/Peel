@@ -175,7 +175,7 @@ struct TweakRow: View {
                 .disabled(isHeld)
                 .accessibilityLabel(Text("Choose the folder for screenshots"))
             }
-            .motion(value: tweaks.isChangedByPeel(tweak))
+            .motion(.step, .movement, value: tweaks.isChangedByPeel(tweak))
         case .name:
             TweakNameField(tweak: tweak, state: state, problem: $nameProblem)
                 .disabled(isHeld)

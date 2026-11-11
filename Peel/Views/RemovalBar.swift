@@ -228,19 +228,19 @@ struct RemovalBar: View {
                                     .disabled(!isEnabled)
                             }
                         }
-                        .motion(value: isShowingMove)
-                        .motion(value: isShowingWait)
-                        .motion(value: isShowingScan)
-                        .motion(value: isShowingWork)
+                        .motion(.step, .movement, value: isShowingMove)
+                        .motion(.step, .movement, value: isShowingWait)
+                        .motion(.step, .movement, value: isShowingScan)
+                        .motion(.step, .movement, value: isShowingWork)
                     }
                 }
             }
         }
         .focusedSceneValue(\.moveToTrash, MenuCommand(title: title, isEnabled: isEnabled, perform: reading.remove))
-        .motion(value: reading.total)
-        .motion(value: reading.pages)
-        .motion(value: moved)
-        .motion(value: notice)
+        .motion(.step, .movement, value: reading.total)
+        .motion(.step, .movement, value: reading.pages)
+        .motion(.step, .movement, value: moved)
+        .motion(.step, .movement, value: notice)
         .onChange(of: waitingToQuit, initial: true) { _, names in
             if let names { waitingNames = names }
         }
