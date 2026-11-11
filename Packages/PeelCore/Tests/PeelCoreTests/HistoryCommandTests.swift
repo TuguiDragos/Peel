@@ -565,6 +565,17 @@ struct HistoryCommandTests {
         #expect(await logs.removals.load().records?.isEmpty == true)
     }
 
+    @Test func saysWhatHistoryKeptAsideWhoeverSetItAside() async throws {
+        let directory = try TemporaryDirectory()
+        let logs = logs(in: directory)
+        _ = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
+        let copy = try directory.file("Peel/removals-damaged-2026-11-09-231205.json", contents: Data("{".utf8))
+
+        let notes = try await noted(["history"], from: logs)
+
+        #expect(notes.contains("Peel kept a copy of History it couldn't read as \(Output.path(copy))."))
+    }
+
     @Test func refusesAnIdentifierThatNamesNothing() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)

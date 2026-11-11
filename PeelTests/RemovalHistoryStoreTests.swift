@@ -43,6 +43,30 @@ struct RemovalHistoryStoreTests {
         #expect(history.undoTitle == nil, "Undo still offered what peel put back")
     }
 
+    @Test func tellsOfACopySetAsideUnlessItsReadJustSaidSo() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let copy = folder.appending(path: "removals-damaged-2026-11-09-231205.json")
+        try Data("{".utf8).write(to: copy)
+        let history = RemovalHistoryStore(
+            log: RemovalLog(url: folder.appending(path: "removals.json")),
+            refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+            knowsTheExclusions: { true }
+        )
+
+        await history.load()
+
+        #expect(history.untoldSetAsideCopies.map(\.lastPathComponent) == [copy.lastPathComponent])
+        try FileManager.default.removeItem(at: copy)
+        try Data("{".utf8).write(to: folder.appending(path: "removals.json"))
+
+        await history.load()
+
+        #expect(history.setAsideCopies.count == 1)
+        #expect(history.untoldSetAsideCopies.isEmpty, "the read that set it aside says so itself")
+    }
+
     @Test func aJournalThatCannotBeReadHoldsNothingBackOnceChecked() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }

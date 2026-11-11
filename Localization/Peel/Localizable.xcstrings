@@ -84998,6 +84998,112 @@
         }
       }
     },
+    "It started History again and kept those files beside it. What their removals moved is in the Trash unless you emptied it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Začal Historii znovu a tyto soubory ponechal vedle ní. Co se přesunulo při odstraněních v nich zaznamenaných, je v koši, pokud jste ho nevysypali."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hat den Verlauf neu begonnen und diese Dateien daneben aufbewahrt. Was darin als verschoben verzeichnet ist, liegt im Papierkorb, sofern du ihn nicht entleert hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha vuelto a empezar Historial y ha conservado esos archivos junto a él. Lo que trasladaron sus eliminaciones está en la papelera, salvo que la hayas vaciado."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel a recommencé l’Historique et a conservé ces fichiers à côté. Ce que leurs suppressions ont déplacé se trouve dans la corbeille, sauf si vous l’avez vidée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha ricominciato la Cronologia e ha conservato quei file accanto. Ciò che le loro rimozioni hanno spostato è nel Cestino, a meno che tu non l’abbia svuotato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは履歴を最初からやり直し、それらのファイルを履歴の横に保管しました。それらの記録で移動した項目は、ゴミ箱を空にしていなければゴミ箱にあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 기록을 처음부터 다시 시작하고 해당 파일들을 그 옆에 보관했습니다. 그 파일에 기록된 제거로 이동된 항목은 휴지통을 비우지 않았다면 휴지통에 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel is opnieuw begonnen met Geschiedenis en heeft die bestanden ernaast bewaard. Wat er bij de verwijderingen in die bestanden is verplaatst, staat in de prullenmand, tenzij je die hebt geleegd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zaczął Historię od nowa i zachował te pliki obok niej. To, co przeniosły zapisane w nich przeniesienia do Kosza, jest w Koszu, chyba że go opróżniono."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele recomeçou o Histórico e guardou esses arquivos ao lado dele. O que as remoções registradas neles moveram está no Lixo, a menos que você o tenha esvaziado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A reînceput Istoricul și a păstrat acele fișiere lângă el. Ce au mutat eliminările lor se află în Coș, dacă nu l‑ați golit."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel начал Историю заново и сохранил эти файлы рядом с ней. То, что переместили записанные в них удаления, находится в Корзине, если Вы ее не очистили."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel började om Historik och sparade de filerna bredvid den. Det som deras borttagningar flyttade ligger i papperskorgen, om du inte har tömt den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçmiş’i yeniden başlattı ve o dosyaları yanında sakladı. Bu dosyalarda kayıtlı kaldırma işlemlerinin taşıdıkları, Çöp Sepeti’ni boşaltmadıysanız orada duruyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel почала Історію наново й зберегла ці файли поруч із нею. Те, що було переміщено під час записаних у них вилучень, лежить у Смітнику, якщо ви його не очистили."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它已重新建立“历史记录”，并将那些文件保留在其旁边。除非你已清倒废纸篓，否则这些文件所记录的移除操作移走的内容仍在废纸篓中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel已重新開始「歷史記錄」，並將這些檔案保留在旁邊。除非你已清空「垃圾桶」，否則這些檔案中記錄的移除作業所移動的項目仍在「垃圾桶」中。"
+          }
+        }
+      }
+    },
     "It was already forgotten." : {
       "localizations" : {
         "cs" : {
@@ -153632,6 +153738,346 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel本身正從這裡執行，而且只有「設定」>「一般」中的「移除Peel」才能移除Peel。"
+          }
+        }
+      }
+    },
+    "Peel kept ^[%lld copy](inflect: true) of History it couldn’t read" : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ponechal %lld kopie Historie, které nemohl přečíst"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ponechal %lld kopie Historie, které nemohl přečíst"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ponechal %lld kopii Historie, kterou nemohl přečíst"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ponechal %lld kopií Historie, které nemohl přečíst"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel hat %lld nicht lesbare Kopie des Verlaufs aufbewahrt"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel hat %lld nicht lesbare Kopien des Verlaufs aufbewahrt"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ha conservado %lld de copias de Historial que no podía leer"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ha conservado una copia de Historial que no podía leer"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ha conservado %lld copias de Historial que no podía leer"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel a conservé %lld de copies de l’Historique qu’il n’a pas pu lire"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel a conservé %lld copie de l’Historique qu’il n’a pas pu lire"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel a conservé %lld copies de l’Historique qu’il n’a pas pu lire"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ha conservato %lld di copie della Cronologia che non riusciva a leggere"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ha conservato %lld copia della Cronologia che non riusciva a leggere"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel ha conservato %lld copie della Cronologia che non riusciva a leggere"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは読み取れなかった履歴のコピーを%lld個保管しました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 읽을 수 없었던 기록의 복사본 %lld개를 보관함"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel heeft %lld kopie van Geschiedenis bewaard die het niet kon lezen"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel heeft %lld kopieën van Geschiedenis bewaard die het niet kon lezen"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zachował %lld kopie Historii, których nie mógł odczytać"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zachował %lld kopii Historii, których nie mógł odczytać"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zachował %lld kopię Historii, której nie mógł odczytać"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel zachował %lld kopii Historii, których nie mógł odczytać"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel guardou %lld de cópias do Histórico que não conseguiu ler"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel guardou %lld cópia do Histórico que não conseguiu ler"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel guardou %lld cópias do Histórico que não conseguiu ler"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel a păstrat %lld copii ale Istoricului pe care nu le‑a putut citi"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel a păstrat o copie a Istoricului pe care nu a putut‑o citi"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel a păstrat %lld de copii ale Istoricului pe care nu le‑a putut citi"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel сохранил %lld копии Истории, которые ему не удалось прочитать"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel сохранил %lld копий Истории, которые ему не удалось прочитать"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel сохранил %lld копию Истории, которую ему не удалось прочитать"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel сохранил %lld копии Истории, которые ему не удалось прочитать"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel sparade %lld kopia av Historik som inte gick att läsa"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel sparade %lld kopior av Historik som inte gick att läsa"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel, okuyamadığı %lld Geçmiş kopyasını sakladı"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel, okuyamadığı %lld Geçmiş kopyasını sakladı"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel зберегла %lld копії Історії, які не вдалося прочитати"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel зберегла %lld копій Історії, які не вдалося прочитати"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel зберегла %lld копію Історії, яку не вдалося прочитати"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel зберегла %lld копії Історії, які не вдалося прочитати"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel保留了%lld个未能读取的“历史记录”副本"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel保留了%lld份無法讀取的「歷史記錄」副本"
           }
         }
       }

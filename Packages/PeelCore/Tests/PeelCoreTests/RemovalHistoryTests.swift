@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct RemovalHistoryTests {
@@ -45,6 +46,17 @@ struct RemovalHistoryTests {
         #expect([inside].withTheFoldersTheyLeft(in: [inside, gone]).map(\.id) == [inside.id])
         try directory.directory("home/Library/Application Support/Example")
         #expect([inside].withTheFoldersTheyLeft(in: [inside, folder]).map(\.id) == [inside.id])
+    }
+
+    @Test func namesTheCopiesOfHistoryAndOfItsJournalThatWereSetAside() throws {
+        let directory = try TemporaryDirectory()
+        let history = try directory.file("Peel/removals.json", contents: Data("{".utf8))
+        let journal = try directory.file("Peel/removals.journal", contents: Data("x".utf8))
+        _ = try directory.file("Peel/removals-notes.json", contents: Data())
+        let historyCopy = try #require(DamagedFile.setAside(history))
+        let journalCopy = try #require(DamagedFile.setAside(journal))
+
+        #expect(Set(RemovalLog.setAsideCopies(of: history)) == [historyCopy, journalCopy])
     }
 
     @Test func historyStaysWhereItAlwaysWas() throws {

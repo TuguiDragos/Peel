@@ -246,6 +246,13 @@ struct HistoryCommand: AsyncParsableCommand {
         if let problem = outcome.problem {
             Output.note(problem.summary)
         }
+        let named: URL? = switch outcome.problem {
+        case .damaged(let copy)?, .journalSetAside(let copy)?: copy
+        default: nil
+        }
+        for copy in RemovalLog.setAsideCopies(of: log.url) where copy != named {
+            Output.note("Peel kept a copy of History it couldn't read as \(Output.path(copy)).")
+        }
     }
 
     static func rows(for batches: [Batch]) -> [[String]] {

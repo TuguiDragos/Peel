@@ -179,6 +179,8 @@ final class RemovalHistoryStore {
     private(set) var readProblem: FileProblem?
     /// Why History cannot be written, as on a full disk, which holds every removal back too. Known the same way.
     private(set) var writeProblem: HistoryWriteProblem?
+    /// The copies of History and of its journal a read set aside, by this process or another, while they are there.
+    private(set) var setAsideCopies: [URL] = []
     private(set) var isRestoring = false
     var selection: RemovalBatch.ID?
     /// By record, not by path: Space and Developer move the same cache folders again and again, so one path
@@ -309,6 +311,17 @@ final class RemovalHistoryStore {
         let writeProblem = readProblem == nil ? RemovalLog.writeProblem(at: log.url) : nil
         if self.readProblem != readProblem { self.readProblem = readProblem }
         if self.writeProblem != writeProblem { self.writeProblem = writeProblem }
+        let copies = RemovalLog.setAsideCopies(of: log.url)
+        if setAsideCopies != copies { setAsideCopies = copies }
+    }
+
+    /// The copies set aside that the page doesn't name already, as the problem of a read that just made one.
+    var untoldSetAsideCopies: [URL] {
+        let named: URL? = switch shownProblem {
+        case .damaged(let copy)?, .journalSetAside(let copy)?: copy
+        default: nil
+        }
+        return setAsideCopies.filter { $0 != named }
     }
 
     /// Keeps a History that cannot be read beside a new one, and records again.

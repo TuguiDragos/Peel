@@ -32,7 +32,7 @@ struct HistoryList: View {
 
     private var hasNotices: Bool {
         history.shownProblem != nil || history.refusalProblem != nil || history.untoldNoLongerListed != nil
-            || history.untoldRefusalsNoLongerListed != nil
+            || history.untoldRefusalsNoLongerListed != nil || !history.untoldSetAsideCopies.isEmpty
     }
 
     /// What the page says under each count of older removals left out, with the limit that left them out.
@@ -80,6 +80,17 @@ struct HistoryList: View {
                         .transition(.opacity)
                 }
                 // Said once: the page has said it when it goes away.
+                let copies = history.untoldSetAsideCopies
+                if !copies.isEmpty {
+                    Notice(
+                        title: Text("Peel kept ^[\(copies.count) copy](inflect: true) of History it couldn’t read"),
+                        detail: Text("It started History again and kept those files beside it. What their removals moved is in the Trash unless you emptied it."),
+                        kind: .note
+                    ) {
+                        Button("Show in Finder") { NSWorkspace.shared.activateFileViewerSelecting(copies) }
+                    }
+                    .transition(.opacity)
+                }
                 if let count = history.untoldNoLongerListed {
                     Notice(
                         title: Text("History no longer lists ^[\(count) older removal](inflect: true)"),
@@ -104,6 +115,7 @@ struct HistoryList: View {
             .motion(.settle, .movement, value: history.shownProblem != nil)
             .motion(.settle, .movement, value: history.refusalProblem != nil)
             .motion(.settle, .movement, value: history.untoldNoLongerListed != nil)
+            .motion(.settle, .movement, value: history.untoldSetAsideCopies.isEmpty)
         }
         .overlay {
             if !history.hasLoaded {
