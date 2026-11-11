@@ -81985,6 +81985,112 @@
         }
       }
     },
+    "It is part of another app, and Peel removes only whole apps from that folder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je součástí jiné aplikace a z této složky Peel odstraňuje jen celé aplikace."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dies ist Teil einer anderen App, und aus diesem Ordner entfernt Peel nur ganze Apps."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forma parte de otra app, y de esa carpeta Peel solo elimina apps completas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il fait partie d’une autre app, et dans ce dossier, Peel ne supprime que des apps entières."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fa parte di un’altra app, e da quella cartella Peel rimuove solo app intere."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これはほかのアプリの一部であり、そのフォルダからPeelがゴミ箱に入れるのはアプリ全体だけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 앱의 일부이며, Peel은 그 폴더에서 앱 전체만 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het maakt deel uit van een andere app, en Peel verwijdert uit die map alleen volledige apps."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To część innej aplikacji, a z tego folderu Peel przenosi do Kosza tylko całe aplikacje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faz parte de outro app, e o Peel só remove apps inteiros dessa pasta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Face parte dintr‑o altă aplicație, iar din acel dosar Peel elimină doar aplicații întregi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это часть другого приложения, а из этой папки Peel удаляет только приложения целиком."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är en del av en annan app, och Peel tar bara bort hela appar från den mappen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu, başka bir uygulamanın parçası ve Peel o klasörden yalnızca bütün hâlindeki uygulamaları kaldırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це частина іншої програми, а з цієї папки Peel вилучає лише цілі програми."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是另一个App的一部分，而Peel只会从该文件夹中移除完整的App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是另一個App的一部分，而Peel只會從該檔案夾移除完整的App。"
+          }
+        }
+      }
+    },
     "It is the folder where the Music app keeps its media, or a folder in it." : {
       "localizations" : {
         "cs" : {

@@ -41,14 +41,14 @@ struct HelperReach: Sendable {
     }
 
     /// True when the helper would refuse `url` for where it is: outside the folders it serves, in `/Applications`
-    /// without being an app, or in a folder command-line tools or their completions are linked into as anything but
-    /// a link that leads nowhere, or into `leaving`, which moves first; and for anything, when this account's Trash
-    /// is on another disk. `RemovalGuard` judges what the item itself is.
+    /// without being an app or as part of another app, or in a folder command-line tools or their completions are
+    /// linked into as anything but a link that leads nowhere, or into `leaving`, which moves first; and for anything,
+    /// when this account's Trash is on another disk. `RemovalGuard` judges what the item itself is.
     func isBeyond(_ url: URL, leaving: URL? = nil) -> Bool {
         guard reachesTheTrash else { return true }
         let path = url.path(percentEncoded: false)
         if let refusal = policy.refusal(of: path) {
-            return refusal == .outsideAllowedLocations || refusal == .notAnApplication
+            return [.outsideAllowedLocations, .notAnApplication, .partOfAnotherApp].contains(refusal)
         }
         guard policy.takesOnlyALink(at: path) else { return false }
         var info = stat()

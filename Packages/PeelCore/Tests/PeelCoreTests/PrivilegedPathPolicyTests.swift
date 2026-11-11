@@ -247,6 +247,26 @@ struct PrivilegedPathPolicyTests {
         #expect(policy.refusal(of: path("root/Applications/.app", in: directory)) == .notAnApplication)
     }
 
+    /// An app inside another is a part of it, and taking it would leave the app around it with its seal broken.
+    @Test func takesAnAppButNoAppInsideAnother() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        let inner = "root/Applications/Outer.app/Contents/Helpers/Inner.app"
+        let deeper = "root/Applications/Outer.APP/Contents/Frameworks/Engine.framework/Versions/A/Resources/Tool.app"
+        for folder in [inner, deeper, "root/Applications/Folder/Plain.app"] {
+            try directory.directory(folder)
+        }
+
+        for part in [inner, deeper] {
+            #expect(policy.refusal(of: path(part, in: directory)) == .partOfAnotherApp, "\(part)")
+            #expect(policy.open(path(part, in: directory)).rejection == .partOfAnotherApp, "\(part)")
+        }
+        let goneBack = path("root/Applications/Outer.app/Contents/Helpers/Gone.app", in: directory)
+        #expect(policy.refusal(ofPuttingBack: goneBack, owner: 0, mode: S_IFDIR | 0o755) == .partOfAnotherApp)
+        #expect(policy.refusal(of: path("root/Applications/Folder/Plain.app", in: directory)) == nil)
+        #expect(policy.refusal(of: path("root/Applications/Outer.app", in: directory)) == nil)
+    }
+
     @Test func rejectsUnsafePaths() throws {
         let directory = try TemporaryDirectory()
         let policy = try policy(in: directory)

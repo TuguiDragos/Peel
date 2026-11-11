@@ -14,7 +14,8 @@ public struct Uninstallation: Sendable {
     /// True when moving the bundle would free less than half the space it takes, because most of its files share
     /// their blocks with another copy, such as one in the Trash: `appSize` is then far below the app's size.
     public var appSharesStorage = false
-    /// True when the app needs administrator rights and the helper can't move it, so it is never selected.
+    /// True when the app needs administrator rights and the helper can't move it, so it is never selected. An app
+    /// inside another package stays as part of it instead, the one reason its page gives.
     public var isAppBeyondTheHelper = false
     /// True when the app is already in the Trash, where Watch the Trash finds it: its bundle can't move again, so
     /// it is never selected or counted, and what it left behind still is.
@@ -143,7 +144,8 @@ public struct Uninstallation: Sendable {
             scan: scan,
             isAppMeasured: await bundle.map { !$0.couldNotBeRead } ?? false,
             appSharesStorage: await bundle?.sharesMostOfItsStorage ?? false,
-            isAppBeyondTheHelper: appRequiresPrivileges && !app.isSystemProtected && reach.isBeyond(app.url),
+            isAppBeyondTheHelper: appRequiresPrivileges && !app.isSystemProtected && app.enclosingPackage == nil
+                && reach.isBeyond(app.url),
             isAppInTheTrash: TrashService.isInsideATrash(app.url, home: environment.homeDirectory),
             uninstallsItself: uninstallsItself,
             installedSystemExtensions: await AppExtensions.installed(carriedBy: app, asking: systemExtensions),

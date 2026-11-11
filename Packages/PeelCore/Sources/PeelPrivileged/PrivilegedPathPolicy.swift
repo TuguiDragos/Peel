@@ -11,6 +11,7 @@ public struct PrivilegedPathPolicy: Sendable {
         case tooManyOpenFolders
         case outsideAllowedLocations
         case notAnApplication
+        case partOfAnotherApp
         case missing
         case alreadyExists
         case protectedByFlags
@@ -30,6 +31,7 @@ public struct PrivilegedPathPolicy: Sendable {
             case .tooManyOpenFolders: "Peel’s helper had too many folders open at once. Try again."
             case .outsideAllowedLocations: "It is outside the folders Peel’s helper may touch."
             case .notAnApplication: "Peel removes only apps from that folder."
+            case .partOfAnotherApp: "It is part of another app, and Peel removes only whole apps from that folder."
             case .missing: "It isn’t there anymore."
             case .alreadyExists: "Something is there already."
             case .protectedByFlags: "macOS marks it as protected."
@@ -229,8 +231,12 @@ public struct PrivilegedPathPolicy: Sendable {
             || manifests.contains(where: { PathComponents.isPath(resolved, inside: $0) && resolvedParent != $0 }) {
             return .failure(.outsideAllowedLocations)
         }
-        if applicationLocations.contains(location), !PathComponents.isNamedAsAnApp(diskName ?? name) {
-            return .failure(.notAnApplication)
+        if applicationLocations.contains(location) {
+            guard PathComponents.isNamedAsAnApp(diskName ?? name) else { return .failure(.notAnApplication) }
+            // An app inside another is part of it: the helper takes none out, which would break the other's seal,
+            // and puts none back in.
+            let between = PathComponents.of(resolvedParent).dropFirst(PathComponents.of(location).count)
+            guard !between.contains(where: PathComponents.isNamedAsAnApp) else { return .failure(.partOfAnotherApp) }
         }
         return .success(Resolved(parent: resolvedParent, name: name, path: folder + "/" + name))
     }

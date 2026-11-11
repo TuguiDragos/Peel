@@ -708,9 +708,9 @@ and it fails closed.
   developer's own build of it, so other code put in its place never runs as root.
 - It refuses the list above on its own, without asking the app, and asks it both ways: a folder that holds
   something on the list is refused like the thing itself.
-- It serves a fixed list of folders and refuses everything else: `/Applications`, for apps only; eight folders
-  of `/Library` (Application Support, Caches, Preferences, Logs, LaunchAgents, LaunchDaemons,
-  PrivilegedHelperTools, and StartupItems) and the 24 that hold plug-ins; the installer receipts in
+- It serves a fixed list of folders and refuses everything else: `/Applications`, for whole apps only, never one
+  inside another; eight folders of `/Library` (Application Support, Caches, Preferences, Logs, LaunchAgents,
+  LaunchDaemons, PrivilegedHelperTools, and StartupItems) and the 24 that hold plug-ins; the installer receipts in
   `/private/var/db/receipts`; the links in `/usr/local/bin`, `/usr/local/sbin`, MacPorts' `/opt/local/bin` and
   `/opt/local/sbin`, and the four folders of `/usr/local` that shell completions are linked into; the folders of
   `/Library` browsers read native messaging manifests from; and the Library of the administrator who asks.

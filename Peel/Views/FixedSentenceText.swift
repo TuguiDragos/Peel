@@ -12,6 +12,7 @@ extension FixedSentence {
         case .tooManyOpenFolders: "Peel’s helper had too many folders open at once. Try again."
         case .outsideHelpersFolders: "It is outside the folders Peel’s helper may touch."
         case .onlyAppsThere: "Peel removes only apps from that folder."
+        case .partOfAnotherApp: "It is part of another app, and Peel removes only whole apps from that folder."
         case .notThereAnymore: "It isn’t there anymore."
         case .alreadyThere: "Something is there already."
         case .protectedByMacOS: "macOS marks it as protected."

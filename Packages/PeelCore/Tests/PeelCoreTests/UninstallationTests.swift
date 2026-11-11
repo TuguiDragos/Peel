@@ -887,6 +887,32 @@ struct UninstallationTests {
         #expect(several.total == SizeTotal(plan.scan.leftovers.map { $0.isMeasured ? $0.size : nil }))
     }
 
+    /// Being part of another app is the one reason said, though the helper wouldn't take it either.
+    @Test(.permissionsHold) func anAppInsideAnotherInApplicationsStaysOnlyAsItsPart() async throws {
+        let directory = try TemporaryDirectory()
+        let info = try PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleIdentifier": "org.example.outer.inner"], format: .xml, options: 0
+        )
+        let inner = "root/Applications/Outer.app/Contents/Applications/Inner.app"
+        let bundle = try directory.directory(inner)
+        try directory.file(inner + "/Contents/Info.plist", contents: info)
+        try directory.setPermissions(0o555, of: inner)
+        defer { try? directory.setPermissions(0o755, of: inner) }
+        let installed = try #require(AppInspector.inspect(bundle))
+        let environment = SearchEnvironment(
+            homeDirectory: try directory.directory("home"), rootDirectory: directory.url.appending(path: "root")
+        )
+
+        let plan = await Uninstallation.prepare(installed, installedApps: [installed], environment: environment)
+        let item = try #require(BulkUninstallation(uninstallations: [plan]).items.first { $0.isApplication })
+
+        #expect(plan.appRequiresPrivileges)
+        #expect(plan.appStays(canUseHelper: true))
+        #expect(!plan.isAppBeyondTheHelper)
+        #expect(item.enclosingPackage != nil)
+        #expect(!item.isBeyondTheHelper)
+    }
+
     /// Excluded by identifier or by path, the app and everything the scan would find are left alone.
     @Test func leavesAnExcludedAppAndItsFilesAlone() async throws {
         let directory = try TemporaryDirectory()
