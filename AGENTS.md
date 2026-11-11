@@ -288,13 +288,16 @@ If you are unsure whether something belongs in the helper, it doesn't.
     `CommandLineTests` in `Support/peel.1` for every command of `peel`, and `DesktopWalletTests` checks SAFETY.md's
     count of wallet places. Anything `peel --help` says that changes has its manual page written again with
     `python3 Scripts/generate_manual.py` after a Debug build: the Checks workflow compares the whole page.
+- The Checks workflow and `release.sh` compare how many tests ran with `.github/test-floor.txt`, so a suite that stops
+  running fails: raise its number when you add tests, and lower it only in the commit that removes them, saying why.
 - Slower checks run only when asked for, and both are worth running before a release. `PEEL_TEST_THIS_MAC=1` runs
   the tests that read this Mac rather than a fixture: with
   `--filter SuggestedSelectionOnThisMacTests` it scans every app installed on the Mac and checks that nothing Peel
   would select is refused or shared, and without the filter three more read this Mac's system extensions, Trash, and
   storage, the first of them failing on a Mac with no system extension. The `PeelUITests` scheme runs Xcode's
-  accessibility audit on every page, and on a row's page of Background Items, Extensions, and Plug-ins, in light and
-  dark, moving the pointer, typing, and quitting a Peel that is open,
+  accessibility audit on every page, on a row's page of every list that has rows (on Applications the second app's,
+  with its Reset sheet and a circled i's note), in light and dark, and two tests of the keyboard, moving the pointer,
+  typing, and quitting a Peel that is open,
   so it runs on a Mac nobody is using; macOS asks once for Accessibility for the test runner, and for an
   administrator's password each time Automation Mode turns on:
   `xcodebuild test -project Peel.xcodeproj -scheme PeelUITests -destination "platform=macOS,arch=$(uname -m)"

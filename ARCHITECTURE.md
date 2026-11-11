@@ -594,8 +594,9 @@ place (`SettingsView`), whose zap takes Peel's whole folder, `Terminal/` include
   folder swapped between the check and the move, an object swapped into an item's name while the helper moves it.
 - A few tests read this Mac instead of a fixture, and the slowest ones run only when asked for
   (`PEEL_TEST_THIS_MAC=1`).
-- `PeelUITests` runs Xcode's accessibility audit on every page, About, Settings, and the menu bar panel, in both
-  appearances. It drives the pointer and quits a Peel that is open, so it has a scheme of its own and runs by hand
+- `PeelUITests` runs Xcode's accessibility audit on every page, a row's page of each list that has rows, an app's
+  Reset sheet and a circled i's note, About, Settings, and the menu bar panel, in both appearances, and two tests of
+  the keyboard. It drives the pointer and quits a Peel that is open, so it has a scheme of its own and runs by hand
   before a release; the Checks workflow only builds it.
 - `Scripts/sync_localizations.py --check` fails when a string catalog is behind the code, and
   `Scripts/generate_manual.py --check` when the manual page of `peel` is behind the tool.
