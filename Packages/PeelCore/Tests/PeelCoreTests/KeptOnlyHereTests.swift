@@ -1,15 +1,24 @@
+import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct KeptOnlyHereTests {
     private let home = "/Users/me"
 
-    @Test func answersForThousandsOfItemsAtOnce() {
+    /// Timed beside a reading of the same paths on the same thread, so a Mac busy with other work slows both alike.
+    @Test func aQuestionCostsAFewReadingsOfItsPathHoweverManyPlacesThereAre() {
         let paths = (0..<5000).map { "\(home)/Library/Application Support/org.example.app\($0)/data" }
-        let took = processorTime {
-            for path in paths { _ = KeptOnlyHere.reason(for: path, home: home, root: "/") }
+        let ratios = (0..<3).map { _ in
+            let reading = processorTime {
+                for path in paths { _ = PathComponents.of((path as NSString).standardizingPath.lowercased()) }
+            }
+            let asking = processorTime {
+                for path in paths { _ = KeptOnlyHere.reason(for: path, home: home, root: "/") }
+            }
+            return asking / reading
         }
-        #expect(took < .milliseconds(300))
+        #expect(ratios.contains { $0 < 15 }, "\(ratios)")
     }
 
     @Test func knowsEachPlaceWhatIsInsideAndTheAppsFolderAroundIt() {
