@@ -192,7 +192,7 @@ struct HomeContent: View {
             DeviceSticker(
                 value: stats.bytesFreed.text,
                 amount: Double(stats.bytesFreed.known),
-                label: "Moved to Trash",
+                label: "Moved to the Trash",
                 fill: Album.orange,
                 ink: Album.onOrange,
                 labelOpacity: 1,

@@ -108449,7 +108449,7 @@
         }
       }
     },
-    "Moved to Trash" : {
+    "Moved to the Trash" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -108496,7 +108496,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Naar prullenmand"
+            "value" : "Naar de prullenmand"
           }
         },
         "pl" : {
