@@ -361,6 +361,39 @@ struct RemovalJournalTests {
         #expect(RemovalLog.writeProblem(at: history) == .journalNotWritable(journal.url))
     }
 
+    @Test(.permissionsHold) func aLockThisAccountCannotOpenIsNamed() throws {
+        let directory = try TemporaryDirectory()
+        let history = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
+        for name in ["removals.json.lock", "removals.journal.lock"] {
+            let lock = try directory.file("Peel/\(name)", contents: Data())
+            try directory.setPermissions(0o000, of: "Peel/\(name)")
+            defer { try? directory.setPermissions(0o600, of: "Peel/\(name)") }
+
+            #expect(RemovalLog.writeProblem(at: history) == .lockClosed(lock), "\(name)")
+        }
+    }
+
+    @Test(.permissionsHold) func nothingMovesWhileHistorysLockCannotBeOpened() async throws {
+        let directory = try TemporaryDirectory()
+        let history = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
+        let lock = try directory.file("Peel/removals.json.lock", contents: Data())
+        try directory.setPermissions(0o000, of: "Peel/removals.json.lock")
+        defer { try? directory.setPermissions(0o600, of: "Peel/removals.json.lock") }
+        let file = try directory.file("home/Library/Caches/org.example.cache/data")
+        let trash = try directory.directory("home/.Trash")
+        let service = service(in: directory, journal: RemovalJournal(beside: history)) { url in
+            let target = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: target)
+            return target
+        }
+
+        let result = await service.trash([file], usingHelperFor: [])
+
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.reason) == [.historyCannotBeWritten(.lockClosed(lock))])
+        #expect(file.isThere)
+    }
+
     @Test func anItemPutBackLeavesTheJournal() async throws {
         let directory = try TemporaryDirectory()
         let history = directory.url.appending(path: "home/Peel/removals.json")

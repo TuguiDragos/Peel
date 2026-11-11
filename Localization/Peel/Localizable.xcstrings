@@ -225475,6 +225475,112 @@
         }
       }
     },
+    "This account can’t open %@, which keeps two programs from writing History at once. Peel removes nothing until it can, so that everything it moves can be put back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento účet nemůže otevřít soubor %@, který brání tomu, aby do Historie zapisovaly dva programy najednou. Dokud ho nebude moci otevřít, Peel nic neodstraní, aby vše, co přesune, šlo vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Benutzeraccount kann %@ nicht öffnen. Diese Datei verhindert, dass zwei Programme gleichzeitig in den Verlauf schreiben. Peel entfernt nichts, solange das so ist, damit sich alles, was Peel verschiebt, zurücklegen lässt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta cuenta no puede abrir %@, que impide que dos programas escriban en Historial a la vez. Peel no elimina nada hasta que pueda abrirlo, para que todo lo que traslade se pueda restaurar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce compte ne peut pas ouvrir %@, qui empêche deux programmes d’écrire l’Historique en même temps. Peel ne supprime rien tant qu’il ne peut pas l’ouvrir, afin que tout ce qu’il déplace puisse être remis en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo account non può aprire %@, che impedisce a due programmi di scrivere la Cronologia contemporaneamente. Peel non rimuove nulla finché non potrà aprirlo, in modo che tutto ciò che sposta si possa ripristinare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアカウントでは、2つのプログラムが同時に履歴に書き込むのを防ぐ%@を開けません。開けるようになるまで、Peelは何もゴミ箱に入れません。移動するものをすべて戻せるようにするためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 계정은 두 프로그램이 동시에 기록을 쓰지 못하게 하는 %@을(를) 열 수 없습니다. 열 수 있게 되기 전까지 Peel은 이동하는 모든 항목을 되돌려 놓을 수 있도록 아무것도 제거하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze account kan %@ niet openen, het bestand dat voorkomt dat twee programma's tegelijk naar Geschiedenis schrijven. Peel verwijdert niets totdat dat wel kan, zodat alles wat Peel verplaatst, kan worden teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To konto nie może otworzyć pliku %@, który zapobiega jednoczesnemu zapisywaniu Historii przez dwa programy. Peel niczego nie przeniesie do Kosza, dopóki nie będzie to możliwe, aby wszystko, co przeniesie, można było przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta conta não pode abrir %@, que impede que dois programas gravem o Histórico ao mesmo tempo. O Peel não remove nada até conseguir abri-lo, para que tudo o que ele mover possa ser colocado de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest cont nu poate deschide %@, care împiedică două programe să scrie Istoricul în același timp. Peel nu elimină nimic până când nu îl poate deschide, pentru ca tot ce mută să poată fi pus înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта учетная запись не может открыть файл %@, который не дает двум программам записывать Историю одновременно. Peel ничего не удаляет, пока это не станет возможным, чтобы все, что он перемещает, можно было восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här kontot kan inte öppna %@, som hindrar två program från att skriva i Historik samtidigt. Peel tar inte bort något förrän det går, så att allt som Peel flyttar kan läggas tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu hesap, iki programın Geçmiş’e aynı anda yazmasını önleyen %@ dosyasını açamıyor. Peel, açabilene kadar hiçbir şeyi kaldırmaz, böylece taşıyacağı her şey yerine konabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей обліковий запис не може відкрити %@, що не дає двом програмам одночасно записувати Історію. Peel нічого не вилучає, доки не зможе його відкрити, щоб усе, що Peel переміщує, можна було повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此账户无法打开%@，该文件用于防止两个程序同时写入“历史记录”。在能够打开之前，Peel不会移除任何内容，以确保它移动的所有内容都能放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此帳號無法打開%@，而此檔案可防止兩個程式同時寫入「歷史記錄」。在能夠打開之前，Peel不會移除任何項目，以確保它移動的所有項目都能還原。"
+          }
+        }
+      }
+    },
     "This account can’t write %@, where Peel writes down each move. Peel removes nothing until it can, so that everything it moves can be put back." : {
       "localizations" : {
         "cs" : {

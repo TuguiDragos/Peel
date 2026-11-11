@@ -10,6 +10,9 @@ public enum HistoryWriteProblem: Sendable, Hashable {
     /// What stands where the journal goes doesn't open as the journal: a folder, a link, or a file too big.
     case journalUnreadable(URL)
     case journalNotWritable(URL)
+    /// This account can't open `lock`, which keeps two writers of History, or of the journal, from writing over each
+    /// other.
+    case lockClosed(URL)
 }
 
 extension HistoryWriteProblem {
@@ -22,6 +25,7 @@ extension HistoryWriteProblem {
         case .freeSpaceNotKnown(let folder): "free-space\n" + folder.path(percentEncoded: false)
         case .journalUnreadable(let journal): "journal\n" + journal.path(percentEncoded: false)
         case .journalNotWritable(let journal): "journal-write\n" + journal.path(percentEncoded: false)
+        case .lockClosed(let lock): "lock\n" + lock.path(percentEncoded: false)
         }
     }
 
@@ -38,6 +42,7 @@ extension HistoryWriteProblem {
         case "free-space": self = .freeSpaceNotKnown(path)
         case "journal": self = .journalUnreadable(path)
         case "journal-write": self = .journalNotWritable(path)
+        case "lock": self = .lockClosed(path)
         default: return nil
         }
     }

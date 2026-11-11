@@ -622,6 +622,7 @@ extension HistoryWriteProblem {
             "macOS didn't say how much room is free on the disk that holds \(Output.path(folder))"
         case .journalUnreadable(let journal): "\(Output.path(journal)) isn't a journal Peel can read"
         case .journalNotWritable(let journal): "this account can't write \(Output.path(journal))"
+        case .lockClosed(let lock): "this account can't open \(Output.path(lock)), the lock beside History"
         }
     }
 }

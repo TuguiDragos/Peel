@@ -480,6 +480,8 @@ extension HistoryWriteProblem {
             String(localized: "Something Peel can’t use stands at \(journal.abbreviatedPath), where it writes down each move, and Peel couldn’t set it aside. Peel removes nothing until it’s gone, so that everything it moves can be put back.", bundle: bundle)
         case .journalNotWritable(let journal):
             String(localized: "This account can’t write \(journal.abbreviatedPath), where Peel writes down each move. Peel removes nothing until it can, so that everything it moves can be put back.", bundle: bundle)
+        case .lockClosed(let lock):
+            String(localized: "This account can’t open \(lock.abbreviatedPath), which keeps two programs from writing History at once. Peel removes nothing until it can, so that everything it moves can be put back.", bundle: bundle)
         }
     }
 }

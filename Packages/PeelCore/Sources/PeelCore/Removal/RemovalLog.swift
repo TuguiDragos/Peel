@@ -162,7 +162,12 @@ public actor RemovalLog {
         let size = (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize).map { UInt64($0) } ?? 0
         let needed = size + 1_000_000
         guard free >= needed else { return .diskFull(free: Int64(clamping: free), needed: Int64(clamping: needed)) }
-        return RemovalJournal(beside: url).writeProblem
+        let journal = RemovalJournal(beside: url)
+        // Without its lock, a change runs alone, and two processes writing at once each lose the other's records.
+        let locks = [url, journal.url].map { URL(filePath: $0.path(percentEncoded: false) + ".lock") }
+        let closed = locks.first { !$0.isMissing && access($0.path(percentEncoded: false), R_OK | W_OK) != 0 }
+        if let closed { return .lockClosed(closed) }
+        return journal.writeProblem
     }
 
     /// The space free on the disk holding `folder`, as `statfs(2)` gives it.

@@ -408,7 +408,7 @@ struct RefusalLogTests {
         let journal = peel.appending(path: "removals.journal")
         let problems: [HistoryWriteProblem] = [
             .folderNotWritable(peel), .diskFull(free: 1_000, needed: 1_000_002), .freeSpaceNotKnown(peel),
-            .journalUnreadable(journal), .journalNotWritable(journal),
+            .journalUnreadable(journal), .journalNotWritable(journal), .lockClosed(peel.appending(path: "removals.json.lock")),
         ]
         for problem in problems {
             let reason = TrashFailure.Reason.historyCannotBeWritten(problem)
