@@ -14,8 +14,6 @@ struct RemovalHistoryTests {
         )
     }
 
-    /// Every installed copy of Peel keeps its History at this path. Moving it would leave every existing record
-    /// where nothing reads it, with no warning.
     @Test func putsAFolderBackBeforeWhatWasInsideIt() {
         let inside = record("org.example.app/Cache")
         let folder = record("org.example.app")
@@ -59,6 +57,8 @@ struct RemovalHistoryTests {
         #expect(Set(RemovalLog.setAsideCopies(of: history)) == [historyCopy, journalCopy])
     }
 
+    /// Every installed copy of Peel keeps its History at this path. Moving it would leave every existing record
+    /// where nothing reads it, with no warning.
     @Test func historyStaysWhereItAlwaysWas() throws {
         let support = try #require(
             FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first

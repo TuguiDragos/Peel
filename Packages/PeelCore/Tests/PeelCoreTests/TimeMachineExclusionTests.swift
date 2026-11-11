@@ -22,9 +22,6 @@ struct TimeMachineExclusionTests {
         }.joined(separator: "; ")
     }
 
-    /// The mark is an attribute on the folder, so it goes on and comes off without administrator rights. The
-    /// temporary folder works for this test: `tmutil isexcluded "$TMPDIR"` prints `[Excluded]`, yet
-    /// `CSBackupIsItemExcluded` answers false for a folder inside it.
     @Test func namesTheAccountThatOwnsAFolderThatRefusedTheMark() throws {
         let directory = try TemporaryDirectory()
         let folder = try directory.directory("app/node_modules")
@@ -33,6 +30,9 @@ struct TimeMachineExclusionTests {
         #expect(TimeMachineExclusion.refusal(of: folder) == .refused)
     }
 
+    /// The mark is an attribute on the folder, so it goes on and comes off without administrator rights. The
+    /// temporary folder works for this test: `tmutil isexcluded "$TMPDIR"` prints `[Excluded]`, yet
+    /// `CSBackupIsItemExcluded` answers false for a folder inside it.
     @Test func marksAFolderAndTakesTheMarkOffAgain() async throws {
         let directory = try TemporaryDirectory()
         let modules = try directory.directory("app/node_modules")

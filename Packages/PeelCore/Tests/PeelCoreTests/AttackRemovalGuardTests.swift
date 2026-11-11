@@ -37,9 +37,6 @@ struct AttackRemovalGuardTests {
         #expect(guardian.allowsRemoval(of: home.appending(path: "Downloads/something.txt")))
     }
 
-    /// Under `/usr` a link may go only directly in a folder command-line tools or their shell completions are linked
-    /// into, and only a link may go back there. A file, a name with nothing under it yet, and anything deeper stay
-    /// refused.
     @Test func theTrashOfEveryDiskIsRefused() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
@@ -57,6 +54,9 @@ struct AttackRemovalGuardTests {
         }
     }
 
+    /// Under `/usr` a link may go only directly in a folder command-line tools or their shell completions are linked
+    /// into, and only a link may go back there. A file, a name with nothing under it yet, and anything deeper stay
+    /// refused.
     @Test func underUsrALinkMayGoOrComeBackOnlyInTheToolFolders() throws {
         let directory = try TemporaryDirectory()
         let guardian = RemovalGuard(environment: SearchEnvironment(
@@ -185,8 +185,6 @@ struct AttackRemovalGuardTests {
         }
     }
 
-    /// Attack 1b: the guard lower-cases the path it is given, so `protectedPrefixes` must be lower-case too, or
-    /// those entries would match nothing.
     /// The folder where Safari keeps every web app's container is never moved whole, while one web app's container
     /// inside it can go with that web app.
     @Test func safarisWebAppContainersStayWhileOneWebAppsCanGo() throws {
@@ -202,6 +200,8 @@ struct AttackRemovalGuardTests {
         #expect(guardian.allowsRemoval(of: one))
     }
 
+    /// Attack 1b: the guard lower-cases the path it is given, so `protectedPrefixes` must be lower-case too, or
+    /// those entries would match nothing.
     @Test func protectedPrefixesSurviveTheLowerCasing() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
@@ -332,8 +332,6 @@ struct AttackRemovalGuardTests {
         #expect(!ProtectedData.holds(homePath + "/Library/Caches/com.example.app", home: homePath))
     }
 
-    /// The hidden items tools share in the home folder, such as `.config` and `.zshrc`, are refused whatever an
-    /// app calls itself. Anything else inside a shared folder can still go.
     @Test func theFolderAroundAPlacePeelLooksInside() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
@@ -371,6 +369,8 @@ struct AttackRemovalGuardTests {
         #expect(guardian.refusal(ofPuttingBack: trashedFile, at: home.appending(path: "Library/Application Support/Avid")) != nil)
     }
 
+    /// The hidden items tools share in the home folder, such as `.config` and `.zshrc`, are refused whatever an
+    /// app calls itself. Anything else inside a shared folder can still go.
     @Test func theFoldersTheWholeMacShares() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

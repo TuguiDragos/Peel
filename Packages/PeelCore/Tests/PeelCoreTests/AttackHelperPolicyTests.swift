@@ -694,7 +694,6 @@ extension AttackHelperPolicyTests {
         #expect(PrivilegedPathPolicy.allowsDaemon("org.example.vendor.daemon", shipped: shipped))
     }
 
-    /// The helper builds its whole policy around this string: which home is the caller's, which Trash is opened.
     @Test func theHelperRefusesWhatAContainersDocumentsHoldOnItsOwn() throws {
         let directory = try TemporaryDirectory()
         let path = "home/Library/Containers/com.example.notes/Data/Documents/novel.txt"
@@ -781,6 +780,7 @@ extension AttackHelperPolicyTests {
         #expect(result.rejection == .irreplaceable, "ATTACK SUCCEEDED: root would move a Caches folder and the local history inside it")
     }
 
+    /// The helper builds its whole policy around this string: which home is the caller's, which Trash is opened.
     @Test func readsTheCallersHomeFolder() throws {
         let home = try #require(UserAuthorization.homeDirectory(of: getuid()))
         #expect(home == String(cString: getpwuid(getuid()).pointee.pw_dir))
