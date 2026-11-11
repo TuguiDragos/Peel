@@ -346,12 +346,38 @@ import Testing
             "Type `a :b`": ["localizations": ["ro": unit("Tastați `a :b`"), "fr": unit("Tapez `a :b`")]],
             "From the App Store": ["localizations": ["ro": unit("Din App Store"), "fr": unit("De l’App Store")]],
             "In the App Store": ["localizations": ["ro": unit("În App Store"), "fr": unit("Dans l’App\u{00A0}Store")]],
+            "Run `brew pin`": ["localizations": ["ro": unit("Rulați `brew pinn`"), "fr": unit("Exécutez `brew pin`")]],
+            "Run `peel uninstall %@`": ["localizations": ["ro": unit("Rulați `peel uninstall %1$@`"), "fr": unit("Exécutez `peel uninstall %@`")]],
+            "Done.\n\nIt went.": ["localizations": ["ro": unit("Gata.\nA mers."), "fr": unit("Terminé.\n\nC’est fait.")]],
+            "Paused": ["localizations": ["ro": unit("În pauză "), "fr": unit("En pause")]],
+            "Forget this one?": ["localizations": ["ro": unit("Îl uitați."), "fr": unit("L’oublier\u{00A0}?")]],
+            "Needs your approval": ["localizations": ["ro": unit("Necesită aprobarea dvs."), "fr": unit("Requiert votre accord")]],
+            "%lld documents": ["localizations": ["ro": plural(["one": "Un document", "few": "Câteva documente", "other": "%lld de documente"]), "fr": plural(["one": "%lld document", "many": "%lld de documents", "other": "%lld documents"])]],
+            "^[%lld photo](inflect: true) and ^[%lld video](inflect: true)": ["localizations": ["ro": [
+                "stringUnit": ["state": "translated", "value": "%#@photos@ și %#@videos@"],
+                "substitutions": [
+                    "photos": ["argNum": 1, "formatSpecifier": "lld", "variations": ["plural": ["one": unit("o fotografie"), "few": unit("câteva fotografii"), "other": unit("%arg de fotografii")]]],
+                    "videos": ["argNum": 2, "formatSpecifier": "lld", "variations": ["plural": ["one": unit("%arg video"), "few": unit("%arg videoclipuri"), "other": unit("%arg de videoclipuri")]]],
+                ],
+            ]]],
+            "Start": ["localizations": ["ro": unit("Porniţi"), "fr": unit("Démarrer")]],
+            "Named “%@”": ["localizations": ["ro": unit("Numit “%@”"), "fr": unit("Nommé «\u{00A0}%@\u{00A0}»")]],
+            "Open": ["localizations": ["ro": unit("Deschideți"), "fr": unit("Ouvrir"), "uk": unit("Открыть")]],
+            "Settings": ["localizations": ["ro": unit("Configurări"), "fr": unit("Réglages"), "zh-Hans": unit("設定")]],
         ]
         let catalog: [String: Any] = ["sourceLanguage": "en", "strings": strings, "version": "1.0"]
         try JSONSerialization.data(withJSONObject: catalog).write(to: folder.appending(path: "Localization/Peel/Localizable.xcstrings"))
 
         var checker = CatalogChecker(root: folder, required: ["ro", "fr"])
         checker.check(Catalog(path: "Localization/Peel/Localizable.xcstrings", table: .localizable))
+        let phrases: [String: Any] = ["Show ${place} in ${applicationName}": ["localizations": [
+            "en": ["stringSet": ["state": "new", "values": ["Show ${place} in ${applicationName}", "Open ${place} in ${applicationName}"]]],
+            "ro": ["stringSet": ["state": "translated", "values": ["Arată ${place} în ${applicationName}", "Deschide ${applicationName}"]]],
+            "fr": ["stringSet": ["state": "translated", "values": ["Afficher ${place} dans ${applicationName}", "Ouvrir ${place} dans ${applicationName}"]]],
+        ]]]
+        try JSONSerialization.data(withJSONObject: ["sourceLanguage": "en", "strings": phrases, "version": "1.0"])
+            .write(to: folder.appending(path: "Localization/Peel/AppShortcuts.xcstrings"))
+        checker.check(Catalog(path: "Localization/Peel/AppShortcuts.xcstrings", table: .appShortcuts))
         let caught = Dictionary(grouping: checker.problems, by: \.rule).mapValues { Set($0.map(\.key)) }
 
         #expect(caught["missing"]?.contains("Kept") == true)
@@ -399,6 +425,22 @@ import Testing
         #expect(caught["hyphen"]?.contains("Before zsh-autosuggestions, without --set-upstream") != true, "a name or an option the English has is typed as it is")
         #expect(caught["hyphen"]?.contains("Control-click an app") == true, "only a whole word the English has, never a part of one")
         #expect(caught["address"]?.contains("Needs your attention") == true, "Romanian writes dvs., as macOS does")
+        #expect(caught["code"]?.contains("Run `brew pin`") == true, "code is typed as the English has it")
+        #expect(caught["code"]?.contains("Run `peel uninstall %@`") != true, "a numbered placeholder is the same one")
+        #expect(caught["edges"]?.contains("Done.\n\nIt went.") == true, "as many new lines as the English")
+        #expect(caught["edges"]?.contains("Paused") == true, "no space at an end the English doesn't have")
+        #expect(caught["end"]?.contains("Forget this one?") == true, "a question stays a question")
+        #expect(caught["end"]?.contains("Needs your approval") != true, "dvs. carries its own full stop")
+        #expect(caught["end"]?.contains("%@: links") != true, "a colon after a placeholder is part of what fills it")
+        #expect(caught["plural"]?.contains("%lld documents") == true, "only the form for one may leave the number out")
+        let photos = "^[%lld photo](inflect: true) and ^[%lld video](inflect: true)"
+        #expect(caught["plural"]?.contains(photos) == true, "and so in a substitution")
+        #expect(caught["cedilla"]?.contains("Start") == true, "Romanian writes ș and ț with a comma below")
+        #expect(caught["quotes"]?.contains("Named “%@”") == true, "Romanian opens with „")
+        #expect(caught["quotes"]?.contains("Excluded with “%@”") != true, "each language's own marks")
+        #expect(caught["script"]?.contains("Open") == true, "a Russian letter in Ukrainian")
+        #expect(caught["script"]?.contains("Settings") == true, "a Traditional character in Simplified Chinese")
+        #expect(caught["phrase"]?.contains("Show ${place} in ${applicationName}") == true, "a phrase that lost its place")
     }
 
     /// Text the user reads always goes through the catalogs. `Text(verbatim:)` is only for what is not words, or
@@ -489,6 +531,68 @@ struct CatalogChecker {
     static let integer = try! NSRegularExpression(pattern: #"%(\d+\$)?(ll|l)?d"#)
     /// The language codes Apple's tables use where they differ from Peel's.
     static let appleLanguages = ["zh-Hans": "zh_CN", "zh-Hant": "zh_TW", "pt": "pt_BR"]
+    /// The double quotation marks each language's macOS writes, opening and closing.
+    static let quotationMarks: [String: (open: Character, close: Character)] = [
+        "ro": ("„", "”"), "de": ("„", "“"), "fr": ("«", "»"), "es": ("“", "”"), "pt": ("“", "”"), "it": ("“", "”"),
+        "ja": ("“", "”"), "zh-Hans": ("“", "”"), "zh-Hant": ("「", "」"), "nl": ("'", "'"), "ko": ("‘", "’"),
+        "ru": ("«", "»"), "pl": ("„", "”"), "tr": ("“", "”"), "sv": ("”", "”"), "cs": ("„", "“"), "uk": ("«", "»"),
+    ]
+    static let doubleQuotationMarks: Set<Character> = ["“", "”", "„", "‟", "«", "»", "‹", "›", "「", "」", "『", "』", "\""]
+    /// Letters only one of two sister languages writes, so a value pasted from the other shows.
+    static let sisterLetters: [String: Set<Character>] = [
+        "uk": ["ы", "Ы", "э", "Э", "ъ", "Ъ", "ё", "Ё"], "ru": ["і", "І", "ї", "Ї", "є", "Є", "ґ", "Ґ"],
+    ]
+    /// The ICU transforms that would change a character the other Chinese script writes.
+    static let otherChineseScript: [String: StringTransform] = [
+        "zh-Hans": StringTransform("Traditional-Simplified"), "zh-Hant": StringTransform("Simplified-Traditional"),
+    ]
+    /// The plural forms that may leave their count out: "one file", "no files".
+    static let mayLeaveTheNumberOut: Set<String> = ["one", "zero"]
+    static let endMarks: [Character: Character] = [
+        ".": ".", "。": ".", "?": "?", "？": "?", ":": ":", "：": ":", "!": "!", "！": "!", "…": "…", "⋯": "…",
+    ]
+
+    /// What is between backticks, in order of text, a numbered placeholder read as the unnumbered one.
+    static func codeSpans(_ text: String) -> [String] {
+        let parts = text.components(separatedBy: "`")
+        return stride(from: 1, to: parts.count, by: 2).map { parts[$0].replacing(/%\d+\$/, with: "%") }.sorted()
+    }
+
+    /// A sentence's words without its code and its links' addresses.
+    static func prose(_ text: String) -> String {
+        let parts = text.components(separatedBy: "`")
+        return stride(from: 0, to: parts.count, by: 2).map { parts[$0] }.joined(separator: " ")
+            .replacing(/\]\([^)]*\)/, with: "]")
+    }
+
+    /// The whitespace a text starts and ends with, and how many lines it has.
+    static func edges(_ text: String) -> [String] {
+        [String(text.prefix(while: \.isWhitespace)), String(text.reversed().prefix(while: \.isWhitespace)),
+         String(text.count(where: { $0 == "\n" }))]
+    }
+
+    /// The mark a sentence ends with, after its closing quotation marks, brackets, and formatting, or nil for none.
+    static func endMark(_ text: String) -> Character? {
+        let closing: Set<Character> = ["”", "“", "\"", "»", "«", "」", "』", ")", "）", "’", "'", "`", "*", "_"]
+        let rest = text.reversed().drop { $0.isWhitespace || closing.contains($0) }
+        return rest.first.map { endMarks[$0] ?? " " }.flatMap { $0 == " " ? nil : $0 }
+    }
+
+    /// Whether a translation ends as its English does. A colon right after a placeholder belongs to what fills it,
+    /// such as a link's scheme ("https:"), and Romanian's dvs. carries the full stop of the abbreviation, which may
+    /// or may not end the sentence too.
+    static func endsAlike(_ text: String, _ source: String, language: String) -> Bool {
+        let filled = { (text: String) in text.replacing(/(%(?:\d+\$)?(?:lld|ld|d|@)):/) { String($0.1) } }
+        let mark = endMark(filled(source))
+        if language == "ro", text.trimmingCharacters(in: .whitespacesAndNewlines).hasSuffix("dvs.") {
+            return mark == nil || mark == "."
+        }
+        return endMark(filled(text)) == mark
+    }
+
+    static func phrases(_ node: Any?) -> [String]? {
+        ((node as? [String: Any])?["stringSet"] as? [String: Any])?["values"] as? [String]
+    }
     /// What Peel says in macOS's own words, each with the system table and key that hold them.
     static let systemWords: [(key: String, table: String, apple: String)] = [
         ("Full Disk Access", "/System/Library/ExtensionKit/Extensions/SecurityPrivacyExtension.appex/Contents/Resources/Localizable.loctable", "ALL_FILES"),
@@ -496,6 +600,10 @@ struct CatalogChecker {
         ("Show in Finder", "/System/Library/ExtensionKit/Extensions/SecurityPrivacyExtension.appex/Contents/Resources/Localizable.loctable", "REVEAL_IN_FINDER"),
         ("Login Items & Extensions", "/System/Library/ExtensionKit/Extensions/LoginItems.appex/Contents/Resources/Localizable.loctable", "Login Items & Extensions"),
         ("Check the spelling or try a new search.", "/System/Library/Frameworks/SwiftUI.framework/Versions/Current/Resources/Localizable.loctable", "ContentUnavailableView_Search_Secondary_Text"),
+        ("Network Extensions", "/System/Library/ExtensionKit/Extensions/SettingsSystemExtensionController.appex/Contents/Resources/Localizable.loctable", "NETWORK_EXTENSIONS"),
+        ("Camera Extensions", "/System/Library/ExtensionKit/Extensions/SettingsSystemExtensionController.appex/Contents/Resources/Localizable.loctable", "CMIO_EXTENSIONS"),
+        ("Driver Extensions", "/System/Library/ExtensionKit/Extensions/SettingsSystemExtensionController.appex/Contents/Resources/Localizable.loctable", "DRIVERKIT_EXTENSIONS"),
+        ("Endpoint Security Extensions", "/System/Library/ExtensionKit/Extensions/SettingsSystemExtensionController.appex/Contents/Resources/Localizable.loctable", "ENDPOINT_SECURITY_EXTENSIONS"),
     ]
     /// The sentences that name an app of macOS, each with the app whose own name it carries.
     static let appNames: [(key: String, app: String)] = [
@@ -717,6 +825,17 @@ struct CatalogChecker {
                 }
                 let found = leaves(node)
                 if found.isEmpty { fail(path, key, language, "shape", "no stringUnit, stringSet or variation") }
+                if catalog.table == .appShortcuts {
+                    let english = Self.phrases(localizations["en"]) ?? [source]
+                    let phrases = Self.phrases(node) ?? []
+                    if phrases.count != english.count {
+                        fail(path, key, language, "phrase", "\(phrases.count) phrases against the English \(english.count)")
+                    }
+                    for (phrase, original) in zip(phrases, english)
+                    where Self.slots(phrase).named.sorted() != Self.slots(original).named.sorted() {
+                        fail(path, key, language, "phrase", "\(Self.slots(phrase).named) against \(Self.slots(original).named)")
+                    }
+                }
                 let substitutions = Self.substitutions(node)
                 if (Self.plurals[language]?.count ?? 1) > 1, !Self.countsWithoutAgreement.contains(key),
                    Self.integer.firstMatch(in: source, range: NSRange(source.startIndex..., in: source)) != nil,
@@ -790,6 +909,28 @@ struct CatalogChecker {
         if text.contains("'"), !Self.straightApostrophe.contains(language) {
             fail(path, key, language, "apostrophe", "the straight apostrophe: write this language's own, as its macOS does")
         }
+        if language == "ro", let letter = text.first(where: { "şŞţŢ".contains($0) }) {
+            fail(path, key, language, "cedilla", "“\(letter)” has a cedilla: Romanian writes ș and ț with a comma below")
+        }
+        let words = Self.prose(text)
+        if let marks = Self.quotationMarks[language] {
+            let used = words.filter(Self.doubleQuotationMarks.contains)
+            let opened = used.count(where: { $0 == marks.open })
+            let closed = used.count(where: { $0 == marks.close })
+            if let wrong = used.first(where: { $0 != marks.open && $0 != marks.close }) {
+                fail(path, key, language, "quotes", "\(wrong) is another language's mark: this one writes \(marks.open) and \(marks.close)")
+            } else if marks.open == marks.close ? used.count % 2 != 0 : opened != closed {
+                fail(path, key, language, "quotes", "as many \(marks.open) as \(marks.close)")
+            }
+        }
+        if let letters = Self.sisterLetters[language], let letter = words.first(where: letters.contains) {
+            fail(path, key, language, "script", "“\(letter)” is a letter of the sister language")
+        }
+        if let transform = Self.otherChineseScript[language],
+           let converted = words.applyingTransform(transform, reverse: false), converted != words {
+            let character = zip(words, converted).first { $0 != $1 }.map { String($0.0) } ?? ""
+            fail(path, key, language, "script", "“\(character)” is written as the other Chinese script writes it")
+        }
         // A key that starts with a placeholder starts its line, so a translation that starts with a word instead
         // capitalizes it. A substitution sits inside its sentence.
         if !leaf.isSubstitution, source.first == "%", let first = text.first, first.isLetter, first.isLowercase {
@@ -836,7 +977,26 @@ struct CatalogChecker {
             if Self.slots(text).named.filter({ $0 != "${applicationName}" }).count > 1 { fail(path, key, language, "phrase", "one parameter at most") }
             return
         }
-        guard !leaf.isSubstitution else { return }
+        if leaf.isSubstitution {
+            if text != text.trimmingCharacters(in: .whitespacesAndNewlines) {
+                fail(path, key, language, "edges", "a form inside a sentence starts and ends with its words")
+            }
+            if let category = leaf.category, !Self.mayLeaveTheNumberOut.contains(category), !text.contains("%arg") {
+                fail(path, key, language, "plural", "only the form for one may leave the number out")
+            }
+            return
+        }
+        if Self.codeSpans(text) != Self.codeSpans(source) {
+            fail(path, key, language, "code", "what is between backticks is typed as the English has it")
+        }
+        if Self.menuWords[key] == nil, Self.swiftUIWords[key] == nil {
+            if Self.edges(text) != Self.edges(source) {
+                fail(path, key, language, "edges", "the spaces at its ends and its lines are the English's")
+            }
+            if !Self.endsAlike(text, source, language: language) {
+                fail(path, key, language, "end", "it ends with another mark than the English")
+            }
+        }
         var slots = Self.slots(text)
         for name in slots.named where substitutions[name] != nil {
             slots.slots.append(substitutions[name]!)
@@ -850,9 +1010,11 @@ struct CatalogChecker {
             let added = Set(slots.slots).subtracting(sourceSlots.slots)
             // A plural form may leave its count out ("one file"), but never a name, and only when what is
             // left is numbered: an unnumbered %@ would then read the count.
-            let safeDrop =
+            let dropsItsCount =
                 leaf.category != nil && added.isEmpty && dropped.allSatisfy { $0.kind != "@" } && slots.unnumbered == 0
-            if !safeDrop {
+            if dropsItsCount, let category = leaf.category, !Self.mayLeaveTheNumberOut.contains(category) {
+                fail(path, key, language, "plural", "only the form for one may leave the number out")
+            } else if !dropsItsCount {
                 fail(path, key, language, "placeholder", "\(slots.slots.map { "\($0.position):\($0.kind)" }) against \(sourceSlots.slots.map { "\($0.position):\($0.kind)" })")
             }
         }
