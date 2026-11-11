@@ -163,6 +163,9 @@ enum KeptOnlyHere {
         ("Library/Containers/com.microsoft.Excel", "Data/Library/Application Support/Microsoft", .holdsWorkMadeWithTheApp),
         // Cultured Code's "Completely Uninstalling Things": deleting this group container deletes the to-dos.
         ("Library/Group Containers/JLMPQHK86H.com.culturedcode.ThingsMac", nil, .holdsWorkMadeWithTheApp),
+        // Bear's "Where are Bear's notes located" and "Bear Pro Sync Troubleshooting": the notes' database, which
+        // syncs only with Bear Pro.
+        ("Library/Group Containers/9K33E3U3T4.net.shinyfrog.bear", "Application Data", .holdsWorkMadeWithTheApp),
         // OBS Studio keeps its profiles and scene collections in `obs-studio/basic` in its configuration folder
         // (`frontend/OBSApp.cpp`), and nowhere else.
         ("Library/Application Support/obs-studio", "basic", .holdsWorkMadeWithTheApp),
