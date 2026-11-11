@@ -15,6 +15,7 @@ struct OpenFiles {
         names: [String], process: String, pid: pid_t, hold: Hold, owner: Owner, daemon: BuildDaemon?
     )
 
+    /// Sorted by their names, so the files under a folder lie together.
     private let files: [File]
     /// The program each process that holds something runs, by its identifier.
     private let programs: [pid_t: String]
@@ -50,8 +51,21 @@ struct OpenFiles {
                 ? Self.arguments(of: pid).flatMap(BuildDaemon.running(with:)) : nil
             files += paths.map { (PathComponents.of($0.path), process, pid, $0.hold, owner, daemon) }
         }
-        self.files = files
+        self.files = Self.sorted(files)
         self.programs = programs
+    }
+
+    /// `paths` held open for reading by one process of this account, for what no Mac holds open on demand.
+    init(holdingOpen paths: [String]) {
+        jobs = []
+        excludedProgram = nil
+        attachedImages = []
+        programs = [1: "/org.example/Probe"]
+        files = Self.sorted(paths.map { (PathComponents.of($0), "Probe", 1, .reads, .thisAccount, nil) })
+    }
+
+    private static func sorted(_ files: [File]) -> [File] {
+        files.sorted { $0.names.lexicographicallyPrecedes($1.names) }
     }
 
     /// How long a reading is trusted: a removal of many items takes seconds, and a program can start meanwhile.
@@ -105,7 +119,8 @@ struct OpenFiles {
         let names = PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false))
         if !lettingItsProgramsRun, let excludedProgram, excludedProgram.starts(with: names) { return .peelRunsFromIt }
         if attachedImages.contains(where: { $0.starts(with: names) }) { return .attachedDiskImage }
-        let holding = holding(url, lettingItsProgramsRun: lettingItsProgramsRun)
+        let isAnApp = AppBundleLayout.isAnApp(url)
+        let holding = holding(names, isAnApp: isAnApp, lettingItsProgramsRun: lettingItsProgramsRun)
         // An input method runs from its own bundle while it is one of the input sources, which System Settings removes.
         if Self.isAnInputMethod(url), !holding.isEmpty,
            holding.allSatisfy({ $0.hold == .runs && $0.owner == .thisAccount }) {
@@ -204,9 +219,19 @@ struct OpenFiles {
 
     private func holding(_ url: URL, lettingItsProgramsRun: Bool) -> [File] {
         let names = PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false))
-        let isAnApp = AppBundleLayout.isAnApp(url)
-        return files.filter { file in
-            guard file.names.starts(with: names) else { return false }
+        return holding(names, isAnApp: AppBundleLayout.isAnApp(url), lettingItsProgramsRun: lettingItsProgramsRun)
+    }
+
+    /// The files at or under `names` that hold it: in `files`, sorted, they start at the first that doesn't come before
+    /// `names`, and end at the first that isn't under it.
+    private func holding(_ names: [String], isAnApp: Bool, lettingItsProgramsRun: Bool) -> [File] {
+        var low = 0
+        var high = files.count
+        while low < high {
+            let middle = (low + high) / 2
+            if files[middle].names.lexicographicallyPrecedes(names) { low = middle + 1 } else { high = middle }
+        }
+        return files[low...].prefix { $0.names.starts(with: names) }.filter { file in
             switch file.hold {
             case .reads: return !isAnApp
             case .writes: return true

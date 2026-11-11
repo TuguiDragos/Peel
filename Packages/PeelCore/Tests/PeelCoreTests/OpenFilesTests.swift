@@ -4,6 +4,24 @@ import Foundation
 import Testing
 
 struct OpenFilesTests {
+    @Test func aQuestionCostsAboutTheSameHoweverManyFilesAreOpen() {
+        func cost(of open: OpenFiles) -> Duration {
+            processorTime {
+                for index in 0..<200 {
+                    _ = open.refusal(of: URL(filePath: "/org.example/held/\(index)"), lettingItsProgramsRun: false)
+                }
+            }
+        }
+        let few = OpenFiles(holdingOpen: (0..<1_000).map { "/org.example/open/\($0)" })
+        let many = OpenFiles(holdingOpen: (0..<100_000).map { "/org.example/open/\($0)" })
+        _ = cost(of: few)
+
+        #expect(cost(of: many) / cost(of: few) < 5)
+        #expect(many.holders(of: URL(filePath: "/org.example/open")) == ["Probe"])
+        #expect(many.holders(of: URL(filePath: "/org.example/open/42")) == ["Probe"])
+        #expect(many.holders(of: URL(filePath: "/org.example/held")).isEmpty)
+    }
+
     @Test func seesAFileHeldOpenInsideAFolder() throws {
         let directory = try TemporaryDirectory()
         let file = try directory.file("Cache/inner/store.db")
