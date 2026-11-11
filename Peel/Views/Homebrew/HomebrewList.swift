@@ -142,9 +142,9 @@ struct HomebrewList: View {
     private func confirmationMessage(_ command: HomebrewLibrary.Command) -> Text {
         switch command {
         case .clearOlderDownloads:
-            Text("Homebrew deletes for good every file in its cache older than 30 days, and what Clean Up removes. Nothing goes to the Trash, and History can’t put it back.")
+            Text("Homebrew deletes for good every file in its cache older than 30 days, and what Clean Up deletes. Nothing goes to the Trash, and History can’t put it back.")
         case .clearEveryDownload:
-            Text("Homebrew deletes for good every download it keeps, even for the latest versions, except those of what is installed now, and what Clean Up removes. Nothing goes to the Trash, and History can’t put it back.")
+            Text("Homebrew deletes for good every download it keeps, even for the latest versions, except those of what is installed now, and what Clean Up deletes. Nothing goes to the Trash, and History can’t put it back.")
         default:
             Text("Homebrew adds the links missing from its taps’ manual pages and shell completions, and points a tap whose main branch was renamed at the new name. It deletes nothing.")
         }
@@ -190,11 +190,11 @@ struct HomebrewList: View {
         String(inflecting: "Right now that is ^[\(formulae.count) formula](inflect: true): \(RemovalFailureAlert.listedFormulae(formulae)).")
     }
 
-    /// What the Clean Up row's note says: what Clean Up removes, and every formula it would uninstall now.
+    /// What the Clean Up row's note says: what Clean Up deletes, and every formula it would uninstall now.
     private var cleanUpDetail: Text {
         var removes = homebrew.overrides.contains(.keepsDependencies)
-            ? Text("Removes what Homebrew kept after installing and upgrading: cached downloads and old versions. What you installed yourself stays.")
-            : Text("Removes what Homebrew kept after installing and upgrading: cached downloads, old versions, and the formulae nothing needs anymore. What you installed yourself stays.")
+            ? Text("Deletes what Homebrew kept after installing and upgrading: cached downloads and old versions. What you installed yourself stays.")
+            : Text("Deletes what Homebrew kept after installing and upgrading: cached downloads, old versions, and the formulae nothing needs anymore. What you installed yourself stays.")
         if let prefix = homebrew.installation?.prefix {
             removes = Text("\(removes)\n\n\(Self.prunes(prefix))")
         }
@@ -316,7 +316,7 @@ struct HomebrewList: View {
             }
             row(
                 title: "Clear Older Downloads",
-                detail: Text("Removes every file in Homebrew’s cache older than 30 days, as well as what Clean Up removes."),
+                detail: Text("Deletes every file in Homebrew’s cache older than 30 days, as well as what Clean Up deletes."),
                 systemImage: "clock.arrow.trianglehead.counterclockwise.rotate.90",
                 command: .clearOlderDownloads
             ) {
@@ -324,7 +324,7 @@ struct HomebrewList: View {
             }
             row(
                 title: "Clear Every Download",
-                detail: Text("Removes every download Homebrew keeps, even for the latest versions, as well as what Clean Up removes. The downloads of what is installed now stay."),
+                detail: Text("Deletes every download Homebrew keeps, even for the latest versions, as well as what Clean Up deletes. The downloads of what is installed now stay."),
                 systemImage: "tray.full",
                 command: .clearEveryDownload
             ) {

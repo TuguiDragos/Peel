@@ -41256,6 +41256,430 @@
         }
       }
     },
+    "Deletes every download Homebrew keeps, even for the latest versions, as well as what Clean Up deletes. The downloads of what is installed now stay." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smaže všechny stažené soubory, které si Homebrew ponechává, i ty pro nejnovější verze, a také to, co smaže příkaz „Vyčistit“. Stažené soubory toho, co je právě nainstalované, zůstanou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löscht jeden Download, den Homebrew aufbewahrt, auch für die neuesten Versionen, sowie das, was „Bereinigen“ löscht. Die Downloads dessen, was jetzt installiert ist, bleiben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borra todas las descargas que guarda Homebrew, incluso las de las versiones más recientes, además de lo que borra la opción Limpiar. Las descargas de lo que está instalado ahora se quedan."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprime définitivement tous les téléchargements que Homebrew conserve, même ceux des dernières versions, ainsi que ce que supprime Nettoyer. Les téléchargements de ce qui est installé actuellement restent en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina tutti i download che Homebrew conserva, anche quelli delle versioni più recenti, oltre a ciò che elimina “Ripulisci”. I download di ciò che è installato ora restano."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewが保持しているすべてのダウンロードを、最新バージョンのものも含めて、“クリーンアップ”で削除されるものと合わせて削除します。現在インストールされているもののダウンロードは残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 보관해 둔 모든 다운로드 파일을 최신 버전의 것까지 삭제하며, ‘정리’가 삭제하는 항목도 삭제합니다. 현재 설치된 항목의 다운로드 파일은 그대로 남습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijdert definitief elke download die Homebrew bewaart, ook die van de nieuwste versies, en daarnaast wat 'Ruim op' verwijdert. De downloads van wat nu geïnstalleerd is, blijven staan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuwa wszystkie pobrane pliki zachowane przez Homebrew, także najnowszych wersji, oraz to, co usuwa polecenie Wyczyść. Pobrane pliki tego, co jest teraz zainstalowane, zostają."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apaga todos os downloads que o Homebrew guarda, mesmo os das versões mais recentes, além do que o comando Limpar apaga. Os downloads do que está instalado agora ficam."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Șterge fiecare descărcare păstrată de Homebrew, chiar și pentru cele mai noi versiuni, plus ce șterge „Curățați”. Descărcările pentru ce este instalat acum rămân."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удаляет все загрузки, которые хранит Homebrew, даже для последних версий, а также то, что удаляет кнопка «Очистить». Загрузки того, что установлено сейчас, остаются."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raderar alla hämtningar som Homebrew har sparat, även för de senaste versionerna, samt det som Homebrews upprensning raderar. Hämtningarna för det som är installerat nu finns kvar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temizle işleminin sildiklerine ek olarak, Homebrew’un en son sürümlerinkiler dahil sakladığı tüm indirmeleri siler. Şu anda yüklü olanların indirmeleri kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Видаляє всі викачані файли, які зберігає Homebrew, навіть для найновіших версій, а також те, що видаляє команда «Очистити». Викачані файли того, що інстальовано зараз, лишаються."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除Homebrew保留的所有下载文件（即使是最新版本的也不例外），以及“清理”会删除的内容。当前已安装内容的下载文件会保留。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除Homebrew保留的所有下載檔案（包括最新版本的下載檔案），以及「清理」會刪除的項目。目前已安裝項目的下載檔案會保留。"
+          }
+        }
+      }
+    },
+    "Deletes every file in Homebrew’s cache older than 30 days, as well as what Clean Up deletes." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smaže všechny soubory v mezipaměti Homebrew starší než 30 dní a také to, co smaže příkaz „Vyčistit“."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löscht jede Datei im Cache von Homebrew, die älter als 30 Tage ist, sowie das, was „Bereinigen“ löscht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borra todos los archivos de la caché de Homebrew de más de 30 días, además de lo que borra la opción Limpiar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprime définitivement tous les fichiers du cache de Homebrew datant de plus de 30 jours, ainsi que ce que supprime Nettoyer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina ogni file nella cache di Homebrew più vecchio di 30 giorni, oltre a ciò che elimina “Ripulisci”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewのキャッシュ内にある30日より古いすべてのファイルを、“クリーンアップ”で削除されるものと合わせて削除します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew의 캐시에서 30일이 지난 모든 파일과 ‘정리’가 삭제하는 항목을 삭제합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijdert definitief elk bestand in de cache van Homebrew dat ouder is dan 30 dagen, en daarnaast wat 'Ruim op' verwijdert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuwa wszystkie pliki w pamięci podręcznej Homebrew starsze niż 30 dni oraz to, co usuwa polecenie Wyczyść."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apaga todos os arquivos do cache do Homebrew com mais de 30 dias, além do que o comando Limpar apaga."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Șterge fiecare fișier mai vechi de 30 de zile din memoria tampon a Homebrew, plus ce șterge „Curățați”."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удаляет все файлы в кэше Homebrew старше 30 дней, а также то, что удаляет кнопка «Очистить»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raderar alla filer i Homebrews cache som är äldre än 30 dagar, samt det som Homebrews upprensning raderar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temizle işleminin sildiklerine ek olarak, Homebrew’un önbelleğindeki 30 günden eski tüm dosyaları siler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Видаляє всі файли в кеші Homebrew, старші за 30 днів, а також те, що видаляє команда «Очистити»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除Homebrew缓存中超过30天的所有文件，以及“清理”会删除的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除Homebrew快取中超過30天的所有檔案，以及「清理」會刪除的項目。"
+          }
+        }
+      }
+    },
+    "Deletes what Homebrew kept after installing and upgrading: cached downloads and old versions. What you installed yourself stays." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smaže, co si Homebrew ponechal po instalacích a upgradech: stažené soubory v mezipaměti a staré verze. Co jste nainstalovali sami, zůstane."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löscht, was Homebrew nach Installationen und Upgrades aufbewahrt hat: zwischengespeicherte Downloads und alte Versionen. Was du selbst installiert hast, bleibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borra lo que Homebrew guardó al instalar y actualizar paquetes: descargas en caché y versiones antiguas. Lo que has instalado tú se queda."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprime définitivement ce que Homebrew a conservé après les installations et les mises à niveau : les téléchargements en cache et les anciennes versions. Ce que vous avez installé vous-même reste en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina ciò che Homebrew ha conservato dopo installazioni e aggiornamenti: download nella cache e vecchie versioni. Ciò che hai installato tu resta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewがインストールやアップグレードの後に残したもの（キャッシュされたダウンロードと古いバージョン）を削除します。自分でインストールしたものは残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 설치 및 업그레이드 후에 보관해 둔 캐시된 다운로드 파일과 이전 버전을 삭제합니다. 직접 설치한 항목은 그대로 남습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijdert definitief wat Homebrew na installeren en upgraden heeft bewaard: gecachte downloads en oude versies. Wat je zelf hebt geïnstalleerd, blijft staan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuwa to, co Homebrew zachował po instalowaniu i uaktualnianiu: pobrane pliki w pamięci podręcznej i stare wersje. Pakiety zainstalowane przez Ciebie zostają."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apaga o que o Homebrew guardou depois de instalar e fazer upgrade: downloads em cache e versões antigas. O que você mesmo instalou fica."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Șterge ce a păstrat Homebrew după instalări și upgrade‑uri: descărcările din memoria tampon și versiunile vechi. Ce ați instalat dvs. rămâne."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удаляет то, что Homebrew сохранил после установок и обновлений: кэшированные загрузки и старые версии. То, что Вы установили сами, остается."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raderar det som Homebrew har sparat efter installationer och uppgraderingar: cachade hämtningar och gamla versioner. Det du själv har installerat finns kvar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’un yükleme ve yükseltmelerden sonra sakladıklarını siler: önbelleğe alınmış indirmeler ve eski sürümler. Kendi yüklediğiniz şeyler kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Видаляє те, що Homebrew зберіг після інсталювання й оновлення: кешовані викачані файли та старі версії. Те, що ви інсталювали самі, лишається."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除Homebrew在安装和升级后保留的内容：缓存的下载文件和旧版本。你自己安装的内容会保留。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除Homebrew在安裝和升級後保留的項目：快取的下載檔案和舊版本。你自己安裝的項目會保留。"
+          }
+        }
+      }
+    },
+    "Deletes what Homebrew kept after installing and upgrading: cached downloads, old versions, and the formulae nothing needs anymore. What you installed yourself stays." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smaže, co si Homebrew ponechal po instalacích a upgradech: stažené soubory v mezipaměti, staré verze a formulae, které už nic nepotřebuje. Co jste nainstalovali sami, zůstane."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löscht, was Homebrew nach Installationen und Upgrades aufbewahrt hat: zwischengespeicherte Downloads, alte Versionen und die Formulae, die von nichts mehr benötigt werden. Was du selbst installiert hast, bleibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borra lo que Homebrew guardó al instalar y actualizar paquetes: descargas en caché, versiones antiguas y las formulae de las que ya no depende nada. Lo que has instalado tú se queda."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprime définitivement ce que Homebrew a conservé après les installations et les mises à niveau : les téléchargements en cache, les anciennes versions et les formulae dont plus rien n’a besoin. Ce que vous avez installé vous-même reste en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina ciò che Homebrew ha conservato dopo installazioni e aggiornamenti: download nella cache, vecchie versioni e le formulae che non servono più a nulla. Ciò che hai installato tu resta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewがインストールやアップグレードの後に残したもの（キャッシュされたダウンロード、古いバージョン、もう何にも必要とされていないformulae）を削除します。自分でインストールしたものは残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 설치 및 업그레이드 후에 보관해 둔 캐시된 다운로드 파일, 이전 버전, 그리고 더 이상 필요하지 않은 formulae를 삭제합니다. 직접 설치한 항목은 그대로 남습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijdert definitief wat Homebrew na installeren en upgraden heeft bewaard: gecachte downloads, oude versies en de formulae waar niets meer van afhankelijk is. Wat je zelf hebt geïnstalleerd, blijft staan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuwa to, co Homebrew zachował po instalowaniu i uaktualnianiu: pobrane pliki w pamięci podręcznej, stare wersje oraz formulae, których nic już nie potrzebuje. Pakiety zainstalowane przez Ciebie zostają."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apaga o que o Homebrew guardou depois de instalar e fazer upgrade: downloads em cache, versões antigas e as formulae de que nada mais precisa. O que você mesmo instalou fica."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Șterge ce a păstrat Homebrew după instalări și upgrade‑uri: descărcările din memoria tampon, versiunile vechi și formulele de care nu mai are nevoie nimic. Ce ați instalat dvs. rămâne."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удаляет то, что Homebrew сохранил после установок и обновлений: кэшированные загрузки, старые версии и formulae, которые больше ничему не нужны. То, что Вы установили сами, остается."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raderar det som Homebrew har sparat efter installationer och uppgraderingar: cachade hämtningar, gamla versioner och de formulae som inget längre behöver. Det du själv har installerat finns kvar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’un yükleme ve yükseltmelerden sonra sakladıklarını siler: önbelleğe alınmış indirmeler, eski sürümler ve artık hiçbir şeyin ihtiyaç duymadığı formulae. Kendi yüklediğiniz şeyler kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Видаляє те, що Homebrew зберіг після інсталювання й оновлення: кешовані викачані файли, старі версії та formulae, які більше нічому не потрібні. Те, що ви інсталювали самі, лишається."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除Homebrew在安装和升级后保留的内容：缓存的下载文件、旧版本，以及不再被需要的formulae。你自己安装的内容会保留。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除Homebrew在安裝和升級後保留的項目：快取的下載檔案、舊版本，以及不再被需要的formulae。你自己安裝的項目會保留。"
+          }
+        }
+      }
+    },
     "Deleting a word back stops at each slash, so a path goes one folder at a time." : {
       "localizations" : {
         "cs" : {
@@ -64000,24 +64424,24 @@
         }
       }
     },
-    "Homebrew deletes for good every download it keeps, even for the latest versions, except those of what is installed now, and what Clean Up removes. Nothing goes to the Trash, and History can’t put it back." : {
+    "Homebrew deletes for good every download it keeps, even for the latest versions, except those of what is installed now, and what Clean Up deletes. Nothing goes to the Trash, and History can’t put it back." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew trvale smaže všechny stažené soubory, které si ponechává, i ty pro nejnovější verze, kromě souborů toho, co je právě nainstalované, a také to, co odstraní příkaz „Vyčistit“. Nic se nepřesune do koše a Historie to nemůže vrátit zpět."
+            "value" : "Homebrew trvale smaže všechny stažené soubory, které si ponechává, i ty pro nejnovější verze, kromě souborů toho, co je právě nainstalované, a také to, co smaže příkaz „Vyčistit“. Nic se nepřesune do koše a Historie to nemůže vrátit zpět."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew löscht endgültig jeden aufbewahrten Download, auch für die neuesten Versionen, sowie das, was „Bereinigen“ entfernt. Die Downloads dessen, was jetzt installiert ist, bleiben erhalten. Nichts wird in den Papierkorb gelegt, und im Verlauf lässt sich nichts davon zurücklegen."
+            "value" : "Homebrew löscht endgültig jeden aufbewahrten Download, auch für die neuesten Versionen, sowie das, was „Bereinigen“ löscht. Die Downloads dessen, was jetzt installiert ist, bleiben erhalten. Nichts wird in den Papierkorb gelegt, und im Verlauf lässt sich nichts davon zurücklegen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew borra definitivamente todas las descargas que guarda, incluso las de las versiones más recientes, salvo las de lo que está instalado ahora, y lo que elimina la opción Limpiar. No va nada a la papelera e Historial no puede restaurarlo."
+            "value" : "Homebrew borra definitivamente todas las descargas que guarda, incluso las de las versiones más recientes, salvo las de lo que está instalado ahora, y lo que borra la opción Limpiar. No va nada a la papelera e Historial no puede restaurarlo."
           }
         },
         "fr" : {
@@ -64029,7 +64453,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew elimina definitivamente tutti i download che conserva, anche quelli delle versioni più recenti, tranne quelli di ciò che è installato ora, più ciò che rimuove “Ripulisci”. Nulla va nel Cestino e la Cronologia non può ripristinarli."
+            "value" : "Homebrew elimina definitivamente tutti i download che conserva, anche quelli delle versioni più recenti, tranne quelli di ciò che è installato ora, più ciò che elimina “Ripulisci”. Nulla va nel Cestino e la Cronologia non può ripristinarli."
           }
         },
         "ja" : {
@@ -64041,7 +64465,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew가 보관해 둔 모든 다운로드 파일을 최신 버전의 것까지 영구적으로 삭제하며, ‘정리’가 제거하는 항목도 삭제합니다. 현재 설치된 항목의 다운로드 파일은 제외됩니다. 아무것도 휴지통으로 이동하지 않으며, 기록에서 되돌려 놓을 수도 없습니다."
+            "value" : "Homebrew가 보관해 둔 모든 다운로드 파일을 최신 버전의 것까지 영구적으로 삭제하며, ‘정리’가 삭제하는 항목도 삭제합니다. 현재 설치된 항목의 다운로드 파일은 제외됩니다. 아무것도 휴지통으로 이동하지 않으며, 기록에서 되돌려 놓을 수도 없습니다."
           }
         },
         "nl" : {
@@ -64059,13 +64483,13 @@
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew apaga definitivamente todos os downloads que guarda, mesmo os das versões mais recentes, exceto os do que está instalado agora, além do que o comando Limpar remove. Nada vai para o Lixo, e o Histórico não pode colocá-los de volta."
+            "value" : "O Homebrew apaga definitivamente todos os downloads que guarda, mesmo os das versões mais recentes, exceto os do que está instalado agora, além do que o comando Limpar apaga. Nada vai para o Lixo, e o Histórico não pode colocá-los de volta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew șterge definitiv fiecare descărcare pe care o păstrează, chiar și pentru cele mai noi versiuni, cu excepția celor pentru ce este instalat acum, plus ce elimină „Curățați”. Nimic nu ajunge în Coș și nu le puteți pune înapoi din Istoric."
+            "value" : "Homebrew șterge definitiv fiecare descărcare pe care o păstrează, chiar și pentru cele mai noi versiuni, cu excepția celor pentru ce este instalat acum, plus ce șterge „Curățați”. Nimic nu ajunge în Coș și nu le puteți pune înapoi din Istoric."
           }
         },
         "ru" : {
@@ -64077,13 +64501,13 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew raderar permanent alla hämtningar som Homebrew har sparat, även för de senaste versionerna, utom hämtningarna för det som är installerat nu, samt det som Homebrews upprensning tar bort. Inget hamnar i papperskorgen och Historik kan inte lägga tillbaka det."
+            "value" : "Homebrew raderar permanent alla hämtningar som Homebrew har sparat, även för de senaste versionerna, utom hämtningarna för det som är installerat nu, samt det som Homebrews upprensning raderar. Inget hamnar i papperskorgen och Historik kan inte lägga tillbaka det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew, sakladığı tüm indirmeleri (en son sürümlerinkiler dahil, şu anda yüklü olanlarınkiler hariç) ve Temizle işleminin kaldırdıklarını kalıcı olarak siler. Çöp Sepeti’ne hiçbir şey gitmez ve Geçmiş bunları yerine koyamaz."
+            "value" : "Homebrew, sakladığı tüm indirmeleri (en son sürümlerinkiler dahil, şu anda yüklü olanlarınkiler hariç) ve Temizle işleminin sildiklerini kalıcı olarak siler. Çöp Sepeti’ne hiçbir şey gitmez ve Geçmiş bunları yerine koyamaz."
           }
         },
         "uk" : {
@@ -64095,35 +64519,35 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew会永久删除它保留的所有下载文件（即使是最新版本的也不例外，但当前已安装内容的下载文件除外），以及“清理”会移除的内容。任何内容都不会移到废纸篓，“历史记录”也无法将其放回原处。"
+            "value" : "Homebrew会永久删除它保留的所有下载文件（即使是最新版本的也不例外，但当前已安装内容的下载文件除外），以及“清理”会删除的内容。任何内容都不会移到废纸篓，“历史记录”也无法将其放回原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew會永久刪除它保留的所有下載檔案（包括最新版本的下載檔案，但目前已安裝項目的下載檔案除外），以及「清理」會移除的項目。不會丟到「垃圾桶」，「歷史記錄」也無法還原。"
+            "value" : "Homebrew會永久刪除它保留的所有下載檔案（包括最新版本的下載檔案，但目前已安裝項目的下載檔案除外），以及「清理」會刪除的項目。不會丟到「垃圾桶」，「歷史記錄」也無法還原。"
           }
         }
       }
     },
-    "Homebrew deletes for good every file in its cache older than 30 days, and what Clean Up removes. Nothing goes to the Trash, and History can’t put it back." : {
+    "Homebrew deletes for good every file in its cache older than 30 days, and what Clean Up deletes. Nothing goes to the Trash, and History can’t put it back." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew trvale smaže všechny soubory ve své mezipaměti starší než 30 dní a také to, co odstraní příkaz „Vyčistit“. Nic se nepřesune do koše a Historie to nemůže vrátit zpět."
+            "value" : "Homebrew trvale smaže všechny soubory ve své mezipaměti starší než 30 dní a také to, co smaže příkaz „Vyčistit“. Nic se nepřesune do koše a Historie to nemůže vrátit zpět."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew löscht endgültig jede Datei in seinem Cache, die älter als 30 Tage ist, sowie das, was „Bereinigen“ entfernt. Nichts wird in den Papierkorb gelegt, und im Verlauf lässt sich nichts davon zurücklegen."
+            "value" : "Homebrew löscht endgültig jede Datei in seinem Cache, die älter als 30 Tage ist, sowie das, was „Bereinigen“ löscht. Nichts wird in den Papierkorb gelegt, und im Verlauf lässt sich nichts davon zurücklegen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew borra definitivamente todos los archivos de su caché de más de 30 días, y lo que elimina la opción Limpiar. No va nada a la papelera e Historial no puede restaurarlo."
+            "value" : "Homebrew borra definitivamente todos los archivos de su caché de más de 30 días, y lo que borra la opción Limpiar. No va nada a la papelera e Historial no puede restaurarlo."
           }
         },
         "fr" : {
@@ -64135,7 +64559,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew elimina definitivamente ogni file nella sua cache più vecchio di 30 giorni, più ciò che rimuove “Ripulisci”. Nulla va nel Cestino e la Cronologia non può ripristinarli."
+            "value" : "Homebrew elimina definitivamente ogni file nella sua cache più vecchio di 30 giorni, più ciò che elimina “Ripulisci”. Nulla va nel Cestino e la Cronologia non può ripristinarli."
           }
         },
         "ja" : {
@@ -64147,7 +64571,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew가 캐시에서 30일이 지난 모든 파일과 ‘정리’가 제거하는 항목을 영구적으로 삭제합니다. 아무것도 휴지통으로 이동하지 않으며, 기록에서 되돌려 놓을 수도 없습니다."
+            "value" : "Homebrew가 캐시에서 30일이 지난 모든 파일과 ‘정리’가 삭제하는 항목을 영구적으로 삭제합니다. 아무것도 휴지통으로 이동하지 않으며, 기록에서 되돌려 놓을 수도 없습니다."
           }
         },
         "nl" : {
@@ -64165,13 +64589,13 @@
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew apaga definitivamente todos os arquivos do próprio cache com mais de 30 dias, além do que o comando Limpar remove. Nada vai para o Lixo, e o Histórico não pode colocá-los de volta."
+            "value" : "O Homebrew apaga definitivamente todos os arquivos do próprio cache com mais de 30 dias, além do que o comando Limpar apaga. Nada vai para o Lixo, e o Histórico não pode colocá-los de volta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew șterge definitiv fiecare fișier mai vechi de 30 de zile din memoria sa tampon, plus ce elimină „Curățați”. Nimic nu ajunge în Coș și nu le puteți pune înapoi din Istoric."
+            "value" : "Homebrew șterge definitiv fiecare fișier mai vechi de 30 de zile din memoria sa tampon, plus ce șterge „Curățați”. Nimic nu ajunge în Coș și nu le puteți pune înapoi din Istoric."
           }
         },
         "ru" : {
@@ -64183,13 +64607,13 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew raderar permanent alla filer i sin cache som är äldre än 30 dagar, samt det som Homebrews upprensning tar bort. Inget hamnar i papperskorgen och Historik kan inte lägga tillbaka det."
+            "value" : "Homebrew raderar permanent alla filer i sin cache som är äldre än 30 dagar, samt det som Homebrews upprensning raderar. Inget hamnar i papperskorgen och Historik kan inte lägga tillbaka det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew, önbelleğindeki 30 günden eski tüm dosyaları ve Temizle işleminin kaldırdıklarını kalıcı olarak siler. Çöp Sepeti’ne hiçbir şey gitmez ve Geçmiş bunları yerine koyamaz."
+            "value" : "Homebrew, önbelleğindeki 30 günden eski tüm dosyaları ve Temizle işleminin sildiklerini kalıcı olarak siler. Çöp Sepeti’ne hiçbir şey gitmez ve Geçmiş bunları yerine koyamaz."
           }
         },
         "uk" : {
@@ -64201,29 +64625,29 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew会永久删除其缓存中超过30天的所有文件，以及“清理”会移除的内容。任何内容都不会移到废纸篓，“历史记录”也无法将其放回原处。"
+            "value" : "Homebrew会永久删除其缓存中超过30天的所有文件，以及“清理”会删除的内容。任何内容都不会移到废纸篓，“历史记录”也无法将其放回原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew會永久刪除其快取中超過30天的所有檔案，以及「清理」會移除的項目。不會丟到「垃圾桶」，「歷史記錄」也無法還原。"
+            "value" : "Homebrew會永久刪除其快取中超過30天的所有檔案，以及「清理」會刪除的項目。不會丟到「垃圾桶」，「歷史記錄」也無法還原。"
           }
         }
       }
     },
-    "Homebrew deletes the package for good: nothing goes to the Trash, and History can’t put it back. It won’t do this while another package needs it, and it also removes every formula nothing needs anymore, whichever package brought it in." : {
+    "Homebrew deletes the package for good: nothing goes to the Trash, and History can’t put it back. It won’t do this while another package needs it, and it also deletes every formula nothing needs anymore, whichever package brought it in." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew tento balíček trvale smaže: nic se nepřesune do koše a Historie ho nemůže vrátit zpět. Neudělá to, dokud ho potřebuje jiný balíček, a navíc odstraní všechny formulae, které už nic nepotřebuje, ať je přinesl kterýkoli balíček."
+            "value" : "Homebrew tento balíček trvale smaže: nic se nepřesune do koše a Historie ho nemůže vrátit zpět. Neudělá to, dokud ho potřebuje jiný balíček, a navíc smaže všechny formulae, které už nic nepotřebuje, ať je přinesl kterýkoli balíček."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew löscht das Paket endgültig: Nichts wird in den Papierkorb gelegt, und im Verlauf lässt es sich nicht zurücklegen. Solange ein anderes Paket es benötigt, tut Homebrew das nicht, und außerdem entfernt Homebrew jede Formula, die von nichts mehr benötigt wird, egal welches Paket sie mitgebracht hat."
+            "value" : "Homebrew löscht das Paket endgültig: Nichts wird in den Papierkorb gelegt, und im Verlauf lässt es sich nicht zurücklegen. Solange ein anderes Paket es benötigt, tut Homebrew das nicht, und außerdem löscht Homebrew jede Formula, die von nichts mehr benötigt wird, egal welches Paket sie mitgebracht hat."
           }
         },
         "es" : {
@@ -64241,7 +64665,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew elimina il pacchetto definitivamente: nulla va nel Cestino e la Cronologia non può ripristinarlo. Non lo fa finché un altro pacchetto ne ha bisogno, e rimuove anche ogni formula che non serve più a nulla, qualunque sia il pacchetto che l’ha portata."
+            "value" : "Homebrew elimina il pacchetto definitivamente: nulla va nel Cestino e la Cronologia non può ripristinarlo. Non lo fa finché un altro pacchetto ne ha bisogno, ed elimina anche ogni formula che non serve più a nulla, qualunque sia il pacchetto che l’ha portata."
           }
         },
         "ja" : {
@@ -64253,7 +64677,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew는 이 패키지를 영구적으로 삭제합니다. 아무것도 휴지통으로 이동하지 않으며, 기록에서 되돌려 놓을 수도 없습니다. 다른 패키지가 이 패키지를 필요로 하는 동안에는 삭제하지 않으며, 어떤 패키지 때문에 설치되었든 더 이상 어떤 패키지에도 필요하지 않은 formula도 모두 제거합니다."
+            "value" : "Homebrew는 이 패키지를 영구적으로 삭제합니다. 아무것도 휴지통으로 이동하지 않으며, 기록에서 되돌려 놓을 수도 없습니다. 다른 패키지가 이 패키지를 필요로 하는 동안에는 삭제하지 않으며, 어떤 패키지 때문에 설치되었든 더 이상 어떤 패키지에도 필요하지 않은 formula도 모두 삭제합니다."
           }
         },
         "nl" : {
@@ -64271,13 +64695,13 @@
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew apaga o pacote definitivamente: nada vai para o Lixo, e o Histórico não pode colocá-lo de volta. Ele não faz isso enquanto outro pacote precisar dele, e também remove toda formula de que nada mais precisa, qualquer que seja o pacote que a trouxe."
+            "value" : "O Homebrew apaga o pacote definitivamente: nada vai para o Lixo, e o Histórico não pode colocá-lo de volta. Ele não faz isso enquanto outro pacote precisar dele, e também apaga toda formula de que nada mais precisa, qualquer que seja o pacote que a trouxe."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew șterge pachetul definitiv: nimic nu ajunge în Coș și nu îl puteți pune înapoi din Istoric. Nu face acest lucru cât timp un alt pachet are nevoie de el și elimină totodată fiecare formulă de care nu mai are nevoie nimic, indiferent de pachetul care a adus‑o."
+            "value" : "Homebrew șterge pachetul definitiv: nimic nu ajunge în Coș și nu îl puteți pune înapoi din Istoric. Nu face acest lucru cât timp un alt pachet are nevoie de el și șterge totodată fiecare formulă de care nu mai are nevoie nimic, indiferent de pachetul care a adus‑o."
           }
         },
         "ru" : {
@@ -64289,13 +64713,13 @@
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew raderar paketet permanent: inget hamnar i papperskorgen och Historik kan inte lägga tillbaka det. Homebrew gör det inte så länge ett annat paket behöver det, och tar också bort varje formula som inget längre behöver, oavsett vilket paket som drog in den."
+            "value" : "Homebrew raderar paketet permanent: inget hamnar i papperskorgen och Historik kan inte lägga tillbaka det. Homebrew gör det inte så länge ett annat paket behöver det, och raderar också varje formula som inget längre behöver, oavsett vilket paket som drog in den."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew paketi kalıcı olarak siler: Çöp Sepeti’ne hiçbir şey gitmez ve Geçmiş onu yerine koyamaz. Başka bir paket ona ihtiyaç duyduğu sürece bunu yapmaz; ayrıca hangi paket getirmiş olursa olsun, artık hiçbir şeyin ihtiyaç duymadığı her formula da kaldırılır."
+            "value" : "Homebrew paketi kalıcı olarak siler: Çöp Sepeti’ne hiçbir şey gitmez ve Geçmiş onu yerine koyamaz. Başka bir paket ona ihtiyaç duyduğu sürece bunu yapmaz; ayrıca hangi paket getirmiş olursa olsun, artık hiçbir şeyin ihtiyaç duymadığı her formula da silinir."
           }
         },
         "uk" : {
@@ -64307,13 +64731,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew会永久删除此软件包：任何内容都不会移到废纸篓，“历史记录”也无法将其放回原处。只要还有其他软件包需要它，Homebrew就不会执行此操作；它还会移除所有不再被需要的formula，无论最初是哪个软件包带来的。"
+            "value" : "Homebrew会永久删除此软件包：任何内容都不会移到废纸篓，“历史记录”也无法将其放回原处。只要还有其他软件包需要它，Homebrew就不会执行此操作；它还会删除所有不再被需要的formula，无论最初是哪个软件包带来的。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew會永久刪除此套件：不會丟到「垃圾桶」，「歷史記錄」也無法還原。若有其他套件需要它，Homebrew就不會執行此操作；此外，它也會移除所有不再被需要的formula，無論是由哪個套件帶進來的。"
+            "value" : "Homebrew會永久刪除此套件：不會丟到「垃圾桶」，「歷史記錄」也無法還原。若有其他套件需要它，Homebrew就不會執行此操作；此外，它也會刪除所有不再被需要的formula，無論是由哪個套件帶進來的。"
           }
         }
       }
@@ -177125,430 +177549,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用%@自己的解除安裝程式移除"
-          }
-        }
-      }
-    },
-    "Removes every download Homebrew keeps, even for the latest versions, as well as what Clean Up removes. The downloads of what is installed now stay." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Odstraní všechny stažené soubory, které si Homebrew ponechává, i ty pro nejnovější verze, a také to, co odstraní příkaz „Vyčistit“. Stažené soubory toho, co je právě nainstalované, zůstanou."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entfernt jeden Download, den Homebrew aufbewahrt, auch für die neuesten Versionen, sowie das, was „Bereinigen“ entfernt. Die Downloads dessen, was jetzt installiert ist, bleiben."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimina todas las descargas que guarda Homebrew, incluso las de las versiones más recientes, además de lo que elimina la opción Limpiar. Las descargas de lo que está instalado ahora se quedan."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprime tous les téléchargements que Homebrew conserve, même ceux des dernières versions, ainsi que ce que supprime Nettoyer. Les téléchargements de ce qui est installé actuellement restent en place."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rimuove tutti i download che Homebrew conserva, anche quelli delle versioni più recenti, oltre a ciò che rimuove “Ripulisci”. I download di ciò che è installato ora restano."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrewが保持しているすべてのダウンロードを、最新バージョンのものも含めて、“クリーンアップ”で削除されるものと合わせて削除します。現在インストールされているもののダウンロードは残ります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew가 보관해 둔 모든 다운로드 파일을 최신 버전의 것까지 제거하며, ‘정리’가 제거하는 항목도 제거합니다. 현재 설치된 항목의 다운로드 파일은 그대로 남습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verwijdert elke download die Homebrew bewaart, ook die van de nieuwste versies, en daarnaast wat 'Ruim op' verwijdert. De downloads van wat nu geïnstalleerd is, blijven staan."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usuwa wszystkie pobrane pliki zachowane przez Homebrew, także najnowszych wersji, oraz to, co usuwa polecenie Wyczyść. Pobrane pliki tego, co jest teraz zainstalowane, zostają."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remove todos os downloads que o Homebrew guarda, mesmo os das versões mais recentes, além do que o comando Limpar remove. Os downloads do que está instalado agora ficam."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimină fiecare descărcare păstrată de Homebrew, chiar și pentru cele mai noi versiuni, plus ce elimină „Curățați”. Descărcările pentru ce este instalat acum rămân."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удаляет все загрузки, которые хранит Homebrew, даже для последних версий, а также то, что удаляет кнопка «Очистить». Загрузки того, что установлено сейчас, остаются."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tar bort alla hämtningar som Homebrew har sparat, även för de senaste versionerna, samt det som Homebrews upprensning tar bort. Hämtningarna för det som är installerat nu finns kvar."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temizle işleminin kaldırdıklarına ek olarak, Homebrew’un en son sürümlerinkiler dahil sakladığı tüm indirmeleri kaldırır. Şu anda yüklü olanların indirmeleri kalır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Видаляє всі викачані файли, які зберігає Homebrew, навіть для найновіших версій, а також те, що видаляє команда «Очистити». Викачані файли того, що інстальовано зараз, лишаються."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移除Homebrew保留的所有下载文件（即使是最新版本的也不例外），以及“清理”会移除的内容。当前已安装内容的下载文件会保留。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移除Homebrew保留的所有下載檔案（包括最新版本的下載檔案），以及「清理」會移除的項目。目前已安裝項目的下載檔案會保留。"
-          }
-        }
-      }
-    },
-    "Removes every file in Homebrew’s cache older than 30 days, as well as what Clean Up removes." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Odstraní všechny soubory v mezipaměti Homebrew starší než 30 dní a také to, co odstraní příkaz „Vyčistit“."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entfernt jede Datei im Cache von Homebrew, die älter als 30 Tage ist, sowie das, was „Bereinigen“ entfernt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimina todos los archivos de la caché de Homebrew de más de 30 días, además de lo que elimina la opción Limpiar."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprime tous les fichiers du cache de Homebrew datant de plus de 30 jours, ainsi que ce que supprime Nettoyer."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rimuove ogni file nella cache di Homebrew più vecchio di 30 giorni, oltre a ciò che rimuove “Ripulisci”."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrewのキャッシュ内にある30日より古いすべてのファイルを、“クリーンアップ”で削除されるものと合わせて削除します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew의 캐시에서 30일이 지난 모든 파일과 ‘정리’가 제거하는 항목을 제거합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verwijdert elk bestand in de cache van Homebrew dat ouder is dan 30 dagen, en daarnaast wat 'Ruim op' verwijdert."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usuwa wszystkie pliki w pamięci podręcznej Homebrew starsze niż 30 dni oraz to, co usuwa polecenie Wyczyść."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remove todos os arquivos do cache do Homebrew com mais de 30 dias, além do que o comando Limpar remove."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimină fiecare fișier mai vechi de 30 de zile din memoria tampon a Homebrew, plus ce elimină „Curățați”."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удаляет все файлы в кэше Homebrew старше 30 дней, а также то, что удаляет кнопка «Очистить»."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tar bort alla filer i Homebrews cache som är äldre än 30 dagar, samt det som Homebrews upprensning tar bort."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temizle işleminin kaldırdıklarına ek olarak, Homebrew’un önbelleğindeki 30 günden eski tüm dosyaları kaldırır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Видаляє всі файли в кеші Homebrew, старші за 30 днів, а також те, що видаляє команда «Очистити»."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移除Homebrew缓存中超过30天的所有文件，以及“清理”会移除的内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移除Homebrew快取中超過30天的所有檔案，以及「清理」會移除的項目。"
-          }
-        }
-      }
-    },
-    "Removes what Homebrew kept after installing and upgrading: cached downloads and old versions. What you installed yourself stays." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Odstraní, co si Homebrew ponechal po instalacích a upgradech: stažené soubory v mezipaměti a staré verze. Co jste nainstalovali sami, zůstane."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entfernt, was Homebrew nach Installationen und Upgrades aufbewahrt hat: zwischengespeicherte Downloads und alte Versionen. Was du selbst installiert hast, bleibt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimina lo que Homebrew guardó al instalar y actualizar paquetes: descargas en caché y versiones antiguas. Lo que has instalado tú se queda."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprime ce que Homebrew a conservé après les installations et les mises à niveau : les téléchargements en cache et les anciennes versions. Ce que vous avez installé vous-même reste en place."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rimuove ciò che Homebrew ha conservato dopo installazioni e aggiornamenti: download nella cache e vecchie versioni. Ciò che hai installato tu resta."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrewがインストールやアップグレードの後に残したもの（キャッシュされたダウンロードと古いバージョン）を削除します。自分でインストールしたものは残ります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew가 설치 및 업그레이드 후에 보관해 둔 캐시된 다운로드 파일과 이전 버전을 제거합니다. 직접 설치한 항목은 그대로 남습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verwijdert wat Homebrew na installeren en upgraden heeft bewaard: gecachte downloads en oude versies. Wat je zelf hebt geïnstalleerd, blijft staan."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usuwa to, co Homebrew zachował po instalowaniu i uaktualnianiu: pobrane pliki w pamięci podręcznej i stare wersje. Pakiety zainstalowane przez Ciebie zostają."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remove o que o Homebrew guardou depois de instalar e fazer upgrade: downloads em cache e versões antigas. O que você mesmo instalou fica."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimină ce a păstrat Homebrew după instalări și upgrade‑uri: descărcările din memoria tampon și versiunile vechi. Ce ați instalat dvs. rămâne."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удаляет то, что Homebrew сохранил после установок и обновлений: кэшированные загрузки и старые версии. То, что Вы установили сами, остается."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tar bort det som Homebrew har sparat efter installationer och uppgraderingar: cachade hämtningar och gamla versioner. Det du själv har installerat finns kvar."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew’un yükleme ve yükseltmelerden sonra sakladıklarını kaldırır: önbelleğe alınmış indirmeler ve eski sürümler. Kendi yüklediğiniz şeyler kalır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Видаляє те, що Homebrew зберіг після інсталювання й оновлення: кешовані викачані файли та старі версії. Те, що ви інсталювали самі, лишається."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移除Homebrew在安装和升级后保留的内容：缓存的下载文件和旧版本。你自己安装的内容会保留。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移除Homebrew在安裝和升級後保留的項目：快取的下載檔案和舊版本。你自己安裝的項目會保留。"
-          }
-        }
-      }
-    },
-    "Removes what Homebrew kept after installing and upgrading: cached downloads, old versions, and the formulae nothing needs anymore. What you installed yourself stays." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Odstraní, co si Homebrew ponechal po instalacích a upgradech: stažené soubory v mezipaměti, staré verze a formulae, které už nic nepotřebuje. Co jste nainstalovali sami, zůstane."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entfernt, was Homebrew nach Installationen und Upgrades aufbewahrt hat: zwischengespeicherte Downloads, alte Versionen und die Formulae, die von nichts mehr benötigt werden. Was du selbst installiert hast, bleibt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimina lo que Homebrew guardó al instalar y actualizar paquetes: descargas en caché, versiones antiguas y las formulae de las que ya no depende nada. Lo que has instalado tú se queda."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprime ce que Homebrew a conservé après les installations et les mises à niveau : les téléchargements en cache, les anciennes versions et les formulae dont plus rien n’a besoin. Ce que vous avez installé vous-même reste en place."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rimuove ciò che Homebrew ha conservato dopo installazioni e aggiornamenti: download nella cache, vecchie versioni e le formulae che non servono più a nulla. Ciò che hai installato tu resta."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrewがインストールやアップグレードの後に残したもの（キャッシュされたダウンロード、古いバージョン、もう何にも必要とされていないformulae）を削除します。自分でインストールしたものは残ります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew가 설치 및 업그레이드 후에 보관해 둔 캐시된 다운로드 파일, 이전 버전, 그리고 더 이상 필요하지 않은 formulae를 제거합니다. 직접 설치한 항목은 그대로 남습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verwijdert wat Homebrew na installeren en upgraden heeft bewaard: gecachte downloads, oude versies en de formulae waar niets meer van afhankelijk is. Wat je zelf hebt geïnstalleerd, blijft staan."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usuwa to, co Homebrew zachował po instalowaniu i uaktualnianiu: pobrane pliki w pamięci podręcznej, stare wersje oraz formulae, których nic już nie potrzebuje. Pakiety zainstalowane przez Ciebie zostają."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remove o que o Homebrew guardou depois de instalar e fazer upgrade: downloads em cache, versões antigas e as formulae de que nada mais precisa. O que você mesmo instalou fica."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimină ce a păstrat Homebrew după instalări și upgrade‑uri: descărcările din memoria tampon, versiunile vechi și formulele de care nu mai are nevoie nimic. Ce ați instalat dvs. rămâne."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удаляет то, что Homebrew сохранил после установок и обновлений: кэшированные загрузки, старые версии и formulae, которые больше ничему не нужны. То, что Вы установили сами, остается."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tar bort det som Homebrew har sparat efter installationer och uppgraderingar: cachade hämtningar, gamla versioner och de formulae som inget längre behöver. Det du själv har installerat finns kvar."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew’un yükleme ve yükseltmelerden sonra sakladıklarını kaldırır: önbelleğe alınmış indirmeler, eski sürümler ve artık hiçbir şeyin ihtiyaç duymadığı formulae. Kendi yüklediğiniz şeyler kalır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Видаляє те, що Homebrew зберіг після інсталювання й оновлення: кешовані викачані файли, старі версії та formulae, які більше нічому не потрібні. Те, що ви інсталювали самі, лишається."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移除Homebrew在安装和升级后保留的内容：缓存的下载文件、旧版本，以及不再被需要的formulae。你自己安装的内容会保留。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移除Homebrew在安裝和升級後保留的項目：快取的下載檔案、舊版本，以及不再被需要的formulae。你自己安裝的項目會保留。"
           }
         }
       }
