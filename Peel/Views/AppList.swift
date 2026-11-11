@@ -177,11 +177,13 @@ private struct AppListMenu: View {
     @Environment(AppLibrary.self) private var library
 
     var body: some View {
+        let filters = library.activeFilters
         Menu {
             AppListMenuContent(library: library)
         } label: {
-            ToolbarMenuLabel(title: "Sort and Filter", systemImage: library.isFiltering ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
+            ToolbarMenuLabel(title: "Sort and Filter", systemImage: filters > 0 ? "line.3.horizontal.decrease.circle.fill" : "line.3.horizontal.decrease.circle")
         }
+        .accessibilityValue(filters > 0 ? Text("^[\(filters) filter](inflect: true) on") : Text(verbatim: ""))
     }
 }
 

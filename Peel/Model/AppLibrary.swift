@@ -178,8 +178,8 @@ final class AppLibrary {
     /// The developer whose apps the list shows, or nil for all developers.
     var selectedDeveloper: String?
     var showsOnlyUnused = false
-    /// True when any of the list's filters is on, the same three `visible(matching:)` applies.
-    var isFiltering: Bool { !sources.isEmpty || selectedDeveloper != nil || showsOnlyUnused }
+    /// How many of the three filters `visible(matching:)` applies are on.
+    var activeFilters: Int { [!sources.isEmpty, selectedDeveloper != nil, showsOnlyUnused].count { $0 } }
 
     private var memory: UpdateMemories
     @ObservationIgnored private var announced: AnnouncedUpdates

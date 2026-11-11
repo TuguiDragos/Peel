@@ -50,6 +50,19 @@ struct DecorativeSymbolTests {
         #expect(!text.contains(".accessibilityHidden("))
     }
 
+    @Test func aFilterThatFillsItsSymbolTellsVoiceOverItIsOn() throws {
+        let root = LineLengthTests.repository.path(percentEncoded: false)
+        var silent: [String] = []
+        for file in try LineLengthTests.swiftFiles()
+        where file.path(percentEncoded: false).dropFirst(root.count).hasPrefix("Peel/") {
+            let text = try String(contentsOf: file, encoding: .utf8)
+            if text.contains("decrease.circle.fill"), !text.contains("filter](inflect: true) on") {
+                silent.append(String(file.path(percentEncoded: false).dropFirst(root.count)))
+            }
+        }
+        #expect(silent.isEmpty, "Only the filled symbol says these lists are filtered: \(silent)")
+    }
+
     @Test func aMissingAppsStandInTellsVoiceOverItIsNotInstalled() throws {
         let root = LineLengthTests.repository.path(percentEncoded: false)
         var found: [String] = []
