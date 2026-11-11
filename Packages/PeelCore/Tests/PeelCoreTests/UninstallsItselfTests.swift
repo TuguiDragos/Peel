@@ -731,14 +731,14 @@ struct UninstallsItselfTests {
 
         func uninstallsItself(whileLaunchdHasTheJob loaded: Bool = true) async -> UninstallsItself? {
             let (app, environment) = (app, environment)
-            return await UninstallsItself.$launchdStandIn.withValue({ _ in loaded }) {
+            return await LaunchdCleanup.$loadedStandIn.withValue({ _ in loaded }) {
                 await UninstallsItself.of(app, environment: environment)
             }
         }
 
         func prepared() async -> Uninstallation {
             let (app, environment) = (app, environment)
-            return await UninstallsItself.$launchdStandIn.withValue({ _ in true }) {
+            return await LaunchdCleanup.$loadedStandIn.withValue({ _ in true }) {
                 await Uninstallation.prepare(app, installedApps: [app], environment: environment)
             }
         }
@@ -855,7 +855,7 @@ struct LaunchdJobs: TestTrait, TestScoping {
         for test: Test, testCase: Test.Case?, performing function: @concurrent @Sendable () async throws -> Void
     ) async throws {
         let areLoaded = areLoaded
-        try await UninstallsItself.$launchdStandIn.withValue({ _ in areLoaded }) { try await function() }
+        try await LaunchdCleanup.$loadedStandIn.withValue({ _ in areLoaded }) { try await function() }
     }
 }
 

@@ -107,6 +107,20 @@ enum LaunchdCleanup {
         return PathPattern.comparablePath(of: other) == PathPattern.comparablePath(of: job.plist) || other.isMissing
     }
 
+    /// Whether launchd has `job` loaded from its file now, or nil when its answer can't be read.
+    static func isLoaded(_ job: Job) async -> Bool? {
+        if let loadedStandIn { return loadedStandIn(job) }
+        let reply = await Launchctl.run(["print", "\(job.domain)/\(job.label)"])
+        return switch Launchctl.answer(status: reply.status, output: reply.output) {
+        case .details(let details): isLoaded(from: details.path, job)
+        case .gone: false
+        case .unreadable: nil
+        }
+    }
+
+    /// For a test: no test loads a job into launchd.
+    @TaskLocal static var loadedStandIn: (@Sendable (Job) -> Bool?)?
+
     static func isAppsOwn(_ label: String) -> Bool {
         !label.hasPrefix("application.") && PrivilegedPathPolicy.isValidLabel(label) && label != HelperIdentity.helperIdentifier
             && !SystemDaemons.belongs(label, to: SystemDaemons.shipped)

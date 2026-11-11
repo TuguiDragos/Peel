@@ -98516,6 +98516,112 @@
         }
       }
     },
+    "Loaded in the background, so it can run until it moves or you stop it in Background Items." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Úloha je načtená na pozadí, takže může běžet, dokud se tento soubor nepřesune nebo dokud ji nezastavíte na stránce Položky na pozadí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Hintergrund geladen, daher kann es laufen, bis es verschoben wird oder du es auf der Seite „Hintergrundobjekte“ stoppst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cargado en segundo plano, así que puede ejecutarse hasta que se traslade o lo detengas en la página Ítems en segundo plano."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargé en arrière-plan : il peut donc s’exécuter jusqu’à ce qu’il soit déplacé ou que vous l’arrêtiez sur la page Éléments en arrière-plan."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caricato in background, quindi può essere eseguito finché non viene spostato o finché non lo interrompi in “Elementi in background”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バックグラウンドで読み込まれているため、移動されるか、“バックグラウンド項目”で停止するまで実行される可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "백그라운드에 로드되어 있으므로, 이 항목이 이동되거나 사용자가 백그라운드 항목 페이지에서 중단할 때까지 실행될 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geladen op de achtergrond, dus het kan actief blijven totdat het wordt verplaatst of je het stopt in 'Achtergrondonderdelen'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wczytane w tle, więc może działać, dopóki nie zostanie przeniesione albo nie zatrzymasz go na stronie Rzeczy działające w tle."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregado em segundo plano, então pode ser executado até ser movido ou até você interrompê-lo na página Itens em Segundo Plano."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Încărcat în fundal, așa că poate rula până când este mutat sau până când îl opriți în pagina Articole de fundal."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Загружено в фоновом режиме, поэтому может работать, пока его не переместят или пока Вы не остановите его в разделе «Фоновые объекты»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inläst i bakgrunden, så det kan köras tills det flyttas eller tills du stoppar det på sidan Bakgrundsobjekt."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arka planda yüklü, bu yüzden taşınana veya siz onu Arka Plan Öğeleri’nde durdurana kadar çalışabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завдання завантажено у фоновому режимі, тож воно може працювати, доки його не буде переміщено або доки ви не зупините його в розділі «Фонові елементи»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已在后台载入，因此在它被移走或你在“后台项目”中将其停止之前，它都可以运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已在背景載入，因此在它被移動或你在「背景項目」中停止它之前，它都可以執行。"
+          }
+        }
+      }
+    },
     "Loads and unloads environment variables as you enter and leave a project’s folder, from its .envrc file once you allow it with `direnv allow`." : {
       "localizations" : {
         "cs" : {

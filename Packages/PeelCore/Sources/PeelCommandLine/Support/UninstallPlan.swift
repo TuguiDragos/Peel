@@ -12,6 +12,8 @@ struct UninstallPlan {
         let refusal: TrashFailure.Reason?
         /// Where it leads, when it is a symbolic link (`Leftover.leadsTo`).
         var leadsTo: URL?
+        /// True for a job's file whose job launchd has loaded from it (`Leftover.isALoadedJob`).
+        var isALoadedJob = false
     }
 
     let app: URL
@@ -69,7 +71,10 @@ struct UninstallPlan {
             let size = url == app
                 ? (uninstallation.isAppMeasured ? uninstallation.appSize : nil)
                 : (leftover?.isMeasured == true ? leftover?.size : nil)
-            return Item(url: url, size: size, refusal: refusal(url), leadsTo: leftover?.leadsTo)
+            return Item(
+                url: url, size: size, refusal: refusal(url), leadsTo: leftover?.leadsTo,
+                isALoadedJob: leftover?.isALoadedJob ?? false
+            )
         }
         let rest = keepLeftovers ? [] : uninstallation.scan.leftovers
         let appStays = uninstallation.appStays(canUseHelper: true)

@@ -297,6 +297,9 @@ struct MultipleAppsView: View {
         if let leadsTo = item.leadsTo {
             lines.append(Leftover.linkNote(leadingTo: leadsTo))
         }
+        if item.isALoadedJob {
+            lines.append(Leftover.loadedJobNote)
+        }
         if item.isApplication, item.isBeyondTheHelper {
             lines.append(String(localized: HoldBack.beyondTheHelper.explanation))
         }

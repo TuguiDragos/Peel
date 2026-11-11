@@ -272,6 +272,9 @@ struct LeftoversCommand: AsyncParsableCommand {
         if let leadsTo = leftover.leadsTo {
             summary += ", a link to \(Output.path(leadsTo))"
         }
+        if leftover.isALoadedJob {
+            summary += ", loaded in launchd"
+        }
         return summary
     }
 
@@ -341,12 +344,15 @@ struct UninstallCommand: AsyncParsableCommand {
             let stays: String?
             /// Where the item leads when it is a symbolic link, which moving it leaves in place, or `null`.
             var leadsTo: String?
+            /// True for a job's file whose job launchd has loaded from it: moved, the job stops; left, it stays loaded.
+            var loaded = false
 
             private enum CodingKeys: String, CodingKey {
                 case path
                 case size
                 case stays
                 case leadsTo
+                case loaded
             }
 
             func encode(to encoder: any Encoder) throws {
@@ -355,6 +361,7 @@ struct UninstallCommand: AsyncParsableCommand {
                 try container.encode(size, forKey: .size)
                 try container.encode(stays, forKey: .stays)
                 try container.encode(leadsTo, forKey: .leadsTo)
+                try container.encode(loaded, forKey: .loaded)
             }
         }
 
@@ -461,7 +468,7 @@ struct UninstallCommand: AsyncParsableCommand {
             items: plan.items.map { item in
                 Report.Item(
                     path: Output.path(item.url), size: MeasuredSize(item.size), stays: plan.whyItStays(item)?.word,
-                    leadsTo: item.leadsTo.map(Output.path)
+                    leadsTo: item.leadsTo.map(Output.path), loaded: item.isALoadedJob
                 )
             },
             moved: (result?.trashed ?? []).map { Output.path($0.originalURL) },

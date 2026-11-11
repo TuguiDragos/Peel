@@ -463,6 +463,9 @@ struct AppDetailView: View {
         if let leadsTo = leftover.leadsTo {
             lines.append(Leftover.linkNote(leadingTo: leadsTo))
         }
+        if leftover.isALoadedJob {
+            lines.append(Leftover.loadedJobNote)
+        }
         if let removedElsewhere = plan.removedElsewhere {
             lines.append(String(localized: removedElsewhere.explanation))
         }

@@ -349,17 +349,8 @@ public struct UninstallsItself: Sendable, Hashable {
     /// Whether launchd has `job` loaded from its file now, so it runs once the app leaves. An answer Peel can't read
     /// counts as yes: leaving the job's files in place costs nothing, and moving them could stop it halfway.
     private static func isLoaded(_ job: LaunchdCleanup.Job) async -> Bool {
-        if let launchdStandIn { return launchdStandIn(job) }
-        let reply = await Launchctl.run(["print", "\(job.domain)/\(job.label)"])
-        return switch Launchctl.answer(status: reply.status, output: reply.output) {
-        case .details(let details): LaunchdCleanup.isLoaded(from: details.path, job)
-        case .gone: false
-        case .unreadable: true
-        }
+        await LaunchdCleanup.isLoaded(job) ?? true
     }
-
-    /// For a test: no test loads a job into launchd.
-    @TaskLocal static var launchdStandIn: (@Sendable (LaunchdCleanup.Job) -> Bool)?
 
     private static func paths(
         _ removes: (root: [String], home: [String]),

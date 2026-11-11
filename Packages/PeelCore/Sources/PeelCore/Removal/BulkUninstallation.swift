@@ -41,6 +41,8 @@ public struct BulkUninstallation: Sendable {
         public var syncedBy: SyncKeeper?
         /// Where it leads, when it is a symbolic link (`Leftover.leadsTo`).
         public var leadsTo: URL?
+        /// True for a job's file whose job launchd has loaded from it (`Leftover.isALoadedJob`).
+        public var isALoadedJob = false
 
         public var id: URL { url }
 
@@ -297,7 +299,8 @@ public struct BulkUninstallation: Sendable {
                     enclosingPackage: existing.enclosingPackage ?? item.enclosingPackage,
                     holdsDamagedSettings: existing.holdsDamagedSettings || item.holdsDamagedSettings,
                     syncedBy: existing.syncedBy ?? item.syncedBy,
-                    leadsTo: existing.leadsTo ?? item.leadsTo
+                    leadsTo: existing.leadsTo ?? item.leadsTo,
+                    isALoadedJob: existing.isALoadedJob || item.isALoadedJob
                 )
             } else {
                 byURL[item.url] = item
@@ -329,7 +332,8 @@ public struct BulkUninstallation: Sendable {
                     removedElsewhere: uninstallation.removedElsewhere,
                     holdsDamagedSettings: leftover.holdsDamagedSettings,
                     syncedBy: leftover.syncedBy,
-                    leadsTo: leftover.leadsTo
+                    leadsTo: leftover.leadsTo,
+                    isALoadedJob: leftover.isALoadedJob
                 ))
             }
             add(Item(

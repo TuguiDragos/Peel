@@ -48,6 +48,8 @@ struct LeftoverRecord: Encodable {
     let syncedBy: SyncRecord?
     /// Where the item leads when it is a symbolic link, which moving it leaves in place, or `null`.
     let leadsTo: String?
+    /// True for a job's file whose job launchd has loaded from it, which stays loaded while the file stays.
+    let loaded: Bool
     let sharedWith: [String]
     /// Other copies of the app that use the item too, by their place, since they share its identifier.
     let otherCopies: [String]
@@ -62,6 +64,7 @@ struct LeftoverRecord: Encodable {
         heldBack = leftover.match.heldBack?.rawValue
         syncedBy = leftover.match.heldBack == .inTheCloud ? leftover.syncedBy?.record : nil
         leadsTo = leftover.leadsTo.map(Output.path)
+        loaded = leftover.isALoadedJob
         sharedWith = leftover.match.sharedWith
         otherCopies = leftover.match.otherCopies.map(Output.path)
         isRecommended = leftover.match.isRecommended
@@ -76,6 +79,7 @@ struct LeftoverRecord: Encodable {
         case heldBack
         case syncedBy
         case leadsTo
+        case loaded
         case sharedWith
         case otherCopies
         case isRecommended
@@ -92,6 +96,7 @@ struct LeftoverRecord: Encodable {
         try container.encode(heldBack, forKey: .heldBack)
         try container.encode(syncedBy, forKey: .syncedBy)
         try container.encode(leadsTo, forKey: .leadsTo)
+        try container.encode(loaded, forKey: .loaded)
         try container.encode(sharedWith, forKey: .sharedWith)
         try container.encode(otherCopies, forKey: .otherCopies)
         try container.encode(isRecommended, forKey: .isRecommended)

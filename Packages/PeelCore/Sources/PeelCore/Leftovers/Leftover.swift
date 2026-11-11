@@ -348,6 +348,8 @@ public struct Leftover: Sendable, Hashable, Identifiable {
     public var syncedBy: SyncKeeper? = nil
     /// Where it leads in the end, when it is a symbolic link: moving it moves the link, not what is there.
     public var leadsTo: URL? = nil
+    /// True for a job's file whose job launchd has loaded from it now, so the job stays loaded until the file moves.
+    public var isALoadedJob = false
 
     public var id: URL { url }
 
@@ -355,7 +357,8 @@ public struct Leftover: Sendable, Hashable, Identifiable {
         Leftover(
             url: url, kind: kind, match: match.sharing(with: apps), size: size, isMeasured: isMeasured,
             requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings,
-            isLeftForAnAdministrator: isLeftForAnAdministrator, syncedBy: syncedBy, leadsTo: leadsTo
+            isLeftForAnAdministrator: isLeftForAnAdministrator, syncedBy: syncedBy, leadsTo: leadsTo,
+            isALoadedJob: isALoadedJob
         )
     }
 
@@ -366,7 +369,8 @@ public struct Leftover: Sendable, Hashable, Identifiable {
         return Leftover(
             url: url, kind: kind, match: match.forReview(reason), size: size, isMeasured: isMeasured,
             requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings,
-            isLeftForAnAdministrator: isLeftForAnAdministrator, syncedBy: syncedBy, leadsTo: leadsTo
+            isLeftForAnAdministrator: isLeftForAnAdministrator, syncedBy: syncedBy, leadsTo: leadsTo,
+            isALoadedJob: isALoadedJob
         )
     }
 }
@@ -400,6 +404,34 @@ public struct LeftoverScan: Sendable {
                 var held = leftover.heldBack(.beyondTheHelper)
                 held.isLeftForAnAdministrator = leftover.match.heldBack == nil
                 return held
+            },
+            unreadableLocations: unreadableLocations,
+            cutShortLocations: cutShortLocations,
+            needsFullDiskAccess: needsFullDiskAccess
+        )
+    }
+
+    /// The same scan, each Launch Agent and Launch Daemon whose job launchd has loaded from its file marked so. A job
+    /// whose answer can't be read, or a scan stopped meanwhile, leaves its row unmarked, never out.
+    func markingTheJobsLaunchdHasLoaded() async -> LeftoverScan {
+        let jobs = leftovers.compactMap { leftover -> LaunchdCleanup.Job? in
+            guard leftover.kind == .launchAgents || leftover.kind == .launchDaemons,
+                  let definition = JobDefinition(contentsOf: leftover.url)
+            else { return nil }
+            return LaunchdCleanup.Job(
+                label: definition.label, isDaemon: leftover.kind == .launchDaemons, plist: leftover.url,
+                loadsInTheBackgroundSession: definition.loadsInTheBackground
+            )
+        }
+        guard !jobs.isEmpty else { return self }
+        let loaded = Set(await jobs.concurrentMap(width: LeftoverScanner.concurrentMeasurements) { job in
+            await LaunchdCleanup.isLoaded(job) == true ? job.plist : nil
+        }.compactMap(\.self))
+        return LeftoverScan(
+            leftovers: leftovers.map { leftover in
+                var marked = leftover
+                marked.isALoadedJob = loaded.contains(leftover.url)
+                return marked
             },
             unreadableLocations: unreadableLocations,
             cutShortLocations: cutShortLocations,

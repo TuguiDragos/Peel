@@ -489,6 +489,11 @@ extension Leftover {
     static func linkNote(leadingTo place: URL) -> String {
         String(localized: "A link to \(place.abbreviatedPath). Moving it moves the link, not what it leads to.")
     }
+
+    /// What a row says of a job's file whose job launchd has loaded from it.
+    static var loadedJobNote: String {
+        String(localized: "Loaded in the background, so it can run until it moves or you stop it in Background Items.")
+    }
 }
 
 extension PrivacyReset.Result {

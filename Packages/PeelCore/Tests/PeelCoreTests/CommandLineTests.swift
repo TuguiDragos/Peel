@@ -648,6 +648,21 @@ struct CommandLineTests {
         #expect(LeftoversCommand.summary(of: leftover).hasSuffix(", a link to /Volumes/Archive/TideData"))
     }
 
+    @Test func aLeftoverWhoseJobLaunchdHasLoadedSaysSo() throws {
+        let match = LeftoverMatch(reason: .bundleIdentifierPrefix, confidence: .possible, sharedWith: [])
+        var leftover = Leftover(
+            url: URL(filePath: "/Library/LaunchDaemons/org.example.tide.daemon.plist"), kind: .launchDaemons,
+            match: match, size: 512, isMeasured: true, requiresPrivileges: true
+        )
+        leftover.isALoadedJob = true
+
+        let json = try Output.jsonText([LeftoverRecord(leftover)])
+        let records = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [[String: Any]])
+
+        #expect(records[0]["loaded"] as? Bool == true)
+        #expect(LeftoversCommand.summary(of: leftover).hasSuffix(", loaded in launchd"))
+    }
+
     @Test func aPathReadsTheSameWhetherOrNotAnythingIsThere() throws {
         let directory = try TemporaryDirectory()
         let there = try directory.file("there.txt")
