@@ -1,3 +1,4 @@
+import Accessibility
 import AppKit
 import Foundation
 import Observation
@@ -90,6 +91,17 @@ final class RemovalPlan {
     var mayResetPrivacy: Bool {
         let exclusions = ExclusionsStore.shared.exclusions
         return exclusions.isKnown && !exclusions.excludes(app)
+    }
+
+    /// Resets the app's privacy permissions, as asked from its page, and tells VoiceOver how it went in the words the
+    /// page shows: they appear under the buttons, away from the menu the reset was asked from.
+    func resetPrivacy(
+        resetting: (InstalledApp) async -> PrivacyReset.Result = { await PrivacyReset.reset($0) },
+        announcing: (AttributedString) -> Void = { AccessibilityNotification.Announcement($0).post() }
+    ) async -> PrivacyReset.Result {
+        let result = await resetting(app)
+        announcing(AttributedString(localized: result.outcome(for: app.name)))
+        return result
     }
 
     var isAppBeyondTheHelper: Bool {

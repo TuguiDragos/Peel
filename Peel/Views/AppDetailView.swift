@@ -45,7 +45,7 @@ struct AppDetailView: View {
         .confirmationDialog(Text("Reset privacy permissions for \(plan.app.name)?"), isPresented: $isConfirmingPrivacyReset) {
             Button("Reset", role: .destructive) {
                 guard plan.mayResetPrivacy else { return }
-                Task { privacyReset = await PrivacyReset.reset(plan.app) }
+                Task { privacyReset = await plan.resetPrivacy() }
             }
             Button("Cancel", role: .cancel) {}
         } message: {

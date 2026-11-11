@@ -826,27 +826,19 @@ private struct HelperSettingsView: View {
         .disabled(helper.isChanging)
     }
 
-    @ViewBuilder
     private var statusBadge: some View {
-        if let changing = helper.changing {
-            state(changing.progress, "hourglass", .secondary)
-        } else if !helper.hasChecked {
-            state("Checking…", "hourglass", .secondary)
+        let (symbol, tint): (String, Color) = if helper.changing != nil || !helper.hasChecked {
+            ("hourglass", .secondary)
         } else {
             switch helper.standing {
-            case .notThisAccount:
-                state("Needs an administrator", "person.crop.circle.badge.exclamationmark", .orange)
-            case .notAnswering:
-                state("Not answering", "exclamationmark.triangle", .orange)
-            case .ready:
-                state("Installed", "checkmark.circle", .green)
-            case .waitingForApproval:
-                state("Needs approval, or was turned off", "clock", .orange)
-            case .notInstalled where helper.isRegisteredByAnotherCopy:
-                state("Installed by another copy of Peel", "exclamationmark.triangle", .orange)
-            case .notInstalled:
-                state("Not installed", "minus.circle", .secondary)
+            case .notThisAccount: ("person.crop.circle.badge.exclamationmark", .orange)
+            case .notAnswering: ("exclamationmark.triangle", .orange)
+            case .ready: ("checkmark.circle", .green)
+            case .waitingForApproval: ("clock", .orange)
+            case .notInstalled where helper.isRegisteredByAnotherCopy: ("exclamationmark.triangle", .orange)
+            case .notInstalled: ("minus.circle", .secondary)
             }
         }
+        return state(helper.stateWords, symbol, tint)
     }
 }

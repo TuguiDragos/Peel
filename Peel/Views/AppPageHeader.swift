@@ -319,15 +319,15 @@ struct AppPageHeader: View {
     @ViewBuilder
     private func outcome(of privacyReset: PrivacyReset.Result) -> some View {
         Group {
-            if let problem = privacyReset.explanation {
+            if privacyReset.explanation != nil {
                 StatusLabel(
-                    title: Text("Privacy permissions weren’t reset. \(problem)"),
+                    title: Text(privacyReset.outcome(for: plan.app.name)),
                     systemImage: "exclamationmark.triangle.fill",
                     tint: .red
                 )
             } else {
                 StatusLabel(
-                    title: Text("Privacy permissions were reset. \(plan.app.name) asks you again the next time it needs them."),
+                    title: Text(privacyReset.outcome(for: plan.app.name)),
                     systemImage: "checkmark.circle.fill",
                     tint: .green
                 )

@@ -125,6 +125,22 @@ extension SearchLocation.Kind {
     }
 }
 
+extension HelperModel {
+    /// The helper's state in the words Settings shows beside it.
+    var stateWords: LocalizedStringResource {
+        if let changing { return changing.progress }
+        guard hasChecked else { return "Checking…" }
+        return switch standing {
+        case .notThisAccount: "Needs an administrator"
+        case .notAnswering: "Not answering"
+        case .ready: "Installed"
+        case .waitingForApproval: "Needs approval, or was turned off"
+        case .notInstalled where isRegisteredByAnotherCopy: "Installed by another copy of Peel"
+        case .notInstalled: "Not installed"
+        }
+    }
+}
+
 extension HelperModel.Action {
     var progress: LocalizedStringResource {
         switch self {
@@ -468,6 +484,14 @@ extension HistoryWriteProblem {
 }
 
 extension PrivacyReset.Result {
+    /// What became of a reset asked for from an app's page, in the words the page shows under its buttons.
+    func outcome(for app: String) -> LocalizedStringResource {
+        guard let explanation else {
+            return "Privacy permissions were reset. \(app) asks you again the next time it needs them."
+        }
+        return "Privacy permissions weren’t reset. \(explanation)"
+    }
+
     /// Why the app's privacy permissions were not reset, or nil when they were.
     var explanation: String? {
         switch self {

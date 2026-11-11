@@ -1,3 +1,4 @@
+import Accessibility
 import Foundation
 import Observation
 import PeelCore
@@ -42,6 +43,25 @@ final class HelperModel {
     private(set) var hasChecked = false
 
     private var checks = OverlappingChecks()
+    @ObservationIgnored private let performing: (Action) async throws -> Void
+    @ObservationIgnored private let announcing: (AttributedString) -> Void
+
+    init(
+        performing: @escaping (Action) async throws -> Void = HelperModel.perform,
+        announcing: @escaping (AttributedString) -> Void = { AccessibilityNotification.Announcement($0).post() }
+    ) {
+        self.performing = performing
+        self.announcing = announcing
+    }
+
+    /// What each change asks of macOS.
+    static func perform(_ action: Action) async throws {
+        switch action {
+        case .install: try await PrivilegedHelper.register()
+        case .repair: try await PrivilegedHelper.repair()
+        case .uninstall: try await PrivilegedHelper.unregister()
+        }
+    }
 
     func checkConnection() async {
         let check = checks.start()
@@ -64,47 +84,52 @@ final class HelperModel {
     /// throws an error. Neither is reported as a failure, since the status says what happened.
     func install() async -> Failure? {
         guard !isChanging, !isRegisteredByAnotherCopy else { return nil }
-        let (wasAllowed, error) = await change(.install) { try await PrivilegedHelper.register() }
+        let (wasAllowed, error) = await change(.install)
         if wasAllowed, status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
         }
-        guard let error, status != .requiresApproval, status != .enabled else { return nil }
+        guard let error, status != .requiresApproval, status != .enabled else { return told(wasAllowed, nil) }
         return Failure(action: .install, reason: error.localizedDescription)
     }
 
     func repair() async -> Failure? {
         guard !isChanging else { return nil }
-        let (wasAllowed, error) = await change(.repair) { try await PrivilegedHelper.repair() }
+        let (wasAllowed, error) = await change(.repair)
         if wasAllowed, status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
         }
-        return error.map { Failure(action: .repair, reason: $0.localizedDescription) }
+        return told(wasAllowed, error.map { Failure(action: .repair, reason: $0.localizedDescription) })
     }
 
     func uninstall() async -> Failure? {
         guard !isChanging else { return nil }
-        let (_, error) = await change(.uninstall) { try await PrivilegedHelper.unregister() }
-        return error.map { Failure(action: .uninstall, reason: $0.localizedDescription) }
+        let (wasAllowed, error) = await change(.uninstall)
+        return told(wasAllowed, error.map { Failure(action: .uninstall, reason: $0.localizedDescription) })
     }
 
     /// Runs a change of the helper's registration, for an administrator only, and answers whether it was allowed and
     /// its error. Nothing about the helper shows meanwhile; what it leaves shows through the check that follows.
-    private func change(
-        _ action: Action,
-        _ body: () async throws -> Void
-    ) async -> (wasAllowed: Bool, error: (any Error)?) {
+    private func change(_ action: Action) async -> (wasAllowed: Bool, error: (any Error)?) {
         changing = action
         defer { changing = nil }
         checks.changeStarts()
         var wasAllowed = true
         var error: (any Error)?
         do {
-            wasAllowed = try await PrivilegedHelper.changeAsAnAdministrator(body)
+            wasAllowed = try await PrivilegedHelper.changeAsAnAdministrator { try await performing(action) }
         } catch let thrown {
             error = thrown
         }
         checks.changeEnds()
         await checkConnection()
         return (wasAllowed, error)
+    }
+
+    /// Tells VoiceOver the helper's state in Settings' words once a change went through; a failure has an alert.
+    private func told(_ wasAllowed: Bool, _ failure: Failure?) -> Failure? {
+        if wasAllowed, failure == nil {
+            announcing(AttributedString(localized: "\(String(localized: "Helper")): \(String(localized: stateWords))"))
+        }
+        return failure
     }
 }

@@ -1,3 +1,4 @@
+import Accessibility
 import AppKit
 import Foundation
 import Observation
@@ -20,10 +21,30 @@ final class ResetPlan {
     private var installedApps: [InstalledApp] = []
     var selectedURLs: Set<URL> = []
     private var choices = KeptSelection()
+    @ObservationIgnored private let announcing: (AttributedString) -> Void
 
-    init(app: InstalledApp) {
+    init(
+        app: InstalledApp,
+        announcing: @escaping (AttributedString) -> Void = { AccessibilityNotification.Announcement($0).post() }
+    ) {
         self.app = app
+        self.announcing = announcing
         refreshRunningState()
+    }
+
+    /// The sheet's title for what really happened: reset, partly reset, or nothing reset.
+    static func title(of outcome: AppReset.Outcome, app: String) -> LocalizedStringResource {
+        let privacyWasReset = outcome.privacy == .reset
+        let privacyFailed = outcome.privacy.map { $0 != .reset } ?? false
+        if outcome.result.trashed.isEmpty, !privacyWasReset { return "Nothing was reset." }
+        return outcome.result.failures.isEmpty && !privacyFailed ? "\(app) was reset." : "\(app) was partly reset."
+    }
+
+    /// Tells VoiceOver the sheet's title for a reset that ran, after what it is saying, such as History's count of
+    /// what moved.
+    func tell(_ outcome: AppReset.Outcome) {
+        guard outcome.stop == nil else { return }
+        announcing(AttributedString(localized: Self.title(of: outcome, app: app.name)).waitingForOtherSpeech)
     }
 
     var items: [AppReset.Item] {

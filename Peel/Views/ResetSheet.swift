@@ -59,6 +59,9 @@ struct ResetSheet: View {
                             sourceKey: "reset.\(plan.app.name)",
                             sizes: sizes
                         )
+                        if let outcome = plan.outcome {
+                            plan.tell(outcome)
+                        }
                     }
                 }
             }
@@ -417,12 +420,8 @@ struct ResetSheet: View {
         }
     }
 
-    /// The outcome's title, based on what really happened: reset, partly reset, or nothing reset.
     private var outcomeTitle: Text {
-        let privacyWasReset = plan.privacy == .reset
-        let privacyFailed = plan.privacy.map { $0 != .reset } ?? false
-        if plan.movedCount == 0, !privacyWasReset { return Text("Nothing was reset.") }
-        return plan.failures.isEmpty && !privacyFailed ? Text("\(plan.app.name) was reset.") : Text("\(plan.app.name) was partly reset.")
+        plan.outcome.map { Text(ResetPlan.title(of: $0, app: plan.app.name)) } ?? Text(verbatim: "")
     }
 
     private var privacyDetail: Text? {
