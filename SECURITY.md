@@ -267,7 +267,8 @@ This safe harbor is adapted from the disclose.io model terms, which are publishe
 
 ## Advisories and CVEs
 
-Each fixed issue gets a GitHub security advisory, and the release notes link to it.
+A fixed vulnerability that could harm someone who doesn't update gets a GitHub security advisory,
+and the release notes link to it. Smaller hardenings are listed under Security in the changelog.
 
 If an issue warrants one, a CVE will be requested through GitHub Security Advisories: GitHub is a
 CVE Numbering Authority for open source projects hosted on GitHub. You are welcome to request the
