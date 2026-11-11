@@ -175,7 +175,7 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
    an app's page and several apps' page also say when macOS still starts the app's login items at login, now from
    the Trash, until the Trash is emptied (`TrashResult.startsFromTheTrash`). Both pages, and `peel uninstall`, also
    name the lines of the shell startup files that still point to what moved, such as a `PATH` entry into the app
-   (`ShellReferences`, which reads the files zsh, bash, and fish start with and never changes them).
+   (`ShellReferences`, which reads the files zsh, bash, tcsh, and fish start with and never changes them).
 7. **Record.**
    - Every removal goes into History (`removals.json`, through `RemovalLog`), with where each item came from and
      where it went, so it can be put back; History keeps the most recent 20,000 items, fewer when their paths are

@@ -123,6 +123,22 @@ struct DocumentationTests {
         }
     }
 
+    @Test func architectureNamesEveryShellWhoseStartupFilesAreRead() throws {
+        let code = try String(
+            contentsOf: LineLengthTests.repository.appending(
+                path: "Packages/PeelCore/Sources/PeelCore/Removal/ShellReferences.swift"
+            ),
+            encoding: .utf8
+        )
+        let text = try String(contentsOf: LineLengthTests.repository.appending(path: "ARCHITECTURE.md"), encoding: .utf8)
+            .split(whereSeparator: \.isWhitespace).joined(separator: " ")
+        let shells = [("zsh", ".zshrc"), ("bash", ".bashrc"), ("tcsh", ".tcshrc"), ("fish", "config.fish")]
+            .filter { code.contains($0.1) }.map(\.0)
+        let named = shells.dropLast().joined(separator: ", ") + ", and " + shells[shells.count - 1]
+
+        #expect(text.contains("reads the files \(named) start with"))
+    }
+
     @Test func everyAddressPrivacyMDNamesIsInSettingsPrivacy() throws {
         let privacy = try String(contentsOf: LineLengthTests.repository.appending(path: "PRIVACY.md"), encoding: .utf8)
         let addresses = privacy.split(separator: "\n").compactMap { line in
