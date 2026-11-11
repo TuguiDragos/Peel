@@ -72,6 +72,11 @@ struct Notice<Actions: View>: View {
         }
     }
 
+    /// The symbol VoiceOver hears for the notice's kind, Info or Warning, whichever symbol is drawn.
+    private var kindSymbol: String {
+        kind == .note ? "info.circle.fill" : "exclamationmark.triangle.fill"
+    }
+
     @ViewBuilder
     private var mark: some View {
         if isAlbum {
@@ -86,14 +91,13 @@ struct Notice<Actions: View>: View {
                         .font(.system(size: 13, weight: .black))
                         .foregroundStyle(isQuiet ? Color.secondary : .white)
                 )
+                .accessibilityRepresentation { Image(systemName: kindSymbol) }
         } else {
-            let kindSymbol = kind == .note ? "info.circle.fill" : "exclamationmark.triangle.fill"
             Image(systemName: systemImage ?? kindSymbol)
                 .font(.system(size: 16))
                 .foregroundStyle(tint)
                 // At the panel's inset, as the buttons are on the other side; 24 holds the widest symbol, hammer.
                 .frame(width: 24, alignment: .leading)
-                // VoiceOver hears the kind's own symbol, Info or Warning, whichever symbol is drawn.
                 .accessibilityRepresentation { Image(systemName: kindSymbol) }
         }
     }
