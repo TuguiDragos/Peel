@@ -437,6 +437,28 @@ struct AttackRemovalGuardTests {
         #expect(guardian.refusal(of: home.appending(path: "Applications/Owner.app")) == nil)
     }
 
+    @Test func nothingMovesOutOfOrBackIntoAnIPhoneOrIPadApp() throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let app = try directory.directory("home/Applications/Pocket.app")
+        try directory.file("home/Applications/Pocket.app/Wrapper/Pocket.app/Info.plist")
+        try FileManager.default.createSymbolicLink(
+            atPath: app.appending(path: "WrappedBundle").path(percentEncoded: false),
+            withDestinationPath: "Wrapper/Pocket.app"
+        )
+        let trashed = try directory.file("home/.Trash/helper")
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: try directory.directory("root"))
+        )
+
+        for path in ["Applications/Pocket.app/Wrapper/Pocket.app", "Applications/Pocket.app/Wrapper/Pocket.app/Info.plist"] {
+            #expect(guardian.refusal(of: home.appending(path: path)) == .protectedLocation, "\(path)")
+        }
+        let inside = home.appending(path: "Applications/Pocket.app/Wrapper/helper")
+        #expect(guardian.refusal(ofPuttingBack: trashed, at: inside) == .protectedLocation)
+        #expect(guardian.refusal(of: app) == nil)
+    }
+
     @Test func nothingGoesBackInsideAnApp() throws {
         let directory = try TemporaryDirectory()
         let home = try directory.directory("home")

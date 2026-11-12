@@ -160,11 +160,7 @@ struct RemovalGuard: Sendable {
         }
         var folder = URL(filePath: path).deletingLastPathComponent()
         while folder.pathComponents.count > 1 {
-            var info = stat()
-            if folder.isNamedAsAnApp,
-               lstat(folder.appending(path: "Contents/Info.plist").path(percentEncoded: false), &info) == 0 {
-                return true
-            }
+            if AppBundleLayout.isAnApp(folder) { return true }
             folder = folder.deletingLastPathComponent()
         }
         return false
