@@ -1,4 +1,5 @@
 public import Foundation
+internal import PeelPrivileged
 
 public struct OrphanItem: Sendable, Hashable, Identifiable {
     public let url: URL
@@ -114,12 +115,39 @@ public struct OrphanScan: Sendable {
     /// may be in one it did not reach.
     public var cutShortLocations: [SearchLocation] = []
     /// What only an administrator can move, listed apart from the groups.
-    public var forAnAdministrator: [AdministratorItem] = []
+    public let forAnAdministrator: [AdministratorItem]
     /// Apps macOS knows on another disk that claimed something: Peel remembers them for when that disk isn't connected.
     public var appsOnOtherDisks: [InstalledApp] = []
     /// True when this Mac has other accounts and something listed is outside this account's home: an app one of them
     /// keeps in its own Applications folder is out of Peel's sight, and what it left in `/Library` looks orphaned.
-    public var otherAccountsMayOwn = false
+    public let otherAccountsMayOwn: Bool
+    /// The folders that are this account's alone on a Mac that has other accounts, and nil on a Mac with none.
+    private let foldersOfThisAccountAlone: [URL]?
+
+    /// `otherAccountsMayOwn` is worked out here, once, from what the scan lists, so a filtered scan answers for what
+    /// it kept.
+    init(
+        groups: [OrphanGroup], unreadableLocations: [SearchLocation], needsFullDiskAccess: Bool = false,
+        cutShortLocations: [SearchLocation] = [], forAnAdministrator: [AdministratorItem] = [],
+        appsOnOtherDisks: [InstalledApp] = [], foldersOfThisAccountAlone: [URL]? = nil
+    ) {
+        self.groups = groups
+        self.unreadableLocations = unreadableLocations
+        self.needsFullDiskAccess = needsFullDiskAccess
+        self.cutShortLocations = cutShortLocations
+        self.forAnAdministrator = forAnAdministrator
+        self.appsOnOtherDisks = appsOnOtherDisks
+        self.foldersOfThisAccountAlone = foldersOfThisAccountAlone
+        otherAccountsMayOwn = foldersOfThisAccountAlone.map { folders in
+            let own = folders.map { PathComponents.of($0.path(percentEncoded: false)) }
+            let isElsewhere = { (url: URL) in
+                let names = PathComponents.of(url.path(percentEncoded: false))
+                return !own.contains { names.starts(with: $0) }
+            }
+            return groups.contains { $0.items.contains { isElsewhere($0.url) } }
+                || forAnAdministrator.contains { isElsewhere($0.item.url) }
+        } ?? false
+    }
 
     /// The same scan without the group `id`, as when the person said it belongs to an app.
     public func without(_ id: OrphanGroup.ID) -> OrphanScan {
@@ -140,7 +168,8 @@ public struct OrphanScan: Sendable {
         OrphanScan(
             groups: groups.filter(isKept), unreadableLocations: unreadableLocations,
             needsFullDiskAccess: needsFullDiskAccess, cutShortLocations: cutShortLocations,
-            forAnAdministrator: forAnAdministrator, appsOnOtherDisks: appsOnOtherDisks
+            forAnAdministrator: forAnAdministrator, appsOnOtherDisks: appsOnOtherDisks,
+            foldersOfThisAccountAlone: foldersOfThisAccountAlone
         )
     }
 }

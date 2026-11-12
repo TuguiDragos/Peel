@@ -699,13 +699,16 @@ struct FileCommandTests {
         let directory = try TemporaryDirectory()
         let driver = try orphan("Example.kext", in: directory, heldBack: .beyondTheHelper, requiresPrivileges: true)
         let other = try orphan("com.example.gone", in: directory, heldBack: .beyondTheHelper, requiresPrivileges: true)
-        var scan = OrphanScan(groups: [], unreadableLocations: [])
-        scan.forAnAdministrator = [AdministratorItem(item: other, apps: ["Gone"])]
+        let withoutIt = [AdministratorItem(item: other, apps: ["Gone"])]
+        var scan = OrphanScan(groups: [], unreadableLocations: [], forAnAdministrator: withoutIt)
 
         #expect(driver.url.isKernelExtension && !other.url.isKernelExtension)
         #expect(!OrphansCommand.notes(for: scan, ownersUnreadable: false, onAppleSilicon: false)
             .contains(OrphansCommand.kernelExtensions))
-        scan.forAnAdministrator.append(AdministratorItem(item: driver, apps: ["Gone"]))
+        scan = OrphanScan(
+            groups: [], unreadableLocations: [],
+            forAnAdministrator: withoutIt + [AdministratorItem(item: driver, apps: ["Gone"])]
+        )
         #expect(OrphansCommand.notes(for: scan, ownersUnreadable: false, onAppleSilicon: false).last
             == OrphansCommand.kernelExtensions)
     }
@@ -714,12 +717,15 @@ struct FileCommandTests {
         let directory = try TemporaryDirectory()
         let driver = try orphan("Example.kext", in: directory, heldBack: .beyondTheHelper, requiresPrivileges: true)
         let other = try orphan("com.example.gone", in: directory, heldBack: .beyondTheHelper, requiresPrivileges: true)
-        var scan = OrphanScan(groups: [], unreadableLocations: [])
-        scan.forAnAdministrator = [AdministratorItem(item: other, apps: ["Gone"])]
+        let withoutIt = [AdministratorItem(item: other, apps: ["Gone"])]
+        var scan = OrphanScan(groups: [], unreadableLocations: [], forAnAdministrator: withoutIt)
 
         #expect(!OrphansCommand.notes(for: scan, ownersUnreadable: false, onAppleSilicon: true)
             .contains(OrphansCommand.reducedSecurity))
-        scan.forAnAdministrator.append(AdministratorItem(item: driver, apps: ["Gone"]))
+        scan = OrphanScan(
+            groups: [], unreadableLocations: [],
+            forAnAdministrator: withoutIt + [AdministratorItem(item: driver, apps: ["Gone"])]
+        )
         #expect(OrphansCommand.notes(for: scan, ownersUnreadable: false, onAppleSilicon: true).suffix(2)
             == [OrphansCommand.kernelExtensions, OrphansCommand.reducedSecurity])
         #expect(!OrphansCommand.notes(for: scan, ownersUnreadable: false, onAppleSilicon: false)
