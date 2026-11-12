@@ -42,8 +42,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   where they are. What a tool keeps under a dotted name stays out of the list while that tool is installed, and
   Settings > Exclusions shows the tool beside its group.
 - This Belongs To… is on an orphan group's page too, not only in the list's Control-click menu.
-- When this Mac has other accounts and something listed is outside your home, Orphaned Files and `peel orphans` say that
-  an app another account keeps in its own Applications folder isn't visible from here.
+- When this Mac has other accounts and something listed is in a place they share, such as `/Library`, Orphaned Files
+  and `peel orphans` say that an app another account keeps in its own Applications folder isn't visible from here.
 
 #### Homebrew
 

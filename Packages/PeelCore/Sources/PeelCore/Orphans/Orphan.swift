@@ -118,8 +118,9 @@ public struct OrphanScan: Sendable {
     public let forAnAdministrator: [AdministratorItem]
     /// Apps macOS knows on another disk that claimed something: Peel remembers them for when that disk isn't connected.
     public var appsOnOtherDisks: [InstalledApp] = []
-    /// True when this Mac has other accounts and something listed is outside this account's home: an app one of them
-    /// keeps in its own Applications folder is out of Peel's sight, and what it left in `/Library` looks orphaned.
+    /// True when this Mac has other accounts and something listed is outside the folders that are this account's
+    /// alone: an app one of them keeps in its own Applications folder is out of Peel's sight, and what it left in
+    /// `/Library` looks orphaned.
     public let otherAccountsMayOwn: Bool
     /// The folders that are this account's alone on a Mac that has other accounts, and nil on a Mac with none.
     private let foldersOfThisAccountAlone: [URL]?

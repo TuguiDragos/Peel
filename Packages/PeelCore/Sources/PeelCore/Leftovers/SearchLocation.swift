@@ -183,6 +183,11 @@ public struct SearchEnvironment: Sendable {
         self.userTemporaryDirectory = userTemporaryDirectory
     }
 
+    /// The folders only this account writes in: its home, and the cache and temporary folders macOS gives it.
+    var foldersOfThisAccountAlone: [URL] {
+        [homeDirectory, userCacheDirectory, userTemporaryDirectory].compactMap(\.self)
+    }
+
     /// Every place a search looks in.
     public var locations: [SearchLocation] {
         searchedPlaces.made.withLock { made in

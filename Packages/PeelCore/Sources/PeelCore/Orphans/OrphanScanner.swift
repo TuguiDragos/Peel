@@ -236,7 +236,7 @@ public struct OrphanScanner: Sendable {
             forAnAdministrator: forAnAdministrator,
             appsOnOtherDisks: knownToMacOS.identifiers.flatMap(knownPlaces).filter(isOnAnotherDisk)
                 .compactMap { AppInspector.inspect($0) },
-            foldersOfThisAccountAlone: OtherAccounts.exist(in: users) ? [environment.homeDirectory] : nil
+            foldersOfThisAccountAlone: OtherAccounts.exist(in: users) ? environment.foldersOfThisAccountAlone : nil
         )
     }
 

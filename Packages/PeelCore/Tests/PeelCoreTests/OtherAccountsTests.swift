@@ -44,4 +44,32 @@ struct OtherAccountsTests {
         )
         #expect(apart.otherAccountsMayOwn, "what is listed for an administrator counts too")
     }
+
+    @Test func whatIsInTheAccountsOwnCacheOrTemporaryFolderIsNoOtherAccounts() {
+        let cache = URL(filePath: "/var/folders/ab/cd/C", directoryHint: .isDirectory)
+        let temporary = URL(filePath: "/var/folders/ab/cd/T", directoryHint: .isDirectory)
+        let environment = SearchEnvironment(
+            homeDirectory: URL(filePath: "/Users/me", directoryHint: .isDirectory),
+            rootDirectory: URL(filePath: "/", directoryHint: .isDirectory),
+            userCacheDirectory: cache, userTemporaryDirectory: temporary
+        )
+        let listing = { (place: URL, kind: SearchLocation.Kind) in
+            OrphanScan(
+                groups: [
+                    OrphanGroup(identifier: "org.example.left", items: [
+                        OrphanItem(
+                            url: place.appending(path: "org.example.left"), kind: kind, size: 1, modificationDate: nil,
+                            requiresPrivileges: false
+                        ),
+                    ]),
+                ],
+                unreadableLocations: [], foldersOfThisAccountAlone: environment.foldersOfThisAccountAlone
+            )
+        }
+
+        #expect(!listing(cache, .caches).otherAccountsMayOwn)
+        #expect(!listing(temporary, .temporaryItems).otherAccountsMayOwn)
+        #expect(listing(URL(filePath: "/var/folders/zz/other/C"), .caches).otherAccountsMayOwn)
+        #expect(listing(URL(filePath: "/Library/Caches"), .caches).otherAccountsMayOwn)
+    }
 }
