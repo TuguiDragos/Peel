@@ -260,13 +260,11 @@ final class RemovalPlan {
         return await uninstallation.move(request.urls, using: service)
     }
 
-    /// The app's processes that run now, the helpers it ships included, which quit before any of its files move, but
-    /// for what launchd keeps running as a job of the app, which only starts again and which the move stops.
+    /// The app's processes that run now and quit before any of its files move, the helpers it ships included
+    /// (`RunningCopies.toQuit`).
     func processesToQuit() async -> [NSRunningApplication] {
-        let running = RunningCopies.belonging(to: app, among: RunningCopies.current, installedApps: installedApps)
-        guard !running.isEmpty else { return [] }
-        let jobs = await jobsKeptRunning([app.url])
-        return running.filter { !jobs.contains($0.identifier) }
-            .compactMap { NSRunningApplication(processIdentifier: $0.identifier) }
+        await RunningCopies.toQuit(
+            beforeMoving: app, among: RunningCopies.current, installedApps: installedApps, keptByJobs: jobsKeptRunning
+        ).compactMap { NSRunningApplication(processIdentifier: $0.identifier) }
     }
 }

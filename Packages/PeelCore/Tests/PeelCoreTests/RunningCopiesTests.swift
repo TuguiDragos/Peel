@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import Synchronization
 import Testing
 
 struct RunningCopiesTests {
@@ -15,6 +16,40 @@ struct RunningCopiesTests {
         #expect(!process("/Applications/Example.app").isAnExtension(inside: app))
         #expect(!process("/Applications/Example.app/Contents/Library/LoginItems/Helper.app").isAnExtension(inside: app))
         #expect(!process("/Applications/Other.app/Contents/PlugIns/Finder.appex").isAnExtension(inside: app))
+    }
+
+    @Test func whatQuitsBeforeAnAppMovesLeavesOutItsExtensionsAndItsJobs() async {
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.app",
+            name: "Example"
+        )
+        func process(_ identifier: pid_t, at path: String) -> RunningCopies.Process {
+            RunningCopies.Process(
+                identifier: identifier, bundleIdentifier: "org.example.app",
+                bundleURL: app.url.appending(path: path, directoryHint: .isDirectory)
+            )
+        }
+        let (theApp, finder, agent) = (
+            process(1, at: ""), process(2, at: "Contents/PlugIns/Finder.appex"),
+            process(3, at: "Contents/Library/LoginItems/Agent.app")
+        )
+        let asked = Mutex(0)
+        let jobs: @Sendable ([URL]) async -> Set<pid_t> = { _ in
+            asked.withLock { $0 += 1 }
+            return [agent.identifier]
+        }
+
+        let all = await RunningCopies.toQuit(
+            beforeMoving: app, among: [theApp, finder, agent], installedApps: [app], keptByJobs: jobs
+        )
+        let onlyTheExtension = await RunningCopies.toQuit(
+            beforeMoving: app, among: [finder], installedApps: [app], keptByJobs: jobs
+        )
+
+        #expect(all.map(\.identifier) == [theApp.identifier])
+        #expect(onlyTheExtension.isEmpty)
+        #expect(asked.withLock { $0 } == 1)
     }
 
     private let chrome = InstalledApp(

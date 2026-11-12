@@ -65,6 +65,23 @@ public enum RunningCopies {
         return found
     }
 
+    /// The processes of `app` among `running` that quit before its files move: those `belonging(to:)` finds, but for
+    /// an extension inside the app, which its host keeps running and the move ends once the app is in the Trash, and
+    /// for what launchd keeps running as a job of the app, which only starts again and which the move stops.
+    @concurrent
+    public static func toQuit(
+        beforeMoving app: InstalledApp,
+        among running: [Process],
+        installedApps: [InstalledApp],
+        keptByJobs jobs: @Sendable ([URL]) async -> Set<pid_t> = { await keptRunningByJobs(inside: $0) }
+    ) async -> [Process] {
+        let own = belonging(to: app, among: running, installedApps: installedApps)
+            .filter { !$0.isAnExtension(inside: app.url) }
+        guard !own.isEmpty else { return [] }
+        let kept = await jobs([app.url])
+        return own.filter { !kept.contains($0.identifier) }
+    }
+
     /// Returns the processes in `running` that belong to `app` and may be quit. The app itself is known by where it
     /// runs from: a copy elsewhere is another app, and quitting it would close the one in use. The app's helpers run
     /// from inside its bundle, or carry an identifier the bundle embeds or one that extends the app's, unless another

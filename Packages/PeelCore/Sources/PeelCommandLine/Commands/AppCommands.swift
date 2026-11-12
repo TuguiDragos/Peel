@@ -505,10 +505,9 @@ struct UninstallCommand: AsyncParsableCommand {
     }
 
     static func whileRunning(_ target: InstalledApp, among apps: [InstalledApp]) async -> CommandFailure? {
-        let belonging = await RunningCopies.belonging(to: target, among: RunningCopies.current, installedApps: apps)
-        guard !belonging.isEmpty else { return nil }
-        let jobs = await RunningCopies.keptRunningByJobs(inside: [target.url])
-        let running = belonging.filter { !jobs.contains($0.identifier) && !$0.isAnExtension(inside: target.url) }
+        let running = await RunningCopies.toQuit(
+            beforeMoving: target, among: RunningCopies.current, installedApps: apps
+        )
         guard !running.isEmpty else { return nil }
         let identifiers = Set(running.compactMap { $0.bundleIdentifier ?? $0.bundleURL.map(Output.path) })
             .sorted().map(Output.plain)

@@ -112,7 +112,9 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
 5. **Move.**
    - The question before the move freezes what it asks about, and the move takes exactly that
      (`RemovalQuestion`, which also runs one removal at a time and holds the page's scans until it is over).
-   - Before any of it, the app has to quit, and Peel offers Force Quit when it doesn't (`QuitBeforeRemoving`).
+   - Before any of it, the app has to quit, though not its extensions, which run on for their host, nor what launchd
+     keeps running as its jobs (`RunningCopies.toQuit`), and Peel offers Force Quit when it doesn't
+     (`QuitBeforeRemoving`).
      When the app had to quit, its page scans again before asking, since what it wrote until then was not there
      when the page scanned.
    - The app moves first, and its files follow only once it has moved, so an app that stays keeps everything of
