@@ -51,14 +51,15 @@ enum CodeSignature {
         return information
     }
 
-    /// Whether the bundle's whole seal holds: its executable and every resource, nothing added, nothing changed.
+    /// Whether the bundle's whole seal holds: its executable for every processor, every resource, and the code nested
+    /// in it, nothing added, nothing changed. A plain check reads only this Mac's slice and takes nested code on trust.
     static func sealHolds(at url: URL) -> Bool {
         var staticCode: SecStaticCode?
         guard SecStaticCodeCreateWithPath(url as CFURL, [], &staticCode) == errSecSuccess, let staticCode else {
             return false
         }
-        return SecStaticCodeCheckValidity(staticCode, SecCSFlags(rawValue: UInt32(kSecCSStrictValidate)), nil)
-            == errSecSuccess
+        let whole = kSecCSStrictValidate | kSecCSCheckNestedCode | kSecCSCheckAllArchitectures
+        return SecStaticCodeCheckValidity(staticCode, SecCSFlags(rawValue: UInt32(whole)), nil) == errSecSuccess
     }
 
     /// Returns the maker that a checked signature's leaf certificate names, read from its subject:

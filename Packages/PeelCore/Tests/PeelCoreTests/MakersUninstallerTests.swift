@@ -289,6 +289,61 @@ struct MakersUninstallerTests {
         #expect(!CodeSignature.sealHolds(at: bundle))
     }
 
+    @Test func aSealBreaksWhenAProgramInsideOrAnotherSliceChanges() throws {
+        let directory = try TemporaryDirectory()
+        let bundle = try directory.directory("Maker.app")
+        let helper = try directory.directory("Maker.app/Contents/Helpers/Tool.app")
+        for (app, name) in [(helper, "Tool"), (bundle, "Maker")] {
+            let programs = app.appending(path: "Contents/MacOS", directoryHint: .isDirectory)
+            try FileManager.default.createDirectory(at: programs, withIntermediateDirectories: true)
+            try FileManager.default.copyItem(at: URL(filePath: "/bin/cat"), to: programs.appending(path: name))
+            let info: [String: Any] = ["CFBundleIdentifier": "org.example.\(name.lowercased())", "CFBundleExecutable": name]
+            try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
+                .write(to: app.appending(path: "Contents/Info.plist"))
+            let signing = try Process.run(
+                URL(filePath: "/usr/bin/codesign"), arguments: ["--force", "--sign", "-", app.path(percentEncoded: false)]
+            )
+            signing.waitUntilExit()
+            try #require(signing.terminationStatus == 0)
+        }
+        try #require(CodeSignature.sealHolds(at: bundle))
+        let tool = helper.appending(path: "Contents/MacOS/Tool")
+
+        try #require(try changeTheHeader(of: tool) { _ in true } > 0)
+        #expect(!CodeSignature.sealHolds(at: bundle), "a program changed inside the app passes for the one its maker signed")
+        _ = try changeTheHeader(of: tool) { _ in true }
+        try #require(CodeSignature.sealHolds(at: bundle))
+
+        let others = try changeTheHeader(of: bundle.appending(path: "Contents/MacOS/Maker")) { $0 != Self.thisMacsCPU }
+        try #require(others > 0, "/bin/cat has no slice for another processor")
+        #expect(!CodeSignature.sealHolds(at: bundle), "a slice this Mac doesn't run passes changed")
+    }
+
+    #if arch(arm64)
+    private static let thisMacsCPU: UInt32 = 0x0100_000C
+    #else
+    private static let thisMacsCPU: UInt32 = 0x0100_0007
+    #endif
+
+    /// Flips a byte of the unused `reserved` field in the header of each slice of the program at `file` whose CPU type
+    /// `isChanged` takes, so the slice's first page no longer matches its hash, and returns how many it changed.
+    private func changeTheHeader(of file: URL, slices isChanged: (UInt32) -> Bool) throws -> Int {
+        var data = try Data(contentsOf: file)
+        func number(at offset: Int, bigEndian: Bool) -> UInt32 {
+            let bytes = Array(data[offset..<offset + 4])
+            return (bigEndian ? bytes : bytes.reversed()).reduce(0) { $0 << 8 | UInt32($1) }
+        }
+        let slices: [(cpu: UInt32, offset: Int)] = number(at: 0, bigEndian: true) == 0xCAFE_BABE
+            ? (0..<Int(number(at: 4, bigEndian: true))).map {
+                (number(at: 8 + 20 * $0, bigEndian: true), Int(number(at: 16 + 20 * $0, bigEndian: true)))
+            }
+            : [(number(at: 4, bigEndian: false), 0)]
+        let changed = slices.filter { isChanged($0.cpu) }
+        for slice in changed { data[slice.offset + 28] ^= 0xFF }
+        try data.write(to: file)
+        return changed.count
+    }
+
     @Test func knowsSymantecEndpointProtectionByTheTeamItsSignatureNames() {
         let symantec = agent("com.symantec.sep.mainapp", team: "9PTGMPNXZ2", at: "/Applications/Symantec Solutions/Symantec Endpoint Protection.app")
 
