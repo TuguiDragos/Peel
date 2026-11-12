@@ -20,12 +20,10 @@ public enum SystemDaemons {
     /// True for one of `labels`, or for an instance of one: launchd runs a job started as inetd would start it
     /// (`inetdCompatibility` in `man launchd.plist`) once for each connection, under its label, a dot, and a UUID.
     public static func belongs(_ label: String, to labels: Set<String>) -> Bool {
-        var name = Substring(label)
-        while !labels.contains(String(name)) {
-            guard let dot = name.lastIndex(of: ".") else { return false }
-            name = name[..<dot]
-        }
-        return true
+        if labels.contains(label) { return true }
+        guard let dot = label.lastIndex(of: "."), UUID(uuidString: String(label[label.index(after: dot)...])) != nil
+        else { return false }
+        return labels.contains(String(label[..<dot]))
     }
 
     /// The files in `directory` that declare `label`, two at most: a job is loaded only from the one file that

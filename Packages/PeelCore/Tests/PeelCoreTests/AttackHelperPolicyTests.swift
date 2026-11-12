@@ -694,6 +694,18 @@ extension AttackHelperPolicyTests {
         #expect(PrivilegedPathPolicy.allowsDaemon("org.example.vendor.daemon", shipped: shipped))
     }
 
+    @Test func aLabelThatGoesOnFromADaemonMacOSShipsIsNoInstanceOfIt() {
+        let shipped: Set<String> = ["com.openssh.sshd"]
+        let labels = [
+            "com.openssh.sshd.update", "com.openssh.sshd.DFF8D2B5",
+            "com.openssh.sshd.agent.DFF8D2B5-E315-46B4-9087-D4072EBC64DC",
+        ]
+        for label in labels {
+            #expect(!SystemDaemons.belongs(label, to: shipped), "\(label)")
+            #expect(PrivilegedPathPolicy.allowsDaemon(label, shipped: shipped), "\(label)")
+        }
+    }
+
     @Test func theHelperRefusesWhatAContainersDocumentsHoldOnItsOwn() throws {
         let directory = try TemporaryDirectory()
         let path = "home/Library/Containers/com.example.notes/Data/Documents/novel.txt"
