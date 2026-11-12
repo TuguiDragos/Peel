@@ -347,8 +347,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   server answered that Peel asks again later.
 - An app whose Info.plist macOS's privacy protection keeps from Peel is named as such, with where to allow Peel, no
   longer as one whose permissions are closed.
-- `peel uninstall` no longer asks you to quit an app when only one of its extensions runs, and it ends those still
-  running from the app once the app is in the Trash.
+- Uninstalling an app ends the extensions still running from it once it is in the Trash, on its page, on several apps'
+  page, and with `peel uninstall`.
+- `peel uninstall` no longer asks you to quit an app when only one of its extensions runs.
 - In Shortcuts, two copies of one app show where each is, and a Shortcut opens the copy you chose, no longer always the
   first.
 - A `peel://open` link whose path is longer than a file's can be is refused, no longer shown whole in an alert taller

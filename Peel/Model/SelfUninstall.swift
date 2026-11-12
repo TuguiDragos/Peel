@@ -174,7 +174,6 @@ final class SelfUninstall {
             }
             return
         }
-        SelfRemoval.endExtensions(runningFrom: moved.trashedURL)
         words = language.flatMap {
             Bundle(url: moved.trashedURL.appending(path: "Contents/Resources/\($0).lproj", directoryHint: .isDirectory))
         }

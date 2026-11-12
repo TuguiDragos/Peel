@@ -118,8 +118,10 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
    - The app moves first, and its files follow only once it has moved, so an app that stays keeps everything of
      its own (`TrashService`'s
      `trash(apps:thenFiles:usingHelperFor:lettingTheirProgramsRun:emptiedFoldersNamed:)`, which an app's page,
-     several apps' page, Remove Peel, and `peel uninstall` share). A folder named for the app or its maker that the
-     move leaves empty goes with them, unless macOS keeps it under that name for its own services (`MakersFolders`).
+     several apps' page, Remove Peel, and `peel uninstall` share). The user's app extensions still running from an
+     app in the Trash, where nobody can quit them, are ended before its files move (`ExtensionsLeftRunning`). A
+     folder named for the app or its maker that the move leaves empty goes with them, unless macOS keeps it under
+     that name for its own services (`MakersFolders`).
    - `TrashService` asks `RemovalGuard` about each item first, holds the folder around the item open, asks again
      about what the kernel calls that folder, and moves the item through it, so the thing judged is the thing
      moved. Items only an administrator can move go through the helper, and the links an app's tools and their
@@ -572,7 +574,7 @@ it (`Uninstallation.unreviewedLinks`): it leads into Peel until Peel has moved, 
 when it leads to the tool of the Peel it runs from (`PrivilegedPathPolicy`'s `ownTool`). Both are asked of the helper
 only once it has answered (`SelfRemoval.beforeTheHelperGoes`): one that cannot start would keep each request waiting, so
 then both stay, and Remove Peel names them with what stayed. Peel's login item is unregistered before Peel moves, and
-once Peel is in the Trash, Remove Peel ends the Finder extension still running from it (`SelfRemoval.endExtensions`) and
+once Peel is in the Trash, its Finder extension still running from it is ended, as any app's is, and Remove Peel
 takes Peel's icon out of the Dock without remembering it. It is the only way Peel removes itself: Peel's own page in
 Applications, and Peel among several chosen apps, list it and select nothing of it (`RemovedElsewhere.byRemovePeel`),
 and `peel uninstall` refuses it. For a copy Homebrew installed, Settings shows `brew uninstall --zap --cask peel` in its

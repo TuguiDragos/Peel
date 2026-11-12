@@ -891,10 +891,6 @@ struct UninstallCommand: AsyncParsableCommand {
             }
             let recorded = await plan.record(result, from: target.name)
             await LeftForAnAdministrator().record(uninstallation.leftForAnAdministrator(after: result))
-            // An extension keeps running from the Trash, where nobody can quit it.
-            if let moved = result.trashed.first(where: { $0.originalURL == target.url }) {
-                SelfRemoval.endExtensions(runningFrom: moved.trashedURL)
-            }
             return (reset, result, recorded)
         }
         let privacy = reset.map { Self.privacyOutcome($0, app: target, after: result) }

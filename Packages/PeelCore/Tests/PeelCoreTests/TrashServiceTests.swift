@@ -192,6 +192,41 @@ struct TrashServiceTests {
         #expect(await launchd.started.isEmpty)
     }
 
+    @Test func endsTheExtensionsOfTheAppsThatMovedBeforeTheirFilesMove() async throws {
+        let directory = try TemporaryDirectory()
+        let apps = try ["Moving", "Staying"].map {
+            try directory.directory("root/Applications/\($0).app/Contents").deletingLastPathComponent()
+        }
+        let file = try directory.file("home/Library/Caches/org.example.moving/cache")
+        let trash = try directory.directory("home/.Trash")
+        let ended = Mutex<[(apps: [URL], fileWasThere: Bool)]>([])
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            endExtensions: { trashed in
+                let isThere = FileManager.default.fileExists(atPath: file.path(percentEncoded: false))
+                ended.withLock { $0.append((trashed, isThere)) }
+            }
+        ) { url in
+            guard url.lastPathComponent != "Staying.app" else { throw CocoaError(.fileWriteNoPermission) }
+            let destination = trash.appending(path: url.lastPathComponent)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let result = await service.trash(
+            apps: apps, thenFiles: { stayed in stayed == [apps[1]] ? [file] : [] }, usingHelperFor: [],
+            lettingTheirProgramsRun: []
+        )
+
+        try #require(result.trashed.map(\.originalURL) == [apps[0], file])
+        let calls = ended.withLock { $0 }
+        #expect(calls.map(\.apps) == [[result.trashed[0].trashedURL]])
+        #expect(calls.map(\.fileWasThere) == [true])
+    }
+
     @Test func stopsNothingWhileAProgramThatIsNotTheAppsJobHoldsIt() async throws {
         let directory = try TemporaryDirectory()
         let (app, agent, plist, _) = try appRunningItsAgent(in: directory)

@@ -362,6 +362,7 @@ public struct TrashService: Sendable {
     typealias StopRunning = @Sendable ([LaunchdCleanup.Running], _ canUseHelper: Bool) async -> [LaunchdCleanup.Running]
     typealias RegistrationAtLogin = @Sendable (_ app: URL) async -> StartsAtLogin.Registration?
     typealias RegisterApp = @Sendable (_ app: URL) async -> Void
+    typealias EndExtensions = @Sendable (_ trashedApps: [URL]) async -> Void
 
     let environment: SearchEnvironment
     private let exclusions: Exclusions
@@ -376,6 +377,7 @@ public struct TrashService: Sendable {
     private let runningJobs: RunningJobs
     private let registrationAtLogin: RegistrationAtLogin
     private let registerApp: RegisterApp
+    private let endExtensions: EndExtensions
     /// Makes the move for a guard, so a service made again for other exclusions moves the same way.
     private let movingJudgedBy: @Sendable (RemovalGuard) -> @Sendable (URL) throws -> URL
     private let ownMoves: OwnTrashMoves
@@ -402,6 +404,7 @@ public struct TrashService: Sendable {
             runningJobs: { await Launchctl.runningJobs() },
             registrationAtLogin: { await StartsAtLogin.registration(of: $0) },
             registerApp: { app in _ = LSRegisterURL(app as CFURL, true) },
+            endExtensions: { await ExtensionsLeftRunning.end(runningFrom: $0) },
             movingJudgedBy: { judge in { try Self.moveToSystemTrash($0, refusal: judge.refusal(of:)) } },
             ownMoves: .shared,
             journal: RemovalJournal(beside: history)
@@ -410,7 +413,7 @@ public struct TrashService: Sendable {
 
     /// For tests. Unless a test passes its own, it stops and starts no launchd job, asks launchd nothing, forgets no
     /// preference domain, registers no app with Launch Services, acts as if there were no helper, changes no Dock,
-    /// and writes no journal.
+    /// writes no journal, and ends no app extension.
     init(
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
@@ -424,6 +427,7 @@ public struct TrashService: Sendable {
         runningJobs: @escaping RunningJobs = { [] },
         registrationAtLogin: @escaping RegistrationAtLogin = { _ in nil },
         registerApp: @escaping RegisterApp = { _ in },
+        endExtensions: @escaping EndExtensions = { _ in },
         ownMoves: OwnTrashMoves = OwnTrashMoves(),
         journal: RemovalJournal? = nil,
         makingTheGuard: (@Sendable () -> RemovalGuard)? = nil,
@@ -443,6 +447,7 @@ public struct TrashService: Sendable {
             runningJobs: runningJobs,
             registrationAtLogin: registrationAtLogin,
             registerApp: registerApp,
+            endExtensions: endExtensions,
             movingJudgedBy: { _ in moveToTrash },
             ownMoves: ownMoves,
             journal: journal
@@ -463,6 +468,7 @@ public struct TrashService: Sendable {
         runningJobs: @escaping RunningJobs,
         registrationAtLogin: @escaping RegistrationAtLogin,
         registerApp: @escaping RegisterApp,
+        endExtensions: @escaping EndExtensions,
         movingJudgedBy: @escaping @Sendable (RemovalGuard) -> @Sendable (URL) throws -> URL,
         ownMoves: OwnTrashMoves,
         journal: RemovalJournal?
@@ -483,6 +489,7 @@ public struct TrashService: Sendable {
         self.runningJobs = runningJobs
         self.registrationAtLogin = registrationAtLogin
         self.registerApp = registerApp
+        self.endExtensions = endExtensions
         self.movingJudgedBy = movingJudgedBy
         self.ownMoves = ownMoves
         self.journal = journal
@@ -506,6 +513,7 @@ public struct TrashService: Sendable {
             runningJobs: runningJobs,
             registrationAtLogin: registrationAtLogin,
             registerApp: registerApp,
+            endExtensions: endExtensions,
             movingJudgedBy: movingJudgedBy,
             ownMoves: ownMoves,
             journal: journal
@@ -763,6 +771,11 @@ public struct TrashService: Sendable {
             lettingTheirProgramsRun: running
         )
         let moved = Set(result.trashed.map(\.originalURL))
+        // An app's extensions run on from the Trash, where nobody can quit them, and its files wait for them to end.
+        let trashedApps = result.trashed.filter { apps.contains($0.originalURL) }.map(\.trashedURL)
+        if !trashedApps.isEmpty {
+            await endExtensions(trashedApps)
+        }
         // With another copy installed, macOS may start the items from that copy.
         result.startsFromTheTrash = apps.filter { app in
             guard moved.contains(app), let registration = registrations[app] else { return false }
