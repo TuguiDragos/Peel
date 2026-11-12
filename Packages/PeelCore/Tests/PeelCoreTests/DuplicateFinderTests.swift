@@ -1204,6 +1204,30 @@ struct DuplicateRemovalTests {
         #expect(FileManager.default.fileExists(atPath: copy.path(percentEncoded: false)))
     }
 
+    @Test func aCopyMovesOnlyOnceItsBytesWereReadAgain() async throws {
+        let directory = try TemporaryDirectory()
+        let (scan, _, copy) = try await duplicates(in: directory)
+        let trash = try directory.directory("Trash")
+        let count = MoveCount()
+        let readingAtTheMove = Mutex<[Bool]>([])
+        let service = TrashService(environment: SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )) { url in
+            readingAtTheMove.withLock { $0.append(count.isReading) }
+            let destination = trash.appending(path: UUID().uuidString)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let result = await MoveCount.$current.withValue(count) {
+            await DuplicateRemoval.trash([copy], from: scan, using: service)
+        }
+
+        #expect(result.trashed.map(\.originalURL) == [copy])
+        #expect(readingAtTheMove.withLock { $0 } == [false])
+    }
+
     @Test func refusesWhenTheKeptCopyChanged() async throws {
         let directory = try TemporaryDirectory()
         let (scan, kept, copy) = try await duplicates(in: directory)

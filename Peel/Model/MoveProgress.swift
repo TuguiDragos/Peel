@@ -8,22 +8,27 @@ final class MoveProgress {
     /// How many of `toMove` items have moved, brought up to date ten times a second while a move runs.
     private(set) var moved = 0
     private(set) var toMove = 0
+    /// True while the removal reads again what it is about to move, as Duplicates does, so nothing has moved yet.
+    private(set) var isReading = false
 
     /// Runs `work`, counting each item a move in it takes to the Trash.
     func run<Result>(toMove count: Int, _ work: () async -> Result) async -> Result {
         isMoving = true
         moved = 0
         toMove = count
+        isReading = false
         let counted = MoveCount()
         let watching = Task { [weak self] in
             while !Task.isCancelled {
                 try? await Task.sleep(for: .milliseconds(100))
                 self?.moved = counted.value
+                self?.isReading = counted.isReading
             }
         }
         defer {
             watching.cancel()
             isMoving = false
+            isReading = false
         }
         return await MoveCount.$current.withValue(counted) { await work() }
     }

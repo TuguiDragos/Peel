@@ -512,6 +512,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   of the file it was a copy of: what Duplicates remembers between scans counts only on APFS. Right before a move,
   Peel reads again each copy that goes and the copies that stay, and a copy moves only while one that stays holds the
   same bytes, in the app and in `peel duplicates --remove`.
+- While Peel reads the copies again right before a move, the bar says Reading contents…, no longer Moved 0 of them
+  as if the move were stuck.
 - A scan of many copies no longer holds about 18 KB for each until it ends, since each question to the guard lets go of
   what it made.
 

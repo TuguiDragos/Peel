@@ -38,8 +38,12 @@ public enum DuplicateRemoval {
         }
         let checkedFolders = selectedFolders
         let checkedFiles = selectedFiles
-        let folders = await readAgain(Set(selectedFolders.values.flatMap { [$0.folder] + $0.kept }))
-        let files = await readAgain(Set(selectedFiles.values.flatMap { [$0.file.url] + $0.kept.map(\.url) }))
+        let (folders, files) = await MoveCount.reading {
+            (
+                await readAgain(Set(selectedFolders.values.flatMap { [$0.folder] + $0.kept })),
+                await readAgain(Set(selectedFiles.values.flatMap { [$0.file.url] + $0.kept.map(\.url) }))
+            )
+        }
         return await trashService.trash(urls, refusing: { url in
             if let entry = checkedFolders[url] {
                 guard entry.kept.contains(where: FolderDuplicates.holdsTheSameContents) else { return .lastCopy }

@@ -182,9 +182,15 @@ struct RemovalBar: View {
                             } else if isShowingMove, let moving {
                                 ProgressView()
                                     .controlSize(.small)
-                                Text("Moved \(moving.moved, format: .number) of \(moving.toMove, format: .number)")
-                                    .monospacedDigit()
-                                    .foregroundStyle(.secondary)
+                                Group {
+                                    if moving.isReading {
+                                        Text("Reading contents…")
+                                    } else {
+                                        Text("Moved \(moving.moved, format: .number) of \(moving.toMove, format: .number)")
+                                    }
+                                }
+                                .monospacedDigit()
+                                .foregroundStyle(.secondary)
                             } else if isShowingWait {
                                 ProgressView()
                                     .controlSize(.small)
