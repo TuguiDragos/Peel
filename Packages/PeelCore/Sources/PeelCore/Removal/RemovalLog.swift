@@ -148,9 +148,6 @@ public actor RemovalLog {
         url.isMissing ? nil : BoundedRead.whyUnreadable(url, maximum: maximumBytes)
     }
 
-    /// Why a removal couldn't be recorded in History at `url` now, or nil when it could: the folder it is written
-    /// into can be written, its disk has room for the copy a safe write makes of the whole file, with a megabyte to
-    /// spare, and the journal beside it can take what moves meanwhile.
     /// The copies of History and of its journal that a read set aside as `DamagedFile` names them, whoever made them,
     /// oldest first.
     public static func setAsideCopies(of history: URL) -> [URL] {
@@ -158,6 +155,9 @@ public actor RemovalLog {
             .sorted { $0.lastPathComponent < $1.lastPathComponent }
     }
 
+    /// Why a removal couldn't be recorded in History at `url` now, or nil when it could: the folder it is written
+    /// into can be written, its disk has room for the copy a safe write makes of the whole file, with a megabyte to
+    /// spare, and the journal beside it can take what moves meanwhile.
     public static func writeProblem(
         at url: URL = RemovalHistory.defaultURL,
         freeSpace: (URL) -> UInt64? = RemovalLog.freeSpace(at:)
