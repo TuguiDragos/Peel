@@ -56,7 +56,8 @@ Mac, and Remove Peel moves them to the Trash with the rest of Peel's.
 
 Peel's helper keeps its own record of what it moved, in a folder only root can read, and writes a line to the Mac's
 log, which Console shows, for each request: what it was asked to do, for which account, and what came of it. The
-paths show there as private, and nothing in the log leaves your Mac.
+path of an item it left in place shows there as private. A request about another maker's background service names
+that service, by its label or by its file in `/Library/LaunchDaemons`. Nothing in the log leaves your Mac.
 
 ## Every address Peel or Homebrew may contact
 

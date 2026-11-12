@@ -666,7 +666,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   builds alone, and the Checks workflow and `release.sh` refuse a Release binary that carries it.
 - The helper refuses an app that sits inside another app, moving it out or putting it back in.
 - The helper writes a line to the Mac's log for each request: what was asked, for which account, and what came of it,
-  with its paths kept private.
+  with the path of an item it left in place kept private.
 - A link to an update's notes in a feed needs a host as well as https.
 
 ## 1.3.0 (2026-11-04)

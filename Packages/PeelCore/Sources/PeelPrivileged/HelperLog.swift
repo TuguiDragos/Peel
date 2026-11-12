@@ -2,7 +2,8 @@ import Darwin
 import os
 
 /// What the helper writes to the unified log: a line for each request, with its account and what came of it, and one
-/// for each item it left where it was. Paths stay private there, as the log keeps them; the reasons are Peel's own.
+/// for each item it left where it was. That item's path stays private there, as the log keeps it; a request names
+/// only a daemon, by its label or its file, and the reasons are Peel's own.
 enum HelperLog {
     private static let requests = Logger(subsystem: HelperIdentity.helperIdentifier, category: "Requests")
 
