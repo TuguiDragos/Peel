@@ -150,7 +150,7 @@ extension Subprocess {
     }
 
     /// One program running on its own: whoever waits for it is woken once, and it is stopped once, for one reason.
-    private final class OwnRun: Sendable {
+    final class OwnRun: Sendable {
         private struct State {
             var hasEnded = false
             var status: Int32 = 0
@@ -160,9 +160,18 @@ extension Subprocess {
 
         private let state = Mutex(State())
         private let pid: pid_t
+        private let signal: @Sendable (pid_t, Int32) -> Int32
+        private let grace: TimeInterval
 
-        init(_ pid: pid_t) {
+        /// `signal` and `grace` are `kill` and `Subprocess.grace` but in a test, which stands in for a program its
+        /// signals don't end, as one stuck in the kernel.
+        init(
+            _ pid: pid_t, signal: @escaping @Sendable (pid_t, Int32) -> Int32 = { kill($0, $1) },
+            grace: TimeInterval = Subprocess.grace
+        ) {
             self.pid = pid
+            self.signal = signal
+            self.grace = grace
         }
 
         var failure: Failure? { state.withLock { $0.failure } }
@@ -186,7 +195,7 @@ extension Subprocess {
             let source = DispatchSource.makeProcessSource(identifier: pid, eventMask: .exit, queue: Subprocess.timers)
             source.setEventHandler { [self] in
                 source.cancel()
-                ended {
+                ended { [pid] in
                     var status: Int32 = 0
                     while waitpid(pid, &status, 0) == -1, errno == EINTR {}
                     return status
@@ -195,11 +204,14 @@ extension Subprocess {
             source.resume()
         }
 
-        private func ended(reaping reap: () -> Int32 = { 0 }) {
+        private func ended(reaping reap: (() -> Int32)? = nil) {
             let waiter = state.withLock { state -> CheckedContinuation<Void, Never>? in
-                guard !state.hasEnded else { return nil }
+                let wasNoted = state.hasEnded
                 state.hasEnded = true
-                state.status = reap()
+                // Reaped even when its stop let the waiter go first, or it would stay a zombie.
+                let status = reap?()
+                guard !wasNoted else { return nil }
+                state.status = status ?? 0
                 defer { state.waiter = nil }
                 return state.waiter
             }
@@ -210,16 +222,16 @@ extension Subprocess {
             let isFirst = state.withLock { state in
                 guard !state.hasEnded, state.failure == nil else { return false }
                 state.failure = reason
-                kill(pid, SIGTERM)
+                _ = signal(pid, SIGTERM)
                 return true
             }
             guard isFirst else { return }
-            Subprocess.timers.asyncAfter(deadline: .now() + Subprocess.grace) { [self] in
+            Subprocess.timers.asyncAfter(deadline: .now() + grace) { [self] in
                 state.withLock { state in
-                    if !state.hasEnded { kill(pid, SIGKILL) }
+                    if !state.hasEnded { _ = signal(pid, SIGKILL) }
                 }
                 // A program stuck in the kernel survives even `SIGKILL`, so the waiter is let go anyway.
-                Subprocess.timers.asyncAfter(deadline: .now() + Subprocess.grace) { [self] in
+                Subprocess.timers.asyncAfter(deadline: .now() + grace) { [self] in
                     ended()
                 }
             }

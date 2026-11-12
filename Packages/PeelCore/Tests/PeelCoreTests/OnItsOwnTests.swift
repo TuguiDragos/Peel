@@ -168,6 +168,31 @@ struct OnItsOwnTests {
         #expect(await task.value == .failure(.canceled))
     }
 
+    @Test func aProgramThatOutlivesItsStopIsReapedOnceItEnds() async throws {
+        let system = try #require(Subprocess.Responsibility.system)
+        let held = try Subprocess.Held.start("/bin/sleep", ["600"], environment: environment, asking: system).get()
+        defer {
+            close(held.output)
+            if let errors = held.errors { close(errors) }
+        }
+        // The signals do nothing here, as for a program stuck in the kernel, which outlives even SIGKILL.
+        let run = Subprocess.OwnRun(held.pid, signal: { _, _ in 0 }, grace: 0.01)
+        run.watch()
+        kill(held.pid, SIGCONT)
+        run.stop(because: .timedOut)
+        await run.wait()
+        #expect(ProcessEnds.isRunning(held.pid))
+
+        kill(held.pid, SIGKILL)
+
+        var reaped = false
+        for _ in 0..<1_500 where !reaped {
+            try await Task.sleep(for: .milliseconds(20))
+            reaped = ProcessEnds.startTime(of: held.pid) == nil
+        }
+        #expect(reaped, "the program stays a zombie")
+    }
+
     private static func isStopped(_ pid: pid_t) -> Bool {
         var info = kinfo_proc()
         var size = MemoryLayout<kinfo_proc>.stride
