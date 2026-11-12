@@ -194,6 +194,8 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      (`removals.journal`, through `RemovalJournal`); an item that can't be written down first doesn't move, nor does
      anything after it in that removal. The line before a move reaches the drive ahead of it (`DriveFlush.ahead`: a
      barrier on the journal's drive, a full flush for an item on another), so no power cut keeps a move without it.
+     A move that then didn't happen takes its line back while the item is still in its place
+     (`RemovalJournal.takeBack`), unless the helper never answered and may move it yet.
      A line written before a move with none after it is settled on the disk when
      it is taken in: the item still in its place never moved, and one in its Trash under a name a move gives, with the
      identity the line keeps, is the one that moved. So what a removal moved before it was cut short reaches

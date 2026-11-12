@@ -655,6 +655,8 @@ public struct TrashService: Sendable {
         var moved = Folders()
         // Set once the line written before a move can't be: nothing moves after it, since nothing would remember it.
         var unrecorded: TrashFailure.Reason?
+        // What a line was written for, ahead of a move that then didn't happen.
+        var stayed: [URL] = []
         ownMoves.began()
         func move(_ url: URL) {
             if let refusal = refusals[url] {
@@ -680,6 +682,7 @@ public struct TrashService: Sendable {
                 let reason = TrashFailure.Reason.historyCannotBeWritten(journal.historyWriteProblem)
                 unrecorded = reason
                 result.failures.append(TrashFailure(url: url, reason: reason))
+                stayed.append(url)
                 return
             }
             do {
@@ -697,6 +700,7 @@ public struct TrashService: Sendable {
                 moved.add(path)
                 MoveCount.current?.add(1)
             } catch {
+                stayed.append(url)
                 // Nothing was there to move: like an item inside a folder that moved, neither moved nor a failure.
                 if Self.foundNothing(error), url.isMissing { return }
                 let reason = Self.reason(for: error)
@@ -713,6 +717,9 @@ public struct TrashService: Sendable {
             openFiles = await readingOfOpenFiles()
         }
         urls.filter { !jobFiles.contains($0) }.forEach(move)
+        if let removal {
+            journal?.takeBack(linesBefore: stayed, batch: removal)
+        }
         ownMoves.ended(landedAt: result.trashed.map(\.trashedURL))
         FileSize.forgetAnswers(holding: result.trashed.map(\.originalURL))
         await forgetDomains(result.trashed.map(\.originalURL), owner)
@@ -902,6 +909,7 @@ public struct TrashService: Sendable {
         let links = Set(allowed.filter(reach.takesOnlyALink))
         ownMoves.began()
         var helperResult = TrashResult()
+        var stayed: [URL] = []
         // One request at a time, each answer written down before the next request goes, so a stop while the helper
         // works loses no more than the request under way. The helper's own limit also bounds how many items an
         // answer that never comes can affect. The helper reads no open files, so they are read right before each
@@ -939,6 +947,7 @@ public struct TrashService: Sendable {
                 if unrecorded == nil, let journal,
                    !journal.note(request.map(departing), batch: removal, beforeTheMove: true) {
                     unrecorded = .historyCannotBeWritten(journal.historyWriteProblem)
+                    stayed += request
                 }
                 if let unrecorded {
                     result.failures += request.map { TrashFailure(url: $0, reason: unrecorded) }
@@ -949,8 +958,13 @@ public struct TrashService: Sendable {
                 MoveCount.current?.add(moved.trashed.count)
                 helperResult.trashed += moved.trashed
                 helperResult.failures += moved.failures.map(explained)
+                // A helper that never answered may move an item yet, and its line is how History would learn of it.
+                let unanswered = moved.failures.filter { $0.reason == .failed(PrivilegedHelper.mayStillMove) }
+                let leftOrMayLeave = Set(moved.trashed.map(\.originalURL) + unanswered.map(\.url))
+                stayed += request.filter { !leftOrMayLeave.contains($0) }
             }
         }
+        journal?.takeBack(linesBefore: stayed, batch: removal)
         ownMoves.ended(landedAt: helperResult.trashed.map(\.trashedURL))
         FileSize.forgetAnswers(holding: helperResult.trashed.map(\.originalURL))
         result.trashed += helperResult.trashed

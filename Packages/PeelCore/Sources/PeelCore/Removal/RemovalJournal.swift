@@ -313,6 +313,23 @@ struct RemovalJournal: Sendable {
         forget { entries.contains($0) }
     }
 
+    /// Takes back the lines this process wrote before the items at `places` were to move in `batch`, for each that
+    /// then stayed: still in its place as the item its line names, or never there. One that left its place keeps its
+    /// line, which is how it reaches History.
+    func takeBack(linesBefore places: [URL], batch: UUID, recordedAs recorded: RecordedRemoval? = .current) {
+        guard !places.isEmpty else { return }
+        let places = Set(places)
+        let batch = recorded?.batch ?? batch
+        forget { entry in
+            guard entry.isBeforeTheMove == true, entry.writer == .current, entry.batch == batch,
+                  places.contains(entry.item.originalURL)
+            else { return false }
+            guard let identity = entry.item.identity else { return true }
+            var info = stat()
+            return lstat(entry.item.originalURL.path(percentEncoded: false), &info) == 0 && identity.isTheItem(info)
+        }
+    }
+
     /// Keeps with each item's line the record History couldn't write.
     func keep(_ records: [RemovalRecord]) {
         let byItem = Dictionary(records.map { (Key($0.trashedItem), $0) }, uniquingKeysWith: { first, _ in first })

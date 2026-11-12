@@ -65,6 +65,7 @@ struct RemovalJournalTests {
         #expect(result.trashed.isEmpty)
         #expect(file.isThere)
         #expect(flushes.withLock { $0 } == [false])
+        #expect(journal.entries().isEmpty, "the line of a move that never went stayed behind")
     }
 
     @Test func anItemMovesOnlyOnceItsLineIsAheadOfTheMove() async throws {
@@ -110,6 +111,71 @@ struct RemovalJournalTests {
         let places = await RemovalLog(url: history).placesInTheTrash()
 
         #expect(places.contains(PathPattern.comparablePath(of: landed)), "Watch the Trash takes an app Peel is moving for one you threw away")
+    }
+
+    @Test func anAppPeelCouldNotMoveIsYoursOnceYouThrowItAway() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let journal = RemovalJournal(beside: history)
+        let app = try directory.directory("home/Applications/Example.app")
+        let trash = try directory.directory("home/.Trash")
+        let service = service(in: directory, journal: journal) { _ in throw CocoaError(.fileWriteNoPermission) }
+
+        let result = await service.trash([app], usingHelperFor: [])
+        try FileManager.default.moveItem(at: app, to: trash.appending(path: "Example.app"))
+
+        #expect(result.failures.map(\.reason) == [.notPermitted])
+        #expect(journal.entries().isEmpty, "the line of a move that failed stayed behind")
+        #expect(await RemovalLog(url: history).placesInTheTrash().isEmpty, "Watch the Trash takes it for one Peel moved")
+    }
+
+    @Test func anItemThatLeftItsPlaceInAMoveThatFailedKeepsItsLine() async throws {
+        let directory = try TemporaryDirectory()
+        let journal = RemovalJournal(beside: directory.url.appending(path: "Peel/removals.json"))
+        let file = try directory.file("home/Library/Caches/org.example.cache/data")
+        let elsewhere = directory.url.appending(path: "elsewhere")
+        let service = service(in: directory, journal: journal) { url in
+            try FileManager.default.moveItem(at: url, to: elsewhere)
+            throw CocoaError(.fileWriteUnknown)
+        }
+
+        let result = await service.trash([file], usingHelperFor: [])
+
+        #expect(result.trashed.isEmpty)
+        #expect(journal.entries().map(\.item.originalURL) == [file], "its line is how it reaches History")
+    }
+
+    @Test func whatTheHelperLeftInPlaceLeavesNoLineUnlessItMayStillMoveIt() async throws {
+        let directory = try TemporaryDirectory()
+        let journal = RemovalJournal(beside: directory.url.appending(path: "Peel/removals.json"))
+        let items = try ["refused", "unanswered", "kept"].map {
+            try directory.file("home/Library/Caches/org.example.\($0)/cache.db").deletingLastPathComponent()
+        }
+        let staging = try directory.directory("staging")
+        let answers = [
+            "org.example.refused": HelperRefusal.notAuthorized.rawValue,
+            "org.example.unanswered": PrivilegedHelper.mayStillMove,
+            "org.example.kept": HelperRefusal.keptByTheHelper.rawValue,
+        ]
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            ),
+            moveThroughHelper: { urls in
+                try? FileManager.default.moveItem(at: items[2], to: staging.appending(path: "kept"))
+                return TrashResult(failures: urls.map {
+                    TrashFailure(url: $0, reason: .failed(answers[$0.lastPathComponent] ?? ""))
+                })
+            },
+            journal: journal,
+            moveToTrash: { _ in throw CocoaError(.fileWriteNoPermission) }
+        )
+
+        let result = await service.trash(items, usingHelperFor: Set(items))
+
+        #expect(result.failures.count == 3)
+        #expect(Set(journal.entries().map(\.item.originalURL)) == [items[1], items[2]])
     }
 
     /// A removal cut short by a quit or a crash left what it moved in the journal: the next read of History takes it
