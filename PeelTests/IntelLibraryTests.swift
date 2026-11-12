@@ -30,4 +30,20 @@ struct IntelLibraryTests {
         #expect(library.scan?.unreadable == [unread])
         #expect(reads.wereShownAsAScan == [true, false], "a read again is announced to nobody")
     }
+
+    @Test func anAppInsideAnotherHasItsIconBeforeItsRowShows() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let helper = folder.appending(path: "Owner.app/Contents/Helpers/Helper.app", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(
+            at: helper.appending(path: "Contents"), withIntermediateDirectories: true
+        )
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let found = IntelFinding(url: helper, kind: .insideApp, name: "Helper", owner: "Owner")
+        let library = IntelLibrary { _, _, _ in IntelScan(findings: [found]) }
+
+        await library.refresh(installedApps: [], knownSizes: [:])
+
+        #expect(library.findings == [found])
+        #expect(IconCache.icon(for: helper) !== IconCache.anyApp, "its row shows any app's icon first")
+    }
 }

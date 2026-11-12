@@ -1221,6 +1221,8 @@ final class AppLibrary {
             return existing.id
         }
         guard bundleURL.isNamedAsAnApp, let app = await Self.inspect(bundleURL) else { return nil }
+        // Its page shows at once, so its icon is built first, or the page would start with any app's icon.
+        await IconCache.warm([app.url])
         let vanished = await AppCatalog.gone(revealed.map(\.url))
         // Checked again, since two drops of the same bundle can both get this far before either is listed.
         if !apps.contains(where: { $0.id == app.id }) {

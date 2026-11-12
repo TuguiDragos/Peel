@@ -38,9 +38,7 @@ final class IntelLibrary {
 
     func refresh(installedApps: [InstalledApp], knownSizes: [URL: Int64]) async {
         let read = read
-        guard let result = await scanRun.run({
-            await read(installedApps, knownSizes, ExclusionsStore.shared.exclusions)
-        }) else { return }
+        guard let result = await scanRun.run({ await Self.reading(read, installedApps, knownSizes) }) else { return }
         show(result)
     }
 
@@ -48,10 +46,20 @@ final class IntelLibrary {
     func readAgain(installedApps: [InstalledApp], knownSizes: [URL: Int64]) async {
         guard scan != nil else { return }
         let read = read
-        guard let result = await scanRun.runQuietly({
-            await read(installedApps, knownSizes, ExclusionsStore.shared.exclusions)
-        }) else { return }
+        guard let result = await scanRun.runQuietly({ await Self.reading(read, installedApps, knownSizes) }) else {
+            return
+        }
         show(result)
+    }
+
+    /// What `read` finds, with the icons of the apps among it built too, away from the main thread: a row of an app
+    /// inside another, which no list of apps holds, would otherwise start with any app's icon.
+    private static func reading(
+        _ read: Read, _ installedApps: [InstalledApp], _ knownSizes: [URL: Int64]
+    ) async -> IntelScan {
+        let found = await read(installedApps, knownSizes, ExclusionsStore.shared.exclusions)
+        await IconCache.warm(found.findings.map(\.url).filter(\.isNamedAsAnApp))
+        return found
     }
 
     private func show(_ result: IntelScan) {

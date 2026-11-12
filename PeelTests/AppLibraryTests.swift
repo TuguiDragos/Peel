@@ -358,6 +358,20 @@ private nonisolated final class TestClock: Sendable {
         #expect(!isListed())
     }
 
+    @Test func anAppShownFromElsewhereHasItsIconBeforeItsPageShows() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try soldApp(in: folder)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let library = library(with: made.defaults, notesIn: folder)
+
+        #expect(await library.reveal([bundle]))
+
+        let app = try #require(library.apps.first { $0.bundleIdentifier == "org.example.sold" })
+        #expect(IconCache.icon(for: app.url) !== IconCache.anyApp, "its page shows any app's icon first")
+    }
+
     @Test func saysWhenAnAppSomethingAskedForCanNotBeShown() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         let bundle = try soldApp(in: folder)

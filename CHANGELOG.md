@@ -567,7 +567,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   helper could move, with how to move it in Finder, since the helper moves nothing between disks. Before, Peel offered
   the move and then showed macOS's own "Cross-device link" in English.
 - An app's icon that Peel hasn't read yet is read away from the window: its row shows the plain app icon for a moment
-  rather than holding Peel, as it did for an app on a disk that doesn't answer.
+  rather than holding Peel, as it did for an app on a disk that doesn't answer. An app opened from Finder or a link,
+  and the apps Intel Software finds inside other apps, have their icon read before they show.
 - A long removal through Peel's helper ends with the helper's answer, so what it moved is in History and what it didn't
   get to stays, said so. Before, Peel stopped waiting first and called what the helper moved after that not moved.
   When the helper stops answering in the middle of a removal, Peel says it doesn't know whether an item moved, and
