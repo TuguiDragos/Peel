@@ -148,15 +148,16 @@ struct RemovalGuard: Sendable {
     /// Why `trashed` may not go back to `destination`, judged as a removal from there would be, for the kind of item
     /// `trashed` is: nothing is there yet to tell.
     func refusal(ofPuttingBack trashed: URL, at destination: URL) -> GuardRefusal? {
-        if let located = PathPattern.located(Self.normalized(destination.path(percentEncoded: false))),
-           Self.isInsideAnApp(located) {
-            return .protectedLocation
-        }
-        return refusal(of: destination, typeOf: trashed)
+        refusal(of: destination, typeOf: trashed)
     }
 
-    /// Whether a folder `path` sits in is an app, which Peel moves only whole: nothing of one came from its inside.
+    /// Whether a folder `path` sits in is an app, which Peel moves only whole: nothing moves out of one, and nothing
+    /// goes back into one.
     private static func isInsideAnApp(_ path: String) -> Bool {
+        // Most paths name no app, and the guard is asked about thousands of them.
+        guard let app = PathComponents.outermostApp(of: path), PathComponents.isPath(path, inside: app) else {
+            return false
+        }
         var folder = URL(filePath: path).deletingLastPathComponent()
         while folder.pathComponents.count > 1 {
             var info = stat()
@@ -203,6 +204,7 @@ struct RemovalGuard: Sendable {
         // A path can be written several ways (`/var` for `/private/var`, a different case), and a Put Back
         // destination does not exist yet. `located` names the part that exists the way the kernel does.
         guard let located = PathPattern.located(path) else { return .protectedLocation }
+        guard !Self.isInsideAnApp(located) else { return .protectedLocation }
         let type = Self.type(of: item?.path(percentEncoded: false) ?? located)
         // The kernel's own name for the item is judged too: `/.vol/<device>/<inode>` names a file by its numbers
         // alone and shows none of the folders it sits in.

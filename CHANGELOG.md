@@ -451,6 +451,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - When macOS doesn't answer which packages are installed, the page says so and to rescan, no longer that a question
   about one package went unanswered.
 - Asking to quit several of a package's apps before removing them asks in the plural, as several apps' page does.
+- What a package put inside an app is listed and stays, no longer offered on its own: Peel moves an app only whole,
+  and Put Back wouldn't have put it back.
 
 #### Homebrew
 

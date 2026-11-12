@@ -422,6 +422,21 @@ struct AttackRemovalGuardTests {
         }
     }
 
+    @Test func nothingMovesOutOfAnApp() throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        try directory.file("home/Applications/Owner.app/Contents/Info.plist")
+        try directory.file("home/Applications/Owner.app/Contents/PlugIns/Extra.plugin/Contents/Info.plist")
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: try directory.directory("root"))
+        )
+
+        for path in ["Applications/Owner.app/Contents/PlugIns/Extra.plugin", "Applications/OWNER.APP/Contents/PlugIns"] {
+            #expect(guardian.refusal(of: home.appending(path: path)) == .protectedLocation, "\(path)")
+        }
+        #expect(guardian.refusal(of: home.appending(path: "Applications/Owner.app")) == nil)
+    }
+
     @Test func nothingGoesBackInsideAnApp() throws {
         let directory = try TemporaryDirectory()
         let home = try directory.directory("home")

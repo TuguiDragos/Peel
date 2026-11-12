@@ -52,6 +52,28 @@ struct PackageReceiptsTests {
         }
     }
 
+    @Test func whatAPackagePutInsideAnAppNeverMovesOnItsOwn() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        let home = volume.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("home/Applications/Host.app/Contents/Info.plist", bytes: 16)
+        try directory.file("home/Applications/Host.app/Contents/PlugIns/Extra.plugin/Contents/Info.plist", bytes: 16)
+        let files = """
+            Extra.plugin
+            Extra.plugin/Contents
+            Extra.plugin/Contents/Info.plist
+
+            """
+        let pkgutil = forOneAccount(home: home, location: "Applications/Host.app/Contents/PlugIns", files: files)
+
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: volume)
+        let scan = await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment)
+
+        let item = try #require(scan.receipts.first?.items.first)
+        #expect(item.url.lastPathComponent == "Extra.plugin")
+        #expect(item.refusal == .protectedLocation)
+    }
+
     @Test func listsAPackageInstalledForOneAccountWithoutItsSharedFolders() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url)

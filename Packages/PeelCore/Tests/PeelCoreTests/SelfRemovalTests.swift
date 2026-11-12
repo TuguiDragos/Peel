@@ -399,8 +399,7 @@ struct SelfRemovalTests {
 
     @Test func movesTheAppPeelRunsFrom() async throws {
         let directory = try TemporaryDirectory()
-        let program = try #require(RunningProgram.path(of: getpid()))
-        let app = URL(filePath: program).deletingLastPathComponent()
+        let app = try RunningProgram.holderOfThisProgram()
         let folder = try directory.directory("home/Library/Application Support/Peel")
         let environment = SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
@@ -411,14 +410,14 @@ struct SelfRemovalTests {
 
         let result = await SelfRemoval.move([app], app: app, folder: folder, using: service) { _ in }
 
-        #expect(!result.failures.contains { $0.reason == .peelRunsFromIt })
+        #expect(result.failures.isEmpty)
+        #expect(result.trashed.map(\.originalURL).contains(app))
     }
 
     @Test func takesItsStepsForTheAppPeelRunsFrom() async throws {
         let directory = try TemporaryDirectory()
         let log = StepLog(helperIsRegistered: true)
-        let program = try #require(RunningProgram.path(of: getpid()))
-        let app = URL(filePath: program).deletingLastPathComponent()
+        let app = try RunningProgram.holderOfThisProgram()
         let folder = try directory.directory("home/Library/Application Support/Peel")
         let service = TrashService(environment: SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),

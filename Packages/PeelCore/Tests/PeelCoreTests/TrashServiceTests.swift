@@ -1536,8 +1536,7 @@ struct TrashServiceTests {
 
     @Test func leavesTheFolderThisVeryProgramRunsFrom() async throws {
         let directory = try TemporaryDirectory()
-        let program = try #require(RunningProgram.path(of: getpid()))
-        let folder = URL(filePath: program).deletingLastPathComponent()
+        let folder = try RunningProgram.holderOfThisProgram()
         let environment = SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
             rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
@@ -1976,5 +1975,17 @@ struct TrashServiceTests {
         #expect(reasons[folder] == .guarded(.holdsALibrary))
         #expect(reasons[link] == .stillLeadsTo(tool.path(percentEncoded: false)))
         #expect(reasons[relative] == .stillLeadsTo(tool.path(percentEncoded: false)))
+    }
+}
+
+extension RunningProgram {
+    /// What holds this test's program and the guard judges on its own: the app it runs from, such as Xcode, since
+    /// Peel moves nothing out of an app, or else its folder.
+    static func holderOfThisProgram() throws -> URL {
+        let program = try #require(path(of: getpid()))
+        guard let app = PathComponents.outermostApp(of: program) else {
+            return URL(filePath: program).deletingLastPathComponent()
+        }
+        return URL(filePath: app, directoryHint: .isDirectory)
     }
 }

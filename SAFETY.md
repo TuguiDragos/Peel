@@ -91,7 +91,8 @@ macOS keeps under Apple's own name (`com.apple.`) directly in `/Library/Preferen
 `/Library/LaunchAgents`, `/Library/PrivilegedHelperTools`, or `/Library/Application Support`, such as
 `com.apple.loginwindow.plist`, stays as well: the Mac's own settings and jobs, which nothing but macOS makes again. Your
 account's own settings for Apple's apps, in `~/Library/Preferences`, are yours: resetting an app clears them, after
-saving a copy.
+saving a copy. Nothing inside an app moves on its own either, since Peel moves an app only whole: what a package put
+inside an app is listed on Package Receipts and stays.
 
 Anything that syncs to your other devices stays too, wherever it is: what iCloud or another cloud service keeps, such as
 what is on your Desktop and in Documents when they are in iCloud Drive, and what is in a folder Syncthing, Resilio Sync,
