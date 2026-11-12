@@ -371,6 +371,10 @@ If you are unsure whether something belongs in the helper, it doesn't.
 - **A package's name comes from Homebrew's own files**, and a file in a tap can be called anything: a command Peel
   gives for Terminal writes it as one word (`Homebrew.lastWord(naming:)`), and Peel's own runs of `brew` put `--`
   before the names (`Homebrew.arguments(_:naming:)`), so a name that begins with `-` is never read as an option.
+- **A command Peel gives for Terminal names the Homebrew Peel reads**: `brew` for one where Homebrew installs
+  itself, and the whole path of one chosen in Settings from a folder of its own (`Homebrew.wordForTerminal`), since
+  `brew` in the person's shell may be another Homebrew, or none. `InflectionMarkupTests` refuses a command that
+  names `brew` by hand.
 - **Never run `brew` by hand with `HOMEBREW_NO_INSTALL_FROM_API=1`**: Homebrew then clones its whole core tap, over
   a gigabyte. Peel sets it for one question only, whether Homebrew's copy of its definitions is on the Mac.
 - **Peel never runs one of Homebrew's developer commands** (those in its `dev-cmd` folder, `brew ruby` among them):
