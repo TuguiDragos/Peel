@@ -3,7 +3,7 @@
 Every release of Peel is listed here, newest first. The version is the one About Peel shows, and each entry groups
 its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
-## 1.4.0 (2026-11-09)
+## 1.4.0 (not released yet)
 
 ### Added
 
