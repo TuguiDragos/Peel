@@ -40,4 +40,51 @@ struct UnusualCommandTests {
             #expect(UnusualCommand(arguments: arguments) == expected, "\(arguments)")
         }
     }
+
+    @Test func anOptionsValueIsNeitherTheScriptNorMoreOptions() {
+        let code: [[String]] = [
+            ["/usr/bin/osascript", "-l", "JavaScript", "-e", "run()"],
+            ["/usr/bin/osascript", "-lJavaScript", "-s", "o", "-e", "run()"],
+            ["/bin/bash", "-o", "pipefail", "-c", "true"],
+            ["/bin/bash", "-oc", "pipefail", "true"],
+            ["/bin/bash", "--rcfile", "/dev/null", "-O", "extglob", "-c", "true"],
+            ["/bin/sh", "+e", "-c", "true"],
+            ["/bin/zsh", "-xoshwordsplit", "-c", "true"],
+            ["/bin/zsh", "--emulate", "sh", "-fbc", "true"],
+            ["/bin/zsh", "+-rcs", "-c", "true"],
+            ["/bin/ksh", "-R", "/dev/null", "-c", "true"],
+            ["/usr/local/bin/fish", "-d", "debug", "--command=true"],
+            ["/usr/local/bin/fish", "-C", "true"],
+            ["/usr/bin/python3", "-W", "ignore", "-Xfaulthandler", "-uc", "pass"],
+            ["/usr/bin/perl", "-I", "lib", "-MFile::Basename", "-l012e", "1"],
+            ["/usr/bin/perl", "-C", "-pi", "-e", "1"],
+            ["/usr/bin/ruby", "-r", "set", "-Ilib", "-W0", "-e", "1"],
+            ["/usr/local/bin/node", "-r", "os", "--title", "job", "-pe", "1"],
+            ["/usr/local/bin/node", "--require=os", "--eval=1"],
+            ["/usr/local/bin/php", "-d", "display_errors=1", "-R", "echo 1;"],
+        ]
+        let none: [[String]] = [
+            ["/usr/bin/perl", "-MFile::Basename", "/opt/app/report.pl"],
+            ["/usr/bin/perl", "-pie", "s/a/b/", "/opt/app/list.txt"],
+            ["/usr/bin/perl", "-d:Trace", "/opt/app/report.pl"],
+            ["/usr/bin/ruby", "-rset", "-Ilib/e", "/opt/app/report.rb"],
+            ["/usr/bin/python3", "-Wonce", "/opt/app/report.py"],
+            ["/usr/bin/python3", "-m", "http.server", "-c", "8000"],
+            ["/usr/local/bin/php", "-dmemory_limit=-1", "/opt/app/cron.php"],
+            ["/usr/local/bin/php", "-f", "/opt/app/cron.php", "--", "-r"],
+            ["/bin/tcsh", "-Dcolor=1", "-b", "-c", "/opt/app/start.csh"],
+            ["/bin/zsh", "-o", "errexit", "/opt/app/start.zsh", "-c"],
+            ["/bin/bash", "-o", "-c", "/opt/app/start.sh"],
+            ["/bin/bash", "--", "-c", "true"],
+            ["/bin/zsh", "-f-", "-c", "true"],
+            ["/usr/local/bin/node", "--trace-warnings", "/opt/app/server.js", "-e", "production"],
+            ["/usr/bin/osascript", "-s", "e", "/opt/app/report.scpt"],
+        ]
+        for arguments in code {
+            #expect(UnusualCommand(arguments: arguments) == .runsCodeFromItsSettings, "\(arguments)")
+        }
+        for arguments in none {
+            #expect(UnusualCommand(arguments: arguments) == nil, "\(arguments)")
+        }
+    }
 }

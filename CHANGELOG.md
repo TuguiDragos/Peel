@@ -520,7 +520,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Background Items
 
 - Unusual command no longer flags a script run from disk with options of its own, such as `bash -e backup.sh`: only the
-  option each shell or interpreter takes code in counts, before its script.
+  option each shell or interpreter takes code in counts, before its script. It is seen inside a group of letters too,
+  as in `bash -lc` or `perl -ne`, and past another option's value, as in `osascript -l JavaScript -e`.
 - When `launchctl` doesn't answer within 30 seconds, the alert says Peel ended the command and the job may still stop or
   restart on its own, no longer that it was stopped.
 - After a Save launchd didn't stop, an agent of the Background session is said to run as it was until the Mac restarts,
