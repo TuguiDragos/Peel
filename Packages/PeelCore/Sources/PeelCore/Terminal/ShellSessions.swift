@@ -123,6 +123,9 @@ public enum ShellSessions: Sendable, Equatable {
         value = value.replacing("${HOME}", with: homePath).replacing(/\$HOME(?![A-Za-z0-9_])/, with: homePath)
         while let named = value.firstMatch(of: /\$\{([A-Za-z_][A-Za-z0-9_]*):[-=]([^{}]*)\}/) {
             let set = environment[String(named.output.1)].flatMap { $0.isEmpty ? nil : $0 }
+            // zsh doesn't expand a value again: one that holds what a plain path can't names no folder, and taken in
+            // here it could bring back the form it replaced, for ever.
+            if let set, set.contains(where: notPlain.contains) { return nil }
             value.replaceSubrange(named.range, with: set ?? String(named.output.2))
         }
         if !isQuoted, value == "~" || value.hasPrefix("~/") {
@@ -131,8 +134,10 @@ public enum ShellSessions: Sendable, Equatable {
         return absoluteFolder(value)
     }
 
+    private static let notPlain: Set<Character> = ["$", "`", "\\", "(", ")", "{", "}", "*", "?", "["]
+
     private static func absoluteFolder(_ path: String) -> URL? {
-        guard path.hasPrefix("/"), !path.contains(where: { "$`\\(){}*?[".contains($0) }) else { return nil }
+        guard path.hasPrefix("/"), !path.contains(where: notPlain.contains) else { return nil }
         return URL(filePath: (path as NSString).standardizingPath, directoryHint: .isDirectory)
     }
 

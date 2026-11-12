@@ -171,6 +171,17 @@ struct ShellSessionsTests {
         }
     }
 
+    @Test func aValueTheSessionGivesZdotdirIsNotExpandedAgain() {
+        let home = URL(filePath: "/Users/someone", directoryHint: .isDirectory)
+        let folders = { (environment: [String: String]) in
+            ShellSessions.foldersGivenToZDOTDIR(
+                in: "export ZDOTDIR=${ZDOTDIR:-$HOME/.config/zsh}\n", home: home, environment: environment
+            ).map { $0.path(percentEncoded: false) }
+        }
+        #expect(folders(["ZDOTDIR": "${ZDOTDIR:-/tmp}"]).isEmpty)
+        #expect(folders(["ZDOTDIR": "/Users/someone/zsh"]) == ["/Users/someone/zsh/"])
+    }
+
     @Test func zshStartsWithZdotdirOnlyWhenTheSessionSetsIt() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url
