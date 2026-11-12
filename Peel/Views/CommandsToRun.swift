@@ -17,7 +17,7 @@ struct CommandToRun: Identifiable {
     /// which app it is.
     static func of(
         _ app: InstalledApp, first: CommandToRunFirst?, leftInTheSystem: LeftInTheSystem?, cask: HomebrewPackage?,
-        isAdministrator: Bool, naming: String? = nil
+        brew: String, isAdministrator: Bool, naming: String? = nil
     ) -> [CommandToRun] {
         let name = naming ?? app.name
         var commands: [CommandToRun] = []
@@ -44,14 +44,20 @@ struct CommandToRun: Identifiable {
             ))
         }
         if let cask {
-            let token = Homebrew.lastWord(naming: cask.name)
-            let record = Text("Homebrew installed this app and will keep listing it as installed. To take it off that list, run `brew uninstall --cask \(token)`: Homebrew then carries out the cask’s own uninstall steps, which can delete files for good.")
+            let record = takingOffHomebrewsList(cask, brew: brew)
             commands.append(CommandToRun(
-                app: name, said: naming.map { Text("\($0): \(record)") } ?? record,
-                command: "brew uninstall --cask \(token)", isForAfterwards: true
+                app: name, said: naming.map { Text("\($0): \(record.said)") } ?? record.said,
+                command: record.command, isForAfterwards: true
             ))
         }
         return commands
+    }
+
+    /// What takes `cask` off Homebrew's list once Peel moved its app, said and to copy. `brew` is the word that runs
+    /// that Homebrew in Terminal (`Homebrew.wordForTerminal`).
+    static func takingOffHomebrewsList(_ cask: HomebrewPackage, brew: String) -> (said: Text, command: String) {
+        let command = "\(brew) uninstall --cask \(Homebrew.lastWord(naming: cask.name))"
+        return (Text("Homebrew installed this app and will keep listing it as installed. To take it off that list, run `\(command)`: Homebrew then carries out the cask’s own uninstall steps, which can delete files for good."), command)
     }
 }
 

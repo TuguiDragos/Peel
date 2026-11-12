@@ -52,8 +52,8 @@ struct InventoryCommand: AsyncParsableCommand {
         let why: String?
         if !(await Homebrew.hasLocalDefinitions()) {
             why = noDefinitions(
-                isInstalled: Homebrew.executableURL != nil, unrunnable: HomebrewChoice().unrunnable(),
-                refused: Homebrew.refusedInAUsualPlace()
+                isInstalled: Homebrew.executableURL != nil, brew: Homebrew.wordForTerminal,
+                unrunnable: HomebrewChoice().unrunnable(), refused: Homebrew.refusedInAUsualPlace()
             )
         } else if let installation = await Homebrew.installation() {
             do {
@@ -82,8 +82,8 @@ struct InventoryCommand: AsyncParsableCommand {
             }
         } else {
             why = noDefinitions(
-                isInstalled: Homebrew.executableURL != nil, unrunnable: HomebrewChoice().unrunnable(),
-                refused: Homebrew.refusedInAUsualPlace()
+                isInstalled: Homebrew.executableURL != nil, brew: Homebrew.wordForTerminal,
+                unrunnable: HomebrewChoice().unrunnable(), refused: Homebrew.refusedInAUsualPlace()
             )
         }
         let isThere = HomebrewChoice().reading() != .nothingChosen || Homebrew.refusedInAUsualPlace() != nil
@@ -104,7 +104,8 @@ struct InventoryCommand: AsyncParsableCommand {
     /// Why Homebrew was not asked: without its local copy of the definitions it would download them. The copy is
     /// missing because Homebrew isn't installed, or because it never fetched one.
     static func noDefinitions(
-        isInstalled: Bool, unrunnable: HomebrewChoice.Unrunnable? = nil, refused: HomebrewChoice.Unrunnable? = nil
+        isInstalled: Bool, brew: String, unrunnable: HomebrewChoice.Unrunnable? = nil,
+        refused: HomebrewChoice.Unrunnable? = nil
     ) -> String {
         if let unrunnable {
             guard let brew = unrunnable.brew else {
@@ -120,7 +121,8 @@ struct InventoryCommand: AsyncParsableCommand {
             }
             return "Peel doesn't run the brew in \(brew.path(percentEncoded: false)): \(owner)."
         }
-        return isInstalled ? "Homebrew has no list of packages on this Mac. Run `brew update` first." : "Homebrew isn't installed."
+        return isInstalled
+            ? "Homebrew has no list of packages on this Mac. Run `\(brew) update` first." : "Homebrew isn't installed."
     }
 }
 
@@ -955,7 +957,7 @@ struct UninstallCommand: AsyncParsableCommand {
         let moving = Set(plan.moving.map(\.url))
         if moving.contains(app.url), moving.isDisjoint(with: records),
            let cask = CaskEvidence.installedCask(for: app, in: homebrew.casks) {
-            notes.append("Homebrew installed \(Output.plain(app.name)) and will keep listing it as installed. To take it off that list, run `brew uninstall --cask \(Homebrew.lastWord(naming: cask.name))`: Homebrew then carries out the cask's own uninstall steps, which can delete files for good.")
+            notes.append("Homebrew installed \(Output.plain(app.name)) and will keep listing it as installed. To take it off that list, run `\(homebrew.brew) uninstall --cask \(Homebrew.lastWord(naming: cask.name))`: Homebrew then carries out the cask's own uninstall steps, which can delete files for good.")
         }
         if !scan.unreadableLocations.isEmpty {
             let folders = scan.unreadableLocations.map(\.url)
@@ -1131,7 +1133,7 @@ struct UpdatesCommand: AsyncParsableCommand {
         let cannotTell = toCheck.filter { statuses[$0.id] == .unsupported }.compactMap { app in
             checker.homebrewCannotTell(about: app, preference: preferences.source, casks: homebrew.casks)
         }
-        for note in Self.notes(about: cannotTell) {
+        for note in Self.notes(about: cannotTell, brew: homebrew.brew) {
             Output.note(note)
         }
         if report.ignored > 0 {
@@ -1159,9 +1161,11 @@ struct UpdatesCommand: AsyncParsableCommand {
         return reachedNoServer ? [none + " Check your connection and try again."] : each + [none]
     }
 
-    static func notes(about cannotTell: [HomebrewCannotTell], timeZone: TimeZone = .current) -> [String] {
+    static func notes(
+        about cannotTell: [HomebrewCannotTell], brew: String, timeZone: TimeZone = .current
+    ) -> [String] {
         let casks = { (reason: HomebrewCannotTell.Reason) in cannotTell.filter { $0.reason == reason }.map(\.cask) }
-        var notes = [note(aboutCasksNotCheckedRecently: casks(.notCheckedRecently), timeZone: timeZone)]
+        var notes = [note(aboutCasksNotCheckedRecently: casks(.notCheckedRecently), brew: brew, timeZone: timeZone)]
         let newest = casks(.installsTheNewest).count
         if newest > 0 {
             notes.append("Homebrew's \(newest == 1 ? "cask" : "casks") of \(Output.count(newest, "app", "apps")) \(newest == 1 ? "installs" : "install") whatever is newest each time, so Homebrew has no version to compare, and whether \(newest == 1 ? "it is" : "they are") up to date isn't known.")
@@ -1177,13 +1181,15 @@ struct UpdatesCommand: AsyncParsableCommand {
         return notes.compactMap(\.self)
     }
 
-    private static func note(aboutCasksNotCheckedRecently casks: [HomebrewPackage], timeZone: TimeZone) -> String? {
+    private static func note(
+        aboutCasksNotCheckedRecently casks: [HomebrewPackage], brew: String, timeZone: TimeZone
+    ) -> String? {
         guard !casks.isEmpty else { return nil }
         let apps = "\(Output.count(casks.count, "app", "apps")) only Homebrew can answer for \(casks.count == 1 ? "is" : "are")"
         guard let checked = casks.compactMap(\.lastUpdateCheck).max() else {
             return "Homebrew doesn't say when it last checked for new versions, so whether \(apps) up to date isn't known."
         }
-        return "Homebrew last checked for new versions on \(Output.day(checked, timeZone: timeZone)), so whether \(apps) up to date isn't known. Run `brew update`, then check again."
+        return "Homebrew last checked for new versions on \(Output.day(checked, timeZone: timeZone)), so whether \(apps) up to date isn't known. Run `\(brew) update`, then check again."
     }
 
     static func progress(checked: Int, of total: Int) -> String {

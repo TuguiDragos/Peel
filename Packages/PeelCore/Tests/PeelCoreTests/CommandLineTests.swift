@@ -9,18 +9,19 @@ struct CommandLineTests {
     /// definitions on this Mac. Telling someone without Homebrew to run `brew update` names a command they
     /// can't run.
     @Test func saysWhyHomebrewHasNoListInTheWayThatFits() {
-        #expect(InventoryCommand.noDefinitions(isInstalled: false) == "Homebrew isn't installed.")
-        #expect(InventoryCommand.noDefinitions(isInstalled: true) == "Homebrew has no list of packages on this Mac. Run `brew update` first.")
+        #expect(InventoryCommand.noDefinitions(isInstalled: false, brew: "brew") == "Homebrew isn't installed.")
+        #expect(InventoryCommand.noDefinitions(isInstalled: true, brew: "brew") == "Homebrew has no list of packages on this Mac. Run `brew update` first.")
+        #expect(InventoryCommand.noDefinitions(isInstalled: true, brew: "/opt/brew/bin/brew").hasSuffix("Run `/opt/brew/bin/brew update` first."))
         let chosen = HomebrewChoice.Unrunnable(brew: URL(filePath: "/opt/brew/bin/brew"), refusal: .notAProgram)
-        #expect(InventoryCommand.noDefinitions(isInstalled: false, unrunnable: chosen) == "Peel runs only the brew chosen in its Settings, /opt/brew/bin/brew, and that one can't be run.")
+        #expect(InventoryCommand.noDefinitions(isInstalled: false, brew: "brew", unrunnable: chosen) == "Peel runs only the brew chosen in its Settings, /opt/brew/bin/brew, and that one can't be run.")
         let theirs = HomebrewChoice.Unrunnable(
             brew: URL(filePath: "/opt/homebrew/bin/brew"), refusal: .ownedByAnotherAccount(owner: "admin")
         )
-        #expect(InventoryCommand.noDefinitions(isInstalled: false, refused: theirs) == "Peel doesn't run the brew in /opt/homebrew/bin/brew: the account admin owns it.")
+        #expect(InventoryCommand.noDefinitions(isInstalled: false, brew: "brew", refused: theirs) == "Peel doesn't run the brew in /opt/homebrew/bin/brew: the account admin owns it.")
         let unnamed = HomebrewChoice.Unrunnable(
             brew: URL(filePath: "/opt/homebrew/bin/brew"), refusal: .ownedByAnotherAccount(owner: nil)
         )
-        #expect(InventoryCommand.noDefinitions(isInstalled: false, refused: unnamed) == "Peel doesn't run the brew in /opt/homebrew/bin/brew: another account owns it.")
+        #expect(InventoryCommand.noDefinitions(isInstalled: false, brew: "brew", refused: unnamed) == "Peel doesn't run the brew in /opt/homebrew/bin/brew: another account owns it.")
     }
 
     /// A list of apps says nothing of Homebrew on a Mac without it, and says why when Homebrew is there and did
@@ -136,6 +137,9 @@ struct CommandLineTests {
         ])
         let movingIt = UninstallPlan.make(editor, keepLeftovers: false) { _ in nil }
         #expect(UninstallCommand.whatStays(movingIt, app: app, homebrew: homebrew, scan: scan).isEmpty)
+        let elsewhere = CaskLookup.Answer(casks: [cask], brew: "'/opt/my brew/bin/brew'")
+        #expect(UninstallCommand.whatStays(keepingIt, app: app, homebrew: elsewhere, scan: scan).first?
+            .contains("run `'/opt/my brew/bin/brew' uninstall --cask editor`:") == true)
     }
 
     /// What the Trash can't bring back is said before the question in every output: with `--json` on standard error.
@@ -1705,18 +1709,18 @@ struct CommandLineTests {
 
         let notChecked = { (cask: HomebrewPackage) in HomebrewCannotTell(cask: cask, reason: .notCheckedRecently) }
 
-        #expect(UpdatesCommand.notes(about: [], timeZone: utc).isEmpty)
-        #expect(UpdatesCommand.notes(about: [notChecked(checked)], timeZone: utc) == ["Homebrew last checked for new versions on 2026-10-18, so whether 1 app only Homebrew can answer for is up to date isn't known. Run `brew update`, then check again."])
-        #expect(UpdatesCommand.notes(about: [notChecked(cask), notChecked(cask)], timeZone: utc) == ["Homebrew doesn't say when it last checked for new versions, so whether 2 apps only Homebrew can answer for are up to date isn't known."])
+        #expect(UpdatesCommand.notes(about: [], brew: "brew", timeZone: utc).isEmpty)
+        #expect(UpdatesCommand.notes(about: [notChecked(checked)], brew: "brew", timeZone: utc) == ["Homebrew last checked for new versions on 2026-10-18, so whether 1 app only Homebrew can answer for is up to date isn't known. Run `brew update`, then check again."])
+        #expect(UpdatesCommand.notes(about: [notChecked(cask), notChecked(cask)], brew: "brew", timeZone: utc) == ["Homebrew doesn't say when it last checked for new versions, so whether 2 apps only Homebrew can answer for are up to date isn't known."])
         let reasons: [HomebrewCannotTell.Reason] = [.installsTheNewest, .leftToTheApp, .leftToTheApp, .disabled]
         let others = reasons.map { HomebrewCannotTell(cask: cask, reason: $0) }
-        #expect(UpdatesCommand.notes(about: others, timeZone: utc) == [
+        #expect(UpdatesCommand.notes(about: others, brew: "brew", timeZone: utc) == [
             "Homebrew's cask of 1 app installs whatever is newest each time, so Homebrew has no version to compare, and whether it is up to date isn't known.",
             "Homebrew's settings leave 2 apps to update themselves (HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS), so Homebrew doesn't compare their versions, and whether they are up to date isn't known.",
             "Homebrew has disabled the cask of 1 app, so whether it is up to date isn't known.",
         ])
         let disabled = HomebrewCannotTell(cask: cask, reason: .disabled)
-        #expect(UpdatesCommand.notes(about: [disabled, disabled], timeZone: utc) == [
+        #expect(UpdatesCommand.notes(about: [disabled, disabled], brew: "brew", timeZone: utc) == [
             "Homebrew has disabled the casks of 2 apps, so whether they are up to date isn't known.",
         ])
     }

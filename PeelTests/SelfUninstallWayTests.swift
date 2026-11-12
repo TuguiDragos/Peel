@@ -17,23 +17,27 @@ struct SelfUninstallWayTests {
     @Test func waitsForHomebrewToSayWhetherItInstalledThisCopy() {
         let cask = HomebrewPackage(name: "peel", kind: .cask, installedVersion: "1.2.1")
 
-        #expect(SelfUninstall.way(cask: nil, homebrewKnowsItsApps: false) == .waitingForHomebrew)
-        #expect(SelfUninstall.way(cask: nil, homebrewKnowsItsApps: true) == .removePeel)
-        #expect(SelfUninstall.way(cask: cask, homebrewKnowsItsApps: false) == .homebrew("brew uninstall --zap --cask peel"))
+        #expect(SelfUninstall.way(cask: nil, brew: "brew", homebrewKnowsItsApps: false) == .waitingForHomebrew)
+        #expect(SelfUninstall.way(cask: nil, brew: "brew", homebrewKnowsItsApps: true) == .removePeel)
+        #expect(SelfUninstall.way(cask: cask, brew: "brew", homebrewKnowsItsApps: false) == .homebrew("brew uninstall --zap --cask peel"))
         let odd = HomebrewPackage(name: "peel;id", kind: .cask, installedVersion: "1.2.1")
-        #expect(SelfUninstall.way(cask: odd, homebrewKnowsItsApps: false) == .homebrew("brew uninstall --zap --cask 'peel;id'"))
+        #expect(SelfUninstall.way(cask: odd, brew: "brew", homebrewKnowsItsApps: false) == .homebrew("brew uninstall --zap --cask 'peel;id'"))
+        #expect(
+            SelfUninstall.way(cask: cask, brew: "/opt/brew/bin/brew", homebrewKnowsItsApps: false)
+                == .homebrew("/opt/brew/bin/brew uninstall --zap --cask peel")
+        )
     }
 
     @Test func saysWhyHomebrewDidntSayWhetherItInstalledThisCopy() {
         #expect(
-            SelfUninstall.way(cask: nil, homebrewKnowsItsApps: false, unanswered: .readingFailed)
+            SelfUninstall.way(cask: nil, brew: "brew", homebrewKnowsItsApps: false, unanswered: .readingFailed)
                 == .homebrewDidNotAnswer(.readingFailed)
         )
         #expect(
-            SelfUninstall.way(cask: nil, homebrewKnowsItsApps: false, unanswered: .hasToUpdate)
+            SelfUninstall.way(cask: nil, brew: "brew", homebrewKnowsItsApps: false, unanswered: .hasToUpdate)
                 == .homebrewDidNotAnswer(.hasToUpdate)
         )
-        #expect(SelfUninstall.way(cask: nil, homebrewKnowsItsApps: true, unanswered: nil) == .removePeel)
+        #expect(SelfUninstall.way(cask: nil, brew: "brew", homebrewKnowsItsApps: true, unanswered: nil) == .removePeel)
         #expect(SelfUninstall.Way.homebrewDidNotAnswer(.readingFailed).waitsForHomebrew)
         #expect(!SelfUninstall.Way.removePeel.waitsForHomebrew)
     }
@@ -46,7 +50,7 @@ struct SelfUninstallWayTests {
                 isInstalled: false, hasAnswered: false, couldNotRead: false, needsDefinitions: false, isNotRun: true
             ) == .notRun
         )
-        let way = SelfUninstall.way(cask: nil, homebrewKnowsItsApps: false, unanswered: .notRun)
+        let way = SelfUninstall.way(cask: nil, brew: "brew", homebrewKnowsItsApps: false, unanswered: .notRun)
         #expect(way == .homebrewDidNotAnswer(.notRun))
     }
 
@@ -58,6 +62,7 @@ struct SelfUninstallWayTests {
         }
         #expect(knows(false))
         #expect(!knows(true))
-        #expect(SelfUninstall.way(cask: nil, homebrewKnowsItsApps: knows(false), unanswered: .notRun) == .removePeel)
+        let way = SelfUninstall.way(cask: nil, brew: "brew", homebrewKnowsItsApps: knows(false), unanswered: .notRun)
+        #expect(way == .removePeel)
     }
 }

@@ -456,6 +456,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Homebrew
 
+- With a `brew` chosen in Settings from a folder of its own, every command Peel gives you to run in Terminal names
+  that `brew` by its whole path: the upgrade and uninstall commands to copy, the one that takes a cask off Homebrew's
+  list, a tool's install line on the Terminal page, and the hints of `peel`. Plain `brew` could run another Homebrew
+  there, or none.
 - While the file that says which `brew` you chose in Settings can't be read, Peel runs none, and Settings, the
   Homebrew page, and the Terminal page say so: before, it ran the one in `/opt/homebrew` or `/usr/local` instead.
 - What Check Health found shows each of Homebrew's lines whole: a sentence under a finding's summary was cut in the

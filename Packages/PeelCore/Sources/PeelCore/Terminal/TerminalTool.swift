@@ -97,8 +97,9 @@ public enum TerminalTool: CaseIterable, Sendable {
         self == .fzfTab ? ["fzf", formula] : [formula]
     }
 
-    public var installCommand: String {
-        "brew install " + formulae.joined(separator: " ")
+    /// `brew` is the word that runs the person's Homebrew in Terminal (`Homebrew.wordForTerminal`).
+    public func installCommand(brew: String) -> String {
+        "\(brew) install " + formulae.joined(separator: " ")
     }
 
     public func setup(prefix: URL) -> [Setup] {

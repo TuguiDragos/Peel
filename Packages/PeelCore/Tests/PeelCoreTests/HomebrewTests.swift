@@ -667,6 +667,15 @@ struct HomebrewTests {
         #expect(Homebrew.leavesChangesToTerminal(running: URL(filePath: "/opt/homebrew/bin/../../brew/bin/brew")))
     }
 
+    @Test func aCommandForTerminalNamesABrewChosenElsewhereByItsPath() {
+        #expect(Homebrew.wordForTerminal(running: nil) == "brew")
+        #expect(Homebrew.wordForTerminal(running: URL(filePath: "/opt/homebrew/bin/brew")) == "brew")
+        #expect(Homebrew.wordForTerminal(running: URL(filePath: "/usr/local/bin/brew")) == "brew")
+        #expect(Homebrew.wordForTerminal(running: URL(filePath: "/opt/brew/bin/brew")) == "/opt/brew/bin/brew")
+        #expect(Homebrew.wordForTerminal(running: URL(filePath: "/opt/homebrew/bin/../../brew/bin/brew")) == "/opt/brew/bin/brew")
+        #expect(Homebrew.wordForTerminal(running: URL(filePath: "/Users/me/my brew/bin/brew")) == "'/Users/me/my brew/bin/brew'")
+    }
+
     /// Read where the casks Homebrew knows are read, on a thread of Swift's pool, whose stack is small.
     @Test func leavesOutWhatAStanzaNestsDeeperThanAnyCaskWrites() async throws {
         let deep = String(repeating: "[", count: 400) + #""~/Library/Deep""# + String(repeating: "]", count: 400)

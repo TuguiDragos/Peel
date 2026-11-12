@@ -8,8 +8,8 @@ import Testing
         let cellar = directory.url.appending(path: "Cellar", directoryHint: .isDirectory)
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
         let root = directory.url.appending(path: "root", directoryHint: .isDirectory)
-        func found(_ name: String) -> FormulaInUse {
-            FormulaInUse.of(formula: name, cellar: cellar, home: home, root: root)
+        func found(_ name: String, brew: String = "brew") -> FormulaInUse {
+            FormulaInUse.of(formula: name, cellar: cellar, home: home, root: root, brew: brew)
         }
 
         #expect(found("tool@1").isEmpty)
@@ -21,6 +21,7 @@ import Testing
 
         try directory.file("root/Library/LaunchDaemons/homebrew.mxcl.tool@1.plist")
         #expect(found("tool@1").stopCommand == "sudo brew services stop tool@1")
+        #expect(found("tool@1", brew: "/opt/brew/bin/brew").stopCommand == "sudo /opt/brew/bin/brew services stop tool@1")
         try directory.file("home/Library/LaunchAgents/homebrew.mxcl.tool@1.plist")
         #expect(found("tool@1").stopCommand == "brew services stop tool@1")
         #expect(found("other").isEmpty)
@@ -38,7 +39,8 @@ import Testing
         try directory.directory("prefix/Cellar")
         func found(_ name: String) -> FormulaInUse {
             FormulaInUse.of(
-                formula: name, cellar: prefix.appending(path: "Cellar"), home: directory.url, root: directory.url
+                formula: name, cellar: prefix.appending(path: "Cellar"), home: directory.url, root: directory.url,
+                brew: "brew"
             )
         }
 

@@ -9,6 +9,8 @@ enum CaskLookup {
         /// Identifiers of the installer receipts on the Mac, used by the cask evidence and by the uninstall.
         var receipts: Set<String> = []
         var failure: Homebrew.CommandFailure?
+        /// The word that runs this Homebrew in Terminal, for a command a note gives.
+        var brew = "brew"
 
         var note: String? {
             failure.map {
@@ -23,20 +25,23 @@ enum CaskLookup {
     /// otherwise it would download them, and looking up an app's leftovers or updates is no reason to go online.
     static func evidence(for apps: [InstalledApp]) async -> Answer {
         let receipts = await PackageReceipts.identifiers()
+        let brew = Homebrew.wordForTerminal
         // Receipts are evidence on their own, so they are returned even when Homebrew isn't asked.
-        guard await Homebrew.hasLocalDefinitions() else { return Answer(receipts: receipts) }
+        guard await Homebrew.hasLocalDefinitions() else { return Answer(receipts: receipts, brew: brew) }
         async let installed = Homebrew.installedPackages()
         let known = await CaskEvidence.knownCasks(for: apps, receipts: receipts)
         do {
             return Answer(
                 casks: CaskEvidence.combined(installed: try await installed, known: known),
-                receipts: receipts
+                receipts: receipts,
+                brew: brew
             )
         } catch {
             return Answer(
                 casks: CaskEvidence.combined(installed: [], known: known),
                 receipts: receipts,
-                failure: why(error)
+                failure: why(error),
+                brew: brew
             )
         }
     }

@@ -108,6 +108,8 @@ final class HomebrewLibrary {
     /// and again before an upgrade.
     private(set) var overrides: Homebrew.Overrides = []
     private(set) var leavesChangesToTerminal = false
+    /// The word that runs this Homebrew in Terminal, for every command a page gives, read with the packages.
+    private(set) var wordForTerminal = "brew"
     /// A `brew.env` the person keeps where Homebrew run from Peel doesn't look, read with the packages
     /// (`Homebrew.unreadSettingsFile(prefix:)`).
     private(set) var unreadSettingsFile: URL?
@@ -457,6 +459,7 @@ final class HomebrewLibrary {
         }
         self.installation = found
         leavesChangesToTerminal = Homebrew.leavesChangesToTerminal
+        wordForTerminal = Homebrew.wordForTerminal
         // Keeps the last figure when this reading brought none: one that was right a moment ago beats none.
         if let preview {
             reclaimable = preview.bytes ?? reclaimable
@@ -486,7 +489,7 @@ final class HomebrewLibrary {
         let hadEvidence = !caskEvidence.isEmpty
         (packages, installation, hasAnswered, couldNotRead, needsDefinitions) = (nil, nil, false, nil, false)
         (reclaimable, autoremovable, overrides, findings, advisories) = (nil, [], [], nil, nil)
-        leavesChangesToTerminal = false
+        (leavesChangesToTerminal, wordForTerminal) = (false, "brew")
         (knownCasks, selection, unreadSettingsFile, settingsFolders) = ([], nil, nil, [])
         answers = Homebrew.Answers()
         revision += 1

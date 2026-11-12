@@ -79,7 +79,7 @@ struct TerminalThemeTests {
             #expect(pageLines.contains(line), "\(line)")
         }
         for tool in TerminalTool.allCases {
-            #expect(page.contains("`\(tool.installCommand)`"), "\(tool)")
+            #expect(page.contains("`\(tool.installCommand(brew: "brew"))`"), "\(tool)")
         }
         for symbol in Prompt.Symbol.allCases {
             #expect(page.contains("`\(symbol.rawValue)`"), "\(symbol)")

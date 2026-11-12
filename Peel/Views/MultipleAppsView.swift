@@ -375,7 +375,7 @@ struct MultipleAppsView: View {
                 $0.kind == .homebrewReceipt && $0.apps.contains(app.reference) && urls.contains($0.url)
             }
             if !movesItsReceipt, let cask = library.cask(for: app) {
-                let record = Text("Homebrew installed this app and will keep listing it as installed. To take it off that list, run `brew uninstall --cask \(Homebrew.lastWord(naming: cask.name))`: Homebrew then carries out the cask’s own uninstall steps, which can delete files for good.")
+                let record = CommandToRun.takingOffHomebrewsList(cask, brew: homebrew.wordForTerminal).said
                 lines.append(Text("\(list([app])): \(record)"))
             }
         }
@@ -399,8 +399,8 @@ struct MultipleAppsView: View {
             }
             return CommandToRun.of(
                 app, first: uninstallation.commandToRunFirst, leftInTheSystem: uninstallation.leftInTheSystem,
-                cask: movesItsReceipt ? nil : library.cask(for: app), isAdministrator: helper.isAdministrator,
-                naming: list([app])
+                cask: movesItsReceipt ? nil : library.cask(for: app), brew: homebrew.wordForTerminal,
+                isAdministrator: helper.isAdministrator, naming: list([app])
             )
         }
     }

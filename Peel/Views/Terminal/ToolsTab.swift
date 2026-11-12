@@ -93,7 +93,7 @@ private struct TerminalToolRow: View {
                     .font(.body.weight(.semibold))
                 InfoNote(
                     name: tool.name,
-                    detail: Text(tool.detail),
+                    detail: Text(tool.detail(brew: state.brew)),
                     link: tool.project
                 )
                 Spacer(minLength: 8)
@@ -136,7 +136,10 @@ private struct TerminalToolRow: View {
                     DisclosureGroup(title) {
                         VStack(alignment: .leading, spacing: 6) {
                             if !isInstalled {
-                                CopyableLines(caption: setups.isEmpty ? nil : Text("Install"), lines: [tool.installCommand])
+                                CopyableLines(
+                                    caption: setups.isEmpty ? nil : Text("Install"),
+                                    lines: [tool.installCommand(brew: state.brew)]
+                                )
                             }
                             ForEach(setups, id: \.lines) { setup in
                                 CopyableLines(caption: Text(setup.place.caption(zshrc: zshrc)), lines: setup.lines)

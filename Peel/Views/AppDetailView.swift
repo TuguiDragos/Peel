@@ -512,7 +512,7 @@ struct AppDetailView: View {
             }
         }
         if urls.contains(plan.app.url), let cask = caskStillListing(after: urls) {
-            lines.append(Text("Homebrew installed this app and will keep listing it as installed. To take it off that list, run `brew uninstall --cask \(Homebrew.lastWord(naming: cask.name))`: Homebrew then carries out the cask’s own uninstall steps, which can delete files for good."))
+            lines.append(CommandToRun.takingOffHomebrewsList(cask, brew: homebrew.wordForTerminal).said)
         }
         guard let first = lines.first else { return nil }
         return lines.dropFirst().reduce(first) { Text("\($0)\n\n\($1)") }
@@ -532,7 +532,7 @@ struct AppDetailView: View {
         return CommandToRun.of(
             plan.app, first: plan.uninstallation?.commandToRunFirst,
             leftInTheSystem: plan.uninstallation?.leftInTheSystem, cask: caskStillListing(after: urls),
-            isAdministrator: helper.isAdministrator
+            brew: homebrew.wordForTerminal, isAdministrator: helper.isAdministrator
         )
     }
 

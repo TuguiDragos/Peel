@@ -7,6 +7,7 @@ struct IntelDetailView: View {
     @Environment(PluginLibrary.self) private var plugins
     @Environment(BackgroundItemLibrary.self) private var backgroundItems
     @Environment(PackageLibrary.self) private var packages
+    @Environment(HomebrewLibrary.self) private var homebrew
     /// The package that installed a Java runtime, whose page can move it.
     @State private var receipt: PackageReceipt.ID?
     let finding: IntelFinding
@@ -111,7 +112,8 @@ struct IntelDetailView: View {
                             isChecking: library.appsCheckingForUpdates.contains(app.id),
                             failure: library.updateFailures[app.id],
                             keptSince: library.keptUpToDate(of: app),
-                            cannotCheck: library.whyItCannotCheck(app)
+                            cannotCheck: library.whyItCannotCheck(app),
+                            brew: homebrew.wordForTerminal
                         )
                     }
                 }

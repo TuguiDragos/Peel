@@ -74,10 +74,12 @@ final class SelfUninstall {
         }
     }
 
+    /// `brew` is the word that runs the person's Homebrew in Terminal (`Homebrew.wordForTerminal`).
     static func way(
-        cask: HomebrewPackage?, homebrewKnowsItsApps: Bool, unanswered: HomebrewLibrary.Unanswered? = nil
+        cask: HomebrewPackage?, brew: String, homebrewKnowsItsApps: Bool,
+        unanswered: HomebrewLibrary.Unanswered? = nil
     ) -> Way {
-        if let cask { return .homebrew("brew uninstall --zap --cask \(Homebrew.lastWord(naming: cask.name))") }
+        if let cask { return .homebrew("\(brew) uninstall --zap --cask \(Homebrew.lastWord(naming: cask.name))") }
         if homebrewKnowsItsApps { return .removePeel }
         return unanswered.map(Way.homebrewDidNotAnswer) ?? .waitingForHomebrew
     }

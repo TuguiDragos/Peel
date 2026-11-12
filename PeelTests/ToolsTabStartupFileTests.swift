@@ -12,6 +12,6 @@ struct ToolsTabStartupFileTests {
             #expect(String(localized: place.caption(zshrc: zshrc)).contains(zshrc))
         }
         #expect(String(localized: ToolsTab.linesGoIn(zshrc)).contains(zshrc))
-        #expect(!TerminalTool.zshSyntaxHighlighting.detail.key.contains("~/.zshrc"))
+        #expect(!TerminalTool.zshSyntaxHighlighting.detail(brew: "brew").key.contains("~/.zshrc"))
     }
 }

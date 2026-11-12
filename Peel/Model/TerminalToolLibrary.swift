@@ -9,6 +9,8 @@ final class TerminalToolLibrary {
         var installed: Set<TerminalTool>
         var unrunnable: HomebrewChoice.Unrunnable?
         var refused: HomebrewChoice.Unrunnable?
+        /// The word that runs the Homebrew Peel runs in Terminal, for the commands the page gives.
+        var brew = "brew"
 
         /// Where the tools are: under the `brew` Peel runs, or under one it won't run, which it never asks, since that
         /// a tool is there is only a look at a folder.
@@ -35,12 +37,13 @@ final class TerminalToolLibrary {
     private var askingHomebrew: Task<Void, Never>?
 
     func refresh() async {
-        let prefix = Homebrew.executableURL?.deletingLastPathComponent().deletingLastPathComponent()
+        let executable = Homebrew.executableURL
+        let prefix = executable?.deletingLastPathComponent().deletingLastPathComponent()
         let unrunnable = HomebrewChoice().unrunnable()
         let refused = Homebrew.refusedInAUsualPlace()
         state = State(
             prefix: prefix, installed: Self.installed(prefix: prefix, refused: refused, unrunnable: unrunnable),
-            unrunnable: unrunnable, refused: refused
+            unrunnable: unrunnable, refused: refused, brew: Homebrew.wordForTerminal(running: executable)
         )
         guard let prefix else { return }
         if case .notAsked = asked {

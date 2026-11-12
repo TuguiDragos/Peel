@@ -31,6 +31,7 @@ struct AppPageHeader: View {
                 updateFailure: library.updateFailures[plan.app.id],
                 keptSince: library.keptUpToDate(of: plan.app),
                 cannotCheck: library.whyItCannotCheck(plan.app),
+                brew: homebrew.wordForTerminal,
                 total: plan.total,
                 sharesStorage: plan.appSharesStorage
             ) {
@@ -216,7 +217,8 @@ struct AppPageHeader: View {
             if let cask = library.cask(for: plan.app) {
                 CopyButton(
                     text: Homebrew.terminalCommand(
-                        "brew upgrade --cask \(Homebrew.lastWord(naming: cask.fullName))", keeping: homebrew.keptFormulaeNow
+                        "\(homebrew.wordForTerminal) upgrade --cask \(Homebrew.lastWord(naming: cask.fullName))",
+                        keeping: homebrew.keptFormulaeNow
                     ),
                     title: "Copy Upgrade Command"
                 )

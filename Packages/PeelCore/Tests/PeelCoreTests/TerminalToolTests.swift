@@ -63,8 +63,8 @@ struct TerminalToolTests {
     }
 
     @Test func eachInstallCommandNamesEveryFormulaTheToolNeeds() {
-        #expect(TerminalTool.fzfTab.installCommand == "brew install fzf fzf-tab")
-        #expect(TerminalTool.delta.installCommand == "brew install git-delta")
+        #expect(TerminalTool.fzfTab.installCommand(brew: "brew") == "brew install fzf fzf-tab")
+        #expect(TerminalTool.delta.installCommand(brew: "/opt/brew/bin/brew") == "/opt/brew/bin/brew install git-delta")
         for tool in TerminalTool.allCases {
             #expect(tool.formulae.contains(tool.formula), "\(tool)")
             #expect(tool.project.scheme == "https", "\(tool)")

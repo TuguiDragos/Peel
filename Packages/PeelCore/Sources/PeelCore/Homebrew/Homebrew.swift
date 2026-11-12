@@ -669,6 +669,18 @@ public enum Homebrew {
         return !usualPlaces.contains { $0.path(percentEncoded: false) == path }
     }
 
+    /// The word that runs this Homebrew in Terminal, for every command Peel gives the person: `brew` for one where
+    /// Homebrew installs itself, which a shell finds, and the whole path of one chosen elsewhere, where `brew` may be
+    /// another Homebrew or none.
+    public static var wordForTerminal: String {
+        wordForTerminal(running: executableURL)
+    }
+
+    public static func wordForTerminal(running executable: URL?) -> String {
+        guard let executable, leavesChangesToTerminal(running: executable) else { return "brew" }
+        return executable.standardizedFileURL.path(percentEncoded: false).wordForTheShell
+    }
+
     /// A `brew` in a usual place runs by the rule a chosen one does: this account's or root's, and nobody else can
     /// change it, since its code runs as this account whenever Peel asks Homebrew something.
     static func executable(chosen: URL?, usualPlaces: [URL] = Homebrew.usualPlaces, user: uid_t = getuid()) -> URL? {
@@ -1204,7 +1216,7 @@ public enum Homebrew {
         guard installation.writesABrewfile else {
             throw CommandFailure(
                 output: "Homebrew \(installation.version) keeps `brew bundle` in a tap it would download. "
-                    + "Run `brew update` first."
+                    + "Run `\(wordForTerminal) update` first."
             )
         }
         return try await answer(["bundle", "dump", "--file=-", "--tap", "--formula", "--cask"])

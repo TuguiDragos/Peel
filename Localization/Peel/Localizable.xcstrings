@@ -17389,108 +17389,108 @@
         }
       }
     },
-    "Adds completions for many commands zsh doesn’t complete on its own. If zsh then warns about insecure folders, `brew info zsh-completions` says how to fix it." : {
+    "Adds completions for many commands zsh doesn’t complete on its own. If zsh then warns about insecure folders, `%@` says how to fix it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Přidává doplňování pro mnoho příkazů, které zsh sám nedoplňuje. Pokud pak zsh upozorní na nezabezpečené složky, `brew info zsh-completions` vysvětlí, jak to napravit."
+            "value" : "Přidává doplňování pro mnoho příkazů, které zsh sám nedoplňuje. Pokud pak zsh upozorní na nezabezpečené složky, `%@` vysvětlí, jak to napravit."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fügt Vervollständigungen für viele Befehle hinzu, die zsh nicht von sich aus vervollständigt. Wenn zsh danach vor unsicheren Ordnern warnt, erklärt `brew info zsh-completions`, wie du das behebst."
+            "value" : "Fügt Vervollständigungen für viele Befehle hinzu, die zsh nicht von sich aus vervollständigt. Wenn zsh danach vor unsicheren Ordnern warnt, erklärt `%@`, wie du das behebst."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Añade autocompletado para muchos comandos que zsh no completa por su cuenta. Si después zsh avisa de carpetas inseguras, `brew info zsh-completions` explica cómo solucionarlo."
+            "value" : "Añade autocompletado para muchos comandos que zsh no completa por su cuenta. Si después zsh avisa de carpetas inseguras, `%@` explica cómo solucionarlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ajoute des complétions pour de nombreuses commandes que zsh ne complète pas de lui-même. Si zsh signale ensuite des dossiers non sécurisés, `brew info zsh-completions` indique comment y remédier."
+            "value" : "Ajoute des complétions pour de nombreuses commandes que zsh ne complète pas de lui-même. Si zsh signale ensuite des dossiers non sécurisés, `%@` indique comment y remédier."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aggiunge i completamenti per molti comandi che zsh non completa da solo. Se poi zsh segnala cartelle non sicure, `brew info zsh-completions` spiega come risolvere il problema."
+            "value" : "Aggiunge i completamenti per molti comandi che zsh non completa da solo. Se poi zsh segnala cartelle non sicure, `%@` spiega come risolvere il problema."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "zsh単体では補完できない多くのコマンドに補完を追加します。その後、zshが安全でないフォルダについて警告した場合は、`brew info zsh-completions`で対処方法を確認できます。"
+            "value" : "zsh単体では補完できない多くのコマンドに補完を追加します。その後、zshが安全でないフォルダについて警告した場合は、`%@`で対処方法を確認できます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "zsh가 자체적으로 자동 완성하지 못하는 여러 명령의 자동 완성을 추가합니다. 그 후 zsh가 안전하지 않은 폴더에 대해 경고하면, `brew info zsh-completions` 명령이 해결 방법을 알려 줍니다."
+            "value" : "zsh가 자체적으로 자동 완성하지 못하는 여러 명령의 자동 완성을 추가합니다. 그 후 zsh가 안전하지 않은 폴더에 대해 경고하면, `%@` 명령이 해결 방법을 알려 줍니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voegt aanvullingen toe voor veel commando's die zsh niet zelf aanvult. Als zsh daarna waarschuwt voor onveilige mappen, vertelt `brew info zsh-completions` hoe je dat oplost."
+            "value" : "Voegt aanvullingen toe voor veel commando's die zsh niet zelf aanvult. Als zsh daarna waarschuwt voor onveilige mappen, vertelt `%@` hoe je dat oplost."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dodaje uzupełnienia dla wielu poleceń, których zsh nie uzupełnia samodzielnie. Jeśli zsh ostrzeże potem o niezabezpieczonych folderach, `brew info zsh-completions` wyjaśnia, jak to naprawić."
+            "value" : "Dodaje uzupełnienia dla wielu poleceń, których zsh nie uzupełnia samodzielnie. Jeśli zsh ostrzeże potem o niezabezpieczonych folderach, `%@` wyjaśnia, jak to naprawić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adiciona o autocompletar de muitos comandos que o zsh não completa sozinho. Se depois o zsh avisar sobre pastas inseguras, `brew info zsh-completions` explica como corrigir isso."
+            "value" : "Adiciona o autocompletar de muitos comandos que o zsh não completa sozinho. Se depois o zsh avisar sobre pastas inseguras, `%@` explica como corrigir isso."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adaugă completări pentru multe comenzi pe care zsh nu le completează singur. Dacă zsh avertizează apoi despre dosare nesigure, `brew info zsh-completions` explică cum se rezolvă problema."
+            "value" : "Adaugă completări pentru multe comenzi pe care zsh nu le completează singur. Dacă zsh avertizează apoi despre dosare nesigure, `%@` explică cum se rezolvă problema."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Добавляет автодополнение для многих команд, которые zsh сам не дополняет. Если после этого zsh предупредит о небезопасных папках, `brew info zsh-completions` подскажет, как это исправить."
+            "value" : "Добавляет автодополнение для многих команд, которые zsh сам не дополняет. Если после этого zsh предупредит о небезопасных папках, `%@` подскажет, как это исправить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lägger till kompletteringar för många kommandon som zsh inte kompletterar på egen hand. Om zsh sedan varnar för osäkra mappar förklarar `brew info zsh-completions` hur du åtgärdar det."
+            "value" : "Lägger till kompletteringar för många kommandon som zsh inte kompletterar på egen hand. Om zsh sedan varnar för osäkra mappar förklarar `%@` hur du åtgärdar det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "zsh tarafından kendiliğinden tamamlanmayan birçok komut için tamamlamalar ekler. Ardından zsh güvenli olmayan klasörler konusunda uyarırsa, bunun nasıl düzeltileceğini `brew info zsh-completions` söyler."
+            "value" : "zsh tarafından kendiliğinden tamamlanmayan birçok komut için tamamlamalar ekler. Ardından zsh güvenli olmayan klasörler konusunda uyarırsa, bunun nasıl düzeltileceğini `%@` söyler."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Додає доповнення для багатьох команд, яких zsh самостійно не доповнює. Якщо після цього zsh попереджає про небезпечні папки, `brew info zsh-completions` пояснює, як це виправити."
+            "value" : "Додає доповнення для багатьох команд, яких zsh самостійно не доповнює. Якщо після цього zsh попереджає про небезпечні папки, `%@` пояснює, як це виправити."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "为许多zsh本身不会补全的命令添加补全。如果zsh随后警告存在不安全的文件夹，`brew info zsh-completions`会说明如何修复。"
+            "value" : "为许多zsh本身不会补全的命令添加补全。如果zsh随后警告存在不安全的文件夹，`%@`会说明如何修复。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "為許多zsh本身無法補齊的指令加入補齊功能。如果zsh隨後對不安全的檔案夾發出警告，`brew info zsh-completions`會說明如何修正。"
+            "value" : "為許多zsh本身無法補齊的指令加入補齊功能。如果zsh隨後對不安全的檔案夾發出警告，`%@`會說明如何修正。"
           }
         }
       }
@@ -67074,108 +67074,108 @@
         }
       }
     },
-    "Homebrew installed this app and will keep listing it as installed. To take it off that list, run `brew uninstall --cask %@`: Homebrew then carries out the cask’s own uninstall steps, which can delete files for good." : {
+    "Homebrew installed this app and will keep listing it as installed. To take it off that list, run `%@`: Homebrew then carries out the cask’s own uninstall steps, which can delete files for good." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tuto aplikaci nainstaloval Homebrew a bude ji dál uvádět jako nainstalovanou. Chcete-li ji z tohoto seznamu odebrat, spusťte `brew uninstall --cask %@`: Homebrew pak provede kroky odinstalace, které cask sám definuje, a ty mohou soubory trvale smazat."
+            "value" : "Tuto aplikaci nainstaloval Homebrew a bude ji dál uvádět jako nainstalovanou. Chcete-li ji z tohoto seznamu odebrat, spusťte `%@`: Homebrew pak provede kroky odinstalace, které cask sám definuje, a ty mohou soubory trvale smazat."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew hat diese App installiert und wird sie weiterhin als installiert führen. Um sie von dieser Liste zu nehmen, führe `brew uninstall --cask %@` aus: Homebrew führt dann die Deinstallationsschritte aus, die der Cask selbst vorgibt, und diese können Dateien endgültig löschen."
+            "value" : "Homebrew hat diese App installiert und wird sie weiterhin als installiert führen. Um sie von dieser Liste zu nehmen, führe `%@` aus: Homebrew führt dann die Deinstallationsschritte aus, die der Cask selbst vorgibt, und diese können Dateien endgültig löschen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew instaló esta app y la seguirá mostrando como instalada. Para sacarla de esa lista, ejecuta `brew uninstall --cask %@`: Homebrew llevará a cabo entonces los propios pasos de desinstalación del cask, que pueden borrar archivos definitivamente."
+            "value" : "Homebrew instaló esta app y la seguirá mostrando como instalada. Para sacarla de esa lista, ejecuta `%@`: Homebrew llevará a cabo entonces los propios pasos de desinstalación del cask, que pueden borrar archivos definitivamente."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew a installé cette app et continuera de la considérer comme installée. Pour la retirer de sa liste, exécutez `brew uninstall --cask %@` : Homebrew exécute alors les étapes de désinstallation propres au cask, qui peuvent supprimer des fichiers définitivement."
+            "value" : "Homebrew a installé cette app et continuera de la considérer comme installée. Pour la retirer de sa liste, exécutez `%@` : Homebrew exécute alors les étapes de désinstallation propres au cask, qui peuvent supprimer des fichiers définitivement."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Questa app è stata installata da Homebrew, che continuerà a elencarla come installata. Per toglierla da quell’elenco, esegui `brew uninstall --cask %@`: Homebrew esegue allora i passaggi di disinstallazione del cask, che possono eliminare file definitivamente."
+            "value" : "Questa app è stata installata da Homebrew, che continuerà a elencarla come installata. Per toglierla da quell’elenco, esegui `%@`: Homebrew esegue allora i passaggi di disinstallazione del cask, che possono eliminare file definitivamente."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このアプリはHomebrewでインストールされたため、Homebrewでは引き続きインストール済みとして表示されます。そのリストから外すには、`brew uninstall --cask %@`を実行してください。その場合、Homebrewはcask独自のアンインストール手順を実行し、ファイルが完全に削除されることがあります。"
+            "value" : "このアプリはHomebrewでインストールされたため、Homebrewでは引き続きインストール済みとして表示されます。そのリストから外すには、`%@`を実行してください。その場合、Homebrewはcask独自のアンインストール手順を実行し、ファイルが完全に削除されることがあります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew가 설치한 앱이므로 Homebrew는 이 앱을 계속 설치된 것으로 표시합니다. 이 목록에서 없애려면 `brew uninstall --cask %@` 명령을 실행하십시오. 그러면 Homebrew가 cask 자체의 제거 단계를 수행하며, 이 과정에서 파일이 영구적으로 삭제될 수 있습니다."
+            "value" : "Homebrew가 설치한 앱이므로 Homebrew는 이 앱을 계속 설치된 것으로 표시합니다. 이 목록에서 없애려면 `%@` 명령을 실행하십시오. 그러면 Homebrew가 cask 자체의 제거 단계를 수행하며, 이 과정에서 파일이 영구적으로 삭제될 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew heeft deze app geïnstalleerd en blijft die als geïnstalleerd vermelden. Voer `brew uninstall --cask %@` uit om de app van die lijst te halen: Homebrew voert dan de eigen de-installatiestappen van de cask uit, die bestanden definitief kunnen verwijderen."
+            "value" : "Homebrew heeft deze app geïnstalleerd en blijft die als geïnstalleerd vermelden. Voer `%@` uit om de app van die lijst te halen: Homebrew voert dan de eigen de-installatiestappen van de cask uit, die bestanden definitief kunnen verwijderen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tę aplikację zainstalował Homebrew i nadal będzie ją wymieniał jako zainstalowaną. Aby usunąć ją z tej listy, uruchom `brew uninstall --cask %@`: Homebrew wykona wtedy własne kroki dezinstalacji tego cask, które mogą trwale usuwać pliki."
+            "value" : "Tę aplikację zainstalował Homebrew i nadal będzie ją wymieniał jako zainstalowaną. Aby usunąć ją z tej listy, uruchom `%@`: Homebrew wykona wtedy własne kroki dezinstalacji tego cask, które mogą trwale usuwać pliki."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew instalou este app e vai continuar listando-o como instalado. Para tirá-lo dessa lista, execute `brew uninstall --cask %@`: o Homebrew então executa as etapas de desinstalação do próprio cask, que podem apagar arquivos definitivamente."
+            "value" : "O Homebrew instalou este app e vai continuar listando-o como instalado. Para tirá-lo dessa lista, execute `%@`: o Homebrew então executa as etapas de desinstalação do próprio cask, que podem apagar arquivos definitivamente."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew a instalat această aplicație și o va lista în continuare ca instalată. Pentru a o scoate de pe acea listă, rulați `brew uninstall --cask %@`: Homebrew execută apoi pașii de dezinstalare definiți de cask, care pot șterge definitiv fișiere."
+            "value" : "Homebrew a instalat această aplicație și o va lista în continuare ca instalată. Pentru a o scoate de pe acea listă, rulați `%@`: Homebrew execută apoi pașii de dezinstalare definiți de cask, care pot șterge definitiv fișiere."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Это приложение установил Homebrew, и он будет по-прежнему считать его установленным. Чтобы убрать его из этого списка, выполните `brew uninstall --cask %@`: Homebrew выполнит собственные шаги удаления из cask, которые могут безвозвратно удалить файлы."
+            "value" : "Это приложение установил Homebrew, и он будет по-прежнему считать его установленным. Чтобы убрать его из этого списка, выполните `%@`: Homebrew выполнит собственные шаги удаления из cask, которые могут безвозвратно удалить файлы."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew installerade den här appen och fortsätter att lista den som installerad. Om du vill ta bort den från listan kör du `brew uninstall --cask %@`: Homebrew utför då caskens egna avinstallationssteg, som kan radera filer permanent."
+            "value" : "Homebrew installerade den här appen och fortsätter att lista den som installerad. Om du vill ta bort den från listan kör du `%@`: Homebrew utför då caskens egna avinstallationssteg, som kan radera filer permanent."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu uygulamayı Homebrew yükledi ve onu yüklü olarak listelemeye devam edecek. Onu bu listeden çıkarmak için `brew uninstall --cask %@` komutunu çalıştırın: Homebrew o zaman bu cask için tanımlı kaldırma adımlarını uygular ve bu adımlar dosyaları kalıcı olarak silebilir."
+            "value" : "Bu uygulamayı Homebrew yükledi ve onu yüklü olarak listelemeye devam edecek. Onu bu listeden çıkarmak için `%@` komutunu çalıştırın: Homebrew o zaman bu cask için tanımlı kaldırma adımlarını uygular ve bu adımlar dosyaları kalıcı olarak silebilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Цю програму інсталював Homebrew, і він надалі показуватиме її у своєму списку інстальованого. Щоб прибрати її з цього списку, виконайте `brew uninstall --cask %@`: тоді Homebrew виконає власні кроки деінсталювання цього cask, які можуть видалити файли назавжди."
+            "value" : "Цю програму інсталював Homebrew, і він надалі показуватиме її у своєму списку інстальованого. Щоб прибрати її з цього списку, виконайте `%@`: тоді Homebrew виконає власні кроки деінсталювання цього cask, які можуть видалити файли назавжди."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此App由Homebrew安装，Homebrew会继续将它列为已安装。若要将它从该列表中去掉，请运行`brew uninstall --cask %@`：Homebrew随后会执行该cask自己的卸载步骤，这可能会永久删除文件。"
+            "value" : "此App由Homebrew安装，Homebrew会继续将它列为已安装。若要将它从该列表中去掉，请运行`%@`：Homebrew随后会执行该cask自己的卸载步骤，这可能会永久删除文件。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此App由Homebrew安裝，Homebrew會繼續將它列為已安裝。若要將它從該列表中移除，請執行`brew uninstall --cask %@`：Homebrew接著會執行該cask自己的解除安裝步驟，這可能會永久刪除檔案。"
+            "value" : "此App由Homebrew安裝，Homebrew會繼續將它列為已安裝。若要將它從該列表中移除，請執行`%@`：Homebrew接著會執行該cask自己的解除安裝步驟，這可能會永久刪除檔案。"
           }
         }
       }
@@ -67710,108 +67710,108 @@
         }
       }
     },
-    "Homebrew keeps a pinned package at its version when it upgrades the rest. Run `brew unpin` to let it upgrade again." : {
+    "Homebrew keeps a pinned package at its version when it upgrades the rest. Run `%@` to let it upgrade again." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Když Homebrew upgraduje ostatní balíčky, připnutý balíček ponechá ve stávající verzi. Spusťte `brew unpin` a Homebrew ho bude moci znovu upgradovat."
+            "value" : "Když Homebrew upgraduje ostatní balíčky, připnutý balíček ponechá ve stávající verzi. Spusťte `%@` a Homebrew ho bude moci znovu upgradovat."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew belässt ein fixiertes Paket auf seiner Version, wenn es für die übrigen Pakete Upgrades ausführt. Führe `brew unpin` aus, um wieder Upgrades zuzulassen."
+            "value" : "Homebrew belässt ein fixiertes Paket auf seiner Version, wenn es für die übrigen Pakete Upgrades ausführt. Führe `%@` aus, um wieder Upgrades zuzulassen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew mantiene un paquete fijado en su versión cuando actualiza los demás. Ejecuta `brew unpin` para que se vuelva a actualizar."
+            "value" : "Homebrew mantiene un paquete fijado en su versión cuando actualiza los demás. Ejecuta `%@` para que se vuelva a actualizar."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew maintient un paquet épinglé à sa version lorsqu’il met à niveau les autres. Exécutez `brew unpin` pour qu’il puisse de nouveau le mettre à niveau."
+            "value" : "Homebrew maintient un paquet épinglé à sa version lorsqu’il met à niveau les autres. Exécutez `%@` pour qu’il puisse de nouveau le mettre à niveau."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew mantiene un pacchetto bloccato alla sua versione quando aggiorna gli altri. Esegui `brew unpin` per poterlo aggiornare di nuovo."
+            "value" : "Homebrew mantiene un pacchetto bloccato alla sua versione quando aggiorna gli altri. Esegui `%@` per poterlo aggiornare di nuovo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrewは、ほかのパッケージをアップグレードするときも、固定されたパッケージのバージョンを変えません。再びアップグレードできるようにするには、`brew unpin`を実行してください。"
+            "value" : "Homebrewは、ほかのパッケージをアップグレードするときも、固定されたパッケージのバージョンを変えません。再びアップグレードできるようにするには、`%@`を実行してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew는 나머지 패키지를 업그레이드할 때 고정된 패키지를 현재 버전으로 유지합니다. 다시 업그레이드되게 하려면 `brew unpin`을 실행하십시오."
+            "value" : "Homebrew는 나머지 패키지를 업그레이드할 때 고정된 패키지를 현재 버전으로 유지합니다. 다시 업그레이드되게 하려면 `%@`을 실행하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew houdt een vastgezet pakket op de huidige versie wanneer het de rest upgradet. Voer `brew unpin` uit om het weer te laten upgraden."
+            "value" : "Homebrew houdt een vastgezet pakket op de huidige versie wanneer het de rest upgradet. Voer `%@` uit om het weer te laten upgraden."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew pozostawia przypięty pakiet w obecnej wersji, gdy uaktualnia pozostałe. Uruchom `brew unpin`, aby Homebrew znów mógł go uaktualniać."
+            "value" : "Homebrew pozostawia przypięty pakiet w obecnej wersji, gdy uaktualnia pozostałe. Uruchom `%@`, aby Homebrew znów mógł go uaktualniać."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Homebrew mantém um pacote fixado na versão atual quando faz upgrade dos outros. Execute `brew unpin` para que ele volte a receber upgrades."
+            "value" : "O Homebrew mantém um pacote fixado na versão atual quando faz upgrade dos outros. Execute `%@` para que ele volte a receber upgrades."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew ține un pachet fixat la versiunea sa când face upgrade la celelalte. Rulați `brew unpin` pentru ca pachetul să poată primi din nou upgrade."
+            "value" : "Homebrew ține un pachet fixat la versiunea sa când face upgrade la celelalte. Rulați `%@` pentru ca pachetul să poată primi din nou upgrade."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew не меняет версию закрепленного пакета, когда обновляет остальные. Выполните `brew unpin`, чтобы пакет снова можно было обновлять."
+            "value" : "Homebrew не меняет версию закрепленного пакета, когда обновляет остальные. Выполните `%@`, чтобы пакет снова можно было обновлять."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew låter ett låst paket stanna på sin version när resten uppgraderas. Kör `brew unpin` så att det kan uppgraderas igen."
+            "value" : "Homebrew låter ett låst paket stanna på sin version när resten uppgraderas. Kör `%@` så att det kan uppgraderas igen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew diğerlerini yükseltirken sabitlenmiş bir paketi kendi sürümünde tutar. Yeniden yükseltilebilmesi için `brew unpin` komutunu çalıştırın."
+            "value" : "Homebrew diğerlerini yükseltirken sabitlenmiş bir paketi kendi sürümünde tutar. Yeniden yükseltilebilmesi için `%@` komutunu çalıştırın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Коли Homebrew оновлює решту пакетів, закріплений пакет лишається на своїй версії. Виконайте `brew unpin`, щоб його знову можна було оновлювати."
+            "value" : "Коли Homebrew оновлює решту пакетів, закріплений пакет лишається на своїй версії. Виконайте `%@`, щоб його знову можна було оновлювати."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew升级其他软件包时，会将已固定的软件包保持在当前版本。运行`brew unpin`即可让它重新接受升级。"
+            "value" : "Homebrew升级其他软件包时，会将已固定的软件包保持在当前版本。运行`%@`即可让它重新接受升级。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew升級其他套件時，會讓已固定的套件保持原本的版本。執行`brew unpin`即可讓它再次升級。"
+            "value" : "Homebrew升級其他套件時，會讓已固定的套件保持原本的版本。執行`%@`即可讓它再次升級。"
           }
         }
       }
@@ -132437,214 +132437,226 @@
         }
       }
     },
-    "Only Homebrew can say whether %@ is up to date, and Homebrew last checked for new versions %@. Peel counts what Homebrew says only for a day after it checks. Update Homebrew on the Homebrew page, or run `brew update` in Terminal, and Peel can tell again." : {
+    "Only Homebrew can say whether %@ is up to date, and Homebrew last checked for new versions %@. Peel counts what Homebrew says only for a day after it checks. Update Homebrew on the Homebrew page, or run `%@` in Terminal, and Peel can tell again." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jen Homebrew může říct, zda je aplikace %@ aktuální, a Homebrew naposledy hledal nové verze %@. Peel bere v úvahu to, co Homebrew uvádí, jen jeden den od chvíle, kdy Homebrew hledal nové verze. Na stránce Homebrew použijte příkaz „Aktualizovat Homebrew“ nebo v Terminálu spusťte `brew update` a Peel bude moci znovu říct, zda je aplikace aktuální."
+            "value" : "Jen Homebrew může říct, zda je aplikace %@ aktuální, a Homebrew naposledy hledal nové verze %@. Peel bere v úvahu to, co Homebrew uvádí, jen jeden den od chvíle, kdy Homebrew hledal nové verze. Na stránce Homebrew použijte příkaz „Aktualizovat Homebrew“ nebo v Terminálu spusťte `%@` a Peel bude moci znovu říct, zda je aplikace aktuální."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nur Homebrew kann sagen, ob „%@“ auf dem neuesten Stand ist, und Homebrew hat zuletzt %@ nach neuen Versionen gesucht. Peel berücksichtigt die Angaben von Homebrew nach jeder Suche nur einen Tag lang. Führe „Homebrew aktualisieren“ auf der Seite „Homebrew“ oder `brew update` im Terminal aus, dann kann Peel es wieder sagen."
+            "value" : "Nur Homebrew kann sagen, ob „%@“ auf dem neuesten Stand ist, und Homebrew hat zuletzt %@ nach neuen Versionen gesucht. Peel berücksichtigt die Angaben von Homebrew nach jeder Suche nur einen Tag lang. Führe „Homebrew aktualisieren“ auf der Seite „Homebrew“ oder `%@` im Terminal aus, dann kann Peel es wieder sagen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Only Homebrew can say whether %1$@ is up to date, and Homebrew last checked for new versions %2$@. Peel counts what Homebrew says only for a day after it checks. Update Homebrew on the Homebrew page, or run `%3$@` in Terminal, and Peel can tell again."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo Homebrew puede decir si %@ está actualizada, y Homebrew buscó versiones nuevas por última vez %@. Peel solo tiene en cuenta lo que dice Homebrew hasta un día después de esa búsqueda. Usa “Actualizar Homebrew” en la página Homebrew o ejecuta `brew update` en Terminal, y Peel podrá volver a saberlo."
+            "value" : "Solo Homebrew puede decir si %@ está actualizada, y Homebrew buscó versiones nuevas por última vez %@. Peel solo tiene en cuenta lo que dice Homebrew hasta un día después de esa búsqueda. Usa “Actualizar Homebrew” en la página Homebrew o ejecuta `%@` en Terminal, y Peel podrá volver a saberlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seul Homebrew peut dire si %@ est à jour, et Homebrew a recherché de nouvelles versions pour la dernière fois %@. Peel ne tient compte de ce que dit Homebrew que pendant un jour après chacune de ces recherches. Mettez à jour Homebrew sur la page Homebrew, ou exécutez `brew update` dans Terminal, et Peel pourra à nouveau dire si l’app est à jour."
+            "value" : "Seul Homebrew peut dire si %@ est à jour, et Homebrew a recherché de nouvelles versions pour la dernière fois %@. Peel ne tient compte de ce que dit Homebrew que pendant un jour après chacune de ces recherches. Mettez à jour Homebrew sur la page Homebrew, ou exécutez `%@` dans Terminal, et Peel pourra à nouveau dire si l’app est à jour."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo Homebrew può dire se %@ è aggiornata. Ultima volta che Homebrew ha cercato nuove versioni: %@. Peel tiene conto di ciò che dice Homebrew solo per un giorno dopo ogni ricerca. Aggiorna Homebrew nella pagina Homebrew, oppure esegui `brew update` in Terminale, e Peel potrà di nuovo dire se l’app è aggiornata."
+            "value" : "Solo Homebrew può dire se %@ è aggiornata. Ultima volta che Homebrew ha cercato nuove versioni: %@. Peel tiene conto di ciò che dice Homebrew solo per un giorno dopo ogni ricerca. Aggiorna Homebrew nella pagina Homebrew, oppure esegui `%@` in Terminale, e Peel potrà di nuovo dire se l’app è aggiornata."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“%@”が最新の状態かどうかがわかるのはHomebrewだけです。Homebrewが最後に新しいバージョンを確認したのは%@です。PeelがHomebrewの回答を採用するのは、Homebrewが確認してから1日間だけです。“Homebrew”ページでHomebrewをアップデートするか、ターミナルで`brew update`を実行すると、Peelは再び判断できるようになります。"
+            "value" : "“%@”が最新の状態かどうかがわかるのはHomebrewだけです。Homebrewが最後に新しいバージョンを確認したのは%@です。PeelがHomebrewの回答を採用するのは、Homebrewが確認してから1日間だけです。“Homebrew”ページでHomebrewをアップデートするか、ターミナルで`%@`を実行すると、Peelは再び判断できるようになります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "‘%@’이(가) 최신 버전인지는 Homebrew만 알려 줄 수 있으며, Homebrew가 마지막으로 새로운 버전이 있는지 확인한 시점은 %@입니다. Peel은 Homebrew가 확인한 후 하루 동안만 Homebrew의 응답을 반영합니다. Homebrew 페이지에서 ‘Homebrew 업데이트’를 실행하거나, 터미널에서 `brew update`를 실행하면 Peel이 다시 최신 버전 여부를 알려 줄 수 있습니다."
+            "value" : "‘%@’이(가) 최신 버전인지는 Homebrew만 알려 줄 수 있으며, Homebrew가 마지막으로 새로운 버전이 있는지 확인한 시점은 %@입니다. Peel은 Homebrew가 확인한 후 하루 동안만 Homebrew의 응답을 반영합니다. Homebrew 페이지에서 ‘Homebrew 업데이트’를 실행하거나, 터미널에서 `%@`를 실행하면 Peel이 다시 최신 버전 여부를 알려 줄 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alleen Homebrew kan zeggen of %@ up-to-date is, en Homebrew heeft %@ voor het laatst naar nieuwe versies gezocht. Peel telt wat Homebrew zegt alleen mee tot een dag nadat Homebrew heeft gezocht. Werk Homebrew bij op de pagina 'Homebrew' of voer `brew update` uit in Terminal, dan kan Peel het weer zeggen."
+            "value" : "Alleen Homebrew kan zeggen of %@ up-to-date is, en Homebrew heeft %@ voor het laatst naar nieuwe versies gezocht. Peel telt wat Homebrew zegt alleen mee tot een dag nadat Homebrew heeft gezocht. Werk Homebrew bij op de pagina 'Homebrew' of voer `%@` uit in Terminal, dan kan Peel het weer zeggen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tylko Homebrew może stwierdzić, czy aplikacja %@ jest aktualna, a Homebrew ostatnio sprawdzał dostępność nowych wersji %@. Peel uwzględnia to, co podaje Homebrew, tylko przez dobę po takim sprawdzeniu. Odśwież Homebrew na stronie Homebrew albo uruchom `brew update` w Terminalu, a Peel znów będzie mógł to określić."
+            "value" : "Tylko Homebrew może stwierdzić, czy aplikacja %@ jest aktualna, a Homebrew ostatnio sprawdzał dostępność nowych wersji %@. Peel uwzględnia to, co podaje Homebrew, tylko przez dobę po takim sprawdzeniu. Odśwież Homebrew na stronie Homebrew albo uruchom `%@` w Terminalu, a Peel znów będzie mógł to określić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Só o Homebrew pode dizer se %@ está atualizado, e o Homebrew buscou novas versões pela última vez %@. O Peel só leva em conta o que o Homebrew diz até um dia depois de cada busca. Use o comando Atualizar o Homebrew na página Homebrew ou execute `brew update` no Terminal, e o Peel volta a saber se o app está atualizado."
+            "value" : "Só o Homebrew pode dizer se %@ está atualizado, e o Homebrew buscou novas versões pela última vez %@. O Peel só leva em conta o que o Homebrew diz até um dia depois de cada busca. Use o comando Atualizar o Homebrew na página Homebrew ou execute `%@` no Terminal, e o Peel volta a saber se o app está atualizado."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Doar Homebrew poate spune dacă aplicația %@ este actualizată, iar Homebrew a căutat ultima dată versiuni noi %@. Peel ține cont de ce spune Homebrew doar timp de o zi după ce acesta caută versiuni noi. Actualizați Homebrew în pagina Homebrew sau rulați `brew update` în Terminal, iar Peel va putea spune din nou dacă aplicația este actualizată."
+            "value" : "Doar Homebrew poate spune dacă aplicația %@ este actualizată, iar Homebrew a căutat ultima dată versiuni noi %@. Peel ține cont de ce spune Homebrew doar timp de o zi după ce acesta caută versiuni noi. Actualizați Homebrew în pagina Homebrew sau rulați `%@` în Terminal, iar Peel va putea spune din nou dacă aplicația este actualizată."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Только Homebrew может сообщить, установлена ли новейшая версия приложения «%@», а Homebrew в последний раз проверял наличие новых версий %@. Peel учитывает то, что сообщает Homebrew, только в течение суток после такой проверки. Обновите Homebrew на странице Homebrew или выполните `brew update` в Терминале, и Peel снова сможет это определить."
+            "value" : "Только Homebrew может сообщить, установлена ли новейшая версия приложения «%@», а Homebrew в последний раз проверял наличие новых версий %@. Peel учитывает то, что сообщает Homebrew, только в течение суток после такой проверки. Обновите Homebrew на странице Homebrew или выполните `%@` в Терминале, и Peel снова сможет это определить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bara Homebrew kan avgöra om %@ är uppdaterad, och Homebrew letade senast efter nya versioner %@. Peel godtar Homebrews svar bara i ett dygn efter att Homebrew har letat efter nya versioner. Uppdatera Homebrew på sidan Homebrew, eller kör `brew update` i Terminal, så kan Peel avgöra det igen."
+            "value" : "Bara Homebrew kan avgöra om %@ är uppdaterad, och Homebrew letade senast efter nya versioner %@. Peel godtar Homebrews svar bara i ett dygn efter att Homebrew har letat efter nya versioner. Uppdatera Homebrew på sidan Homebrew, eller kör `%@` i Terminal, så kan Peel avgöra det igen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ uygulamasının güncel olup olmadığını yalnızca Homebrew söyleyebilir ve Homebrew yeni sürümleri en son %@ denetledi. Peel, Homebrew’un söylediklerini yalnızca Homebrew’un denetiminden sonraki bir gün boyunca geçerli sayar. Peel’in bunu yeniden söyleyebilmesi için Homebrew sayfasında Homebrew’u güncelleyin veya Terminal’de `brew update` komutunu çalıştırın."
+            "value" : "%@ uygulamasının güncel olup olmadığını yalnızca Homebrew söyleyebilir ve Homebrew yeni sürümleri en son %@ denetledi. Peel, Homebrew’un söylediklerini yalnızca Homebrew’un denetiminden sonraki bir gün boyunca geçerli sayar. Peel’in bunu yeniden söyleyebilmesi için Homebrew sayfasında Homebrew’u güncelleyin veya Terminal’de `%@` komutunu çalıştırın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сказати, чи потребує програма «%@» оновлення, може лише Homebrew, а він востаннє перевіряв наявність нових версій %@. Peel враховує те, що повідомляє Homebrew, лише протягом доби після такої перевірки. Оновіть Homebrew на сторінці «Homebrew» або виконайте `brew update` у Терміналі, і Peel знову зможе це визначити."
+            "value" : "Сказати, чи потребує програма «%@» оновлення, може лише Homebrew, а він востаннє перевіряв наявність нових версій %@. Peel враховує те, що повідомляє Homebrew, лише протягом доби після такої перевірки. Оновіть Homebrew на сторінці «Homebrew» або виконайте `%@` у Терміналі, і Peel знову зможе це визначити."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "只有Homebrew才能说明“%@”是否已是最新版本，而Homebrew上次检查新版本是在%@。Peel只在Homebrew检查后的一天内采用它给出的结果。在Homebrew页面上更新Homebrew，或在“终端”中运行`brew update`，Peel即可再次判断。"
+            "value" : "只有Homebrew才能说明“%@”是否已是最新版本，而Homebrew上次检查新版本是在%@。Peel只在Homebrew检查后的一天内采用它给出的结果。在Homebrew页面上更新Homebrew，或在“终端”中运行`%@`，Peel即可再次判断。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "只有Homebrew能說明「%@」是否已是最新版本，而Homebrew上次檢查新版本是在%@。Peel只會在Homebrew檢查後的一天內採信它的說法。只要在「Homebrew」頁面上更新Homebrew，或在「終端機」中執行`brew update`，Peel就能再次判斷。"
+            "value" : "只有Homebrew能說明「%@」是否已是最新版本，而Homebrew上次檢查新版本是在%@。Peel只會在Homebrew檢查後的一天內採信它的說法。只要在「Homebrew」頁面上更新Homebrew，或在「終端機」中執行`%@`，Peel就能再次判斷。"
           }
         }
       }
     },
-    "Only Homebrew can say whether %@ is up to date, but Peel can’t tell when Homebrew last checked for new versions, so it doesn’t count what Homebrew says. Update Homebrew on the Homebrew page, or run `brew update` in Terminal, and Peel can tell again." : {
+    "Only Homebrew can say whether %@ is up to date, but Peel can’t tell when Homebrew last checked for new versions, so it doesn’t count what Homebrew says. Update Homebrew on the Homebrew page, or run `%@` in Terminal, and Peel can tell again." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jen Homebrew může říct, zda je aplikace %@ aktuální, ale Peel nedokáže zjistit, kdy Homebrew naposledy hledal nové verze, a proto nebere v úvahu to, co Homebrew uvádí. Aktualizujte Homebrew na stránce Homebrew nebo spusťte v Terminálu `brew update` a Peel to pak znovu dokáže zjistit."
+            "value" : "Jen Homebrew může říct, zda je aplikace %@ aktuální, ale Peel nedokáže zjistit, kdy Homebrew naposledy hledal nové verze, a proto nebere v úvahu to, co Homebrew uvádí. Aktualizujte Homebrew na stránce Homebrew nebo spusťte v Terminálu `%@` a Peel to pak znovu dokáže zjistit."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nur Homebrew kann sagen, ob „%@“ auf dem neuesten Stand ist, aber Peel kann nicht erkennen, wann Homebrew zuletzt nach neuen Versionen gesucht hat, daher berücksichtigt Peel die Angaben von Homebrew nicht. Aktualisiere Homebrew auf der Seite „Homebrew“ oder führe `brew update` im Terminal aus, dann kann Peel es wieder erkennen."
+            "value" : "Nur Homebrew kann sagen, ob „%@“ auf dem neuesten Stand ist, aber Peel kann nicht erkennen, wann Homebrew zuletzt nach neuen Versionen gesucht hat, daher berücksichtigt Peel die Angaben von Homebrew nicht. Aktualisiere Homebrew auf der Seite „Homebrew“ oder führe `%@` im Terminal aus, dann kann Peel es wieder erkennen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Only Homebrew can say whether %1$@ is up to date, but Peel can’t tell when Homebrew last checked for new versions, so it doesn’t count what Homebrew says. Update Homebrew on the Homebrew page, or run `%2$@` in Terminal, and Peel can tell again."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo Homebrew puede decir si %@ está actualizada, pero Peel no puede saber cuándo buscó Homebrew versiones nuevas por última vez, así que no tiene en cuenta lo que dice Homebrew. Actualiza Homebrew en la página Homebrew, o ejecuta `brew update` en Terminal, y Peel podrá saberlo de nuevo."
+            "value" : "Solo Homebrew puede decir si %@ está actualizada, pero Peel no puede saber cuándo buscó Homebrew versiones nuevas por última vez, así que no tiene en cuenta lo que dice Homebrew. Actualiza Homebrew en la página Homebrew, o ejecuta `%@` en Terminal, y Peel podrá saberlo de nuevo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seul Homebrew peut dire si %@ est à jour, mais Peel ne peut pas savoir quand Homebrew a recherché de nouvelles versions pour la dernière fois, et ne tient donc pas compte de ce que dit Homebrew. Mettez à jour Homebrew sur la page Homebrew, ou exécutez `brew update` dans Terminal, et Peel pourra de nouveau le savoir."
+            "value" : "Seul Homebrew peut dire si %@ est à jour, mais Peel ne peut pas savoir quand Homebrew a recherché de nouvelles versions pour la dernière fois, et ne tient donc pas compte de ce que dit Homebrew. Mettez à jour Homebrew sur la page Homebrew, ou exécutez `%@` dans Terminal, et Peel pourra de nouveau le savoir."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo Homebrew può dire se %@ è aggiornata, ma Peel non può sapere quando Homebrew ha cercato nuove versioni per l’ultima volta, quindi non tiene conto di ciò che dice Homebrew. Aggiorna Homebrew nella pagina Homebrew, o esegui `brew update` in Terminale, e Peel potrà di nuovo saperlo."
+            "value" : "Solo Homebrew può dire se %@ è aggiornata, ma Peel non può sapere quando Homebrew ha cercato nuove versioni per l’ultima volta, quindi non tiene conto di ciò che dice Homebrew. Aggiorna Homebrew nella pagina Homebrew, o esegui `%@` in Terminale, e Peel potrà di nuovo saperlo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“%@”が最新の状態かどうかがわかるのはHomebrewだけですが、Peelは、Homebrewが最後にいつ新しいバージョンを確認したかを判断できないため、Homebrewの回答を採用しません。“Homebrew”ページでHomebrewをアップデートするか、ターミナルで`brew update`を実行すると、Peelが再び判断できるようになります。"
+            "value" : "“%@”が最新の状態かどうかがわかるのはHomebrewだけですが、Peelは、Homebrewが最後にいつ新しいバージョンを確認したかを判断できないため、Homebrewの回答を採用しません。“Homebrew”ページでHomebrewをアップデートするか、ターミナルで`%@`を実行すると、Peelが再び判断できるようになります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "‘%@’이(가) 최신 버전인지는 Homebrew만 알려 줄 수 있지만, Peel은 Homebrew가 마지막으로 새로운 버전이 있는지 확인한 시점을 알 수 없으므로 Homebrew의 응답을 반영하지 않습니다. Homebrew 페이지에서 Homebrew를 업데이트하거나 터미널에서 `brew update`를 실행하면 Peel이 다시 알 수 있습니다."
+            "value" : "‘%@’이(가) 최신 버전인지는 Homebrew만 알려 줄 수 있지만, Peel은 Homebrew가 마지막으로 새로운 버전이 있는지 확인한 시점을 알 수 없으므로 Homebrew의 응답을 반영하지 않습니다. Homebrew 페이지에서 Homebrew를 업데이트하거나 터미널에서 `%@`를 실행하면 Peel이 다시 알 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alleen Homebrew kan zeggen of %@ up-to-date is, maar Peel kan niet nagaan wanneer Homebrew voor het laatst naar nieuwe versies heeft gezocht, dus telt Peel wat Homebrew zegt niet mee. Werk Homebrew bij op de pagina 'Homebrew' of voer `brew update` uit in Terminal, dan kan Peel het weer nagaan."
+            "value" : "Alleen Homebrew kan zeggen of %@ up-to-date is, maar Peel kan niet nagaan wanneer Homebrew voor het laatst naar nieuwe versies heeft gezocht, dus telt Peel wat Homebrew zegt niet mee. Werk Homebrew bij op de pagina 'Homebrew' of voer `%@` uit in Terminal, dan kan Peel het weer nagaan."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tylko Homebrew może stwierdzić, czy aplikacja %@ jest aktualna, ale Peel nie może określić, kiedy Homebrew ostatnio sprawdzał dostępność nowych wersji, więc nie uwzględnia tego, co podaje Homebrew. Odśwież Homebrew na stronie Homebrew lub uruchom `brew update` w Terminalu, a Peel znów będzie mógł to określić."
+            "value" : "Tylko Homebrew może stwierdzić, czy aplikacja %@ jest aktualna, ale Peel nie może określić, kiedy Homebrew ostatnio sprawdzał dostępność nowych wersji, więc nie uwzględnia tego, co podaje Homebrew. Odśwież Homebrew na stronie Homebrew lub uruchom `%@` w Terminalu, a Peel znów będzie mógł to określić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Só o Homebrew pode dizer se %@ está atualizado, mas o Peel não consegue saber quando o Homebrew buscou novas versões pela última vez, então não leva em conta o que o Homebrew diz. Atualize o Homebrew na página Homebrew, ou execute `brew update` no Terminal, e o Peel poderá saber de novo."
+            "value" : "Só o Homebrew pode dizer se %@ está atualizado, mas o Peel não consegue saber quando o Homebrew buscou novas versões pela última vez, então não leva em conta o que o Homebrew diz. Atualize o Homebrew na página Homebrew, ou execute `%@` no Terminal, e o Peel poderá saber de novo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Doar Homebrew poate spune dacă aplicația %@ este actualizată, dar Peel nu poate ști când a căutat Homebrew ultima dată versiuni noi, așa că nu ține cont de ce spune Homebrew. Actualizați Homebrew din pagina Homebrew sau rulați `brew update` în Terminal, iar Peel va putea ști din nou."
+            "value" : "Doar Homebrew poate spune dacă aplicația %@ este actualizată, dar Peel nu poate ști când a căutat Homebrew ultima dată versiuni noi, așa că nu ține cont de ce spune Homebrew. Actualizați Homebrew din pagina Homebrew sau rulați `%@` în Terminal, iar Peel va putea ști din nou."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Только Homebrew может сообщить, установлена ли новейшая версия приложения «%@», но Peel не может определить, когда Homebrew в последний раз проверял наличие новых версий, и поэтому не учитывает то, что сообщает Homebrew. Обновите Homebrew на странице Homebrew или выполните `brew update` в Терминале, и Peel снова сможет это определить."
+            "value" : "Только Homebrew может сообщить, установлена ли новейшая версия приложения «%@», но Peel не может определить, когда Homebrew в последний раз проверял наличие новых версий, и поэтому не учитывает то, что сообщает Homebrew. Обновите Homebrew на странице Homebrew или выполните `%@` в Терминале, и Peel снова сможет это определить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bara Homebrew kan avgöra om %@ är uppdaterad, men Peel kan inte se när Homebrew senast letade efter nya versioner, så Peel godtar inte Homebrews svar. Uppdatera Homebrew på sidan Homebrew, eller kör `brew update` i Terminal, så kan Peel avgöra det igen."
+            "value" : "Bara Homebrew kan avgöra om %@ är uppdaterad, men Peel kan inte se när Homebrew senast letade efter nya versioner, så Peel godtar inte Homebrews svar. Uppdatera Homebrew på sidan Homebrew, eller kör `%@` i Terminal, så kan Peel avgöra det igen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ uygulamasının güncel olup olmadığını yalnızca Homebrew söyleyebilir, ancak Peel, Homebrew’un yeni sürümleri en son ne zaman denetlediğini bilemiyor, bu yüzden Homebrew’un söylediklerini geçerli saymıyor. Homebrew’u Homebrew sayfasında güncellerseniz veya Terminal’de `brew update` komutunu çalıştırırsanız Peel bunu yeniden anlayabilir."
+            "value" : "%@ uygulamasının güncel olup olmadığını yalnızca Homebrew söyleyebilir, ancak Peel, Homebrew’un yeni sürümleri en son ne zaman denetlediğini bilemiyor, bu yüzden Homebrew’un söylediklerini geçerli saymıyor. Homebrew’u Homebrew sayfasında güncellerseniz veya Terminal’de `%@` komutunu çalıştırırsanız Peel bunu yeniden anlayabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сказати, чи потребує програма «%@» оновлення, може лише Homebrew, але Peel не може визначити, коли Homebrew востаннє перевіряв наявність нових версій, тож не враховує того, що повідомляє Homebrew. Оновіть Homebrew на сторінці Homebrew або виконайте `brew update` у Терміналі, і Peel знову зможе це визначити."
+            "value" : "Сказати, чи потребує програма «%@» оновлення, може лише Homebrew, але Peel не може визначити, коли Homebrew востаннє перевіряв наявність нових версій, тож не враховує того, що повідомляє Homebrew. Оновіть Homebrew на сторінці Homebrew або виконайте `%@` у Терміналі, і Peel знову зможе це визначити."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "只有Homebrew才能说明“%@”是否已是最新版本，但Peel无法判断Homebrew上次检查新版本是在何时，因此不会采用Homebrew给出的结果。请在Homebrew页面上更新Homebrew，或在“终端”中运行`brew update`，之后Peel便能再次判断。"
+            "value" : "只有Homebrew才能说明“%@”是否已是最新版本，但Peel无法判断Homebrew上次检查新版本是在何时，因此不会采用Homebrew给出的结果。请在Homebrew页面上更新Homebrew，或在“终端”中运行`%@`，之后Peel便能再次判断。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "只有Homebrew能說明「%@」是否已是最新版本，但Peel無法判斷Homebrew上次檢查新版本的時間，因此不會採信Homebrew的說法。請在「Homebrew」頁面上更新Homebrew，或在「終端機」中執行`brew update`，Peel就能再次判斷。"
+            "value" : "只有Homebrew能說明「%@」是否已是最新版本，但Peel無法判斷Homebrew上次檢查新版本的時間，因此不會採信Homebrew的說法。請在「Homebrew」頁面上更新Homebrew，或在「終端機」中執行`%@`，Peel就能再次判斷。"
           }
         }
       }

@@ -16,18 +16,20 @@ public struct FormulaInUse: Sendable, Hashable {
 
     @concurrent
     public static func of(formula name: String, cellar: URL) async -> FormulaInUse {
-        of(formula: name, cellar: cellar, home: .homeDirectory, root: URL(filePath: "/", directoryHint: .isDirectory))
+        of(
+            formula: name, cellar: cellar, home: .homeDirectory, root: URL(filePath: "/", directoryHint: .isDirectory),
+            brew: Homebrew.wordForTerminal
+        )
     }
 
-    static func of(formula name: String, cellar: URL, home: URL, root: URL) -> FormulaInUse {
+    static func of(formula name: String, cellar: URL, home: URL, root: URL, brew: String) -> FormulaInUse {
         func hasAJob(in library: URL, _ folder: String) -> Bool {
             !library.appending(path: "Library/\(folder)/homebrew.mxcl.\(name).plist").isMissing
         }
         // What `brew services start` writes, in the home's Library, or in the Mac's when it ran under `sudo`.
+        let stop = "\(brew) services stop \(Homebrew.lastWord(naming: name))"
         let stopCommand =
-            hasAJob(in: home, "LaunchAgents") ? "brew services stop \(Homebrew.lastWord(naming: name))"
-            : hasAJob(in: root, "LaunchDaemons") ? "sudo brew services stop \(Homebrew.lastWord(naming: name))"
-            : nil
+            hasAJob(in: home, "LaunchAgents") ? stop : hasAJob(in: root, "LaunchDaemons") ? "sudo \(stop)" : nil
         let folder = cellar.appending(path: name, directoryHint: .isDirectory)
         let prefix = cellar.deletingLastPathComponent()
         return FormulaInUse(

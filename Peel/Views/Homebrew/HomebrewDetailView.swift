@@ -58,7 +58,7 @@ struct HomebrewDetailView: View {
                                 NoteBadge(
                                     title: Text("Pinned"), systemImage: "pin",
                                     name: String(localized: "Pinned"),
-                                    detail: Text("Homebrew keeps a pinned package at its version when it upgrades the rest. Run `brew unpin` to let it upgrade again.")
+                                    detail: Text("Homebrew keeps a pinned package at its version when it upgrades the rest. Run `\("\(homebrew.wordForTerminal) unpin")` to let it upgrade again.")
                                 )
                             }
                             if !package.isInstalledOnRequest {
@@ -97,7 +97,8 @@ struct HomebrewDetailView: View {
                     kind: .caution
                 ) {
                     CopyButton(
-                        text: "brew reinstall --cask \(Homebrew.lastWord(naming: package.fullName))",
+                        text: "\(homebrew.wordForTerminal) reinstall --cask "
+                            + Homebrew.lastWord(naming: package.fullName),
                         title: "Copy Reinstall Command"
                     )
                 }
@@ -177,7 +178,7 @@ struct HomebrewDetailView: View {
                     if isUninstalledInTerminal {
                         CopyButton(
                             text: Homebrew.terminalCommand(
-                                "brew uninstall \(package.kind == .cask ? "--cask" : "--formula") "
+                                "\(homebrew.wordForTerminal) uninstall \(package.kind == .cask ? "--cask" : "--formula") "
                                     + Homebrew.lastWord(naming: package.fullName),
                                 keeping: homebrew.keptFormulaeNow
                             ),
@@ -283,7 +284,7 @@ struct HomebrewDetailView: View {
                     let kind = package.kind == .cask ? "--cask" : "--formula"
                     CopyButton(
                         text: Homebrew.terminalCommand(
-                            "brew upgrade \(kind) \(Homebrew.lastWord(naming: package.fullName))",
+                            "\(homebrew.wordForTerminal) upgrade \(kind) \(Homebrew.lastWord(naming: package.fullName))",
                             keeping: homebrew.keptFormulaeNow
                         ),
                         title: "Copy Upgrade Command"

@@ -15,6 +15,8 @@ struct AppHeader<Actions: View>: View {
     var updateFailure: UpdateFailure?
     var keptSince: Date?
     let cannotCheck: CannotCheck
+    /// The word that runs the person's Homebrew in Terminal (`Homebrew.wordForTerminal`).
+    let brew: String
     var total: SizeTotal?
     /// True when the app frees much less than its size, because most of it is shared with another copy.
     var sharesStorage = false
@@ -95,7 +97,8 @@ struct AppHeader<Actions: View>: View {
                     lastCheck: lastCheck,
                     failure: updateFailure,
                     keptSince: keptSince,
-                    cannotCheck: cannotCheck
+                    cannotCheck: cannotCheck,
+                    brew: brew
                 )
             }
         }

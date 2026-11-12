@@ -11,6 +11,8 @@ struct UpdateStatusBadge: View {
     /// The day an Up to date nothing renews anymore was found (`AppLibrary.keptUpToDate`).
     var keptSince: Date?
     let cannotCheck: CannotCheck
+    /// The word that runs the person's Homebrew in Terminal (`Homebrew.wordForTerminal`).
+    let brew: String
 
     var body: some View {
         BusyShown(isBusy: isChecking) { isShown in
@@ -82,9 +84,9 @@ struct UpdateStatusBadge: View {
             switch silence.reason {
             case .notCheckedRecently:
                 if let checked = silence.cask.lastUpdateCheck {
-                    Text("Only Homebrew can say whether \(app.name) is up to date, and Homebrew last checked for new versions \(checked, format: .relative(presentation: .named)). Peel counts what Homebrew says only for a day after it checks. Update Homebrew on the Homebrew page, or run `brew update` in Terminal, and Peel can tell again.")
+                    Text("Only Homebrew can say whether \(app.name) is up to date, and Homebrew last checked for new versions \(checked, format: .relative(presentation: .named)). Peel counts what Homebrew says only for a day after it checks. Update Homebrew on the Homebrew page, or run `\("\(brew) update")` in Terminal, and Peel can tell again.")
                 } else {
-                    Text("Only Homebrew can say whether \(app.name) is up to date, but Peel can’t tell when Homebrew last checked for new versions, so it doesn’t count what Homebrew says. Update Homebrew on the Homebrew page, or run `brew update` in Terminal, and Peel can tell again.")
+                    Text("Only Homebrew can say whether \(app.name) is up to date, but Peel can’t tell when Homebrew last checked for new versions, so it doesn’t count what Homebrew says. Update Homebrew on the Homebrew page, or run `\("\(brew) update")` in Terminal, and Peel can tell again.")
                 }
             case .installsTheNewest:
                 Text("Only Homebrew could say whether \(app.name) is up to date, but it installs whatever is newest each time, so it has no version to compare this copy with. Look for an update inside the app.")

@@ -429,6 +429,7 @@ struct GeneralSettingsView: View {
             Section {
                 let way = SelfUninstall.way(
                     cask: ownCask,
+                    brew: homebrew.wordForTerminal,
                     homebrewKnowsItsApps: homebrew.knowsWhetherItInstalledPeel,
                     unanswered: homebrew.unanswered
                 )
