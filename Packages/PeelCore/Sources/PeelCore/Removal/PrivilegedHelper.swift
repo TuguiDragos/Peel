@@ -277,13 +277,24 @@ public enum PrivilegedHelper {
     /// more.
     @concurrent
     public static func moveToTrash(_ urls: [URL]) async -> TrashResult {
+        await moveToTrash(urls, connecting: helperConnection, answerWait: answerWait)
+    }
+
+    @concurrent
+    static func moveToTrash(
+        _ urls: [URL], connecting connect: @escaping @Sendable () -> NSXPCConnection?, answerWait wait: TimeInterval
+    ) async -> TrashResult {
         let trash = URL.homeDirectory.appending(path: ".Trash", directoryHint: .isDirectory)
         // Read before the move, so that if the answer is lost, moved items can be found in the Trash by identity.
         let links = Dictionary(urls.map { ($0, FileIdentity.Link.of($0)) }, uniquingKeysWith: { first, _ in first })
         let paths = urls.map { $0.path(percentEncoded: false) }
-        let notAuthorized = Dictionary(paths.map { ($0, HelperRefusal.notAuthorized.rawValue) }) { first, _ in first }
-        let refused = HelperTrashReply(moved: [:], failed: notAuthorized)
-        let reply: HelperTrashReply? = await withHelper(fallback: nil, refused: refused) { helper, approval, finish in
+        let refusing = { (sentence: String) in
+            HelperTrashReply(moved: [:], failed: Dictionary(paths.map { ($0, sentence) }) { first, _ in first })
+        }
+        let reply: HelperTrashReply? = await withHelper(
+            connecting: connect, answerWait: wait, fallback: nil, notThere: refusing(Self.unavailable),
+            refused: refusing(HelperRefusal.notAuthorized.rawValue)
+        ) { helper, approval, finish in
             helper.moveItemsToTrash(
                 version: HelperIdentity.protocolVersion, approval: approval, atPaths: paths
             ) { moved, failed in
@@ -410,13 +421,16 @@ public enum PrivilegedHelper {
     /// Sends a request that changes something with the approval of the action under way, and answers `refused` when no
     /// administrator gave one.
     private static func withHelper<T: Sendable>(
+        connecting connect: @escaping @Sendable () -> NSXPCConnection? = helperConnection,
+        answerWait wait: TimeInterval = answerWait,
         fallback: T,
+        notThere: T? = nil,
         refused: T,
         _ body: @escaping @Sendable (any PeelHelperProtocol, Data, @escaping @Sendable (T) -> Void) -> Void
     ) async -> T {
         await withOneConsent {
             await request(
-                connecting: helperConnection, fallback: fallback, refused: refused,
+                connecting: connect, answerWait: wait, fallback: fallback, notThere: notThere, refused: refused,
                 approval: { await consent?.approval() }, body
             )
         }
@@ -424,16 +438,18 @@ public enum PrivilegedHelper {
 
     /// Sends a request only once the helper has answered, within its own short wait, on a connection of its own: a
     /// helper launchd keeps but cannot start never answers, and the request would wait the longest any request may.
-    /// The approval is asked for only then, so nobody is asked for what can't be done.
+    /// The approval is asked for only then, so nobody is asked for what can't be done. A helper that isn't there was
+    /// asked nothing, which `notThere` says; without one, `fallback` does, as for a request left unanswered.
     static func request<T: Sendable>(
         connecting connect: @escaping @Sendable () -> NSXPCConnection?,
         answerWait wait: TimeInterval = answerWait,
         fallback: T,
+        notThere: T? = nil,
         refused: T,
         approval: () async -> Data?,
         _ body: @escaping @Sendable (any PeelHelperProtocol, Data, @escaping @Sendable (T) -> Void) -> Void
     ) async -> T {
-        guard await isResponding(connecting: connect, waitingAtMost: wait) else { return fallback }
+        guard await isResponding(connecting: connect, waitingAtMost: wait) else { return notThere ?? fallback }
         guard let approval = await approval() else { return refused }
         return await ask(connecting: connect, waitingAtMost: requestWait, fallback: fallback) { helper, finish in
             body(helper, approval, finish)

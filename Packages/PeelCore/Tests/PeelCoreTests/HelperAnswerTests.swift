@@ -247,6 +247,18 @@ struct HelperAnswerTests {
         #expect(request.took < .seconds(PrivilegedHelper.requestWait))
     }
 
+    @Test func aHelperThatWasNeverAskedIsNotSaidToBeMovingAnything() async throws {
+        let helper = StandInHelper(answering: nil)
+        defer { helper.stop() }
+        let directory = try TemporaryDirectory()
+        let file = try directory.file("item")
+
+        let result = await PrivilegedHelper.moveToTrash([file], connecting: helper.connecting, answerWait: 0.2)
+
+        #expect(result.failures.map(\.reason) == [.failed(PrivilegedHelper.unavailable)])
+        #expect(file.isThere)
+    }
+
     @Test func aRequestIsSentToTheHelperOfThisVersion() async {
         let helper = StandInHelper(answering: HelperIdentity.protocolVersion)
         defer { helper.stop() }

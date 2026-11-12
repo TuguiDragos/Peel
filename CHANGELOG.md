@@ -565,8 +565,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   rather than holding Peel, as it did for an app on a disk that doesn't answer.
 - A long removal through Peel's helper ends with the helper's answer, so what it moved is in History and what it didn't
   get to stays, said so. Before, Peel stopped waiting first and called what the helper moved after that not moved.
-  When the helper doesn't answer at all, Peel says it doesn't know whether an item moved, and History lists it the next
-  time Peel opens if it did.
+  When the helper stops answering in the middle of a removal, Peel says it doesn't know whether an item moved, and
+  History lists it the next time Peel opens if it did.
 - The scan after a move measures again the folders Peel moved something out of or put something back into, no longer
   showing a size a slow measurement took before the move.
 - Move to Trash and Put Back no longer hold the window while Peel sets up the checks that keep what it protects in
