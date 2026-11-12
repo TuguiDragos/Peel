@@ -3,6 +3,7 @@ import SwiftUI
 
 struct HomebrewDetailView: View {
     @Environment(HomebrewLibrary.self) private var homebrew
+    @Environment(HelperModel.self) private var helper
     @Environment(AppLibrary.self) private var library
     @Environment(ExclusionsStore.self) private var exclusions
     @Environment(RemovalHistoryStore.self) private var history
@@ -126,7 +127,7 @@ struct HomebrewDetailView: View {
             }
 
             Section {
-                if let reason = homebrew.whyItCantChange {
+                if let reason = homebrew.whyItCantChange(isAdministrator: helper.isAdministrator) {
                     HStack(spacing: 8) {
                         Text(reason.detail)
                             .font(.callout)
@@ -171,7 +172,7 @@ struct HomebrewDetailView: View {
                 }
             }
 
-            if homebrew.whyItCantChange == nil {
+            if homebrew.whyItCantChange(isAdministrator: helper.isAdministrator) == nil {
                 PageActions {
                     if isUninstalledInTerminal {
                         CopyButton(
@@ -389,9 +390,9 @@ struct HomebrewDetailView: View {
         case (true, let command?):
             Text("`brew services` keeps a job for it. Homebrew leaves the job behind with nothing to run, so stop it first: `\(command)`")
         }
-        guard let said, let command = inUse.stopCommand, AdministratorCommand.needsAnAdministrator(command) else {
-            return said
-        }
+        guard let said, let command = inUse.stopCommand,
+              AdministratorCommand.needsAnAdministrator(command, isAdministrator: helper.isAdministrator)
+        else { return said }
         return Text("\(said)\n\n\(AdministratorCommand.note)")
     }
 

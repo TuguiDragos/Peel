@@ -364,7 +364,8 @@ struct MultipleAppsView: View {
             guard let left = uninstallation.leftInTheSystem else { continue }
             lines.append(left.whatStays(after: uninstallation.app.name))
             lines.append(left.step)
-            needsAnAdministrator = needsAnAdministrator || AdministratorCommand.needsAnAdministrator(left.command)
+            needsAnAdministrator = needsAnAdministrator
+                || AdministratorCommand.needsAnAdministrator(left.command, isAdministrator: helper.isAdministrator)
         }
         if needsAnAdministrator {
             lines.append(AdministratorCommand.note)
@@ -398,7 +399,8 @@ struct MultipleAppsView: View {
             }
             return CommandToRun.of(
                 app, first: uninstallation.commandToRunFirst, leftInTheSystem: uninstallation.leftInTheSystem,
-                cask: movesItsReceipt ? nil : library.cask(for: app), naming: list([app])
+                cask: movesItsReceipt ? nil : library.cask(for: app), isAdministrator: helper.isAdministrator,
+                naming: list([app])
             )
         }
     }

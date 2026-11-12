@@ -3,6 +3,7 @@ import SwiftUI
 
 struct HomebrewList: View {
     @Environment(HomebrewLibrary.self) private var homebrew
+    @Environment(HelperModel.self) private var helper
     @Environment(AppLibrary.self) private var library
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(\.openSettings) private var openSettings
@@ -36,7 +37,7 @@ struct HomebrewList: View {
             }
             // While searching, the page lists only the matching packages and hides every other section.
             if searchText.isEmpty, homebrew.isInstalled, !homebrew.needsDefinitions {
-                if let reason = homebrew.whyItCantChange {
+                if let reason = homebrew.whyItCantChange(isAdministrator: helper.isAdministrator) {
                     cantChange(reason)
                 }
                 installation
@@ -74,7 +75,7 @@ struct HomebrewList: View {
                 : homebrew.refusedBrew != nil ? "Peel Doesn’t Run This Homebrew"
                 : !homebrew.isInstalled ? "Homebrew Isn’t Installed"
                 : !homebrew.needsDefinitions ? nil
-                : homebrew.whyItCantChange?.title ?? "Homebrew Has to Update First",
+                : homebrew.whyItCantChange(isAdministrator: helper.isAdministrator)?.title ?? "Homebrew Has to Update First",
             wasStopped: homebrew.scanRun.wasStopped
         )
         .toolbar {
@@ -472,7 +473,7 @@ struct HomebrewList: View {
 
     @ViewBuilder
     private var updateFirst: some View {
-        if let reason = homebrew.whyItCantChange {
+        if let reason = homebrew.whyItCantChange(isAdministrator: helper.isAdministrator) {
             cantChange(reason)
         } else {
             Notice(
@@ -794,7 +795,7 @@ struct HomebrewList: View {
                 }
             }
         } else if homebrew.needsDefinitions, homebrew.packages?.isEmpty != false, homebrew.runningCommand == nil,
-                  let reason = homebrew.whyItCantChange {
+                  let reason = homebrew.whyItCantChange(isAdministrator: helper.isAdministrator) {
             ContentUnavailableView {
                 Label(reason.title, systemImage: "person.crop.circle.badge.exclamationmark")
             } description: {

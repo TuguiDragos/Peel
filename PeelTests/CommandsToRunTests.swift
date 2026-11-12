@@ -25,10 +25,16 @@ struct CommandsToRunTests {
         let left = try #require(LeftInTheSystem.of(cask, environment: environment))
         let app = InstalledApp(url: URL(filePath: "/Applications/battery.app"), bundleIdentifier: nil, name: "battery")
 
-        let commands = CommandToRun.of(app, first: first, leftInTheSystem: left, cask: cask, naming: "battery")
+        let commands = CommandToRun.of(
+            app, first: first, leftInTheSystem: left, cask: cask, isAdministrator: true, naming: "battery"
+        )
+        let forAStandardAccount = CommandToRun.of(
+            app, first: first, leftInTheSystem: left, cask: cask, isAdministrator: false, naming: "battery"
+        )
 
         #expect(commands.map(\.command) == [first.command, left.command, "brew uninstall --cask battery"])
         #expect(commands.map(\.isForAfterwards) == [false, true, true])
+        #expect(forAStandardAccount[1].said != commands[1].said, "a standard account reads who runs the sudo command")
         let outcome = RemovalOutcome()
         outcome.report(
             TrashResult(),

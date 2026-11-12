@@ -207,7 +207,7 @@ final class HomebrewLibrary {
 
     /// Nil when this account can change Homebrew. Root can't help, since Homebrew refuses to run as root (`brew.sh`),
     /// and a folder of this account's own only lacks a permission, so only another account's is theirs to change.
-    var whyItCantChange: CantChange? {
+    func whyItCantChange(isAdministrator: Bool) -> CantChange? {
         guard let unwritable = installation?.unwritable else { return nil }
         let folder = unwritable.folder.abbreviatedPath
         let command = unwritable.command ?? ""
@@ -222,7 +222,7 @@ final class HomebrewLibrary {
                 title: "Homebrew Belongs to Another Account",
                 detail: "Homebrew on this Mac belongs to another account, so only that account can update or change it."
             )
-        case .root where AdministratorCommand.needsAnAdministrator(command):
+        case .root where AdministratorCommand.needsAnAdministrator(command, isAdministrator: isAdministrator):
             return CantChange(
                 title: "This Account Can’t Change Homebrew",
                 detail: "\(folder) belongs to root, so Homebrew can’t change it, and Homebrew doesn’t run as root. To give the folder back to this account, an administrator runs this in Terminal, or you run it after `su` and an administrator’s short name: \(command)",

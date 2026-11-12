@@ -507,7 +507,7 @@ struct AppDetailView: View {
         if urls.contains(plan.app.url), let left = plan.uninstallation?.leftInTheSystem {
             lines.append(left.whatStays(after: plan.app.name))
             lines.append(left.step)
-            if AdministratorCommand.needsAnAdministrator(left.command) {
+            if AdministratorCommand.needsAnAdministrator(left.command, isAdministrator: helper.isAdministrator) {
                 lines.append(AdministratorCommand.note)
             }
         }
@@ -531,7 +531,8 @@ struct AppDetailView: View {
         guard urls.contains(plan.app.url) else { return [] }
         return CommandToRun.of(
             plan.app, first: plan.uninstallation?.commandToRunFirst,
-            leftInTheSystem: plan.uninstallation?.leftInTheSystem, cask: caskStillListing(after: urls)
+            leftInTheSystem: plan.uninstallation?.leftInTheSystem, cask: caskStillListing(after: urls),
+            isAdministrator: helper.isAdministrator
         )
     }
 

@@ -17,7 +17,7 @@ struct CommandToRun: Identifiable {
     /// which app it is.
     static func of(
         _ app: InstalledApp, first: CommandToRunFirst?, leftInTheSystem: LeftInTheSystem?, cask: HomebrewPackage?,
-        naming: String? = nil
+        isAdministrator: Bool, naming: String? = nil
     ) -> [CommandToRun] {
         let name = naming ?? app.name
         var commands: [CommandToRun] = []
@@ -37,7 +37,7 @@ struct CommandToRun: Identifiable {
             let said = Text("\(left.whatStays(after: app.name))\n\n\(left.step)")
             commands.append(CommandToRun(
                 app: name,
-                said: AdministratorCommand.needsAnAdministrator(left.command)
+                said: AdministratorCommand.needsAnAdministrator(left.command, isAdministrator: isAdministrator)
                     ? Text("\(said)\n\n\(AdministratorCommand.note)") : said,
                 command: left.command,
                 isForAfterwards: true

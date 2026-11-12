@@ -82,7 +82,10 @@ private struct StandInBrew {
         #expect(homebrew.needsDefinitions)
         #expect(homebrew.installation?.version == "7.0.0")
         #expect(!homebrew.mayChange)
-        #expect(homebrew.whyItCantChange?.command == "chmod u+w '\(PathPattern.comparablePath(of: brew.folder))'")
+        #expect(
+            homebrew.whyItCantChange(isAdministrator: true)?.command
+                == "chmod u+w '\(PathPattern.comparablePath(of: brew.folder))'"
+        )
     }
 
     @Test func oneBrewsFigureDoesNotOutliveTheChoiceOfAnother() async throws {

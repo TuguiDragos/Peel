@@ -5,6 +5,7 @@ import SwiftUI
 /// uninstaller removes it whole, so Peel leaves it and its files where they are and offers the maker's step and
 /// instructions.
 struct MakersUninstallerNotice: View {
+    @Environment(HelperModel.self) private var helper
     let app: String
     let uninstaller: MakersUninstaller
 
@@ -33,9 +34,9 @@ struct MakersUninstallerNotice: View {
     }
 
     private var detail: Text {
-        guard case .command(let command) = uninstaller.step, AdministratorCommand.needsAnAdministrator(command) else {
-            return said
-        }
+        guard case .command(let command) = uninstaller.step,
+              AdministratorCommand.needsAnAdministrator(command, isAdministrator: helper.isAdministrator)
+        else { return said }
         return Text("\(said)\n\n\(AdministratorCommand.note)")
     }
 

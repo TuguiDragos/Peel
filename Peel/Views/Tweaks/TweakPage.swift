@@ -72,6 +72,8 @@ struct TweakPage: View {
 }
 
 struct SleepNotice: View {
+    @Environment(HelperModel.self) private var helper
+
     /// What to do with the command, said above it. An account that isn't an administrator's reads who runs it below.
     static func howToUndo(needsAnAdministrator: Bool) -> LocalizedStringResource {
         needsAnAdministrator
@@ -80,7 +82,9 @@ struct SleepNotice: View {
     }
 
     var body: some View {
-        let needsAnAdministrator = AdministratorCommand.needsAnAdministrator(SleepSetting.undoCommand)
+        let needsAnAdministrator = AdministratorCommand.needsAnAdministrator(
+            SleepSetting.undoCommand, isAdministrator: helper.isAdministrator
+        )
         VStack(alignment: .leading, spacing: 6) {
             StatusLabel(title: Text("This Mac can’t sleep"), tint: .accentColor)
                 .font(.headline)
