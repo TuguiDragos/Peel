@@ -195,6 +195,21 @@ struct KnownCasksTests {
         #expect(CaskEvidence.cask(for: copy, in: casks)?.name == "fox")
     }
 
+    @Test(arguments: [("143.0.4", "fox"), ("141.0", "fox"), ("146.0", nil)] as [(String, String?)])
+    func aCopyBehindOnAProductWhoseOtherLinesAreChannelsIsOnThePlainLine(version: String, line: String?) {
+        let copy = InstalledApp(
+            url: URL(filePath: "/Applications/Fox.app"), bundleIdentifier: "org.example.fox", name: "Fox",
+            version: version
+        )
+        let casks = [("fox@beta", "145.0b9"), ("fox@esr", "140.4.0"), ("fox", "144.0.2")].map {
+            HomebrewPackage(
+                name: $0.0, kind: .cask, latestVersion: $0.1, appNames: ["Fox.app"], quitIdentifiers: ["org.example.fox"]
+            )
+        }
+
+        #expect(CaskEvidence.cask(for: copy, in: casks)?.name == line)
+    }
+
     @Test func aCaskThatQuitsTheAppsOwnHelperProvesAnAppWhoseIdentifierNamesNoMaker() {
         let atlas = app("Atlas", "com.electron.atlas")
         let ownHelper = HomebrewPackage(

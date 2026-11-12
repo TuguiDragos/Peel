@@ -47,8 +47,10 @@ public struct CaskEvidence: Sendable, Hashable {
     /// Returns the cask whose definition describes this app. Several casks can describe one app (`firefox`,
     /// `firefox@beta`, and `firefox@esr` all install `Firefox.app`), so the installed one is preferred, and otherwise
     /// the line the copy is on: the one at the copy's very version, else the one whose version starts with the copy's
-    /// first number, the plain token first, else the closest one below it, and none when no line is. A copy whose
-    /// version can't be read gets the plain one.
+    /// first number, the plain token first, else the closest older major line below it, which Homebrew names with a
+    /// number (`@19`), and none when no line is. A channel (`@esr`, `@beta`) is no older major line: where a product
+    /// has only those beside the plain token, a copy behind the plain one is on it. A copy whose version can't be
+    /// read gets the plain one.
     static func cask(for app: InstalledApp, in casks: [HomebrewPackage]) -> HomebrewPackage? {
         let proving = casks.filter { proves($0, isThe: app) }
         if let installed = proving.first(where: { $0.installedVersion != nil }) { return installed }
@@ -61,7 +63,17 @@ public struct CaskEvidence: Sendable, Hashable {
         let lines = proving.compactMap { cask in major(cask.latestVersion).map { (cask: cask, major: $0) } }
         let onIt = lines.filter { $0.major == copy }
         if let line = onIt.first(where: { isPlain($0.cask) }) ?? onIt.first { return line.cask }
-        return lines.filter { $0.major < copy }.max { $0.major < $1.major }?.cask
+        let numbered = lines.filter { isANumberedLine($0.cask.name) }
+        guard numbered.isEmpty else { return numbered.filter { $0.major < copy }.max { $0.major < $1.major }?.cask }
+        return lines.first { isPlain($0.cask) && copy < $0.major }?.cask
+    }
+
+    /// Whether a cask's token names an older major line of its product, as `parallels@19` does: what follows its `@`
+    /// is a version number.
+    private static func isANumberedLine(_ token: String) -> Bool {
+        guard let at = token.lastIndex(of: "@") else { return false }
+        let line = token[token.index(after: at)...]
+        return !line.isEmpty && line.allSatisfy { $0.isASCII && ($0.isNumber || $0 == ".") }
     }
 
     /// Returns the names a cask for this app could go by. Homebrew's token doesn't always follow the app's
