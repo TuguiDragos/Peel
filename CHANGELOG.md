@@ -641,8 +641,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Terminal, since which `brew` Peel runs is a file any program of your account can write.
 - Put Back puts nothing inside an app: a record of History written by hand could place a file in another app's
   bundle, and Peel moves an app only whole.
-- A saved copy of an app's settings puts back only what a reset of that app saves: one of Apple's settings only when
-  it is the app's own, and none of an app you excluded.
+- Putting back a saved copy of an app's settings no longer replaces one of Apple's settings that isn't the app's own,
+  nor the settings of an app you excluded, when a file for them was added to the copy's folder.
 - Peel's own updates come only from the feed its app names, and Peel sends no profile of your Mac, whatever its
   preferences hold.
 - An app can no longer have another installed app's files selected for its uninstall by naming, among what its bundle

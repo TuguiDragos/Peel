@@ -657,8 +657,9 @@ A reset clears an app's settings and never the app itself.
 - Before anything moves, Peel saves the app's settings, and if that copy fails, nothing moves. Settings lists the saved
   copies, where each can be put back or moved to the Trash, since one can hold a license key, and they stay until you
   move them there. Putting one back asks first, and saves the settings the app has now as a copy of their own before it
-  replaces them. A copy is a folder any program of your account can add a file to, so it puts back only what a reset
-  of that app saves: one of Apple's settings only when it is the app's own, and none of an app you excluded.
+  replaces them. A copy is a folder any program of your account can add a file to, so putting one back never
+  replaces one of Apple's settings unless it is the app's own, nor the settings of an app you excluded. Any other
+  settings file in the folder goes back with the rest.
 - What the app keeps for you (its Application Support folder, group containers, and application scripts) goes only
   when you select it, and is never offered for Mail, Messages, Notes, or Photos.
 - Inside a sandboxed app's container, a reset touches only the app's preferences, saved state, caches, logs, and web

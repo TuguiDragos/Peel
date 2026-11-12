@@ -194,7 +194,8 @@ public enum PreferenceBackup {
             domain(from: file.lastPathComponent).map { ($0, file) }
         }
         guard !saved.isEmpty else { return .copyUnreadable(.noSettings) }
-        // Only what a reset of this app would have saved, since anyone can add a file to the copy's folder.
+        // Anyone can add a file to the copy's folder, so none of Apple's settings goes back but this app's own, nor
+        // any of an excluded app.
         let taken = saved.filter { domain, _ in
             (!ProtectedData.isApplesName(domain.name) || PreferenceCleanup.isOwned(domain.name, by: bundleIdentifier))
                 && !exclusions.excludes(bundleIdentifier: domain.name)
