@@ -119,9 +119,9 @@ public struct DuplicateGroup: Sendable, Hashable, Identifiable {
         !movableFiles.isEmpty || everyCopySyncs
     }
 
-    /// What moving the suggested copies would free.
+    /// What moving the suggested copies would free, capped: a server can report any number of blocks.
     public var reclaimableSize: Int64 {
-        suggestedFiles.reduce(0) { $0 + $1.reclaimableSize }
+        suggestedFiles.map(\.reclaimableSize).cappedSum
     }
 }
 
@@ -156,7 +156,7 @@ public struct DuplicateFolderGroup: Sendable, Hashable, Identifiable {
     }
 
     public var reclaimableSize: Int64 {
-        folders.dropFirst().reduce(0) { $0 + $1.reclaimableSize }
+        folders.dropFirst().map(\.reclaimableSize).cappedSum
     }
 
     public func matches(_ query: String) -> Bool {
@@ -199,6 +199,11 @@ public struct DuplicateScan: Sendable {
     /// one locked folder at any depth. Duplicates may then exist where Peel could not look.
     public var readNothing: Bool {
         groups.isEmpty && folderGroups.isEmpty && !notLookedIn.isEmpty
+    }
+
+    /// What moving every group's suggested copies and folders would free.
+    public var reclaimableSize: Int64 {
+        (groups.map(\.reclaimableSize) + folderGroups.map(\.reclaimableSize)).cappedSum
     }
 
     /// The copies each group suggests moving. A copy that stays is never suggested.

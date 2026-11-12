@@ -874,10 +874,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
                 Output.line(Self.heading(for: group))
                 Output.table(Self.rows(for: group), indent: "  ")
             }
-            let total =
-                scan.groups.reduce(0) { $0 + $1.reclaimableSize }
-                + scan.folderGroups.reduce(0) { $0 + $1.reclaimableSize }
-            Output.line("Total to free: \(Output.size(total))")
+            Output.line("Total to free: \(Output.size(scan.reclaimableSize))")
         }
         Self.notes(for: scan).forEach(Output.note)
     }

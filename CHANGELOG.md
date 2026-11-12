@@ -504,8 +504,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Duplicates
 
-- Folders of sparse files whose lengths add up past the largest size a number can hold no longer make a scan quit
-  unexpectedly, in the app and in `peel duplicates`.
+- Folders of sparse files whose lengths add up past the largest size a number can hold, and copies a network share
+  reports as larger than that, no longer make a scan quit unexpectedly, in the app and in `peel duplicates`.
 - On exFAT and FAT32 disks, a file rewritten in place under its old date is read again, no longer offered as a copy
   of the file it was a copy of: what Duplicates remembers between scans counts only on APFS. Right before a move,
   Peel reads again each copy that goes and the copies that stay, and a copy moves only while one that stays holds the
@@ -538,6 +538,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Edit > Select offers the Select Recommended, Select All, and Deselect All of the page in front, so what a page
   selects can be changed from the keyboard too.
 - Moving a file whose creation date a network share reports as unknown, such as 1601, no longer makes Peel quit
+  unexpectedly.
+- Measuring a folder on a network share that reports files larger than any number can hold no longer makes Peel quit
   unexpectedly.
 - An alert whose only button is OK closes with Return, and the questions before Remove Peel and before uninstalling
   Peel's helper close with Escape, as on any Mac.

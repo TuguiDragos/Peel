@@ -789,6 +789,31 @@ struct DuplicateFinderTests {
         #expect(DuplicateGroup(id: "c", files: [plain, clone]).sharesStorage)
     }
 
+    @Test func whatCopiesWouldFreeStopsAtTheLargestNumberAServerCanReport() {
+        func file(_ name: String) -> DuplicateFile {
+            DuplicateFile(
+                url: URL(filePath: "/Volumes/Share/\(name)"), size: 100, reclaimableSize: .max, allocatedSize: .max,
+                identity: FileIdentity(stat())
+            )
+        }
+        func folder(_ name: String) -> DuplicateFolder {
+            DuplicateFolder(
+                url: URL(filePath: "/Volumes/Share/\(name)", directoryHint: .isDirectory), fileCount: 1, size: 100,
+                reclaimableSize: .max, contents: "", neverProjects: []
+            )
+        }
+        let files = DuplicateGroup(id: "a", files: ["one", "two", "three"].map(file))
+        let folders = DuplicateFolderGroup(id: "b", folders: ["four", "five", "six"].map(folder))
+        let scan = DuplicateScan(
+            groups: [files, files], folderGroups: [folders], unreadableLocations: [], skippedLocations: [],
+            needsFullDiskAccess: false
+        )
+
+        #expect(files.reclaimableSize == .max)
+        #expect(folders.reclaimableSize == .max)
+        #expect(scan.reclaimableSize == .max)
+    }
+
     @Test func prefersACopyOutsideTheFolderEveryAccountSharesAndNeverSuggestsOneThere() async throws {
         let order = DuplicateFinder.KeepOrder(home: URL(filePath: "/Users/me", directoryHint: .isDirectory))
         let identity = FileIdentity(stat())

@@ -262,8 +262,9 @@ public enum FileSize {
                     severalNames[identifier, default: (0, links, Int64(values.totalFileAllocatedSize ?? 0))].seen += 1
                     return .next
                 }
-                taken += Int64(values.totalFileAllocatedSize ?? 0)
-                total += freed(by: file, values)
+                // Capped: a server can report any size.
+                taken = taken.addingCapped(Int64(values.totalFileAllocatedSize ?? 0))
+                total = total.addingCapped(freed(by: file, values))
                 return .next
             }
             switch step {
@@ -272,8 +273,8 @@ public enum FileSize {
             case .stopped: return nil
             }
         }
-        total += severalNames.values.reduce(0) { $0 + ($1.seen >= $1.count ? $1.size : 0) }
-        taken += severalNames.values.reduce(0) { $0 + $1.size }
+        total = total.addingCapped(severalNames.values.map { $0.seen >= $0.count ? $0.size : 0 }.cappedSum)
+        taken = taken.addingCapped(severalNames.values.map(\.size).cappedSum)
         return FolderContents(
             size: total,
             holdsRepository: holdsRepository,
