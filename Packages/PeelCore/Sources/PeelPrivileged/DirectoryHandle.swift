@@ -85,6 +85,28 @@ public final class DirectoryHandle: Sendable {
         return .success((folder, made))
     }
 
+    /// The folder `name` inside this one when it belongs to `owner`, never a link or a file in its place. With `mode`
+    /// it is made when nothing is there, given to `owner` and its mode through the folder just made, never by name.
+    func folder(_ name: String, making mode: mode_t?, ownedBy owner: uid_t) -> DirectoryHandle? {
+        var made: DirectoryHandle?
+        if let mode, name.withCString({ mkdirat(descriptor, $0, 0o700) }) == 0, let folder = child(name) {
+            _ = fchown(folder.descriptor, owner, gid_t(bitPattern: -1))
+            _ = fchmod(folder.descriptor, mode)
+            made = folder
+        }
+        guard let folder = made ?? child(name), let info = folder.status, info.st_mode & S_IFMT == S_IFDIR,
+              info.st_uid == owner
+        else { return nil }
+        return folder
+    }
+
+    var mode: mode_t? { status?.st_mode }
+
+    private var status: stat? {
+        var info = stat()
+        return fstat(descriptor, &info) == 0 ? info : nil
+    }
+
     /// Takes away the folder `name` inside this one, only while it is still the empty folder `made` names.
     public func removeFolder(_ name: String, if made: ItemIdentity) {
         var info = stat()
@@ -112,9 +134,7 @@ public final class DirectoryHandle: Sendable {
 
     /// The owner of the directory itself, read through the descriptor.
     public func ownerIdentifier() -> uid_t? {
-        var info = stat()
-        guard fstat(descriptor, &info) == 0 else { return nil }
-        return info.st_uid
+        status?.st_uid
     }
 }
 

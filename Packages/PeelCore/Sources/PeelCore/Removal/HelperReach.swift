@@ -5,8 +5,6 @@ internal import PeelPrivileged
 /// (`PrivilegedPathPolicy.refusal(of:)`) with its folders placed under the environment's root.
 struct HelperReach: Sendable {
     private let policy: PrivilegedPathPolicy
-    /// False for an account whose Trash is on another disk than the helper's own folder, where it moves nothing.
-    private let reachesTheTrash: Bool
 
     init(environment: SearchEnvironment) {
         let root = PathPattern.comparablePath(of: environment.rootDirectory)
@@ -20,7 +18,6 @@ struct HelperReach: Sendable {
             manifestLocations: PrivilegedPathPolicy.manifestLocations.map { base + $0 },
             plugInLocations: PrivilegedPathPolicy.plugInLocations.map { base + $0 }
         )
-        reachesTheTrash = HelperLedger.reachesTheTrash(of: PathPattern.comparablePath(of: environment.homeDirectory))
     }
 
     /// True for an item in a folder command-line tools or their shell completions are linked into, which the helper
@@ -40,13 +37,13 @@ struct HelperReach: Sendable {
         return rejection == .unresolvableParent ? nil : rejection
     }
 
-    /// True when the helper would refuse `url` for where it is: outside the folders it serves, in `/Applications`
-    /// without being an app or as part of another app, or in a folder command-line tools or their completions are
-    /// linked into as anything but a link that leads nowhere, or into `leaving`, which moves first; and for anything,
-    /// when this account's Trash is on another disk. `RemovalGuard` judges what the item itself is.
+    /// True when the helper would refuse `url` for where it is: on another disk than its own, outside the folders it
+    /// serves, in `/Applications` without being an app or as part of another app, or in a folder command-line tools or
+    /// their completions are linked into as anything but a link that leads nowhere, or into `leaving`, which moves
+    /// first. `RemovalGuard` judges what the item itself is.
     func isBeyond(_ url: URL, leaving: URL? = nil) -> Bool {
-        guard reachesTheTrash else { return true }
         let path = url.path(percentEncoded: false)
+        guard HelperLedger.reaches(itemAt: path) else { return true }
         if let refusal = policy.refusal(of: path) {
             return [.outsideAllowedLocations, .notAnApplication, .partOfAnotherApp].contains(refusal)
         }

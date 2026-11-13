@@ -216,9 +216,11 @@ disk that somebody may have replaced.
 - A rename still goes by name, so every item the helper moves passes through `Staging`, beside its ledger, which only
   root can reach (`HelperLedger.whileStaging`), and is checked there before it goes on; anything but the item goes
   back. Moving through `Staging` takes a rename within one disk that can refuse to replace a name, so the helper
-  moves nothing to or from another disk than the startup disk: nothing from outside it, and nothing at all for an
-  account whose home folder, and so its Trash, is on another disk (`HelperLedger.reachesTheTrash`, which
-  `HelperReach` asks too, so Peel leaves those items to an administrator). It never takes a name with a placeholder.
+  moves nothing to or from another disk than the startup disk (`HelperLedger.reaches`, which `HelperReach` asks too,
+  so Peel leaves such an item to an administrator). For an account whose home folder is on another disk, it moves
+  what is on the startup disk to the Trash macOS keeps for that account there, `.Trashes/<uid>` at the top of the
+  startup disk's data, and makes it as macOS makes one on any other disk, since macOS makes none there
+  (`AccountTrash`). It never takes a name with a placeholder.
 - A new operation needs `PrivilegedPathPolicyTests`, and any change to the helper a bump of
   `HelperIdentity.protocolVersion`, so Peel never works with a helper of another version.
 - The helper's identifier and its launchd property list stay the same from one version to the next. Updates rely on

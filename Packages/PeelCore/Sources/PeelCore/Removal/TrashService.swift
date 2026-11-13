@@ -1255,17 +1255,17 @@ public struct TrashService: Sendable {
         return PrivilegedPathPolicy.resolvedPath(url.deletingLastPathComponent().path(percentEncoded: false))
     }
 
-    /// The Trashes an item in `folder` could be in, with links resolved: the home's, and its volume's.
+    /// The Trashes an item in `folder` could be in, with links resolved: the home's, and its disk's.
     private func trashes(forItemsIn folder: String) -> [String] {
         Self.trashes(forItemsIn: folder, homes: [.homeDirectory, environment.homeDirectory])
     }
 
     private static func trashes(forItemsIn folder: String, homes: [URL]) -> [String] {
-        var trashes = homes.map { $0.appending(path: ".Trash", directoryHint: .isDirectory) }
-        if let volume = try? URL(filePath: folder).resourceValues(forKeys: [.volumeURLKey]).volume {
-            trashes.append(volume.appending(path: ".Trashes/\(getuid())", directoryHint: .isDirectory))
+        var trashes = homes.map { $0.appending(path: ".Trash").path(percentEncoded: false) }
+        if let top = AccountTrash.top(ofTheDiskOf: folder) {
+            trashes.append((top == "/" ? "" : top) + "/.Trashes/\(getuid())")
         }
-        return trashes.compactMap { PrivilegedPathPolicy.resolvedPath($0.path(percentEncoded: false)) }
+        return trashes.compactMap(PrivilegedPathPolicy.resolvedPath)
     }
 
     /// Whether `url` is a Trash or inside one, links resolved: `home`'s, or its volume's. What isn't there is in none.
@@ -1382,8 +1382,8 @@ public struct TrashService: Sendable {
     }
 
     /// What the line written before `url` moves records: where it is, what it is there, and the place in its Trash
-    /// under its own name. The helper puts what it moves in the home's Trash, as a move puts an item on the home's
-    /// disk.
+    /// under its own name. The helper puts what it moves in the Trash macOS keeps for the account on the item's disk,
+    /// as a move does.
     private func departing(_ url: URL) -> TrashedItem {
         let trash = VolumeTrashes.trash(forItemAt: url, home: environment.homeDirectory)
         return TrashedItem(

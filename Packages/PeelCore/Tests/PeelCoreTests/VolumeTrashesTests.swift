@@ -1,6 +1,7 @@
 import Darwin
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct VolumeTrashesTests {
@@ -15,7 +16,7 @@ struct VolumeTrashesTests {
 
         let folders = VolumeTrashes.folders(forAppsAt: [app, calculator, app], home: .homeDirectory)
 
-        let trash = disk.url.appending(path: ".Trashes/\(getuid())", directoryHint: .isDirectory)
-        #expect(folders.map(PathPattern.comparablePath) == [PathPattern.comparablePath(of: trash)])
+        let top = try #require(PrivilegedPathPolicy.resolvedPath(disk.url.path(percentEncoded: false)))
+        #expect(folders.map(PathPattern.comparablePath) == [top + "/.Trashes/\(getuid())"])
     }
 }

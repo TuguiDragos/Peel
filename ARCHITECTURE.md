@@ -307,9 +307,12 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 - A rename goes by name, so something else can take an item's name between the last look and the move. The helper
   takes every item through `Staging`, a folder beside its ledger that only root can reach, and checks there that what
   arrived is the item it opened and, for a Put Back, that the place takes it as it is now; anything else goes back
-  where it came from. So it moves nothing to or from another disk than its own folder's, which also leaves an
-  account whose Trash is on another disk with nothing it can move (`HelperLedger.reaches`, asked once a request,
-  and `reachesTheTrash` for `HelperReach`), nor where a rename can't refuse to replace a name. What a move cut short
+  where it came from. So it moves nothing to or from another disk than its own folder's (`HelperLedger.reaches`,
+  asked of the Trash and of each item, and by `HelperReach` of each item's folder), nor where a rename can't refuse
+  to replace a name. An account whose home folder is on another disk has its Trash for the startup disk at the top of
+  the startup disk's data, `/System/Volumes/Data/.Trashes/<uid>`, where macOS names it but makes none, so the helper
+  makes it as macOS makes one on any other disk: `.Trashes` root's and closed to everyone else, the account's folder
+  its own alone (`AccountTrash`, `PrivilegedPathPolicy.openTrash(ownedBy:making:)`). What a move cut short
   leaves in `Staging` goes to its account's Trash when the helper starts and before Remove Peel moves the ledger
   (`HelperLedger.recoverStaged`); an item that could neither reach its place nor go back keeps its record meanwhile, and
   the answer says so (`StagedFailure.leftInStaging`).

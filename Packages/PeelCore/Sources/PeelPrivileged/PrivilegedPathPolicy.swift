@@ -106,6 +106,8 @@ public struct PrivilegedPathPolicy: Sendable {
     /// The folders of the home's Library that Peel searches, lowercased, as names from the root.
     private let searchedFolders: Set<[String]>
     private let homeDirectory: String
+    /// The top of the disk the helper moves on, where an account whose home is on another disk has its Trash.
+    private let disk: String
     private let trustedOwner: uid_t
 
     public init(
@@ -117,9 +119,11 @@ public struct PrivilegedPathPolicy: Sendable {
         manifestLocations: [String] = Self.manifestLocations,
         plugInLocations: [String] = Self.plugInLocations,
         ownTool: String? = nil,
+        disk: String = AccountTrash.helpersDisk,
         trustedOwner: uid_t = 0
     ) {
         self.homeDirectory = homeDirectory
+        self.disk = disk
         self.trustedOwner = trustedOwner
         links = linkLocations.compactMap(Self.realPath)
         manifests = manifestLocations.compactMap(Self.realPath)
@@ -384,15 +388,26 @@ public struct PrivilegedPathPolicy: Sendable {
         )
     }
 
-    /// Opens the user's own Trash. A link in place of `.Trash` is refused, and the folder must belong to
-    /// `user`, so the Trash cannot be used to drop a root-owned file somewhere else.
-    public func openTrash(ownedBy user: uid_t) -> DirectoryHandle? {
+    /// Opens the Trash macOS keeps for `user` on the disk the helper moves on (`AccountTrash`): `.Trash` in the home
+    /// when the home is on that disk, else `.Trashes/<uid>` at the top of the disk. A link in place of either is
+    /// refused, and the Trash must belong to `user`, so it cannot be used to drop a root-owned file somewhere else.
+    /// macOS makes no `.Trashes` on the startup disk, so `making` makes it as macOS makes it on any other disk.
+    public func openTrash(ownedBy user: uid_t, making: Bool = false) -> DirectoryHandle? {
+        guard let home = Self.realPath(homeDirectory) else { return nil }
+        guard AccountTrash.areOnOneDisk(home, disk) == false else {
+            guard let trash = (try? DirectoryHandle.at(canonical: home).get())?.child(".Trash"),
+                  trash.ownerIdentifier() == user
+            else { return nil }
+            return trash
+        }
+        // The folder of every account's Trash on the disk is root's, and nobody else adds to it, or, with the sticky
+        // bit, takes another account's folder out of it.
         guard
-            let home = Self.realPath(homeDirectory),
-            let trash = (try? DirectoryHandle.at(canonical: home).get())?.child(".Trash"),
-            trash.ownerIdentifier() == user
+            let top = Self.realPath(disk).flatMap({ try? DirectoryHandle.at(canonical: $0).get() }),
+            let trashes = top.folder(".Trashes", making: making ? 0o1311 : nil, ownedBy: trustedOwner),
+            let mode = trashes.mode, mode & 0o022 == 0 || mode & S_ISVTX != 0
         else { return nil }
-        return trash
+        return trashes.folder("\(user)", making: making ? 0o700 : nil, ownedBy: user)
     }
 
     /// Opens the item at `path` when, with links resolved, it sits inside `trash`.

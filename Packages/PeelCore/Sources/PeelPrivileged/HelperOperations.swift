@@ -31,7 +31,9 @@ public enum HelperOperations {
         case .failure(let refused): return refusal(refused, for: account)
         }
         let policy = policy(admitted)
-        guard let trash = policy.openTrash(ownedBy: admitted.user) else { return refusal(.noTrash, for: admitted.user) }
+        guard let trash = policy.openTrash(ownedBy: admitted.user, making: true) else {
+            return refusal(.noTrash, for: admitted.user)
+        }
         let deadline = ContinuousClock.now + .seconds(HelperRequest.timeToMove)
 
         var failed: [String: String] = [:]
@@ -115,7 +117,7 @@ public enum HelperOperations {
             HelperLog.note(request, for: account, "refused. \(refused.rawValue)")
             return refused.rawValue
         }
-        guard let trash = policy(admitted).openTrash(ownedBy: admitted.user) else {
+        guard let trash = policy(admitted).openTrash(ownedBy: admitted.user, making: true) else {
             HelperLog.note(request, for: admitted.user, "refused. \(HelperRefusal.noTrash.rawValue)")
             return HelperRefusal.noTrash.rawValue
         }

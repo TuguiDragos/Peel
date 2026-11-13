@@ -613,9 +613,11 @@ public enum ProtectedData: Sendable {
     }
 
     /// True at or inside the Trash macOS keeps at the top of a disk, `.Trashes`, as `~/.Trash` is the home's: what is
-    /// there is on its way out. The names arrive lower-cased.
+    /// there is on its way out. The startup disk's is at the top of its data, `/System/Volumes/Data`. The names arrive
+    /// lower-cased.
     private static func isInADisksTrash(_ names: [String]) -> Bool {
         names.first == ".trashes" || (names.count > 2 && names[0] == "volumes" && names[2] == ".trashes")
+            || (names.count > 3 && names[0] == "system" && names[1] == "volumes" && names[3] == ".trashes")
     }
 
     /// The home the caller named, plus whichever account the path, given by its names, sits in.

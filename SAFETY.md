@@ -286,10 +286,11 @@ one. The `peel` command says so and moves nothing either.
 
 The record is also a file any process running as you can rewrite, so Put Back reads it as a request, not as
 a fact. It only takes something that really sits in a Trash of yours (`~/.Trash`, or `.Trashes/<uid>` at the
-root of another disk), asked of the folder itself with every link resolved: a folder that is merely called
-`.Trash`, a link into Messages, or iCloud Drive's own Trash, is refused. And it takes only the very item that
-went: History keeps which item it was (its inode and when it was made), so once the Trash is emptied, another
-item that lands in the same place, another project's `node_modules`, say, is never put back in its stead.
+root of another disk, the startup disk's data too when your home folder is elsewhere), asked of the folder itself
+with every link resolved: a folder that is merely called `.Trash`, a link into Messages, or iCloud Drive's own
+Trash, is refused. And it takes only the very item that went: History keeps which item it was (its inode and when
+it was made), so once the Trash is emptied, another item that lands in the same place, another project's
+`node_modules`, say, is never put back in its stead.
 Nor does it put anything back inside an app, since Peel moves an app only whole.
 History offers to forget a record only once its item has certainly left the Trash, asks first, and looks again
 just before; an item Peel isn't allowed to look at is shown as not known and kept.
@@ -747,9 +748,12 @@ and it fails closed.
   the item it checked, and for a Put Back that the place takes it as it is now, so anything put in the item's place
   on the way goes back where it came from. An item that can neither reach its place nor go back stays there with
   its record, and goes to your Trash the next time the helper starts, as Peel then tells you. A rename can't leave
-  its disk, so it moves nothing to or from another disk than the startup disk: nothing outside it, and nothing at
-  all when your home folder, and so your Trash, is on another disk. Peel then leaves to you what needs an
-  administrator, with how to move it in Finder.
+  its disk, so it moves nothing to or from another disk than the startup disk. When your home folder is on another
+  disk, what it moves from the startup disk goes to the Trash macOS keeps for you there, at the top of the startup
+  disk's data (`/System/Volumes/Data/.Trashes/` and your account's number). macOS makes none there, so the helper
+  makes it as macOS makes one on any other disk: the folder of every account's Trash is root's and closed to everyone
+  else, and yours is yours alone. What needs an administrator in your home folder's Library, on its own disk, Peel
+  leaves to you, with how to move it in Finder.
 - "Put Back" is asked for by a record any process running as you can rewrite, so the helper believes none of
   it. It keeps its own ledger, in a folder that is root's alone, of what it moved and from where: the item is
   recognized by what it is (not by its name or place in the Trash), and it goes back only to the exact place

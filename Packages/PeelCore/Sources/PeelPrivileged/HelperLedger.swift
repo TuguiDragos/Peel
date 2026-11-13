@@ -93,10 +93,11 @@ public final class HelperLedger: Sendable {
         into trash: DirectoryHandle,
         givingTo user: uid_t,
         homeDirectory: (uid_t) -> String? = UserAuthorization.homeDirectory(of:),
+        disk: String = AccountTrash.helpersDisk,
         changingOwner: (_ folder: DirectoryHandle, _ entry: String?, _ owner: uid_t) -> Bool
     ) -> Result<String?, POSIXError> {
         lock.withLock {
-            recover(in: folder, homeDirectory: homeDirectory)
+            recover(in: folder, homeDirectory: homeDirectory, disk: disk)
             switch OpenItem.at(folder) {
             case .failure(let error):
                 return error.code == .ENOENT ? .success(nil) : .failure(error)
@@ -138,34 +139,45 @@ public final class HelperLedger: Sendable {
         }
     }
 
-    /// Whether the helper can take anything to `trash`: everything it moves passes through `Staging`, beside the
-    /// ledger, and a rename never leaves its disk.
+    /// Whether the helper can take anything to `trash`, or anything from the folder `item` is in: everything it moves
+    /// passes through `Staging`, beside the ledger, and a rename never leaves its disk.
     func reaches(_ trash: DirectoryHandle) -> Bool {
-        var folder = stat(), destination = stat()
-        return lstat(url.deletingLastPathComponent().path(percentEncoded: false), &folder) == 0
-            && fstat(trash.descriptor, &destination) == 0 && folder.st_dev == destination.st_dev
+        isOnTheLedgersDisk(trash.descriptor)
     }
 
-    /// `reaches(_:)` for the Trash of `home`, read without opening anything, so the app knows before it offers a
-    /// move only the helper could make. A Trash not made yet will be in `home`; true when either can't be read.
-    public static func reachesTheTrash(of home: String) -> Bool {
-        var folder = stat(), trash = stat()
-        guard
-            lstat((defaultFolder as NSString).deletingLastPathComponent, &folder) == 0,
-            lstat(home + "/.Trash", &trash) == 0 || lstat(home, &trash) == 0
-        else { return true }
-        return folder.st_dev == trash.st_dev
+    func reaches(_ item: OpenItem) -> Bool {
+        isOnTheLedgersDisk(item.parent.descriptor)
+    }
+
+    private func isOnTheLedgersDisk(_ descriptor: Int32) -> Bool {
+        var folder = stat(), other = stat()
+        return lstat(url.deletingLastPathComponent().path(percentEncoded: false), &folder) == 0
+            && fstat(descriptor, &other) == 0 && folder.st_dev == other.st_dev
+    }
+
+    /// `reaches(_:)` for the item at `path`, read from the folder it is in without opening anything, so Peel knows
+    /// before it offers a move only the helper could make. True when either can't be read.
+    public static func reaches(itemAt path: String) -> Bool {
+        AccountTrash.areOnOneDisk((defaultFolder as NSString).deletingLastPathComponent, (path as NSString)
+            .deletingLastPathComponent) != false
     }
 
     /// Moves what a move cut short left in `Staging` to the Trash of the account it was moving for.
     public static func recoverStaged(
         in folder: String = defaultFolder,
-        homeDirectory: (uid_t) -> String? = UserAuthorization.homeDirectory(of:)
+        homeDirectory: (uid_t) -> String? = UserAuthorization.homeDirectory(of:),
+        disk: String = AccountTrash.helpersDisk,
+        trustedOwner: uid_t = 0
     ) {
-        lock.withLock { recover(in: folder, homeDirectory: homeDirectory) }
+        lock.withLock { recover(in: folder, homeDirectory: homeDirectory, disk: disk, trustedOwner: trustedOwner) }
     }
 
-    private static func recover(in folder: String, homeDirectory: (uid_t) -> String?) {
+    private static func recover(
+        in folder: String,
+        homeDirectory: (uid_t) -> String?,
+        disk: String,
+        trustedOwner: uid_t = 0
+    ) {
         let staging = folder + "/Staging"
         guard isTheHelpersOwn(folder), isTheHelpersOwn(staging), let handle = try? DirectoryHandle.at(staging).get()
         else { return }
@@ -173,7 +185,8 @@ public final class HelperLedger: Sendable {
             let parts = entry.split(separator: ".", maxSplits: 2).map(String.init)
             guard
                 parts.count == 3, let user = uid_t(parts[0]), let home = homeDirectory(user),
-                let trash = PrivilegedPathPolicy(homeDirectory: home).openTrash(ownedBy: user)
+                let trash = PrivilegedPathPolicy(homeDirectory: home, disk: disk, trustedOwner: trustedOwner)
+                    .openTrash(ownedBy: user, making: true)
             else { continue }
             let names = TrashMover.names(for: parts[2], inode: handle.status(of: entry).map { UInt64($0.st_ino) })
             _ = TrashMover.place(entry, from: handle, in: trash, as: names)

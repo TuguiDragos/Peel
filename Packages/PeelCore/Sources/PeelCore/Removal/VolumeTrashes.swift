@@ -1,5 +1,6 @@
 import Darwin
 public import Foundation
+internal import PeelPrivileged
 
 /// The Trash an app thrown away from a disk other than the home's lands in: macOS keeps one for each account at the
 /// top of each volume, `.Trashes/<uid>`, and makes it the first time something there goes to the Trash.
@@ -14,17 +15,16 @@ public enum VolumeTrashes {
         return folders
     }
 
-    /// The Trash an item at `url` lands in: `home`'s for one on the home's volume, else its own volume's.
+    /// The Trash an item at `url` lands in: `home`'s for one on the home's disk, else the one at the top of its own
+    /// (`AccountTrash`), which for the startup disk is at the top of its data, not at `/`.
     static func trash(forItemAt url: URL, home: URL = .homeDirectory) -> URL {
-        guard let itsVolume = volume(of: url), itsVolume != volume(of: home) else { return homeTrash(of: home) }
-        return itsVolume.appending(path: ".Trashes/\(getuid())", directoryHint: .isDirectory)
+        let folder = url.deletingLastPathComponent().path(percentEncoded: false)
+        guard let top = AccountTrash.top(ofTheDiskOf: folder) else { return homeTrash(of: home) }
+        let trash = AccountTrash.folder(for: getuid(), home: home.path(percentEncoded: false), onTheDiskAt: top)
+        return URL(filePath: trash, directoryHint: .isDirectory)
     }
 
     private static func homeTrash(of home: URL) -> URL {
         home.appending(path: ".Trash", directoryHint: .isDirectory)
-    }
-
-    private static func volume(of url: URL) -> URL? {
-        (try? url.resourceValues(forKeys: [.volumeURLKey]))?.volume?.standardizedFileURL
     }
 }

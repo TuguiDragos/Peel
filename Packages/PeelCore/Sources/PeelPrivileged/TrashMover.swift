@@ -219,10 +219,16 @@ extension TrashMover {
             let refused = HelperRefusal.anotherDisk.rawValue
             return ([:], Dictionary(items.map { ($0.path, refused) }, uniquingKeysWith: { first, _ in first }))
         }
-        guard ledger.record(unique.map(\.item), movedBy: user) else { return nil }
-
         var moved: [String: String] = [:]
         var failed: [String: String] = [:]
+        // What is on another disk, the Library of a home kept there, stays unrecorded.
+        unique.removeAll { path, item in
+            guard !ledger.reaches(item) else { return false }
+            failed[path] = HelperRefusal.anotherDisk.rawValue
+            return true
+        }
+        guard ledger.record(unique.map(\.item), movedBy: user) else { return nil }
+
         var stayed: [OpenItem] = []
         let staged: Void? = ledger.whileStaging { staging in
             for (path, item) in unique {
