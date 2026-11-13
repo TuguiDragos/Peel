@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct MakersUninstallerTests {
@@ -287,8 +288,8 @@ struct MakersUninstallerTests {
         try FileManager.default.createSymbolicLink(at: bin.appending(path: "closed-uninstall"), withDestinationURL: closed)
         let rootOrThisAccount: Set<uid_t> = [0, getuid()]
 
-        #expect(!MakersUninstaller.isClosed(bin.appending(path: "open-uninstall"), toAllBut: rootOrThisAccount))
-        #expect(MakersUninstaller.isClosed(bin.appending(path: "closed-uninstall"), toAllBut: rootOrThisAccount))
+        #expect(!ClosedChain.isClosed(bin.appending(path: "open-uninstall"), toAllBut: rootOrThisAccount))
+        #expect(ClosedChain.isClosed(bin.appending(path: "closed-uninstall"), toAllBut: rootOrThisAccount))
         #expect(MakersUninstaller.onlyRootCanChange(URL(filePath: "/etc/hosts")))
     }
 

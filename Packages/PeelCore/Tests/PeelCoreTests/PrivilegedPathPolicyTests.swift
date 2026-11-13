@@ -527,6 +527,9 @@ struct PrivilegedPathPolicyTests {
 
         #expect(SystemDaemons.files(declaring: "com.vendor.daemon", in: daemons) == [real.path(percentEncoded: false)])
         #expect(SystemDaemons.files(declaring: "com.linked.daemon", in: daemons).isEmpty, "a link out of the folder was followed")
+        // A link only the given accounts can change leads to the file that declares the job, as MacPorts' do.
+        #expect(SystemDaemons.files(declaring: "com.linked.daemon", in: daemons, trusting: [0, getuid()])
+            == [(daemons as NSString).appendingPathComponent("linked.plist")])
         #expect(SystemDaemons.files(declaring: "com.twice.daemon", in: daemons).count == 2, "two files declare it")
         #expect(SystemDaemons.files(declaring: "com.nobody.daemon", in: daemons).isEmpty)
     }

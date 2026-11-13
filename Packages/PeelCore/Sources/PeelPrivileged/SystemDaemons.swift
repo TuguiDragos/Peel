@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 
 /// The daemons macOS ships. Their file names prove nothing (`ssh.plist` declares `com.openssh.sshd`),
 /// so the `Label` inside each one is read, and none of them is ever the helper's to stop or unload.
@@ -27,17 +27,24 @@ public enum SystemDaemons {
     }
 
     /// The files in `directory` that declare `label`, two at most: a job is loaded only from the one file that
-    /// declares it, since a file's name usually repeats its label but need not. Links are not followed.
-    public static func files(declaring label: String, in directory: String = installed) -> [String] {
+    /// declares it, since a file's name usually repeats its label but need not. A link counts only while it and what
+    /// it leads to are `owners`' alone (`ClosedChain`), since root starts the job from what it leads to.
+    public static func files(
+        declaring label: String, in directory: String = installed, trusting owners: Set<uid_t> = [0]
+    ) -> [String] {
         let contents = (try? FileManager.default.contentsOfDirectory(atPath: directory)) ?? []
         let declaring = contents.lazy
             .filter { $0.hasSuffix(".plist") }
             .map { (directory as NSString).appendingPathComponent($0) }
             .filter { path in
                 var info = stat()
-                guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFREG, info.st_size <= 1_024 * 1_024 else {
-                    return false
+                guard lstat(path, &info) == 0 else { return false }
+                if info.st_mode & S_IFMT == S_IFLNK {
+                    guard ClosedChain.isClosed(URL(filePath: path), toAllBut: owners), stat(path, &info) == 0 else {
+                        return false
+                    }
                 }
+                guard info.st_mode & S_IFMT == S_IFREG, info.st_size <= 1_024 * 1_024 else { return false }
                 guard
                     let data = FileManager.default.contents(atPath: path),
                     let plist = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any]
