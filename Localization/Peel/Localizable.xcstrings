@@ -163014,6 +163014,112 @@
         }
       }
     },
+    "Peel won’t move this: /usr/local holds other programs’ files, and from there Peel moves only an app’s links and Homebrew’s records." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tuto položku nepřesune: ve složce /usr/local jsou soubory jiných programů a Peel z ní přesouvá jen odkazy aplikací a záznamy Homebrew."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verschiebt dies nicht: /usr/local enthält Dateien anderer Programme, und von dort verschiebt Peel nur die Links einer App und die Einträge von Homebrew."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no trasladará esto: /usr/local contiene archivos de otros programas, y desde ahí Peel solo traslada los enlaces de una app y los registros de casks de Homebrew."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel refuse de déplacer cet élément : /usr/local contient des fichiers d’autres programmes, et depuis cet emplacement, Peel ne déplace que les liens d’une app et les registres de Homebrew."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non sposta questo elemento: /usr/local contiene file di altri programmi, e da lì Peel sposta solo i link di un’app e i record di Homebrew."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこれを移動しません。/usr/localにはほかのプログラムのファイルがあり、Peelがそこから移動するのは、アプリへのリンクとHomebrewの記録だけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이 항목을 이동하지 않습니다. /usr/local에는 다른 프로그램의 파일이 들어 있으며, Peel은 그곳에서 앱의 링크와 Homebrew의 기록만 이동합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verplaatst dit niet: /usr/local bevat bestanden van andere programma's, en daaruit verplaatst Peel alleen de links van een app en de registraties van Homebrew."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie przeniesie tego do Kosza: w /usr/local są pliki innych programów, a stamtąd Peel przenosi tylko dowiązania aplikacji i zapisy Homebrew."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não vai mover isto: a pasta /usr/local contém arquivos de outros programas, e de lá o Peel só move os links de um app e os registros do Homebrew."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu mută acest articol: /usr/local conține fișierele altor programe, iar de acolo Peel mută doar linkurile unei aplicații și înregistrările Homebrew."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не будет перемещать этот объект: в /usr/local хранятся файлы других программ, и оттуда Peel перемещает только ссылки приложений и записи Homebrew."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel flyttar inte det här: /usr/local innehåller andra programs filer, och därifrån flyttar Peel bara en apps länkar och Homebrews poster."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunu taşımaz: /usr/local başka programların dosyalarını barındırır ve Peel oradan yalnızca bir uygulamanın bağlantılarını ve Homebrew’un kayıtlarını taşır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не перемістить це: у /usr/local лежать файли іншого ПЗ, і звідти Peel переміщує лише посилання на програми та записи Homebrew."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会移动此项：/usr/local中存放着其他程序的文件，Peel只会从那里移动App的链接和Homebrew的记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會移動此項目：/usr/local存放著其他程式的檔案，Peel只會從那裡移動App的連結和Homebrew的記錄。"
+          }
+        }
+      }
+    },
     "Peel won’t move this: a photo, music, or video library is inside." : {
       "localizations" : {
         "cs" : {

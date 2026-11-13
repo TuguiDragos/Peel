@@ -126,6 +126,15 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
     /// How many items only the helper can move and a person could select once it can act.
     public var itemsWaitingForTheHelper: Int { items.count { $0.requiresPrivileges && !$0.isLeftAlone } }
 
+    /// The items an administrator can remove by hand in Finder: the helper can't move them from where they are, and
+    /// neither the guard nor the rules of an app keep them in place, but for `/usr/local`, where Peel moves only links.
+    public var itemsLeftForAnAdministrator: [Item] {
+        items.filter { item in
+            item.heldBack == .beyondTheHelper && item.removedElsewhere == nil
+                && (item.refusal == nil || item.refusal == .inUsrLocal)
+        }
+    }
+
     /// True when the package still has files on disk but none of them can be moved: each is excluded, protected,
     /// or left alone. False when the file list is unknown, since then nothing is known about what is left.
     public var holdsNothingToRemove: Bool {

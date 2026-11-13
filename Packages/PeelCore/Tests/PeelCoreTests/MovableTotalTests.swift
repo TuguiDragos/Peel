@@ -83,6 +83,28 @@ struct MovableTotalTests {
         #expect(!oneMoves.isLeftAlone && oneMoves.sharedReason == nil)
     }
 
+    @Test func aReceiptLeavesForAnAdministratorOnlyWhatTheGuardLetsAPersonMove() {
+        let item = { (path: String, refusal: GuardRefusal?) in
+            var item = PackageReceipt.Item(url: URL(filePath: path), size: 10, requiresPrivileges: true)
+            item.refusal = refusal
+            item.heldBack = .beyondTheHelper
+            return item
+        }
+        let receipt = PackageReceipt(
+            identifier: "org.example.pkg", version: nil, installDate: nil, volume: URL(filePath: "/"),
+            items: [
+                item("/Library/Security/SecurityAgentPlugins", .staysItself),
+                item("/usr/bin/org.example.tool", .protectedLocation),
+                item("/usr/local/org.example.tool", .inUsrLocal),
+                item("/Library/Extensions/Example.kext", nil),
+            ]
+        )
+
+        #expect(receipt.itemsLeftForAnAdministrator.map(\.url.path) == [
+            "/usr/local/org.example.tool", "/Library/Extensions/Example.kext",
+        ])
+    }
+
     @Test func aReceiptCountsOnlyWhatCanMove() {
         var tool = PackageReceipt.Item(
             url: URL(filePath: "/usr/local/bin/org.example.tool"), size: 500, requiresPrivileges: true

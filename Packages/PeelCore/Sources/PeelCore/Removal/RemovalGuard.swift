@@ -12,6 +12,9 @@ public enum GuardRefusal: Sendable, Hashable, CaseIterable {
     case staysItself
     /// It is part of macOS, or it sits inside something Peel protects.
     case protectedLocation
+    /// It is in `/usr/local`, which holds other programs' files: Peel moves only an app's links and Homebrew's records
+    /// of casks from there.
+    case inUsrLocal
     /// Something Peel protects is inside, such as a keychain, a wallet's keys, or a browser profile with a wallet.
     case holdsProtectedData
     /// It syncs to the person's other devices, through iCloud or File Provider or in a folder another app keeps in
@@ -28,8 +31,8 @@ public enum GuardRefusal: Sendable, Hashable, CaseIterable {
 
     /// Each kind of refusal once, the cloud standing for every keeper.
     public static let allCases: [GuardRefusal] = [
-        .exclusionsNotKnown, .excluded, .staysItself, .protectedLocation, .holdsProtectedData, .inTheCloud(.cloud),
-        .holdsDocuments, .holdsALibrary, .holdsWorkKeptInACache, .couldNotLookInside,
+        .exclusionsNotKnown, .excluded, .staysItself, .protectedLocation, .inUsrLocal, .holdsProtectedData,
+        .inTheCloud(.cloud), .holdsDocuments, .holdsALibrary, .holdsWorkKeptInACache, .couldNotLookInside,
     ]
 
     /// A fixed word for the reason, which the refusal log stores, so a record still reads in a later version.
@@ -39,6 +42,7 @@ public enum GuardRefusal: Sendable, Hashable, CaseIterable {
         case .excluded: "excluded"
         case .staysItself: "stays-in-place"
         case .protectedLocation: "protected-place"
+        case .inUsrLocal: "in-usr-local"
         case .holdsProtectedData: "holds-protected-data"
         case .inTheCloud: "in-the-cloud"
         case .holdsDocuments: "holds-documents"
@@ -229,7 +233,9 @@ struct RemovalGuard: Sendable {
             guard comesBackAsAFolder || !protectedPaths.contains(spelling) else { return .staysItself }
             let mayGo = Self.isAToolsLink(spelling, isALink: type == S_IFLNK)
                 || Self.isACasksRecord(spelling, isAFolder: type == S_IFDIR)
-            guard !isUnderAPrefix || mayGo else { return .protectedLocation }
+            guard !isUnderAPrefix || mayGo else {
+                return PathComponents.isPath(spelling, inside: "/usr/local") ? .inUsrLocal : .protectedLocation
+            }
 
             let parts = PathComponents.of(spelling)
             let isATree = protectedTrees.contains { parts.starts(with: $0) }

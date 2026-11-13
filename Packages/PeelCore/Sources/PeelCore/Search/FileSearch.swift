@@ -101,7 +101,7 @@ public enum FileSearch {
             case .excluded: self = .excluded
             case .exclusionsNotKnown: self = .exclusionsNotKnown
             case .couldNotLookInside: self = .couldNotBeRead
-            case .staysItself, .protectedLocation, .holdsProtectedData, .holdsDocuments, .holdsALibrary,
+            case .staysItself, .protectedLocation, .inUsrLocal, .holdsProtectedData, .holdsDocuments, .holdsALibrary,
                  .holdsWorkKeptInACache:
                 self = .protected
             }

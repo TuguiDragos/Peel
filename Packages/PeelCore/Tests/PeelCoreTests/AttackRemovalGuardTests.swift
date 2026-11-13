@@ -85,6 +85,20 @@ struct AttackRemovalGuardTests {
         #expect(!guardian.allowsRemoval(of: URL(filePath: "/usr/bin/true")))
     }
 
+    @Test func usrLocalIsRefusedForWhatItIsAndTheRestOfUsrAsMacOSs() throws {
+        let directory = try TemporaryDirectory()
+        let guardian = RemovalGuard(environment: SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        ))
+        let name = "peel-test-\(UUID().uuidString)"
+
+        #expect(guardian.refusal(of: URL(filePath: "/usr/local/bin/\(name)")) == .inUsrLocal)
+        #expect(guardian.refusal(of: URL(filePath: "/usr/local/\(name)/tool")) == .inUsrLocal)
+        #expect(guardian.refusal(of: URL(filePath: "/usr/bin/\(name)")) == .protectedLocation)
+        #expect(guardian.refusal(of: URL(filePath: "/usr/libexec/\(name)")) == .protectedLocation)
+    }
+
     @Test func underUsrAFolderMayGoOrComeBackOnlyInHomebrewsCaskroom() throws {
         let directory = try TemporaryDirectory()
         let guardian = RemovalGuard(environment: SearchEnvironment(

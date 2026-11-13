@@ -381,6 +381,7 @@ extension GuardRefusal {
         case .excluded: "excluded"
         case .staysItself: "a folder that stays in place, though what is inside may go"
         case .protectedLocation: "part of macOS, or inside something Peel protects"
+        case .inUsrLocal: "/usr/local holds other programs' files, and from there Peel moves only an app's links and Homebrew's records"
         case .holdsProtectedData: "holds something Peel protects, such as a keychain or a wallet"
         case .inTheCloud(.cloud): "syncs to your other devices through iCloud or another app, so moving it would remove it from them too"
         case .inTheCloud(.app(let app, let marker)):
