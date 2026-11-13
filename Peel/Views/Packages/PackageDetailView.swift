@@ -14,12 +14,16 @@ struct PackageDetailView: View {
     @State private var quitting = QuitBeforeRemoving()
     let receipt: PackageReceipt
 
-    /// What runs from the apps selected here, which is asked to quit first, as on an app's own page.
-    private var runningProcesses: [NSRunningApplication] {
-        receipt.apps.filter { app in selectedItems.contains { $0.url == app.url } }.flatMap { app in
-            RunningCopies.belonging(to: app, among: RunningCopies.current, installedApps: library.apps)
-                .compactMap { NSRunningApplication(processIdentifier: $0.identifier) }
+    /// What runs from `apps` and is asked to quit before they move, each once, by the rule an app's own page follows.
+    static func toQuit(
+        _ apps: [InstalledApp], among running: [RunningCopies.Process], installedApps: [InstalledApp]
+    ) async -> [RunningCopies.Process] {
+        var asked: [RunningCopies.Process] = []
+        for app in apps {
+            let processes = await RunningCopies.toQuit(beforeMoving: app, among: running, installedApps: installedApps)
+            asked += processes.filter { process in !asked.contains { $0.identifier == process.identifier } }
         }
+        return asked
     }
 
     private func moveSelection() async {
@@ -150,8 +154,12 @@ struct PackageDetailView: View {
             isPresented: $isConfirmingRemoval
         ) {
             Button("Move to Trash") {
-                quitting.check(runningProcesses) {
-                    Task { await moveSelection() }
+                let apps = receipt.apps.filter { app in selectedItems.contains { $0.url == app.url } }
+                Task {
+                    let asked = await Self.toQuit(apps, among: RunningCopies.current, installedApps: library.apps)
+                    quitting.check(asked.compactMap { NSRunningApplication(processIdentifier: $0.identifier) }) {
+                        Task { await moveSelection() }
+                    }
                 }
             }
             Button("Cancel", role: .cancel) {}
