@@ -6,9 +6,11 @@ public enum PackageReceipts {
     static let concurrentReceipts = 4
 
     /// Directories many packages install into; they never belong to a single package. The folders Peel searches in
-    /// `/Library` come from `LibraryFolder`, so the two can't drift apart, with every folder on the way to one.
+    /// `/Library` come from `LibraryFolder` and `SearchEnvironment.systemCodeFolders`, so the two can't drift apart,
+    /// with every folder on the way to one.
     static let sharedDirectories: Set<String> = {
         let searched = (LibraryFolder.local + LibraryFolder.plugIns).map { "/Library/" + $0.rawValue }
+            + SearchEnvironment.systemCodeFolders.map { "/Library/" + $0 }
         return Set(searched + searched.flatMap(ProtectedObjects.ancestors(of:))).union(otherSharedDirectories)
     }()
 

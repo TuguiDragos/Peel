@@ -17,6 +17,9 @@ struct PackageReceiptsTests {
         for folder in LibraryFolder.local + LibraryFolder.plugIns {
             #expect(PackageReceipts.sharedDirectories.contains("/Library/" + folder.rawValue), "\(folder)")
         }
+        for folder in SearchEnvironment.systemCodeFolders {
+            #expect(PackageReceipts.sharedDirectories.contains("/Library/" + folder), "\(folder)")
+        }
         let plugIns = "Library/Application Support/Avid/Audio/Plug-Ins"
         let files = ["Library", "Library/Application Support", "Library/Application Support/Avid",
                      "Library/Application Support/Avid/Audio", plugIns, "\(plugIns)/SonoBus.aaxplugin",
@@ -27,6 +30,22 @@ struct PackageReceiptsTests {
         )
 
         #expect(found.offered == ["/\(plugIns)/SonoBus.aaxplugin"])
+    }
+
+    @Test func offersTheSignInPlugInAndNeverTheFolderItSitsAloneIn() {
+        let plugIns = "Library/Security/SecurityAgentPlugins"
+        let files = ["Library", "Library/Security", plugIns, "\(plugIns)/Example.bundle", "\(plugIns)/Example.bundle/Contents",
+                     "\(plugIns)/Example.bundle/Contents/Info.plist"]
+        let inside = [
+            "/Library/Security": ["SecurityAgentPlugins", "Trust Settings"],
+            "/\(plugIns)": ["Example.bundle"],
+        ]
+
+        let found = PackageReceipts.topLevel(
+            files: files, installLocation: "/", namesInside: { inside[$0] }, exists: { _ in true }
+        )
+
+        #expect(found.offered == ["/\(plugIns)/Example.bundle"])
     }
 
     private func forOneAccount(
