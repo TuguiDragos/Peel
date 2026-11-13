@@ -440,6 +440,7 @@ final class HomebrewLibrary {
             needsDefinitions = true
             hasAnswered = false
             packages = packages ?? []
+            describeTheBrewItRuns(installation)
             return
         }
         // A failed reading is shown on the page, not stored in `result`, which would open a sheet the next time
@@ -458,16 +459,13 @@ final class HomebrewLibrary {
             couldNotRead = error
         }
         self.installation = found
-        leavesChangesToTerminal = Homebrew.leavesChangesToTerminal
-        wordForTerminal = Homebrew.wordForTerminal
+        describeTheBrewItRuns(found)
         // Keeps the last figure when this reading brought none: one that was right a moment ago beats none.
         if let preview {
             reclaimable = preview.bytes ?? reclaimable
             autoremovable = preview.autoremoved
         }
         overrides = overridden ?? overrides
-        unreadSettingsFile = found.flatMap { Homebrew.unreadSettingsFile(prefix: $0.prefix) }
-        settingsFolders = found.map { Homebrew.settingsFolders(prefix: $0.prefix) } ?? []
         // A check for new versions also changes what the catalog lists for the apps Homebrew didn't install.
         if checked != checkedBefore, let apps = appsOfKnownCasks {
             await loadKnownCasks(for: apps)
@@ -476,10 +474,23 @@ final class HomebrewLibrary {
         keepSelectionOnItsPage()
     }
 
-    /// Reads the `brew` the person just chose, and keeps nothing the other one said of what it would free.
+    /// What Peel says of the `brew` it runs, which holds whether or not its packages could be read.
+    private func describeTheBrewItRuns(_ installation: HomebrewInstallation?) {
+        leavesChangesToTerminal = Homebrew.leavesChangesToTerminal
+        wordForTerminal = Homebrew.wordForTerminal
+        unreadSettingsFile = installation.flatMap { Homebrew.unreadSettingsFile(prefix: $0.prefix) }
+        settingsFolders = installation.map { Homebrew.settingsFolders(prefix: $0.prefix) } ?? []
+    }
+
+    /// Reads the `brew` the person just chose, keeping nothing the other one said, as when Homebrew leaves the Mac.
     func readAnotherBrew() async {
-        (reclaimable, autoremovable) = (nil, [])
+        forgetHomebrew()
         await refresh(includingReclaimable: true)
+        // A reading loads the known casks again only when Homebrew's last check moved, and one that never checked has
+        // no check to move.
+        if checkedForUpdates == nil, isInstalled, let apps = appsOfKnownCasks {
+            await loadKnownCasks(for: apps)
+        }
     }
 
     /// With no Homebrew on the Mac, nothing it said still holds, so the library becomes what it is when Peel starts
@@ -491,7 +502,7 @@ final class HomebrewLibrary {
         (reclaimable, autoremovable, overrides, findings, advisories) = (nil, [], [], nil, nil)
         (leavesChangesToTerminal, wordForTerminal) = (false, "brew")
         (knownCasks, selection, unreadSettingsFile, settingsFolders) = ([], nil, nil, [])
-        answers = Homebrew.Answers()
+        (answers, checkedForUpdates) = (Homebrew.Answers(), nil)
         revision += 1
         if hadEvidence {
             evidenceRevision += 1

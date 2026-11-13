@@ -14,8 +14,13 @@ private struct StandInBrew {
 
     private var log: URL { folder.appending(path: "asked") }
 
-    /// `cleanup` and `update` are what its `brew cleanup` and `brew update` run, in shell.
-    init(hasDefinitions: Bool = true, cleanup: String = ":", update: String = ":") throws {
+    /// `info`, `cleanup` and `update` are what its `brew info`, `brew cleanup` and `brew update` run, in shell.
+    init(
+        hasDefinitions: Bool = true,
+        info: String = #"echo '{"formulae":[],"casks":[]}'"#,
+        cleanup: String = ":",
+        update: String = ":"
+    ) throws {
         let manager = FileManager.default
         let path = folder.path(percentEncoded: false)
         let script = """
@@ -27,7 +32,7 @@ private struct StandInBrew {
           --cellar) echo '\(path)Cellar' ;;
           --caskroom) echo '\(path)Caskroom' ;;
           --cache) echo '\(path)cache' ;;
-          info) echo '{"formulae":[],"casks":[]}' ;;
+          info) \(info) ;;
           cleanup) \(cleanup) ;;
           update) \(update) ;;
         esac
@@ -102,6 +107,27 @@ private struct StandInBrew {
         await Homebrew.$standIn.withValue(second.url) { await homebrew.readAnotherBrew() }
 
         #expect(homebrew.reclaimable == nil)
+    }
+
+    @Test func oneBrewsPackagesAndSettingsDoNotOutliveTheChoiceOfAnother() async throws {
+        let installed = #"{"formulae":[{"name":"node","installed":[{"version":"1.0"}],"versions":{"stable":"1.0"}}],"casks":[]}"#
+        let first = try StandInBrew(info: "echo '\(installed)'")
+        let second = try StandInBrew(hasDefinitions: false)
+        defer {
+            first.goAway()
+            second.goAway()
+        }
+        let homebrew = HomebrewLibrary()
+
+        await Homebrew.$standIn.withValue(first.url) { await homebrew.refresh() }
+        #expect(homebrew.packages?.map(\.name) == ["node"])
+        await Homebrew.$standIn.withValue(second.url) { await homebrew.readAnotherBrew() }
+
+        #expect(homebrew.needsDefinitions)
+        #expect(homebrew.packages?.isEmpty != false)
+        let prefix = try #require(homebrew.installation?.prefix)
+        #expect(PathPattern.comparablePath(of: prefix) == PathPattern.comparablePath(of: second.folder))
+        #expect(homebrew.settingsFolders == Homebrew.settingsFolders(prefix: prefix))
     }
 
     @Test func aCommandPeelNeverStartedSaysSo() async throws {
