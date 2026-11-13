@@ -74,6 +74,45 @@ struct PackageReceiptsTests {
         #expect(item.refusal == .protectedLocation)
     }
 
+    @Test(arguments: ["", "Applications/Host.app"])
+    func anAppAPackageOnlyWroteInsideIsNotThePackagesToMove(location: String) async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        let home = volume.appending(path: "home", directoryHint: .isDirectory)
+        let info = try PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleIdentifier": "org.example.host", "CFBundleName": "Host"], format: .xml, options: 0
+        )
+        try directory.file("home/Applications/Host.app/Contents/Info.plist", contents: info)
+        try directory.file("home/Applications/Host.app/Contents/MacOS/Host", bytes: 4096)
+        try directory.file("home/Applications/Host.app/Contents/PlugIns/Extra.plugin/Contents/Info.plist", bytes: 16)
+        let inside = """
+            Contents
+            Contents/PlugIns
+            Contents/PlugIns/Extra.plugin
+            Contents/PlugIns/Extra.plugin/Contents
+            Contents/PlugIns/Extra.plugin/Contents/Info.plist
+            """
+        let files = location.isEmpty
+            ? "Applications\nApplications/Host.app\n"
+                + inside.split(separator: "\n").map { "Applications/Host.app/\($0)\n" }.joined()
+            : inside + "\n"
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: volume)
+
+        let scan = await PackageReceipts.list(
+            exclusions: .none, pkgutil: forOneAccount(home: home, location: location, files: files),
+            environment: environment
+        )
+
+        let receipt = try #require(scan.receipts.first)
+        let app = PathPattern.comparablePath(of: home.appending(path: "Applications/Host.app"))
+        #expect(receipt.apps.isEmpty)
+        #expect(receipt.selectableRows(canUseHelper: true).selectable.isEmpty)
+        #expect(!receipt.items.isEmpty)
+        #expect(receipt.items.allSatisfy {
+            PathComponents.isPath(PathPattern.comparablePath(of: $0.url), inside: app) && $0.refusal != nil
+        })
+    }
+
     @Test func listsAPackageInstalledForOneAccountWithoutItsSharedFolders() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url)
@@ -225,7 +264,7 @@ struct PackageReceiptsTests {
     /// An app that updated itself does not match its receipt file by file, but it is still offered whole, never
     /// as its parts.
     @Test func keepsABundleWholeHoweverItsContentsChanged() {
-        let files = ["Applications/Example.app", "Applications/Example.app/Contents"]
+        let files = ["Applications/Example.app", "Applications/Example.app/Contents", "Applications/Example.app/Contents/Info.plist"]
         let inside = ["/Applications/Example.app": ["Contents", "Updated"]]
 
         let items = PackageReceipts.topLevel(
@@ -236,6 +275,38 @@ struct PackageReceiptsTests {
         ).offered
 
         #expect(items == ["/Applications/Example.app"])
+    }
+
+    @Test func aFrameworkIsWholeOnlyForThePackageThatMadeIt() throws {
+        let directory = try TemporaryDirectory()
+        let root = PathPattern.comparablePath(of: PathPattern.canonical(directory.url))
+        try directory.file("Library/Frameworks/Example.framework/Versions/A/Resources/Info.plist", bytes: 16)
+        try directory.file("Library/Frameworks/Example.framework/Versions/A/Example", bytes: 4096)
+        try directory.file("Library/Frameworks/Example.framework/Versions/A/lib/extra/module.so", bytes: 4096)
+        let framework = "\(root)/Library/Frameworks/Example.framework"
+        try FileManager.default.createSymbolicLink(atPath: "\(framework)/Versions/Current", withDestinationPath: "A")
+        try FileManager.default.createSymbolicLink(
+            atPath: "\(framework)/Resources", withDestinationPath: "Versions/Current/Resources"
+        )
+        let made = [
+            "Library/Frameworks/Example.framework", "Library/Frameworks/Example.framework/Resources",
+            "Library/Frameworks/Example.framework/Versions", "Library/Frameworks/Example.framework/Versions/A",
+            "Library/Frameworks/Example.framework/Versions/A/Resources",
+            "Library/Frameworks/Example.framework/Versions/A/Resources/Info.plist",
+            "Library/Frameworks/Example.framework/Versions/A/Example",
+        ]
+        let wroteInside = [
+            "Library/Frameworks/Example.framework", "Library/Frameworks/Example.framework/Versions",
+            "Library/Frameworks/Example.framework/Versions/A", "Library/Frameworks/Example.framework/Versions/A/lib",
+            "Library/Frameworks/Example.framework/Versions/A/lib/extra",
+            "Library/Frameworks/Example.framework/Versions/A/lib/extra/module.so",
+        ]
+
+        let whole = PackageReceipts.topLevel(files: made, installLocation: root)
+        let part = PackageReceipts.topLevel(files: wroteInside, installLocation: root)
+
+        #expect(whole.offered == [framework])
+        #expect(part.offered == ["\(framework)/Versions/A/lib"])
     }
 
     @Test func offersAFolderWholeOnlyWhenNothingInsideItAtAnyDepthIsAnotherOnes() {
@@ -836,11 +907,12 @@ struct PackageReceiptsTests {
         try directory.file("Library/Application Support/ZeroTier/One/identity.secret", bytes: 16)
         let files = [
             "org.example.guard.pkg": [
-                "Applications/Guard.app", "Library/Application Support/Guard",
-                "Library/Application Support/Guard/rules.json",
+                "Applications/Guard.app", "Applications/Guard.app/Contents", "Applications/Guard.app/Contents/Info.plist",
+                "Library/Application Support/Guard", "Library/Application Support/Guard/rules.json",
             ],
             "com.citrix.ICAClient": [
-                workspace, "Library/Application Support/Citrix Receiver",
+                workspace, "\(workspace)/Contents", "\(workspace)/Contents/Info.plist",
+                "Library/Application Support/Citrix Receiver",
                 "Library/Application Support/Citrix Receiver/config.xml", "Library/Application Support/Citrix Extra",
                 "Library/Application Support/Citrix Extra/notes.txt",
             ],

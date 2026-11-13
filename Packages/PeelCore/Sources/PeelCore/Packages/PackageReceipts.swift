@@ -587,9 +587,10 @@ public enum PackageReceipts {
         }
         let isShared = { (path: String) in isSharedWhenLowered(path.lowercased()) }
         let lowered = paths.map { $0.lowercased() }
+        let folded = Set(lowered)
         // A package can be built with a bundle as its install location, an app's own folder, and lists only what is
-        // inside it. The bundle is still one item.
-        if !isShared(root), isBundle(root, exists: exists) {
+        // inside it. The bundle is one item when the package made it.
+        if !isShared(root), isBundle(root, exists: exists), made(root, listed: folded, namesInside: namesInside) {
             return ([root], ProtectedData.refuses(root, home: home) ? [] : [root], [])
         }
 
@@ -601,7 +602,6 @@ public enum PackageReceipts {
         }.map(\.0))
         .filter(exists)
 
-        let folded = Set(lowered)
         var othersFilled: Set<String> = []
         let onDisk = outermost
             .flatMap {
@@ -615,8 +615,9 @@ public enum PackageReceipts {
 
     /// Returns `path` when this package installed everything inside it, at any depth, and otherwise the parts
     /// inside it that the package did install, so a vendor folder that two of its products share is never offered
-    /// whole. A bundle is always one item: an app that updated itself does not match its receipt file by file, and
-    /// its parts are never listed on their own. `listed` holds the package's paths in lowercase.
+    /// whole. A bundle the package made is one item: an app that updated itself does not match its receipt file by
+    /// file. In a bundle something else made, only what the package wrote there is. `listed` holds the package's paths
+    /// in lowercase.
     static func onlyWhatThisPackageWrote(
         _ path: String,
         listed: Set<String>,
@@ -625,7 +626,9 @@ public enum PackageReceipts {
         depth: Int = 0,
         othersFilled: inout Set<String>
     ) -> [String] {
-        guard let names = namesInside(path), !isBundle(path, exists: exists) else { return [path] }
+        guard let names = namesInside(path),
+              !isBundle(path, exists: exists) || !made(path, listed: listed, namesInside: namesInside)
+        else { return [path] }
         let inside = names.map { (path as NSString).appendingPathComponent($0) }
         let own = inside.filter { listed.contains($0.lowercased()) }
         func parts(_ depth: Int) -> [String] {
@@ -668,6 +671,15 @@ public enum PackageReceipts {
         var info = stat()
         guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { return nil }
         return try? FileManager.default.contentsOfDirectory(atPath: path)
+    }
+
+    /// Whether the package made `bundle`, rather than writing only inside it: its receipt lists the bundle's own
+    /// `Info.plist`, or a framework's `Resources` link, which `pkgutil` lists as one line with nothing through it.
+    private static func made(_ bundle: String, listed: Set<String>, namesInside: (String) -> [String]?) -> Bool {
+        let inside = { (bundle as NSString).appendingPathComponent($0) }
+        let lists = { listed.contains(inside($0).lowercased()) }
+        return lists("Contents/Info.plist") || lists("Resources/Info.plist")
+            || lists("Resources") && namesInside(inside("Resources")) == nil
     }
 
     /// A folder with an extension and an `Info.plist` in `Contents`, or in `Resources` for a framework. A dot alone
