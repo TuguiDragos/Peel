@@ -54,6 +54,32 @@ struct AppLinksTests {
         #expect(AppInspector.isABundle(fixture.real))
     }
 
+    @Test func aWrapperWhoseWrapperIsALinkIsNoApp() throws {
+        let directory = try TemporaryDirectory()
+        let applications = try directory.directory("Applications")
+        let phone = try directory.directory("Applications/Phone.app")
+        _ = try directory.file("Applications/Phone.app/Wrapper/Phone.app/Info.plist", contents: Data("""
+        <?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict>\
+        <key>CFBundleIdentifier</key><string>org.example.phone</string>\
+        <key>CFBundlePackageType</key><string>APPL</string></dict></plist>
+        """.utf8))
+        let fake = try directory.directory("Applications/FakePhone.app")
+        for bundle in [phone, fake] {
+            try FileManager.default.createSymbolicLink(
+                atPath: bundle.appending(path: "WrappedBundle").path(percentEncoded: false),
+                withDestinationPath: "Wrapper/Phone.app"
+            )
+        }
+        try FileManager.default.createSymbolicLink(
+            atPath: fake.appending(path: "Wrapper").path(percentEncoded: false), withDestinationPath: "../Phone.app/Wrapper"
+        )
+
+        #expect(AppInspector.isABundle(phone))
+        #expect(!AppInspector.isABundle(fake), "another wrapper's app is read as this one")
+        #expect(AppInspector.inspect(fake) == nil)
+        #expect(AppCatalog.appBundles(in: applications).bundles.map(\.lastPathComponent) == ["Phone.app"])
+    }
+
     @Test func aLinkIsReadAsTheAppItLeadsTo() throws {
         let directory = try TemporaryDirectory()
         let fixture = try fixture(in: directory)

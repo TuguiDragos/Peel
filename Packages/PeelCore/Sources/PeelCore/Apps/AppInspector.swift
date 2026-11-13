@@ -113,14 +113,18 @@ public enum AppInspector {
     }
 
     /// Whether `url` is an app bundle itself: a folder named as an app, not a link to one nor a file named like one,
-    /// whose Info.plist doesn't sit behind a link either, which would make it another app.
+    /// with no link on the way to its Info.plist's folder, which would make it another app.
     public static func isABundle(_ url: URL) -> Bool {
         var info = stat()
-        guard url.isNamedAsAnApp, lstat(PathPattern.comparablePath(of: url), &info) == 0,
-              info.st_mode & S_IFMT == S_IFDIR
-        else { return false }
+        let bundle = PathPattern.comparablePath(of: url)
+        guard url.isNamedAsAnApp, lstat(bundle, &info) == 0, info.st_mode & S_IFMT == S_IFDIR else { return false }
         let infoFolder = PathPattern.comparablePath(of: AppBundleLayout(of: url).infoFolder)
-        return lstat(infoFolder, &info) != 0 || info.st_mode & S_IFMT != S_IFLNK
+        var folder = bundle
+        for name in PathComponents.of(infoFolder).dropFirst(PathComponents.of(bundle).count) {
+            folder += "/" + name
+            if lstat(folder, &info) == 0, info.st_mode & S_IFMT == S_IFLNK { return false }
+        }
+        return true
     }
 
     /// Whether what arrived in the Trash at `url` is an app that left this Mac: a bundle, since a link to one leaves
