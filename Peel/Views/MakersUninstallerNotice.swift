@@ -33,7 +33,22 @@ struct MakersUninstallerNotice: View {
         }
     }
 
+    /// Where the uninstaller is, for a step the note offers no button for, as `peel uninstall` says it.
+    static func whereItIs(_ uninstaller: MakersUninstaller, app: String) -> LocalizedStringResource? {
+        switch uninstaller.step {
+        case .onItsDiskImage: "Its uninstaller is on the disk image \(app) came on."
+        case .fromTheMakersPage: "Its uninstaller is a download from \(uninstaller.maker)’s page."
+        case .notOnTheMac: "The uninstaller \(uninstaller.maker) names isn’t on this Mac, so follow \(uninstaller.maker)’s instructions."
+        case .notTrusted:
+            "Peel can’t vouch for the uninstaller on this Mac, since programs other than \(uninstaller.maker)’s could have changed it, so follow \(uninstaller.maker)’s instructions."
+        case .command, .uninstaller, .inTheApp: nil
+        }
+    }
+
     private var detail: Text {
+        if let whereItIs = Self.whereItIs(uninstaller, app: app) {
+            return Text("\(said)\n\n\(Text(whereItIs))")
+        }
         guard case .command(let command) = uninstaller.step,
               AdministratorCommand.needsAnAdministrator(command, isAdministrator: helper.isAdministrator)
         else { return said }
