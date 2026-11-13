@@ -413,6 +413,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Uninstalling the Ollama app, Cherry Studio, Handy, Chatbox, LM Studio, AnythingLLM, Osaurus, MacWhisper,
   superwhisper, VoiceInk, or Buzz no longer selects the folder where it keeps conversations, transcripts, or recordings
   that exist only on this Mac: each is shown with its reason and left for you to choose, as for the other AI apps.
+- On the page of several apps, a file two chosen apps share stays deselected while either of them stays, no longer
+  coming back selected when you select the first one again, which Move to Trash would then have taken. A file you
+  select or deselect yourself while its app stays is left as you left it.
 
 #### Orphaned Files
 
@@ -447,6 +450,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   on its own, and one another version wrote stays as it was.
 - The folder where the `llm` command keeps its API keys and a log of every prompt is shown with that reason and never
   recommended, no longer as left by an app that's gone.
+- A launchd job that runs something from a disk that isn't connected, such as one started when a backup disk is
+  mounted, is no longer listed as left by an app that's gone, and neither are the files named for it.
 
 #### Intel Software
 
@@ -511,6 +516,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   then.
 - The note beside Known Vulnerabilities no longer says Homebrew checked the installed version when it checked the
   current one.
+- After you choose another `brew` in Settings, the page forgets every package of the other Homebrew, even when the new
+  one has no package list yet, so Uninstall can no longer run the new `brew` on a package of the same name there. The
+  commands the page gives name the new `brew` from the start.
 
 #### Space
 
@@ -538,10 +546,18 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   buttons ran past the sidebar and the next column.
 - A repository whose index file is cut short no longer makes Peel quit unexpectedly. Its build folders are listed, not
   selected, as in a repository whose list of tracked files Peel couldn't read, in the app and in `peel projects`.
+- A folder that holds the state Terraform or OpenTofu keeps of what it made, the only copy with a local backend, is
+  listed and not selected, on every page that measures folders: inside `.terragrunt-cache` it was suggested.
+- A folder that only a cache tag marks, with no kind Peel knows behind it, is no longer suggested, and the Time Machine
+  switch no longer leaves it out of backups: people tag their own big folders so backup tools skip them. It is still
+  listed as marked as a cache.
 
 #### Installers and Backups
 
 - An installer is known as an installed app's when that app's name is two characters in Chinese, Japanese, or Korean.
+- A disk image named for an installed app and a year or a word, such as Keynote 2019.dmg, counts as that app's
+  installer only when something on it says it was downloaded. Otherwise it may be your own image with your work
+  inside, so it is no longer suggested, and its row no longer says the app is installed.
 
 #### Duplicates
 
@@ -556,6 +572,15 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   as if the move were stuck.
 - A scan of many copies no longer holds about 18 KB for each until it ends, since each question to the guard lets go of
   what it made.
+- A copy in a folder a developer tool keeps, such as a model in ComfyUI's, InvokeAI's, Ollama's, LM Studio's, or
+  Hugging Face's store, stays and is never moved, with the tool's name, and no folder that is or holds such a folder is
+  offered whole: the tool looks for the file there by name. Which of the other copies Peel keeps doesn't change, in
+  the app and in `peel duplicates`.
+
+#### File Search
+
+- A coin wallet's `wallet.dat`, a KeePass database, or a Monero wallet's keys that a search finds are listed and not
+  selected, with the reason every other page gives, no longer recommended.
 
 #### Background Items
 
@@ -568,6 +593,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   no longer until you log out.
 - A job Peel no longer acts on since the list was read says so and to rescan, no longer that the request wasn't valid,
   and one whose name Peel doesn't pass to `launchctl` says that.
+- A job whose program is on a disk that isn't connected no longer says Nothing left to run: it may come back with its
+  disk.
 
 #### Extensions
 
