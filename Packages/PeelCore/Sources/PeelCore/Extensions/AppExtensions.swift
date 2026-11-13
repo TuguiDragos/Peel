@@ -104,6 +104,12 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
         guard let installedFor else { return false }
         return PathComponents.of(installedFor).dropLast().contains(where: PathComponents.isNamedAsAnApp)
     }
+
+    /// Whether macOS runs it, or may: it is neither turned off nor waiting for the person's approval. Only then does
+    /// a system extension hold an app bundled inside another in place.
+    public var mayRun: Bool {
+        ![.off, .waitingForApproval].contains(election)
+    }
     /// `installedFor`, when nothing is at that place anymore (`AppExtensions.goneApp(installedFor:)`).
     public let goneApp: String?
     /// The category `systemextensionsctl` lists a system extension under; nil for an app extension.
@@ -436,8 +442,7 @@ public enum AppExtensions {
             let team = item.teamIdentifier
             let sameTeam = app.teamIdentifier == nil || team == nil || team == app.teamIdentifier
             let isForAnAppInside = item.installedFor.map { PathComponents.isPath($0, inside: place) } ?? false
-            let runs = ![.off, .waitingForApproval].contains(item.election)
-            return (identifiers.contains(item.identifier) || (isForAnAppInside && runs))
+            return (identifiers.contains(item.identifier) || (isForAnAppInside && item.mayRun))
                 && item.election != .beingRemoved && sameTeam
         }
         // During an update macOS lists the old version beside the new one: each is named once, as the one that runs.

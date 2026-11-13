@@ -64,8 +64,11 @@ extension AppExtension {
             guard let newer = replacedBy else { return election.explanation }
             return "Version \(newer) replaced this one, which macOS is removing. Some removals finish only when the Mac restarts."
         }
+        // The uninstall waits for it only while it may run, so the note says so only then.
         if isForAnAppInsideAnother {
-            return "macOS runs this for an app bundled inside another, and no move of that app removes it: Finder asks macOS to remove only the extensions in an app’s own folder. Turn it off first in System Settings > General > Login Items & Extensions."
+            return mayRun
+                ? "macOS runs this for an app bundled inside another, and no move of that app removes it: Finder asks macOS to remove only the extensions in an app’s own folder. Turn it off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extension, turned off."
+                : "macOS keeps this for an app bundled inside another, and it isn’t running, so Peel can move that app now. No move of that app removes it: Finder asks macOS to remove only the extensions in an app’s own folder."
         }
         if isOnMacOS27 {
             return systemSettingsDeletesIt

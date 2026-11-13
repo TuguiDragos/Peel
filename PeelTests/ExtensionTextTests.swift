@@ -124,6 +124,23 @@ struct ExtensionTextTests {
         }
     }
 
+    @Test func anInnerAppsSystemExtensionIsToldToBeTurnedOffOnlyWhileItMayRun() {
+        func inner(_ election: AppExtension.Election) -> String {
+            AppExtension(
+                identifier: "org.example.part", name: "Part", kind: .systemExtension, point: nil, owner: "Example",
+                url: nil, election: election, teamIdentifier: nil, reportedState: nil,
+                installedFor: "/Applications/Example.app/Contents/Resources/Inner.app"
+            ).systemExtensionNote(isOnMacOS27: false, systemSettingsDeletesIt: false).key
+        }
+
+        for election in [AppExtension.Election.off, .waitingForApproval] {
+            #expect(!inner(election).contains("Turn it off first"))
+            #expect(inner(election).contains("Peel can move that app now"))
+        }
+        #expect(inner(.on).contains("Turn it off first"))
+        #expect(inner(.on).contains("macOS keeps the extension, turned off"))
+    }
+
     @Test func aSystemExtensionsNoteSaysWhatIsLeftToDoWithIt() {
         func system(
             election: AppExtension.Election = .on, goneApp: String? = nil, replacedBy: String? = nil
