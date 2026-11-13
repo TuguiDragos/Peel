@@ -210,6 +210,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - On macOS 27, a switch's long title is no longer drawn smaller, or cut, to make room for the switch, as in Romanian
   and German.
+- On macOS 27, Where screenshots are saved reads and changes the folder macOS uses now, which it keeps under a new
+  name once it has taken a screenshot: Choose… changed a setting macOS no longer read, and the row could show a folder
+  screenshots never went to.
+- While the Screenshot app saves to the Clipboard, Preview, Mail, or Messages, the folder row says so and how to save to
+  a folder again, instead of naming a folder that isn't used.
 
 #### Terminal
 
@@ -244,6 +249,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Nothing moves while the lock beside History or its journal can't be opened, and the page and `peel` say which file
   stops it; two writers at once no longer lose a count of the lifetime totals.
 - Clearing the refusals while another is written no longer stops both for good.
+- Put Back says when it brought a job's file back and launchd didn't start the job again, with launchd's answer, here
+  and in `peel restore`.
 
 #### Settings
 
@@ -269,6 +276,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - App Folders takes a disk of apps, such as an external SSD, no longer refusing it as a whole disk. It refuses the
   startup disk, the home folder's disk, and a disk holding a copy of macOS or a Time Machine backup, saying for that
   last one to choose the folder of apps on it. A folder linked into an Applications folder is read where it leads.
+- An account that isn't an administrator's is no longer offered Uninstall Helper, which only an administrator can do:
+  it asked, showed Uninstalling…, and then did nothing. A change of the helper this account can't make now says why.
 
 #### Applications
 
@@ -416,6 +425,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - On the page of several apps, a file two chosen apps share stays deselected while either of them stays, no longer
   coming back selected when you select the first one again, which Move to Trash would then have taken. A file you
   select or deselect yourself while its app stays is left as you left it.
+- A version the App Store lists that needs a newer macOS than this Mac's is no longer announced as an update, with a
+  badge, a count in the menu bar, and a notification, since the App Store doesn't install it here.
 
 #### Orphaned Files
 
@@ -531,6 +542,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   are offered.
 - With the home folder on another disk than macOS, Space shows a band for each disk, named, the startup disk first
   with the snapshots kept on it, no longer the home's disk beside the startup disk's snapshots.
+- Homebrew Data no longer says that no installed formula names a folder an installed formula keeps its data in, such
+  as MariaDB's `mysql`: the note shows only once Peel has read where every installed formula keeps its data.
 
 #### Developer
 
@@ -538,6 +551,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   page, in the list, and by `peel caches`, no longer left out without a word. Peel still doesn't follow the link.
 - Tart's pulled images and IPSW downloads are listed on their own, no longer the whole of `~/.tart/cache`, which also
   holds the disks Tart's stacked machines start from and never downloads again: Select Recommended no longer takes them.
+- A store of model weights no longer says only that its models are a long download to get back: a model you made or
+  imported with the tool is only there.
 
 #### Build Artifacts
 
@@ -595,6 +610,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   and one whose name Peel doesn't pass to `launchctl` says that.
 - A job whose program is on a disk that isn't connected no longer says Nothing left to run: it may come back with its
   disk.
+- A daemon whose file is a link only root can change, as MacPorts loads its services, can be loaded again: Peel's
+  helper refused it as a file that wasn't there.
 
 #### Extensions
 
@@ -603,6 +620,15 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Peel can move that app.
 - When macOS doesn't answer which extensions apps have added, the page says it can't list them and to rescan, no longer
   that a list it doesn't show says nothing.
+- A system extension macOS installed for an app inside another app, left after that app went, no longer tells you to
+  install the app again and move it to the Trash in Finder, which doesn't remove it.
+- A system extension's page no longer says Peel leaves its app to Finder, or to turn it off first, when the app's
+  maker removes it with its own uninstaller: it says what the app's page says.
+
+#### Plug-ins
+
+- Oracle's Java runtime, which its installer keeps in Internet Plug-Ins, is no longer called a plug-in nothing loads
+  anymore, here and in Intel Software: `/usr/bin/java` still runs it.
 
 #### Every page
 
