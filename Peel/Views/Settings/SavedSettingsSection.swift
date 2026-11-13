@@ -125,17 +125,13 @@ struct SavedSettingsSection: View {
     }
 
     /// Whether the app a copy belongs to is running, by the rule a reset uses: the app, its helpers, and another
-    /// copy of it that writes the same settings.
+    /// copy of it that writes the same settings, but no extension of it.
     private func isRunning(_ bundleIdentifier: String) -> Bool {
         guard let app = library.apps.first(where: { $0.bundleIdentifier == bundleIdentifier }) else {
             return !NSRunningApplication.runningApplications(withBundleIdentifier: bundleIdentifier).isEmpty
         }
-        return !RunningCopies.belonging(
-            to: app,
-            among: RunningCopies.current,
-            installedApps: library.apps,
-            sharingItsSettings: true
-        ).isEmpty
+        return !RunningCopies.toQuitBeforeAReset(of: app, among: RunningCopies.current, installedApps: library.apps)
+            .isEmpty
     }
 
     private func refreshOpenApps() {

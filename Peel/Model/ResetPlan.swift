@@ -202,12 +202,7 @@ final class ResetPlan {
     }
 
     private var relatedRunningApps: [NSRunningApplication] {
-        RunningCopies.belonging(
-            to: app,
-            among: RunningCopies.current,
-            installedApps: installedApps,
-            sharingItsSettings: true
-        )
+        RunningCopies.toQuitBeforeAReset(of: app, among: RunningCopies.current, installedApps: installedApps)
             .compactMap { NSRunningApplication(processIdentifier: $0.identifier) }
     }
 }

@@ -82,6 +82,15 @@ public enum RunningCopies {
         return own.filter { !kept.contains($0.identifier) }
     }
 
+    /// The processes among `running` a reset of `app`'s settings waits for: every copy of the app and its helpers,
+    /// which write those settings, but no app extension, which its host keeps running and nobody quits.
+    public static func toQuitBeforeAReset(
+        of app: InstalledApp, among running: [Process], installedApps: [InstalledApp]
+    ) -> [Process] {
+        belonging(to: app, among: running, installedApps: installedApps, sharingItsSettings: true)
+            .filter { $0.bundleURL?.pathExtension != "appex" }
+    }
+
     /// Returns the processes in `running` that belong to `app` and may be quit. The app itself is known by where it
     /// runs from: a copy elsewhere is another app, and quitting it would close the one in use. The app's helpers run
     /// from inside its bundle, or carry an identifier the bundle embeds or one that extends the app's, unless another

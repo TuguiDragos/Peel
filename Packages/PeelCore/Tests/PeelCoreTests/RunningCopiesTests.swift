@@ -18,6 +18,30 @@ struct RunningCopiesTests {
         #expect(!process("/Applications/Other.app/Contents/PlugIns/Finder.appex").isAnExtension(inside: app))
     }
 
+    @Test func aResetWaitsForEveryCopyOfTheAppButNoExtension() {
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.example.app",
+            name: "Example"
+        )
+        func process(_ identifier: pid_t, _ bundleIdentifier: String, at path: String) -> RunningCopies.Process {
+            RunningCopies.Process(
+                identifier: identifier, bundleIdentifier: bundleIdentifier,
+                bundleURL: URL(filePath: path, directoryHint: .isDirectory)
+            )
+        }
+        let running = [
+            process(1, "org.example.app", at: "/Applications/Example.app"),
+            process(2, "org.example.app", at: "/Users/someone/Applications/Example.app"),
+            process(3, "org.example.app.share", at: "/Applications/Example.app/Contents/PlugIns/Share.appex"),
+            process(4, "org.example.app.sync", at: "/Users/someone/Applications/Example.app/Contents/PlugIns/Sync.appex"),
+        ]
+
+        let waitedFor = RunningCopies.toQuitBeforeAReset(of: app, among: running, installedApps: [app])
+
+        #expect(waitedFor.map(\.identifier) == [1, 2])
+    }
+
     @Test func whatQuitsBeforeAnAppMovesLeavesOutItsExtensionsAndItsJobs() async {
         let app = InstalledApp(
             url: URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory),
