@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+@testable import PeelPrivileged
 import Synchronization
 import Testing
 
@@ -132,5 +133,46 @@ struct CombinedMovesTests {
         #expect(restored.failures.allSatisfy { $0 == nil })
         #expect(try files.map { try String(contentsOf: $0, encoding: .utf8) } == ["1", "2", "3"])
         withExtendedLifetime(disk) {}
+    }
+
+    @Test func whatAMoveCutShortLeftInStagingGoesToTheTrashAndBackAsItWas() throws {
+        let directory = try TemporaryDirectory()
+        let root = directory.url.path(percentEncoded: false)
+        try directory.directory("home/.Trash")
+        let original = try directory.file(
+            "root/Library/Caches/org.example.staged/cache.db", contents: Data("cache".utf8)
+        ).deletingLastPathComponent().path(percentEncoded: false)
+        let policy = PrivilegedPathPolicy(
+            homeDirectory: root + "home",
+            systemLocations: [root + "root/Library/Caches"],
+            applicationLocations: [],
+            restoreLocations: [root + "root/Library/Caches"],
+            trustedOwner: getuid()
+        )
+        let ledger = try #require(HelperLedger(at: directory.url.appending(path: "private/moved.plist")))
+        var before = stat()
+        try #require(lstat(original, &before) == 0)
+        let item = try policy.open(original).get()
+
+        // The helper wrote the item down and took it into Staging, then stopped before it reached the Trash.
+        try #require(ledger.record([item], movedBy: getuid()))
+        let staging = try directory.directory("private/Staging")
+        try directory.setPermissions(0o700, of: "private/Staging")
+        let staged = staging.appending(path: "\(getuid()).\(UUID().uuidString).\(item.name)")
+        try #require(rename(original, staged.path(percentEncoded: false)) == 0)
+
+        HelperLedger.recoverStaged(in: root + "private") { $0 == getuid() ? root + "home" : nil }
+
+        let trashed = root + "home/.Trash/" + item.name
+        #expect(FileManager.default.fileExists(atPath: trashed))
+        #expect(try FileManager.default.contentsOfDirectory(atPath: staging.path(percentEncoded: false)).isEmpty)
+        #expect(HelperPutBack.run(trashed, to: original, for: getuid(), policy: policy, ledger: { ledger }) == nil)
+
+        var after = stat()
+        try #require(lstat(original, &after) == 0)
+        #expect(after.st_ino == before.st_ino && after.st_uid == before.st_uid && after.st_mode == before.st_mode)
+        #expect(try String(contentsOfFile: original + "/cache.db", encoding: .utf8) == "cache")
+        #expect(try ledger.origin(of: try policy.open(original).get(), movedBy: getuid()) == nil)
+        #expect(try FileManager.default.contentsOfDirectory(atPath: root + "home/.Trash").isEmpty)
     }
 }
