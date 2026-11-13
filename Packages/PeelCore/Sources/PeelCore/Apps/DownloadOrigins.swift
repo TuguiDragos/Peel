@@ -37,6 +37,13 @@ public struct DownloadOrigins: Sendable {
             whereFrom(bundle) ?? quarantinedDownload(of: bundle)
         }
 
+        /// Whether anything on `url` says it was downloaded, with or without an address: Disk Utility,
+        /// `hdiutil create`, `pkgbuild` and `curl` leave neither the address nor the quarantine mark.
+        func showsADownload(_ url: URL) -> Bool {
+            DownloadOrigins.attribute("com.apple.metadata:kMDItemWhereFroms", of: url) != nil
+                || DownloadOrigins.attribute("com.apple.quarantine", of: url) != nil
+        }
+
         /// The attribute is a binary property list of addresses: the file's own address, then the page it was on.
         private func whereFrom(_ bundle: URL) -> URL? {
             guard let data = DownloadOrigins.attribute("com.apple.metadata:kMDItemWhereFroms", of: bundle),

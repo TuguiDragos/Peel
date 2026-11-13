@@ -227,11 +227,17 @@ public enum Installers {
                 } else if isArchive {
                     guard let inside = installerInside(zip: url) else { continue }
                     let installer = appInstaller(
-                        at: url, size: size, heldBack: heldBack, installedApps: installedApps, named: inside
+                        at: url, size: size, heldBack: heldBack,
+                        installedApps: origins.showsADownload(url) ? installedApps : [], named: inside
                     )
                     items.append(unlessItMayStillBeNeeded(installer, origins: origins))
                 } else if isInstaller {
-                    let installer = appInstaller(at: url, size: size, heldBack: heldBack, installedApps: installedApps)
+                    // A name says only what a file is called: one nothing shows was downloaded may be the person's
+                    // own disk image, named for the app its work was made with, so it is no installed app's installer.
+                    let installer = appInstaller(
+                        at: url, size: size, heldBack: heldBack,
+                        installedApps: origins.showsADownload(url) ? installedApps : []
+                    )
                     items.append(unlessItMayStillBeNeeded(installer, origins: origins))
                 } else {
                     items.append(firmware(

@@ -86,6 +86,9 @@ struct InstallersTests {
         try run("/usr/bin/zip", ["-qr", "../Downloads/Both.zip", "Rectangle.app", "Notes"], in: build)
         try directory.file("Build/Magnet.app/Contents/MacOS/Magnet", contents: randomData(count: 400_000))
         try run("/usr/bin/zip", ["-qr", "../Downloads/Two apps.zip", "Rectangle.app", "Magnet.app"], in: build)
+        for name in ["Xcode_26.1.xip", "download (3).zip"] {
+            try quarantined(directory.url.appending(path: "Downloads/\(name)"))
+        }
         try directory.directory("Applications")
 
         let scan = await Installers.scan(
@@ -112,6 +115,7 @@ struct InstallersTests {
         try run("/usr/bin/zip", ["-q", "../Downloads/download (4).zip", "Rectangle-0.87.dmg"], in: build)
         try run("/usr/bin/zip", ["-qr", "../Downloads/Tool.zip", "Tool.mpkg"], in: build)
         try run("/usr/bin/zip", ["-q", "../Downloads/With a note.zip", "Rectangle-0.87.dmg", "README.txt"], in: build)
+        try quarantined(directory.url.appending(path: "Downloads/download (4).zip"))
         try directory.directory("Applications")
 
         let scan = await Installers.scan(
@@ -157,7 +161,7 @@ struct InstallersTests {
 
     @Test func findsBigInstallersAndSaysWhichAppIsAlreadyInstalled() async throws {
         let directory = try TemporaryDirectory()
-        try directory.file("Downloads/VisualStudioCode-1.99.0.dmg", bytes: 400_000)
+        try quarantined(directory.file("Downloads/VisualStudioCode-1.99.0.dmg", bytes: 400_000))
         try directory.file("Downloads/SomethingNobodyHas-2.pkg", bytes: 400_000)
         try directory.file("Downloads/small.dmg", bytes: 16)
         try directory.file("Downloads/notes.txt", bytes: 400_000)
@@ -191,6 +195,7 @@ struct InstallersTests {
         try makeEncryptedImage(at: secrets)
         try directory.directory("Applications")
         for url in [unknown, fromTheWeb] { try downloaded(url) }
+        try quarantined(known)
         for url in [copied, known, photos, backup, secrets] { try age(url, changedHoursAgo: 2, addedHoursAgo: 2) }
 
         let scan = await Installers.scan(
@@ -213,6 +218,31 @@ struct InstallersTests {
             == Set([unknown, fromTheWeb, known].map { PathPattern.comparablePath(of: $0) }))
         #expect(Set(rows.notRecommendedAdded(by: []).map { PathPattern.comparablePath(of: $0) })
             == Set([copied, photos, backup, secrets].map { PathPattern.comparablePath(of: $0) }))
+    }
+
+    @Test func aFileNothingShowsWasDownloadedIsNoInstalledAppsInstaller() async throws {
+        let directory = try TemporaryDirectory()
+        let archive = try directory.file("Documents/Keynote 2019.dmg", bytes: 400_000)
+        let final = try directory.file("Documents/Keynote final.dmg", bytes: 400_000)
+        let downloaded = try directory.file("Downloads/Keynote-14.2.dmg", bytes: 400_000)
+        let quarantined = try directory.file("Downloads/Keynote 14.3.dmg", bytes: 400_000)
+        try directory.directory("Applications")
+        try self.downloaded(downloaded)
+        try self.quarantined(quarantined)
+        for url in [archive, final, quarantined] { try age(url, changedHoursAgo: 2, addedHoursAgo: 2) }
+
+        let scan = await Installers.scan(
+            installedApps: [app("Keynote", bundleIdentifier: "com.apple.iWork.Keynote")],
+            home: directory.url, root: directory.url, minimumSize: 100_000
+        )
+
+        let items = Dictionary(uniqueKeysWithValues: scan.items.map { ($0.name, $0) })
+        #expect(items["Keynote 2019.dmg"]?.installedApp == nil)
+        #expect(items["Keynote 2019.dmg"]?.heldBack == .mayBeTheOnlyCopy)
+        #expect(items["Keynote final.dmg"]?.heldBack == .mayBeTheOnlyCopy)
+        #expect(items["Keynote-14.2.dmg"]?.heldBack == .some(nil))
+        #expect(items["Keynote 14.3.dmg"]?.installedApp == "Keynote")
+        #expect(items["Keynote 14.3.dmg"]?.heldBack == .some(nil))
     }
 
     @Test func holdsBackAnInstallerThatJustArrived() async throws {
@@ -241,6 +271,15 @@ struct InstallersTests {
     private func downloaded(_ url: URL) throws {
         try whereFrom(url, "https://example.com/\(url.lastPathComponent)")
         try age(url, changedHoursAgo: 2, addedHoursAgo: 2)
+    }
+
+    /// Marks `url` as a download whose address nothing kept, as a private window or a download tool leaves one.
+    private func quarantined(_ url: URL) throws {
+        let mark = Data("0083;6553a0c0;Safari;".utf8)
+        let result = mark.withUnsafeBytes { bytes in
+            setxattr(url.path(percentEncoded: false), "com.apple.quarantine", bytes.baseAddress, mark.count, 0, 0)
+        }
+        try #require(result == 0)
     }
 
     /// Writes the address a browser writes on a download, as a binary property list of addresses.
