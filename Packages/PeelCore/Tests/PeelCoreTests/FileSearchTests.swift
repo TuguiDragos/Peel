@@ -249,6 +249,25 @@ struct FileSearchTests {
         #expect(Set(anything.files.map(\.url.lastPathComponent)) == ["index.ts", "clip.ts", "recording.ts"])
     }
 
+    @Test func holdsBackAWalletAndAPasswordDatabaseFoundOnTheirOwn() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let files = try ["wallet.dat", "Passwords.kdbx", "monero.keys", "notes.txt"].map {
+            try directory.file("home/Backups/\($0)", bytes: 10)
+        }
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url)
+
+        let results = FileSearch.results(
+            from: files.map { $0.path(percentEncoded: false) }, environment: environment, refusal: { _ in nil }
+        )
+        let heldBack = Dictionary(uniqueKeysWithValues: results.files.map { ($0.url.lastPathComponent, $0.heldBack) })
+
+        #expect(heldBack["wallet.dat"] == .holdsAWallet)
+        #expect(heldBack["Passwords.kdbx"] == .holdsAPasswordDatabase)
+        #expect(heldBack["monero.keys"] == .holdsAWallet)
+        #expect(heldBack["notes.txt"] == .some(nil))
+    }
+
     @Test func moviesLeaveOutTypeScriptModulesMacOSTypesAsAnAVCHDStream() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
