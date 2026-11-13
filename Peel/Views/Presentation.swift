@@ -478,6 +478,8 @@ extension HistoryWriteProblem {
             String(localized: "This account can’t write to \(folder.abbreviatedPath), where Peel keeps History. Peel removes nothing until it can, so that everything it moves can be put back.", bundle: bundle)
         case .diskFull(let free, let needed):
             String(localized: "The disk that holds Peel’s folder has \(free.formatted(.byteCount(style: .file))) free, and writing History needs \(needed.formatted(.byteCount(style: .file))). Peel removes nothing until there is room, so that everything it moves can be put back.", bundle: bundle)
+        case .noRoomLeft(let folder):
+            String(localized: "The disk that holds \(folder.abbreviatedPath) has no room left for Peel to write down each move. Peel removes nothing until there is room, so that everything it moves can be put back.", bundle: bundle)
         case .freeSpaceNotKnown(let folder):
             String(localized: "macOS didn’t say how much room is free on the disk that holds \(folder.abbreviatedPath). Peel removes nothing until it knows, so that everything it moves can be put back.", bundle: bundle)
         case .journalUnreadable(let journal):

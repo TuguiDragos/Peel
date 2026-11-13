@@ -694,8 +694,9 @@ public struct TrashService: Sendable {
                 result.failures.append(TrashFailure(url: url, reason: held))
                 return
             }
-            if let removal, let journal, !journal.note([departing(url)], batch: removal, beforeTheMove: true) {
-                let reason = TrashFailure.Reason.historyCannotBeWritten(journal.historyWriteProblem)
+            if let removal, let journal,
+               case .notWritten(let problem) = journal.note([departing(url)], batch: removal, beforeTheMove: true) {
+                let reason = TrashFailure.Reason.historyCannotBeWritten(journal.historyWriteProblem ?? problem)
                 unrecorded = reason
                 result.failures.append(TrashFailure(url: url, reason: reason))
                 stayed.append(url)
@@ -981,8 +982,10 @@ public struct TrashService: Sendable {
                 }
                 guard !request.isEmpty else { continue }
                 if unrecorded == nil, let journal,
-                   !journal.note(request.map(departing), batch: removal, beforeTheMove: true) {
-                    unrecorded = .historyCannotBeWritten(journal.historyWriteProblem)
+                   case .notWritten(let problem) = journal.note(
+                       request.map(departing), batch: removal, beforeTheMove: true
+                   ) {
+                    unrecorded = .historyCannotBeWritten(journal.historyWriteProblem ?? problem)
                     stayed += request
                 }
                 if let unrecorded {

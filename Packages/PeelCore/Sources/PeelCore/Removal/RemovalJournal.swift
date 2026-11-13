@@ -141,6 +141,13 @@ struct RemovalJournal: Sendable {
         RemovalLog.writeProblem(at: history)
     }
 
+    /// What writing lines came to.
+    enum Noted: Equatable {
+        case written
+        /// Not every line was written, for `problem` when the journal knows it: a disk with no room left.
+        case notWritten(HistoryWriteProblem?)
+    }
+
     /// Writes down `items`, which move together in `batch`, or in the removal and part `recorded` names, one line
     /// each, and answers whether every line was written. With `beforeTheMove`, the items have yet to move, and each
     /// names the Trash it goes to. An item the journal was in, Peel's own folder as Peel removes itself, is left out:
@@ -149,7 +156,7 @@ struct RemovalJournal: Sendable {
     func note(
         _ items: [TrashedItem], batch: UUID, recordedAs recorded: RecordedRemoval? = .current,
         beforeTheMove: Bool = false, by writer: Writer = .current
-    ) -> Bool {
+    ) -> Noted {
         let journal = url.path(percentEncoded: false)
         let entry = { (item: TrashedItem) in
             Entry(
@@ -163,13 +170,19 @@ struct RemovalJournal: Sendable {
         guard let lines = try? items
             .filter({ !PathComponents.isPath(journal, atOrInside: $0.originalURL.path(percentEncoded: false)) })
             .map({ try Self.encoder.encode(entry($0)) })
-        else { return false }
-        guard !lines.isEmpty else { return true }
+        else { return .notWritten(nil) }
+        guard !lines.isEmpty else { return .written }
+        let noRoom = Noted.notWritten(.noRoomLeft(url.deletingLastPathComponent()))
         return FileLock.whileHeld(beside: url) {
+            var failure: Int32 = 0
             let opened = PeelFolder.whileOpen(making: url.deletingLastPathComponent()) {
-                open(journal, O_RDWR | O_APPEND | O_CREAT | O_NOFOLLOW | O_CLOEXEC, 0o600)
+                let descriptor = open(journal, O_RDWR | O_APPEND | O_CREAT | O_NOFOLLOW | O_CLOEXEC, 0o600)
+                if descriptor < 0 { failure = errno }
+                return descriptor
             }
-            guard let descriptor = opened, descriptor >= 0 else { return false }
+            guard let descriptor = opened, descriptor >= 0 else {
+                return Self.isOutOfRoom(failure) ? noRoom : .notWritten(nil)
+            }
             defer { close(descriptor) }
             var data = Data()
             // A line cut short, as when the disk filled up, is ended first, so the next line is not read as part
@@ -182,10 +195,18 @@ struct RemovalJournal: Sendable {
             for line in lines {
                 data += line + Data("\n".utf8)
             }
-            let wrote = data.withUnsafeBytes { Darwin.write(descriptor, $0.baseAddress, $0.count) } == data.count
-            guard wrote, beforeTheMove else { return wrote }
-            return Self.flush(descriptor, before: items)
+            let written = data.withUnsafeBytes { Darwin.write(descriptor, $0.baseAddress, $0.count) }
+            guard written == data.count else {
+                // A disk with no room left writes part of the lines or none, whatever room it reports.
+                return written >= 0 || Self.isOutOfRoom(errno) ? noRoom : .notWritten(nil)
+            }
+            guard beforeTheMove else { return .written }
+            return Self.flush(descriptor, before: items) ? .written : .notWritten(nil)
         }
+    }
+
+    private static func isOutOfRoom(_ error: Int32) -> Bool {
+        error == ENOSPC || error == EDQUOT
     }
 
     /// Puts the lines just written on `descriptor` ahead of the moves they announce: a move must not reach a drive

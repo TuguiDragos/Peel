@@ -30,7 +30,7 @@ struct LinksInPeelsFolderTests {
         )
 
         #expect(RemovalLog.writeProblem(at: history) == .aLink(journal))
-        #expect(!RemovalJournal(beside: history).note([item], batch: UUID(), beforeTheMove: true))
+        #expect(RemovalJournal(beside: history).note([item], batch: UUID(), beforeTheMove: true) != .written)
         #expect(try Data(contentsOf: target).isEmpty)
     }
 }

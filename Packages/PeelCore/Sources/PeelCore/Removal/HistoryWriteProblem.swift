@@ -6,6 +6,9 @@ public enum HistoryWriteProblem: Sendable, Hashable {
     case folderNotWritable(URL)
     /// The disk holding History has `free` bytes, fewer than the `needed` a safe write of History takes.
     case diskFull(free: Int64, needed: Int64)
+    /// The disk holding `folder`, where History and its journal are kept, had no room left for a line, whatever room it
+    /// reported: a full APFS volume keeps some that it doesn't give a file.
+    case noRoomLeft(URL)
     case freeSpaceNotKnown(URL)
     /// What stands where the journal goes doesn't open as the journal: a folder, a link, or a file too big.
     case journalUnreadable(URL)
@@ -25,6 +28,7 @@ extension HistoryWriteProblem {
         switch self {
         case .folderNotWritable(let folder): "folder\n" + folder.path(percentEncoded: false)
         case .diskFull(let free, let needed): "disk\n\(free)\n\(needed)"
+        case .noRoomLeft(let folder): "room\n" + folder.path(percentEncoded: false)
         case .freeSpaceNotKnown(let folder): "free-space\n" + folder.path(percentEncoded: false)
         case .journalUnreadable(let journal): "journal\n" + journal.path(percentEncoded: false)
         case .journalNotWritable(let journal): "journal-write\n" + journal.path(percentEncoded: false)
@@ -44,6 +48,7 @@ extension HistoryWriteProblem {
             guard lines.count == 3, let free = Int64(lines[1]), let needed = Int64(lines[2]) else { return nil }
             self = .diskFull(free: free, needed: needed)
         case "free-space": self = .freeSpaceNotKnown(path)
+        case "room": self = .noRoomLeft(path)
         case "journal": self = .journalUnreadable(path)
         case "journal-write": self = .journalNotWritable(path)
         case "lock": self = .lockClosed(path)

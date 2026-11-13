@@ -104,7 +104,7 @@ struct RemovalJournalTests {
         )
         let removal = RecordedRemoval(batch: UUID(), part: RemovalPart(source: "Example", sourceKey: nil, tool: "applications"))
         let journal = RemovalJournal(beside: history)
-        #expect(journal.note([departing], batch: removal.batch, recordedAs: removal, beforeTheMove: true))
+        #expect(journal.note([departing], batch: removal.batch, recordedAs: removal, beforeTheMove: true) == .written)
         let landed = trash.appending(path: "Example 2.app")
         try FileManager.default.moveItem(at: app, to: landed)
 

@@ -217866,6 +217866,112 @@
         }
       }
     },
+    "The disk that holds %@ has no room left for Peel to write down each move. Peel removes nothing until there is room, so that everything it moves can be put back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na disku se složkou %@ už není místo, aby Peel mohl zaznamenávat každé přesunutí. Dokud nebude dost místa, Peel nic neodstraní, aby vše, co přesune, šlo vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf dem Volume, auf dem %@ liegt, ist nicht mehr genug Platz frei, damit Peel jedes Verschieben festhalten kann. Peel entfernt nichts, bis genug Platz frei ist, damit sich alles, was Peel verschiebt, zurücklegen lässt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El disco donde está %@ ya no tiene espacio para que Peel anote cada traslado. Peel no elimina nada hasta que haya espacio, para que todo lo que traslade se pueda restaurar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le disque qui contient %@ n’a plus assez de place pour que Peel y consigne chaque déplacement. Peel ne supprime rien tant qu’il n’y a pas assez de place, afin que tout ce qu’il déplace puisse être remis en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sul disco che contiene %@ non c’è più spazio perché Peel possa annotare ogni spostamento. Peel non rimuove nulla finché non c’è spazio, in modo che tutto ciò che sposta si possa ripristinare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@があるディスクには、Peelが移動のたびに記録を書き込むための空き領域が残っていません。空き領域ができるまで、Peelは何もゴミ箱に入れません。移動するものをすべて戻せるようにするためです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@이(가) 있는 디스크에 Peel이 각 이동 내역을 적어 둘 공간이 남아 있지 않습니다. 공간이 생기기 전까지 Peel은 이동하는 모든 항목을 되돌려 놓을 수 있도록 아무것도 제거하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Op de schijf waarop %@ staat, is geen ruimte meer voor Peel om elke verplaatsing te noteren. Peel verwijdert niets totdat er ruimte is, zodat alles wat Peel verplaatst, kan worden teruggezet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na dysku, na którym jest folder %@, nie ma już miejsca, aby Peel mógł notować każde przeniesienie. Peel niczego nie przeniesie do Kosza, dopóki nie będzie miejsca, aby wszystko, co przeniesie, można było przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O disco que contém %@ não tem mais espaço para o Peel registrar cada item que move. O Peel não remove nada até que haja espaço, para que tudo o que ele mover possa ser colocado de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discul pe care se află %@ nu mai are spațiu pentru ca Peel să noteze fiecare mutare. Peel nu elimină nimic până când nu există suficient spațiu, pentru ca tot ce mută să poată fi pus înapoi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На диске, где находится %@, не осталось места, чтобы Peel мог фиксировать каждое перемещение. Peel ничего не удаляет, пока не освободится место, чтобы все, что он перемещает, можно было восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skivan som innehåller %@ har inget utrymme kvar för att Peel ska kunna anteckna varje flytt. Peel tar inte bort något förrän det finns plats, så att allt som Peel flyttar kan läggas tillbaka."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ klasörünü barındıran diskte Peel’in her taşımayı kaydetmesine yetecek yer kalmadı. Peel, yeterli yer olana kadar hiçbir şeyi kaldırmaz, böylece taşıyacağı her şey yerine konabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На диску, де лежить %@, не лишилося місця, щоб Peel вела запис кожного переміщення. Peel нічого не вилучає, доки не зʼявиться місце, щоб усе, що Peel переміщує, можна було повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@所在的磁盘已没有空间让Peel记录每次移动。在有足够的空间之前，Peel不会移除任何内容，以确保它移动的所有内容都能放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@所在的磁碟已沒有空間讓Peel記下每一次移動。在有足夠空間之前，Peel不會移除任何項目，以確保它移動的所有項目都能還原。"
+          }
+        }
+      }
+    },
     "The disk that holds Peel’s folder has %@ free, and writing History needs %@. Peel removes nothing until there is room, so that everything it moves can be put back." : {
       "localizations" : {
         "cs" : {

@@ -14,13 +14,15 @@ final class ScratchVolume {
     /// `fileSystem` is a name `hdiutil create -fs` takes, such as `ExFAT` or `MS-DOS FAT32`. Two exFAT disks given one
     /// `serial` answer one volume UUID, as a disk and its clone do. A disk ignores its owners, as macOS mounts an
     /// external disk, unless `owners` says otherwise.
-    init(fileSystem: String, mountedAt url: URL, serial: UInt32? = nil, owners: Bool = false) throws {
+    init(
+        fileSystem: String, mountedAt url: URL, serial: UInt32? = nil, owners: Bool = false, size: String = "64m"
+    ) throws {
         image = try TemporaryDirectory()
         self.url = url
         let file = image.url.appending(path: "disk.dmg")
         try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
         try DiskImageTool.hdiutil(
-            ["create", "-size", "64m", "-fs", fileSystem] + Self.serial(for: fileSystem, given: serial)
+            ["create", "-size", size, "-fs", fileSystem] + Self.serial(for: fileSystem, given: serial)
                 + ["-volname", "Scratch", "-type", "UDIF", file.path]
         )
         try DiskImageTool.hdiutil(

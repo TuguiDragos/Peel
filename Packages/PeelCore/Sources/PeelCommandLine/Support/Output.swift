@@ -621,6 +621,7 @@ extension HistoryWriteProblem {
         case .folderNotWritable(let folder): "this account can't write \(Output.path(folder))"
         case .diskFull(let free, let needed):
             "the disk has \(Output.size(free)) free, and writing History needs \(Output.size(needed))"
+        case .noRoomLeft(let folder): "the disk that holds \(Output.path(folder)) has no room left to write down a move"
         case .freeSpaceNotKnown(let folder):
             "macOS didn't say how much room is free on the disk that holds \(Output.path(folder))"
         case .journalUnreadable(let journal): "\(Output.path(journal)) isn't a journal Peel can read"
