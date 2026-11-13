@@ -179,12 +179,22 @@ final class HomeModel {
     /// What Home says once nothing this account can set up is missing.
     enum AllSet {
         case everything
-        /// Only an administrator can install Peel's helper, so what only an administrator can move stays.
+        /// Only an administrator can install, allow, or repair Peel's helper, so what only an administrator can move
+        /// stays.
         case forThisAccount
     }
 
     static func allSet(helper: State) -> AllSet {
         helper == .notThisAccount ? .forThisAccount : .everything
+    }
+
+    /// What Home's banner says under its title once it has looked.
+    static func allSetDetail(_ allSet: AllSet) -> LocalizedStringResource {
+        switch allSet {
+        case .everything: "Peel can see everything it needs to."
+        case .forThisAccount:
+            "Peel can see everything it needs to. What only an administrator can move stays until an administrator installs, allows, or repairs Peel’s helper."
+        }
     }
 
     /// What the Command Line row's note says to do, which is what its button offers and what Settings says. Nil once

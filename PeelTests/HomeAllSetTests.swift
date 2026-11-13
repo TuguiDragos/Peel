@@ -1,3 +1,4 @@
+import Foundation
 @testable import Peel
 import Testing
 
@@ -7,5 +8,10 @@ struct HomeAllSetTests {
     @Test func aStandardAccountWithoutTheHelperIsSetOnlyForItself() {
         #expect(HomeModel.allSet(helper: .notThisAccount) == .forThisAccount)
         #expect(HomeModel.allSet(helper: .on) == .everything)
+    }
+
+    @Test func aStandardAccountHearsEveryWayAnAdministratorSetsUpTheHelper() {
+        #expect(HomeModel.allSetDetail(.forThisAccount).key.contains("installs, allows, or repairs Peel’s helper"))
+        #expect(HomeModel.allSetDetail(.everything).key == "Peel can see everything it needs to.")
     }
 }
