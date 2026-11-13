@@ -689,7 +689,16 @@ struct UninstallCommand: AsyncParsableCommand {
         installedSystemExtensions: CarriedSystemExtensions = .none,
         isAdministrator: Bool = PrivilegedHelper.isAdministrator
     ) -> CommandFailure? {
-        switch RemovedElsewhere.of(target, installedSystemExtensions: installedSystemExtensions) {
+        said(
+            RemovedElsewhere.of(target, installedSystemExtensions: installedSystemExtensions), of: target,
+            isAdministrator: isAdministrator
+        )
+    }
+
+    static func said(
+        _ removedElsewhere: RemovedElsewhere?, of target: InstalledApp, isAdministrator: Bool
+    ) -> CommandFailure? {
+        switch removedElsewhere {
         case nil:
             return nil
         case .byRemovePeel:

@@ -277,12 +277,14 @@ public struct MakersUninstaller: Sendable, Hashable {
     /// The maker's uninstaller for `app`, known by the team of its checked signature and by its identifier, both as
     /// the maker documents them. An identifier alone is what a bundle says of itself, and would let any app keep Peel
     /// away from it. A script or an uninstaller that isn't on the Mac is never offered, since its step could only fail,
-    /// and a script, often run with `sudo`, only while the app's seal or root alone vouches for it.
+    /// a script, often run with `sudo`, only while the app's seal or root alone vouches for it, and an uninstaller only
+    /// when the app's team signed it.
     static func of(
         _ app: InstalledApp,
         home: URL = .homeDirectory,
         isOnTheMac: (String) -> Bool = { !URL(filePath: $0).isMissing },
-        isOnlyRoots: (URL) -> Bool = MakersUninstaller.onlyRootCanChange
+        isOnlyRoots: (URL) -> Bool = MakersUninstaller.onlyRootCanChange,
+        isTheMakers: (URL, InstalledApp) -> Bool = VendorRemoval.isSignedByTheSameTeam
     ) -> MakersUninstaller? {
         guard let team = app.teamIdentifier, let identifier = app.bundleIdentifier?.lowercased(),
               let product = product(team: team, identifier: identifier)
@@ -295,8 +297,11 @@ public struct MakersUninstaller: Sendable, Hashable {
             else { return .notOnTheMac }
             return .command(([runner].compactMap(\.self) + [script.wordForTheShell(home: home)]).joined(separator: " "))
         }
+        // Anything an administrator's program writes could take the uninstaller's name, so only one its checked
+        // signature says the app's team made is opened.
         func open(_ uninstaller: URL) -> Step {
-            isOnTheMac(uninstaller.path(percentEncoded: false)) ? .uninstaller(uninstaller) : .notOnTheMac
+            isOnTheMac(uninstaller.path(percentEncoded: false)) && isTheMakers(uninstaller, app)
+                ? .uninstaller(uninstaller) : .notOnTheMac
         }
         let chosen: (step: Step, page: String) = switch product.step {
         case .script(let path, let runner): (run(path, with: runner), product.page)

@@ -15,7 +15,7 @@ struct MakersUninstallerTests {
     private func step(_ app: InstalledApp) -> MakersUninstaller.Step? {
         MakersUninstaller.of(
             app, home: URL(filePath: "/Users/me", directoryHint: .isDirectory), isOnTheMac: { _ in true },
-            isOnlyRoots: { _ in true }
+            isOnlyRoots: { _ in true }, isTheMakers: { _, _ in true }
         )?.step
     }
 
@@ -243,6 +243,19 @@ struct MakersUninstallerTests {
         #expect(MakersUninstaller.of(agent("com.zerotier.ZeroTier-UI", team: "8ZD9JUCZ4V")) { _ in false }?.step == .notOnTheMac)
         #expect(MakersUninstaller.of(agent("com.netskope.client", team: "24W52P9M7W")) { _ in false }?.step == .notOnTheMac)
         #expect(MakersUninstaller.of(agent("com.box.desktop", team: "M683GB7CPW")) { _ in false }?.step == .fromTheMakersPage)
+    }
+
+    @Test func anUninstallerAtItsPlaceSignedByAnotherTeamIsNotTheMakers() {
+        let netskope = agent("com.netskope.client", team: "24W52P9M7W")
+        func step(signedByTheMaker: Bool) -> MakersUninstaller.Step? {
+            MakersUninstaller.of(
+                netskope, isOnTheMac: { _ in true }, isOnlyRoots: { _ in true },
+                isTheMakers: { _, _ in signedByTheMaker }
+            )?.step
+        }
+
+        #expect(step(signedByTheMaker: true) == .uninstaller(URL(filePath: "/Applications/Remove Netskope Client.app/")))
+        #expect(step(signedByTheMaker: false) != .uninstaller(URL(filePath: "/Applications/Remove Netskope Client.app/")))
     }
 
     @Test func aScriptNothingVouchesForGetsNoCommand() throws {

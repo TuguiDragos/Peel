@@ -1377,27 +1377,36 @@ struct CommandLineTests {
         #expect(said?.contains("uninstall_gp.sh") == false)
     }
 
+    /// What `peel` says of an uninstaller ESET signed, which no test can make.
+    private func esetsUninstaller(_ uninstaller: URL, for app: InstalledApp) -> String? {
+        let page = URL(string: "https://support.eset.com/en/kb3239-how-do-i-uninstall-eset-cyber-security")
+        let step = MakersUninstaller(maker: "ESET", step: .uninstaller(uninstaller), instructions: page!, removes: nil)
+        return UninstallCommand.said(.byItsMaker(step), of: app, isAdministrator: true)?.description
+    }
+
     @Test func namesTheMakersUninstallerWithoutASlashAtTheEnd() throws {
         let directory = try TemporaryDirectory()
-        _ = try directory.directory("ESET Cyber Security.app/Contents/Helpers/Uninstaller.app")
+        let uninstaller = try directory.directory("ESET Cyber Security.app/Contents/Helpers/Uninstaller.app")
         let eset = InstalledApp(
             url: try directory.directory("ESET Cyber Security.app"), bundleIdentifier: "com.eset.ecs",
             name: "ESET Cyber Security", teamIdentifier: "P8DQRXPVLP"
         )
 
-        let said = UninstallCommand.removedElsewhere(eset)?.description
+        let said = esetsUninstaller(uninstaller, for: eset)
         #expect(said?.contains("/ESET Cyber Security.app/Contents/Helpers/Uninstaller.app. See https://support.eset.com/en/kb3239-how-do-i-uninstall-eset-cyber-security") == true, "\(said ?? "")")
     }
 
     @Test func namesAnUninstallerInsideTheAppAsPlainText() throws {
         let directory = try TemporaryDirectory()
-        _ = try directory.directory("Security\u{1B}[2J/ESET Endpoint Security.app/Contents/Helpers/Uninstaller.app")
+        let uninstaller = try directory.directory(
+            "Security\u{1B}[2J/ESET Endpoint Security.app/Contents/Helpers/Uninstaller.app"
+        )
         let eset = InstalledApp(
             url: try directory.directory("Security\u{1B}[2J/ESET Endpoint Security.app"), bundleIdentifier: "com.eset.ees",
             name: "ESET Endpoint Security", teamIdentifier: "P8DQRXPVLP"
         )
 
-        let said = UninstallCommand.removedElsewhere(eset)?.description
+        let said = esetsUninstaller(uninstaller, for: eset)
 
         #expect(said?.contains("/Security?[2J/ESET Endpoint Security.app/Contents/Helpers/Uninstaller.app.") == true, "\(said ?? "")")
     }
