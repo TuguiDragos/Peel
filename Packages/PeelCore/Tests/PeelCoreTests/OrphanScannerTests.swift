@@ -1934,6 +1934,24 @@ struct OrphanScannerTests {
         #expect(scan.groups.map(\.identifier) == ["org.example-gone.app"])
     }
 
+    @Test func anAppOutOfSightKeepsWhatItsHelpersAndGroupsAreNamedFor() async throws {
+        let directory = try TemporaryDirectory()
+        for name in ["net.elsewhere.helper", "group.net.elsewhere.shared"] {
+            try directory.file("home/Library/Caches/\(name)/cache.db")
+        }
+        let installedOnce = InstalledApp(
+            url: URL(filePath: "/Volumes/org.example.NotConnected-\(UUID().uuidString)/Studio.app"),
+            bundleIdentifier: "org.example.studio", name: "Studio",
+            applicationGroups: ["group.net.elsewhere.shared"], embeddedBundleIdentifiers: ["net.elsewhere.helper"]
+        )
+        let memory = AppMemory(url: directory.url.appending(path: "apps.json"))
+        let remembered = await memory.remember([installedOnce])
+
+        let scan = await scanner(in: directory).scan(installedApps: installed, remembered: remembered)
+
+        #expect(scan.groups.isEmpty, "\(scan.groups.map(\.identifier))")
+    }
+
     @Test func notesTheAppsMacOSKnowsOnAnotherDiskThatClaimFiles() async throws {
         let directory = try TemporaryDirectory()
         let info = """

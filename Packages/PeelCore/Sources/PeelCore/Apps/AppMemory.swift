@@ -21,6 +21,10 @@ public struct RememberedApp: Sendable, Hashable, Codable, Identifiable {
     public var isSignedByTheAppStore: Bool? = nil
     /// Where each of its places on a disk other than the startup disk is, by that disk's volume.
     public var disks: [String: DiskPlace]? = nil
+    /// What its bundle carries under identifiers of their own, and the groups it shares (`InstalledApp`), which keep
+    /// the files named for them while its disk is not connected.
+    public var embeddedBundleIdentifiers: [String]? = nil
+    public var applicationGroups: [String]? = nil
 
     public var id: String { bundleIdentifier }
 }
@@ -44,7 +48,8 @@ extension RememberedApp {
         return places.first { $0.isOutOfSight || AppInspector.isClosed($0.url) }.map(\.url).map {
             InstalledApp(
                 url: $0, bundleIdentifier: bundleIdentifier, name: name, teamIdentifier: teamIdentifier,
-                isSignedByTheAppStore: isSignedByTheAppStore == true
+                applicationGroups: applicationGroups ?? [], embeddedBundleIdentifiers: embeddedBundleIdentifiers ?? [],
+                isSignedByTheAppStore: isSignedByTheAppStore == true, productFolders: productFolders ?? []
             )
         }
     }
@@ -116,7 +121,9 @@ public struct AppMemory: Sendable {
                 otherPaths: others.isEmpty ? nil : Array(others),
                 productFolders: app.productFolders.isEmpty ? nil : app.productFolders,
                 isSignedByTheAppStore: app.isSignedByTheAppStore ? true : nil,
-                disks: disks.isEmpty ? nil : disks
+                disks: disks.isEmpty ? nil : disks,
+                embeddedBundleIdentifiers: app.embeddedBundleIdentifiers.isEmpty ? nil : app.embeddedBundleIdentifiers,
+                applicationGroups: app.applicationGroups.isEmpty ? nil : app.applicationGroups
             )
         }
 
