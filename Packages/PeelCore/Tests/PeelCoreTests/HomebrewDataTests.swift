@@ -13,24 +13,71 @@ import Testing
         #expect(HomebrewData.folders(in: prefix).map(\.lastPathComponent) == ["mysql", "postgresql@16", "redis-old"])
     }
 
+    // The lines that name `var` in homebrew-core's formulae at 93a821cfb9eb6a66ce39d4d55c91a0a189e7bf04.
+    private static let mariadb = ##"""
+          s.change_make_var! "ldata", "\"#{var}/mysql\""
+          -DMYSQL_DATADIR=#{var}/mysql
+        # Make sure the var/mysql directory exists
+        init_data_dir "mysql", using: :mariadb, base: :var
+        run [opt_bin/"mariadbd-safe", "--datadir=#{var}/mysql"]
+        working_dir var
+    """##
+    private static let redis = ##"""
+        %w[run db/redis log].each { |p| (var/p).mkpath }
+          s.gsub! "/var/run/redis_6379.pid", var/"run/redis.pid"
+          s.gsub! "dir ./", "dir #{var}/db/redis/"
+        error_log_path var/"log/redis.log"
+    """##
+    private static let prometheus = ##"""
+          --storage.tsdb.path #{var}/prometheus
+        log_path var/"log/prometheus.log"
+        error_log_path var/"log/prometheus.err.log"
+    """##
+    private static let postgresql = ##"""
+        mkdir_p "log", base: :var
+        init_data_dir formula_name, using: :postgresql, base: :var
+        var/name
+        var/"log/#{name}.log"
+    """##
+
     @Test func knowsTheFoldersInstalledFormulasNameInTheirOwnFiles() throws {
         let directory = try TemporaryDirectory()
         try directory.file(
-            "prefix/Cellar/mariadb/11.8.2/.brew/mariadb.rb",
-            contents: Data(#"  datadir = var/"mysql"\n  (var/"run/mariadb").mkpath\n"#.utf8)
-        )
-        try directory.file(
-            "prefix/Cellar/postgresql@16/16.9/.brew/postgresql@16.rb",
-            contents: Data("  def datadir = var/name\n  (var/\"log\").mkpath\n".utf8)
+            "prefix/Cellar/postgresql@17/17.6/.brew/postgresql@17.rb", contents: Data(Self.postgresql.utf8)
         )
         try directory.file(
             "prefix/Cellar/minio/2026.1/.brew/minio.rb", contents: Data(##"  (var/"#{name}").mkpath"##.utf8)
         )
+        try directory.file(
+            "prefix/Cellar/prometheus/3.5.0/.brew/prometheus.rb", contents: Data(Self.prometheus.utf8)
+        )
         let prefix = directory.url.appending(path: "prefix", directoryHint: .isDirectory)
 
         #expect(HomebrewData.foldersNamedByInstalledFormulae(in: prefix) == [
-            "mysql", "run", "postgresql@16", "log", "minio",
+            "log", "postgresql@17", "minio", "prometheus",
         ])
+    }
+
+    @Test func knowsNoFolderUnnamedWhileAFormulaLeavesVarToItsProgram() throws {
+        #expect(HomebrewData.names(in: Self.mariadb, formula: "mariadb") == nil)
+        #expect(HomebrewData.names(in: Self.redis, formula: "redis") == nil)
+        #expect(HomebrewData.names(in: "  system \"./configure\", \"--localstatedir=#{var}\"", formula: "tor") == nil)
+
+        let directory = try TemporaryDirectory()
+        try directory.file("prefix/var/mysql/ibdata1")
+        try directory.file("prefix/Cellar/mariadb/11.8.3/.brew/mariadb.rb", contents: Data(Self.mariadb.utf8))
+        let prefix = directory.url.appending(path: "prefix", directoryHint: .isDirectory)
+        #expect(HomebrewData.notes(on: HomebrewData.folders(in: prefix)).isEmpty)
+    }
+
+    @Test func notesNoFolderInUsrLocalWhereOtherProgramsInstallToo() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("root/usr/local/var/org.example.built-by-hand/data")
+        try directory.directory("root/usr/local/Cellar/git/2.51.0/.brew")
+        try directory.file("root/usr/local/Cellar/git/2.51.0/.brew/git.rb", contents: Data("  url \"x\"".utf8))
+        let prefix = directory.url.appending(path: "root/usr/local", directoryHint: .isDirectory)
+
+        #expect(HomebrewData.notes(on: HomebrewData.folders(in: prefix)).isEmpty)
     }
 
     @Test func readsTheChosenHomebrewOptHomebrewAndUsrLocalOnlyWithItsCellar() throws {
