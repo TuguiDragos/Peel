@@ -555,7 +555,8 @@ still shows its reason beside it.
 In Duplicates, one copy of every group always stays, and a file that changed since the scan is refused: right before the
 move, Peel reads again each copy that goes and the copies that stay, and a copy goes only while one that stays holds the
 same bytes. What Duplicates remembers between scans counts only on APFS, where every write leaves a time nothing can set
-back. When a scan you started ends, Duplicates selects every copy of each group but the one it suggests keeping,
+back, and never for a file a program of yours maps for writing, whose writes move no time until the program syncs
+them. When a scan you started ends, Duplicates selects every copy of each group but the one it suggests keeping,
 and never one in `/Users/Shared`, which every account may use: check which copy stays before you move the others.
 Nothing inside a repository, a project, `node_modules`, a photo or music library, an
 app, or another package is ever offered, nor a hidden file or folder, such as a tool's settings in `~/.config`. An app,

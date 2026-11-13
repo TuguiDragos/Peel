@@ -5,8 +5,9 @@ import Synchronization
 /// Digests one duplicate scan computed, saved so the next scan does not read an unchanged file again. A file is
 /// known by its device and inode, its size, and its modification, status change, and creation times, never by
 /// its name, and no name is saved. On APFS every write moves the status change time, which cannot be set back, so a
-/// file rewritten and given its old dates again is read again. Other disks keep no such time, so nothing is
-/// remembered for a file on one.
+/// file rewritten and given its old dates again is read again. A write through a memory mapping moves it only once
+/// the mapping is synced, so a file a process maps for writing is read again too (`MappedForWriting`). Other disks
+/// keep no such time, so nothing is remembered for a file on one.
 public struct DigestMemory: Sendable {
     /// The most files remembered, about 12 MB on disk: room for the files of a home folder that share a size with
     /// another file, which are the only ones read. The least recently used are forgotten first.
@@ -179,10 +180,19 @@ final class KnownDigests: Sendable {
 
     private let state: Mutex<State>
     private let day: UInt32
+    /// The files mapped for writing, read the first time the memory knows a file, since reading them walks every
+    /// process.
+    private let mappedForWriting: @Sendable () -> Set<FileIdentity.Link>
+    private let mapped = Mutex<Set<FileIdentity.Link>?>(nil)
 
-    init(entries: [Key: Entry], day: UInt32) {
+    init(
+        entries: [Key: Entry],
+        day: UInt32,
+        mappedForWriting: @escaping @Sendable () -> Set<FileIdentity.Link> = MappedForWriting.files
+    ) {
         state = Mutex(State(entries: entries))
         self.day = day
+        self.mappedForWriting = mappedForWriting
     }
 
     /// The memory for the file at `url`, or nil when it isn't on APFS.
@@ -223,6 +233,12 @@ final class KnownDigests: Sendable {
 
     private func known(_ identity: FileIdentity, _ part: (Entry) -> ContentDigest?) -> ContentDigest? {
         let key = Key(identity)
+        guard state.withLock({ $0.entries[key].flatMap(part) }) != nil else { return nil }
+        let isMapped = mapped.withLock { files in
+            if files == nil { files = mappedForWriting() }
+            return files?.contains(identity.link) == true
+        }
+        guard !isMapped else { return nil }
         return state.withLock { state in
             guard var entry = state.entries[key], let digest = part(entry) else { return nil }
             if entry.lastUsed != day {

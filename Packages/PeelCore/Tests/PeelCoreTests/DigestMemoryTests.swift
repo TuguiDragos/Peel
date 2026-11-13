@@ -148,6 +148,26 @@ struct DigestMemoryTests {
         #expect(names(try await scan(directory, memory: memory)).isEmpty)
     }
 
+    /// A write through a memory mapping reaches the file without moving any of its times until the mapping is synced.
+    @Test func readsAgainAFileAProcessMapsForWriting() async throws {
+        let directory = try TemporaryDirectory()
+        let memory = DigestMemory(url: directory.url.appending(path: "digests.bin"))
+        let (first, second) = try twoDifferentFiles(in: directory)
+        try remember(digest(7), for: [first, second], in: memory)
+        let before = try #require(FileIdentity.of(second))
+        let file = open(second.path(percentEncoded: false), O_RDWR)
+        try #require(file >= 0)
+        defer { close(file) }
+        let length = Int(before.size)
+        let mapping = try #require(mmap(nil, length, PROT_READ | PROT_WRITE, MAP_SHARED, file, 0))
+        try #require(mapping != MAP_FAILED)
+        defer { munmap(mapping, length) }
+        mapping.storeBytes(of: 0xAB, toByteOffset: length / 2, as: UInt8.self)
+
+        #expect(FileIdentity.of(second) == before, "the write moved a time, so this proves nothing")
+        #expect(names(try await scan(directory, memory: memory)).isEmpty)
+    }
+
     @Test(arguments: ["ExFAT", "MS-DOS FAT32"])
     func readsAgainAFileOnADiskThatKeepsNoStatusChangeTime(fileSystem: String) async throws {
         let directory = try TemporaryDirectory()
