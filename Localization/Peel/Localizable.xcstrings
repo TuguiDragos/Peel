@@ -272960,6 +272960,112 @@
         }
       }
     },
+    "`peel` does from Terminal what Peel does in its window. The line below says why there’s no command to run yet." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` dělá v Terminálu to, co Peel dělá ve svém okně. Řádek níže uvádí, proč zatím není k dispozici žádný příkaz ke spuštění."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` erledigt im Terminal, was Peel in seinem Fenster tut. Die Zeile darunter erklärt, warum es noch keinen Befehl zum Ausführen gibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` hace desde Terminal lo que Peel hace en su ventana. La línea de abajo explica por qué aún no hay ningún comando que ejecutar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` fait depuis Terminal ce que Peel fait dans sa fenêtre. La ligne ci-dessous indique pourquoi il n’y a pas encore de commande à exécuter."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` fa da Terminale ciò che Peel fa nella sua finestra. La riga qui sotto spiega perché non c’è ancora un comando da eseguire."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel`を使うと、Peelのウインドウで行うことをターミナルから行えます。実行するコマンドがまだない理由は、下の行で説明しています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel`은 Peel이 윈도우에서 하는 작업을 터미널에서 수행합니다. 아래 줄에 아직 실행할 명령이 없는 이유가 나와 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` doet vanuit Terminal wat Peel in zijn venster doet. De regel hieronder vertelt waarom er nog geen commando is om uit te voeren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` robi w Terminalu to samo, co Peel w swoim oknie. Wiersz poniżej wyjaśnia, dlaczego nie ma jeszcze polecenia do uruchomienia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O `peel` faz no Terminal o que o Peel faz na própria janela. A linha abaixo explica por que ainda não há um comando para executar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` face din Terminal ce face Peel în fereastra sa. Linia de mai jos spune de ce nu există încă o comandă de rulat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` делает в Терминале то же, что Peel делает в своем окне. В строке ниже объясняется, почему команды для запуска пока нет."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` gör i Terminal det som Peel gör i sitt fönster. Raden nedan förklarar varför det inte finns något kommando att köra än."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel`, Peel’in kendi penceresinde yaptığını Terminal’den yapar. Aşağıdaki satır, henüz neden çalıştırılacak bir komut olmadığını söylüyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel` робить із Термінала те саме, що Peel робить у своєму вікні. Рядок нижче пояснює, чому команди для запуску ще немає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel`可以在“终端”中完成Peel在其窗口中所做的事情。下面这一行说明了为何目前还没有可运行的命令。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "`peel`可在「終端機」中完成Peel在其視窗中所做的事。下方那一行說明目前為何還沒有可執行的指令。"
+          }
+        }
+      }
+    },
     "`peel` is on your path. Type `peel --help` in Terminal to see what it can do." : {
       "localizations" : {
         "cs" : {

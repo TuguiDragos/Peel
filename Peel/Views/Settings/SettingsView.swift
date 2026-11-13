@@ -186,13 +186,18 @@ struct GeneralSettingsView: View {
     static let hidesFromDockNote: LocalizedStringResource = "While Peel shows in the menu bar, its icon leaves the Dock when you close its last window, and comes back when you open Peel again from the menu bar, Finder, or Spotlight. If the menu bar is full, macOS may hide Peel there, so open it from Finder or Spotlight."
 
     /// What the command-line tool's note says to do, as the row stands: nothing to run once `peel` is on the path,
-    /// and a line for the shell on an account that isn't an administrator's.
-    static func commandLineNote(installed: Bool, standardAccount: Bool) -> LocalizedStringResource {
+    /// a line for the shell on an account that isn't an administrator's, and no command while none is offered.
+    static func commandLineNote(
+        installed: Bool, standardAccount: Bool, offersACommand: Bool
+    ) -> LocalizedStringResource {
         if installed {
             return "`peel` is on your path. Type `peel --help` in Terminal to see what it can do."
         }
         if standardAccount {
             return "Add the line below to your shell’s startup file to use `peel` from this account, then type `peel --help` in Terminal to see what it can do."
+        }
+        guard offersACommand else {
+            return "`peel` does from Terminal what Peel does in its window. The line below says why there’s no command to run yet."
         }
         return "Run the command in Terminal to use `peel` from anywhere, then type `peel --help` to see what it can do."
     }
@@ -382,7 +387,10 @@ struct GeneralSettingsView: View {
                 } label: {
                     titled(
                         "Command-line tool",
-                        Self.commandLineNote(installed: commandLine == .installed, standardAccount: isStandardAccount)
+                        Self.commandLineNote(
+                            installed: commandLine == .installed, standardAccount: isStandardAccount,
+                            offersACommand: installCommand != nil
+                        )
                     )
                 }
                 switch Self.place {
