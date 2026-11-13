@@ -148,6 +148,34 @@ enum KeptOnlyHere {
         // Handy keeps what it heard and wrote in `recordings` and `history.db` (`src-tauri/src/managers/history.rs`).
         ("Library/Application Support/com.pais.handy", "history.db", .holdsWorkMadeWithTheApp),
         ("Library/Application Support/com.pais.handy", "recordings", .holdsWorkMadeWithTheApp),
+        // LM Studio's "Conversations folder filesystem path".
+        (".lmstudio", "conversations", .holdsWorkMadeWithTheApp),
+        // AnythingLLM's "Where is my data stored?": its database, the documents and files given to it, and the
+        // agent skills made for it.
+        ("Library/Application Support/anythingllm-desktop", "storage/anythingllm.db", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/anythingllm-desktop", "storage/documents", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/anythingllm-desktop", "storage/direct-uploads", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/anythingllm-desktop", "storage/plugins", .holdsWorkMadeWithTheApp),
+        // Osaurus' `docs/STORAGE.md`: chats, memory, and attachments.
+        (".osaurus", nil, .holdsWorkMadeWithTheApp),
+        // MacWhisper's "Local Files & Data Locations": its database of transcripts and the media beside it, and the
+        // same in the container of its App Store edition.
+        ("Library/Application Support/MacWhisper", nil, .holdsWorkMadeWithTheApp),
+        (
+            "Library/Containers/com.goodsnooze.MacWhisper",
+            "Data/Library/Application Support/MacWhisper",
+            .holdsWorkMadeWithTheApp
+        ),
+        // superwhisper's documentation: its history, recordings, and modes, in `~/superwhisper` or, for an older copy,
+        // `~/Documents/superwhisper`.
+        ("superwhisper", nil, .holdsWorkMadeWithTheApp),
+        ("Documents/superwhisper", nil, .holdsWorkMadeWithTheApp),
+        // VoiceInk's `VoiceInk.swift` and `TranscriptionAutoCleanupService.swift`: its transcripts, kept on this Mac
+        // alone, and its recordings.
+        ("Library/Application Support/com.prakashjoshipax.VoiceInk", "default.store", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/com.prakashjoshipax.VoiceInk", "Recordings", .holdsWorkMadeWithTheApp),
+        // Buzz's `buzz/db/db.py`: its transcriptions.
+        ("Library/Application Support/Buzz", "Buzz.sqlite", .holdsWorkMadeWithTheApp),
         // Objective Development's "How can I uninstall Little Snitch 4?": the person's rules and settings are here and
         // in `Objective Development/Little Snitch` in the Library every account shares.
         ("Library/Application Support/Little Snitch", nil, .holdsWorkMadeWithTheApp),
