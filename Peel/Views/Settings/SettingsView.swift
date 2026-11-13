@@ -814,11 +814,11 @@ private struct HelperSettingsView: View {
         switch helper.standing {
         case .notInstalled:
             helper.standing.offersInstall(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy)
-                ? nil : Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: true))
+                ? nil : Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: true, status: helper.status))
         case .waitingForApproval:
             Text("Allow Peel in System Settings > General > Login Items & Extensions.")
         case .notThisAccount:
-            Text("Only an administrator can install, allow, or repair the helper. Once it works, Peel asks for an administrator’s name and password each time this account needs it.")
+            Text(helper.whyItCannotAct)
         case .notAnswering:
             // Several causes share this message: an older or newer helper, a signature that doesn't
             // match, or a helper that didn't start.

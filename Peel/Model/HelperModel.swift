@@ -34,6 +34,11 @@ final class HelperModel {
         PrivilegedHelper.Standing(status: status, isAdministrator: isAdministrator, isResponding: isResponding)
     }
 
+    /// Why the helper can't act for this account, as the pages that need it say it.
+    var whyItCannotAct: LocalizedStringResource {
+        standing.whyItCannotAct(registeredByAnotherCopy: isRegisteredByAnotherCopy, status: status)
+    }
+
     private(set) var isAdministrator = PrivilegedHelper.isAdministrator
 
     /// True when a Peel helper is registered, but not by this copy of Peel. Registration belongs to a bundle,

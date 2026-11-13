@@ -1,5 +1,6 @@
 import Foundation
 @testable import Peel
+import PeelCore
 import Testing
 
 struct HomeAllSetTests {
@@ -11,7 +12,11 @@ struct HomeAllSetTests {
     }
 
     @Test func aStandardAccountHearsEveryWayAnAdministratorSetsUpTheHelper() {
-        #expect(HomeModel.allSetDetail(.forThisAccount).key.contains("installs, allows, or repairs Peel’s helper"))
-        #expect(HomeModel.allSetDetail(.everything).key == "Peel can see everything it needs to.")
+        let step = PrivilegedHelper.Standing.notThisAccount.whyItCannotAct(
+            registeredByAnotherCopy: false, status: .notRegistered
+        )
+        let said = String(localized: HomeModel.allSetDetail(.forThisAccount, helper: step))
+        #expect(said.hasSuffix(String(localized: step)))
+        #expect(HomeModel.allSetDetail(.everything, helper: step).key == "Peel can see everything it needs to.")
     }
 }

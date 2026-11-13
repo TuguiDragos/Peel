@@ -255,7 +255,9 @@ struct HomePermissionsContent: View {
             let missing = toSetUp.map { String(localized: $0.title) }.formatted(.list(type: .and))
             let detail = Text(verbatim: notice.detail(
                 missing: missing,
-                otherCopy: String(localized: helper.standing.whyItCannotAct(registeredByAnotherCopy: true)),
+                otherCopy: String(
+                    localized: helper.standing.whyItCannotAct(registeredByAnotherCopy: true, status: helper.status)
+                ),
                 reopens: home.needsRelaunchForFullDiskAccess
             ))
             Notice(
@@ -299,7 +301,7 @@ struct HomePermissionsContent: View {
                     Text(!hasLooked ? "Checking what Peel can reach" : allSet == .forThisAccount ? "Set for this account" : "You’re all set")
                         .font(.system(size: 12.5, weight: .bold, design: .rounded))
                         .foregroundStyle(Album.ink)
-                    Text(hasLooked ? HomeModel.allSetDetail(allSet) : "Asking macOS what is allowed.")
+                    Text(hasLooked ? HomeModel.allSetDetail(allSet, helper: helper.whyItCannotAct) : "Asking macOS what is allowed.")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
@@ -385,7 +387,9 @@ extension HomeModel {
         switch permission {
         case .helper where state(of: .helper) == .missing && helper.standing != .notAnswering
             && helper.isRegisteredByAnotherCopy:
-            Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: true))
+            Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: true, status: helper.status))
+        case .helper where state(of: .helper) == .notThisAccount:
+            Text(helper.whyItCannotAct)
         case .openAtLogin where loginItem.failure != nil:
             Text(verbatim: loginItem.failure ?? "")
         case .appManagement where state(of: .appManagement) == .pending:

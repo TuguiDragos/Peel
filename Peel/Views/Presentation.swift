@@ -131,7 +131,9 @@ extension HelperModel {
         if let changing { return changing.progress }
         guard hasChecked else { return "Checking…" }
         return switch standing {
-        case .notThisAccount: "Needs an administrator"
+        case .notThisAccount where status == .requiresApproval: "Needs approval, or was turned off"
+        case .notThisAccount where status == .enabled: "Not answering"
+        case .notThisAccount: "Not installed"
         case .notAnswering: "Not answering"
         case .ready: "Installed"
         case .waitingForApproval: "Needs approval, or was turned off"

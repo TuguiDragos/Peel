@@ -198,7 +198,7 @@ struct PackageDetailView: View {
             return Text("The app this package installed is excluded in Settings, so Peel leaves its receipt alone too.")
         }
         return forgettingWaitsForTheHelper
-            ? Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy))
+            ? Text(helper.whyItCannotAct)
             : Text("The receipt goes to the Trash. Files stay where they are.")
     }
 

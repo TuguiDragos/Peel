@@ -188,12 +188,12 @@ final class HomeModel {
         helper == .notThisAccount ? .forThisAccount : .everything
     }
 
-    /// What Home's banner says under its title once it has looked.
-    static func allSetDetail(_ allSet: AllSet) -> LocalizedStringResource {
+    /// What Home's banner says under its title once it has looked: on an account that isn't an administrator's, also
+    /// `helper`, where the helper stands and what an administrator does about it.
+    static func allSetDetail(_ allSet: AllSet, helper: LocalizedStringResource) -> LocalizedStringResource {
         switch allSet {
         case .everything: "Peel can see everything it needs to."
-        case .forThisAccount:
-            "Peel can see everything it needs to. What only an administrator can move stays until an administrator installs, allows, or repairs Peel’s helper."
+        case .forThisAccount: "Peel can see everything it needs to. \(String(localized: helper))"
         }
     }
 

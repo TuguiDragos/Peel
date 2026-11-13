@@ -157,7 +157,7 @@ struct PackageList: View {
 
     private func forgetAllHelp(for receipts: [PackageReceipt]) -> Text {
         guard !waitsForTheHelper(toForget: receipts) else {
-            return Text(helper.standing.whyItCannotAct(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy))
+            return Text(helper.whyItCannotAct)
         }
         return Text(verbatim: history.holdingReason?.explanation ?? "")
     }
