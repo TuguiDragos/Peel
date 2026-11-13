@@ -579,6 +579,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Every page
 
+- Peel no longer stops a few seconds after it opens on a beta of macOS 27.2 that lacks two comparisons of dates the
+  released 27.2 has: Peel compares dates on its own.
 - Where Peel gives a command that runs `sudo`, such as one that removes what an app leaves in `/etc`, a maker's
   uninstaller, stopping a Homebrew service, or turning sleep back on, it says on an account that isn't an
   administrator's that an administrator runs it, or you run it after `su`.
