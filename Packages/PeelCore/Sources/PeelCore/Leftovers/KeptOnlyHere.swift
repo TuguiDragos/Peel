@@ -110,8 +110,10 @@ enum KeptOnlyHere {
         ("Library/Application Support/minecraft", "screenshots", .holdsWorkMadeWithTheApp),
         // Prism Launcher's "Data Locations" and `MinecraftInstance.cpp`: each instance keeps its worlds in `saves`.
         ("Library/Application Support/PrismLauncher", "instances", .holdsWorkMadeWithTheApp),
-        // Chatbox's "Data Storage": the conversations stay on this device, and its team can't recover them.
+        // Chatbox's "Data Storage": the conversations stay on this device, and its team can't recover them. Its
+        // repository's `docs/technical/storage-map.md` and its cask name the folder it uses by default on a Mac.
         ("Library/Application Support/chatbox", nil, .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/xyz.chatboxapp.app", nil, .holdsWorkMadeWithTheApp),
         // Google's "Fix problems in Drive for desktop": a file it couldn't upload is copied to `lost_and_found`.
         ("Library/Application Support/Google/DriveFS", "lost_and_found", .holdsWorkMadeWithTheApp),
         // Postgres.app's "Installing Postgres.app": its default data directory is `Postgres/var-XX`, and deleting the
