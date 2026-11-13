@@ -211080,6 +211080,112 @@
         }
       }
     },
+    "Terminal opens a shell other than zsh, so these lines, written for zsh, don’t apply." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminál otevírá jiný shell než zsh, takže se tyto řádky, napsané pro zsh, neuplatní."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal öffnet eine andere Shell als zsh, daher gelten diese für zsh geschriebenen Zeilen nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal abre una shell distinta de zsh, así que estas líneas, escritas para zsh, no se aplican."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal ouvre un autre shell que zsh : ces lignes, écrites pour zsh, ne s’appliquent donc pas."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminale apre una shell diversa da zsh, quindi queste righe, scritte per zsh, non si applicano."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ターミナルで開くシェルがzsh以外のため、zsh用に書かれたこれらの行は適用されません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "터미널이 zsh가 아닌 셸을 열므로 zsh용으로 작성된 이 줄들은 적용되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal opent een andere shell dan zsh, dus deze regels, geschreven voor zsh, zijn niet van toepassing."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal otwiera powłokę inną niż zsh, więc te wiersze, napisane dla zsh, nie mają zastosowania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Terminal abre um shell diferente do zsh, então estas linhas, escritas para o zsh, não se aplicam."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal deschide un alt shell decât zsh, așa că aceste linii, scrise pentru zsh, nu se aplică."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Терминал открывает оболочку, отличную от zsh, поэтому эти строки, написанные для zsh, не применяются."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal öppnar en annan kommandotolk än zsh, så de här raderna, som är skrivna för zsh, gäller inte."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal zsh dışında bir kabukla açılıyor, bu yüzden zsh için yazılmış bu satırlar uygulanmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Термінал відкриває не zsh, а іншу оболонку, тож ці рядки, написані для zsh, не діють."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“终端”打开的是zsh以外的shell，因此这些为zsh编写的行不适用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「終端機」打開的是zsh以外的Shell，而這幾行是為zsh所寫，因此不適用。"
+          }
+        }
+      }
+    },
     "Terminal opens a shell other than zsh, so these settings don’t apply." : {
       "localizations" : {
         "cs" : {
@@ -211182,6 +211288,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「終端機」打開的是zsh以外的Shell，因此這些設定不適用。"
+          }
+        }
+      }
+    },
+    "Terminal opens bash, so these lines, written for zsh, don’t apply." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminál otevírá bash, takže se tyto řádky, napsané pro zsh, neuplatní."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal öffnet bash, daher gelten diese für zsh geschriebenen Zeilen nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal abre bash, así que estas líneas, escritas para zsh, no se aplican."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal ouvre bash : ces lignes, écrites pour zsh, ne s’appliquent donc pas."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminale apre bash, quindi queste righe, scritte per zsh, non si applicano."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ターミナルで開くシェルがbashのため、zsh用に書かれたこれらの行は適用されません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "터미널이 bash를 열므로 zsh용으로 작성된 이 줄들은 적용되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal opent bash, dus deze regels, geschreven voor zsh, zijn niet van toepassing."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal otwiera powłokę bash, więc te wiersze, napisane dla zsh, nie mają zastosowania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Terminal abre o bash, então estas linhas, escritas para o zsh, não se aplicam."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal deschide bash, așa că aceste linii, scrise pentru zsh, nu se aplică."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Терминал открывает bash, поэтому эти строки, написанные для zsh, не применяются."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal öppnar bash, så de här raderna, som är skrivna för zsh, gäller inte."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminal bash ile açılıyor, bu yüzden zsh için yazılmış bu satırlar uygulanmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Термінал відкриває bash, тож ці рядки, написані для zsh, не діють."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“终端”打开的是bash，因此这些为zsh编写的行不适用。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「終端機」打開的是bash，而這幾行是為zsh所寫，因此不適用。"
           }
         }
       }

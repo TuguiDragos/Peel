@@ -241,6 +241,20 @@ struct TerminalLibrariesTests {
         #expect(ShellTab.didNotAnswer(known: nil, askedWithTheFiles: true)?.key == TerminalPage.didNotAnswer("zsh").key)
     }
 
+    @Test func theToolsForTheShellSayTheirZshLinesDontApplyWhenTerminalOpensBash() async throws {
+        let home = try madeUpHome()
+        defer { try? FileManager.default.removeItem(at: home) }
+        let folder = home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory)
+        let terminal = FakeTerminalSettings()
+        terminal.shellSetting = "/bin/bash"
+        let library = ShellLibrary(folder: folder, home: home, terminal: terminal)
+
+        await library.refresh()
+
+        #expect(ToolsTab.shellNote(library.state, zshrc: "~/.zshrc").key.contains("don’t apply"))
+        #expect(ToolsTab.shellNote(nil, zshrc: "~/.zshrc").key == ToolsTab.linesGoIn("~/.zshrc").key)
+    }
+
     @Test func theShellTabLooksForNoZshrcWhenTerminalOpensBash() async throws {
         let home = try madeUpHome()
         defer { try? FileManager.default.removeItem(at: home) }

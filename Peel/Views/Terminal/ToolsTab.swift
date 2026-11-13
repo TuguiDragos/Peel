@@ -14,6 +14,19 @@ struct ToolsTab: View {
         "Their lines go in \(zshrc) in the order they are listed here."
     }
 
+    /// What the tools for the shell say under them: that their lines, written for zsh, don't apply while Terminal
+    /// opens another shell, as the Shell tab says, and otherwise where they go.
+    static func shellNote(_ state: ShellLibrary.State?, zshrc: String) -> LocalizedStringResource {
+        if let state, !state.isZsh {
+            return state.shell == .bash
+                ? "Terminal opens bash, so these lines, written for zsh, don’t apply."
+                : "Terminal opens a shell other than zsh, so these lines, written for zsh, don’t apply."
+        }
+        return state?.zshrcNotKnown == true
+            ? "Peel can’t tell which .zshrc zsh reads, so these lines say ~/.zshrc. Ask zsh on the Shell tab to find out."
+            : linesGoIn(zshrc)
+    }
+
     var body: some View {
         Form {
             if let state = tools.state {
@@ -67,9 +80,7 @@ struct ToolsTab: View {
                         Text(group.title)
                     } footer: {
                         if group == .shell {
-                            Text(shell.state?.zshrcNotKnown == true
-                                ? "Peel can’t tell which .zshrc zsh reads, so these lines say ~/.zshrc. Ask zsh on the Shell tab to find out."
-                                : Self.linesGoIn(zshrc))
+                            Text(Self.shellNote(shell.state, zshrc: zshrc))
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
