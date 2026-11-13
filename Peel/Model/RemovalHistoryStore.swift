@@ -592,10 +592,10 @@ final class RemovalHistoryStore {
             for record in ordered {
                 failures[record.id] = problems[record.id]
             }
-            if !stayed.isEmpty {
+            if !stayed.isEmpty || !answers.jobsNotStarted.isEmpty {
                 outcome?.reportPutBack(stayed.map {
                     RemovalOutcome.PutBackFailure(url: $0.record.originalURL, failure: $0.failure)
-                }, of: ordered.count)
+                }, of: ordered.count, jobsNotStarted: answers.jobsNotStarted)
             }
             selectedIDs.subtract(restored)
             if !restored.isEmpty {

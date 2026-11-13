@@ -37,7 +37,7 @@ private struct EditedAgent: ~Copyable {
                 rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
             ),
             exclusions: exclusions,
-            startJob: { job, _ in started.add(job.label) }
+            startJob: { job, _ in started.add(job.label); return nil }
         ) { url in
             var destination = trash.appending(path: url.lastPathComponent)
             if FileManager.default.fileExists(atPath: destination.path(percentEncoded: false)) {

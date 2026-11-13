@@ -450,7 +450,7 @@ struct RestoreCommand: AsyncParsableCommand {
         // What was excluded while the question was up stays in the Trash.
         let putter = service.excluding(await ExclusionStore().load())
 
-        let (restored, failures, forgotten) = await Uninterrupted.run {
+        let (restored, failures, forgotten, notStarted) = await Uninterrupted.run {
             var restored: Set<UUID> = []
             var failures: [(RemovalRecord, RestoreFailure)] = []
             let ordered = going.inPutBackOrder
@@ -472,7 +472,7 @@ struct RestoreCommand: AsyncParsableCommand {
                 aside += record.part.records(of: TrashResult(trashed: [movedAside]), sizes: sizes, batch: UUID())
             }
             let kept = aside.isEmpty ? true : await log.add(aside).records != nil
-            return (restored, failures, await log.remove(restored).records != nil && kept)
+            return (restored, failures, await log.remove(restored).records != nil && kept, answers.jobsNotStarted)
         }
 
         Output.line("Put \(Output.count(restored.count, "item", "items")) back.")
@@ -481,6 +481,9 @@ struct RestoreCommand: AsyncParsableCommand {
         }
         for (record, failure) in failures {
             Output.note("Couldn't put \(Output.plain(Output.path(record.originalURL))) back: \(failure.summary)")
+        }
+        for (label, answer) in notStarted {
+            Output.note("\(Output.plain(label)) is back, but launchd didn't start it again: \(Output.plain(answer))")
         }
         let stayed = gone > 0 || !failures.isEmpty || !refused.isEmpty || !waiting.isEmpty || !notKnown.isEmpty
         try Cleanup.end(failed: stayed, recorded: forgotten)

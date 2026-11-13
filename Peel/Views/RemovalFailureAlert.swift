@@ -103,6 +103,9 @@ struct RemovalFailureAlert: ViewModifier {
         if !outcome.putBackFailures.isEmpty, outcome.failures.isEmpty {
             return Text(verbatim: RestoreFailure.title(stayed: outcome.putBackFailures.count, of: outcome.putBackAsked))
         }
+        if !outcome.jobsNotStarted.isEmpty, outcome.failures.isEmpty {
+            return Text(verbatim: String(inflecting: "^[\(outcome.jobsNotStarted.count) job](inflect: true) didn’t start again."))
+        }
         if !outcome.appsStartingFromTheTrash.isEmpty, outcome.failures.isEmpty, outcome.appsToQuit.isEmpty,
            outcome.privacy.isEmpty {
             return outcome.driversAwaitingARestart.isEmpty
@@ -138,7 +141,7 @@ struct RemovalFailureAlert: ViewModifier {
     static func message(for outcome: RemovalOutcome) -> String {
         var lines = historyLines(outcome)
             + firstItems(outcome.putBackFailures.map { "\($0.url.abbreviatedPath)\n\($0.failure.explanation)" })
-            + shortened(quitLines(outcome))
+            + firstItems(jobLines(outcome)) + shortened(quitLines(outcome))
             + firstItems(outcome.failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" })
         lines += shortened(keptLines(outcome)) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome) { Self.listed($0) { String(inflecting: "^[\($0) more line](inflect: true)") } }
@@ -154,7 +157,12 @@ struct RemovalFailureAlert: ViewModifier {
             && outcome.privacy.isEmpty && outcome.driversAwaitingARestart.isEmpty
             && outcome.appsStartingFromTheTrash.isEmpty && outcome.leftForAnAdministrator == 0
             && outcome.shellReferences.isEmpty && outcome.dockIcons == nil && !outcome.historyCouldNotRecord
-            && outcome.putBackFailures.isEmpty
+            && outcome.putBackFailures.isEmpty && outcome.jobsNotStarted.isEmpty
+    }
+
+    /// Each job a Put Back brought back that didn't start again, with what launchd answered.
+    private static func jobLines(_ outcome: RemovalOutcome) -> [String] {
+        outcome.jobsNotStarted.map { String(localized: "\($0.label) is back, but launchd didn’t start it again: \($0.answer)") }
     }
 
     private static func runToFinish(_ outcome: RemovalOutcome) -> String {
@@ -246,7 +254,7 @@ struct RemovalFailureAlert: ViewModifier {
     static func details(for outcome: RemovalOutcome) -> String {
         var lines = historyLines(outcome)
             + outcome.putBackFailures.map { "\($0.url.fullPath)\n\($0.failure.explanation)" }
-            + quitLines(outcome)
+            + jobLines(outcome) + quitLines(outcome)
             + outcome.failures.map { "\($0.url.fullPath)\n\($0.reason.explanation)" }
             + keptLines(outcome) + driverLines(outcome) + administratorLines(outcome)
             + shellLines(outcome) { $0.formatted(.list(type: .and)) } + appManagementLines(outcome)

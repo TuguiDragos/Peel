@@ -63,21 +63,27 @@ final class RemovalOutcome {
     private(set) var putBackFailures: [PutBackFailure] = []
     /// How many items that Undo asked to put back.
     private(set) var putBackAsked = 0
+    /// The jobs a Put Back brought back with their files that didn't start again, each with what launchd answered.
+    private(set) var jobsNotStarted: [(label: String, answer: String)] = []
     private(set) var movedCount = 0
 
     var isEmpty: Bool {
         failures.isEmpty && privacy.isEmpty && appsToQuit.isEmpty && driversAwaitingARestart.isEmpty
             && appsStartingFromTheTrash.isEmpty && leftForAnAdministrator == 0 && shellReferences.isEmpty
             && dockIcons == nil && commandsLeft.isEmpty && !historyCouldNotRecord && putBackFailures.isEmpty
+            && jobsNotStarted.isEmpty
     }
 
     func noteHistoryCouldNotRecord() {
         historyCouldNotRecord = true
     }
 
-    func reportPutBack(_ failures: [PutBackFailure], of asked: Int) {
+    func reportPutBack(
+        _ failures: [PutBackFailure], of asked: Int, jobsNotStarted: [(label: String, answer: String)] = []
+    ) {
         putBackFailures = failures
         putBackAsked = asked
+        self.jobsNotStarted = jobsNotStarted
     }
 
     /// Keeps what the removal could not do, what a restart or an emptied Trash finishes, and what stays for an
@@ -133,5 +139,6 @@ final class RemovalOutcome {
         historyCouldNotRecord = false
         putBackFailures = []
         putBackAsked = 0
+        jobsNotStarted = []
     }
 }

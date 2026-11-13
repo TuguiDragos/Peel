@@ -163,7 +163,7 @@ struct TrashServiceTests {
                 homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
                 rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
             ),
-            startJob: { job, _ in await launchd.start(job) },
+            startJob: { job, _ in await launchd.start(job); return nil },
             runningInside: { _ in running },
             stopRunning: { jobs, _ in await launchd.stop(jobs, ending: agent) }
         ) { url in
@@ -477,7 +477,7 @@ struct TrashServiceTests {
                 rootDirectory: directory.url.appending(path: "root")
             ),
             stopJobs: { jobs, _ in jobs.filter { $0.label == "org.example.running" } },
-            startJob: { job, _ in started.withLock { $0.append(job.label) } },
+            startJob: { job, _ in started.withLock { $0.append(job.label) }; return nil },
             moveToTrash: { url in
                 let destination = trash.appending(path: url.lastPathComponent)
                 try FileManager.default.moveItem(at: url, to: destination)
@@ -508,7 +508,7 @@ struct TrashServiceTests {
                 rootDirectory: directory.url.appending(path: "root")
             ),
             stopJobs: { jobs, _ in jobs },
-            startJob: { job, _ in started.withLock { $0.append(job.label) } },
+            startJob: { job, _ in started.withLock { $0.append(job.label) }; return nil },
             moveToTrash: { url in
                 let destination = trash.appending(path: url.lastPathComponent)
                 try FileManager.default.moveItem(at: url, to: destination)
@@ -527,6 +527,34 @@ struct TrashServiceTests {
         #expect(started.withLock { $0 }.isEmpty, "a job System Settings keeps from running was started")
     }
 
+    @Test func aPutBackSaysWhatLaunchdAnsweredWhenItsJobDidNotStart() async throws {
+        let directory = try TemporaryDirectory()
+        let trash = try directory.directory("home/.Trash")
+        let running = try launchdPlist("home/Library/LaunchAgents/org.example.running.plist", in: directory)
+        let service = TrashService(
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home"),
+                rootDirectory: directory.url.appending(path: "root")
+            ),
+            stopJobs: { jobs, _ in jobs },
+            startJob: { _, _ in "The configuration file is missing." },
+            moveToTrash: { url in
+                let destination = trash.appending(path: url.lastPathComponent)
+                try FileManager.default.moveItem(at: url, to: destination)
+                return destination
+            }
+        )
+        let item = try #require(await service.trash([running]).trashed.first)
+
+        let restored = await LoginItemsStatus.$standIn.withValue({ _ in .allowed }) {
+            await service.restore([item])
+        }
+
+        #expect(restored.failures == [nil])
+        #expect(restored.jobsNotStarted.map(\.label) == ["org.example.running"])
+        #expect(restored.jobsNotStarted.map(\.answer) == ["The configuration file is missing."])
+    }
+
     @Test func aJobIsStartedAgainOnlyAsTheFilePutBackDeclaresIt() async throws {
         let directory = try TemporaryDirectory()
         let trash = try directory.directory("home/.Trash")
@@ -539,7 +567,7 @@ struct TrashServiceTests {
                 homeDirectory: directory.url.appending(path: "home"),
                 rootDirectory: directory.url.appending(path: "root")
             ),
-            startJob: { job, _ in started.withLock { $0.append(job.label) } },
+            startJob: { job, _ in started.withLock { $0.append(job.label) }; return nil },
             moveToTrash: { $0 }
         )
 

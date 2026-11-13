@@ -52,6 +52,15 @@ struct RemovalFailureAlertTests {
         #expect(!message.contains("to the Trash."), "\(message)")
     }
 
+    @Test func aPutBackWhoseJobDidNotStartAgainSaysWhatLaunchdAnswered() {
+        let outcome = RemovalOutcome()
+        outcome.reportPutBack([], of: 1, jobsNotStarted: [("org.example.server", "The configuration file is missing.")])
+
+        #expect(!outcome.isEmpty)
+        #expect(RemovalFailureAlert.message(for: outcome).contains("org.example.server"))
+        #expect(RemovalFailureAlert.message(for: outcome).contains("The configuration file is missing."))
+    }
+
     @Test func namesTheFirstFoldersAnAlertRefusesAndCountsTheOthers() {
         let most = RemovalFailureAlert.mostListed
         let paths = (1...30).map { "/Users/someone/Folder \($0)" }

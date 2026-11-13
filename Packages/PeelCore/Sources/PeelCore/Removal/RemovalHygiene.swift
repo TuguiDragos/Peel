@@ -135,14 +135,15 @@ enum LaunchdCleanup {
         return await Launchctl.run(["bootout", "\(domain)/\(label)"]).status == 0
     }
 
+    /// Starts `job` again, and returns what launchd or the helper answered when it didn't start, or nil.
     @concurrent
-    static func start(_ job: Job, canUseHelper: Bool) async {
+    static func start(_ job: Job, canUseHelper: Bool) async -> String? {
         if job.isDaemon {
-            guard canUseHelper, PrivilegedHelper.status == .enabled else { return }
-            _ = await PrivilegedHelper.runDaemonCommand(.bootstrap, label: job.label)
-        } else {
-            _ = await Launchctl.run(["bootstrap", job.domain, job.plist.path(percentEncoded: false)])
+            guard canUseHelper, PrivilegedHelper.status == .enabled else { return nil }
+            return await PrivilegedHelper.runDaemonCommand(.bootstrap, label: job.label)
         }
+        let started = await Launchctl.run(["bootstrap", job.domain, job.plist.path(percentEncoded: false)])
+        return started.status == 0 ? nil : started.output.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     /// The jobs these plists declare. launchd knows a job by the `Label` inside its file, and the file name does

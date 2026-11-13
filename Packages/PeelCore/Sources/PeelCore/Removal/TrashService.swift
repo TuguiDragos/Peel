@@ -358,7 +358,7 @@ public struct TrashResult: Sendable {
 public struct TrashService: Sendable {
     /// Answers the jobs it stopped.
     typealias StopJobs = @Sendable ([LaunchdCleanup.Job], _ canUseHelper: Bool) async -> [LaunchdCleanup.Job]
-    typealias StartJob = @Sendable (LaunchdCleanup.Job, _ canUseHelper: Bool) async -> Void
+    typealias StartJob = @Sendable (LaunchdCleanup.Job, _ canUseHelper: Bool) async -> String?
     typealias ForgetDomains = @Sendable ([URL], _ owner: String?) async -> Void
     typealias MoveThroughHelper = @Sendable ([URL]) async -> TrashResult
     typealias PutBackDockTiles = @Sendable (_ items: [URL]) async -> Void
@@ -428,7 +428,7 @@ public struct TrashService: Sendable {
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
         stopJobs: @escaping StopJobs = { _, _ in [] },
-        startJob: @escaping StartJob = { _, _ in },
+        startJob: @escaping StartJob = { _, _ in nil },
         forgetDomains: @escaping ForgetDomains = { _, _ in },
         moveThroughHelper: @escaping MoveThroughHelper = Self.asIfThereWereNoHelper,
         putBackDockTiles: @escaping PutBackDockTiles = { _ in },
@@ -906,7 +906,7 @@ public struct TrashService: Sendable {
     /// must not stay stopped while their file stays in place.
     private func startAgain(_ jobs: [LaunchdCleanup.Running], unlessMoved moved: Set<URL>) async {
         for job in jobs.compactMap(\.job) where !moved.contains(job.plist) && !job.isKeptOffBySystemSettings {
-            await startJob(job, true)
+            _ = await startJob(job, true)
         }
     }
 
@@ -1058,6 +1058,8 @@ public struct TrashService: Sendable {
         /// For each item, the version that stood in its place and moved to the Trash to make room, or nil. Each is
         /// written down like any removal, so it can be put back too.
         public internal(set) var movedAside: [TrashedItem?] = []
+        /// The jobs that went back with their files and didn't start again, each with what launchd or the helper said.
+        public internal(set) var jobsNotStarted: [(label: String, answer: String)] = []
     }
 
     /// Puts `items` back in the order given, each as `restore(_:canUseHelper:)` does. The Dock tiles an uninstall took
@@ -1075,6 +1077,7 @@ public struct TrashService: Sendable {
             let answer = await putBack(item, canUseHelper: canUseHelper)
             restored.failures.append(answer.failure)
             restored.movedAside.append(answer.movedAside)
+            if let notStarted = answer.jobNotStarted { restored.jobsNotStarted.append(notStarted) }
         }
         let back = zip(items, restored.failures).filter { $0.1 == nil }.map(\.0.originalURL)
         FileSize.forgetAnswers(holding: back)
@@ -1099,22 +1102,24 @@ public struct TrashService: Sendable {
     /// aside. Should `item` not go back after all, that version goes back to its place.
     private func putBack(
         _ item: TrashedItem, canUseHelper: Bool
-    ) async -> (failure: RestoreFailure?, movedAside: TrashedItem?) {
+    ) async -> (
+        failure: RestoreFailure?, movedAside: TrashedItem?, jobNotStarted: (label: String, answer: String)?
+    ) {
         var movedAside: TrashedItem?
         if item.replacementStandsInItsPlace {
-            if let refusal = refusal(ofPuttingBack: item, canUseHelper: canUseHelper) { return (refusal, nil) }
+            if let refusal = refusal(ofPuttingBack: item, canUseHelper: canUseHelper) { return (refusal, nil, nil) }
             let moved = await trash([item.originalURL])
             guard var replacement = moved.trashed.first else {
-                return (.replacementStays(moved.failures.first?.reason ?? .changedSinceScan), nil)
+                return (.replacementStays(moved.failures.first?.reason ?? .changedSinceScan), nil, nil)
             }
             replacement.replacedBy = item.identity
             movedAside = replacement
         }
         let failure = await moveBack(item, canUseHelper: canUseHelper)
         guard failure == nil else {
-            guard let movedAside else { return (failure, nil) }
+            guard let movedAside else { return (failure, nil, nil) }
             let replacementBack = await putBack(movedAside, canUseHelper: canUseHelper)
-            return (failure, replacementBack.failure == nil ? nil : movedAside)
+            return (failure, replacementBack.failure == nil ? nil : movedAside, nil)
         }
         journal?.forget([item])
         // The label comes from History, which any process of the user can rewrite, so the job starts only as the
@@ -1122,9 +1127,9 @@ public struct TrashService: Sendable {
         if let label = item.stoppedJob,
            let job = LaunchdCleanup.jobs(for: [item.originalURL], environment: environment).first,
            job.label == label, !job.isKeptOffBySystemSettings {
-            await startJob(job, canUseHelper)
+            if let answer = await startJob(job, canUseHelper) { return (nil, movedAside, (label, answer)) }
         }
-        return (nil, movedAside)
+        return (nil, movedAside, nil)
     }
 
     /// Why `item` cannot go back as things stand, or nil when it can. A way back only the helper can take stays when
