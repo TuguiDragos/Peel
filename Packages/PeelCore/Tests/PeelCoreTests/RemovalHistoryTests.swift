@@ -46,6 +46,35 @@ struct RemovalHistoryTests {
         #expect([inside].withTheFoldersTheyLeft(in: [inside, folder]).map(\.id) == [inside.id])
     }
 
+    @Test func bringsAlongOnlyAFolderThatWentToTheTrashEmpty() throws {
+        let directory = try TemporaryDirectory()
+        let trash = try directory.directory("home/.Trash")
+        for name in ["Full", "Unknown", "Empty"] {
+            try directory.directory("home/.Trash/\(name)")
+        }
+        let support = try directory.directory("home/Library/Application Support")
+        func record(_ original: String, _ trashed: String, size: Int64?) -> RemovalRecord {
+            RemovalRecord(
+                batch: UUID(),
+                item: TrashedItem(
+                    originalURL: support.appending(path: original), trashedURL: trash.appending(path: trashed),
+                    date: .now
+                ),
+                size: size, source: "Example", tool: "applications"
+            )
+        }
+        let rows = ["Full", "Unknown", "Empty"].map { record("\($0)/config.json", "config.json", size: 10) }
+        let folders = [
+            record("Full", "Full", size: 3_000_000), record("Unknown", "Unknown", size: nil),
+            record("Empty", "Empty", size: 0),
+        ]
+
+        for (row, folder) in zip(rows, folders) {
+            let going = [row].withTheFoldersTheyLeft(in: rows + folders).map(\.id)
+            #expect(going == (folder.size == 0 ? [row.id, folder.id] : [row.id]), "\(folder.originalURL.lastPathComponent)")
+        }
+    }
+
     @Test func namesTheCopiesOfHistoryAndOfItsJournalThatWereSetAside() throws {
         let directory = try TemporaryDirectory()
         let history = try directory.file("Peel/removals.json", contents: Data("{".utf8))

@@ -234,7 +234,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Each item's line in the journal reaches the drive before the item moves, so a power cut can't keep a move History
   can't put back.
 - Putting back one item of an uninstall brings back the folder it sat in from the Trash, rather than making a new one,
-  in the app and in `peel restore`.
+  in the app and in `peel restore`, when that folder went to the Trash empty: one that went holding more stays there.
 - Nothing moves while the lock beside History or its journal can't be opened, and the page and `peel` say which file
   stops it; two writers at once no longer lose a count of the lifetime totals.
 - Clearing the refusals while another is written no longer stops both for good.

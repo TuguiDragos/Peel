@@ -251,8 +251,9 @@ extension Sequence<RemovalRecord> {
         SizeTotal(map(\.size))
     }
 
-    /// These records with, from `history`, each folder one of them sat in that went to the Trash too and whose place
-    /// is empty, such as a maker's folder an uninstall left empty: put back first, it comes back as it was.
+    /// These records with, from `history`, each folder one of them sat in that went to the Trash empty and whose place
+    /// is empty, such as a maker's folder an uninstall left empty: put back first, it comes back as it was. A folder
+    /// that went holding more would bring that back too, which nobody asked for.
     public func withTheFoldersTheyLeft(in history: [RemovalRecord]) -> [RemovalRecord] {
         var going = Array(self)
         guard going.contains(where: { $0.originalURL.deletingLastPathComponent().isMissing }) else { return going }
@@ -263,7 +264,7 @@ extension Sequence<RemovalRecord> {
             var folder = going[index].originalURL.deletingLastPathComponent()
             while folder.pathComponents.count > 1, folder.isMissing {
                 let left = byPlace[PathPattern.comparablePath(of: folder)]?
-                    .filter { !ids.contains($0.id) && $0.trashedURL.isThere }
+                    .filter { !ids.contains($0.id) && $0.size == 0 && $0.trashedURL.isThere }
                     .max { $0.date < $1.date }
                 if let left {
                     going.append(left)
