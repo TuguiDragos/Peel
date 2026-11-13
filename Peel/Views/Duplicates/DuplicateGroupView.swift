@@ -131,7 +131,7 @@ private struct DuplicateFileRow: View {
                 // person reads here, where the copy is. The mark of why it stays stands where the other rows'
                 // checkbox stands, 16 points wide and 5 before the item, so the copies of a group line up.
                 HStack(alignment: .firstTextBaseline, spacing: 5) {
-                    Image(systemName: heldBack != .inTheCloud ? "tag" : file.syncSymbol)
+                    Image(systemName: file.stayingSymbol)
                         .foregroundStyle(heldBack == .inTheCloud ? AnyShapeStyle(.blue) : AnyShapeStyle(.secondary))
                         .frame(width: 16, height: 16)
                         .alignmentGuide(.firstTextBaseline) { $0[.bottom] - 3 }
@@ -139,8 +139,8 @@ private struct DuplicateFileRow: View {
                     item
                 }
                 .accessibilityElement(children: .combine)
-                .accessibilityHint(Text(heldBack.explanation(keptInStepBy: file.syncedBy)))
-                .help(Text(heldBack.explanation(keptInStepBy: file.syncedBy)))
+                .accessibilityHint(Text(heldBack.explanation(keptInStepBy: file.syncedBy, keptBy: file.keptBy)))
+                .help(Text(heldBack.explanation(keptInStepBy: file.syncedBy, keptBy: file.keptBy)))
 
                 // Where the copy is matters more than a look at it: what is done with it is done in Finder or on
                 // another device. Finder's symbol is close to the eye's width, so
@@ -230,6 +230,16 @@ struct DuplicateSelectedTotal: View {
 extension DuplicateFile {
     var syncSymbol: String {
         Self.syncSymbol(throughACloud: syncsThroughACloud)
+    }
+
+    /// The mark of why a copy stays: how it syncs, the Developer page's hammer for a tool's own copy, or a tag for
+    /// the Finder tags, comment, or resource fork the others lack.
+    var stayingSymbol: String {
+        switch heldBack {
+        case .inTheCloud: syncSymbol
+        case .holdsWhatAToolKeeps: "hammer"
+        default: "tag"
+        }
     }
 
     /// The cloud for copies that sync through iCloud Drive or a cloud's File Provider, and arrows for those an app

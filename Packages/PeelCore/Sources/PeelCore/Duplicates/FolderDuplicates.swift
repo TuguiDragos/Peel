@@ -12,6 +12,7 @@ struct FolderDuplicates: Sendable {
     private let exclusions: Exclusions
     private let managed: Set<String>
     private let neverProjects: Set<String>
+    private let toolsFolders: DeveloperCaches.FoldersLeftToDeveloper?
     private let isDataless: @Sendable (URL) -> Bool
     private let synced = SyncedFolders()
 
@@ -19,11 +20,13 @@ struct FolderDuplicates: Sendable {
         managed: Set<String> = [],
         exclusions: Exclusions = .none,
         neverProjects: Set<String> = [],
+        toolsFolders: DeveloperCaches.FoldersLeftToDeveloper? = nil,
         isDataless: @escaping @Sendable (URL) -> Bool = { FileSize.isDataless($0) }
     ) {
         self.managed = managed
         self.exclusions = exclusions
         self.neverProjects = neverProjects
+        self.toolsFolders = toolsFolders
         self.isDataless = isDataless
     }
 
@@ -304,6 +307,13 @@ struct FolderDuplicates: Sendable {
         return digest
     }
 
+    /// Whether `url` is, holds, or sits inside a folder a developer tool keeps: offered whole, it would take what the
+    /// tool looks for there by name.
+    private func touchesWhatAToolKeeps(_ url: URL) -> Bool {
+        guard let toolsFolders else { return false }
+        return toolsFolders.holdsWhatAToolKeeps(url) || toolsFolders.toolKeeping(url) != nil
+    }
+
     /// Returns every whole, non-empty folder whose shape matches another's. A folder reached twice (through a
     /// link, or as a chosen folder inside another) counts once, known by its inode as a file is. `minimumSize`
     /// is a floor on the bytes a folder holds, as it is for a file.
@@ -312,8 +322,8 @@ struct FolderDuplicates: Sendable {
         var seen = Set<FileIdentity.Link>()
 
         func visit(_ folder: Folder) {
-            if folder.isWhole, !folder.isNeverOffered, folder.fileCount > 0, folder.totalHeld >= minimumSize,
-               seen.insert(folder.identity.link).inserted {
+            if folder.isWhole, !folder.isNeverOffered, !touchesWhatAToolKeeps(folder.url), folder.fileCount > 0,
+               folder.totalHeld >= minimumSize, seen.insert(folder.identity.link).inserted {
                 let key = ShapeKey(shape: shape(of: folder), fileCount: folder.fileCount, size: folder.size)
                 byShape[key, default: []].append(folder)
             }

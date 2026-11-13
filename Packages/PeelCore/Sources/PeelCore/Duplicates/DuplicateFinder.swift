@@ -183,6 +183,7 @@ public struct DuplicateFinder: Sendable {
         }
         let environment = SearchEnvironment(homeDirectory: homeDirectory, rootDirectory: URL(filePath: "/"))
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
+        let toolsFolders = DeveloperCaches.FoldersLeftToDeveloper(home: homeDirectory)
         let skipped = options.folders.compactMap { folder in
             reasonToSetAside(folder).map { DuplicateScan.FolderSetAside(url: folder, reason: $0) }
         }
@@ -199,6 +200,7 @@ public struct DuplicateFinder: Sendable {
                 managed: Self.managedPaths(home: homeDirectory),
                 exclusions: exclusions,
                 neverProjects: neverProjects,
+                toolsFolders: toolsFolders,
                 isDataless: isDataless
             ).groups(
                 in: scannable,
@@ -262,7 +264,9 @@ public struct DuplicateFinder: Sendable {
         }
         guard !Task.isCancelled else { throw CancellationError() }
 
-        let groups = (finalGroups + Self.grouped(verified)).compactMap(makeGroup).sorted {
+        let groups = (finalGroups + Self.grouped(verified)).compactMap {
+            makeGroup($0, toolsFolders: toolsFolders)
+        }.sorted {
             ($0.reclaimableSize, $0.size, $1.id) > ($1.reclaimableSize, $1.size, $0.id)
         }
         return DuplicateScan(
@@ -281,6 +285,8 @@ public struct DuplicateFinder: Sendable {
         var heldBack: HoldBack? = nil
         /// What keeps a copy held back as `inTheCloud` in step with the other devices.
         var syncedBy: SyncKeeper? = nil
+        /// The tool that keeps a copy held back as `holdsWhatAToolKeeps`.
+        var keptBy: String? = nil
     }
 
     typealias HashedCandidate = (item: Candidate, digest: ContentDigest)
@@ -434,13 +440,21 @@ public struct DuplicateFinder: Sendable {
     /// The group of `members`, the copy Peel suggests keeping first, or nil when fewer than two can be compared or
     /// none could move. A copy with Finder tags, a Finder comment, or a resource fork the others lack stays: the first
     /// with each such set, unless a copy that syncs already keeps it.
-    private func makeGroup(_ members: [HashedCandidate]) -> DuplicateGroup? {
+    private func makeGroup(
+        _ members: [HashedCandidate], toolsFolders: DeveloperCaches.FoldersLeftToDeveloper
+    ) -> DuplicateGroup? {
         let order = KeepOrder(home: homeDirectory)
         // A copy whose extras can't be read isn't known to be like the others.
         var copies = members.compactMap { member in FileExtras.of(member.item.url).map { (member.item, $0) } }
             .map { (item: $0.0, extras: $0.1, rank: order.rank(of: $0.0.url, identity: $0.0.identity)) }
             .sorted { $0.rank < $1.rank }
         guard copies.count > 1 else { return nil }
+        // A copy in a folder a developer tool keeps, such as a model in its store, is one the tool looks for by name.
+        for index in copies.indices where copies[index].item.heldBack == nil {
+            guard let tool = toolsFolders.toolKeeping(copies[index].item.url) else { continue }
+            copies[index].item.heldBack = .holdsWhatAToolKeeps
+            copies[index].item.keptBy = tool
+        }
         if Set(copies.map(\.extras)).count > 1 {
             var kept = Set(copies.filter { $0.item.heldBack != nil }.map(\.extras))
             for index in copies.indices where !copies[index].extras.isEmpty {
@@ -457,7 +471,8 @@ public struct DuplicateFinder: Sendable {
                     allocatedSize: ReclaimableSpace.allocated(candidate.url),
                     identity: candidate.identity,
                     heldBack: candidate.heldBack,
-                    syncedBy: candidate.heldBack == .inTheCloud ? candidate.syncedBy : nil
+                    syncedBy: candidate.heldBack == .inTheCloud ? candidate.syncedBy : nil,
+                    keptBy: candidate.heldBack == .holdsWhatAToolKeeps ? candidate.keptBy : nil
                 )
             }
         let group = DuplicateGroup(id: members[0].digest.hexadecimal, files: files)

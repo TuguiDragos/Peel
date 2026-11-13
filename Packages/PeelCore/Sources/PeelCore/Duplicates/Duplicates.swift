@@ -44,6 +44,8 @@ public struct DuplicateFile: Sendable, Hashable, Identifiable {
     public var heldBack: HoldBack? = nil
     /// What keeps a copy held back as `inTheCloud` in step with the other devices.
     public var syncedBy: SyncKeeper? = nil
+    /// The developer tool that keeps a copy held back as `holdsWhatAToolKeeps` in a folder of its own.
+    public var keptBy: String? = nil
 
     /// True for a copy that syncs through iCloud Drive or a cloud's File Provider, rather than through an app that
     /// keeps folders in step between devices, such as Syncthing.

@@ -369,7 +369,7 @@ public enum DeveloperCaches {
     /// The table's folders under one home, which Space leaves to the Developer page, worked out once for all the
     /// folders of an area.
     struct FoldersLeftToDeveloper {
-        private let folders: [(path: [String], own: [[String]], isKept: Bool)]
+        private let folders: [(path: [String], own: [[String]], isKept: Bool, tool: String)]
 
         init(home: URL, userCache: URL? = nil, root: URL = URL(filePath: "/", directoryHint: .isDirectory)) {
             // Not through `comparablePath`: standardizing drops `/private` only from a path that exists, and most
@@ -382,18 +382,20 @@ public enum DeveloperCaches {
             let settings = ToolSettings(home: home, root: root)
             folders = DeveloperCaches.definitions.flatMap { definition in
                 let own = definition.ownFolders.map { homeNames + PathComponents.of($0) }
-                let usual = definition.folders.compactMap { folder -> ([String], [[String]], Bool)? in
+                let usual = definition.folders.compactMap { folder -> ([String], [[String]], Bool, String)? in
                     let base = switch folder.base {
                     case .home: homeNames
                     case .userCache: userCacheNames
                     case .userTemporary: nil as [String]?
                     }
-                    return base.map { ($0 + PathComponents.of(folder.path), own, folder.kind.isKeptByDefault) }
+                    return base.map {
+                        ($0 + PathComponents.of(folder.path), own, folder.kind.isKeptByDefault, definition.name)
+                    }
                 }
-                let moved = definition.folders.flatMap { folder -> [([String], [[String]], Bool)] in
+                let moved = definition.folders.flatMap { folder -> [([String], [[String]], Bool, String)] in
                     guard let relocation = folder.movedBy else { return [] }
                     return relocation.places(preference: { _ in nil }, settings: settings).map {
-                        (names($0.place), [names($0.named)], folder.kind.isKeptByDefault)
+                        (names($0.place), [names($0.named)], folder.kind.isKeptByDefault, definition.name)
                     }
                 }
                 return usual + moved
@@ -405,7 +407,7 @@ public enum DeveloperCaches {
         /// same folder (another case, a link) finds the same.
         func inside(_ folder: URL) -> [[String]] {
             let base = PathComponents.of(PathPattern.canonical(folder).path(percentEncoded: false))
-            let owned = folders.compactMap { path, own, _ -> [String]? in
+            let owned = folders.compactMap { path, own, _, _ -> [String]? in
                 guard path.count > base.count, path.starts(with: base) else { return nil }
                 let declared = own.first { $0.count > base.count && path.starts(with: $0) }
                 return Array((declared ?? Array(path.prefix(base.count + 1)))[base.count...])
@@ -416,7 +418,7 @@ public enum DeveloperCaches {
         /// Whether `item` is itself one of the folders the table names, found without opening it.
         func isOneOf(_ item: URL) -> Bool {
             let names = PathComponents.of(PathPattern.canonicalWithoutOpening(item).path(percentEncoded: false))
-            return folders.contains { path, _, _ in
+            return folders.contains { path, _, _, _ in
                 path.count == names.count && zip(path, names).allSatisfy { fnmatch($0, $1, FNM_CASEFOLD) == 0 }
             }
         }
@@ -425,10 +427,20 @@ public enum DeveloperCaches {
         /// that projects link into, found without opening it.
         func holdsWhatAToolKeeps(_ item: URL) -> Bool {
             let names = PathComponents.of(PathPattern.canonicalWithoutOpening(item).path(percentEncoded: false))
-            return folders.contains { path, _, isKept in
+            return folders.contains { path, _, isKept, _ in
                 isKept && path.count >= names.count
                     && zip(path, names).allSatisfy { fnmatch($0, $1, FNM_CASEFOLD) == 0 }
             }
+        }
+
+        /// The tool that keeps `item` inside a folder of a kind the Developer page never recommends, such as a model
+        /// in its store, which it looks for there by name. Found without opening it.
+        func toolKeeping(_ item: URL) -> String? {
+            let names = PathComponents.of(PathPattern.canonicalWithoutOpening(item).path(percentEncoded: false))
+            return folders.first { path, _, isKept, _ in
+                isKept && path.count < names.count
+                    && zip(path, names).allSatisfy { fnmatch($0, $1, FNM_CASEFOLD) == 0 }
+            }?.tool
         }
     }
 

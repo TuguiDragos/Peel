@@ -93620,6 +93620,112 @@
         }
       }
     },
+    "Left alone: %@ keeps this file in its own folder and looks for it there by name." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: nástroj %@ uchovává tento soubor ve vlastní složce a hledá ho tam podle názvu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: %@ bewahrt diese Datei im eigenen Ordner auf und sucht sie dort anhand ihres Namens."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: %@ guarda este archivo en su propia carpeta y lo busca ahí por su nombre."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : %@ conserve ce fichier dans son propre dossier et l’y recherche par son nom."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: %@ conserva questo file nella propria cartella e lo cerca lì per nome."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: %@はこのファイルを自身のフォルダに保管しており、そこで名前をもとに探します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: ‘%@’이(가) 이 파일을 자체 폴더에 보관하며 그곳에서 이름으로 찾습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: %@ bewaart dit bestand in zijn eigen map en zoekt het daar op naam."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: narzędzie %@ przechowuje ten plik we własnym folderze i szuka go tam po nazwie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: %@ guarda este arquivo na própria pasta e o procura ali pelo nome."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: %@ păstrează acest fișier în propriul dosar și îl caută acolo după nume."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: %@ хранит этот файл в своей папке и ищет его там по имени."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: %@ sparar den här filen i sin egen mapp och söker efter den där på namnet."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: %@ bu dosyayı kendi klasöründe tutar ve orada adıyla arar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: %@ зберігає цей файл у власній папці й шукає його там за назвою."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：“%@”将此文件保存在它自己的文件夹中，并在那里按名称查找它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：「%@」將此檔案存放在它自己的檔案夾中，並在那裡依名稱尋找它。"
+          }
+        }
+      }
+    },
     "Left alone: %@’s own uninstaller removes it." : {
       "localizations" : {
         "cs" : {

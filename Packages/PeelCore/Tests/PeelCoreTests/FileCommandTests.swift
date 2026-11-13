@@ -600,6 +600,25 @@ struct FileCommandTests {
     }
 
 
+    @Test func saysWhichToolKeepsACopyThatStays() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = Data((0..<4_000).map { _ in UInt8.random(in: 0...255) })
+        try directory.file("home/Models/sd.bin", contents: contents)
+        let comfy = try directory.file("home/ComfyUI-Shared/models/checkpoints/sd.bin", contents: contents)
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
+        let group = try #require(scan.groups.first)
+
+        #expect(DuplicatesCommand.rows(for: group).map { $0[0] }.sorted() == ["keep", "stays"])
+        #expect(DuplicatesCommand.notes(for: scan).contains(
+            "1 copy is in a folder a developer tool keeps and looks in by name (ComfyUI), so Peel lists it as a copy that stays and never moves it."
+        ))
+        let json = try Output.jsonText(DuplicatesCommand.found(in: scan))
+        let found = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
+        let record = try #require((found["files"] as? [[String: Any]])?.first)
+        #expect(record["keptByTools"] as? [[String: String]] == [["path": Output.path(comfy), "tool": "ComfyUI"]])
+    }
+
     @Test func movesEveryOtherCopyWhenOneStaysForWhatTheOthersLack() async throws {
         let directory = try TemporaryDirectory()
         let logs = logs(in: directory)

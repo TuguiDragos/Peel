@@ -968,6 +968,37 @@ struct DuplicateFinderTests {
         #expect(kept(files.groups.first?.files.first?.url) == kept(onTheMac))
     }
 
+    @Test func aCopyInAFolderAToolKeepsStaysAndTheOrderOfTheOthersHolds() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = randomData(count: 200_000)
+        let mine = try directory.file("home/Models/sd.safetensors", contents: contents)
+        try directory.file("home/ComfyUI-Shared/models/checkpoints/sd.safetensors", contents: contents)
+        try directory.file("home/invokeai/models/sd.safetensors", contents: contents)
+        let earlier = Date.now.addingTimeInterval(-2 * 24 * 3_600)
+        try FileManager.default.setAttributes([.creationDate: earlier], ofItemAtPath: mine.path(percentEncoded: false))
+
+        let scan = try await scan(directory)
+
+        #expect(scan.folderGroups.isEmpty)
+        let group = try #require(scan.groups.first)
+        let kept = try #require(group.files.first)
+        #expect(PathPattern.comparablePath(of: kept.url) == PathPattern.comparablePath(of: mine))
+        #expect(Set(group.files.filter { $0.heldBack == .holdsWhatAToolKeeps }.compactMap(\.keptBy)) == ["ComfyUI", "InvokeAI"])
+        #expect(group.suggestedFiles.isEmpty)
+    }
+
+    @Test func aGroupWhoseCopiesAreAllInFoldersToolsKeepIsNotListed() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = randomData(count: 200_000)
+        try directory.file("home/ComfyUI-Shared/models/checkpoints/sd.safetensors", contents: contents)
+        try directory.file("home/invokeai/models/sd.safetensors", contents: contents)
+
+        let scan = try await scan(directory)
+
+        #expect(scan.folderGroups.isEmpty)
+        #expect(scan.groups.isEmpty)
+    }
+
     @Test func keepsTheCopyOnTheHomeDiskEvenInDownloads() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

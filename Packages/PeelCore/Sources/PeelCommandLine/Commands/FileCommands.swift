@@ -799,6 +799,13 @@ struct DuplicatesCommand: AsyncParsableCommand {
         let syncedBy: [SyncRecord]
         /// The copies with Finder tags, a Finder comment, or a resource fork the others lack, never moved.
         let stays: [String]
+        /// The copies in a folder a developer tool keeps and looks in by name, each with the tool, never moved.
+        let keptByTools: [KeptRecord]
+    }
+
+    struct KeptRecord: Encodable {
+        let path: String
+        let tool: String
     }
 
     struct FolderRecord: Encodable {
@@ -907,6 +914,13 @@ struct DuplicatesCommand: AsyncParsableCommand {
         if staying > 0 {
             notes.append("\(Output.count(staying, "copy has", "copies have")) Finder tags, a Finder comment, or a resource fork the others lack, so Peel lists \(asCopies(staying)).")
         }
+        let keptByTools = scan.groups.flatMap(\.files).filter { $0.heldBack == .holdsWhatAToolKeeps }
+        if !keptByTools.isEmpty {
+            let tools = keptByTools.compactMap(\.keptBy).reduce(into: [String]()) { tools, tool in
+                if !tools.contains(tool) { tools.append(tool) }
+            }
+            notes.append("\(Output.count(keptByTools.count, "copy is", "copies are")) in a folder a developer tool keeps and looks in by name (\(tools.joined(separator: ", "))), so Peel lists \(asCopies(keptByTools.count)).")
+        }
         return notes
     }
 
@@ -938,7 +952,10 @@ struct DuplicatesCommand: AsyncParsableCommand {
                     files: group.movableFiles.map { Output.path($0.url) },
                     synced: group.files.filter { $0.heldBack == .inTheCloud }.map { Output.path($0.url) },
                     syncedBy: keepers(of: group.files).compactMap(\.record),
-                    stays: group.files.filter { $0.heldBack == .keepsWhatTheOthersLack }.map { Output.path($0.url) }
+                    stays: group.files.filter { $0.heldBack == .keepsWhatTheOthersLack }.map { Output.path($0.url) },
+                    keptByTools: group.files.filter { $0.heldBack == .holdsWhatAToolKeeps }.compactMap { file in
+                        file.keptBy.map { KeptRecord(path: Output.path(file.url), tool: $0) }
+                    }
                 )
             },
             unreadableLocations: scan.unreadableLocations.map(Output.path),
