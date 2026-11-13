@@ -6,12 +6,12 @@ import Testing
 
 @MainActor
 struct SpaceLibraryTests {
-    @Test func readsTheDiskAgainWithoutScanning() async {
+    @Test func readsTheDisksAgainWithoutScanning() async {
         let space = SpaceLibrary()
 
-        await space.readDisk()
+        await space.readDisks()
 
-        #expect(space.disk.map { $0.storage.total > 0 } == true)
+        #expect(!space.disks.isEmpty && space.disks.allSatisfy { $0.storage.total > 0 })
         #expect(space.report == nil)
     }
 

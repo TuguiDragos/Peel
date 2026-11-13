@@ -5,8 +5,9 @@ import PeelCore
 @Observable
 final class SpaceLibrary: RowSelection {
     private(set) var report: SpaceReport?
-    /// The disk the band shows, read on its own: after each scan, when the page appears, and when Peel comes forward.
-    private(set) var disk: DiskSpace?
+    /// The disks the bands show, read on their own: after each scan, when the page appears, and when Peel comes
+    /// forward.
+    private(set) var disks: [DiskSpace] = []
     /// The scan this page runs, which a newer one or the Stop button ends.
     let scanRun = ScanRun()
     var isScanning: Bool { scanRun.isRunning }
@@ -51,8 +52,8 @@ final class SpaceLibrary: RowSelection {
         await refresh(replanning: [], keepingTheOpenArea: true)
     }
 
-    func readDisk() async {
-        disk = await DiskSpace.read()
+    func readDisks() async {
+        disks = await DiskSpace.readEach()
     }
 
     /// Scans again and makes every area's plan again, as Rescan asks: a plan also depends on which apps are open,
@@ -170,12 +171,12 @@ final class SpaceLibrary: RowSelection {
                 guard replanning.contains(item.id) || changed else { continue }
                 made.append((item, await self.newPlan(for: item)))
             }
-            return (result, made, await DiskSpace.read())
+            return (result, made, await DiskSpace.readEach())
         }
-        guard let (result, made, disk) = answer else { return }
-        // Together, so the page never shows the areas without the disk's band.
+        guard let (result, made, disks) = answer else { return }
+        // Together, so the page never shows the areas without the disks' bands.
         report = result
-        self.disk = disk
+        self.disks = disks
         for id in plans.keys.filter({ id in !result.items.contains { $0.id == id } }) {
             selectedURLs.subtract(plans[id]?.removable ?? [])
             plans[id] = nil

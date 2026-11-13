@@ -890,7 +890,7 @@ struct SpaceInventoryTests {
         #expect(disk.storage.total > 0)
         #expect(disk.storage.free <= disk.storage.total)
         #expect((disk.purgeable ?? 0) <= disk.storage.total)
-        #expect(report.snapshots?.allSatisfy { !$0.name.isEmpty } == true)
+        #expect(report.snapshots.allSatisfy { $0.snapshots?.allSatisfy { !$0.name.isEmpty } == true })
         #expect(report.items.allSatisfy { !$0.urls.isEmpty })
     }
 }

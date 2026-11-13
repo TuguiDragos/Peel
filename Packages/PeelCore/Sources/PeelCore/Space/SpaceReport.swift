@@ -82,11 +82,19 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     public var listedPlaces: [URL] { placesNotCounted ?? urls }
 }
 
+/// The local snapshots of one disk Space shows: copies of the disk kept on the disk itself. Peel explains them but
+/// never removes one, because deleting a snapshot cannot be undone.
+public struct DiskSnapshots: Sendable, Hashable {
+    /// The volume they are listed for (`DiskSpace.snapshotVolume`).
+    public let volume: String
+    /// Nil when `diskutil` did not say.
+    public let snapshots: [LocalSnapshot]?
+}
+
 public struct SpaceReport: Sendable {
     public let items: [SpaceItem]
-    /// Local snapshots: copies of the disk kept on the disk itself. Peel explains them but never removes one,
-    /// because deleting a snapshot cannot be undone. Nil when `diskutil` did not say.
-    public let snapshots: [LocalSnapshot]?
+    /// The local snapshots of each disk Space shows.
+    public let snapshots: [DiskSnapshots]
     /// True when an area went unmeasured because macOS refused access, which Full Disk Access would grant.
     public let needsFullDiskAccess: Bool
 
@@ -771,7 +779,7 @@ public enum SpaceInventory {
 
         return SpaceReport(
             items: items,
-            snapshots: await LocalSnapshots.list(),
+            snapshots: await DiskSpace.snapshots(home: home),
             needsFullDiskAccess: items.contains {
                 !$0.size.isComplete && $0.urls.contains { FullDiskAccess.canList($0) == .missing }
             }

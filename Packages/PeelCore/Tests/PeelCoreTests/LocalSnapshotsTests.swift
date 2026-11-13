@@ -106,8 +106,8 @@ struct LocalSnapshotsTests {
     /// user's, and `tmutil deletelocalsnapshots` cannot remove that one.
     @Test func readsTheDataVolumeNotTheSealedSystemOne() async {
         #expect(LocalSnapshots.volume == "/System/Volumes/Data")
-        #expect(LocalSnapshots.deleteCommand.hasSuffix(LocalSnapshots.volume))
+        #expect(LocalSnapshots.deleteCommand().hasSuffix(LocalSnapshots.volume))
 
-        #expect(LocalSnapshots.deleteCommand.contains("tmutil"))
+        #expect(LocalSnapshots.deleteCommand().contains("tmutil"))
     }
 }

@@ -95,12 +95,12 @@ struct SpaceList: View {
             }
         }
         .task {
-            if space.report != nil { await space.readDisk() }
+            if space.report != nil { await space.readDisks() }
             guard space.report == nil, !space.scanRun.isWaitedFor, !space.scanRun.wasStopped else { return }
             await space.refresh()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
-            Task { await space.readDisk() }
+            Task { await space.readDisks() }
         }
         .rescanOnExclusionChange("SpaceList") { await space.refresh() }
         .rescanAfterPutBack(.space) { await space.refresh() }
@@ -108,27 +108,7 @@ struct SpaceList: View {
 
     private func storage(_ report: SpaceReport) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            if let disk = space.disk {
-                StorageStrip(storage: disk.storage)
-            }
-            if let purgeable = space.disk?.purgeable, purgeable > 0 {
-                // The strip's available figure already includes these bytes, so the note ties them to it, not
-                // to the used figure.
-                Text("The available space includes \(purgeable.byteCount) that macOS clears when something needs the room.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            } else if space.disk != nil, space.disk?.purgeable == nil {
-                Text("Peel couldn’t find out how much of the available space macOS clears by itself.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            if let snapshots = report.snapshots, !snapshots.isEmpty {
-                SnapshotNote(snapshots: snapshots)
-            } else if report.snapshots == nil {
-                Text("Peel couldn’t list the snapshots kept on this disk, which may hold some of its space.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
+            DiskBands(disks: space.disks, snapshots: report.snapshots)
             if #available(macOS 27, *), let size = AppleIntelligence.onThisMac {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Apple Intelligence can keep up to \(size.byteCount) on this Mac, by Apple’s figure.")
@@ -186,10 +166,51 @@ struct SpaceList: View {
     }
 }
 
+/// Each disk Space shows, with what macOS clears from it by itself and the snapshots kept on it. A disk is named only
+/// when there are two: the startup disk, and the one the home folder is kept on.
+struct DiskBands: View {
+    let disks: [DiskSpace]
+    let snapshots: [DiskSnapshots]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            ForEach(disks, id: \.snapshotVolume) { disk in
+                VStack(alignment: .leading, spacing: 8) {
+                    if disks.count > 1, let name = disk.name {
+                        Text(verbatim: name)
+                            .font(.callout.weight(.semibold))
+                    }
+                    StorageStrip(storage: disk.storage)
+                    if let purgeable = disk.purgeable, purgeable > 0 {
+                        // The strip's available figure already includes these bytes, so the note ties them to it,
+                        // not to the used figure.
+                        Text("The available space includes \(purgeable.byteCount) that macOS clears when something needs the room.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    } else if disk.purgeable == nil {
+                        Text("Peel couldn’t find out how much of the available space macOS clears by itself.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    let kept = snapshots.first { $0.volume == disk.snapshotVolume }
+                    if let list = kept?.snapshots, !list.isEmpty {
+                        SnapshotNote(snapshots: list, volume: disk.snapshotVolume)
+                    } else if let kept, kept.snapshots == nil {
+                        Text("Peel couldn’t list the snapshots kept on this disk, which may hold some of its space.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+        }
+    }
+}
+
 /// A note on the disk's local snapshots, which make up most of its purgeable space. Deleting a snapshot can't
 /// be undone, so Peel explains them and never removes one.
 private struct SnapshotNote: View {
     let snapshots: [LocalSnapshot]
+    let volume: String
 
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
@@ -213,7 +234,7 @@ private struct SnapshotNote: View {
             // Per `man tmutil`, this command deletes only Time Machine's snapshots, so it is shown only when
             // there is one.
             if snapshots.contains(where: { $0.kind == .timeMachine }) {
-                Text("Peel doesn’t remove them: a deleted snapshot can’t be put back, unlike what Peel moves to the Trash. `\(LocalSnapshots.deleteCommand)` deletes Time Machine’s snapshots, if you are sure.")
+                Text("Peel doesn’t remove them: a deleted snapshot can’t be put back, unlike what Peel moves to the Trash. `\(LocalSnapshots.deleteCommand(for: volume))` deletes Time Machine’s snapshots, if you are sure.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)

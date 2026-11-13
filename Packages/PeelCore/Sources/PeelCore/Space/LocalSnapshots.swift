@@ -32,11 +32,19 @@ public enum LocalSnapshots {
     /// finds only macOS's own update snapshot, not the user's, and `tmutil deletelocalsnapshots` cannot delete it.
     public static let volume = "/System/Volumes/Data"
 
-    public static let deleteCommand = "tmutil deletelocalsnapshots \(volume)"
+    /// The command that deletes Time Machine's snapshots of `volume`, to copy into Terminal.
+    public static func deleteCommand(for volume: String = LocalSnapshots.volume) -> String {
+        "tmutil deletelocalsnapshots \(volume.wordForTheShell)"
+    }
 
-    /// The volume's snapshots, or nil when `diskutil` gave no answer Peel can read, which is not a volume with none.
+    /// The volume's snapshots, or nil when `diskutil` gave no answer Peel can read, which is not a volume with none. A
+    /// volume that isn't APFS keeps none.
     @concurrent
     public static func list(volume: String = LocalSnapshots.volume) async -> [LocalSnapshot]? {
+        var info = statfs()
+        guard statfs(volume, &info) == 0 else { return nil }
+        let format = withUnsafeBytes(of: info.f_fstypename) { String(decoding: $0.prefix { $0 != 0 }, as: UTF8.self) }
+        guard format == "apfs" else { return [] }
         let arguments = ["apfs", "listSnapshots", "-plist", volume]
         guard case .success(let output) = await Subprocess.run("/usr/sbin/diskutil", arguments, timeout: 30),
               output.status == 0 else { return nil }
