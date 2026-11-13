@@ -175,4 +175,51 @@ struct CombinedMovesTests {
         #expect(try ledger.origin(of: try policy.open(original).get(), movedBy: getuid()) == nil)
         #expect(try FileManager.default.contentsOfDirectory(atPath: root + "home/.Trash").isEmpty)
     }
+
+    @Test func aDiskTakenAwayHalfwayKeepsWhatMovedWrittenDownAndPutsItBackWhereverItComesBack() async throws {
+        let directory = try TemporaryDirectory()
+        let place = directory.url.appending(path: "Disk", directoryHint: .isDirectory)
+        let disk = try ScratchVolume(fileSystem: "MS-DOS FAT32", mountedAt: place)
+        let files = try (1...3).map { number -> URL in
+            let file = place.appending(path: "org.example.away/\(number).txt")
+            try FileManager.default.createDirectory(
+                at: file.deletingLastPathComponent(), withIntermediateDirectories: true
+            )
+            try Data("\(number)".utf8).write(to: file)
+            return file
+        }
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let environment = environment(in: directory)
+        let removalGuard = RemovalGuard(environment: environment)
+        let service = TrashService(
+            environment: environment, journal: RemovalJournal(beside: history, writtenBy: try endedProcess())
+        ) { url in
+            try TrashService.moveToSystemTrash(url, refusal: removalGuard.refusal(of:))
+        }
+        let mountPoint = place.path(percentEncoded: false)
+        let asked = Mutex(0)
+
+        let result = await service.trash(files, refusing: { _ in
+            if asked.withLock({ $0 += 1; return $0 }) == 2 {
+                _ = try? DiskImageTool.hdiutil("detach", "-force", mountPoint)
+            }
+            return nil
+        })
+
+        #expect(result.trashed.map(\.originalURL) == [files[0]])
+        let records = try #require(await RemovalLog(url: history).load().records)
+        #expect(records.map(\.originalURL) == [files[0]])
+        #expect(records.allSatisfy { $0.disk != nil })
+        #expect(RemovalStanding(records).away == Set(records.map(\.id)))
+
+        let elsewhere = directory.url.appending(path: "Elsewhere", directoryHint: .isDirectory)
+        try disk.attach(at: elsewhere)
+        let located = try #require(records.first).located(on: .now())
+
+        #expect(await service.restore(located.trashedItem) == nil)
+        #expect(try (1...3).map { number in
+            try String(contentsOf: elsewhere.appending(path: "org.example.away/\(number).txt"), encoding: .utf8)
+        } == ["1", "2", "3"])
+        withExtendedLifetime(disk) {}
+    }
 }

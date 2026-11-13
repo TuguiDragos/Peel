@@ -49,6 +49,11 @@ final class ScratchVolume {
     /// skips writing out what the file system still holds.
     func remount(at place: URL, readOnly: Bool = false) throws {
         try DiskImageTool.hdiutil("detach", url.path)
+        try attach(at: place, readOnly: readOnly)
+    }
+
+    /// The disk plugged in again at `place`, once something took it away.
+    func attach(at place: URL, readOnly: Bool = false) throws {
         try FileManager.default.createDirectory(at: place, withIntermediateDirectories: true)
         let file = image.url.appending(path: "disk.dmg")
         try DiskImageTool.hdiutil(
