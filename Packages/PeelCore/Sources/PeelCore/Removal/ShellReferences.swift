@@ -71,13 +71,21 @@ public enum ShellReferences {
     /// puts it, zsh's other three there and in each folder `.zshenv` or `.zprofile` plainly gives ZDOTDIR, and the
     /// rest in the home folder. No shell is asked: one would run those very files, which any program of the account
     /// can write, as a child of Peel.
-    static func startupFiles(home: URL) -> [URL] {
+    static func startupFiles(
+        home: URL, environment: [String: String] = ProcessInfo.processInfo.environment
+    ) -> [URL] {
         var files: [URL] = []
         let zdotdir = ShellSessions.sessionZDOTDIR
         if let zsh = ShellSessions.of(terminalSetting: nil, loginShell: "/bin/zsh", zdotdir: zdotdir, home: home),
            case .zsh(let zshenv) = zsh {
             files.append(zshenv)
-            let folders = ShellSessions.foldersNamedByStartupFiles(from: zshenv, home: home, zdotdir: zdotdir).folders
+            let named = ShellSessions.foldersNamedByStartupFiles(from: zshenv, home: home, zdotdir: zdotdir)
+            // Reading a file too many costs nothing and runs nothing, so a folder zsh may read counts, and so does the
+            // ZDOTDIR a `peel` started from a shell carries.
+            let started = environment["ZDOTDIR"].flatMap { path in
+                path.hasPrefix("/") ? URL(filePath: path, directoryHint: .isDirectory) : nil
+            }
+            let folders = named.folders + named.candidates + (started.map { [$0] } ?? [])
             files += folders.flatMap { folder in
                 [".zprofile", ".zshrc", ".zlogin"].map { folder.appending(path: $0, directoryHint: .notDirectory) }
             }

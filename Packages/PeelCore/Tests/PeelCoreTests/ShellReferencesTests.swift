@@ -82,6 +82,34 @@ struct ShellReferencesTests {
         #expect(left.filter { $0.hasPrefix("ran") }.isEmpty)
     }
 
+    @Test(arguments: [
+        "export XDG_CONFIG_HOME=\"$HOME/.config\"\nexport ZDOTDIR=\"$XDG_CONFIG_HOME/zsh\"\n",
+        "export ZDOTDIR=\"$XDG_CONFIG_HOME/zsh\"\n",
+        "if [ -d \"$HOME/.config/zsh\" ]; then\n  export ZDOTDIR=\"$HOME/.config/zsh\"\nfi\n",
+    ])
+    func findsTheZshrcAFolderTheTextCantSettleMayHold(zshenv: String) async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("home/.zshenv", contents: Data(zshenv.utf8))
+
+        let files = ShellReferences.startupFiles(home: home, environment: [:]).map { $0.path(percentEncoded: false) }
+
+        #expect(files.contains(home.appending(path: ".config/zsh/.zshrc").path(percentEncoded: false)))
+    }
+
+    @Test func readsTheZDOTDIRPeelWasStartedWith() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.directory("home")
+        let zsh = try directory.directory("elsewhere/zsh").path(percentEncoded: false)
+
+        let files = ShellReferences.startupFiles(home: home, environment: ["ZDOTDIR": zsh]).map {
+            $0.path(percentEncoded: false)
+        }
+
+        #expect(files.contains(zsh + ".zshrc") || files.contains(zsh + "/.zshrc"))
+    }
+
     @Test func readsTheStartupFilesOfEachShellOnce() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

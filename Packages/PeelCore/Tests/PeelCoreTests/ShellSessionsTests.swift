@@ -194,7 +194,7 @@ struct ShellSessionsTests {
         if let byTheText {
             #expect(byTheText.path(percentEncoded: false) == byZsh?.path(percentEncoded: false))
         }
-        let unsettled = ["XDG_CONFIG_HOME/", "&&", ":=", "XDG=1", "if "]
+        let unsettled = ["&&", ":=", "XDG=1", "if "]
         #expect((byTheText == nil) == unsettled.contains { zshenv.contains($0) })
     }
 

@@ -84,13 +84,18 @@ public enum ShellSessions: Sendable, Equatable {
         /// False when a startup file also gives ZDOTDIR a value its text can't settle: one a shell would have to work
         /// out, or one given under a condition.
         var isSettled = true
+        /// The folders such a value may name: given under a condition, or with a variable the text doesn't set, taken
+        /// from the environment or, for XDG's, its default.
+        var candidates: [URL] = []
+        /// The folders the text plainly gives other variables, which a later value may name.
+        var variables: [String: String] = [:]
     }
 
     /// The folders zsh may read its startup files from, going by their text alone: the one `zshenv` is in, then each
     /// folder a `.zshenv` or a `.zprofile` there plainly gives ZDOTDIR.
     static func foldersNamedByStartupFiles(from zshenv: URL, home: URL, zdotdir: String?) -> NamedFolders {
         var named = NamedFolders(folders: [zshenv.deletingLastPathComponent()])
-        let environment = zdotdir.map { ["ZDOTDIR": $0] } ?? [:]
+        var environment = zdotdir.map { ["ZDOTDIR": $0] } ?? [:]
         for name in [".zshenv", ".zprofile"] {
             for folder in named.folders {
                 let file = folder.appending(path: name, directoryHint: .notDirectory)
@@ -99,7 +104,9 @@ public enum ShellSessions: Sendable, Equatable {
                     in: String(decoding: data, as: UTF8.self), home: home, environment: environment
                 )
                 named.folders += given.folders
+                named.candidates += given.candidates
                 named.isSettled = named.isSettled && given.isSettled
+                environment.merge(given.variables) { _, later in later }
             }
         }
         return named
@@ -115,21 +122,39 @@ public enum ShellSessions: Sendable, Equatable {
         let assignment = /(^|[^A-Za-z0-9_])ZDOTDIR\+?=|\$\{ZDOTDIR:?=|unset .*(^|[^A-Za-z0-9_])ZDOTDIR([^A-Za-z0-9_]|$)/
         for line in text.split(whereSeparator: \.isNewline) {
             let code = withoutComment(line.drop(while: \.isWhitespace))
+            var words = code[...]
+            for prefix in ["export ", "typeset -x ", "typeset -gx "] where words.hasPrefix(prefix) {
+                words = words.dropFirst(prefix.count).drop(while: \.isWhitespace)
+            }
+            let known = environment.merging(named.variables) { _, later in later }
             if code.contains(assignment) {
-                var words = code[...]
-                for prefix in ["export ", "typeset -x ", "typeset -gx "] where words.hasPrefix(prefix) {
-                    words = words.dropFirst(prefix.count).drop(while: \.isWhitespace)
-                }
-                if depth == 0, words.hasPrefix("ZDOTDIR="),
-                   let folder = plainFolder(words.dropFirst("ZDOTDIR=".count), home: home, environment: environment) {
+                let value = words.hasPrefix("ZDOTDIR=") ? words.dropFirst("ZDOTDIR=".count) : nil
+                if depth == 0, let value, let folder = plainFolder(value, home: home, environment: known) {
                     named.folders.append(folder)
                 } else {
                     named.isSettled = false
+                    let defaults = known.merging(xdgDefaults(home: home)) { set, _ in set }
+                    if let value, let folder = plainFolder(value, home: home, environment: defaults) {
+                        named.candidates.append(folder)
+                    }
                 }
+            } else if depth == 0, let equals = words.firstIndex(of: "="),
+                      words[..<equals].wholeMatch(of: /[A-Za-z_][A-Za-z0-9_]*/) != nil,
+                      let folder = plainFolder(words[words.index(after: equals)...], home: home, environment: known) {
+                named.variables[String(words[..<equals])] = folder.path(percentEncoded: false)
             }
             depth = max(0, depth + blocksOpened(by: code))
         }
         return named
+    }
+
+    /// Where the XDG Base Directory Specification puts each folder that its variable doesn't name.
+    private static func xdgDefaults(home: URL) -> [String: String] {
+        let homePath = home.pathAsHOME
+        return [
+            "XDG_CONFIG_HOME": homePath + "/.config", "XDG_DATA_HOME": homePath + "/.local/share",
+            "XDG_STATE_HOME": homePath + "/.local/state", "XDG_CACHE_HOME": homePath + "/.cache",
+        ]
     }
 
     /// A line without what follows an unquoted `#` that begins a word, which zsh reads as a comment.
@@ -197,6 +222,13 @@ public enum ShellSessions: Sendable, Equatable {
     /// `part` with `$HOME`, `${HOME}`, and `${NAME:-default}` worked out, or nil when what it names isn't plain.
     private static func expanding(_ part: String, home homePath: String, environment: [String: String]) -> String? {
         var value = part.replacing("${HOME}", with: homePath).replacing(/\$HOME(?![A-Za-z0-9_])/, with: homePath)
+        // A variable the text or the environment sets, as `$NAME` or `${NAME}`: zsh doesn't expand its value again.
+        while let named = value.firstMatch(of: /\$\{?([A-Za-z_][A-Za-z0-9_]*)\}?/),
+              named.output.0.hasPrefix("${") == named.output.0.hasSuffix("}"),
+              let set = environment[String(named.output.1)], !set.isEmpty {
+            if set.contains(where: notPlain.contains) { return nil }
+            value.replaceSubrange(named.range, with: set)
+        }
         while let named = value.firstMatch(of: /\$\{([A-Za-z_][A-Za-z0-9_]*):[-=]([^{}]*)\}/) {
             let set = environment[String(named.output.1)].flatMap { $0.isEmpty ? nil : $0 }
             // zsh doesn't expand a value again: one that holds what a plain path can't names no folder, and taken in
