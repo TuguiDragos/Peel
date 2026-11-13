@@ -2,17 +2,19 @@ public import Foundation
 internal import PeelPrivileged
 
 /// What a group of orphaned files belongs to, as the person said: an app, by its bundle identifier, a command-line
-/// tool Homebrew installed, by the name of its formula, or a command in the tool folders (`CommandLineTools`), by name.
+/// tool Homebrew installed, by the name of its formula, or a command in the tool folders (`CommandLineTools`), by its
+/// place there, or by its name alone when it was chosen before Peel kept the place.
 public enum OrphanOwner: Sendable, Hashable {
     case app(String)
     case formula(String)
-    case command(String)
+    case command(String, at: URL? = nil)
 }
 
 extension OrphanOwner: Codable {
     private enum CodingKeys: String, CodingKey {
         case formula
         case command
+        case at
     }
 
     /// An app is written as its bundle identifier alone, as every list written before tools could be named, and a
@@ -26,7 +28,10 @@ extension OrphanOwner: Codable {
         if let name = try container.decodeIfPresent(String.self, forKey: .formula) {
             self = .formula(name)
         } else {
-            self = .command(try container.decode(String.self, forKey: .command))
+            self = .command(
+                try container.decode(String.self, forKey: .command),
+                at: try container.decodeIfPresent(String.self, forKey: .at).map { URL(filePath: $0) }
+            )
         }
     }
 
@@ -38,9 +43,10 @@ extension OrphanOwner: Codable {
         case .formula(let name):
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(name, forKey: .formula)
-        case .command(let name):
+        case .command(let name, let place):
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(name, forKey: .command)
+            try container.encodeIfPresent(place?.path(percentEncoded: false), forKey: .at)
         }
     }
 }
@@ -50,14 +56,18 @@ extension OrphanOwner: Codable {
 public struct InstalledTools: Sendable {
     public var formulae: Set<String>?
     public var commands: Set<String>?
+    /// Where each command is in the tool folders, as `PathPattern.comparablePath` writes it.
+    public var commandPlaces: Set<String>?
     /// The commands a person may name, for a chooser.
     public var offeredCommands: [CommandLineTools.Command]
 
     public init(
-        formulae: Set<String>? = nil, commands: Set<String>? = nil, offeredCommands: [CommandLineTools.Command] = []
+        formulae: Set<String>? = nil, commands: Set<String>? = nil, commandPlaces: Set<String>? = nil,
+        offeredCommands: [CommandLineTools.Command] = []
     ) {
         self.formulae = formulae
         self.commands = commands
+        self.commandPlaces = commandPlaces
         self.offeredCommands = offeredCommands
     }
 
@@ -70,7 +80,10 @@ public struct InstalledTools: Sendable {
         let cellar = await Homebrew.cellar(asking: answers)
         let formulae = await Homebrew.installedFormulae(asking: answers)
         let commands = CommandLineTools.read(environment: environment, cellar: cellar)
-        return InstalledTools(formulae: formulae, commands: commands?.names, offeredCommands: commands?.offered ?? [])
+        return InstalledTools(
+            formulae: formulae, commands: commands?.names, commandPlaces: commands?.places,
+            offeredCommands: commands?.offered ?? []
+        )
     }
 }
 
@@ -123,15 +136,18 @@ public struct OrphanOwners: Sendable {
     }
 
     /// The groups, lowercased, whose owner is on this Mac: an app among `apps`, the installed bundle identifiers, or
-    /// a formula or a command among `tools`. While a kind of tool isn't known, every group given to one stays out,
-    /// since the person's word stands until Peel knows better.
+    /// a formula or a command among `tools`, a command chosen where it is only while it is still there. While a kind
+    /// of tool isn't known, every group given to one stays out, since the person's word stands until Peel knows
+    /// better.
     public static func given(_ owners: [String: OrphanOwner], apps: Set<String>, tools: InstalledTools) -> Set<String> {
         Set(
             owners.filter { _, owner in
                 switch owner {
                 case .app(let identifier): apps.contains(identifier.lowercased())
                 case .formula(let name): tools.formulae?.contains(name) ?? true
-                case .command(let name): tools.commands?.contains(name) ?? true
+                case .command(let name, nil): tools.commands?.contains(name) ?? true
+                case .command(_, let place?):
+                    tools.commandPlaces?.contains(PathPattern.comparablePath(of: place)) ?? true
                 }
             }
             .keys.map { $0.lowercased() }

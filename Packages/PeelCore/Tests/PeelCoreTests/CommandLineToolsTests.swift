@@ -30,6 +30,8 @@ struct CommandLineToolsTests {
 
         let tools = try #require(CommandLineTools.read(environment: environment, cellar: cellar))
         #expect(tools.names == ["kav", "served", "ported", "mine", "mytool", "dock", "jq"])
+        #expect(tools.places.count == 7)
+        #expect(tools.places.contains(PathPattern.comparablePath(of: bin.appending(path: "jq"))))
         #expect(tools.offered.map(\.name) == ["kav", "mine", "mytool", "ported", "served"])
         #expect(tools.offered.first?.url == bin.appending(path: "kav"))
 

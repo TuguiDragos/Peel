@@ -22,6 +22,18 @@ struct ExclusionsSettingsView: View {
         exclusions.exclusions.bundleIdentifiers.sorted()
     }
 
+    /// The tool a group was given to, beside the terminal symbol: a command by where it is, once Peel keeps that.
+    private func tool(_ text: String, truncation: Text.TruncationMode) -> some View {
+        HStack(spacing: 4) {
+            Image(systemName: "terminal")
+            Text(verbatim: text)
+                .lineLimit(1)
+                .truncationMode(truncation)
+        }
+        .font(.caption)
+        .foregroundStyle(.secondary)
+    }
+
     /// What an empty list says once the list is known: nothing while it can't be read, since the file holds what the
     /// person chose, and Checking… until it has been read.
     @ViewBuilder
@@ -205,14 +217,10 @@ struct ExclusionsSettingsView: View {
                                             .font(.caption)
                                             .foregroundStyle(.secondary)
                                             .lineLimit(1)
-                                    case .formula(let name)?, .command(let name)?:
-                                        HStack(spacing: 4) {
-                                            Image(systemName: "terminal")
-                                            Text(verbatim: name)
-                                                .lineLimit(1)
-                                        }
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
+                                    case .formula(let name)?, .command(let name, nil)?:
+                                        tool(name, truncation: .tail)
+                                    case .command(_, let place?)?:
+                                        tool(place.abbreviatedPath, truncation: .middle)
                                     case nil:
                                         EmptyView()
                                     }

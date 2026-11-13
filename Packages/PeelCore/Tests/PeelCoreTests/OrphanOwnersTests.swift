@@ -28,6 +28,32 @@ struct OrphanOwnersTests {
         #expect(owners.load()?["org.example.cmd"] == .command("mytool"))
     }
 
+    @Test func keepsWhereTheChosenCommandIs() throws {
+        let directory = try TemporaryDirectory()
+        let url = directory.url.appending(path: "orphan-owners.json")
+        let owners = OrphanOwners(url: url)
+        let local = URL(filePath: "/Users/me/.local/bin/jq")
+
+        #expect(owners.give("org.example.jq", to: .command("jq", at: local)) == .saved)
+
+        let written = try #require(try JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
+        #expect(written["org.example.jq"] as? [String: String] == ["command": "jq", "at": "/Users/me/.local/bin/jq"])
+        #expect(owners.load()?["org.example.jq"] == .command("jq", at: local))
+    }
+
+    @Test func aCommandChosenWhereItIsGoesWithItWhateverElseHasItsName() {
+        let owners: [String: OrphanOwner] = [
+            "org.example.jq": .command("jq", at: URL(filePath: "/Users/me/.local/bin/jq")),
+            "org.example.byname": .command("jq"),
+        ]
+        let both = InstalledTools(commands: ["jq"], commandPlaces: ["/Users/me/.local/bin/jq", "/opt/local/bin/jq"])
+        let theOtherOne = InstalledTools(commands: ["jq"], commandPlaces: ["/opt/local/bin/jq"])
+
+        #expect(OrphanOwners.given(owners, apps: [], tools: both) == ["org.example.jq", "org.example.byname"])
+        #expect(OrphanOwners.given(owners, apps: [], tools: theOtherOne) == ["org.example.byname"])
+        #expect(OrphanOwners.given(owners, apps: [], tools: .notKnown) == ["org.example.jq", "org.example.byname"])
+    }
+
     @Test func leavesOutWhatBelongsToAnInstalledAppOrToolAndToAToolNotYetKnown() {
         let owners: [String: OrphanOwner] = [
             "org.example.given": .app("com.installed.app"), "org.example.gone": .app("org.example.notinstalled"),

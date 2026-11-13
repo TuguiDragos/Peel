@@ -13,6 +13,8 @@ public struct CommandLineTools: Sendable {
 
     /// Every command's name, which keeps a group given to one out of Orphaned Files.
     public let names: Set<String>
+    /// Every command's place, as `PathPattern.comparablePath` writes it, which keeps a group given to that one out.
+    public let places: Set<String>
     /// The commands a person may name as an owner: not one leading into an app, whose owner is the app, nor into
     /// Homebrew's Cellar, whose owner is the formula. By name, then by place.
     public let offered: [Command]
@@ -30,6 +32,7 @@ public struct CommandLineTools: Sendable {
         }
         return CommandLineTools(
             names: Set(tools.map(\.name)),
+            places: Set(tools.map { PathPattern.comparablePath(of: $0.command) }),
             offered: offered.map { Command(name: $0.name, url: $0.command) }.sorted {
                 let names = $0.name.localizedStandardCompare($1.name)
                 return names == .orderedSame
