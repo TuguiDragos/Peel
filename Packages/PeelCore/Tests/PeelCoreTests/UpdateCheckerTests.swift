@@ -690,6 +690,27 @@ private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
         #expect(await checker.status(for: notes) == .updateAvailable(version: "1.1", source: .appStore))
     }
 
+    @Test func aVersionThisMacsMacOSIsTooOldForIsNoUpdate() async {
+        let notes = InstalledApp(
+            url: URL(filePath: "/Applications/Notes Pro.app"), bundleIdentifier: "com.example.notes", name: "Notes Pro",
+            version: "1.0", isFromAppStore: true, updateFeed: .appStore(.mac)
+        )
+        let iPad = InstalledApp(
+            url: URL(filePath: "/Applications/Sketches.app"), bundleIdentifier: "com.example.sketches", name: "Sketches",
+            version: "1.0", isFromAppStore: true, updateFeed: .appStore(.iPhoneAndiPad(item: 1, store: "de"))
+        )
+        let needing = { (kind: String, minimum: String) in
+            #"{"resultCount":1,"results":[{"kind":"\#(kind)","trackId":1,"version":"2.0","minimumOsVersion":"\#(minimum)"}]}"#
+        }
+
+        reply("itunes.apple.com", needing("mac-software", "99.0"))
+        #expect(await checker.status(for: notes) == .upToDate)
+        reply("itunes.apple.com", needing("mac-software", "26.0"))
+        #expect(await checker.status(for: notes) == .updateAvailable(version: "2.0", source: .appStore))
+        reply("itunes.apple.com", needing("software", "99.0"))
+        #expect(await checker.status(for: iPad) == .updateAvailable(version: "2.0", source: .appStore))
+    }
+
     @Test func believesTheAppStoreNoLongerListsAnAppWithAnUpdateFoundOnlyOnTheSecondAnswer() async {
         let notes = InstalledApp(
             url: URL(filePath: "/Applications/Notes Pro.app"), bundleIdentifier: "com.example.notes", name: "Notes Pro",

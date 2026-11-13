@@ -107,6 +107,25 @@ struct UpdateMemoryTests {
         }
     }
 
+    @Test func asksAgainAboutAnAppStoreUpdateAnEarlierCheckerFound() throws {
+        let fromTheStore = InstalledApp(
+            url: URL(filePath: "/Applications/Foo.app", directoryHint: .isDirectory), bundleIdentifier: "com.example.foo",
+            name: "Foo", version: "1.0", buildVersion: "1", isFromAppStore: true, updateFeed: .appStore(.mac)
+        )
+        let update = UpdateMemory(
+            status: .updateAvailable(version: "2.0", source: .appStore), schedule: schedule, checked: .now,
+            describing: fromTheStore
+        )
+        let upToDate = UpdateMemory(status: .upToDate, schedule: schedule, checked: .now, describing: fromTheStore)
+
+        let earlierUpdate = ["com.example.foo": try savedByAnEarlierChecker(update)]
+        #expect(UpdateMemories(earlierUpdate).recalled(for: [fromTheStore]).isEmpty)
+        let earlierUpToDate = ["com.example.foo": try savedByAnEarlierChecker(upToDate)]
+        #expect(UpdateMemories(earlierUpToDate).recalled(for: [fromTheStore]) == UpdateMemories(earlierUpToDate))
+        let current = ["com.example.foo": update]
+        #expect(UpdateMemories(current).recalled(for: [fromTheStore]) == UpdateMemories(current))
+    }
+
     /// An entry stored by an earlier version of Peel names no build, so it describes no app, and the app is
     /// checked again.
     @Test func readsAnEntryStoredBeforeBuildsWereKept() throws {

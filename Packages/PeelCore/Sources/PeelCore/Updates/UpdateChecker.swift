@@ -3,8 +3,9 @@ import Synchronization
 
 public struct UpdateChecker: Sendable {
     /// Raised whenever the checker answers some apps differently: an app an earlier revision couldn't check is asked
-    /// again rather than waited out, and so is one this revision asks nobody about (`UpdateMemory.recalled`).
-    public static let revision = 5
+    /// again rather than waited out, and so is one this revision asks nobody about, or whose App Store update an
+    /// earlier revision found (`UpdateMemory.recalled`).
+    public static let revision = 6
 
     /// The largest reply read. An update feed is a small XML, YAML, or JSON file, and its address comes from
     /// the app's own bundle, so the server is not trusted to keep its reply small.
@@ -384,7 +385,7 @@ public struct UpdateChecker: Sendable {
                 )
             }
             return UpdateAnswer(status: .unsupported, isNotListed: true)
-        case .listed(let latest, let page, let developer, let notes):
+        case .listed(let latest, let page, let developer, let notes, let minimumMacOS):
             // The App Store never goes back to an older version, so an answer older than the update it gave for this
             // build comes from a copy of its catalog that isn't up to date yet, and is asked again later.
             if case .updateAvailable(let found, .appStore, _, _) = earlier,
@@ -394,7 +395,10 @@ public struct UpdateChecker: Sendable {
                     failure: UpdateFailure(asked: .appStore, cause: .olderThanFound(version: latest, found: found))
                 )
             }
-            guard VersionComparison.isNewer(latest, than: installed) else {
+            // The App Store shows a version that needs a newer macOS as one this Mac can't run, so it is no update
+            // here, as a Sparkle item isn't.
+            let runsHere = minimumMacOS.map { !VersionComparison.isNewer($0, than: systemVersion) } ?? true
+            guard runsHere, VersionComparison.isNewer(latest, than: installed) else {
                 return UpdateAnswer(status: .upToDate, developer: developer)
             }
             return UpdateAnswer(

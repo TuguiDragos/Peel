@@ -3,9 +3,12 @@ import Foundation
 enum AppStoreLookup {
     enum Answer: Equatable {
         /// The listing's version, its store page (where the user can read what changed and update), its developer
-        /// as `artistName` gives it ("Apple" for Apple's own apps, where `sellerName` gives "Apple Inc."), and what
-        /// is new in that version, as plain text.
-        case listed(version: String, page: URL?, developer: String?, notes: ReleaseNotes? = nil)
+        /// as `artistName` gives it ("Apple" for Apple's own apps, where `sellerName` gives "Apple Inc."), what
+        /// is new in that version, as plain text, and the macOS that version needs. Only a Mac's record says that:
+        /// an iPhone or iPad app's `minimumOsVersion` is the iOS it needs.
+        case listed(
+            version: String, page: URL?, developer: String?, notes: ReleaseNotes? = nil, minimumMacOS: String? = nil
+        )
         /// Apple answered, but with no record of the listing asked, as for an app the store doesn't sell in this
         /// region, or doesn't sell anymore. That is not a failed lookup.
         case notListed
@@ -37,7 +40,8 @@ enum AppStoreLookup {
             version: version,
             page: record.trackViewUrl.flatMap(URL.init(webPage:)),
             developer: record.artistName.flatMap { $0.isEmpty ? nil : $0 },
-            notes: record.releaseNotes.flatMap(ReleaseNotes.init(plainText:))
+            notes: record.releaseNotes.flatMap(ReleaseNotes.init(plainText:)),
+            minimumMacOS: listing == .mac ? record.minimumOsVersion : nil
         )
     }
 
@@ -50,6 +54,7 @@ enum AppStoreLookup {
             let artistName: String?
             let releaseNotes: String?
             let supportedDevices: [String]?
+            let minimumOsVersion: String?
 
             /// An app sold once for iPhone, iPad, and Mac answers the desktop question with a record of kind
             /// "software" for the Mac alone, whose version can differ from the iPhone's.

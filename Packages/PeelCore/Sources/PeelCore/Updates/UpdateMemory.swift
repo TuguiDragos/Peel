@@ -141,6 +141,7 @@ public struct UpdateMemories: Equatable, Sendable {
             let kept = builds.filter { entry in
                 let isEarlier = entry.revision ?? 1 < UpdateChecker.revision
                 if entry.status == .unsupported, isEarlier { return false }
+                if isEarlier, case .updateAvailable(_, .appStore, _, _) = entry.status { return false }
                 guard let copies = installed[identifier] else {
                     return entry.schedule.due.addingTimeInterval(UpdateMemory.longestAbsence) > now
                 }
