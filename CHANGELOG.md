@@ -39,8 +39,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - This Belongs To… also offers command-line tools: the ones Homebrew installed, and the commands in `/usr/local/bin`
   and `sbin`, MacPorts' `/opt/local/bin` and `sbin`, and your home's `bin` and `.local/bin`. Two of one name each say
-  where they are. What a tool keeps under a dotted name stays out of the list while that tool is installed, and
-  Settings > Exclusions shows the tool beside its group.
+  where they are, and the one you choose is kept by where it is. What a tool keeps under a dotted name stays out of
+  the list while that tool is installed, and Settings > Exclusions shows the tool beside its group, a command by
+  its place.
 - This Belongs To… is on an orphan group's page too, not only in the list's Control-click menu.
 - When this Mac has other accounts and something listed is in a place they share, such as `/Library`, Orphaned Files
   and `peel orphans` say that an app another account keeps in its own Applications folder isn't visible from here.
@@ -85,7 +86,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - The + and - under App Folders and the Exclusions lists are the same height.
 - Remove Peel's question says first that Peel's helper, which serves every account on this Mac, goes for all of them,
-  and that Peel stops opening at login, whenever there is one.
+  and that Peel stops opening at login, whenever there is one. Whether the helper is there is asked of macOS as Peel
+  removes itself, and Remove Peel is off while the helper is being installed, repaired, or removed, so a helper
+  installed a moment before is never left behind.
 - When Remove Peel needs an administrator, its advice says that dragging Peel to the Trash in Finder leaves its helper,
   its login item, and its files behind.
 - The Exclusions notes say all an exclusion stops, more plainly: Peel puts nothing back into what you excluded, Homebrew
@@ -94,8 +97,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   can't be read, and points to the Exclusions tab.
 - When a saved copy of settings goes back only in part, Settings and the Reset sheet say that the part Peel couldn't
   read or leaves alone stays as it is now, and the rest went back.
-- The Command-line tool's note follows its row: it says `peel` is on your path once it is, and on an account that isn't
-  an administrator's, to add the line below to your shell's startup file.
+- The Command-line tool's note follows its row: it says `peel` is on your path once it is, on an account that isn't an
+  administrator's, to add the line below to your shell's startup file, and while Peel offers no command, that the line
+  below says why.
 
 #### Applications
 
@@ -186,8 +190,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Home's note on App Management no longer says Peel can still clear an app's files without it: when macOS refuses to
   move an app, its files stay too.
 - On an account that isn't an administrator's, with no helper, Home no longer says You're all set while what needs an
-  administrator can't move: it says Set for this account, and that such items stay until an administrator installs
-  Peel's helper.
+  administrator can't move: it says Set for this account, and that such items stay until an administrator installs,
+  allows, or repairs Peel's helper.
 - With the helper installed by another copy of Peel, Home says to open that copy, no longer to set the helper up below,
   where this copy has no button for it.
 - VoiceOver says Warning or Info for the mark of a notice on Home, as everywhere else, rather than the symbol's name.
@@ -212,7 +216,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - On macOS 27, a switch's long title on the Terminal and Shell tabs is no longer drawn smaller to make room for the
   switch.
 - The Shell tab's Turn All Off no longer promises macOS's own prompt: what your own `.zshrc` sets still applies.
-- With ZDOTDIR set, the Tools tab names the `.zshrc` zsh reads, no longer `~/.zshrc`.
+- With ZDOTDIR set, the Tools tab names the `.zshrc` zsh reads, no longer `~/.zshrc`, and says so when Peel can't tell
+  which one it is. While Terminal opens bash or another shell, it says the lines of its tools for the shell, written
+  for zsh, don't apply, as the Shell tab does.
 - The Tools tab's link to each tool's page, in the tool's note, can be opened with VoiceOver and, with keyboard
   navigation on, from the keyboard.
 - On a Mac without Homebrew, the Tools tab's brew.sh link has the 20-point target every link has.
@@ -312,13 +318,16 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Finder does when it shows one, so macOS can find it.
 - Copy Uninstall Command on the page of Herd, GlobalProtect, Cloudflare WARP, or Background Music, and `peel uninstall`,
   name the maker's script where the app is, such as `~/Applications`, not always in `/Applications`. A maker's script
-  or uninstaller that isn't on the Mac is no longer offered, and neither is a script something other than its maker
-  or the system could have changed: one inside the app only while the app's whole seal holds, and one elsewhere only
-  while it and every folder above it are root's alone.
+  or uninstaller that isn't on the Mac is no longer offered, and neither is one something other than its maker or the
+  system could have changed: a script inside the app only while the app's whole seal holds, one elsewhere only while
+  it, every folder above it, and what it leads to through a link are root's alone, and an uninstaller only when the
+  app's own team signed it. The page then says, as `peel uninstall` does, where the uninstaller is, or that Peel can't
+  vouch for the one on the Mac.
 - A link named like an app leads to the app it points to, as it did for an app already in the list: the list no longer
   shows the link as an app, and a link opened from Finder, `peel://`, a drop, or `peel uninstall` no longer opened a
   page that selected the app's own files while only the link would move. A link thrown into the Trash no longer counts
-  as an app that left. A folder named like an app whose Contents leads to another app's is no app either.
+  as an app that left. A folder named like an app whose Contents, or whose wrapper of an iPhone or iPad app, leads to
+  another app's is no app either.
 - Uninstalling an app also moves the alias that leads to it in `/Applications` or your home's Applications folder, a
   link or one Finder made, which led nowhere once the app went, on an app's page, several apps' page, and
   `peel uninstall` alike.
@@ -420,15 +429,17 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - What an App Store app left under its own identifier is listed once Peel saw it go, Apple's own App Store apps
   included.
 - An app on another disk stays installed when another disk of the same name is plugged in, or its disk comes back under
-  another name: Peel knows each disk by its volume, so the app's files, and a link into it, are no longer listed as left
-  by an app that's gone.
+  another name: Peel knows each disk by its volume, so the app's files, those of its helpers and its groups, and a
+  link into it, are no longer listed as left by an app that's gone.
 - A file named by an installed app's two-part identifier and more, such as `md.obsidian.ShipIt` beside Obsidian, is no
   longer listed as left by an app that's gone.
 - A link that leads into an app that's gone is listed from MacPorts' and your home's command folders too, and when it
   leads there through another link.
 - What an app whose name is two characters in Chinese, Japanese, or Korean left is listed once Peel saw it go.
 - A tool's cache the Developer page lists, such as Carthage's or Vercel CLI's, is no longer listed as left by an app
-  that's gone, unless Peel saw that app go.
+  that's gone, unless Peel saw that app go. A folder holding what that page never recommends, such as R's folder with
+  renv's package store, says so, isn't recommended, and is never called sure from its dates, since projects only read
+  such a store.
 - Orphaned Files and `peel orphans` ask only the apps that could own each item, so a Mac with hundreds of apps is
   read much faster.
 - A file that is a link says where it leads and that moving it moves only the link.
@@ -477,7 +488,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - With a `brew` chosen in Settings from a folder of its own, every command Peel gives you to run in Terminal names
   that `brew` by its whole path: the upgrade and uninstall commands to copy, the one that takes a cask off Homebrew's
   list, a tool's install line on the Terminal page, and the hints of `peel`. Plain `brew` could run another Homebrew
-  there, or none.
+  there, or none. So do they while two Homebrews are on the Mac, and one in `/usr/local` on a Mac with Apple silicon
+  runs through `arch -x86_64`, as Peel runs it.
 - While the file that says which `brew` you chose in Settings can't be read, Peel runs none, and Settings, the
   Homebrew page, and the Terminal page say so: before, it ran the one in `/opt/homebrew` or `/usr/local` instead.
 - What Check Health found shows each of Homebrew's lines whole: a sentence under a finding's summary was cut in the
@@ -503,7 +515,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Space
 
 - Homebrew Data, TeX Live, .NET SDKs, Wine, and an area whose app is gone say they are removed by hand in Finder, no
-  longer that their own app or tool manages them.
+  longer that their own app or tool manages them. Simulators, whose devices go through Xcode, says to install Xcode
+  again.
 - The iCloud Drive area's hint names the iCloud Drive page's Remove Downloads, no longer one file at a time.
 - The line on AI models says it counts what the Developer page lists, no longer every model on this Mac.
 - The Logs area says the crash reports go one by one and the folder they sit in stays, no longer that only the reports
@@ -535,7 +548,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Folders of sparse files whose lengths add up past the largest size a number can hold, and copies a network share
   reports as larger than that, no longer make a scan quit unexpectedly, in the app and in `peel duplicates`.
 - On exFAT and FAT32 disks, a file rewritten in place under its old date is read again, no longer offered as a copy
-  of the file it was a copy of: what Duplicates remembers between scans counts only on APFS. Right before a move,
+  of the file it was a copy of: what Duplicates remembers between scans counts only on APFS, and never for a file a
+  program of yours maps for writing, whose writes move no date until the program syncs them. Right before a move,
   Peel reads again each copy that goes and the copies that stay, and a copy moves only while one that stays holds the
   same bytes, in the app and in `peel duplicates --remove`.
 - While Peel reads the copies again right before a move, the bar says Reading contents…, no longer Moved 0 of them
@@ -552,12 +566,14 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   restart on its own, no longer that it was stopped.
 - After a Save launchd didn't stop, an agent of the Background session is said to run as it was until the Mac restarts,
   no longer until you log out.
-- A job Peel no longer acts on since the list was read says so and to rescan, no longer that the request wasn't valid.
+- A job Peel no longer acts on since the list was read says so and to rescan, no longer that the request wasn't valid,
+  and one whose name Peel doesn't pass to `launchctl` says that.
 
 #### Extensions
 
-- A system extension macOS runs for an app bundled inside another says to turn it off in Login Items & Extensions, as
-  the app's page does, no longer that Finder's move removes it.
+- A system extension macOS runs for an app bundled inside another says to turn it off in Login Items & Extensions, and
+  what Peel then does, as the app's page does, no longer that Finder's move removes it. Once it is off, the page says
+  Peel can move that app.
 - When macOS doesn't answer which extensions apps have added, the page says it can't list them and to rescan, no longer
   that a list it doesn't show says nothing.
 
@@ -665,7 +681,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Homebrew, Git, and zsh as it reads your startup files start as their own responsible process, so they no longer
   reach what you gave Peel, such as Full Disk Access: any program of your account can rewrite them. Only a Homebrew
   upgrade or uninstall you ask for runs with Peel's App Management. After a removal, Peel finds your shell's startup
-  files without running them, and the Terminal page's Shell tab runs them only when you press Ask zsh.
+  files without running them, and the Terminal page's Shell tab runs them only when you press Ask zsh: until then it
+  goes by what their text says, and says when that can't tell which `.zshrc` zsh reads.
 - A Homebrew chosen in Settings outside `/opt/homebrew` and `/usr/local` has its upgrades and uninstalls handed to
   Terminal, since which `brew` Peel runs is a file any program of your account can write.
 - Put Back puts nothing inside an app: a record of History written by hand could place a file in another app's
