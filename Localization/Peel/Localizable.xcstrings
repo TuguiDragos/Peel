@@ -104599,108 +104599,108 @@
         }
       }
     },
-    "Model weights or datasets, a long download to get back" : {
+    "Model weights or datasets: a long download to get back, and only here when you made or imported them" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Váhy modelů nebo datové sady, jejichž opětovné stažení trvá dlouho"
+            "value" : "Váhy modelů nebo datové sady: jejich opětovné stažení trvá dlouho a ty, které jste vytvořili nebo importovali, jsou jen tady"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Modellgewichte oder Datensätze, deren erneutes Laden lange dauert"
+            "value" : "Modellgewichte oder Datensätze: Das erneute Laden dauert lange, und wenn du sie erstellt oder importiert hast, gibt es sie nur hier"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pesos de modelos o conjuntos de datos, que tardan mucho en volver a descargarse"
+            "value" : "Pesos de modelos o conjuntos de datos: tardan mucho en volver a descargarse y, si los has creado o importado, solo están aquí"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Poids de modèles ou jeux de données, longs à télécharger à nouveau"
+            "value" : "Poids de modèles ou jeux de données : longs à télécharger à nouveau, et présents uniquement ici si vous les avez créés ou importés"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pesi di modelli o dataset, lunghi da scaricare di nuovo"
+            "value" : "Pesi di modelli o dataset: lunghi da scaricare di nuovo, e presenti solo qui se li hai creati o importati"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "再取得に長時間のダウンロードが必要な、モデルの重みやデータセット"
+            "value" : "モデルの重みやデータセット: 再取得には長時間のダウンロードが必要で、自分で作成またはインポートしたものはここにしかありません"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "모델 가중치 또는 데이터 세트, 되찾으려면 오래 다운로드해야 함"
+            "value" : "모델 가중치 또는 데이터 세트: 되찾으려면 오래 다운로드해야 하며, 직접 만들거나 가져온 경우 이곳에만 있음"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Modelgewichten of datasets, alleen terug te krijgen met een lange download"
+            "value" : "Modelgewichten of datasets: alleen terug te krijgen met een lange download, en uitsluitend hier aanwezig als je ze zelf hebt gemaakt of geïmporteerd"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wagi modeli lub zbiory danych, których odzyskanie wymaga długiego pobierania"
+            "value" : "Wagi modeli lub zbiory danych: ich odzyskanie wymaga długiego pobierania, a te utworzone lub zaimportowane przez Ciebie są tylko tutaj"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pesos de modelos ou conjuntos de dados, um download longo para recuperar"
+            "value" : "Pesos de modelos ou conjuntos de dados: um download longo para recuperar, e só existem aqui se você os criou ou importou"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ponderi de modele sau seturi de date, recuperate doar printr‑o descărcare lungă"
+            "value" : "Ponderi de modele sau seturi de date: recuperate doar printr‑o descărcare lungă, iar cele create sau importate de dvs. există doar aici"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Веса моделей или наборы данных, которые долго загружать заново"
+            "value" : "Веса моделей или наборы данных: их долго загружать заново, а созданные или импортированные Вами есть только здесь"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Modellvikter eller datamängder, tar lång tid att hämta igen"
+            "value" : "Modellvikter eller datamängder: tar lång tid att hämta igen, och finns bara här om du har skapat eller importerat dem"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Model ağırlıkları veya veri kümeleri, geri getirmek uzun bir indirme gerektirir"
+            "value" : "Model ağırlıkları veya veri kümeleri: geri getirmek uzun bir indirme gerektirir ve bunları siz oluşturduysanız veya içe aktardıysanız yalnızca burada bulunurlar"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ваги моделей або набори даних, які довго викачувати знову"
+            "value" : "Ваги моделей або набори даних: їх довго викачувати знову, а створені чи імпортовані вами є лише тут"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "模型权重或数据集，要找回需要长时间下载"
+            "value" : "模型权重或数据集：要找回需要长时间下载，如果是你自己创建或导入的，则只存在于此处"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "模型權重或資料集，要取回需長時間下載"
+            "value" : "模型權重或資料集：要取回需長時間下載，若是你自己製作或匯入的，則只存在於此處"
           }
         }
       }

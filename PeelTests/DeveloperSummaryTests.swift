@@ -4,6 +4,10 @@ import Foundation
 import Testing
 
 struct DeveloperSummaryTests {
+    @Test func aStoreOfModelsSaysWhatYouMadeOrImportedIsOnlyThere() {
+        #expect(String(localized: DeveloperEnvironment.ContentKind.models.title).contains("made or imported"))
+    }
+
     @Test func saysHowMuchOfWhatItFoundPeelRecommends() {
         let location = { (name: String, kind: DeveloperEnvironment.ContentKind, size: Int64) in
             DeveloperEnvironment.Location(

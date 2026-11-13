@@ -131,7 +131,7 @@ extension DeveloperEnvironment.ContentKind {
         case .logs: "Logs of what the tool did, which nothing makes again"
         case .deviceSupport: "Symbols from your devices, needed to read their crash reports"
         case .archives: "App archives, needed to read crash reports"
-        case .models: "Model weights or datasets, a long download to get back"
+        case .models: "Model weights or datasets: a long download to get back, and only here when you made or imported them"
         case .environments: "Installed packages, put back by installing them again"
         case .keptDownloads: "Downloads kept so you can install them again"
         case .projectState: "An editor’s state for a project that is gone, its chat history included"

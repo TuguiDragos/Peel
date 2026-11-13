@@ -13,7 +13,8 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         /// device running that system version connects, and none comes back by itself.
         case deviceSupport
         case archives
-        /// Model weights and datasets: large, slow to fetch again.
+        /// Model weights and datasets: large and slow to fetch again, and only here when the person made or
+        /// imported them.
         case models
         /// Installed sets of packages: virtual environments, editor plug-ins, language servers, and the browsers a test
         /// tool installs, which it does not fetch again by itself.
