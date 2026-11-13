@@ -573,6 +573,18 @@ struct OrphanScannerTests {
         #expect(items.contains { $0.url.lastPathComponent == "org.example.inkpot" && $0.heldBack == nil })
     }
 
+    @Test func holdsBackTheFolderWhereTheLlmCommandKeepsItsKeys() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/io.datasette.llm/keys.json", bytes: 64)
+        try directory.file("home/Library/Application Support/io.datasette.llm/logs.db", bytes: 64)
+
+        let scan = await scanner(in: directory).scan(installedApps: installed, remembered: [])
+
+        let group = try #require(scan.groups.first { $0.identifier == "io.datasette.llm" })
+        #expect(group.items.map(\.heldBack) == [.holdsSignIns])
+        #expect(group.selectableRows(canUseHelper: true).recommended.isEmpty)
+    }
+
     @Test func listsTheDataFolderOfACodeEditorThatLeftAndHoldsItsWorkBack() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/Inkwell/User/globalStorage/storage.json", bytes: 64)

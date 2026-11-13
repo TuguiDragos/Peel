@@ -251,6 +251,10 @@ enum KeptOnlyHere {
         (".config/configstore", "firebase-tools.json", .holdsSignIns),
         // ngrok's "Agent Configuration File": its `authtoken` is a setting there.
         ("Library/Application Support/ngrok", "ngrok.yml", .holdsSignIns),
+        // The `llm` command keeps its API keys in `keys.json` and logs every prompt and response in `logs.db`
+        // (`llm/__init__.py`, "Logging to SQLite").
+        ("Library/Application Support/io.datasette.llm", "keys.json", .holdsSignIns),
+        ("Library/Application Support/io.datasette.llm", "logs.db", .holdsWorkMadeWithTheApp),
         // NoMachine's "How to move client connection files from one computer to another one": by default, the
         // connections and recordings go in Documents/NoMachine, and the favorites in .nx/config/player.cfg.
         (".nx", "config/player.cfg", .holdsWorkMadeWithTheApp),

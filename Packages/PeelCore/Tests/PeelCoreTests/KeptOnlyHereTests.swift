@@ -219,6 +219,9 @@ struct KeptOnlyHereTests {
             (".cargo/credentials.toml", .holdsSignIns), (".pypirc", .holdsSignIns),
             (".gem/credentials", .holdsSignIns), (".local/share/gem/credentials", .holdsSignIns),
             (".composer/auth.json", .holdsSignIns), (".config/gcloud/credentials.db", .holdsSignIns),
+            ("Library/Application Support/io.datasette.llm", .holdsSignIns),
+            ("Library/Application Support/io.datasette.llm/keys.json", .holdsSignIns),
+            ("Library/Application Support/io.datasette.llm/logs.db", .holdsWorkMadeWithTheApp),
             (".azure/msal_token_cache.json", .holdsSignIns), (".terraform.d/credentials.tfrc.json", .holdsSignIns),
             ("Library/Application Support/CrashPlan/backupArchives", .holdsWorkMadeWithTheApp),
         ]
