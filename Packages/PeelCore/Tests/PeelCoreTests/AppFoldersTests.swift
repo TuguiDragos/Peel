@@ -68,12 +68,45 @@ struct AppFoldersTests {
         func refusal(_ path: String, inTheCloud: Bool = false) -> AppFolders.Refusal? {
             AppFolders.refusal(of: URL(filePath: path, directoryHint: .isDirectory), home: home) { _ in inTheCloud }
         }
-        for path in ["/Volumes/Backup", "/System/Applications", "/System/Library/CoreServices",
+        for path in ["/System/Applications", "/System/Library/CoreServices",
                      "/Library/Application Support", "/Users/someone/Library/Application Support"] {
             #expect(refusal(path) == .tooBroad, "\(path)")
         }
         #expect(refusal("/Users/someone/Library/Application Support/Steam/steamapps/common") == nil)
         #expect(refusal("/Users/someone/Library/CloudStorage/Dropbox/Apps", inTheCloud: true) == .inTheCloud)
+        #expect(refusal("/Volumes/org-example-not-connected") == nil)
+    }
+
+    @Test func takesADiskOfAppsAndNotOneThatHoldsMacOSOrABackup() throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let apps = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Software"))
+        let system = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Other Mac"))
+        let backup = try ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "Backup"))
+        for folder in [
+            apps.url.appending(path: "Games"), apps.url.appending(path: "Homes/someone"), system.url.appending(path: "Users"),
+            backup.url.appending(path: "Backups.backupdb"),
+        ] {
+            try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        }
+
+        #expect(AppFolders.refusal(of: apps.url, home: home) == nil)
+        #expect(AppFolders.refusal(of: system.url, home: home) == .holdsASystemOrABackup)
+        #expect(AppFolders.refusal(of: backup.url, home: home) == .holdsASystemOrABackup)
+        #expect(AppFolders.refusal(of: system.url.appending(path: "Users"), home: home) == nil)
+        #expect(AppFolders.refusal(of: apps.url, home: apps.url.appending(path: "Homes/someone")) == .tooBroad)
+    }
+
+    @Test func aLinkInAnApplicationsFolderIsNoFolderPeelAlreadyReads() throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let games = try directory.directory("Disk/Games")
+        try directory.directory("home/Applications")
+        let link = home.appending(path: "Applications/Games")
+        try FileManager.default.createSymbolicLink(at: link, withDestinationURL: games)
+
+        #expect(AppFolders.refusal(of: link, home: home) == nil)
+        #expect(!AppCatalog.looksInside(link))
     }
 
     @Test func refusesTheTrashAndAFolderInIt() throws {
@@ -100,7 +133,7 @@ struct AppFoldersTests {
     @Test func leavesOutAFolderNowRefusedThatWasChosenBefore() throws {
         let directory = try TemporaryDirectory()
         let tools = try directory.directory("Tools")
-        let saved = ["/Volumes/Backup", "/System/Applications", tools.path(percentEncoded: false)]
+        let saved = ["/System/Applications", tools.path(percentEncoded: false)]
         let list = try directory.file("app-folders.json", contents: JSONEncoder().encode(saved))
 
         #expect(AppFolders(url: list, home: directory.url).load()?.map(\.lastPathComponent) == ["Tools"])
@@ -126,18 +159,18 @@ struct AppFoldersTests {
         let directory = try TemporaryDirectory()
         let tools = try directory.directory("Tools")
         let other = try directory.directory("Other")
-        let saved = ["/Volumes/Backup", tools.path(percentEncoded: false)]
+        let saved = ["/System/Applications", tools.path(percentEncoded: false)]
         let list = try directory.file("app-folders.json", contents: JSONEncoder().encode(saved))
         let folders = AppFolders(url: list, home: directory.url)
 
-        let backup = URL(filePath: "/Volumes/Backup", directoryHint: .isDirectory)
+        let backup = URL(filePath: "/System/Applications", directoryHint: .isDirectory)
         #expect(folders.leftOut() == [AppFolders.LeftOut(folder: backup, refusal: .tooBroad)])
 
         #expect(folders.add([other]) == .saved)
         #expect(folders.leftOut().map(\.refusal) == [.tooBroad], "an edit lost it without a word")
         #expect(folders.load()?.map(\.lastPathComponent) == ["Tools", "Other"])
 
-        #expect(folders.remove([URL(filePath: "/Volumes/Backup")]) == .saved)
+        #expect(folders.remove([URL(filePath: "/System/Applications")]) == .saved)
         #expect(folders.leftOut().isEmpty)
     }
 

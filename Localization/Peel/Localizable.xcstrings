@@ -229046,6 +229046,112 @@
         }
       }
     },
+    "This disk holds a copy of macOS or a Time Machine backup, whose apps aren’t this Mac’s, so Peel doesn’t look for apps across all of it. Choose the folder there that holds only your own apps.\n\n%@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento disk obsahuje kopii systému macOS nebo zálohu Time Machine, jejichž aplikace nepatří tomuto Macu, a proto Peel nehledá aplikace na celém disku. Zvolte na něm složku, ve které jsou jen vaše vlastní aplikace.\n\n%@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Volume enthält eine Kopie von macOS oder ein Time Machine-Backup mit Apps, die nicht zu diesem Mac gehören, daher durchsucht Peel nicht das gesamte Volume nach Apps. Wähle dort den Ordner, der nur deine eigenen Apps enthält.\n\n%@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este disco contiene una copia de macOS o una copia de seguridad de Time Machine, cuyas apps no son de este Mac, así que Peel no busca apps en todo el disco. Elige la carpeta de ese disco que solo contiene tus propias apps.\n\n%@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce disque contient une copie de macOS ou une sauvegarde Time Machine, dont les apps ne sont pas celles de ce Mac : Peel ne recherche donc pas d’apps dans l’ensemble du disque. Choisissez sur ce disque le dossier qui ne contient que vos propres apps.\n\n%@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo disco contiene una copia di macOS o un backup di Time Machine, le cui app non sono di questo Mac, quindi Peel non cerca app nell’intero disco. Scegli, al suo interno, la cartella che contiene solo le tue app.\n\n%@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このディスクにはmacOSのコピーまたはTime Machineバックアップがあり、そこにあるアプリはこのMacのものではないため、Peelはディスク全体からアプリを探すことはしません。そのディスク上の、自分のアプリだけが入っているフォルダを選択してください。\n\n%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 디스크에는 macOS 복사본이나 Time Machine 백업이 들어 있으며, 그 안의 앱은 이 Mac의 앱이 아니므로 Peel은 디스크 전체에서 앱을 찾지 않습니다. 이 디스크에서 사용자의 앱만 들어 있는 폴더를 선택하십시오.\n\n%@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze schijf bevat een kopie van macOS of een Time Machine-back-up, waarvan de apps niet van deze Mac zijn, dus zoekt Peel niet op de hele schijf naar apps. Kies daar de map die alleen je eigen apps bevat.\n\n%@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na tym dysku jest kopia systemu macOS lub backup Time Machine, których aplikacje nie należą do tego Maca, więc Peel nie szuka aplikacji na całym dysku. Wybierz na nim folder, w którym są tylko Twoje własne aplikacje.\n\n%@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este disco contém uma cópia do macOS ou um backup do Time Machine, cujos apps não são deste Mac, então o Peel não procura apps no disco inteiro. Escolha a pasta desse disco que contém só os seus próprios apps.\n\n%@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest disc conține o copie a sistemului macOS sau un backup Time Machine, cu aplicații care nu sunt ale acestui Mac, așa că Peel nu caută aplicații pe tot discul. Alegeți dosarul de pe acest disc care conține doar propriile dvs. aplicații.\n\n%@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На этом диске есть копия macOS или резервная копия Time Machine, приложения из которой не принадлежат этому Mac, поэтому Peel не ищет приложения по всему диску. Выберите на нем папку, в которой лежат только Ваши собственные приложения.\n\n%@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den här skivan innehåller en kopia av macOS eller en Time Machine-säkerhetskopia, vars appar inte hör till den här datorn, så Peel letar inte efter appar på hela skivan. Välj den mapp på skivan som bara innehåller dina egna appar.\n\n%@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu disk, uygulamaları bu Mac’e ait olmayan bir macOS kopyası veya bir Time Machine yedeklemesi barındırıyor, bu yüzden Peel diskin tamamında uygulama aramaz. Orada yalnızca kendi uygulamalarınızı barındıran klasörü seçin.\n\n%@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На цьому диску є копія macOS або резервна копія Time Machine, програми в якій не належать цьому Mac, тож Peel не шукає програми на всьому диску. Виберіть на ньому папку, у якій лише ваші власні програми.\n\n%@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此磁盘上有macOS副本或时间机器备份，其中的App并不属于这台Mac，因此Peel不会在整个磁盘中查找App。请选取该磁盘上只存放你自己的App的文件夹。\n\n%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此磁碟存放著一套macOS系統或「時光機」備份，其中的App並不屬於這部Mac，因此Peel不會在整個磁碟上尋找App。請選擇該磁碟上只存放你自己App的檔案夾。\n\n%@"
+          }
+        }
+      }
+    },
     "This driver is Intel only. On this Intel Mac it runs natively." : {
       "localizations" : {
         "cs" : {

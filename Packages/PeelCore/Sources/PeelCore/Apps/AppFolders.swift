@@ -14,6 +14,8 @@ public struct AppFolders: Sendable {
         case inATrash
         /// A folder iCloud or another cloud keeps, whose listing can download what it holds.
         case inTheCloud
+        /// The top of a disk that holds a copy of macOS or a Time Machine backup, whose apps aren't this Mac's.
+        case holdsASystemOrABackup
     }
 
     /// A folder on the saved list Peel no longer reads, since a rule came after it was chosen.
@@ -117,9 +119,9 @@ public struct AppFolders: Sendable {
             library + "/application support",
         ]
         if broad.contains(path) { return .tooBroad }
-        // A whole disk other than the startup disk, and macOS's own folders, which hold no app of anyone else's.
         let names = PathComponents.of(path)
-        if names.count == 2 && names[0] == "volumes" { return .tooBroad }
+        if let refusal = refusal(ofTheTopOfADisk: folder, home: home) { return refusal }
+        // macOS's own folders hold no app of anyone else's.
         // `/System/Volumes/Data` is every folder of the data volume again, under another name, so such a folder is
         // judged as what the kernel names it. What keeps that name is macOS's own.
         if names.first == "system" {
@@ -139,6 +141,28 @@ public struct AppFolders: Sendable {
                 .allSatisfy(AppCatalog.looksInside)
         }
         return lookedIn ? .alreadyLookedIn : nil
+    }
+
+    /// Why the top of a disk isn't taken: the startup disk and the home's disk are taken only in their folders, and
+    /// one that holds a copy of macOS or a Time Machine backup (`man tmutil`) holds apps that aren't this Mac's. Nil
+    /// for any other folder, and for a disk whose top can't be listed, which a reading of the apps then says.
+    private static func refusal(ofTheTopOfADisk folder: URL, home: URL) -> Refusal? {
+        let path = PathPattern.comparablePath(of: folder)
+        var info = stat()
+        var above = stat()
+        guard lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFDIR,
+              lstat((path as NSString).deletingLastPathComponent, &above) == 0, info.st_dev != above.st_dev
+        else { return nil }
+        var other = stat()
+        for place in ["/", PathPattern.comparablePath(of: home)] where lstat(place, &other) == 0 {
+            if other.st_dev == info.st_dev { return .tooBroad }
+        }
+        guard let names = try? FileManager.default.contentsOfDirectory(atPath: path) else { return nil }
+        let marks: Set<String> = ["system", "library", "users", "backups.backupdb", "backup_manifest.plist"]
+        let holds = names.map { $0.lowercased() }.contains {
+            marks.contains($0) || $0.hasSuffix(".previous") || $0.hasSuffix(".inprogress")
+        }
+        return holds ? .holdsASystemOrABackup : nil
     }
 
     private static func folded(_ url: URL) -> String {

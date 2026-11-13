@@ -291,8 +291,10 @@ public enum AppCatalog {
     /// How many levels below each folder apps are looked for.
     static let depth = 3
 
-    /// Whether `appBundles` looks inside `folder` when it meets it: it passes over hidden folders and packages.
+    /// Whether `appBundles` looks inside `folder` when it meets it: it passes over hidden folders and packages, and
+    /// follows no link.
     static func looksInside(_ folder: URL) -> Bool {
+        guard !folder.isSymbolicLink else { return false }
         let values = try? folder.resourceValues(forKeys: [.isHiddenKey, .isPackageKey])
         return values?.isHidden != true && values?.isPackage != true
     }
