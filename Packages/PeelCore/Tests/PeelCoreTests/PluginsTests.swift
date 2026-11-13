@@ -91,6 +91,7 @@ struct PluginsTests {
         try directory.directory("root/Library/Internet Plug-Ins/Viewer.webplugin/Contents")
         try Data("WBPL????".utf8).write(to: directory.file("root/Library/Internet Plug-Ins/Reader.plugin/Contents/PkgInfo"))
         try directory.directory("home/Library/Audio/Plug-Ins/Components/Echo.component/Contents")
+        try directory.file("root/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java", bytes: 16)
         let environment = SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
             rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
@@ -101,7 +102,7 @@ struct PluginsTests {
 
         #expect(noLongerLoaded == [
             "Markdown": .quickLookGenerator, "Preview": nil, "Flash Player": .internetPlugIn, "Viewer": nil,
-            "Reader": nil, "Echo": nil,
+            "Reader": nil, "Echo": nil, "JavaAppletPlugin": nil,
         ])
     }
 

@@ -277,6 +277,9 @@ public enum Plugins {
             return url.pathExtension.caseInsensitiveCompare("qlgenerator") == .orderedSame ? .quickLookGenerator : nil
         case .internetPlugIns:
             guard url.pathExtension.caseInsensitiveCompare("webplugin") != .orderedSame else { return nil }
+            // Oracle's Java runtime lives here as `JavaAppletPlugin.plugin`, and macOS's `java` starts it from there.
+            guard !FileManager.default.fileExists(atPath: url.appending(path: "Contents/Home/bin/java").path(percentEncoded: false))
+            else { return nil }
             var type: UInt32 = 0
             if let bundle = CFBundleCreate(nil, url as CFURL) {
                 CFBundleGetPackageInfo(bundle, &type, nil)
