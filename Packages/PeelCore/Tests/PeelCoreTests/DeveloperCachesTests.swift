@@ -727,8 +727,9 @@ struct DeveloperCachesTests {
             "Library/Application Support/Windsurf", "Library/Application Support/Devin",
             "Library/Application Support/Zed", ".local/state/nvim",
             // minikube keeps its clusters' keys and the images a person added; Vagrant its machine index and key;
-            // Jan its chat history; Ollama a copy of its app while it updates.
+            // Jan its chat history; Ollama a copy of its app while it updates; Tart the disks its machines start from.
             ".minikube", ".minikube/cache/images", ".vagrant.d", "Library/Application Support/Jan/data", "Library/Caches/ollama",
+            ".tart/cache",
             // Unity keeps its licenses beside its caches; SonarScanner the client certificates it signs in with.
             "Library/Unity", ".sonar",
             // Each keeps conversations, settings, or keys beside its caches.
@@ -1674,13 +1675,15 @@ struct DeveloperCachesTests {
     @Test func offersTheImagesTartKeepsAndNeverItsMachines() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".tart/cache/OCIs/ghcr.io/cirruslabs/macos/disk.img", bytes: 400_000)
-        try directory.file(".tart/vms/builder/disk.img", bytes: 400_000)
+        try directory.file(".tart/cache/IPSWs/org.example.ipsw", bytes: 400_000)
+        try directory.file(".tart/cache/content/sha256/" + String(repeating: "1", count: 64), bytes: 400_000)
+        try directory.file(".tart/vms/builder/overlay.asif", bytes: 400_000)
         let tart = DeveloperCaches.definitions.filter { $0.id == "tart" }
 
         let locations = await DeveloperCaches.scan(tart, homeDirectory: directory.url).flatMap(\.locations)
 
-        #expect(locations.map(\.url.lastPathComponent) == ["cache"])
-        #expect(locations.first?.kind == .downloads)
+        #expect(locations.map(\.url.lastPathComponent).sorted() == ["IPSWs", "OCIs"])
+        #expect(locations.allSatisfy { $0.kind == .downloads && $0.isRecommended })
     }
 
     @Test func offersZshsCompletionDumpsAndOhMyZshsCompletionsAndNotTheChoicesKeptBeside() async throws {

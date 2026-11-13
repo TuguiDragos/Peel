@@ -1129,7 +1129,9 @@ public enum DeveloperCaches {
             Folder("Library/Caches/lima", .downloads, source: "https://github.com/lima-vm/lima/blob/97b6b86ca429d836830e62394b1dd91acbef8e5f/website/content/en/docs/dev/internals.md#L137-L145"),
         ]),
         Definition(id: "tart", name: "Tart", systemImage: "server.rack", appBundleIdentifiers: [], folders: [
-            Folder(".tart/cache", .downloads, source: "https://github.com/cirruslabs/tart/blob/05edeac562bae804ea4f88592cfbc98cc6791b5d/Sources/tart/Config.swift#L21"),
+            // Its `content` folder holds the disks its stacked machines start from, which it never fetches again.
+            Folder(".tart/cache/OCIs", .downloads, source: "https://github.com/cirruslabs/tart/blob/c20da4f9bea82ed4794144c6c753c4d66066663b/Sources/tart/VMStorageOCI.swift#L9"),
+            Folder(".tart/cache/IPSWs", .downloads, source: "https://github.com/cirruslabs/tart/blob/c20da4f9bea82ed4794144c6c753c4d66066663b/Sources/tart/IPSWCache.swift#L8"),
         ]),
         Definition(id: "colima", name: "Colima", systemImage: "server.rack", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/colima", .downloads, source: "https://github.com/abiosoft/colima/blob/49dfe87aecc1645905d0fb8a0e43ce29e12138f6/cmd/prune.go#L25-L41"),
