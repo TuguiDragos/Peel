@@ -45,7 +45,7 @@ struct ActionAnnouncementTests {
 
         let failure = await helper.uninstall()
 
-        #expect(failure == nil)
+        #expect((failure == nil) == PrivilegedHelper.isAdministrator)
         let state = String(localized: "\(String(localized: "Helper")): \(String(localized: helper.stateWords))")
         #expect(spoken.texts == (PrivilegedHelper.isAdministrator ? [state] : []))
     }
@@ -57,7 +57,29 @@ struct ActionAnnouncementTests {
 
         let failure = await helper.uninstall()
 
-        #expect((failure != nil) == PrivilegedHelper.isAdministrator)
+        #expect(failure != nil)
+        #expect(spoken.words.isEmpty)
+    }
+
+    @Test func aChangeAStandardAccountCannotMakeSaysWhy() async {
+        let spoken = Spoken()
+        var ran = false
+        let reading = HelperModel.Reading(
+            status: .enabled, isAdministrator: false, isResponding: true, isRegisteredByAnotherCopy: false
+        )
+        let helper = HelperModel(
+            performing: { _ in ran = true },
+            announcing: { spoken.words.append($0) },
+            status: .enabled,
+            reading: { reading },
+            mayChange: { false }
+        )
+
+        let failure = await helper.uninstall()
+
+        #expect(failure?.action == .uninstall)
+        #expect(failure?.reason == String(localized: "Only an administrator can change Peel’s helper."))
+        #expect(!ran)
         #expect(spoken.words.isEmpty)
     }
 }

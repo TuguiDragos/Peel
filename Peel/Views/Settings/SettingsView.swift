@@ -779,6 +779,9 @@ private struct HelperSettingsView: View {
     /// What can be done about the state, the step it asks for last.
     @ViewBuilder
     private var actions: some View {
+        if helper.standing.offersUninstall(isAdministrator: helper.isAdministrator) {
+            uninstallButton
+        }
         switch helper.standing {
         case .notInstalled:
             if helper.standing.offersInstall(registeredByAnotherCopy: helper.isRegisteredByAnotherCopy) {
@@ -789,24 +792,20 @@ private struct HelperSettingsView: View {
                 .disabled(helper.isChanging)
             }
         case .waitingForApproval:
-            uninstallButton
             // Opens System Settings instead of registering again, which returns an error in this state
             // (`SMAppService.h`).
             Button("Open System Settings") {
                 PrivilegedHelper.openLoginItemsSettings()
             }
             .buttonStyle(.borderedProminent)
-        case .notThisAccount:
+        case .notThisAccount, .ready:
             EmptyView()
         case .notAnswering:
-            uninstallButton
             Button("Repair Helper") {
                 Task { failure = await helper.repair() }
             }
             .buttonStyle(.borderedProminent)
             .disabled(helper.isChanging)
-        case .ready:
-            uninstallButton
         }
     }
 

@@ -22,4 +22,13 @@ struct HelperReasonTests {
         #expect(!PrivilegedHelper.Standing.notInstalled.offersInstall(registeredByAnotherCopy: true))
         #expect(!PrivilegedHelper.Standing.ready.offersInstall(registeredByAnotherCopy: false))
     }
+
+    @Test func offersUninstallOnlyToAnAdministrator() {
+        #expect(PrivilegedHelper.Standing.ready.offersUninstall(isAdministrator: true))
+        #expect(!PrivilegedHelper.Standing.ready.offersUninstall(isAdministrator: false))
+        #expect(PrivilegedHelper.Standing.waitingForApproval.offersUninstall(isAdministrator: true))
+        #expect(PrivilegedHelper.Standing.notAnswering.offersUninstall(isAdministrator: true))
+        #expect(!PrivilegedHelper.Standing.notInstalled.offersUninstall(isAdministrator: true))
+        #expect(!PrivilegedHelper.Standing.notThisAccount.offersUninstall(isAdministrator: false))
+    }
 }

@@ -46,6 +46,7 @@ final class HelperModel {
     @ObservationIgnored private let performing: (Action) async throws -> Void
     @ObservationIgnored private let announcing: (AttributedString) -> Void
     @ObservationIgnored private let reading: () async -> Reading
+    @ObservationIgnored private let mayChange: () async -> Bool
 
     /// What a check of the helper reads: its status, whether this account is an administrator, whether the helper
     /// answers, and whether another copy of Peel registered it.
@@ -60,12 +61,14 @@ final class HelperModel {
         performing: @escaping (Action) async throws -> Void = HelperModel.perform,
         announcing: @escaping (AttributedString) -> Void = { AccessibilityNotification.Announcement($0).post() },
         status: PrivilegedHelper.Status = PrivilegedHelper.status,
-        reading: @escaping () async -> Reading = HelperModel.read
+        reading: @escaping () async -> Reading = HelperModel.read,
+        mayChange: @escaping () async -> Bool = PrivilegedHelper.isAdministratorNow
     ) {
         self.performing = performing
         self.announcing = announcing
         self.status = status
         self.reading = reading
+        self.mayChange = mayChange
     }
 
     /// Asks macOS and the helper, the helper only once it is registered.
@@ -111,7 +114,7 @@ final class HelperModel {
         if wasAllowed, status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
         }
-        guard let error, status != .requiresApproval, status != .enabled else { return told(wasAllowed, nil) }
+        guard let error, status != .requiresApproval, status != .enabled else { return told(.install, wasAllowed, nil) }
         return Failure(action: .install, reason: error.localizedDescription)
     }
 
@@ -121,13 +124,13 @@ final class HelperModel {
         if wasAllowed, status == .requiresApproval {
             PrivilegedHelper.openLoginItemsSettings()
         }
-        return told(wasAllowed, error.map { Failure(action: .repair, reason: $0.localizedDescription) })
+        return told(.repair, wasAllowed, error.map { Failure(action: .repair, reason: $0.localizedDescription) })
     }
 
     func uninstall() async -> Failure? {
         guard !isChanging else { return nil }
         let (wasAllowed, error) = await change(.uninstall)
-        return told(wasAllowed, error.map { Failure(action: .uninstall, reason: $0.localizedDescription) })
+        return told(.uninstall, wasAllowed, error.map { Failure(action: .uninstall, reason: $0.localizedDescription) })
     }
 
     /// Runs a change of the helper's registration, for an administrator only, and answers whether it was allowed and
@@ -139,7 +142,9 @@ final class HelperModel {
         var wasAllowed = true
         var error: (any Error)?
         do {
-            wasAllowed = try await PrivilegedHelper.changeAsAnAdministrator { try await performing(action) }
+            wasAllowed = try await PrivilegedHelper.changeAsAnAdministrator(
+                { try await performing(action) }, isAdministrator: mayChange
+            )
         } catch let thrown {
             error = thrown
         }
@@ -148,9 +153,13 @@ final class HelperModel {
         return (wasAllowed, error)
     }
 
-    /// Tells VoiceOver the helper's state in Settings' words once a change went through; a failure has an alert.
-    private func told(_ wasAllowed: Bool, _ failure: Failure?) -> Failure? {
-        if wasAllowed, failure == nil {
+    /// Tells VoiceOver the helper's state in Settings' words once a change went through; a failure has an alert, and so
+    /// has a change this account may not make.
+    private func told(_ action: Action, _ wasAllowed: Bool, _ failure: Failure?) -> Failure? {
+        guard wasAllowed else {
+            return Failure(action: action, reason: String(localized: "Only an administrator can change Peel’s helper."))
+        }
+        if failure == nil {
             announcing(AttributedString(localized: "\(String(localized: "Helper")): \(String(localized: stateWords))"))
         }
         return failure

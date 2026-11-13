@@ -54,6 +54,11 @@ extension PrivilegedHelper.Standing {
         self == .notInstalled && !registeredByAnotherCopy
     }
 
+    /// Only an administrator changes the helper, so only an administrator is offered to uninstall it.
+    func offersUninstall(isAdministrator: Bool) -> Bool {
+        isAdministrator && [.ready, .waitingForApproval, .notAnswering].contains(self)
+    }
+
     /// Why Peel's helper can't act, for a page or a control that needs it.
     func whyItCannotAct(registeredByAnotherCopy: Bool) -> LocalizedStringResource {
         switch self {
