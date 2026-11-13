@@ -1564,14 +1564,15 @@ public enum Homebrew {
             writesLinesAsTheyGo: writesLinesAsTheyGo
         )
         let launch = launch(of: executable, arguments)
+        // Homebrew runs each command it starts in a group of its own and stops it only on an interrupt.
         let result = changesApps
             ? await Subprocess.run(
                 launch.program, launch.arguments, environment: environment, timeout: timeout,
-                errorsIntoOutput: inWritingOrder, onOutput: onOutput
+                errorsIntoOutput: inWritingOrder, interruptsFirst: true, onOutput: onOutput
             )
             : await Subprocess.runOnItsOwn(
                 launch.program, launch.arguments, environment: environment, timeout: timeout,
-                errorsIntoOutput: inWritingOrder, onOutput: onOutput
+                errorsIntoOutput: inWritingOrder, interruptsFirst: true, onOutput: onOutput
             )
         switch result {
         case .success(let output):

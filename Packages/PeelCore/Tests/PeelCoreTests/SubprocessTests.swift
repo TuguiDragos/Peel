@@ -83,6 +83,42 @@ struct SubprocessTests {
         #expect(result == .failure(.timedOut))
     }
 
+    @Test func aToolThatStopsWhatItStartedOnlyWhenInterruptedTakesItAlong() async throws {
+        let child = Mutex<pid_t?>(nil)
+        let (started, said) = AsyncStream.makeStream(of: Void.self)
+        let run = Task {
+            let result = await Subprocess.run(
+                "/bin/sh", ["-c", Self.stopsItsChildOnlyWhenInterrupted], timeout: 60, interruptsFirst: true
+            ) { data in
+                let lines = String(decoding: data, as: UTF8.self).split(whereSeparator: \.isNewline)
+                guard let pid = lines.lazy.compactMap({ pid_t($0) }).first else { return }
+                child.withLock { $0 = $0 ?? pid }
+                said.yield()
+            }
+            said.finish()
+            return result
+        }
+        for await _ in started { break }
+        run.cancel()
+
+        #expect(await run.value == .failure(.canceled))
+        let pid = try #require(child.withLock { $0 })
+        let isGone = kill(pid, 0) == -1 && errno == ESRCH
+        if !isGone { kill(pid, SIGKILL) }
+        #expect(isGone)
+    }
+
+    /// As Homebrew runs a command: in a group of its own, stopped only on an interrupt, and waited for otherwise.
+    static let stopsItsChildOnlyWhenInterrupted = """
+        set -m
+        trap 'kill -INT -$child; wait $child; exit 130' INT
+        trap 'wait $child' TERM
+        /bin/sleep 600 &
+        child=$!
+        echo $child
+        wait $child
+        """
+
     @Test func theTimersThatStopAToolRunAtUserInitiatedQuality() async {
         let quality = await withCheckedContinuation { continuation in
             Subprocess.timers.asyncAfter(deadline: .now()) { continuation.resume(returning: qos_class_self()) }

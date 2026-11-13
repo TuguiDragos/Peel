@@ -50,7 +50,8 @@ public enum Subprocess {
     /// is canceled. When `environment` is given, it replaces Peel's own. Both streams are read while the tool runs,
     /// so a tool that fills one pipe never waits on a reader that is busy with the other, and `onOutput` is handed
     /// what either stream brings as it comes. With `errorsIntoOutput`, the tool writes its errors into its output's
-    /// pipe, so the two read in the order it wrote them and `standardError` is empty.
+    /// pipe, so the two read in the order it wrote them and `standardError` is empty. With `interruptsFirst`, a stop
+    /// begins with `SIGINT`, as Control-C in Terminal does, for a tool that stops what it started only then.
     @concurrent
     public static func run(
         _ executable: String,
@@ -58,6 +59,7 @@ public enum Subprocess {
         environment: [String: String]? = nil,
         timeout: TimeInterval?,
         errorsIntoOutput: Bool = false,
+        interruptsFirst: Bool = false,
         onOutput: (@Sendable (Data) -> Void)? = nil
     ) async -> Result<Output, Failure> {
         // A task stopped before this step starts nothing: launching the tool only to kill it would hold the Stop
@@ -73,7 +75,7 @@ public enum Subprocess {
         process.standardOutput = outputPipe
         process.standardError = errorPipe ?? outputPipe
 
-        let run = Run(process)
+        let run = Run(process, interruptsFirst: interruptsFirst)
         // The handler holds the run, which holds the process that holds the handler (`NSTask.h`), so it is let go
         // once the run is over, and the pipes with it: a pipe's descriptor closes only with the pipe.
         process.terminationHandler = { _ in run.ended() }
@@ -117,9 +119,11 @@ public enum Subprocess {
 
         private let state = Mutex(State())
         private let process: Process
+        private let interruptsFirst: Bool
 
-        init(_ process: Process) {
+        init(_ process: Process, interruptsFirst: Bool) {
             self.process = process
+            self.interruptsFirst = interruptsFirst
         }
 
         var failure: Failure? { state.withLock { $0.failure } }
@@ -152,14 +156,18 @@ public enum Subprocess {
                 return true
             }
             guard isFirst else { return }
-            process.terminate()
+            if interruptsFirst { process.interrupt() } else { process.terminate() }
+            send(interruptsFirst ? [SIGTERM, SIGKILL] : [SIGKILL])
+        }
+
+        /// Sends each of `signals` in turn, `grace` apart, while the tool runs. A tool stuck in the kernel survives
+        /// even `SIGKILL`, so the waiter is let go `grace` after the last one anyway.
+        private func send(_ signals: ArraySlice<Int32>) {
             Subprocess.timers.asyncAfter(deadline: .now() + Subprocess.grace) { [self] in
+                guard let next = signals.first else { return ended() }
                 guard !state.withLock({ $0.hasEnded }), process.isRunning else { return }
-                kill(process.processIdentifier, SIGKILL)
-                // A tool stuck in the kernel survives even `SIGKILL`, so the waiter is let go anyway.
-                Subprocess.timers.asyncAfter(deadline: .now() + Subprocess.grace) { [self] in
-                    ended()
-                }
+                kill(process.processIdentifier, next)
+                send(signals.dropFirst())
             }
         }
     }

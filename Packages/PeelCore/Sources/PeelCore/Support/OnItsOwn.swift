@@ -30,22 +30,23 @@ extension Subprocess {
     /// login shell: macOS judges what a program may reach by the app that started it, and this one must not reach
     /// what was given to Peel. So it starts as its own responsible process, and runs only once macOS says it answers
     /// for itself. It gets no input, no open file of Peel's and only `environment`, and is stopped after `timeout`
-    /// seconds, when there is one, or when the task is canceled. `errorsIntoOutput` and `onOutput` are `run`'s.
+    /// seconds, when there is one, or when the task is canceled. `errorsIntoOutput`, `interruptsFirst` and `onOutput`
+    /// are `run`'s.
     @concurrent
     public static func runOnItsOwn(
         _ executable: String, _ arguments: [String], environment: [String: String], timeout: TimeInterval?,
-        errorsIntoOutput: Bool = false, onOutput: (@Sendable (Data) -> Void)? = nil
+        errorsIntoOutput: Bool = false, interruptsFirst: Bool = false, onOutput: (@Sendable (Data) -> Void)? = nil
     ) async -> Result<Output, Failure> {
         await runOnItsOwn(
             executable, arguments, environment: environment, timeout: timeout, errorsIntoOutput: errorsIntoOutput,
-            onOutput: onOutput, asking: .system
+            interruptsFirst: interruptsFirst, onOutput: onOutput, asking: .system
         )
     }
 
     @concurrent
     static func runOnItsOwn(
         _ executable: String, _ arguments: [String], environment: [String: String], timeout: TimeInterval?,
-        errorsIntoOutput: Bool = false, onOutput: (@Sendable (Data) -> Void)? = nil,
+        errorsIntoOutput: Bool = false, interruptsFirst: Bool = false, onOutput: (@Sendable (Data) -> Void)? = nil,
         asking responsibility: Responsibility?
     ) async -> Result<Output, Failure> {
         guard !Task.isCancelled else { return .failure(.canceled) }
@@ -56,7 +57,7 @@ extension Subprocess {
         case .success(let started): held = started
         case .failure(let failure): return .failure(failure)
         }
-        let run = OwnRun(held.pid)
+        let run = OwnRun(held.pid, interruptsFirst: interruptsFirst)
         let output = Reader(held.output, onRead: onOutput)
         let errors = held.errors.map { Reader($0, onRead: onOutput) }
         run.watch()
@@ -162,14 +163,17 @@ extension Subprocess {
         private let pid: pid_t
         private let signal: @Sendable (pid_t, Int32) -> Int32
         private let grace: TimeInterval
+        private let interruptsFirst: Bool
 
         /// `signal` and `grace` are `kill` and `Subprocess.grace` but in a test, which stands in for a program its
         /// signals don't end, as one stuck in the kernel.
         init(
-            _ pid: pid_t, signal: @escaping @Sendable (pid_t, Int32) -> Int32 = { kill($0, $1) },
+            _ pid: pid_t, interruptsFirst: Bool = false,
+            signal: @escaping @Sendable (pid_t, Int32) -> Int32 = { kill($0, $1) },
             grace: TimeInterval = Subprocess.grace
         ) {
             self.pid = pid
+            self.interruptsFirst = interruptsFirst
             self.signal = signal
             self.grace = grace
         }
@@ -222,18 +226,22 @@ extension Subprocess {
             let isFirst = state.withLock { state in
                 guard !state.hasEnded, state.failure == nil else { return false }
                 state.failure = reason
-                _ = signal(pid, SIGTERM)
+                _ = signal(pid, interruptsFirst ? SIGINT : SIGTERM)
                 return true
             }
             guard isFirst else { return }
+            send(interruptsFirst ? [SIGTERM, SIGKILL] : [SIGKILL])
+        }
+
+        /// Sends each of `signals` in turn, `grace` apart, while the program runs. A program stuck in the kernel
+        /// survives even `SIGKILL`, so the waiter is let go `grace` after the last one anyway.
+        private func send(_ signals: ArraySlice<Int32>) {
             Subprocess.timers.asyncAfter(deadline: .now() + grace) { [self] in
+                guard let next = signals.first else { return ended() }
                 state.withLock { state in
-                    if !state.hasEnded { _ = signal(pid, SIGKILL) }
+                    if !state.hasEnded { _ = signal(pid, next) }
                 }
-                // A program stuck in the kernel survives even `SIGKILL`, so the waiter is let go anyway.
-                Subprocess.timers.asyncAfter(deadline: .now() + grace) { [self] in
-                    ended()
-                }
+                send(signals.dropFirst())
             }
         }
     }

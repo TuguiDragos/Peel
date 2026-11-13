@@ -114,6 +114,32 @@ struct OnItsOwnTests {
         #expect(result == .failure(.timedOut))
     }
 
+    @Test func aProgramThatStopsWhatItStartedOnlyWhenInterruptedTakesItAlong() async throws {
+        let child = Mutex<pid_t?>(nil)
+        let (started, said) = AsyncStream.makeStream(of: Void.self)
+        let run = Task {
+            let result = await Subprocess.runOnItsOwn(
+                "/bin/sh", ["-c", SubprocessTests.stopsItsChildOnlyWhenInterrupted], environment: environment,
+                timeout: 60, interruptsFirst: true
+            ) { data in
+                let lines = String(decoding: data, as: UTF8.self).split(whereSeparator: \.isNewline)
+                guard let pid = lines.lazy.compactMap({ pid_t($0) }).first else { return }
+                child.withLock { $0 = $0 ?? pid }
+                said.yield()
+            }
+            said.finish()
+            return result
+        }
+        for await _ in started { break }
+        run.cancel()
+
+        #expect(await run.value == .failure(.canceled))
+        let pid = try #require(child.withLock { $0 })
+        let isGone = kill(pid, 0) == -1 && errno == ESRCH
+        if !isGone { kill(pid, SIGKILL) }
+        #expect(isGone)
+    }
+
     @Test func aProgramIsStoppedWhenWhoeverAskedGoesAway() async throws {
         let directory = try TemporaryDirectory()
         let mark = directory.url.appending(path: "started")
