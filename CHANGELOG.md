@@ -260,6 +260,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Installing, repairing, or uninstalling Peel's helper, from Settings or from Home, tells VoiceOver how it went.
 - The note under Hide from the Dock says that macOS may hide Peel's menu bar item when the menu bar is full, and that
   Peel then opens from Finder or Spotlight.
+- App Folders takes a disk of apps, such as an external SSD, no longer refusing it as a whole disk. It refuses the
+  startup disk, the home folder's disk, and a disk holding a copy of macOS or a Time Machine backup, saying for that
+  last one to choose the folder of apps on it. A folder linked into an Applications folder is read where it leads.
 
 #### Applications
 
@@ -505,6 +508,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The line on AI models says it counts what the Developer page lists, no longer every model on this Mac.
 - The Logs area says the crash reports go one by one and the folder they sit in stays, no longer that only the reports
   are offered.
+- With the home folder on another disk than macOS, Space shows a band for each disk, named, the startup disk first
+  with the snapshots kept on it, no longer the home's disk beside the startup disk's snapshots.
 
 #### Developer
 
@@ -580,9 +585,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An item Peel's helper could neither move nor take back to its folder keeps the helper's record, and Peel says the
   helper keeps it and moves it to the Trash when it starts again. Before, it reached the Trash then with no way back
   through Peel.
-- On an account whose home folder is on a different disk from macOS, Peel leaves to an administrator what only its
-  helper could move, with how to move it in Finder, since the helper moves nothing between disks. Before, Peel offered
-  the move and then showed macOS's own "Cross-device link" in English.
+- On an account whose home folder is on a different disk from macOS, Peel's helper moves what is on the startup disk
+  to the Trash macOS keeps for that account there, which the helper makes since macOS makes none, and Peel's own moves
+  from the startup disk reach it too. What only the helper could move from the home folder's Library, on its own disk,
+  Peel leaves to an administrator, with how to move it in Finder. Before, Peel offered those moves and then said there
+  was no Trash to move them to, or showed macOS's own "Cross-device link" in English.
 - An app's icon that Peel hasn't read yet is read away from the window: its row shows the plain app icon for a moment
   rather than holding Peel, as it did for an app on a disk that doesn't answer. An app opened from Finder or a link,
   and the apps Intel Software finds inside other apps, have their icon read before they show.
