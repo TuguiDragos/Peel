@@ -161,6 +161,73 @@ struct PackageReceiptsTests {
         #expect(!solo.items.contains { $0.requiresPrivileges })
     }
 
+    @Test func aFolderMacOSMakesIsNeverOneAccountsPackages() async throws {
+        let directory = try TemporaryDirectory()
+        let volume = PathPattern.canonical(directory.url)
+        let home = volume.appending(path: "home", directoryHint: .isDirectory)
+        try directory.file("home/Library/Keyboard Layouts/Example.bundle/Contents/Info.plist", bytes: 16)
+        let files = """
+            Library
+            Library/Keyboard Layouts
+            Library/Keyboard Layouts/Example.bundle
+            Library/Keyboard Layouts/Example.bundle/Contents
+            Library/Keyboard Layouts/Example.bundle/Contents/Info.plist
+
+            """
+        let account = forOneAccount(home: home, files: files)
+        let pkgutil: PackageReceipts.Pkgutil = { arguments in
+            switch arguments {
+            case ["--pkg-info-plist", "com.apple.files.data-template"]:
+                PkgutilAnswer.packageInfo("com.apple.files.data-template", location: "/")
+            case ["--files", "com.apple.files.data-template", "--only-dirs"]:
+                "Applications\nLibrary\nLibrary/Keyboard Layouts\n"
+            default:
+                await account(arguments)
+            }
+        }
+        let environment = SearchEnvironment(homeDirectory: home, rootDirectory: volume)
+
+        let scan = await PackageReceipts.list(exclusions: .none, pkgutil: pkgutil, environment: environment)
+
+        let receipt = try #require(scan.receipts.first)
+        #expect(receipt.items.map(\.url.lastPathComponent) == ["Example.bundle"])
+    }
+
+    @Test func readsTheFoldersMacOSMakesFromItsOwnReceipt() async {
+        let answer = await PackageReceipts.pkgutil(["--files", "com.apple.files.data-template", "--only-dirs"])
+        let listed = (answer ?? "").split(whereSeparator: \.isNewline).map { "/" + $0.lowercased() }
+
+        let folders = await PackageReceipts.foldersMacOSMakes(pkgutil: PackageReceipts.pkgutil)
+
+        #expect(listed.allSatisfy(folders.onTheDisk.contains))
+        #expect(listed.filter { $0.hasPrefix("/library/") }.allSatisfy(folders.inAHome.contains))
+        #expect(folders.inAHome.contains("/library"))
+    }
+
+    @Test func offersWhatAPackagePutInAFolderMacOSMakes() {
+        let jdk = "Library/Java/JavaVirtualMachines/temurin-21.jdk"
+        let files = ["Library", "Library/Java", "Library/Java/JavaVirtualMachines", jdk, "\(jdk)/Contents",
+                     "\(jdk)/Contents/Info.plist"]
+        let macOS = PackageReceipts.FoldersMacOSMakes(
+            onTheDisk: ["/library", "/library/java", "/library/java/javavirtualmachines"], inAHome: []
+        )
+        let inside = [
+            "/Library/Java": ["Extensions", "JavaVirtualMachines"], "/Library/Java/JavaVirtualMachines": ["temurin-21.jdk"],
+        ]
+        let afterwards = ["/Library/Java": ["Extensions", "JavaVirtualMachines"], "/Library/Java/JavaVirtualMachines": []]
+
+        let found = PackageReceipts.topLevel(
+            files: files, installLocation: "/", macOS: macOS, namesInside: { inside[$0] }, exists: { _ in true }
+        )
+        let gone = PackageReceipts.topLevel(
+            files: files, installLocation: "/", macOS: macOS, namesInside: { afterwards[$0] },
+            exists: { !$0.hasPrefix("/\(jdk)") }
+        )
+
+        #expect(found.offered == ["/\(jdk)"])
+        #expect(gone.onDisk.isEmpty)
+    }
+
     @Test func aFolderEveryPackageSharesOnTheStartupDiskIsSharedInAHomeToo() {
         let home = "/Users/example"
         let files = [

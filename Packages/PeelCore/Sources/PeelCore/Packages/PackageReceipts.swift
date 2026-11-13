@@ -31,6 +31,44 @@ public enum PackageReceipts {
         return Set(searched + searched.flatMap(ProtectedObjects.ancestors(of:)) + alsoInAHome + own + ["/"])
     }()
 
+    /// The folders macOS makes on every Mac, which no package owns whatever its receipt lists, in lowercase.
+    struct FoldersMacOSMakes: Sendable {
+        /// From the root of the startup disk: those macOS's own receipt of the disk's data lists.
+        let onTheDisk: Set<String>
+        /// From a home folder: those a new home starts with, and the disk's Library folders, which a home's Library
+        /// has too.
+        let inAHome: Set<String>
+
+        static let none = FoldersMacOSMakes(onTheDisk: [], inAHome: [])
+    }
+
+    static let dataTemplate = "com.apple.files.data-template"
+
+    /// The folders macOS puts in a new home.
+    static let homeTemplate = URL(filePath: "/System/Library/User Template/Non_localized", directoryHint: .isDirectory)
+
+    /// Reads `FoldersMacOSMakes`, believing `pkgutil` only about the receipt macOS keeps of its own folders, as macOS
+    /// writes it: on the startup disk, from its root. With no such answer, only the folders Peel names itself count.
+    static func foldersMacOSMakes(pkgutil: Pkgutil, homeTemplate: URL = homeTemplate) async -> FoldersMacOSMakes {
+        var onTheDisk: Set<String> = []
+        if let (info, volume, _) = await description(of: dataTemplate, pkgutil: pkgutil),
+           info["pkgid"] as? String == dataTemplate, volume.path(percentEncoded: false) == "/",
+           info["install-location"] as? String == "/" {
+            for folder in lines(of: await pkgutil(["--files", dataTemplate, "--only-dirs"])) {
+                onTheDisk.insert(("/" + PathComponents.of(folder).filter { $0 != "." }.joined(separator: "/")).lowercased())
+            }
+        }
+        var inAHome = Set(onTheDisk.filter { PathComponents.isPath($0, atOrInside: "/library") })
+        let root = homeTemplate.path(percentEncoded: false)
+        let walk = FileManager.default.enumerator(at: homeTemplate, includingPropertiesForKeys: [.isDirectoryKey])
+        while let url = walk?.nextObject() as? URL {
+            guard (try? url.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true else { continue }
+            let relative = PathComponents.of(url.path(percentEncoded: false)).dropFirst(PathComponents.of(root).count)
+            inAHome.insert(("/" + relative.joined(separator: "/")).lowercased())
+        }
+        return FoldersMacOSMakes(onTheDisk: onTheDisk, inAHome: inAHome)
+    }
+
     /// Returns whether `receipt` is the installer receipt of the app whose bundle identifier is `identifier`:
     /// the identifier itself, or the identifier followed by `.`, `-`, or `_`. A shared prefix is not enough,
     /// so `com.adguard.mac.vpn-pkg` (AdGuard VPN) never proves `com.adguard.mac.adguard` (AdGuard), and
@@ -124,6 +162,7 @@ public enum PackageReceipts {
         }
         let account = forAccount(home: environment.homeDirectory, pkgutil)
         let forTheAccount = packageList(in: await account(["--pkgs-plist"])) ?? []
+        let macOS = await foldersMacOSMakes(pkgutil: pkgutil)
         let asked: [(identifier: String, volume: URL?, pkgutil: Pkgutil)] =
             packages.map { ($0, nil, pkgutil) } + forTheAccount.map { ($0, environment.homeDirectory, account) }
 
@@ -141,6 +180,7 @@ public enum PackageReceipts {
                         removalGuard: removalGuard,
                         reach: reach,
                         shared: shared,
+                        macOS: macOS,
                         installed: installed,
                         environment: environment
                     ).receipt
@@ -159,6 +199,7 @@ public enum PackageReceipts {
                             removalGuard: removalGuard,
                             reach: reach,
                             shared: shared,
+                            macOS: macOS,
                             installed: installed,
                             environment: environment
                         ).receipt
@@ -233,9 +274,11 @@ public enum PackageReceipts {
         let reach = HelperReach(environment: environment)
         let shared = sharedFolders(in: environment)
         let installed = InstalledSystemExtensions(asking: systemExtensions)
+        var macOS: FoldersMacOSMakes?
         for domain in asked {
             let identifiers = await packages(listing: wanted, pkgutil: domain.pkgutil)
             for identifier in identifiers.sorted() where !Task.isCancelled {
+                if macOS == nil { macOS = await foldersMacOSMakes(pkgutil: pkgutil) }
                 let found = await receipt(
                     identifier,
                     volume: domain.volume,
@@ -244,6 +287,7 @@ public enum PackageReceipts {
                     removalGuard: removalGuard,
                     reach: reach,
                     shared: shared,
+                    macOS: macOS ?? .none,
                     installed: installed,
                     environment: environment
                 )
@@ -282,7 +326,7 @@ public enum PackageReceipts {
     /// Whether the package left anything outside `app` that is still on the disk, of which the receipt is the only
     /// record. A package `pkgutil` doesn't describe counts as having left something, so its receipt stays.
     static func leftSomethingOutside(
-        _ identifier: String, app: URL, accountHome: URL? = nil, pkgutil: Pkgutil
+        _ identifier: String, app: URL, accountHome: URL? = nil, macOS: FoldersMacOSMakes, pkgutil: Pkgutil
     ) async -> Bool {
         guard let (_, _, installLocation) = await description(of: identifier, pkgutil: pkgutil),
               let listing = await pkgutil(["--files", identifier])
@@ -290,7 +334,7 @@ public enum PackageReceipts {
         let bundle = PathPattern.comparablePath(of: PathPattern.canonical(app))
         return topLevel(
             files: lines(of: listing), installLocation: installLocation.path(percentEncoded: false),
-            accountHome: accountHome?.path(percentEncoded: false)
+            accountHome: accountHome?.path(percentEncoded: false), macOS: macOS
         ).onDisk
             .contains { !PathComponents.isPath(PathPattern.comparablePath(of: URL(filePath: $0)), atOrInside: bundle) }
     }
@@ -391,6 +435,7 @@ public enum PackageReceipts {
         removalGuard: RemovalGuard,
         reach: HelperReach,
         shared: [String],
+        macOS: FoldersMacOSMakes,
         installed: InstalledSystemExtensions,
         environment: SearchEnvironment
     ) async -> Found {
@@ -414,7 +459,7 @@ public enum PackageReceipts {
 
         let found = topLevel(
             files: files, installLocation: installLocation.path(percentEncoded: false),
-            accountHome: askedVolume?.path(percentEncoded: false)
+            accountHome: askedVolume?.path(percentEncoded: false), macOS: macOS
         )
         // An app's own rules reach the rest of its package, as they reach its files on its page, and a folder an app
         // sits in moves that app too. What else a folder holds isn't this package's, even when the folder is.
@@ -567,6 +612,7 @@ public enum PackageReceipts {
         files: [String],
         installLocation: String,
         accountHome: String? = nil,
+        macOS: FoldersMacOSMakes = .none,
         home: String = URL.homeDirectory.path(percentEncoded: false),
         namesInside: (String) -> [String]? = PackageReceipts.namesInside,
         exists: (String) -> Bool = { !URL(filePath: $0).isMissing }
@@ -578,8 +624,8 @@ public enum PackageReceipts {
         }
         let listed = Set(paths)
         // A Mac disk is case-insensitive unless formatted otherwise, so `library/...` in a receipt is `/Library`.
-        let shared = Set(sharedDirectories.map { $0.lowercased() })
-        let sharedAtHome = Set(sharedInTheHome.map { $0.lowercased() })
+        let shared = Set(sharedDirectories.map { $0.lowercased() }).union(macOS.onTheDisk)
+        let sharedAtHome = Set(sharedInTheHome.map { $0.lowercased() }).union(macOS.inAHome)
         let accountFolder = accountHome.map { ($0 as NSString).standardizingPath.lowercased() }
         let isSharedWhenLowered = { (path: String) in
             guard let accountFolder, path == accountFolder || path.hasPrefix(accountFolder + "/") else {

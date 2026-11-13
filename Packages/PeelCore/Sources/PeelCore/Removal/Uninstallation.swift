@@ -252,7 +252,7 @@ public struct Uninstallation: Sendable {
     ) async -> [Leftover] {
         var leftovers = await receiptLeftovers(
             for: app, receipts: receipts, installedApps: installedApps, exclusions: exclusions,
-            environment: environment, accountHome: nil, pkgutil: pkgutil
+            environment: environment, accountHome: nil, pkgutil: pkgutil, disk: pkgutil
         )
         // A package installed for one account alone writes only in that account's home folder, and an account with
         // no package of its own has nothing to find.
@@ -264,7 +264,7 @@ public struct Uninstallation: Sendable {
             if !packages.isEmpty {
                 leftovers += await receiptLeftovers(
                     for: app, receipts: packages, installedApps: installedApps, exclusions: exclusions,
-                    environment: environment, accountHome: home, pkgutil: account
+                    environment: environment, accountHome: home, pkgutil: account, disk: pkgutil
                 )
             }
         }
@@ -278,7 +278,8 @@ public struct Uninstallation: Sendable {
         exclusions: Exclusions,
         environment: SearchEnvironment,
         accountHome: URL?,
-        pkgutil: PackageReceipts.Pkgutil
+        pkgutil: PackageReceipts.Pkgutil,
+        disk: PackageReceipts.Pkgutil
     ) async -> [Leftover] {
         let identifier = app.bundleIdentifier?.lowercased()
         let identifiers = Set((installedApps.map(\.bundleIdentifier) + [identifier]).compactMap { $0?.lowercased() })
@@ -288,10 +289,11 @@ public struct Uninstallation: Sendable {
         let wroteOnlyTheApp = await PackageReceipts.receipts(writingOnly: app.url, pkgutil: pkgutil)
             .filter { !named.contains($0.lowercased()) }
         var leftovers: [Leftover] = []
+        let macOS = named.isEmpty ? .none : await PackageReceipts.foldersMacOSMakes(pkgutil: disk)
         for receipt in (Array(named) + wroteOnlyTheApp).sorted() {
             let leftMore = named.contains(receipt)
                 ? await PackageReceipts.leftSomethingOutside(
-                    receipt, app: app.url, accountHome: accountHome, pkgutil: pkgutil
+                    receipt, app: app.url, accountHome: accountHome, macOS: macOS, pkgutil: pkgutil
                 ) : false
             let volume = accountHome ?? environment.rootDirectory
             for url in PackageActions.receiptFiles(of: receipt, onVolume: volume, home: environment.homeDirectory)
