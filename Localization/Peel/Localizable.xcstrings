@@ -123307,6 +123307,112 @@
         }
       }
     },
+    "Not selected: it holds the state Terraform or OpenTofu keeps of what it made, the only copy when the backend is local. Without it, the next apply no longer knows what exists." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: obsahuje stav, který si Terraform nebo OpenTofu uchovává o tom, co vytvořil, a při místním backendu je to jeho jediná kopie. Bez něj už další příkaz apply neví, co existuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Darin liegt der Zustand, den Terraform oder OpenTofu über die erstellten Ressourcen festhält, bei einem lokalen Backend die einzige Kopie. Ohne ihn ist beim nächsten apply nicht mehr bekannt, was existiert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: contiene el estado que Terraform u OpenTofu guarda de lo que ha creado, la única copia si el backend es local. Sin él, el próximo apply ya no sabe qué existe."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : cet élément contient l’état que Terraform ou OpenTofu conserve de ce qu’il a créé, seule copie lorsque le backend est local. Sans lui, le prochain apply ne sait plus ce qui existe."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: contiene lo stato che Terraform o OpenTofu conserva di ciò che ha creato, l’unica copia quando il backend è locale. Senza di esso, la prossima esecuzione di apply non sa più cosa esiste."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: TerraformまたはOpenTofuが、作成したものについて保持している状態が含まれています。バックエンドがローカルの場合は、これが唯一のコピーです。これがないと、次回のapplyで何が存在するのかがわからなくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: Terraform 또는 OpenTofu가 자신이 만든 리소스에 대해 보관하는 상태가 들어 있으며, 백엔드가 로컬이면 이것이 유일한 복사본입니다. 이 항목이 없으면 다음 apply는 무엇이 존재하는지 더 이상 알지 못합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit bevat de state die Terraform of OpenTofu bijhoudt van wat het heeft gemaakt, de enige kopie als de backend lokaal is. Zonder die state weet de volgende apply niet meer wat er bestaat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: zawiera stan tego, co utworzył Terraform lub OpenTofu, a przy lokalnym backendzie jest to jedyna kopia. Bez niego następne polecenie apply nie będzie już wiedziało, co istnieje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: isto contém o estado que o Terraform ou o OpenTofu guarda sobre o que criou, a única cópia quando o backend é local. Sem ele, o próximo apply não sabe mais o que existe."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: conține starea pe care Terraform sau OpenTofu o păstrează despre ce a creat, singura copie atunci când backendul este local. Fără ea, următoarea comandă apply nu mai știe ce există."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: здесь хранится состояние того, что создал Terraform или OpenTofu, и при локальном бэкенде это единственная копия. Без него следующий запуск apply уже не будет знать, что существует."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den innehåller tillståndet som Terraform eller OpenTofu sparar om det som verktyget har skapat, den enda kopian när backend är lokal. Utan den vet nästa apply inte längre vad som finns."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: Terraform veya OpenTofu’nun oluşturduklarına ilişkin tuttuğu durum bilgisini barındırır ve backend yerel olduğunda bu bilginin tek kopyası buradadır. Bu olmadan bir sonraki apply işlemi neyin var olduğunu artık bilemez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: тут зберігається стан того, що створив Terraform чи OpenTofu, і за локального бекенду це єдина копія. Без нього наступна команда apply уже не знатиме, що існує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：其中存放着Terraform或OpenTofu为其所创建内容保留的状态，当后端为本地时，这是唯一的副本。没有它，下一次apply将不再知道哪些内容已经存在。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：這裡存放著Terraform或OpenTofu為其所建立資源保存的狀態，當後端位於本機時，這是唯一的副本。少了它，下一次apply將不再知道有哪些資源存在。"
+          }
+        }
+      }
+    },
     "Not selected: it holds your current workspace and the last backend configuration, which `terraform init` doesn’t bring back." : {
       "localizations" : {
         "cs" : {

@@ -458,6 +458,7 @@ extension HoldBack {
         case .insideAnotherAppsFolder: "inside a folder that belongs to macOS or to another installed app"
         case .holdsAnotherAppsData: "holds what another installed app keeps as its own"
         case .holdsWhatAToolKeeps: "holds what a developer tool keeps and may still use, such as installed packages"
+        case .holdsTerraformState: "holds Terraform's state, the only record of what it made with a local backend"
         case .beyondTheHelper: "needs an administrator, and Peel's helper can't move it"
         case .leftToItsUninstaller: "removed by the app's own uninstaller once the app is in the Trash"
         case .neededWhenTheAppLeaves: "needed by a program that runs once the app is in the Trash"

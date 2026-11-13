@@ -464,6 +464,25 @@ struct ProjectArtifactsTests {
         #expect(found.allSatisfy { $0.tool == "Meson" && $0.heldBack == .keepsItsSetup && !$0.isRecommended })
     }
 
+    @Test func terragruntsCacheHoldingTerraformsStateIsNeverSuggested() async throws {
+        let directory = try TemporaryDirectory()
+        for unit in ["local", "remote"] {
+            try directory.file("\(unit)/terragrunt.hcl", bytes: 16)
+            try directory.file("\(unit)/.terragrunt-cache/a/b/main.tf", bytes: 400_000)
+        }
+        try directory.file("local/.terragrunt-cache/a/b/terraform.tfstate", bytes: 2_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+        let byUnit = Dictionary(uniqueKeysWithValues: found.map {
+            ($0.url.deletingLastPathComponent().lastPathComponent, $0)
+        })
+
+        #expect(byUnit["local"]?.heldBack == .holdsTerraformState)
+        #expect(byUnit["local"]?.isRecommended == false)
+        #expect(byUnit["remote"]?.isRecommended == true)
+    }
+
     @Test func aTaggedMesonBuildFolderOutsideItsProjectKeepsItsSetup() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("foo/meson.build", bytes: 16)

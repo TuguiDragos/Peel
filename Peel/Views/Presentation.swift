@@ -783,6 +783,8 @@ extension HoldBack {
             "Not selected: only the name matches, and it sits inside a folder that belongs to macOS or to another installed app, which may be keeping it for itself."
         case .holdsAnotherAppsData:
             "Left alone: another app on this Mac keeps its own data inside, and moving this would take that data too."
+        case .holdsTerraformState:
+            "Not selected: it holds the state Terraform or OpenTofu keeps of what it made, the only copy when the backend is local. Without it, the next apply no longer knows what exists."
         case .holdsWhatAToolKeeps:
             "Not selected: this holds what a developer tool keeps, such as installed packages, model weights, or app archives, which the tool may still use even if nothing here has changed in months."
         case .beyondTheHelper:

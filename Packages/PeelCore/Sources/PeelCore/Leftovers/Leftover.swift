@@ -130,6 +130,8 @@ public enum HoldBack: String, Sendable, Hashable {
     /// Holds what a developer tool keeps and may still use, as Developer's table names it with a kind it never
     /// recommends, such as a store of installed packages that projects link into, which reading leaves undated.
     case holdsWhatAToolKeeps
+    /// Terraform's or OpenTofu's state is inside, the only record of what it made when its backend is local.
+    case holdsTerraformState
     /// Needs an administrator, and the helper's own rule refuses it (`HelperReach`).
     case beyondTheHelper
     /// Removed by the app's own uninstaller once the app has moved (`UninstallsItself`). Moved first, the file of
@@ -213,7 +215,8 @@ public enum HoldBack: String, Sendable, Hashable {
     static func seen(in contents: FolderContents?) -> HoldBack? {
         guard let contents else { return .notMeasured }
         if contents.couldNotBeRead { return unread(contents) }
-        return secret(in: contents) ?? (contents.holdsRepository ? .holdsRepository : nil)
+        return secret(in: contents) ?? (contents.holdsTerraformState ? .holdsTerraformState : nil)
+            ?? (contents.holdsRepository ? .holdsRepository : nil)
     }
 
     /// Why a folder the walk couldn't see all through is held back: closed by its permissions, or refused otherwise.

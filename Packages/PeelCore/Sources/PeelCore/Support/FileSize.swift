@@ -21,6 +21,8 @@ public struct FolderContents: Sendable, Hashable {
     public let holdsWorkMadeWithAnApp: Bool
     /// True when a virtual machine or a Windows bottle was seen inside (`KeptOnlyHere.namesAVirtualMachine(_:)`).
     public let holdsVirtualMachines: Bool
+    /// True when Terraform's or OpenTofu's state was seen inside, the only copy of what it made with a local backend.
+    public let holdsTerraformState: Bool
     /// The latest modification date of anything inside. A folder's own date does not change when a file in
     /// it is rewritten in place.
     public let newestChange: Date?
@@ -45,6 +47,7 @@ public struct FolderContents: Sendable, Hashable {
         holdsPasswordDatabase: Bool = false,
         holdsWorkMadeWithAnApp: Bool = false,
         holdsVirtualMachines: Bool = false,
+        holdsTerraformState: Bool = false,
         newestChange: Date? = nil,
         couldNotBeRead: Bool = false,
         closedByPermissions: Bool = false,
@@ -57,6 +60,7 @@ public struct FolderContents: Sendable, Hashable {
         self.holdsPasswordDatabase = holdsPasswordDatabase
         self.holdsWorkMadeWithAnApp = holdsWorkMadeWithAnApp
         self.holdsVirtualMachines = holdsVirtualMachines
+        self.holdsTerraformState = holdsTerraformState
         self.newestChange = newestChange
         self.couldNotBeRead = couldNotBeRead
         self.closedByPermissions = closedByPermissions
@@ -222,6 +226,7 @@ public enum FileSize {
         var holdsPasswordDatabase = isPasswordDatabase(url.lastPathComponent)
         var holdsWorkMadeWithAnApp = false
         var holdsVirtualMachines = KeptOnlyHere.namesAVirtualMachine(url.lastPathComponent)
+        var holdsTerraformState = false
         var newestChange: Date?
         // A file with several names goes only once every name has gone, so it counts once, and only when all of
         // its names are inside.
@@ -243,6 +248,7 @@ public enum FileSize {
                 if !holdsVirtualMachines, KeptOnlyHere.namesAVirtualMachine(lowercased: lowered) {
                     holdsVirtualMachines = true
                 }
+                if lowered == "terraform.tfstate" || lowered == "terraform.tfstate.backup" { holdsTerraformState = true }
                 if !holdsWorkMadeWithAnApp, enumerator.level == 2,
                    KeptOnlyHere.namesWorkMadeWithAnApp(file.deletingLastPathComponent().lastPathComponent) {
                     holdsWorkMadeWithAnApp = true
@@ -282,6 +288,7 @@ public enum FileSize {
             holdsPasswordDatabase: holdsPasswordDatabase,
             holdsWorkMadeWithAnApp: holdsWorkMadeWithAnApp,
             holdsVirtualMachines: holdsVirtualMachines,
+            holdsTerraformState: holdsTerraformState,
             newestChange: newestChange,
             couldNotBeRead: refused.happened,
             closedByPermissions: refused.closedByPermissions,
