@@ -227,6 +227,20 @@ struct UninstallSelectionTests {
         #expect(choices.personChanged(from: selected, to: selected.union([other.url]), in: bulk) == suggested)
     }
 
+    @Test func aFileThePersonChangesWhileItsAppStaysStaysAsTheyLeftIt() {
+        let own = leftover("com.example.app")
+        let cache = leftover("com.example.app.cache")
+        let bulk = BulkUninstallation(uninstallations: [uninstallation([own, cache])])
+        var choices = UninstallSelection()
+        var selected = choices.update([], in: bulk, canUseHelper: true)
+        selected = choices.personChanged(from: selected, to: selected.subtracting([app.url]), in: bulk)
+        #expect(selected == [])
+
+        selected = choices.personChanged(from: selected, to: selected.union([cache.url]), in: bulk)
+        selected = choices.personChanged(from: selected, to: selected.subtracting([cache.url]), in: bulk)
+        #expect(choices.personChanged(from: selected, to: selected.union([app.url]), in: bulk) == [app.url, own.url])
+    }
+
     @Test func aFileSelectedBesideAnAppThatAlreadyStayedComesBackAsItWas() {
         let kept = InstalledApp(url: URL(filePath: "/Applications/Kept.app"), bundleIdentifier: "com.example.kept", name: "Kept")
         let own = leftover("com.example.app")

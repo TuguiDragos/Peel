@@ -67,12 +67,16 @@ public struct UninstallSelection: Sendable {
 
     /// Carries a change the person made on several apps' page from `previous` to `selected` over to the files of
     /// each app it touches: an app whose bundle they deselect stays, so none of its files stays selected, and a file
-    /// comes back as it was once every app that came to stay after it was selected goes again, each copy of it.
+    /// comes back as it was once every app that came to stay after it was selected goes again, each copy of it. A
+    /// file the person selects or deselects themselves is theirs from then on.
     public mutating func personChanged(
         from previous: Set<URL>,
         to selected: Set<URL>,
         in bulk: BulkUninstallation
     ) -> Set<URL> {
+        for file in previous.symmetricDifference(selected) {
+            setAside[file] = nil
+        }
         let staying = bulk.staying(selected: selected)
         var result = selected
         for reference in bulk.staying(selected: previous).symmetricDifference(staying) {
