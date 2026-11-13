@@ -1103,6 +1103,21 @@ struct TrashServiceTests {
         #expect(FileManager.default.fileExists(atPath: item.path(percentEncoded: false)))
     }
 
+    @Test func saysWhenAFolderWithNoFileWasMadeWhereAnItemGoesBack() async throws {
+        let directory = try TemporaryDirectory()
+        let service = try service(in: directory)
+        try directory.file("home/.example/models/blobs/sha256-1")
+        let models = directory.url.appending(path: "home/.example/models", directoryHint: .isDirectory)
+        let trashed = try #require(await service.trash([models]).trashed.first)
+
+        for made in ["manifests", "blobs"] {
+            try FileManager.default.createDirectory(at: models.appending(path: made), withIntermediateDirectories: true)
+        }
+        #expect(service.refusal(ofPuttingBack: trashed, canUseHelper: false) == .emptyFolderInItsPlace)
+        try directory.file("home/.example/models/manifests/latest")
+        #expect(service.refusal(ofPuttingBack: trashed, canUseHelper: false) == .alreadyThere)
+    }
+
     /// A relative link breaks once it is in the Trash, but it is still there and can still be put back.
     @Test func putsBackALinkThatLeadsNowhereFromTheTrash() async throws {
         let directory = try TemporaryDirectory()

@@ -20681,6 +20681,112 @@
         }
       }
     },
+    "An empty folder was made here after this moved, often by the app or tool that uses it. Quit that, move the empty folder to the Trash, then put this back: Peel never replaces what is there." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Po přesunutí této položky tu vznikla prázdná složka, kterou často vytváří aplikace nebo nástroj, který položku používá. Ten program ukončete, přesuňte prázdnou složku do koše a pak tuto položku vraťte zpět: Peel nikdy nenahrazuje to, co na daném místě už je."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nach dem Verschieben wurde hier ein leerer Ordner angelegt, oft von der App oder dem Tool, das dieses Objekt verwendet. Beende die App oder das Tool, lege den leeren Ordner in den Papierkorb und lege das Objekt anschließend zurück: Peel ersetzt nie, was dort liegt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Después de que esto se trasladara, se creó aquí una carpeta vacía, que suele crear la app o la herramienta que lo usa. Sal de esa app o herramienta, traslada la carpeta vacía a la papelera y después restaura esto: Peel nunca reemplaza lo que hay ahí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un dossier vide a été créé à cet emplacement après le déplacement de cet élément, souvent par l’app ou l’outil qui l’utilise. Quittez cette app ou cet outil, placez le dossier vide dans la corbeille, puis remettez cet élément en place : Peel ne remplace jamais ce qui s’y trouve."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dopo lo spostamento di questo elemento, qui è stata creata una cartella vuota, spesso dall’app o dallo strumento che la usa. Esci dall’app o dallo strumento, sposta la cartella vuota nel Cestino, poi ripristina questo elemento: Peel non sostituisce mai ciò che si trova già lì."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これを移動した後に、ここに空のフォルダが作成されました。多くの場合、これを使用しているアプリやツールによるものです。そのアプリやツールを終了し、空のフォルダをゴミ箱に入れてから、これを戻してください。Peelがそこにあるものを置き換えることは決してありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목이 이동된 후 이 위치에 빈 폴더가 만들어졌습니다. 대개 이 항목을 사용하는 앱이나 도구가 만든 것입니다. 해당 앱이나 도구를 종료하고 빈 폴더를 휴지통으로 이동한 다음 이 항목을 되돌려 놓으십시오. Peel은 그곳에 있는 항목을 절대 대치하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hier is een lege map aangemaakt nadat dit was verplaatst, vaak door de app of tool die het gebruikt. Stop die app of tool, verplaats de lege map naar de prullenmand en zet dit daarna terug: Peel vervangt nooit wat er staat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Po przeniesieniu tej rzeczy powstał tu pusty folder, często utworzony przez aplikację lub narzędzie, które z niej korzysta. Zakończ tę aplikację lub to narzędzie, przenieś pusty folder do Kosza, a następnie przywróć tę rzecz: Peel nigdy nie zastępuje tego, co tam jest."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uma pasta vazia foi criada aqui depois que isto foi movido, muitas vezes pelo app ou pela ferramenta que o usa. Encerre o app ou a ferramenta, mova a pasta vazia para o Lixo e depois coloque isto de volta: o Peel nunca substitui o que está lá."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "După ce acest articol a fost mutat, aici a fost creat un dosar gol, adesea de aplicația sau instrumentul care îl folosește. Închideți aplicația sau instrumentul respectiv, mutați dosarul gol în Coș, apoi puneți înapoi acest articol: Peel nu înlocuiește niciodată ce se află acolo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "После перемещения этого объекта здесь появилась пустая папка: часто ее создает приложение или инструмент, который этим объектом пользуется. Завершите это приложение или инструмент, переместите пустую папку в Корзину, затем восстановите объект: Peel никогда не заменяет то, что уже там есть."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En tom mapp skapades här efter att det här flyttades, ofta av appen eller verktyget som använder den. Avsluta appen eller verktyget, flytta den tomma mappen till papperskorgen och lägg sedan tillbaka det här: Peel ersätter aldrig det som finns där."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu öğe taşındıktan sonra burada boş bir klasör oluşturuldu; bunu genellikle onu kullanan uygulama veya araç yapar. O uygulamadan veya araçtan çıkın, boş klasörü Çöp Sepeti’ne taşıyın, ardından bu öğeyi yerine koyun: Peel orada olan bir şeyin yerine hiçbir zaman başka bir şey koymaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Після переміщення цього елемента тут зʼявилася порожня папка, яку найчастіше створює програма чи інструмент, що ним користується. Завершіть цю програму чи інструмент, перемістіть порожню папку в Смітник, а потім поверніть цей елемент: Peel ніколи не замінює того, що там є."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此项移走后，这里新建了一个空文件夹，通常是由使用它的App或工具创建的。请退出该App或工具，将这个空文件夹移到废纸篓，然后再将此项放回原处：Peel绝不会替换那里已有的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此項目移動之後，這裡出現了一個空的檔案夾，通常是由使用它的App或工具所建立。請結束該App或工具，將空的檔案夾丟到「垃圾桶」，然後再還原此項目：Peel絕不會取代已存在的項目。"
+          }
+        }
+      }
+    },
     "An icon stayed in the Dock." : {
       "localizations" : {
         "cs" : {

@@ -627,6 +627,8 @@ extension RestoreFailure {
         switch self {
         case .missingFromTrash: String(localized: "It is no longer in the Trash, so there is nothing to put back.")
         case .alreadyThere: String(localized: "Something is already there, and Peel never replaces it.")
+        case .emptyFolderInItsPlace:
+            String(localized: "An empty folder was made here after this moved, often by the app or tool that uses it. Quit that, move the empty folder to the Trash, then put this back: Peel never replaces what is there.")
         case .needsHelper: String(localized: "It needs administrator access, which Peel’s helper provides. Home says what the helper needs.")
         case .notAllowed(.excluded):
             String(localized: "Your exclusions in Settings keep Peel from putting anything back there. Take it off the list to put this back, or drag it out of the Trash in Finder.")

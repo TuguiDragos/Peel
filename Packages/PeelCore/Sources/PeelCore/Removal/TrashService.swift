@@ -297,6 +297,8 @@ extension TrashFailure.Reason {
 public enum RestoreFailure: Sendable, Hashable {
     case missingFromTrash
     case alreadyThere
+    /// A folder with no file anywhere inside stands where the item goes, as a tool makes again the folders it uses.
+    case emptyFolderInItsPlace
     case needsHelper
     /// The guard refuses the place it would go back to, for this reason.
     case notAllowed(GuardRefusal)
@@ -320,8 +322,8 @@ public enum RestoreFailure: Sendable, Hashable {
     public var isFinal: Bool {
         switch self {
         case .missingFromTrash, .notAllowed, .notAllowedByTheHelper, .notInATrash: true
-        case .alreadyThere, .needsHelper, .locked, .folderLocked, .folderGone, .needsAppManagement, .notPermitted,
-             .failed, .replacementStays:
+        case .alreadyThere, .emptyFolderInItsPlace, .needsHelper, .locked, .folderLocked, .folderGone,
+             .needsAppManagement, .notPermitted, .failed, .replacementStays:
             false
         }
     }
@@ -1143,7 +1145,7 @@ public struct TrashService: Sendable {
         }
         guard item.isInTheTrash else { return .missingFromTrash }
         if item.originalURL.isThere {
-            guard item.replacementStandsInItsPlace else { return .alreadyThere }
+            guard item.replacementStandsInItsPlace else { return Self.alreadyThere(at: item.originalURL) }
             if FileAccess.isLockedInFinder(item.originalURL) { return .replacementStays(.locked) }
             if let refusal = refusal(of: item.originalURL) { return .replacementStays(refusal) }
         }
@@ -1164,6 +1166,21 @@ public struct TrashService: Sendable {
 
     /// What keeps an item out of `folder` whoever puts it back, the helper included: Finder's lock, or macOS's
     /// privacy protection. Only the permissions are the helper's to pass.
+    /// What stands at `url`, where an item goes back: a folder with no file anywhere inside, looked at no deeper than a
+    /// few hundred entries and never through a link, or anything else.
+    static func alreadyThere(at url: URL) -> RestoreFailure {
+        guard (try? url.resourceValues(forKeys: [.isDirectoryKey, .isSymbolicLinkKey])).map({
+            $0.isDirectory == true && $0.isSymbolicLink != true
+        }) == true, let entries = FileManager.default.enumerator(
+            at: url, includingPropertiesForKeys: [.isDirectoryKey, .isSymbolicLinkKey]
+        ) else { return .alreadyThere }
+        for case let entry as URL in entries.prefix(500) {
+            let values = try? entry.resourceValues(forKeys: [.isDirectoryKey, .isSymbolicLinkKey])
+            guard values?.isDirectory == true, values?.isSymbolicLink != true else { return .alreadyThere }
+        }
+        return entries.nextObject() == nil ? .emptyFolderInItsPlace : .alreadyThere
+    }
+
     static func refusal(ofPuttingBackInto folder: URL, isProtectedByPrivacy: Bool) -> RestoreFailure? {
         if FileAccess.isLockedInFinder(folder) { return .folderLocked }
         return isProtectedByPrivacy ? .notPermitted : nil
@@ -1207,7 +1224,7 @@ public struct TrashService: Sendable {
             } catch is NotTheItemThatMoved {
                 return .missingFromTrash
             } catch POSIXError.EEXIST {
-                return .alreadyThere
+                return Self.alreadyThere(at: item.originalURL)
             } catch {
                 guard Self.reason(for: error) == .notPermitted else { return .failed(error.localizedDescription) }
                 // Refused by macOS rather than by the permissions, the helper couldn't do it either.
