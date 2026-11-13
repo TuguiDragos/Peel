@@ -199,6 +199,9 @@ do
 done
 echo "Every binary: arm64e, arm64, x86_64"
 
+echo "== Weakly linked symbols"
+zsh "${0:A:h}/check_weak_symbols.sh" "$app" || exit 1
+
 echo "== Signed class data"
 # In the arm64e slice, pointer authentication also signs each class's read-only data, which the Objective-C image
 # info marks with its flag 0x10; one object built without it turns it off for the whole binary.
