@@ -54,6 +54,15 @@ struct BackgroundItemOwnershipTests {
         #expect(!ownership.isOrphan(label: "org.example.agent", program: program, owner: nil))
     }
 
+    @Test func neverCallsGoneAProgramOnADiskThatIsNotConnected() throws {
+        let program = "/Volumes/org.example.NotConnected-\(UUID().uuidString)/copy.sh"
+        let ownership = BackgroundItemOwnership(installedApps: []) { _ in nil }
+        let job = try #require(JobDefinition(["Label": "org.example.copy", "Program": program]))
+
+        #expect(!ownership.isOrphan(job))
+        #expect(!ownership.isOrphan(label: "org.example.copy", program: program, owner: nil))
+    }
+
     /// What the helper refuses, the page must not offer: both read the same label.
     @Test func knowsTheJobTheHelperWillNotActOn() {
         func item(_ label: String, _ kind: BackgroundItem.Kind) -> BackgroundItem {

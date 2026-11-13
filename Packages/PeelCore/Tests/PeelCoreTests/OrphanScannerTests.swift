@@ -2290,6 +2290,19 @@ struct OrphanScannerTests {
         #expect(scan.groups.isEmpty)
     }
 
+    @Test func aJobWhoseProgramIsOnADiskThatIsNotConnectedIsNotListedNorWhatIsNamedForIt() async throws {
+        let directory = try TemporaryDirectory()
+        let disk = "/Volumes/org.example.NotConnected-\(UUID().uuidString)"
+        try directory.file(
+            "home/Library/LaunchAgents/org.example.copy.plist", contents: job("org.example.copy", runs: ["\(disk)/copy.sh"])
+        )
+        try directory.file("home/Library/Preferences/org.example.copy.plist")
+
+        let scan = await scanner(in: directory).scan(installedApps: installed)
+
+        #expect(scan.groups.isEmpty)
+    }
+
     @Test(.permissionsHold) func aLinkIntoAnAppInAPlacePeelCannotLookIsNotListed() async throws {
         let directory = try TemporaryDirectory()
         let bin = try directory.directory("root/usr/local/bin")

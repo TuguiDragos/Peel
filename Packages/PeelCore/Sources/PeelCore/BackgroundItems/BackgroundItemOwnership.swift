@@ -173,10 +173,11 @@ public struct BackgroundItemOwnership: Sendable {
 
     private static func exists(_ program: String) -> Bool {
         guard !program.contains("/") else {
-            // Gone only when nothing is there: launchd runs a daemon as root, which reaches a folder this account
-            // can't search.
+            // Gone only when nothing is there, on a disk that is connected: launchd runs a daemon as root, which
+            // reaches a folder this account can't search, and a program on a disk that is away comes back with it.
             var info = stat()
             return stat(program, &info) == 0 || ![ENOENT, ENOTDIR, ELOOP].contains(errno)
+                || URL(filePath: program).isOnADiskNotConnected
         }
         return standardPath.contains { FileManager.default.isExecutableFile(atPath: $0 + "/" + program) }
     }
