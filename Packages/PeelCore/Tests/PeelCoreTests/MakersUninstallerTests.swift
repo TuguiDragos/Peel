@@ -255,7 +255,7 @@ struct MakersUninstallerTests {
         }
 
         #expect(step(signedByTheMaker: true) == .uninstaller(URL(filePath: "/Applications/Remove Netskope Client.app/")))
-        #expect(step(signedByTheMaker: false) != .uninstaller(URL(filePath: "/Applications/Remove Netskope Client.app/")))
+        #expect(step(signedByTheMaker: false) == .notTrusted)
     }
 
     @Test func aScriptNothingVouchesForGetsNoCommand() throws {
@@ -269,11 +269,11 @@ struct MakersUninstallerTests {
         let accounts = try directory.file("bin/opensc-uninstall")
         let openSC = agent("org.opensc-project.mac.opensctoken", team: "L7897KTAHV")
 
-        #expect(MakersUninstaller.of(unsealed)?.step == .notOnTheMac)
+        #expect(MakersUninstaller.of(unsealed)?.step == .notTrusted)
         #expect(MakersUninstaller.onlyRootCanChange(accounts) == false)
         #expect(MakersUninstaller.onlyRootCanChange(URL(filePath: "/bin/sh")))
         let openSCsStep = MakersUninstaller.of(openSC, isOnTheMac: { _ in true }, isOnlyRoots: { _ in false })?.step
-        #expect(openSCsStep == .notOnTheMac)
+        #expect(openSCsStep == .notTrusted)
     }
 
     @Test func aSealHoldsOnlyWhileNothingInTheBundleChanged() throws {

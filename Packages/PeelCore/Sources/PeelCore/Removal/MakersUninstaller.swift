@@ -18,6 +18,9 @@ public struct MakersUninstaller: Sendable, Hashable {
         case fromTheMakersPage
         /// The script or uninstaller the maker's page names isn't where the maker puts it on this Mac.
         case notOnTheMac
+        /// It is where the maker puts it, but nothing vouches for it: the app's seal broke, an account other than root
+        /// can change it, or the app's team didn't sign it.
+        case notTrusted
     }
 
     private enum Documented: Sendable {
@@ -292,16 +295,15 @@ public struct MakersUninstaller: Sendable, Hashable {
         func run(_ path: String, with runner: String?) -> Step {
             let isInsideTheApp = !path.hasPrefix("/")
             let script = isInsideTheApp ? app.url.appending(path: path) : URL(filePath: path)
-            guard isOnTheMac(script.path(percentEncoded: false)),
-                  isInsideTheApp ? app.isSealIntact == true : isOnlyRoots(script)
-            else { return .notOnTheMac }
+            guard isOnTheMac(script.path(percentEncoded: false)) else { return .notOnTheMac }
+            guard isInsideTheApp ? app.isSealIntact == true : isOnlyRoots(script) else { return .notTrusted }
             return .command(([runner].compactMap(\.self) + [script.wordForTheShell(home: home)]).joined(separator: " "))
         }
         // Anything an administrator's program writes could take the uninstaller's name, so only one its checked
         // signature says the app's team made is opened.
         func open(_ uninstaller: URL) -> Step {
-            isOnTheMac(uninstaller.path(percentEncoded: false)) && isTheMakers(uninstaller, app)
-                ? .uninstaller(uninstaller) : .notOnTheMac
+            guard isOnTheMac(uninstaller.path(percentEncoded: false)) else { return .notOnTheMac }
+            return isTheMakers(uninstaller, app) ? .uninstaller(uninstaller) : .notTrusted
         }
         let chosen: (step: Step, page: String) = switch product.step {
         case .script(let path, let runner): (run(path, with: runner), product.page)

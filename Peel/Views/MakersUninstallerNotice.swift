@@ -19,7 +19,7 @@ struct MakersUninstallerNotice: View {
                 Button("Open Uninstaller") { NSWorkspace.shared.open(url) }
             case .inTheApp(let url):
                 Button("Open \(app)") { NSWorkspace.shared.open(url) }
-            case .onItsDiskImage, .fromTheMakersPage, .notOnTheMac:
+            case .onItsDiskImage, .fromTheMakersPage, .notOnTheMac, .notTrusted:
                 EmptyView()
             }
         }

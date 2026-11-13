@@ -714,6 +714,8 @@ struct UninstallCommand: AsyncParsableCommand {
             case .onItsDiskImage: "use the uninstaller on the disk image it came on"
             case .fromTheMakersPage: "download its uninstaller from \(uninstaller.maker)'s page"
             case .notOnTheMac: "follow \(uninstaller.maker)'s instructions, since the uninstaller they name isn't on this Mac"
+            case .notTrusted:
+                "follow \(uninstaller.maker)'s instructions: Peel can't vouch for the uninstaller on this Mac, since programs other than its maker's could have changed it"
             }
             let who = if case .command(let command) = uninstaller.step,
                          AdministratorCommand.needsAnAdministrator(command, isAdministrator: isAdministrator) {

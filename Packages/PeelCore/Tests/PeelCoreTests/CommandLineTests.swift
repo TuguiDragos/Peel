@@ -1384,6 +1384,19 @@ struct CommandLineTests {
         return UninstallCommand.said(.byItsMaker(step), of: app, isAdministrator: true)?.description
     }
 
+    @Test func saysPeelCantVouchForAnUninstallerThatIsOnTheMac() {
+        let page = URL(string: "https://example.org/uninstall")!
+        let step = MakersUninstaller(maker: "Example", step: .notTrusted, instructions: page, removes: nil)
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Agent.app"), bundleIdentifier: "org.example.agent", name: "Agent"
+        )
+
+        let said = UninstallCommand.said(.byItsMaker(step), of: app, isAdministrator: true)?.description
+
+        #expect(said?.contains("Peel can't vouch for the uninstaller on this Mac") == true, "\(said ?? "")")
+        #expect(said?.contains("isn't on this Mac") == false)
+    }
+
     @Test func namesTheMakersUninstallerWithoutASlashAtTheEnd() throws {
         let directory = try TemporaryDirectory()
         let uninstaller = try directory.directory("ESET Cyber Security.app/Contents/Helpers/Uninstaller.app")
