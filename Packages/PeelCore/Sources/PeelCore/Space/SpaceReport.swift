@@ -137,6 +137,9 @@ public enum SpaceInventory {
     struct ManagingApps: Sendable {
         let identifiers: [String]
         let leftBehind: HoldBack
+        /// Whether the area is cleared by hand in Finder once none of them is on this Mac, rather than with one
+        /// installed again.
+        var isRemovedByHandOnceGone = true
 
         func includes(_ identifier: String?) -> Bool {
             guard let identifier = identifier?.lowercased() else { return false }
@@ -228,7 +231,9 @@ public enum SpaceInventory {
             ],
             // Apple's "Managing your simulated and physical devices in Device Hub": simulators are made and removed in
             // Xcode, whose first launch installs CoreSimulator, which keeps them in the home folder.
-            managedBy: ManagingApps(identifiers: ["com.apple.dt.Xcode"], leftBehind: .holdsSimulators)
+            managedBy: ManagingApps(
+                identifiers: ["com.apple.dt.Xcode"], leftBehind: .holdsSimulators, isRemovedByHandOnceGone: false
+            )
         ),
         Definition(
             id: "android-sdk",
@@ -820,7 +825,8 @@ public enum SpaceInventory {
             keepsItsFolders: definition.keepsItsFolders,
             commands: definition.commands.filter { $0.isKnown(simctlRuntimeHelp: help) }.map(\.line),
             managingAppIsMissing: managingAppIsMissing,
-            isRemovedByHand: definition.isRemovedByHand || managingAppIsMissing,
+            isRemovedByHand: definition.isRemovedByHand
+                || managingAppIsMissing && definition.managedBy?.isRemovedByHandOnceGone == true,
             inContainers: counted,
             placesNotCounted: counted.isEmpty ? nil : urls.filter { url in
                 !counted.contains { container(of: url, in: $0.parent) != nil }

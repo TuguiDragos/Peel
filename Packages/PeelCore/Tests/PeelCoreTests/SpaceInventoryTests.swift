@@ -807,6 +807,24 @@ struct SpaceInventoryTests {
         #expect(item.isRemovedByHand, "an area whose apps are gone is cleared in Finder")
     }
 
+    @Test func simulatorsAreNeverRemovedByHandEvenOnceXcodeIsGone() throws {
+        let home = URL(filePath: "/Users/someone/", directoryHint: .isDirectory)
+        var simulators = try #require(SpaceInventory.definitions.first { $0.id == "simulators" })
+        let xcode = try #require(simulators.managedBy)
+        simulators.managedBy = .init(
+            identifiers: ["org.example.gone"], leftBehind: xcode.leftBehind,
+            isRemovedByHandOnceGone: xcode.isRemovedByHandOnceGone
+        )
+
+        let item = SpaceInventory.item(
+            simulators, urls: [], size: SizeTotal(known: 0, isComplete: true), home: home, root: home,
+            simctlRuntimeHelp: nil
+        )
+
+        #expect(item.managingAppIsMissing)
+        #expect(!item.isRemovedByHand, "its page says to install Xcode again, not to use Finder")
+    }
+
     @Test func showsRustToolchainsAndAndroidNDKsForTheirToolsToRemove() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".rustup/toolchains/stable-aarch64-apple-darwin/bin/rustc", bytes: 400_000)
