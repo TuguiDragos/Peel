@@ -16,6 +16,12 @@ struct OwnerChoicePlacesTests {
         #expect(OwnerChoice.places(whereNamesRepeat: shown) == [formula.id: "Homebrew", command.id: "/opt/local/bin"])
     }
 
+    @Test func aChosenCommandIsKeptWithItsPlace() {
+        let place = URL(filePath: "/opt/local/bin/jq")
+        let command = OwnerChoice.command(.init(name: "jq", url: place))
+        #expect(command.owner == .command("jq", at: place))
+    }
+
     @Test func twoCopiesOfAnAppSayTheirFolders() {
         let one = app(at: "/Applications/Tide.app")
         let other = app(at: NSHomeDirectory() + "/Applications/Tide.app")
