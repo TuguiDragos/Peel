@@ -148,6 +148,9 @@ public enum HoldBack: String, Sendable, Hashable {
     case systemExtensionGoingAtRestart
     /// The copy macOS installed of a system extension that System Settings deletes (`systemSettingsDeletesIt`).
     case deletableSystemExtension
+    /// The copy macOS installed of a system extension for an app bundled inside another, which no move of that app in
+    /// Finder removes (`isForAnAppInsideAnother`).
+    case systemExtensionOfAnAppInside
     /// An authorization plug-in macOS may load at login (`SignInPlugIns`), left to its maker's uninstaller.
     case signInPlugIn
     /// An audio plug-in, which music apps and other hosts load on their own whatever became of its app.
@@ -207,6 +210,7 @@ public enum HoldBack: String, Sendable, Hashable {
             || self == .couldNotLookInside
             || self == .beyondTheHelper || self == .leftToItsUninstaller || self == .neededWhenTheAppLeaves
             || self == .systemExtension || self == .systemExtensionGoingAtRestart || self == .deletableSystemExtension
+            || self == .systemExtensionOfAnAppInside
             || self == .signInPlugIn
             || self == .holdsAnExclusion
             || self == .inTheCloud || self == .holdsAnotherAppsData || self == .keepsWhatTheOthersLack

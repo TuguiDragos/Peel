@@ -195,11 +195,13 @@ extension AppExtension {
     }
 
     /// Why Peel leaves a system extension where it is, as Orphaned Files says it: macOS removes it at the next
-    /// restart, System Settings deletes it, or only moving its app removes it. Nil for an app extension.
+    /// restart, System Settings deletes it, no move of its app removes it, or only moving its app does. Nil for an app
+    /// extension.
     public var leftAlone: HoldBack? {
         guard kind == .systemExtension else { return nil }
         if election == .beingRemoved { return .systemExtensionGoingAtRestart }
-        return systemSettingsDeletesIt ? .deletableSystemExtension : .systemExtension
+        if systemSettingsDeletesIt { return .deletableSystemExtension }
+        return isForAnAppInsideAnother ? .systemExtensionOfAnAppInside : .systemExtension
     }
 }
 

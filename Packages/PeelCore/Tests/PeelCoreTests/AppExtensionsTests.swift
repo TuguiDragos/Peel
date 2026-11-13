@@ -268,6 +268,22 @@ struct AppExtensionsTests {
         #expect(leaving.leftAlone == .systemExtensionGoingAtRestart)
     }
 
+    @Test func aGoneInnerAppsSystemExtensionIsNeverSaidToGoWithFindersMove() {
+        let inner = "/Applications/Example.app/Contents/MacOS/Inner.app"
+        let extensionOf = { (category: String) in
+            AppExtension(
+                identifier: "org.example.part", name: "Part", kind: .systemExtension, point: nil, owner: "Example",
+                url: nil, election: .off, teamIdentifier: nil, reportedState: "activated disabled",
+                installedFor: inner, goneApp: inner, category: category
+            )
+        }
+
+        #expect(extensionOf("com.apple.system_extension.endpoint_security").leftAlone == .systemExtensionOfAnAppInside)
+        if #available(macOS 27, *) {
+            #expect(extensionOf("com.apple.system_extension.network_extension").leftAlone == .deletableSystemExtension)
+        }
+    }
+
     @Test func knowsTheAppAnExtensionWasInstalledForOnceFinderMovedIt() {
         let record = { (container: String?, origin: String?) in
             AppExtensions.SystemExtensionRecord(

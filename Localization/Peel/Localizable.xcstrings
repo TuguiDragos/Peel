@@ -94574,6 +94574,112 @@
         }
       }
     },
+    "Left alone: macOS installed this for an app bundled inside another app, and moving that app to the Trash in Finder doesn’t remove it, so installing the app again won’t help. While it is turned off, macOS doesn’t run it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: systém macOS toto rozšíření nainstaloval pro aplikaci uvnitř jiné aplikace a přesunutí této aplikace do koše ve Finderu ho neodstraní, takže opětovná instalace aplikace nepomůže. Dokud je vypnuté, systém macOS ho nespouští."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: macOS hat diese Erweiterung für eine App installiert, die in einer anderen App enthalten ist. Wird diese App im Finder in den Papierkorb gelegt, entfernt das die Erweiterung nicht, daher hilft es nicht, die App erneut zu installieren. Solange die Erweiterung deaktiviert ist, führt macOS sie nicht aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: macOS instaló esta extensión para una app incluida dentro de otra app, y trasladar esa app a la papelera en el Finder no la elimina, así que volver a instalar la app no servirá de nada. Mientras esté desactivada, macOS no la ejecuta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : macOS a installé cet élément pour une app contenue dans une autre app, et placer cette app dans la corbeille depuis le Finder ne le supprime pas, si bien que réinstaller l’app n’y changerait rien. Tant qu’il est désactivé, macOS ne l’exécute pas."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: macOS ha installato questa estensione per un’app inclusa in un’altra app, e spostare quell’app nel Cestino dal Finder non la rimuove, quindi reinstallare l’app non serve. Finché è disattivata, macOS non la esegue."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: これは、macOSが別のアプリに含まれているアプリのためにインストールしたものです。Finderでそのアプリをゴミ箱に入れても削除されないため、アプリを再インストールしても解決しません。オフになっている間は、macOSはこれを実行しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: macOS가 다른 앱 안에 포함된 앱을 위해 이 항목을 설치했으며, Finder에서 그 앱을 휴지통으로 이동해도 이 항목은 제거되지 않으므로 앱을 다시 설치해도 도움이 되지 않습니다. 이 항목이 꺼져 있는 동안에는 macOS가 이 항목을 실행하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: macOS heeft dit geïnstalleerd voor een app die in een andere app is meegeleverd, en als je die app in Finder naar de prullenmand verplaatst, wordt het niet verwijderd, dus het helpt niet om de app opnieuw te installeren. Zolang het is uitgeschakeld, voert macOS het niet uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: macOS zainstalował to rozszerzenie dla aplikacji zawartej w innej aplikacji, a przeniesienie tamtej aplikacji do Kosza w Finderze go nie usuwa, więc ponowna instalacja aplikacji nic nie da. Dopóki jest wyłączone, macOS go nie uruchamia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: o macOS instalou isto para um app que vem dentro de outro app, e mover esse app para o Lixo no Finder não o remove, então instalar o app novamente não vai ajudar. Enquanto estiver desativado, o macOS não o executa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: macOS a instalat această extensie pentru o aplicație inclusă în altă aplicație, iar mutarea acelei aplicații în Coș din Finder nu o elimină, așa că reinstalarea aplicației nu ar ajuta. Cât timp este dezactivată, macOS nu o rulează."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: macOS установила это расширение для приложения, вложенного в другое приложение, и перемещение этого приложения в Корзину в Finder его не удаляет, поэтому повторная установка приложения не поможет. Пока расширение выключено, macOS его не запускает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: macOS installerade det här tillägget för en app som ingår i en annan app, och tillägget tas inte bort om du flyttar den appen till papperskorgen i Finder, så det hjälper inte att installera appen igen. Så länge tillägget är avstängt kör macOS det inte."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: macOS bunu başka bir uygulamanın içindeki bir uygulama için yükledi ve o uygulamayı Finder’da Çöp Sepeti’ne taşımak bunu kaldırmaz, bu yüzden uygulamayı yeniden yüklemek işe yaramaz. Kapalı olduğu sürece macOS onu çalıştırmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: macOS інсталювала це розширення для програми, вбудованої в іншу програму, і переміщення цієї програми в Смітник у Finder його не вилучає, тож повторне інсталювання програми не допоможе. Поки розширення вимкнено, macOS його не виконує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：macOS为包含在另一个App中的某个App安装了此项，而在“访达”中将该App移到废纸篓并不会将其移除，因此重新安装该App也无济于事。在它处于关闭状态时，macOS不会运行它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：macOS為內含於另一個App中的App安裝了此延伸功能，而在Finder中將該App丟到「垃圾桶」並不會移除它，因此重新安裝該App也無濟於事。在它關閉期間，macOS不會執行它。"
+          }
+        }
+      }
+    },
     "Left alone: macOS installed this system extension and removes it only when the app that uses it goes to the Trash in Finder. If that app is gone, install it again, open it and use the feature that needs the extension, allow it when macOS asks, then move the app to the Trash in Finder and restart your Mac." : {
       "localizations" : {
         "cs" : {
