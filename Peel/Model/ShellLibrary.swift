@@ -6,7 +6,10 @@ import PeelCore
 final class ShellLibrary {
     struct State: Equatable {
         var shell: ShellSessions?
+        /// The `.zshrc` zsh reads, once known: zsh answered, or its startup files' text says it plainly.
         var startupFile: URL?
+        /// True while zsh's startup files give ZDOTDIR a value their text can't settle and zsh hasn't been asked.
+        var zshrcNotKnown = false
         var choices: ShellFile.Choices?
         /// Why Peel's file can't be read, while `choices` is nil, when Peel knows.
         var whyUnreadable: FileProblem?
@@ -17,6 +20,10 @@ final class ShellLibrary {
         /// Peel's prompt when zsh was asked, which its answer is about.
         var promptAskedAbout: String?
         var known: Set<String>?
+
+        var isZsh: Bool {
+            if case .zsh = shell { true } else { false }
+        }
     }
 
     private struct ZshAnswer {
@@ -102,9 +109,12 @@ final class ShellLibrary {
         let isSourced = startupFile.map { ShellFile.isSourced(file, from: $0, home: home) } ?? false
         // Read after zsh answered, which takes as long as the person's startup files: a switch can change it meanwhile.
         let choices = ShellFile.read(file)
+        var isZsh = false
+        if case .zsh = shell { isZsh = true }
         state = State(
             shell: shell,
             startupFile: startupFile,
+            zshrcNotKnown: isZsh && startupFile == nil,
             choices: choices,
             whyUnreadable: choices == nil ? ShellFile.whyUnreadable(file) : nil,
             isSourced: isSourced,
@@ -119,12 +129,12 @@ final class ShellLibrary {
     }
 
     func isOffered(_ setting: ShellSetting) -> Bool {
-        guard let state, state.startupFile != nil, state.choices != nil else { return false }
+        guard let state, state.isZsh, state.choices != nil else { return false }
         return state.known.map(setting.isKnown(by:)) == true
     }
 
     func isOffered(_ prompt: Prompt) -> Bool {
-        guard let state, state.startupFile != nil, state.choices != nil else { return false }
+        guard let state, state.isZsh, state.choices != nil else { return false }
         return state.known.map(prompt.isKnown(by:)) == true
     }
 

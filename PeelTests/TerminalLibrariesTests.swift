@@ -111,12 +111,12 @@ struct TerminalLibrariesTests {
         let ran = home.appending(path: "ran")
         try "/usr/bin/touch '\(ran.path(percentEncoded: false))'\nexport ZDOTDIR=\"$(print -r -- $HOME)/zsh\"\n"
             .write(to: home.appending(path: ".zshenv"), atomically: true, encoding: .utf8)
-        let byTheText = home.appending(path: ".zshrc").path(percentEncoded: false)
         let byZsh = home.appending(path: "zsh/.zshrc").path(percentEncoded: false)
 
         await library.refresh()
         #expect(!FileManager.default.fileExists(atPath: ran.path(percentEncoded: false)))
-        #expect(library.state?.startupFile?.path(percentEncoded: false) == byTheText)
+        #expect(library.state?.startupFile == nil)
+        #expect(library.state?.zshrcNotKnown == true)
 
         await library.askZsh()
         #expect(FileManager.default.fileExists(atPath: ran.path(percentEncoded: false)))
@@ -124,9 +124,11 @@ struct TerminalLibrariesTests {
 
         await library.refresh()
         #expect(library.state?.startupFile?.path(percentEncoded: false) == byZsh)
+        #expect(library.state?.zshrcNotKnown == false)
         library.forgetZshAnswer()
         await library.refresh()
-        #expect(library.state?.startupFile?.path(percentEncoded: false) == byTheText)
+        #expect(library.state?.startupFile == nil)
+        #expect(library.state?.zshrcNotKnown == true)
     }
 
     @Test func anAnswerZshGivesAfterThePageWentAwayIsNotKept() async throws {
@@ -147,8 +149,8 @@ struct TerminalLibrariesTests {
         await asking.value
         await library.refresh()
 
-        let byTheText = home.appending(path: ".zshrc").path(percentEncoded: false)
-        #expect(library.state?.startupFile?.path(percentEncoded: false) == byTheText)
+        #expect(library.state?.startupFile == nil)
+        #expect(library.state?.zshrcNotKnown == true)
     }
 
     @Test func zshShowingPeelsPromptStillShowsItOnceItsPartsChange() async throws {

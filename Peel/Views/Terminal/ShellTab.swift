@@ -19,14 +19,14 @@ struct ShellTab: View {
                         )
                             .font(.caption)
                             .foregroundStyle(.secondary)
-                    } else if state.startupFile != nil, state.choices == nil {
+                    } else if state.isZsh, state.choices == nil {
                         StatusLabel(
                             title: Text(verbatim: state.whyUnreadable.peelsSettingsUnreadable(at: shell.file)),
                             tint: .accentColor
                         )
                             .font(.caption)
                             .foregroundStyle(.secondary)
-                    } else if state.startupFile != nil, state.known == nil || shell.zshDidNotAnswer {
+                    } else if state.isZsh, state.known == nil || shell.zshDidNotAnswer {
                         StatusLabel(title: Text(TerminalPage.didNotAnswer("zsh")), tint: .accentColor)
                             .font(.caption)
                             .foregroundStyle(.secondary)
@@ -117,6 +117,21 @@ private struct ShellLineRow: View {
                         lines: [ShellFile.command(adding: shell.line, to: startupFile, home: .homeDirectory)]
                     )
                 }
+            } else if state.zshrcNotKnown {
+                HStack(spacing: 5) {
+                    Label {
+                        Text("Peel can’t tell which .zshrc zsh reads")
+                    } icon: {
+                        Image(systemName: "questionmark.circle.fill")
+                            .foregroundStyle(Color.accentColor)
+                    }
+                    Spacer(minLength: 8)
+                    AskZshButton()
+                }
+                .font(.body.weight(.semibold))
+                Text("Your startup files name its folder in a way Peel can’t read without running them. Ask zsh to find out.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             } else if state.shell == .bash {
                 Text("Terminal opens bash, so these zsh settings don’t apply.")
                     .foregroundStyle(.secondary)

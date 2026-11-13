@@ -45,10 +45,12 @@ public enum ShellSessions: Sendable, Equatable {
         zshrcByTheText(home: home, zdotdir: Self.sessionZDOTDIR)
     }
 
+    /// The `.zshrc` the startup files' text names, or nil when their text gives ZDOTDIR a value it can't settle.
     func zshrcByTheText(home: URL, zdotdir: String?) -> URL? {
         guard case .zsh(let zshenv) = self else { return nil }
-        return Self.foldersNamedByStartupFiles(from: zshenv, home: home, zdotdir: zdotdir).last?
-            .appending(path: ".zshrc", directoryHint: .notDirectory)
+        let named = Self.foldersNamedByStartupFiles(from: zshenv, home: home, zdotdir: zdotdir)
+        guard named.isSettled else { return nil }
+        return named.folders.last?.appending(path: ".zshrc", directoryHint: .notDirectory)
     }
 
     /// `zdotdir` is set for zsh only when the session sets it, since `.zshenv` may keep a ZDOTDIR it finds
@@ -75,52 +77,126 @@ public enum ShellSessions: Sendable, Equatable {
             .appending(path: ".zshrc", directoryHint: .notDirectory)
     }
 
+    /// What zsh's startup files say of ZDOTDIR, read from their text and never by running them.
+    struct NamedFolders: Equatable {
+        /// The folder `.zshenv` is in, then each folder a startup file plainly gives ZDOTDIR.
+        var folders: [URL]
+        /// False when a startup file also gives ZDOTDIR a value its text can't settle: one a shell would have to work
+        /// out, or one given under a condition.
+        var isSettled = true
+    }
+
     /// The folders zsh may read its startup files from, going by their text alone: the one `zshenv` is in, then each
     /// folder a `.zshenv` or a `.zprofile` there plainly gives ZDOTDIR.
-    static func foldersNamedByStartupFiles(from zshenv: URL, home: URL, zdotdir: String?) -> [URL] {
-        var folders = [zshenv.deletingLastPathComponent()]
+    static func foldersNamedByStartupFiles(from zshenv: URL, home: URL, zdotdir: String?) -> NamedFolders {
+        var named = NamedFolders(folders: [zshenv.deletingLastPathComponent()])
         let environment = zdotdir.map { ["ZDOTDIR": $0] } ?? [:]
         for name in [".zshenv", ".zprofile"] {
-            for folder in folders {
+            for folder in named.folders {
                 let file = folder.appending(path: name, directoryHint: .notDirectory)
                 guard let data = BoundedRead.data(at: file, maximum: ShellReferences.maximumBytes) else { continue }
-                folders += foldersGivenToZDOTDIR(
+                let given = foldersGivenToZDOTDIR(
                     in: String(decoding: data, as: UTF8.self), home: home, environment: environment
                 )
+                named.folders += given.folders
+                named.isSettled = named.isSettled && given.isSettled
             }
         }
-        return folders
+        return named
     }
 
     /// The folders a zsh startup file gives `ZDOTDIR`, read from its text and never by running it. Only an assignment
-    /// written plainly counts: a path, with `~`, `$HOME`, or `${NAME:-default}`. One a shell would have to work out
-    /// names no folder.
-    static func foldersGivenToZDOTDIR(in text: String, home: URL, environment: [String: String]) -> [URL] {
-        text.split(whereSeparator: \.isNewline).compactMap { line in
-            var words = line.drop(while: \.isWhitespace)
-            for prefix in ["export ", "typeset -x ", "typeset -gx "] where words.hasPrefix(prefix) {
-                words = words.dropFirst(prefix.count).drop(while: \.isWhitespace)
+    /// on a line of its own, outside any block the text opens, with a value written plainly, names a folder: a path,
+    /// with `~`, `$HOME`, or `${NAME:-default}`, its parts quoted or not. Any other assignment leaves it unsettled.
+    static func foldersGivenToZDOTDIR(in text: String, home: URL, environment: [String: String]) -> NamedFolders {
+        var named = NamedFolders(folders: [])
+        var depth = 0
+        // `ZDOTDIR` given a value: `ZDOTDIR=`, `ZDOTDIR+=`, `${ZDOTDIR:=…}`, `${ZDOTDIR=…}`, or an `unset`.
+        let assignment = /(^|[^A-Za-z0-9_])ZDOTDIR\+?=|\$\{ZDOTDIR:?=|unset .*(^|[^A-Za-z0-9_])ZDOTDIR([^A-Za-z0-9_]|$)/
+        for line in text.split(whereSeparator: \.isNewline) {
+            let code = withoutComment(line.drop(while: \.isWhitespace))
+            if code.contains(assignment) {
+                var words = code[...]
+                for prefix in ["export ", "typeset -x ", "typeset -gx "] where words.hasPrefix(prefix) {
+                    words = words.dropFirst(prefix.count).drop(while: \.isWhitespace)
+                }
+                if depth == 0, words.hasPrefix("ZDOTDIR="),
+                   let folder = plainFolder(words.dropFirst("ZDOTDIR=".count), home: home, environment: environment) {
+                    named.folders.append(folder)
+                } else {
+                    named.isSettled = false
+                }
             }
-            guard words.hasPrefix("ZDOTDIR=") else { return nil }
-            return plainFolder(words.dropFirst("ZDOTDIR=".count), home: home, environment: environment)
+            depth = max(0, depth + blocksOpened(by: code))
+        }
+        return named
+    }
+
+    /// A line without what follows an unquoted `#` that begins a word, which zsh reads as a comment.
+    private static func withoutComment(_ line: Substring) -> Substring {
+        var quote: Character?
+        var previous: Character = " "
+        for index in line.indices {
+            let character = line[index]
+            if let open = quote {
+                if character == open { quote = nil }
+            } else if character == "\"" || character == "'" {
+                quote = character
+            } else if character == "#", previous.isWhitespace || previous == ";" {
+                return line[..<index]
+            }
+            previous = character
+        }
+        return line
+    }
+
+    /// How many blocks a line opens, less those it closes, counted by the words that open and close them in zsh.
+    private static func blocksOpened(by code: Substring) -> Int {
+        let words = code.split { $0.isWhitespace || $0 == ";" }
+        let opening: Set<Substring> = ["if", "case", "for", "while", "until", "select", "repeat", "{"]
+        let closing: Set<Substring> = ["fi", "esac", "done", "}"]
+        return words.reduce(0) { count, word in
+            if opening.contains(word) || word.hasSuffix("{") && !word.hasPrefix("$") { return count + 1 }
+            if closing.contains(word) { return count - 1 }
+            return count
         }
     }
 
+    /// The folder a value names, read as zsh reads one word: parts in double quotes, in single quotes, and bare,
+    /// written one after the other. Nil when any part holds what a plain path can't.
     private static func plainFolder(_ written: Substring, home: URL, environment: [String: String]) -> URL? {
-        var value: String
-        var isQuoted = false
-        if let quote = written.first, quote == "\"" || quote == "'" {
-            let rest = written.dropFirst()
-            guard let end = rest.firstIndex(of: quote) else { return nil }
-            value = String(rest[..<end])
-            isQuoted = true
-            // Nothing inside single quotes stands for anything else.
-            if quote == "'" { return absoluteFolder(value) }
-        } else {
-            value = String(written.prefix { !$0.isWhitespace && $0 != ";" })
-        }
         let homePath = home.pathAsHOME
-        value = value.replacing("${HOME}", with: homePath).replacing(/\$HOME(?![A-Za-z0-9_])/, with: homePath)
+        var value = ""
+        var rest = written
+        var isFirstPart = true
+        while let first = rest.first, !first.isWhitespace, first != ";" {
+            if first == "\"" || first == "'" {
+                let inside = rest.dropFirst()
+                guard let end = inside.firstIndex(of: first) else { return nil }
+                let part = String(inside[..<end])
+                // Nothing inside single quotes stands for anything else.
+                guard let expanded = first == "'" ? part : expanding(part, home: homePath, environment: environment)
+                else { return nil }
+                value += expanded
+                rest = inside[inside.index(after: end)...]
+            } else {
+                var part = String(rest.prefix { !$0.isWhitespace && $0 != ";" && $0 != "\"" && $0 != "'" })
+                rest = rest.dropFirst(part.count)
+                if isFirstPart, part == "~" || part.hasPrefix("~/") {
+                    part = homePath + part.dropFirst()
+                }
+                guard let expanded = expanding(part, home: homePath, environment: environment) else { return nil }
+                value += expanded
+            }
+            isFirstPart = false
+        }
+        guard rest.drop(while: \.isWhitespace).allSatisfy({ $0 == ";" || $0.isWhitespace }) else { return nil }
+        return absoluteFolder(value)
+    }
+
+    /// `part` with `$HOME`, `${HOME}`, and `${NAME:-default}` worked out, or nil when what it names isn't plain.
+    private static func expanding(_ part: String, home homePath: String, environment: [String: String]) -> String? {
+        var value = part.replacing("${HOME}", with: homePath).replacing(/\$HOME(?![A-Za-z0-9_])/, with: homePath)
         while let named = value.firstMatch(of: /\$\{([A-Za-z_][A-Za-z0-9_]*):[-=]([^{}]*)\}/) {
             let set = environment[String(named.output.1)].flatMap { $0.isEmpty ? nil : $0 }
             // zsh doesn't expand a value again: one that holds what a plain path can't names no folder, and taken in
@@ -128,10 +204,7 @@ public enum ShellSessions: Sendable, Equatable {
             if let set, set.contains(where: notPlain.contains) { return nil }
             value.replaceSubrange(named.range, with: set ?? String(named.output.2))
         }
-        if !isQuoted, value == "~" || value.hasPrefix("~/") {
-            value = homePath + value.dropFirst()
-        }
-        return absoluteFolder(value)
+        return value
     }
 
     private static let notPlain: Set<Character> = ["$", "`", "\\", "(", ")", "{", "}", "*", "?", "["]

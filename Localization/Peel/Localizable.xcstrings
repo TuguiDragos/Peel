@@ -144579,6 +144579,218 @@
         }
       }
     },
+    "Peel can’t tell which .zshrc zsh reads" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nedokáže zjistit, který soubor .zshrc čte zsh"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann nicht erkennen, welche .zshrc zsh liest"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede saber qué .zshrc lee zsh"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas savoir quel fichier .zshrc lit zsh"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non riesce a capire quale .zshrc legge zsh"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelでは、zshがどの.zshrcを読み込むかを判断できません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 zsh가 어떤 .zshrc를 읽는지 알 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan niet zien welke .zshrc zsh leest"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może ustalić, który plik .zshrc wczytuje zsh"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue saber qual .zshrc o zsh lê"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate ști ce fișier .zshrc citește zsh"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не может определить, какой .zshrc читает zsh"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte avgöra vilken .zshrc som zsh läser"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, zsh kabuğunun hangi .zshrc dosyasını okuduğunu anlayamıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може визначити, який файл .zshrc читає zsh"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法判断zsh读取的是哪个.zshrc"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法判斷zsh讀取的是哪個.zshrc"
+          }
+        }
+      }
+    },
+    "Peel can’t tell which .zshrc zsh reads, so these lines say ~/.zshrc. Ask zsh on the Shell tab to find out." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nedokáže zjistit, který soubor .zshrc čte zsh, a proto tyto řádky uvádějí ~/.zshrc. Zeptejte se zsh na kartě Shell a zjistíte to."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann nicht erkennen, welche .zshrc zsh liest, daher steht in diesen Zeilen ~/.zshrc. Frage zsh im Tab „Shell“, um es herauszufinden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede saber qué .zshrc lee zsh, así que estas líneas usan ~/.zshrc. Para averiguarlo, pregunta a zsh en la pestaña Shell."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas savoir quel fichier .zshrc lit zsh : ces lignes mentionnent donc ~/.zshrc. Interrogez zsh dans l’onglet Shell pour le savoir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non riesce a capire quale .zshrc legge zsh, quindi queste righe indicano ~/.zshrc. Per scoprirlo, chiedi a zsh nel pannello Shell."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelでは、zshがどの.zshrcを読み込むかを判断できないため、これらの行では~/.zshrcと記載しています。確認するには、“シェル”タブでzshに問い合わせてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 zsh가 어떤 .zshrc를 읽는지 알 수 없으므로 이 줄들에는 ~/.zshrc로 적혀 있습니다. 알아보려면 셸 탭에서 zsh에 물어보십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan niet zien welke .zshrc zsh leest, dus noemen deze regels ~/.zshrc. Vraag het op het tabblad 'Shell' aan zsh om het te weten te komen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może ustalić, który plik .zshrc wczytuje zsh, więc w tych wierszach jest ~/.zshrc. Aby się dowiedzieć, zapytaj zsh na karcie Powłoka."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue saber qual .zshrc o zsh lê, então estas linhas usam ~/.zshrc. Pergunte ao zsh na aba Shell para descobrir."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate ști ce fișier .zshrc citește zsh, așa că aceste linii indică ~/.zshrc. Întrebați zsh în fila Shell pentru a afla."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не может определить, какой .zshrc читает zsh, поэтому в этих строках указан ~/.zshrc. Чтобы узнать это, спросите zsh на вкладке «Оболочка»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte avgöra vilken .zshrc som zsh läser, så de här raderna anger ~/.zshrc. Fråga zsh på fliken Kommandotolk för att ta reda på det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, zsh kabuğunun hangi .zshrc dosyasını okuduğunu anlayamıyor, bu yüzden bu satırlarda ~/.zshrc yazıyor. Öğrenmek için Kabuk sekmesinde zsh kabuğuna sorun."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може визначити, який файл .zshrc читає zsh, тож у цих рядках указано ~/.zshrc. Щоб дізнатися, запитайте zsh на вкладці «Оболонка»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法判断zsh读取的是哪个.zshrc，因此这些行中写的是~/.zshrc。请在“Shell”标签页中询问zsh以查明。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法判斷zsh讀取的是哪個.zshrc，因此這幾行中寫的是~/.zshrc。請在「Shell」標籤頁中詢問zsh來查明。"
+          }
+        }
+      }
+    },
     "Peel can’t write History" : {
       "localizations" : {
         "cs" : {
@@ -254264,6 +254476,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的Shell啟動檔案仍指向已移動的項目，位於%@。如果新的「終端機」視窗顯示錯誤，請移除或更改這些行：Peel會讀取這些檔案，但絕不會更改它們。"
+          }
+        }
+      }
+    },
+    "Your startup files name its folder in a way Peel can’t read without running them. Ask zsh to find out." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vaše spouštěcí soubory uvádějí složku souboru .zshrc způsobem, který Peel nedokáže přečíst, aniž by je spustil. Zeptejte se zsh a zjistíte to."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deine Startdateien geben den Ordner der .zshrc auf eine Weise an, die Peel nicht lesen kann, ohne sie auszuführen. Frage zsh, um es herauszufinden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tus archivos de inicio indican la carpeta de .zshrc de una forma que Peel no puede leer sin ejecutarlos. Para averiguarlo, pregunta a zsh."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos fichiers de démarrage désignent son dossier d’une façon que Peel ne peut pas lire sans les exécuter. Interrogez zsh pour le savoir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I tuoi file di avvio indicano la sua cartella in un modo che Peel non può leggere senza eseguirli. Per scoprirlo, chiedi a zsh."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起動ファイルでは、.zshrcのあるフォルダが、ファイルを実行しないとPeelでは読み取れない形で指定されています。確認するには、zshに問い合わせてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "셸 시작 파일에서 .zshrc가 있는 폴더를 지정하는 방식은 Peel이 이 파일들을 실행하지 않고는 읽을 수 없습니다. 알아보려면 zsh에 물어보십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je opstartbestanden geven de map ervan aan op een manier die Peel niet kan lezen zonder ze uit te voeren. Vraag het aan zsh om het te weten te komen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twoje pliki startowe wskazują folder tego pliku w sposób, którego Peel nie odczyta, nie uruchamiając ich. Aby się dowiedzieć, zapytaj zsh."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os seus arquivos de inicialização indicam a pasta dele de um modo que o Peel não consegue ler sem executá-los. Pergunte ao zsh para descobrir."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierele dvs. de pornire indică dosarul fișierului .zshrc într‑un mod pe care Peel nu îl poate citi fără să le ruleze. Întrebați zsh pentru a afla."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваши файлы запуска указывают папку файла .zshrc так, что Peel не может ее определить, не выполнив их. Чтобы узнать это, спросите zsh."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dina startfiler anger dess mapp på ett sätt som Peel inte kan läsa utan att köra dem. Fråga zsh för att ta reda på det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlangıç dosyalarınız, .zshrc dosyasının klasörünü Peel’in onları çalıştırmadan okuyamayacağı bir biçimde belirtiyor. Öğrenmek için zsh kabuğuna sorun."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваші файли, які zsh читає під час запуску, задають папку файлу .zshrc у спосіб, який Peel не може прочитати, не запустивши їх. Щоб дізнатися, запитайте zsh."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的启动文件指定.zshrc所在文件夹的方式，Peel不运行这些文件就无法读取。请询问zsh以查明。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的啟動檔案指定.zshrc所在檔案夾的方式，Peel若不執行這些檔案就無法讀取。請詢問zsh來查明。"
           }
         }
       }

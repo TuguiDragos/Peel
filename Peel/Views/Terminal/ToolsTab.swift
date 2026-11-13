@@ -5,7 +5,7 @@ struct ToolsTab: View {
     @Environment(TerminalToolLibrary.self) private var tools
     @Environment(ShellLibrary.self) private var shell
 
-    /// The startup file zsh reads, as the Shell tab asked zsh, or the usual one until that is known.
+    /// The startup file zsh reads, as the Shell tab knows it, or the usual one until that is known.
     private var zshrc: String {
         shell.state?.startupFile?.abbreviatedPath ?? "~/.zshrc"
     }
@@ -67,7 +67,9 @@ struct ToolsTab: View {
                         Text(group.title)
                     } footer: {
                         if group == .shell {
-                            Text(Self.linesGoIn(zshrc))
+                            Text(shell.state?.zshrcNotKnown == true
+                                ? "Peel can’t tell which .zshrc zsh reads, so these lines say ~/.zshrc. Ask zsh on the Shell tab to find out."
+                                : Self.linesGoIn(zshrc))
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }

@@ -77,7 +77,7 @@ public enum ShellReferences {
         if let zsh = ShellSessions.of(terminalSetting: nil, loginShell: "/bin/zsh", zdotdir: zdotdir, home: home),
            case .zsh(let zshenv) = zsh {
             files.append(zshenv)
-            let folders = ShellSessions.foldersNamedByStartupFiles(from: zshenv, home: home, zdotdir: zdotdir)
+            let folders = ShellSessions.foldersNamedByStartupFiles(from: zshenv, home: home, zdotdir: zdotdir).folders
             files += folders.flatMap { folder in
                 [".zprofile", ".zshrc", ".zlogin"].map { folder.appending(path: $0, directoryHint: .notDirectory) }
             }
