@@ -823,6 +823,29 @@ struct BackgroundItemActionsTests {
         )
     }
 
+    @Test func aJobPeelNeverNamesToLaunchctlIsNotSaidToHaveChangedOnceItsFileMoves() async throws {
+        let plist = URL(filePath: "/Users/x/Library/LaunchAgents/org.example.slash.plist")
+        let job = BackgroundItem(
+            label: "org.example/slash", kind: .agent, source: .userLibrary, plistURL: plist, program: "/bin/sleep",
+            runsAtLoad: true, keepsAlive: false, ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil,
+            isOrphan: true, state: .running(pid: 4242), isDisabled: false
+        )
+        let service = TrashService(
+            environment: SearchEnvironment(homeDirectory: URL(filePath: "/Users/x"), rootDirectory: URL(filePath: "/"))
+        ) { url in url }
+
+        let moved = try await BackgroundItemActions.moveToTrash(job, isHelperEnabled: false, trash: service) { item in
+            do throws(BackgroundItemActions.Failure) {
+                try await BackgroundItemActions.stop(item, waitingUpTo: 0) { _ in (0, "") }
+                return nil
+            } catch { return error }
+        }
+
+        #expect(job.unusableLabel == .holdsASlash && !job.canBeControlled && job.canMoveToTrash)
+        #expect(moved.result.trashed.count == 1)
+        #expect(moved.stillRunning == .labelNotPassed, "nothing about the job changed since the list was read")
+    }
+
     /// A job stopped before a move that is then refused would be left stopped with its file in place.
     @Test func movesTheFileFirstAndStopsTheJobOnlyOnceItHasGone() async throws {
         let plist = URL(filePath: "/Users/x/Library/LaunchAgents/com.example.agent.plist")

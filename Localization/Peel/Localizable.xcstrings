@@ -151603,6 +151603,112 @@
         }
       }
     },
+    "Peel doesn’t pass this job’s name to launchctl, so it didn’t stop it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nepředává název této úlohy příkazu launchctl, a proto ji nezastavil."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel übergibt den Namen dieses Jobs nicht an launchctl, daher hat Peel ihn nicht gestoppt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no pasa el nombre de esta tarea a launchctl, así que no la ha detenido."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne transmet pas le nom de cette tâche à launchctl : il ne l’a donc pas arrêtée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non passa il nome di questo elemento a launchctl, quindi non l’ha interrotto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこのジョブの名前をlaunchctlに渡さないため、ジョブを停止しませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이 작업의 이름을 launchctl에 전달하지 않으므로 이 작업을 중단하지 않았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel geeft de naam van deze taak niet aan launchctl door, dus heeft Peel de taak niet gestopt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie przekazuje do launchctl nazwy tego zadania, więc go nie zatrzymał."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não passa o nome desta tarefa para o launchctl, por isso não a interrompeu."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu transmite numele acestei sarcini către launchctl, așa că nu a oprit‑o."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не передает launchctl имя этого задания, поэтому не остановил его."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel skickar inte det här jobbets namn till launchctl, så Peel stoppade det inte."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, bu işin adını launchctl komutuna aktarmaz, bu yüzden işi durdurmadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не передає launchctl назву цього завдання, тож не зупинила його."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会将此任务的名称传递给launchctl，因此没有停止它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會將此工作的名稱傳遞給launchctl，因此沒有停止它。"
+          }
+        }
+      }
+    },
     "Peel doesn’t remove them: a deleted snapshot can’t be put back, unlike what Peel moves to the Trash. `%@` deletes Time Machine’s snapshots, if you are sure." : {
       "localizations" : {
         "cs" : {

@@ -188,6 +188,7 @@ struct BackgroundItemList: View {
         case .requiresPrivileges: Text("It needs administrator access, which Peel’s helper provides. Home says what the helper needs.")
         case .notControlled:
             Text("Peel doesn’t act on this job anymore: something about it, or your exclusions, changed since the list was read. Rescan to see why.")
+        case .labelNotPassed: Text("Peel doesn’t pass this job’s name to launchctl, so it didn’t stop it.")
         case .noFileToMove: Text("This one comes from the app itself, so there is no file to move. Remove the app to get rid of it.")
         case .launchctl(let output) where FixedSentence(output) == .toolTimedOut:
             // Peel and its helper give `launchctl` 30 seconds, and a job that ignores the signal outlasts them.

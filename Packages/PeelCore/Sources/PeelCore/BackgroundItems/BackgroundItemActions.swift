@@ -18,12 +18,15 @@ public enum BackgroundItemActions {
         /// Peel doesn't act on the job as it is now, such as one excluded since the list was read: the page offers
         /// nothing for a job like that, so this is what changed after.
         case notControlled
+        /// Peel never passes this job's label to `launchctl` (`BackgroundItem.unusableLabel`).
+        case labelNotPassed
     }
 
     /// Why Peel will not start, stop or switch `item`, or nil. These go by label, so a label macOS itself uses
     /// would reach macOS's own job.
     static func refusal(for item: BackgroundItem) -> Failure? {
-        item.canBeControlled ? nil : .notControlled
+        guard !item.canBeControlled else { return nil }
+        return item.unusableLabel == nil ? .notControlled : .labelNotPassed
     }
 
     /// How long Stop waits for the job's process to end, as long as `launchctl` itself gets.
