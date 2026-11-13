@@ -278,6 +278,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   last one to choose the folder of apps on it. A folder linked into an Applications folder is read where it leads.
 - An account that isn't an administrator's is no longer offered Uninstall Helper, which only an administrator can do:
   it asked, showed Uninstalling…, and then did nothing. A change of the helper this account can't make now says why.
+- Put Back of saved settings no longer waits for an app whose only part still running is an extension, which no
+  Quit button can end.
 
 #### Applications
 
@@ -427,6 +429,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   select or deselect yourself while its app stays is left as you left it.
 - A version the App Store lists that needs a newer macOS than this Mac's is no longer announced as an update, with a
   badge, a count in the menu bar, and a notification, since the App Store doesn't install it here.
+- The Reset sheet no longer says an app is open when only an extension of it runs, such as a Finder or a Safari
+  extension: Reset stayed off, and Quit asked the extension to quit, which it never does.
 
 #### Orphaned Files
 
@@ -498,6 +502,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The note on what needs an administrator leaves out what Peel won't move, and a file a package put in `/usr/local`
   says, on every page, that Peel moves only an app's links and Homebrew's records from there, no longer that it is part
   of macOS.
+- Before a receipt's apps move, Peel asks to quit only what an app's own page asks, no longer an extension of the app
+  or a job launchd only starts again.
 
 #### Homebrew
 
@@ -530,6 +536,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - After you choose another `brew` in Settings, the page forgets every package of the other Homebrew, even when the new
   one has no package list yet, so Uninstall can no longer run the new `brew` on a package of the same name there. The
   commands the page gives name the new `brew` from the start.
+- Stopping an upgrade, or a command that ran past its time, now also stops the download, unpacking, or build Homebrew
+  had started, as Control-C does in Terminal: they went on after the page said Homebrew had stopped.
 
 #### Space
 
