@@ -669,16 +669,35 @@ public enum Homebrew {
         return !usualPlaces.contains { $0.path(percentEncoded: false) == path }
     }
 
-    /// The word that runs this Homebrew in Terminal, for every command Peel gives the person: `brew` for one where
-    /// Homebrew installs itself, which a shell finds, and the whole path of one chosen elsewhere, where `brew` may be
-    /// another Homebrew or none.
+    /// The word that runs this Homebrew in Terminal, for every command Peel gives the person: `brew` for the only one
+    /// where Homebrew installs itself, which a shell finds, and otherwise its whole path, since `brew` may be another
+    /// Homebrew or none. One Peel starts through Rosetta is started so in Terminal too (`launch`).
     public static var wordForTerminal: String {
         wordForTerminal(running: executableURL)
     }
 
     public static func wordForTerminal(running executable: URL?) -> String {
-        guard let executable, leavesChangesToTerminal(running: executable) else { return "brew" }
-        return executable.standardizedFileURL.path(percentEncoded: false).wordForTheShell
+        wordForTerminal(
+            running: executable, isAppleSilicon: HostArchitecture.isAppleSilicon, hasRosetta: Rosetta.isInstalled
+        )
+    }
+
+    static func wordForTerminal(
+        running executable: URL?,
+        usualPlaces: [URL] = Homebrew.usualPlaces,
+        isAppleSilicon: Bool,
+        hasRosetta: Bool
+    ) -> String {
+        guard let executable, executable != standIn else { return "brew" }
+        let path = executable.standardizedFileURL.path(percentEncoded: false)
+        let started = launch(of: URL(filePath: path), [], isAppleSilicon: isAppleSilicon, hasRosetta: hasRosetta)
+        if started.program == "/usr/bin/arch" {
+            return (["arch"] + started.arguments).map(\.wordForTheShell).joined(separator: " ")
+        }
+        let places = usualPlaces.map { $0.path(percentEncoded: false) }
+        let isTheOnlyOne = places.contains(path)
+            && !places.contains { $0 != path && FileManager.default.isExecutableFile(atPath: $0) }
+        return isTheOnlyOne ? "brew" : path.wordForTheShell
     }
 
     /// A `brew` in a usual place runs by the rule a chosen one does: this account's or root's, and nobody else can

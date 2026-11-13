@@ -668,12 +668,33 @@ struct HomebrewTests {
     }
 
     @Test func aCommandForTerminalNamesABrewChosenElsewhereByItsPath() {
-        #expect(Homebrew.wordForTerminal(running: nil) == "brew")
-        #expect(Homebrew.wordForTerminal(running: URL(filePath: "/opt/homebrew/bin/brew")) == "brew")
-        #expect(Homebrew.wordForTerminal(running: URL(filePath: "/usr/local/bin/brew")) == "brew")
-        #expect(Homebrew.wordForTerminal(running: URL(filePath: "/opt/brew/bin/brew")) == "/opt/brew/bin/brew")
-        #expect(Homebrew.wordForTerminal(running: URL(filePath: "/opt/homebrew/bin/../../brew/bin/brew")) == "/opt/brew/bin/brew")
-        #expect(Homebrew.wordForTerminal(running: URL(filePath: "/Users/me/my brew/bin/brew")) == "'/Users/me/my brew/bin/brew'")
+        func word(_ path: String?) -> String {
+            Homebrew.wordForTerminal(running: path.map { URL(filePath: $0) }, isAppleSilicon: false, hasRosetta: false)
+        }
+        #expect(word(nil) == "brew")
+        #expect(word("/opt/brew/bin/brew") == "/opt/brew/bin/brew")
+        #expect(word("/opt/homebrew/bin/../../brew/bin/brew") == "/opt/brew/bin/brew")
+        #expect(word("/Users/me/my brew/bin/brew") == "'/Users/me/my brew/bin/brew'")
+    }
+
+    @Test func aCommandForTerminalNamesTheBrewItMeansWhereTheShellCouldFindAnother() throws {
+        let directory = try TemporaryDirectory()
+        let arm = try directory.file("opt/homebrew/bin/brew"), intel = try directory.file("usr/local/bin/brew")
+        for brew in [arm, intel] {
+            chmod(brew.path(percentEncoded: false), 0o755)
+        }
+        let missing = directory.url.appending(path: "nowhere/bin/brew")
+        func word(_ brew: URL, among places: [URL]) -> String {
+            Homebrew.wordForTerminal(running: brew, usualPlaces: places, isAppleSilicon: false, hasRosetta: false)
+        }
+
+        #expect(word(arm, among: [arm, missing]) == "brew", "the only one in a usual place")
+        #expect(word(intel, among: [arm, intel]) == intel.path(percentEncoded: false), "the shell may find the other first")
+        #expect(word(arm, among: [arm, intel]) == arm.path(percentEncoded: false))
+        let intelOnAppleSilicon = Homebrew.wordForTerminal(
+            running: URL(filePath: "/usr/local/bin/brew"), isAppleSilicon: true, hasRosetta: true
+        )
+        #expect(intelOnAppleSilicon == "arch -x86_64 /usr/local/bin/brew", "as Peel starts it itself")
     }
 
     /// Read where the casks Homebrew knows are read, on a thread of Swift's pool, whose stack is small.
