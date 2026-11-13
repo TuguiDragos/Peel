@@ -101,11 +101,15 @@ struct RemovalJournal: Sendable {
     let url: URL
     /// The History log that takes in what the journal holds.
     let history: URL
+    /// The process its lines name: this one, or for a test, one that has ended, as a process killed halfway through a
+    /// move leaves its lines.
+    let writer: Writer
 
     /// The journal beside the History log at `history`.
-    init(beside history: URL) {
+    init(beside history: URL, writtenBy writer: Writer = .current) {
         url = history.deletingLastPathComponent().appending(path: "removals.journal")
         self.history = history
+        self.writer = writer
     }
 
     /// Why a line can't be written here, or nil when it can: there is no journal yet, or it opens as the file it should
@@ -155,8 +159,9 @@ struct RemovalJournal: Sendable {
     @discardableResult
     func note(
         _ items: [TrashedItem], batch: UUID, recordedAs recorded: RecordedRemoval? = .current,
-        beforeTheMove: Bool = false, by writer: Writer = .current
+        beforeTheMove: Bool = false, by writer: Writer? = nil
     ) -> Noted {
+        let writer = writer ?? self.writer
         let journal = url.path(percentEncoded: false)
         let entry = { (item: TrashedItem) in
             Entry(

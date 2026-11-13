@@ -82,4 +82,55 @@ struct CombinedMovesTests {
         #expect(result.failures.allSatisfy { $0.reason == full })
         withExtendedLifetime(disk) {}
     }
+
+    /// The writer a process killed halfway through a move leaves on its lines: one that has ended.
+    private func endedProcess() throws -> RemovalJournal.Writer {
+        let process = Process()
+        process.executableURL = URL(filePath: "/usr/bin/true")
+        try process.run()
+        process.waitUntilExit()
+        return RemovalJournal.Writer(pid: process.processIdentifier, started: 1)
+    }
+
+    @Test func aRemovalKilledHalfwayOnAnExFATDiskIsInHistoryAndGoesBackFromThatDisksTrash() async throws {
+        let directory = try TemporaryDirectory()
+        let place = directory.url.appending(path: "Disk", directoryHint: .isDirectory)
+        let disk = try ScratchVolume(fileSystem: "ExFAT", mountedAt: place)
+        let files = try (1...3).map { number -> URL in
+            let file = place.appending(path: "org.example.cut/\(number).txt")
+            try FileManager.default.createDirectory(
+                at: file.deletingLastPathComponent(), withIntermediateDirectories: true
+            )
+            try Data("\(number)".utf8).write(to: file)
+            return file
+        }
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let environment = environment(in: directory)
+        let removalGuard = RemovalGuard(environment: environment)
+        let killed = RemovalJournal(beside: history, writtenBy: try endedProcess())
+        let service = TrashService(environment: environment, journal: killed) { url in
+            try TrashService.moveToSystemTrash(url, refusal: removalGuard.refusal(of:))
+        }
+
+        // The process dies once two items have moved: the third never moves, and nothing reaches History.
+        let moved = await service.trash(Array(files.prefix(2)))
+        try #require(moved.trashed.count == 2)
+        let records = try #require(await RemovalLog(url: history).load().records)
+
+        #expect(Set(records.map(\.originalURL)) == Set(files.prefix(2)))
+        #expect(Set(records.map(\.batch)).count == 1)
+        #expect(records.allSatisfy { $0.sourceKey == "interrupted" })
+        let trash = PathPattern.comparablePath(of: place.appending(path: ".Trashes/\(getuid())"))
+        #expect(records.allSatisfy {
+            PathPattern.comparablePath(of: $0.trashedURL.deletingLastPathComponent()) == trash
+        })
+        #expect(killed.entries().isEmpty)
+        #expect(!files[2].isMissing)
+
+        let restored = await service.restore(records.map(\.trashedItem))
+
+        #expect(restored.failures.allSatisfy { $0 == nil })
+        #expect(try files.map { try String(contentsOf: $0, encoding: .utf8) } == ["1", "2", "3"])
+        withExtendedLifetime(disk) {}
+    }
 }
