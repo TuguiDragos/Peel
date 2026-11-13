@@ -98,6 +98,29 @@ struct RemovalTotalsTests {
         #expect(RemovalTotals.read(beside: history).apps == 2)
     }
 
+    @Test func aLinkNamedAsTheAppThatMovedWithItIsNoSecondApp() async throws {
+        let directory = try TemporaryDirectory()
+        let history = directory.url.appending(path: "Peel/removals.json")
+        let app = try directory.directory("Trash/Tide.app/Contents").deletingLastPathComponent()
+        let link = directory.url.appending(path: "Trash/Tide 2.app")
+        try FileManager.default.createSymbolicLink(
+            at: link, withDestinationURL: directory.url.appending(path: "Suite/Tide.app")
+        )
+        let batch = UUID()
+        func moved(_ original: String, to trashed: URL) -> RemovalRecord {
+            RemovalRecord(
+                batch: batch, item: TrashedItem(originalURL: URL(filePath: original), trashedURL: trashed, date: .now),
+                size: 10, source: "Tide", tool: "applications"
+            )
+        }
+
+        _ = await RemovalLog(url: history).add([
+            moved("/Applications/Suite/Tide.app", to: app), moved("/Applications/Tide.app", to: link),
+        ])
+
+        #expect(RemovalTotals.read(beside: history).apps == 1)
+    }
+
     @Test func aRemovalCutShortCountsOnceHistoryTakesItIn() async throws {
         let directory = try TemporaryDirectory()
         let history = directory.url.appending(path: "Peel/removals.json")

@@ -37,14 +37,16 @@ public struct RemovalTotals: Sendable, Equatable, Codable {
     }
 
     /// Counts what `records` moved. Apps are counted by the bundles that moved, so five apps removed together
-    /// count as five, and a helper app kept under a Library folder is a leftover rather than an app.
+    /// count as five, a link named like its app is no app, and a helper app kept under a Library folder is a leftover
+    /// rather than an app. What is in the Trash says whether it is a bundle; one no longer there is judged by its name.
     mutating func add(_ records: [RemovalRecord]) {
         for record in records {
             let size = SizeTotal([record.size])
             bytes = bytes.adding(size)
             items = items.addingCapped(1)
             let url = record.originalURL
-            if url.isNamedAsAnApp, !url.pathComponents.contains("Library") {
+            let isABundle = record.trashedURL.isMissing ? url.isNamedAsAnApp : AppInspector.isABundle(record.trashedURL)
+            if isABundle, !url.pathComponents.contains("Library") {
                 apps = apps.addingCapped(1)
             }
             let soFar = last?.batch == record.batch ? last?.bytes : nil
