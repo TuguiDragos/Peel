@@ -1232,6 +1232,7 @@ public enum ProjectArtifacts {
                 isEnvironment: artifact.found.definition?.isEnvironment ?? false,
                 heldBack: (heldBack == .holdsRepository && artifact.found.remakesItsClones ? nil : heldBack)
                     ?? (artifact.found.definition?.keepsItsSetup == true ? .keepsItsSetup : nil)
+                    ?? (artifact.found.definition == nil ? .markedOnlyByACacheTag : nil)
             )
         }
     }

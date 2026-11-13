@@ -752,8 +752,27 @@ struct ProjectArtifactsTests {
         #expect(Set(found.map { "\($0.project.lastPathComponent)/\($0.name)" }) == ["app/scratch-cache", "crate/target"])
         let tagged = try #require(found.first { $0.name == "scratch-cache" })
         #expect(tagged.tool == nil)
-        #expect(tagged.isRecommended)
-        #expect(found.first { $0.name == "target" }?.tool == "Cargo")
+        #expect(!tagged.isRecommended)
+        let target = try #require(found.first { $0.name == "target" })
+        #expect(target.tool == "Cargo")
+        #expect(target.keptBecause == .genericName)
+    }
+
+    @Test func aFolderOnlyItsCacheTagMarksIsNeverSuggestedNorLeftOutOfBackups() async throws {
+        let directory = try TemporaryDirectory()
+        let tag = Data("Signature: 8a477f597d28d172789f06886806bc55\n".utf8)
+        try directory.file("ml/pyproject.toml", bytes: 16)
+        try directory.file("ml/checkpoints/CACHEDIR.TAG", contents: tag)
+        try directory.file("ml/checkpoints/epoch-9.pt", bytes: 400_000)
+        try age(directory.url, days: 60)
+        try directory.file("ml/checkpoints/epoch-10.pt", bytes: 400_000)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+        let tagged = try #require(found.first { $0.name == "checkpoints" })
+
+        #expect(tagged.tool == nil)
+        #expect(tagged.keptBecause == .heldBack(.markedOnlyByACacheTag))
+        #expect(ProjectArtifacts.BackupMarks(found, excluded: [], excludedFromAbove: []).markable.isEmpty)
     }
 
     @Test func aUnityProjectsObjIsUnitysThoughDotNetsProjectFileSitsBesideIt() async throws {

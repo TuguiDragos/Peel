@@ -428,6 +428,7 @@ extension HoldBack {
         case .gitTrackingNotKnown: "in a Git repository whose tracked files couldn't be read"
         case .gitTrackingNotReadInTime: "reading which files Git tracks here took too long"
         case .keepsItsSetup: "keeps the options its build was set up with"
+        case .markedOnlyByACacheTag: "only a cache tag marks it, and Peel can't tell what wrote it"
         case .sharedWithEveryone: "belongs to everyone on this Mac"
         case .listedByAnotherPackage: "another installed package lists it too"
         case .holdsWhatOthersPut: "holds files something besides this package put there"
