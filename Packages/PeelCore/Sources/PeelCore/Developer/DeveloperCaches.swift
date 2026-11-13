@@ -126,6 +126,8 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
     public let locations: [Location]
     /// The beginnings of the identifiers of more apps that use these locations, each carrying its version after them.
     public var appIdentifierPrefixes: [String] = []
+    /// The programs of the tool, by name, that use these locations with no app around them, such as `ollama serve`.
+    public var programs: [String] = []
     /// The folders the tool keeps elsewhere through a link, which Peel doesn't follow: moving the link frees nothing,
     /// and what it leads to is the tool's own on that disk.
     public var keptElsewhere: [URL] = []
@@ -147,19 +149,23 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         )
     }
 
-    /// The name of one of the environment's apps that is running, which is the one to ask the user to quit, or nil
-    /// when none runs. Nothing of the environment moves while one runs, from the app or `peel`: it writes in these
-    /// folders. Asked each time, since an app can be opened at any moment.
+    /// The name of one of the environment's apps, or programs, that is running, which is the one to ask the user to
+    /// quit, or nil when none runs. Nothing of the environment moves while one runs, from the app or `peel`: it writes
+    /// in these folders. Asked each time, since an app can be opened at any moment.
     public var runningApp: String? {
         let named = appBundleIdentifiers.lazy.compactMap { identifier in
             NSRunningApplication.runningApplications(withBundleIdentifier: identifier)
                 .lazy.compactMap(\.localizedName).first
         }.first
-        guard named == nil, !appIdentifierPrefixes.isEmpty else { return named }
-        return NSWorkspace.shared.runningApplications.first { running in
-            running.bundleIdentifier.map { identifier in appIdentifierPrefixes.contains(where: identifier.hasPrefix) }
-                ?? false
-        }?.localizedName
+        if let named { return named }
+        if !appIdentifierPrefixes.isEmpty {
+            let running = NSWorkspace.shared.runningApplications.first { running in
+                guard let identifier = running.bundleIdentifier else { return false }
+                return appIdentifierPrefixes.contains(where: identifier.hasPrefix)
+            }
+            if let name = running?.localizedName { return name }
+        }
+        return programs.first(where: RunningProgram.isRunning(named:))
     }
 }
 
@@ -175,6 +181,7 @@ public enum DeveloperCaches {
         var ownFolders: [String] = []
         /// The beginnings of the identifiers of apps that carry their version in it (`com.adobe.PremierePro.25`).
         var appIdentifierPrefixes: [String] = []
+        var programs: [String] = []
     }
 
     /// A folder a tool keeps, relative to the home folder or to the user's cache folder, and what it holds.
@@ -1253,7 +1260,7 @@ public enum DeveloperCaches {
             Folder(".ollama/models", .models, source: "https://github.com/ollama/ollama/blob/42e911bc3d05798cad729cb474bf62f378cb2e26/docs/faq.mdx#L233-L236"),
             Folder(".ollama/logs", .logs, source: "https://github.com/ollama/ollama/blob/42e911bc3d05798cad729cb474bf62f378cb2e26/docs/macos.mdx#L26-L28"),
             Folder("Library/Caches/ollama/updates", .downloads, source: "https://github.com/ollama/ollama/blob/42e911bc3d05798cad729cb474bf62f378cb2e26/app/updater/updater_darwin.go#L88-L96"),
-        ]),
+        ], programs: ["ollama"]),
         Definition(id: "lmstudio", name: "LM Studio", systemImage: "brain", appBundleIdentifiers: [], folders: [
             Folder(".lmstudio/models", .models, source: "https://lmstudio.ai/docs/app/advanced/import-model"),
             Folder(".cache/lm-studio/models", .models, source: "https://lmstudio.ai/blog/lmstudio-v0.3.6"),
@@ -1534,7 +1541,7 @@ public enum DeveloperCaches {
             return Definition(
                 id: definition.id, name: definition.name, systemImage: definition.systemImage,
                 appBundleIdentifiers: definition.appBundleIdentifiers, folders: folders,
-                appIdentifierPrefixes: definition.appIdentifierPrefixes
+                appIdentifierPrefixes: definition.appIdentifierPrefixes, programs: definition.programs
             )
         }
         return await scan(
@@ -1765,6 +1772,7 @@ public enum DeveloperCaches {
             appBundleIdentifiers: definition.appBundleIdentifiers,
             locations: locations.sorted { SizeTotal([$0.size]) > SizeTotal([$1.size]) },
             appIdentifierPrefixes: definition.appIdentifierPrefixes,
+            programs: definition.programs,
             keptElsewhere: linked.sorted { $0.path(percentEncoded: false) < $1.path(percentEncoded: false) }
         )
     }
@@ -1774,5 +1782,16 @@ extension DeveloperEnvironment {
     /// What a search looks in: the tool's name and the last two names in the path of each folder it keeps.
     public var searchKey: String {
         ([name] + locations.flatMap { $0.url.pathComponents.suffix(2) }).joined(separator: "\n")
+    }
+}
+
+extension RunningProgram {
+    /// Whether a process of any account runs a program called `name`, as `ps` names it by its file.
+    static func isRunning(named name: String) -> Bool {
+        var pids = [pid_t](repeating: 0, count: 8_192)
+        let count = Int(proc_listallpids(&pids, Int32(pids.count * MemoryLayout<pid_t>.size)))
+        return pids.prefix(max(count, 0)).contains { pid in
+            pid > 0 && path(of: pid).map { URL(filePath: $0).lastPathComponent == name } == true
+        }
     }
 }

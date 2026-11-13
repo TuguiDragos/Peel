@@ -4,6 +4,22 @@ import PeelPrivileged
 import Testing
 
 struct DeveloperCachesTests {
+    @Test func waitsForAToolsProgramThatRunsWithNoApp() throws {
+        let directory = try TemporaryDirectory()
+        let name = "org-example-server-\(UUID().uuidString.prefix(8))"
+        let environment = DeveloperEnvironment(
+            id: "example", name: "Example", systemImage: "brain", appBundleIdentifiers: [], locations: [],
+            programs: [name]
+        )
+        #expect(environment.runningApp == nil)
+
+        let program = try directory.runningProgram(directory.url.appending(path: name).path(percentEncoded: false))
+        defer { program.terminate() }
+
+        #expect(environment.runningApp == name)
+        #expect(DeveloperCaches.definitions.first { $0.id == "ollama" }?.programs == ["ollama"])
+    }
+
     /// The public scan in a home of the test's own, with no user cache folder, so no real cache is read.
     @Test func saysWhatAToolKeepsElsewhereThroughALink() async throws {
         let directory = try TemporaryDirectory()
