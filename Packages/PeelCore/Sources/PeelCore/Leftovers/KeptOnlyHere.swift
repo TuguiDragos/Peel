@@ -139,6 +139,13 @@ enum KeptOnlyHere {
         // Open WebUI's desktop app runs Open WebUI with its data, the chats among them, in `data`
         // (`src/main/utils/index.ts`).
         ("Library/Application Support/open-webui", "data", .holdsWorkMadeWithTheApp),
+        // The Ollama app keeps its chats in `db.sqlite` (`internal/onboarding/app_state.go`, `app/store/schema.sql`).
+        ("Library/Application Support/Ollama", "db.sqlite", .holdsWorkMadeWithTheApp),
+        // Cherry Studio keeps its messages in `Data/cherrystudio.sqlite` (`src/main/core/paths/pathRegistry.ts`).
+        ("Library/Application Support/CherryStudio", "Data", .holdsWorkMadeWithTheApp),
+        // Handy keeps what it heard and wrote in `recordings` and `history.db` (`src-tauri/src/managers/history.rs`).
+        ("Library/Application Support/com.pais.handy", "history.db", .holdsWorkMadeWithTheApp),
+        ("Library/Application Support/com.pais.handy", "recordings", .holdsWorkMadeWithTheApp),
         // Objective Development's "How can I uninstall Little Snitch 4?": the person's rules and settings are here and
         // in `Objective Development/Little Snitch` in the Library every account shares.
         ("Library/Application Support/Little Snitch", nil, .holdsWorkMadeWithTheApp),
