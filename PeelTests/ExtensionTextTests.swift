@@ -177,4 +177,23 @@ struct ExtensionTextTests {
         #expect(widget.matches(word))
         #expect(!part(name: "Example", owner: "Example", point: "com.apple.share-services").matches(word))
     }
+
+    @Test func aSystemExtensionOfAnAppItsMakerRemovesSaysWhatTheAppsPageSays() throws {
+        let uninstaller = URL(filePath: "/Applications/Example.app/Contents/Resources/Uninstall.app")
+        let page = try #require(URL(string: "https://example.com/uninstall"))
+        let removed = RemovedElsewhere.byItsMaker(
+            MakersUninstaller(maker: "Example", step: .uninstaller(uninstaller), instructions: page, removes: nil)
+        )
+        let part = AppExtension(
+            identifier: "org.example.part", name: "Part", kind: .systemExtension, point: nil, owner: "Example",
+            url: nil, election: .on, teamIdentifier: nil, reportedState: "activated enabled",
+            installedFor: "/Applications/Example.app/Contents/MacOS/Inner.app"
+        )
+
+        for isOn27 in [false, true] {
+            #expect(part.systemExtensionNote(
+                isOnMacOS27: isOn27, systemSettingsDeletesIt: false, removedElsewhere: removed
+            ).key == removed.explanation.key)
+        }
+    }
 }

@@ -181,6 +181,16 @@ extension AppExtension {
         }
     }
 
+    /// The installed app among `apps` a system extension came with: the outermost app around the one macOS's record
+    /// names, since an app bundled inside another is no app of the list. Nil for an app extension or a gone app.
+    public func containingApp(among apps: [InstalledApp]) -> InstalledApp? {
+        guard kind == .systemExtension, goneApp == nil,
+              let path = installedFor.flatMap({ PathComponents.outermostApp(of: $0) })
+        else { return nil }
+        let place = PathPattern.comparablePath(of: URL(filePath: path, directoryHint: .isDirectory))
+        return apps.first { PathPattern.comparablePath(of: $0.url) == place }
+    }
+
     /// The version as macOS shows one with its build, `2.0 (200)`.
     public var shownVersion: String? {
         version.map { listed in

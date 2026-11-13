@@ -47,18 +47,27 @@ extension AppExtension {
             : election.explanation
     }
 
-    var systemExtensionNote: LocalizedStringResource {
+    /// `removedElsewhere` says how the app it came with is removed when Peel never removes it from its page.
+    func systemExtensionNote(removedElsewhere: RemovedElsewhere?) -> LocalizedStringResource {
         if #available(macOS 27, *) {
-            return systemExtensionNote(isOnMacOS27: true, systemSettingsDeletesIt: systemSettingsDeletesIt)
+            return systemExtensionNote(
+                isOnMacOS27: true, systemSettingsDeletesIt: systemSettingsDeletesIt, removedElsewhere: removedElsewhere
+            )
         }
-        return systemExtensionNote(isOnMacOS27: false, systemSettingsDeletesIt: false)
+        return systemExtensionNote(
+            isOnMacOS27: false, systemSettingsDeletesIt: false, removedElsewhere: removedElsewhere
+        )
     }
 
     /// What the page says of a system extension: what its app being gone leaves to do, what macOS is doing with it, or
     /// what moving its app asks of macOS.
-    func systemExtensionNote(isOnMacOS27: Bool, systemSettingsDeletesIt: Bool) -> LocalizedStringResource {
+    func systemExtensionNote(
+        isOnMacOS27: Bool, systemSettingsDeletesIt: Bool, removedElsewhere: RemovedElsewhere? = nil
+    ) -> LocalizedStringResource {
         // With its app gone, the advice for an installed app leads nowhere: Orphaned Files' words say what does.
         if goneApp != nil, let reason = leftAlone { return reason.explanation }
+        // An app its maker's own uninstaller removes takes this with it, as the app's own page says.
+        if case .byItsMaker? = removedElsewhere, let removedElsewhere { return removedElsewhere.explanation }
         // A version macOS is removing goes on its own, whatever happens to the app.
         if election == .beingRemoved {
             guard let newer = replacedBy else { return election.explanation }

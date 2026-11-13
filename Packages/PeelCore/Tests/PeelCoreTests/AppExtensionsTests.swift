@@ -268,6 +268,21 @@ struct AppExtensionsTests {
         #expect(leaving.leftAlone == .systemExtensionGoingAtRestart)
     }
 
+    @Test func aSystemExtensionOfAnAppInsideAnotherBelongsToTheOutermostApp() {
+        let outer = InstalledApp(url: URL(filePath: "/Applications/Example.app"), bundleIdentifier: "org.example.app", name: "Example")
+        let inner = "/Applications/Example.app/Contents/MacOS/Inner.app"
+        let part = { (gone: String?) in
+            AppExtension(
+                identifier: "org.example.part", name: "Part", kind: .systemExtension, point: nil, owner: "Example",
+                url: nil, election: .on, teamIdentifier: nil, reportedState: "activated enabled", installedFor: inner,
+                goneApp: gone
+            )
+        }
+
+        #expect(part(nil).containingApp(among: [outer])?.url == outer.url)
+        #expect(part(inner).containingApp(among: [outer]) == nil)
+    }
+
     @Test func aGoneInnerAppsSystemExtensionIsNeverSaidToGoWithFindersMove() {
         let inner = "/Applications/Example.app/Contents/MacOS/Inner.app"
         let extensionOf = { (category: String) in

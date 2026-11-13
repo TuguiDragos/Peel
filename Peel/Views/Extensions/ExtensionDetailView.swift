@@ -3,7 +3,13 @@ import PeelCore
 import SwiftUI
 
 struct ExtensionDetailView: View {
+    @Environment(AppLibrary.self) private var library
     let item: AppExtension
+
+    /// How the app a system extension came with is removed when Peel never removes it from its page, as that page says.
+    private var removedElsewhere: RemovedElsewhere? {
+        item.containingApp(among: library.apps)?.removedElsewhere
+    }
 
     var body: some View {
         Form {
@@ -165,7 +171,7 @@ struct ExtensionDetailView: View {
 
     private var explanation: LocalizedStringResource {
         switch (item.kind, item.turnedOnAndOffIn) {
-        case (.systemExtension, _): item.systemExtensionNote
+        case (.systemExtension, _): item.systemExtensionNote(removedElsewhere: removedElsewhere)
         case (.appExtension, .systemSettings):
             "Peel doesn’t turn extensions on or off: macOS does. Removing one means removing the app it came with."
         case (.appExtension, .safari):
