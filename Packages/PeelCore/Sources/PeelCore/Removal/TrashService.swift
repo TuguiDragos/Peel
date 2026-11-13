@@ -168,6 +168,9 @@ public struct TrashFailure: Sendable, Hashable {
         case attachedDiskImage
         /// A link the helper takes only once it leads nowhere still leads to this path.
         case stillLeadsTo(String)
+        /// Its Trash is at the top of the startup disk, where macOS makes none while the home folder is on another
+        /// disk, and Peel's helper hasn't made it.
+        case noTrashOnThisDisk
         case failed(String)
     }
 
@@ -187,7 +190,7 @@ extension TrashFailure.Reason {
     /// state: History it cannot read, or the helper it needs.
     public var isAboutTheItem: Bool {
         switch self {
-        case .historyUnreadable, .historyCannotBeWritten, .peelRemovesItself, .needsHelper: false
+        case .historyUnreadable, .historyCannotBeWritten, .peelRemovesItself, .needsHelper, .noTrashOnThisDisk: false
         case .guarded, .changedSinceScan, .changeNotKnown, .claimedSinceScan, .lastCopy, .notPermitted, .locked,
              .movedWithoutATrace,
              .somethingElseMoved, .heldOpen, .heldOpenByAJob, .peelRunsFromIt, .heldByAnotherAccount,
@@ -231,6 +234,7 @@ extension TrashFailure.Reason {
         case .inUseByMacOS: "in-use-by-macos"
         case .attachedDiskImage: "attached-disk-image"
         case .stillLeadsTo: "still-leads-to"
+        case .noTrashOnThisDisk: "no-trash-on-this-disk"
         case .failed: "failed"
         }
     }
@@ -283,6 +287,7 @@ extension TrashFailure.Reason {
         case "in-use-by-macos": self = .inUseByMacOS(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "attached-disk-image": self = .attachedDiskImage
         case "still-leads-to": self = .stillLeadsTo(detail ?? "")
+        case "no-trash-on-this-disk": self = .noTrashOnThisDisk
         case "failed": self = .failed(detail ?? "")
         default: return nil
         }
@@ -363,6 +368,7 @@ public struct TrashService: Sendable {
     typealias RegistrationAtLogin = @Sendable (_ app: URL) async -> StartsAtLogin.Registration?
     typealias RegisterApp = @Sendable (_ app: URL) async -> Void
     typealias EndExtensions = @Sendable (_ trashedApps: [URL]) async -> Void
+    typealias MakeTrash = @Sendable () async -> Void
 
     let environment: SearchEnvironment
     private let exclusions: Exclusions
@@ -378,6 +384,9 @@ public struct TrashService: Sendable {
     private let registrationAtLogin: RegistrationAtLogin
     private let registerApp: RegisterApp
     private let endExtensions: EndExtensions
+    /// Has the helper make this account's Trash on the startup disk, where macOS makes none while the home folder is
+    /// on another disk.
+    private let makeTrash: MakeTrash
     /// Makes the move for a guard, so a service made again for other exclusions moves the same way.
     private let movingJudgedBy: @Sendable (RemovalGuard) -> @Sendable (URL) throws -> URL
     private let ownMoves: OwnTrashMoves
@@ -405,6 +414,7 @@ public struct TrashService: Sendable {
             registrationAtLogin: { await StartsAtLogin.registration(of: $0) },
             registerApp: { app in _ = LSRegisterURL(app as CFURL, true) },
             endExtensions: { await ExtensionsLeftRunning.end(runningFrom: $0) },
+            makeTrash: Self.makeTheTrashThroughTheHelper,
             movingJudgedBy: { judge in { try Self.moveToSystemTrash($0, refusal: judge.refusal(of:)) } },
             ownMoves: .shared,
             journal: RemovalJournal(beside: history)
@@ -413,7 +423,7 @@ public struct TrashService: Sendable {
 
     /// For tests. Unless a test passes its own, it stops and starts no launchd job, asks launchd nothing, forgets no
     /// preference domain, registers no app with Launch Services, acts as if there were no helper, changes no Dock,
-    /// writes no journal, and ends no app extension.
+    /// writes no journal, ends no app extension, and makes no Trash.
     init(
         environment: SearchEnvironment,
         exclusions: Exclusions = .none,
@@ -428,6 +438,7 @@ public struct TrashService: Sendable {
         registrationAtLogin: @escaping RegistrationAtLogin = { _ in nil },
         registerApp: @escaping RegisterApp = { _ in },
         endExtensions: @escaping EndExtensions = { _ in },
+        makeTrash: @escaping MakeTrash = {},
         ownMoves: OwnTrashMoves = OwnTrashMoves(),
         journal: RemovalJournal? = nil,
         makingTheGuard: (@Sendable () -> RemovalGuard)? = nil,
@@ -448,6 +459,7 @@ public struct TrashService: Sendable {
             registrationAtLogin: registrationAtLogin,
             registerApp: registerApp,
             endExtensions: endExtensions,
+            makeTrash: makeTrash,
             movingJudgedBy: { _ in moveToTrash },
             ownMoves: ownMoves,
             journal: journal
@@ -469,6 +481,7 @@ public struct TrashService: Sendable {
         registrationAtLogin: @escaping RegistrationAtLogin,
         registerApp: @escaping RegisterApp,
         endExtensions: @escaping EndExtensions,
+        makeTrash: @escaping MakeTrash,
         movingJudgedBy: @escaping @Sendable (RemovalGuard) -> @Sendable (URL) throws -> URL,
         ownMoves: OwnTrashMoves,
         journal: RemovalJournal?
@@ -490,6 +503,7 @@ public struct TrashService: Sendable {
         self.registrationAtLogin = registrationAtLogin
         self.registerApp = registerApp
         self.endExtensions = endExtensions
+        self.makeTrash = makeTrash
         self.movingJudgedBy = movingJudgedBy
         self.ownMoves = ownMoves
         self.journal = journal
@@ -514,6 +528,7 @@ public struct TrashService: Sendable {
             registrationAtLogin: registrationAtLogin,
             registerApp: registerApp,
             endExtensions: endExtensions,
+            makeTrash: makeTrash,
             movingJudgedBy: movingJudgedBy,
             ownMoves: ownMoves,
             journal: journal
@@ -647,6 +662,7 @@ public struct TrashService: Sendable {
         // The guard reads the disk, so it is asked once for each item.
         let refusals = urls.reduce(into: [URL: GuardRefusal]()) { $0[$1] = removalGuard.refusal(of: $1) }
         let allowed = urls.filter { refusals[$0] == nil }
+        if allowed.contains(where: lacksItsTrash) { await makeTrash() }
         var openFiles = await readingOfOpenFiles()
         // Read before the move, while the files are still there to say which jobs they declare.
         let jobs = LaunchdCleanup.jobs(for: allowed, environment: environment)
@@ -703,6 +719,10 @@ public struct TrashService: Sendable {
                 stayed.append(url)
                 // Nothing was there to move: like an item inside a folder that moved, neither moved nor a failure.
                 if Self.foundNothing(error), url.isMissing { return }
+                if lacksItsTrash(url) {
+                    result.failures.append(TrashFailure(url: url, reason: .noTrashOnThisDisk))
+                    return
+                }
                 let reason = Self.reason(for: error)
                 let isLocked = reason == .notPermitted && FileAccess.isLockedInFinder(url)
                 let code: SystemError? = if case .failed = reason { SystemError(error) } else { nil }
@@ -725,6 +745,22 @@ public struct TrashService: Sendable {
         await forgetDomains(result.trashed.map(\.originalURL), owner)
         result.note(stopped)
         return result
+    }
+
+    /// Whether `url` would go to this account's Trash at the top of the startup disk, which isn't there.
+    private func lacksItsTrash(_ url: URL) -> Bool {
+        let trash = VolumeTrashes.trash(forItemAt: url, home: environment.homeDirectory)
+        return PathComponents.isPath(PathPattern.comparablePath(of: trash), inside: AccountTrash.helpersDisk)
+            && trash.lastPathComponent == "\(getuid())" && trash.isMissing
+    }
+
+    /// Has the helper make this account's Trash on the startup disk: from Peel alone, since the `peel` command never
+    /// uses the helper, and only while the helper is set up, since one macOS keeps off would be waited for in vain.
+    private static func makeTheTrashThroughTheHelper() async {
+        guard Bundle.main.bundleIdentifier == HelperIdentity.appIdentifier,
+              await PrivilegedHelper.currentStatus() == .enabled
+        else { return }
+        _ = await PrivilegedHelper.makeTrash()
     }
 
     /// Moves `privilegedURLs` through the privileged helper and everything else as the current user.

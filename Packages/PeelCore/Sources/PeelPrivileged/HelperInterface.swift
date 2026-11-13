@@ -52,6 +52,10 @@ public enum HelperIdentity {
     /// Moves the helper's own ledger to the user's Trash, for Remove Peel just before it unregisters the helper, which
     /// only an administrator does. Replies with nil once it is there or when there is none, or a failure description.
     func moveLedgerToTrash(version: Int, withReply reply: @escaping @Sendable (String?) -> Void)
+
+    /// Makes the user's Trash on the startup disk, where macOS makes none for an account whose home folder is on
+    /// another disk, so the app's own moves reach it. Replies with nil once it is there, or a failure description.
+    func makeTrash(version: Int, approval: Data, withReply reply: @escaping @Sendable (String?) -> Void)
 }
 
 public enum DaemonCommand: String, Sendable {

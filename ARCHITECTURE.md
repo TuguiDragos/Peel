@@ -312,7 +312,9 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   to replace a name. An account whose home folder is on another disk has its Trash for the startup disk at the top of
   the startup disk's data, `/System/Volumes/Data/.Trashes/<uid>`, where macOS names it but makes none, so the helper
   makes it as macOS makes one on any other disk: `.Trashes` root's and closed to everyone else, the account's folder
-  its own alone (`AccountTrash`, `PrivilegedPathPolicy.openTrash(ownedBy:making:)`). What a move cut short
+  its own alone (`AccountTrash`, `PrivilegedPathPolicy.openTrash(ownedBy:making:)`). Peel's own moves reach it only
+  once it is there, so Peel asks the helper to make it before them (`HelperOperations.makeTrash`), and says why an
+  item stays when it still isn't (`TrashFailure.Reason.noTrashOnThisDisk`). What a move cut short
   leaves in `Staging` goes to its account's Trash when the helper starts and before Remove Peel moves the ledger
   (`HelperLedger.recoverStaged`); an item that could neither reach its place nor go back keeps its record meanwhile, and
   the answer says so (`StagedFailure.leftInStaging`).

@@ -701,8 +701,8 @@ commands to copy.
 
 Peel installs a helper for the few things that need administrator rights: moving items in the folders it serves
 to the Trash, putting them back, and starting, stopping, enabling, or disabling another vendor's launch daemon; when
-Peel is removed, it also moves its own ledger to the Trash. It is deliberately small: no shell, no arbitrary paths,
-and it fails closed.
+Peel is removed, it also moves its own ledger to the Trash, and when your home folder is on another disk, it makes
+your Trash on the startup disk. It is deliberately small: no shell, no arbitrary paths, and it fails closed.
 
 - It answers an administrator, and another account only with an administrator's approval for that action, which
   macOS asks for in its own window, once per action. It answers only a copy of Peel signed by the same team with its
@@ -752,7 +752,8 @@ and it fails closed.
   disk, what it moves from the startup disk goes to the Trash macOS keeps for you there, at the top of the startup
   disk's data (`/System/Volumes/Data/.Trashes/` and your account's number). macOS makes none there, so the helper
   makes it as macOS makes one on any other disk: the folder of every account's Trash is root's and closed to everyone
-  else, and yours is yours alone. What needs an administrator in your home folder's Library, on its own disk, Peel
+  else, and yours is yours alone. Peel asks for it before its own moves from the startup disk too, which reach that
+  Trash only once it is there. What needs an administrator in your home folder's Library, on its own disk, Peel
   leaves to you, with how to move it in Finder.
 - "Put Back" is asked for by a record any process running as you can rewrite, so the helper believes none of
   it. It keeps its own ledger, in a folder that is root's alone, of what it moved and from where: the item is

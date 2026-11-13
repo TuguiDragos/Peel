@@ -131,6 +131,30 @@ public enum HelperOperations {
         }
     }
 
+    /// Nil once the caller's Trash on the disk the helper moves on is there, made as macOS makes one when it wasn't,
+    /// otherwise why it isn't.
+    public static func makeTrash(
+        account: uid_t?,
+        version: Int,
+        approval: Data,
+        caller: Caller,
+        policy: (HelperRequest.Caller) -> PrivilegedPathPolicy
+    ) -> String? {
+        let request = "Make its Trash"
+        switch HelperRequest.admit(version: version, caller: { caller(approval) }) {
+        case .success(let admitted):
+            guard policy(admitted).openTrash(ownedBy: admitted.user, making: true) != nil else {
+                HelperLog.note(request, for: admitted.user, "refused. \(HelperRefusal.noTrash.rawValue)")
+                return HelperRefusal.noTrash.rawValue
+            }
+            HelperLog.note(request, for: admitted.user, "done")
+            return nil
+        case .failure(let refused):
+            HelperLog.note(request, for: account, "refused. \(refused.rawValue)")
+            return refused.rawValue
+        }
+    }
+
     /// What `launchctl` is run with for `command` on the daemon `label`, or why it isn't run.
     public static func daemonArguments(
         account: uid_t?,

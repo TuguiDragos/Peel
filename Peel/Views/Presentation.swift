@@ -332,6 +332,8 @@ extension TrashFailure.Reason {
             String(localized: "It is a disk image that is open right now. Eject it, then try again.", bundle: bundle)
         case .stillLeadsTo(let target):
             String(localized: "It is a link that still leads to \(URL(filePath: target).abbreviatedPath), and from this folder Peel’s helper removes only links that lead nowhere.", bundle: bundle)
+        case .noTrashOnThisDisk:
+            String(localized: "Your home folder is on another disk, and macOS keeps no Trash for you on this one until Peel’s helper makes it. Set up the helper in Settings, then try again.", bundle: bundle)
         case .failed(let message): FixedSentence.translated(message, in: bundle)
         }
     }

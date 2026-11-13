@@ -254162,6 +254162,112 @@
         }
       }
     },
+    "Your home folder is on another disk, and macOS keeps no Trash for you on this one until Peel’s helper makes it. Set up the helper in Settings, then try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vaše domovská složka je na jiném disku a systém macOS pro vás na tomto disku nemá koš, dokud ho nevytvoří pomocník Peelu. Zprovozněte pomocníka v Nastavení a pak to zkuste znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Benutzerordner liegt auf einem anderen Volume, und macOS hat auf diesem Volume keinen Papierkorb für dich, bis das Hilfsprogramm von Peel einen anlegt. Richte das Hilfsprogramm in den Einstellungen ein und versuche es dann erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu carpeta de inicio está en otro disco, y macOS no tiene ninguna papelera para ti en este disco hasta que el asistente de Peel la cree. Configura el asistente en Ajustes y vuelve a intentarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre dossier de départ se trouve sur un autre disque, et macOS ne vous attribue aucune corbeille sur ce disque-ci tant que l’utilitaire de Peel ne l’a pas créée. Configurez l’utilitaire dans les Réglages, puis réessayez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La tua cartella Inizio si trova su un altro disco, e macOS non ha un Cestino per te su questo disco finché l’assistente di Peel non lo crea. Configura l’assistente nelle Impostazioni, poi riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホームフォルダが別のディスクにあり、このディスクには、Peelのヘルパーが作成するまで、macOSが管理するこのアカウント用のゴミ箱がありません。“設定”でヘルパーを設定してから、やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "홈 폴더가 다른 디스크에 있으며, Peel 보조 프로그램이 만들기 전까지 macOS는 이 디스크에 사용자의 휴지통을 두지 않습니다. 설정에서 보조 프로그램을 설정한 다음 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je thuismap staat op een andere schijf, en op deze schijf heeft macOS geen prullenmand voor je totdat het hulpprogramma van Peel die aanmaakt. Stel het hulpprogramma in via Instellingen en probeer het daarna opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twój folder domowy jest na innym dysku, a na tym macOS nie ma dla Ciebie Kosza, dopóki nie utworzy go pomocnik Peel. Skonfiguruj pomocnika w Ustawieniach, a następnie spróbuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A sua pasta pessoal está em outro disco, e o macOS não mantém um Lixo para você neste disco até que o auxiliar do Peel o crie. Configure o auxiliar nos Ajustes e tente novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosarul dvs. de reședință se află pe alt disc, iar pe acest disc macOS nu păstrează niciun Coș pentru dvs. până când instrumentul de ajutor Peel nu îl creează. Configurați instrumentul de ajutor din Configurări, apoi încercați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваша папка пользователя находится на другом диске, а на этом диске macOS не выделяет Вам Корзину, пока ее не создаст помощник Peel. Настройте помощника в Настройках, затем повторите попытку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Din hemmapp ligger på en annan skiva, och macOS har ingen papperskorg åt dig på den här skivan förrän Peels hjälpprogram skapar den. Ställ in hjälpprogrammet i Inställningar och försök sedan igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana klasörünüz başka bir diskte ve Peel’in yardımcısı onu oluşturana kadar macOS bu diskte sizin için bir Çöp Sepeti tutmaz. Yardımcıyı Ayarlar’da kurun, ardından yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваша Домівка розташована на іншому диску, і на цьому диску macOS не має для вас Смітника, доки його не створить помічник Peel. Налаштуйте помічника в Параметрах, а потім спробуйте ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的个人文件夹位于另一个磁盘上，而在Peel的帮助程序创建废纸篓之前，macOS不会在此磁盘上为你保留废纸篓。请在“设置”中设置帮助程序，然后重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的個人專屬檔案夾位於另一個磁碟上，而macOS不會在此磁碟上為你保留「垃圾桶」，直到Peel的輔助程式建立它為止。請在「設定」中設定輔助程式，然後再試一次。"
+          }
+        }
+      }
+    },
     "Your latest changes work in Peel until it quits. When it opens again, and in the peel command, the list is as it was last saved." : {
       "localizations" : {
         "cs" : {

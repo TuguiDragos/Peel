@@ -2,6 +2,7 @@ import Darwin
 import Foundation
 @testable import PeelCore
 @testable import PeelPrivileged
+import Synchronization
 import Testing
 
 /// An account whose home folder is on another disk than macOS: what the helper moves from the startup disk goes to the
@@ -143,6 +144,52 @@ struct HomeOnAnotherDiskTests {
         #expect(refusal == HelperRefusal.anotherDisk.rawValue)
         #expect(try String(contentsOfFile: trashed, encoding: .utf8) == "the app's")
         #expect(!FileManager.default.fileExists(atPath: library + "/org.example.cache"))
+    }
+
+    @Test func theHelperMakesTheAccountsTrashOnTheStartupDiskWhenAsked() throws {
+        let directory = try TemporaryDirectory()
+        let disk = try HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
+        let home = try home(on: disk)
+        let top = try top(directory)
+        defer { openingAgain(top) }
+        let policy = policy(home: home, in: directory)
+        func made(version: Int) -> String? {
+            HelperOperations.makeTrash(
+                account: getuid(), version: version, approval: Data(),
+                caller: { _ in .success(HelperRequest.Caller(user: getuid(), homeDirectory: home)) },
+                policy: { _ in policy }
+            )
+        }
+
+        #expect(made(version: HelperIdentity.protocolVersion - 1) == HelperRefusal.outOfDate.rawValue)
+        #expect(!FileManager.default.fileExists(atPath: top + "/.Trashes"))
+        #expect(made(version: HelperIdentity.protocolVersion) == nil)
+        #expect(FileManager.default.fileExists(atPath: top + "/.Trashes/\(getuid())"))
+    }
+
+    @Test func peelsOwnMoveHasTheHelperMakeItsTrashOnTheStartupDiskFirst() async throws {
+        let directory = try TemporaryDirectory()
+        let disk = try HomeDisk.apfs.mount(at: directory.url.appending(path: "Disk"))
+        let home = URL(filePath: try home(on: disk), directoryHint: .isDirectory)
+        let onTheStartupDisk = try directory.file("root/Library/Caches/org.example.cache", contents: Data("cache".utf8))
+        let inTheHome = home.appending(path: "Library/Caches/org.example.home")
+        try Data("home".utf8).write(to: inTheHome)
+        let asked = Mutex(0)
+        let service = TrashService(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root")),
+            makeTrash: { asked.withLock { $0 += 1 } },
+            moveToTrash: { _ in throw CocoaError(.fileWriteUnknown) }
+        )
+        // Only an account whose home folder is on another disk lacks that Trash, and this one's is on the startup disk.
+        let lacked = !FileManager.default.fileExists(atPath: "/System/Volumes/Data/.Trashes/\(getuid())")
+
+        let fromTheHome = await service.trash([inTheHome])
+        #expect(asked.withLock { $0 } == 0, "the home's own Trash needs nothing made")
+        #expect(fromTheHome.failures.map(\.reason) != [.noTrashOnThisDisk])
+
+        let fromTheStartupDisk = await service.trash([onTheStartupDisk])
+        #expect(asked.withLock { $0 } == (lacked ? 1 : 0))
+        #expect((fromTheStartupDisk.failures.map(\.reason) == [.noTrashOnThisDisk]) == lacked)
     }
 
     @Test func peelOffersWhatTheHelperCanMoveForAHomeOnAnotherDisk() throws {

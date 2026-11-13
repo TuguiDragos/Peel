@@ -74,6 +74,14 @@ final class HelperService: NSObject, PeelHelperProtocol {
         ))
     }
 
+    func makeTrash(version: Int, approval: Data, withReply finish: @escaping @Sendable (String?) -> Void) {
+        lifetime.requestStarted()
+        tracked(finish)(HelperOperations.makeTrash(
+            account: Self.account, version: version, approval: approval, caller: Self.caller(approval:),
+            policy: { PrivilegedPathPolicy(homeDirectory: $0.homeDirectory) }
+        ))
+    }
+
     func runDaemonCommand(
         version: Int,
         approval: Data,

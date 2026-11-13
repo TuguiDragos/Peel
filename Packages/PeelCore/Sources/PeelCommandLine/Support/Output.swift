@@ -672,6 +672,8 @@ extension TrashFailure.Reason {
         case .attachedDiskImage: "a disk image open right now; eject it, then try again"
         case .stillLeadsTo(let target):
             "is a link that still leads to \(Output.plain(target)), and from this folder Peel's helper removes only links that lead nowhere"
+        case .noTrashOnThisDisk:
+            "your home folder is on another disk, and macOS keeps no Trash for you on this one until Peel's helper makes it, which the Peel app asks for when it moves something from here"
         case .failed(let message): Output.plain(message)
         }
     }

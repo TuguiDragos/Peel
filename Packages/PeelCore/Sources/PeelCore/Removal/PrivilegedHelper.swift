@@ -389,6 +389,18 @@ public enum PrivilegedHelper {
         return failure.map { .stayed(TrashFailure(url: folder, reason: .failed($0))) } ?? .moved
     }
 
+    /// Has the helper make this account's Trash on the startup disk, where macOS makes none while the home folder is
+    /// on another disk. Nil once it is there, or why it isn't.
+    @concurrent
+    static func makeTrash() async -> String? {
+        await withHelper(fallback: Self.unavailable, refused: HelperRefusal.notAuthorized.rawValue) {
+            helper, approval, finish in
+            helper.makeTrash(version: HelperIdentity.protocolVersion, approval: approval) { failure in
+                finish(failure)
+            }
+        }
+    }
+
     /// Returns nil on success, or a failure description.
     @concurrent
     static func restore(_ item: TrashedItem) async -> String? {

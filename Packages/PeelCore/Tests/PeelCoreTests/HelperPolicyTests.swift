@@ -91,7 +91,7 @@ struct HelperPolicyTests {
         #expect(main.contains("listener.setConnectionCodeSigningRequirement(requirement)"))
         #expect(delegate.contains("connection.setCodeSigningRequirement(codeSigningRequirement)"))
         let operations = service.matches(of: /func \w+\(\s*version: Int/).count
-        #expect(operations == 4)
+        #expect(operations == 5)
         #expect(service.matches(of: /HelperOperations\.\w+\(\s*account: [\w.]+, version: version/).count == operations)
     }
 
