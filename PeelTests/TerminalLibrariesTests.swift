@@ -220,6 +220,27 @@ struct TerminalLibrariesTests {
         #expect(ssh.state == nil)
     }
 
+    @Test func afterAnAskZshWithNoAnswerTheSwitchesStayOnAndOnlyAskZshAsksAgain() async throws {
+        let home = try madeUpHome()
+        defer { try? FileManager.default.removeItem(at: home) }
+        let folder = home.appending(path: "Library/Application Support/Peel", directoryHint: .isDirectory)
+        let terminal = FakeTerminalSettings()
+        terminal.shellSetting = "/bin/zsh"
+        try "exit 3\n".write(to: home.appending(path: ".zprofile"), atomically: true, encoding: .utf8)
+        let shell = ShellLibrary(folder: folder, home: home, terminal: terminal)
+
+        await shell.refresh()
+        await shell.askZsh()
+        #expect(shell.zshDidNotAnswer)
+        #expect(shell.isOffered(.longHistory))
+        await shell.refresh()
+        #expect(shell.zshDidNotAnswer)
+        let note = ShellTab.didNotAnswer(known: shell.state?.known, askedWithTheFiles: shell.zshDidNotAnswer)
+        #expect(note?.key.contains("off for now") == false)
+        #expect(note?.key.contains("Ask zsh") == true)
+        #expect(ShellTab.didNotAnswer(known: nil, askedWithTheFiles: true)?.key == TerminalPage.didNotAnswer("zsh").key)
+    }
+
     @Test func theShellTabLooksForNoZshrcWhenTerminalOpensBash() async throws {
         let home = try madeUpHome()
         defer { try? FileManager.default.removeItem(at: home) }

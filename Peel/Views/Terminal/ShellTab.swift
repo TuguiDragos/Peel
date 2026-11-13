@@ -7,6 +7,15 @@ struct ShellTab: View {
 
     static let afterTurningAllOff: LocalizedStringResource = "New windows start with only what your own shell files and macOS set."
 
+    /// What the tab says while zsh didn't answer: with `zsh -f` silent its switches are off and Peel asks again by
+    /// itself, while with only the person's startup files silent they stay on and only Ask zsh asks again.
+    static func didNotAnswer(known: Set<String>?, askedWithTheFiles: Bool) -> LocalizedStringResource? {
+        if known == nil { return TerminalPage.didNotAnswer("zsh") }
+        return askedWithTheFiles
+            ? "zsh didn’t answer when Peel ran it with your startup files, so Peel goes by what they say. Ask zsh to try again."
+            : nil
+    }
+
     var body: some View {
         Form {
             if let state = shell.state {
@@ -26,8 +35,10 @@ struct ShellTab: View {
                         )
                             .font(.caption)
                             .foregroundStyle(.secondary)
-                    } else if state.isZsh, state.known == nil || shell.zshDidNotAnswer {
-                        StatusLabel(title: Text(TerminalPage.didNotAnswer("zsh")), tint: .accentColor)
+                    } else if state.isZsh, let note = Self.didNotAnswer(
+                        known: state.known, askedWithTheFiles: shell.zshDidNotAnswer
+                    ) {
+                        StatusLabel(title: Text(note), tint: .accentColor)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     } else if state.startupFile != nil {

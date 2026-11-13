@@ -287258,6 +287258,112 @@
         }
       }
     },
+    "zsh didn’t answer when Peel ran it with your startup files, so Peel goes by what they say. Ask zsh to try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh neodpověděl, když ho Peel spustil s vašimi spouštěcími soubory, a proto se Peel řídí tím, co v nich stojí. Zeptejte se zsh znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh hat nicht geantwortet, als Peel zsh mit deinen Startdateien ausgeführt hat, daher richtet sich Peel nach dem, was darin steht. Frage zsh, um es erneut zu versuchen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh no ha respondido cuando Peel la ha ejecutado con tus archivos de inicio, así que Peel se guía por lo que dicen. Para volver a intentarlo, pregunta a zsh."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh n’a pas répondu lorsque Peel l’a exécuté avec vos fichiers de démarrage : Peel se fie donc à ce qu’ils indiquent. Interrogez zsh pour réessayer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh non ha risposto quando Peel l’ha eseguita con i tuoi file di avvio, quindi Peel si basa su ciò che dicono. Per riprovare, chiedi a zsh."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelが起動ファイルを使ってzshを実行したときに、zshが応答しませんでした。そのため、Peelは起動ファイルの記述をもとに判断しています。やり直すには、zshに問い合わせてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 셸 시작 파일을 읽도록 zsh를 실행했을 때 zsh가 응답하지 않았으므로, Peel은 시작 파일에 적힌 내용을 따릅니다. 다시 시도하려면 zsh에 다시 물어보십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh gaf geen antwoord toen Peel de shell met je opstartbestanden uitvoerde, dus gaat Peel af op wat erin staat. Vraag het opnieuw aan zsh."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh nie odpowiedział, gdy Peel uruchomił go z Twoimi plikami startowymi, więc Peel kieruje się tym, co w nich zapisano. Aby spróbować ponownie, zapytaj zsh."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O zsh não respondeu quando o Peel o executou com os seus arquivos de inicialização, então o Peel se baseia no que eles dizem. Para tentar novamente, pergunte ao zsh."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh nu a răspuns când Peel l‑a rulat cu fișierele dvs. de pornire, așa că Peel se ghidează după ce scrie în ele. Întrebați zsh pentru a încerca din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh не ответил, когда Peel вызвал его с Вашими файлами запуска, поэтому Peel исходит из того, что в них написано. Спросите zsh еще раз."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh svarade inte när Peel körde den med dina startfiler, så Peel utgår från det som står i dem. Fråga zsh för att försöka igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, zsh kabuğunu başlangıç dosyalarınızla çalıştırdığında kabuk yanıt vermedi, bu yüzden Peel bu dosyalarda yazanlara göre hareket ediyor. Yeniden denemek için zsh kabuğuna sorun."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh не відповів, коли Peel запустила його з вашими файлами, які він читає під час запуску, тож Peel керується тим, що в них написано. Щоб спробувати ще раз, запитайте zsh."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel使用你的启动文件运行zsh时，zsh没有回应，因此Peel以这些文件中写明的内容为准。请再次询问zsh以重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel使用你的啟動檔案執行zsh時，zsh沒有回應，因此Peel會依據這些檔案中所寫的內容判斷。若要再試一次，請詢問zsh。"
+          }
+        }
+      }
+    },
     "zsh doesn’t read Peel’s settings yet" : {
       "localizations" : {
         "cs" : {
