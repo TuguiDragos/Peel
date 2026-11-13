@@ -207,3 +207,21 @@ extension Tweak {
         ),
     ]
 }
+
+extension ScreenshotDestination {
+    /// What the folder row says while the Screenshot app saves anywhere but a folder.
+    var instead: LocalizedStringResource {
+        switch self {
+        case .clipboard:
+            "Screenshots go to the Clipboard, not to a folder. To save them in one, press Shift-Command-5, click Options, and choose it under Save to."
+        case .preview:
+            "Screenshots open in Preview, not in a folder. To save them in one, press Shift-Command-5, click Options, and choose it under Save to."
+        case .mail:
+            "Screenshots go to Mail, not to a folder. To save them in one, press Shift-Command-5, click Options, and choose it under Save to."
+        case .messages:
+            "Screenshots go to Messages, not to a folder. To save them in one, press Shift-Command-5, click Options, and choose it under Save to."
+        case .unknown:
+            "Screenshots don’t go to a folder now. To save them in one, press Shift-Command-5, click Options, and choose it under Save to."
+        }
+    }
+}

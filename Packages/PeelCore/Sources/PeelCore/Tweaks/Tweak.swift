@@ -55,10 +55,49 @@ public struct Tweak: Sendable, Hashable, Identifiable {
 
     /// The switch this one works under, when its key has an effect only while that switch is on.
     public var onlyWhile: Tweak.ID? = nil
+    /// The key macOS 27 moved this setting to, once it has written the move's mark in the domain.
+    public var moved: Moved? = nil
+    /// For the screenshot folder, the key of the Screenshot app's Save to: the folder is unused while it saves
+    /// elsewhere.
+    public var saveTo: Moved? = nil
 
     public enum Documentation: Sendable, Hashable {
         case apple(URL)
         case undocumented
+    }
+
+    /// A key macOS 27 reads in place of another: `screencaptureui` writes `mark` when it moves the screenshot keys,
+    /// and until then reads the old key, once, to copy it.
+    public struct Moved: Sendable, Hashable {
+        public let old: String
+        public let new: String
+        public let mark: String
+
+        /// The key macOS reads now. macOS 26 knows only the old one, whatever the domain holds.
+        func key(onMacOS27: Bool, markIsSet: Bool) -> String {
+            onMacOS27 && markIsSet ? new : old
+        }
+    }
+}
+
+/// Where the Screenshot app saves a screenshot instead of a folder (Options > Save to).
+public enum ScreenshotDestination: Sendable, Hashable {
+    case clipboard
+    case preview
+    case mail
+    case messages
+    case unknown
+
+    /// What `value` names, or nil for a folder: macOS writes `file` for one, and a missing value means one too.
+    init?(_ value: String?) {
+        switch value {
+        case nil, "file": return nil
+        case "clipboard": self = .clipboard
+        case "preview": self = .preview
+        case "mail": self = .mail
+        case "messages": self = .messages
+        default: self = .unknown
+        }
     }
 }
 
@@ -84,12 +123,21 @@ public struct TweakState: Sendable, Hashable {
     public let text: String?
     /// Where the value in effect comes from when turning the tweak off here would change nothing.
     public let heldElsewhere: Elsewhere?
+    /// The key read, when macOS moved the setting to it (`Tweak.moved`).
+    public let movedKey: String?
+    /// Where screenshots go while the Screenshot app saves them anywhere but a folder (`Tweak.saveTo`).
+    public let savedElsewhere: ScreenshotDestination?
 
-    public init(isOn: Bool, isManaged: Bool, text: String?, heldElsewhere: Elsewhere? = nil) {
+    public init(
+        isOn: Bool, isManaged: Bool, text: String?, heldElsewhere: Elsewhere? = nil, movedKey: String? = nil,
+        savedElsewhere: ScreenshotDestination? = nil
+    ) {
         self.isOn = isOn
         self.isManaged = isManaged
         self.text = text
         self.heldElsewhere = heldElsewhere
+        self.movedKey = movedKey
+        self.savedElsewhere = savedElsewhere
     }
 
     public static let unset = TweakState(isOn: false, isManaged: false, text: nil)

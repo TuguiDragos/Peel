@@ -188627,6 +188627,536 @@
         }
       }
     },
+    "Screenshots don’t go to a folder now. To save them in one, press Shift-Command-5, click Options, and choose it under Save to." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snímky obrazovky se teď neukládají do žádné složky. Pokud je chcete ukládat do složky, stiskněte Shift-Command-5, klikněte na „Volby“ a zvolte ji v části „Uložit do“."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirmfotos werden derzeit in keinem Ordner gesichert. Um sie in einem Ordner zu sichern, drücke Umschalt-Command-5, klicke auf „Optionen“ und wähle ihn im Bereich „Sichern unter“ aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ahora las capturas de pantalla no van a ninguna carpeta. Para guardarlas en una, pulsa Mayúsculas + Comando + 5, haz clic en Opciones y elígela en “Guardar en”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les captures d’écran ne vont actuellement dans aucun dossier. Pour les enregistrer dans un dossier, appuyez sur Maj + Commande + 5, cliquez sur Options, puis choisissez-le sous « Enregistrer dans »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al momento gli screenshot non vanno in una cartella. Per salvarli in una cartella, premi Maiuscole-Comando-5, fai clic su Opzioni e sceglila in “Salva in”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在、スクリーンショットはフォルダに保存されません。フォルダに保存するには、Shift＋Command＋5キーを押して“オプション”をクリックし、“保存先”でフォルダを選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금은 스크린샷이 폴더에 저장되지 않습니다. 폴더에 저장하려면 Shift-Command-5를 누르고 ‘옵션’을 클릭한 다음 ‘저장 위치’ 아래에서 폴더를 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schermafbeeldingen worden nu niet in een map bewaard. Wil je ze in een map bewaren, druk dan op Shift + Command + 5, klik op 'Opties' en kies de map onder 'Bewaar in'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zrzuty ekranu nie trafiają teraz do żadnego folderu. Aby zachowywać je w folderze, naciśnij Shift-Command-5, kliknij w Opcje i wybierz folder w sekcji „Zachowaj w”."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No momento, as capturas de tela não vão para uma pasta. Para salvá-las em uma, pressione Shift + Command + 5, clique em Opções e escolha a pasta na seção Salvar em."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capturile de ecran nu ajung acum într‑un dosar. Pentru a le salva într‑unul, apăsați Shift-Comandă-5, faceți clic pe Opțiuni și alegeți‑l la „Salvați în”."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сейчас снимки экрана не попадают в папку. Чтобы сохранять их в папку, нажмите сочетание клавиш Shift-Command-5, затем нажмите «Параметры» и выберите ее в разделе «Сохранить в»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skärmavbilder sparas inte i någon mapp just nu. Om du vill spara dem i en mapp trycker du på Skift-Kommando-5, klickar på ”Alternativ” och väljer mappen under ”Spara i”."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekran resimleri şu anda bir klasöre kaydedilmiyor. Onları bir klasöre kaydetmek için Shift-Komut-5’e basın, “Seçenekler” düğmesini tıklayın ve klasörü “Şuraya Kaydet” bölümünden seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зараз знімки екрана не потрапляють у папку. Щоб зберігати їх у папці, натисніть Shift+Command+5, клацніть «Параметри» й виберіть її в розділі «Зберегти в»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截屏目前不会存放到文件夹中。要将截屏保存到文件夹中，请按下Shift-Command-5，点按“选项”，然后选取一个文件夹作为保存位置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截圖目前不會存到檔案夾中。若要將截圖儲存到檔案夾中，請按下Shift-Command-5，按一下「選項」，然後在「儲存至」下方選擇檔案夾。"
+          }
+        }
+      }
+    },
+    "Screenshots go to Mail, not to a folder. To save them in one, press Shift-Command-5, click Options, and choose it under Save to." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snímky obrazovky se odesílají do aplikace Mail, ne do složky. Pokud je chcete ukládat do složky, stiskněte Shift-Command-5, klikněte na „Volby“ a zvolte ji v části „Uložit do“."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirmfotos gehen an „Mail“, nicht in einen Ordner. Um sie in einem Ordner zu sichern, drücke Umschalt-Command-5, klicke auf „Optionen“ und wähle ihn im Bereich „Sichern unter“ aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las capturas de pantalla van a Mail, no a una carpeta. Para guardarlas en una, pulsa Mayúsculas + Comando + 5, haz clic en Opciones y elígela en “Guardar en”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les captures d’écran vont dans Mail, et non dans un dossier. Pour les enregistrer dans un dossier, appuyez sur Maj + Commande + 5, cliquez sur Options, puis choisissez-le sous « Enregistrer dans »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gli screenshot vanno in Mail, non in una cartella. Per salvarli in una cartella, premi Maiuscole-Comando-5, fai clic su Opzioni e sceglila in “Salva in”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スクリーンショットはフォルダではなく“メール”に送られます。フォルダに保存するには、Shift＋Command＋5キーを押して“オプション”をクリックし、“保存先”でフォルダを選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "스크린샷이 폴더가 아닌 Mail 앱으로 보내집니다. 폴더에 저장하려면 Shift-Command-5를 누르고 ‘옵션’을 클릭한 다음 ‘저장 위치’ 아래에서 폴더를 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schermafbeeldingen gaan naar Mail, niet naar een map. Wil je ze in een map bewaren, druk dan op Shift + Command + 5, klik op 'Opties' en kies de map onder 'Bewaar in'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zrzuty ekranu trafiają do aplikacji Poczta, a nie do folderu. Aby zachowywać je w folderze, naciśnij Shift-Command-5, kliknij w Opcje i wybierz folder w sekcji „Zachowaj w”."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As capturas de tela vão para o app Mail, não para uma pasta. Para salvá-las em uma, pressione Shift + Command + 5, clique em Opções e escolha a pasta na seção Salvar em."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capturile de ecran ajung în Mail, nu într‑un dosar. Pentru a le salva într‑unul, apăsați Shift-Comandă-5, faceți clic pe Opțiuni și alegeți‑l la „Salvați în”."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Снимки экрана попадают в приложение «Почта», а не в папку. Чтобы сохранять их в папку, нажмите сочетание клавиш Shift-Command-5, затем нажмите «Параметры» и выберите ее в разделе «Сохранить в»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skärmavbilder hamnar i Mail, inte i en mapp. Om du vill spara dem i en mapp trycker du på Skift-Kommando-5, klickar på ”Alternativ” och väljer mappen under ”Spara i”."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekran resimleri bir klasöre değil, Mail’e gidiyor. Onları bir klasöre kaydetmek için Shift-Komut-5’e basın, “Seçenekler” düğmesini tıklayın ve klasörü “Şuraya Kaydet” bölümünden seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Знімки екрана потрапляють у Пошту, а не в папку. Щоб зберігати їх у папці, натисніть Shift+Command+5, клацніть «Параметри» й виберіть її в розділі «Зберегти в»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截屏会转到“邮件”，而不是存放到文件夹中。要将截屏保存到文件夹中，请按下Shift-Command-5，点按“选项”，然后选取一个文件夹作为保存位置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截圖會送到「郵件」，而不是存到檔案夾中。若要將截圖儲存到檔案夾中，請按下Shift-Command-5，按一下「選項」，然後在「儲存至」下方選擇檔案夾。"
+          }
+        }
+      }
+    },
+    "Screenshots go to Messages, not to a folder. To save them in one, press Shift-Command-5, click Options, and choose it under Save to." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snímky obrazovky se odesílají do aplikace Zprávy, ne do složky. Pokud je chcete ukládat do složky, stiskněte Shift-Command-5, klikněte na „Volby“ a zvolte ji v části „Uložit do“."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirmfotos gehen an „Nachrichten“, nicht in einen Ordner. Um sie in einem Ordner zu sichern, drücke Umschalt-Command-5, klicke auf „Optionen“ und wähle ihn im Bereich „Sichern unter“ aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las capturas de pantalla van a Mensajes, no a una carpeta. Para guardarlas en una, pulsa Mayúsculas + Comando + 5, haz clic en Opciones y elígela en “Guardar en”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les captures d’écran vont dans Messages, et non dans un dossier. Pour les enregistrer dans un dossier, appuyez sur Maj + Commande + 5, cliquez sur Options, puis choisissez-le sous « Enregistrer dans »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gli screenshot vanno in Messaggi, non in una cartella. Per salvarli in una cartella, premi Maiuscole-Comando-5, fai clic su Opzioni e sceglila in “Salva in”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スクリーンショットはフォルダではなく“メッセージ”に送られます。フォルダに保存するには、Shift＋Command＋5キーを押して“オプション”をクリックし、“保存先”でフォルダを選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "스크린샷이 폴더가 아닌 메시지 앱으로 보내집니다. 폴더에 저장하려면 Shift-Command-5를 누르고 ‘옵션’을 클릭한 다음 ‘저장 위치’ 아래에서 폴더를 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schermafbeeldingen gaan naar Berichten, niet naar een map. Wil je ze in een map bewaren, druk dan op Shift + Command + 5, klik op 'Opties' en kies de map onder 'Bewaar in'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zrzuty ekranu trafiają do aplikacji Wiadomości, a nie do folderu. Aby zachowywać je w folderze, naciśnij Shift-Command-5, kliknij w Opcje i wybierz folder w sekcji „Zachowaj w”."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As capturas de tela vão para o app Mensagens, não para uma pasta. Para salvá-las em uma, pressione Shift + Command + 5, clique em Opções e escolha a pasta na seção Salvar em."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capturile de ecran ajung în Mesaje, nu într‑un dosar. Pentru a le salva într‑unul, apăsați Shift-Comandă-5, faceți clic pe Opțiuni și alegeți‑l la „Salvați în”."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Снимки экрана попадают в приложение «Сообщения», а не в папку. Чтобы сохранять их в папку, нажмите сочетание клавиш Shift-Command-5, затем нажмите «Параметры» и выберите ее в разделе «Сохранить в»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skärmavbilder hamnar i Meddelanden, inte i en mapp. Om du vill spara dem i en mapp trycker du på Skift-Kommando-5, klickar på ”Alternativ” och väljer mappen under ”Spara i”."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekran resimleri bir klasöre değil, Mesajlar’a gidiyor. Onları bir klasöre kaydetmek için Shift-Komut-5’e basın, “Seçenekler” düğmesini tıklayın ve klasörü “Şuraya Kaydet” bölümünden seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Знімки екрана потрапляють у Повідомлення, а не в папку. Щоб зберігати їх у папці, натисніть Shift+Command+5, клацніть «Параметри» й виберіть її в розділі «Зберегти в»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截屏会转到“信息”，而不是存放到文件夹中。要将截屏保存到文件夹中，请按下Shift-Command-5，点按“选项”，然后选取一个文件夹作为保存位置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截圖會送到「訊息」，而不是存到檔案夾中。若要將截圖儲存到檔案夾中，請按下Shift-Command-5，按一下「選項」，然後在「儲存至」下方選擇檔案夾。"
+          }
+        }
+      }
+    },
+    "Screenshots go to the Clipboard, not to a folder. To save them in one, press Shift-Command-5, click Options, and choose it under Save to." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snímky obrazovky se ukládají do schránky, ne do složky. Pokud je chcete ukládat do složky, stiskněte Shift-Command-5, klikněte na „Volby“ a zvolte ji v části „Uložit do“."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirmfotos gehen in die Zwischenablage, nicht in einen Ordner. Um sie in einem Ordner zu sichern, drücke Umschalt-Command-5, klicke auf „Optionen“ und wähle ihn im Bereich „Sichern unter“ aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las capturas de pantalla van al Portapapeles, no a una carpeta. Para guardarlas en una, pulsa Mayúsculas + Comando + 5, haz clic en Opciones y elígela en “Guardar en”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les captures d’écran vont dans le presse-papiers, et non dans un dossier. Pour les enregistrer dans un dossier, appuyez sur Maj + Commande + 5, cliquez sur Options, puis choisissez-le sous « Enregistrer dans »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gli screenshot vanno negli Appunti, non in una cartella. Per salvarli in una cartella, premi Maiuscole-Comando-5, fai clic su Opzioni e sceglila in “Salva in”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スクリーンショットはフォルダではなくクリップボードにコピーされます。フォルダに保存するには、Shift＋Command＋5キーを押して“オプション”をクリックし、“保存先”でフォルダを選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "스크린샷이 폴더가 아닌 클립보드로 복사됩니다. 폴더에 저장하려면 Shift-Command-5를 누르고 ‘옵션’을 클릭한 다음 ‘저장 위치’ 아래에서 폴더를 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schermafbeeldingen gaan naar het klembord, niet naar een map. Wil je ze in een map bewaren, druk dan op Shift + Command + 5, klik op 'Opties' en kies de map onder 'Bewaar in'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zrzuty ekranu trafiają do schowka, a nie do folderu. Aby zachowywać je w folderze, naciśnij Shift-Command-5, kliknij w Opcje i wybierz folder w sekcji „Zachowaj w”."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As capturas de tela vão para a Área de Transferência, não para uma pasta. Para salvá-las em uma, pressione Shift + Command + 5, clique em Opções e escolha a pasta na seção Salvar em."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capturile de ecran ajung în clipboard, nu într‑un dosar. Pentru a le salva într‑unul, apăsați Shift-Comandă-5, faceți clic pe Opțiuni și alegeți‑l la „Salvați în”."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Снимки экрана попадают в буфер обмена, а не в папку. Чтобы сохранять их в папку, нажмите сочетание клавиш Shift-Command-5, затем нажмите «Параметры» и выберите ее в разделе «Сохранить в»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skärmavbilder kopieras till Urklipp, inte till en mapp. Om du vill spara dem i en mapp trycker du på Skift-Kommando-5, klickar på ”Alternativ” och väljer mappen under ”Spara i”."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekran resimleri bir klasöre değil, Pano’ya gidiyor. Onları bir klasöre kaydetmek için Shift-Komut-5’e basın, “Seçenekler” düğmesini tıklayın ve klasörü “Şuraya Kaydet” bölümünden seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Знімки екрана потрапляють у буфер обміну, а не в папку. Щоб зберігати їх у папці, натисніть Shift+Command+5, клацніть «Параметри» й виберіть її в розділі «Зберегти в»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截屏会存放到剪贴板，而不是文件夹中。要将截屏保存到文件夹中，请按下Shift-Command-5，点按“选项”，然后选取一个文件夹作为保存位置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截圖會拷貝到剪貼板，而不是存到檔案夾中。若要將截圖儲存到檔案夾中，請按下Shift-Command-5，按一下「選項」，然後在「儲存至」下方選擇檔案夾。"
+          }
+        }
+      }
+    },
+    "Screenshots open in Preview, not in a folder. To save them in one, press Shift-Command-5, click Options, and choose it under Save to." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snímky obrazovky se otevírají v aplikaci Náhled, ne ve složce. Pokud je chcete ukládat do složky, stiskněte Shift-Command-5, klikněte na „Volby“ a zvolte ji v části „Uložit do“."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirmfotos werden in „Vorschau“ geöffnet, nicht in einem Ordner. Um sie in einem Ordner zu sichern, drücke Umschalt-Command-5, klicke auf „Optionen“ und wähle ihn im Bereich „Sichern unter“ aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las capturas de pantalla se abren en Vista Previa, no en una carpeta. Para guardarlas en una, pulsa Mayúsculas + Comando + 5, haz clic en Opciones y elígela en “Guardar en”."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les captures d’écran s’ouvrent dans Aperçu, et non dans un dossier. Pour les enregistrer dans un dossier, appuyez sur Maj + Commande + 5, cliquez sur Options, puis choisissez-le sous « Enregistrer dans »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gli screenshot si aprono in Anteprima, non in una cartella. Per salvarli in una cartella, premi Maiuscole-Comando-5, fai clic su Opzioni e sceglila in “Salva in”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スクリーンショットはフォルダではなく“プレビュー”で開かれます。フォルダに保存するには、Shift＋Command＋5キーを押して“オプション”をクリックし、“保存先”でフォルダを選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "스크린샷이 폴더가 아닌 미리보기 앱에서 열립니다. 폴더에 저장하려면 Shift-Command-5를 누르고 ‘옵션’을 클릭한 다음 ‘저장 위치’ 아래에서 폴더를 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schermafbeeldingen worden geopend in Voorvertoning, niet in een map. Wil je ze in een map bewaren, druk dan op Shift + Command + 5, klik op 'Opties' en kies de map onder 'Bewaar in'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zrzuty ekranu otwierają się w aplikacji Podgląd, a nie w folderze. Aby zachowywać je w folderze, naciśnij Shift-Command-5, kliknij w Opcje i wybierz folder w sekcji „Zachowaj w”."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As capturas de tela abrem no app Pré-Visualização, não em uma pasta. Para salvá-las em uma, pressione Shift + Command + 5, clique em Opções e escolha a pasta na seção Salvar em."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capturile de ecran se deschid în Previzualizare și nu ajung într‑un dosar. Pentru a le salva într‑unul, apăsați Shift-Comandă-5, faceți clic pe Opțiuni și alegeți‑l la „Salvați în”."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Снимки экрана открываются в приложении «Просмотр», а не попадают в папку. Чтобы сохранять их в папку, нажмите сочетание клавиш Shift-Command-5, затем нажмите «Параметры» и выберите ее в разделе «Сохранить в»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skärmavbilder öppnas i Förhandsvisning, inte i en mapp. Om du vill spara dem i en mapp trycker du på Skift-Kommando-5, klickar på ”Alternativ” och väljer mappen under ”Spara i”."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekran resimleri bir klasörde değil, Önizleme’de açılıyor. Onları bir klasöre kaydetmek için Shift-Komut-5’e basın, “Seçenekler” düğmesini tıklayın ve klasörü “Şuraya Kaydet” bölümünden seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Знімки екрана відкриваються в Перегляді, а не в папці. Щоб зберігати їх у папці, натисніть Shift+Command+5, клацніть «Параметри» й виберіть її в розділі «Зберегти в»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截屏会在“预览”中打开，而不是存放到文件夹中。要将截屏保存到文件夹中，请按下Shift-Command-5，点按“选项”，然后选取一个文件夹作为保存位置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截圖會在「預覽程式」中打開，而不是存到檔案夾中。若要將截圖儲存到檔案夾中，請按下Shift-Command-5，按一下「選項」，然後在「儲存至」下方選擇檔案夾。"
+          }
+        }
+      }
+    },
     "Scroll bars are always there" : {
       "localizations" : {
         "cs" : {

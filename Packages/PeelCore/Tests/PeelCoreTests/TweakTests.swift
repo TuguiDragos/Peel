@@ -178,6 +178,50 @@ struct TweakTests {
         #expect(TweakStore.domain("com.apple.dock") == "com.apple.dock" as CFString)
     }
 
+    @Test func macOS27ReadsTheMovedKeysOnlyOnceItHasMovedThem() {
+        let moved = Tweak.Moved(old: "location", new: "location-screenshot", mark: "target-screenshot")
+        #expect(moved.key(onMacOS27: true, markIsSet: true) == "location-screenshot")
+        #expect(moved.key(onMacOS27: true, markIsSet: false) == "location")
+        #expect(moved.key(onMacOS27: false, markIsSet: true) == "location")
+        #expect(TweakCatalog.all.allSatisfy { $0.moved == nil || $0.moved?.old == $0.key })
+    }
+
+    @Test func aScreenshotGoesToAFolderUnlessSaveToSaysOtherwise() {
+        #expect(ScreenshotDestination(nil) == nil)
+        #expect(ScreenshotDestination("file") == nil)
+        #expect(ScreenshotDestination("clipboard") == .clipboard)
+        #expect(ScreenshotDestination("messages") == .messages)
+        #expect(ScreenshotDestination("somewhere") == .unknown)
+    }
+
+    @Test func readsTheScreenshotFolderAndSaveToWhereThisMacOSKeepsThem() throws {
+        let directory = try TemporaryDirectory()
+        let domain = directory.url.appending(path: "org.example.screencapture").path(percentEncoded: false)
+        let saved: NSDictionary = [
+            "location": "/Users/someone/Old", "target": "preview",
+            "location-screenshot": "/Users/someone/New", "target-screenshot": "clipboard",
+        ]
+        #expect(saved.write(toFile: domain + ".plist", atomically: true))
+        let shipped = try #require(TweakCatalog.all.first { $0.id == "screenshot-location" })
+        let folder = Tweak(
+            id: shipped.id, domain: domain, key: shipped.key, kind: shipped.kind, restart: shipped.restart,
+            group: shipped.group, hasASystemControl: shipped.hasASystemControl, documentation: shipped.documentation,
+            moved: shipped.moved, saveTo: shipped.saveTo
+        )
+
+        let state = TweakStore().state(of: folder)
+
+        if #available(macOS 27, *) {
+            #expect(state.text == "/Users/someone/New")
+            #expect(state.movedKey == "location-screenshot")
+            #expect(state.savedElsewhere == .clipboard)
+        } else {
+            #expect(state.text == "/Users/someone/Old")
+            #expect(state.movedKey == nil)
+            #expect(state.savedElsewhere == .preview)
+        }
+    }
+
     /// Reading is safe on any Mac: a key nobody has set reads as unset rather than as off.
     @Test func readsThisMacWithoutChangingIt() {
         let store = TweakStore()

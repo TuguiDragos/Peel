@@ -119,7 +119,9 @@ public enum TweakCatalog {
             restart: .none,
             group: .screenshots,
             hasASystemControl: true,
-            documentation: .undocumented
+            documentation: .undocumented,
+            moved: Tweak.Moved(old: "location", new: "location-screenshot", mark: "target-screenshot"),
+            saveTo: Tweak.Moved(old: "target", new: "target-screenshot", mark: "target-screenshot")
         ),
         Tweak(
             id: "screenshot-shadow",

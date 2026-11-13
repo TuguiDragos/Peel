@@ -39,14 +39,23 @@ public struct TweakStore: Sendable, TweakStoring {
     }
 
     public func state(of tweak: Tweak) -> TweakState {
-        let key = tweak.key as CFString
         synchronizeOnce(tweak.domain)
+        let read = self.key(of: tweak)
+        let key = read as CFString
+        let movedKey = read == tweak.key ? nil : read
+        let savedElsewhere = tweak.saveTo.flatMap { saveTo in
+            ScreenshotDestination(
+                Self.copy(self.key(saveTo, in: tweak.domain) as CFString, from: tweak.domain) as? String
+            )
+        }
 
         let isManaged = Self.isForced(key, in: tweak.domain)
-        let layers = layers(of: tweak)
+        let layers = layers(of: tweak, key: key)
         // A managed value comes before every layer.
         guard let current = isManaged ? Self.forcedValue(key, in: tweak.domain) : layers.inEffect else {
-            return TweakState(isOn: false, isManaged: isManaged, text: nil)
+            return TweakState(
+                isOn: false, isManaged: isManaged, text: nil, movedKey: movedKey, savedElsewhere: savedElsewhere
+            )
         }
 
         let isOn: Bool
@@ -59,7 +68,20 @@ public struct TweakStore: Sendable, TweakStoring {
             isOn = text?.isEmpty == false
         }
         let elsewhere = isManaged ? nil : Self.heldElsewhere(of: tweak.kind, isOn: isOn, in: layers)
-        return TweakState(isOn: isOn, isManaged: isManaged, text: text, heldElsewhere: elsewhere)
+        return TweakState(
+            isOn: isOn, isManaged: isManaged, text: text, heldElsewhere: elsewhere, movedKey: movedKey,
+            savedElsewhere: savedElsewhere
+        )
+    }
+
+    /// The key `tweak` is read and written under now: the one macOS moved it to, once it has.
+    func key(of tweak: Tweak) -> String {
+        tweak.moved.map { key($0, in: tweak.domain) } ?? tweak.key
+    }
+
+    private func key(_ moved: Tweak.Moved, in domain: String) -> String {
+        guard #available(macOS 27, *) else { return moved.old }
+        return moved.key(onMacOS27: true, markIsSet: Self.copy(moved.mark as CFString, from: domain) != nil)
     }
 
     /// What each layer macOS searches holds for a key, in Apple's order ("Preference Domains"): this Mac alone, the
@@ -75,8 +97,7 @@ public struct TweakStore: Sendable, TweakStoring {
         var inEffect: CFPropertyList? { thisMac ?? own ?? everyApp ?? everyAccount ?? everyAccountForEveryApp }
     }
 
-    private func layers(of tweak: Tweak) -> Layers {
-        let key = tweak.key as CFString
+    private func layers(of tweak: Tweak, key: CFString) -> Layers {
         let domain = Self.domain(tweak.domain)
         func value(_ user: CFString, _ host: CFString, in domain: CFString) -> CFPropertyList? {
             CFPreferencesCopyValue(key, domain, user, host)
@@ -118,13 +139,13 @@ public struct TweakStore: Sendable, TweakStoring {
     /// later changes would not take effect.
     public func storedValue(of tweak: Tweak) -> Any? {
         _ = Self.synchronize(tweak.domain)
-        return Self.copyStored(tweak.key as CFString, from: tweak.domain)
+        return Self.copyStored(key(of: tweak) as CFString, from: tweak.domain)
     }
 
     func valueInEffect(of tweak: Tweak) -> CFPropertyList? {
         _ = Self.synchronize(Self.globalDomain)
         _ = Self.synchronize(tweak.domain)
-        return Self.copy(tweak.key as CFString, from: tweak.domain)
+        return Self.copy(key(of: tweak) as CFString, from: tweak.domain)
     }
 
     /// Writes back `value`, or removes the key when `value` is `nil`, so macOS falls back to its default.
@@ -145,7 +166,7 @@ public struct TweakStore: Sendable, TweakStoring {
     }
 
     private func write(_ value: CFPropertyList?, for tweak: Tweak) -> Bool {
-        let key = tweak.key as CFString
+        let key = self.key(of: tweak) as CFString
         guard !Self.isForced(key, in: tweak.domain) else { return false }
         Self.set(key, to: value, in: tweak.domain)
         return Self.synchronize(tweak.domain)

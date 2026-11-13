@@ -51,12 +51,18 @@ struct TweakRow: View {
                     InfoNote(
                         name: String(localized: tweak.words.title),
                         detail: Text(verbatim: note(for: state)),
-                        footnote: Text(verbatim: "\(tweak.domain) \(tweak.key)"),
+                        footnote: Text(verbatim: "\(tweak.domain) \(state.movedKey ?? tweak.key)"),
                         caution: tweak.words.caution.map { Text($0) }
                     )
                 }
-                // A folder tweak holds a path rather than on or off, so the path is the row's second line.
-                if tweak.kind == .folder, let path = state.text {
+                // A folder tweak holds a path rather than on or off, so the path is the row's second line, unless
+                // screenshots go somewhere else and no folder is used.
+                if tweak.kind == .folder, let destination = state.savedElsewhere {
+                    Text(destination.instead)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                } else if tweak.kind == .folder, let path = state.text {
                     Text(verbatim: path)
                         .font(.caption.monospaced())
                         .foregroundStyle(.secondary)
