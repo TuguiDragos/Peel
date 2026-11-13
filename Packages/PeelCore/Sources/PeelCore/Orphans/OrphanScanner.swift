@@ -86,6 +86,7 @@ public struct OrphanScanner: Sendable {
         let here = Set(installedApps.compactMap { $0.bundleIdentifier?.lowercased() })
         let goneApps = gone.map { $0.bundleIdentifier.lowercased() }
         let knownToMacOS = AppsKnownToMacOS()
+        let toolsFolders = self.toolsFolders
         let ownership = AppOwnership(
             installedApps: installedApps + systemApps, goneApps: goneApps,
             goneFromTheAppStore: gone.filter { $0.isSignedByTheAppStore == true }.map(\.bundleIdentifier),
@@ -205,6 +206,9 @@ public struct OrphanScanner: Sendable {
             }
             if item.heldBack == nil, loadedByOtherApps.holds(item.url) {
                 item.heldBack = .loadedByOtherApps
+            }
+            if item.heldBack == nil, toolsFolders.holdsWhatAToolKeeps(item.url) {
+                item.heldBack = .holdsWhatAToolKeeps
             }
             if item.leftAlone == nil, entry.holds == nil {
                 item.heldBack = .couldNotLookInside

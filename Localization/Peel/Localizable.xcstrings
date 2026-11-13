@@ -126387,6 +126387,112 @@
         }
       }
     },
+    "Not selected: this holds what a developer tool keeps, such as installed packages, model weights, or app archives, which the tool may still use even if nothing here has changed in months." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: obsahuje to, co si uchovává vývojářský nástroj, například nainstalované balíčky, váhy modelů nebo archivy aplikací, které může nástroj dál používat, i když se tu už několik měsíců nic nezměnilo."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Dies enthält, was ein Entwicklertool aufbewahrt, etwa installierte Pakete, Modellgewichte oder App-Archive, die das Tool möglicherweise noch verwendet, auch wenn sich hier seit Monaten nichts geändert hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: esto contiene lo que guarda una herramienta para desarrolladores, como paquetes instalados, pesos de modelos o copias archivadas de apps, que la herramienta puede seguir usando aunque aquí no haya cambiado nada en meses."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : cet élément contient ce qu’un outil de développement conserve, comme des paquets installés, des poids de modèles ou des archives d’apps, que l’outil peut encore utiliser même si rien n’y a changé depuis des mois."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: contiene ciò che uno strumento di sviluppo conserva, come pacchetti installati, pesi di modelli o archivi di app, che lo strumento potrebbe ancora usare anche se qui non è cambiato nulla da mesi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: デベロッパツールが保管しているもの（インストール済みのパッケージ、モデルの重み、アプリのアーカイブなど）が含まれています。ここに何か月も変更がなくても、ツールがまだ使用している可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 설치된 패키지, 모델 가중치 또는 앱 아카이브처럼 개발자 도구가 보관하는 항목이 들어 있으며, 여기에서 몇 달 동안 아무것도 변경되지 않았더라도 해당 도구가 여전히 사용할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit bevat wat een ontwikkeltool bewaart, zoals geïnstalleerde pakketten, modelgewichten of app-archieven, die de tool misschien nog gebruikt, ook al is hier al maanden niets gewijzigd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: zawiera to, co przechowuje narzędzie dla deweloperów, na przykład zainstalowane pakiety, wagi modeli lub archiwa aplikacji, z których narzędzie może nadal korzystać, nawet jeśli od miesięcy nic się tu nie zmieniło."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: isto contém o que uma ferramenta para desenvolvedores guarda, como pacotes instalados, pesos de modelos ou arquivos comprimidos de apps, que a ferramenta ainda pode usar mesmo que nada aqui tenha mudado há meses."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest articol conține ce păstrează un instrument pentru dezvoltatori, cum ar fi pachete instalate, ponderi de modele sau arhive de aplicații, pe care instrumentul le poate folosi în continuare chiar dacă nimic de aici nu s‑a schimbat de luni de zile."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: здесь лежит то, что хранит инструмент разработчика, например установленные пакеты, веса моделей или архивы приложений, и инструмент может еще использовать это, даже если тут месяцами ничего не менялось."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: det här innehåller sådant som ett utvecklarverktyg sparar, till exempel installerade paket, modellvikter eller apparkiv, som verktyget fortfarande kan använda även om inget här har ändrats på flera månader."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu, yüklü paketler, model ağırlıkları veya uygulama arşivleri gibi bir geliştirici aracının tuttuğu şeyleri barındırır; burada aylardır hiçbir şey değişmemiş olsa bile araç bunları hâlâ kullanıyor olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: тут лежить те, що зберігає інструмент розробника, як-от інстальовані пакети, ваги моделей чи архіви програм, які інструмент може досі використовувати, навіть якщо тут уже місяцями нічого не змінювалося."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此项存放着开发者工具保留的内容，例如已安装的软件包、模型权重或App归档，即使这里已有数月没有任何变化，该工具仍可能会使用它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：這裡存放著開發者工具保留的內容，例如已安裝的套件、模型權重或App封存檔，即使這裡的內容已數個月沒有變更，該工具仍可能會使用它們。"
+          }
+        }
+      }
+    },
     "Not selected: this holds what you made with the app, such as saved games, databases, or the app’s own backups, which may exist only on this Mac. Once the Trash is emptied, it’s gone for good unless you have another copy." : {
       "localizations" : {
         "cs" : {

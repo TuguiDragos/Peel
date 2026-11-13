@@ -127,6 +127,9 @@ public enum HoldBack: String, Sendable, Hashable {
     /// Holds what another installed app keeps as its own, as Developer's table names it, such as Xcode's folders in
     /// `~/Library/Developer`: it goes with that app, never with this one.
     case holdsAnotherAppsData
+    /// Holds what a developer tool keeps and may still use, as Developer's table names it with a kind it never
+    /// recommends, such as a store of installed packages that projects link into, which reading leaves undated.
+    case holdsWhatAToolKeeps
     /// Needs an administrator, and the helper's own rule refuses it (`HelperReach`).
     case beyondTheHelper
     /// Removed by the app's own uninstaller once the app has moved (`UninstallsItself`). Moved first, the file of

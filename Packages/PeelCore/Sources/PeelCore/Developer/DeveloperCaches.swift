@@ -23,6 +23,14 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
         /// What an editor kept for a project that is no longer on this Mac, its chat history included. Nothing makes
         /// it again.
         case projectState
+
+        /// Whether Peel never recommends this kind: what a tool can't simply make again.
+        public var isKeptByDefault: Bool {
+            switch self {
+            case .buildData, .downloads, .cache, .logs: false
+            case .deviceSupport, .archives, .models, .environments, .keptDownloads, .projectState: true
+            }
+        }
     }
 
     /// What an Xcode archive's own `Info.plist` says of the app inside it.
@@ -92,10 +100,7 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
             if let heldBack, heldBack.isASecret { return .heldBack(heldBack) }
             if let whyNotMeasured { return .heldBack(whyNotMeasured) }
             if let heldBack { return .heldBack(heldBack) }
-            switch kind {
-            case .buildData, .downloads, .cache, .logs: break
-            case .deviceSupport, .archives, .models, .environments, .keptDownloads, .projectState: return .keptByDefault
-            }
+            if kind.isKeptByDefault { return .keptByDefault }
             if !isTheTools { return .notTheTools }
             if let workspace, workspace.mayStillBeInUse { return .workspaceMayBeInUse(lastUsed: workspace.lastUsed) }
             return nil
@@ -364,7 +369,7 @@ public enum DeveloperCaches {
     /// The table's folders under one home, which Space leaves to the Developer page, worked out once for all the
     /// folders of an area.
     struct FoldersLeftToDeveloper {
-        private let folders: [(path: [String], own: [[String]])]
+        private let folders: [(path: [String], own: [[String]], isKept: Bool)]
 
         init(home: URL, userCache: URL? = nil, root: URL = URL(filePath: "/", directoryHint: .isDirectory)) {
             // Not through `comparablePath`: standardizing drops `/private` only from a path that exists, and most
@@ -377,17 +382,18 @@ public enum DeveloperCaches {
             let settings = ToolSettings(home: home, root: root)
             folders = DeveloperCaches.definitions.flatMap { definition in
                 let own = definition.ownFolders.map { homeNames + PathComponents.of($0) }
-                let usual = definition.folders.compactMap { folder -> ([String], [[String]])? in
+                let usual = definition.folders.compactMap { folder -> ([String], [[String]], Bool)? in
                     let base = switch folder.base {
                     case .home: homeNames
                     case .userCache: userCacheNames
                     case .userTemporary: nil as [String]?
                     }
-                    return base.map { ($0 + PathComponents.of(folder.path), own) }
+                    return base.map { ($0 + PathComponents.of(folder.path), own, folder.kind.isKeptByDefault) }
                 }
-                let moved = definition.folders.compactMap(\.movedBy).flatMap { relocation in
-                    relocation.places(preference: { _ in nil }, settings: settings).map {
-                        (names($0.place), [names($0.named)])
+                let moved = definition.folders.flatMap { folder -> [([String], [[String]], Bool)] in
+                    guard let relocation = folder.movedBy else { return [] }
+                    return relocation.places(preference: { _ in nil }, settings: settings).map {
+                        (names($0.place), [names($0.named)], folder.kind.isKeptByDefault)
                     }
                 }
                 return usual + moved
@@ -399,7 +405,7 @@ public enum DeveloperCaches {
         /// same folder (another case, a link) finds the same.
         func inside(_ folder: URL) -> [[String]] {
             let base = PathComponents.of(PathPattern.canonical(folder).path(percentEncoded: false))
-            let owned = folders.compactMap { path, own -> [String]? in
+            let owned = folders.compactMap { path, own, _ -> [String]? in
                 guard path.count > base.count, path.starts(with: base) else { return nil }
                 let declared = own.first { $0.count > base.count && path.starts(with: $0) }
                 return Array((declared ?? Array(path.prefix(base.count + 1)))[base.count...])
@@ -410,8 +416,18 @@ public enum DeveloperCaches {
         /// Whether `item` is itself one of the folders the table names, found without opening it.
         func isOneOf(_ item: URL) -> Bool {
             let names = PathComponents.of(PathPattern.canonicalWithoutOpening(item).path(percentEncoded: false))
-            return folders.contains { path, _ in
+            return folders.contains { path, _, _ in
                 path.count == names.count && zip(path, names).allSatisfy { fnmatch($0, $1, FNM_CASEFOLD) == 0 }
+            }
+        }
+
+        /// Whether `item` is, or holds, a folder of a kind the Developer page never recommends, such as renv's store
+        /// that projects link into, found without opening it.
+        func holdsWhatAToolKeeps(_ item: URL) -> Bool {
+            let names = PathComponents.of(PathPattern.canonicalWithoutOpening(item).path(percentEncoded: false))
+            return folders.contains { path, _, isKept in
+                isKept && path.count >= names.count
+                    && zip(path, names).allSatisfy { fnmatch($0, $1, FNM_CASEFOLD) == 0 }
             }
         }
     }

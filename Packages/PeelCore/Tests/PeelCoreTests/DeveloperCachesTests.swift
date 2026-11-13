@@ -229,6 +229,21 @@ struct DeveloperCachesTests {
         #expect(throughALink == asWritten, "a link found \(throughALink)")
     }
 
+    @Test func knowsAFolderHoldingWhatAToolKeepsWithoutOpeningIt() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let caches = home.appending(path: "Library/Caches", directoryHint: .isDirectory)
+
+        let holds = DeveloperCaches.FoldersLeftToDeveloper(home: home).holdsWhatAToolKeeps
+
+        #expect(holds(caches.appending(path: "org.R-project.R", directoryHint: .isDirectory)))
+        #expect(holds(caches.appending(path: "org.r-project.r/R/renv/cache", directoryHint: .isDirectory)))
+        #expect(holds(home.appending(path: "Library/Developer", directoryHint: .isDirectory)))
+        #expect(!holds(caches.appending(path: "com.vercel.cli", directoryHint: .isDirectory)))
+        #expect(!holds(caches.appending(path: "org.R-project.R/R/renv/cache/v5", directoryHint: .isDirectory)))
+        #expect(!holds(caches.appending(path: "org.example.other", directoryHint: .isDirectory)))
+    }
+
     @Test func reportsOnlyExistingLocationsSortedBySize() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".npm/_cacache/content/data", bytes: 80_000)

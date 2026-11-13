@@ -2242,6 +2242,40 @@ struct OrphanScannerTests {
         #expect(Set(afterNova) == ["com.panic.Nova", "org.R-project.R", "org.example.gone"])
     }
 
+    @Test func holdsBackAFolderHoldingWhatADeveloperToolKeepsAndIsNeverSureOfIt() async throws {
+        let directory = try TemporaryDirectory()
+        let old = Date(timeIntervalSinceNow: -2 * 365 * 24 * 60 * 60)
+        let caches = directory.url.appending(path: "home/Library/Caches", directoryHint: .isDirectory)
+        for path in ["org.R-project.R/R/renv/cache/v5/x.tar", "org.example.gone/data.db"] {
+            try directory.file("home/Library/Caches/\(path)")
+            let names = path.split(separator: "/")
+            for count in 1...names.count {
+                try FileManager.default.setAttributes(
+                    [.modificationDate: old],
+                    ofItemAtPath: caches.appending(path: names.prefix(count).joined(separator: "/"))
+                        .path(percentEncoded: false)
+                )
+            }
+        }
+        let r = RememberedApp(
+            bundleIdentifier: "org.R-project.R", name: "R", teamIdentifier: nil,
+            lastSeen: .now.addingTimeInterval(-90 * 24 * 60 * 60),
+            lastPath: directory.url.appending(path: "root/Applications/R.app").path(percentEncoded: false)
+        )
+
+        let alone = await scanner(in: directory).scan(installedApps: installed).groups
+        let afterR = await scanner(in: directory).scan(installedApps: installed, remembered: [r]).groups
+
+        let store = try #require(alone.first { $0.identifier == "org.R-project.R" })
+        #expect(store.items.map(\.heldBack) == [.holdsWhatAToolKeeps])
+        #expect(store.confidence == OrphanConfidence(level: .likely, reasons: [.nothingClaimsIt]))
+        #expect(try #require(alone.first { $0.identifier == "org.example.gone" }).confidence.level == .certain)
+        let remembered = try #require(afterR.first { $0.identifier == "org.R-project.R" })
+        #expect(remembered.confidence == OrphanConfidence(
+            level: .likely, reasons: [.appLeft(name: "R", lastSeen: r.lastSeen)]
+        ))
+    }
+
     @Test func aLinkIntoAnAppOnADiskThatIsNotConnectedIsNotListed() async throws {
         let directory = try TemporaryDirectory()
         let bin = try directory.directory("root/opt/homebrew/bin")
