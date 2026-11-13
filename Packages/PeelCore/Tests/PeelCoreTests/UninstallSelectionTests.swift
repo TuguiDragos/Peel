@@ -189,6 +189,65 @@ struct UninstallSelectionTests {
         )
     }
 
+    @Test(arguments: [false, true])
+    func aFileTwoAppsShareComesBackOnlyWithTheLastOfThem(otherComesBackFirst: Bool) {
+        let own = leftover("com.example.app")
+        let others = leftover("com.example.other")
+        let shared = leftover("com.example.shared")
+        let bulk = BulkUninstallation(uninstallations: [
+            uninstallation([own, shared]), uninstallation(of: other, [others, shared]),
+        ])
+        var choices = UninstallSelection()
+        let suggested = choices.update([], in: bulk, canUseHelper: true)
+        var selected = choices.personChanged(from: suggested, to: suggested.subtracting([app.url]), in: bulk)
+        selected = choices.personChanged(from: selected, to: selected.subtracting([other.url]), in: bulk)
+
+        let (first, second) = otherComesBackFirst ? (other.url, app.url) : (app.url, other.url)
+        selected = choices.personChanged(from: selected, to: selected.union([first]), in: bulk)
+        #expect(!selected.contains(shared.url))
+        selected = choices.personChanged(from: selected, to: selected.union([second]), in: bulk)
+        #expect(selected == suggested)
+    }
+
+    @Test func oneChangeThatSwapsWhichAppStaysKeepsTheirSharedFileOut() {
+        let own = leftover("com.example.app")
+        let others = leftover("com.example.other")
+        let shared = leftover("com.example.shared")
+        let bulk = BulkUninstallation(uninstallations: [
+            uninstallation([own, shared]), uninstallation(of: other, [others, shared]),
+        ])
+        var choices = UninstallSelection()
+        let suggested = choices.update([], in: bulk, canUseHelper: true)
+        var selected = choices.personChanged(from: suggested, to: suggested.subtracting([app.url]), in: bulk)
+
+        selected = choices.personChanged(
+            from: selected, to: selected.union([app.url]).subtracting([other.url]), in: bulk
+        )
+        #expect(selected == [app.url, own.url])
+        #expect(choices.personChanged(from: selected, to: selected.union([other.url]), in: bulk) == suggested)
+    }
+
+    @Test func aFileSelectedBesideAnAppThatAlreadyStayedComesBackAsItWas() {
+        let kept = InstalledApp(url: URL(filePath: "/Applications/Kept.app"), bundleIdentifier: "com.example.kept", name: "Kept")
+        let own = leftover("com.example.app")
+        let shared = leftover("com.example.shared")
+        let bulk = BulkUninstallation(uninstallations: [
+            uninstallation([own, shared]), uninstallation(of: kept, appRequiresPrivileges: true, [shared]),
+        ])
+        var choices = UninstallSelection()
+        var selected = choices.update([], in: bulk, canUseHelper: false)
+        #expect(selected == [app.url, own.url])
+        selected = choices.personChanged(from: selected, to: selected.union([shared.url]), in: bulk)
+
+        selected = choices.personChanged(from: selected, to: selected.subtracting([app.url]), in: bulk)
+        #expect(selected == [])
+        #expect(
+            choices.personChanged(from: selected, to: selected.union([app.url]), in: bulk) == [
+                app.url, own.url, shared.url,
+            ]
+        )
+    }
+
     /// An app the person keeps stays kept through the page's scans: a file of it found later is not selected.
     @Test func aScanAfterAnAppWasKeptSelectsNothingOfIt() {
         let others = leftover("com.example.other")

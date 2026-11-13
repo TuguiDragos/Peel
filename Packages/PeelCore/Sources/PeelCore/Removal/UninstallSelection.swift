@@ -19,8 +19,9 @@ public struct UninstallSelection: Sendable {
     private var kept = KeptSelection()
     /// Whether each app stayed at the last change, by `InstalledApp.reference`.
     private var stayed: [String: Bool] = [:]
-    /// The files each app the person keeps had selected when they kept it, by `InstalledApp.reference`.
-    private var setAside: [String: Set<URL>] = [:]
+    /// The files that left the selection as apps came to stay, each with the apps keeping it out, by
+    /// `InstalledApp.reference`: those that came to stay after it was selected.
+    private var setAside: [URL: Set<String>] = [:]
     /// What a checkbox can select as of the last update.
     public private(set) var selectable: Set<URL> = []
 
@@ -65,8 +66,8 @@ public struct UninstallSelection: Sendable {
     }
 
     /// Carries a change the person made on several apps' page from `previous` to `selected` over to the files of
-    /// each app it touches: an app whose bundle they deselect stays, so none of its files stays selected, and once
-    /// every copy of it is selected again its files come back as they were.
+    /// each app it touches: an app whose bundle they deselect stays, so none of its files stays selected, and a file
+    /// comes back as it was once every app that came to stay after it was selected goes again, each copy of it.
     public mutating func personChanged(
         from previous: Set<URL>,
         to selected: Set<URL>,
@@ -75,12 +76,17 @@ public struct UninstallSelection: Sendable {
         let staying = bulk.staying(selected: selected)
         var result = selected
         for reference in bulk.staying(selected: previous).symmetricDifference(staying) {
-            let files = bulk.files(of: reference)
             if staying.contains(reference) {
-                setAside[reference] = result.intersection(files)
-                result.subtract(files)
+                for file in bulk.files(of: reference) where result.contains(file) || setAside[file] != nil {
+                    result.remove(file)
+                    setAside[file, default: []].insert(reference)
+                }
             } else {
-                result.formUnion((setAside.removeValue(forKey: reference) ?? []).intersection(selectable))
+                for (file, apps) in setAside where apps.contains(reference) {
+                    let keepingItOut = apps.subtracting([reference])
+                    setAside[file] = keepingItOut.isEmpty ? nil : keepingItOut
+                    if keepingItOut.isEmpty, selectable.contains(file) { result.insert(file) }
+                }
             }
             stayed[reference] = staying.contains(reference)
         }
