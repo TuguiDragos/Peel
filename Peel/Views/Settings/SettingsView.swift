@@ -461,6 +461,7 @@ struct GeneralSettingsView: View {
                         .disabled(
                             selfUninstall.isRunning || !library.hasLoaded || way.waitsForHomebrew
                                 || !history.mayMove || Self.blockAhead != nil || waitsForAnAdministrator
+                                || helper.isChanging
                         )
                     }
                     if selfUninstall.isRunning {

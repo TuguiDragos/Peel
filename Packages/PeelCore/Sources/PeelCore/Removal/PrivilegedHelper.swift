@@ -16,6 +16,11 @@ public enum PrivilegedHelper {
         case requiresApproval
         case enabled
         case unavailable
+
+        /// Whether macOS has the helper registered: enabled, or waiting for the person's approval.
+        public var isRegistered: Bool {
+            self == .enabled || self == .requiresApproval
+        }
     }
 
     /// Whether the helper can act for this account, and if not, why.

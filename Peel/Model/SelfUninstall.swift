@@ -87,7 +87,7 @@ final class SelfUninstall {
     /// Whether Peel can't remove itself from this account: its helper is registered, and only an administrator may
     /// change it.
     static func waitsForAnAdministrator(isAdministrator: Bool, status: PrivilegedHelper.Status) -> Bool {
-        !isAdministrator && (status == .enabled || status == .requiresApproval)
+        !isAdministrator && status.isRegistered
     }
 
     static var onlyAnAdministrator: String {
@@ -118,6 +118,21 @@ final class SelfUninstall {
         let embedded = Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel")
         return status != .enabled && CommandLineTool.standing(embedded: embedded) == .installed
             && FileAccess.requiresPrivilegesToRemove(URL(filePath: CommandLineTool.path))
+    }
+
+    /// What Remove Peel asks of the helper along the way. Whether it is registered comes from macOS at that moment,
+    /// never from the model's last answer, which a change of the helper under way leaves behind.
+    static func steps(
+        helper: HelperModel,
+        work: StandingWork,
+        status: @escaping () async -> PrivilegedHelper.Status = PrivilegedHelper.currentStatus
+    ) -> SelfRemoval.Steps {
+        SelfRemoval.Steps(
+            helperIsRegistered: { await status().isRegistered },
+            helperIsEnabled: { await status() == .enabled },
+            uninstallHelper: { await helper.uninstall()?.reason },
+            work: work
+        )
     }
 
     /// Removes Peel. The plan is made first, so a plan that cannot be made leaves Peel as it was, and then
@@ -161,12 +176,7 @@ final class SelfUninstall {
             links: plan.unreviewedLinks,
             app: bundleURL,
             folder: PeelFolder.url,
-            steps: SelfRemoval.Steps(
-                helperIsRegistered: { helper.isRegistered },
-                helperIsEnabled: { helper.status == .enabled },
-                uninstallHelper: { await helper.uninstall()?.reason },
-                work: work
-            ),
+            steps: Self.steps(helper: helper, work: work),
             using: TrashService(exclusions: exclusions),
             recording: record
         )

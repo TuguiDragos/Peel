@@ -27,7 +27,7 @@ final class HelperModel {
     }
 
     var isRegistered: Bool {
-        status == .enabled || status == .requiresApproval
+        status.isRegistered
     }
 
     var standing: PrivilegedHelper.Standing {

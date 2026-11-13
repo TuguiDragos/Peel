@@ -1,6 +1,6 @@
 import Foundation
 @testable import Peel
-import PeelCore
+@testable import PeelCore
 import Synchronization
 import Testing
 
@@ -26,6 +26,15 @@ struct SelfUninstallTests {
         await first.value
 
         #expect(runs.withLock { $0 } == 1)
+    }
+
+    @Test func asksMacOSWhetherTheHelperIsRegisteredNotTheModelsLastAnswer() async {
+        let helper = HelperModel.notAsking()
+        let steps = SelfUninstall.steps(helper: helper, work: StandingWork(), status: { .enabled })
+
+        #expect(!helper.isRegistered)
+        #expect(await steps.helperIsRegistered())
+        #expect(await steps.helperIsEnabled())
     }
 
     @Test func waitsForWhatPeelIsMovingFirst() async {
