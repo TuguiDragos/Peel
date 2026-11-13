@@ -336,12 +336,28 @@ public struct MakersUninstaller: Sendable, Hashable {
         return !path.hasPrefix("/")
     }
 
-    /// Whether only root can change `url`: it and every folder above it are root's and closed to everyone else.
+    /// Whether only root can change `url`: it and every folder above it, and what it leads to through links and every
+    /// folder above that, are root's and closed to everyone else.
     static func onlyRootCanChange(_ url: URL) -> Bool {
-        var path = URL(filePath: url.path(percentEncoded: false)).standardizedFileURL
+        isClosed(url, toAllBut: [0])
+    }
+
+    /// Whether `url` is closed to all but `owners`, as `onlyRootCanChange` asks: a link says nothing of its target.
+    static func isClosed(_ url: URL, toAllBut owners: Set<uid_t>) -> Bool {
+        let named = URL(filePath: url.path(percentEncoded: false)).standardizedFileURL
+        guard let real = realpath(named.path(percentEncoded: false), nil) else { return false }
+        defer { free(real) }
+        let target = URL(filePath: String(cString: real))
+        return chain(of: named, isClosedToAllBut: owners)
+            && (target.path(percentEncoded: false) == named.path(percentEncoded: false)
+                || chain(of: target, isClosedToAllBut: owners))
+    }
+
+    private static func chain(of url: URL, isClosedToAllBut owners: Set<uid_t>) -> Bool {
+        var path = url
         while true {
             var info = stat()
-            guard lstat(path.path(percentEncoded: false), &info) == 0, info.st_uid == 0,
+            guard lstat(path.path(percentEncoded: false), &info) == 0, owners.contains(info.st_uid),
                   info.st_mode & (S_IWGRP | S_IWOTH) == 0
             else { return false }
             guard path.pathComponents.count > 1 else { return true }

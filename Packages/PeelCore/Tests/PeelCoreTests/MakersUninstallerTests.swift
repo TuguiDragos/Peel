@@ -276,6 +276,22 @@ struct MakersUninstallerTests {
         #expect(openSCsStep == .notTrusted)
     }
 
+    @Test func aLinkCountsOnlyWhenWhatItLeadsToIsClosedToo() throws {
+        let directory = try TemporaryDirectory()
+        let open = try directory.file("open/uninstall")
+        let closed = try directory.file("closed/uninstall")
+        try directory.setPermissions(0o777, of: "open")
+        defer { try? directory.setPermissions(0o755, of: "open") }
+        let bin = try directory.directory("bin")
+        try FileManager.default.createSymbolicLink(at: bin.appending(path: "open-uninstall"), withDestinationURL: open)
+        try FileManager.default.createSymbolicLink(at: bin.appending(path: "closed-uninstall"), withDestinationURL: closed)
+        let rootOrThisAccount: Set<uid_t> = [0, getuid()]
+
+        #expect(!MakersUninstaller.isClosed(bin.appending(path: "open-uninstall"), toAllBut: rootOrThisAccount))
+        #expect(MakersUninstaller.isClosed(bin.appending(path: "closed-uninstall"), toAllBut: rootOrThisAccount))
+        #expect(MakersUninstaller.onlyRootCanChange(URL(filePath: "/etc/hosts")))
+    }
+
     @Test func aSealHoldsOnlyWhileNothingInTheBundleChanged() throws {
         let directory = try TemporaryDirectory()
         let bundle = try directory.directory("Maker.app")
