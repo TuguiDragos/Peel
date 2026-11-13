@@ -398,6 +398,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   link, or a drop, and goes like any other, while a folder named only `.app` isn't taken for one.
 - An app built for iPhone, iPad, Apple TV, or Apple Watch, as Xcode leaves one in a build folder, is said to be built
   for another Apple platform, no longer to have no Info.plist.
+- Uninstalling the Ollama app, Cherry Studio, Handy, Chatbox, LM Studio, AnythingLLM, Osaurus, MacWhisper,
+  superwhisper, VoiceInk, or Buzz no longer selects the folder where it keeps conversations, transcripts, or recordings
+  that exist only on this Mac: each is shown with its reason and left for you to choose, as for the other AI apps.
 
 #### Orphaned Files
 
@@ -428,6 +431,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A file that is a link says where it leads and that moving it moves only the link.
 - One entry of This Belongs To's list that this version can't read no longer brings every group back: each entry is read
   on its own, and one another version wrote stays as it was.
+- The folder where the `llm` command keeps its API keys and a log of every prompt is shown with that reason and never
+  recommended, no longer as left by an app that's gone.
 
 #### Intel Software
 
@@ -453,6 +458,16 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Asking to quit several of a package's apps before removing them asks in the plural, as several apps' page does.
 - What a package put inside an app is listed and stays, no longer offered on its own: Peel moves an app only whole,
   and Put Back wouldn't have put it back.
+- A package that wrote only inside an app, such as a plug-in placed in the app's own folder, no longer has the whole
+  app offered and recommended as its own: the page lists what the package put inside the app, which stays.
+- A sign-in plug-in alone in `/Library/Security/SecurityAgentPlugins`, as it usually is, is offered as the plug-in and
+  stays with its reason, no longer as the whole folder with the steps to drag it to the Trash.
+- A folder macOS makes on every Mac, such as `/Library/Java/JavaVirtualMachines` or the Keyboard Layouts folder of a
+  home, is no longer offered as one package's: the page offers what the package put in it, from macOS's own record of
+  the folders it makes, and once that is gone the receipt says nothing on it is left.
+- The note on what needs an administrator leaves out what Peel won't move, and a file a package put in `/usr/local`
+  says, on every page, that Peel moves only an app's links and Homebrew's records from there, no longer that it is part
+  of macOS.
 
 #### Homebrew
 
@@ -495,6 +510,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - A tool's cache kept on another disk through a link, such as DerivedData on an external drive, is named on the tool's
   page, in the list, and by `peel caches`, no longer left out without a word. Peel still doesn't follow the link.
+- Tart's pulled images and IPSW downloads are listed on their own, no longer the whole of `~/.tart/cache`, which also
+  holds the disks Tart's stacked machines start from and never downloads again: Select Recommended no longer takes them.
 
 #### Build Artifacts
 
