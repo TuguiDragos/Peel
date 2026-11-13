@@ -152,23 +152,23 @@ struct OpenFilesTests {
 
     @Test func namesMacOSWhenOnlyItsOwnProgramsHoldAnItem() throws {
         let directory = try TemporaryDirectory()
-        let log = try directory.file("Cache/stats.log")
-        let iostat = try Self.macOSProgram(writingTo: log)
-        defer { iostat.terminate() }
+        let digest = try directory.file("Cache/digest.txt")
+        let md5 = try Self.macOSProgram(writingTo: digest)
+        defer { md5.terminate() }
 
-        let refusal = OpenFiles().refusal(of: log.deletingLastPathComponent(), lettingItsProgramsRun: false)
-        #expect(refusal == .inUseByMacOS(by: ["iostat"]))
+        let refusal = OpenFiles().refusal(of: digest.deletingLastPathComponent(), lettingItsProgramsRun: false)
+        #expect(refusal == .inUseByMacOS(by: ["md5"]))
     }
 
     @Test func leavesMacOSOutWhileAProgramThatCanQuitHoldsTheItemToo() throws {
         let directory = try TemporaryDirectory()
-        let log = try directory.file("Support/stats.log")
-        let iostat = try Self.macOSProgram(writingTo: log)
-        defer { iostat.terminate() }
+        let digest = try directory.file("Support/digest.txt")
+        let md5 = try Self.macOSProgram(writingTo: digest)
+        defer { md5.terminate() }
         let agent = try directory.runningProgram("Support/agent")
         defer { agent.terminate() }
 
-        let refusal = OpenFiles().refusal(of: log.deletingLastPathComponent(), lettingItsProgramsRun: false)
+        let refusal = OpenFiles().refusal(of: digest.deletingLastPathComponent(), lettingItsProgramsRun: false)
         #expect(refusal == .heldOpen(by: ["agent"]))
     }
 
@@ -284,13 +284,12 @@ struct OpenFilesTests {
         #expect(thePersons.filter(OpenFiles.isMacOSsOwn) == [])
     }
 
-    /// A copy of `cat` at `path`, started with `arguments` and holding `file` open for writing as its error output. It
-    /// echoes a line before this returns, so macOS has let it run, and reads its input until the test closes it.
-    /// `iostat`, run from where macOS keeps it, writing into `file`, which it holds open until it ends five minutes on.
+    /// `md5`, run from where macOS keeps it, holding `file` open for writing as its output. It reads its input, so it
+    /// runs until the test ends it or the suite ends, whatever disks other tests attach meanwhile.
     private static func macOSProgram(writingTo file: URL) throws -> Process {
         let process = Process()
-        process.executableURL = URL(filePath: "/usr/sbin/iostat")
-        process.arguments = ["-w", "300", "-c", "2"]
+        process.executableURL = URL(filePath: "/sbin/md5")
+        process.standardInput = Pipe()
         let output = try FileHandle(forWritingTo: file)
         defer { try? output.close() }
         process.standardOutput = output
