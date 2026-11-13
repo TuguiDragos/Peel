@@ -1262,7 +1262,7 @@ public enum DeveloperCaches {
             Folder("Library/Caches/ollama/updates", .downloads, source: "https://github.com/ollama/ollama/blob/42e911bc3d05798cad729cb474bf62f378cb2e26/app/updater/updater_darwin.go#L88-L96"),
         ], programs: ["ollama"]),
         Definition(id: "lmstudio", name: "LM Studio", systemImage: "brain", appBundleIdentifiers: [], folders: [
-            Folder(".lmstudio/models", .models, source: "https://lmstudio.ai/docs/app/advanced/import-model"),
+            Folder(".lmstudio/models", .models, source: "https://lmstudio.ai/docs/app/advanced/import-model", movedBy: .lmStudioModels),
             Folder(".cache/lm-studio/models", .models, source: "https://lmstudio.ai/blog/lmstudio-v0.3.6"),
         ]),
         Definition(id: "huggingface", name: "Hugging Face", systemImage: "brain", appBundleIdentifiers: [], folders: [

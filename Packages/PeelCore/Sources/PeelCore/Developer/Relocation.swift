@@ -23,6 +23,8 @@ extension DeveloperCaches {
         case homebrewCache(inside: String)
         /// Jan's data folder, with the folder inside it.
         case janDataFolder(inside: String)
+        /// LM Studio's models folder.
+        case lmStudioModels
 
         /// Where the tool says which file holds the setting and where the setting puts the folder.
         var sources: [String] {
@@ -66,6 +68,9 @@ extension DeveloperCaches {
                 "https://github.com/janhq/jan/blob/a7752d5be16fc5d92df7809def274ffd2b27db07/src-tauri/src/core/app/commands.rs#L17-L35",
                 "https://github.com/janhq/jan/blob/a7752d5be16fc5d92df7809def274ffd2b27db07/src-tauri/src/core/app/commands.rs#L146-L175",
             ]
+            case .lmStudioModels: [
+                "https://github.com/lmstudio-ai/lms/blob/138dcffbc40e5fe3d9c0d38cf75dcdc1d883d849/src/subcommands/importCmd.ts#L343-L395",
+            ]
             }
         }
 
@@ -98,6 +103,8 @@ extension DeveloperCaches {
                     .flatMap { cache in Self.entries(of: cache, named: inside).map { ($0, cache) } }
             case .janDataFolder(let inside):
                 settings.janDataFolder.map { [($0.appending(path: inside, directoryHint: .isDirectory), $0)] } ?? []
+            case .lmStudioModels:
+                settings.lmStudioModels.map { [($0, $0)] } ?? []
             }
             return found.map { (Self.entry($0.place), Self.entry($0.named)) }.filter(\.place.isRealFolder)
         }

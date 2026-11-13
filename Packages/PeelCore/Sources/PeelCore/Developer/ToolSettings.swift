@@ -24,6 +24,8 @@ struct ToolSettings: Sendable {
     /// Jan's data folder: `data_folder` in Jan's `settings.json`, or, while that file is missing, in the one in the
     /// folder named for Jan's bundle, which Jan recovers it from.
     let janDataFolder: URL?
+    /// LM Studio's models folder: `downloadsFolder` in the `settings.json` of its home, `~/.lmstudio`.
+    let lmStudioModels: URL?
 
     /// The settings of the tools of `home`, with Homebrew's files for everyone read from `root`.
     init(home: URL, root: URL = URL(filePath: "/", directoryHint: .isDirectory)) {
@@ -71,6 +73,8 @@ struct ToolSettings: Sendable {
         janDataFolder = Self.text(
             at: janSettings.isMissing ? applicationSupport.appending(path: "jan.ai.app/settings.json") : janSettings
         ).flatMap { Self.jsonValue(of: "data_folder", in: $0) }.flatMap(Self.absolute)
+        lmStudioModels = Self.text(at: home.appending(path: ".lmstudio/settings.json"))
+            .flatMap { Self.jsonValue(of: "downloadsFolder", in: $0) }.flatMap(Self.absolute)
     }
 
     private static func jsonValue(of key: String, in text: String) -> String? {

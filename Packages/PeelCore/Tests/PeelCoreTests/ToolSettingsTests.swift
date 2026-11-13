@@ -236,6 +236,23 @@ struct ToolSettingsTests {
         #expect(dataFolder() == nil)
     }
 
+    @Test func readsTheModelsFolderLMStudioMovedAndListsTheModelsThere() async throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let moved = directory.url.appending(path: "Fast/models", directoryHint: .isDirectory)
+        try directory.file("Fast/models/org/model/model.gguf", contents: Data(repeating: 1, count: 4_096))
+        let setting = #"{"downloadsFolder":"\#(moved.path(percentEncoded: false))"}"#
+        try directory.file("home/.lmstudio/settings.json", contents: Data(setting.utf8))
+
+        #expect(Self.path(ToolSettings(home: home).lmStudioModels) == Self.path(moved))
+        let tools = DeveloperCaches.definitions.filter { $0.id == "lmstudio" }
+        let lmStudio = await DeveloperCaches.scan(tools, homeDirectory: home).first
+        #expect(lmStudio?.locations.contains { Self.path($0.url) == Self.path(moved) } == true)
+
+        try directory.file("home/.lmstudio/settings.json", contents: Data(#"{"downloadsFolder":"models"}"#.utf8))
+        #expect(ToolSettings(home: home).lmStudioModels == nil, "a relative path names no place")
+    }
+
     private static func path(_ url: URL?) -> String? {
         url.map { $0.path(percentEncoded: false) }.map { $0.count > 1 && $0.hasSuffix("/") ? String($0.dropLast()) : $0 }
     }
