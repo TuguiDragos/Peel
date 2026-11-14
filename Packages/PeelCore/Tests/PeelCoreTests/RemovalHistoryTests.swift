@@ -75,6 +75,27 @@ struct RemovalHistoryTests {
         }
     }
 
+    @Test func bringsAlongNoFolderThatHoldsSomethingInTheTrash() throws {
+        let directory = try TemporaryDirectory()
+        let trash = try directory.directory("home/.Trash")
+        try directory.file("home/.Trash/Example/lock")
+        let support = try directory.directory("home/Library/Application Support")
+        func record(_ original: String, _ trashed: String) -> RemovalRecord {
+            RemovalRecord(
+                batch: UUID(),
+                item: TrashedItem(
+                    originalURL: support.appending(path: original), trashedURL: trash.appending(path: trashed),
+                    date: .now
+                ),
+                size: 0, source: "Example", tool: "applications"
+            )
+        }
+        let inside = record("Example/config.json", "config.json")
+        let folder = record("Example", "Example")
+
+        #expect([inside].withTheFoldersTheyLeft(in: [inside, folder]).map(\.id) == [inside.id])
+    }
+
     @Test func namesTheCopiesOfHistoryAndOfItsJournalThatWereSetAside() throws {
         let directory = try TemporaryDirectory()
         let history = try directory.file("Peel/removals.json", contents: Data("{".utf8))
