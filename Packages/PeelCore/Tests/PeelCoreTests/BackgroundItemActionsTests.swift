@@ -137,6 +137,21 @@ struct BackgroundItemActionsTests {
         #expect(rows.map(\.canMoveToTrash) == [false, true])
     }
 
+    @Test func anAgentForTheLoginWindowIsNeverLoadedInThePersonsSession() throws {
+        let loginWindow = try #require(JobDefinition([
+            "Label": "org.example.remote.loginwindow", "Program": "/bin/sleep", "LimitLoadToSessionType": "LoginWindow",
+        ]))
+        let both = try #require(JobDefinition([
+            "Label": "org.example.remote", "Program": "/bin/sleep", "LimitLoadToSessionType": ["Aqua", "LoginWindow"],
+        ]))
+        #expect(loginWindow.loadsOnlyAtTheLoginWindow)
+        #expect(!both.loadsOnlyAtTheLoginWindow)
+
+        var agent = item(state: .notLoaded, plist: URL(filePath: "/Library/LaunchAgents/remote.plist"))
+        agent.loadsOnlyAtTheLoginWindow = true
+        #expect(agent.controls.isEmpty)
+    }
+
     @Test func eachStateOffersTheControlsThatChangeIt() {
         let file = URL(filePath: "/Users/me/Library/LaunchAgents/job.plist")
         #expect(item(state: .running(pid: 42), plist: file).controls == [.stop, .restart])

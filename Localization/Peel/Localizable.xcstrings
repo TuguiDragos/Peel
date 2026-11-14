@@ -91569,6 +91569,112 @@
         }
       }
     },
+    "Its file says macOS loads it only at the login window, before anyone logs in, so it isn’t loaded in your session, and Peel doesn’t load it there." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Podle jejího souboru ji systém macOS načítá jen v přihlašovacím okně, než se kdokoli přihlásí, takže ve vaší relaci načtená není a Peel ji tam nenačítá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laut der Datei dieses Jobs lädt macOS ihn nur im Anmeldefenster, bevor sich jemand anmeldet, daher ist er in deiner Sitzung nicht geladen, und Peel lädt ihn dort nicht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su archivo indica que macOS solo lo carga en la ventana de inicio de sesión, antes de que nadie inicie sesión, así que no está cargado en tu sesión, y Peel no lo carga ahí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son fichier indique que macOS ne le charge qu’à la fenêtre de connexion, avant toute ouverture de session : il n’est donc pas chargé dans votre session, et Peel ne l’y charge pas."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo file indica che macOS lo carica solo nella finestra di login, prima che qualcuno esegua il login, quindi non è caricato nella tua sessione, e Peel non lo carica lì."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "構成ファイルによると、macOSがこれを読み込むのは、誰かがログインする前のログインウインドウだけです。そのため、このセッションでは読み込まれておらず、Peelもこのセッションでは読み込みません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목의 파일에 따르면 macOS는 누군가 로그인하기 전 로그인 윈도우에서만 이 항목을 로드하므로, 현재 세션에서는 로드되지 않으며 Peel도 이 세션에서 이 항목을 로드하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volgens het bijbehorende bestand laadt macOS het alleen in het inlogvenster, voordat iemand inlogt, dus is het in je sessie niet geladen en laadt Peel het daar niet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jego plik określa, że macOS wczytuje go tylko w oknie logowania, zanim ktokolwiek się zaloguje, więc nie jest wczytany w Twojej sesji, a Peel go tam nie wczytuje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O arquivo dele diz que o macOS o carrega só na janela de início de sessão, antes que alguém inicie a sessão, então ele não está carregado na sua sessão, e o Peel não o carrega nela."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierul său indică faptul că macOS îl încarcă doar în fereastra de login, înainte ca cineva să facă login, așa că nu este încărcat în sesiunea dvs., iar Peel nu îl încarcă acolo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В файле этого объекта указано, что macOS загружает его только в окне входа, до того как кто-либо войдет в систему, поэтому в Вашем сеансе он не загружен, и Peel не загружает его там."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enligt jobbets fil läser macOS bara in det vid inloggningsfönstret, innan någon har loggat in, så det är inte inläst i din session, och Peel läser inte in det där."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosyasına göre macOS bunu yalnızca oturum açma penceresinde, kimse oturum açmadan önce yükler; bu yüzden oturumunuzda yüklü değildir ve Peel de onu orada yüklemez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У його файлі зазначено, що macOS завантажує його лише у вікні входу, перш ніж хтось увійде в систему, тож у вашому сеансі його не завантажено, і Peel не завантажує його там."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的文件表明macOS只会在登录窗口（即任何人登录之前）载入它，因此它未在你的会话中载入，Peel也不会在其中载入它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的檔案指明macOS只會在登入視窗載入它，也就是在任何人登入之前，因此它不會在你的工作階段中載入，Peel也不會在那裡載入它。"
+          }
+        }
+      }
+    },
     "Its file was removed while it was loaded, so macOS runs it until the Mac restarts and nothing starts it again. Stop takes it out now." : {
       "localizations" : {
         "cs" : {
@@ -104007,6 +104113,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已在背景載入，因此在它被移動或你在「背景項目」中停止它之前，它都可以執行。"
+          }
+        }
+      }
+    },
+    "Loaded only at the login window" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Načteno jen v přihlašovacím okně"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur im Anmeldefenster geladen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo se carga en la ventana de inicio de sesión"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargé uniquement à la fenêtre de connexion"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caricato solo nella finestra di login"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログインウインドウでのみ読み込まれます"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로그인 윈도우에서만 로드됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen geladen in het inlogvenster"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wczytywany tylko w oknie logowania"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregado só na janela de início de sessão"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Încărcat doar în fereastra de login"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Загружается только в окне входа"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Läses bara in vid inloggningsfönstret"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yalnızca oturum açma penceresinde yüklenir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завантажується лише у вікні входу"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅在登录窗口载入"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "僅在登入視窗載入"
           }
         }
       }

@@ -281,6 +281,14 @@ struct BackgroundItemDetailView: View {
                         kind: .note
                     ) {}
                 }
+            } else if item.loadsOnlyAtTheLoginWindow {
+                Section {
+                    Notice(
+                        title: Text("Loaded only at the login window"),
+                        detail: Text("Its file says macOS loads it only at the login window, before anyone logs in, so it isn’t loaded in your session, and Peel doesn’t load it there."),
+                        kind: .note
+                    ) {}
+                }
             } else if item.state == .unknown {
                 Section {
                     Notice(

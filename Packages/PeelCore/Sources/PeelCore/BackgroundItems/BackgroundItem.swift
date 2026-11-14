@@ -66,6 +66,8 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// True for an agent that loads in the Background session, which launchd keeps in the user domain rather than
     /// the GUI one: started, stopped and asked about there.
     public var loadsInTheBackgroundSession = false
+    /// True for an agent its file limits to the login window, which launchd never loads in the person's session.
+    public var loadsOnlyAtTheLoginWindow = false
     /// True while an app's job runs from inside a Trash: its app was moved there, and macOS starts it from there at
     /// each login until the Trash is emptied.
     public var runsFromTheTrash = false
@@ -232,7 +234,7 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
         let controls: [Control] = switch state {
         case .running: [.stop, .restart]
         case .loaded: [.runNow, .unload]
-        case .notLoaded: isDisabled ? [] : [.load]
+        case .notLoaded: isDisabled || loadsOnlyAtTheLoginWindow ? [] : [.load]
         case .unknown: []
         }
         return isKeptOffBySystemSettings ? controls.filter { !$0.startsTheJob } : controls

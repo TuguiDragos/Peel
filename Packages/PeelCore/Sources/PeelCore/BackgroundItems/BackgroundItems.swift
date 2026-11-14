@@ -369,6 +369,7 @@ public enum BackgroundItems {
                     unusualCommand: UnusualCommand(arguments: job.arguments)
                 )
                 item.loadsInTheBackgroundSession = kind == .agent && job.loadsInTheBackground
+                item.loadsOnlyAtTheLoginWindow = kind == .agent && job.loadsOnlyAtTheLoginWindow
                 items.append(item)
             }
         }
@@ -563,6 +564,9 @@ struct JobDefinition {
     /// True when `LimitLoadToSessionType`, a string or an array (`man launchd.plist`), names Background: launchd
     /// keeps such an agent in the user's own domain, whatever other sessions it names.
     let loadsInTheBackground: Bool
+    /// True when `LimitLoadToSessionType` names only LoginWindow: launchd loads such an agent only at the login window,
+    /// never in the person's own session.
+    let loadsOnlyAtTheLoginWindow: Bool
     let watchPaths: [String]
 
     init?(contentsOf url: URL) {
@@ -588,6 +592,7 @@ struct JobDefinition {
         let sessions = plist["LimitLoadToSessionType"]
         let types = (sessions as? String).map { [$0] } ?? (sessions as? [Any])?.compactMap { $0 as? String } ?? []
         loadsInTheBackground = types.contains("Background")
+        loadsOnlyAtTheLoginWindow = !types.isEmpty && types.allSatisfy { $0 == "LoginWindow" }
         watchPaths = (plist["WatchPaths"] as? [Any])?.compactMap { $0 as? String } ?? []
     }
 }
