@@ -125,11 +125,14 @@ extension Collection where Element == InstallerItem {
 
 public struct InstallerScan: Sendable {
     public let items: [InstallerItem]
-    /// The folders Peel looks in that macOS would not let it read, the device backups' among them, so what is in
-    /// them is not known.
+    /// The folders Peel looks in that it couldn't look inside, the device backups' among them: macOS's privacy
+    /// protection or their own permissions kept it out, or a link there leads nowhere, as to a disk that isn't
+    /// connected. What is in them is not known.
     public let unreadableLocations: [URL]
-
-    public var needsFullDiskAccess: Bool { !unreadableLocations.isEmpty }
+    /// True when macOS's privacy protection kept Peel out of one of them, which Full Disk Access lifts.
+    public var needsFullDiskAccess = false
+    /// The folders Peel moves from that are links to a folder kept elsewhere, which it doesn't follow.
+    public var keptElsewhere: [URL] = []
 
     public func items(in kind: InstallerItem.Kind) -> [InstallerItem] {
         items.filter { $0.kind == kind }
@@ -137,7 +140,10 @@ public struct InstallerScan: Sendable {
 
     /// The scan without what is no longer on the disk.
     public var withoutWhatLeft: InstallerScan {
-        InstallerScan(items: items.filter { !$0.url.isMissing }, unreadableLocations: unreadableLocations)
+        InstallerScan(
+            items: items.filter { !$0.url.isMissing }, unreadableLocations: unreadableLocations,
+            needsFullDiskAccess: needsFullDiskAccess, keptElsewhere: keptElsewhere
+        )
     }
 }
 
@@ -190,12 +196,26 @@ public enum Installers {
         exclusions: Exclusions,
         minimumSize: Int64,
         measure: LeftoverScanner.Measure,
-        canList: (URL) -> AccessState = FullDiskAccess.canList,
+        whyUnlistable: (URL) -> FullDiskAccess.Refusal? = FullDiskAccess.whyUnlistable,
         syncKeeper: (URL) -> SyncKeeper? = SyncedFolders().keeper(of:),
         openFiles: OpenFiles = OpenFiles()
     ) async -> InstallerScan {
         var items: [InstallerItem] = []
         var unreadable: [URL] = []
+        var refusedByPrivacy = false
+        var keptElsewhere: [URL] = []
+        // Whether Peel can look inside `url`, where `place` leads, noting the place when it can't: macOS's privacy
+        // protection or the place's own permissions keep it out, or a link there leads nowhere.
+        func canLookInside(_ url: URL, for place: URL) -> Bool {
+            switch whyUnlistable(url) {
+            case nil: return true
+            case .privacy?: refusedByPrivacy = true
+            case .permissions?: break
+            case .other?: guard place.isSymbolicLink else { return false }
+            }
+            unreadable.append(place)
+            return false
+        }
         let places = ["Downloads", "Desktop", "Documents", "Public"].map {
             Folder(url: home.appending(path: $0, directoryHint: .isDirectory), isSharedWithEveryone: false)
         } + [Folder(url: root.appending(path: "Users/Shared", directoryHint: .isDirectory), isSharedWithEveryone: true)]
@@ -208,7 +228,7 @@ public enum Installers {
             // Listing a link as a URL answers "Not a directory", so a folder moved elsewhere is read where it leads,
             // and once if that is inside another place.
             let url = place.url.isSymbolicLink ? PathPattern.canonical(place.url) : place.url
-            if canList(url) == .missing { unreadable.append(place.url) }
+            _ = canLookInside(url, for: place.url)
             for folder in [url] + subfolders(of: url)
             where listed.insert(PathPattern.comparablePath(of: PathPattern.canonical(folder))).inserted {
                 folders.append(Folder(url: folder, isSharedWithEveryone: place.isSharedWithEveryone))
@@ -259,7 +279,12 @@ public enum Installers {
             }
         }
 
-        guard !Task.isCancelled else { return InstallerScan(items: items, unreadableLocations: unreadable) }
+        guard !Task.isCancelled else {
+            return InstallerScan(
+                items: items, unreadableLocations: unreadable, needsFullDiskAccess: refusedByPrivacy,
+                keptElsewhere: keptElsewhere
+            )
+        }
         // The folders Peel reads apps from come first, and each folder is looked in once.
         let shared = root.appending(path: "Users/Shared", directoryHint: .isDirectory).path(percentEncoded: false)
         let appFolders = AppCatalog.directories(in: SearchEnvironment(homeDirectory: home, rootDirectory: root)).map {
@@ -281,7 +306,8 @@ public enum Installers {
             minimumSize: minimumSize,
             measure: measure,
             syncKeeper: syncKeeper,
-            openFiles: openFiles
+            openFiles: openFiles,
+            keptElsewhere: &keptElsewhere
         )
         items += await updateDownloads(
             home: home,
@@ -290,7 +316,8 @@ public enum Installers {
             minimumSize: minimumSize,
             measure: measure,
             syncKeeper: syncKeeper,
-            openFiles: openFiles
+            openFiles: openFiles,
+            keptElsewhere: &keptElsewhere
         )
         items += await installersKeptByApps(
             home: home,
@@ -299,16 +326,17 @@ public enum Installers {
             minimumSize: minimumSize,
             measure: measure,
             syncKeeper: syncKeeper,
-            openFiles: openFiles
+            openFiles: openFiles,
+            keptElsewhere: &keptElsewhere
         )
 
-        let backupFolder = home.appending(path: "Library/Application Support/MobileSync/Backup", directoryHint: .isDirectory)
-        let readable = canList(backupFolder)
-        if readable == .granted {
+        let backupPlace = home.appending(path: "Library/Application Support/MobileSync/Backup", directoryHint: .isDirectory)
+        // Backups are only shown, so a folder of them kept elsewhere through a link is read where it leads.
+        let backupFolder = backupPlace.isSymbolicLink ? PathPattern.canonical(backupPlace) : backupPlace
+        if canLookInside(backupFolder, for: backupPlace) {
             items += await backups(in: backupFolder, measure: measure)
         }
 
-        if readable == .missing { unreadable.append(backupFolder) }
         let reach = HelperReach(environment: SearchEnvironment(homeDirectory: home, rootDirectory: root))
         items = items.map { item in
             var item = item
@@ -323,7 +351,9 @@ public enum Installers {
         return InstallerScan(
             // An unknown size sorts first: an item that ran out of time is most likely one of the biggest.
             items: items.sorted { ($0.size ?? .max) > ($1.size ?? .max) },
-            unreadableLocations: unreadable
+            unreadableLocations: unreadable,
+            needsFullDiskAccess: refusedByPrivacy,
+            keptElsewhere: keptElsewhere
         )
     }
 
@@ -568,13 +598,18 @@ public enum Installers {
         minimumSize: Int64,
         measure: LeftoverScanner.Measure,
         syncKeeper: (URL) -> SyncKeeper?,
-        openFiles: OpenFiles
+        openFiles: OpenFiles,
+        keptElsewhere: inout [URL]
     ) async -> [InstallerItem] {
         let folders = ["iPhone", "iPad", "iPod", "Apple TV"].map {
             home.appending(path: "Library/iTunes/\($0) Software Updates", directoryHint: .isDirectory)
         }
         var items: [InstallerItem] = []
         for folder in folders {
+            if folder.isSymbolicLink {
+                keptElsewhere.append(folder)
+                continue
+            }
             for url in files(in: folder) where firmwareExtensions.contains(url.pathExtension.lowercased()) {
                 guard !Task.isCancelled else { return items }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
@@ -601,9 +636,11 @@ public enum Installers {
         minimumSize: Int64,
         measure: LeftoverScanner.Measure,
         syncKeeper: (URL) -> SyncKeeper?,
-        openFiles: OpenFiles
+        openFiles: OpenFiles,
+        keptElsewhere: inout [URL]
     ) async -> [InstallerItem] {
         let caches = home.appending(path: "Library/Caches", directoryHint: .isDirectory)
+        if caches.isSymbolicLink { keptElsewhere.append(caches) }
         let developers = Set(DeveloperCaches.definitions.flatMap(\.folders).filter { $0.base == .home }.map {
             $0.path.lowercased()
         })
@@ -714,7 +751,8 @@ public enum Installers {
         minimumSize: Int64,
         measure: LeftoverScanner.Measure,
         syncKeeper: (URL) -> SyncKeeper?,
-        openFiles: OpenFiles
+        openFiles: OpenFiles,
+        keptElsewhere: inout [URL]
     ) async -> [InstallerItem] {
         let support = home.appending(path: "Library/Application Support", directoryHint: .isDirectory)
         var items: [InstallerItem] = []
@@ -729,6 +767,11 @@ public enum Installers {
         let virtualBuddysImages = PathPattern.comparablePath(of: virtualBuddy.appending(path: "_Downloads"))
         let imagesInUse = VirtualBuddyLibrary.imagesInUse(in: virtualBuddy)
         while let (folder, depth, owner) = folders.popLast() {
+            // Only a place the list starts with can be a link: a folder inside is looked into only when it is real.
+            if folder.isSymbolicLink {
+                keptElsewhere.append(folder)
+                continue
+            }
             for url in files(in: folder) {
                 guard !Task.isCancelled else { return items }
                 let kind = url.pathExtension.lowercased()
@@ -822,10 +865,9 @@ public enum Installers {
     /// date of the last backup, and whether it is encrypted.
     static func backups(in folder: URL, measure: LeftoverScanner.Measure) async -> [InstallerItem] {
         var items: [InstallerItem] = []
-        for url in files(in: folder) {
-            guard (try? url.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true, !Task.isCancelled else {
-                continue
-            }
+        for entry in files(in: folder) {
+            let url = entry.isSymbolicLink ? PathPattern.canonical(entry) : entry
+            guard url.isRealFolder, !Task.isCancelled else { continue }
             let info = plist(at: url.appending(path: "Info.plist"))
             let manifest = plist(at: url.appending(path: "Manifest.plist"))
             var notes: [InstallerItem.Note] = []

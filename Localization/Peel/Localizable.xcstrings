@@ -156087,6 +156087,112 @@
         }
       }
     },
+    "Peel doesn’t follow a link to a folder kept elsewhere, so it leaves out what is in %@." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nesleduje odkaz na složku uloženou jinde, a proto vynechává to, co je v %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel folgt keinem Link zu einem anderswo aufbewahrten Ordner und lässt daher aus, was in %@ liegt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no sigue un enlace a una carpeta guardada en otro lugar, así que deja fuera lo que hay en %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne suit pas un lien vers un dossier conservé ailleurs : il laisse donc de côté ce qui se trouve dans %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non segue un link a una cartella che si trova altrove, quindi lascia fuori ciò che si trova in %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、別の場所に保管されているフォルダへのリンクをたどらないため、%@の中にあるものは対象に含めません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 다른 곳에 보관된 폴더로 연결되는 링크를 따라가지 않으므로 %@에 있는 항목을 제외합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel volgt geen link naar een map die elders wordt bewaard, dus laat Peel weg wat in %@ staat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie podąża za dowiązaniem do folderu przechowywanego gdzie indziej, więc pomija to, co jest w %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não segue um link para uma pasta que fica em outro local, então deixa de fora o que está em %@."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu urmează un link către un dosar păstrat în altă parte, așa că omite ce se află în %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не переходит по ссылке на папку, которая хранится в другом месте, поэтому пропускает то, что находится в %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel följer inte en länk till en mapp som sparas på annan plats, så Peel utelämnar det som finns i %@."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, başka bir yerde tutulan bir klasörü gösteren bir bağlantıyı izlemez, bu yüzden %@ içindekileri dışarıda bırakır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не переходить за посиланням до папки, що зберігається деінде, тож пропускає те, що лежить у %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会跟随指向存放在其他位置的文件夹的链接，因此会略过%@中的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會跟隨指向其他位置檔案夾的連結，因此不會列入%@中的內容。"
+          }
+        }
+      }
+    },
     "Peel doesn’t include folders an open app is still writing to: %@. Quit an app to include its folders. Peel can only tell a folder is an open app’s when it carries the app’s own name or identifier, not its maker’s." : {
       "localizations" : {
         "cs" : {

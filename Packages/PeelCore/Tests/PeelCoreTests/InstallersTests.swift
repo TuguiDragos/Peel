@@ -284,6 +284,84 @@ struct InstallersTests {
         #expect(items.allSatisfy { ($0.takesOnDisk ?? 0) >= 400_000 && ($0.size ?? .max) < 400_000 })
     }
 
+    @Test func listsTheBackupsKeptOnAnotherDiskThroughALink() async throws {
+        let directory = try TemporaryDirectory()
+        let elsewhere = try directory.directory("Disk/Backup/00008030-00AB")
+        try directory.file("Disk/Backup/00008030-00AB/Manifest.db", bytes: 400_000)
+        try directory.directory("Home/Library/Application Support/MobileSync")
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "Home/Library/Application Support/MobileSync/Backup"),
+            withDestinationURL: elsewhere.deletingLastPathComponent()
+        )
+        let home = directory.url.appending(path: "Home", directoryHint: .isDirectory)
+
+        let scan = await Installers.scan(installedApps: [], home: home, root: home, minimumSize: 100_000)
+
+        #expect(scan.items(in: .deviceBackup).count == 1)
+        #expect(scan.unreadableLocations.isEmpty)
+    }
+
+    @Test func listsABackupKeptOnAnotherDiskThroughALinkBesideTheOthers() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Home/Library/Application Support/MobileSync/Backup/00008030-0001/Manifest.db", bytes: 64)
+        let elsewhere = try directory.directory("Disk/00008030-0002")
+        try directory.file("Disk/00008030-0002/Manifest.db", bytes: 64)
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "Home/Library/Application Support/MobileSync/Backup/00008030-0002"),
+            withDestinationURL: elsewhere
+        )
+        let home = directory.url.appending(path: "Home", directoryHint: .isDirectory)
+
+        let scan = await Installers.scan(installedApps: [], home: home, root: home, minimumSize: 100_000)
+
+        #expect(scan.items(in: .deviceBackup).count == 2)
+    }
+
+    @Test func namesABackupFolderOnADiskThatIsNotConnected() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Home/Library/Application Support/MobileSync")
+        let backups = directory.url.appending(path: "Home/Library/Application Support/MobileSync/Backup")
+        try FileManager.default.createSymbolicLink(
+            at: backups, withDestinationURL: URL(filePath: "/Volumes/PeelTests-\(UUID().uuidString)/Backup")
+        )
+        let home = directory.url.appending(path: "Home", directoryHint: .isDirectory)
+
+        let scan = await Installers.scan(installedApps: [], home: home, root: home, minimumSize: 100_000)
+
+        #expect(scan.unreadableLocations.map(\.lastPathComponent) == ["Backup"])
+        #expect(!scan.needsFullDiskAccess)
+    }
+
+    @Test(.permissionsHold) func namesAFolderItsOwnPermissionsCloseWithoutAskingForFullDiskAccess() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Downloads/Tool-1.dmg", bytes: 400_000)
+        try directory.setPermissions(0, of: "Downloads")
+        defer { try? directory.setPermissions(0o755, of: "Downloads") }
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, minimumSize: 100_000
+        )
+
+        #expect(scan.unreadableLocations.map(\.lastPathComponent) == ["Downloads"])
+        #expect(!scan.needsFullDiskAccess)
+    }
+
+    @Test func saysWhichFoldersItMovesFromAreKeptElsewhere() async throws {
+        let directory = try TemporaryDirectory()
+        let caches = try directory.directory("Disk/Caches")
+        try directory.file("Disk/Caches/org.example.tide/org.sparkle-project.Sparkle/a1/Tide.zip", bytes: 400_000)
+        try directory.directory("Home/Library")
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "Home/Library/Caches"), withDestinationURL: caches
+        )
+        let home = directory.url.appending(path: "Home", directoryHint: .isDirectory)
+
+        let scan = await Installers.scan(installedApps: [], home: home, root: home, minimumSize: 100_000)
+
+        #expect(scan.keptElsewhere.map(\.lastPathComponent) == ["Caches"])
+        #expect(scan.items(in: .updateDownload).isEmpty)
+    }
+
     /// Marks `url` as downloaded from the web, as a browser does, two hours ago.
     private func downloaded(_ url: URL) throws {
         try whereFrom(url, "https://example.com/\(url.lastPathComponent)")
@@ -391,7 +469,7 @@ struct InstallersTests {
         let scan = await Installers.scan(
             installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
             measure: LeftoverScanner.walk,
-            canList: { PathPattern.comparablePath(of: $0) == downloads ? .missing : .granted }
+            whyUnlistable: { PathPattern.comparablePath(of: $0) == downloads ? .privacy : nil }
         )
 
         #expect(scan.unreadableLocations.map { PathPattern.comparablePath(of: $0) } == [downloads])
@@ -1113,7 +1191,7 @@ struct InstallersTests {
             await Installers.scan(
                 installedApps: [], home: home, root: home, exclusions: .none, minimumSize: 100_000,
                 measure: LeftoverScanner.walk,
-                canList: { url in
+                whyUnlistable: { url in
                     let isFirst = asked.withLock { asked in
                         asked.append(url.lastPathComponent)
                         return asked.count == 1
@@ -1123,7 +1201,7 @@ struct InstallersTests {
                         isAsked.signal()
                         answer.wait()
                     }
-                    return .granted
+                    return nil
                 }
             )
         }

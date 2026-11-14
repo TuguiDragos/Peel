@@ -52,6 +52,10 @@ final class InstallerLibrary {
         scan?.unreadableLocations ?? []
     }
 
+    var keptElsewhere: [URL] {
+        scan?.keptElsewhere ?? []
+    }
+
     func follow(canUseHelper: Bool) {
         let kept = Self.selection(selectedURLs, in: scan?.items ?? [], canUseHelper: canUseHelper)
         if kept != selectedURLs { selectedURLs = kept }

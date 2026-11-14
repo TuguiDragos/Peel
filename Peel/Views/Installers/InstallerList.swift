@@ -18,8 +18,15 @@ struct InstallerList: View {
         let filtered = listed
 
         List(selection: $installers.selection) {
-            if installers.needsFullDiskAccess {
-                UnreadableFoldersNotice(folders: installers.unreadable, needsFullDiskAccess: true)
+            if !installers.unreadable.isEmpty {
+                UnreadableFoldersNotice(
+                    folders: installers.unreadable, needsFullDiskAccess: installers.needsFullDiskAccess
+                )
+            }
+            if !installers.keptElsewhere.isEmpty {
+                Notice(title: Text("Kept elsewhere"), detail: Text(keptElsewhere), kind: .note, systemImage: "link") {}
+                    .padding(.vertical, 6)
+                    .listRowSeparator(.hidden)
             }
             ForEach(filtered, id: \.self) { kind in
                 let items = installers.shownItems(in: kind)
@@ -35,22 +42,29 @@ struct InstallerList: View {
             text: $installers.searchText, prompt: "Search Installers and Backups", when: !installers.sections.isEmpty
         )
         .scanState(phase(filtered), isRescanning: isRescanning, scan: installers.scanRun) {
-            if installers.sections.isEmpty, installers.needsFullDiskAccess {
+            if installers.sections.isEmpty, !installers.unreadable.isEmpty {
                 ContentUnavailableView {
                     Label("Not Everything Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
-                    UnreadableFoldersDetail(folders: installers.unreadable, needsFullDiskAccess: true)
+                    UnreadableFoldersDetail(
+                        folders: installers.unreadable, needsFullDiskAccess: installers.needsFullDiskAccess
+                    )
                 } actions: {
                     EmptyStateActions {
-                        UnreadableFoldersActions(folders: installers.unreadable, needsFullDiskAccess: true)
+                        UnreadableFoldersActions(
+                            folders: installers.unreadable, needsFullDiskAccess: installers.needsFullDiskAccess
+                        )
                     }
                 }
             } else if installers.sections.isEmpty {
-                ContentUnavailableView(
-                    "Nothing Left Over",
-                    systemImage: "checkmark.seal",
-                    description: Text("Peel found no installers, device firmware, unfinished downloads, or downloaded updates of \(Installers.minimumSize.byteCount) or more, and no iPhone or iPad backups.")
-                )
+                ContentUnavailableView {
+                    Label("Nothing Left Over", systemImage: "checkmark.seal")
+                } description: {
+                    Text("Peel found no installers, device firmware, unfinished downloads, or downloaded updates of \(Installers.minimumSize.byteCount) or more, and no iPhone or iPad backups.")
+                    if !installers.keptElsewhere.isEmpty {
+                        Text(keptElsewhere)
+                    }
+                }
             } else if filtered.isEmpty {
                 ContentUnavailableView.search(text: installers.searchText)
             }
@@ -60,7 +74,7 @@ struct InstallerList: View {
         .announcesScan(
             installers.isScanning,
             found: installers.summary,
-            couldNotLook: installers.sections.isEmpty && installers.needsFullDiskAccess
+            couldNotLook: installers.sections.isEmpty && !installers.unreadable.isEmpty
                 ? "Not Everything Could Be Read" : nil,
             wasStopped: installers.scanRun.wasStopped
         )
@@ -103,6 +117,12 @@ struct InstallerList: View {
         }
         .rescanOnExclusionChange("InstallerList") { await installers.refresh(installedApps: library.apps) }
         .rescanAfterPutBack(.installers) { await installers.refresh(installedApps: library.apps) }
+    }
+
+    /// Why the list leaves out what is in a folder Peel moves from that a link keeps elsewhere.
+    private var keptElsewhere: String {
+        let folders = RemovalFailureAlert.listedFolders(installers.keptElsewhere.map(\.abbreviatedPath))
+        return String(localized: "Peel doesn’t follow a link to a folder kept elsewhere, so it leaves out what is in \(folders).")
     }
 
     private func phase(_ filtered: [InstallerItem.Kind]) -> ScanPhase {
