@@ -31,7 +31,7 @@ extension URL {
     /// True for a path on a disk under `/Volumes` that is not connected, where nothing can be told about what it holds.
     var isOnADiskNotConnected: Bool {
         let names = PathComponents.of(path(percentEncoded: false))
-        return names.count > 2 && names[0] == "Volumes" && URL(filePath: "/Volumes/\(names[1])").isMissing
+        return names.count >= 2 && names[0] == "Volumes" && URL(filePath: "/Volumes/\(names[1])").isMissing
     }
 
     /// True for a folder that is there in its own right: a symbolic link to one does not count.

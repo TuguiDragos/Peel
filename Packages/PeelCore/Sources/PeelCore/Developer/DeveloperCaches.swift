@@ -405,7 +405,7 @@ public enum DeveloperCaches {
             let meta = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
             let written = meta["folder"] as? String ?? meta["workspace"] as? String,
             let project = URL(string: written), project.isFileURL,
-            project.isMissing, !project.deletingLastPathComponent().isMissing
+            project.isMissing, !project.isOnADiskNotConnected, !project.deletingLastPathComponent().isMissing
         else { return nil }
         return meta["folder"] != nil ? project.lastPathComponent : project.deletingPathExtension().lastPathComponent
     }

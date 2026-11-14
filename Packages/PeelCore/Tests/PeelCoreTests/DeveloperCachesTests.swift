@@ -384,6 +384,23 @@ struct DeveloperCachesTests {
         #expect(Set(listed) == ["GPUPersistentCache", "Default/GPUCache"])
     }
 
+    @Test func aProjectOpenAtTheTopOfADiskNotConnectedIsNotGone() throws {
+        let directory = try TemporaryDirectory()
+        let disk = "PeelTests-\(UUID().uuidString)"
+        func state(_ folder: String) throws -> URL {
+            let state = try directory.directory("workspaceStorage/\(UUID().uuidString)")
+            let json = try JSONSerialization.data(withJSONObject: ["folder": folder])
+            try json.write(to: state.appending(path: "workspace.json"))
+            return state
+        }
+
+        #expect(DeveloperCaches.goneProject(at: try state("file:///Volumes/\(disk)")) == nil)
+        #expect(DeveloperCaches.goneProject(at: try state("file:///Volumes/\(disk)/project")) == nil)
+        let gone = directory.url.appending(path: "Projects/gone", directoryHint: .isDirectory)
+        _ = try directory.directory("Projects")
+        #expect(DeveloperCaches.goneProject(at: try state(gone.absoluteString)) == "gone")
+    }
+
     @Test func neverSelectsJuliasArtifactsWhichJuliaDoesNotDownloadAgainByItself() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".julia/artifacts/0123abcd/lib/libexample.dylib", bytes: 4_096)
