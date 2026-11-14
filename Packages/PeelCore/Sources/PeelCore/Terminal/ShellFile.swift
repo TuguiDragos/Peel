@@ -93,8 +93,10 @@ public enum ShellFile {
         init(of url: URL, home: URL) {
             let escaped = NSRegularExpression.escapedPattern(for:)
             let whole = "[\"']?" + escaped(url.path(percentEncoded: false)) + "[\"']?"
+            // `~` stands for the home only outside quotes, `$HOME` inside double quotes too.
             let fromHome = url.path(below: home).map { below in
-                "\"?(?:\\$HOME|\\$\\{HOME\\}|~)/" + escaped(below) + "\"?"
+                let rest = "/" + escaped(below)
+                return "(?:\"(?:\\$HOME|\\$\\{HOME\\})" + rest + "\"|(?:\\$HOME|\\$\\{HOME\\}|~)" + rest + ")"
             }
             let path = "(?:" + ([fromHome, whole].compactMap { $0 }).joined(separator: "|") + ")"
             let start = #"(?:^|[\s;&|(){])"#
@@ -106,10 +108,33 @@ public enum ShellFile {
         }
 
         func reads(_ line: String) -> Bool {
-            let code = line.trimmingCharacters(in: .whitespaces).replacing("\\ ", with: " ")
-            guard !code.hasPrefix("#") else { return false }
+            let code = Self.withoutComment(line).trimmingCharacters(in: .whitespaces).replacing("\\ ", with: " ")
             let contains = { (pattern: Regex<AnyRegexOutput>?) in pattern.map { code.contains($0) } ?? false }
             return contains(test) ? contains(readsAfterTheTest) : contains(reads)
+        }
+
+        /// The line before the `#` that starts a comment, as zsh reads a startup file: one that begins a word, outside
+        /// quotes.
+        static func withoutComment(_ line: String) -> Substring {
+            var quote: Character?
+            var isEscaped = false
+            var previous: Character = " "
+            for index in line.indices {
+                let character = line[index]
+                defer { previous = character }
+                if isEscaped {
+                    isEscaped = false
+                } else if let open = quote {
+                    if character == open { quote = nil } else if character == "\\", open == "\"" { isEscaped = true }
+                } else if character == "\\" {
+                    isEscaped = true
+                } else if character == "\"" || character == "'" {
+                    quote = character
+                } else if character == "#", previous.isWhitespace {
+                    return line[..<index]
+                }
+            }
+            return line[...]
         }
     }
 

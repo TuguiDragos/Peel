@@ -141,6 +141,10 @@ struct ShellFileTests {
             ("export PATH=/opt/homebrew/bin:$PATH" + line + "\n", false),
             ("alias peelrc='open ~/Library/Application Support/Peel/Terminal/zshrc'\n", false),
             ("echo ~/Library/Application\\ Support/Peel/Terminal/zshrc\n", false),
+            ("source \"~/Library/Application Support/Peel/Terminal/zshrc\"\n", false),
+            ("[[ -r \"~/Library/Application Support/Peel/Terminal/zshrc\" ]] && source \"~/Library/Application Support/Peel/Terminal/zshrc\"\n", false),
+            ("alias ll='ls -l' # source \"$HOME/Library/Application Support/Peel/Terminal/zshrc\"\n", false),
+            ("alias ll='ls -l#'; source \"$HOME/Library/Application Support/Peel/Terminal/zshrc\"\n", true),
         ] {
             try text.write(to: startup, atomically: true, encoding: .utf8)
             #expect(ShellFile.isSourced(shell.peelFile, from: startup, home: shell.home) == found, "\(text)")
