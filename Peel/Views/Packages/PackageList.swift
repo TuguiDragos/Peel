@@ -72,7 +72,7 @@ struct PackageList: View {
                 ContentUnavailableView(
                     "No Package Receipts",
                     systemImage: "shippingbox",
-                    description: Text("Software installed on the startup disk with an installer package, other than Apple’s, will appear here.")
+                    description: Text("Software installed with an installer package other than Apple’s, for every account or for you alone, will appear here.")
                 )
             } else if filtered.isEmpty, !searchText.isEmpty {
                 ContentUnavailableView.search(text: searchText)
