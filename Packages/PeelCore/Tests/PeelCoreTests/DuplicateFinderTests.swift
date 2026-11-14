@@ -557,6 +557,16 @@ struct DuplicateFinderTests {
         #expect(found == [["Pictures/logo copy.bin", "Pictures/logo.bin"]])
     }
 
+    @Test func leavesAloneAProjectKnownOnlyByAHiddenBuildFile() async throws {
+        let directory = try TemporaryDirectory()
+        let contents = randomData(count: 3_000)
+        try directory.file("home/Documents/Scripts/.ruff.toml")
+        try directory.file("home/Documents/Scripts/data.bin", contents: contents)
+        try directory.file("home/Pictures/data.bin", contents: contents)
+
+        #expect(names(try await scan(directory)).isEmpty)
+    }
+
     /// A stray build file makes no project of what was chosen, of the home folder, or of a folder every account
     /// starts with.
     @Test func aStrayBuildFileSkipsNothingThatWasChosen() async throws {

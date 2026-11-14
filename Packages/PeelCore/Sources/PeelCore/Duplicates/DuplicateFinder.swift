@@ -322,7 +322,7 @@ public struct DuplicateFinder: Sendable {
     ) throws(CancellationError) -> (candidates: [Candidate], unreadableLocations: [URL]) {
         // The kind of a file is asked for only when a kind was chosen: working it out costs a lookup per
         // entry, and the walk sees every file in the chosen folders.
-        var keys: Set<URLResourceKey> = [.isDirectoryKey, .isRegularFileKey]
+        var keys: Set<URLResourceKey> = [.isDirectoryKey, .isRegularFileKey, .isHiddenKey]
         if options.kind != .any { keys.insert(.contentTypeKey) }
         let excludedFolders = Self.managedPaths(home: homeDirectory)
         let unreadable = UnreadableLocations()
@@ -338,7 +338,7 @@ public struct DuplicateFinder: Sendable {
             guard let enumerator = FileManager.default.enumerator(
                 at: root,
                 includingPropertiesForKeys: Array(keys),
-                options: [.skipsHiddenFiles, .skipsPackageDescendants],
+                options: [.skipsPackageDescendants],
                 errorHandler: { url, _ in
                     unreadable.urls.append(url)
                     return true
@@ -359,6 +359,12 @@ public struct DuplicateFinder: Sendable {
                         if !neverProjects.contains(parent) { projects.insert(parent) }
                     }
                     guard let values = try? url.resourceValues(forKeys: keys) else { return }
+                    // What is hidden is left out once it has said whether its folder is a project, since some tools'
+                    // build files begin with a dot.
+                    if values.isHidden == true {
+                        if values.isDirectory == true { enumerator.skipDescendants() }
+                        return
+                    }
                     if values.isDirectory == true {
                         // The enumerator does not treat a library or an app's document as a package when its app is
                         // not installed, so they are skipped here: the guard would refuse every copy inside a library,
