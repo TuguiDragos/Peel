@@ -215,11 +215,10 @@ public enum SpaceRemoval {
     /// a service wrote since.
     @concurrent
     public static func writtenRecently(_ urls: [URL]) async -> Set<URL> {
-        var written: Set<URL> = []
-        for url in urls {
-            if HoldBack.wasWrittenRecently(url, contents: await FileSize.contents(of: url)) { written.insert(url) }
-        }
-        return written
+        // Four at a time, as the other measurements go. One not measured, on a task canceled, goes by its own date.
+        let measured = await urls.concurrentMap(width: 4) { url in (url, await FileSize.contents(of: url)) }
+        let contents = Dictionary(measured) { first, _ in first }
+        return Set(urls.filter { HoldBack.wasWrittenRecently($0, contents: contents[$0] ?? nil) })
     }
 
     private static func children(

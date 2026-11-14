@@ -655,8 +655,9 @@ struct SpaceRemovalTests {
     @Test func theMovesCheckKeepsWhatWasWrittenSinceThePlan() async throws {
         let directory = try TemporaryDirectory()
         let old = try directory.file("root/Library/Caches/org.example.service/data.db")
+        let quiet = try directory.file("root/Library/Caches/org.example.quiet/data.db")
         let twoHoursAgo = Date.now.addingTimeInterval(-7200)
-        for url in [old, old.deletingLastPathComponent()] {
+        for url in [old, old.deletingLastPathComponent(), quiet, quiet.deletingLastPathComponent()] {
             try FileManager.default.setAttributes(
                 [.modificationDate: twoHoursAgo], ofItemAtPath: url.path(percentEncoded: false)
             )
@@ -672,7 +673,7 @@ struct SpaceRemovalTests {
         #expect(plan.heldBack[service] == nil, "the plan offers what nothing wrote to for two hours")
         try directory.file("root/Library/Caches/org.example.service/written-now.db")
 
-        #expect(await SpaceRemoval.writtenRecently([service]) == [service])
+        #expect(await SpaceRemoval.writtenRecently([quiet.deletingLastPathComponent(), service]) == [service])
     }
 
     @Test func theMovesCheckFindsWhatAPlanWould() async throws {
