@@ -155,6 +155,16 @@ struct ShellFileTests {
 }
 
 struct ZshRequirementsTests {
+    @Test func asksZshWithoutThePersonsStartupFiles() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".zshenv", contents: Data("print -r -- planted\n".utf8))
+        let home = directory.url.path(percentEncoded: false)
+
+        let known = try #require(await ZshRequirements.known(environment: ["HOME": home, "ZDOTDIR": home]))
+
+        #expect(!known.contains("option:planted"))
+    }
+
     @Test func theZshOnThisMacKnowsEverySettingAndEveryPrompt() async throws {
         let known = try #require(await ShellFile.knownToZsh())
         for setting in ShellSetting.allCases {

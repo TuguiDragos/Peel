@@ -25,13 +25,15 @@ enum ZshRequirements {
             .union(of(Prompt.branchLines))
     }
 
-    /// The options and functions of the catalog that the zsh on this Mac knows, or nil when it did not answer.
-    static func known() async -> Set<String>? {
+    /// The options and functions of the catalog that the zsh on this Mac knows, or nil when it did not answer. zsh runs
+    /// with `-f`, so it reads none of the person's startup files as Peel's child, in an `environment` empty but for a
+    /// test.
+    static func known(environment: [String: String] = [:]) async -> Set<String>? {
         let functions = catalog.filter { $0.hasPrefix("function:") }.map { String($0.dropFirst("function:".count)) }.sorted()
         let script = "print -rl -- ${(k)options}; for name in \(functions.joined(separator: " ")); do "
             + "autoload +X -Uz $name 2>/dev/null && print -r -- \"function:$name\"; done; true"
-        guard case .success(let output) = await Subprocess.run("/bin/zsh", ["-f", "-c", script], environment: [:], timeout: 10),
-              output.status == 0 else { return nil }
+        let answer = await Subprocess.run("/bin/zsh", ["-f", "-c", script], environment: environment, timeout: 10)
+        guard case .success(let output) = answer, output.status == 0 else { return nil }
         return Set(output.text.split(separator: "\n").map { $0.hasPrefix("function:") ? String($0) : "option:" + $0 })
     }
 }
