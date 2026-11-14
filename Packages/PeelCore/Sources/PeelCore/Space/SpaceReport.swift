@@ -459,11 +459,17 @@ public enum SpaceInventory {
             paths: ["Library/CloudStorage"],
             handling: .readOnly
         ),
+        // iCloud Drive keeps Desktop and Documents in the home behind a link a walk doesn't follow, and each app keeps
+        // a folder beside its own, so the area reads them all, as the iCloud Drive page does.
         Definition(
             id: "icloud",
             category: .cloud,
-            paths: ["Library/Mobile Documents/com~apple~CloudDocs"],
-            handling: .readOnly
+            paths: [],
+            handling: .readOnly,
+            places: { home, _ in
+                [home.appending(path: "Library/Mobile Documents", directoryHint: .isDirectory)]
+                    + CloudStorage.foldersKeptInTheHome(home: home)
+            }
         ),
         // macOS's analytics helper can't make the account's crash reports folder again once it is gone, so only the
         // reports in it are offered.

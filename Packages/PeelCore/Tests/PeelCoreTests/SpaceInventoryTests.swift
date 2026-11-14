@@ -5,6 +5,23 @@ import Synchronization
 import Testing
 
 struct SpaceInventoryTests {
+    @Test func theICloudDriveAreaCountsWhatICloudKeepsInTheHomeAndForApps() async throws {
+        let directory = try TemporaryDirectory()
+        let drive = try directory.directory("home/Library/Mobile Documents/com~apple~CloudDocs")
+        let documents = try directory.directory("home/Documents")
+        try FileManager.default.createSymbolicLink(at: drive.appending(path: "Documents"), withDestinationURL: documents)
+        try directory.file("home/Documents/report.pages", bytes: 400_000)
+        try directory.file("home/Library/Mobile Documents/iCloud~org~example~notes/Documents/note.txt", bytes: 300_000)
+
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home"), root: directory.url.appending(path: "root"),
+            minimumSize: 1, measure: LeftoverScanner.walk
+        )
+
+        let icloud = try #require(report.items.first { $0.id == "icloud" })
+        #expect(icloud.size.known >= 700_000)
+    }
+
     @Test func aStoppedScanStops() async throws {
         let directory = try TemporaryDirectory()
         let paths = SpaceInventory.definitions.flatMap(\.paths)
