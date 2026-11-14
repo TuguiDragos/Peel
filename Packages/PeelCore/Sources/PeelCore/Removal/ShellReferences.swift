@@ -25,8 +25,8 @@ public enum ShellReferences {
         for file in startupFiles(home: home) {
             guard let data = BoundedRead.data(at: file, maximum: maximumBytes) else { continue }
             let lines = String(decoding: data, as: UTF8.self).split(separator: "\n", omittingEmptySubsequences: false)
-            for (index, line) in lines.enumerated() where !line.drop(while: \.isWhitespace).hasPrefix("#") {
-                let line = comparable(String(line))
+            for (index, line) in lines.enumerated() {
+                let line = comparable(String(ShellFile.LineReading.withoutComment(line)))
                 if spellings.contains(where: { holdsWhole($0, in: line) }) {
                     references.append(Reference(file: file, line: index + 1))
                 }

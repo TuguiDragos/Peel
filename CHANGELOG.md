@@ -490,7 +490,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A leftover that is a link, such as a data folder moved to another disk and linked back, says where it leads and that
   moving it moves only the link, where it read as an empty folder.
 - After a removal, a line of a shell startup file that names the app with an accented letter is found however the letter
-  was typed.
+  was typed, and a comment at the end of a line is no longer named as a line that still points to what moved.
 - Several apps dropped together on Peel's icon in the Dock open one page for all of them, as a drop on the list does,
   no longer the page of whichever came last.
 - An app whose name ends in `.APP` or `.App`, which macOS opens as an app, is listed, opens from Finder, a `peel://`

@@ -12,6 +12,8 @@ struct ShellReferencesTests {
             alias notes="$HOME/Library/Application Support/Note Pad/notes"
             source ~/Library/Application\\ Support/Note\\ Pad/env.sh
             export EDITOR=vim
+            export VISUAL=vim # was "/Applications/Note Pad.app/Contents/MacOS/pad"
+            export PAD="/Applications/Note Pad.app/Contents/MacOS/pad" # Note Pad
             """.utf8))
         try directory.file("home/.config/fish/config.fish", contents: Data("set -gx NOTES ~/Library/Application Support/Note Pad\n".utf8))
         try directory.file("home/.bashrc", contents: Data("export PATH=/opt/other/bin:$PATH\n".utf8))
@@ -23,7 +25,7 @@ struct ShellReferencesTests {
         let found = await ShellReferences.find(naming: moved, home: home)
 
         #expect(found.map { ($0.file.lastPathComponent, $0.line) }.map { "\($0.0):\($0.1)" } == [
-            ".zshrc:2", ".zshrc:3", ".zshrc:4", "config.fish:1",
+            ".zshrc:2", ".zshrc:3", ".zshrc:4", ".zshrc:7", "config.fish:1",
         ])
         #expect(await ShellReferences.find(naming: [], home: home).isEmpty)
     }
