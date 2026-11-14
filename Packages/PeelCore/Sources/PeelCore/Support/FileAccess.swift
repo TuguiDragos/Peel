@@ -8,6 +8,12 @@ public enum FileAccess {
         ParentAccess(url.deletingLastPathComponent()).requiresPrivileges(toRemove: url)
     }
 
+    /// True when the disk `url` is on is mounted to be read only, so nothing can move it, Finder and an administrator
+    /// included: `access(2)` fails with `EROFS`.
+    public static func isOnAReadOnlyDisk(_ url: URL) -> Bool {
+        access(url.deletingLastPathComponent().path(percentEncoded: false), W_OK) != 0 && errno == EROFS
+    }
+
     /// True when macOS's privacy protection, rather than the permissions or a lock, keeps this process from
     /// changing `url`: `access(2)` then fails with `EPERM`, as it does for another developer's app while the process
     /// has no App Management. A lock fails with `EPERM` too, and the permissions with `EACCES`.

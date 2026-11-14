@@ -59,6 +59,8 @@ public struct FoundFile: Sendable, Hashable, Identifiable {
     public var identity: FileIdentity?
     /// Why Peel doesn't recommend moving it, or nil.
     public var heldBack: HoldBack?
+    /// True when it is on a disk mounted to be read only, so nothing can move it.
+    public var isOnAReadOnlyDisk = false
 
     public var id: URL { url }
 
@@ -253,7 +255,8 @@ public enum FileSearch {
                     requiresPrivileges: FileAccess.requiresPrivilegesToRemove(url),
                     belongsToAnApp: candidate.belongsToAnApp,
                     identity: FileIdentity(candidate.info),
-                    heldBack: heldBack(url, environment: environment, repositories: &repositories)
+                    heldBack: heldBack(url, environment: environment, repositories: &repositories),
+                    isOnAReadOnlyDisk: FileAccess.isOnAReadOnlyDisk(url)
                 ))
             }
         }

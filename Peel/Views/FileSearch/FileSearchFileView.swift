@@ -35,7 +35,11 @@ struct FileSearchFileView: View {
                 LabeledContent("Modified") {
                     Text(file.modificationDate, format: .relative(presentation: .named))
                 }
-                if file.requiresPrivileges {
+                if file.isOnAReadOnlyDisk {
+                    Text("This disk can’t be changed, so nothing on it can be moved.")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                } else if file.requiresPrivileges {
                     Text("File Search moves only what your account can move. Use Finder for this one.")
                         .font(.callout)
                         .foregroundStyle(.secondary)

@@ -237592,6 +237592,112 @@
         }
       }
     },
+    "This disk can’t be changed, so nothing on it can be moved." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento disk nelze měnit, takže na něm nelze nic přesunout."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Volume kann nicht geändert werden, daher lässt sich darauf nichts verschieben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este disco no se puede modificar, así que no se puede trasladar nada de lo que contiene."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce disque ne peut pas être modifié : rien de ce qu’il contient ne peut donc être déplacé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo disco non può essere modificato, quindi nulla di ciò che contiene può essere spostato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このディスクは変更できないため、ディスク上のものは何も移動できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 디스크는 변경할 수 없으므로 이 디스크에 있는 어떤 항목도 이동할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze schijf kan niet worden gewijzigd, dus niets daarop kan worden verplaatst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tego dysku nie można zmieniać, więc niczego na nim nie można przenieść do Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este disco não pode ser alterado, então nada nele pode ser movido."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest disc nu poate fi modificat, așa că nimic de pe el nu poate fi mutat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот диск нельзя изменять, поэтому ничего на нем переместить невозможно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den här skivan kan inte ändras, så inget på den kan flyttas."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu disk değiştirilemez, bu yüzden üzerindeki hiçbir şey taşınamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей диск не можна змінювати, тож нічого на ньому не можна перемістити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此磁盘无法更改，因此无法移动其上的任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此磁碟無法更改，因此其中的任何項目都無法移動。"
+          }
+        }
+      }
+    },
     "This disk holds a copy of macOS or a Time Machine backup, whose apps aren’t this Mac’s, so Peel doesn’t look for apps across all of it. Choose the folder there that holds only your own apps.\n\n%@" : {
       "localizations" : {
         "cs" : {

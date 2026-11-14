@@ -143,6 +143,20 @@ struct SearchingTests {
         #expect(result.failures.map(\.reason) == [.changedSinceScan])
     }
 
+    @Test func knowsAFileOnADiskMountedToBeReadOnly() throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        let file = disk.url.appending(path: "Tool.dmg")
+        try Data(count: 16).write(to: file)
+        #expect(!FileAccess.isOnAReadOnlyDisk(file))
+
+        try disk.remount(at: disk.url, readOnly: true)
+
+        #expect(FileAccess.isOnAReadOnlyDisk(file))
+        #expect(FileAccess.requiresPrivilegesToRemove(file))
+        withExtendedLifetime(disk) {}
+    }
+
     @Test func theListsSelectMenuReachesWhatIsKeptApart() throws {
         let directory = try TemporaryDirectory()
         let a = try directory.file("a.dmg")

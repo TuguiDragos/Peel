@@ -226,7 +226,9 @@ struct FileSearchList: View {
 
     private func warning(for file: FoundFile) -> String? {
         let lines = [
-            file.requiresPrivileges
+            file.isOnAReadOnlyDisk
+                ? String(localized: "This disk can’t be changed, so nothing on it can be moved.")
+                : file.requiresPrivileges
                 ? String(localized: "File Search moves only what your account can move. Use Finder for this one.")
                 : nil,
             file.belongsToAnApp
