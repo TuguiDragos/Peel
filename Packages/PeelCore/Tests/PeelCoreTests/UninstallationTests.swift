@@ -432,30 +432,31 @@ struct UninstallationTests {
     @Test func leavesAloneAFolderHoldingWhatAnotherInstalledAppKeeps() async throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        try directory.file("home/Library/Developer/Xcode/DerivedData/Example-abc/info.plist", bytes: 64)
-        let developer = InstalledApp(
-            url: try directory.directory("root/Applications/Developer.app"), bundleIdentifier: "org.example.developer",
-            name: "Developer"
+        try directory.file("home/Library/Unity/cache/packages/org.example.package/package.json", bytes: 64)
+        let unity = InstalledApp(
+            url: try directory.directory("root/Applications/Unity.app"), bundleIdentifier: "org.example.unity",
+            name: "Unity"
         )
-        let xcode = InstalledApp(
-            url: try directory.directory("root/Applications/Xcode.app"), bundleIdentifier: "com.apple.dt.Xcode", name: "Xcode"
+        let editor = InstalledApp(
+            url: try directory.directory("root/Applications/Unity Editor.app"),
+            bundleIdentifier: "com.unity3d.UnityEditor5.x", name: "Unity Editor"
         )
         let environment = SearchEnvironment(
             homeDirectory: home, rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
         )
-        let folder = PathPattern.comparablePath(of: home.appending(path: "Library/Developer"))
+        let folder = PathPattern.comparablePath(of: home.appending(path: "Library/Unity"))
         func plan(installed: [InstalledApp]) async -> Uninstallation {
             await Uninstallation.prepare(
-                developer, installedApps: installed, systemExtensions: { [] }, environment: environment
+                unity, installedApps: installed, systemExtensions: { [] }, environment: environment
             )
         }
 
-        let withXcode = await plan(installed: [developer, xcode])
-        let kept = try #require(withXcode.scan.leftovers.first { PathPattern.comparablePath(of: $0.url) == folder })
+        let withTheEditor = await plan(installed: [unity, editor])
+        let kept = try #require(withTheEditor.scan.leftovers.first { PathPattern.comparablePath(of: $0.url) == folder })
         #expect(kept.match.heldBack == .holdsAnotherAppsData)
-        #expect(kept.match.sharedWith == ["com.apple.dt.Xcode"])
-        #expect(!withXcode.selectable(canUseHelper: true).contains(kept.url))
-        let alone = await plan(installed: [developer])
+        #expect(kept.match.sharedWith == ["com.unity3d.UnityEditor5.x"])
+        #expect(!withTheEditor.selectable(canUseHelper: true).contains(kept.url))
+        let alone = await plan(installed: [unity])
         let named = alone.scan.leftovers.first { PathPattern.comparablePath(of: $0.url) == folder }
         #expect(named?.match.heldBack == .namedLikeTheApp)
     }

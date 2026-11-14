@@ -1242,6 +1242,22 @@ struct OrphanScannerTests {
         #expect(await scanner.stillOrphaned(items, installedApps: installed, remembered: [tidePool]).count == 2)
     }
 
+    @Test func leavesWhatMacOSKeepsAtTheTopOfALibraryToItWhateverAGoneAppWasCalled() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Sharing/state.db")
+        try directory.file("home/Library/Developer/Xcode/Archives/Sample.xcarchive/Info.plist")
+        let gone = ["Sharing", "Developer"].map { name in
+            RememberedApp(
+                bundleIdentifier: "org.example.\(name.lowercased())", name: name, teamIdentifier: nil,
+                lastSeen: .now.addingTimeInterval(-90 * 24 * 60 * 60), lastPath: "/Applications/\(name).app"
+            )
+        }
+
+        let groups = await scanner(in: directory).scan(installedApps: installed, remembered: gone).groups
+
+        #expect(groups.isEmpty, "listed \(groups.flatMap(\.items).map(\.url.lastPathComponent))")
+    }
+
     @Test func learnsAGoneAppsNameFromTheIdentifiersItLeft() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/org.example.tidewater/cache.db")

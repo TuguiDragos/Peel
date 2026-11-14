@@ -2024,28 +2024,34 @@ struct LeftoverScannerTests {
     /// such as `Preferences`, is never offered whole.
     @Test func showsAVendorsLibraryFolderWithoutEverSelectingIt() async throws {
         let directory = try TemporaryDirectory()
-        let developer = InstalledApp(
-            url: URL(filePath: "/Applications/Developer.app"),
+        let spectrum = InstalledApp(
+            url: URL(filePath: "/Applications/Spectrum.app"),
             bundleIdentifier: "developer.example.app-Release",
-            name: "Developer"
+            name: "Spectrum"
         )
+        let developer = InstalledApp(
+            url: URL(filePath: "/Applications/Developer.app"), bundleIdentifier: "org.example.developer", name: "Developer"
+        )
+        try directory.file("home/Library/Spectrum/Presets/one.preset", bytes: 64)
         try directory.file("home/Library/Developer/Xcode/Archives/one.xcarchive/Info.plist", bytes: 64)
         try directory.file("home/Library/developer.example.app-Release/state.db", bytes: 64)
         try directory.file("home/Library/Preferences/unrelated.plist", bytes: 64)
-
-        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(
-            developer,
-            installedApps: [developer]
-        )
+        let scanner = LeftoverScanner(environment: environment(in: directory))
         let root = directory.url.path(percentEncoded: false)
-        let found = Dictionary(uniqueKeysWithValues: scan.leftovers.map {
-            (String($0.url.path(percentEncoded: false).dropFirst(root.count)), $0)
-        })
+        func found(for app: InstalledApp) async -> [String: Leftover] {
+            let scan = await scanner.scan(app, installedApps: [spectrum, developer])
+            return Dictionary(uniqueKeysWithValues: scan.leftovers.map {
+                (String($0.url.path(percentEncoded: false).dropFirst(root.count)), $0)
+            })
+        }
 
-        #expect(found["home/Library/Developer"]?.match.heldBack == .namedLikeTheApp)
-        #expect(found["home/Library/Developer"]?.match.isRecommended == false)
-        #expect(found["home/Library/developer.example.app-Release"]?.match.isRecommended == true)
-        #expect(found["home/Library/Preferences"] == nil, "a folder scanned as a location of its own was offered whole")
+        let listed = await found(for: spectrum)
+
+        #expect(listed["home/Library/Spectrum"]?.match.heldBack == .namedLikeTheApp)
+        #expect(listed["home/Library/Spectrum"]?.match.isRecommended == false)
+        #expect(listed["home/Library/developer.example.app-Release"]?.match.isRecommended == true)
+        #expect(listed["home/Library/Preferences"] == nil, "a folder scanned as a location of its own was offered whole")
+        #expect(await found(for: developer)["home/Library/Developer"] == nil, "macOS keeps ~/Library/Developer")
     }
 
     /// A vendor keeps each product's folder inside one of its own at the top of a Library. The product's folder is
