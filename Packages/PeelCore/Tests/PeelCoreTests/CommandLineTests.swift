@@ -1932,7 +1932,7 @@ struct CommandLineTests {
     }
 
     @Test func searchSaysItLeavesNetworkVolumesOut() {
-        let help = SearchCommand.helpMessage(columns: 300)
+        let help = SearchCommand.helpMessage(columns: 1_000)
 
         #expect(help.contains("Search every disk on this Mac, not only your home folder. Network volumes aren't searched."))
         #expect(help.contains("yours first, then those an app keeps in a Library folder, each largest first"))

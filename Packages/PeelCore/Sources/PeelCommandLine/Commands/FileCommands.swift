@@ -1077,7 +1077,7 @@ struct SearchCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "search",
         abstract: "Search the Spotlight index for files.",
-        discussion: "Peel asks Spotlight, so it finds only what Spotlight indexes, and network volumes aren't searched. It lists files alone, yours first, then those an app keeps in a Library folder, each largest first, at most \(Output.number(FileSearch.maximumResults)), and it says how many it left out and why."
+        discussion: "Peel asks Spotlight, so it finds only what Spotlight indexes, and network volumes aren't searched. It lists files alone, not folders, apps, or documents Finder shows as one file but keeps as a folder, such as a GarageBand project or a sparse bundle disk image: yours first, then those an app keeps in a Library folder, each largest first, at most \(Output.number(FileSearch.maximumResults)), and it says how many it left out and why."
     )
 
     @Option(help: "Part of the file name.")
