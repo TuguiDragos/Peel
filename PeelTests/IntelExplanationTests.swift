@@ -25,6 +25,18 @@ struct IntelExplanationTests {
         #expect(command(in: "/usr/local/bin").rowCaption == "/usr/local/bin")
     }
 
+    @Test func theBadgeOfAPlugInNothingLoadsDoesNotPromiseRosetta() {
+        var finding = IntelFinding(
+            url: URL(filePath: "/Library/QuickLook/Old.qlgenerator"), kind: .plugin, name: "Old", owner: nil, size: 1
+        )
+        finding.pluginCategory = .quickLook
+        #expect(String(localized: finding.badge.detail).contains("Rosetta"))
+
+        finding.noLongerLoaded = .quickLookGenerator
+        #expect(!String(localized: finding.badge.detail).contains("Rosetta"))
+        #expect(String(localized: finding.badge.title) == String(localized: "Intel only"))
+    }
+
     @Test func saysWhereAnIntelPlugInCanLoad() {
         let words = { (finding: IntelFinding) in String(localized: finding.explanation(onAppleSilicon: true)) }
 

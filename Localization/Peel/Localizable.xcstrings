@@ -29619,6 +29619,112 @@
         }
       }
     },
+    "Built for Intel processors only. Nothing on macOS loads it anymore." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Určeno jen pro procesory Intel. V systému macOS už ho nic nenačítá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur für Intel-Prozessoren entwickelt. Unter macOS wird es von nichts mehr geladen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su código es solo para procesadores Intel. Ya no hay nada en macOS que lo cargue."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conçu uniquement pour les processeurs Intel. Plus rien sous macOS ne le charge."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo per processori Intel. Ormai nulla in macOS lo carica."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intelプロセッサ専用にビルドされています。macOSには、これを読み込むものはもうありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intel 프로세서 전용으로 빌드되었습니다. 이제 macOS에서는 이 항목을 로드하는 것이 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen gemaakt voor Intel-processors. Niets in macOS laadt het nog."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skompilowano tylko dla procesorów Intel. Nic w systemie macOS już tego nie wczytuje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feito só para processadores Intel. Nada no macOS o carrega mais."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar pentru procesoare Intel. Nimic din macOS nu îl mai încarcă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Собрано только для процессоров Intel. В macOS его больше ничто не загружает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Byggd enbart för Intel-processorer. Inget i macOS läser in den längre."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yalnızca Intel işlemciler için derlendi. macOS’te artık onu yükleyen hiçbir şey yok."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Створено лише для процесорів Intel. Ніщо в macOS його більше не завантажує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅为Intel处理器构建。macOS上已没有任何程序会载入它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "僅為Intel處理器建置。macOS中已沒有任何程式會再載入它。"
+          }
+        }
+      }
+    },
     "Built for Intel processors only. On Apple silicon it needs Rosetta." : {
       "localizations" : {
         "cs" : {

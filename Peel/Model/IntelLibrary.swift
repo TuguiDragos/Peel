@@ -177,9 +177,13 @@ extension IntelFinding {
 
     /// The name of what the page's badge says, and its note.
     var badge: (title: LocalizedStringResource, detail: LocalizedStringResource) {
-        prefersIntel
-            ? ("Opens as Intel", "Built for both. The app itself asks macOS to open it as an Intel app, so on Apple silicon it runs through Rosetta.")
-            : ("Intel only", "Built for Intel processors only. On Apple silicon it needs Rosetta.")
+        if prefersIntel {
+            return ("Opens as Intel", "Built for both. The app itself asks macOS to open it as an Intel app, so on Apple silicon it runs through Rosetta.")
+        }
+        if noLongerLoaded != nil {
+            return ("Intel only", "Built for Intel processors only. Nothing on macOS loads it anymore.")
+        }
+        return ("Intel only", "Built for Intel processors only. On Apple silicon it needs Rosetta.")
     }
 
     /// What the page says of a Mac without Rosetta: only what is sure of an app that also has a version for Apple
