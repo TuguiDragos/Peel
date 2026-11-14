@@ -237039,6 +237039,112 @@
         }
       }
     },
+    "This account isn’t an administrator, so `sudo` refuses it and Homebrew stops at the password. The command works from an account that is an administrator and can change this Homebrew." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento účet není účtem správce, takže ho `sudo` odmítne a Homebrew se zastaví u zadání hesla. Příkaz funguje z účtu, který je účtem správce a může tento Homebrew měnit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Benutzeraccount hat keine Administratorrechte, daher lehnt `sudo` ihn ab, und Homebrew bleibt bei der Passworteingabe stehen. Der Befehl funktioniert von einem Benutzeraccount aus, der Administratorrechte hat und diese Homebrew-Installation ändern kann."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta cuenta no es de administrador, así que `sudo` la rechaza y Homebrew se detiene al pedir la contraseña. El comando funciona desde una cuenta que sea de administrador y que pueda modificar este Homebrew."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce compte n’est pas administrateur : `sudo` le refuse donc, et Homebrew s’arrête à la demande du mot de passe. La commande fonctionne depuis un compte administrateur qui peut modifier cette installation de Homebrew."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo non è un account di amministratore, quindi `sudo` lo rifiuta e Homebrew si ferma alla richiesta della password. Il comando funziona da un account di amministratore che può modificare questa installazione di Homebrew."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアカウントは管理者ではないため、`sudo`に拒否され、Homebrewはパスワードの入力で止まります。このコマンドは、管理者であり、かつこのHomebrewを変更できるアカウントから実行すると動作します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 계정은 관리자가 아니므로 `sudo`가 이 계정을 거부하며 Homebrew는 암호를 묻는 단계에서 멈춥니다. 이 명령은 관리자이면서 이 Homebrew를 변경할 수 있는 계정에서 작동합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze account heeft geen beheerdersrechten, dus weigert `sudo` de account en stopt Homebrew bij het wachtwoord. Het commando werkt vanuit een beheerdersaccount die deze Homebrew kan wijzigen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To konto nie jest kontem administratora, więc `sudo` mu odmawia, a Homebrew zatrzymuje się na pytaniu o hasło. Polecenie zadziała z konta administratora, które może zmieniać ten Homebrew."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta conta não é de administrador, então o `sudo` a recusa e o Homebrew para ao pedir a senha. O comando funciona a partir de uma conta que seja de administrador e possa alterar este Homebrew."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest cont nu este un cont de administrator, așa că `sudo` îl refuză, iar Homebrew se oprește la parolă. Comanda funcționează dintr‑un cont de administrator care poate modifica această instalare Homebrew."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У этой учетной записи нет прав администратора, поэтому `sudo` ей отказывает и Homebrew останавливается на запросе пароля. Команда сработает в учетной записи администратора, у которой есть право изменять этот Homebrew."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här kontot är inte ett administratörskonto, så `sudo` nekar kontot och Homebrew stannar vid lösenordet. Kommandot fungerar från ett administratörskonto som kan ändra den här Homebrew-installationen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu hesap bir yönetici hesabı değil, bu yüzden `sudo` bu hesabı reddeder ve Homebrew parola isteminde durur. Komut, yönetici olan ve bu Homebrew’u değiştirebilen bir hesaptan çalışır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей обліковий запис не має прав адміністратора, тож `sudo` йому відмовляє, і Homebrew зупиняється на запиті пароля. Команда спрацює з облікового запису, який має права адміністратора й може змінювати цей Homebrew."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此账户不是管理员，因此`sudo`会拒绝它，而Homebrew会停在输入密码这一步。在具有管理员身份且能够更改此Homebrew的账户中，该命令可以正常运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此帳號不是管理者，因此`sudo`會拒絕它，而Homebrew會停在輸入密碼這一步。此指令可在身為管理者且能更改此Homebrew的帳號中執行。"
+          }
+        }
+      }
+    },
     "This account isn’t an administrator, so an administrator runs this command, or you run it after `su` and an administrator’s short name." : {
       "localizations" : {
         "cs" : {

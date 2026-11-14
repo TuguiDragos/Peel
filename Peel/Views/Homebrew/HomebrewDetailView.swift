@@ -160,7 +160,8 @@ struct HomebrewDetailView: View {
                             .foregroundStyle(.secondary)
                     } else if (package.waitsForAnUpgrade && package.upgradeNeedsAnAdministrator && !package.isPeelItself
                         && upgradeRefusal == nil) || isUninstalledInTerminal {
-                        Text(needsTerminal)
+                        let lines = Self.needsTerminal(isAdministrator: helper.isAdministrator).map { Text($0) }
+                        lines.dropFirst().reduce(lines[0]) { Text("\($0)\n\n\($1)") }
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     }
@@ -441,8 +442,15 @@ struct HomebrewDetailView: View {
     }
 
     /// Said where Peel hands a cask's command to Terminal: `brew` asks for an administrator's password with `sudo`,
-    /// which needs a terminal, and Peel runs it without one.
-    private let needsTerminal: LocalizedStringResource = "Homebrew needs an administrator’s password for this, and only Terminal can ask for it. Copy the command, then run it in Terminal."
+    /// which needs a terminal, and Peel runs it without one. `sudo` refuses an account that isn't an administrator's,
+    /// so there it also says who can run the command.
+    static func needsTerminal(isAdministrator: Bool) -> [LocalizedStringResource] {
+        let said: LocalizedStringResource = "Homebrew needs an administrator’s password for this, and only Terminal can ask for it. Copy the command, then run it in Terminal."
+        if isAdministrator {
+            return [said]
+        }
+        return [said, "This account isn’t an administrator, so `sudo` refuses it and Homebrew stops at the password. The command works from an account that is an administrator and can change this Homebrew."]
+    }
 
     /// A cask whose uninstall needs an administrator is offered as a command, unless it may not be uninstalled at all.
     private var isUninstalledInTerminal: Bool {
