@@ -241,16 +241,33 @@ struct TweakTests {
         #expect(!state.isManaged)
         #expect(store.storedValue(of: nonsense) == nil)
 
-        // A tweak reads as on only when a value is stored for this user, a profile sets it, or it has a path.
         for tweak in TweakCatalog.all {
             let live = store.state(of: tweak)
-            #expect(!live.isOn || live.isManaged || store.storedValue(of: tweak) != nil || live.text != nil, "\(tweak.id) reads as on with nothing stored")
+            #expect(
+                Self.readsOnlyWhatHoldsIt(live, stored: store.storedValue(of: tweak)),
+                "\(tweak.id) reads as on with nothing stored"
+            )
             // A value from an administrator's file or the global domain counts as held elsewhere only while Peel's
             // own layer holds nothing, since Peel's would win over it.
             if let elsewhere = live.heldElsewhere, elsewhere != .thisMac {
                 #expect(store.storedValue(of: tweak) == nil, "\(tweak.id) is held \(elsewhere) over Peel's own value")
             }
         }
+    }
+
+    /// A tweak reads as on only when a value is stored for this user, a profile sets it, it has a path, or another
+    /// layer holds it.
+    private static func readsOnlyWhatHoldsIt(_ state: TweakState, stored: Any?) -> Bool {
+        !state.isOn || state.isManaged || stored != nil || state.text != nil || state.heldElsewhere != nil
+    }
+
+    @Test func aTweakOnThroughAnotherLayerIsOnWithNothingStoredForThisUser() {
+        let layers = TweakStore.Layers(everyAccount: kCFBooleanTrue)
+        let elsewhere = TweakStore.heldElsewhere(of: .aSwitch(.boolean(true)), isOn: true, in: layers)
+        let state = TweakState(isOn: true, isManaged: false, text: nil, heldElsewhere: elsewhere)
+
+        #expect(elsewhere == .everyAccount)
+        #expect(Self.readsOnlyWhatHoldsIt(state, stored: nil))
     }
 
     @Test func tellsWhetherThisMacHasSleepTurnedOff() {
