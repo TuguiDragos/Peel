@@ -1152,8 +1152,11 @@ struct SearchCommand: AsyncParsableCommand {
             Output.line(results.leftOut.isEmpty ? "No files found." : "No files listed.")
         } else {
             Output.table(
-                results.files.map { [Output.size($0.size), Output.day($0.modificationDate), Output.path($0.url)] }
+                results.files.map { [Self.size(of: $0), Output.day($0.modificationDate), Output.path($0.url)] }
             )
+            if results.files.contains(where: \.freesLessThanItsLength) {
+                Output.note("A size is what moving the file would free, which can be less than its length.")
+            }
         }
         if results.isTruncated {
             Output.note("Only the first \(Output.number(FileSearch.maximumResults)) files are shown, yours before those an app keeps in a Library folder, each largest first. Narrow the search to see the rest.")
@@ -1167,6 +1170,11 @@ struct SearchCommand: AsyncParsableCommand {
             let unindexed = results.unindexedDisks.map(Output.plain).joined(separator: ", ")
             Output.note("Spotlight isn't indexing \(unindexed), so nothing there was searched.")
         }
+    }
+
+    /// What moving `file` would free, with its length beside it when that is more.
+    static func size(of file: FoundFile) -> String {
+        file.freesLessThanItsLength ? "\(Output.size(file.size)) of \(Output.size(file.length))" : Output.size(file.size)
     }
 
     private static func note(for reason: FileSearch.LeftOut, count: Int) -> String {

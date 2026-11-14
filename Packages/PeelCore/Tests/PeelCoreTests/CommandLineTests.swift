@@ -1949,6 +1949,21 @@ struct CommandLineTests {
         #expect(collected.notes == "Only the first 2000 files are shown, yours before those an app keeps in a Library folder, each largest first. Narrow the search to see the rest.\n")
     }
 
+    @Test func searchSaysALengthBesideASizeThatFreesLess() throws {
+        var results = FileSearchResults()
+        results.files = [FoundFile(
+            url: URL(filePath: "/Users/me/Documents/one.bin"), size: 0, length: 400_000, modificationDate: .now,
+            requiresPrivileges: false
+        )]
+        let search = try #require(try PeelCommand.parseAsRoot(["search", "--name", "one"]) as? SearchCommand)
+        let collected = Output.Collected()
+
+        try Output.$collected.withValue(collected) { try search.report(results) }
+
+        #expect(collected.output.hasPrefix("\(Output.size(0)) of \(Output.size(400_000))"))
+        #expect(collected.notes.contains("A size is what moving the file would free, which can be less than its length."))
+    }
+
     @Test func searchSaysWhatItLeftOutAndWhy() throws {
         var results = FileSearchResults()
         results.leftOut = [.syncs: 52, .excluded: 1]
