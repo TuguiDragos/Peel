@@ -152,7 +152,8 @@ public enum SelfRemoval {
         case helperIsNotThisAccounts
         /// The helper is still registered. `reason` says why its uninstall failed, when it did say.
         case helperStayed(reason: String?, ledger: PrivilegedHelper.LedgerMove)
-        case appStayed(failures: [TrashFailure], ledger: PrivilegedHelper.LedgerMove)
+        /// Peel's own move was refused. `helperIsGone` when the helper was already uninstalled before it.
+        case appStayed(failures: [TrashFailure], ledger: PrivilegedHelper.LedgerMove, helperIsGone: Bool = false)
     }
 
     /// Removes Peel: the helper, after it has moved Peel's links and its ledger, then the login item, then `urls`
@@ -203,7 +204,7 @@ public enum SelfRemoval {
         )
         guard let moved = result.trashed.first(where: { $0.originalURL == app }) else {
             await steps.resumeWork()
-            return .stayed(.appStayed(failures: result.failures, ledger: ledger))
+            return .stayed(.appStayed(failures: result.failures, ledger: ledger, helperIsGone: helperWasRegistered))
         }
         var stayed = result.failures + movedLinks.failures
         if case .stayed(let failure) = ledger {

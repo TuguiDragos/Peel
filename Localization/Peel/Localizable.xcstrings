@@ -172748,6 +172748,112 @@
         }
       }
     },
+    "Peel’s helper is already removed, for every account. Install it again in Settings > Helper." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocník Peelu už je odstraněný, a to pro všechny účty. Znovu ho nainstalujte v Nastavení > Pomocník."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel ist bereits für alle Benutzeraccounts entfernt. Installiere es in den Einstellungen unter „Hilfsprogramm“ erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El asistente de Peel ya se ha eliminado, para todas las cuentas. Vuelve a instalarlo en Ajustes > Asistente."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire de Peel est déjà supprimé, pour tous les comptes. Réinstallez-le dans Réglages > Utilitaire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente di Peel è già stato rimosso, per tutti gli account. Installalo di nuovo in Impostazioni > Assistente."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーは、すべてのアカウントからすでに取り除かれています。“設定”＞“ヘルパー”でもう一度インストールしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램은 이미 모든 계정에서 제거되었습니다. 설정 > 보조 프로그램에서 다시 설치하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel is al verwijderd, voor elke account. Installeer het opnieuw in Instellingen > Hulpprogramma."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnik Peel został już odinstalowany dla wszystkich kont. Zainstaluj go ponownie w Ustawieniach > Pomocnik."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar do Peel já foi removido, para todas as contas. Instale-o novamente em Ajustes > Auxiliar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel este deja eliminat, pentru toate conturile. Reinstalați‑l din Configurări > Instrument de ajutor."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник Peel уже удален для всех учетных записей. Установите его снова в разделе «Настройки» > «Помощник»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram är redan borttaget, för alla konton. Installera det igen i Inställningar > Hjälpprogram."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı her hesap için zaten kaldırıldı. Onu Ayarlar > Yardımcı bölümünde yeniden yükleyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічника Peel уже вилучено для всіх облікових записів. Інсталюйте його знову в розділі Параметри > Помічник."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的帮助程序已经为所有账户移除。请在“设置”>“帮助程序”中重新安装它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的輔助程式已為所有帳號移除。請在「設定」>「輔助程式」中重新安裝它。"
+          }
+        }
+      }
+    },
     "Peel’s helper is installed but not yet allowed, and only an administrator can allow it. Log in as an administrator, open Peel there, and allow the helper. Then this account can use it, with an administrator’s name and password each time." : {
       "localizations" : {
         "cs" : {

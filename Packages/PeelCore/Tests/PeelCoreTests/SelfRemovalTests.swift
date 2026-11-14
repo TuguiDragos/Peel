@@ -230,6 +230,30 @@ struct SelfRemovalTests {
         #expect(app.isThere)
     }
 
+    @Test func saysTheHelperIsGoneWhenPeelStaysAfterIt() async throws {
+        let directory = try TemporaryDirectory()
+        let log = StepLog(helperIsRegistered: true)
+        let app = try directory.directory("home/Applications/Peel.app")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+        let trash = try directory.directory("Trash")
+        let service = TrashService(environment: SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )) { url in
+            guard url.lastPathComponent != "Peel.app" else { throw POSIXError(.EPERM) }
+            let destination = trash.appending(path: UUID().uuidString)
+            try FileManager.default.moveItem(at: url, to: destination)
+            return destination
+        }
+
+        let outcome = await SelfRemoval.remove(
+            [app], links: [], app: app, folder: folder, steps: steps(log, in: directory), using: service
+        ) { _ in }
+
+        let refused = TrashFailure(url: app, reason: .notPermitted)
+        #expect(outcome == .stayed(.appStayed(failures: [refused], ledger: .moved, helperIsGone: true)))
+    }
+
     @Test func anAppTheMoveRefusesKeepsPeelWhereItWas() async throws {
         let directory = try TemporaryDirectory()
         let log = StepLog(helperIsRegistered: false)

@@ -235,9 +235,12 @@ final class SelfUninstall {
         case .helperStayed(let reason, let ledger):
             let reason = reason ?? helperStayed
             return ledger == .moved ? "\(reason)\n\n\(ledgerInTheTrash)" : reason
-        case .appStayed(let failures, let ledger):
+        case .appStayed(let failures, let ledger, let helperIsGone):
             let lines = failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
-            return (lines + (ledger == .moved ? [ledgerInTheTrash] : [])).joined(separator: "\n\n")
+            let helper = helperIsGone
+                ? [String(localized: "Peel’s helper is already removed, for every account. Install it again in Settings > Helper.")]
+                : []
+            return (lines + (ledger == .moved ? [ledgerInTheTrash] : []) + helper).joined(separator: "\n\n")
         }
     }
 
