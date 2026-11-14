@@ -130,6 +130,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Sort and Filter tells VoiceOver how many filters are on.
 - A folder that holds a tool's models, such as `~/.ollama`, is no longer selected when you uninstall its app, and its
   row says why: models are a long download to get back, and the ones you made or imported may exist only there.
+- What an app opens by default is one row of badges under Default App for N Kinds of Files: each names the app that
+  would open those kinds once it's gone, with how many, and No app counts the kinds nothing else on this Mac opens. A
+  click on a badge lists them, kinds of one name together with their extensions. Links have a row of their own.
 
 #### Orphaned Files
 
@@ -146,6 +149,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   and the row's note says the same.
 - Beside a stopped Uninstall or Upgrade, Peel says it couldn't look inside the package's folders to check them against
   your exclusions, no longer only that it can't check them.
+
+#### Space
+
+- On macOS 27, the link under Apple's figure for Apple Intelligence says it is how to turn its features off, in the Mac
+  User Guide: it opens Apple's guide, and Peel turns nothing off itself.
 
 #### Developer
 
