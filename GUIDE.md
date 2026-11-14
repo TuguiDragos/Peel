@@ -434,7 +434,8 @@ Settings > General holds Peel's choices, among them which tools the sidebar show
 Privacy, which says what Peel sends and every place it may contact, and Helper.
 
 - **Export List of Apps:** in the File menu and in Applications' toolbar, what's installed and where each app came
-  from, as JSON, a spreadsheet, plain text, or, with Homebrew 4.4.25 or later installed, a Brewfile.
+  from, as JSON, a spreadsheet, plain text, or, with Homebrew 4.4.25 or later installed, a Brewfile. Installed On is
+  the day the app last arrived in its folder, which changes when an update replaces the app.
 - **Shortcuts:** actions that open a page in Peel for you to look at. None of them removes anything.
 - **Sidebar:** turn off the tools you don't use in Settings, and they leave the sidebar. The View menu and
   Shortcuts still open them. Home, Applications, and History always stay. Background Items, Extensions, Plug-ins,

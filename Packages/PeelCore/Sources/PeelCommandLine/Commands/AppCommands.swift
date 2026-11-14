@@ -26,7 +26,9 @@ struct InventoryCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "inventory",
         abstract: "Write out what is installed and where each app came from.",
-        discussion: "A Brewfile only lists what Homebrew can install again; everything else would be a line that doesn't work."
+        discussion: "A Brewfile only lists what Homebrew can install again; everything else would be a line that doesn't work. "
+            + "Installed On (csv) and installedOn (json) are the day the app last arrived in its folder, which changes "
+            + "when an update replaces the app."
     )
 
     /// An enum, so `--help` lists the formats and the shell can complete them.
