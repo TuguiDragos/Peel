@@ -891,6 +891,21 @@ struct DuplicateFinderTests {
         #expect(finder.refusal(of: URL(filePath: "/Applications")) == .outsideTheHome)
     }
 
+    @Test func refusesAnAppsDocumentAndAPackageAFolderLeadsInto() throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        let media = try directory.directory("home/Music/Song.logicx/Media")
+        let resources = try directory.directory("home/Pictures/Thing.app/Contents/Resources")
+        let link = home.appending(path: "Documents/Resources")
+        try directory.directory("home/Documents")
+        try FileManager.default.createSymbolicLink(at: link, withDestinationURL: resources)
+        let finder = DuplicateFinder(homeDirectory: home)
+
+        #expect(finder.refusal(of: media.deletingLastPathComponent()) == .inAPackage)
+        #expect(finder.refusal(of: media) == .inAPackage)
+        #expect(finder.refusal(of: link) == .inAPackage)
+    }
+
     @Test func refusesTheTrashOfEveryDisk() throws {
         let directory = try TemporaryDirectory()
         let home = try directory.directory("home")

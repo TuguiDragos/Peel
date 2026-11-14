@@ -88,9 +88,10 @@ public struct DuplicateFinder: Sendable {
     /// are in the home's Library and protected data to the guard, which refuses each copy inside when the scan
     /// asks it; the scan shows those copies and never moves them, so neither rule refuses such a folder here.
     public func refusal(of folder: URL) -> Refusal? {
-        let path = Self.path(of: folder.resolvingSymlinksInPath())
+        let resolved = folder.resolvingSymlinksInPath()
+        let path = Self.path(of: resolved)
         let home = Self.path(of: homeDirectory)
-        if folder.isOrIsInsideAPackage { return .inAPackage }
+        if Self.isOrIsInsideAPackage(resolved) { return .inAPackage }
         let syncs = Self.isInACloudFolder(path)
         if !syncs, ProtectedData.refuses(path, home: home) { return .protected }
         if path.isInside(home) {
@@ -133,6 +134,17 @@ public struct DuplicateFinder: Sendable {
 
     /// Whether `url` is a photo, music, or video library. Its files belong to the library's app, so none of them
     /// is offered as a copy, whatever its bytes.
+    /// Whether `url`, or a folder it sits in, is what the scan never walks into: a package, a library, or a document
+    /// its app keeps as a package.
+    static func isOrIsInsideAPackage(_ url: URL) -> Bool {
+        var folder = url.standardizedFileURL
+        while folder.pathComponents.count > 1 {
+            if folder.isAPackage || isAUserLibrary(folder) || isAnAppsDocument(folder) { return true }
+            folder = folder.deletingLastPathComponent()
+        }
+        return false
+    }
+
     static func isAUserLibrary(_ url: URL) -> Bool {
         ProtectedData.extensions.contains(url.pathExtension.lowercased())
     }
