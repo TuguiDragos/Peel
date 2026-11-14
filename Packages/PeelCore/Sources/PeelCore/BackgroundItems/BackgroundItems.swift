@@ -80,7 +80,7 @@ public enum BackgroundItems {
             inTheUserDomain: Launchctl.parseSystemServices(await userDomainPrint.output).map { Set($0.keys) }
         )
 
-        var items = await settlingSharedLabels(
+        var items = await settlingWhereJobsLoadFrom(
             declared(in: environment, ownership: ownership, exclusions: exclusions, loaded: loaded)
         ) { item in
             Launchctl.parseDetails(await Launchctl.run(["print", BackgroundItemActions.target(of: item)]).output)?.path
@@ -225,7 +225,9 @@ public enum BackgroundItems {
     ) -> [(label: String, kind: BackgroundItem.Kind, target: String)] {
         // By kind and label: an item's `id` also holds its file's path, which a loaded job does not report. A file
         // Peel can't read names no label, so whatever job launchd loaded from it is asked about too.
-        let known = Set(items.filter { !$0.isClosedToPeel }.map { "\($0.kind.rawValue)/\($0.label)" })
+        let known = Set(items.filter { !$0.isClosedToPeel && !$0.anotherFileIsLoaded }.map {
+            "\($0.kind.rawValue)/\($0.label)"
+        })
         let candidates: [(label: String, kind: BackgroundItem.Kind, target: String)] =
             (loaded.user ?? [:]).keys.map { label in
                 (label, .agent, "\(loaded.isInTheUserDomain(label) ? "user" : "gui")/\(uid)/\(label)")
@@ -373,19 +375,21 @@ public enum BackgroundItems {
         return items
     }
 
-    /// Gives a job two files declare its state on the row of the file launchd loaded it from, which `loadedFrom` asks
-    /// of launchd, and marks the other row as not loaded. When launchd doesn't say which, neither row is said to run.
-    static func settlingSharedLabels(
+    /// Gives each loaded job a file here declares its state on the row of the file launchd loaded it from, which
+    /// `loadedFrom` asks of launchd, and marks a row whose file isn't that one as not loaded: launchd may run its label
+    /// from another file, or as a job an app gave it. When launchd doesn't say which, a label two files declare is
+    /// said to run on neither row, and a label one file declares keeps its state.
+    static func settlingWhereJobsLoadFrom(
         _ items: [BackgroundItem], loadedFrom: (BackgroundItem) async -> String?
     ) async -> [BackgroundItem] {
         let declared = items.indices.filter { items[$0].plistURL != nil && !items[$0].isNamedByItsFile }
-        let shared = Dictionary(grouping: declared) { "\(items[$0].kind.rawValue)/\(items[$0].label)" }
-            .values.filter { $0.count > 1 }
+        let byLabel = Dictionary(grouping: declared) { "\(items[$0].kind.rawValue)/\(items[$0].label)" }.values
         var settled = items
-        for rows in shared where ![.notLoaded, .unknown].contains(items[rows[0]].state) {
+        for rows in byLabel where ![.notLoaded, .unknown].contains(items[rows[0]].state) {
             let path = await loadedFrom(items[rows[0]]).map { PathPattern.comparablePath(of: URL(filePath: $0)) }
             for row in rows {
                 guard let path else {
+                    guard rows.count > 1 else { continue }
                     settled[row].state = .unknown
                     settled[row].stateNotKnown = .whichFileNotSaid
                     continue

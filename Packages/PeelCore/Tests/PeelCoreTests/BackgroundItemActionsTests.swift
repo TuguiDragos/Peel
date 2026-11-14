@@ -996,8 +996,8 @@ struct DeclaredBackgroundItemsTests {
             loaded: BackgroundItems.Loaded(user: ["org.example.updater": 42])
         )
 
-        let named = await BackgroundItems.settlingSharedLabels(items) { _ in shared.path(percentEncoded: false) }
-        let unknown = await BackgroundItems.settlingSharedLabels(items) { _ in nil }
+        let named = await BackgroundItems.settlingWhereJobsLoadFrom(items) { _ in shared.path(percentEncoded: false) }
+        let unknown = await BackgroundItems.settlingWhereJobsLoadFrom(items) { _ in nil }
         let loadedRow = named.first { $0.source == .systemLibrary }
         let otherRow = named.first { $0.source == .userLibrary }
 
@@ -1006,6 +1006,26 @@ struct DeclaredBackgroundItemsTests {
         #expect(otherRow?.anotherFileIsLoaded == true)
         #expect(unknown.count == 2 && unknown.allSatisfy { $0.state == .unknown })
         #expect(unknown.allSatisfy { $0.stateNotKnown == .whichFileNotSaid })
+    }
+
+    @Test func aFileBesideAJobAnAppGaveLaunchdUnderItsNameIsNotThatJob() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/LaunchAgents/org.example.helper.plist", contents: job("org.example.helper"))
+        let loaded = BackgroundItems.Loaded(user: ["org.example.helper": 42])
+        let items = BackgroundItems.declared(
+            in: environment(directory), ownership: BackgroundItemOwnership(installedApps: []), loaded: loaded
+        )
+
+        let settled = await BackgroundItems.settlingWhereJobsLoadFrom(items) { _ in "(submitted by smd.335)" }
+
+        let row = try #require(settled.first)
+        #expect(row.state == .notLoaded)
+        #expect(row.anotherFileIsLoaded)
+        let undeclared = BackgroundItems.undeclared(in: loaded, declared: settled, uid: 501)
+        #expect(undeclared.map(\.label) == ["org.example.helper"])
+        let job = LaunchdCleanup.Job(label: row.label, isDaemon: false, plist: try #require(row.plistURL))
+        #expect(!LaunchdCleanup.isLoaded(from: "(submitted by smd.335)", job))
+        #expect(await BackgroundItems.settlingWhereJobsLoadFrom(items) { _ in nil }.first?.state == .running(pid: 42))
     }
 
     @Test func saysWhichListOfLaunchctlsLeftAStateUnknown() {

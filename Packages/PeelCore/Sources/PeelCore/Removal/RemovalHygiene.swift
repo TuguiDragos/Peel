@@ -103,6 +103,9 @@ enum LaunchdCleanup {
     /// that is still there, as when two files declare one label.
     static func isLoaded(from loadedFrom: String?, _ job: Job) -> Bool {
         guard let loadedFrom else { return true }
+        // launchd says `(submitted by …)` in place of a path for a job an app gave it: no file is gone, and the job
+        // isn't this file's.
+        guard loadedFrom.hasPrefix("/") else { return false }
         let other = URL(filePath: loadedFrom)
         return PathPattern.comparablePath(of: other) == PathPattern.comparablePath(of: job.plist) || other.isMissing
     }
