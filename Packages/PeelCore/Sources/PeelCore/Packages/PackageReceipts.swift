@@ -454,13 +454,14 @@ public enum PackageReceipts {
 
         let listing = await pkgutil(["--files", identifier])
         let files = lines(of: listing)
-        let throughScripts = listing != nil
-            && (files.isEmpty || isTemporary(installLocation: info["install-location"] as? String ?? ""))
-
         let found = topLevel(
             files: files, installLocation: installLocation.path(percentEncoded: false),
             accountHome: askedVolume?.path(percentEncoded: false), macOS: macOS
         )
+        // A receipt that names only folders every package shares says nothing of where the package's own files went.
+        let throughScripts = listing != nil
+            && (files.isEmpty || isTemporary(installLocation: info["install-location"] as? String ?? "")
+                || found.listsOnlySharedFolders)
         // An app's own rules reach the rest of its package, as they reach its files on its page, and a folder an app
         // sits in moves that app too. What else a folder holds isn't this package's, even when the folder is.
         let inspected = { (paths: [String]) in
@@ -608,6 +609,7 @@ public enum PackageReceipts {
     /// protected data (`ProtectedData.refuses`), which Peel never lists at all. `othersFilled` holds the folders
     /// offered whole that hold what something besides this package put there. `accountHome` is the home folder of the
     /// account a package was installed for alone, where the folders every package shares are those of a home.
+    /// `listsOnlySharedFolders` is true when every line names the install location or such a folder.
     static func topLevel(
         files: [String],
         installLocation: String,
@@ -616,7 +618,7 @@ public enum PackageReceipts {
         home: String = URL.homeDirectory.path(percentEncoded: false),
         namesInside: (String) -> [String]? = PackageReceipts.namesInside,
         exists: (String) -> Bool = { !URL(filePath: $0).isMissing }
-    ) -> (onDisk: [String], offered: [String], othersFilled: Set<String>) {
+    ) -> (onDisk: [String], offered: [String], othersFilled: Set<String>, listsOnlySharedFolders: Bool) {
         let root = (installLocation as NSString).standardizingPath
         let paths = files.map { file -> String in
             let relative = file.hasPrefix("./") ? String(file.dropFirst(2)) : file
@@ -639,7 +641,7 @@ public enum PackageReceipts {
         // A package can be built with a bundle as its install location, an app's own folder, and lists only what is
         // inside it. The bundle is one item when the package made it.
         if !isShared(root), isBundle(root, exists: exists), made(root, listed: folded, namesInside: namesInside) {
-            return ([root], ProtectedData.refuses(root, home: home) ? [] : [root], [])
+            return ([root], ProtectedData.refuses(root, home: home) ? [] : [root], [], false)
         }
 
         let outermost = Set(zip(paths, lowered).filter { path, lowered in
@@ -658,7 +660,9 @@ public enum PackageReceipts {
                 )
             }
             .sorted()
-        return (onDisk, onDisk.filter { !ProtectedData.refuses($0, home: home) }, othersFilled)
+        let onlyShared = !paths.isEmpty
+            && zip(paths, lowered).allSatisfy { path, lowered in path == root || isSharedWhenLowered(lowered) }
+        return (onDisk, onDisk.filter { !ProtectedData.refuses($0, home: home) }, othersFilled, onlyShared)
     }
 
     /// Returns `path` when this package installed everything inside it, at any depth, and otherwise the parts

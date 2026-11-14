@@ -569,6 +569,16 @@ struct PackageReceiptsTests {
         #expect(stop.askedAfter == 0)
     }
 
+    @Test func aReceiptNamingAFileOfItsOwnBesideSharedFoldersListsMoreThanThem() {
+        let found = PackageReceipts.topLevel(
+            files: ["Library", "Library/LaunchDaemons", "Library/LaunchDaemons/org.example.tide.plist"],
+            installLocation: "/", exists: { !$0.hasSuffix(".plist") }
+        )
+
+        #expect(found.onDisk.isEmpty)
+        #expect(!found.listsOnlySharedFolders)
+    }
+
     @Test func aPackageWhoseScriptsPlaceItsFilesIsNeverReceiptOnly() async throws {
         let directory = try TemporaryDirectory()
         let volume = PathPattern.canonical(directory.url)
@@ -577,14 +587,19 @@ struct PackageReceiptsTests {
         let listings = [
             "org.example.mixer": "Mixer.app\nMixer.app/Contents\nMixer.app/Contents/Info.plist",
             "org.example.mixer.scripts": "",
+            "org.example.mixer.folders": "Library\nLibrary/LaunchDaemons\nusr\nusr/local\nusr/local/bin",
             "org.example.gone": "Gone.app\nGone.app/Contents",
         ]
         let pkgutil: PackageReceipts.Pkgutil = { arguments in
             switch arguments.first {
             case "--pkgs-plist":
-                return PkgutilAnswer.packages("org.example.gone", "org.example.mixer", "org.example.mixer.scripts")
+                return PkgutilAnswer.packages(
+                    "org.example.gone", "org.example.mixer", "org.example.mixer.scripts", "org.example.mixer.folders"
+                )
             case "--pkg-info-plist":
-                let info = ["volume": volume.path(percentEncoded: false), "install-location": locations[arguments[1]] ?? ""]
+                // The folders every package shares are known on the startup disk, so this one was installed there.
+                let disk = arguments[1] == "org.example.mixer.folders" ? "/" : volume.path(percentEncoded: false)
+                let info = ["volume": disk, "install-location": locations[arguments[1]] ?? ""]
                 let data = try? PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
                 return data.flatMap { String(data: $0, encoding: .utf8) }
             case "--files":
@@ -599,7 +614,7 @@ struct PackageReceiptsTests {
         let receipts = scan.receipts
 
         let byScripts = receipts.filter { $0.identifier.hasPrefix("org.example.mixer") }
-        #expect(byScripts.count == 2)
+        #expect(byScripts.count == 3)
         #expect(byScripts.allSatisfy { $0.installedThroughItsScripts && !$0.nothingLeftOnDisk })
         let gone = try #require(receipts.first { $0.identifier == "org.example.gone" })
         #expect(gone.nothingLeftOnDisk && !gone.installedThroughItsScripts)
