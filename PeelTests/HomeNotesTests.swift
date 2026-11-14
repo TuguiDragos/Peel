@@ -23,6 +23,7 @@ struct HomeNotesTests {
 
     @Test func theHelpersPointerNoteNamesWhatSystemSettingsShows() {
         #expect(HomeModel.Permission.helper.nameInSystemSettings == "Peel")
+        #expect(HomeModel.Permission.openAtLogin.nameInSystemSettings == String(localized: "Open at Login"))
         #expect(HomeModel.Permission.appManagement.nameInSystemSettings == String(localized: "App Management"))
     }
 }

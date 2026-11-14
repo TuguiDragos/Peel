@@ -445,9 +445,14 @@ extension HomeModel.Permission {
     /// so its row is the one with no pane to open.
     var isInSystemSettings: Bool { self != .commandLine }
 
-    /// What System Settings lists the setting under: macOS lists the helper as Peel itself.
+    /// What System Settings lists the setting under: macOS lists the helper as Peel itself, and Peel's login item
+    /// under Open at Login.
     var nameInSystemSettings: String {
-        self == .helper ? "Peel" : String(localized: title)
+        switch self {
+        case .helper: "Peel"
+        case .openAtLogin: String(localized: "Open at Login")
+        default: String(localized: title)
+        }
     }
 
     var tilt: Double {
