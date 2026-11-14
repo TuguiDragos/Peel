@@ -34,6 +34,8 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     /// Paths the cask's `uninstall` stanza removes, as written, which `brew uninstall` and an upgrade run. `zap` is
     /// left out: Peel never runs it.
     public let uninstallPatterns: [String]
+    /// Those of them it deletes for good (`delete`), not to the Trash (`trash`) or only while empty (`rmdir`).
+    public let uninstallDeletes: [String]
     /// Bundle identifiers the cask tells macOS to quit, which prove a cask really is a given app.
     public let quitIdentifiers: [String]
     /// Installer receipts the cask forgets, which can prove the cask for an app installed from a `.pkg`.
@@ -122,6 +124,19 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
         retirement?.stage != .disabled
     }
 
+    /// The places the cask's `uninstall` stanza deletes for good that may hold what exists only on this Mac
+    /// (`KeptOnlyHere`), as they are on the disk now. `brew uninstall` deletes them with the app.
+    public func deletesWhatMayBeOnlyHere(
+        home: URL = .homeDirectory, root: URL = URL(filePath: "/", directoryHint: .isDirectory)
+    ) -> [URL] {
+        uninstallDeletes.flatMap { CaskEvidence.expand($0, home: home) }.filter {
+            KeptOnlyHere.reason(
+                for: $0.path(percentEncoded: false), home: home.path(percentEncoded: false),
+                root: root.path(percentEncoded: false)
+            ) != nil
+        }
+    }
+
     /// Returns a copy that notes whether what the installed cask put on the Mac is all gone, asked of the disk now: its
     /// apps, or, with none, the receipts in `receipts` of the packages it installed. An app on a disk that is not
     /// connected is not gone.
@@ -207,6 +222,7 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
         commandLinks: [String] = [],
         otherTargets: [String] = [],
         uninstallPatterns: [String] = [],
+        uninstallDeletes: [String] = [],
         leftoverPatterns: [String] = [],
         emptyFolderPatterns: [String] = [],
         quitIdentifiers: [String] = [],
@@ -232,6 +248,7 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
         self.commandLinks = commandLinks
         self.otherTargets = otherTargets
         self.uninstallPatterns = uninstallPatterns
+        self.uninstallDeletes = uninstallDeletes
         self.leftoverPatterns = leftoverPatterns
         self.emptyFolderPatterns = emptyFolderPatterns
         self.quitIdentifiers = quitIdentifiers
@@ -461,6 +478,7 @@ struct CaskArtifact: Decodable, Sendable {
     let commandLinks: [String]
     let otherTargets: [String]
     let uninstallPatterns: [String]
+    let uninstallDeletes: [String]
     let leftoverPatterns: [String]
     let emptyFolderPatterns: [String]
     /// Bundle identifiers the cask tells macOS to quit. The surest sign a cask really is a given app.
@@ -496,6 +514,7 @@ struct CaskArtifact: Decodable, Sendable {
         uninstallPatterns = (raw["uninstall"]?.dictionaries ?? []).flatMap { stanza in
             (Self.removalKeys + ["rmdir"]).flatMap { stanza[$0]?.strings ?? [] }
         }
+        uninstallDeletes = (raw["uninstall"]?.dictionaries ?? []).flatMap { $0["delete"]?.strings ?? [] }
 
         var patterns: [String] = []
         var emptyFolders: [String] = []
@@ -1466,6 +1485,7 @@ public enum Homebrew {
                 commandLinks: cask.artifacts?.flatMap(\.commandLinks) ?? [],
                 otherTargets: cask.artifacts?.flatMap(\.otherTargets) ?? [],
                 uninstallPatterns: cask.artifacts?.flatMap(\.uninstallPatterns) ?? [],
+                uninstallDeletes: cask.artifacts?.flatMap(\.uninstallDeletes) ?? [],
                 leftoverPatterns: cask.artifacts?.flatMap(\.leftoverPatterns) ?? [],
                 emptyFolderPatterns: cask.artifacts?.flatMap(\.emptyFolderPatterns) ?? [],
                 quitIdentifiers: cask.artifacts?.flatMap(\.quitIdentifiers) ?? [],

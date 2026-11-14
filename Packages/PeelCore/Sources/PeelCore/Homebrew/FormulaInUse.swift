@@ -9,7 +9,8 @@ public struct FormulaInUse: Sendable, Hashable {
     public let stopCommand: String?
     /// What Homebrew keeps under the formula's name in its `var` and `etc`, which `brew uninstall` leaves: the data of
     /// a database, say, or a server's settings. Homebrew warns about its `etc` folder only once it is gone
-    /// (`uninstall.rb`), and says nothing of `var`.
+    /// (`uninstall.rb`), and says nothing of `var`. Then the models the tool keeps in the home, as the Developer
+    /// page's table names them, which it leaves too.
     public var dataFolders: [URL] = []
 
     public var isEmpty: Bool { programs.isEmpty && stopCommand == nil }
@@ -36,6 +37,7 @@ public struct FormulaInUse: Sendable, Hashable {
             programs: OpenFiles().holders(of: folder),
             stopCommand: stopCommand,
             dataFolders: ["var", "etc"].map { prefix.appending(path: "\($0)/\(name)") }.filter { !$0.isMissing }
+                + DeveloperCaches.modelFolders(ofFormula: name, home: home)
         )
     }
 }

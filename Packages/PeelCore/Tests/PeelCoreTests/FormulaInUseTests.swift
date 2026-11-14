@@ -3,6 +3,23 @@ import Foundation
 import Testing
 
 @Suite struct FormulaInUseTests {
+    @Test func namesTheModelsAToolsFormulaLeavesInTheHome() throws {
+        let directory = try TemporaryDirectory()
+        let cellar = directory.url.appending(path: "Cellar", directoryHint: .isDirectory)
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let root = directory.url.appending(path: "root", directoryHint: .isDirectory)
+        let found = { (name: String) in
+            FormulaInUse.of(formula: name, cellar: cellar, home: home, root: root, brew: "brew").dataFolders
+                .map { $0.pathComponents.suffix(2).joined(separator: "/") }
+        }
+        #expect(found("ollama").isEmpty)
+
+        try directory.file("home/.ollama/models/blobs/sha256-1a2b")
+
+        #expect(found("ollama") == [".ollama/models"])
+        #expect(found("other").isEmpty)
+    }
+
     @Test func namesWhatRunsFromAFormulaAndTheJobThatStartsIt() throws {
         let directory = try TemporaryDirectory()
         let cellar = directory.url.appending(path: "Cellar", directoryHint: .isDirectory)

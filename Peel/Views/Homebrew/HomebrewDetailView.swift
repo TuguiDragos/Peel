@@ -13,6 +13,7 @@ struct HomebrewDetailView: View {
     @State private var inUse: FormulaInUse?
     @State private var leftInTheSystem: LeftInTheSystem?
     @State private var commandToRunFirst: CommandToRunFirst?
+    @State private var deletesForGood: [URL] = []
     @State private var isConfirmingUpgrade = false
     @State private var casksToForget: [HomebrewPackage]?
     /// What macOS said of the system extensions the cask's apps carry, with the apps it was asked about.
@@ -164,7 +165,8 @@ struct HomebrewDetailView: View {
                             .foregroundStyle(.secondary)
                     }
                     if isUninstalledInTerminal, let stays = Self.besideTheCommand(
-                        package, commandToRunFirst: commandToRunFirst, leftInTheSystem: leftInTheSystem
+                        package, commandToRunFirst: commandToRunFirst, leftInTheSystem: leftInTheSystem,
+                        deletesForGood: deletesForGood
                     )?.text {
                         stays
                             .font(.callout)
@@ -309,6 +311,7 @@ struct HomebrewDetailView: View {
     private func readWhatItLeaves() {
         leftInTheSystem = LeftInTheSystem.of(package)
         commandToRunFirst = CommandToRunFirst.of(package)
+        deletesForGood = package.deletesWhatMayBeOnlyHere()
     }
 
     private func readWhatUsesIt() async {
@@ -329,8 +332,8 @@ struct HomebrewDetailView: View {
 
     private var whatStays: Text? {
         WhatStays(
-            name: package.name, dataFolders: inUse?.dataFolders ?? [], trustedRoot: TrustedRoot.of(package),
-            commandToRunFirst: commandToRunFirst, leftInTheSystem: leftInTheSystem
+            name: package.name, deletesForGood: deletesForGood, dataFolders: inUse?.dataFolders ?? [],
+            trustedRoot: TrustedRoot.of(package), commandToRunFirst: commandToRunFirst, leftInTheSystem: leftInTheSystem
         ).text
     }
 
@@ -338,19 +341,22 @@ struct HomebrewDetailView: View {
     static func besideTheCommand(
         _ package: HomebrewPackage,
         commandToRunFirst: CommandToRunFirst?,
-        leftInTheSystem: LeftInTheSystem?
+        leftInTheSystem: LeftInTheSystem?,
+        deletesForGood: [URL]
     ) -> WhatStays? {
         guard package.uninstallNeedsAnAdministrator else { return nil }
         let stays = WhatStays(
-            name: package.name, trustedRoot: TrustedRoot.of(package), commandToRunFirst: commandToRunFirst,
-            leftInTheSystem: leftInTheSystem
+            name: package.name, deletesForGood: deletesForGood, trustedRoot: TrustedRoot.of(package),
+            commandToRunFirst: commandToRunFirst, leftInTheSystem: leftInTheSystem
         )
         return stays.text == nil ? nil : stays
     }
 
-    /// What Homebrew leaves of a package, which it says nothing of before it deletes the rest.
+    /// What Homebrew leaves of a package, which it says nothing of before it deletes the rest, and what of the
+    /// person's it deletes with it.
     struct WhatStays: Equatable {
         let name: String
+        var deletesForGood: [URL] = []
         var dataFolders: [URL] = []
         var trustedRoot: TrustedRoot?
         var commandToRunFirst: CommandToRunFirst?
@@ -358,6 +364,10 @@ struct HomebrewDetailView: View {
 
         var text: Text? {
             var lines: [Text] = []
+            if !deletesForGood.isEmpty {
+                let places = deletesForGood.map(\.abbreviatedPath).formatted(.list(type: .and))
+                lines.append(Text("Homebrew also deletes \(places) for good, which may hold what you made with the app."))
+            }
             if !dataFolders.isEmpty {
                 let places = dataFolders.map(\.abbreviatedPath).formatted(.list(type: .and))
                 lines.append(Text("Homebrew leaves \(places), with any data or settings the formula kept there."))

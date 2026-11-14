@@ -64110,6 +64110,112 @@
         }
       }
     },
+    "Homebrew also deletes %@ for good, which may hold what you made with the app." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew také trvale smaže %@, kde může být uloženo to, co jste v aplikaci vytvořili."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew löscht außerdem %@ endgültig, und darin liegt möglicherweise, was du mit der App erstellt hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew también borra definitivamente %@, donde puede estar lo que hayas creado con la app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew supprime aussi définitivement %@, où peut se trouver ce que vous avez créé avec l’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew elimina definitivamente anche %@, dove potrebbe trovarsi ciò che hai creato con l’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは%@も完全に削除します。そこには、このアプリで作成したものが含まれている可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew는 %@도 영구적으로 삭제하며, 그곳에는 앱으로 만든 항목이 들어 있을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew verwijdert ook %@ definitief, waarin kan staan wat je met de app hebt gemaakt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew trwale usuwa też %@, gdzie może być to, co tworzysz w tej aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew também apaga definitivamente %@, onde pode haver o que você criou com o app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew șterge definitiv și %@, unde se poate afla ce ați creat cu aplicația."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew также безвозвратно удаляет %@, а там может храниться то, что Вы создали с помощью приложения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew raderar också %@ permanent, och där kan det finnas sådant som du har skapat med appen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew şunları da kalıcı olarak siler: %@. Bunlar, uygulamayla oluşturduğunuz şeyleri barındırıyor olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew також назавжди видаляє %@, де може бути те, що ви створили за допомогою цієї програми."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew还会永久删除%@，其中可能存放着你用此App创作的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew也會永久刪除%@，其中可能存放著你用該App製作的內容。"
+          }
+        }
+      }
+    },
     "Homebrew can no longer reliably download it." : {
       "localizations" : {
         "cs" : {

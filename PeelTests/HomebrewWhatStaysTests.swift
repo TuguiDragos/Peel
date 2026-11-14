@@ -24,7 +24,7 @@ struct HomebrewWhatStaysTests {
             HomebrewDetailView.besideTheCommand(
                 package,
                 commandToRunFirst: CommandToRunFirst.of(package, environment: environment),
-                leftInTheSystem: LeftInTheSystem.of(package, environment: environment)
+                leftInTheSystem: LeftInTheSystem.of(package, environment: environment), deletesForGood: []
             )
         }
 
@@ -32,5 +32,21 @@ struct HomebrewWhatStaysTests {
         let left = try #require(LeftInTheSystem.of(battery, environment: environment))
         #expect(said(battery) == .init(name: "battery", commandToRunFirst: first, leftInTheSystem: left))
         #expect(said(postgres) == nil, "a cask Peel uninstalls says it in its question")
+    }
+
+    @Test func aCaskThatDeletesWhatMayExistOnlyHereSaysSoBesideItsCommand() {
+        let gpt4All = HomebrewPackage(name: "gpt4all", kind: .cask, uninstallNeedsAnAdministrator: true)
+        let folder = URL(
+            filePath: "/Users/example/Library/Application Support/nomic.ai/GPT4All", directoryHint: .isDirectory
+        )
+        let said = { (deleted: [URL]) in
+            HomebrewDetailView.besideTheCommand(
+                gpt4All, commandToRunFirst: nil, leftInTheSystem: nil, deletesForGood: deleted
+            )
+        }
+
+        #expect(said([folder]) == .init(name: "gpt4all", deletesForGood: [folder]))
+        #expect(said([folder])?.text != nil)
+        #expect(said([]) == nil)
     }
 }

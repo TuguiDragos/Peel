@@ -182,6 +182,8 @@ public enum DeveloperCaches {
         /// The beginnings of the identifiers of apps that carry their version in it (`com.adobe.PremierePro.25`).
         var appIdentifierPrefixes: [String] = []
         var programs: [String] = []
+        /// The Homebrew formulae that install the tool, whose programs keep these folders too.
+        var homebrewFormulae: [String] = []
     }
 
     /// A folder a tool keeps, relative to the home folder or to the user's cache folder, and what it holds.
@@ -405,6 +407,13 @@ public enum DeveloperCaches {
         let build = AppInspector.stated(app["CFBundleVersion"])
         guard version != nil || build != nil else { return nil }
         return DeveloperEnvironment.Archive(version: version, build: build)
+    }
+
+    /// The table's folders of models in `home` of the tool `formula` installs, as they are on the disk now.
+    static func modelFolders(ofFormula formula: String, home: URL) -> [URL] {
+        definitions.filter { $0.homebrewFormulae.contains(formula) }.flatMap(\.folders)
+            .filter { $0.kind == .models && $0.base == .home }
+            .flatMap { PathPattern.expand($0.path, home: home, from: .peel) }
     }
 
     /// Whether the item at `path` is, sits inside, or holds one of the table's folders of models in `home`, which
@@ -1314,7 +1323,7 @@ public enum DeveloperCaches {
             Folder(".ollama/models", .models, source: "https://github.com/ollama/ollama/blob/42e911bc3d05798cad729cb474bf62f378cb2e26/docs/faq.mdx#L233-L236"),
             Folder(".ollama/logs", .logs, source: "https://github.com/ollama/ollama/blob/42e911bc3d05798cad729cb474bf62f378cb2e26/docs/macos.mdx#L26-L28"),
             Folder("Library/Caches/ollama/updates", .downloads, source: "https://github.com/ollama/ollama/blob/42e911bc3d05798cad729cb474bf62f378cb2e26/app/updater/updater_darwin.go#L88-L96"),
-        ], programs: ["ollama"]),
+        ], programs: ["ollama"], homebrewFormulae: ["ollama"]),
         Definition(id: "lmstudio", name: "LM Studio", systemImage: "brain", appBundleIdentifiers: ["ai.elementlabs.lmstudio"], folders: [
             Folder(".lmstudio/models", .models, source: "https://lmstudio.ai/docs/app/advanced/import-model", rowsDepth: 2, movedBy: .lmStudioModels),
             Folder(".cache/lm-studio/models", .models, source: "https://lmstudio.ai/blog/lmstudio-v0.3.6"),

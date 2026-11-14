@@ -600,6 +600,22 @@ struct HomebrewTests {
             "/Users/org.example/Library/Fonts/Sample.ttf", "/opt/homebrew/share/man/man1/sample.1",
         ])
         #expect(cask.uninstallPatterns == ["~/Library/Application Support/Sample", "/Library/Sample", "/Library/Empty"])
+        #expect(cask.uninstallDeletes == ["/Library/Sample"])
+    }
+
+    @Test func namesWhatACasksUninstallDeletesThatMayExistOnlyHere() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/nomic.ai/GPT4All/chat.db")
+        try directory.file("home/Library/Caches/org.example.chat/cache.db")
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let cask = HomebrewPackage(name: "gpt4all", kind: .cask, uninstallDeletes: [
+            "~/Library/Application Support/nomic.ai/GPT4All", "~/Library/Caches/org.example.chat",
+            "~/Library/Application Support/org.example.missing",
+        ])
+
+        let deleted = cask.deletesWhatMayBeOnlyHere(home: home, root: directory.url)
+
+        #expect(deleted.map(\.lastPathComponent) == ["GPT4All"])
     }
 
     /// Homebrew is the account's own: any of its programs can rewrite it. A command that only reads must not reach
