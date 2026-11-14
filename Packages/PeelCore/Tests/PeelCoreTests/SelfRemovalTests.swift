@@ -295,8 +295,8 @@ struct SelfRemovalTests {
         #expect(await requests.sent.isEmpty)
         #expect(await requests.ledgerMoves == 0)
         #expect(links.trashed.isEmpty)
-        #expect(links.failures == [TrashFailure(url: link, reason: .failed(PrivilegedHelper.unavailable))])
-        #expect(moved == .stayed(TrashFailure(url: ledger, reason: .failed(PrivilegedHelper.unavailable))))
+        #expect(links.failures == [TrashFailure(url: link, reason: .failed(PrivilegedHelper.leftBehind))])
+        #expect(moved == .stayed(TrashFailure(url: ledger, reason: .failed(PrivilegedHelper.leftBehind))))
     }
 
     @Test func aHelperWaitingForApprovalIsNotAskedAndItsLedgerStays() async throws {
@@ -318,7 +318,7 @@ struct SelfRemovalTests {
         #expect(await requests.sent.isEmpty)
         #expect(await requests.ledgerMoves == 0)
         #expect(links.trashed.isEmpty && links.failures.isEmpty)
-        #expect(moved == .stayed(TrashFailure(url: ledger, reason: .failed(PrivilegedHelper.unavailable))))
+        #expect(moved == .stayed(TrashFailure(url: ledger, reason: .failed(PrivilegedHelper.leftBehind))))
     }
 
     @Test func withNoLedgerNoneStaysWhenTheHelperDoesNotAnswer() async throws {

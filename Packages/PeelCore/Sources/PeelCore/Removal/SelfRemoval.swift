@@ -258,11 +258,11 @@ public enum SelfRemoval {
         ledger: URL = PrivilegedHelper.ledgerFolder
     ) async -> (links: TrashResult, ledger: PrivilegedHelper.LedgerMove) {
         guard helperIsEnabled, await answers() else {
-            let unanswered = TrashFailure.Reason.failed(PrivilegedHelper.unavailable)
-            let left = helperIsEnabled ? links.map { TrashFailure(url: $0, reason: unanswered) } : []
+            let reason = TrashFailure.Reason.failed(PrivilegedHelper.leftBehind)
+            let left = helperIsEnabled ? links.map { TrashFailure(url: $0, reason: reason) } : []
             return (
                 TrashResult(failures: left),
-                ledger.isThere ? .stayed(TrashFailure(url: ledger, reason: unanswered)) : .none
+                ledger.isThere ? .stayed(TrashFailure(url: ledger, reason: reason)) : .none
             )
         }
         return (await service.trash(links, usingHelperFor: Set(links)), await moveLedger())
