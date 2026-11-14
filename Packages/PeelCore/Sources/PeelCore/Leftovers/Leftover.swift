@@ -63,6 +63,9 @@ public enum HoldBack: String, Sendable, Hashable {
     case gitTrackingNotReadInTime
     /// A build folder that also keeps the options its build was set up with, which nothing else in the project holds.
     case keepsItsSetup
+    /// A deployment tool's folder that also keeps the state of what the project deployed, which the next deployment
+    /// reads to find the resources it made.
+    case keepsWhatItDeployed
     /// Only a `CACHEDIR.TAG` says it is a cache, and a person writes one too, so backups leave their own data out.
     case markedOnlyByACacheTag
     /// `/Users/Shared`, which belongs to every account on the Mac rather than to one app.

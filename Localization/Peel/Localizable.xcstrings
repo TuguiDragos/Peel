@@ -127026,6 +127026,112 @@
         }
       }
     },
+    "Not selected: it also keeps the state of what this project deployed, which the next deployment reads to find the resources it made." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: uchovává také stav toho, co tento projekt nasadil, a příští nasazení ho čte, aby našlo prostředky, které projekt vytvořil."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Darin liegt auch der Zustand dessen, was dieses Projekt bereitgestellt hat. Die nächste Bereitstellung liest ihn, um die erstellten Ressourcen zu finden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: también guarda el estado de lo que ha desplegado este proyecto, que el próximo despliegue lee para encontrar los recursos que creó."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : cet élément conserve aussi l’état de ce que ce projet a déployé, que le prochain déploiement lit pour retrouver les ressources créées."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: conserva anche lo stato di ciò che questo progetto ha distribuito, e la distribuzione successiva lo legge per trovare le risorse che ha creato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: このプロジェクトでデプロイしたものの状態も保持しています。次回のデプロイでは、この状態を読み取って、作成したリソースを見つけます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 프로젝트가 배포한 대상의 상태도 보관하며, 다음 배포에서는 이 상태를 읽어 이전에 만든 리소스를 찾습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit bewaart ook de state van wat dit project heeft uitgerold, en de volgende uitrol leest die om de resources te vinden die het heeft gemaakt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: przechowuje też stan tego, co ten projekt wdrożył, a następne wdrożenie odczytuje ten stan, aby znaleźć utworzone przez projekt zasoby."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: isto também guarda o estado do que este projeto implantou, que a próxima implantação lê para encontrar os recursos que criou."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: păstrează și starea a ceea ce a implementat acest proiect, stare pe care următoarea implementare o citește pentru a găsi resursele pe care le‑a creat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: здесь также хранится состояние того, что развернул этот проект, и следующее развертывание читает его, чтобы найти созданные ресурсы."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: den sparar också tillståndet för det som det här projektet har driftsatt, och nästa driftsättning läser tillståndet för att hitta de resurser som projektet har skapat."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu projenin dağıttıklarının durum bilgisini de tutar; bir sonraki dağıtım, oluşturduğu kaynakları bulmak için bu bilgiyi okur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: тут також зберігається стан того, що розгорнув цей проєкт, і наступне розгортання читає його, щоб знайти створені ним ресурси."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：它还保存着此项目所部署内容的状态，下一次部署会读取该状态来找到它所创建的资源。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：它也保存了此計畫案所部署內容的狀態，下一次部署時會讀取此狀態，以找出先前建立的資源。"
+          }
+        }
+      }
+    },
     "Not selected: it belongs to an app macOS keeps, so it is in use." : {
       "localizations" : {
         "cs" : {

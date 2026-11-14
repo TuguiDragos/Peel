@@ -135,7 +135,8 @@ public enum ProjectArtifacts {
         let source: String
         /// What the folder holds that only its tool writes, for a kind no project file stands beside.
         var proof: Proof?
-        var keepsItsSetup = false
+        /// Why a folder of this kind is never suggested, whatever the scan saw inside: what it keeps besides its build.
+        var heldBack: HoldBack?
         var isFoundOnlyByItsTag = false
         /// The tool clones its dependencies inside and clones them again, so a repository there is not the person's.
         var remakesItsClones = false
@@ -178,6 +179,9 @@ public enum ProjectArtifacts {
         case holdsOnly(Set<String>, including: String)
         /// Only folders named by a lowercase hexadecimal digest of this length, as Ruby Sass names its cache's.
         case holdsOnlyFoldersNamedByDigest(characters: Int)
+        /// A file whose name begins and ends so, as Serverless Components names a deployment's state
+        /// `Template.<name>.json`.
+        case holdsAFileNamed(prefix: String, suffix: String)
 
         func holds(at url: URL) -> Bool {
             switch self {
@@ -206,6 +210,12 @@ public enum ProjectArtifacts {
                     let name = entry.lastPathComponent.utf8
                     return name.count == characters && name.allSatisfy { "0123456789abcdef".utf8.contains($0) }
                         && ProjectArtifacts.isRealFolder(entry)
+                }
+            case .holdsAFileNamed(let prefix, let suffix):
+                return (ProjectArtifacts.contents(of: url) ?? []).contains { entry in
+                    let name = entry.lastPathComponent
+                    return name.count > prefix.count + suffix.count && name.hasPrefix(prefix) && name.hasSuffix(suffix)
+                        && (try? entry.resourceValues(forKeys: [.isRegularFileKey]).isRegularFile) == true
                 }
             }
         }
@@ -282,7 +292,7 @@ public enum ProjectArtifacts {
         Definition(
             name: ".astro", markers: astroConfigFiles, tool: "Astro", isGeneric: false,
             source: "https://github.com/withastro/astro/blob/0a1036eef62f13c9609362874c5b88434d1e9300/packages/astro/src/preferences/README.md",
-            keepsItsSetup: true
+            heldBack: .keepsItsSetup
         ),
         Definition(
             name: ".expo", markers: expoConfigFiles, tool: "Expo", isGeneric: false,
@@ -349,6 +359,12 @@ public enum ProjectArtifacts {
             name: ".react-router", markers: ["package.json"] + reactRouterConfigFiles, tool: "React Router",
             isGeneric: false,
             source: "https://github.com/remix-run/react-router/blob/dee9ad2dab41889e8fbdc6848b5781255d9f133a/docs/how-to/route-module-type-safety.md#L17-L22"
+        ),
+        // Serverless Components keeps each deployment's state there too, which the next deployment reads.
+        Definition(
+            name: ".serverless", markers: serverlessFiles, tool: "Serverless Framework", isGeneric: false,
+            source: "https://github.com/serverless-nextjs/serverless-next.js/blob/74ca15346da6d82aaae44e6d97c5e143844ac12c/README.md#L707-L711",
+            proof: .holdsAFileNamed(prefix: "Template.", suffix: ".json"), heldBack: .keepsWhatItDeployed
         ),
         Definition(
             name: ".serverless", markers: serverlessFiles, tool: "Serverless Framework", isGeneric: false,
@@ -502,7 +518,7 @@ public enum ProjectArtifacts {
             name: ".bloop", markers: ["build.sbt", "build.sc", "build.mill", "pom.xml"] + gradleFiles, tool: "Bloop",
             isGeneric: false,
             source: "https://github.com/scalacenter/bloop/blob/7d07f8224a2c5519c85e37edfef0ce4f42d4d4e6/docs/build-tools/sbt.md#L32-L37",
-            keepsItsSetup: true
+            heldBack: .keepsItsSetup
         ),
         Definition(
             name: "out", markers: ["build.mill", "build.mill.yaml", "build.sc"], tool: "Mill", isGeneric: true,
@@ -731,7 +747,7 @@ public enum ProjectArtifacts {
         Definition(
             name: "*", markers: ["meson.build"], tool: "Meson", isGeneric: false,
             source: "https://github.com/mesonbuild/meson/blob/d73f48d3b421a25112cc23e5ab629dc68f3d3791/mesonbuild/mcompile.py#L30-L35",
-            proof: .holds("meson-private/coredata.dat"), keepsItsSetup: true
+            proof: .holds("meson-private/coredata.dat"), heldBack: .keepsItsSetup
         ),
         Definition(
             name: "build", markers: ["CMakeLists.txt"], tool: "CMake", isGeneric: true,
@@ -1237,7 +1253,7 @@ public enum ProjectArtifacts {
                 hasGenericName: artifact.found.definition?.isGeneric ?? false,
                 isEnvironment: artifact.found.definition?.isEnvironment ?? false,
                 heldBack: (heldBack == .holdsRepository && artifact.found.remakesItsClones ? nil : heldBack)
-                    ?? (artifact.found.definition?.keepsItsSetup == true ? .keepsItsSetup : nil)
+                    ?? artifact.found.definition?.heldBack
                     ?? (artifact.found.definition == nil ? .markedOnlyByACacheTag : nil)
             )
         }

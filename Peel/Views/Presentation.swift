@@ -733,6 +733,8 @@ extension HoldBack {
             "Not selected: reading which files Git tracks here took too long, so this folder may be part of the project. Rescan to try again."
         case .keepsItsSetup:
             "Not selected: it also keeps the options this build was set up with, which nothing else in the project holds."
+        case .keepsWhatItDeployed:
+            "Not selected: it also keeps the state of what this project deployed, which the next deployment reads to find the resources it made."
         case .markedOnlyByACacheTag:
             "Not selected: only a cache tag marks this folder, and Peel can’t tell what wrote it or whether it can be made again."
         case .sharedWithEveryone:

@@ -1036,6 +1036,23 @@ struct ProjectArtifactsTests {
         #expect(found.first?.isRecommended == true)
     }
 
+    @Test func keepsTheStateServerlessComponentsKeepsOfADeployment() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("shop/serverless.yml", bytes: 16)
+        try directory.file("shop/.serverless/Template.myNextApplication.json", bytes: 16)
+        try directory.file("api/serverless.yml", bytes: 16)
+        try directory.file("api/.serverless/api.zip", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        let rows = Dictionary(uniqueKeysWithValues: found.map { ($0.project.lastPathComponent, $0) })
+        #expect(rows["shop"]?.heldBack == .keepsWhatItDeployed)
+        #expect(rows["shop"]?.isRecommended == false)
+        #expect(rows["api"]?.heldBack == nil)
+        #expect(rows["api"]?.isRecommended == true)
+    }
+
     @Test func offersTheEnvironmentsPixiMakesAgainAndNeverItsSettings() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("science/pixi.toml", bytes: 16)
@@ -1705,6 +1722,7 @@ struct ProjectArtifactsTests {
             case .holdsOnly(_, let including): try directory.file("\(artifact)/\(including)/content")
             case .holdsOnlyFoldersNamedByDigest(let characters):
                 try directory.file("\(artifact)/\(String(repeating: "a", count: characters))/content")
+            case .holdsAFileNamed(let prefix, let suffix): try directory.file("\(artifact)/\(prefix)example\(suffix)")
             case nil: try directory.file("\(artifact)/content")
             }
             if definition.isFoundOnlyByItsTag {
