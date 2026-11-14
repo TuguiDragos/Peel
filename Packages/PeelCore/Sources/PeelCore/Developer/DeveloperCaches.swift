@@ -207,6 +207,9 @@ public enum DeveloperCaches {
         let rowsDepth: Int
         /// The ending every row's name has, such as `.xcarchive`, or nil for any.
         let rowEnding: String?
+        /// The file that marks each row's folder, as Jan marks a model's with `model.yml`, or nil. The rows are then
+        /// the folders holding it, at any depth up to three, and what holds none is not listed.
+        let rowsHolding: String?
         /// True for Xcode's DerivedData, whose rows are the tool's own only when `derivedDataRow(at:)` shows it.
         let rowsAreDerivedData: Bool
         /// True for an editor's `workspaceStorage`, whose rows are listed only when `goneProject(at:)` names one.
@@ -229,7 +232,7 @@ public enum DeveloperCaches {
 
         init(
             _ path: String, _ kind: DeveloperEnvironment.ContentKind, source: String, storeInside: String? = nil,
-            rowsDepth: Int = 0, rowEnding: String? = nil, rowsAreDerivedData: Bool = false,
+            rowsDepth: Int = 0, rowEnding: String? = nil, rowsHolding: String? = nil, rowsAreDerivedData: Bool = false,
             rowsAreProjectState: Bool = false, movedBy: Relocation? = nil, base: Base = .home,
             launchers: [String] = [], clonedFrom: String? = nil, holdsBackRecentWrites: Bool = false,
             namesItsPort: Bool = false
@@ -240,6 +243,7 @@ public enum DeveloperCaches {
             self.storeInside = storeInside
             self.rowsDepth = rowsDepth
             self.rowEnding = rowEnding
+            self.rowsHolding = rowsHolding
             self.rowsAreDerivedData = rowsAreDerivedData
             self.rowsAreProjectState = rowsAreProjectState
             self.movedBy = movedBy
@@ -300,22 +304,43 @@ public enum DeveloperCaches {
         }
 
         func rows(in folder: URL) -> [URL] {
+            if let rowsHolding { return Self.folders(holding: rowsHolding, in: folder) }
             var level = [folder]
             for _ in 0..<rowsDepth {
-                level = level.flatMap { folder in
-                    let keys: [URLResourceKey] = [.isDirectoryKey, .isSymbolicLinkKey]
-                    let entries = (try? FileManager.default.contentsOfDirectory(
-                        at: folder, includingPropertiesForKeys: keys, options: [.skipsHiddenFiles]
-                    )) ?? []
-                    // Named from `folder`, which keeps the spelling the rest of the list uses.
-                    return entries.filter { entry in
-                        let values = try? entry.resourceValues(forKeys: Set(keys))
-                        return values?.isDirectory == true && values?.isSymbolicLink != true
-                    }.map { folder.appending(path: $0.lastPathComponent, directoryHint: .notDirectory) }
-                }
+                level = level.flatMap(Self.subfolders(of:))
             }
             guard rowsDepth > 0, let rowEnding else { return level }
             return level.filter { $0.lastPathComponent.hasSuffix(rowEnding) }
+        }
+
+        private static func folders(holding marker: String, in folder: URL) -> [URL] {
+            var found: [URL] = []
+            var level = subfolders(of: folder)
+            for _ in 0..<3 {
+                var next: [URL] = []
+                for candidate in level {
+                    let values = try? candidate.appending(path: marker).resourceValues(forKeys: [.isRegularFileKey])
+                    if values?.isRegularFile == true {
+                        found.append(candidate)
+                    } else {
+                        next += subfolders(of: candidate)
+                    }
+                }
+                level = next
+            }
+            return found
+        }
+
+        private static func subfolders(of folder: URL) -> [URL] {
+            let keys: [URLResourceKey] = [.isDirectoryKey, .isSymbolicLinkKey]
+            let entries = (try? FileManager.default.contentsOfDirectory(
+                at: folder, includingPropertiesForKeys: keys, options: [.skipsHiddenFiles]
+            )) ?? []
+            // Named from `folder`, which keeps the spelling the rest of the list uses.
+            return entries.filter { entry in
+                let values = try? entry.resourceValues(forKeys: Set(keys))
+                return values?.isDirectory == true && values?.isSymbolicLink != true
+            }.map { folder.appending(path: $0.lastPathComponent, directoryHint: .notDirectory) }
         }
 
         /// What the folder at `url` holds now: installed packages once its store is there, `kind` otherwise.
@@ -1263,7 +1288,7 @@ public enum DeveloperCaches {
             Folder("Library/Caches/ollama/updates", .downloads, source: "https://github.com/ollama/ollama/blob/42e911bc3d05798cad729cb474bf62f378cb2e26/app/updater/updater_darwin.go#L88-L96"),
         ], programs: ["ollama"]),
         Definition(id: "lmstudio", name: "LM Studio", systemImage: "brain", appBundleIdentifiers: ["ai.elementlabs.lmstudio"], folders: [
-            Folder(".lmstudio/models", .models, source: "https://lmstudio.ai/docs/app/advanced/import-model", movedBy: .lmStudioModels),
+            Folder(".lmstudio/models", .models, source: "https://lmstudio.ai/docs/app/advanced/import-model", rowsDepth: 2, movedBy: .lmStudioModels),
             Folder(".cache/lm-studio/models", .models, source: "https://lmstudio.ai/blog/lmstudio-v0.3.6"),
         ]),
         Definition(id: "huggingface", name: "Hugging Face", systemImage: "brain", appBundleIdentifiers: [], folders: [
@@ -1319,8 +1344,8 @@ public enum DeveloperCaches {
             Folder(".cache/kagglehub", .models, source: "https://github.com/Kaggle/kagglehub/blob/4fe0a176e0e9b815ca4101c371b504ff97239b97/src/kagglehub/config.py#L17"),
         ]),
         Definition(id: "jan", name: "Jan", systemImage: "brain", appBundleIdentifiers: ["jan.ai.app"], folders: [
-            Folder("Library/Application Support/Jan/data/llamacpp/models", .models, source: "https://jan.ai/docs/desktop/data-folder", movedBy: .janDataFolder(inside: "llamacpp/models")),
-            Folder("Library/Application Support/Jan/data/mlx/models", .models, source: "https://jan.ai/docs/desktop/data-folder", movedBy: .janDataFolder(inside: "mlx/models")),
+            Folder("Library/Application Support/Jan/data/llamacpp/models", .models, source: "https://jan.ai/docs/desktop/data-folder", rowsHolding: "model.yml", movedBy: .janDataFolder(inside: "llamacpp/models")),
+            Folder("Library/Application Support/Jan/data/mlx/models", .models, source: "https://jan.ai/docs/desktop/data-folder", rowsHolding: "model.yml", movedBy: .janDataFolder(inside: "mlx/models")),
             // Not followed to a moved data folder: the person chose that folder, and a `logs` there may be theirs.
             Folder("Library/Application Support/Jan/data/logs", .logs, source: "https://jan.ai/docs/desktop/data-folder"),
         ]),

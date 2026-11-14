@@ -247,7 +247,7 @@ struct ToolSettingsTests {
         #expect(Self.path(ToolSettings(home: home).lmStudioModels) == Self.path(moved))
         let tools = DeveloperCaches.definitions.filter { $0.id == "lmstudio" }
         let lmStudio = await DeveloperCaches.scan(tools, homeDirectory: home).first
-        #expect(lmStudio?.locations.contains { Self.path($0.url) == Self.path(moved) } == true)
+        #expect(lmStudio?.locations.map { Self.path($0.url) } == [Self.path(moved.appending(path: "org/model"))])
 
         try directory.file("home/.lmstudio/settings.json", contents: Data(#"{"downloadsFolder":"models"}"#.utf8))
         #expect(ToolSettings(home: home).lmStudioModels == nil, "a relative path names no place")

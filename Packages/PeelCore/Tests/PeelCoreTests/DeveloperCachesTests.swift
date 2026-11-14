@@ -922,6 +922,37 @@ struct DeveloperCachesTests {
         #expect(listed.allSatisfy { $0.kind == .models && !$0.isRecommended })
     }
 
+    @Test func listsEachModelOfLMStudioAndJanOnARowOfItsOwn() async throws {
+        let directory = try TemporaryDirectory()
+        let jan = "Library/Application Support/Jan/data"
+        for path in [
+            ".lmstudio/models/lmstudio-community/Qwen3-8B-GGUF/Qwen3-8B-Q4_K_M.gguf",
+            ".lmstudio/models/mlx-community/gemma-3-4b-it-4bit/model.safetensors",
+            ".lmstudio/models/lmstudio-community/README.md",
+            ".cache/lm-studio/models/TheBloke/Mistral-7B-GGUF/mistral-7b.Q4_K_M.gguf",
+            "\(jan)/llamacpp/models/my-import/model.yml", "\(jan)/llamacpp/models/my-import/model.gguf",
+            "\(jan)/llamacpp/models/my-import/mmproj/mmproj.gguf",
+            "\(jan)/llamacpp/models/Menlo/Jan-nano-gguf/model.yml",
+            "\(jan)/llamacpp/models/Menlo/Jan-nano-gguf/Jan-nano-Q4_K_M.gguf",
+            "\(jan)/llamacpp/models/Menlo/unfinished/Jan-nano-Q8_0.gguf",
+            "\(jan)/mlx/models/mlx-community/Qwen3-4B-4bit/model.yml",
+            "\(jan)/mlx/models/mlx-community/Qwen3-4B-4bit/model.safetensors",
+        ] {
+            try directory.file(path, bytes: 4_096)
+        }
+
+        let environments = await scanned(directory.url)
+
+        let home = directory.url.path(percentEncoded: false)
+        let listed = environments.filter { ["lmstudio", "jan"].contains($0.id) }.flatMap(\.locations)
+        #expect(Set(listed.map { String($0.url.path(percentEncoded: false).dropFirst(home.count)) }) == [
+            ".lmstudio/models/lmstudio-community/Qwen3-8B-GGUF", ".lmstudio/models/mlx-community/gemma-3-4b-it-4bit",
+            ".cache/lm-studio/models", "\(jan)/llamacpp/models/my-import", "\(jan)/llamacpp/models/Menlo/Jan-nano-gguf",
+            "\(jan)/mlx/models/mlx-community/Qwen3-4B-4bit",
+        ])
+        #expect(listed.allSatisfy { $0.kind == .models && !$0.isRecommended })
+    }
+
     @Test func listsTheModelsAILibrariesDownloadAndNothingElseOfTheirFolders() async throws {
         let directory = try TemporaryDirectory()
         for path in [
@@ -1133,7 +1164,11 @@ struct DeveloperCachesTests {
                     continue
                 }
                 let row = entry + (0..<folder.rowsDepth).map { "/row \($0)" }.joined() + (folder.rowEnding ?? "")
+                    + (folder.rowsHolding == nil ? "" : "/marked")
                 try directory.file("\(row)/content", bytes: 400_000)
+                if let marker = folder.rowsHolding {
+                    try directory.file("\(row)/\(marker)")
+                }
                 // An editor's state is listed only for a project that is gone.
                 if folder.rowsAreProjectState {
                     let gone = directory.url.appending(path: "gone-\(definition.id)").absoluteString
@@ -1555,7 +1590,9 @@ struct DeveloperCachesTests {
         let directory = try TemporaryDirectory()
         let moved = directory.url.appending(path: "Fast/jan").path(percentEncoded: false)
         try directory.file("home/Library/Application Support/Jan/settings.json", contents: Data(#"{"data_folder":"\#(moved)"}"#.utf8))
+        try directory.file("Fast/jan/llamacpp/models/tiny/model.yml")
         try directory.file("Fast/jan/llamacpp/models/tiny/model.gguf", bytes: 400_000)
+        try directory.file("Fast/jan/mlx/models/small/model.yml")
         try directory.file("Fast/jan/mlx/models/small/weights.safetensors", bytes: 400_000)
         try directory.file("Fast/jan/logs/app.log", bytes: 400_000)
         let jan = DeveloperCaches.definitions.filter { $0.id == "jan" }
@@ -1565,7 +1602,7 @@ struct DeveloperCachesTests {
 
         let temporary = directory.url.path(percentEncoded: false)
         #expect(Set(found.map { $0.url.path(percentEncoded: false).replacingOccurrences(of: temporary, with: "") }) == [
-            "Fast/jan/llamacpp/models", "Fast/jan/mlx/models",
+            "Fast/jan/llamacpp/models/tiny", "Fast/jan/mlx/models/small",
         ])
     }
 
