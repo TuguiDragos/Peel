@@ -271,8 +271,9 @@ struct HomebrewDetailView: View {
             if package.isMissingWhatItInstalled {
                 Button("Forget Cask") { casksToForget = [package] }
                     .buttonStyle(.borderedProminent)
-                    .disabled(!history.mayMove)
-                    .help(Text(verbatim: history.holdingReason?.explanation ?? ""))
+                    .disabled(!history.mayMove || homebrew.forgettable([package]).isEmpty)
+                    .help(homebrew.exclusionRefusal(of: package).map { Text($0) }
+                        ?? Text(verbatim: history.holdingReason?.explanation ?? ""))
             } else if package.waitsForAnUpgrade {
                 if package.isPeelItself {
                     Button("Check for Updates…") {

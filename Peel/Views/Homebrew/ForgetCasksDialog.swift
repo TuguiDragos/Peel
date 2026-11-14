@@ -12,19 +12,27 @@ struct ForgetCasksDialog: ViewModifier {
     func body(content: Content) -> some View {
         content
             .confirmationDialog(title, isPresented: isAsking, presenting: casks) { casks in
-                Button(casks.count == 1 ? "Forget Cask" : "Forget All") { forget(casks) }
+                Button(homebrew.forgettable(casks).count == 1 ? "Forget Cask" : "Forget All") { forget(casks) }
                 Button("Cancel", role: .cancel) {}
             } message: { casks in
-                casks.count == 1
+                let forgotten = homebrew.forgettable(casks)
+                let said = forgotten.count == 1
                     ? Text("Its Homebrew receipt goes to the Trash with the links Homebrew made into it in its command and completion folders, so Homebrew stops listing it. History can put it back.")
                     : Text("Their Homebrew receipts go to the Trash with the links Homebrew made into them in its command and completion folders, so Homebrew stops listing them. History can put them back.")
+                if forgotten.count < casks.count {
+                    Text("\(said)\n\n\(Text("A cask excluded in Settings stays listed."))")
+                } else {
+                    said
+                }
             }
     }
 
+    /// Names or counts only the casks Forget moves: the exclusions keep the rest.
     private var title: Text {
         guard let casks else { return Text(verbatim: "") }
-        guard casks.count > 1 else { return Text("Forget \(casks.first?.name ?? "")?") }
-        return Text(verbatim: String(inflecting: "Forget ^[\(casks.count) cask](inflect: true)?"))
+        let forgotten = homebrew.forgettable(casks)
+        guard forgotten.count > 1 else { return Text("Forget \((forgotten.first ?? casks.first)?.name ?? "")?") }
+        return Text(verbatim: String(inflecting: "Forget ^[\(forgotten.count) cask](inflect: true)?"))
     }
 
     private var isAsking: Binding<Bool> {

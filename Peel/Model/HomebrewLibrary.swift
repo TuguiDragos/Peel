@@ -617,10 +617,17 @@ final class HomebrewLibrary {
         return outcome
     }
 
+    /// The casks Forget moves: none the exclusions keep, as they keep it from `brew uninstall`.
+    func forgettable(_ casks: [HomebrewPackage]) -> [HomebrewPackage] {
+        casks.filter { exclusionRefusal(of: $0) == nil }
+    }
+
     /// Moves the Homebrew receipt of each of `casks` whose apps are gone to the Trash, records it with `record`, and
-    /// reads the packages again, so Homebrew no longer lists them. Nil while Homebrew is busy.
+    /// reads the packages again, so Homebrew no longer lists them. The exclusions are asked again here, since they can
+    /// change after the page asked. Nil while Homebrew is busy, or when the exclusions keep every one.
     func forget(_ casks: [HomebrewPackage], recording record: (TrashResult) async -> Void) async -> TrashResult? {
-        guard runningCommand == nil, !isForgetting, mayChange else { return nil }
+        let casks = forgettable(casks)
+        guard runningCommand == nil, !isForgetting, mayChange, !casks.isEmpty else { return nil }
         forgetting = Set(casks.map(\.id))
         defer { (forgetting, isReadingWhatChanged) = ([], false) }
         let result = await QuitGuard.shared.run {

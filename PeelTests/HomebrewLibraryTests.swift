@@ -98,6 +98,14 @@ private struct StandInBrew {
         #expect(homebrew.exclusionRefusal(of: package)?.key == "Exclusions can’t be read: see Settings")
     }
 
+    @Test func forgetLeavesACaskTheExclusionsKeep() {
+        let kept = HomebrewPackage(name: "kept", kind: .cask, appTargets: ["/Applications/Kept.app"])
+        let gone = HomebrewPackage(name: "gone", kind: .cask, appTargets: ["/Applications/Gone.app"])
+        let homebrew = HomebrewLibrary(exclusions: { Exclusions(paths: [URL(filePath: "/Applications/Kept.app")]) })
+
+        #expect(homebrew.forgettable([kept, gone]).map(\.name) == ["gone"])
+    }
+
     @Test func aBrewThatDoesNotAnswerIsAReadingThatFailed() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(
             path: "PeelTests-brew-\(UUID().uuidString)", directoryHint: .isDirectory
@@ -300,7 +308,7 @@ private struct StandInBrew {
     }
 
     @Test(.homebrewWithItsDefinitions) func forgetsMovesEndBeforePeelReadsWhatChanged() async {
-        let homebrew = HomebrewLibrary()
+        let homebrew = HomebrewLibrary(exclusions: { .none })
         // A made-up cask has no folder in the Caskroom, so nothing moves.
         let cask = HomebrewPackage(name: "org-example-gone", kind: .cask, installedVersion: "1.0")
 

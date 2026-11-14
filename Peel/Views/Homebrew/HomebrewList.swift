@@ -621,7 +621,9 @@ struct HomebrewList: View {
                             .minimumTarget()
                     }
                         .buttonStyle(.borderless)
-                        .disabled(isBusy || !history.mayMove || !homebrew.mayChange)
+                        .disabled(
+                            isBusy || !history.mayMove || !homebrew.mayChange || homebrew.forgettable(casks).isEmpty
+                        )
                         .help(Text(verbatim: history.holdingReason?.explanation ?? ""))
                 }
             }
