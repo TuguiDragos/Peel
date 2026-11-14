@@ -11,7 +11,8 @@ struct UninstallsItselfTests {
 
         let script = installed.app.url.appending(path: "Contents/Resources/uninstall.sh").path(percentEncoded: false)
         #expect(uninstallsItself?.app == installed.app)
-        #expect(uninstallsItself?.uninstaller == .logsOut(script: script))
+        #expect(uninstallsItself?.uninstaller == .logsOut(command: script.wordForTheShell))
+        #expect(script.contains(" "), "the place holds the space a command has to quote")
         #expect(uninstallsItself?.letsItsProgramsRun == true)
     }
 

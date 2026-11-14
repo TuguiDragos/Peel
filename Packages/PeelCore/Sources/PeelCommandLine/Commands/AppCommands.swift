@@ -606,8 +606,8 @@ struct UninstallCommand: AsyncParsableCommand {
         }
         if let app = uninstallsItself, urls.contains(app.app.url) {
             switch app.uninstaller {
-            case .logsOut(let script):
-                warnings.append("Once \(app.app.name) leaves the Applications folder, its own service uninstalls it: it logs this Mac out of the account and deletes its settings, which the Trash can't bring back. Write down the account number first, or run its own uninstaller instead: \(script)")
+            case .logsOut(let command):
+                warnings.append("Once \(app.app.name) leaves the Applications folder, its own service uninstalls it: it logs this Mac out of the account and deletes its settings, which the Trash can't bring back. Write down the account number first, or run its own uninstaller instead: \(command)")
             case .deletesTheApp:
                 warnings.append("Once \(app.app.name) leaves the Applications folder, its own uninstaller opens and asks for an administrator's password. If you continue there, it deletes the app, even from the Trash, and its system files, which the Trash can't bring back.")
             case .removesItsComponents:

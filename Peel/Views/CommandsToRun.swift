@@ -17,10 +17,15 @@ struct CommandToRun: Identifiable {
     /// which app it is.
     static func of(
         _ app: InstalledApp, first: CommandToRunFirst?, leftInTheSystem: LeftInTheSystem?, cask: HomebrewPackage?,
-        brew: String, isAdministrator: Bool, naming: String? = nil
+        brew: String, isAdministrator: Bool, naming: String? = nil, uninstallsItself: UninstallsItself? = nil
     ) -> [CommandToRun] {
         let name = naming ?? app.name
         var commands: [CommandToRun] = []
+        if let uninstallsItself, case .logsOut(let command) = uninstallsItself.uninstaller {
+            commands.append(CommandToRun(
+                app: name, said: uninstallsItself.warning, command: command, isForAfterwards: false
+            ))
+        }
         if let root = TrustedRoot.of(app), case .command(let command) = root.step {
             let stays = Text("\(app.name)’s root certificate stays trusted on this Mac after the app goes.")
             commands.append(CommandToRun(

@@ -4,8 +4,9 @@ internal import PeelPrivileged
 /// An app whose own uninstaller runs once the app leaves its place, deleting what History can't put back.
 public struct UninstallsItself: Sendable, Hashable {
     public enum Uninstaller: Sendable, Hashable {
-        /// Logs the Mac out of the account and deletes the settings; the script can be run instead.
-        case logsOut(script: String)
+        /// Logs the Mac out of the account and deletes the settings; its uninstaller can be run instead, with
+        /// `command`, written for the shell.
+        case logsOut(command: String)
         /// Asks for an administrator, then deletes the app, even from the Trash, and its system files.
         case deletesTheApp
         /// Asks to remove the components it keeps in the system, then deletes them.
@@ -192,10 +193,10 @@ public struct UninstallsItself: Sendable, Hashable {
             PathPattern.comparablePath(of: app.url) == PathPattern.comparablePath(of: place),
             let daemon = job(in: mullvad.daemon, environment: environment)
         else { return nil }
-        let script = place.appending(path: "Contents/Resources/uninstall.sh").path(percentEncoded: false)
+        let script = place.appending(path: "Contents/Resources/uninstall.sh")
         let uninstaller = UninstallsItself(
             app: app,
-            uninstaller: .logsOut(script: script),
+            uninstaller: .logsOut(command: script.wordForTheShell(home: environment.homeDirectory)),
             removed: paths(mullvadRemoves, in: environment)
         )
         return (uninstaller, daemon.job)

@@ -401,7 +401,8 @@ struct MultipleAppsView: View {
             return CommandToRun.of(
                 app, first: uninstallation.commandToRunFirst, leftInTheSystem: uninstallation.leftInTheSystem,
                 cask: movesItsReceipt ? nil : library.cask(for: app), brew: homebrew.wordForTerminal,
-                isAdministrator: helper.isAdministrator, naming: list([app])
+                isAdministrator: helper.isAdministrator, naming: list([app]),
+                uninstallsItself: uninstallation.uninstallsItself
             )
         }
     }

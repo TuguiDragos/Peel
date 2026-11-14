@@ -504,7 +504,8 @@ struct AppDetailView: View {
         return CommandToRun.of(
             plan.app, first: plan.uninstallation?.commandToRunFirst,
             leftInTheSystem: plan.uninstallation?.leftInTheSystem, cask: caskStillListing(after: urls),
-            brew: homebrew.wordForTerminal, isAdministrator: helper.isAdministrator
+            brew: homebrew.wordForTerminal, isAdministrator: helper.isAdministrator,
+            uninstallsItself: plan.uninstallation?.uninstallsItself
         )
     }
 
