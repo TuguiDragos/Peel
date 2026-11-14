@@ -268,12 +268,15 @@ public enum IntelInspector {
                 continue
             }
             guard let program = item.program.map({ URL(filePath: $0) }), !exclusions.excludes(program) else { continue }
-            let path = PathPattern.comparablePath(of: program)
+            // A job may name its program through a link, as `brew services` does through `opt`, and the commands below
+            // are compared by the program a link leads to.
+            let runs = PathPattern.canonicalWithoutOpening(program)
+            let path = PathPattern.comparablePath(of: runs)
             if let index = listed.firstIndex(where: { PathComponents.isPath(path, atOrInside: $0) }) {
                 findings[index].backgroundItems.append(item.label)
                 continue
             }
-            guard isIntelOnly(executable: program, unreadable: &unreadable), isNew(program) else { continue }
+            guard isIntelOnly(executable: program, unreadable: &unreadable), isNew(runs) else { continue }
             var finding = IntelFinding(
                 url: program,
                 kind: .backgroundItem,

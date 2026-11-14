@@ -784,6 +784,37 @@ struct IntelInspectorTests {
         #expect(scan.findings.filter { $0.matches("intel.agent") }.map(\.name) == ["Intel"])
     }
 
+    @Test func countsAProgramOnceThoughAJobNamesItThroughALink() async throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.file(
+            "root/usr/local/Cellar/postgresql@16/16.4/bin/postgres", contents: intelHeader(fileType: 2)
+        )
+        try directory.setPermissions(0o755, of: program)
+        let opt = try directory.directory("root/usr/local/opt")
+        try FileManager.default.createSymbolicLink(
+            at: opt.appending(path: "postgresql@16"),
+            withDestinationURL: directory.url.appending(path: "root/usr/local/Cellar/postgresql@16/16.4")
+        )
+        let bin = try directory.directory("root/usr/local/bin")
+        try FileManager.default.createSymbolicLink(at: bin.appending(path: "postgres"), withDestinationURL: program)
+        let job = BackgroundItem(
+            label: "homebrew.mxcl.postgresql@16", kind: .agent, source: .userLibrary, plistURL: nil,
+            program: opt.appending(path: "postgresql@16/bin/postgres").path(percentEncoded: false), runsAtLoad: true,
+            keepsAlive: false, ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil, isOrphan: false,
+            state: .loaded, isDisabled: false
+        )
+
+        let scan = await IntelInspector.scan(
+            installedApps: [],
+            backgroundItems: BackgroundItems.Scan(items: [job]),
+            exclusions: .none,
+            environment: environment(in: directory),
+            measure: { _ in 1 }
+        )
+
+        #expect(scan.findings.map(\.kind) == [.backgroundItem], "listed \(scan.findings.map(\.name))")
+    }
+
     @Test func readsThePlugInFoldersItself() async throws {
         let directory = try TemporaryDirectory()
         _ = try bundle(directory, "home/Library/Audio/Plug-Ins/VST3/Old.vst3", cpuTypes: [intel])
