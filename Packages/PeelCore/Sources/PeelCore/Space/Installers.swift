@@ -41,6 +41,9 @@ public struct InstallerItem: Sendable, Hashable, Identifiable {
     public var openBy: [String] = []
     /// The app a downloaded update is for, which has to quit before the update moves from under it.
     public var updatesApp: UpdatedApp? = nil
+    /// What the item takes on disk, when moving it frees less than that: another file shares its storage, as a copy
+    /// made on the same disk does.
+    public var takesOnDisk: Int64? = nil
 
     public struct UpdatedApp: Sendable, Hashable {
         public let identifier: String
@@ -76,6 +79,13 @@ public struct InstallerItem: Sendable, Hashable, Identifiable {
 }
 
 extension InstallerItem {
+    /// The item, noting what it takes on disk when moving it frees less than that.
+    func taking(_ taken: Int64?) -> InstallerItem {
+        var item = self
+        if let taken, let size, size < taken { item.takesOnDisk = taken }
+        return item
+    }
+
     /// Whether `query` matches what the row shows: the name, the app it is for, and its notes, such as the app that
     /// downloaded an update, whose own name is the updater's.
     public func matches(_ query: String) -> Bool {
@@ -215,14 +225,15 @@ public enum Installers {
                 guard isInstaller || isArchive || isIncomplete || firmwareExtensions.contains(suffix),
                       !exclusions.excludes(url), !exclusions.holds(url), !Task.isCancelled
                 else { continue }
-                let (size, seen, newestInside) = await measured(url, by: measure)
-                guard isWorthARow(size, minimumSize) else { continue }
+                let (size, taken, seen, newestInside) = await measured(url, by: measure)
+                guard isWorthARow(taken, minimumSize) else { continue }
                 let heldBack = heldBack(
                     url, seen: seen, in: folder, syncKeeper: syncKeeper, openFiles: openFiles
                 )
                 if isIncomplete {
                     items.append(
                         incompleteDownload(at: url, size: size, heldBack: heldBack, newestInside: newestInside)
+                            .taking(taken)
                     )
                 } else if isArchive {
                     guard let inside = installerInside(zip: url) else { continue }
@@ -230,7 +241,7 @@ public enum Installers {
                         at: url, size: size, heldBack: heldBack,
                         installedApps: origins.showsADownload(url) ? installedApps : [], named: inside
                     )
-                    items.append(unlessItMayStillBeNeeded(installer, origins: origins))
+                    items.append(unlessItMayStillBeNeeded(installer.taking(taken), origins: origins))
                 } else if isInstaller {
                     // A name says only what a file is called: one nothing shows was downloaded may be the person's
                     // own disk image, named for the app its work was made with, so it is no installed app's installer.
@@ -238,12 +249,12 @@ public enum Installers {
                         at: url, size: size, heldBack: heldBack,
                         installedApps: origins.showsADownload(url) ? installedApps : []
                     )
-                    items.append(unlessItMayStillBeNeeded(installer, origins: origins))
+                    items.append(unlessItMayStillBeNeeded(installer.taking(taken), origins: origins))
                 } else {
                     items.append(firmware(
                         at: url, size: size,
                         heldBack: heldBack ?? (arrivedRecently(url, newestInside: nil) ? .arrivedRecently : nil)
-                    ))
+                    ).taking(taken))
                 }
             }
         }
@@ -379,22 +390,21 @@ public enum Installers {
         url.pathExtension.lowercased() == "dmg" && BoundedRead.prefix(of: url, count: 8) == Data("encrcdsa".utf8)
     }
 
-    /// What measuring `url` gave: its size, why what it saw leaves the item for the person to choose, and the newest
-    /// write it saw.
+    /// What measuring `url` gave: what moving it frees and what it takes on disk, both nil when not known, why what it
+    /// saw leaves the item for the person to choose, and the newest write it saw.
     private static func measured(
         _ url: URL,
         by measure: LeftoverScanner.Measure
-    ) async -> (size: Int64?, heldBack: HoldBack?, newestChange: Date?) {
+    ) async -> (size: Int64?, taken: Int64?, heldBack: HoldBack?, newestChange: Date?) {
         let contents = await measure(url)
-        return (
-            contents.flatMap { $0.couldNotBeRead ? nil : $0.size }, HoldBack.seen(in: contents),
-            contents?.newestChange
-        )
+        let known = contents.flatMap { $0.couldNotBeRead ? nil : $0 }
+        return (known?.size, known?.taken, HoldBack.seen(in: contents), contents?.newestChange)
     }
 
-    /// True when `size` reaches `minimumSize`. An unknown size could be any size, so it is kept.
-    private static func isWorthARow(_ size: Int64?, _ minimumSize: Int64) -> Bool {
-        size.map { $0 >= minimumSize } ?? true
+    /// True when what an item takes on disk reaches `minimumSize`, whatever moving it frees: a copy sharing its storage
+    /// with the file it was made from is as big as that file. An unknown size could be any size, so it is kept.
+    private static func isWorthARow(_ taken: Int64?, _ minimumSize: Int64) -> Bool {
+        taken.map { $0 >= minimumSize } ?? true
     }
 
     /// Makes the item for an app installer. For an archive, `name` is what is inside it, which is matched
@@ -522,8 +532,8 @@ public enum Installers {
             for url in files(in: folder.url) where url.isNamedAsAnApp && isMacOSInstaller(url) {
                 guard !Task.isCancelled else { return items }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
-                let (size, seen, newest) = await measured(url, by: measure)
-                guard isWorthARow(size, minimumSize) else { continue }
+                let (size, taken, seen, newest) = await measured(url, by: measure)
+                guard isWorthARow(taken, minimumSize) else { continue }
                 let info = AppInspector.infoDictionary(in: url.appending(path: "Contents", directoryHint: .isDirectory))
                 let version = AppInspector.stated(info?["CFBundleShortVersionString"])
                 items.append(InstallerItem(
@@ -539,7 +549,7 @@ public enum Installers {
                     heldBack: heldBack(
                         url, seen: seen, in: folder, syncKeeper: syncKeeper, openFiles: openFiles
                     ) ?? (arrivedRecently(url, newestInside: newest) ? .arrivedRecently : nil)
-                ))
+                ).taking(taken))
             }
         }
         return items
@@ -568,14 +578,14 @@ public enum Installers {
             for url in files(in: folder) where firmwareExtensions.contains(url.pathExtension.lowercased()) {
                 guard !Task.isCancelled else { return items }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
-                let (size, seen, _) = await measured(url, by: measure)
-                guard isWorthARow(size, minimumSize) else { continue }
+                let (size, taken, seen, _) = await measured(url, by: measure)
+                guard isWorthARow(taken, minimumSize) else { continue }
                 let place = Folder(url: folder, isSharedWithEveryone: false)
                 let heldBack = heldBack(url, seen: seen, in: place, syncKeeper: syncKeeper, openFiles: openFiles)
                 items.append(firmware(
                     at: url, size: size,
                     heldBack: heldBack ?? (arrivedRecently(url, newestInside: nil) ? .arrivedRecently : nil)
-                ))
+                ).taking(taken))
             }
         }
         return items
@@ -649,8 +659,8 @@ public enum Installers {
             let isAnExcludedApps = app.map(exclusions.excludes)
                 ?? identifier.map(exclusions.excludes(bundleIdentifier:))
             guard isAnExcludedApps != true else { continue }
-            let (size, seen, _) = await measured(url, by: measure)
-            guard isWorthARow(size, minimumSize) else { continue }
+            let (size, taken, seen, _) = await measured(url, by: measure)
+            guard isWorthARow(taken, minimumSize) else { continue }
             let isElectrons = url.lastPathComponent.lowercased().hasSuffix("-updater")
             let fromElsewhere = identifier == nil && isElectrons ? elsewhere[url.lastPathComponent.lowercased()] : nil
             let running = identifier.map(NSRunningApplication.runningApplications(withBundleIdentifier:)) ?? []
@@ -672,7 +682,7 @@ public enum Installers {
                 updatesApp: (identifier ?? fromElsewhere?.identifier).flatMap { identifier in
                     name.map { InstallerItem.UpdatedApp(identifier: identifier, name: $0) }
                 }
-            ))
+            ).taking(taken))
         }
         return items
     }
@@ -732,8 +742,8 @@ public enum Installers {
                     continue
                 }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }
-                let (size, seen, _) = await measured(url, by: measure)
-                guard isWorthARow(size, minimumSize) else { continue }
+                let (size, taken, seen, _) = await measured(url, by: measure)
+                guard isWorthARow(taken, minimumSize) else { continue }
                 let place = Folder(url: folder, isSharedWithEveryone: false)
                 let heldBack = heldBack(
                     url, seen: seen, in: place, syncKeeper: syncKeeper, openFiles: openFiles
@@ -746,7 +756,7 @@ public enum Installers {
                     items.append(appInstaller(
                         at: url, size: size, heldBack: heldBack ?? .keptByAnApp, installedApps: installedApps,
                         named: named
-                    ))
+                    ).taking(taken))
                     continue
                 }
                 let isUnused = PathPattern.comparablePath(of: folder) == virtualBuddysImages
@@ -754,7 +764,7 @@ public enum Installers {
                 items.append(firmware(
                     at: url, size: size, heldBack: heldBack ?? .keptByAnApp,
                     notes: isUnused ? [.unusedByAnyVirtualMachine] : []
-                ))
+                ).taking(taken))
             }
         }
         return items

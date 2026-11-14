@@ -267,6 +267,23 @@ struct InstallersTests {
         #expect(heldBack["Old-3.dmg"] == .some(nil))
     }
 
+    @Test func listsAnInstallerCopiedOnTheSameDisk() async throws {
+        let directory = try TemporaryDirectory()
+        let original = try directory.file("Downloads/Tool-1.xip", bytes: 400_000)
+        try downloaded(original)
+        let copy = try directory.directory("Documents").appending(path: "Tool-1 copy.xip")
+        try #require(clonefile(original.path(percentEncoded: false), copy.path(percentEncoded: false), 0) == 0)
+        try age(copy, changedHoursAgo: 2, addedHoursAgo: 2)
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, minimumSize: 100_000
+        )
+
+        let items = scan.items(in: .appInstaller)
+        #expect(Set(items.map(\.name)) == ["Tool-1.xip", "Tool-1 copy.xip"])
+        #expect(items.allSatisfy { ($0.takesOnDisk ?? 0) >= 400_000 && ($0.size ?? .max) < 400_000 })
+    }
+
     /// Marks `url` as downloaded from the web, as a browser does, two hours ago.
     private func downloaded(_ url: URL) throws {
         try whereFrom(url, "https://example.com/\(url.lastPathComponent)")

@@ -9,7 +9,9 @@ struct InstallerDetailView: View {
 
     var body: some View {
         let rows = items
-        let hasNoteColumn = rows.contains { !$0.isReadOnly && (detail(for: $0) != nil || $0.heldBack != nil) }
+        let hasNoteColumn = rows.contains {
+            !$0.isReadOnly && (detail(for: $0) != nil || Self.warning(for: $0) != nil)
+        }
 
         List {
             header(rows)
@@ -32,9 +34,7 @@ struct InstallerDetailView: View {
                             url: item.url,
                             icon: .file(item.url),
                             detail: detail(for: item),
-                            warning: item.heldBack.map {
-                                String(localized: $0.explanation(keptInStepBy: item.syncedBy, openBy: item.openBy))
-                            },
+                            warning: Self.warning(for: item),
                             size: item.size ?? 0,
                             isMeasured: item.size != nil,
                             isLocked: item.isLocked(canUseHelper: helper.canAct),
@@ -111,6 +111,18 @@ struct InstallerDetailView: View {
                 caption: Text(kind == .deviceBackup ? "on this Mac" : "to remove")
             )
         }
+    }
+
+    /// What a row's note says with its detail: why the item is left for the person to choose, and why moving it frees
+    /// less than its size.
+    static func warning(for item: InstallerItem) -> String? {
+        let lines = [
+            item.heldBack.map { String(localized: $0.explanation(keptInStepBy: item.syncedBy, openBy: item.openBy)) },
+            item.takesOnDisk.map {
+                String(localized: "Moving this frees less than its size of \($0.byteCount): another file shares its storage, or it takes less room on disk than that.")
+            },
+        ].compactMap(\.self)
+        return lines.isEmpty ? nil : lines.joined(separator: "\n\n")
     }
 
     private func detail(for item: InstallerItem) -> LocalizedStringResource? {
