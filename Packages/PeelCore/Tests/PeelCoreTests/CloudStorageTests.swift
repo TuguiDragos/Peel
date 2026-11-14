@@ -89,6 +89,14 @@ struct CloudStorageTests {
 
     /// The list can stay on screen for hours, so each file is checked again at the moment it is freed. A file
     /// that changed since the scan is not freed.
+    @Test func asksICloudTheSixAnswersItsRuleReads() {
+        #expect(CloudStorage.cloudKeys == [
+            .ubiquitousItemDownloadingStatusKey, .ubiquitousItemIsUploadedKey, .ubiquitousItemIsUploadingKey,
+            .ubiquitousItemHasUnresolvedConflictsKey, .ubiquitousItemIsSyncPausedKey, .ubiquitousItemUploadingErrorKey,
+        ])
+        #expect(CloudStorage.cloudKeys.isSubset(of: CloudStorage.keys))
+    }
+
     @Test func asksICloudOnlyAboutAFileBigEnoughToList() throws {
         let directory = try TemporaryDirectory()
         try directory.file("Library/Mobile Documents/com~apple~CloudDocs/small.txt", bytes: 16)
