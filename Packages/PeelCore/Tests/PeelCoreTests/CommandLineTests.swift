@@ -1936,6 +1936,7 @@ struct CommandLineTests {
 
         #expect(help.contains("Search every disk on this Mac, not only your home folder. Network volumes aren't searched."))
         #expect(help.contains("yours first, then those an app keeps in a Library folder, each largest first"))
+        #expect(help.contains("not folders, apps, or documents Finder shows as one file but keeps as a folder"))
     }
 
     @Test func searchSaysWhichFilesItShowsWhenItCutsTheList() throws {
