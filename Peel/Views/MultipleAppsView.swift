@@ -34,6 +34,14 @@ struct MultipleAppsView: View {
                             needsFullDiskAccess: plan.bulk?.needsFullDiskAccess == true
                         )
                     }
+                    if !plan.cutShortLocations.isEmpty {
+                        Notice(
+                            title: Text("Peel didn’t look everywhere"),
+                            detail: Text("There are more folders in \(plan.cutShortLocations.map(\.url.abbreviatedPath).formatted(.list(type: .and))) than Peel looks inside, so something of these apps’ may be in a folder Peel didn’t reach."),
+                            kind: .note
+                        ) {}
+                        .listRowSeparator(.hidden)
+                    }
                     if plan.rowsWaitingForTheHelper > 0, !helper.canAct {
                         HelperRequiredBanner(need: .moving(plan.rowsWaitingForTheHelper))
                     }

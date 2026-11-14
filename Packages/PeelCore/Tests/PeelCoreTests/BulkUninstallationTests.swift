@@ -34,6 +34,23 @@ struct BulkUninstallationTests {
         )
     }
 
+    @Test func namesThePlacesAnyOfTheAppsScanCutShort() {
+        let support = SearchLocation(
+            kind: .applicationSupport,
+            url: URL(filePath: "/Users/example/Library/Application Support", directoryHint: .isDirectory)
+        )
+        var scan = LeftoverScan(leftovers: [], unreadableLocations: [])
+        scan.cutShortLocations = [support]
+        let cutShort = Uninstallation(
+            app: app("org.example.synth", "Synth"), appSize: 1000, appRequiresPrivileges: false, scan: scan
+        )
+        let whole = uninstallation(app("org.example.other", "Other"), [])
+
+        let bulk = BulkUninstallation(uninstallations: [cutShort, whole])
+
+        #expect(bulk.cutShortLocations == [support])
+    }
+
     @Test func leavesForAnAdministratorWhatOnlyAppsThatWentUsed() {
         let synth = app("org.example.synth", "Synth")
         let effects = app("org.example.synth-fx", "Synth Effects")

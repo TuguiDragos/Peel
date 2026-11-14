@@ -87,6 +87,7 @@ final class BulkRemovalPlan {
     var rowsWaitingForTheHelper: Int { bulk?.rowsWaitingForTheHelper ?? 0 }
 
     var unreadableLocations: [SearchLocation] { bulk?.unreadableLocations ?? [] }
+    var cutShortLocations: [SearchLocation] { bulk?.cutShortLocations ?? [] }
 
     /// What the alert asks: an app's own words when one runs, as its page says them, whether it goes or only its files
     /// do, and for several, the plural when all of them go.
