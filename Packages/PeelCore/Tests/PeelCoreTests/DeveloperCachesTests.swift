@@ -723,7 +723,7 @@ struct DeveloperCachesTests {
             ".ccache", ".electron-gyp", ".gitlibs", ".node-gyp", ".virtualenvs", "nltk_data", "tensorflow_datasets",
             ".zcompdump*", ".pnpm-store", "playwright_*dev_profile-*/", "playwright-artifacts-*/", "metro-cache/",
             "metro-file-map-*", "node-compile-cache/", "tfhub_modules/", ".electron", "gensim-data", "stanza_resources",
-            ".u2net", ".create-expo-app", "tomcat.*.*/", "tomcat-docbase.*.*/", "jetty-docbase.*.*/",
+            ".u2net", ".create-expo-app", "tomcat.*.*/", "tomcat-docbase.*.*/", "jetty-docbase.*.*/", "MLXModels",
         ]
         for definition in DeveloperCaches.definitions {
             for path in definition.folders.map(\.path) {
@@ -785,6 +785,9 @@ struct DeveloperCachesTests {
             "invokeai", "ComfyUI-Shared", "MochiDiffusion", ".omlx", "Library/Application Support/anythingllm-desktop/storage",
             // Beside their models, AI libraries keep custom networks, settings, other tools, and accounts.
             ".EasyOCR", ".fastai", ".llama", ".tabby", ".paddlex",
+            // Docker keeps its sign-ins, Handy recordings and history, `llm` keys and logs, and exo its node's key.
+            ".docker", "Library/Application Support/com.pais.handy", "Library/Application Support/io.datasette.llm",
+            ".exo",
         ]
         // CocoaPods' spec repositories hold the ones a person added, which can carry unpushed work: only the copies of
         // the public index are listed, the CDN's `trunk` and the Git clone CocoaPods names `master` or `cocoapods`,
@@ -892,6 +895,31 @@ struct DeveloperCachesTests {
             ".omlx/models", ".omlx/cache", ".omlx/logs",
         ])
         #expect(Set(listed.filter(\.isRecommended).map(\.url.lastPathComponent)) == ["logs", "cache"])
+    }
+
+    @Test func listsWhereDockerHandyOsaurusLLMAndExoKeepTheirModelsAndNothingBeside() async throws {
+        let directory = try TemporaryDirectory()
+        let handy = "Library/Application Support/com.pais.handy"
+        let llm = "Library/Application Support/io.datasette.llm"
+        for path in [
+            ".docker/models/blobs/sha256/1a2b", ".docker/config.json", ".docker/contexts/meta/a/meta.json",
+            "\(handy)/models/ggml-small.bin", "\(handy)/history.db", "\(handy)/recordings/1.wav",
+            "MLXModels/mlx-community/Qwen3-4B/model.safetensors", ".osaurus/settings.json",
+            "\(llm)/gguf/models/model.gguf", "\(llm)/gguf/models.json", "\(llm)/keys.json", "\(llm)/logs.db",
+            ".exo/models/mlx-community/model.safetensors", ".exo/node_id.keypair",
+        ] {
+            try directory.file(path, bytes: 4_096)
+        }
+
+        let environments = await scanned(directory.url)
+
+        let home = directory.url.path(percentEncoded: false)
+        let tools: Set = ["docker", "handy", "osaurus", "llmgguf", "exo"]
+        let listed = environments.filter { tools.contains($0.id) }.flatMap(\.locations)
+        #expect(Set(listed.map { String($0.url.path(percentEncoded: false).dropFirst(home.count)) }) == [
+            ".docker/models", "\(handy)/models", "MLXModels", "\(llm)/gguf/models", ".exo/models",
+        ])
+        #expect(listed.allSatisfy { $0.kind == .models && !$0.isRecommended })
     }
 
     @Test func listsTheModelsAILibrariesDownloadAndNothingElseOfTheirFolders() async throws {

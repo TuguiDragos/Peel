@@ -1158,7 +1158,8 @@ public enum DeveloperCaches {
         Definition(
             id: "docker", name: "Docker Desktop", systemImage: "server.rack", appBundleIdentifiers: ["com.docker.docker"],
             folders: [
-                Folder("Library/Containers/com.docker.docker/Data/log", .logs, source: "https://github.com/docker/docs/blob/1cb9a4d2c65d712da863e30cd3a1319ddeea3298/content/manuals/engine/daemon/logs.md#L16"),
+                Folder(".docker/models", .models, source: "https://github.com/docker/model-runner/blob/0bb6e68619861f8d4b1dc53cfcf980ecb620d229/pkg/envconfig/envconfig.go#L82-L93"),
+                Folder("Library/Containers/com.docker.docker/Data/log", .logs, source:"https://github.com/docker/docs/blob/1cb9a4d2c65d712da863e30cd3a1319ddeea3298/content/manuals/engine/daemon/logs.md#L16"),
             ]
         ),
         Definition(id: "lima", name: "Lima", systemImage: "server.rack", appBundleIdentifiers: [], folders: [
@@ -1341,6 +1342,19 @@ public enum DeveloperCaches {
             Folder(".omlx/models", .models, source: "https://github.com/jundot/omlx/blob/8dfaba37eb658223a5b9cc8fd4a9b27a85a885dc/omlx/settings.py#L282-L296"),
             Folder(".omlx/cache", .cache, source: "https://github.com/jundot/omlx/blob/8dfaba37eb658223a5b9cc8fd4a9b27a85a885dc/omlx/settings.py#L443-L455"),
             Folder(".omlx/logs", .logs, source: "https://github.com/jundot/omlx/blob/8dfaba37eb658223a5b9cc8fd4a9b27a85a885dc/omlx/settings.py#L835-L847"),
+        ]),
+        Definition(id: "handy", name: "Handy", systemImage: "brain", appBundleIdentifiers: ["com.pais.handy"], folders: [
+            Folder("Library/Application Support/com.pais.handy/models", .models, source: "https://github.com/cjpais/Handy/blob/bd4b02714ec243c5f92b98d8cdcad083a36e3dfe/src-tauri/src/managers/model.rs#L881-L885"),
+        ]),
+        Definition(id: "osaurus", name: "Osaurus", systemImage: "brain", appBundleIdentifiers: ["com.dinoki.osaurus"], folders: [
+            // Its older place, `Documents/MLXModels`, stays out: Documents is the person's.
+            Folder("MLXModels", .models, source: "https://github.com/osaurus-ai/osaurus/blob/2242d30c4446bcd98977ee70bc58cbedb188cff1/Packages/OsaurusCore/Services/DirectoryPickerService.swift#L325-L336"),
+        ]),
+        Definition(id: "llmgguf", name: "llm-gguf", systemImage: "brain", appBundleIdentifiers: [], folders: [
+            Folder("Library/Application Support/io.datasette.llm/gguf/models", .models, source: "https://github.com/simonw/llm-gguf/blob/2883f62c3543626ae453024f05e95dbf4e136157/llm_gguf.py#L10-L13"),
+        ]),
+        Definition(id: "exo", name: "exo", systemImage: "brain", appBundleIdentifiers: ["exolabs.EXO"], folders: [
+            Folder(".exo/models", .models, source: "https://github.com/exo-explore/exo/blob/a60b95698ca81737d367443674dd5563cbc9559b/src/exo/shared/constants.py#L10-L34"),
         ]),
         Definition(id: "clip", name: "CLIP", systemImage: "brain", appBundleIdentifiers: [], folders: [
             Folder(".cache/clip", .models, source: "https://github.com/openai/CLIP/blob/d05afc436d78f1c48dc0dbf8e5980a9d471f35f6/clip/clip.py#L108-L109"),
