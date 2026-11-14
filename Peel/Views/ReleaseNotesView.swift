@@ -133,6 +133,8 @@ private struct AllReleaseNotes: View {
 struct ReleaseNotesLink: View {
     let url: URL
     let title: LocalizedStringResource
+    /// Whether it leads to the notes themselves, rather than to a homepage or the product's page.
+    let leadsToTheNotes: Bool
 
     var body: some View {
         Link(destination: url) {

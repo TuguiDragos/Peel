@@ -23,12 +23,10 @@ struct UpdatePanel<Detail: View, Action: View>: View {
                 case .found(let notes):
                     Divider()
                     ReleaseNotesView(notes: notes, version: version, link: link)
-                case .notGiven where link != nil:
-                    saying("This update came with no notes.")
-                case .unanswered:
-                    saying("Peel couldn’t get this update’s notes. It asks again later.")
-                case .notGiven, .notAskedYet:
-                    if let link {
+                case .notGiven, .unanswered, .notAskedYet:
+                    if let sentence = notes.sentence(beside: link) {
+                        saying(sentence)
+                    } else if let link {
                         HStack { Spacer(minLength: 8); link }
                             .font(.callout)
                     }
@@ -68,6 +66,18 @@ struct UpdatePanel<Detail: View, Action: View>: View {
             link
         }
         .font(.callout)
+    }
+}
+
+extension ReleaseNotesMemory.Standing {
+    /// What the panel says of notes it has none of to show. That none came is said only beside a link that leads
+    /// elsewhere: one that leads to the notes holds them, though Peel found nothing in the page to show.
+    func sentence(beside link: ReleaseNotesLink?) -> LocalizedStringResource? {
+        switch self {
+        case .notGiven: link?.leadsToTheNotes == false ? "This update came with no notes." : nil
+        case .unanswered: "Peel couldn’t get this update’s notes. It asks again later."
+        case .found, .notAskedYet: nil
+        }
     }
 }
 
