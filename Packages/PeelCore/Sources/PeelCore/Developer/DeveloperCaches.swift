@@ -399,6 +399,26 @@ public enum DeveloperCaches {
         return DeveloperEnvironment.Archive(version: version, build: build)
     }
 
+    /// Whether the item at `path` is, sits inside, or holds one of the table's folders of models in `home`, which
+    /// is never selected for the person. A folder it would hold counts only once it is there.
+    static func holdsModels(_ path: String, home: String) -> Bool {
+        let item = PathComponents.of((path as NSString).standardizingPath)
+        let base = PathComponents.of((home as NSString).standardizingPath)
+        guard item.count > base.count, zip(base, item).allSatisfy({ $0.lowercased() == $1.lowercased() })
+        else { return false }
+        let rest = item.dropFirst(base.count)
+        return modelFolders.contains { pattern in
+            guard zip(pattern, rest).allSatisfy({ fnmatch($0, $1, FNM_CASEFOLD) == 0 }) else { return false }
+            guard rest.count < pattern.count else { return true }
+            let folder = URL(filePath: home, directoryHint: .isDirectory)
+            return !PathPattern.expand(pattern.joined(separator: "/"), home: folder, from: .peel).isEmpty
+        }
+    }
+
+    private static let modelFolders = definitions.flatMap(\.folders)
+        .filter { $0.kind == .models && $0.base == .home }
+        .map { PathComponents.of($0.path) }
+
     /// The table's folders under one home, which Space leaves to the Developer page, worked out once for all the
     /// folders of an area.
     struct FoldersLeftToDeveloper {

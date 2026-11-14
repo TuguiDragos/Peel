@@ -793,6 +793,8 @@ extension HoldBack {
             "Not selected: it holds the state Terraform or OpenTofu keeps of what it made, the only copy when the backend is local. Without it, the next apply no longer knows what exists."
         case .holdsWhatAToolKeeps:
             "Not selected: this holds what a developer tool keeps, such as installed packages, model weights, or app archives, which the tool may still use even if nothing here has changed in months."
+        case .holdsModels:
+            "Not selected: this holds model weights or datasets, a long download to get back, and any you made or imported may exist only on this Mac."
         case .beyondTheHelper:
             "Left alone: only an administrator can move this, and Peel’s helper can’t move it from here."
         case .leftToItsUninstaller:

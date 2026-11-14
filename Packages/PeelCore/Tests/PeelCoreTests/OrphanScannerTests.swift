@@ -1165,6 +1165,56 @@ struct OrphanScannerTests {
         #expect(afterwards.isEmpty)
     }
 
+    @Test func listsTheModelsAnAppThatLeftKeptWhileNoCommandOfItsToolIsHere() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/.ollama/models/blobs/sha256-1a2b", bytes: 4_096)
+        try directory.file("home/.ollama/history")
+        let ollama = RememberedApp(
+            bundleIdentifier: "com.electron.ollama", name: "Ollama", teamIdentifier: nil,
+            lastSeen: .now.addingTimeInterval(-90 * 24 * 60 * 60), lastPath: "/Applications/org.example.Ollama.app"
+        )
+        let scanner = scanner(in: directory)
+        let none = InstalledTools(formulae: [], commands: [])
+
+        let groups = await scanner.scan(installedApps: installed, remembered: [ollama], tools: none).groups
+
+        let group = try #require(groups.first { $0.identifier == "com.electron.ollama" })
+        #expect(group.items.map(\.url.lastPathComponent) == [".ollama"])
+        #expect(group.items.first?.heldBack == .holdsModels)
+        #expect(
+            await scanner.stillOrphaned(group.items, installedApps: installed, remembered: [ollama], tools: none).count
+                == 1
+        )
+        for tools in [
+            InstalledTools(formulae: ["ollama"], commands: []), InstalledTools(formulae: [], commands: ["ollama"]),
+            .notKnown,
+        ] {
+            let groups = await scanner.scan(installedApps: installed, remembered: [ollama], tools: tools).groups
+            #expect(!groups.contains { $0.identifier == "com.electron.ollama" })
+            let still = await scanner.stillOrphaned(
+                group.items, installedApps: installed, remembered: [ollama], tools: tools
+            )
+            #expect(still.isEmpty)
+        }
+    }
+
+    @Test func listsWhereAnAppThatLeftKeptItsModelsAndChatsAndSelectsNeither() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/MLXModels/mlx-community/Qwen3-4B-4bit/model.safetensors", bytes: 4_096)
+        try directory.file("home/.osaurus/chats.sqlite")
+        let osaurus = RememberedApp(
+            bundleIdentifier: "com.dinoki.osaurus", name: "Osaurus", teamIdentifier: nil,
+            lastSeen: .now.addingTimeInterval(-90 * 24 * 60 * 60), lastPath: "/Applications/org.example.Osaurus.app"
+        )
+
+        let groups = await scanner(in: directory).scan(installedApps: installed, remembered: [osaurus]).groups
+
+        let group = try #require(groups.first { $0.identifier == "com.dinoki.osaurus" })
+        #expect(Dictionary(uniqueKeysWithValues: group.items.map { ($0.url.lastPathComponent, $0.heldBack) }) == [
+            "MLXModels": .holdsModels, ".osaurus": .holdsWorkMadeWithTheApp,
+        ])
+    }
+
     @Test func findsAGoneAppsNameWrittenAnotherWayAndAtTheTopOfTheLibrary() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/tide-pool/extensions/index.json")

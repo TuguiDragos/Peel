@@ -178,6 +178,7 @@ extension OrphanLibrary: CarriesSelection {
             selected(in: group).filter { part.sizes.keys.contains($0.url) },
             installedApps: apps.apps,
             remembered: await AppMemory().load(),
+            tools: await InstalledTools.read(),
             scanner: OrphanScanner(exclusions: exclusions),
             using: TrashService(exclusions: exclusions),
             mayUseHelper: true

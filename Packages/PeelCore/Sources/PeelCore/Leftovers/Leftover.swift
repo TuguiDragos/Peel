@@ -132,6 +132,9 @@ public enum HoldBack: String, Sendable, Hashable {
     /// Holds what a developer tool keeps and may still use, as Developer's table names it with a kind it never
     /// recommends, such as a store of installed packages that projects link into, which reading leaves undated.
     case holdsWhatAToolKeeps
+    /// Holds models, as Developer's table names a tool's store: a long download to get back, and the ones the person
+    /// made or imported may exist only here (`DeveloperCaches.holdsModels`).
+    case holdsModels
     /// Terraform's or OpenTofu's state is inside, the only record of what it made when its backend is local.
     case holdsTerraformState
     /// Needs an administrator, and the helper's own rule refuses it (`HelperReach`).

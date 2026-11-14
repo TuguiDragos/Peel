@@ -544,7 +544,7 @@ public struct LeftoverScanner: Sendable {
         } else if let contents, contents.couldNotBeRead {
             (HoldBack.unread(contents), nil)
         } else if let contents {
-            (heldBack(match, at: url, in: kind, contents: contents, foldersAbove: foldersAbove), nil)
+            (heldBack(match, at: url, in: kind, contents: contents, foldersAbove: foldersAbove, home: home), nil)
         } else {
             (.notMeasured, nil)
         }
@@ -583,13 +583,15 @@ public struct LeftoverScanner: Sendable {
         at url: URL,
         in kind: SearchLocation.Kind,
         contents: FolderContents,
-        foldersAbove: FoldersAbove
+        foldersAbove: FoldersAbove,
+        home: String
     ) -> HoldBack? {
         // A wallet comes first: a cask's `zap` can name a coin app's whole data folder, which is where its keys
         // are. Holding it back costs a checkmark, and the row says what is inside.
         if let secret = HoldBack.secret(in: contents) { return secret }
         if contents.holdsRepository { return .holdsRepository }
         if let backups = KeptOnlyHere.reason(seenIn: contents) { return backups }
+        if DeveloperCaches.holdsModels(url.path(percentEncoded: false), home: home) { return .holdsModels }
         if kind == .logs, CrashReport.isOne(url) { return .crashReport }
         if kind == .sharedFolder { return .sharedWithEveryone }
         if Self.namedGroundOfSomebodyElse.contains(kind), match.restsOnAName { return .namedLikeTheApp }

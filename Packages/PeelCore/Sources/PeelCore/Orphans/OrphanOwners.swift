@@ -75,6 +75,7 @@ public struct InstalledTools: Sendable {
 
     /// What is installed now, read right before a scan: Homebrew's Cellar, asked once, gives its formulae and keeps
     /// its linked commands out of those offered.
+    @concurrent
     public static func read(environment: SearchEnvironment = .current) async -> InstalledTools {
         let answers = Homebrew.Answers()
         let cellar = await Homebrew.cellar(asking: answers)

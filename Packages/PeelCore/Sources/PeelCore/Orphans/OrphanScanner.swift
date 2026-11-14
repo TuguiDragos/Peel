@@ -106,7 +106,9 @@ public struct OrphanScanner: Sendable {
             },
             uniquingKeysWith: { first, _ in first }
         )
-        let goneFolders = GoneFolders(gone, installedApps: installedApps, home: environment.homeDirectory)
+        let goneFolders = GoneFolders(
+            gone, installedApps: installedApps, home: environment.homeDirectory, tools: tools
+        )
 
         let results = await withTaskGroup(of: (location: SearchLocation, result: LocationResult).self) { group in
             let home = environment.homeDirectory.path(percentEncoded: false)
@@ -445,7 +447,8 @@ public struct OrphanScanner: Sendable {
     /// orphaned.
     @concurrent
     public func stillOrphaned(
-        _ items: [OrphanItem], installedApps: [InstalledApp], remembered: [RememberedApp]
+        _ items: [OrphanItem], installedApps: [InstalledApp], remembered: [RememberedApp],
+        tools: InstalledTools = .notKnown
     ) async -> [OrphanItem] {
         let systemApps = if let systemApps { systemApps } else { await AppCatalog.systemApps.value }
         let (installedApps, gone) = Self.split(remembered, installedApps: installedApps)
@@ -458,7 +461,9 @@ public struct OrphanScanner: Sendable {
         )
         let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps).knowingJobs(in: launchdFolders)
         let folders = manifestFolders
-        let goneFolders = GoneFolders(gone, installedApps: installedApps, home: environment.homeDirectory)
+        let goneFolders = GoneFolders(
+            gone, installedApps: installedApps, home: environment.homeDirectory, tools: tools
+        )
         let linkedApps = LinkedApps(remembered, gone: gone)
         var kept: [OrphanItem] = []
         for item in items where !Self.servesAProgram(item.url, in: folders) {
@@ -985,6 +990,7 @@ public struct OrphanScanner: Sendable {
         } else {
             // `/Users/Shared` belongs to every account on the Mac, and the other accounts' apps are not known here.
             HoldBack.seen(in: contents) ?? contents.flatMap(KeptOnlyHere.reason(seenIn:))
+                ?? (DeveloperCaches.holdsModels(path, home: home) ? .holdsModels : nil)
                 ?? (kind == .sharedFolder ? .sharedWithEveryone : nil) ?? (namedAfter != nil ? .namedLikeTheApp : nil)
         }
         return OrphanItem(
@@ -1003,18 +1009,25 @@ public struct OrphanScanner: Sendable {
     }
 }
 
-/// The folders the product files of apps Peel saw go named for their data, by where they are. A folder an installed
-/// app's product file names too is left out.
+/// The folders the product files of apps Peel saw go named for their data, and the places their makers document
+/// (`DocumentedPlaces`) that nothing else of theirs uses, by where they are. A folder an installed app names or
+/// documents too is left out.
 struct GoneFolders: Sendable {
     private let byPath: [String: (identifier: String, folder: ProductFolder)]
     private let names: Set<String>
 
-    init(_ gone: [RememberedApp], installedApps: [InstalledApp], home: URL) {
-        let named = Set(installedApps.flatMap(\.productFolders).map { $0.path.lowercased() })
+    init(_ gone: [RememberedApp], installedApps: [InstalledApp], home: URL, tools: InstalledTools) {
+        let named = Set(
+            installedApps.flatMap { $0.productFolders.map(\.path) + DocumentedPlaces.of($0).map(\.place) }
+                .map { $0.lowercased() }
+        )
         var byPath: [String: (identifier: String, folder: ProductFolder)] = [:]
         for app in gone {
-            for folder in app.productFolders ?? []
-            where ProductFolders.believes(folder) && !named.contains(folder.path.lowercased()) {
+            let documented = DocumentedPlaces.of(identifier: app.bundleIdentifier)
+                .filter { $0.isLeftBehind(in: home, tools: tools) }
+                .map { ProductFolder(path: $0.place, proof: $0.proof) }
+            for folder in (app.productFolders ?? []).filter(ProductFolders.believes) + documented
+            where !named.contains(folder.path.lowercased()) {
                 let path = PathPattern.comparablePath(of: home.appending(path: folder.path)).lowercased()
                 byPath[path] = byPath[path] ?? (app.bundleIdentifier, folder)
             }

@@ -126923,6 +126923,112 @@
         }
       }
     },
+    "Not selected: this holds model weights or datasets, a long download to get back, and any you made or imported may exist only on this Mac." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: obsahuje váhy modelů nebo datové sady, jejichž opětovné stažení trvá dlouho, a ty, které jste vytvořili nebo importovali, mohou existovat jen v tomto Macu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Dies enthält Modellgewichte oder Datensätze, deren erneutes Laden lange dauert, und was du selbst erstellt oder importiert hast, gibt es möglicherweise nur auf diesem Mac."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: esto contiene pesos de modelos o conjuntos de datos, que tardan mucho en volver a descargarse, y puede que los que hayas creado o importado solo existan en este Mac."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : cet élément contient des poids de modèles ou des jeux de données, longs à télécharger à nouveau, et ceux que vous avez créés ou importés n’existent peut-être que sur ce Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: contiene pesi di modelli o dataset, lunghi da scaricare di nuovo, e quelli che hai creato o importato potrebbero esistere solo su questo Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: 再取得に長時間のダウンロードが必要な、モデルの重みやデータセットが含まれています。自分で作成またはインポートしたものは、このMacにしか存在しない可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 모델 가중치 또는 데이터 세트가 들어 있어 되찾으려면 오래 다운로드해야 하며, 직접 만들거나 가져온 항목은 이 Mac에만 있을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: dit bevat modelgewichten of datasets, alleen terug te krijgen met een lange download, en wat je zelf hebt gemaakt of geïmporteerd, staat misschien alleen op deze Mac."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: zawiera wagi modeli lub zbiory danych, których odzyskanie wymaga długiego pobierania, a te utworzone lub zaimportowane przez Ciebie mogą istnieć tylko na tym Macu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: isto contém pesos de modelos ou conjuntos de dados, um download longo para recuperar, e os que você criou ou importou podem existir só neste Mac."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: acest articol conține ponderi de modele sau seturi de date, recuperate doar printr‑o descărcare lungă, iar cele pe care le‑ați creat sau importat pot exista doar pe acest Mac."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: здесь хранятся веса моделей или наборы данных, которые долго загружать заново, а созданные или импортированные Вами могут существовать только на этом Mac."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: det här innehåller modellvikter eller datamängder, som tar lång tid att hämta igen, och de som du har skapat eller importerat kanske bara finns på den här datorn."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: bu, model ağırlıkları veya veri kümeleri barındırır; bunları geri getirmek uzun bir indirme gerektirir ve oluşturduğunuz ya da içe aktardığınız her biri yalnızca bu Mac’te bulunuyor olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: тут зберігаються ваги моделей або набори даних, які довго викачувати знову, а створені чи імпортовані вами можуть існувати лише на цьому Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：此项存放着模型权重或数据集，要找回需要长时间下载，而且你创建或导入的那些可能只存在于这台Mac上。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：這裡存放著模型權重或資料集，要取回需長時間下載，而你自己製作或匯入的可能只存在於這部Mac上。"
+          }
+        }
+      }
+    },
     "Not selected: this holds passwords or sign-in codes that may exist only on this Mac. Once the Trash is emptied, they’re gone for good unless you have a backup." : {
       "localizations" : {
         "cs" : {
