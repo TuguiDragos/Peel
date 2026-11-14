@@ -241,6 +241,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   screenshots never went to.
 - While the Screenshot app saves to the Clipboard, Preview, Mail, or Messages, the folder row says so and how to save to
   a folder again, instead of naming a folder that isn't used.
+- On macOS 27, a Finder tweak's note and the Turn All Off question no longer warn that restarting Finder stops a copy it
+  is making: there the copy goes on to the end.
 
 #### Terminal
 
@@ -253,6 +255,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The Tools tab's link to each tool's page, in the tool's note, can be opened with VoiceOver and, with keyboard
   navigation on, from the keyboard.
 - On a Mac without Homebrew, the Tools tab's brew.sh link has the 20-point target every link has.
+- The Shell tab no longer counts Peel's line as read where zsh wouldn't run it: with `~` inside double quotes, or after
+  a `#` that begins a comment.
+- The Git tab also reads `~/.config/git/config` and the settings file of the installed Git. A switch set there and not
+  in `~/.gitconfig` is left to you and says where it is set, and turning one on no longer writes what changes nothing.
 
 #### History
 
@@ -279,6 +285,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Clearing the refusals while another is written no longer stops both for good.
 - Put Back says when it brought a job's file back and launchd didn't start the job again, with launchd's answer, here
   and in `peel restore`.
+- Once something comes back from History, an app's page, several apps' page, and the Homebrew page read again what they
+  show.
 
 #### Settings
 
@@ -308,6 +316,13 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   it asked, showed Uninstalling…, and then did nothing. A change of the helper this account can't make now says why.
 - Put Back of saved settings no longer waits for an app whose only part still running is an extension, which no
   Quit button can end.
+- When this account can't move Peel from where it is, Remove Peel says who can: the account Peel belongs to, an
+  administrator, or Finder with an administrator's password.
+- When the helper went before Peel, Remove Peel lists the helper's folder in `/private/var/db` that stays, with the step
+  that removes it in Finder, and what the helper couldn't take with it no longer says to repair the helper.
+- Settings > Exclusions says how many entries of the saved list couldn't be read.
+- Putting back saved settings leaves alone an app excluded by the folder it is in, as a reset does.
+- When Homebrew removes Peel, Settings says that a `peel` link only an administrator can move stays.
 
 #### Applications
 
@@ -459,6 +474,14 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   badge, a count in the menu bar, and a notification, since the App Store doesn't install it here.
 - The Reset sheet no longer says an app is open when only an extension of it runs, such as a Finder or a Safari
   extension: Reset stayed off, and Quit asked the extension to quit, which it never does.
+- An update whose link leads to its notes no longer says it came with none: the panel shows the link.
+- Filtering the list by where apps come from follows what Homebrew installed once Homebrew is read.
+- An app whose Info.plist leads nowhere, is a folder, or is too large no longer keeps Orphaned Files from listing
+  anything.
+- Mullvad VPN's uninstaller, whose path holds a space, is given as a command that runs, on its page and from
+  `peel uninstall`.
+- Several apps' page says when a place held more folders than Peel looks inside, and its total counts only what can be
+  selected now, as an app's page does.
 
 #### Orphaned Files
 
@@ -495,6 +518,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   recommended, no longer as left by an app that's gone.
 - A launchd job that runs something from a disk that isn't connected, such as one started when a backup disk is
   mounted, is no longer listed as left by an app that's gone, and neither are the files named for it.
+- The plain folders macOS keeps at the top of every Library, such as `~/Library/Developer` and `~/Library/Sharing`, are
+  no longer listed under a gone app of the same name.
+- When the list of files given to an app or a tool can't be read, the page says so, with the way to Settings.
+- `peel orphans` no longer counts as movable, in a group's figure or its JSON, what only an administrator can move, and
+  says why each such row stays.
 
 #### Intel Software
 
@@ -504,6 +532,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - On an Intel Mac, the notes on what Peel couldn't read say what's there may be built for Intel only, no longer that it
   may need Rosetta.
 - A plug-in or a driver whose extension is written in capitals, such as `.PLUGIN`, is read as one.
+- A job's program named through Homebrew's opt link, as `brew services` writes it, is listed once.
+- What an Intel Homebrew installed names its formula and Homebrew's step, with a way to the Homebrew page, no longer the
+  advice to move its folder in Finder.
 
 #### Package Receipts
 
@@ -532,6 +563,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   of macOS.
 - Before a receipt's apps move, Peel asks to quit only what an app's own page asks, no longer an extension of the app
   or a job launchd only starts again.
+- An app inside a folder a package installed whole is asked to quit, and taken out of the Dock, as a selected app is.
 
 #### Homebrew
 
@@ -566,6 +598,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   commands the page gives name the new `brew` from the start.
 - Stopping an upgrade, or a command that ran past its time, now also stops the download, unpacking, or build Homebrew
   had started, as Control-C does in Terminal: they went on after the page said Homebrew had stopped.
+- A stopped upgrade's output ends with Peel's sentence in your language, no longer in English.
+- When `brew` doesn't answer, the page says Homebrew couldn't be read, with what `brew` said, no longer that its list of
+  packages isn't on this Mac.
+- Upgrade says which formula excluded in Settings an upgrade would take with it, and Upgrade All leaves such a package
+  out.
 
 #### Space
 
@@ -580,6 +617,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   with the snapshots kept on it, no longer the home's disk beside the startup disk's snapshots.
 - Homebrew Data no longer says that no installed formula names a folder an installed formula keeps its data in, such
   as MariaDB's `mysql`: the note shows only once Peel has read where every installed formula keeps its data.
+- The iCloud Drive area counts all that iCloud Drive keeps: Desktop and Documents kept in iCloud, and the folders apps
+  keep there.
+- What a service wrote in the last 15 minutes is read again right before a move, so a selection carried from another
+  page leaves it.
 
 #### Developer
 
@@ -590,6 +631,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A store of model weights no longer says only that its models are a long download to get back: a model you made or
   imported with the tool is only there.
 - GPT4All's unfinished downloads are no longer counted as models.
+- Julia's artifacts are listed and never selected: Julia doesn't download a missing one again by itself.
+- Where `.yarnrc` moved Yarn's cache, only a folder that holds what Yarn writes is taken for it.
+- A project an editor opened at the top of an external disk is no longer called gone while the disk is away.
+- A folder Developer lists by its entries, such as DerivedData, stays on the page when its entries can't be read, with
+  why its size isn't known.
+- ModelScope's models and datasets, kept under `~/.cache/modelscope` since its SDK 1.38, are listed and never selected.
 
 #### Build Artifacts
 
@@ -603,6 +650,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A folder that only a cache tag marks, with no kind Peel knows behind it, is no longer suggested, and the Time Machine
   switch no longer leaves it out of backups: people tag their own big folders so backup tools skip them. It is still
   listed as marked as a cache.
+- A Python environment with no project file beside it, or a conda environment made in a folder, is listed as an
+  environment and not walked into: the `__pycache__` folders of its packages no longer show as projects.
+- A `.serverless` folder that holds a Serverless Components deployment's state is listed and not selected.
+- Only `.turbo/cache` is offered: the rest of `.turbo` keeps the link `turbo link` makes to a remote cache.
 
 #### Installers and Backups
 
@@ -610,6 +661,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A disk image named for an installed app and a year or a word, such as Keynote 2019.dmg, counts as that app's
   installer only when something on it says it was downloaded. Otherwise it may be your own image with your work
   inside, so it is no longer suggested, and its row no longer says the app is installed.
+- Peel's own downloaded update is no longer a row: Peel installs it when you choose Install Update.
+- An installer copied on the same disk, which shares its storage with the original, is listed with what moving it frees,
+  and its note says why that is less.
+- iPhone and iPad backups kept on another disk through a link are listed. A folder closed by its own permissions, or a
+  link to a disk that isn't connected, is named as one Peel couldn't look inside, with Full Disk Access suggested only
+  when macOS kept Peel out, and a folder Peel moves from that is a link is said to be kept elsewhere.
 
 #### Duplicates
 
@@ -628,11 +685,28 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Hugging Face's store, stays and is never moved, with the tool's name, and no folder that is or holds such a folder is
   offered whole: the tool looks for the file there by name. Which of the other copies Peel keeps doesn't change, in
   the app and in `peel duplicates`.
+- A document an app keeps as a package is refused as a folder to scan, chosen itself, through a folder inside, or
+  through a link, even with its app gone.
+- A folder known as a project only by a hidden build file, such as `.ruff.toml`, is left alone.
+- When nothing would move, VoiceOver and `peel duplicates --remove` say why: copies that sync, copies in
+  `/Users/Shared`, or copies that stay for reasons of their own. `peel duplicates` marks a copy in `/Users/Shared` as
+  shared.
+- After another page moved the copy Duplicates keeps, one of the others stays unselected, so Move to Trash no longer
+  refuses them all.
+
+#### iCloud Drive
+- When iCloud Drive itself can't be read but Desktop and Documents can, their files are listed with a note and a total
+  that is only the least there is, no longer under the can't-read message.
+- Desktop and Documents kept in iCloud are known however iCloud's link writes the home folder.
 
 #### File Search
 
 - A coin wallet's `wallet.dat`, a KeePass database, or a Monero wallet's keys that a search finds are listed and not
   selected, with the reason every other page gives, no longer recommended.
+- Files selected in earlier searches stay in sight after Keep Selected, with Deselect, and Deselect All reaches them.
+  Deselecting them from another page's bar leaves them too.
+- Taking an exclusion off in Settings brings back the file it left out.
+- A file on a disk mounted read only says nothing can move it, no longer to use Finder.
 
 #### Background Items
 
@@ -649,6 +723,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   disk.
 - A daemon whose file is a link only root can change, as MacPorts loads its services, can be loaded again: Peel's
   helper refused it as a file that wasn't there.
+- Putting back the old version of an edited agent starts again the job the edit was running.
+- An old job file beside the job an app gave launchd under the same name is said to be not loaded, the app's job gets
+  its own row, and moving the file leaves that job running.
 
 #### Extensions
 
@@ -661,11 +738,15 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   install the app again and move it to the Trash in Finder, which doesn't remove it.
 - A system extension's page no longer says Peel leaves its app to Finder, or to turn it off first, when the app's
   maker removes it with its own uninstaller: it says what the app's page says.
+- A system extension macOS keeps for an app inside another, as Kaspersky's and Privileges' are, goes by the outer app:
+  Review in Applications opens it, and excluding it leaves the extension out.
 
 #### Plug-ins
 
 - Oracle's Java runtime, which its installer keeps in Internet Plug-Ins, is no longer called a plug-in nothing loads
   anymore, here and in Intel Software: `/usr/bin/java` still runs it.
+- A folder above the plug-ins that can't be searched is named among the folders Peel couldn't look inside, no longer
+  read as empty.
 
 #### Every page
 
@@ -724,6 +805,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   a job's page, or the bar at the foot of a page.
 - In Korean the Locked checkbox is named as Get Info names it, and in Simplified Chinese and German a list of several
   names no longer sits inside one pair of quotation marks.
+- The time macOS's question about another app's data stays on screen no longer counts against the time a read is given,
+  so iCloud Drive no longer says it ran out of time when the question took it.
 
 #### `peel`
 
