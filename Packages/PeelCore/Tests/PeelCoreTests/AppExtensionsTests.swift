@@ -229,6 +229,31 @@ struct AppExtensionsTests {
         #expect(records.last?.staged == nil)
     }
 
+    @Test func namesEveryCategoryMacOSKeepsASystemExtensionUnder() async throws {
+        let directory = try TemporaryDirectory()
+        let entry: [String: Any] = [
+            "identifier": "org.example.guard", "bundleVersion": ["CFBundleShortVersionString": "1.0", "CFBundleVersion": "1"],
+            "categories": ["com.apple.system_extension.network_extension", "com.apple.system_extension.endpoint_security"],
+        ]
+        let data = try PropertyListSerialization.data(fromPropertyList: ["extensions": [entry]], format: .xml, options: 0)
+        let database = try directory.file("db.plist", contents: data)
+        let listing = """
+            1 extension(s)
+            --- com.apple.system_extension.endpoint_security
+            enabled\tactive\tteamID\tbundleID (version)\tname\t[state]
+            *\t*\tTC3Q7MAJXF\torg.example.guard (1.0/1)\tGuard\t[activated enabled]
+            """
+
+        let records = AppExtensions.systemExtensionRecords(at: database)
+        let found = try #require(await AppExtensions.systemExtensions(run: { _, _ in listing }, records: records))
+
+        #expect(records.first?.categories.count == 2)
+        #expect(found.first?.categories == [
+            "com.apple.system_extension.network_extension", "com.apple.system_extension.endpoint_security",
+        ])
+        #expect(found.first?.category == "com.apple.system_extension.endpoint_security")
+    }
+
     @Test func saysWhenASystemExtensionsAppIsGone() async throws {
         let directory = try TemporaryDirectory()
         let installed = try directory.directory("Applications/Example.app").path(percentEncoded: false)

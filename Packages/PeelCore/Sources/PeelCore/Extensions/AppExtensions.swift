@@ -28,6 +28,7 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
         installedFor: String? = nil,
         goneApp: String? = nil,
         category: String? = nil,
+        categories: [String] = [],
         version: String? = nil,
         developer: String? = nil
     ) {
@@ -44,6 +45,7 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
         self.installedFor = installedFor
         self.goneApp = goneApp
         self.category = category
+        self.categories = categories.isEmpty ? [category].compactMap(\.self) : categories
         self.version = version
         self.developer = developer
     }
@@ -114,6 +116,9 @@ public struct AppExtension: Sendable, Hashable, Identifiable {
     public let goneApp: String?
     /// The category `systemextensionsctl` lists a system extension under; nil for an app extension.
     public let category: String?
+    /// Every category macOS's record of a system extension holds, such as network and Endpoint Security, or else the
+    /// one it is listed under; none for an app extension.
+    public let categories: [String]
     /// The version `systemextensionsctl` lists, `<short>/<build>`; nil for an app extension.
     public let version: String?
     /// The maker its copy's checked signature names, for a system extension.
@@ -537,6 +542,7 @@ public enum AppExtensions {
                 installedFor: installedFor,
                 goneApp: goneApp(installedFor: installedFor),
                 category: category,
+                categories: record?.categories ?? [],
                 version: row.version,
                 developer: developer(ofCopyAt: record?.staged)
             )
@@ -619,6 +625,7 @@ public enum AppExtensions {
         var origin: String? = nil
         var state: String? = nil
         var uniqueID: String? = nil
+        var categories: [String] = []
     }
 
     /// The path of the app a record says its extension was installed for: the app macOS holds it for, or, once
@@ -666,7 +673,8 @@ public enum AppExtensions {
                 container: (entry["container"] as? [String: Any])?["bundlePath"] as? String,
                 origin: entry["originPath"] as? String,
                 state: entry["state"] as? String,
-                uniqueID: entry["uniqueID"] as? String
+                uniqueID: entry["uniqueID"] as? String,
+                categories: (entry["categories"] as? [Any])?.compactMap { $0 as? String } ?? []
             )
         }
     }

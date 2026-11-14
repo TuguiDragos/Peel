@@ -10,10 +10,11 @@ extension AppExtension {
         return ExtensionPoint(point).map { String(localized: $0.word) } ?? point
     }
 
-    /// The category `systemextensionsctl` lists a system extension under, as System Settings names it, or nil when
-    /// Peel has no word.
+    /// The categories macOS keeps a system extension under, as System Settings names them, or nil when Peel has no
+    /// word for any.
     var categoryName: String? {
-        SystemExtensionCategory(category).map { String(localized: $0.word) }
+        let names = categories.compactMap { SystemExtensionCategory($0).map { String(localized: $0.word) } }
+        return names.isEmpty ? nil : names.formatted(.list(type: .and))
     }
 
     /// What a row says under the name: the app it came with, or what it plugs into when it carries the app's own

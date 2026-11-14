@@ -34,7 +34,7 @@ struct ExtensionDetailView: View {
                 if let category = item.categoryName {
                     LabeledContent("Category") {
                         Text(verbatim: category)
-                            .help(Text("`systemextensionsctl` lists it under \(category). In System Settings > General > Login Items & Extensions, By Category shows extensions of this kind under the same name, though it may leave out one whose app is gone."))
+                            .help(Text("macOS keeps it under \(category). In System Settings > General > Login Items & Extensions, By Category shows extensions of each kind under the same name, though it may leave out one whose app is gone."))
                     }
                 }
                 if let owner = item.appName {
