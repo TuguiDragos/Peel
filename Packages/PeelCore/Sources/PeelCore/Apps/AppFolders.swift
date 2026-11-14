@@ -158,7 +158,8 @@ public struct AppFolders: Sendable {
             if other.st_dev == info.st_dev { return .tooBroad }
         }
         guard let names = try? FileManager.default.contentsOfDirectory(atPath: path) else { return nil }
-        let marks: Set<String> = ["system", "library", "users", "backups.backupdb", "backup_manifest.plist"]
+        // A copy of macOS holds System, or for its data Users; a Library alone may be the person's own.
+        let marks: Set<String> = ["system", "users", "backups.backupdb", "backup_manifest.plist"]
         let holds = names.map { $0.lowercased() }.contains {
             marks.contains($0) || $0.hasSuffix(".previous") || $0.hasSuffix(".inprogress")
         }

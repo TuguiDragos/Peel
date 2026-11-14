@@ -83,14 +83,17 @@ struct AppFoldersTests {
         let apps = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Software"))
         let system = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Other Mac"))
         let backup = try ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "Backup"))
+        let samples = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Samples"))
         for folder in [
             apps.url.appending(path: "Games"), apps.url.appending(path: "Homes/someone"), system.url.appending(path: "Users"),
-            backup.url.appending(path: "Backups.backupdb"),
+            backup.url.appending(path: "Backups.backupdb"), samples.url.appending(path: "Library/Strings"),
+            samples.url.appending(path: "Instruments"),
         ] {
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         }
 
         #expect(AppFolders.refusal(of: apps.url, home: home) == nil)
+        #expect(AppFolders.refusal(of: samples.url, home: home) == nil, "a Library of the person's own")
         #expect(AppFolders.refusal(of: system.url, home: home) == .holdsASystemOrABackup)
         #expect(AppFolders.refusal(of: backup.url, home: home) == .holdsASystemOrABackup)
         #expect(AppFolders.refusal(of: system.url.appending(path: "Users"), home: home) == nil)
