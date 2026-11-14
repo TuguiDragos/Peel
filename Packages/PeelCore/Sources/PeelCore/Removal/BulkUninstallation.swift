@@ -61,10 +61,6 @@ public struct BulkUninstallation: Sendable {
 
     public let uninstallations: [Uninstallation]
     public let items: [Item]
-    /// The size of what could be moved, counted by the same rule as an app's own page: nothing the user
-    /// excluded, no app macOS protects, and no row that can never be moved. An unmeasured row is never counted
-    /// as zero: it makes the total incomplete.
-    public let total: SizeTotal
     public let privilegedURLs: Set<URL>
 
     public var apps: [InstalledApp] { uninstallations.map(\.app) }
@@ -87,13 +83,6 @@ public struct BulkUninstallation: Sendable {
         let items = Self.merge(uninstallations)
         self.uninstallations = uninstallations
         self.items = items
-        total = SizeTotal(movingItemsAt: Dictionary(items
-            .filter {
-                !$0.isExcluded && $0.removedElsewhere == nil && !($0.isApplication && $0.isKeptByMacOS)
-                    && !$0.isBeyondTheHelper
-                    && !$0.isInTheTrash && $0.enclosingPackage == nil && $0.match?.heldBack?.cannotBeMoved != true
-            }
-            .map { ($0.url, $0.isMeasured ? $0.size : nil) }) { first, _ in first })
         privilegedURLs = Set(
             items.filter {
                 $0.requiresPrivileges && !$0.isExcluded && $0.removedElsewhere == nil && !$0.isBeyondTheHelper
@@ -178,6 +167,15 @@ public struct BulkUninstallation: Sendable {
                 && !(item.isApplication && item.isKeptByMacOS) && item.match?.heldBack?.cannotBeMoved != true
                 && (canUseHelper || !item.requiresPrivileges)
         }.map(\.url))
+    }
+
+    /// The size of what a checkbox can select now, counted by the same rule as an app's own page: rows Peel leaves
+    /// alone, and those waiting for the helper, are not counted. An unmeasured row is never counted as zero: it makes
+    /// the total incomplete.
+    public func total(canUseHelper: Bool) -> SizeTotal {
+        let selectable = selectable(canUseHelper: canUseHelper)
+        return SizeTotal(movingItemsAt: Dictionary(items.filter { selectable.contains($0.url) }
+            .map { ($0.url, $0.isMeasured ? $0.size : nil) }) { first, _ in first })
     }
 
     /// How many rows only the helper can move and a person could select once it can act.

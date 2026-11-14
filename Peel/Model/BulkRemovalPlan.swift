@@ -80,7 +80,7 @@ final class BulkRemovalPlan {
         )
     }
 
-    var total: SizeTotal { bulk?.total ?? SizeTotal(known: 0, isComplete: true) }
+    var total: SizeTotal { bulk?.total(canUseHelper: canUseHelper) ?? SizeTotal(known: 0, isComplete: true) }
 
     var privilegedURLs: Set<URL> { bulk?.privilegedURLs ?? [] }
 

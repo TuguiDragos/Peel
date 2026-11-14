@@ -677,7 +677,7 @@ struct UninstallationTests {
         #expect(bulk.suggestedSelection(canUseHelper: true) == [app.url, example.url])
         #expect(bulk.removalOrder(of: [peel.url, own.url, app.url, example.url]) == [app.url, example.url])
         #expect(Set(bulk.items.filter { $0.removedElsewhere == .byRemovePeel }.map(\.url)) == [peel.url, own.url])
-        #expect(bulk.total.known == 11_000, "Peel's files were counted as something to remove")
+        #expect(bulk.total(canUseHelper: true).known == 11_000, "Peel's files were counted as something to remove")
     }
 
     /// An app the helper may not move would stay, and so would everything of its own, so it is never offered.
@@ -720,7 +720,7 @@ struct UninstallationTests {
                 #expect(item.isBeyondTheHelper == (isBeyond && !isKept))
                 #expect(bulk.suggestedSelection(canUseHelper: true).contains(app.url) == isOffered)
                 #expect(bulk.privilegedURLs.contains(app.url) == isOffered)
-                #expect((bulk.total.known > 0) == isOffered)
+                #expect((bulk.total(canUseHelper: true).known > 0) == isOffered)
             }
         }
     }
@@ -852,7 +852,8 @@ struct UninstallationTests {
         #expect(several.suggestedSelection(canUseHelper: true).map(\.lastPathComponent) == ["org.example.app.plist"])
         #expect(!several.selectable(canUseHelper: true).contains(bundle))
         #expect(several.staying(selected: []).isEmpty, "an app already in the Trash held its leftovers back")
-        #expect(several.total == SizeTotal(plan.scan.leftovers.map { $0.isMeasured ? $0.size : nil }))
+        let total = SizeTotal(plan.scan.leftovers.map { $0.isMeasured ? $0.size : nil })
+        #expect(several.total(canUseHelper: true) == total)
     }
 
     /// Moved alone, an app inside another app's bundle would be cut out of it. It stays, on its own page and among
@@ -884,7 +885,8 @@ struct UninstallationTests {
         )
         #expect(several.suggestedSelection(canUseHelper: true).isEmpty)
         #expect(!several.selectable(canUseHelper: true).contains(bundle))
-        #expect(several.total == SizeTotal(plan.scan.leftovers.map { $0.isMeasured ? $0.size : nil }))
+        let total = SizeTotal(plan.scan.leftovers.map { $0.isMeasured ? $0.size : nil })
+        #expect(several.total(canUseHelper: true) == total)
     }
 
     @Test(.permissionsHold) func anAppInsideAnotherInApplicationsStaysOnlyAsItsPart() async throws {

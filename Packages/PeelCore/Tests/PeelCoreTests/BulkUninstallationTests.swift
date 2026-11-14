@@ -13,7 +13,8 @@ struct BulkUninstallationTests {
         _ path: String,
         size: Int64,
         sharedWith: [String] = [],
-        confidence: MatchConfidence = .certain
+        confidence: MatchConfidence = .certain,
+        requiresPrivileges: Bool = false
     ) -> Leftover {
         Leftover(
             url: URL(filePath: path),
@@ -21,7 +22,7 @@ struct BulkUninstallationTests {
             match: LeftoverMatch(reason: .bundleIdentifier, confidence: confidence, sharedWith: sharedWith),
             size: size,
             isMeasured: true,
-            requiresPrivileges: false
+            requiresPrivileges: requiresPrivileges
         )
     }
 
@@ -49,6 +50,17 @@ struct BulkUninstallationTests {
         let bulk = BulkUninstallation(uninstallations: [cutShort, whole])
 
         #expect(bulk.cutShortLocations == [support])
+    }
+
+    @Test func countsWhatWaitsForTheHelperOnlyOnceTheHelperCanAct() {
+        let synth = app("org.example.synth", "Synth")
+        let own = leftover("/Users/example/Library/Application Support/Synth", size: 10)
+        let everyAccounts = leftover("/Library/Application Support/Synth", size: 500, requiresPrivileges: true)
+
+        let bulk = BulkUninstallation(uninstallations: [uninstallation(synth, [own, everyAccounts])])
+
+        #expect(bulk.total(canUseHelper: false) == SizeTotal(known: 1_000 + 10, isComplete: true))
+        #expect(bulk.total(canUseHelper: true) == SizeTotal(known: 1_000 + 10 + 500, isComplete: true))
     }
 
     @Test func leavesForAnAdministratorWhatOnlyAppsThatWentUsed() {
@@ -287,7 +299,7 @@ struct BulkUninstallationTests {
         #expect(!bulk.suggestedSelection(canUseHelper: true).contains(kept.url))
         #expect(!bulk.removalOrder(of: [kept.url, gone.url]).contains(kept.url))
         #expect(bulk.removalOrder(of: [kept.url, gone.url]) == [gone.url])
-        #expect(bulk.total == SizeTotal(known: 1010, isComplete: true))
+        #expect(bulk.total(canUseHelper: true) == SizeTotal(known: 1010, isComplete: true))
     }
 
     /// An app macOS keeps, chosen along with others: neither it nor what it holds is selected, shared or not.
@@ -303,7 +315,7 @@ struct BulkUninstallationTests {
 
         #expect(bulk.suggestedSelection(canUseHelper: true) == [gone.url, URL(filePath: "/Users/x/Library/Caches/com.example.gone")])
         // The app macOS keeps is not part of what could go: the guard refuses it.
-        #expect(bulk.total == SizeTotal(known: 1_000 + 50 + 5 + 10, isComplete: true))
+        #expect(bulk.total(canUseHelper: true) == SizeTotal(known: 1_000 + 50 + 5 + 10, isComplete: true))
     }
 
     /// The total counts only what can be moved. A container whose documents the guard refuses is left out, and a
@@ -332,7 +344,7 @@ struct BulkUninstallationTests {
             uninstallation(gone, [refused, unmeasured, leftover("/Users/x/Library/Caches/com.example.gone", size: 10)]),
         ])
 
-        #expect(bulk.total == SizeTotal(known: 1_000 + 10, isComplete: false))
+        #expect(bulk.total(canUseHelper: true) == SizeTotal(known: 1_000 + 10, isComplete: false))
     }
 
     /// Apps chosen together: an app that stays keeps its files, those it shares with another chosen app included,
@@ -420,7 +432,7 @@ struct BulkUninstallationTests {
         #expect(selection.count == 4)
         let order = bulk.removalOrder(of: selection).map { $0.lastPathComponent }
         #expect(order == ["One.app", "Two.app", "com.example.two", "com.example.one"])
-        #expect(bulk.total == SizeTotal(known: 2030, isComplete: true))
+        #expect(bulk.total(canUseHelper: true) == SizeTotal(known: 2030, isComplete: true))
     }
 
     /// Two apps chosen together can each list a folder inside the other's: its bytes are counted once.
@@ -432,7 +444,7 @@ struct BulkUninstallationTests {
             uninstallation(second, [leftover("/Users/x/Library/Application Support/Vendor/Second", size: 40)]),
         ])
 
-        #expect(bulk.total == SizeTotal(known: 1_000 + 1_000 + 100, isComplete: true))
+        #expect(bulk.total(canUseHelper: true) == SizeTotal(known: 1_000 + 1_000 + 100, isComplete: true))
     }
 
     /// Five apps chosen together, each with its own folders and one in a folder of a vendor no app is named for.
