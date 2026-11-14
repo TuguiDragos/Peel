@@ -5,6 +5,7 @@ import SwiftUI
 struct AppList: View {
     @Environment(AppLibrary.self) private var library
     @Environment(ExclusionsStore.self) private var exclusions
+    @Environment(\.openSettings) private var openSettings
     @State private var isRescanning = false
     let searchText: String
 
@@ -27,6 +28,19 @@ struct AppList: View {
                     StartOverButton(file: library.foldersFile, startedOver: "Started the list of app folders over.") {
                         library.startFoldersOver()
                     }
+                }
+                .padding(.vertical, 6)
+                .listRowSeparator(.hidden)
+            }
+            if !library.foldersLeftOut.isEmpty {
+                Notice(
+                    title: Text("Peel no longer looks in some app folders"),
+                    detail: Text(verbatim: RemovalFailureAlert.firstItems(
+                        library.foldersLeftOut.map(\.folder.abbreviatedPath)
+                    ).joined(separator: "\n")),
+                    kind: .note
+                ) {
+                    Button("Open Peel Settings") { SettingsPane.general.open(with: openSettings) }
                 }
                 .padding(.vertical, 6)
                 .listRowSeparator(.hidden)
