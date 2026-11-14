@@ -130,7 +130,9 @@ extension AppExtension {
     /// record says it was installed for.
     var app: URL? {
         kind == .systemExtension
-            ? installedFor.map { URL(filePath: $0) }
+            ? installedFor.flatMap { PathComponents.outermostApp(of: $0) }.map {
+                URL(filePath: $0, directoryHint: .isDirectory)
+            }
             : url.flatMap { AppExtensions.app(ofExtensionAt: $0.path(percentEncoded: false)) }
     }
 
@@ -168,7 +170,7 @@ extension AppExtension {
     }
 
     /// The app it came with while that app is there: the outermost app around an app extension, as for its name, or
-    /// the app macOS's record names for a system extension. Nil when Peel can't tell, or the app is gone.
+    /// around the app macOS's record names for a system extension. Nil when Peel can't tell, or the app is gone.
     public var appURL: URL? {
         switch kind {
         case .appExtension:
@@ -177,17 +179,15 @@ extension AppExtension {
             }
             return URL(filePath: app, directoryHint: .isDirectory)
         case .systemExtension:
-            return goneApp == nil ? installedFor.map { URL(filePath: $0, directoryHint: .isDirectory) } : nil
+            return goneApp == nil ? app : nil
         }
     }
 
     /// The installed app among `apps` a system extension came with: the outermost app around the one macOS's record
     /// names, since an app bundled inside another is no app of the list. Nil for an app extension or a gone app.
     public func containingApp(among apps: [InstalledApp]) -> InstalledApp? {
-        guard kind == .systemExtension, goneApp == nil,
-              let path = installedFor.flatMap({ PathComponents.outermostApp(of: $0) })
-        else { return nil }
-        let place = PathPattern.comparablePath(of: URL(filePath: path, directoryHint: .isDirectory))
+        guard kind == .systemExtension, goneApp == nil, let app else { return nil }
+        let place = PathPattern.comparablePath(of: app)
         return apps.first { PathPattern.comparablePath(of: $0.url) == place }
     }
 
@@ -270,6 +270,21 @@ public enum AppExtensions {
         AppleCode.isInASystemFolder(path)
     }
 
+    /// `found` without what `exclusions` leave out. An extension is its app's, so an app excluded by its identifier
+    /// leaves its extensions out too.
+    static func withoutTheExcluded(_ found: [AppExtension], exclusions: Exclusions) -> [AppExtension] {
+        var excludedApps: [URL: Bool] = [:]
+        return found.filter { extensionItem in
+            guard !exclusions.excludes(bundleIdentifier: extensionItem.identifier) else { return false }
+            if let app = extensionItem.app {
+                let isExcluded = excludedApps[app] ?? (exclusions.isAnExcludedApp(app) || exclusions.excludes(app))
+                excludedApps[app] = isExcluded
+                if isExcluded { return false }
+            }
+            return extensionItem.url.map { !exclusions.excludes($0) } ?? true
+        }
+    }
+
     /// Runs a tool and returns its output, or nil when it gave no answer. A parameter so a test can say what
     /// macOS answers instead of asking it.
     typealias Runner = @Sendable (_ tool: String, _ arguments: [String]) async -> String?
@@ -283,18 +298,7 @@ public enum AppExtensions {
         let apps = await appExtensions(run: run)
         let system = await systemExtensions(run: run)
         let found = (apps ?? []) + (system ?? [])
-        // An extension is its app's, so an app excluded by its identifier leaves its extensions out too.
-        var excludedApps: [URL: Bool] = [:]
-        return ExtensionScan(extensions: found
-            .filter { extensionItem in
-                guard !exclusions.excludes(bundleIdentifier: extensionItem.identifier) else { return false }
-                if let app = extensionItem.app {
-                    let isExcluded = excludedApps[app] ?? (exclusions.isAnExcludedApp(app) || exclusions.excludes(app))
-                    excludedApps[app] = isExcluded
-                    if isExcluded { return false }
-                }
-                return extensionItem.url.map { !exclusions.excludes($0) } ?? true
-            }
+        return ExtensionScan(extensions: withoutTheExcluded(found, exclusions: exclusions)
             .sorted {
                 let (one, other) = ($0.owner ?? "", $1.owner ?? "")
                 guard one == other else { return one.localizedStandardCompare(other) == .orderedAscending }

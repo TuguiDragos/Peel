@@ -401,6 +401,25 @@ struct AppExtensionsTests {
         #expect(AppExtensions.extensionPoint(in: nil) == nil)
     }
 
+    @Test func aSystemExtensionKeptForAnAppInsideAnotherIsTheOuterApps() throws {
+        let directory = try TemporaryDirectory()
+        let info = try PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleIdentifier": "org.example.guard"], format: .xml, options: 0
+        )
+        try directory.file("Guard.app/Contents/Info.plist", contents: info)
+        let outer = directory.url.appending(path: "Guard.app", directoryHint: .isDirectory)
+        let filter = AppExtension(
+            identifier: "org.example.guard.filter", name: "Filter", kind: .systemExtension, point: nil, owner: "Guard",
+            url: nil, election: .on, teamIdentifier: nil, reportedState: "activated enabled",
+            installedFor: outer.appending(path: "Contents/MacOS/Daemon.app").path(percentEncoded: false)
+        )
+        let excluded = Exclusions(bundleIdentifiers: ["org.example.guard"])
+
+        #expect(filter.appURL.map(PathPattern.comparablePath(of:)) == PathPattern.comparablePath(of: outer))
+        #expect(AppExtensions.withoutTheExcluded([filter], exclusions: excluded).isEmpty)
+        #expect(AppExtensions.withoutTheExcluded([filter], exclusions: .none).count == 1)
+    }
+
     @Test func leavesOutTheExtensionsOfAnExcludedApp() async throws {
         let directory = try TemporaryDirectory()
         let info = try PropertyListSerialization.data(
