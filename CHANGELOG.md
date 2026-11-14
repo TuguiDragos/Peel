@@ -45,11 +45,23 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - This Belongs To… is on an orphan group's page too, not only in the list's Control-click menu.
 - When this Mac has other accounts and something listed is in a place they share, such as `/Library`, Orphaned Files
   and `peel orphans` say that an app another account keeps in its own Applications folder isn't visible from here.
+- Once Ollama, LM Studio, or Osaurus is gone, Orphaned Files lists the folder where it kept its models, as long as no
+  command of the same tool, such as the `ollama` Homebrew installs, still uses it. Nothing in it is selected for you.
 
 #### Homebrew
 
 - Uninstalling the battery or Postgres.app cask says first what its app leaves in `/etc`, which Homebrew's uninstall
   doesn't remove, and the command that does, and for battery to run `battery uninstall` first.
+- Beside the command that uninstalls a cask, the Homebrew page says when the cask's uninstall also deletes for good a
+  folder that may hold what you made with the app, such as GPT4All's. Uninstalling a formula names the models the tool
+  leaves in your home folder, such as Ollama's.
+
+#### Developer
+
+- Developer lists the models Docker Model Runner, Handy, Osaurus, llm-gguf, and exo keep, and each model of LM Studio
+  and Jan on a row of its own.
+- Under a store of models, Developer gives Ollama's, Hugging Face's, and Docker's own commands to list the models and
+  remove one, to copy into Terminal while the tool is on the Mac. Peel never runs them.
 
 ### Changed
 
@@ -116,6 +128,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A channel build, such as Zed Preview, is offered its app's folders below a place named for the app, shown and never
   selected.
 - Sort and Filter tells VoiceOver how many filters are on.
+- A folder that holds a tool's models, such as `~/.ollama`, is no longer selected when you uninstall its app, and its
+  row says why: models are a long download to get back, and the ones you made or imported may exist only there.
 
 #### Orphaned Files
 
@@ -137,6 +151,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - The note on what a tool's page keeps out of a selection says the rule first and that each row says why, rather than
   every tool's reasons in one long sentence on every page.
+- Developer waits for LM Studio, AnythingLLM, and the Ollama server to quit before it moves their folders, and finds
+  LM Studio's models where its settings moved them.
 
 #### Build Artifacts
 
@@ -176,6 +192,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Trash, and Put Back, Homebrew's two Clear buttons, and Deselect beside each page of a selection.
 - The words macOS shows the first time Peel reads Downloads, Desktop, or Documents say why, without listing tools.
 - A removal finds what holds each item faster, and measuring a folder and searching read each name once.
+- On an account that isn't an administrator's, Peel says whether its helper is installed, waiting to be allowed, or not
+  answering, and that an administrator sets it up in Peel on their own account, after which this account can use it.
 
 #### `peel`
 
@@ -230,6 +248,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### History
 
+- Put Back says when an empty folder was made where an item goes back, often by the app or tool that uses it, and to
+  move that folder to the Trash first, instead of failing without saying why.
 - On exFAT and FAT32 disks, History no longer takes an empty file Peel put in the disk's Trash for gone once the disk
   is plugged in again, nor, on FAT32, everything there once the Mac's clocks change for summer time or another time
   zone, and Put Back brings them back.
@@ -561,6 +581,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   holds the disks Tart's stacked machines start from and never downloads again: Select Recommended no longer takes them.
 - A store of model weights no longer says only that its models are a long download to get back: a model you made or
   imported with the tool is only there.
+- GPT4All's unfinished downloads are no longer counted as models.
 
 #### Build Artifacts
 
