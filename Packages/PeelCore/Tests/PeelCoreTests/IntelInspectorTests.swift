@@ -956,6 +956,73 @@ struct IntelInspectorTests {
         #expect(scan.unansweredJobs == [.daemon])
     }
 
+    @Test(.permissionsHold) func listsNothingTheExclusionsCover() async throws {
+        let directory = try TemporaryDirectory()
+        let intelApp = try bundle(directory, "root/Applications/Intel.app", cpuTypes: [intel])
+        let universal = try bundle(directory, "root/Applications/Universal.app", cpuTypes: [intel, appleSilicon])
+        let part = try bundle(
+            directory, "root/Applications/Universal.app/Contents/Library/LoginItems/Launcher.app", cpuTypes: [intel]
+        )
+        let plugIn = try bundle(directory, "home/Library/Audio/Plug-Ins/VST3/Old.vst3", cpuTypes: [intel])
+        let araPlugIn = try bundle(directory, "home/Library/Audio/Plug-Ins/ARA/Melody.bundle", cpuTypes: [intel])
+        let driver = try bundle(directory, "root/Library/Image Capture/TWAIN Data Sources/Scanner.ds", cpuTypes: [intel])
+        let filter = try directory.file("root/Library/Printers/Vendor/Filter/rastertovendor", contents: intelHeader(fileType: 2))
+        try javaRuntime(directory, "root/Library/Java/JavaVirtualMachines/temurin-17.jdk", [intel], name: nil)
+        try javaRuntime(directory, "elsewhere/openjdk.jdk", [intel], name: "OpenJDK")
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "root/Library/Java/JavaVirtualMachines/openjdk.jdk"),
+            withDestinationURL: directory.url.appending(path: "elsewhere/openjdk.jdk")
+        )
+        let agent = try directory.file("Tools/agent", contents: intelHeader(fileType: 2))
+        let helper = try directory.file("Tools/helper", contents: intelHeader(fileType: 2))
+        let command = try directory.file("home/bin/legacy", contents: intelHeader(fileType: 2))
+        for program in [filter, agent, helper, command] { try directory.setPermissions(0o755, of: program) }
+        let closed = try directory.directory("root/Library/Printers/Closed")
+        try directory.setPermissions(0o000, of: closed)
+        defer { try? directory.setPermissions(0o755, of: closed) }
+        func job(_ label: String, running program: URL, isExcluded: Bool) -> BackgroundItem {
+            var item = BackgroundItem(
+                label: label, kind: .agent, source: .userLibrary, plistURL: nil,
+                program: program.path(percentEncoded: false), runsAtLoad: true, keepsAlive: false,
+                ownerBundleIdentifier: nil, ownerName: nil, ownerURL: nil, isOrphan: false, state: .loaded,
+                isDisabled: false
+            )
+            item.isExcluded = isExcluded
+            return item
+        }
+        let runtimes = directory.url.appending(path: "root/Library/Java/JavaVirtualMachines", directoryHint: .isDirectory)
+        let exclusions = Exclusions(
+            paths: [
+                part, plugIn, araPlugIn, driver, filter, closed, helper, command,
+                runtimes.appending(path: "temurin-17.jdk"), directory.url.appending(path: "elsewhere/openjdk.jdk"),
+            ],
+            bundleIdentifiers: ["org.example.intel"]
+        )
+        func scan(excluding: Bool) async -> IntelScan {
+            await IntelInspector.scan(
+                installedApps: [
+                    InstalledApp(url: intelApp, bundleIdentifier: "org.example.intel", name: "Intel", architectures: [.x86_64]),
+                    InstalledApp(url: universal, bundleIdentifier: "org.example.universal", name: "Universal", architectures: [.x86_64, .arm64]),
+                ],
+                backgroundItems: BackgroundItems.Scan(items: [
+                    job("org.example.agent", running: agent, isExcluded: excluding),
+                    job("org.example.helper", running: helper, isExcluded: false),
+                ]),
+                exclusions: excluding ? exclusions : .none,
+                environment: environment(in: directory),
+                measure: { _ in 1 }
+            )
+        }
+
+        let everything = await scan(excluding: false)
+        #expect(everything.findings.count == 11, "listed \(everything.findings.map(\.name))")
+        #expect(everything.unreadable.map(PathPattern.comparablePath(of:)) == [PathPattern.comparablePath(of: closed)])
+
+        let excluded = await scan(excluding: true)
+        #expect(excluded.findings.isEmpty, "listed \(excluded.findings.map(\.name))")
+        #expect(excluded.unreadable.isEmpty, "named \(excluded.unreadable)")
+    }
+
     @Test func namesTheJobFilesItCouldNotRead() async throws {
         let directory = try TemporaryDirectory()
         let daemons = directory.url.appending(path: "root/Library/LaunchDaemons", directoryHint: .isDirectory)
