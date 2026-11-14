@@ -4,6 +4,22 @@ import PeelPrivileged
 import Testing
 
 struct DeveloperCachesTests {
+    @Test func anAppTheTableNamesGetsNoSecondToolFromTheElectronRule() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        try directory.directory("Applications/LM Studio.app/Contents/Frameworks/Electron Framework.framework")
+        try directory.file("home/Library/Application Support/LM Studio/Local State")
+        let lmStudio = InstalledApp(
+            url: directory.url.appending(path: "Applications/LM Studio.app", directoryHint: .isDirectory),
+            bundleIdentifier: "ai.elementlabs.lmstudio", name: "LM Studio", bundleName: "LM Studio"
+        )
+        let named = { (id: String) in DeveloperCaches.definitions.first { $0.id == id }?.appBundleIdentifiers }
+
+        #expect(DeveloperCaches.electronDefinitions(for: [lmStudio], home: home).isEmpty)
+        #expect(named("lmstudio") == ["ai.elementlabs.lmstudio"])
+        #expect(named("anythingllm") == ["com.anythingllm"])
+    }
+
     @Test func waitsForAToolsProgramThatRunsWithNoApp() throws {
         let directory = try TemporaryDirectory()
         let name = "org-example-server-\(UUID().uuidString.prefix(8))"

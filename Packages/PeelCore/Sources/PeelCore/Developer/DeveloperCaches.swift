@@ -1261,7 +1261,7 @@ public enum DeveloperCaches {
             Folder(".ollama/logs", .logs, source: "https://github.com/ollama/ollama/blob/42e911bc3d05798cad729cb474bf62f378cb2e26/docs/macos.mdx#L26-L28"),
             Folder("Library/Caches/ollama/updates", .downloads, source: "https://github.com/ollama/ollama/blob/42e911bc3d05798cad729cb474bf62f378cb2e26/app/updater/updater_darwin.go#L88-L96"),
         ], programs: ["ollama"]),
-        Definition(id: "lmstudio", name: "LM Studio", systemImage: "brain", appBundleIdentifiers: [], folders: [
+        Definition(id: "lmstudio", name: "LM Studio", systemImage: "brain", appBundleIdentifiers: ["ai.elementlabs.lmstudio"], folders: [
             Folder(".lmstudio/models", .models, source: "https://lmstudio.ai/docs/app/advanced/import-model", movedBy: .lmStudioModels),
             Folder(".cache/lm-studio/models", .models, source: "https://lmstudio.ai/blog/lmstudio-v0.3.6"),
         ]),
@@ -1323,7 +1323,7 @@ public enum DeveloperCaches {
             // Not followed to a moved data folder: the person chose that folder, and a `logs` there may be theirs.
             Folder("Library/Application Support/Jan/data/logs", .logs, source: "https://jan.ai/docs/desktop/data-folder"),
         ]),
-        Definition(id: "anythingllm", name: "AnythingLLM", systemImage: "brain", appBundleIdentifiers: [], folders: [
+        Definition(id: "anythingllm", name: "AnythingLLM", systemImage: "brain", appBundleIdentifiers: ["com.anythingllm"], folders: [
             Folder("Library/Application Support/anythingllm-desktop/storage/models", .models, source: "https://docs.anythingllm.com/installation-desktop/storage"),
             Folder("Library/Application Support/anythingllm-desktop/storage/logs", .logs, source: "https://docs.anythingllm.com/installation-desktop/storage"),
         ]),
@@ -1562,6 +1562,7 @@ public enum DeveloperCaches {
             guard names.count > 2, names[0] == "Library", names[1] == "Application Support" else { return nil }
             return names[2].lowercased()
         })
+        let named = Set(definitions.flatMap(\.appBundleIdentifiers).map { $0.lowercased() })
         let electron = "https://github.com/electron/electron/blob/df79406cecfd393f38d5a18b83379d4ba85cc29b/shell/browser/"
         let chromium = "https://github.com/chromium/chromium/blob/54cc36437b23cee8aaffa1289c8bc31bf2f520b9/"
         let codeCache = chromium + "content/browser/storage_partition_impl.cc#L1587-L1595"
@@ -1570,7 +1571,7 @@ public enum DeveloperCaches {
         var made: [(folder: String, definition: Definition)] = []
         for app in apps {
             guard let identifier = app.bundleIdentifier, let bundleName = app.bundleName,
-                  !covered.contains(bundleName.lowercased()),
+                  !covered.contains(bundleName.lowercased()), !named.contains(identifier.lowercased()),
                   exists(app.url.appending(path: "Contents/Frameworks/Electron Framework.framework"))
             else { continue }
             let editor = vsCodeProductName(of: app)
