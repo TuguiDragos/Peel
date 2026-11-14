@@ -138,8 +138,11 @@ final class FileSearchLibrary {
     /// excluded from its own row would stay listed and selected until the move refused it.
     func leaveOut(_ exclusions: Exclusions) async {
         guard results != nil || !selection.outside.isEmpty, exclusions != filteredBy else { return }
-        // Exclusions Peel couldn't read left everything out for a reason now gone, and narrowing brings nothing back.
-        if !filteredBy.isKnown, exclusions.isKnown {
+        // Exclusions Peel couldn't read left everything out for a reason now gone, and an entry taken off the list
+        // brings back what it left out: narrowing brings nothing back.
+        let leftOutAsExcluded = (results?.leftOut[.excluded] ?? 0) > 0
+        if !filteredBy.isKnown && exclusions.isKnown
+            || leftOutAsExcluded && exclusions.bringsBackSomethingLeftOut(by: filteredBy) {
             await search()
             return
         }

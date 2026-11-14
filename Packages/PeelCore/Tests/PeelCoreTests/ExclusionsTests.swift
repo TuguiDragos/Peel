@@ -4,6 +4,14 @@ import PeelPrivileged
 import Testing
 
 struct ExclusionsTests {
+    @Test func knowsWhenAnEntryWasTakenOffTheList() {
+        let a = URL(filePath: "/org.example/a"), b = URL(filePath: "/org.example/b")
+
+        #expect(Exclusions(paths: [a]).bringsBackSomethingLeftOut(by: Exclusions(paths: [a, b])))
+        #expect(!Exclusions(paths: [a, b]).bringsBackSomethingLeftOut(by: Exclusions(paths: [a])))
+        #expect(Exclusions.none.bringsBackSomethingLeftOut(by: Exclusions(bundleIdentifiers: ["org.example.app"])))
+    }
+
     @Test func saysWhichEntriesExcludeAnItem() {
         let app = URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory)
         let folder = URL(filePath: "/Users/me/Projects", directoryHint: .isDirectory)

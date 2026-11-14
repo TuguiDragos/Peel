@@ -108,6 +108,27 @@ struct FileSearchLibraryTests {
         #expect(library.results?.leftOut[.excluded] == 1)
     }
 
+    @Test func takingAnExclusionOffSearchesAgainForWhatItLeftOut() async throws {
+        let calls = OSAllocatedUnfairLock(initialState: 0)
+        let results = found(invoice)
+        let library = FileSearchLibrary(
+            run: { _, _ in
+                calls.withLock { $0 += 1 }
+                return results
+            },
+            exclusionsNow: { .none }
+        )
+        library.criteria.name = "invoice"
+        await library.search()
+        await library.leaveOut(Exclusions(paths: [invoice]))
+        #expect(library.results?.leftOut[.excluded] == 1)
+
+        await library.leaveOut(.none)
+
+        #expect(calls.withLock { $0 } == 2)
+        #expect(library.results?.files.map(\.url) == [invoice])
+    }
+
     @Test func aSearchAllLeftOutForUnreadableExclusionsRunsAgainOnceTheyAreRead() async throws {
         let calls = OSAllocatedUnfairLock(initialState: 0)
         var exclusions = Exclusions.unreadable(because: nil)

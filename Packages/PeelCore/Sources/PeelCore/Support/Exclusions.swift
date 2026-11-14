@@ -88,6 +88,11 @@ public struct Exclusions: Sendable, Codable, Hashable {
         }
     }
 
+    /// True when `earlier` had on its list something this one doesn't, so what `earlier` left out may be back.
+    public func bringsBackSomethingLeftOut(by earlier: Exclusions) -> Bool {
+        !earlier.paths.isSubset(of: paths) || !earlier.bundleIdentifiers.isSubset(of: bundleIdentifiers)
+    }
+
     public init(paths: Set<URL> = [], bundleIdentifiers: Set<String> = []) {
         // A URL with no path would exclude everything, so only file URLs with an absolute path are kept.
         self.paths = Set(
