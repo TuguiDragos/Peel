@@ -177,7 +177,7 @@ Space shows what fills your disk, area by area, and what each area is.
   the folders directly inside them, where installers are usually left, with archives there that hold an app or an
   installer. It also lists the packages and the disk and system images an app keeps in Application Support, and the
   images Parallels Desktop and VMware Fusion keep for making virtual machines, with the restore images no VirtualBuddy
-  machine was installed from marked as unused, macOS installers in Application Support and in the folders Peel reads
+  machine was installed from marked as unused, macOS installers in those five places too, and in the folders Peel reads
   apps from, device firmware, downloads never finished, and updates apps downloaded and keep until they install them.
   Your iPhone and iPad backups are listed with their size once Peel has Full Disk Access, and never moved. Time
   Machine's backups aren't here, and Space explains the snapshots macOS keeps on the disk. Nothing is selected for
