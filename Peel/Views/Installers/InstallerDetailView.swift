@@ -12,6 +12,7 @@ struct InstallerDetailView: View {
         let hasNoteColumn = rows.contains {
             !$0.isReadOnly && (detail(for: $0) != nil || Self.warning(for: $0) != nil)
         }
+        let showsDays = rows.contains { !$0.isReadOnly && $0.date != nil }
 
         List {
             header(rows)
@@ -34,6 +35,7 @@ struct InstallerDetailView: View {
                             url: item.url,
                             icon: .file(item.url),
                             detail: detail(for: item),
+                            kind: Self.day(of: item, showsDays: showsDays),
                             warning: Self.warning(for: item),
                             size: item.size ?? 0,
                             isMeasured: item.size != nil,
@@ -123,6 +125,14 @@ struct InstallerDetailView: View {
             },
         ].compactMap(\.self)
         return lines.isEmpty ? nil : lines.joined(separator: "\n\n")
+    }
+
+    /// The day in the column other lists give the kind: when the item came, or when it last changed. A row without
+    /// one reads Unknown while others show theirs, so the whole table moves under the path at the same width.
+    static func day(of item: InstallerItem, showsDays: Bool) -> LocalizedStringResource? {
+        guard showsDays else { return nil }
+        guard let date = item.date else { return "Unknown" }
+        return "\(date, format: .dateTime.day().month(.abbreviated).year())"
     }
 
     private func detail(for item: InstallerItem) -> LocalizedStringResource? {

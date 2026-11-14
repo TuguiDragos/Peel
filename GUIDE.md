@@ -183,7 +183,9 @@ Space shows what fills your disk, area by area, and what each area is.
   machine was installed from marked as unused, macOS installers in those five places too, and in the folders Peel reads
   apps from, device firmware, downloads never finished, and updates apps downloaded and keep until they install them.
   Your iPhone and iPad backups are listed with their size once Peel has Full Disk Access, and never moved. Time
-  Machine's backups aren't here, and Space explains the snapshots macOS keeps on the disk. Nothing is selected for
+  Machine's backups aren't here, and Space explains the snapshots macOS keeps on the disk. Each row shows a day: when
+  the item came, when a download never finished or an update last changed, or for a backup, when it was made.
+  Nothing is selected for
   you, and Select Recommended takes only what you can download again, such as an installed app's installer, one that
   says where it was downloaded from, a macOS installer, device firmware, a download a browser never finished once it
   hasn't changed for a day, or an update whose app is closed. It passes by an encrypted disk image, an installer that
