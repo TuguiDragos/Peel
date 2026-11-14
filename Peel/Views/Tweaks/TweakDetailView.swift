@@ -144,6 +144,11 @@ struct TweakRow: View {
                 .labelStyle(.titleAndIcon)
                 .font(.caption)
                 .foregroundStyle(.secondary)
+        } else if tweaks.foldersNotTaken.contains(tweak.id) {
+            StatusLabel(title: Text("Screenshots can’t be saved in the folder you chose"), tint: .accentColor)
+                .labelStyle(.titleAndIcon)
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 

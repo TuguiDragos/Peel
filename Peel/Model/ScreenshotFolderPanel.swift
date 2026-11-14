@@ -14,7 +14,13 @@ final class ScreenshotFolderPanel: NSObject, NSOpenSavePanelDelegate {
         panel.prompt = String(localized: "Choose")
         panel.message = String(localized: "Where should screenshots be saved?")
         panel.delegate = delegate
-        let chosen = await panel.begin() == .OK ? panel.url : nil
+        // A sheet of the window in front, so nothing else on the page can be pressed while it is open.
+        let answer = if let window = NSApp.keyWindow {
+            await panel.beginSheetModal(for: window)
+        } else {
+            await panel.begin()
+        }
+        let chosen = answer == .OK ? panel.url : nil
         // The panel holds its delegate weakly: this keeps it until the panel has closed.
         extendLifetime(delegate)
         return chosen

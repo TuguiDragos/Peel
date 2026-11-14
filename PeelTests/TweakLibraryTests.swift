@@ -111,6 +111,21 @@ struct TweakLibraryTests {
         #expect(library.foldersLeftToMacOS.isEmpty)
     }
 
+    @Test func aChosenFolderThatCanNoLongerTakeScreenshotsIsSaidOnItsRow() async throws {
+        let store = FakeTweakStore()
+        let (library, made) = try makeLibrary(store: store)
+        defer { made.forget() }
+        let folder = try #require(TweakCatalog.all.first { $0.kind == .folder })
+        let gone = FileManager.default.temporaryDirectory.appending(path: "TweakLibraryTests-\(UUID().uuidString)")
+
+        await library.takeScreenshotFolder(gone, for: folder)
+
+        #expect(library.foldersNotTaken == [folder.id])
+        #expect(store.values[folder.id] == nil)
+        library.forgetNotices()
+        #expect(library.foldersNotTaken.isEmpty)
+    }
+
     @Test func putBackReturnsAScreenshotFolderThatIsStillThere() async throws {
         let store = FakeTweakStore()
         let (library, made) = try makeLibrary(store: store)

@@ -170,11 +170,24 @@ final class TweakLibrary {
     }
 
     func chooseScreenshotFolder(for tweak: Tweak) async {
-        // Asked again once the panel has closed, since the folder can change after the panel's own check.
-        guard let url = await ScreenshotFolderPanel.choose(), await ScreenshotFolder.takesScreenshots(url, home: home)
-        else { return }
+        await takeScreenshotFolder(await ScreenshotFolderPanel.choose(), for: tweak)
+    }
+
+    /// Turns `tweak` on with the folder at `url`, asked again since the folder can change after the panel's own check.
+    /// One screenshots can no longer be saved in is said on the row.
+    func takeScreenshotFolder(_ url: URL?, for tweak: Tweak) async {
+        guard let url else { return }
+        guard await ScreenshotFolder.takesScreenshots(url, home: home) else {
+            foldersNotTaken.insert(tweak.id)
+            return
+        }
+        foldersNotTaken.remove(tweak.id)
         await turnOn(tweak, text: ScreenshotFolder.setting(for: url))
     }
+
+    /// The folder tweaks whose chosen folder could no longer take screenshots once the panel closed. A tweak leaves the
+    /// set with its next choice, and all of them when the page goes.
+    private(set) var foldersNotTaken: Set<Tweak.ID> = []
 
     /// The settings Peel could not write, so each row can say so instead of letting the switch spring back
     /// with no reason. A tweak leaves the set with its next write that lands, and all of them when the page goes.
@@ -182,6 +195,7 @@ final class TweakLibrary {
 
     func forgetNotices() {
         refused = []
+        foldersNotTaken = []
         foldersLeftToMacOS = []
     }
     private(set) var isTurningAllOff = false
