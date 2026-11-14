@@ -195,6 +195,22 @@ public enum SpaceRemoval {
         return (children.removable, children.inUse)
     }
 
+    /// What a move of the `chosen` folders takes from what the area offers now: those still offered, but what was
+    /// written since the plan (`written`). The failures are each chosen folder an app opened since holds, and each
+    /// written one.
+    public static func moving(
+        _ chosen: Set<URL>,
+        offeredNow now: (removable: [URL], inUse: [(url: URL, name: String)]),
+        written: Set<URL>
+    ) -> (removable: [URL], failures: [TrashFailure]) {
+        let removable = now.removable.filter { chosen.contains($0) && !written.contains($0) }
+        let inUse = now.inUse.filter { chosen.contains($0.url) }.map {
+            TrashFailure(url: $0.url, reason: .heldOpen(by: [$0.name]))
+        }
+        let changed = written.sorted { $0.path() < $1.path() }.map { TrashFailure(url: $0, reason: .changedSinceScan) }
+        return (removable, inUse + changed)
+    }
+
     /// Which of `urls` something wrote to in the last 15 minutes, read again now: a plan made earlier didn't see what
     /// a service wrote since.
     @concurrent

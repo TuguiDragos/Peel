@@ -6,6 +6,24 @@ import Testing
 /// Space empties a folder by listing what is inside it. Each item listed still goes through the guard and the
 /// exclusions, and an app that is open keeps what it is using.
 struct SpaceRemovalTests {
+    @Test func aMoveTakesOnlyWhatIsStillChosenAndSaysWhatStays() {
+        let area = URL(filePath: "/Users/example/Library/Caches", directoryHint: .isDirectory)
+        let (unchosen, chosen, open, written) = (
+            area.appending(path: "org.example.unchosen"), area.appending(path: "org.example.chosen"),
+            area.appending(path: "org.example.open"), area.appending(path: "org.example.written")
+        )
+
+        let moving = SpaceRemoval.moving(
+            [chosen, open, written],
+            offeredNow: (removable: [unchosen, chosen, written], inUse: [(url: open, name: "Example")]),
+            written: [written]
+        )
+
+        #expect(moving.removable == [chosen])
+        #expect(moving.failures.map(\.url) == [open, written])
+        #expect(moving.failures.map(\.reason) == [.heldOpen(by: ["Example"]), .changedSinceScan])
+    }
+
     private func item(_ directory: borrowing TemporaryDirectory) -> SpaceItem {
         SpaceItem(
             id: "caches",
