@@ -164,7 +164,7 @@ struct ShellSessionsTests {
         #expect(folders("ZDOTDIR=/a\nZDOTDIR=/b;\n", [:]) == ["/a/", "/b/"])
         let unreadable = [
             "# ZDOTDIR=/commented", "ZDOTDIR=$(cat ~/.zdotdir)", "ZDOTDIR=`pwd`", "ZDOTDIR=$OTHER/zsh", "ZDOTDIR=relative/zsh",
-            "ZDOTDIR='$HOME/literal'", "ZDOTDIR=\"/unclosed", "MY_ZDOTDIR=/x", "ZDOTDIR=",
+            "ZDOTDIR='$HOME/literal'", "ZDOTDIR=\"/unclosed", "MY_ZDOTDIR=/x", "ZDOTDIR=", ": ${ZDOTDIR::=/x}",
         ]
         for line in unreadable {
             #expect(folders(line, [:]).isEmpty, "\(line)")
@@ -179,6 +179,8 @@ struct ShellSessionsTests {
         "export XDG=1 ZDOTDIR=\"$HOME/.config/zsh\"", "if [[ -d /org.example.none ]]; then\n  export ZDOTDIR=\"$HOME/.config/zsh\"\nfi",
         "export ZDOTDIR=\"$HOME/.config/zsh\"", "export ZDOTDIR=${XDG_CONFIG_HOME:-$HOME/.config}/zsh",
         "export ZDOTDIR=~/.config/zsh", "",
+        "if [[ -d \"$HOME\" ]]; then\n  export XDG_CONFIG_HOME=\"$HOME/xdg\"\nfi\nexport ZDOTDIR=\"${XDG_CONFIG_HOME:-$HOME/.config}/zsh\"",
+        ": ${XDG_CONFIG_HOME:=$HOME/xdg}\nexport ZDOTDIR=\"${XDG_CONFIG_HOME:-$HOME/.config}/zsh\"",
     ])
     func theTextNamesTheZshrcZshReadsOrSaysItCantTell(zshenv: String) async throws {
         let directory = try TemporaryDirectory()
@@ -196,6 +198,26 @@ struct ShellSessionsTests {
         }
         let unsettled = ["&&", ":=", "XDG=1", "if "]
         #expect((byTheText == nil) == unsettled.contains { zshenv.contains($0) })
+    }
+
+    @Test func aVariableAnEarlierFileCantSettleLeavesALaterValueUnsettled() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        try directory.file("home/.zshenv", contents: Data("""
+            if [[ -d "$HOME" ]]; then
+              export XDG_CONFIG_HOME="$HOME/xdg"
+            fi
+
+            """.utf8))
+        try directory.file("home/.zprofile", contents: Data("""
+            export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+
+            """.utf8))
+        let zsh = ShellSessions.zsh(startupFile: home.appending(path: ".zshenv"))
+
+        #expect(await zsh.zshrc(home: home, zdotdir: nil)?.path(percentEncoded: false)
+            == home.appending(path: "xdg/zsh/.zshrc").path(percentEncoded: false))
+        #expect(zsh.zshrcByTheText(home: home, zdotdir: nil) == nil)
     }
 
     @Test func aValueTheSessionGivesZdotdirIsNotExpandedAgain() {

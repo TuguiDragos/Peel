@@ -84,11 +84,13 @@ public enum ShellSessions: Sendable, Equatable {
         /// False when a startup file also gives ZDOTDIR a value its text can't settle: one a shell would have to work
         /// out, or one given under a condition.
         var isSettled = true
-        /// The folders such a value may name: given under a condition, or with a variable the text doesn't set, taken
-        /// from the environment or, for XDG's, its default.
+        /// The folders such a value may name: given under a condition, or with a variable the text doesn't set or can't
+        /// settle, taken from the environment or, for XDG's, its default.
         var candidates: [URL] = []
         /// The folders the text plainly gives other variables, which a later value may name.
         var variables: [String: String] = [:]
+        /// The variables the text gives a value it can't settle, so a value that reads one can't be settled either.
+        var unsettledVariables: Set<String> = []
     }
 
     /// The folders zsh may read its startup files from, going by their text alone: the one `zshenv` is in, then each
@@ -101,12 +103,14 @@ public enum ShellSessions: Sendable, Equatable {
                 let file = folder.appending(path: name, directoryHint: .notDirectory)
                 guard let data = BoundedRead.data(at: file, maximum: ShellReferences.maximumBytes) else { continue }
                 let given = foldersGivenToZDOTDIR(
-                    in: String(decoding: data, as: UTF8.self), home: home, environment: environment
+                    in: String(decoding: data, as: UTF8.self), home: home, environment: environment,
+                    unsettled: named.unsettledVariables
                 )
                 named.folders += given.folders
                 named.candidates += given.candidates
                 named.isSettled = named.isSettled && given.isSettled
                 environment.merge(given.variables) { _, later in later }
+                named.unsettledVariables = given.unsettledVariables
             }
         }
         return named
@@ -114,12 +118,13 @@ public enum ShellSessions: Sendable, Equatable {
 
     /// The folders a zsh startup file gives `ZDOTDIR`, read from its text and never by running it. Only an assignment
     /// on a line of its own, outside any block the text opens, with a value written plainly, names a folder: a path,
-    /// with `~`, `$HOME`, or `${NAME:-default}`, its parts quoted or not. Any other assignment leaves it unsettled.
-    static func foldersGivenToZDOTDIR(in text: String, home: URL, environment: [String: String]) -> NamedFolders {
-        var named = NamedFolders(folders: [])
+    /// with `~`, `$HOME`, or `${NAME:-default}`, its parts quoted or not. Any other assignment leaves it unsettled, and
+    /// so does a value that reads a variable given a value any other way, in this text or in `unsettled`.
+    static func foldersGivenToZDOTDIR(
+        in text: String, home: URL, environment: [String: String], unsettled: Set<String> = []
+    ) -> NamedFolders {
+        var named = NamedFolders(folders: [], unsettledVariables: unsettled)
         var depth = 0
-        // `ZDOTDIR` given a value: `ZDOTDIR=`, `ZDOTDIR+=`, `${ZDOTDIR:=…}`, `${ZDOTDIR=…}`, or an `unset`.
-        let assignment = /(^|[^A-Za-z0-9_])ZDOTDIR\+?=|\$\{ZDOTDIR:?=|unset .*(^|[^A-Za-z0-9_])ZDOTDIR([^A-Za-z0-9_]|$)/
         for line in text.split(whereSeparator: \.isNewline) {
             let code = withoutComment(line.drop(while: \.isWhitespace))
             var words = code[...]
@@ -127,10 +132,14 @@ public enum ShellSessions: Sendable, Equatable {
                 words = words.dropFirst(prefix.count).drop(while: \.isWhitespace)
             }
             let known = environment.merging(named.variables) { _, later in later }
-            if code.contains(assignment) {
+            let given = variablesGivenAValue(by: code)
+            var settled: String?
+            if given.contains("ZDOTDIR") {
                 let value = words.hasPrefix("ZDOTDIR=") ? words.dropFirst("ZDOTDIR=".count) : nil
-                if depth == 0, let value, let folder = plainFolder(value, home: home, environment: known) {
+                if depth == 0, let value, !reads(value, anyOf: named.unsettledVariables),
+                   let folder = plainFolder(value, home: home, environment: known) {
                     named.folders.append(folder)
+                    settled = "ZDOTDIR"
                 } else {
                     named.isSettled = false
                     let defaults = known.merging(xdgDefaults(home: home)) { set, _ in set }
@@ -140,12 +149,34 @@ public enum ShellSessions: Sendable, Equatable {
                 }
             } else if depth == 0, let equals = words.firstIndex(of: "="),
                       words[..<equals].wholeMatch(of: /[A-Za-z_][A-Za-z0-9_]*/) != nil,
+                      !reads(words[equals...], anyOf: named.unsettledVariables),
                       let folder = plainFolder(words[words.index(after: equals)...], home: home, environment: known) {
+                settled = String(words[..<equals])
                 named.variables[String(words[..<equals])] = folder.path(percentEncoded: false)
             }
+            named.unsettledVariables.formUnion(given)
+            if let settled { named.unsettledVariables.remove(settled) }
             depth = max(0, depth + blocksOpened(by: code))
         }
         return named
+    }
+
+    /// The variables a line gives a value: `NAME=`, `NAME+=`, `${NAME=…}`, `${NAME:=…}`, `${NAME::=…}`, or an
+    /// `unset`.
+    private static func variablesGivenAValue(by code: Substring) -> Set<String> {
+        let assignment = /(?:^|[^A-Za-z0-9_])([A-Za-z_][A-Za-z0-9_]*)\+?=|\$\{([A-Za-z_][A-Za-z0-9_]*):{0,2}=/
+        var names = Set(code.matches(of: assignment).compactMap { ($0.output.1 ?? $0.output.2).map(String.init) })
+        if let unset = code.firstMatch(of: /(?:^|[^A-Za-z0-9_])unset\s/) {
+            let unsetNames = code[unset.range.upperBound...].matches(of: /[A-Za-z_][A-Za-z0-9_]*/)
+            names.formUnion(unsetNames.map { String($0.output) })
+        }
+        return names
+    }
+
+    /// Whether `value` reads any of `names`, as `$NAME` or `${NAME…}`.
+    private static func reads(_ value: Substring, anyOf names: Set<String>) -> Bool {
+        guard !names.isEmpty else { return false }
+        return value.matches(of: /\$\{?([A-Za-z_][A-Za-z0-9_]*)/).contains { names.contains(String($0.output.1)) }
     }
 
     /// Where the XDG Base Directory Specification puts each folder that its variable doesn't name.
