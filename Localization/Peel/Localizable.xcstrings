@@ -7224,6 +7224,112 @@
         }
       }
     },
+    "%@ is removed with its maker’s own uninstaller, which knows everything that goes with it. Changing its job here can keep it from working." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace %@ se odstraňuje vlastním odinstalátorem výrobce, který ví o všem, co k ní patří. Změna její úlohy zde může způsobit, že přestane fungovat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ wird mit dem eigenen Deinstallationsprogramm des Herstellers entfernt, das alles kennt, was dazugehört. Wenn du den Job hier änderst, funktioniert die App möglicherweise nicht mehr."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ se elimina con el propio desinstalador de su fabricante, que sabe todo lo que va con la app. Cambiar su tarea aquí puede impedir que funcione."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ se désinstalle avec le propre programme de désinstallation de son éditeur, qui connaît tout ce qui l’accompagne. Modifier sa tâche ici peut l’empêcher de fonctionner."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ si rimuove con il programma di disinstallazione del suo produttore, che conosce tutto ciò che ne fa parte. Modificare qui il suo elemento in background può impedirle di funzionare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”は、開発元独自のアンインストーラで取り除くアプリです。このアンインストーラは、アプリと一緒に取り除くべきものをすべて把握しています。ここでこのアプリのジョブを変更すると、アプリが動作しなくなる可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’은(는) 제작자의 자체 제거 프로그램으로 제거되며, 이 제거 프로그램은 함께 제거해야 할 모든 항목을 알고 있습니다. 여기에서 이 작업을 변경하면 제대로 작동하지 않을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ wordt verwijderd met het eigen de-installatieprogramma van de maker, dat weet wat er allemaal bij hoort. Als je de taak ervan hier wijzigt, werkt het misschien niet meer."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikację %@ usuwa się dezinstalatorem jej producenta, który zna wszystko, co do niej należy. Zmiana jej zadania tutaj może uniemożliwić jej działanie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ é removido com o próprio desinstalador do fabricante, que sabe tudo o que vai junto com ele. Alterar a tarefa dele aqui pode impedir que ele funcione."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ se elimină cu programul de dezinstalare propriu al producătorului său, care știe tot ce ține de aplicație. Dacă îi modificați sarcina de aici, aplicația poate înceta să funcționeze."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение «%@» удаляется собственной программой удаления производителя, которая знает все, что к нему относится. Изменение его задания здесь может нарушить его работу."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ tas bort med tillverkarens egen avinstallerare, som känner till allt som hör till appen. Om du ändrar jobbet här kan det hindra appen från att fungera."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulaması, üreticisinin kendi yükleme kaldırıcısıyla kaldırılır; bu kaldırıcı uygulamayla birlikte giden her şeyi bilir. Uygulamanın işini burada değiştirmek, onun çalışmasını engelleyebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програму «%@» вилучають власним деінсталятором її виробника, який знає все, що до неї належить. Якщо змінити тут її завдання, вона може перестати працювати."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”需要使用其厂商自己的卸载器移除，该卸载器了解需要随它一起移除的所有内容。在此处更改它的任务可能会使它无法正常工作。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」需使用其廠商本身的解除安裝程式來移除，該解除安裝程式知道所有與它相關的項目。在這裡更改它的工作，可能會導致它無法運作。"
+          }
+        }
+      }
+    },
     "%@ is running now, so these may still be in use" : {
       "localizations" : {
         "cs" : {
@@ -46850,6 +46956,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "停用"
+          }
+        }
+      }
+    },
+    "Disable %@?" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vypnout %@?"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ deaktivieren?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Desactivar %@?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactiver %@ ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuoi disabilitare “%@”?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”を無効にしますか?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’을(를) 비활성화하겠습니까?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uitschakelen?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyłączyć zadanie %@?"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desativar %@?"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dezactivați %@?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выключить «%@»?"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vill du avaktivera %@?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ etkisizleştirilsin mi?"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вимкнути %@?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要停用“%@”吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要停用「%@」嗎？"
           }
         }
       }

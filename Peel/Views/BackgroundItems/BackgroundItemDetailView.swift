@@ -10,6 +10,7 @@ struct BackgroundItemDetailView: View {
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(\.openSettings) private var openSettings
     @State private var isConfirmingTrash = false
+    @State private var isConfirmingDisable = false
     @State private var isEditing = false
     let item: BackgroundItem
 
@@ -17,6 +18,12 @@ struct BackgroundItemDetailView: View {
         Form {
             Section {
                 header
+            }
+
+            if let found = Self.makersUninstaller(of: item, among: library.apps) {
+                Section {
+                    MakersUninstallerNotice(app: found.app.name, uninstaller: found.uninstaller)
+                }
             }
 
             Section {
@@ -331,13 +338,44 @@ struct BackgroundItemDetailView: View {
             Button("Cancel", role: .cancel) {}
         } message: {
             let stops = item.whenTrashed
+            let maker = Self.makersUninstaller(of: item, among: library.apps)
+                .map { "\n\n" + Self.makersWarning(app: $0.app.name) } ?? ""
             if let owner = item.ownerBundleIdentifier,
                let warning = item.trashWarning(ownerName: item.ownerName ?? library.name(forReference: owner)) {
-                Text(verbatim: "\(String(localized: warning))\n\n\(String(localized: stops))")
+                Text(verbatim: "\(String(localized: warning))\n\n\(String(localized: stops))\(maker)")
             } else {
-                Text(stops)
+                Text(verbatim: String(localized: stops) + maker)
             }
         }
+        .confirmationDialog(Text("Disable \(item.label)?"), isPresented: $isConfirmingDisable) {
+            Button("Disable") {
+                Task { await backgroundItems.perform(.disable, on: item) }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            if let found = Self.makersUninstaller(of: item, among: library.apps) {
+                Text(verbatim: Self.makersWarning(app: found.app.name))
+            }
+        }
+    }
+
+    /// The installed app the job comes with, and its maker's uninstaller, when Peel leaves that app to it: such an app
+    /// is a security or management agent or a VPN, whose jobs its own uninstaller knows.
+    static func makersUninstaller(
+        of item: BackgroundItem, among apps: [InstalledApp]
+    ) -> (app: InstalledApp, uninstaller: MakersUninstaller)? {
+        let place = item.ownerURL.map(PathPattern.comparablePath(of:))
+        let app = apps.first { app in
+            place.map { $0 == PathPattern.comparablePath(of: app.url) }
+                ?? (item.ownerBundleIdentifier != nil && app.bundleIdentifier == item.ownerBundleIdentifier)
+        }
+        guard let app, case .byItsMaker(let uninstaller)? = app.removedElsewhere else { return nil }
+        return (app, uninstaller)
+    }
+
+    /// What the questions before Disable and Move to Trash add for a job of an app its maker removes.
+    static func makersWarning(app: String) -> String {
+        String(localized: "\(app) is removed with its maker’s own uninstaller, which knows everything that goes with it. Changing its job here can keep it from working.")
     }
 
     private var needsHelper: Bool { item.waitsForTheHelper && !helper.canAct }
@@ -450,7 +488,11 @@ struct BackgroundItemDetailView: View {
             }
             if item.offersEnableOrDisable {
                 Button(item.isDisabled ? "Enable" : "Disable") {
-                    Task { await backgroundItems.perform(item.isDisabled ? .enable : .disable, on: item) }
+                    if !item.isDisabled, Self.makersUninstaller(of: item, among: library.apps) != nil {
+                        isConfirmingDisable = true
+                    } else {
+                        Task { await backgroundItems.perform(item.isDisabled ? .enable : .disable, on: item) }
+                    }
                 }
                 .help(item.isDisabled ? Text(verbatim: "") : Text("macOS won’t load it again from the next login or restart. If it’s running now, it may keep running until then."))
             }
