@@ -694,8 +694,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   buttons ran past the sidebar and the next column.
 - A repository whose index file is cut short no longer makes Peel quit unexpectedly. Its build folders are listed, not
   selected, as in a repository whose list of tracked files Peel couldn't read, in the app and in `peel projects`.
-- A folder that holds the state Terraform or OpenTofu keeps of what it made, the only copy with a local backend, is
-  listed and not selected, on every page that measures folders: inside `.terragrunt-cache` it was suggested.
+- The state Terraform or OpenTofu keeps of what it made, the only copy with a local backend, and a folder that holds
+  it are listed and not selected, on every page, File Search included: inside `.terragrunt-cache` it was suggested.
 - A folder that only a cache tag marks, with no kind Peel knows behind it, is no longer suggested, and the Time Machine
   switch no longer leaves it out of backups: people tag their own big folders so backup tools skip them. It is still
   listed as marked as a cache.

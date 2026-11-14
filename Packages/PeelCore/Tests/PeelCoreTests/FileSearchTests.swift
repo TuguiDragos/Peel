@@ -265,10 +265,10 @@ struct FileSearchTests {
         #expect(Set(anything.files.map(\.url.lastPathComponent)) == ["index.ts", "clip.ts", "recording.ts"])
     }
 
-    @Test func holdsBackAWalletAndAPasswordDatabaseFoundOnTheirOwn() throws {
+    @Test func holdsBackWhatMayExistNowhereElseFoundOnItsOwn() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
-        let files = try ["wallet.dat", "Passwords.kdbx", "monero.keys", "notes.txt"].map {
+        let files = try ["wallet.dat", "Passwords.kdbx", "monero.keys", "terraform.tfstate", "notes.txt"].map {
             try directory.file("home/Backups/\($0)", bytes: 10)
         }
         let environment = SearchEnvironment(homeDirectory: home, rootDirectory: directory.url)
@@ -281,6 +281,7 @@ struct FileSearchTests {
         #expect(heldBack["wallet.dat"] == .holdsAWallet)
         #expect(heldBack["Passwords.kdbx"] == .holdsAPasswordDatabase)
         #expect(heldBack["monero.keys"] == .holdsAWallet)
+        #expect(heldBack["terraform.tfstate"] == .holdsTerraformState)
         #expect(heldBack["notes.txt"] == .some(nil))
     }
 

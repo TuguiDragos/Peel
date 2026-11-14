@@ -471,9 +471,10 @@ Never selected for you, even when found:
   open, and moving it would free nothing.
 - `/Users/Shared`: it belongs to every account, not just yours.
 - A project changed in the last 7 days, and a download that changed in the last day, which may still be going.
-- A wallet's file or a password database (KeePass's `.kdbx`, KeePassXC's `.keyx`, a 1Password vault kept outside an
-  account, `.opvault` or `.agilekeychain`), wherever a page finds it, File Search included, and a folder with one of
-  them, a repository, a signing key, or Terraform's state (`terraform.tfstate`, the only record of what it made) inside.
+- A wallet's file, a password database (KeePass's `.kdbx`, KeePassXC's `.keyx`, a 1Password vault kept outside an
+  account, `.opvault` or `.agilekeychain`), or Terraform's state (`terraform.tfstate`, the only record of what it
+  made), wherever a page finds it, File Search included, and a folder with one of them, a repository, or a signing key
+  inside.
 - What an app keeps that may exist only on this Mac: local mail, message history, a password manager's vaults and
   backups and an authenticator's codes, a browser's or a remote access app's saved passwords, VPN connections and
   identities, a torrent client's list of torrents, a game's saves, virtual machines and Windows bottles

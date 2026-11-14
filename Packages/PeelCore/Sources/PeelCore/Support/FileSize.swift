@@ -174,6 +174,7 @@ public enum FileSize {
                 holdsRepository: repositoryMarkers.contains(url.lastPathComponent),
                 holdsWallet: isWallet(url.lastPathComponent),
                 holdsPasswordDatabase: isPasswordDatabase(url.lastPathComponent),
+                holdsTerraformState: isTerraformState(url.lastPathComponent),
                 newestChange: values.contentModificationDate,
                 taken: Int64(values.totalFileAllocatedSize ?? 0)
             )
@@ -226,7 +227,7 @@ public enum FileSize {
         var holdsPasswordDatabase = isPasswordDatabase(url.lastPathComponent)
         var holdsWorkMadeWithAnApp = false
         var holdsVirtualMachines = KeptOnlyHere.namesAVirtualMachine(url.lastPathComponent)
-        var holdsTerraformState = false
+        var holdsTerraformState = isTerraformState(url.lastPathComponent)
         var newestChange: Date?
         // A file with several names goes only once every name has gone, so it counts once, and only when all of
         // its names are inside.
@@ -248,7 +249,7 @@ public enum FileSize {
                 if !holdsVirtualMachines, KeptOnlyHere.namesAVirtualMachine(lowercased: lowered) {
                     holdsVirtualMachines = true
                 }
-                if lowered == "terraform.tfstate" || lowered == "terraform.tfstate.backup" { holdsTerraformState = true }
+                if !holdsTerraformState, isTerraformState(lowercased: lowered) { holdsTerraformState = true }
                 if !holdsWorkMadeWithAnApp, enumerator.level == 2,
                    KeptOnlyHere.namesWorkMadeWithAnApp(file.deletingLastPathComponent().lastPathComponent) {
                     holdsWorkMadeWithAnApp = true
@@ -382,6 +383,15 @@ public enum FileSize {
     private static let passwordDatabaseSuffixes = [
         ".kdbx", ".keyx", ".opvault", ".agilekeychain", ".legacyagilekeychain",
     ]
+
+    /// True for the state Terraform or OpenTofu keeps with a local backend, and its copy from before the last change.
+    static func isTerraformState(_ name: String) -> Bool {
+        isTerraformState(lowercased: name.lowercased())
+    }
+
+    static func isTerraformState(lowercased name: String) -> Bool {
+        name == "terraform.tfstate" || name == "terraform.tfstate.backup"
+    }
 }
 
 /// What is known about the folders being walked.

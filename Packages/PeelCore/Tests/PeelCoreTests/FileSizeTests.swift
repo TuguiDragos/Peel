@@ -6,12 +6,14 @@ import Testing
 struct FileSizeTests {
     /// A file with several names is one file on the disk, so it is counted once. Adding up every name would
     /// report more than emptying the folder could ever free.
-    /// What is measured is looked at by its own name as well as by what is inside it: a wallet's file measured on
-    /// its own, a `keystore` folder, and a repository's own folder.
+    /// What is measured is looked at by its own name as well as by what is inside it: a wallet's file or Terraform's
+    /// state measured on its own, a `keystore` folder, and a repository's own folder.
     @Test func theMeasuredItemsOwnNameCounts() async throws {
         let directory = try TemporaryDirectory()
         let wallet = try directory.file("SomeCoin/wallet.dat", bytes: 100)
         let keys = try directory.file("Monero/mine.keys", bytes: 100)
+        let state = try directory.file("infra/terraform.tfstate", bytes: 100)
+        let stateBefore = try directory.file("infra/terraform.tfstate.backup", bytes: 100)
         let keystore = try directory.file("Ethereum/keystore/key", bytes: 100).deletingLastPathComponent()
         let repository = try directory.file("project/.hg/store/data", bytes: 100).deletingLastPathComponent().deletingLastPathComponent()
         let plain = try directory.file("Notes/notes.txt", bytes: 100)
@@ -20,7 +22,12 @@ struct FileSizeTests {
         #expect(await FileSize.contents(of: keys)?.holdsWallet == true)
         #expect(await FileSize.contents(of: keystore)?.holdsWallet == true)
         #expect(await FileSize.contents(of: repository)?.holdsRepository == true)
-        #expect(await FileSize.contents(of: plain).map { $0.holdsWallet || $0.holdsRepository } == false)
+        #expect(await FileSize.contents(of: state)?.holdsTerraformState == true)
+        #expect(await FileSize.contents(of: stateBefore)?.holdsTerraformState == true)
+        let plainHolds = await FileSize.contents(of: plain).map {
+            $0.holdsWallet || $0.holdsRepository || $0.holdsTerraformState
+        }
+        #expect(plainHolds == false)
     }
 
     @Test func countsAFileWithSeveralNamesOnce() async throws {

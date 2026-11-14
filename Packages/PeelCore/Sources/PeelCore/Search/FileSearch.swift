@@ -279,14 +279,16 @@ public enum FileSearch {
         return results
     }
 
-    /// Why a listed file is held back: a wallet, a signing key, or a password database may exist nowhere else, by
-    /// the names a walk knows them by, one in /Users/Shared may be another account's, and one in a repository part of
-    /// a project's work. `repositories` keeps the answer per folder, since a search lists many files of one.
+    /// Why a listed file is held back: a wallet, a signing key, a password database, or Terraform's state may exist
+    /// nowhere else, by the names a walk knows them by, one in /Users/Shared may be another account's, and one in a
+    /// repository part of a project's work. `repositories` keeps the answer per folder, since a search lists many
+    /// files of one.
     private static func heldBack(
         _ url: URL, environment: SearchEnvironment, repositories: inout [String: Bool]
     ) -> HoldBack? {
         if FileSize.isWallet(url.lastPathComponent) { return .holdsAWallet }
         if FileSize.isPasswordDatabase(url.lastPathComponent) { return .holdsAPasswordDatabase }
+        if FileSize.isTerraformState(url.lastPathComponent) { return .holdsTerraformState }
         let shared = environment.rootDirectory.appending(path: "Users/Shared").path(percentEncoded: false)
         if PathComponents.isPath(url.path(percentEncoded: false), inside: shared) { return .sharedWithEveryone }
         let folder = url.deletingLastPathComponent()

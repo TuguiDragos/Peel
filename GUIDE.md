@@ -215,7 +215,7 @@ Space shows what fills your disk, area by area, and what each area is.
   stopped updating, as on a full disk, where files added or changed since may be missing. A document Finder shows as
   one file but keeps as a folder, such as a GarageBand project or a sparse bundle disk image, is never listed. In the
   list, the arrow keys choose a file and Space selects it. A file in a Library folder, an app's working data, is listed
-  last and never recommended, and neither is a wallet's file, a password database, one in a
+  last and never recommended, and neither is a wallet's file, a password database, Terraform's state, one in a
   repository, which may be part of a project's work, or in Shared, which belongs to every account, and one that needs
   an administrator stays where it is. The page says how many files Spotlight found that it doesn't list, and why: what
   syncs to your other devices, what you excluded, what sits where Peel never moves anything, and what macOS didn't let
