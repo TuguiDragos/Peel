@@ -369,7 +369,14 @@ public enum Plugins {
 
     /// The entries of `directory`, through a link to a folder as the apps that load plug-ins go through one.
     private static func entries(of directory: URL, unreadable: inout [URL]) -> [URL] {
-        guard isFolder(directory) else { return [] }
+        var info = stat()
+        guard stat(directory.path(percentEncoded: false), &info) == 0 else {
+            if errno == EACCES, let closed = closedFolder(above: directory), !unreadable.contains(closed) {
+                unreadable.append(closed)
+            }
+            return []
+        }
+        guard info.st_mode & S_IFMT == S_IFDIR else { return [] }
         guard let names = try? FileManager.default.contentsOfDirectory(atPath: directory.path(percentEncoded: false))
         else {
             unreadable.append(directory)
@@ -377,6 +384,19 @@ public enum Plugins {
         }
         ScanCount.current?.add(names.count)
         return names.map { directory.appending(path: $0) }
+    }
+
+    /// The folder on the way to `url` that can't be searched, which keeps Peel from telling whether `url` is there:
+    /// the first folder above it that is there.
+    private static func closedFolder(above url: URL) -> URL? {
+        var folder = url.deletingLastPathComponent()
+        while folder.pathComponents.count > 1 {
+            var info = stat()
+            let path = folder.path(percentEncoded: false)
+            if stat(path, &info) == 0 { return access(path, X_OK) == 0 ? nil : folder }
+            folder = folder.deletingLastPathComponent()
+        }
+        return nil
     }
 
     /// Whether `url` is a folder, or a link to one.

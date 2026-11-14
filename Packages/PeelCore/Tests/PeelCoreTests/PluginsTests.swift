@@ -47,6 +47,22 @@ struct PluginsTests {
         #expect(scan.unreadable.map(\.lastPathComponent) == ["Vendor"])
     }
 
+    @Test(.permissionsHold) func namesOnceAFolderAboveThePlugInsThatCannotBeSearched() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("home/Library/Audio/Plug-Ins/VST3/Reverb.vst3/Contents")
+        try directory.setPermissions(0o000, of: "home/Library/Audio")
+        defer { try? directory.setPermissions(0o755, of: "home/Library/Audio") }
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let scan = await Plugins.scan(environment: environment)
+
+        #expect(scan.unreadable.map(\.lastPathComponent) == ["Audio"])
+        #expect(!scan.needsFullDiskAccess)
+    }
+
     @Test(.permissionsHold) func knowsAPlugInHistoryCouldNotPutBack() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("root/Library/Audio/Plug-Ins/Components/Synth.component/Contents")
