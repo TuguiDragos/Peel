@@ -726,6 +726,21 @@ struct InstallersTests {
         #expect(items["com.apple.finder.ShipIt"]?.heldBack == .appIsRunning)
     }
 
+    @Test func leavesPeelsOwnDownloadedUpdateToPeel() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(
+            "Library/Caches/com.tuguidragos.Peel/org.sparkle-project.Sparkle/PersistentDownloads/a1/Peel.dmg",
+            bytes: 400_000
+        )
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none,
+            minimumSize: 100_000, measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil)
+        )
+
+        #expect(scan.items(in: .updateDownload).isEmpty)
+    }
+
     @Test func leavesOutWhatAnExcludedAppDownloaded() async throws {
         let directory = try TemporaryDirectory()
         let caches = "Library/Caches"

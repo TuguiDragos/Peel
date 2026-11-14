@@ -617,8 +617,9 @@ public enum Installers {
                 found.append((url, identifier, installed(identifier)))
             }
             let sparkle = url.appending(path: "org.sparkle-project.Sparkle", directoryHint: .isDirectory)
-            if sparkle.isRealFolder {
-                let identifier = name.removingSuffix(".sparkle")
+            let identifier = name.removingSuffix(".sparkle")
+            // Peel's own update is Peel's to install, when the person chooses Install Update.
+            if sparkle.isRealFolder, !Identifier.isPeels(identifier) {
                 found.append((sparkle, identifier, installed(identifier)))
             }
             addIfElectronUpdaters(url)
