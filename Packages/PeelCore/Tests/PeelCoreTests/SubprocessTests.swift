@@ -88,7 +88,7 @@ struct SubprocessTests {
         let (started, said) = AsyncStream.makeStream(of: Void.self)
         let run = Task {
             let result = await Subprocess.run(
-                "/bin/sh", ["-c", Self.stopsItsChildOnlyWhenInterrupted], timeout: 60, interruptsFirst: true
+                "/bin/sh", ["-c", Self.stopsItsChildOnlyWhenInterrupted], timeout: nil, interruptsFirst: true
             ) { data in
                 let lines = String(decoding: data, as: UTF8.self).split(whereSeparator: \.isNewline)
                 guard let pid = lines.lazy.compactMap({ pid_t($0) }).first else { return }

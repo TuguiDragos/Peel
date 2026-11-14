@@ -120,7 +120,7 @@ struct OnItsOwnTests {
         let run = Task {
             let result = await Subprocess.runOnItsOwn(
                 "/bin/sh", ["-c", SubprocessTests.stopsItsChildOnlyWhenInterrupted], environment: environment,
-                timeout: 60, interruptsFirst: true
+                timeout: nil, interruptsFirst: true
             ) { data in
                 let lines = String(decoding: data, as: UTF8.self).split(whereSeparator: \.isNewline)
                 guard let pid = lines.lazy.compactMap({ pid_t($0) }).first else { return }
