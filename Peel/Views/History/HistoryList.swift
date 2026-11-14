@@ -136,6 +136,9 @@ struct HistoryList: View {
         // Every tool has a button in the toolbar, so the window keeps one height from page to page.
         .toolbar {
             ToolbarItem {
+                ForgetWhatLeftTheTrash()
+            }
+            ToolbarItem {
                 RescanButton(isRunning: $isReloading, title: "Reload") {
                     await history.reload()
                 }

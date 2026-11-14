@@ -29,6 +29,13 @@ public struct RemovalStanding: Sendable {
         return records.filter { $0.isOnAConnectedDisk(disks) && $0.located(on: disks).standing == .gone }
     }
 
+    /// Every record among `records` that has left the Trash, looked at once as `stillGone` judges each: never one still
+    /// in the Trash, on a disk that isn't connected, or that Peel can't look at.
+    @concurrent
+    public static func leftTheTrash(_ records: [RemovalRecord]) async -> LeftTheTrash {
+        LeftTheTrash(await stillGone(records))
+    }
+
     /// The records among `records` still on a disk that isn't connected, looked at again.
     @concurrent
     public static func stillAway(_ records: [RemovalRecord]) async -> [RemovalRecord] {
@@ -78,5 +85,17 @@ public struct RemovalStanding: Sendable {
 
     public func selectedCount(in selection: Set<RemovalRecord.ID>) -> Int {
         selection.count(where: inTrash.contains)
+    }
+}
+
+/// What has left the Trash among History's records: those records, in History's order, and how many removals they
+/// belong to.
+public struct LeftTheTrash: Sendable {
+    public let records: [RemovalRecord]
+    public let removals: Int
+
+    init(_ records: [RemovalRecord]) {
+        self.records = records
+        removals = Set(records.map(\.batch)).count
     }
 }

@@ -610,8 +610,10 @@ final class RemovalHistoryStore {
         }
     }
 
-    /// Removes `records` from History. The page offers this for items that have left the Trash.
+    /// Removes `records` from History, unless removals are held. The page offers this for items that have left the
+    /// Trash.
     func forget(_ records: [RemovalRecord]) async {
+        guard mayMove else { return }
         keepUndoable(without: Set(records.map(\.id)))
         let outcome = await log.remove(Set(records.map(\.id)))
         await apply(outcome)
@@ -619,6 +621,17 @@ final class RemovalHistoryStore {
         if !records.isEmpty, outcome.records != nil {
             announcing(AttributedString(localized: "Forgot ^[\(records.count) item](inflect: true)."))
         }
+    }
+
+    /// What has left the Trash among everything History lists, looked at off the main actor.
+    func whatLeftTheTrash() async -> LeftTheTrash {
+        await RemovalStanding.leftTheTrash(records)
+    }
+
+    /// Forgets what `found` names that has still left the Trash, looked at again: while its question was open, an item
+    /// can have come back to the Trash, or stopped being visible.
+    func forgetWhatLeftTheTrash(_ found: LeftTheTrash) async {
+        await forget(await RemovalStanding.stillGone(found.records))
     }
 
     func isSelected(_ record: RemovalRecord) -> Bool {

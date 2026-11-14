@@ -76,6 +76,7 @@ struct HistoryDetailView: View {
                     isAskingToForget = true
                 }
                 .tint(.red)
+                .disabled(!history.mayMove)
             }
             .listRowSeparator(.hidden)
             .confirmationDialog(Text(verbatim: String(inflecting: "Forget ^[\(standing.missingCount) item](inflect: true)?")), isPresented: $isAskingToForget) {
@@ -115,6 +116,7 @@ struct HistoryDetailView: View {
                     isAskingToForgetAway = true
                 }
                 .tint(.red)
+                .disabled(!history.mayMove)
             }
             .listRowSeparator(.hidden)
             .confirmationDialog(

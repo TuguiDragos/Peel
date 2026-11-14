@@ -57,6 +57,59 @@ struct RemovalStandingTests {
         #expect(await RemovalStanding.stillGone([gone, back]).map(\.id) == [gone.id])
     }
 
+    @Test func findsWhatLeftTheTrashAcrossRemovalsAndNothingElse() async throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(
+            fileSystem: "MS-DOS FAT32", mountedAt: directory.url.appending(path: "Disk", directoryHint: .isDirectory)
+        )
+        var other: ScratchVolume? = try ScratchVolume(
+            fileSystem: "MS-DOS FAT32", mountedAt: directory.url.appending(path: "Other", directoryHint: .isDirectory)
+        )
+        func moved(_ name: String, on volume: URL, in batch: UUID) throws -> RemovalRecord {
+            let trashed = volume.appending(path: ".Trashes/\(getuid())/\(name)")
+            try FileManager.default.createDirectory(
+                at: trashed.deletingLastPathComponent(), withIntermediateDirectories: true
+            )
+            try Data(name.utf8).write(to: trashed)
+            let item = TrashedItem(originalURL: volume.appending(path: name), trashedURL: trashed, date: .now)
+            return RemovalRecord(batch: batch, item: item, size: 1, source: "Example", tool: "duplicates")
+        }
+        let first = UUID()
+        let second = UUID()
+        let kept = try moved("kept.txt", on: disk.url, in: first)
+        let gone = try moved("gone.txt", on: disk.url, in: first)
+        let alsoGone = try moved("also gone.txt", on: disk.url, in: first)
+        let goneLater = try moved("gone later.txt", on: disk.url, in: second)
+        let away = try moved("away.txt", on: try #require(other).url, in: second)
+        let closed = try directory.directory("closed")
+        let notSeen = RemovalRecord(
+            batch: UUID(),
+            item: TrashedItem(
+                originalURL: directory.url.appending(path: "hidden.txt"),
+                trashedURL: try directory.file("closed/hidden.txt"), date: .now
+            ),
+            size: 1, source: "Example", tool: "duplicates"
+        )
+        for record in [gone, alsoGone, goneLater] {
+            try FileManager.default.removeItem(at: record.trashedURL)
+        }
+        other = nil
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o000], ofItemAtPath: closed.path(percentEncoded: false)
+        )
+        defer {
+            try? FileManager.default.setAttributes(
+                [.posixPermissions: 0o755], ofItemAtPath: closed.path(percentEncoded: false)
+            )
+        }
+
+        let found = await RemovalStanding.leftTheTrash([kept, gone, notSeen, alsoGone, away, goneLater])
+
+        #expect(found.records.map(\.id) == [gone.id, alsoGone.id, goneLater.id])
+        #expect(found.removals == 2)
+        withExtendedLifetime(disk) {}
+    }
+
     @Test func looksAgainWhetherWhatIsAwayIsStillOnADiskThatIsNotConnected() async throws {
         let directory = try TemporaryDirectory()
         let here = record(try directory.file(".Trash/here.txt"), size: 1)
