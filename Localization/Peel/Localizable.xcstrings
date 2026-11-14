@@ -200194,6 +200194,112 @@
         }
       }
     },
+    "Selected, though it belongs to %@, which Peel leaves in place." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybráno, přestože to patří k %@, které Peel ponechává na místě."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausgewählt, obwohl es zu %@ gehört, die Peel an Ort und Stelle lässt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleccionado, aunque pertenece a %@, que Peel deja en su sitio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sélectionné, bien qu’il appartienne à %@, que Peel laisse en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selezionato, anche se appartiene a %@, che Peel non sposta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択されていますが、これはPeelがそのままの場所に残す%@のものです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 그대로 두는 %@에 속한 항목이지만 선택되어 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geselecteerd, hoewel het bij %@ hoort, die Peel laat staan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaznaczono, choć należy do tego, co Peel zostawia na miejscu: %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecionado, embora pertença a %@, que o Peel mantém no lugar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selectat, deși ține de %@, de care Peel nu se atinge."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрано, хотя это принадлежит приложениям, которые Peel оставляет на месте: %@."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markerad, trots att den tillhör %@, som Peel lämnar på plats."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçili, ancak Peel’in yerinde bıraktığı şu uygulamalara ait: %@."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вибрано, хоча елемент належить %@, що Peel лишає на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已选择，尽管它属于Peel会留在原处的%@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已選取，但它屬於%@，Peel會將其保留在原處。"
+          }
+        }
+      }
+    },
     "Services" : {
       "localizations" : {
         "cs" : {

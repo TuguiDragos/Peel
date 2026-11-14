@@ -290,7 +290,7 @@ struct MultipleAppsView: View {
         var lines: [String] = []
         let keptBy = item.apps.filter(plan.staying.contains)
         if !item.isApplication, !keptBy.isEmpty, !item.isKeptByMacOS, item.removedElsewhere == nil, !item.isExcluded {
-            lines.append(String(localized: "Not selected: it stays with \(names(of: keptBy))."))
+            lines.append(Leftover.staysNote(with: names(of: keptBy), isSelected: plan.isSelected(item.url)))
         }
         let users =
             item.sharedWithOthers.map(library.name(forReference:)) + item.otherCopies.map(\.abbreviatedPath)

@@ -416,10 +416,10 @@ struct AppDetailView: View {
     private func warning(for leftover: Leftover) -> String? {
         var lines: [String] = []
         if plan.appStays, plan.removedElsewhere == nil, leftover.match.heldBack != .holdsAnExclusion {
-            // Two literals, so the string catalog finds both.
-            lines.append(plan.app.isSystemProtected
+            let isSelected = plan.isSelected(leftover.url)
+            lines.append(plan.app.isSystemProtected && !isSelected
                 ? String(localized: "Not selected: it belongs to an app macOS keeps, so it is in use.")
-                : String(localized: "Not selected: it stays with \(plan.app.name)."))
+                : Leftover.staysNote(with: plan.app.name, isSelected: isSelected))
         }
         if leftover.match.isShared {
             let users = leftover.match.sharedWith.map(library.name(forReference:))

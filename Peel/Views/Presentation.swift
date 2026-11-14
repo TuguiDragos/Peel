@@ -502,6 +502,14 @@ extension Leftover {
         String(localized: "A link to \(place.abbreviatedPath). Moving it moves the link, not what it leads to.")
     }
 
+    /// What a row says of a file whose app stays: why Peel left it unselected, or, once it is selected, whose it is.
+    static func staysNote(with apps: String, isSelected: Bool) -> String {
+        // Two literals, so the string catalog finds both.
+        isSelected
+            ? String(localized: "Selected, though it belongs to \(apps), which Peel leaves in place.")
+            : String(localized: "Not selected: it stays with \(apps).")
+    }
+
     /// What a row says of a job's file whose job launchd has loaded from it.
     static var loadedJobNote: String {
         String(localized: "Loaded in the background, so it can run until it moves or you stop it in Background Items.")
