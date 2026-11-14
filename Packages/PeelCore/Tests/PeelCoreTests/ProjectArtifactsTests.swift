@@ -1065,6 +1065,24 @@ struct ProjectArtifactsTests {
         #expect(rows["api"]?.isRecommended == true)
     }
 
+    @Test func keepsTheJDKAndroidStudioChoseForAProjectsGradle() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("phone/build.gradle.kts", bytes: 16)
+        try directory.file("phone/.gradle/config.properties", bytes: 16)
+        try directory.file("phone/.gradle/8.9/fileHashes/fileHashes.bin", bytes: 400_000)
+        try directory.file("tool/build.gradle", bytes: 16)
+        try directory.file("tool/.gradle/8.9/fileHashes/fileHashes.bin", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        let rows = Dictionary(uniqueKeysWithValues: found.map { ($0.project.lastPathComponent, $0) })
+        #expect(rows["phone"]?.heldBack == .keepsItsSetup)
+        #expect(rows["phone"]?.isRecommended == false)
+        #expect(rows["tool"]?.heldBack == nil)
+        #expect(rows["tool"]?.isRecommended == true)
+    }
+
     @Test func offersTheEnvironmentsPixiMakesAgainAndNeverItsSettings() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("science/pixi.toml", bytes: 16)

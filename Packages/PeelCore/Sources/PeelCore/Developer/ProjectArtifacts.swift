@@ -489,6 +489,12 @@ public enum ProjectArtifacts {
             name: ".terraform", markers: ["*.tf"], tool: "Terraform", isGeneric: false, isEnvironment: true,
             source: "https://developer.hashicorp.com/terraform/cli/init"
         ),
+        // Android Studio keeps the JDK a project's Gradle runs on in `.gradle/config.properties` (`java.home`).
+        Definition(
+            name: ".gradle", markers: gradleFiles, tool: "Gradle", isGeneric: false,
+            source: "https://developer.android.com/build/jdks",
+            proof: .holds("config.properties"), heldBack: .keepsItsSetup
+        ),
         Definition(
             name: ".gradle", markers: gradleFiles, tool: "Gradle", isGeneric: false,
             source: "https://docs.gradle.org/current/userguide/directory_layout.html"
