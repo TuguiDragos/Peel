@@ -4,6 +4,19 @@ import Synchronization
 import Testing
 
 struct InstallersTests {
+    @Test func aDiskImageIsNotSuggestedWhileTheAttachedImagesAreNotKnown() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Downloads/Tool-1.dmg", bytes: 400_000)
+        try directory.directory("Applications")
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk, openFiles: OpenFiles(excluding: nil, attachedImages: nil)
+        )
+
+        #expect(scan.items.map(\.heldBack) == [.attachedImagesNotKnown])
+    }
+
     @Test func countsAndSizesOnlyWhatCanMoveNow() {
         let image = InstallerItem(
             url: URL(filePath: "/Users/example/Downloads/Tool.dmg"), kind: .appInstaller, name: "Tool.dmg", size: 10,

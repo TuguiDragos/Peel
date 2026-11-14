@@ -332,6 +332,8 @@ extension TrashFailure.Reason {
             String(localized: "macOS is using it right now, through \(processes.formatted(.list(type: .and))), so it stays where it is.", bundle: bundle)
         case .attachedDiskImage:
             String(localized: "It is a disk image that is open right now. Eject it, then try again.", bundle: bundle)
+        case .attachedImagesNotKnown:
+            String(localized: "It is a disk image, and Peel couldn’t tell whether it is open right now, so it stays where it is. Try again.", bundle: bundle)
         case .stillLeadsTo(let target):
             String(localized: "It is a link that still leads to \(URL(filePath: target).abbreviatedPath), and from this folder Peel’s helper removes only links that lead nowhere.", bundle: bundle)
         case .noTrashOnThisDisk:
@@ -849,6 +851,8 @@ extension HoldBack {
             "Not selected: a program has this open right now, and may still be using it."
         case .attachedDiskImage:
             "Not selected: this disk image is open right now. Eject it first."
+        case .attachedImagesNotKnown:
+            "Not selected: Peel couldn’t tell whether this disk image is open right now."
         case .changedRecently:
             "Not selected: this changed in the last day, so it may still be downloading."
         case .arrivedRecently:

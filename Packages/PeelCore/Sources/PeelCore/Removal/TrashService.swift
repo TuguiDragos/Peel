@@ -166,6 +166,8 @@ public struct TrashFailure: Sendable, Hashable {
         case inUseByMacOS(by: [String])
         /// It is a disk image attached right now, or a folder holding one, which macOS holds open until it is ejected.
         case attachedDiskImage
+        /// It is a disk image, and which ones are attached isn't known, since `hdiutil` didn't answer.
+        case attachedImagesNotKnown
         /// A link the helper takes only once it leads nowhere still leads to this path.
         case stillLeadsTo(String)
         /// Its Trash is at the top of the startup disk, where macOS makes none while the home folder is on another
@@ -195,7 +197,8 @@ extension TrashFailure.Reason {
              .movedWithoutATrace,
              .somethingElseMoved, .heldOpen, .heldOpenByAJob, .peelRunsFromIt, .heldByAnotherAccount,
              .openForAnotherUser,
-             .heldByABuildTool, .inUseAsAnInputSource, .inUseByMacOS, .attachedDiskImage, .stillLeadsTo, .failed: true
+             .heldByABuildTool, .inUseAsAnInputSource, .inUseByMacOS, .attachedDiskImage, .attachedImagesNotKnown,
+             .stillLeadsTo, .failed: true
         }
     }
 
@@ -233,6 +236,7 @@ extension TrashFailure.Reason {
         case .inUseAsAnInputSource: "in-use-as-an-input-source"
         case .inUseByMacOS: "in-use-by-macos"
         case .attachedDiskImage: "attached-disk-image"
+        case .attachedImagesNotKnown: "attached-images-not-known"
         case .stillLeadsTo: "still-leads-to"
         case .noTrashOnThisDisk: "no-trash-on-this-disk"
         case .failed: "failed"
@@ -286,6 +290,7 @@ extension TrashFailure.Reason {
         case "in-use-as-an-input-source": self = .inUseAsAnInputSource
         case "in-use-by-macos": self = .inUseByMacOS(by: (detail ?? "").split(separator: "\n").map(String.init))
         case "attached-disk-image": self = .attachedDiskImage
+        case "attached-images-not-known": self = .attachedImagesNotKnown
         case "still-leads-to": self = .stillLeadsTo(detail ?? "")
         case "no-trash-on-this-disk": self = .noTrashOnThisDisk
         case "failed": self = .failed(detail ?? "")
@@ -587,7 +592,7 @@ public struct TrashService: Sendable {
     func excludes(ownerOf item: BackgroundItem) -> Bool { removalGuard.excludes(ownerOf: item) }
 
     private func readingOfOpenFiles() async -> OpenFiles.Fresh {
-        OpenFiles.Fresh(attachedImages: await AttachedDiskImages.paths() ?? [], jobs: await runningJobs())
+        OpenFiles.Fresh(attachedImages: await AttachedDiskImages.paths(), jobs: await runningJobs())
     }
 
     /// Why every move would be refused now, whatever it is asked to move, or nil when a move may go ahead.

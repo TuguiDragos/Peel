@@ -21,16 +21,17 @@ struct OpenFiles {
     private let programs: [pid_t: String]
     /// The program the excluded process runs. Its open files are no hold, but where it runs from is.
     private let excludedProgram: [String]?
-    private let attachedImages: [[String]]
+    /// Nil when which disk images are attached isn't known: `hdiutil` didn't answer.
+    private let attachedImages: [[String]]?
     /// The processes launchd runs as jobs, which Background Items can stop.
     private let jobs: Set<pid_t>
 
     /// Each regular file held open for reading or writing, and the program each process runs, which it holds as long
     /// as it runs. A watch (`O_EVTONLY`, as Finder keeps on what it shows) and a folder are no hold on what is inside.
-    init(excluding excluded: pid_t? = getpid(), attachedImages: [String] = [], jobs: Set<pid_t> = []) {
+    init(excluding excluded: pid_t? = getpid(), attachedImages: [String]? = [], jobs: Set<pid_t> = []) {
         self.jobs = jobs
         excludedProgram = excluded.flatMap(RunningProgram.path(of:)).map(PathComponents.of)
-        self.attachedImages = attachedImages.map {
+        self.attachedImages = attachedImages?.map {
             PathComponents.of(PathPattern.canonicalWithoutOpening(URL(filePath: $0)).path(percentEncoded: false))
         }
         var pids = [pid_t](repeating: 0, count: 8_192)
@@ -73,12 +74,12 @@ struct OpenFiles {
 
     /// A reading of the open files that is made again once it is older than `lifetime`.
     struct Fresh {
-        private let attachedImages: [String]
+        private let attachedImages: [String]?
         private let jobs: Set<pid_t>
         private var reading: OpenFiles
         private var read = ContinuousClock.now
 
-        init(attachedImages: [String] = [], jobs: Set<pid_t> = []) {
+        init(attachedImages: [String]? = [], jobs: Set<pid_t> = []) {
             self.attachedImages = attachedImages
             self.jobs = jobs
             reading = OpenFiles(attachedImages: attachedImages, jobs: jobs)
@@ -107,7 +108,12 @@ struct OpenFiles {
     }
 
     func isAttachedDiskImage(_ url: URL) -> Bool {
-        attachedImages.contains(PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false)))
+        attachedImages?.contains(PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false))) == true
+    }
+
+    /// Whether `url` is a disk image while which ones are attached isn't known, so it may be open.
+    func mayBeAnAttachedDiskImage(_ url: URL) -> Bool {
+        attachedImages == nil && AttachedDiskImages.mayBeAttached(url)
     }
 
     func processes(holding url: URL, lettingItsProgramsRun: Bool = false) -> Set<pid_t> {
@@ -118,7 +124,8 @@ struct OpenFiles {
     func refusal(of url: URL, lettingItsProgramsRun: Bool) -> TrashFailure.Reason? {
         let names = PathComponents.of(PathPattern.canonical(url).path(percentEncoded: false))
         if !lettingItsProgramsRun, let excludedProgram, excludedProgram.starts(with: names) { return .peelRunsFromIt }
-        if attachedImages.contains(where: { $0.starts(with: names) }) { return .attachedDiskImage }
+        if attachedImages?.contains(where: { $0.starts(with: names) }) == true { return .attachedDiskImage }
+        if mayBeAnAttachedDiskImage(url) { return .attachedImagesNotKnown }
         let isAnApp = AppBundleLayout.isAnApp(url)
         let holding = holding(names, isAnApp: isAnApp, lettingItsProgramsRun: lettingItsProgramsRun)
         // An input method runs from its own bundle while it is one of the input sources, which System Settings removes.

@@ -14,4 +14,10 @@ enum AttachedDiskImages {
         else { return nil }
         return images.compactMap { $0["image-path"] as? String }
     }
+
+    /// Whether `url` is a kind of file `hdiutil attach` opens (`man hdiutil`): a UDIF image, a CD/DVD master, a
+    /// hybrid image, a sparse image or bundle, or an older `.img`.
+    static func mayBeAttached(_ url: URL) -> Bool {
+        ["dmg", "cdr", "iso", "sparseimage", "sparsebundle", "img"].contains(url.pathExtension.lowercased())
+    }
 }

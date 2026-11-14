@@ -181,7 +181,7 @@ public enum Installers {
         exclusions: Exclusions = .none,
         minimumSize: Int64 = Installers.minimumSize
     ) async -> InstallerScan {
-        let attached = await AttachedDiskImages.paths() ?? []
+        let attached = await AttachedDiskImages.paths()
         return await scan(
             installedApps: installedApps,
             home: home,
@@ -389,6 +389,7 @@ public enum Installers {
         if syncKeeper(url) != nil { return .inTheCloud }
         if let seen { return seen }
         if openFiles.isAttachedDiskImage(url) { return .attachedDiskImage }
+        if openFiles.mayBeAnAttachedDiskImage(url) { return .attachedImagesNotKnown }
         if !openFiles.holders(of: url).isEmpty { return .openInAProgram }
         return folder.isSharedWithEveryone ? .sharedWithEveryone : nil
     }

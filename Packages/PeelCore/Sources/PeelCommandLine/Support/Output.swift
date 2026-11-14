@@ -486,6 +486,7 @@ extension HoldBack {
         case .inARepository: "in a repository, so it may be part of a project's work"
         case .openInAProgram: "open in a program right now, which may still be using it"
         case .attachedDiskImage: "a disk image open right now; eject it first"
+        case .attachedImagesNotKnown: "a disk image Peel couldn't tell is closed"
         case .changedRecently: "changed in the last day, so it may still be downloading"
         case .arrivedRecently: "arrived or changed in the last hour, so it may be in use"
         case .mayStillBeResumed: "a program that resumes downloads, such as a torrent client, may still finish it"
@@ -679,6 +680,7 @@ extension TrashFailure.Reason {
             "in use as an input source; in System Settings > Keyboard > Text Input, click Edit beside Input Sources, select it and click Remove, then try again"
         case .inUseByMacOS(let processes): "in use by macOS (\(processes.map(Output.plain).joined(separator: ", ")))"
         case .attachedDiskImage: "a disk image open right now; eject it, then try again"
+        case .attachedImagesNotKnown: "a disk image Peel couldn't tell is closed; try again"
         case .stillLeadsTo(let target):
             "is a link that still leads to \(Output.plain(target)), and from this folder Peel's helper removes only links that lead nowhere"
         case .noTrashOnThisDisk:

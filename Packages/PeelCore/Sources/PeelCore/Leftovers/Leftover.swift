@@ -173,6 +173,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case openInAProgram
     /// A disk image attached right now, which macOS holds open until it is ejected.
     case attachedDiskImage
+    /// A disk image while which ones are attached isn't known, since `hdiutil` didn't answer.
+    case attachedImagesNotKnown
     /// A download that changed within the last day, which may still be going.
     case changedRecently
     /// An installer that arrived in its folder or changed in the last hour, which the person may be installing from.

@@ -4,6 +4,17 @@ import Foundation
 import Testing
 
 struct OpenFilesTests {
+    @Test func aDiskImageStaysWhileTheAttachedImagesAreNotKnown() throws {
+        let directory = try TemporaryDirectory()
+        let image = try directory.file("Tool.dmg", bytes: 16)
+        let notes = try directory.file("notes.txt", bytes: 16)
+        let notKnown = OpenFiles(excluding: nil, attachedImages: nil)
+
+        #expect(notKnown.refusal(of: image, lettingItsProgramsRun: false) == .attachedImagesNotKnown)
+        #expect(notKnown.refusal(of: notes, lettingItsProgramsRun: false) == nil)
+        #expect(OpenFiles(excluding: nil, attachedImages: []).refusal(of: image, lettingItsProgramsRun: false) == nil)
+    }
+
     @Test func aQuestionCostsAboutTheSameHoweverManyFilesAreOpen() {
         func cost(of open: OpenFiles) -> Duration {
             processorTime {
