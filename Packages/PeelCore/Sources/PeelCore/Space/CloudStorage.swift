@@ -246,8 +246,8 @@ public enum CloudStorage {
             let link = drive.appending(path: name).path(percentEncoded: false)
             let folder = home.appending(path: name, directoryHint: .isDirectory)
             guard let destination = try? FileManager.default.destinationOfSymbolicLink(atPath: link) else { return nil }
-            let leadsTo = URL(filePath: destination, relativeTo: drive)
-            return PathPattern.comparablePath(of: leadsTo) == PathPattern.comparablePath(of: folder) ? folder : nil
+            // Compared as items, so the home written another way in the link still names its own folder.
+            return ItemKey(URL(filePath: destination, relativeTo: drive)) == ItemKey(folder) ? folder : nil
         }
     }
 

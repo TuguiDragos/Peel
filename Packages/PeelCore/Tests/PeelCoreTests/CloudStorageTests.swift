@@ -465,6 +465,19 @@ struct CloudStorageTests {
         #expect(scan.readOnlyTheHomesFolders)
     }
 
+    @Test func knowsDesktopKeptInTheHomeHoweverItsLinkWritesTheHome() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Desktop/Shot.png", bytes: 3_000)
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "Same"), withDestinationURL: directory.url
+        )
+        try linkInICloudDrive(
+            "Desktop", to: directory.url.appending(path: "Same/Desktop").path(percentEncoded: false), in: directory
+        )
+
+        #expect(CloudStorage.foldersKeptInTheHome(home: directory.url).map(\.lastPathComponent) == ["Desktop"])
+    }
+
     private func linkInICloudDrive(
         _ name: String, to destination: String, in directory: borrowing TemporaryDirectory
     ) throws {
