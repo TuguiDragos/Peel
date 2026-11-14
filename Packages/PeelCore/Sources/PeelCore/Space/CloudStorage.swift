@@ -161,12 +161,18 @@ public enum CloudStorage {
         )
     }
 
-    /// The resource keys read for each file, by the scan and again by `free(_:)`.
-    static let keys: Set<URLResourceKey> = [
-        .isRegularFileKey, .isPackageKey, .contentModificationDateKey, .ubiquitousItemDownloadingStatusKey,
-        .ubiquitousItemIsUploadedKey, .ubiquitousItemIsUploadingKey, .ubiquitousItemHasUnresolvedConflictsKey,
-        .ubiquitousItemIsSyncPausedKey, .ubiquitousItemUploadingErrorKey,
+    /// What the walk reads of every entry: whether it is a file or a package, and when it changed.
+    static let entryKeys: Set<URLResourceKey> = [.isRegularFileKey, .isPackageKey, .contentModificationDateKey]
+
+    /// iCloud's six answers, which `notSafeToFree(_:)` reads. They cost most of an entry, so the walk asks them only of
+    /// what may be listed.
+    static let cloudKeys: Set<URLResourceKey> = [
+        .ubiquitousItemDownloadingStatusKey, .ubiquitousItemIsUploadedKey, .ubiquitousItemIsUploadingKey,
+        .ubiquitousItemHasUnresolvedConflictsKey, .ubiquitousItemIsSyncPausedKey, .ubiquitousItemUploadingErrorKey,
     ]
+
+    /// The resource keys `free(_:)` reads again for each file.
+    static let keys = entryKeys.union(cloudKeys)
 
     static func isSafeToFree(_ values: URLResourceValues) -> Bool {
         notSafeToFree(values) == nil
@@ -356,7 +362,7 @@ public enum CloudStorage {
         let pictures = Set(desktopPictures.map(PathPattern.comparablePath))
         guard let enumerator = FileManager.default.enumerator(
             at: root,
-            includingPropertiesForKeys: Array(keys),
+            includingPropertiesForKeys: Array(entryKeys),
             options: [.skipsHiddenFiles, .skipsPackageDescendants],
             errorHandler: { url, error in
                 // What is missing is no refusal: a root that isn't there means iCloud Drive was never set up, and
@@ -410,14 +416,17 @@ public enum CloudStorage {
                 }
                 continue
             }
-            guard let values = try? url.resourceValues(forKeys: keys) else { continue }
+            guard let values = try? url.resourceValues(forKeys: entryKeys) else { continue }
             let isInAPinnedFolder = isAllPinned || pinnedFolders.contains(key(url.deletingLastPathComponent()))
             guard values.isRegularFile == true || values.isPackage == true else {
                 if isInAPinnedFolder || isPinned(url) { pinnedFolders.insert(key(url)) }
                 continue
             }
-            guard isSafe(values) else { continue }
-            let measured = values.isRegularFile == true
+            // A file is measured first, which is cheap; a package, measured by a walk of its own, is asked first.
+            let isFile = values.isRegularFile == true
+            func isSafeNow() -> Bool { (try? url.resourceValues(forKeys: cloudKeys)).map(isSafe) == true }
+            if !isFile, !isSafeNow() { continue }
+            let measured = isFile
                 ? (
                     size: ReclaimableSpace.of(url), taken: ReclaimableSpace.allocated(url),
                     modified: values.contentModificationDate
@@ -432,9 +441,10 @@ public enum CloudStorage {
                 continue
             }
             guard measured.size >= minimumSize else {
-                if measured.taken >= minimumSize { collector.leftOutAsShared() }
+                if measured.taken >= minimumSize, !isFile || isSafeNow() { collector.leftOutAsShared() }
                 continue
             }
+            if isFile, !isSafeNow() { continue }
 
             let file = CloudFile(
                 url: url,

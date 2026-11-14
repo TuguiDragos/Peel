@@ -89,6 +89,26 @@ struct CloudStorageTests {
 
     /// The list can stay on screen for hours, so each file is checked again at the moment it is freed. A file
     /// that changed since the scan is not freed.
+    @Test func asksICloudOnlyAboutAFileBigEnoughToList() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Mobile Documents/com~apple~CloudDocs/small.txt", bytes: 16)
+        try directory.file("Library/Mobile Documents/com~apple~CloudDocs/big.bin", bytes: 2_000_000)
+        let asked = Mutex(0)
+        let collector = CloudStorage.Collector()
+
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1_000_000, exclusions: .none, into: collector, countingFor: nil,
+            isSafe: { _ in
+                asked.withLock { $0 += 1 }
+                return true
+            },
+            unless: { false }
+        )
+
+        #expect(collector.collected.files.map(\.url.lastPathComponent) == ["big.bin"])
+        #expect(asked.withLock { $0 } == 1)
+    }
+
     @Test func freesNothingThatChangedSinceTheScan() async throws {
         let directory = try TemporaryDirectory()
         let url = try directory.file("Library/Mobile Documents/com~apple~CloudDocs/file.bin", bytes: 2_000_000)
