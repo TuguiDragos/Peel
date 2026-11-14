@@ -1406,6 +1406,9 @@ public enum DeveloperCaches {
         ]),
         Definition(id: "modelscope", name: "ModelScope", systemImage: "brain", appBundleIdentifiers: [], folders: [
             Folder(".cache/modelscope/hub", .models, source: "https://github.com/modelscope/modelscope/blob/6cb35d56b5e45cf30154d85b56db3c67edb032ac/modelscope/utils/file_utils.py#L41-L46"),
+            // Since SDK 1.38 models and datasets are kept under the cache root, and `hub` holds only links to them.
+            Folder(".cache/modelscope/models", .models, source: "https://github.com/modelscope/modelscope_hub/blob/5810c09aa0c8b5f8348a5c53bdc831099228d9ad/src/modelscope_hub/_cache_manager.py#L100"),
+            Folder(".cache/modelscope/datasets", .models, source: "https://github.com/modelscope/modelscope_hub/blob/5810c09aa0c8b5f8348a5c53bdc831099228d9ad/src/modelscope_hub/_cache_manager.py#L199"),
         ]),
         Definition(id: "kagglehub", name: "Kaggle Hub", systemImage: "brain", appBundleIdentifiers: [], folders: [
             Folder(".cache/kagglehub", .models, source: "https://github.com/Kaggle/kagglehub/blob/4fe0a176e0e9b815ca4101c371b504ff97239b97/src/kagglehub/config.py#L17"),

@@ -427,6 +427,23 @@ struct DeveloperCachesTests {
         #expect(!artifacts.isRecommended)
     }
 
+    @Test func findsModelScopesModelsUnderItsCacheRoot() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".cache/modelscope/models/org--model/snapshots/master/model.bin", bytes: 1_048_576)
+        _ = try directory.directory(".cache/modelscope/hub/models/org")
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: ".cache/modelscope/hub/models/org/model"),
+            withDestinationURL: directory.url.appending(path: ".cache/modelscope/models/org--model/snapshots/master")
+        )
+
+        let environments = await scanned(directory.url)
+
+        let modelscope = try #require(environments.first { $0.id == "modelscope" })
+        let models = try #require(modelscope.locations.first { $0.url.lastPathComponent == "models" })
+        #expect((models.size ?? 0) >= 1_048_576)
+        #expect(!models.isRecommended)
+    }
+
     @Test func listsABrowsersModelsWithoutSelectingThem() async throws {
         let directory = try TemporaryDirectory()
         let chrome = "Library/Application Support/Google/Chrome"
