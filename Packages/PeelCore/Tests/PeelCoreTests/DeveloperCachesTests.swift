@@ -401,6 +401,21 @@ struct DeveloperCachesTests {
         #expect(DeveloperCaches.goneProject(at: try state(gone.absoluteString)) == "gone")
     }
 
+    @Test(.permissionsHold) func saysWhenAFolderListedByItsEntriesCantBeRead() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Developer/Xcode/DerivedData/App-abc/info.plist", bytes: 64)
+        try directory.setPermissions(0, of: "Library/Developer/Xcode/DerivedData")
+        defer { try? directory.setPermissions(0o755, of: "Library/Developer/Xcode/DerivedData") }
+
+        let environments = await scanned(directory.url)
+
+        let derivedData = try #require(environments.first { $0.id == "xcode" }?.locations.first {
+            $0.url.lastPathComponent == "DerivedData"
+        })
+        #expect(derivedData.size == nil)
+        #expect(!derivedData.isRecommended)
+    }
+
     @Test func neverSelectsJuliasArtifactsWhichJuliaDoesNotDownloadAgainByItself() async throws {
         let directory = try TemporaryDirectory()
         try directory.file(".julia/artifacts/0123abcd/lib/libexample.dylib", bytes: 4_096)

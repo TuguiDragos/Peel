@@ -326,6 +326,12 @@ public enum DeveloperCaches {
         }
 
         func rows(in folder: URL) -> [URL] {
+            // A folder whose rows can't be listed is one row of its own, so its measure says why, as for a folder
+            // listed whole: read as no rows, it went unsaid.
+            if rowsDepth > 0 || rowsHolding != nil, folder.isRealFolder,
+               (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) == nil {
+                return [folder]
+            }
             if let rowsHolding { return Self.folders(holding: rowsHolding, in: folder) }
             var level = [folder]
             for _ in 0..<rowsDepth {
