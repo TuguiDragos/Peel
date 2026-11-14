@@ -152461,6 +152461,346 @@
         }
       }
     },
+    "Peel couldn’t read ^[%lld entry](inflect: true) of the saved list, so it doesn’t leave alone what is written there. To keep something out of reach, add it again below. The next time the list changes, the old file is kept beside the new one." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nemohl přečíst %lld položky uloženého seznamu, a proto nenechává nedotčené to, co je v nich zapsáno. Pokud chcete něco ponechat mimo dosah Peelu, přidejte to níže znovu. Při příští změně seznamu se starý soubor uchová vedle nového."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nemohl přečíst %lld položky uloženého seznamu, a proto nenechává nedotčené to, co je v nich zapsáno. Pokud chcete něco ponechat mimo dosah Peelu, přidejte to níže znovu. Při příští změně seznamu se starý soubor uchová vedle nového."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nemohl přečíst %lld položku uloženého seznamu, a proto nenechává nedotčené to, co je v ní zapsáno. Pokud chcete něco ponechat mimo dosah Peelu, přidejte to níže znovu. Při příští změně seznamu se starý soubor uchová vedle nového."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nemohl přečíst %lld položek uloženého seznamu, a proto nenechává nedotčené to, co je v nich zapsáno. Pokud chcete něco ponechat mimo dosah Peelu, přidejte to níže znovu. Při příští změně seznamu se starý soubor uchová vedle nového."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel konnte %lld Eintrag der gesicherten Liste nicht lesen und lässt daher nicht unangetastet, was dort steht. Um etwas außer Reichweite zu halten, füge es unten erneut hinzu. Wenn sich die Liste das nächste Mal ändert, wird die alte Datei neben der neuen aufbewahrt."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel konnte %lld Einträge der gesicherten Liste nicht lesen und lässt daher nicht unangetastet, was dort steht. Um etwas außer Reichweite zu halten, füge es unten erneut hinzu. Wenn sich die Liste das nächste Mal ändert, wird die alte Datei neben der neuen aufbewahrt."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel no ha podido leer %lld de entradas de la lista guardada, así que no deja sin tocar lo que figura ahí. Para mantener algo fuera del alcance de Peel, vuelve a añadirlo abajo. La próxima vez que cambie la lista, el archivo antiguo se conservará junto al nuevo."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel no ha podido leer una entrada de la lista guardada, así que no deja sin tocar lo que figura ahí. Para mantener algo fuera del alcance de Peel, vuelve a añadirlo abajo. La próxima vez que cambie la lista, el archivo antiguo se conservará junto al nuevo."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel no ha podido leer %lld entradas de la lista guardada, así que no deja sin tocar lo que figura ahí. Para mantener algo fuera del alcance de Peel, vuelve a añadirlo abajo. La próxima vez que cambie la lista, el archivo antiguo se conservará junto al nuevo."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel n’a pas pu lire %lld d’entrées de la liste enregistrée : il n’épargne donc pas ce qui y figure. Pour tenir quelque chose hors de portée de Peel, ajoutez-le à nouveau ci-dessous. Lors de la prochaine modification de la liste, l’ancien fichier sera conservé à côté du nouveau."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel n’a pas pu lire %lld entrée de la liste enregistrée : il n’épargne donc pas ce qui y figure. Pour tenir quelque chose hors de portée de Peel, ajoutez-le à nouveau ci-dessous. Lors de la prochaine modification de la liste, l’ancien fichier sera conservé à côté du nouveau."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel n’a pas pu lire %lld entrées de la liste enregistrée : il n’épargne donc pas ce qui y figure. Pour tenir quelque chose hors de portée de Peel, ajoutez-le à nouveau ci-dessous. Lors de la prochaine modification de la liste, l’ancien fichier sera conservé à côté du nouveau."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel non è riuscito a leggere %lld di voci dell’elenco salvato, quindi ciò che vi è scritto non viene più escluso. Per tenere qualcosa fuori dalla portata di Peel, aggiungilo di nuovo qui sotto. Alla prossima modifica dell’elenco, il vecchio file verrà conservato accanto a quello nuovo."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel non è riuscito a leggere una voce dell’elenco salvato, quindi ciò che vi è scritto non viene più escluso. Per tenere qualcosa fuori dalla portata di Peel, aggiungilo di nuovo qui sotto. Alla prossima modifica dell’elenco, il vecchio file verrà conservato accanto a quello nuovo."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel non è riuscito a leggere %lld voci dell’elenco salvato, quindi ciò che vi è scritto non viene più escluso. Per tenere qualcosa fuori dalla portata di Peel, aggiungilo di nuovo qui sotto. Alla prossima modifica dell’elenco, il vecchio file verrà conservato accanto a quello nuovo."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは保存されたリストの%lld件のエントリを読み取れなかったため、そこに書かれているものは除外されません。Peelの対象から外したいものは、下でもう一度追加してください。次にリストが変更されたときは、古いファイルが新しいファイルの横に保管されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 저장된 목록의 항목 %lld개를 읽을 수 없었으므로, 그 항목에 적힌 대상은 그대로 두지 않습니다. Peel이 손대지 않게 하려는 항목은 아래에서 다시 추가하십시오. 다음에 목록이 변경되면 이전 파일은 새 파일 옆에 보관됩니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel kon %lld vermelding van de bewaarde lijst niet lezen, dus laat Peel niet met rust wat daar staat. Wil je iets buiten het bereik van Peel houden, voeg het hieronder dan opnieuw toe. De volgende keer dat de lijst verandert, wordt het oude bestand naast het nieuwe bewaard."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel kon %lld vermeldingen van de bewaarde lijst niet lezen, dus laat Peel niet met rust wat daar staat. Wil je iets buiten het bereik van Peel houden, voeg het hieronder dan opnieuw toe. De volgende keer dat de lijst verandert, wordt het oude bestand naast het nieuwe bewaard."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nie mógł odczytać %lld wpisów z zachowanej listy, więc nie pomija tego, co tam zapisano. Aby Peel czegoś nie ruszał, dodaj to ponownie poniżej. Przy następnej zmianie listy stary plik zostanie zachowany obok nowego."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nie mógł odczytać %lld wpisów z zachowanej listy, więc nie pomija tego, co tam zapisano. Aby Peel czegoś nie ruszał, dodaj to ponownie poniżej. Przy następnej zmianie listy stary plik zostanie zachowany obok nowego."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nie mógł odczytać %lld wpisu z zachowanej listy, więc nie pomija tego, co tam zapisano. Aby Peel czegoś nie ruszał, dodaj to ponownie poniżej. Przy następnej zmianie listy stary plik zostanie zachowany obok nowego."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nie mógł odczytać %lld wpisu z zachowanej listy, więc nie pomija tego, co tam zapisano. Aby Peel czegoś nie ruszał, dodaj to ponownie poniżej. Przy następnej zmianie listy stary plik zostanie zachowany obok nowego."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel não conseguiu ler %lld de entradas da lista salva, então não preserva o que está escrito ali. Para manter algo fora do alcance do Peel, adicione-o novamente abaixo. Na próxima vez que a lista mudar, o arquivo antigo será mantido ao lado do novo."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel não conseguiu ler %lld entrada da lista salva, então não preserva o que está escrito ali. Para manter algo fora do alcance do Peel, adicione-o novamente abaixo. Na próxima vez que a lista mudar, o arquivo antigo será mantido ao lado do novo."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "O Peel não conseguiu ler %lld entradas da lista salva, então não preserva o que está escrito ali. Para manter algo fora do alcance do Peel, adicione-o novamente abaixo. Na próxima vez que a lista mudar, o arquivo antigo será mantido ao lado do novo."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nu a putut citi %lld intrări din lista salvată, așa că nu lasă neatins ce este scris acolo. Pentru a proteja ceva, adăugați‑l din nou mai jos. Data viitoare când se schimbă lista, fișierul vechi este păstrat lângă cel nou."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nu a putut citi %lld intrare din lista salvată, așa că nu lasă neatins ce este scris acolo. Pentru a proteja ceva, adăugați‑l din nou mai jos. Data viitoare când se schimbă lista, fișierul vechi este păstrat lângă cel nou."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel nu a putut citi %lld de intrări din lista salvată, așa că nu lasă neatins ce este scris acolo. Pentru a proteja ceva, adăugați‑l din nou mai jos. Data viitoare când se schimbă lista, fișierul vechi este păstrat lângă cel nou."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не удалось прочитать %lld записи сохраненного списка, поэтому он не оставляет нетронутым то, что в них указано. Чтобы Peel не трогал что-то, снова добавьте это ниже. При следующем изменении списка старый файл сохранится рядом с новым."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не удалось прочитать %lld записей сохраненного списка, поэтому он не оставляет нетронутым то, что в них указано. Чтобы Peel не трогал что-то, снова добавьте это ниже. При следующем изменении списка старый файл сохранится рядом с новым."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не удалось прочитать %lld запись сохраненного списка, поэтому он не оставляет нетронутым то, что в ней указано. Чтобы Peel не трогал что-то, снова добавьте это ниже. При следующем изменении списка старый файл сохранится рядом с новым."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не удалось прочитать %lld записи сохраненного списка, поэтому он не оставляет нетронутым то, что в них указано. Чтобы Peel не трогал что-то, снова добавьте это ниже. При следующем изменении списка старый файл сохранится рядом с новым."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel kunde inte läsa %lld post i den sparade listan, så Peel lämnar inte det som står där orört. Om du vill hålla något utom räckhåll lägger du till det igen nedan. Nästa gång listan ändras sparas den gamla filen bredvid den nya."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel kunde inte läsa %lld poster i den sparade listan, så Peel lämnar inte det som står där orört. Om du vill hålla något utom räckhåll lägger du till det igen nedan. Nästa gång listan ändras sparas den gamla filen bredvid den nya."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel, kaydedilmiş listedeki %lld girişi okuyamadı, bu yüzden orada yazılı olanları dokunmadan bırakmaz. Bir şeyi Peel’in erişiminden uzak tutmak için onu aşağıda yeniden ekleyin. Liste bir dahaki sefere değiştiğinde eski dosya yenisinin yanında saklanır."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel, kaydedilmiş listedeki %lld girişi okuyamadı, bu yüzden orada yazılı olanları dokunmadan bırakmaz. Bir şeyi Peel’in erişiminden uzak tutmak için onu aşağıda yeniden ekleyin. Liste bir dahaki sefere değiştiğinde eski dosya yenisinin yanında saklanır."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не змогла прочитати %lld записи збереженого списку, тож не вважає недоторканним те, що там записано. Щоб Peel щось не чіпала, додайте це знову нижче. Коли список зміниться наступного разу, старий файл буде збережено поруч із новим."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не змогла прочитати %lld записів збереженого списку, тож не вважає недоторканним те, що там записано. Щоб Peel щось не чіпала, додайте це знову нижче. Коли список зміниться наступного разу, старий файл буде збережено поруч із новим."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не змогла прочитати %lld запис збереженого списку, тож не вважає недоторканним те, що там записано. Щоб Peel щось не чіпала, додайте це знову нижче. Коли список зміниться наступного разу, старий файл буде збережено поруч із новим."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel не змогла прочитати %lld запису збереженого списку, тож не вважає недоторканним те, що там записано. Щоб Peel щось не чіпала, додайте це знову нижче. Коли список зміниться наступного разу, старий файл буде збережено поруч із новим."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能读取已保存列表中的%lld个条目，因此不会避开这些条目中写明的内容。要让某项内容不被触碰，请在下方重新添加它。下次列表发生更改时，旧文件会保留在新文件旁边。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取已儲存列表中的%lld個項目，因此不會將其中寫明的內容原地保留。若要讓某個項目不受Peel處理，請在下方重新加入它。下次列表變更時，舊檔案會保留在新檔案旁邊。"
+          }
+        }
+      }
+    },
     "Peel couldn’t read it in time to see whether it changed after Peel looked at it. Scan again to review it." : {
       "localizations" : {
         "cs" : {
@@ -205883,6 +206223,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "其中部分檔案夾有自己的權限，讓你的帳號無法進入。「完全取用磁碟」權限能讓Peel越過macOS的隱私權保護，但無法越過檔案夾本身的權限。"
+          }
+        }
+      }
+    },
+    "Some of your exclusions couldn’t be read" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Některé vaše výjimky se nepodařilo přečíst"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einige deiner Ausschlüsse konnten nicht gelesen werden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se han podido leer algunas de tus exclusiones"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Certaines de vos exclusions n’ont pas pu être lues"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile leggere alcune delle tue esclusioni"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "除外リストの一部を読み取れませんでした"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일부 제외 항목을 읽을 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sommige van je uitsluitingen konden niet worden gelezen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się odczytać niektórych Twoich wykluczeń"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível ler algumas das suas exclusões"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unele dintre excluderile dvs. nu au putut fi citite"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Некоторые из Ваших исключений не удалось прочитать"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vissa av dina undantag kunde inte läsas"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hariç tutulanlar listenizdeki bazı girişler okunamadı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Деякі ваші винятки не вдалося прочитати"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能读取你的部分排除项"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的部分排除項目無法讀取"
           }
         }
       }

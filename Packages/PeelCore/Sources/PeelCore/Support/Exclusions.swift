@@ -52,7 +52,7 @@ public struct Exclusions: Sendable, Codable, Hashable {
     public static func == (one: Exclusions, other: Exclusions) -> Bool {
         one.paths == other.paths && one.bundleIdentifiers == other.bundleIdentifiers
             && one.isUnreadable == other.isUnreadable && one.whyUnreadable == other.whyUnreadable
-            && one.hasBeenRead == other.hasBeenRead
+            && one.hasBeenRead == other.hasBeenRead && one.unreadableEntries == other.unreadableEntries
     }
 
     public func hash(into hasher: inout Hasher) {
@@ -61,6 +61,7 @@ public struct Exclusions: Sendable, Codable, Hashable {
         hasher.combine(isUnreadable)
         hasher.combine(whyUnreadable)
         hasher.combine(hasBeenRead)
+        hasher.combine(unreadableEntries)
     }
 
     /// One saved entry. `value` is nil when the entry cannot be decoded, so a bad entry is dropped, not the list.

@@ -59,6 +59,12 @@ struct ExclusionsSettingsView: View {
         orphans.whyOwnersUnreadable.said(after: String(localized: "Peel can’t read this list, so Orphaned Files lists these files again. Starting over keeps the old list beside a new one."), about: OrphanOwners.defaultURL)
     }
 
+    /// What the tab says of the entries of the saved list Peel couldn't read, or nil when it read them all.
+    static func unreadableEntriesNote(_ count: Int) -> String? {
+        guard count > 0 else { return nil }
+        return String(inflecting: "Peel couldn’t read ^[\(count) entry](inflect: true) of the saved list, so it doesn’t leave alone what is written there. To keep something out of reach, add it again below. The next time the list changes, the old file is kept beside the new one.")
+    }
+
     private var isShowingRefusal: Binding<Bool> {
         Binding(get: { !refused.isEmpty }, set: { if !$0 { refused = [] } })
     }
@@ -84,6 +90,9 @@ struct ExclusionsSettingsView: View {
                     title: Text("Your exclusions couldn’t be saved"),
                     detail: Text(verbatim: notSavedDetail)
                 ) {}
+            }
+            if let note = Self.unreadableEntriesNote(exclusions.exclusions.unreadableEntries) {
+                Notice(title: Text("Some of your exclusions couldn’t be read"), detail: Text(verbatim: note)) {}
             }
             Section {
                 if paths.isEmpty {

@@ -15,4 +15,10 @@ struct ExclusionsNotesTests {
         #expect(apps.contains("won’t put one back"))
         #expect(apps.contains("add them to Files and Folders above"))
     }
+
+    @Test func theTabSaysHowManyEntriesItCouldntRead() {
+        #expect(ExclusionsSettingsView.unreadableEntriesNote(0) == nil)
+        #expect(ExclusionsSettingsView.unreadableEntriesNote(1)?.contains("1 entry of the saved list") == true)
+        #expect(ExclusionsSettingsView.unreadableEntriesNote(4)?.contains("4 entries of the saved list") == true)
+    }
 }

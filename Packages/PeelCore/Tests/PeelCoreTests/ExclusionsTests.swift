@@ -322,6 +322,21 @@ struct ExclusionsTests {
         #expect(kept == [URL(filePath: "/a/two")])
     }
 
+    @Test func aListWithAnEntryItCouldntReadIsAnotherList() async throws {
+        let directory = try TemporaryDirectory()
+        let whole = try directory.file("whole/exclusions.json", contents: Data(#"{"paths":["/Users/example/Project"]}"#.utf8))
+        let damaged = try directory.file(
+            "damaged/exclusions.json", contents: Data(#"{"paths":["/Users/example/Project",7]}"#.utf8)
+        )
+
+        let read = await ExclusionStore(url: whole).load()
+        let readWithoutAnEntry = await ExclusionStore(url: damaged).load()
+
+        #expect(read.paths == readWithoutAnEntry.paths)
+        #expect(read != readWithoutAnEntry)
+        #expect(Set([read, readWithoutAnEntry]).count == 2)
+    }
+
     @Test func aPathWrittenByHandIsReadAndWhatCantBeReadIsKeptAside() async throws {
         let directory = try TemporaryDirectory()
         let file = try directory.file(
