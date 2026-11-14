@@ -71,6 +71,57 @@ struct RemovalOutcomeTests {
         })
     }
 
+    private final class Asked {
+        var count = 0
+        var knowsTheExclusions = true
+        var release: CheckedContinuation<Void, Never>?
+    }
+
+    private func history(in folder: URL, asked: Asked, waits: Bool = false) -> RemovalHistoryStore {
+        RemovalHistoryStore(
+            log: RemovalLog(url: folder.appending(path: "removals.json")),
+            refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+            knowsTheExclusions: { asked.knowsTheExclusions },
+            restoring: { items, _ in
+                asked.count += 1
+                if waits, asked.count == 1 { await withCheckedContinuation { asked.release = $0 } }
+                return TrashService.Restored(failures: items.map { _ in nil }, movedAside: items.map { _ in nil })
+            }
+        )
+    }
+
+    @Test func aPutBackAndAnUndoMoveNothingWhileMovesAreHeld() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let asked = Asked()
+        let history = history(in: folder, asked: asked)
+        await history.record(try moved(["Cache"]), tool: .plugins, source: "Plug-ins", sizes: [:])
+
+        asked.knowsTheExclusions = false
+        await history.restore(history.records, canUseHelper: false)
+        await history.undoLastRemoval()
+
+        #expect(asked.count == 0)
+        #expect(history.undoTitle != nil, "the removal stays undoable for when moves are let go")
+    }
+
+    @Test func onePutBackRunsAtATime() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let asked = Asked()
+        let history = history(in: folder, asked: asked, waits: true)
+        await history.record(try moved(["Cache"]), tool: .plugins, source: "Plug-ins", sizes: [:])
+        let records = history.records
+
+        let first = Task { await history.restore(records, canUseHelper: false) }
+        while asked.release == nil { try await Task.sleep(for: .milliseconds(1)) }
+        await history.restore(records, canUseHelper: false)
+        asked.release?.resume()
+        _ = await first.value
+
+        #expect(asked.count == 1)
+    }
+
     @Test func anUndoThatLeavesAnItemSaysWhyWhereverThePersonIs() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }

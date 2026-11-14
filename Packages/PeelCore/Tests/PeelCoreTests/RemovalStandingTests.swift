@@ -40,6 +40,23 @@ struct RemovalStandingTests {
         #expect(standing.missing(among: records).map(\.id) == [gone.id])
     }
 
+    @Test func forgetLooksAgainAndTakesOnlyWhatIsStillGone() async throws {
+        let directory = try TemporaryDirectory()
+        let trash = try directory.directory("home/.Trash")
+        func record(_ name: String) -> RemovalRecord {
+            let item = TrashedItem(
+                originalURL: directory.url.appending(path: "home/\(name)"), trashedURL: trash.appending(path: name),
+                date: .now
+            )
+            return RemovalRecord(batch: UUID(), item: item, size: 1, source: "Example", tool: "test")
+        }
+        let gone = record("Gone")
+        let back = record("Back")
+        try directory.file("home/.Trash/Back")
+
+        #expect(await RemovalStanding.stillGone([gone, back]).map(\.id) == [gone.id])
+    }
+
     @Test func looksAgainWhetherWhatIsAwayIsStillOnADiskThatIsNotConnected() async throws {
         let directory = try TemporaryDirectory()
         let here = record(try directory.file(".Trash/here.txt"), size: 1)
