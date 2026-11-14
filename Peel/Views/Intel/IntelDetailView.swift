@@ -148,6 +148,16 @@ struct IntelDetailView: View {
         .toolbar(removing: .title)
     }
 
+    /// The formula that installed it, when the Homebrew page lists it: that page reads one Homebrew, which may be
+    /// another than the one in `/usr/local`.
+    private var formulaOnTheHomebrewPage: HomebrewPackage.ID? {
+        guard let formula = finding.formula,
+              homebrew.installation.map({ PathPattern.comparablePath(of: $0.prefix) })
+                  == PathPattern.comparablePath(of: formula.prefix)
+        else { return nil }
+        return homebrew.packages?.first { $0.kind == .formula && $0.name == formula.name }?.id
+    }
+
     /// The button that leads to the page where this can be dealt with.
     @ViewBuilder
     private func review(of app: InstalledApp?) -> some View {
@@ -175,6 +185,12 @@ struct IntelDetailView: View {
                 Navigator.shared.requestedTool = .packages
             }
             .buttonStyle(.borderedProminent)
+        } else if let package = formulaOnTheHomebrewPage {
+            Button("Review in Homebrew") {
+                homebrew.selection = .package(package)
+                Navigator.shared.requestedTool = .homebrew
+            }
+            .buttonStyle(.borderedProminent)
         } else if let job = finding.job {
             Button("Review in Background Items") {
                 backgroundItems.selection = job
@@ -188,6 +204,8 @@ struct IntelDetailView: View {
     /// the Plug-ins page doesn't list is left to the software that installed it, which knows what else goes with it.
     private var advice: LocalizedStringResource {
         switch finding.kind {
+        case .commandLineTool where finding.formula != nil:
+            "Peel only reports here. Homebrew installed it with its formula \(finding.formula?.name ?? ""), so it goes when Homebrew uninstalls that formula."
         case .driver, .commandLineTool:
             "Peel only reports here. The software that installed it may have an uninstaller of its own."
         case .app:
@@ -200,6 +218,8 @@ struct IntelDetailView: View {
                 : "Peel only reports here. The software that installed it may have an uninstaller of its own."
         case .backgroundItem:
             "Peel only reports here. Background Items moves a job’s configuration file, not the program it runs: that goes with the software that installed it."
+        case .javaRuntime where finding.formula != nil:
+            "Peel only reports here. Homebrew installed this Java runtime with its formula \(finding.formula?.name ?? ""), so uninstall that formula with Homebrew rather than moving the folder."
         case .javaRuntime:
             receipt == nil
                 ? "Peel only reports here. A Java runtime is its folder: to remove it, move the folder to the Trash in Finder, which asks for an administrator’s password where only an administrator can change it."

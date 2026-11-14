@@ -130,6 +130,10 @@ extension IntelFinding.CommandFolder {
     func explanation(onAppleSilicon: Bool) -> LocalizedStringResource? {
         switch self {
         case .usrLocal: nil
+        case .homebrew:
+            onAppleSilicon
+                ? "This command comes from the Homebrew in /usr/local, which is built for Intel. Homebrew for Apple silicon installs in /opt/homebrew."
+                : "This tool from Homebrew is Intel only. On this Intel Mac it runs natively."
         case .macPorts:
             onAppleSilicon
                 ? "This tool from MacPorts is Intel only, so it needs Rosetta to run. MacPorts reinstalls its ports for this Mac with `sudo port migrate`."
@@ -185,7 +189,9 @@ extension IntelFinding {
     /// What the row says under the name: what the finding belongs to, the job file that starts a background item, or
     /// a plug-in's format, since one plug-in is often installed in several formats under one name.
     var subtitle: LocalizedStringResource? {
-        guard let owner else { return pluginCategory?.title }
+        guard let owner else {
+            return formula.map { LocalizedStringResource("from Homebrew’s \($0.name)") } ?? pluginCategory?.title
+        }
         return kind == .backgroundItem ? "started by \(owner)" : "in \(owner)"
     }
 

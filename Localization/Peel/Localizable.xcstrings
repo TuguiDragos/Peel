@@ -164532,6 +164532,218 @@
         }
       }
     },
+    "Peel only reports here. Homebrew installed it with its formula %@, so it goes when Homebrew uninstalls that formula." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zde jen informuje. Homebrew tuto položku nainstaloval pomocí své formuly %@, takže zmizí, až Homebrew tuto formulu odinstaluje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hier informiert Peel nur. Homebrew hat dies mit der Formula „%@“ installiert, daher wird es entfernt, wenn Homebrew diese Formula deinstalliert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aquí Peel solo informa. Homebrew lo instaló con la formula %@, así que desaparece cuando Homebrew desinstala esa formula."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ici, Peel se contente de signaler. Homebrew l’a installé avec la formula %@ : il sera donc supprimé quand Homebrew désinstallera cette formula."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qui Peel si limita a segnalare. Homebrew l’ha installato con la sua formula %@, quindi verrà rimosso quando Homebrew disinstallerà quella formula."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはここでは報告するだけです。これはHomebrewのformula“%@”でインストールされたもので、Homebrewがそのformulaをアンインストールすると削除されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "여기에서 Peel은 보고만 합니다. Homebrew가 ‘%@’ formula로 이 항목을 설치했으므로, Homebrew가 그 formula를 제거하면 이 항목도 함께 제거됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel geeft hier alleen informatie. Homebrew heeft het geïnstalleerd met de formula %@, dus het verdwijnt wanneer Homebrew die formula deïnstalleert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tylko to tutaj zgłasza. Homebrew zainstalował to w ramach formula %@, więc zostanie to usunięte, gdy Homebrew ją odinstaluje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aqui o Peel apenas informa. O Homebrew instalou isto com a formula %@, então isto é removido quando o Homebrew desinstala essa formula."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aici Peel doar raportează. Homebrew l‑a instalat prin formula %@, așa că dispare când Homebrew dezinstalează acea formulă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здесь Peel только сообщает. Homebrew установил этот объект в составе formula «%@», поэтому он будет удален, когда Homebrew удалит эту formula."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Här rapporterar Peel bara. Homebrew installerade det med sin formula %@, så det tas bort när Homebrew avinstallerar formulan."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel burada yalnızca bilgi verir. Homebrew bunu %@ adlı formula ile yükledi, bu yüzden Homebrew o formula için yüklemeyi kaldırdığında bu da kaldırılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тут Peel лише повідомляє. Homebrew інсталював це з formula «%@», тож це зникне, коли Homebrew деінсталює цю formula."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel在此仅作报告。Homebrew通过其formula“%@”安装了它，因此当Homebrew卸载该formula时，它也会随之移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel在此只負責回報。Homebrew透過formula「%@」安裝了它，因此在Homebrew解除安裝該formula時，它也會隨之移除。"
+          }
+        }
+      }
+    },
+    "Peel only reports here. Homebrew installed this Java runtime with its formula %@, so uninstall that formula with Homebrew rather than moving the folder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zde jen informuje. Homebrew toto běhové prostředí Java nainstaloval pomocí své formuly %@, takže místo přesouvání složky odinstalujte tuto formulu pomocí Homebrew."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hier informiert Peel nur. Homebrew hat diese Java-Laufzeitumgebung mit der Formula „%@“ installiert. Deinstalliere daher diese Formula mit Homebrew, statt den Ordner zu verschieben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aquí Peel solo informa. Homebrew instaló este entorno de ejecución de Java con la formula %@, así que desinstala esa formula con Homebrew en lugar de trasladar la carpeta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ici, Peel se contente de signaler. Homebrew a installé cet environnement d’exécution Java avec la formula %@ : désinstallez donc cette formula avec Homebrew plutôt que de déplacer le dossier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qui Peel si limita a segnalare. Homebrew ha installato questo runtime Java con la sua formula %@, quindi disinstalla quella formula con Homebrew anziché spostare la cartella."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはここでは報告するだけです。このJavaランタイムはHomebrewのformula“%@”でインストールされたものです。フォルダを移動するのではなく、Homebrewでそのformulaをアンインストールしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "여기에서 Peel은 보고만 합니다. Homebrew가 ‘%@’ formula로 이 Java 런타임을 설치했으므로, 폴더를 이동하지 말고 Homebrew로 그 formula를 제거하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel geeft hier alleen informatie. Homebrew heeft deze Java-runtime geïnstalleerd met de formula %@, dus deïnstalleer die formula met Homebrew in plaats van de map te verplaatsen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tylko to tutaj zgłasza. Homebrew zainstalował to środowisko uruchomieniowe Java w ramach formula %@, więc zamiast przenosić folder do Kosza, odinstaluj ją za pomocą Homebrew."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aqui o Peel apenas informa. O Homebrew instalou este runtime Java com a formula %@, então desinstale essa formula com o Homebrew em vez de mover a pasta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aici Peel doar raportează. Homebrew a instalat acest mediu de rulare Java prin formula %@, așa că dezinstalați acea formulă cu Homebrew în loc să mutați dosarul."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здесь Peel только сообщает. Homebrew установил эту среду выполнения Java в составе formula «%@», поэтому удалите эту formula с помощью Homebrew, а не перемещайте папку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Här rapporterar Peel bara. Homebrew installerade den här Java-körmiljön med sin formula %@, så avinstallera formulan med Homebrew i stället för att flytta mappen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel burada yalnızca bilgi verir. Homebrew bu Java çalışma ortamını %@ adlı formula ile yükledi, bu yüzden klasörü taşımak yerine o formula için yüklemeyi Homebrew ile kaldırın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тут Peel лише повідомляє. Homebrew інсталював це середовище виконання Java з formula «%@», тож деінсталюйте цю formula за допомогою Homebrew, а не переміщуйте папку."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel在此仅作报告。Homebrew通过其formula“%@”安装了此Java运行时，因此请使用Homebrew卸载该formula，而不是移动该文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel在此只負責回報。Homebrew透過formula「%@」安裝了此Java執行環境，因此請使用Homebrew解除安裝該formula，而不要移動此檔案夾。"
+          }
+        }
+      }
+    },
     "Peel only reports here. The software that installed it may have an uninstaller of its own." : {
       "localizations" : {
         "cs" : {
@@ -187875,6 +188087,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在「背景項目」中檢視"
+          }
+        }
+      }
+    },
+    "Review in Homebrew" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkontrolovat v Homebrew"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Homebrew prüfen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisar en Homebrew"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Examiner dans Homebrew"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rivedi in Homebrew"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewで確認"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew에서 검토"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bekijk in Homebrew"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przejrzyj w Homebrew"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisar no Homebrew"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revizuiți în Homebrew"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Просмотреть в Homebrew"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Granska i Homebrew"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’da Gözden Geçir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переглянути в Homebrew"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Homebrew中检查"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Homebrew中檢視"
           }
         }
       }
@@ -236086,6 +236404,112 @@
         }
       }
     },
+    "This command comes from the Homebrew in /usr/local, which is built for Intel. Homebrew for Apple silicon installs in /opt/homebrew." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento příkaz pochází z Homebrew v /usr/local, který je určený pro procesory Intel. Homebrew pro Macy s čipem Apple se instaluje do /opt/homebrew."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Befehl stammt aus der Homebrew-Installation in /usr/local, die für Intel entwickelt ist. Homebrew für Apple Chips wird in /opt/homebrew installiert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este comando procede del Homebrew de /usr/local, que está creado para Intel. El Homebrew para Mac con chip de Apple se instala en /opt/homebrew."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette commande provient du Homebrew situé dans /usr/local, conçu pour Intel. Homebrew pour les Mac équipés d’une puce Apple s’installe dans /opt/homebrew."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo comando proviene dall’installazione di Homebrew in /usr/local, compilata per Intel. Homebrew per i Mac con chip Apple si installa in /opt/homebrew."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このコマンドは/usr/localにあるHomebrewのもので、このHomebrewはIntel用にビルドされています。Appleシリコン用のHomebrewは/opt/homebrewにインストールされます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 명령은 /usr/local에 있는 Homebrew에서 온 것으로, 이 Homebrew는 Intel용으로 빌드되었습니다. Apple silicon용 Homebrew는 /opt/homebrew에 설치됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit commando komt van de Homebrew in /usr/local, die voor Intel is gemaakt. Homebrew voor Apple silicon installeert in /opt/homebrew."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To polecenie pochodzi z Homebrew w /usr/local, który jest przeznaczony dla procesorów Intel. Homebrew dla Maców z układem scalonym Apple instaluje się w /opt/homebrew."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este comando vem do Homebrew em /usr/local, que é feito para Intel. O Homebrew para Apple silicon é instalado em /opt/homebrew."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Această comandă provine de la instalarea Homebrew din /usr/local, care este compilată pentru Intel. Pe un Mac cu cip Apple, Homebrew se instalează în /opt/homebrew."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта команда установлена из Homebrew в /usr/local, который собран для Intel. Homebrew для Mac с чипом Apple устанавливается в /opt/homebrew."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här kommandot kommer från Homebrew-installationen i /usr/local, som är byggd för Intel. Homebrew för Apple Silicon installeras i /opt/homebrew."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu komut, Intel için derlenmiş olan /usr/local içindeki Homebrew’dan geliyor. Apple Silicon için Homebrew, /opt/homebrew içine yüklenir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ця команда походить із Homebrew у /usr/local, який створено для Intel. Homebrew для Apple Silicon інсталюється в /opt/homebrew."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此命令来自/usr/local中的Homebrew，它是为Intel构建的。适用于Apple芯片的Homebrew安装在/opt/homebrew中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此指令來自/usr/local中的Homebrew，該Homebrew是為Intel建置的。適用於Apple晶片的Homebrew會安裝在/opt/homebrew中。"
+          }
+        }
+      }
+    },
     "This copy is built for Intel only, so it needs Rosetta to run. If its maker offers a version for Apple silicon, install that one instead." : {
       "localizations" : {
         "cs" : {
@@ -239413,6 +239837,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此設定檔已損毀，因此沒有任何App能讀取它。"
+          }
+        }
+      }
+    },
+    "This tool from Homebrew is Intel only. On this Intel Mac it runs natively." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento nástroj z Homebrew je jen pro procesory Intel. Na tomto Macu s procesorem Intel běží nativně."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Tool von Homebrew ist nur für Intel. Auf diesem Intel-Mac läuft es nativ."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta herramienta de Homebrew es solo para Intel. En este Mac con procesador Intel se ejecuta de forma nativa."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet outil de Homebrew n’existe qu’en version Intel. Sur ce Mac à processeur Intel, il s’exécute en natif."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo strumento di Homebrew è solo per Intel. Su questo Mac Intel funziona in modo nativo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HomebrewのこのツールはIntel専用です。このIntel搭載Macではネイティブに動作します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew의 이 도구는 Intel 전용입니다. 이 Intel Mac에서는 네이티브로 실행됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze tool van Homebrew is alleen voor Intel. Op deze Intel-Mac werkt die native."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To narzędzie z Homebrew jest tylko dla procesorów Intel. Na tym Macu z procesorem Intel działa natywnie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta ferramenta do Homebrew é só para Intel. Neste Mac com Intel, ela é executada nativamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest instrument din Homebrew este doar pentru Intel. Pe acest Mac cu Intel rulează nativ."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот инструмент из Homebrew собран только для Intel. На этом Mac с процессором Intel он работает нативно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här verktyget från Homebrew är bara för Intel. På den här Intel-baserade datorn körs det utan Rosetta."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’dan gelen bu araç yalnızca Intel içindir. Intel işlemcili bu Mac’te yerel olarak çalışır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей інструмент із Homebrew призначений лише для Intel. На цьому Mac з процесором Intel він працює нативно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来自Homebrew的此工具仅支持Intel。在这台Intel Mac上，它以原生方式运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來自Homebrew的此工具僅支援Intel。在這部Intel Mac上，它以原生方式執行。"
           }
         }
       }
@@ -280543,6 +281073,112 @@
     "container" : {
       "comment" : "The name of Apple's command-line tool, never translated.",
       "shouldTranslate" : false
+    },
+    "from Homebrew’s %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "z balíčku Homebrew %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "aus dem Homebrew-Paket „%@“"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "de %@ de Homebrew"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "provenant du paquet %@ de Homebrew"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dal pacchetto %@ di Homebrew"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewの%@から"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew의 ‘%@’에 포함됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "uit %@ van Homebrew"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "z pakietu Homebrew %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "do pacote %@ do Homebrew"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "din pachetul Homebrew %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "из пакета Homebrew «%@»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "från Homebrews %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’un %@ paketinden"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "з пакета Homebrew «%@»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来自Homebrew的“%@”"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來自Homebrew的「%@」"
+          }
+        }
+      }
     },
     "iCloud Drive" : {
       "localizations" : {

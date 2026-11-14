@@ -33,11 +33,21 @@ public struct IntelFinding: Sendable, Hashable, Identifiable {
     /// For a plug-in or a part inside an app, the kind nothing on macOS loads anymore (`Plugins.noLongerLoaded`).
     public var noLongerLoaded: Plugin.NoLongerLoaded?
     public var commandFolder: CommandFolder?
+    /// The Homebrew formula whose folder in the Cellar holds it, read from where it is (`IntelInspector.formula`).
+    public var formula: Formula?
 
     public var id: URL { url }
 
+    public struct Formula: Sendable, Hashable {
+        public let name: String
+        /// Where the Homebrew that installed it lives.
+        public let prefix: URL
+    }
+
     public enum CommandFolder: Sendable, Hashable {
         case usrLocal
+        /// The Cellar of a Homebrew in `/usr/local`, which installed it with one of its formulae (`formula`).
+        case homebrew
         /// MacPorts' `/opt/local`, whose ports `sudo port migrate` reinstalls after a move to another kind of Mac
         /// (MacPorts' Migration guide).
         case macPorts
@@ -253,6 +263,7 @@ public enum IntelInspector {
                 name: Plugins.name(of: runtime, info: info),
                 owner: nil,
                 size: nil,
+                formula: Self.formula(holding: runtime, environment: environment)
             ))
         }
 
@@ -297,13 +308,15 @@ public enum IntelInspector {
                 guard isIntelOnly(executable: tool.program, unreadable: &unreadable), isNew(tool.program) else {
                     continue
                 }
+                let formula = Self.formula(holding: tool.program, environment: environment)
                 findings.append(IntelFinding(
                     url: tool.program,
                     kind: .commandLineTool,
                     name: tool.name,
                     owner: nil,
                     size: nil,
-                    commandFolder: place
+                    commandFolder: formula == nil ? place : .homebrew,
+                    formula: formula
                 ))
             }
         }
@@ -487,6 +500,16 @@ public enum IntelInspector {
 
     /// The runtimes in each Library's Java folder that run only on Intel. A runtime's executable, `libjli.dylib`, is a
     /// library no one runs, so its `java` decides.
+    /// The formula whose folder in the Cellar of the Homebrew in `/usr/local` holds `url`, read from where it is
+    /// alone, `<prefix>/Cellar/<formula>/`, without asking Homebrew. Only that Homebrew can install Intel code.
+    static func formula(holding url: URL, environment: SearchEnvironment) -> IntelFinding.Formula? {
+        let prefix = environment.rootDirectory.appending(path: "usr/local", directoryHint: .isDirectory)
+        let cellar = PathComponents.of(PathPattern.comparablePath(of: prefix.appending(path: "Cellar")))
+        let names = PathComponents.of(PathPattern.comparablePath(of: url))
+        guard names.count > cellar.count + 1, names.starts(with: cellar) else { return nil }
+        return IntelFinding.Formula(name: names[cellar.count], prefix: prefix)
+    }
+
     static func intelOnlyJavaRuntimes(in directories: [String], unreadable: inout [URL]) -> [URL] {
         directories.flatMap { directory in
             entries(of: URL(filePath: directory, directoryHint: .isDirectory), unreadable: &unreadable)

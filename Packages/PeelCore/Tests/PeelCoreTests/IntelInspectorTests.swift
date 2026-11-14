@@ -532,6 +532,36 @@ struct IntelInspectorTests {
         #expect(scan.unreadable.isEmpty, "named \(scan.unreadable)")
     }
 
+    @Test func namesTheHomebrewFormulaThatHoldsACommandOrARuntime() async throws {
+        let directory = try TemporaryDirectory()
+        let jdk = "root/usr/local/Cellar/openjdk/21.0.2/libexec/openjdk.jdk"
+        try javaRuntime(directory, jdk, [intel], name: "OpenJDK")
+        _ = try directory.directory("root/Library/Java/JavaVirtualMachines")
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "root/Library/Java/JavaVirtualMachines/openjdk.jdk"),
+            withDestinationURL: directory.url.appending(path: jdk)
+        )
+        let tool = try directory.file("root/usr/local/Cellar/wget/1.24/bin/wget", contents: intelHeader(fileType: 2))
+        try directory.setPermissions(0o755, of: tool)
+        let bin = try directory.directory("root/usr/local/bin")
+        try FileManager.default.createSymbolicLink(at: bin.appending(path: "wget"), withDestinationURL: tool)
+
+        let scan = await IntelInspector.scan(
+            installedApps: [],
+            exclusions: .none,
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            measure: { _ in 1 }
+        )
+
+        #expect(scan.findings.first { $0.kind == .javaRuntime }?.formula?.name == "openjdk")
+        let command = try #require(scan.findings.first { $0.kind == .commandLineTool })
+        #expect(command.formula?.name == "wget")
+        #expect(command.commandFolder == .homebrew)
+    }
+
     @Test func aRuntimeLinkedIntoTheFolderIsListedWhereItIs() async throws {
         let directory = try TemporaryDirectory()
         try javaRuntime(directory, "elsewhere/libexec/openjdk.jdk", [intel], name: "Linked JDK")
