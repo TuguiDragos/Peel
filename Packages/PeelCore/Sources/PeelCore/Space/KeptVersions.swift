@@ -46,12 +46,13 @@ enum DotNetSDKs {
         }
     }
 
-    /// The note on every version with a newer one beside it in the same folder.
+    /// The note on every version with a newer released one beside it in the same folder. A preview of the next
+    /// version (`10.0.100-preview.3`) is no reason to remove the SDK in use: Microsoft's "latest SDK" is a release.
     static func notes(on versions: [URL]) -> [URL: SpaceItem.PlaceNote] {
         var notes: [URL: SpaceItem.PlaceNote] = [:]
         for folder in Dictionary(grouping: versions, by: { $0.deletingLastPathComponent() }).values {
-            let names = folder.map(\.lastPathComponent)
-            for version in folder where names.contains(where: {
+            let released = folder.map(\.lastPathComponent).filter { !$0.contains("-") }
+            for version in folder where released.contains(where: {
                 VersionComparison.isNewer($0, than: version.lastPathComponent)
             }) {
                 notes[version] = .aNewerSDKIsInstalled

@@ -20,6 +20,20 @@ import Testing
         #expect(TeXLive.notes(on: years) == [years[0]: .notTheTeXLiveInUse])
     }
 
+    @Test func aPreviewOfTheNextVersionIsNoNewerSDKForTheNote() throws {
+        let directory = try TemporaryDirectory()
+        for folder in ["9.0.100", "10.0.100-preview.3.25201.16"] {
+            try directory.file("root/usr/local/share/dotnet/sdk/\(folder)/dotnet.dll", bytes: 64)
+        }
+        let versions = DotNetSDKs.versions(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        #expect(versions.count == 2)
+        #expect(DotNetSDKs.notes(on: versions).isEmpty)
+    }
+
     @Test func listsEachSDKAndSaysWhichHaveANewerOneBeside() throws {
         let directory = try TemporaryDirectory()
         for folder in ["8.0.403", "9.0.100-rc.1.24452.12", "9.0.100", "x64/sdk/8.0.100"] {
