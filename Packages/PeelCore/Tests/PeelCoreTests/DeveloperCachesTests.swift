@@ -1620,6 +1620,20 @@ struct DeveloperCachesTests {
         ])
     }
 
+    @Test func takesForYarnsCacheOnlyAFolderThatHoldsWhatYarnWrites() async throws {
+        let directory = try TemporaryDirectory()
+        let shared = directory.url.appending(path: "Work", directoryHint: .isDirectory).path(percentEncoded: false)
+        try directory.file("home/.yarnrc", contents: Data("cache-folder \"\(shared)\"\n".utf8))
+        try directory.file("Work/v6/npm-left-pad-1.3.0-5d1b6f4b0bb5b9a7-integrity/node_modules/left-pad/package.json")
+        try directory.file("Work/v2/drawings.psd")
+        let yarn = DeveloperCaches.definitions.filter { $0.id == "yarn" }
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+
+        let found = await DeveloperCaches.scan(yarn, homeDirectory: home).flatMap(\.locations)
+
+        #expect(found.map(\.url.lastPathComponent) == ["v6"])
+    }
+
     @Test func findsJansModelsWhereItsSettingMovedItsDataFolder() async throws {
         let directory = try TemporaryDirectory()
         let moved = directory.url.appending(path: "Fast/jan").path(percentEncoded: false)

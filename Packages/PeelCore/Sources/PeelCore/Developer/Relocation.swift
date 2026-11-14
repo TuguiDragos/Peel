@@ -85,7 +85,9 @@ extension DeveloperCaches {
             case .npmCache(let inside):
                 settings.npmCache.map { [($0.appending(path: inside, directoryHint: .isDirectory), $0)] } ?? []
             case .yarnCache:
-                settings.yarnCacheRoot.map { root in Self.versions(in: root).map { ($0, root) } } ?? []
+                settings.yarnCacheRoot.map { root in
+                    Self.versions(in: root).filter(Self.holdsWhatOnlyYarnWrites).map { ($0, root) }
+                } ?? []
             case .yarnGlobalFolder(let inside):
                 settings.yarnGlobalFolder.map { [($0.appending(path: inside, directoryHint: .isDirectory), $0)] } ?? []
             case .pnpmStore:
@@ -116,6 +118,16 @@ extension DeveloperCaches {
             let downloads = cache.appending(path: "downloads").path(percentEncoded: false)
             let names = (try? FileManager.default.contentsOfDirectory(atPath: downloads)) ?? []
             return names.contains { $0.prefixMatch(of: /[0-9a-f]{64}--/) != nil }
+        }
+
+        /// Whether a folder in the root Yarn 1's `cache-folder` names is its cache: it holds a package's folder under
+        /// the name Yarn gives one, its registry first (`generateUniquePackageSlug` in Yarn's `src/config.js`).
+        private static func holdsWhatOnlyYarnWrites(_ folder: URL) -> Bool {
+            let names = (try? FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))) ?? []
+            return names.contains { name in
+                ["npm-", "yarn-", "unknown-"].contains(where: name.hasPrefix)
+                    && folder.appending(path: name, directoryHint: .isDirectory).isRealFolder
+            }
         }
 
         /// The entry a place names, without a final `/`: with one, the kernel follows a link to what it leads to.
