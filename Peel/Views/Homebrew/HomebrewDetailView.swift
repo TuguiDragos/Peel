@@ -490,7 +490,7 @@ struct HomebrewDetailView: View {
     }
 
     private var upgradeRefusal: LocalizedStringResource? {
-        homebrew.exclusionRefusal(of: package)
+        homebrew.upgradeRefusal(of: package)
     }
 
     private var underWay: LocalizedStringResource? {

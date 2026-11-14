@@ -342,14 +342,18 @@ final class HomebrewLibrary {
     /// deletes old versions for good.
     var upgradable: [HomebrewPackage] {
         guard !overrides.contains(.cleansUp), !leavesChangesToTerminal else { return [] }
-        return outdated.filter { $0.joinsUpgradeAll && exclusionAnswer(of: $0) == false }
+        return outdated.filter { package in
+            package.joinsUpgradeAll && ([package] + package.upgradedWith(among: packages ?? [])).allSatisfy {
+                exclusionAnswer(of: $0) == false
+            }
+        }
     }
 
     /// `upgradable`, asked anew of the exclusions and the disk, for what is about to run.
     var upgradableNow: [HomebrewPackage] {
         guard !overrides.contains(.cleansUp), !Homebrew.leavesChangesToTerminal else { return [] }
         return ExclusionsStore.shared.exclusions.joiningUpgradeAll(
-            outdated, appsOf: appsOfCask, installation: installation
+            outdated, appsOf: appsOfCask, installation: installation, installed: packages ?? []
         )
     }
 
@@ -370,6 +374,17 @@ final class HomebrewLibrary {
         case nil: return Self.cantLookInside
         case false?: return nil
         }
+    }
+
+    /// Why the exclusions keep an upgrade of `package` from running: `package` itself, or a formula Homebrew would
+    /// upgrade with it (`HomebrewPackage.upgradedWith`).
+    func upgradeRefusal(of package: HomebrewPackage) -> LocalizedStringResource? {
+        if let refusal = exclusionRefusal(of: package) { return refusal }
+        let others = package.upgradedWith(among: packages ?? [])
+        if let excluded = others.first(where: { exclusionAnswer(of: $0) == true }) {
+            return "Upgrading this would also upgrade \(excluded.name), which you excluded in Settings"
+        }
+        return others.contains { exclusionAnswer(of: $0) == nil } ? Self.cantLookInside : nil
     }
 
     static let cantLookInside: LocalizedStringResource = "Peel couldn’t look inside this package’s folders to check them against your exclusions"

@@ -250458,6 +250458,112 @@
         }
       }
     },
+    "Upgrading this would also upgrade %@, which you excluded in Settings" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Při upgradu tohoto balíčku by se upgradovala i položka %@, kterou jste vyloučili v Nastavení"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Upgrade dieses Pakets würde auch „%@“ upgraden, das du in den Einstellungen ausgeschlossen hast"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizar esto también actualizaría %@, que has excluido en Ajustes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mettre à niveau cet élément mettrait aussi à niveau %@, que vous avez exclu dans les Réglages"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiornando questo pacchetto si aggiornerebbe anche %@, che hai escluso nelle Impostazioni"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これをアップグレードすると、“設定”で除外した“%@”もアップグレードされます"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목을 업그레이드하면 설정에서 제외한 ‘%@’도 함께 업그레이드됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze upgrade zou ook %@ upgraden, en dat heb je in Instellingen uitgesloten"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uaktualnienie tego uaktualniłoby też coś, co wykluczasz w Ustawieniach: %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fazer upgrade disto também faria upgrade de %@, que você adicionou às exclusões nos Ajustes"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgrade‑ul acestui pachet ar face upgrade și la %@, pe care l‑ați exclus în Configurări"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "При обновлении этого пакета обновится и пакет «%@», который Вы исключили в Настройках"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om du uppgraderar det här uppgraderas även %@, som du har undantagit i Inställningar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu yükseltmek, Ayarlar’da hariç tuttuğunuz %@ paketini de yükseltir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оновлення цього пакета також оновить «%@», що ви додали до винятків у Параметрах"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "升级此项还会升级“%@”，而你已在“设置”中排除了它"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "升級此項目也會一併升級「%@」，而你已在「設定」中將它排除"
+          }
+        }
+      }
+    },
     "Upgrading…" : {
       "localizations" : {
         "cs" : {

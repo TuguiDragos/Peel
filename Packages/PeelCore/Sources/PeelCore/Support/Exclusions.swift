@@ -312,12 +312,19 @@ public struct Exclusions: Sendable, Codable, Hashable {
         return isKnownToHoldNothing ? false : nil
     }
 
+    /// The packages Upgrade All upgrades: none excluded, and none whose upgrade takes an excluded formula with it
+    /// (`HomebrewPackage.upgradedWith`, among `installed`).
     public func joiningUpgradeAll(
         _ outdated: [HomebrewPackage],
         appsOf: (HomebrewPackage) -> [InstalledApp],
-        installation: HomebrewInstallation?
+        installation: HomebrewInstallation?,
+        installed: [HomebrewPackage] = []
     ) -> [HomebrewPackage] {
-        outdated.filter { $0.joinsUpgradeAll && excludes($0, apps: appsOf($0), installation: installation) == false }
+        outdated.filter { package in
+            package.joinsUpgradeAll && ([package] + package.upgradedWith(among: installed)).allSatisfy {
+                excludes($0, apps: appsOf($0), installation: installation) == false
+            }
+        }
     }
 
     /// The installed formulae whose own folder in `cellar` is excluded or holds something excluded, which Homebrew

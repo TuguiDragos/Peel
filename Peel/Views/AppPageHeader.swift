@@ -203,7 +203,7 @@ struct AppPageHeader: View {
     }
 
     private var upgradeRefusal: LocalizedStringResource? {
-        library.cask(for: plan.app).flatMap(homebrew.exclusionRefusal(of:))
+        library.cask(for: plan.app).flatMap(homebrew.upgradeRefusal(of:))
     }
 
     @ViewBuilder

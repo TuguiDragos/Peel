@@ -135,6 +135,23 @@ struct HomebrewTests {
         #expect(UpdateChecker.homebrewStatus(of: package(.disabled), appVersion: "1.0", at: .now) == nil)
     }
 
+    @Test func anUpgradeTakesItsOutdatedDependenciesAndDependents() {
+        func formula(
+            _ name: String, outdated: Bool = true, pinned: Bool = false, on: [String] = []
+        ) -> HomebrewPackage {
+            HomebrewPackage(name: name, kind: .formula, isOutdated: outdated, isPinned: pinned, dependencies: on)
+        }
+        let named = formula("a", on: ["b"])
+        let installed = [
+            named, formula("b", on: ["z"]), formula("z"), formula("c", on: ["a"]),
+            formula("d", outdated: false, on: ["a"]),
+            formula("e", pinned: true, on: ["a"]), formula("f", on: ["d"]), formula("g"),
+        ]
+
+        #expect(named.upgradedWith(among: installed).map(\.name) == ["b", "c", "f", "z"])
+        #expect(formula("g").upgradedWith(among: installed).isEmpty)
+    }
+
     @Test func anExcludedPackageIsLeftOutOfUpgradeAll() throws {
         let directory = try TemporaryDirectory()
         let app = try directory.directory("Applications/Sample.app")
