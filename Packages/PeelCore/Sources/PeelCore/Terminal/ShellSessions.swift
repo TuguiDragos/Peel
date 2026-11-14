@@ -201,13 +201,14 @@ public enum ShellSessions: Sendable, Equatable {
     }
 
     /// The folder a value names, read as zsh reads one word: parts in double quotes, in single quotes, and bare,
-    /// written one after the other. Nil when any part holds what a plain path can't.
+    /// written one after the other. Nil when any part holds what a plain path can't, or when anything but a `;` follows
+    /// the word, such as `&&` or a redirection.
     private static func plainFolder(_ written: Substring, home: URL, environment: [String: String]) -> URL? {
         let homePath = home.pathAsHOME
         var value = ""
         var rest = written
         var isFirstPart = true
-        while let first = rest.first, !first.isWhitespace, first != ";" {
+        while let first = rest.first, !first.isWhitespace, !wordEnds.contains(first) {
             if first == "\"" || first == "'" {
                 let inside = rest.dropFirst()
                 guard let end = inside.firstIndex(of: first) else { return nil }
@@ -218,7 +219,7 @@ public enum ShellSessions: Sendable, Equatable {
                 value += expanded
                 rest = inside[inside.index(after: end)...]
             } else {
-                var part = String(rest.prefix { !$0.isWhitespace && $0 != ";" && $0 != "\"" && $0 != "'" })
+                var part = String(rest.prefix { !$0.isWhitespace && !wordEnds.contains($0) && $0 != "\"" && $0 != "'" })
                 rest = rest.dropFirst(part.count)
                 if isFirstPart, part == "~" || part.hasPrefix("~/") {
                     part = homePath + part.dropFirst()
@@ -253,6 +254,9 @@ public enum ShellSessions: Sendable, Equatable {
     }
 
     private static let notPlain: Set<Character> = ["$", "`", "\\", "(", ")", "{", "}", "*", "?", "["]
+
+    /// What ends an unquoted word in zsh besides a space, beginning another command, a pipe, or a redirection.
+    private static let wordEnds: Set<Character> = [";", "&", "|", "<", ">"]
 
     private static func absoluteFolder(_ path: String) -> URL? {
         guard path.hasPrefix("/"), !path.contains(where: notPlain.contains) else { return nil }

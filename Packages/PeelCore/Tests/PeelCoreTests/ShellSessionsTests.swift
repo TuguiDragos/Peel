@@ -181,6 +181,7 @@ struct ShellSessionsTests {
         "export ZDOTDIR=~/.config/zsh", "",
         "if [[ -d \"$HOME\" ]]; then\n  export XDG_CONFIG_HOME=\"$HOME/xdg\"\nfi\nexport ZDOTDIR=\"${XDG_CONFIG_HOME:-$HOME/.config}/zsh\"",
         ": ${XDG_CONFIG_HOME:=$HOME/xdg}\nexport ZDOTDIR=\"${XDG_CONFIG_HOME:-$HOME/.config}/zsh\"",
+        "export ZDOTDIR=\"$HOME/.config/zsh\"&&true", "export ZDOTDIR=$HOME/.config/zsh>/dev/null",
     ])
     func theTextNamesTheZshrcZshReadsOrSaysItCantTell(zshenv: String) async throws {
         let directory = try TemporaryDirectory()
@@ -196,7 +197,7 @@ struct ShellSessionsTests {
         if let byTheText {
             #expect(byTheText.path(percentEncoded: false) == byZsh?.path(percentEncoded: false))
         }
-        let unsettled = ["&&", ":=", "XDG=1", "if "]
+        let unsettled = ["&&", ":=", "XDG=1", "if ", ">"]
         #expect((byTheText == nil) == unsettled.contains { zshenv.contains($0) })
     }
 
