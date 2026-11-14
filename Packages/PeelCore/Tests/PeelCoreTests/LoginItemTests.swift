@@ -14,7 +14,7 @@ struct LoginItemTests {
         #expect(item.isKnown && item.isOn)
     }
 
-    @Test func keepsWhatTheSwitchWasSetToUntilMacOSAnswers() async {
+    @Test func keepsWhatTheSwitchWasSetToUntilMacOSAnswers() async throws {
         var release: CheckedContinuation<Void, Never>?
         let item = LoginItem(read: { .notRegistered }) { on in
             await withCheckedContinuation { release = $0 }
@@ -25,15 +25,15 @@ struct LoginItemTests {
 
         item.set(on: true)
         #expect(item.isOn)
-        while release == nil { await Task.yield() }
+        while release == nil { try await Task.sleep(for: .milliseconds(1)) }
         #expect(item.isOn && item.status == .notRegistered)
         release?.resume()
-        while item.status != .enabled { await Task.yield() }
+        while item.status != .enabled { try await Task.sleep(for: .milliseconds(1)) }
 
         #expect(item.isOn && item.failure == nil)
     }
 
-    @Test func runsOnlyTheLatestOfChangesFlippedQuickly() async {
+    @Test func runsOnlyTheLatestOfChangesFlippedQuickly() async throws {
         var release: CheckedContinuation<Void, Never>?
         var changes: [Bool] = []
         let item = LoginItem(read: { .notRegistered }) { on in
@@ -49,15 +49,15 @@ struct LoginItemTests {
         item.set(on: false)
         item.set(on: true)
         #expect(item.isOn)
-        while release == nil { await Task.yield() }
+        while release == nil { try await Task.sleep(for: .milliseconds(1)) }
         release?.resume()
-        while changes.count < 2 { await Task.yield() }
+        while changes.count < 2 { try await Task.sleep(for: .milliseconds(1)) }
 
         #expect(changes == [true, true])
         #expect(item.isOn && item.status == .enabled && item.failure == nil)
     }
 
-    @Test func dropsAReadThatOverlappedAChange() async {
+    @Test func dropsAReadThatOverlappedAChange() async throws {
         var release: CheckedContinuation<Void, Never>?
         let item = LoginItem(
             read: {
@@ -67,29 +67,29 @@ struct LoginItemTests {
             change: { _ in LoginItem.Answer(status: .enabled) }
         )
         let reading = Task { await item.refresh() }
-        while release == nil { await Task.yield() }
+        while release == nil { try await Task.sleep(for: .milliseconds(1)) }
 
         item.set(on: true)
-        while item.status != .enabled { await Task.yield() }
+        while item.status != .enabled { try await Task.sleep(for: .milliseconds(1)) }
         release?.resume()
         await reading.value
 
         #expect(item.status == .enabled && item.isOn)
     }
 
-    @Test func saysWhyAChangeFailedOnlyWhileTheItemIsNotAsAsked() async {
+    @Test func saysWhyAChangeFailedOnlyWhileTheItemIsNotAsAsked() async throws {
         let refused = LoginItem(read: { .notRegistered }) { _ in
             LoginItem.Answer(status: .notRegistered, error: "not allowed")
         }
         refused.set(on: true)
-        while refused.failure == nil { await Task.yield() }
+        while refused.failure == nil { try await Task.sleep(for: .milliseconds(1)) }
         #expect(!refused.isOn && refused.failure == "not allowed")
 
         let approved = LoginItem(read: { .notRegistered }) { _ in
             LoginItem.Answer(status: .requiresApproval, error: "already registered")
         }
         approved.set(on: true)
-        while approved.status == nil { await Task.yield() }
+        while approved.status == nil { try await Task.sleep(for: .milliseconds(1)) }
         #expect(approved.isOn && approved.needsApproval && approved.failure == nil)
     }
 }

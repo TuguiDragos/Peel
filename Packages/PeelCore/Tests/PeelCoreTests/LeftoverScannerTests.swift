@@ -621,12 +621,12 @@ struct LeftoverScannerTests {
         let scanner = LeftoverScanner(environment: environment(in: directory)) { _ in
             measured.withLock { $0 += 1 }
             // Holds the first measurement until the scan has been canceled.
-            while !Task.isCancelled { await Task.yield() }
+            while !Task.isCancelled { try? await Task.sleep(for: .milliseconds(1)) }
             return FolderContents(size: 1, holdsRepository: false)
         }
 
         let scan = Task { await scanner.scan(tunewell, installedApps: [tunewell]) }
-        while measured.withLock({ $0 }) == 0 { await Task.yield() }
+        while measured.withLock({ $0 }) == 0 { try await Task.sleep(for: .milliseconds(1)) }
         scan.cancel()
         _ = await scan.value
 

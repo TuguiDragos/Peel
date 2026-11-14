@@ -296,7 +296,7 @@ struct FileSizeTests {
             }
             // An answer here means the walk ended before this question joined it, so the two were not set up.
             let impatient = await Task.detached(priority: .high) {
-                while read.value == 0 { await Task.yield() }
+                while read.value == 0 { try? await Task.sleep(for: .milliseconds(1)) }
                 return await FileSize.contents(of: folder, within: 0)
             }.value
             guard impatient == nil, !isAnswered.withLock({ $0 }) else {
@@ -324,7 +324,7 @@ struct FileSizeTests {
         try directory.file("tree/a.bin", bytes: 100_000)
 
         let task = Task { () -> Int64? in
-            while !Task.isCancelled { await Task.yield() }
+            while !Task.isCancelled { try? await Task.sleep(for: .milliseconds(1)) }
             return await FileSize.reclaimableSize(of: folder, within: 3_600)
         }
         task.cancel()
@@ -352,7 +352,7 @@ struct FileSizeTests {
         defer { read.signal() }
 
         let withdrawn = Task { await FileSize.contents(of: folder, within: 60, walking: walking) }
-        while walks.withLock({ $0 }) == 0 { await Task.yield() }
+        while walks.withLock({ $0 }) == 0 { try await Task.sleep(for: .milliseconds(1)) }
         withdrawn.cancel()
         #expect(await withdrawn.value == nil)
 

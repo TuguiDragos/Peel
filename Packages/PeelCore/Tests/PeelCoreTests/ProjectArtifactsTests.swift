@@ -40,7 +40,7 @@ struct ProjectArtifactsTests {
             }
             return clock.now
         }
-        while !listing.withLock({ $0 }) { await Task.yield() }
+        while !listing.withLock({ $0 }) { try await Task.sleep(for: .milliseconds(1)) }
         let stopped = clock.now
 
         walk.cancel()

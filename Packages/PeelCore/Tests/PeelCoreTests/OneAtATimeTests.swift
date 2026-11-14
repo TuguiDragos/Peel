@@ -3,7 +3,7 @@ import Testing
 
 @MainActor
 struct OneAtATimeTests {
-    @Test func aRequestMadeWhileOneRunsWaitsAndOnlyTheLatestRuns() async {
+    @Test func aRequestMadeWhileOneRunsWaitsAndOnlyTheLatestRuns() async throws {
         let line = OneAtATime<Bool>()
         var runs: [(value: Bool, anotherWaited: Bool)] = []
         var release: CheckedContinuation<Void, Never>?
@@ -14,7 +14,7 @@ struct OneAtATimeTests {
                 runs.append((value, anotherWaits()))
             }
         }
-        while release == nil { await Task.yield() }
+        while release == nil { try await Task.sleep(for: .milliseconds(1)) }
         let second = Task { await line.ask(false) { value, anotherWaits in runs.append((value, anotherWaits())) } }
         let third = Task { await line.ask(true) { value, anotherWaits in runs.append((value, anotherWaits())) } }
         for _ in 0..<20 { await Task.yield() }

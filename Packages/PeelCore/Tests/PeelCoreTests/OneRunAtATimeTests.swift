@@ -3,7 +3,7 @@ import Testing
 
 @MainActor
 struct OneRunAtATimeTests {
-    @Test func runsOnceMoreForTheCallsMadeWhileItRan() async {
+    @Test func runsOnceMoreForTheCallsMadeWhileItRan() async throws {
         let runs = OneRunAtATime()
         var count = 0
         var release: CheckedContinuation<Void, Never>?
@@ -14,7 +14,7 @@ struct OneRunAtATimeTests {
                 if count == 1 { await withCheckedContinuation { release = $0 } }
             }
         }
-        while release == nil { await Task.yield() }
+        while release == nil { try await Task.sleep(for: .milliseconds(1)) }
         await runs.run { count += 1 }
         await runs.run { count += 1 }
         #expect(count == 1)
