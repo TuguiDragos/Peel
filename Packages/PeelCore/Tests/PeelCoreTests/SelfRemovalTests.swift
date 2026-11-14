@@ -131,10 +131,31 @@ struct SelfRemovalTests {
         ) { _ in }
 
         #expect(await log.steps == ["pause", "login item"])
-        guard case .moved = outcome else {
+        guard case .moved(_, let stayed, _) = outcome else {
             Issue.record("Peel stayed: \(outcome)")
             return
         }
+        #expect(stayed.isEmpty)
+    }
+
+    @Test func saysTheHelpersLedgerStaysWhenTheHelperWasUninstalledFirst() async throws {
+        let directory = try TemporaryDirectory()
+        let log = StepLog(helperIsRegistered: false)
+        let app = try directory.directory("home/Applications/Peel.app")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+        let ledger = try directory.directory("root/var/db/org.example.helper")
+
+        let outcome = await SelfRemoval.remove(
+            [app], links: [], app: app, folder: folder, steps: steps(log, in: directory),
+            using: try service(in: directory)
+        ) { _ in }
+
+        guard case .moved(_, let stayed, _) = outcome else {
+            Issue.record("Peel stayed: \(outcome)")
+            return
+        }
+        #expect(stayed == [TrashFailure(url: ledger, reason: .failed(PrivilegedHelper.leftBehind))])
+        #expect(ledger.isThere)
     }
 
     @Test func anAccountThatCannotChangeTheHelperLeavesPeelAsItWas() async throws {

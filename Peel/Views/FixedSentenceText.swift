@@ -46,6 +46,7 @@ extension FixedSentence {
         case .homebrewNotInstalled: "Homebrew isn’t installed."
         case .helperUnavailable: "Peel’s helper isn’t answering. Repair it in Peel’s Settings."
         case .helperSaidNothing: "Peel’s helper said nothing about this one, so Peel doesn’t know what became of it."
+        case .helperLeftItBehind: "Peel’s helper couldn’t take this with it. To remove it, choose Go > Go to Folder in Finder, enter the folder it is in, and drag it to the Trash, which asks for an administrator."
         case .homebrewElsewhere: "Peel upgrades and uninstalls only with a Homebrew where Homebrew installs itself."
         }
     }

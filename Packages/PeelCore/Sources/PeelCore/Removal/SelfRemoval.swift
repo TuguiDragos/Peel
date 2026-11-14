@@ -177,7 +177,8 @@ public enum SelfRemoval {
         await steps.pauseWork()
         var ledger = PrivilegedHelper.LedgerMove.none
         var movedLinks = TrashResult()
-        if await steps.helperIsRegistered() {
+        let helperWasRegistered = await steps.helperIsRegistered()
+        if helperWasRegistered {
             (movedLinks, ledger) = await beforeTheHelperGoes(
                 links: links,
                 helperIsEnabled: await steps.helperIsEnabled(),
@@ -207,6 +208,9 @@ public enum SelfRemoval {
         var stayed = result.failures + movedLinks.failures
         if case .stayed(let failure) = ledger {
             stayed.append(failure)
+        } else if !helperWasRegistered, steps.ledger.isThere {
+            // A helper uninstalled before Peel leaves its ledger to an administrator.
+            stayed.append(TrashFailure(url: steps.ledger, reason: .failed(PrivilegedHelper.leftBehind)))
         }
         return .moved(app: moved, stayed: stayed, opensAtLogin: opensAtLogin)
     }

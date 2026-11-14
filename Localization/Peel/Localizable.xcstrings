@@ -170584,6 +170584,112 @@
         }
       }
     },
+    "Peel’s helper couldn’t take this with it. To remove it, choose Go > Go to Folder in Finder, enter the folder it is in, and drag it to the Trash, which asks for an administrator." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocník Peelu tuto položku nemohl vzít s sebou. Pokud ji chcete odstranit, zvolte ve Finderu Otevřít > Otevřít složku, zadejte složku, ve které je, a přetáhněte ji do koše. Finder přitom požádá o údaje správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel konnte dies nicht mitnehmen. Um es zu entfernen, wähle im Finder „Gehe zu“ > „Gehe zu Ordner“, gib den Ordner ein, in dem es liegt, und ziehe es in den Papierkorb; der Finder fragt dann nach einem Administrator."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El asistente de Peel no ha podido llevarse esto consigo. Para eliminarlo, selecciona Ir > Ir a la carpeta en el Finder, introduce la carpeta en la que está y arrástralo a la papelera, que pide un administrador."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire de Peel n’a pas pu emporter cet élément avec lui. Pour le supprimer, choisissez Aller > Aller au dossier dans le Finder, saisissez le dossier où il se trouve, puis faites-le glisser dans la corbeille, ce qui demande l’autorisation d’un administrateur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente di Peel non è riuscito a portarlo con sé. Per rimuoverlo, scegli Vai > Vai alla cartella nel Finder, inserisci il percorso della cartella in cui si trova e trascinalo nel Cestino, operazione che richiede l’autorizzazione di un amministratore."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーは、これを一緒に取り除けませんでした。取り除くには、Finderで“移動”＞“フォルダへ移動”を選択し、これがあるフォルダを入力して、ゴミ箱にドラッグしてください。その際、Finderが管理者の認証を求めます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램이 이 항목을 함께 가져가지 못했습니다. 이 항목을 제거하려면 Finder에서 이동 > 폴더로 이동을 선택하고, 이 항목이 있는 폴더를 입력한 다음 이 항목을 휴지통으로 드래그하십시오. 이때 Finder가 관리자 인증을 요청합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel kon dit niet meenemen. Wil je het verwijderen, kies dan in Finder Ga > Ga naar map, voer de map in waarin het staat en sleep het naar de prullenmand, waarna Finder om een beheerder vraagt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnikowi Peel nie udało się zabrać tego ze sobą. Aby się tego pozbyć, wybierz w Finderze Idź > Idź do folderu, wpisz ścieżkę folderu, w którym to jest, i przeciągnij to do Kosza, a Finder poprosi o dane administratora."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar do Peel não conseguiu levar isto junto com ele. Para removê-lo, escolha Ir > Ir para Pasta no Finder, digite o caminho da pasta em que ele está e arraste-o para o Lixo, o que pede um administrador."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel nu a putut lua acest articol cu sine. Pentru a‑l elimina, alegeți Accesare > Accesare dosar în Finder, introduceți dosarul în care se află și trageți‑l în Coș, iar Finder va cere un administrator."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник Peel не смог забрать этот объект с собой. Чтобы удалить его, выберите в Finder «Переход» > «Переход к папке», введите путь к папке, в которой он находится, и перетащите его в Корзину: Finder запросит данные администратора."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram kunde inte ta med sig det här. Om du vill ta bort det väljer du Gå > Gå till mapp i Finder, anger mappen som det ligger i och drar det till papperskorgen, varpå Finder ber om en administratör."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı bunu kendisiyle birlikte götüremedi. Bunu kaldırmak için Finder’da Git > Klasöre Git’i seçin, bulunduğu klasörü girin ve onu Çöp Sepeti’ne sürükleyin; Finder bir yönetici ister."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник Peel не зміг забрати цей елемент із собою. Щоб вилучити його, у Finder виберіть Перехід > Перейти до папки, введіть шлях до папки, у якій він лежить, і перетягніть його в Смітник, після чого Finder попросить дані адміністратора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的帮助程序未能将此项一并带走。要移除它，请在“访达”中选取“前往”>“前往文件夹”，输入它所在的文件夹，然后将它拖到废纸篓，“访达”会要求管理员授权。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的輔助程式無法將此項目一併帶走。若要移除它，請在Finder中選擇「前往」>「前往檔案夾」，輸入它所在的檔案夾，然後將它拖到「垃圾桶」，Finder會要求管理者驗證。"
+          }
+        }
+      }
+    },
     "Peel’s helper didn’t answer in time, so whether it moved this isn’t known. If it did, History lists it the next time Peel opens." : {
       "localizations" : {
         "cs" : {
