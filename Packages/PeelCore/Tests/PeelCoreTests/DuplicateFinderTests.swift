@@ -761,6 +761,24 @@ struct DuplicateFinderTests {
         #expect(result.removing(gone).groups.map { $0.files[0].url.lastPathComponent } == ["Other.mov"])
     }
 
+    @Test func afterAnotherPageTookTheKeptCopyOneOfTheRestStillStays() async throws {
+        let directory = try TemporaryDirectory()
+        let bytes = randomData(count: 200_000)
+        try directory.file("home/Documents/Film.mov", contents: bytes)
+        try directory.file("home/Downloads/Film.mov", contents: bytes)
+        try directory.file("home/Desktop/Film.mov", contents: bytes)
+        let result = try await scan(directory)
+        let group = try #require(result.groups.first)
+        let selected = result.suggestedSelection
+        try FileManager.default.removeItem(at: group.files[0].url)
+
+        let gone = result.copiesGone(inGroupsHolding: selected)
+        let narrowed = result.narrowed(leavingOut: gone, files: selected, folders: [])
+
+        #expect(narrowed.scan.groups.first?.files.count == 2)
+        #expect(narrowed.files.count == 1)
+    }
+
     @Test func aMoveLeavesNoGroupOfCopiesThatCanNoLongerMove() {
         func file(_ name: String, heldBack: HoldBack? = nil) -> DuplicateFile {
             DuplicateFile(

@@ -329,6 +329,15 @@ public struct DuplicateScan: Sendable {
         return Set((files + folders).filter { $0.contains(where: urls.contains) }.joined().filter(\.isMissing))
     }
 
+    /// The list without `gone`, with what stays selected of `files` and `folders`: only what it still lists, and
+    /// never every copy of a group, since Peel always keeps one.
+    public func narrowed(
+        leavingOut gone: Set<URL>, files: Set<URL>, folders: Set<URL>
+    ) -> (scan: DuplicateScan, files: Set<URL>, folders: Set<URL>) {
+        let remaining = removing(gone)
+        return (remaining, remaining.keepingOneOfEach(files), remaining.keepingOneOfEachFolder(folders))
+    }
+
     public func removing(_ urls: Set<URL>) -> DuplicateScan {
         let remaining = groups.compactMap { group -> DuplicateGroup? in
             let files = group.files.filter { !urls.contains($0.url) }

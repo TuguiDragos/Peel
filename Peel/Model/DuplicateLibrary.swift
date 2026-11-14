@@ -153,10 +153,15 @@ final class DuplicateLibrary {
         guard current == generation, let latest = self.scan else { return }
         filteredBy = exclusions
         guard !excluded.isEmpty else { return }
-        let remaining = latest.removing(excluded)
-        self.scan = remaining
-        select(remaining.keepingOneOfEach(selectedURLs), folders: remaining.keepingOneOfEachFolder(selectedFolders))
-        if let selection, !remaining.holds(selection) {
+        narrow(latest, leavingOut: excluded)
+    }
+
+    /// Shows `scan` without `gone`, keeping selected only what it still lists, and never every copy of a group.
+    private func narrow(_ scan: DuplicateScan, leavingOut gone: Set<URL>) {
+        let narrowed = scan.narrowed(leavingOut: gone, files: selectedURLs, folders: selectedFolders)
+        self.scan = narrowed.scan
+        select(narrowed.files, folders: narrowed.folders)
+        if let selection, !narrowed.scan.holds(selection) {
             self.selection = nil
         }
     }
@@ -341,12 +346,7 @@ extension DuplicateLibrary: CarriesSelection {
         let trashed = Set(result.trashed.map(\.originalURL))
         // Reads the list again, since an exclusion can have narrowed it while the move ran.
         guard let latest = self.scan else { return result }
-        let remaining = latest.removing(trashed)
-        self.scan = remaining
-        unselect(trashed)
-        if let selection, !remaining.holds(selection) {
-            self.selection = nil
-        }
+        narrow(latest, leavingOut: trashed)
         return result
     }
 
@@ -357,12 +357,7 @@ extension DuplicateLibrary: CarriesSelection {
         guard let scan else { return }
         let gone = scan.copiesGone(inGroupsHolding: asked)
         guard !gone.isEmpty else { return }
-        let remaining = scan.removing(gone)
-        self.scan = remaining
-        unselect(gone)
-        if let selection, !remaining.holds(selection) {
-            self.selection = nil
-        }
+        narrow(scan, leavingOut: gone)
     }
 
     func deselect(_ part: CarriedSelection.Part) {
