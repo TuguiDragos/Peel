@@ -769,11 +769,22 @@ public enum Homebrew {
     public final class Answers: Sendable {
         private let known = Mutex<[[String]: String]>([:])
 
+        private let failure = Mutex<CommandFailure?>(nil)
+
         public init() {}
+
+        /// What `brew` said the last time it didn't answer, so a reading can say why it ended.
+        public var lastFailure: CommandFailure? { failure.withLock { $0 } }
 
         func answer(_ arguments: [String]) async -> String? {
             if let answer = known.withLock({ $0[arguments] }) { return answer }
-            let answer = await Homebrew.answerWithoutTheAPI(arguments, home: .homeDirectory)
+            let answer: String?
+            do {
+                answer = try await Homebrew.answer(arguments, readsTheAPI: false, home: .homeDirectory)
+            } catch {
+                failure.withLock { $0 = error }
+                answer = nil
+            }
             known.withLock { $0[arguments] = answer }
             return answer
         }

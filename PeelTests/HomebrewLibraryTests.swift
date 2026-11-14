@@ -72,6 +72,25 @@ private struct StandInBrew {
         }
     }
 
+    @Test func aBrewThatDoesNotAnswerIsAReadingThatFailed() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(
+            path: "PeelTests-brew-\(UUID().uuidString)", directoryHint: .isDirectory
+        )
+        let brew = folder.appending(path: "bin/brew")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        try FileManager.default.createDirectory(at: brew.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try Data("#!/bin/sh\necho 'Error: made up' >&2\nexit 1\n".utf8).write(to: brew)
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o755], ofItemAtPath: brew.path(percentEncoded: false)
+        )
+        let homebrew = HomebrewLibrary()
+
+        await Homebrew.$standIn.withValue(brew) { await homebrew.refresh() }
+
+        #expect(!homebrew.needsDefinitions)
+        #expect(homebrew.unanswered == .readingFailed)
+    }
+
     @Test func saysWhoseHomebrewItIsWhileItsDefinitionsAreMissing() async throws {
         let brew = try StandInBrew(hasDefinitions: false)
         let path = brew.folder.path(percentEncoded: false)
