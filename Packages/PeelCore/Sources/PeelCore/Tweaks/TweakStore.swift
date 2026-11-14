@@ -187,28 +187,27 @@ public struct TweakStore: Sendable, TweakStoring {
             : CFPreferencesCopyAppValue(key, name as CFString)
     }
 
+    /// The layer a tweak's own value is written to and read back from: this user's, for any host, never ByHost or
+    /// every account's. The "App" functions name the same layer for an app's domain, and can't name the global one.
+    static func ownLayer(of name: String) -> (application: CFString, user: CFString, host: CFString) {
+        (domain(name), kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
+    }
+
     private static func copyStored(_ key: CFString, from name: String) -> CFPropertyList? {
-        CFPreferencesCopyValue(key, domain(name), kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
+        let layer = ownLayer(of: name)
+        return CFPreferencesCopyValue(key, layer.application, layer.user, layer.host)
     }
 
     private static func set(_ key: CFString, to value: CFPropertyList?, in name: String) {
-        if name == globalDomain {
-            CFPreferencesSetValue(
-                key,
-                value,
-                kCFPreferencesAnyApplication,
-                kCFPreferencesCurrentUser,
-                kCFPreferencesAnyHost
-            )
-        } else {
-            CFPreferencesSetAppValue(key, value, name as CFString)
-        }
+        guard name == globalDomain else { return CFPreferencesSetAppValue(key, value, name as CFString) }
+        let layer = ownLayer(of: name)
+        CFPreferencesSetValue(key, value, layer.application, layer.user, layer.host)
     }
 
     private static func synchronize(_ name: String) -> Bool {
-        name == globalDomain
-            ? CFPreferencesSynchronize(kCFPreferencesAnyApplication, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
-            : CFPreferencesAppSynchronize(name as CFString)
+        guard name == globalDomain else { return CFPreferencesAppSynchronize(name as CFString) }
+        let layer = ownLayer(of: name)
+        return CFPreferencesSynchronize(layer.application, layer.user, layer.host)
     }
 
     /// Returns whether `key` is managed, for example by a configuration profile. `CFPreferencesAppValueIsForced`

@@ -261,6 +261,32 @@ struct TweakTests {
         !state.isOn || state.isManaged || stored != nil || state.text != nil || state.heldElsewhere != nil
     }
 
+    @Test func writesOnlyThisUsersLayerForAnyHost() {
+        let global = TweakStore.ownLayer(of: TweakStore.globalDomain)
+
+        #expect(global.application as String == kCFPreferencesAnyApplication as String)
+        #expect(global.user as String == kCFPreferencesCurrentUser as String)
+        #expect(global.host as String == kCFPreferencesAnyHost as String)
+        #expect(TweakStore.ownLayer(of: "org.example.app").host as String == kCFPreferencesAnyHost as String)
+    }
+
+    @Test func turnsATweakOnAndPutsItBackInItsDomain() throws {
+        let directory = try TemporaryDirectory()
+        let domain = directory.url.appending(path: "org.example.dock").path(percentEncoded: false)
+        let tweak = Tweak(
+            id: "test", domain: domain, key: "org-example-hide", kind: .aSwitch(.boolean(true)), restart: .none,
+            group: .dock, hasASystemControl: false, documentation: .undocumented
+        )
+        let store = TweakStore()
+
+        #expect(store.turnOn(tweak))
+        #expect(NSDictionary(contentsOfFile: domain + ".plist")?["org-example-hide"] as? Bool == true)
+        #expect(store.storedValue(of: tweak) as? Bool == true)
+
+        #expect(store.restore(nil, for: tweak))
+        #expect(store.storedValue(of: tweak) == nil)
+    }
+
     @Test func aTweakOnThroughAnotherLayerIsOnWithNothingStoredForThisUser() {
         let layers = TweakStore.Layers(everyAccount: kCFBooleanTrue)
         let elsewhere = TweakStore.heldElsewhere(of: .aSwitch(.boolean(true)), isOn: true, in: layers)
