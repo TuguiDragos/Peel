@@ -524,7 +524,7 @@ struct GeneralSettingsView: View {
                     }
                 }
                 // Homebrew removes the links its cask made, and no other.
-                if selfUninstall.leavesCommandLineTool(helper: helper.status),
+                if selfUninstall.leavesCommandLineTool(way: way, helper: helper.status),
                    ownCask?.commandLinks.contains(CommandLineTool.path) != true {
                     VStack(alignment: .leading, spacing: 4) {
                         Group {

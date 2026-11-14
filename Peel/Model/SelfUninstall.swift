@@ -111,13 +111,27 @@ final class SelfUninstall {
         "sudo rm -f /usr/local/bin/peel"
     }
 
-    /// Whether Remove Peel would leave `/usr/local/bin/peel` while it is Peel's own tool: only an administrator can
-    /// move it, and the helper that would is not enabled. For another program's `peel`, `removeCommand` would delete
-    /// a file that is not Peel's.
-    func leavesCommandLineTool(helper status: PrivilegedHelper.Status) -> Bool {
+    /// Whether removing Peel `way` would leave `/usr/local/bin/peel` while it is Peel's own tool. For another
+    /// program's `peel`, `removeCommand` would delete a file that is not Peel's.
+    func leavesCommandLineTool(way: Way, helper status: PrivilegedHelper.Status) -> Bool {
         let embedded = Bundle.main.bundleURL.appending(path: "Contents/Helpers/peel")
-        return status != .enabled && CommandLineTool.standing(embedded: embedded) == .installed
-            && FileAccess.requiresPrivilegesToRemove(URL(filePath: CommandLineTool.path))
+        return Self.leavesCommandLineTool(
+            way: way,
+            helper: status,
+            standing: CommandLineTool.standing(embedded: embedded),
+            needsAnAdministrator: FileAccess.requiresPrivilegesToRemove(URL(filePath: CommandLineTool.path))
+        )
+    }
+
+    /// A link to Peel's tool that only an administrator can move stays when Homebrew removes Peel, since its command
+    /// runs no step of Peel's, and when Remove Peel does while the helper that would take it isn't enabled.
+    static func leavesCommandLineTool(
+        way: Way, helper status: PrivilegedHelper.Status, standing: CommandLineTool.Standing,
+        needsAnAdministrator: Bool
+    ) -> Bool {
+        guard standing == .installed, needsAnAdministrator else { return false }
+        if case .homebrew = way { return true }
+        return status != .enabled
     }
 
     /// What Remove Peel asks of the helper along the way. Whether it is registered comes from macOS at that moment,

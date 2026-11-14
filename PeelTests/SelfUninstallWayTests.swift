@@ -19,6 +19,23 @@ struct SelfUninstallWayTests {
         #expect(!SelfUninstall.explanation(of: .leftToFinder).contains("Log in"))
     }
 
+    @Test func saysThePeelCommandStaysWheneverHomebrewRemovesPeel() {
+        func leaves(_ way: SelfUninstall.Way, _ status: PrivilegedHelper.Status, needs: Bool = true) -> Bool {
+            SelfUninstall.leavesCommandLineTool(
+                way: way, helper: status, standing: .installed, needsAnAdministrator: needs
+            )
+        }
+
+        #expect(leaves(.homebrew("brew uninstall --zap --cask peel"), .enabled))
+        #expect(!leaves(.removePeel, .enabled))
+        #expect(leaves(.removePeel, .requiresApproval))
+        #expect(!leaves(.homebrew("brew uninstall --zap --cask peel"), .enabled, needs: false))
+        #expect(!SelfUninstall.leavesCommandLineTool(
+            way: .homebrew("brew uninstall --zap --cask peel"), helper: .enabled, standing: .missing,
+            needsAnAdministrator: true
+        ))
+    }
+
     @Test func waitsForHomebrewToSayWhetherItInstalledThisCopy() {
         let cask = HomebrewPackage(name: "peel", kind: .cask, installedVersion: "1.2.1")
 
