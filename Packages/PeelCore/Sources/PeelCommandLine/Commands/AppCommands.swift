@@ -279,6 +279,9 @@ struct LeftoversCommand: AsyncParsableCommand {
         if leftover.isALoadedJob {
             summary += ", loaded in launchd"
         }
+        if leftover.holdsDamagedSettings {
+            summary += ", settings file is damaged"
+        }
         return summary
     }
 

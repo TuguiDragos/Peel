@@ -667,6 +667,21 @@ struct CommandLineTests {
         #expect(LeftoversCommand.summary(of: leftover).hasSuffix(", loaded in launchd"))
     }
 
+    @Test func aLeftoverWhoseSettingsAreDamagedSaysSo() throws {
+        let match = LeftoverMatch(reason: .bundleIdentifier, confidence: .certain, sharedWith: [])
+        var leftover = Leftover(
+            url: URL(filePath: "/Users/me/Library/Preferences/org.example.tide.plist"), kind: .preferences,
+            match: match, size: 12, isMeasured: true, requiresPrivileges: false
+        )
+        leftover.holdsDamagedSettings = true
+
+        let json = try Output.jsonText([LeftoverRecord(leftover)])
+        let records = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [[String: Any]])
+
+        #expect(records[0]["damaged"] as? Bool == true)
+        #expect(LeftoversCommand.summary(of: leftover).hasSuffix(", settings file is damaged"))
+    }
+
     @Test func aPathReadsTheSameWhetherOrNotAnythingIsThere() throws {
         let directory = try TemporaryDirectory()
         let there = try directory.file("there.txt")

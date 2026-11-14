@@ -73,12 +73,15 @@ struct OrphansCommand: AsyncParsableCommand {
             let heldBack: String?
             /// Where the file leads when it is a symbolic link, which moving it leaves in place, or `null`.
             var leadsTo: String?
+            /// True for a settings file that isn't a property list any app can read.
+            var damaged = false
 
             private enum CodingKeys: String, CodingKey {
                 case path
                 case size
                 case heldBack
                 case leadsTo
+                case damaged
             }
 
             /// Encodes a missing `heldBack` as `null`, for the reason `AppRecord` gives.
@@ -88,6 +91,7 @@ struct OrphansCommand: AsyncParsableCommand {
                 try container.encode(size, forKey: .size)
                 try container.encode(heldBack, forKey: .heldBack)
                 try container.encode(leadsTo, forKey: .leadsTo)
+                try container.encode(damaged, forKey: .damaged)
             }
         }
     }
@@ -209,7 +213,7 @@ struct OrphansCommand: AsyncParsableCommand {
                         let size = MeasuredSize(item.size)
                         return Report.File(
                             path: Output.path(item.url), size: size, heldBack: whyItStays(item)?.name,
-                            leadsTo: item.leadsTo.map(Output.path)
+                            leadsTo: item.leadsTo.map(Output.path), damaged: item.holdsDamagedSettings
                         )
                     }
                 )
@@ -277,8 +281,12 @@ struct OrphansCommand: AsyncParsableCommand {
 
     static func rows(for group: OrphanGroup) -> [[String]] {
         group.items.map { item in
-            let notes = [whyItStays(item).map { "stays: \($0.summary)" }, item.leadsTo.map { "a link to \(Output.path($0))" }]
-                .compactMap(\.self)
+            let notes = [
+                whyItStays(item).map { "stays: \($0.summary)" },
+                item.leadsTo.map { "a link to \(Output.path($0))" },
+                item.holdsDamagedSettings ? "settings file is damaged" : nil,
+            ]
+            .compactMap(\.self)
             return [Output.size(item.size), Output.path(item.url)] + (notes.isEmpty ? [] : [notes.joined(separator: ", ")])
         }
     }
