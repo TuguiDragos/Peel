@@ -72,6 +72,32 @@ private struct StandInBrew {
         }
     }
 
+    @Test func aPackageTheExclusionsKeepIsNeverUninstalledOrUpgraded() async throws {
+        let installed = #"{"formulae":[],"casks":[{"token":"kept","installed":"1.0","version":"2.0","outdated":true,"artifacts":[{"uninstall":[{"quit":"org.example.kept"}]}]}]}"#
+        let brew = try StandInBrew(info: "echo '\(installed)'")
+        defer { brew.goAway() }
+        var exclusions = Exclusions(bundleIdentifiers: ["org.example.kept"])
+        let homebrew = HomebrewLibrary(exclusions: { exclusions })
+
+        await Homebrew.$standIn.withValue(brew.url) { await homebrew.refresh() }
+        let package = try #require(homebrew.packages?.first { $0.name == "kept" })
+
+        #expect(homebrew.exclusionRefusal(of: package)?.key == "Excluded in Settings")
+        for command in [HomebrewLibrary.Command.uninstall(package.id), .upgrade(package.id)] {
+            let result = await Homebrew.$standIn.withValue(brew.url) { await homebrew.run(command) }
+            #expect(result?.ending == .notRun)
+        }
+        let asked = try brew.asked()
+        #expect(!asked.contains("uninstall") && !asked.contains("upgrade"), "asked \(asked)")
+
+        exclusions = .none
+        #expect(homebrew.exclusionRefusal(of: package) == nil)
+        exclusions = .notYetRead
+        #expect(homebrew.exclusionRefusal(of: package)?.key == "Checking…")
+        exclusions = .unreadable(because: nil)
+        #expect(homebrew.exclusionRefusal(of: package)?.key == "Exclusions can’t be read: see Settings")
+    }
+
     @Test func aBrewThatDoesNotAnswerIsAReadingThatFailed() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(
             path: "PeelTests-brew-\(UUID().uuidString)", directoryHint: .isDirectory

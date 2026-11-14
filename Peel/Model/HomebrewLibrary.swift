@@ -22,13 +22,17 @@ final class HomebrewLibrary {
     let quittingToUpgrade = QuitBeforeRemoving()
     let quittingToUninstall = QuitBeforeRemoving()
     @ObservationIgnored private let ownProgram: () -> OwnProgram
+    /// Where the exclusions are read, each time they are asked: what is excluded keeps Homebrew from deleting it.
+    @ObservationIgnored private let readExclusions: () -> Exclusions
 
     init(
         appsOfCask: @escaping (HomebrewPackage) -> [InstalledApp] = { _ in [] },
-        ownProgram: @escaping () -> OwnProgram = OwnProgram.init
+        ownProgram: @escaping () -> OwnProgram = OwnProgram.init,
+        exclusions: @escaping () -> Exclusions = { ExclusionsStore.shared.exclusions }
     ) {
         self.appsOfCask = appsOfCask
         self.ownProgram = ownProgram
+        readExclusions = exclusions
     }
 
     enum Command: Equatable {
@@ -352,21 +356,21 @@ final class HomebrewLibrary {
     /// `upgradable`, asked anew of the exclusions and the disk, for what is about to run.
     var upgradableNow: [HomebrewPackage] {
         guard !overrides.contains(.cleansUp), !Homebrew.leavesChangesToTerminal else { return [] }
-        return ExclusionsStore.shared.exclusions.joiningUpgradeAll(
+        return readExclusions().joiningUpgradeAll(
             outdated, appsOf: appsOfCask, installation: installation, installed: packages ?? []
         )
     }
 
     private func exclusionAnswer(of package: HomebrewPackage) -> Bool? {
         exclusionAnswers.answer(
-            ExclusionsStore.shared.exclusions, of: package, apps: appsOfCask(package), installation: installation
+            readExclusions(), of: package, apps: appsOfCask(package), installation: installation
         )
     }
 
     /// Why the exclusions keep Homebrew from changing `package`, or nil when they don't: an upgrade deletes the version
     /// it replaces for good, as `brew uninstall` deletes the package.
     func exclusionRefusal(of package: HomebrewPackage) -> LocalizedStringResource? {
-        let exclusions = ExclusionsStore.shared.exclusions
+        let exclusions = readExclusions()
         if exclusions.isUnreadable { return "Exclusions can’t be read: see Settings" }
         if !exclusions.hasBeenRead { return "Checking…" }
         switch exclusions.excludes(package, apps: appsOfCask(package), installation: installation) {
@@ -390,7 +394,18 @@ final class HomebrewLibrary {
     static let cantLookInside: LocalizedStringResource = "Peel couldn’t look inside this package’s folders to check them against your exclusions"
 
     func isExcluded(_ package: HomebrewPackage) -> Bool {
-        ExclusionsStore.shared.exclusions.isKnown && exclusionAnswer(of: package) == true
+        readExclusions().isKnown && exclusionAnswer(of: package) == true
+    }
+
+    /// Why the exclusions keep `command` from running, asked again as it starts, since they can change after the page
+    /// asked: an upgrade deletes the version it replaces for good, and `brew uninstall` the package.
+    func exclusionRefusal(of command: Command) -> LocalizedStringResource? {
+        switch command {
+        case .upgrade(let id): (packages ?? []).first { $0.id == id }.flatMap(upgradeRefusal(of:))
+        case .uninstall(let id): (packages ?? []).first { $0.id == id }.flatMap(exclusionRefusal(of:))
+        case .upgradeAll, .update, .cleanup, .clearOlderDownloads, .clearEveryDownload, .repairTaps, .health,
+             .vulnerabilities: nil
+        }
     }
 
     /// How many packages of `kind` are installed, or nil while Homebrew hasn't said what is installed.
@@ -543,8 +558,7 @@ final class HomebrewLibrary {
         needsDefinitions = false
         // The other questions take about as long as each other, so they run at the same time. Only the page shows the
         // cleanup's figure.
-        let exclusions = ExclusionsStore.shared.exclusions
-        let kept = (try? exclusions.keptFormulae(inCellar: found.cellar).get()) ?? []
+        let kept = (try? readExclusions().keptFormulae(inCellar: found.cellar).get()) ?? []
         async let preview = includingReclaimable ? Homebrew.cleanupPreview(asWrittenBy: found, keeping: kept) : nil
         let installed: Result<[HomebrewPackage], Homebrew.CommandFailure>
         var overridden: Homebrew.Overrides?
@@ -610,7 +624,7 @@ final class HomebrewLibrary {
         forgetting = Set(casks.map(\.id))
         defer { (forgetting, isReadingWhatChanged) = ([], false) }
         let result = await QuitGuard.shared.run {
-            let result = await HomebrewReceipt.forget(casks, exclusions: ExclusionsStore.shared.exclusions)
+            let result = await HomebrewReceipt.forget(casks, exclusions: readExclusions())
             // Written down before Homebrew is read again, which can take a while: History is the way back.
             await record(result)
             return result
@@ -641,6 +655,9 @@ final class HomebrewLibrary {
 
     /// Nil for a command that only looks and keeps what it found in `findings` or `advisories`.
     private func outcome(of command: Command) async -> CommandResult? {
+        if let refusal = exclusionRefusal(of: command) {
+            return CommandResult(ending: .notRun, output: String(localized: refusal))
+        }
         if !command.onlyLooks {
             findings = nil
             advisories = nil
@@ -719,7 +736,7 @@ final class HomebrewLibrary {
     /// The formulae the exclusions cover, read now, for a command the person runs in Terminal, or none when Peel
     /// can't tell which they are.
     var keptFormulaeNow: [String] {
-        installation.flatMap { try? ExclusionsStore.shared.exclusions.keptFormulae(inCellar: $0.cellar).get() } ?? []
+        installation.flatMap { try? readExclusions().keptFormulae(inCellar: $0.cellar).get() } ?? []
     }
 
     /// The formulae Homebrew is told to keep, or what Peel says when it runs nothing.
@@ -733,7 +750,7 @@ final class HomebrewLibrary {
     private func keptFormulae() async -> Keeping {
         guard let cellar = installation?.cellar else { return .nothingRuns(keepsNothing) }
         let kept: [String]
-        switch ExclusionsStore.shared.exclusions.keptFormulae(inCellar: cellar) {
+        switch readExclusions().keptFormulae(inCellar: cellar) {
         case .success(let names): kept = names
         case .failure(let closed):
             let folder = closed.folder.abbreviatedPath
