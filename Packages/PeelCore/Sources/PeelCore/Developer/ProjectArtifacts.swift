@@ -568,10 +568,16 @@ public enum ProjectArtifacts {
             source: "https://peps.python.org/pep-0405/", proof: .holdsAtOrOneLevelDown("pyvenv.cfg"),
             isFoundOnlyByItsTag: true
         ),
-        // And beside a Python project's own file, any folder holding `pyvenv.cfg` is one, whatever it is called.
+        // And any folder holding `pyvenv.cfg` is one, whatever it is called and wherever it is.
         Definition(
-            name: "*", markers: pythonProjectFiles, tool: "Python", isGeneric: false, isEnvironment: true,
+            name: "*", markers: [], tool: "Python", isGeneric: false, isEnvironment: true,
             source: "https://peps.python.org/pep-0405/", proof: .holds("pyvenv.cfg")
+        ),
+        // A conda environment made in a folder (`conda create -p ./env`) keeps its history in `conda-meta`.
+        Definition(
+            name: "*", markers: [], tool: "conda", isGeneric: false, isEnvironment: true,
+            source: "https://github.com/conda/conda/blob/7a36b1bb51517df7afad108e05bfc70e0a5e1a19/conda/history.py#L93-L94",
+            proof: .holds("conda-meta/history")
         ),
         Definition(
             name: "__pycache__", markers: [], tool: "Python", isGeneric: false,

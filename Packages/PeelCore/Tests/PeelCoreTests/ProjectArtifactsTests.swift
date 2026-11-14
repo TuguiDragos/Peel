@@ -1246,10 +1246,29 @@ struct ProjectArtifactsTests {
         let found = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Projects")]).artifacts
 
         let rows = Dictionary(uniqueKeysWithValues: found.map { ("\($0.project.lastPathComponent)/\($0.name)", $0) })
-        #expect(Set(rows.keys) == ["api/venv311", "api/.venv-3.12", "api/py312"])
+        #expect(Set(rows.keys) == ["api/venv311", "api/.venv-3.12", "api/py312", "notes/py312"])
         for row in rows.values {
             #expect(row.isEnvironment && row.tool == "Python" && !row.isRecommended, "\(row.name)")
         }
+    }
+
+    @Test func anEnvironmentWithNoProjectBesideItIsOneRowNotItsPackages() async throws {
+        let directory = try TemporaryDirectory()
+        for (environment, mark) in [("scripts/env", "pyvenv.cfg"), ("notebooks/env", "conda-meta/history")] {
+            try directory.file("Projects/\(environment)/\(mark)", bytes: 16)
+            for package in ["pip", "pip/_internal", "setuptools"] {
+                try directory.file(
+                    "Projects/\(environment)/lib/python3.12/site-packages/\(package)/__pycache__/a.cpython-312.pyc",
+                    bytes: 16
+                )
+            }
+        }
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url.appending(path: "Projects")]).artifacts
+
+        #expect(Set(found.map { "\($0.project.lastPathComponent)/\($0.name)" }) == ["scripts/env", "notebooks/env"])
+        #expect(found.allSatisfy { $0.isEnvironment && !$0.isRecommended })
     }
 
     @Test func aFolderGitTracksIsListedAndNeverSelected() async throws {
