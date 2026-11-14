@@ -204,6 +204,21 @@ struct PackageReceiptsTests {
         #expect(folders.inAHome.contains("/library"))
     }
 
+    @Test func readsTheFoldersANewHomeStartsWithWhereALinkLeads() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("User Template/Non_localized/Library/Sounds")
+        let link = directory.url.appending(path: "Template")
+        try FileManager.default.createSymbolicLink(
+            at: link, withDestinationURL: directory.url.appending(path: "User Template")
+        )
+
+        let folders = await PackageReceipts.foldersMacOSMakes(
+            pkgutil: { _ in nil }, homeTemplate: link.appending(path: "Non_localized", directoryHint: .isDirectory)
+        )
+
+        #expect(folders.inAHome.isSuperset(of: ["/library", "/library/sounds"]))
+    }
+
     @Test func offersWhatAPackagePutInAFolderMacOSMakes() {
         let jdk = "Library/Java/JavaVirtualMachines/temurin-21.jdk"
         let files = ["Library", "Library/Java", "Library/Java/JavaVirtualMachines", jdk, "\(jdk)/Contents",

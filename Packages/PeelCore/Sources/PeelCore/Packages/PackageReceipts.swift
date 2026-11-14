@@ -59,12 +59,11 @@ public enum PackageReceipts {
             }
         }
         var inAHome = Set(onTheDisk.filter { PathComponents.isPath($0, atOrInside: "/library") })
-        let root = homeTemplate.path(percentEncoded: false)
-        let walk = FileManager.default.enumerator(at: homeTemplate, includingPropertiesForKeys: [.isDirectoryKey])
-        while let url = walk?.nextObject() as? URL {
-            guard (try? url.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true else { continue }
-            let relative = PathComponents.of(url.path(percentEncoded: false)).dropFirst(PathComponents.of(root).count)
-            inAHome.insert(("/" + relative.joined(separator: "/")).lowercased())
+        // By path, which names each entry from the template: by URL, the walk names it with the links resolved.
+        let walk = FileManager.default.enumerator(atPath: homeTemplate.path(percentEncoded: false))
+        while let relative = walk?.nextObject() as? String {
+            guard walk?.fileAttributes?[.type] as? FileAttributeType == .typeDirectory else { continue }
+            inAHome.insert(("/" + relative).lowercased())
         }
         return FoldersMacOSMakes(onTheDisk: onTheDisk, inAHome: inAHome)
     }
