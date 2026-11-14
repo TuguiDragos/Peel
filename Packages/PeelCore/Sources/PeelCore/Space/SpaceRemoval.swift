@@ -195,6 +195,17 @@ public enum SpaceRemoval {
         return (children.removable, children.inUse)
     }
 
+    /// Which of `urls` something wrote to in the last 15 minutes, read again now: a plan made earlier didn't see what
+    /// a service wrote since.
+    @concurrent
+    public static func writtenRecently(_ urls: [URL]) async -> Set<URL> {
+        var written: Set<URL> = []
+        for url in urls {
+            if HoldBack.wasWrittenRecently(url, contents: await FileSize.contents(of: url)) { written.insert(url) }
+        }
+        return written
+    }
+
     private static func children(
         of item: SpaceItem,
         environment: SearchEnvironment,

@@ -233,11 +233,20 @@ extension SpaceLibrary: CarriesSelection {
         let exclusions = ExclusionsStore.shared.exclusions
         let chosen = selectedURLs.intersection(part.sizes.keys)
         let now = await SpaceRemoval.movableNow(in: item, exclusions: exclusions, running: RunningCopies.current)
-        let removable = now.removable.filter(chosen.contains)
+        let chosenNow = now.removable.filter(chosen.contains)
+        // What a service wrote since the plan stays, as a new plan would keep it. A folder the plan kept already, and
+        // the person chose anyway, goes.
+        let keptByThePlan = plans[item.id]?.heldBack ?? [:]
+        let written = item.holdsBackRecentWrites
+            ? await SpaceRemoval.writtenRecently(chosenNow.filter { keptByThePlan[$0] != .writtenRecently }) : []
+        let removable = chosenNow.filter { !written.contains($0) }
         var result = await TrashService(exclusions: exclusions)
             .trash(removable, usingHelperFor: Set(removable.filter(FileAccess.requiresPrivilegesToRemove)))
         result.failures += now.inUse.filter { chosen.contains($0.url) }.map {
             TrashFailure(url: $0.url, reason: .heldOpen(by: [$0.name]))
+        }
+        result.failures += written.sorted { $0.path() < $1.path() }.map {
+            TrashFailure(url: $0, reason: .changedSinceScan)
         }
         return result
     }

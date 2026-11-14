@@ -634,6 +634,29 @@ struct SpaceRemovalTests {
 
     /// A move asks again just before it moves anything, since an app opened since the plan may be writing to some
     /// of these folders. It needs to know what may go, not how big it is, and it finds what a plan would.
+    @Test func theMovesCheckKeepsWhatWasWrittenSinceThePlan() async throws {
+        let directory = try TemporaryDirectory()
+        let old = try directory.file("root/Library/Caches/org.example.service/data.db")
+        let twoHoursAgo = Date.now.addingTimeInterval(-7200)
+        for url in [old, old.deletingLastPathComponent()] {
+            try FileManager.default.setAttributes(
+                [.modificationDate: twoHoursAgo], ofItemAtPath: url.path(percentEncoded: false)
+            )
+        }
+        let report = await SpaceInventory.scan(
+            home: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            root: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            minimumSize: 1, measure: LeftoverScanner.walk
+        )
+        let caches = try #require(report.items.first { $0.id == "system-caches" })
+        let plan = await SpaceRemoval.plan(for: caches, environment: environment(directory), running: [:])
+        let service = old.deletingLastPathComponent()
+        #expect(plan.heldBack[service] == nil, "the plan offers what nothing wrote to for two hours")
+        try directory.file("root/Library/Caches/org.example.service/written-now.db")
+
+        #expect(await SpaceRemoval.writtenRecently([service]) == [service])
+    }
+
     @Test func theMovesCheckFindsWhatAPlanWould() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/com.spotify.client/audio.db")
