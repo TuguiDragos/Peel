@@ -939,6 +939,30 @@ struct FileCommandTests {
         #expect(DuplicatesCommand.refusal(for: .none, savedAt: saved) == nil)
     }
 
+    @Test func saysWhyNothingMovesWithTheReasonItHas() {
+        func file(_ path: String, heldBack: HoldBack? = nil) -> DuplicateFile {
+            DuplicateFile(
+                url: URL(filePath: path), size: 100, reclaimableSize: 100, allocatedSize: 100,
+                identity: FileIdentity(stat()), heldBack: heldBack
+            )
+        }
+        func scan(_ groups: [DuplicateGroup]) -> DuplicateScan {
+            DuplicateScan(groups: groups, unreadableLocations: [], skippedLocations: [])
+        }
+        let shared = DuplicateGroup(id: "a", files: [file("/Users/me/Documents/a.bin"), file("/Users/Shared/a.bin")])
+        let synced = DuplicateGroup(
+            id: "b", files: [file("/Users/me/b.bin"), file("/Users/me/Synced/b.bin", heldBack: .inTheCloud)]
+        )
+
+        #expect(scan([shared]).whyNothingMoves == .theOthersAreShared)
+        #expect(scan([synced]).whyNothingMoves == .everyOtherCopySyncs)
+        #expect(scan([shared, synced]).whyNothingMoves == .theOthersStay)
+        #expect(scan([]).whyNothingMoves == nil)
+        #expect(!DuplicatesCommand.nothingToMove(in: scan([shared])).contains("syncs"))
+        #expect(DuplicatesCommand.nothingToMove(in: scan([shared])).contains("/Users/Shared"))
+        #expect(DuplicatesCommand.rows(for: shared).map(\.first) == ["keep", "shared"])
+    }
+
     /// `peel duplicates --json` names the folders it couldn't read and the chosen folders it didn't look in.
     @Test func theDuplicatesReportSaysWhereItCouldNotLook() throws {
         let scan = DuplicateScan(

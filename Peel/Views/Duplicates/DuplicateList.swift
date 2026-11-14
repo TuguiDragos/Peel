@@ -167,12 +167,21 @@ struct DuplicateList: View {
         .navigationTitle(Text(Tool.duplicates.title))
     }
 
+    /// What VoiceOver hears when the copies a scan found would all stay.
+    static func words(for reason: DuplicateScan.NothingMoves) -> AttributedString {
+        switch reason {
+        case .everyOtherCopySyncs: AttributedString(localized: "Nothing to move: every other copy syncs to your other devices.")
+        case .theOthersAreShared:
+            AttributedString(localized: "Nothing to move: the other copies are in /Users/Shared, which every account on this Mac may use, so Peel suggests none of them.")
+        case .theOthersStay: AttributedString(localized: "Nothing to move: Peel keeps every other copy where it is.")
+        }
+    }
+
     /// What VoiceOver hears when a scan ends: what it found, then the folders Peel couldn't read and the chosen
     /// folders it set aside, each kind in its own words.
     private var summary: AttributedString? {
         guard let scan = duplicates.scan else { return duplicates.summary }
-        let found = duplicates.summary ?? (scan.groups.isEmpty && scan.folderGroups.isEmpty
-            ? nil : AttributedString(localized: "Nothing to move: every other copy syncs to your other devices."))
+        let found = duplicates.summary ?? scan.whyNothingMoves.map(Self.words(for:))
         guard var words = found else { return nil }
         if !scan.unreadableLocations.isEmpty {
             let count = scan.unreadableLocations.count

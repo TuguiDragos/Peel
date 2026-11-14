@@ -997,12 +997,25 @@ struct DuplicatesCommand: AsyncParsableCommand {
         copies.enumerated().map { index, url in [index == 0 ? "keep" : "", Output.path(url)] }
     }
 
-    /// One row per copy of a file: one Peel never moves is marked "stays", and the first that may move "keep",
-    /// unless a copy that stays keeps the bytes and every other may go.
+    /// One row per copy of a file: one Peel never moves is marked "stays", the first that may move "keep", unless a
+    /// copy that stays keeps the bytes and every other may go, and one in /Users/Shared, never suggested, "shared".
     static func rows(for group: DuplicateGroup) -> [[String]] {
         let kept = group.holdsACopyWithWhatOthersLack ? nil : group.movableFiles.first?.url
         return group.files.map { file in
-            [file.heldBack != nil ? "stays" : file.url == kept ? "keep" : "", Output.path(file.url)]
+            let word = file.heldBack != nil ? "stays"
+                : file.url == kept ? "keep" : file.isSharedWithEveryone ? "shared" : ""
+            return [word, Output.path(file.url)]
+        }
+    }
+
+    /// What `clean` says when there is nothing to move, and why.
+    static func nothingToMove(in scan: DuplicateScan) -> String {
+        switch scan.whyNothingMoves {
+        case nil: "No duplicates found."
+        case .everyOtherCopySyncs: "Nothing to move: every other copy syncs to your other devices."
+        case .theOthersAreShared:
+            "Nothing to move: the other copies are in /Users/Shared, which every account on this Mac may use, so Peel suggests none of them."
+        case .theOthersStay: "Nothing to move: Peel keeps every other copy where it is."
         }
     }
 
@@ -1015,10 +1028,7 @@ struct DuplicatesCommand: AsyncParsableCommand {
         let folders = scan.folderGroups.flatMap { $0.folders.dropFirst() }
         let files = scan.groups.flatMap(\.suggestedFiles)
         guard !folders.isEmpty || !files.isEmpty else {
-            Output.line(
-                scan.groups.isEmpty && scan.folderGroups.isEmpty
-                    ? "No duplicates found." : "Nothing to move: every other copy syncs to your other devices."
-            )
+            Output.line(Self.nothingToMove(in: scan))
             return
         }
         // Where each group's kept copy is comes first, and the copies that sync, which stay: it is what the

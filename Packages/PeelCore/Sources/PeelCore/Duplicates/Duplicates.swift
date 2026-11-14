@@ -237,6 +237,24 @@ public struct DuplicateScan: Sendable {
         groups.count { !$0.suggestedFiles.isEmpty } + folderGroups.count
     }
 
+    /// Why no copy would move, for a scan that found copies and suggests none of them.
+    public enum NothingMoves: Sendable {
+        /// In every group a copy syncs to other devices.
+        case everyOtherCopySyncs
+        /// In every group a copy is in `/Users/Shared`, which every account on this Mac may use.
+        case theOthersAreShared
+        /// The copies stay for reasons that differ from group to group.
+        case theOthersStay
+    }
+
+    /// Why nothing would move, or nil when something would or nothing was found.
+    public var whyNothingMoves: NothingMoves? {
+        guard !groups.isEmpty, groupsWithSomethingToMove == 0 else { return nil }
+        if groups.allSatisfy(\.holdsASyncedCopy) { return .everyOtherCopySyncs }
+        if groups.allSatisfy({ $0.files.contains(where: \.isSharedWithEveryone) }) { return .theOthersAreShared }
+        return .theOthersStay
+    }
+
     /// Returns `selection` limited to what this scan can still move: only files it lists, and never every copy of
     /// a group, which the move refuses. When every copy left in a group is selected, its first copy is kept.
     public func keepingOneOfEach(_ selection: Set<URL>) -> Set<URL> {

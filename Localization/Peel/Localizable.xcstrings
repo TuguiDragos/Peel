@@ -134031,6 +134031,112 @@
         }
       }
     },
+    "Nothing to move: Peel keeps every other copy where it is." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Není co přesunout: Peel ponechává všechny další kopie tam, kde jsou."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nichts zu verschieben: Peel lässt jede andere Kopie, wo sie ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada que trasladar: Peel deja todas las demás copias donde están."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien à déplacer : Peel laisse toutes les autres copies en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niente da spostare: Peel lascia ogni altra copia dov’è."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動できるものはありません。残すコピー以外も、Peelはすべてそのままの場所に残します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이동할 항목 없음: Peel은 나머지 복사본을 모두 제자리에 유지합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niets te verplaatsen: Peel laat elke andere kopie staan waar die staat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie ma nic do przeniesienia: Peel zostawia każdą inną kopię na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada para mover: o Peel mantém todas as outras cópias onde estão."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nimic de mutat: Peel păstrează fiecare copie în plus acolo unde se află."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нечего перемещать: Peel оставляет все остальные копии на месте."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inget att flytta: Peel låter alla andra kopior ligga kvar där de är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taşınacak bir şey yok: Peel geri kalan her kopyayı olduğu yerde tutuyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Немає чого переміщувати: Peel залишає всі інші копії на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有可移动的内容：Peel会将其他每个副本保留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有可移動的項目：Peel會將其他每份副本保留在原處。"
+          }
+        }
+      }
+    },
     "Nothing to move: every other copy syncs to your other devices." : {
       "localizations" : {
         "cs" : {
@@ -134133,6 +134239,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒有可移動的項目：其他每份副本都會與你的其他裝置同步。"
+          }
+        }
+      }
+    },
+    "Nothing to move: the other copies are in /Users/Shared, which every account on this Mac may use, so Peel suggests none of them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Není co přesunout: další kopie jsou ve složce /Users/Shared, kterou mohou používat všechny účty v tomto Macu, a proto Peel žádnou z nich nenavrhuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nichts zu verschieben: Die anderen Kopien liegen in /Users/Shared, einem Ordner, den jeder Benutzeraccount auf diesem Mac verwenden darf, daher schlägt Peel keine davon vor."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada que trasladar: las demás copias están en /Users/Shared, que pueden usar todas las cuentas de este Mac, así que Peel no sugiere ninguna."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien à déplacer : les autres copies se trouvent dans /Users/Shared, que tous les comptes de ce Mac peuvent utiliser, et Peel n’en suggère donc aucune."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niente da spostare: le altre copie si trovano in /Users/Shared, che ogni account di questo Mac può usare, quindi Peel non ne suggerisce nessuna."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動できるものはありません。残すコピー以外は、このMacのすべてのアカウントが使用できる/Users/Sharedにあるため、Peelはどれもおすすめしません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이동할 항목 없음: 나머지 복사본은 이 Mac의 모든 계정이 사용할 수 있는 /Users/Shared에 있으므로 Peel은 어느 것도 추천하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niets te verplaatsen: de andere kopieën staan in /Users/Shared, een map die elke account op deze Mac mag gebruiken, dus stelt Peel er geen enkele voor."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie ma nic do przeniesienia: pozostałe kopie są w folderze /Users/Shared, z którego może korzystać każde konto na tym Macu, więc Peel nie proponuje żadnej z nich."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada para mover: as outras cópias estão em /Users/Shared, que todas as contas deste Mac podem usar, então o Peel não sugere nenhuma delas."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nimic de mutat: celelalte copii se află în /Users/Shared, pe care îl pot folosi toate conturile de pe acest Mac, așa că Peel nu propune niciuna dintre ele."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нечего перемещать: остальные копии находятся в папке /Users/Shared, которой может пользоваться любая учетная запись на этом Mac, поэтому Peel не предлагает ни одну из них."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inget att flytta: de andra kopiorna ligger i /Users/Shared, som alla konton på den här datorn kan använda, så Peel föreslår ingen av dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taşınacak bir şey yok: diğer kopyalar, bu Mac’teki her hesabın kullanabileceği /Users/Shared klasöründe, bu yüzden Peel hiçbirini önermiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Немає чого переміщувати: інші копії лежать у папці /Users/Shared, якою можуть користуватися всі облікові записи на цьому Mac, тож Peel не пропонує жодної з них."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有可移动的内容：其他副本位于/Users/Shared中，这台Mac上的每个账户都可以使用该文件夹，因此Peel不会建议移除其中任何一个。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有可移動的項目：其他副本位於/Users/Shared中，這部Mac上的每個帳號都可能使用該處，因此Peel不會建議移除其中任何一份。"
           }
         }
       }
