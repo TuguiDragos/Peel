@@ -73,7 +73,9 @@ struct SavedSettingsSection: View {
     private func row(for copy: PreferenceBackup.Copy) -> some View {
         let name = library.name(forReference: copy.bundleIdentifier)
         let isOpen = openApps.contains(copy.bundleIdentifier)
-        let refusal = PreferenceBackup.refusal(ofPuttingBack: copy.bundleIdentifier, exclusions: exclusions.exclusions)
+        let refusal = PreferenceBackup.refusal(
+            ofPuttingBack: copy.bundleIdentifier, installedAt: places(of: copy), exclusions: exclusions.exclusions
+        )
         // An `HStack` centers the buttons on the row's two lines, where `LabeledContent` would set them on the first.
         return HStack(spacing: 8) {
             VStack(alignment: .leading, spacing: 1) {
@@ -138,6 +140,11 @@ struct SavedSettingsSection: View {
         openApps = Set((copies ?? []).map(\.bundleIdentifier).filter(isRunning))
     }
 
+    /// Where the apps whose settings `copy` holds are installed, which an exclusion of a place reaches.
+    private func places(of copy: PreferenceBackup.Copy) -> [URL] {
+        library.apps.filter { $0.bundleIdentifier == copy.bundleIdentifier }.map(\.url)
+    }
+
     private func putBack(_ copy: PreferenceBackup.Copy, named name: String) async {
         workingOn = copy.id
         defer { workingOn = nil }
@@ -147,6 +154,7 @@ struct SavedSettingsSection: View {
             await PreferenceBackup.restore(
                 from: copy.folder,
                 of: copy.bundleIdentifier,
+                installedAt: places(of: copy),
                 exclusions: ExclusionsStore.shared.exclusions
             ) { @MainActor in
                 isRunning(copy.bundleIdentifier)

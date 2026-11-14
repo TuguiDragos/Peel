@@ -171,7 +171,9 @@ final class ResetPlan {
     /// Why the saved settings can't be put back now, or nil when they can, read from the exclusions as they stand.
     var putBackRefusal: PreferenceBackup.Restored? {
         app.bundleIdentifier.flatMap {
-            PreferenceBackup.refusal(ofPuttingBack: $0, exclusions: ExclusionsStore.shared.exclusions)
+            PreferenceBackup.refusal(
+                ofPuttingBack: $0, installedAt: [app.url], exclusions: ExclusionsStore.shared.exclusions
+            )
         }
     }
 
@@ -183,6 +185,7 @@ final class ResetPlan {
             await PreferenceBackup.restore(
                 from: backup,
                 of: identifier,
+                installedAt: [app.url],
                 exclusions: ExclusionsStore.shared.exclusions
             ) { @MainActor in
                 self.refreshRunningState()

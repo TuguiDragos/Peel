@@ -629,6 +629,37 @@ struct RemovalHygieneTests {
         #expect(PreferenceBackup.copies(in: backups)?.count == 1)
     }
 
+    @Test func leavesTheSettingsOfAnAppExcludedByItsPlaceAlone() async throws {
+        let directory = try TemporaryDirectory()
+        let backups = try directory.directory("Backups")
+        let good = try PropertyListSerialization.data(fromPropertyList: ["key": "value"], format: .xml, options: 0)
+        let copy = try directory.directory("Backups/com.example.app 2026-09-24 101500")
+        try good.write(to: copy.appending(path: "com.example.app.plist"))
+        let app = try directory.directory("Applications/Example/Example.app")
+        var exclusions = Exclusions.none
+        exclusions.add([directory.url.appending(path: "Applications/Example", directoryHint: .isDirectory)])
+        let asked = Mutex<[[String]]>([])
+        let run: PreferenceBackup.Run = { arguments in
+            asked.withLock { $0.append(arguments) }
+            return Self.exporting(arguments)
+        }
+
+        let refusal = PreferenceBackup.refusal(ofPuttingBack: "com.example.app", installedAt: [app], exclusions: exclusions)
+        #expect(refusal == .excluded)
+        let restored = await PreferenceBackup.restore(
+            from: copy,
+            of: "com.example.app",
+            installedAt: [app],
+            in: backups,
+            exclusions: exclusions,
+            through: Self.service,
+            run: run,
+            isOpen: { false }
+        )
+        #expect(restored == .excluded)
+        #expect(asked.withLock { $0 }.isEmpty, "the settings of an app excluded by its place were cleared or put back")
+    }
+
     @Test func leavesAnExcludedAppsSettingsAlone() async throws {
         let directory = try TemporaryDirectory()
         let backups = try directory.directory("Backups")

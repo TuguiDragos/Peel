@@ -142,10 +142,15 @@ public enum PreferenceBackup {
     }
 
     /// Why a copy of `bundleIdentifier`'s settings can't be put back now, or nil when it can: nothing goes back while
-    /// the exclusions aren't known, and an excluded app's settings are left alone.
-    public static func refusal(ofPuttingBack bundleIdentifier: String, exclusions: Exclusions) -> Restored? {
+    /// the exclusions aren't known, and an excluded app's settings are left alone, whether its identifier is excluded
+    /// or the place of one of its copies installed at `apps`, as for a reset.
+    public static func refusal(
+        ofPuttingBack bundleIdentifier: String, installedAt apps: [URL], exclusions: Exclusions
+    ) -> Restored? {
         guard exclusions.isKnown else { return .exclusionsNotKnown }
-        return exclusions.excludes(bundleIdentifier: bundleIdentifier) ? .excluded : nil
+        let isExcluded = exclusions.excludes(bundleIdentifier: bundleIdentifier)
+            || apps.contains { exclusions.excludes($0) }
+        return isExcluded ? .excluded : nil
     }
 
     /// Puts the domains saved in `folder` back with `defaults import`, once the settings the app has now are saved
@@ -157,6 +162,7 @@ public enum PreferenceBackup {
     public static func restore(
         from folder: URL,
         of bundleIdentifier: String,
+        installedAt apps: [URL],
         in directory: URL = PreferenceBackup.defaultDirectory,
         exclusions: Exclusions = .none,
         isOpen: @Sendable () async -> Bool
@@ -165,6 +171,7 @@ public enum PreferenceBackup {
         return await restore(
             from: folder,
             of: bundleIdentifier,
+            installedAt: apps,
             in: directory,
             exclusions: exclusions,
             through: service,
@@ -176,13 +183,16 @@ public enum PreferenceBackup {
     static func restore(
         from folder: URL,
         of bundleIdentifier: String,
+        installedAt apps: [URL] = [],
         in directory: URL,
         exclusions: Exclusions = .none,
         through service: TrashService,
         run: Run,
         isOpen: @Sendable () async -> Bool
     ) async -> Restored {
-        if let refusal = refusal(ofPuttingBack: bundleIdentifier, exclusions: exclusions) { return refusal }
+        if let refusal = refusal(ofPuttingBack: bundleIdentifier, installedAt: apps, exclusions: exclusions) {
+            return refusal
+        }
         guard await !isOpen() else { return .appIsOpen }
         let files: [URL]
         do {
