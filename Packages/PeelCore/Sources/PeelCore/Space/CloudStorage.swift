@@ -33,7 +33,8 @@ public struct CloudScan: Sendable {
     public var files: [CloudFile] = []
     /// Why the list isn't all there is, and nil when it is.
     public var cutShort: CutShort?
-    /// iCloud Drive could not be read at all, which is what happens without Full Disk Access.
+    /// iCloud Drive could not be read, and nothing was found in the folders of the home it keeps either: what happens
+    /// without Full Disk Access.
     public var couldNotRead = false
     /// How many downloads were left out because another copy on this Mac shares their space: each takes at least
     /// `CloudStorage.minimumSize` on disk, yet removing it would free less.
@@ -45,6 +46,8 @@ public struct CloudScan: Sendable {
     public var unreadableFolders: [String] = []
     /// The folders inside, and the documents saved as packages, that could not be read, so nothing in them is listed.
     public var notRead: [URL] = []
+    /// iCloud Drive's own folder could not be read, so the list holds only what is in the folders of the home it keeps.
+    public var readOnlyTheHomesFolders = false
 
     public enum CutShort: Sendable, Equatable {
         /// The walk ran out of time or was stopped before it read everything.
@@ -224,12 +227,13 @@ public enum CloudStorage {
         return CloudScan(
             files: collected.files.sorted { $0.size > $1.size },
             cutShort: isWhole ? collected.cutShort : .ranOutOfTime,
-            couldNotRead: collected.couldNotRead,
+            couldNotRead: collected.couldNotRead && collected.files.isEmpty,
             sharedDownloads: collected.sharedDownloads,
             folders: folders(of: collected.files, home: home),
             isNotSetUp: !isSetUp(home: home),
             unreadableFolders: collected.unreadableFolders,
-            notRead: collected.notRead
+            notRead: collected.notRead,
+            readOnlyTheHomesFolders: collected.couldNotRead && !collected.files.isEmpty
         )
     }
 

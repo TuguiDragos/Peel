@@ -92,7 +92,8 @@ struct CloudView: View {
                         }
                     }
                     .listRowSeparator(.hidden)
-                    if cloud.cutShort != nil || cloud.sharedDownloads > 0 || !cloud.unreadableFolders.isEmpty {
+                    if cloud.cutShort != nil || cloud.sharedDownloads > 0 || !cloud.unreadableFolders.isEmpty
+                        || cloud.readOnlyTheHomesFolders {
                         ListNotes {
                             switch cloud.cutShort {
                             case .listIsFull:
@@ -245,6 +246,9 @@ struct CloudView: View {
     }
 
     @ViewBuilder private var unreadableFoldersNote: some View {
+        if cloud.readOnlyTheHomesFolders {
+            Text("macOS didn’t let Peel read the rest of iCloud Drive, so this list holds only what it keeps in Desktop and Documents. Full Disk Access, which you turn on from Home, gives Peel what it needs.")
+        }
         if !cloud.unreadableFolders.isEmpty {
             Text("macOS didn’t let Peel read \(cloud.unreadableFolders.formatted(.list(type: .and))) in iCloud Drive, so this list isn’t all of it. Full Disk Access, which you turn on from Home, gives Peel what it needs.")
         }

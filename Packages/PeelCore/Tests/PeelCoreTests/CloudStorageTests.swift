@@ -449,6 +449,22 @@ struct CloudStorageTests {
         #expect(collector.collected.cutShort == .ranOutOfTime)
     }
 
+    @Test(.permissionsHold) func whatICloudDriveKeepsInTheHomeIsListedWhenTheRestCouldNotBeRead() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Desktop/Shot.png", bytes: 3_000)
+        try linkInICloudDrive(
+            "Desktop", to: directory.url.appending(path: "Desktop").path(percentEncoded: false), in: directory
+        )
+        try directory.setPermissions(0o111, of: "Library/Mobile Documents")
+        defer { try? directory.setPermissions(0o755, of: "Library/Mobile Documents") }
+
+        let scan = await safeScan(of: directory)
+
+        #expect(scan.files.map(\.name) == ["Shot.png"])
+        #expect(!scan.couldNotRead)
+        #expect(scan.readOnlyTheHomesFolders)
+    }
+
     private func linkInICloudDrive(
         _ name: String, to destination: String, in directory: borrowing TemporaryDirectory
     ) throws {

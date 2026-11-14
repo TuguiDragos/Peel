@@ -37,6 +37,8 @@ final class CloudLibrary {
     /// The folders of the home iCloud Drive keeps that macOS would not let Peel read.
     private(set) var unreadableFolders: [String] = []
     private(set) var notRead: [URL] = []
+    /// iCloud Drive's own folder couldn't be read, so the list holds only what is in Desktop and Documents.
+    private(set) var readOnlyTheHomesFolders = false
     var selectedURLs: Set<URL> = [] {
         didSet { updateSelectedSize() }
     }
@@ -60,7 +62,7 @@ final class CloudLibrary {
     }
 
     var hasMoreThanItRead: Bool {
-        cutShort != nil || !unreadableFolders.isEmpty || !notRead.isEmpty
+        cutShort != nil || !unreadableFolders.isEmpty || !notRead.isEmpty || readOnlyTheHomesFolders
     }
 
     /// What the listed files take on this Mac, only the least it can be when there is more than the list shows, and
@@ -109,6 +111,7 @@ final class CloudLibrary {
         isNotSetUp = found.isNotSetUp
         unreadableFolders = found.unreadableFolders
         notRead = found.notRead
+        readOnlyTheHomesFolders = found.readOnlyTheHomesFolders
         selectedURLs.formIntersection(Set(found.files.map(\.url)))
     }
 

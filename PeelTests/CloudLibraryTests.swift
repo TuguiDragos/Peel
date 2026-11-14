@@ -28,6 +28,18 @@ struct CloudLibraryTests {
         #expect(cloud.total?.isComplete == false)
     }
 
+    @Test func whatIsListedWhenTheRestOfICloudDriveCouldNotBeReadIsOnlyTheLeastThereIs() async {
+        let cloud = CloudLibrary(scan: { _, _, _ in
+            CloudScan(files: [Self.download("Shot.png")], readOnlyTheHomesFolders: true)
+        })
+
+        await cloud.refresh()
+
+        #expect(!cloud.couldNotRead)
+        #expect(cloud.total?.isComplete == false)
+        #expect(cloud.couldNotLook == nil)
+    }
+
     @Test func aFolderInsideThatCouldNotBeReadLeavesTheTotalOnlyTheLeastItCanBe() async {
         let locked = URL(filePath: "/org.example/Locked")
         let cloud = CloudLibrary(scan: { _, _, _ in

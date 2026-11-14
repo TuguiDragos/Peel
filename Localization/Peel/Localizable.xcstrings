@@ -284364,6 +284364,112 @@
         }
       }
     },
+    "macOS didn’t let Peel read the rest of iCloud Drive, so this list holds only what it keeps in Desktop and Documents. Full Disk Access, which you turn on from Home, gives Peel what it needs." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS nedovolil Peelu přečíst zbytek iCloud Drivu, takže tento seznam obsahuje jen to, co je na iCloud Drivu ve složkách Plocha a Dokumenty. Plný přístup k disku, který zapnete na stránce Přehled, dá Peelu, co potřebuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat Peel nicht erlaubt, den Rest von iCloud Drive zu lesen, daher enthält diese Liste nur, was iCloud Drive in „Schreibtisch“ und „Dokumente“ aufbewahrt. Festplattenvollzugriff, den du über die Startseite aktivierst, gibt Peel, was dafür nötig ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS no ha dejado que Peel lea el resto de iCloud Drive, así que esta lista solo incluye lo que iCloud Drive guarda en Escritorio y Documentos. El acceso total al disco, que puedes activar desde la página Inicio, le da a Peel lo que necesita."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS n’a pas laissé Peel lire le reste d’iCloud Drive : cette liste ne contient donc que ce qu’iCloud Drive conserve dans les dossiers Bureau et Documents. L’accès complet au disque, que vous activez depuis la page Accueil, donne à Peel ce dont il a besoin."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non ha permesso a Peel di leggere il resto di iCloud Drive, quindi questo elenco contiene solo ciò che iCloud Drive conserva nelle cartelle Scrivania e Documenti. L’accesso completo al disco, che puoi attivare dalla pagina Home, dà a Peel ciò che gli serve."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがPeelにiCloud Driveのそのほかの部分の読み取りを許可しなかったため、この一覧には、iCloud Driveが“デスクトップ”フォルダと“書類”フォルダに保管しているものしか含まれていません。“ホーム”からフルディスクアクセスをオンにすると、Peelは必要なものを読み取れるようになります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 Peel이 iCloud Drive의 나머지 부분을 읽지 못하게 했으므로 이 목록에는 iCloud Drive가 데스크탑 및 문서에 보관하는 항목만 들어 있습니다. 홈에서 Peel의 전체 디스크 접근 권한을 켜면 읽을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS liet Peel de rest van iCloud Drive niet lezen, dus bevat deze lijst alleen wat iCloud Drive in de mappen 'Bureaublad' en 'Documenten' bewaart. Met volledige schijftoegang, die je via de pagina 'Home' inschakelt, krijgt Peel wat het nodig heeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie pozwolił aplikacji Peel odczytać reszty iCloud Drive, więc na tej liście jest tylko to, co iCloud Drive przechowuje w folderach Biurko i Dokumenty. Pełny dostęp do dysku, który włączysz z poziomu Ekranu głównego, zapewni aplikacji Peel to, czego potrzebuje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não deixou o Peel ler o restante do iCloud Drive, então esta lista contém só o que ele guarda nas pastas Mesa e Documentos. O Acesso Total ao Disco, que você ativa pela página Início, dá ao Peel aquilo de que ele precisa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nu i‑a permis aplicației Peel să citească restul conținutului de pe iCloud Drive, așa că această listă conține doar ce păstrează iCloud Drive în dosarele Desktop și Documente. Acces complet la disc, pe care îl activați din pagina Acasă, îi oferă aplicației Peel ceea ce îi trebuie."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не позволила Peel прочитать остальную часть iCloud Drive, поэтому в этом списке только то, что iCloud Drive хранит в папках «Рабочий стол» и «Документы». Полный доступ к диску, который можно включить через раздел «Главная», даст Peel все необходимое."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS lät inte Peel läsa resten av iCloud Drive, så listan visar bara det som iCloud Drive har i mapparna Skrivbord och Dokument. Med full skivtillgång, som du slår på från sidan Hem, får Peel det som behövs."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, Peel’in iCloud Drive’ın geri kalanını okumasına izin vermedi, bu yüzden bu liste yalnızca iCloud Drive’ın Masaüstü ve Belgeler klasörlerinde tuttuklarını içeriyor. Ana Sayfa’dan açabileceğiniz Tam Disk Erişimi, Peel’e gereken izni verir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не дала Peel прочитати решту iCloud Drive, тож у цьому списку лише те, що iCloud Drive зберігає в папках «Робочий стіл» і «Документи». Повний доступ до диска, який можна ввімкнути зі сторінки «Домівка», дасть Peel те, що їй потрібно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS不允许Peel读取iCloud云盘中的其余内容，因此此列表只包含它在“桌面”和“文稿”中保存的内容。从“主页”为Peel打开完全磁盘访问权限，它就能读取了。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS不讓Peel讀取「iCloud雲碟」的其餘部分，因此此列表只包含它存放在「桌面」和「文件」中的項目。「完全取用磁碟」權限能讓Peel取得所需的存取權限，你可以從「首頁」開啟此權限。"
+          }
+        }
+      }
+    },
     "macOS didn’t list the agents and daemons that apps added, so some may be missing here." : {
       "localizations" : {
         "cs" : {
