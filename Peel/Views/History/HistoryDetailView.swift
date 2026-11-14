@@ -9,6 +9,7 @@ struct HistoryDetailView: View {
     /// moment, and offer to forget records that are still there.
     @State private var standing: RemovalStanding?
     @State private var isAskingToForget = false
+    @State private var isAskingToForgetAway = false
     let batch: RemovalBatch
 
     /// The id of the page's task: the batch, and each time History was read again. When either changes, the page
@@ -102,14 +103,32 @@ struct HistoryDetailView: View {
             .listRowSeparator(.hidden)
         }
 
-        // They may still be in the Trash of their disk, so the page never offers to forget them.
+        // They may still be in the Trash of their disk, so forgetting them asks its own question, for a disk that
+        // won't come back.
         if !standing.away.isEmpty {
             Notice(
                 title: Text("^[\(standing.away.count) item](inflect: true) on a disk that isn’t connected"),
                 detail: Text("Connect the disk to put them back from its Trash."),
                 kind: .note
-            ) {}
+            ) {
+                Button("Forget") {
+                    isAskingToForgetAway = true
+                }
+                .tint(.red)
+            }
             .listRowSeparator(.hidden)
+            .confirmationDialog(
+                Text(verbatim: String(inflecting: "Forget ^[\(standing.away.count) item](inflect: true) on a disk that isn’t connected?")),
+                isPresented: $isAskingToForgetAway
+            ) {
+                Button("Forget", role: .destructive) {
+                    let away = batch.records.filter { standing.away.contains($0.id) }
+                    Task { await history.forget(await RemovalStanding.stillAway(away)) }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("History stops listing them. If the disk comes back, what is in its Trash can only be dragged out in Finder.")
+            }
         }
 
         Section {

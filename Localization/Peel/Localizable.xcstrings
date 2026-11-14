@@ -57741,6 +57741,346 @@
         }
       }
     },
+    "Forget ^[%lld item](inflect: true) on a disk that isn’t connected?" : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zapomenout %lld položky na disku, který není připojený?"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zapomenout %lld položky na disku, který není připojený?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zapomenout %lld položku na disku, který není připojený?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zapomenout %lld položek na disku, který není připojený?"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Objekt auf einem nicht verbundenen Volume vergessen?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Objekte auf einem nicht verbundenen Volume vergessen?"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "¿Olvidar %lld de ítems en un disco que no está conectado?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "¿Olvidar un ítem en un disco que no está conectado?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "¿Olvidar %lld ítems en un disco que no está conectado?"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Oublier %lld d’éléments sur un disque qui n’est pas connecté ?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Oublier %lld élément sur un disque qui n’est pas connecté ?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Oublier %lld éléments sur un disque qui n’est pas connecté ?"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vuoi dimenticare %lld di elementi su un disco non collegato?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vuoi dimenticare un elemento su un disco non collegato?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vuoi dimenticare %lld elementi su un disco non collegato?"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接続されていないディスク上の%lld項目を履歴から削除しますか?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "연결되지 않은 디스크에 있는 항목 %lld개를 기록에서 지우겠습니까?"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld onderdeel op een niet-aangesloten schijf vergeten?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld onderdelen op een niet-aangesloten schijf vergeten?"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zapomnieć %lld rzeczy na dysku, który nie jest podłączony?"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zapomnieć %lld rzeczy na dysku, który nie jest podłączony?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zapomnieć %lld rzecz na dysku, który nie jest podłączony?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zapomnieć %lld rzeczy na dysku, który nie jest podłączony?"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esquecer %lld de itens em um disco que não está conectado?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esquecer %lld item em um disco que não está conectado?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esquecer %lld itens em um disco que não está conectado?"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uitați %lld articole de pe un disc care nu este conectat?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uitați %lld articol de pe un disc care nu este conectat?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uitați %lld de articole de pe un disc care nu este conectat?"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Забыть %lld объекта на диске, который не подключен?"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Забыть %lld объектов на диске, который не подключен?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Забыть %lld объект на диске, который не подключен?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Забыть %lld объекта на диске, который не подключен?"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vill du glömma %lld objekt på en skiva som inte är ansluten?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vill du glömma %lld objekt på en skiva som inte är ansluten?"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bağlı olmayan bir diskteki %lld öğe unutulsun mu?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bağlı olmayan bir diskteki %lld öğe unutulsun mu?"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Забути %lld елементи на диску, який не підʼєднано?"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Забути %lld елементів на диску, який не підʼєднано?"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Забути %lld елемент на диску, який не підʼєднано?"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Забути %lld елемента на диску, який не підʼєднано?"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要移除未连接磁盘上%lld个项目的记录吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要移除未連接磁碟上%lld個項目的記錄嗎？"
+          }
+        }
+      }
+    },
     "Forget ^[%lld item](inflect: true)?" : {
       "localizations" : {
         "cs" : {
@@ -65015,6 +65355,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「歷史記錄」已不再列出%lld次較早的移除"
+          }
+        }
+      }
+    },
+    "History stops listing them. If the disk comes back, what is in its Trash can only be dragged out in Finder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historie je přestane uvádět. Pokud se disk znovu připojí, to, co je v jeho koši, půjde dostat ven jen přetažením ve Finderu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Verlauf zeigt sie nicht mehr an. Wenn das Volume wieder verbunden ist, kann das, was in seinem Papierkorb liegt, nur im Finder herausgezogen werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historial deja de mostrarlos. Si el disco vuelve a conectarse, lo que hay en su papelera solo se podrá sacar arrastrándolo en el Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’Historique cesse de les lister. Si le disque est reconnecté, ce qui se trouve dans sa corbeille ne pourra en être sorti qu’en le faisant glisser dans le Finder."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La Cronologia smette di elencarli. Se il disco viene ricollegato, potrai solo trascinare fuori nel Finder ciò che si trova nel suo Cestino."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“履歴”にはこれらが表示されなくなります。ディスクが再び接続された場合、そのゴミ箱にあるものはFinderでドラッグして取り出すことしかできません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기록에 더 이상 이 항목들이 나열되지 않습니다. 디스크가 다시 연결되면 해당 디스크의 휴지통에 있는 항목은 Finder에서 드래그해야만 꺼낼 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geschiedenis toont ze niet meer. Als de schijf weer wordt aangesloten, kun je wat in de prullenmand van die schijf staat alleen in Finder eruit slepen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historia przestanie je wyświetlać. Jeśli dysk zostanie znowu podłączony, to, co jest w jego Koszu, będzie można wyciągnąć tylko przez przeciągnięcie w Finderze."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Histórico deixa de listá-los. Se o disco for conectado de novo, o que está no Lixo dele só poderá ser arrastado para fora no Finder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Istoricul nu le mai listează. Dacă discul este conectat din nou, ce se află în Coșul său poate fi doar tras afară, în Finder."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "История перестанет их показывать. Если диск снова подключится, достать то, что лежит в его Корзине, можно будет только перетаскиванием в Finder."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historik slutar lista dem. Om skivan ansluts igen kan det som ligger i dess papperskorg bara dras ut i Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçmiş bunları artık listelemez. Disk yeniden bağlanırsa, diskin Çöp Sepeti’ndekiler yalnızca Finder’da sürüklenerek dışarı çıkarılabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Історія перестане їх показувати. Якщо диск знову підʼєднати, те, що лежить у його Смітнику, можна буде лише перетягнути звідти у Finder."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“历史记录”将不再列出它们。如果该磁盘重新连接，其废纸篓中的内容只能在“访达”中拖出来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「歷史記錄」將不再列出它們。如果該磁碟重新連接，其「垃圾桶」中的項目只能在Finder中拖出來。"
           }
         }
       }

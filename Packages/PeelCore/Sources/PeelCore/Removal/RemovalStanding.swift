@@ -29,6 +29,13 @@ public struct RemovalStanding: Sendable {
         return records.filter { $0.isOnAConnectedDisk(disks) && $0.located(on: disks).standing == .gone }
     }
 
+    /// The records among `records` still on a disk that isn't connected, looked at again.
+    @concurrent
+    public static func stillAway(_ records: [RemovalRecord]) async -> [RemovalRecord] {
+        let disks = MountedDisks.now()
+        return records.filter { !$0.isOnAConnectedDisk(disks) }
+    }
+
     init(_ records: [RemovalRecord], disks: MountedDisks = .now()) {
         var restorableRecords: [RemovalRecord] = []
         for record in records {

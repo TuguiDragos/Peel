@@ -40,6 +40,14 @@ struct RemovalStandingTests {
         #expect(standing.missing(among: records).map(\.id) == [gone.id])
     }
 
+    @Test func looksAgainWhetherWhatIsAwayIsStillOnADiskThatIsNotConnected() async throws {
+        let directory = try TemporaryDirectory()
+        let here = record(try directory.file(".Trash/here.txt"), size: 1)
+        let away = record(URL(filePath: "/Volumes/org.example.not-connected/.Trashes/501/away.txt"), size: 7)
+
+        #expect(await RemovalStanding.stillAway([here, away]).map(\.id) == [away.id])
+    }
+
     @Test func knowsAnItemsDiskByItsVolumeRatherThanItsName() throws {
         let directory = try TemporaryDirectory()
         let place = directory.url.appending(path: "Disk", directoryHint: .isDirectory)
