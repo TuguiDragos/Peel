@@ -175,6 +175,27 @@ struct LaunchAgentFileTests {
         #expect(file.problem(in: plist("<dict>\(label)<key>Program</key><string>/bin/sleep</string></dict>")) == nil)
     }
 
+    @Test func loadsAgainWhatTheWrittenFileSays() async throws {
+        let home = try Home()
+        try home.directory.setPermissions(0o600, of: home.plist)
+        let item = agent(home.plist)
+        let file = try await home.open(item)
+        let steps = Steps()
+        let edited = job().replacingOccurrences(
+            of: "</dict>",
+            with: "\t<key>Disabled</key><true/>\n\t<key>LimitLoadToSessionType</key><string>Background</string>\n</dict>"
+        )
+
+        _ = await file.save(
+            edited, for: item, trash: home.service(steps: steps), isLoaded: { _ in true },
+            stop: { _ in nil },
+            start: { started in steps.add("start \(started.isDisabled) \(started.loadsInTheBackgroundSession)") },
+            putBack: { _ in nil }
+        )
+
+        #expect(steps.all.last == "start true true")
+    }
+
     @Test func movesTheOldFileToTheTrashWritesTheNewOneAndLoadsItAgain() async throws {
         let home = try Home()
         try home.directory.setPermissions(0o600, of: home.plist)

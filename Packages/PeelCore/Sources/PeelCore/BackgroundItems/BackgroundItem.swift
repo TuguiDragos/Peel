@@ -51,7 +51,7 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// The full rule is `BackgroundItemOwnership.isOrphan(label:program:owner:)`.
     public let isOrphan: Bool
     public internal(set) var state: State
-    public let isDisabled: Bool
+    public internal(set) var isDisabled: Bool
     /// False when only a name points to the owner (`BackgroundItemOwnership.Owner.isConfirmed`).
     public var isOwnerConfirmed = true
     /// True for a file launchd can't load: not a property list, or one without a `Label`.

@@ -206,6 +206,15 @@ public struct LaunchAgentFile: Sendable {
         }
         var stopped = now
         stopped.state = .notLoaded
+        // launchd loads the file just written, whose session and Disabled may have changed; a row that said otherwise
+        // than the old file was launchd's own setting, which stays.
+        if let written = (try? PropertyListSerialization.propertyList(from: Data(text.utf8), format: nil))
+            .flatMap({ $0 as? [String: Any] }).flatMap(JobDefinition.init) {
+            stopped.loadsInTheBackgroundSession = written.loadsInTheBackground
+            if JobDefinition(contentsOf: old.trashedURL)?.isDisabled ?? now.isDisabled == now.isDisabled {
+                stopped.isDisabled = written.isDisabled
+            }
+        }
         do throws(BackgroundItemActions.Failure) {
             try await start(stopped)
             return .saved(moved: result, reload: nil)
