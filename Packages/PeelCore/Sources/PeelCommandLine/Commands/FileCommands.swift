@@ -59,7 +59,7 @@ struct OrphansCommand: AsyncParsableCommand {
         struct Group: Encodable {
             let identifier: String
             let size: MeasuredSize
-            /// What `--remove` would move of the group: its size without the files Peel holds back.
+            /// What `--remove` would move of the group: its size without the files it leaves where they are.
             let movable: MeasuredSize
             let confidence: String
             let why: String
@@ -208,7 +208,7 @@ struct OrphansCommand: AsyncParsableCommand {
                     files: group.items.map { item in
                         let size = MeasuredSize(item.size)
                         return Report.File(
-                            path: Output.path(item.url), size: size, heldBack: item.heldBack?.rawValue,
+                            path: Output.path(item.url), size: size, heldBack: whyItStays(item)?.name,
                             leadsTo: item.leadsTo.map(Output.path)
                         )
                     }
@@ -253,9 +253,16 @@ struct OrphansCommand: AsyncParsableCommand {
         }
     }
 
-    /// What `--remove` moves of `group`: every file but those Peel holds back, which the list says stay.
+    /// What `--remove` moves of `group`: every file but those Peel holds back and those only an administrator can
+    /// move, which `peel` never does. The list says why each of them stays.
     static func moving(_ group: OrphanGroup) -> [OrphanItem] {
-        group.items.filter { $0.heldBack == nil }
+        group.items.filter { whyItStays($0) == nil }
+    }
+
+    /// Why `--remove` leaves `item` where it is, as the list and the JSON say it, or nil when it moves it.
+    static func whyItStays(_ item: OrphanItem) -> (name: String, summary: String)? {
+        if let heldBack = item.heldBack { return (heldBack.rawValue, heldBack.summary) }
+        return item.requiresPrivileges ? ("needsAdministrator", "needs an administrator, move it in the Peel app") : nil
     }
 
     /// Why the app recommends nothing of an unsure group, said in the plan, since a script with -y reads no list first.
@@ -270,7 +277,7 @@ struct OrphansCommand: AsyncParsableCommand {
 
     static func rows(for group: OrphanGroup) -> [[String]] {
         group.items.map { item in
-            let notes = [item.heldBack.map { "stays: \($0.summary)" }, item.leadsTo.map { "a link to \(Output.path($0))" }]
+            let notes = [whyItStays(item).map { "stays: \($0.summary)" }, item.leadsTo.map { "a link to \(Output.path($0))" }]
                 .compactMap(\.self)
             return [Output.size(item.size), Output.path(item.url)] + (notes.isEmpty ? [] : [notes.joined(separator: ", ")])
         }
@@ -292,7 +299,9 @@ struct OrphansCommand: AsyncParsableCommand {
         }
         let items = Self.moving(group)
         // Nobody asked for a held back file on its own, so it is said here and never recorded as refused.
-        let staying = group.items.compactMap { item in item.heldBack.map { "\(Output.plain(Output.path(item.url))) stays: \($0.summary)" } }
+        let staying = group.items.compactMap { item in
+            Self.whyItStays(item).map { "\(Output.plain(Output.path(item.url))) stays: \($0.summary)" }
+        }
         guard !items.isEmpty else {
             Output.line("Every file of \(group.identifier) is one Peel leaves alone. See `peel orphans`.")
             staying.forEach(Output.note)
@@ -303,7 +312,6 @@ struct OrphansCommand: AsyncParsableCommand {
             items.map { (url: $0.url, size: $0.size) },
             source: group.title,
             tool: "orphans",
-            needingAdministrator: Set(items.filter(\.requiresPrivileges).map(\.url)),
             service: service
         )
         try await cleanup.run(

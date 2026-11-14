@@ -423,7 +423,7 @@ struct FileCommandTests {
         }
 
         #expect(await moved(logs).isEmpty)
-        #expect(await logs.refusals.load().records?.map(\.reason) == ["needs-helper"])
+        #expect((await logs.refusals.load().records ?? []).isEmpty, "the list says why it stays, as for what is held back")
         #expect(FileManager.default.fileExists(atPath: group.items[0].url.path(percentEncoded: false)))
     }
 
@@ -687,6 +687,19 @@ struct FileCommandTests {
             ["10 bytes", Output.path(group.items[2].url), "stays: holds a photo, music, or video library"],
         ])
         #expect(OrphansCommand.heading(for: group).hasPrefix("com.example.gone  10 bytes  "), "the files that stay counted")
+    }
+
+    @Test func countsAsMovingNothingOnlyAnAdministratorCanMove() throws {
+        let directory = try TemporaryDirectory()
+        let group = OrphanGroup(identifier: "com.example.gone", items: [
+            try orphan("com.example.gone", in: directory),
+            try orphan("com.example.gone.system", in: directory, requiresPrivileges: true),
+        ])
+
+        #expect(OrphansCommand.moving(group).map(\.url) == [group.items[0].url])
+        #expect(OrphansCommand.heading(for: group).hasPrefix("com.example.gone  10 bytes  "))
+        #expect(OrphansCommand.rows(for: group)[1].last == "stays: needs an administrator, move it in the Peel app")
+        #expect(OrphansCommand.whyItStays(group.items[1])?.name == "needsAdministrator")
     }
 
     /// `peel orphans --json` says why `--remove` leaves each file it leaves, and which folders macOS kept Peel out of.
