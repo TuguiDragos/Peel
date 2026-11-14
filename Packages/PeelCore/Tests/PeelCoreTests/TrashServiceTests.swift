@@ -1118,6 +1118,15 @@ struct TrashServiceTests {
         #expect(service.refusal(ofPuttingBack: trashed, canUseHelper: false) == .alreadyThere)
     }
 
+    @Test(.permissionsHold) func aFolderInTheWayWithAFolderItCantReadIsNotCalledEmpty() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("place/closed/note.txt")
+        try directory.setPermissions(0o000, of: "place/closed")
+        defer { try? directory.setPermissions(0o755, of: "place/closed") }
+
+        #expect(TrashService.alreadyThere(at: directory.url.appending(path: "place")) == .alreadyThere)
+    }
+
     /// A relative link breaks once it is in the Trash, but it is still there and can still be put back.
     @Test func putsBackALinkThatLeadsNowhereFromTheTrash() async throws {
         let directory = try TemporaryDirectory()
