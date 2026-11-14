@@ -68,29 +68,43 @@ extension View {
     }
 }
 
+/// What Forget All asks about: the receipts it forgets now, and how many wait for the helper.
+struct ForgetAll {
+    let receipts: [PackageReceipt]
+    let waitingForTheHelper: Int
+}
+
 /// The question before forgetting every receipt of the Receipt Only section at once, recorded as one removal.
 struct ForgetReceiptsDialog: ViewModifier {
     @Environment(PackageLibrary.self) private var packages
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(RemovalOutcome.self) private var outcome
-    @Binding var receipts: [PackageReceipt]?
+    @Binding var request: ForgetAll?
 
     func body(content: Content) -> some View {
         content
-            .confirmationDialog(title, isPresented: isAsking, presenting: receipts) { receipts in
-                Button("Forget All") { forget(receipts) }
+            .confirmationDialog(title, isPresented: isAsking, presenting: request) { request in
+                Button("Forget All") { forget(request.receipts) }
                 Button("Cancel", role: .cancel) {}
-            } message: { receipts in
-                Text("Their receipts go to the Trash, so macOS no longer counts these packages as installed. Nothing on these receipts is left on this Mac, and History can put them back.\n\n\(RemovalFailureAlert.firstItems(PackageReceipt.names(of: receipts)).joined(separator: "\n"))")
+            } message: { request in
+                Text(verbatim: Self.message(for: request))
             }
     }
 
+    static func message(for request: ForgetAll) -> String {
+        let names = RemovalFailureAlert.firstItems(PackageReceipt.names(of: request.receipts)).joined(separator: "\n")
+        let message = String(localized: "Their receipts go to the Trash, so macOS no longer counts these packages as installed. Nothing on these receipts is left on this Mac, and History can put them back.\n\n\(names)")
+        guard request.waitingForTheHelper > 0 else { return message }
+        return message + "\n\n"
+            + String(localized: "The receipts of packages installed for every account stay until Peel’s helper can move them.")
+    }
+
     private var title: Text {
-        Text(verbatim: String(inflecting: "Forget ^[\(receipts?.count ?? 0) receipt](inflect: true)?"))
+        Text(verbatim: String(inflecting: "Forget ^[\(request?.receipts.count ?? 0) receipt](inflect: true)?"))
     }
 
     private var isAsking: Binding<Bool> {
-        Binding(get: { receipts != nil }, set: { if !$0 { receipts = nil } })
+        Binding(get: { request != nil }, set: { if !$0 { request = nil } })
     }
 
     private func forget(_ receipts: [PackageReceipt]) {
@@ -113,7 +127,7 @@ struct ForgetReceiptsDialog: ViewModifier {
 }
 
 extension View {
-    func forgetReceiptsDialog(for receipts: Binding<[PackageReceipt]?>) -> some View {
-        modifier(ForgetReceiptsDialog(receipts: receipts))
+    func forgetReceiptsDialog(for request: Binding<ForgetAll?>) -> some View {
+        modifier(ForgetReceiptsDialog(request: request))
     }
 }

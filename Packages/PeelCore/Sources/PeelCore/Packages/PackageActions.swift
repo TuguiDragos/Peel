@@ -53,6 +53,13 @@ public enum PackageActions {
         !receipt.isInstalledForTheAccount(home: home)
     }
 
+    /// What Forget All forgets now: every receipt while the helper can act, and otherwise only this account's.
+    public static func forgettableNow(
+        _ receipts: [PackageReceipt], canUseHelper: Bool, home: URL = .homeDirectory
+    ) -> [PackageReceipt] {
+        canUseHelper ? receipts : receipts.filter { !forgettingNeedsTheHelper($0, home: home) }
+    }
+
     static func isTheHome(_ volume: URL, home: URL) -> Bool {
         PathPattern.comparablePath(of: volume) == PathPattern.comparablePath(of: home)
     }

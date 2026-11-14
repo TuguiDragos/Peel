@@ -128,6 +128,16 @@ struct PackageActionsTests {
         ))
     }
 
+    @Test func forgetAllTakesOnlyThisAccountsReceiptsWhileTheHelperCannotAct() {
+        let home = URL(filePath: "/Users/example", directoryHint: .isDirectory)
+        let receipts = [receipt("org.example.disk", on: URL(filePath: "/")), receipt("org.example.solo", on: home)]
+
+        #expect(PackageActions.forgettableNow(receipts, canUseHelper: false, home: home).map(\.identifier) == [
+            "org.example.solo",
+        ])
+        #expect(PackageActions.forgettableNow(receipts, canUseHelper: true, home: home).count == 2)
+    }
+
     @Test func aReceiptInTheHomeFolderCountsAsAChange() throws {
         let directory = try TemporaryDirectory()
         let root = directory.url.appending(path: "root", directoryHint: .isDirectory)

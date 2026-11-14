@@ -230459,6 +230459,112 @@
         }
       }
     },
+    "The receipts of packages installed for every account stay until Peel’s helper can move them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Záznamy o instalaci balíčků nainstalovaných pro všechny účty zůstanou na místě, dokud je nebude moci přesunout pomocník Peelu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Quittungen von Paketen, die für alle Benutzeraccounts installiert wurden, bleiben, bis das Hilfsprogramm von Peel sie verschieben kann."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los recibos de los paquetes instalados para todas las cuentas se quedan donde están hasta que el asistente de Peel pueda trasladarlos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les reçus des paquets installés pour tous les comptes restent en place tant que l’utilitaire de Peel ne peut pas les déplacer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le ricevute dei pacchetti installati per tutti gli account restano dove sono finché l’assistente di Peel non potrà spostarle."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべてのアカウント用にインストールされたパッケージのレシートは、Peelのヘルパーが移動できるようになるまで残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모든 계정용으로 설치된 패키지의 수신 정보는 Peel 보조 프로그램이 이동할 수 있을 때까지 그대로 남습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De installatiebewijzen van pakketten die voor elke account zijn geïnstalleerd, blijven staan totdat het hulpprogramma van Peel ze kan verplaatsen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Potwierdzenia pakietów zainstalowanych dla wszystkich kont zostaną na miejscu, dopóki pomocnik Peel nie będzie mógł ich przenieść."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os recibos de pacotes instalados para todas as contas ficam onde estão até que o auxiliar do Peel possa movê-los."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Înregistrările pachetelor instalate pentru toate conturile rămân pe loc până când instrumentul de ajutor Peel le poate muta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Квитанции пакетов, установленных для всех учетных записей, останутся на месте, пока помощник Peel не сможет их переместить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kvittona för paket som har installerats för alla konton blir kvar tills Peels hjälpprogram kan flytta dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her hesap için yüklenen paketlerin makbuzları, Peel’in yardımcısı onları taşıyabilene kadar yerinde kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Квитанції пакетів, інстальованих для всіх облікових записів, лишаються на місці, доки помічник Peel не зможе їх перемістити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为所有账户安装的软件包的回执会留在原处，直到Peel的帮助程序能够移动它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為所有帳號安裝的套件，其收據會保留在原處，直到Peel的輔助程式能移動它們為止。"
+          }
+        }
+      }
+    },
     "The request wasn’t valid." : {
       "localizations" : {
         "cs" : {

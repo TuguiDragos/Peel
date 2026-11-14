@@ -20,4 +20,17 @@ struct ForgetReceiptQuestionTests {
         #expect(!ForgetReceiptDialog.returnKeepsTheReceipt(receiptOnly))
         #expect(ForgetReceiptDialog.message(for: receiptOnly).key.contains("Nothing on it is left on this Mac"))
     }
+
+    @Test func forgetAllSaysWhatStaysUntilTheHelperCanMoveIt() {
+        let receipt = PackageReceipt(
+            identifier: "org.example.solo", version: nil, installDate: nil, volume: URL.homeDirectory, items: []
+        )
+        let everything = ForgetReceiptsDialog.message(for: ForgetAll(receipts: [receipt], waitingForTheHelper: 0))
+        let some = ForgetReceiptsDialog.message(for: ForgetAll(receipts: [receipt], waitingForTheHelper: 2))
+
+        #expect(everything.contains("org.example.solo"))
+        #expect(!everything.contains("helper"))
+        #expect(some.hasPrefix(everything))
+        #expect(some.contains("helper"))
+    }
 }

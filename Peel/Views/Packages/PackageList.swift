@@ -7,7 +7,7 @@ struct PackageList: View {
     @Environment(HelperModel.self) private var helper
     @State private var searchText = ""
     @State private var isRescanning = false
-    @State private var receiptsToForget: [PackageReceipt]?
+    @State private var receiptsToForget: ForgetAll?
 
     static let noAnswer: LocalizedStringResource = "Peel asked macOS which packages are installed and got no answer, so it can’t list them. Rescan to try again."
 
@@ -15,6 +15,7 @@ struct PackageList: View {
         @Bindable var packages = packages
         let filtered = filteredReceipts
         let receiptsOnly = filtered.filter(\.nothingLeftOnDisk)
+        let forgettable = PackageActions.forgettableNow(receiptsOnly, canUseHelper: helper.canAct)
         let forAllUsers = PackageReceipt.sayingForAllUsers(packages.receipts ?? [])
 
         List(selection: $packages.selection) {
@@ -32,13 +33,19 @@ struct PackageList: View {
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     } actions: {
-                        Button { receiptsToForget = receiptsOnly } label: {
+                        Button {
+                            receiptsToForget = ForgetAll(
+                                receipts: forgettable, waitingForTheHelper: receiptsOnly.count - forgettable.count
+                            )
+                        } label: {
                             Text("Forget All")
                                 .minimumTarget()
                         }
                         .buttonStyle(.borderless)
-                        .disabled(packages.isWorking || waitsForTheHelper(toForget: receiptsOnly) || !history.mayMove)
-                        .help(forgetAllHelp(for: receiptsOnly))
+                        .disabled(packages.isWorking || forgettable.isEmpty || !history.mayMove)
+                        .help(forgettable.isEmpty
+                            ? Text(helper.whyItCannotAct)
+                            : Text(verbatim: history.holdingReason?.explanation ?? ""))
                     }
                 }
             }
@@ -149,17 +156,6 @@ struct PackageList: View {
         }
         .padding(.vertical, 2)
         .tag(receipt.id)
-    }
-
-    private func waitsForTheHelper(toForget receipts: [PackageReceipt]) -> Bool {
-        !helper.canAct && receipts.contains { PackageActions.forgettingNeedsTheHelper($0) }
-    }
-
-    private func forgetAllHelp(for receipts: [PackageReceipt]) -> Text {
-        guard !waitsForTheHelper(toForget: receipts) else {
-            return Text(helper.whyItCannotAct)
-        }
-        return Text(verbatim: history.holdingReason?.explanation ?? "")
     }
 
     private var filteredReceipts: [PackageReceipt] {
