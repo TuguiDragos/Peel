@@ -15,6 +15,17 @@ struct ReadBudgetTests {
         #expect(asked.withLock { $0 } == 3)
     }
 
+    @Test func theTimeMacOSAskedBeforeTheEndIsGivenBackToTheRead() async {
+        let start = ContinuousClock.now
+        await withCheckedContinuation { (done: CheckedContinuation<Void, Never>) in
+            ReadBudget.end(
+                after: 1, while: { start.duration(to: .now) < .milliseconds(900) }, isWaiting: { true }
+            ) { done.resume() }
+        }
+
+        #expect(start.duration(to: .now) >= .milliseconds(1_400))
+    }
+
     @Test func aReadMacOSHoldsWhileItAsksIsWaitedFor() async {
         let released = DispatchSemaphore(value: 0)
         let read = { @Sendable (_: @escaping @Sendable () -> Bool) -> String in
