@@ -130,6 +130,7 @@ struct HomebrewList: View {
             else { return }
             await homebrew.refresh(includingReclaimable: true)
         }
+        .rescanAfterPutBack(.homebrew) { await homebrew.refresh(includingReclaimable: true) }
     }
 
     private func confirmationTitle(_ command: HomebrewLibrary.Command) -> Text {

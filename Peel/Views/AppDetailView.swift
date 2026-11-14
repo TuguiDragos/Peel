@@ -88,6 +88,7 @@ struct AppDetailView: View {
             await rescan()
         }
         .rescanOnExclusionChange(scannedUnder: plan.exclusionsRevision) { await rescan() }
+        .rescanAfterPutBack(.applications) { await rescan() }
         // A system extension is turned on and off in System Settings, so the page asks again when Peel comes back.
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             Task { await plan.followSystemExtensions() }

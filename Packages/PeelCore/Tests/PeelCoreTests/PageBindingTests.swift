@@ -17,4 +17,10 @@ struct PageBindingTests {
         #expect(list.contains(".onChange(of: history.revision)"))
         #expect(list.contains(".rescanAfterPutBack(.packages)"))
     }
+
+    @Test func thePagesThatRecordInHistoryListAgainAfterAPutBack() throws {
+        #expect(try source("Peel/Views/AppDetailView.swift").contains(".rescanAfterPutBack(.applications)"))
+        #expect(try source("Peel/Views/MultipleAppsView.swift").contains(".rescanAfterPutBack(.applications)"))
+        #expect(try source("Peel/Views/Homebrew/HomebrewList.swift").contains(".rescanAfterPutBack(.homebrew)"))
+    }
 }
