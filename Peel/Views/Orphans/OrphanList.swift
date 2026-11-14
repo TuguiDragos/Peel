@@ -13,12 +13,32 @@ struct OrphanList: View {
 
     static let nothingYet: LocalizedStringResource = "What removed apps left behind appears here: files named for an app that isn’t installed, and files of apps Peel saw removed."
 
+    /// Whether the page says that the list of what the person gave to apps and tools can't be read: the groups it
+    /// names are then listed again.
+    static func saysOwnersCannotBeRead(owners: [String: OrphanOwner]?) -> Bool {
+        owners == nil
+    }
+
+    private var ownersUnreadable: String {
+        orphans.whyOwnersUnreadable.said(after: String(localized: "Peel can’t read the list of files you said belong to an app or a command-line tool, so they’re listed here again. Start the list over in Settings > Exclusions."), about: OrphanOwners.defaultURL)
+    }
+
     var body: some View {
         @Bindable var orphans = orphans
         let filtered = filteredGroups
         let forAnAdministrator = filteredForAnAdministrator
 
         List(selection: $orphans.selection) {
+            if Self.saysOwnersCannotBeRead(owners: orphans.owners) {
+                Notice(
+                    title: Text("Files you gave to an app are listed again"),
+                    detail: Text(verbatim: ownersUnreadable)
+                ) {
+                    Button("Open Peel Settings") { SettingsPane.exclusions.open(with: openSettings) }
+                }
+                    .padding(.vertical, 6)
+                    .listRowSeparator(.hidden)
+            }
             if orphans.scan?.otherAccountsMayOwn == true {
                 Notice(
                     title: Text("This Mac has other accounts"),

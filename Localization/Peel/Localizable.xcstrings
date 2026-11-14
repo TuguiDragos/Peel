@@ -53768,6 +53768,112 @@
         }
       }
     },
+    "Files you gave to an app are listed again" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubory, které jste přiřadili aplikaci, se znovu zobrazují"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dateien, die du einer App zugeordnet hast, werden wieder angezeigt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los archivos que has asignado a una app vuelven a aparecer en la lista"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les fichiers que vous avez attribués à une app sont de nouveau listés"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I file che hai assegnato a un’app sono di nuovo in elenco"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリに属すると指定したファイルが再び表示されています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱의 소유로 지정한 파일이 다시 나열됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bestanden die je aan een app hebt toegewezen, worden weer getoond"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pliki przypisane przez Ciebie do aplikacji znów są na liście"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arquivos que você atribuiu a um app voltaram a ser listados"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierele pe care le‑ați atribuit unei aplicații sunt listate din nou"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файлы, которые Вы отнесли к приложению, снова в списке"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filer som du har angett hör till en app listas igen"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir uygulamaya atadığınız dosyalar yeniden listeleniyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файли, які ви приписали програмі, знову в списку"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你标为属于某个App的文件已再次列出"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你指定屬於某個App的檔案已再次列出"
+          }
+        }
+      }
+    },
     "Filters" : {
       "localizations" : {
         "cs" : {
@@ -148189,6 +148295,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法讀取存放已儲存的設定副本的檔案夾，因此無法列出或還原任何副本。"
+          }
+        }
+      }
+    },
+    "Peel can’t read the list of files you said belong to an app or a command-line tool, so they’re listed here again. Start the list over in Settings > Exclusions." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže přečíst seznam souborů, u kterých jste uvedli, že patří některé aplikaci nebo nástroji příkazového řádku, a proto se tu znovu zobrazují. Začněte seznam znovu v Nastavení > Výjimky."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann die Liste der Dateien, die laut deiner Angabe zu einer App oder einem Befehlszeilentool gehören, nicht lesen, daher werden sie hier wieder angezeigt. Beginne die Liste in den Einstellungen unter „Ausschlüsse“ neu."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede leer la lista de los archivos que has indicado que pertenecen a una app o a una herramienta de línea de comandos, así que vuelven a aparecer aquí. Vuelve a empezar la lista en Ajustes > Exclusiones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas lire la liste des fichiers que vous avez attribués à une app ou à un outil de ligne de commande : ils sont donc de nouveau listés ici. Recommencez la liste dans Réglages > Exclusions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non riesce a leggere l’elenco dei file che hai indicato come appartenenti a un’app o a uno strumento a riga di comando, quindi sono di nuovo elencati qui. Ricomincia l’elenco da capo in Impostazioni > Esclusioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、アプリまたはコマンドラインツールに属すると指定したファイルのリストを読み取れないため、それらのファイルがここに再び表示されています。“設定”＞“除外”でリストを最初からやり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용자가 앱 또는 명령어 라인 도구의 소유로 지정한 파일 목록을 Peel이 읽을 수 없으므로 해당 파일이 여기에 다시 나열됩니다. 설정 > 제외 항목에서 목록을 처음부터 다시 시작하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan de lijst van bestanden die volgens jou bij een app of een commandoregeltool horen, niet lezen, dus worden ze hier weer getoond. Begin in Instellingen > Uitsluitingen opnieuw met de lijst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może odczytać listy plików wskazanych przez Ciebie jako należące do aplikacji lub narzędzia wiersza polecenia, więc znów są tutaj wyświetlane. Zacznij tę listę od nowa w Ustawieniach > Wykluczenia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue ler a lista dos arquivos que você indicou como pertencentes a um app ou a uma ferramenta de linha de comando, então eles aparecem aqui de novo. Recomece a lista em Ajustes > Exclusões."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate citi lista fișierelor pe care le‑ați atribuit unei aplicații sau unui instrument în linie de comandă, așa că acestea sunt listate din nou aici. Reîncepeți lista în Configurări > Excluderi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удается прочитать список файлов, которые Вы отметили как принадлежащие приложению или инструменту командной строки, поэтому они снова показаны здесь. Начните список заново в разделе «Настройки» > «Исключения»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte läsa listan över filer som du har angett hör till en app eller ett kommandoradsverktyg, så de listas här igen. Börja om listan i Inställningar > Undantag."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, bir uygulamaya veya komut satırı aracına ait olduğunu söylediğiniz dosyaların listesini okuyamıyor, bu yüzden bu dosyalar burada yeniden listeleniyor. Listeyi Ayarlar > Hariç Tutulanlar’da baştan başlatın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може прочитати список файлів, які, за вашими словами, належать програмі або інструменту командного рядка, тож їх знову показано тут. Почніть список наново в розділі Параметри > Винятки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法读取你标为属于某个App或命令行工具的文件的列表，因此它们会在此处再次列出。请在“设置”>“排除项”中重新开始建立该列表。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取你指定屬於某個App或命令列工具的檔案列表，因此它們會再次列在這裡。請在「設定」>「排除項目」中重新開始此列表。"
           }
         }
       }
