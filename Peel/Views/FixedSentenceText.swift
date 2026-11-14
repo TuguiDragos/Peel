@@ -51,9 +51,14 @@ extension FixedSentence {
         }
     }
 
-    /// What PeelCore or the helper sent, in the reader's language when it is one of these, as it came otherwise.
+    /// What PeelCore or the helper sent, in the reader's language when it is one of these, as it came otherwise. A
+    /// transcript that ends with one on a line of its own, as a run Peel stopped does, has that line translated.
     static func translated(_ message: String, in bundle: Bundle? = nil) -> String {
-        FixedSentence(message).map { $0.words.resolved(in: bundle) } ?? message
+        if let sentence = FixedSentence(message) { return sentence.words.resolved(in: bundle) }
+        var lines = message.trimmingCharacters(in: .newlines).components(separatedBy: "\n")
+        guard lines.count > 1, let last = lines.last, let sentence = FixedSentence(last) else { return message }
+        lines[lines.count - 1] = sentence.words.resolved(in: bundle)
+        return lines.joined(separator: "\n")
     }
 }
 
