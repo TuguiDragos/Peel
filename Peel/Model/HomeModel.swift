@@ -297,9 +297,14 @@ final class HomeModel {
         await helperChecked
 
         // Free space is read every time, since it is how the user sees that a cleanup worked.
-        if !isFirstRead, let device {
-            self.device = await device.withStorageRead().named(modelName)
-        }
+        if !isFirstRead { await readFreeSpace() }
+    }
+
+    /// Reads again what is free on the disk, as Home appears after another page may have freed some: a Homebrew
+    /// uninstall or Clean Up deletes for good with Peel in front. Nothing before the first reading.
+    func readFreeSpace() async {
+        guard let device else { return }
+        self.device = await device.withStorageRead().named(modelName)
     }
 
     /// The saved marketing name of the Mac's model. A model never changes, so the name is read once and kept,

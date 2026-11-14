@@ -42,6 +42,7 @@ struct HomeView: View {
                 }
             }
         }
+        .task { await home.readFreeSpace() }
     }
 }
 
