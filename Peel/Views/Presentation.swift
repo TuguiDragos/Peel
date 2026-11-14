@@ -690,6 +690,10 @@ extension CloudRefusal {
             String(localized: "macOS says it is in use, though no program of your account has it open, so its download couldn’t be removed. Try again later.")
         case .keptDownloaded: String(localized: "Keep Downloaded is on for it in Finder, so iCloud would download it again.")
         case .notRemovable: String(localized: "iCloud keeps this download on this Mac, so it can’t be removed.")
+        case .hasSeveralNames:
+            String(localized: "It, or a file inside it, has another name on this Mac, so iCloud keeps its download.")
+        case .couldNotBeRead:
+            String(localized: "Peel couldn’t read all of it, so it can’t tell whether it changed and left it alone. Scan again to review it.")
         case .failed(let message): message
         }
     }

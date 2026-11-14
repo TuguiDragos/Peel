@@ -109,6 +109,36 @@ struct CloudStorageTests {
         #expect(asked.withLock { $0 } == 1)
     }
 
+    @Test func saysThatAFileWithSeveralNamesKeepsItsDownload() {
+        let links = NSError(domain: NSPOSIXErrorDomain, code: Int(EMLINK))
+        let children = NSError(
+            domain: NSFileProviderErrorDomain, code: NSFileProviderError.Code.nonEvictableChildren.rawValue,
+            userInfo: [NSMultipleUnderlyingErrorsKey: [links]]
+        )
+
+        #expect(CloudStorage.reason(for: links, holders: { _ in [] }) == .hasSeveralNames)
+        #expect(CloudStorage.reason(for: children, holders: { _ in [] }) == .hasSeveralNames)
+    }
+
+    @Test(.permissionsHold) func aPackageThatCanNoLongerBeReadIsNotSaidToBeEdited() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Mobile Documents/com~apple~CloudDocs/Notes.rtfd/TXT.rtf", bytes: 2_000_000)
+        try directory.file("Library/Mobile Documents/com~apple~CloudDocs/Notes.rtfd/Pictures/one.png", bytes: 16)
+        let collector = CloudStorage.Collector()
+        CloudStorage.collect(
+            home: directory.url, minimumSize: 1, exclusions: .none, into: collector,
+            countingFor: nil, isSafe: { _ in true }, unless: { false }
+        )
+        let scanned = try #require(collector.collected.files.first)
+        let pictures = "Library/Mobile Documents/com~apple~CloudDocs/Notes.rtfd/Pictures"
+        try directory.setPermissions(0o000, of: pictures)
+        defer { try? directory.setPermissions(0o755, of: pictures) }
+
+        let refused = await CloudStorage.free([scanned], exclusions: .none, whyNotSafe: { _ in nil }).refused
+
+        #expect(refused.map(\.reason) == [.couldNotBeRead])
+    }
+
     @Test func freesNothingThatChangedSinceTheScan() async throws {
         let directory = try TemporaryDirectory()
         let url = try directory.file("Library/Mobile Documents/com~apple~CloudDocs/file.bin", bytes: 2_000_000)

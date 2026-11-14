@@ -86,6 +86,11 @@ public struct CloudRefusal: Sendable, Hashable, Identifiable {
         case keptDownloaded
         /// iCloud marked it as a download it keeps.
         case notRemovable
+        /// It, or a file inside it, has several names on this Mac, so its download can't be removed
+        /// (`NSFileProviderManager.h`: an eviction fails with `EMLINK`).
+        case hasSeveralNames
+        /// Peel couldn't read all of it as it was freed, so whether it changed since the scan isn't known.
+        case couldNotBeRead
         /// macOS refused to free the file. The value is the error message it gave.
         case failed(String)
     }
@@ -572,12 +577,18 @@ public enum CloudStorage {
                 done.refused.append(CloudRefusal(url: file.url, reason: .excluded))
                 continue
             }
-            let modified: Date? = if values.isRegularFile == true {
-                values.contentModificationDate
+            let modified: Date?
+            if values.isRegularFile == true {
+                modified = values.contentModificationDate
             } else if values.isPackage == true {
-                package(url, values, exclusions: exclusions, unless: { false })?.modified
+                // Something excluded inside was refused above, so a package that gives no answer couldn't be read.
+                guard let measured = package(url, values, exclusions: exclusions, unless: { false }) else {
+                    done.refused.append(CloudRefusal(url: file.url, reason: .couldNotBeRead))
+                    continue
+                }
+                modified = measured.modified
             } else {
-                nil
+                modified = nil
             }
             // A date that can't be read, now or at the scan, never says the file is as it was.
             guard let modified, modified == file.modified else {
@@ -621,6 +632,8 @@ public enum CloudStorage {
             return .notUploaded
         case (NSFileProviderErrorDomain, NSFileProviderError.Code.nonEvictable.rawValue):
             return .notRemovable
+        case (NSPOSIXErrorDomain, Int(EMLINK)):
+            return .hasSeveralNames
         case (NSFileProviderErrorDomain, NSFileProviderError.Code.nonEvictableChildren.rawValue):
             return error.underlyingErrors.first.map { reason(for: $0, at: url, holders: holders) } ?? .notRemovable
         default:

@@ -89658,6 +89658,112 @@
         }
       }
     },
+    "It, or a file inside it, has another name on this Mac, so iCloud keeps its download." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato položka nebo některý soubor v ní má v tomto Macu ještě jiný název, a proto iCloud její staženou kopii ponechá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Objekt oder eine Datei darin hat auf diesem Mac einen weiteren Namen, daher behält iCloud den Download."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esto, o un archivo que hay dentro, tiene otro nombre en este Mac, así que iCloud conserva su descarga."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet élément, ou un fichier qu’il contient, a un autre nom sur ce Mac : iCloud conserve donc son téléchargement."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo elemento, o un file al suo interno, ha un altro nome su questo Mac, quindi iCloud ne conserva la copia scaricata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これ、またはこれに含まれるファイルには、このMac上に別の名前があるため、iCloudはダウンロードしたものを残します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목 또는 이 항목 안의 파일이 이 Mac에 다른 이름으로도 존재하므로 iCloud가 이 항목의 다운로드를 유지합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit onderdeel, of een bestand erin, heeft op deze Mac nog een andere naam, dus iCloud behoudt de download."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta rzecz lub znajdujący się w niej plik ma na tym Macu jeszcze inną nazwę, więc iCloud zachowuje jej pobraną kopię."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este item, ou um arquivo dentro dele, tem outro nome neste Mac, então o iCloud mantém o download dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acesta, sau un fișier din el, are și alt nume pe acest Mac, așa că iCloud îi păstrează descărcarea."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У этого объекта или у файла внутри него есть другое имя на этом Mac, поэтому iCloud оставляет его загруженным."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den, eller en fil i den, har ytterligare ett namn på den här datorn, så iCloud behåller hämtningen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu öğenin ya da içindeki bir dosyanın bu Mac’te başka bir adı var, bu yüzden iCloud indirilmiş kopyasını tutuyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей елемент або файл у ньому має на цьому Mac ще одну назву, тож iCloud зберігає його викачування."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它或其中的某个文件在这台Mac上有另一个名称，因此iCloud会保留它已下载的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它或它裡面的某個檔案在這部Mac上另有一個名稱，因此iCloud會保留其下載項目。"
+          }
+        }
+      }
+    },
     "Item" : {
       "localizations" : {
         "cs" : {
@@ -154091,6 +154197,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法讀取已儲存列表中的%lld個項目，因此不會將其中寫明的內容原地保留。若要讓某個項目不受Peel處理，請在下方重新加入它。下次列表變更時，舊檔案會保留在新檔案旁邊。"
+          }
+        }
+      }
+    },
+    "Peel couldn’t read all of it, so it can’t tell whether it changed and left it alone. Scan again to review it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst celou položku, takže nedokáže zjistit, zda se změnila, a nechal ji nedotčenou. Prohledejte znovu a zkontrolujte ji."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte es nicht vollständig lesen, kann also nicht erkennen, ob es sich geändert hat, und hat es unangetastet gelassen. Scanne erneut, um es zu prüfen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leerlo entero, así que no puede saber si ha cambiado, y no lo ha tocado. Vuelve a analizar para revisarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu le lire en entier : ne pouvant pas savoir s’il a été modifié, Peel n’y a pas touché. Relancez l’analyse pour le vérifier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggerlo per intero, quindi non può sapere se è cambiato e non l’ha toccato. Analizza di nuovo per rivederlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはすべてを読み取れなかったため、変更されたかどうかを判断できず、手を付けませんでした。もう一度スキャンして確認してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 항목을 전부 읽지 못해 변경되었는지 알 수 없으므로 그대로 두었습니다. 다시 스캔하여 검토하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon het niet helemaal lezen, dus kan Peel niet zien of het is gewijzigd en heeft Peel het met rust gelaten. Scan opnieuw om het te bekijken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać tego w całości, więc nie może ustalić, czy to się zmieniło, i zostawił to na miejscu. Przeskanuj ponownie, aby to przejrzeć."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu lê-lo por inteiro, então não consegue saber se mudou e não mexeu nele. Analise de novo para revisá-lo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu l‑a putut citi în întregime, așa că nu poate ști dacă s‑a modificat și l‑a lăsat neatins. Scanați din nou pentru a‑l revizui."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать объект целиком, поэтому неизвестно, изменился ли он, и Peel его не тронул. Просканируйте снова, чтобы просмотреть его заново."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa den i sin helhet, så Peel kan inte avgöra om den har ändrats och lät den vara. Skanna igen för att granska den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel onun tamamını okuyamadı, bu yüzden değişip değişmediğini anlayamıyor ve ona dokunmadı. Gözden geçirmek için yeniden tarayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не змогла прочитати елемент повністю, тож не може визначити, чи він змінився, і не чіпала його. Проскануйте знову, щоб переглянути його."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能读取它的全部内容，因此无法判断它是否发生了变化，于是没有触碰它。请重新扫描以检查它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取它的全部內容，因此無法判斷它是否有所變更，便沒有動它。請重新掃描以檢查。"
           }
         }
       }
