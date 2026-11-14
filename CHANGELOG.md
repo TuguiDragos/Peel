@@ -7,6 +7,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 ### Added
 
+#### History
+
+- Forget What Left the Trash… in History's toolbar forgets, after one question, everything History lists that has
+  already left the Trash. What is still in the Trash, or on a disk that isn't connected, stays listed.
+
 #### Applications
 
 - Uninstalling Burp Suite, Community Edition or Professional, says that its root certificate, PortSwigger CA, stays
@@ -47,6 +52,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   and `peel orphans` say that an app another account keeps in its own Applications folder isn't visible from here.
 - Once Ollama, LM Studio, or Osaurus is gone, Orphaned Files lists the folder where it kept its models, as long as no
   command of the same tool, such as the `ollama` Homebrew installs, still uses it. Nothing in it is selected for you.
+
+#### Intel Software
+
+- Intel Software also reads the commands in `/opt/homebrew/bin`, where Homebrew links a cask's command on Apple silicon,
+  and names the formula or cask that installed each, with the way to the Homebrew page.
 
 #### Homebrew
 
@@ -170,6 +180,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### iCloud Drive
 
 - The note on downloads that would free nothing says first that they aren't listed, then why.
+- iCloud Drive asks iCloud only about the files big enough to list, so its scan takes less time.
 
 #### File Search
 
@@ -221,6 +232,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - With the helper installed by another copy of Peel, Home says to open that copy, no longer to set the helper up below,
   where this copy has no button for it.
 - VoiceOver says Warning or Info for the mark of a notice on Home, as everywhere else, rather than the symbol's name.
+- The note beside Peel's login item names Open at Login, the section where System Settings lists it.
+- What is free on the disk is read again each time Home appears, so it is right after a Homebrew uninstall or Clean Up.
 
 #### Menu bar
 
@@ -243,6 +256,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   a folder again, instead of naming a folder that isn't used.
 - On macOS 27, a Finder tweak's note and the Turn All Off question no longer warn that restarting Finder stops a copy it
   is making: there the copy goes on to the end.
+- Choose… for the screenshot folder opens as a sheet of the window, so nothing else on the page can be pressed while it
+  is open, and the row says when the folder chosen can't take screenshots.
 
 #### Terminal
 
@@ -259,6 +274,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   a `#` that begins a comment.
 - The Git tab also reads `~/.config/git/config` and the settings file of the installed Git. A switch set there and not
   in `~/.gitconfig` is left to you and says where it is set, and turning one on no longer writes what changes nothing.
+- The SSH tab counts Peel's `Include` as read only where ssh reads it for every server: before any `Host` or `Match`, or
+  under `Match all` or `Host *`. Anywhere else it gives the lines to add.
 
 #### History
 
@@ -287,6 +304,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   and in `peel restore`.
 - Once something comes back from History, an app's page, several apps' page, and the Homebrew page read again what they
   show.
+- Items moved to the Trash of a disk that isn't connected can be forgotten, after a question of their own: if the disk
+  comes back, what is in its Trash can only be dragged out in Finder.
+- Forget stays off while Peel holds every removal, as Put Back does.
 
 #### Settings
 
@@ -323,6 +343,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Settings > Exclusions says how many entries of the saved list couldn't be read.
 - Putting back saved settings leaves alone an app excluded by the folder it is in, as a reset does.
 - When Homebrew removes Peel, Settings says that a `peel` link only an administrator can move stays.
+- When Remove Peel can't move Peel after the helper went, its alert says the helper is already removed for every
+  account, and where to install it again.
 
 #### Applications
 
@@ -482,6 +504,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   `peel uninstall`.
 - Several apps' page says when a place held more folders than Peel looks inside, and its total counts only what can be
   selected now, as an app's page does.
+- The list names a chosen app folder Peel no longer looks in, with a way to Settings.
+- A file you selected of an app that stays says the app it belongs to stays where it is, no longer Not selected, on an
+  app's page and on several apps' page alike.
 
 #### Orphaned Files
 
@@ -535,6 +560,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A job's program named through Homebrew's opt link, as `brew services` writes it, is listed once.
 - What an Intel Homebrew installed names its formula and Homebrew's step, with a way to the Homebrew page, no longer the
   advice to move its folder in Finder.
+- Each command's row says the folder it was found in, unless it names the Homebrew package it comes from.
+- The note of the Intel only badge no longer says a plug-in needs Rosetta where nothing on macOS loads it anymore.
 
 #### Package Receipts
 
@@ -564,6 +591,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Before a receipt's apps move, Peel asks to quit only what an app's own page asks, no longer an extension of the app
   or a job launchd only starts again.
 - An app inside a folder a package installed whole is asked to quit, and taken out of the Dock, as a selected app is.
+- A receipt that lists only folders every package shares reads as a package placed by its scripts, no longer as Receipt
+  Only with nothing left.
+- Forget All forgets this account's own receipts without the helper, and its question says the receipts of packages
+  installed for every account stay until the helper can move them.
+- The empty page says it lists packages installed for every account and for you alone.
 
 #### Homebrew
 
@@ -603,6 +635,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   packages isn't on this Mac.
 - Upgrade says which formula excluded in Settings an upgrade would take with it, and Upgrade All leaves such a package
   out.
+- Forget Cask and Forget All leave out a cask the exclusions keep, as Uninstall does.
+- On an account that isn't an administrator's, a cask whose step needs an administrator's password says Homebrew stops
+  at the password, and that the command works from an administrator's account that can change this Homebrew.
+- Upgrade and Uninstall ask the exclusions again as they start, and run nothing for a package the exclusions keep.
 
 #### Space
 
@@ -621,6 +657,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   keep there.
 - What a service wrote in the last 15 minutes is read again right before a move, so a selection carried from another
   page leaves it.
+- Only a released .NET SDK counts as newer: a preview no longer gives the stable SDK in use the note that a newer one is
+  installed.
 
 #### Developer
 
@@ -654,6 +692,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   environment and not walked into: the `__pycache__` folders of its packages no longer show as projects.
 - A `.serverless` folder that holds a Serverless Components deployment's state is listed and not selected.
 - Only `.turbo/cache` is offered: the rest of `.turbo` keeps the link `turbo link` makes to a remote cache.
+- A project's `.gradle` folder that holds the JDK Android Studio chose for it, in `config.properties`, is listed and
+  left unselected.
 
 #### Installers and Backups
 
@@ -667,6 +707,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - iPhone and iPad backups kept on another disk through a link are listed. A folder closed by its own permissions, or a
   link to a disk that isn't connected, is named as one Peel couldn't look inside, with Full Disk Access suggested only
   when macOS kept Peel out, and a folder Peel moves from that is a link is said to be kept elsewhere.
+- When macOS doesn't say which disk images are open, a disk image is left unselected and refused when moved, with why.
+- The summary counts and sizes only what can move now, with the helper as it is.
 
 #### Duplicates
 
@@ -698,6 +740,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - When iCloud Drive itself can't be read but Desktop and Documents can, their files are listed with a note and a total
   that is only the least there is, no longer under the can't-read message.
 - Desktop and Documents kept in iCloud are known however iCloud's link writes the home folder.
+- Removing a download of a file with two names, or of a package that can no longer be read, says what happened, no
+  longer macOS's own message or that it was edited.
 
 #### File Search
 
@@ -707,6 +751,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Deselecting them from another page's bar leaves them too.
 - Taking an exclusion off in Settings brings back the file it left out.
 - A file on a disk mounted read only says nothing can move it, no longer to use Finder.
+- When Spotlight keeps a disk's index read only, as on a full disk, the page and `peel search` say that files added or
+  changed since may be missing.
+- The filters' note and the help of `peel search` say that a document Finder shows as one file, such as a sparse bundle
+  disk image or an RTFD, is never listed.
+- A disk image mounted read only, as an installer's is, is no longer named at every search of This Mac, and the sentence
+  about Search Privacy stays.
 
 #### Background Items
 
@@ -726,6 +776,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Putting back the old version of an edited agent starts again the job the edit was running.
 - An old job file beside the job an app gave launchd under the same name is said to be not loaded, the app's job gets
   its own row, and moving the file leaves that job running.
+- A security agent's or a VPN's job says its maker's own uninstaller removes it, as Applications does, and Disable and
+  Move to Trash ask first.
+- After Save, an edited agent is loaded again as its new file says, with its session and whether it is disabled.
+- An agent its file limits to the login window offers no Load, and its page says macOS loads it only there.
+- Unusual command also judges where the script an interpreter runs from disk is, as it judges the program, and reads the
+  command `env` or `nohup` runs.
 
 #### Extensions
 
@@ -740,6 +796,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   maker removes it with its own uninstaller: it says what the app's page says.
 - A system extension macOS keeps for an app inside another, as Kaspersky's and Privileges' are, goes by the outer app:
   Review in Applications opens it, and excluding it leaves the extension out.
+- A system extension's page names every category macOS keeps it under.
 
 #### Plug-ins
 
@@ -747,6 +804,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   anymore, here and in Intel Software: `/usr/bin/java` still runs it.
 - A folder above the plug-ins that can't be searched is named among the folders Peel couldn't look inside, no longer
   read as empty.
+- After a plug-in is replaced, Rescan shows its new localized name.
 
 #### Every page
 
@@ -835,6 +893,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - `peel uninstall --json` asks for `--yes` or `--dry-run` first, since its JSON shows no plan before the question.
 - `peel` says why it can't read an app given by its path, as the app does: it's built for another Apple platform, it
   has no Info.plist, or macOS keeps your terminal app from reading it, no longer only that it isn't an app.
+- `peel leftovers` and `peel orphans` say when a settings file is damaged, in a row's notes and as `damaged` in JSON.
+- `peel search` prints a file's length beside a smaller size, and says once what a size is.
+- The help of `peel inventory` says Installed On is the day the app last arrived in its folder, which an update moves.
 
 ### Security
 
