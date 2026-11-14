@@ -210,6 +210,9 @@ public enum DeveloperCaches {
         /// The file that marks each row's folder, as Jan marks a model's with `model.yml`, or nil. The rows are then
         /// the folders holding it, at any depth up to three, and what holds none is not listed.
         let rowsHolding: String?
+        /// The beginning of the names among its places that are none of its rows, as GPT4All leaves its unfinished
+        /// `incomplete-` downloads out of its models.
+        let leavesOut: String?
         /// True for Xcode's DerivedData, whose rows are the tool's own only when `derivedDataRow(at:)` shows it.
         let rowsAreDerivedData: Bool
         /// True for an editor's `workspaceStorage`, whose rows are listed only when `goneProject(at:)` names one.
@@ -232,8 +235,9 @@ public enum DeveloperCaches {
 
         init(
             _ path: String, _ kind: DeveloperEnvironment.ContentKind, source: String, storeInside: String? = nil,
-            rowsDepth: Int = 0, rowEnding: String? = nil, rowsHolding: String? = nil, rowsAreDerivedData: Bool = false,
-            rowsAreProjectState: Bool = false, movedBy: Relocation? = nil, base: Base = .home,
+            rowsDepth: Int = 0, rowEnding: String? = nil, rowsHolding: String? = nil, leavesOut: String? = nil,
+            rowsAreDerivedData: Bool = false, rowsAreProjectState: Bool = false, movedBy: Relocation? = nil,
+            base: Base = .home,
             launchers: [String] = [], clonedFrom: String? = nil, holdsBackRecentWrites: Bool = false,
             namesItsPort: Bool = false
         ) {
@@ -244,6 +248,7 @@ public enum DeveloperCaches {
             self.rowsDepth = rowsDepth
             self.rowEnding = rowEnding
             self.rowsHolding = rowsHolding
+            self.leavesOut = leavesOut
             self.rowsAreDerivedData = rowsAreDerivedData
             self.rowsAreProjectState = rowsAreProjectState
             self.movedBy = movedBy
@@ -300,7 +305,10 @@ public enum DeveloperCaches {
             var places = PathPattern.expand(path, home: root, from: .peel)
             places += movedBy?.places(preference: preference, settings: settings).map(\.place) ?? []
             var seen: Set<String> = []
-            return places.filter { seen.insert(PathPattern.comparablePath(of: $0)).inserted }
+            return places.filter { place in
+                !(leavesOut.map { place.lastPathComponent.hasPrefix($0) } ?? false)
+                    && seen.insert(PathPattern.comparablePath(of: place)).inserted
+            }
         }
 
         func rows(in folder: URL) -> [URL] {
@@ -1332,7 +1340,7 @@ public enum DeveloperCaches {
         // The app keeps its chats beside its models, so only the model files are listed.
         Definition(id: "gpt4all", name: "GPT4All", systemImage: "brain", appBundleIdentifiers: ["gpt4all"], folders: [
             Folder(".cache/gpt4all", .models, source: "https://github.com/nomic-ai/gpt4all/blob/b666d16db5aeab8b91aaf7963adcee9c643734d7/gpt4all-bindings/python/gpt4all/gpt4all.py#L36"),
-            Folder("Library/Application Support/nomic.ai/GPT4All/*.gguf", .models, source: "https://github.com/nomic-ai/gpt4all/blob/b666d16db5aeab8b91aaf7963adcee9c643734d7/gpt4all-chat/src/mysettings.cpp#L78-L81"),
+            Folder("Library/Application Support/nomic.ai/GPT4All/*.gguf", .models, source: "https://github.com/nomic-ai/gpt4all/blob/b666d16db5aeab8b91aaf7963adcee9c643734d7/gpt4all-chat/src/mysettings.cpp#L78-L81", leavesOut: "incomplete"),
         ]),
         Definition(id: "tensorflow", name: "TensorFlow Datasets", systemImage: "brain", appBundleIdentifiers: [], folders: [
             Folder("tensorflow_datasets", .models, source: "https://github.com/tensorflow/datasets/blob/ff9ea5fdcba7cc4d25bac833ecb6659397694c12/tensorflow_datasets/core/constants.py#L36-L37"),

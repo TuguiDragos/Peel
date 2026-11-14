@@ -872,7 +872,8 @@ struct DeveloperCachesTests {
         let gpt4All = "Library/Application Support/nomic.ai/GPT4All"
         let anythingLLM = "Library/Application Support/anythingllm-desktop/storage"
         for path in [
-            "\(gpt4All)/Llama-3.2-3B-Instruct-Q4_0.gguf", "\(gpt4All)/gpt4all-1a2b.chat", "\(gpt4All)/localdocs_v3.db",
+            "\(gpt4All)/Llama-3.2-3B-Instruct-Q4_0.gguf", "\(gpt4All)/incomplete-Mistral-7B-Instruct-Q4_0.gguf",
+            "\(gpt4All)/gpt4all-1a2b.chat", "\(gpt4All)/localdocs_v3.db",
             "\(gpt4All)/openai-capi.rmodel", "\(anythingLLM)/models/model.gguf", "\(anythingLLM)/logs/backend.log",
             "\(anythingLLM)/documents/notes.json", "\(anythingLLM)/anythingllm.db", "\(anythingLLM)/vector-cache/a.json",
             "invokeai/models/sdxl/model.safetensors", "invokeai/outputs/images/1.png", "invokeai/databases/invokeai.db",
