@@ -533,6 +533,23 @@ struct IntelInspectorTests {
         #expect(command.commandFolder == .optHomebrew)
     }
 
+    @Test func saysWhichFolderEachCommandOfOneNameIsIn() async throws {
+        let directory = try TemporaryDirectory()
+        let folders = ["root/usr/local/bin", "root/opt/local/bin", "home/bin"]
+        for folder in folders {
+            try directory.setPermissions(0o755, of: try directory.file("\(folder)/jq", contents: fatHeader([intel])))
+        }
+
+        let scan = await IntelInspector.scan(
+            installedApps: [], exclusions: .none, environment: environment(in: directory), measure: { _ in 1 }
+        )
+
+        let found = scan.findings(of: .commandLineTool).compactMap(\.foundIn).map(PathPattern.comparablePath(of:))
+        #expect(Set(found) == Set(folders.map {
+            PathPattern.comparablePath(of: directory.url.appending(path: $0, directoryHint: .isDirectory))
+        }))
+    }
+
     @Test func findsTheIntelOnlyJavaRuntimesInEitherLibrary() async throws {
         let directory = try TemporaryDirectory()
         try javaRuntime(directory, "home/Library/Java/JavaVirtualMachines/jdk-21.0.13+9", [intel], name: "OpenJDK 21.0.13")

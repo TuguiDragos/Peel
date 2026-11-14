@@ -200,6 +200,12 @@ extension IntelFinding {
         return kind == .backgroundItem ? "started by \(owner)" : "in \(owner)"
     }
 
+    /// What the row says under the name: `subtitle`, or for a command the folder it is in, since one name is often a
+    /// command in several folders.
+    var rowCaption: String? {
+        subtitle.map { String(localized: $0) } ?? foundIn.map { ($0.fullPath as NSString).abbreviatingWithTildeInPath }
+    }
+
     /// Whether the Plug-ins page lists it: a plug-in found in one of that page's folders, which carries its format.
     var isOnThePlugInsPage: Bool {
         kind == .plugin && pluginCategory != nil

@@ -223,8 +223,8 @@ private struct IntelRow: View {
                 Text(verbatim: finding.name)
                     .lineLimit(1)
                     .truncationMode(.middle)
-                if let subtitle = finding.subtitle {
-                    Text(subtitle)
+                if let caption = finding.rowCaption {
+                    Text(verbatim: caption)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)

@@ -37,6 +37,8 @@ public struct IntelFinding: Sendable, Hashable, Identifiable {
     public var formula: Formula?
     /// The Homebrew cask whose folder in the Caskroom holds it, read from where it is (`IntelInspector.cask`).
     public var cask: Cask?
+    /// For a command, the folder it was found in, which tells several commands of one name apart.
+    public var foundIn: URL?
 
     public var id: URL { url }
 
@@ -332,7 +334,8 @@ public enum IntelInspector {
                     size: nil,
                     commandFolder: Self.homebrewPrefixes(environment).first { $0.prefix == homebrew }?.place ?? place,
                     formula: formula,
-                    cask: cask
+                    cask: cask,
+                    foundIn: tool.command.deletingLastPathComponent()
                 ))
             }
         }

@@ -12,6 +12,19 @@ struct IntelExplanationTests {
         )
     }
 
+    @Test func aCommandsRowSaysWhichFolderItIsIn() {
+        func command(in folder: String) -> IntelFinding {
+            var finding = IntelFinding(
+                url: URL(filePath: "\(folder)/jq"), kind: .commandLineTool, name: "jq", owner: nil, size: 10
+            )
+            finding.foundIn = URL(filePath: folder, directoryHint: .isDirectory)
+            return finding
+        }
+
+        #expect(command(in: "/opt/local/bin").rowCaption == "/opt/local/bin")
+        #expect(command(in: "/usr/local/bin").rowCaption == "/usr/local/bin")
+    }
+
     @Test func saysWhereAnIntelPlugInCanLoad() {
         let words = { (finding: IntelFinding) in String(localized: finding.explanation(onAppleSilicon: true)) }
 
