@@ -115,7 +115,7 @@ struct SpaceList: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                     Link(destination: Links.appleIntelligenceGuide) {
-                        Text("Turn Off Apple Intelligence Features")
+                        Text("How to Turn Off Apple Intelligence Features, in the Mac User Guide")
                             .minimumTarget()
                     }
                     .font(.caption)

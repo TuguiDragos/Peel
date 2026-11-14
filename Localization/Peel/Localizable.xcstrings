@@ -72515,6 +72515,112 @@
         }
       }
     },
+    "How to Turn Off Apple Intelligence Features, in the Mac User Guide" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jak vypnout funkce Apple Intelligence, v Uživatelské příručce pro Mac"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "So deaktivierst du Apple Intelligence-Funktionen, im Mac-Benutzerhandbuch"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cómo desactivar las funciones de Apple Intelligence, en el Manual de uso del Mac"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment désactiver les fonctionnalités d’Apple Intelligence, dans le Guide d’utilisation du Mac"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Come disattivare le funzionalità di Apple Intelligence, nel Manuale utente del Mac"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Intelligence機能をオフにする方法（Macユーザガイド）"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac 사용 설명서의 Apple Intelligence 기능을 끄는 방법"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zo schakel je Apple Intelligence-functies uit, in de Mac-gebruikershandleiding"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jak wyłączyć funkcje Apple Intelligence, w Podręczniku użytkownika Maca"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como Desativar Recursos da Apple Intelligence, no Manual do Usuário do Mac"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cum dezactivați funcționalitățile Apple Intelligence, în Manualul de utilizare Mac"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как выключить функции Apple Intelligence, статья в Руководстве пользователя Mac"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Så här stänger du av Apple Intelligence-funktioner, i Användarhandbok för Mac"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Intelligence Özelliklerini Kapatma, Mac Kullanma Kılavuzu’nda"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Як вимкнути функції Apple Intelligence, у Посібнику користувача Mac"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Mac使用手册中了解如何关闭Apple智能功能"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「Mac使用手冊」中瞭解如何關閉Apple Intelligence功能"
+          }
+        }
+      }
+    },
     "How to free it" : {
       "localizations" : {
         "cs" : {
@@ -237931,112 +238037,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "先關閉此App的系統延伸功能"
-          }
-        }
-      }
-    },
-    "Turn Off Apple Intelligence Features" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vypnout funkce Apple Intelligence"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apple Intelligence-Funktionen deaktivieren"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Desactivar las funciones de Apple Intelligence"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Désactiver les fonctionnalités d’Apple Intelligence"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disattiva le funzionalità di Apple Intelligence"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apple Intelligence機能をオフにする"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apple Intelligence 기능 끄기"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Schakel Apple Intelligence-functies uit"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wyłącz funkcje Apple Intelligence"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Desativar Recursos da Apple Intelligence"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dezactivați funcționalitățile Apple Intelligence"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выключить функции Apple Intelligence"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stäng av Apple Intelligence-funktioner"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apple Intelligence Özelliklerini Kapat"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вимкнути функції Apple Intelligence"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "关闭Apple智能功能"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "關閉Apple Intelligence功能"
           }
         }
       }
