@@ -292,8 +292,10 @@ Trash, is refused. And it takes only the very item that went: History keeps whic
 it was made), so once the Trash is emptied, another item that lands in the same place, another project's
 `node_modules`, say, is never put back in its stead.
 Nor does it put anything back inside an app, since Peel moves an app only whole.
-History offers to forget a record only once its item has certainly left the Trash, asks first, and looks again
-just before; an item Peel isn't allowed to look at is shown as not known and kept.
+History offers to forget a record only once its item has certainly left the Trash, or is on a disk you say won't come
+back, asks first, and looks again just before; an item Peel isn't allowed to look at is shown as not known and kept.
+Forget What Left the Trash does the same for every removal at once, and never takes what is on a disk that isn't
+connected.
 
 ## What Peel changes besides moving files
 
@@ -399,7 +401,8 @@ Only matches Peel is `certain` or `likely` about, and only when nothing else ins
   say why they aren't selected, and Select All asks before it takes them. An app that is part of another, such as a
   helper app inside the app it serves, is never moved on its own, from the app or from `peel`: it would be cut out of
   the app it belongs to. When you remove several apps at once and deselect one of them, it stays too: its files leave
-  the selection, those it shares with the other apps included, and selecting it again brings them back.
+  the selection, those it shares with the other apps included, and selecting it again brings each back once no app
+  that stays still uses it, unless you selected or deselected that file yourself meanwhile.
 - **What macOS installed stays macOS's.** Something one of Apple's own installer packages put on the Mac, as its
   receipt shows, is never listed with an app, whatever it is named, nor among what an uninstall leaves for an
   administrator, such as a folder Xcode installed that is named for Chrome.
@@ -425,7 +428,8 @@ opens the app whose own command removes it, and links to the maker's instruction
 keeps in the system and the settings that manage it would stay behind. Peel knows it by the team its checked signature
 names, a signature that seals the app's own Info.plist, and by its identifier, both as the maker documents or signs
 them, never by the identifier alone, which any app could claim. `peel uninstall` refuses it and names the same
-uninstaller. An uninstaller its maker documents opening to remove a product, such as Google's Chrome Remote Desktop Host
+uninstaller, and Background Items says the same on the app's jobs and asks before it disables one or moves its file to
+the Trash. An uninstaller its maker documents opening to remove a product, such as Google's Chrome Remote Desktop Host
 Uninstaller, Wacom Tablet Utility, or Avast Security Uninstaller, is treated the same way: moved on its own, it would
 leave the product installed, so its page offers to open it instead.
 
@@ -467,8 +471,9 @@ Never selected for you, even when found:
   open, and moving it would free nothing.
 - `/Users/Shared`: it belongs to every account, not just yours.
 - A project changed in the last 7 days, and a download that changed in the last day, which may still be going.
-- A folder with a repository, a wallet, a signing key, or a password database (KeePass's `.kdbx`, KeePassXC's `.keyx`,
-  a 1Password vault kept outside an account, `.opvault` or `.agilekeychain`) inside.
+- A wallet's file or a password database (KeePass's `.kdbx`, KeePassXC's `.keyx`, a 1Password vault kept outside an
+  account, `.opvault` or `.agilekeychain`), wherever a page finds it, File Search included, and a folder with one of
+  them, a repository, a signing key, or Terraform's state (`terraform.tfstate`, the only record of what it made) inside.
 - What an app keeps that may exist only on this Mac: local mail, message history, a password manager's vaults and
   backups and an authenticator's codes, a browser's or a remote access app's saved passwords, VPN connections and
   identities, a torrent client's list of torrents, a game's saves, virtual machines and Windows bottles
@@ -484,7 +489,8 @@ Never selected for you, even when found:
   installed in them and their data, and never selected, and so are the virtual machines of Genymotion and Rancher
   Desktop when you uninstall them.
 - A copy Mail keeps of an attachment you opened, which you may have changed.
-- A file a program has open right now, and a disk image that is open right now.
+- A file a program has open right now, and a disk image that is open right now, or that Peel can't tell is closed
+  because macOS didn't say which are open.
 - An installer package an app keeps in Application Support, which the app may still need, and an update whose app is
   running, which may install it when the app quits.
 - An encrypted disk image, a disk image, package, or archive that isn't an installed app's installer and doesn't say
@@ -504,10 +510,12 @@ total that leaves such a folder out reads "Over" what is known.
 A repository can still be selected in two places, since its tool makes everything there again. One is Swift Package
 Manager's `.build`, which it tags as a cache (`CACHEDIR.TAG`) and where it clones a package's dependencies: `swift
 package reset` deletes that folder whole, so Build Artifacts can still select it. A tag alone never makes a repository
-selectable: anyone can write one. The other is a cache on the Developer page, a folder its tool's documentation or
-source shows to be a cache, such as the packages Xcode checks out into DerivedData or the clones Cargo and Swift Package
-Manager keep, which the tool clones again when it needs them. Of Carthage's folder in a project, only `Carthage/Build`,
-which `carthage build` makes, is offered: its checkouts, which people commit in, carry no such tag and are never listed.
+selectable, nor any folder recommended: anyone can write one, and people tag their own big folders so backups leave
+them out, so a folder only its tag marks is listed and left to you. The other is a cache on the Developer page, a
+folder its tool's documentation or source shows to be a cache, such as the packages Xcode checks out into DerivedData
+or the clones Cargo and Swift Package Manager keep, which the tool clones again when it needs them. Of Carthage's
+folder in a project, only `Carthage/Build`, which `carthage build` makes, is offered: its checkouts, which people
+commit in, carry no such tag and are never listed.
 
 Build Artifacts recommends what a build or a package manager makes again from the project's own files, such as
 `DerivedData`, `.build`, and `.next`, once Peel can tell that nothing in the project has changed for a week. That
@@ -518,29 +526,33 @@ Peel can't read, or can't read in time. Peel reads that list from Git's own inde
 Git in a project.
 Installed packages are listed and never selected, since packages are often installed into them by hand: a Python
 environment (`.venv`, `venv`, `env`, PDM's `__pypackages__`, tox's `.tox`, Nox's `.nox`, and any folder that holds the
-`pyvenv.cfg` every environment has, beside a Python project's own file or tagged as a cache), Composer's `vendor`, Mix's
-`deps`, Shards' `lib`, and Elm's
-`elm-stuff`. So is Terraform's `.terraform`, which keeps the workspace you chose, and xwin's `.xwin-cache`, the Windows
-SDK a Rust project builds against, which only `xwin splat` with your own options puts back. Pixi's `.pixi/envs` can be
-suggested: Pixi makes it again from `pixi.lock` and never lets it be edited by hand. A Meson build folder, whatever its
-name and wherever Peel finds it, is never selected: it also keeps the options its build was set up with, which Meson's
-own `--wipe` carries over and nothing else in the project holds. Neither is Bloop's `.bloop`, which keeps the workspace
-settings written there. A folder whose name says nothing on its own, such as `target` or `build`, is listed and never
-selected either. Of a Godot project's `.godot`, only the caches Godot makes again are offered, `imported` and
-`shader_cache`: the folder also holds the export passwords and keys (`export_credentials.cfg`), which exist nowhere
-else. Nx's `.nx` is offered only when it holds nothing but the cache and the database beside it, which `nx reset`
-removes together, since a team can keep its release plans there. Build Artifacts never searches a hidden folder, a
-Library, or a folder a tool fills, such as `node_modules`: apps and tools keep there what they install, as an editor
-keeps each extension's `package.json` beside the `node_modules` it runs with. A folder chosen to search that is one of
-those, or sits inside one, is refused with the reason.
+`pyvenv.cfg` every environment has, wherever it is), a conda environment made in a folder (known by its
+`conda-meta/history`), Composer's `vendor`, Mix's `deps`, Shards' `lib`, and Elm's `elm-stuff`; Peel doesn't walk into
+an environment either. So is Terraform's `.terraform`, which keeps the workspace you chose, Serverless Components'
+`.serverless` while it holds a deployment's state, which the next deployment reads to find what it made, a project's
+`.gradle` that holds `config.properties`, where Android Studio keeps the JDK it chose for the project's Gradle, and
+xwin's `.xwin-cache`, the Windows SDK a Rust project builds against, which only `xwin splat` with your own options puts
+back. Pixi's `.pixi/envs` can be suggested: Pixi makes it again from `pixi.lock` and never lets it be edited by hand. A
+Meson build folder, whatever its name and wherever Peel finds it, is never selected: it also keeps the options its build
+was set up with, which Meson's own `--wipe` carries over and nothing else in the project holds. Neither is Bloop's
+`.bloop`, which keeps the workspace settings written there. A folder whose name says nothing on its own, such as
+`target` or `build`, is listed and never selected either. Of a Godot project's `.godot`, only the caches Godot makes
+again are offered, `imported` and `shader_cache`: the folder also holds the export passwords and keys
+(`export_credentials.cfg`), which exist nowhere else. Of Turborepo's `.turbo`, only its `cache` is offered: `turbo link`
+writes there which remote cache the repository uses. Nx's `.nx` is offered only when it holds nothing but the cache and
+the database beside it, which `nx reset` removes together, since a team can keep its release plans there. Build
+Artifacts never searches a hidden folder, a Library, or a folder a tool fills, such as `node_modules`: apps and tools
+keep there what they install, as an editor keeps each extension's `package.json` beside the `node_modules` it runs
+with. A folder chosen to search that is one of those, or sits inside one, is refused with the reason.
 
 Developer, Build Artifacts, Space, and Installers and Backups select nothing for you: opening a page selects nothing,
 and Select Recommended selects what Peel recommends there.
 
 Orphaned Files selects nothing for you, and `peel orphans --remove` leaves out everything Peel holds back. What it
 holds back moves only when you select it yourself in the app: a folder in `/Users/Shared`, one with a repository, a
-wallet, a signing key, or a password database inside, one that may hold what exists only on this Mac, one Peel could
-not read or measure in time, a crash report, and what only a gone app's name ties to it.
+wallet, a signing key, a password database, or Terraform's state inside, one that may hold what exists only on this
+Mac, one that holds what a developer tool still uses, such as installed packages or model weights, one Peel could not
+read or measure in time, a crash report, and what only a gone app's name ties to it.
 The copy macOS installed of a system extension, in `/Library/SystemExtensions`, is listed and can't be selected:
 only macOS removes it, and its note says how (on macOS 27, Delete Extension in System Settings for a network
 extension; otherwise the app's move to the Trash in Finder), or that macOS removes it at the next restart. A file
@@ -562,7 +574,9 @@ Nothing inside a repository, a project, `node_modules`, a photo or music library
 app, or another package is ever offered, nor a hidden file or folder, such as a tool's settings in `~/.config`. An app,
 another package, or anything hidden counts only toward the folder around it, a document its app keeps as a package among
 them, such as a Logic Pro or Scrivener project, even once the app is gone, while a folder holding a repository, a
-project, `node_modules`, or a library is never compared, nor any folder above it. A copy with Finder tags, a Finder
+project, `node_modules`, or a library is never compared, nor any folder above it. A copy in a folder a developer tool
+keeps, such as a model in Ollama's, LM Studio's, or Hugging Face's store, stays, with the tool's name, since the tool
+looks for it by name, and no folder that is, holds, or sits in one is offered. A copy with Finder tags, a Finder
 comment, or a resource fork the others lack is listed and never selected or moved, since moving it would take that away;
 it keeps the bytes for the others, which can all go, and a group where each copy has something the others lack isn't
 listed. Folders that differ in them, inside or on the folder itself, aren't listed together, and a folder kept only in
@@ -726,8 +740,9 @@ your Trash on the startup disk. It is deliberately small: no shell, no arbitrary
 - It starts, stops, enables, and disables launch daemons only for other vendors. What macOS ships is
   refused by the label each daemon declares, not by its file name, and so is each copy launchd runs of one for a
   connection, under that label followed by a dot and an identifier. If that list cannot be read it refuses every
-  daemon rather than allowing them all. It never acts on itself: Peel's helper is installed and uninstalled in Settings,
-  and Background Items shows it without controls.
+  daemon rather than allowing them all. A daemon's file that is a link, as MacPorts makes them, counts only while the
+  link, what it leads to, and every folder above each are root's and closed to everyone else. It never acts on itself:
+  Peel's helper is installed and uninstalled in Settings, and Background Items shows it without controls.
 - From the folders command-line tools and their shell completions are linked into, `/usr/local/bin`,
   `/usr/local/sbin`, MacPorts' `/opt/local/bin` and `/opt/local/sbin`, and the completion folders of `/usr/local`
   (`share/zsh/site-functions`, `share/fish/vendor_completions.d`, `etc/bash_completion.d`, and

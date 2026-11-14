@@ -135,11 +135,15 @@ want put back.
   fzf-tab's, since their settings have to come after Peel's; zsh-syntax-highlighting's line stays the very last.
 - **ssh** reads them from `~/Library/Application Support/Peel/Terminal/ssh_config`, once you add two lines at the end
   of `~/.ssh/config`. The SSH tab gives a command that adds them, and makes `~/.ssh` first when it isn't there. What
-  you set for a server earlier in that file stays in force, since ssh uses the first value it finds.
+  you set for a server earlier in that file stays in force, since ssh uses the first value it finds. An `Include` of
+  Peel's file written elsewhere counts only where ssh reads it for every server: before any `Host` or `Match` line,
+  or under `Match all` or `Host *`.
 - **Git**'s settings are changed with `git config --global`, Git's own command, and turning one off puts back what
   you had before Peel set it; a setting you made yourself goes back to Git's default. A setting that a file your Git
   settings include already sets, through `include` or `includeIf`, is left to that file: Git reads it where it is
-  included and the last value wins, so a value Peel added would take its place in every folder it serves.
+  included and the last value wins, so a value Peel added would take its place in every folder it serves. So is one
+  that `~/.config/git/config` or the installed Git's own settings file sets while `~/.gitconfig` doesn't, such as the
+  `init.defaultBranch` Apple's Git sets to `main`: its switch says where it is set.
 
 The line that makes zsh read Peel's file:
 

@@ -477,8 +477,9 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   it suggests can be downloaded again: an installed app's installer, one that says where it was downloaded from
   (`DownloadOrigins`), a macOS installer, firmware, a browser's unfinished download a day after its last change, and
   an update whose app is closed. The rest is held back, such as an installer that arrived in the last hour, what
-  changed in the last day, what a program has open or is mounted, what syncs to other devices, and what is in
-  `/Users/Shared`.
+  changed in the last day, what a program has open or is mounted, a disk image while `hdiutil` doesn't say which are
+  mounted (`AttachedDiskImages`), what syncs to other devices, and what is in `/Users/Shared`. The summary counts and
+  sizes only what can move now (`movableItems`).
 - **Developer.** `DeveloperCaches.definitions` names each tool's folders, under the home folder, the account's cache
   folder, or its temporary folder, each with what it holds (`ContentKind`) and where the tool documents it, a page or
   a file in its repository at a commit, which the tests hold. Only what one tool owns outright is listed: no toolchain
@@ -503,12 +504,14 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   Settings. A job file System Settings keeps from running (`LoginItemsStatus`, from
   `SMAppService.statusForLegacyPlist(at:)`, read with each scan and asked again before a start) is only ever stopped,
   and neither a removal nor Put Back starts it again (`LaunchdCleanup.Job.isKeptOffBySystemSettings`).
-  Move to Trash takes the job's file, and the job is stopped once the file has moved.
+  Move to Trash takes the job's file, and the job is stopped once the file has moved. The job of an app its maker
+  removes with an uninstaller of its own (`MakersUninstaller`) says so, and Disable and Move to Trash ask first; an
+  agent its file limits to the login window (`LimitLoadToSessionType`) is never loaded in the person's session.
 - **Extensions.** `AppExtensions.scan` reads `pluginkit -m -v` and `systemextensionsctl list`. Each ends by counting its
   rows, so a listing read short of its count is no answer, and the page says which kind is missing. macOS's own
-  extensions are left out by where they sit. A system extension's copy, the app it was installed for and its version
-  come from `/Library/SystemExtensions/db.plist`, its category from the listing's headers. The page changes nothing: it
-  says where each one is turned on and off.
+  extensions are left out by where they sit. A system extension's copy, the app it was installed for, its version, and
+  every category macOS keeps it under come from `/Library/SystemExtensions/db.plist`, with the listing's header as the
+  category when that record has none. The page changes nothing: it says where each one is turned on and off.
 - **Resetting an app.** `AppReset` selects an app's settings, caches, and window state, which the app makes again
   when it next opens, and offers its website data and the data it keeps for the person without selecting them. It
   never offers the app itself, only files certainly the app's that nothing else claims, and it saves each preference

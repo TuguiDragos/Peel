@@ -252,7 +252,10 @@ If you are unsure whether something belongs in the helper, it doesn't.
 - **Never bound a test by the clock.** In a full run a short sleep or a timer can resume seconds late, so a test
   waits for the thing it measures (a program's end, a file's change), and work it waits on runs at user-initiated
   priority rather than the default. A test that reads this Mac through a tool (`pluginkit`, `mdfind`) waits for the
-  tool's whole answer, never the time limit the page gives it: a runner with three processors takes longer.
+  tool's whole answer, never the time limit the page gives it: a runner with three processors takes longer. A test
+  that waits for another task never loops on `Task.yield()`: on three processors such a loop, above all at a high
+  priority, keeps a processor from the lower-priority work it waits for, such as Security checking a seal, and the
+  suite never ends. It sleeps a little between looks, or waits on a continuation.
 - **Every scan can be stopped.** A page's scan runs through its model's `ScanRun`, which stops an older scan when a
   new one starts and a page's own scan when the page goes away. A new scanner gets a test that stops it while it waits
   on a folder that never answers (`Unanswered`): it comes back within a second and asks about nothing more.
@@ -413,6 +416,12 @@ If you are unsure whether something belongs in the helper, it doesn't.
 - **An object kept only by a weak reference is kept alive on purpose.** Swift may release an object after its last
   use, and an open panel holds its delegate weakly, so the panel's delegate is kept with `extendLifetime` until the
   panel closes (`ScreenshotFolderPanel`). Only an optimized build reports the mistake.
+- **No program links weakly to a Swift symbol of the system that `Scripts/weak-symbols.txt` doesn't list.** An SDK can
+  declare an API back-deployed (`@backDeployed(before:)`), and a program then calls the system's own copy on any
+  system that says it is that version: a beta that says so without having it stops the program at its first call, as
+  `Date`'s `<=` and `>=` did on an early macOS 27.2. Each module that compares dates defines its own `<=` and `>=` for
+  `Date`, and the release and the Checks workflow refuse a build whose programs link weakly to anything else
+  (`Scripts/check_weak_symbols.sh`).
 - Small, focused files, and code that reads like the code around it. A dependency only when nothing else will do.
   A Swift package's version is pinned twice, in `Packages/PeelCore/Package.resolved` and in the app's project, so a
   new version goes into both (`PackageResolvedTests`); Sparkle is built at the version and commit
@@ -547,7 +556,9 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   no translations, and changed text is new text: the sync keeps the entry of the text it replaced, marked stale with
   its translations. `StringCatalogTests` fails for both until all 17 are written for the new text and the stale entry
   is gone, which happens before the change is merged. Text an Info.plist shows (a permission prompt, the copyright)
-  keeps its key, and its translations are marked for review until they are written again.
+  keeps its key, and its translations are marked for review until they are written again. The compiler lists a string
+  only where it sees a literal of a localizable type: one inside a tuple a ternary picks is left out without a word, so
+  a choice between sentences returns each from its own branch, and the catalog is read after the sync to see the key.
 - Text a person reads goes through the catalogs: `Text(verbatim:)` is only for what is not words, or for a name.
   Text that only a Debug build shows (inside `#if DEBUG`) takes the `DebugBuild` table (`tableName: "DebugBuild"`),
   whose catalog the Release configuration leaves out (`EXCLUDED_SOURCE_FILE_NAMES`), so a release carries none of it.

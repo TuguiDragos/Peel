@@ -69,9 +69,9 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   Trash on, Peel notices when you drag an app to the Trash yourself and offers to clear
   what it left behind, while Peel is open or in the menu bar, and once it has Full Disk Access. An old copy thrown
   away while another copy of the app is still installed brings no such offer, since nothing was left behind. Apps
-  you keep outside the Applications folders, such as on another disk, join the list once you add their folder in
-  Settings > General > App Folders, and so do apps kept deeper in an Applications folder than the three levels Peel
-  looks through, such as the editors Unity Hub installs in `/Applications/Unity/Hub/Editor`.
+  you keep outside the Applications folders, such as on another disk, join the list once you add their folder, or that
+  disk itself, in Settings > General > App Folders, and so do apps kept deeper in an Applications folder than the three
+  levels Peel looks through, such as the editors Unity Hub installs in `/Applications/Unity/Hub/Editor`.
 - **Reset**, on an app's page, clears its settings without uninstalling it, and never selects your own work. Peel saves
   a copy of the settings first: put them back from the Reset sheet right away, or later from Settings > General > Saved
   Settings, which keeps each copy until you move it to the Trash, since a copy can hold a license key or an account.
@@ -160,7 +160,9 @@ Space shows what fills your disk, area by area, and what each area is.
   it looks in Desktop, Documents, Downloads, Pictures, Movies, and Music. Files under 100 KB, and folders holding
   less, are left out unless you choose a smaller size, in the app and in `peel duplicates` alike. A copy with Finder
   tags, a Finder comment, or a resource fork the others lack is marked Stays and never moved, since moving it would
-  lose them, and the others can all go. A group where each copy has something the others lack isn't listed. After a
+  lose them, and the others can all go. A group where each copy has something the others lack isn't listed. A copy in a
+  folder a developer tool keeps, such as a model in Ollama's or Hugging Face's store, is marked Stays with the tool's
+  name, since the tool looks for it there by name. After a
   scan you start, Peel selects every copy in each group but the one it suggests keeping: one on the disk your home
   folder is on, then one outside `/Users/Shared`, then one outside Downloads, then one whose name doesn't end like a
   copy's, such as `photo copy.jpg` or `photo (1).jpg`, then the oldest. A copy in `/Users/Shared` isn't selected for
@@ -187,7 +189,8 @@ Space shows what fills your disk, area by area, and what each area is.
   is no installed app's and doesn't say where it came from, one that arrived or changed in the last hour, an installer
   or an image an app keeps for itself, a download that changed in the last day, a `.part` file no browser left, which
   a torrent client or another program that resumes downloads may still finish, an update whose app is open, and
-  anything in Shared, open in a program, open as a disk image, or syncing to your other devices. A disk image can also
+  anything in Shared, open in a program, open as a disk image or not known to be closed when macOS doesn't say which
+  are open, or syncing to your other devices. A disk image can also
   be one you made to keep files in, so look before you select it. An installer, download, or update smaller than 20 MB
   isn't listed.
 - **iCloud Drive:** files already safe in iCloud that are also downloaded to this Mac, as Finder shows them: what is
@@ -205,9 +208,11 @@ Space shows what fills your disk, area by area, and what each area is.
 - **Space:** what fills your disk, area by area, and which app or tool each area belongs to.
 - **File Search:** files by name, kind, or size, and by age along with one of them, in your home folder or across this
   Mac's disks, not network volumes, found through Spotlight, up to 2,000 at a time, so a folder in System Settings >
-  Spotlight > Search Privacy isn't searched, and the page names any disk Spotlight isn't indexing. In the list, the
-  arrow keys choose a file and Space selects it. A file in a Library folder, an app's working data, is listed last and
-  never recommended, and neither is one in a
+  Spotlight > Search Privacy isn't searched, and the page names any disk Spotlight isn't indexing, or whose index it
+  stopped updating, as on a full disk, where files added or changed since may be missing. A document Finder shows as
+  one file but keeps as a folder, such as a GarageBand project or a sparse bundle disk image, is never listed. In the
+  list, the arrow keys choose a file and Space selects it. A file in a Library folder, an app's working data, is listed
+  last and never recommended, and neither is a wallet's file, a password database, one in a
   repository, which may be part of a project's work, or in Shared, which belongs to every account, and one that needs
   an administrator stays where it is. The page says how many files Spotlight found that it doesn't list, and why: what
   syncs to your other devices, what you excluded, what sits where Peel never moves anything, and what macOS didn't let
@@ -227,6 +232,9 @@ and the browser profiles a Playwright run left in the temporary folder when it e
 browser or an app keeps for you, a profile a browser still has open, a toolchain, or anything holding an account.
 Bazel's build data is found from Bazel 9 on: earlier versions keep it in `/private/var/tmp`, where Peel doesn't look.
 A cache you moved to another disk and left as a link is named on its tool's page, and Peel doesn't follow the link.
+LM Studio's and Jan's models are listed one to a row, and under a store of models, while Ollama's, Hugging Face's, or
+Docker's program is on the Mac, the page gives that tool's own commands to list the models and remove one, which
+Peel never runs.
 
 Some of what it lists you may want again, so Select Recommended passes it by: Xcode's archives and the symbols it
 copied from your devices, model weights, installed packages and the stores your projects load them from, such as
@@ -235,27 +243,32 @@ templates), an editor's saved state for a project that no longer exists, the bui
 the last week or whose last opening Xcode didn't record, a folder in DerivedData that is neither a cache Xcode names
 nor one it made for a workspace, a Spring Boot server's folder written to in the last 15 minutes, or the newest one
 while something still listens on its port, a folder Peel couldn't measure, a copy of CocoaPods' specs that didn't come
-from CocoaPods, and a cache with a wallet, a signing key, or a password database inside. Nothing is selected for you.
+from CocoaPods, and a cache with a wallet, a signing key, a password database, or Terraform's state inside. Nothing
+is selected for you.
 
 **Build Artifacts:** what builds left in the folders you choose, like `node_modules`, `DerivedData`, `target`, `.nuxt`,
 `__pycache__`, Unity's `Library`, and any folder its tool tagged as a cache (`CACHEDIR.TAG`), each only when a file of
 the tool that makes it proves it. One found with no such file beside it, as Python leaves `__pycache__` in every
 package, belongs to the project above it: the nearest folder holding a repository or a project's own file, such as
 `pyproject.toml`. Nothing is selected for you, and Select Recommended passes by a project changed in the last 7 days
-or whose last change Peel couldn't tell, installed packages (a Python environment, `vendor`, Terraform's
-`.terraform`), a folder like `target` whose name says nothing on its own, a Meson build folder, which also keeps the
-options its build was set up with, a folder Git tracks files in, such as a `Pods` folder kept in the repository, which
-is part of the project, a folder with a repository, a wallet, or a key inside, one Peel couldn't measure or read, and
-one in `/Users/Shared`, which belongs to every account.
+or whose last change Peel couldn't tell, installed packages (a Python or conda environment, `vendor`, Terraform's
+`.terraform`), a folder like `target` whose name says nothing on its own, a folder only a cache tag marks, which anyone
+can write, a Meson build folder, which also keeps the options its build was set up with, Serverless Components'
+`.serverless` while it holds a deployment's state, a `.gradle` that keeps the JDK Android Studio chose for the
+project, a folder Git tracks files in, such as a `Pods` folder kept in the repository, which is part of the project, a
+folder with a repository, a wallet, a key, or Terraform's state inside, one Peel couldn't measure or read, and one in
+`/Users/Shared`, which belongs to every account.
 Until you choose a folder, Peel offers `~/Developer`, `~/Projects`, `~/Code`, or `~/src` when you have one, and adds
 it only when you say so. A chosen folder Peel can't search, such as one on a disk that isn't connected, is named at
 the top of the page with the reason, never taken for one with nothing built in it. Peel never searches a hidden
 folder, a Library, or a folder a tool fills, such as `node_modules`, where apps and tools keep what they install, so
 choosing one, or a folder inside one, is refused.
 
-**Space:** what's taking up room, and which app it belongs to. An area smaller than 50 MB isn't listed, unless Peel
-couldn't measure part of it or it is open on its page after a move. What an app manages itself, such as Xcode's
-simulators, Docker's disk, Rust's toolchains, or Android's NDK versions, Space measures and leaves to that tool, with
+**Space:** what's taking up room, and which app it belongs to. When your home folder is on another disk than macOS,
+the head of the page shows each disk, the startup disk first, with the snapshots kept on it. An area smaller than
+50 MB isn't listed, unless Peel couldn't measure part of it or it is open on its page after a move. What an app
+manages itself, such as Xcode's simulators, Docker's disk, Rust's toolchains, or Android's NDK versions, Space
+measures and leaves to that tool, with
 the command that frees it, when there is one, for you to copy into Terminal: Peel never runs it, since it deletes for
 good. Once Xcode is gone, the Simulators area says to install it again before using its settings. The virtual
 machines and Windows bottles of VirtualBuddy, CrossOver, Whisky, Wine, Tart, Lume, Anka, Rancher Desktop, Apple's
@@ -315,12 +328,15 @@ and how many items the others hold.
   through Peel's helper for those that run as root. One whose program
   is gone, or whose command looks unusual, says so. Remove takes out a job a deleted app left loaded,
   and an item whose app is in the Trash says that macOS starts it from there each time you log in, until you empty
-  the Trash. A job an app gave launchd itself, such as an update's installer, says so. One turned off in System
-  Settings > General > Login Items & Extensions, or waiting for approval there, is only ever stopped here, never
-  started, not even when its file comes back from History. Edit… beside an agent's file in your own
+  the Trash. A job an app gave launchd itself, such as an update's installer, says so. A job of an app its maker removes
+  with its own uninstaller, such as a security agent or a VPN, says so as Applications does, and Disable and Move to
+  Trash ask first. An agent its file limits to the login window offers no Load, since macOS loads it only there. One
+  turned off in System Settings > General > Login Items & Extensions, or waiting for approval there, is only ever
+  stopped here, never started, not even when its file comes back from History. Edit… beside an agent's file in your own
   `~/Library/LaunchAgents` opens the file as text: Save moves the file as it was to the Trash, writes yours in its
-  place, and loads the job again if it was loaded, and putting the old file back from History moves your edit to the
-  Trash first. Apps set to open at login are in System Settings > General > Login Items & Extensions, not here.
+  place, and loads the job again, as your file says, if it was loaded, and putting the old file back from History moves
+  your edit to the Trash first. Apps set to open at login are in System Settings > General > Login Items & Extensions,
+  not here.
 - **Extensions:** app extensions and system extensions, the app each one came with and whether it is still installed,
   the choice made for each one, or that macOS decides when nobody chose, which keeps a Finder extension off, and where
   it is turned on or off: System Settings for most, Safari > Settings > Extensions for a Safari extension, which Safari
@@ -336,7 +352,8 @@ and how many items the others hold.
   Recommended passes by a folder a package made that now holds what something else put there. Forget Receipt moves the
   receipt itself to the Trash, through Peel's helper where it takes one, so macOS no longer counts the package as
   installed, and Forget All does so at once for every package listed under Receipt Only, whose receipt lists nothing
-  still on your Mac. An app a package installed follows the rules of its own page, and so does the rest of its package:
+  still on your Mac; without the helper, it forgets those installed for your account alone. An app a package installed
+  follows the rules of its own page, and so does the rest of its package:
   what is left to Finder or to the maker's uninstaller stays where it is, and what may exist only on this Mac is shown
   and not selected.
 - **Intel Software:** what still needs Rosetta, which macOS 27 is the last release to offer for most Intel software:
@@ -357,8 +374,8 @@ and how many items the others hold.
   silicon, a Homebrew in `/usr/local` is an Intel one, so Peel runs it through Rosetta and the page says so. A cask
   Homebrew still lists though its app isn't where Homebrew put it anymore can't be upgraded, and a cask with no app
   whose packages macOS has no receipt for may be gone or only have had its receipts forgotten. Both are listed apart
-  under Apps Already Gone, where Forget Cask, or Forget
-  All for every one of them, moves Homebrew's record of it to the Trash, with the links Homebrew made into it in its
+  under Apps Already Gone, where Forget Cask, or Forget All for every one of them but a cask you excluded, moves
+  Homebrew's record of it to the Trash, with the links Homebrew made into it in its
   command and completion folders, so Homebrew stops listing it, and History can put it back. Peel runs Homebrew
   without your shell's settings, so Homebrew reads its own from `~/.homebrew/brew.env` there: a proxy you want it to
   use, such as `https_proxy=http://proxy.example:8080`, goes in that file.
@@ -528,9 +545,11 @@ In Settings > General, choose Remove Peel. Peel then:
   exclusions, App Folders, and the settings Peel saved when you reset an app, among others;
 - ends its Finder extension, takes its icon out of the Dock, clears its settings, and quits.
 
-Remove Peel takes no step, and says so before you choose it, while Peel itself can't move. From a folder only an
-administrator can change, log in as an administrator and choose it there, or drag Peel to the Trash in Finder, which
-asks for one. From the copy macOS runs while Peel is still marked as downloaded, or from its disk image, move Peel to
+Remove Peel takes no step, and says so before you choose it, while Peel itself can't move. From a folder this account
+can't change, it says who can: log in as the account Peel belongs to, or as an administrator, and choose it there, or,
+when neither can, drag Peel to the Trash in Finder, which asks for an administrator's password. When the helper went
+before Peel, Remove Peel lists the helper's folder that stays, with how to remove it in Finder. From the copy macOS
+runs while Peel is still marked as downloaded, or from its disk image, move Peel to
 the Applications folder, open it there, and choose Remove Peel. And while its helper is installed, only an
 administrator's account can remove it, so from another account Peel stays where it is.
 
