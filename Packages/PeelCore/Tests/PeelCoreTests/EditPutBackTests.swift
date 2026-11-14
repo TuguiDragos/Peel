@@ -28,7 +28,9 @@ private struct EditedAgent: ~Copyable {
         self.directory = directory
     }
 
-    func service(exclusions: Exclusions = .none) -> TrashService {
+    func service(
+        exclusions: Exclusions = .none, stopJobs: @escaping TrashService.StopJobs = { _, _ in [] }
+    ) -> TrashService {
         let trash = trash
         let started = started
         return TrashService(
@@ -37,6 +39,7 @@ private struct EditedAgent: ~Copyable {
                 rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
             ),
             exclusions: exclusions,
+            stopJobs: stopJobs,
             startJob: { job, _ in started.add(job.label); return nil }
         ) { url in
             var destination = trash.appending(path: url.lastPathComponent)
@@ -136,6 +139,23 @@ struct EditPutBackTests {
         moved.stoppedJob = "org.example.edit"
 
         #expect(await service.restore([moved]).failures == [nil])
+        #expect(agent.started.all == ["org.example.edit"])
+    }
+
+    @Test func startsTheJobTheEditRanWhenTheOldFileIsBack() async throws {
+        let agent = try EditedAgent()
+        let job = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <plist version="1.0"><dict><key>Label</key><string>org.example.edit</string>
+            <key>ProgramArguments</key><array><string>/bin/sleep</string><string>1</string></array></dict></plist>
+            """
+        try Data(job.utf8).write(to: agent.place)
+        let moved = try await agent.edit(job, with: agent.service())
+        #expect(moved.stoppedJob == nil)
+
+        let result = await agent.service(stopJobs: { jobs, _ in jobs }).restore([moved])
+
+        #expect(result.failures == [nil])
         #expect(agent.started.all == ["org.example.edit"])
     }
 

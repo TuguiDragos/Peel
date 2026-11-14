@@ -1139,9 +1139,10 @@ public struct TrashService: Sendable {
             return (failure, replacementBack.failure == nil ? nil : movedAside, nil)
         }
         journal?.forget([item])
-        // The label comes from History, which any process of the user can rewrite, so the job starts only as the
-        // file now back in place declares it.
-        if let label = item.stoppedJob,
+        // The job this put back stopped is the item's own, or the one the version moved aside ran. The label comes
+        // from History, which any process of the user can rewrite, so the job starts only as the file now back in
+        // place declares it.
+        if let label = item.stoppedJob ?? movedAside?.stoppedJob,
            let job = LaunchdCleanup.jobs(for: [item.originalURL], environment: environment).first,
            job.label == label, !job.isKeptOffBySystemSettings {
             if let answer = await startJob(job, canUseHelper) { return (nil, movedAside, (label, answer)) }
