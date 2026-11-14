@@ -85,9 +85,13 @@ extension ProjectLibrary {
 }
 
 extension InstallerLibrary {
-    /// The items, sized by what Peel can move: a device backup is the app's that made it, and stays off the size.
-    var looked: Looked? {
-        scan.map { Looked(count: $0.items.count, size: $0.items.movable(canUseHelper: true)) }
+    /// What Peel can move now, with its helper or without it, counted and sized alike: a device backup is the app's
+    /// that made it, and stays off both.
+    func looked(canUseHelper: Bool) -> Looked? {
+        scan.map { scan in
+            let movable = scan.items.movableItems(canUseHelper: canUseHelper)
+            return Looked(count: movable.count, size: SizeTotal(movable.map(\.size)))
+        }
     }
 }
 

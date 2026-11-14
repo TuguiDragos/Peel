@@ -101,10 +101,15 @@ extension InstallerItem {
 }
 
 extension Collection where Element == InstallerItem {
+    /// The items moving could take now: those a click can select, which leaves out a device backup.
+    public func movableItems(canUseHelper: Bool) -> [InstallerItem] {
+        let selectable = Set(selectableRows(canUseHelper: canUseHelper).selectable)
+        return filter { selectable.contains($0.url) }
+    }
+
     /// What moving the items could free now, as an orphan group counts it.
     public func movable(canUseHelper: Bool) -> SizeTotal {
-        let selectable = Set(selectableRows(canUseHelper: canUseHelper).selectable)
-        return SizeTotal(filter { selectable.contains($0.url) }.map(\.size))
+        SizeTotal(movableItems(canUseHelper: canUseHelper).map(\.size))
     }
 
     /// What a kind's row and page show: what moving could free, or what is there for a device backup, which Peel only

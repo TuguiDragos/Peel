@@ -245,7 +245,7 @@ struct PeelApp: App {
             (.space, { [space] in space.looked }),
             (.developer, { [developer] in developer.looked }),
             (.projects, { [projects] in projects.looked }),
-            (.installers, { [installers] in installers.looked }),
+            (.installers, { [installers, helper] in installers.looked(canUseHelper: helper.canAct) }),
             (.duplicates, { [duplicates] in duplicates.looked }),
             (.cloud, { [cloud] in cloud.looked }),
         ]

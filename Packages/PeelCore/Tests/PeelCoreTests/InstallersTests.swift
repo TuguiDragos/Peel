@@ -4,6 +4,25 @@ import Synchronization
 import Testing
 
 struct InstallersTests {
+    @Test func countsAndSizesOnlyWhatCanMoveNow() {
+        let image = InstallerItem(
+            url: URL(filePath: "/Users/example/Downloads/Tool.dmg"), kind: .appInstaller, name: "Tool.dmg", size: 10,
+            date: nil, installedApp: nil, isReadOnly: false, notes: []
+        )
+        let backup = InstallerItem(
+            url: URL(filePath: "/Users/example/Library/Application Support/MobileSync/Backup/0001"),
+            kind: .deviceBackup, name: "iPhone", size: 1_000, date: nil, installedApp: nil, isReadOnly: true, notes: []
+        )
+        var root = InstallerItem(
+            url: URL(filePath: "/Applications/Install macOS Example.app"), kind: .macOSInstaller,
+            name: "Install macOS Example", size: 100, date: nil, installedApp: nil, isReadOnly: false, notes: []
+        )
+        root.requiresPrivileges = true
+
+        #expect([image, backup, root].movableItems(canUseHelper: false).map(\.name) == ["Tool.dmg"])
+        #expect([image, backup, root].movableItems(canUseHelper: true).map(\.name) == ["Tool.dmg", "Install macOS Example"])
+    }
+
     @Test func aSearchFindsAnItemByWhatItsRowShows() {
         func item(
             _ name: String, kind: InstallerItem.Kind, for app: String? = nil, notes: [InstallerItem.Note] = []

@@ -136,7 +136,9 @@ extension SpaceLibrary {
 }
 
 extension InstallerLibrary {
-    var summary: AttributedString? { Tool.installers.summary(of: looked) }
+    func summary(canUseHelper: Bool) -> AttributedString? {
+        Tool.installers.summary(of: looked(canUseHelper: canUseHelper))
+    }
 }
 
 extension HomebrewLibrary {

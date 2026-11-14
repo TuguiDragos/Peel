@@ -550,7 +550,10 @@ struct ContentView: View {
             InstallerDetailView(kind: kind)
                 .id(kind)
         } else {
-            DetailPlaceholder(tool: .installers, summary: installers.summary, instruction: "Choose a kind to see what is in it.")
+            DetailPlaceholder(
+                tool: .installers, summary: installers.summary(canUseHelper: helper.canAct),
+                instruction: "Choose a kind to see what is in it."
+            )
         }
     }
 

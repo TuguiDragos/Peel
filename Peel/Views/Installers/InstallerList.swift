@@ -73,7 +73,7 @@ struct InstallerList: View {
         .navigationTitle(Text(Tool.installers.title))
         .announcesScan(
             installers.isScanning,
-            found: installers.summary,
+            found: installers.summary(canUseHelper: helper.canAct),
             couldNotLook: installers.sections.isEmpty && !installers.unreadable.isEmpty
                 ? "Not Everything Could Be Read" : nil,
             wasStopped: installers.scanRun.wasStopped
