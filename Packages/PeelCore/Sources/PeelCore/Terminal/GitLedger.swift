@@ -29,7 +29,7 @@ public struct GitLedger {
     ) async -> Outcome {
         let values = setting.values(signingKey: signingKey)
         guard !values.isEmpty, let settings = await config.settings() else { return .refused(nil) }
-        guard !setting.isSetInIncludedFiles(await config.keysSetByIncludedFiles()) else { return .unchanged }
+        guard setting.setElsewhere(in: await config.keysSetElsewhere()) == nil else { return .unchanged }
         var outcome = Outcome.unchanged
         for wanted in values {
             let name = wanted.key.lowercased()

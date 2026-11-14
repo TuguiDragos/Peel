@@ -9,7 +9,7 @@ final class GitLibrary {
         var settings: [String: String?]?
         var known: Set<String>?
         var signingKey: String?
-        var setInIncludedFiles: Set<String> = []
+        var setElsewhere: [String: GitConfig.SetElsewhere] = [:]
     }
 
     static let ledgerKey = "terminalGit"
@@ -63,7 +63,7 @@ final class GitLibrary {
             settings: settings,
             known: known,
             signingKey: GitSetting.signingKey(in: settings ?? [:], home: home),
-            setInIncludedFiles: await git?.keysSetByIncludedFiles() ?? []
+            setElsewhere: await git?.keysSetElsewhere() ?? [:]
         )
     }
 
@@ -73,15 +73,15 @@ final class GitLibrary {
 
     func isOffered(_ setting: GitSetting) -> Bool {
         guard let state, state.settings != nil, state.known.map(setting.isKnown(by:)) == true else { return false }
-        guard !isSetInIncludedFiles(setting) else { return false }
+        guard setElsewhere(setting) == nil else { return false }
         return setting != .signCommits || state.signingKey != nil || isOn(setting)
     }
 
-    /// Whether a file the person's global settings include sets the setting, so Peel leaves it to them. One already on
-    /// can still be turned off.
-    func isSetInIncludedFiles(_ setting: GitSetting) -> Bool {
-        guard let state, !isOn(setting) else { return false }
-        return setting.isSetInIncludedFiles(state.setInIncludedFiles)
+    /// Where the setting is set outside the file Peel writes, so Peel leaves it to the person. One already on can
+    /// still be turned off.
+    func setElsewhere(_ setting: GitSetting) -> GitConfig.SetElsewhere? {
+        guard let state, !isOn(setting) else { return nil }
+        return setting.setElsewhere(in: state.setElsewhere)
     }
 
     func set(_ setting: GitSetting, to isOn: Bool) {

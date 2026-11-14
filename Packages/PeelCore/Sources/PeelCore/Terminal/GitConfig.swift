@@ -46,14 +46,54 @@ public struct GitConfig: Sendable {
         return settings
     }
 
-    /// The keys, in lowercase, that the files the global settings include set, through `include.path` or
+    /// Where a key is set outside the file `git config --global` writes.
+    public enum SetElsewhere: Sendable, Equatable {
+        /// A file the global settings include, read where its include stands, so its value can win.
+        case includedFile
+        /// `~/.config/git/config`, which Git reads beside `~/.gitconfig` while both are there, and before it
+        /// (`git-config(1)`, FILES), while `--global` writes only `~/.gitconfig`.
+        case otherGlobalFile
+        /// The settings file of the Git that is installed, where Apple's Git sets `init.defaultBranch`.
+        case installedGit
+    }
+
+    /// The keys, in lowercase, set where `git config --global` doesn't write: in a file the global settings include,
+    /// or, while the file it writes doesn't set them, in the other global file or the installed Git's own, which Git
+    /// reads before it.
+    public func keysSetElsewhere() async -> [String: SetElsewhere] {
+        let global = await entries(["--global"])
+        let written = Set(global.filter { !$0.isAnInclude }.map(\.key))
+        var other: [Entry] = []
+        if let file = otherGlobalFile {
+            other = await entries(["--file", file.path(percentEncoded: false)])
+        }
+        var found: [String: SetElsewhere] = [:]
+        for key in await keysSetByIncludedFiles(includedBy: global + other) {
+            found[key] = .includedFile
+        }
+        for entry in other where !entry.isAnInclude && !written.contains(entry.key) {
+            found[entry.key] = found[entry.key] ?? .otherGlobalFile
+        }
+        for entry in await entries(["--system"]) where !entry.isAnInclude && !written.contains(entry.key) {
+            found[entry.key] = found[entry.key] ?? .installedGit
+        }
+        return found
+    }
+
+    /// `~/.config/git/config` while `~/.gitconfig` is there too, the one `--global` writes.
+    private var otherGlobalFile: URL? {
+        let other = home.appending(path: ".config/git/config")
+        return home.appending(path: ".gitconfig").isMissing || other.isMissing ? nil : other
+    }
+
+    /// The keys, in lowercase, that the files `including` include set, through `include.path` or
     /// `includeIf.<condition>.path`, and the files those include. Git reads an included file where its include
     /// stands and the last value wins (`git help config`), so a key written at the end of the global file would win
     /// over the person's own in every folder their condition names.
-    public func keysSetByIncludedFiles() async -> Set<String> {
+    private func keysSetByIncludedFiles(includedBy including: [Entry]) async -> Set<String> {
         var keys: Set<String> = []
         var read: Set<String> = []
-        var pending = Self.includes(in: await entries(["--global"]), home: home)
+        var pending = Self.includes(in: including, home: home)
         while let file = pending.popLast(), read.count < 64 {
             let path = file.path(percentEncoded: false)
             guard read.insert(path).inserted, !file.isMissing else { continue }

@@ -88,7 +88,12 @@ private struct GitSettingRow: View {
     }
 
     private var caption: LocalizedStringResource? {
-        if git.isSetInIncludedFiles(setting) { return "Set in a file your Git settings include" }
+        switch git.setElsewhere(setting) {
+        case .includedFile: return "Set in a file your Git settings include"
+        case .otherGlobalFile: return "Set in your other Git settings file, ~/.config/git/config"
+        case .installedGit: return "Already set by the Git on this Mac"
+        case nil: break
+        }
         guard setting == .signCommits else { return nil }
         guard let key = git.state?.signingKey else { return "Needs an SSH key in ~/.ssh" }
         return GitSetting.isTheKeyItself(key)

@@ -94,8 +94,9 @@ public enum GitSetting: CaseIterable, Sendable {
         }
     }
 
-    public func isSetInIncludedFiles(_ includedKeys: Set<String>) -> Bool {
-        keys.contains { includedKeys.contains($0.lowercased()) }
+    /// Where one of its keys is set outside the file `git config --global` writes, or nil.
+    public func setElsewhere(in elsewhere: [String: GitConfig.SetElsewhere]) -> GitConfig.SetElsewhere? {
+        keys.lazy.compactMap { elsewhere[$0.lowercased()] }.first
     }
 
     public func isKnown(by keys: Set<String>) -> Bool {

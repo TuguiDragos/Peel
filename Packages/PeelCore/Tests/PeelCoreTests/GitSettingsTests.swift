@@ -111,7 +111,27 @@ struct GitSettingsTests {
             try text.write(to: url, atomically: true, encoding: .utf8)
         }
 
-        #expect(await git.config.keysSetByIncludedFiles() == ["diff.algorithm", "fetch.prune", "pull.rebase"])
+        let included = await git.config.keysSetElsewhere().filter { $0.value == .includedFile }.keys
+        #expect(Set(included) == ["diff.algorithm", "fetch.prune", "pull.rebase"])
+    }
+
+    @Test func knowsAKeySetInTheOtherGlobalFileWhileTheOneWrittenDoesNotSetIt() async throws {
+        let git = try await GitHome()
+        let other = git.home.appending(path: ".config/git/config")
+        try FileManager.default.createDirectory(
+            at: other.deletingLastPathComponent(), withIntermediateDirectories: true
+        )
+        try "[pull]\n\trebase = true\n[fetch]\n\tprune = true\n".write(to: other, atomically: true, encoding: .utf8)
+        try "[user]\n\tname = Example\n[fetch]\n\tprune = false\n"
+            .write(to: git.home.appending(path: ".gitconfig"), atomically: true, encoding: .utf8)
+        var ledger = GitLedger()
+
+        let elsewhere = await git.config.keysSetElsewhere()
+
+        #expect(elsewhere["pull.rebase"] == .otherGlobalFile)
+        #expect(elsewhere["fetch.prune"] == nil, "the file Peel writes is read last, so its value is in force")
+        #expect(GitSetting.rebaseOnPull.setElsewhere(in: elsewhere) == .otherGlobalFile)
+        #expect(await ledger.turnOn(.rebaseOnPull, signingKey: nil, in: git.config) == .unchanged)
     }
 
     @Test func aValueThePersonChangedAfterPeelStaysTheirs() async throws {
