@@ -87,8 +87,6 @@ struct CloudStorageTests {
         #expect(why(error: failure) == .uploadFailed(failure.localizedDescription))
     }
 
-    /// The list can stay on screen for hours, so each file is checked again at the moment it is freed. A file
-    /// that changed since the scan is not freed.
     @Test func asksICloudTheSixAnswersItsRuleReads() {
         #expect(CloudStorage.cloudKeys == [
             .ubiquitousItemDownloadingStatusKey, .ubiquitousItemIsUploadedKey, .ubiquitousItemIsUploadingKey,
@@ -147,6 +145,8 @@ struct CloudStorageTests {
         #expect(refused.map(\.reason) == [.couldNotBeRead])
     }
 
+    /// The list can stay on screen for hours, so each file is checked again at the moment it is freed. A file
+    /// that changed since the scan is not freed.
     @Test func freesNothingThatChangedSinceTheScan() async throws {
         let directory = try TemporaryDirectory()
         let url = try directory.file("Library/Mobile Documents/com~apple~CloudDocs/file.bin", bytes: 2_000_000)

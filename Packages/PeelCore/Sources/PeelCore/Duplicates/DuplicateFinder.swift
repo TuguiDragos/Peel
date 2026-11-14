@@ -132,8 +132,6 @@ public struct DuplicateFinder: Sendable {
         return value
     }
 
-    /// Whether `url` is a photo, music, or video library. Its files belong to the library's app, so none of them
-    /// is offered as a copy, whatever its bytes.
     /// Whether `url`, or a folder it sits in, is what the scan never walks into: a package, a library, or a document
     /// its app keeps as a package.
     static func isOrIsInsideAPackage(_ url: URL) -> Bool {
@@ -145,6 +143,8 @@ public struct DuplicateFinder: Sendable {
         return false
     }
 
+    /// Whether `url` is a photo, music, or video library. Its files belong to the library's app, so none of them
+    /// is offered as a copy, whatever its bytes.
     static func isAUserLibrary(_ url: URL) -> Bool {
         ProtectedData.extensions.contains(url.pathExtension.lowercased())
     }

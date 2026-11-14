@@ -650,8 +650,6 @@ struct SpaceRemovalTests {
         #expect(open.appsToQuit == ["Mail"])
     }
 
-    /// A move asks again just before it moves anything, since an app opened since the plan may be writing to some
-    /// of these folders. It needs to know what may go, not how big it is, and it finds what a plan would.
     @Test func theMovesCheckKeepsWhatWasWrittenSinceThePlan() async throws {
         let directory = try TemporaryDirectory()
         let old = try directory.file("root/Library/Caches/org.example.service/data.db")
@@ -676,6 +674,8 @@ struct SpaceRemovalTests {
         #expect(await SpaceRemoval.writtenRecently([quiet.deletingLastPathComponent(), service]) == [service])
     }
 
+    /// A move asks again just before it moves anything, since an app opened since the plan may be writing to some
+    /// of these folders. It needs to know what may go, not how big it is, and it finds what a plan would.
     @Test func theMovesCheckFindsWhatAPlanWould() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/com.spotify.client/audio.db")

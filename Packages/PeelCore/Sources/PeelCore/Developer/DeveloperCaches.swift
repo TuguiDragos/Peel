@@ -1241,7 +1241,7 @@ public enum DeveloperCaches {
             id: "docker", name: "Docker Desktop", systemImage: "server.rack", appBundleIdentifiers: ["com.docker.docker"],
             folders: [
                 Folder(".docker/models", .models, source: "https://github.com/docker/model-runner/blob/0bb6e68619861f8d4b1dc53cfcf980ecb620d229/pkg/envconfig/envconfig.go#L82-L93"),
-                Folder("Library/Containers/com.docker.docker/Data/log", .logs, source:"https://github.com/docker/docs/blob/1cb9a4d2c65d712da863e30cd3a1319ddeea3298/content/manuals/engine/daemon/logs.md#L16"),
+                Folder("Library/Containers/com.docker.docker/Data/log", .logs, source: "https://github.com/docker/docs/blob/1cb9a4d2c65d712da863e30cd3a1319ddeea3298/content/manuals/engine/daemon/logs.md#L16"),
             ],
             modelCommands: ModelCommands(
                 program: "docker", lines: ["docker model list", "docker model rm <model>"],

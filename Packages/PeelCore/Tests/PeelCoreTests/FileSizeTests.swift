@@ -4,8 +4,6 @@ import Synchronization
 import Testing
 
 struct FileSizeTests {
-    /// A file with several names is one file on the disk, so it is counted once. Adding up every name would
-    /// report more than emptying the folder could ever free.
     /// What is measured is looked at by its own name as well as by what is inside it: a wallet's file or Terraform's
     /// state measured on its own, a `keystore` folder, and a repository's own folder.
     @Test func theMeasuredItemsOwnNameCounts() async throws {
@@ -30,6 +28,8 @@ struct FileSizeTests {
         #expect(plainHolds == false)
     }
 
+    /// A file with several names is one file on the disk, so it is counted once. Adding up every name would
+    /// report more than emptying the folder could ever free.
     @Test func countsAFileWithSeveralNamesOnce() async throws {
         let directory = try TemporaryDirectory()
         let folder = try directory.directory("tree")

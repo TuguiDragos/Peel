@@ -517,8 +517,6 @@ public enum IntelInspector {
         return nil
     }
 
-    /// The runtimes in each Library's Java folder that run only on Intel. A runtime's executable, `libjli.dylib`, is a
-    /// library no one runs, so its `java` decides.
     /// The formula whose folder in the Cellar of the Homebrew in `/usr/local` holds `url`, read from where it is
     /// alone, `<prefix>/Cellar/<formula>/`, without asking Homebrew. Only that Homebrew can install Intel code.
     static func formula(holding url: URL, environment: SearchEnvironment) -> IntelFinding.Formula? {
@@ -558,6 +556,8 @@ public enum IntelInspector {
         return nil
     }
 
+    /// The runtimes in each Library's Java folder that run only on Intel. A runtime's executable, `libjli.dylib`, is a
+    /// library no one runs, so its `java` decides.
     static func intelOnlyJavaRuntimes(in directories: [String], unreadable: inout [URL]) -> [URL] {
         directories.flatMap { directory in
             entries(of: URL(filePath: directory, directoryHint: .isDirectory), unreadable: &unreadable)

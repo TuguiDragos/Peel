@@ -148,7 +148,6 @@ struct DigestMemoryTests {
         #expect(names(try await scan(directory, memory: memory)).isEmpty)
     }
 
-    /// A write through a memory mapping reaches the file without moving any of its times until the mapping is synced.
     @Test func readsAgainAFileAProcessMapsForWriting() async throws {
         let directory = try TemporaryDirectory()
         let memory = DigestMemory(url: directory.url.appending(path: "digests.bin"))
