@@ -196,6 +196,29 @@ struct LaunchAgentFileTests {
         #expect(steps.all.last == "start true true")
     }
 
+    @Test(.permissionsHold) func aRowLaunchdTurnedOffStaysOffWhenTheMovedFileCantBeRead() async throws {
+        let home = try Home()
+        try home.directory.setPermissions(0o600, of: home.plist)
+        var item = agent(home.plist)
+        item.isDisabled = true
+        let file = try await home.open(item)
+        let steps = Steps()
+        let moved = home.trash.appending(path: home.plist.lastPathComponent).path(percentEncoded: false)
+
+        _ = await file.save(
+            job(seconds: 700), for: item, trash: home.service(steps: steps), isLoaded: { _ in true },
+            stop: { _ in
+                // In the Trash, without Full Disk Access, the moved file can't be read.
+                try? FileManager.default.setAttributes([.posixPermissions: 0o000], ofItemAtPath: moved)
+                return nil
+            },
+            start: { started in steps.add("start \(started.isDisabled)") },
+            putBack: { _ in nil }
+        )
+
+        #expect(steps.all.last == "start true")
+    }
+
     @Test func movesTheOldFileToTheTrashWritesTheNewOneAndLoadsItAgain() async throws {
         let home = try Home()
         try home.directory.setPermissions(0o600, of: home.plist)
