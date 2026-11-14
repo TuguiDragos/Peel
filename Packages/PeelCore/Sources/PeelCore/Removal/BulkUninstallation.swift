@@ -62,6 +62,13 @@ public struct BulkUninstallation: Sendable {
     public let uninstallations: [Uninstallation]
     public let items: [Item]
     public let privilegedURLs: Set<URL>
+    /// How many rows only the helper can move and a person could select once it can act.
+    public let rowsWaitingForTheHelper: Int
+    /// What `selectable(canUseHelper:)` and `total(canUseHelper:)` answer, worked out once: the items never change.
+    private let selectableWithTheHelper: Set<URL>
+    private let selectableWithoutTheHelper: Set<URL>
+    private let totalWithTheHelper: SizeTotal
+    private let totalWithoutTheHelper: SizeTotal
 
     public var apps: [InstalledApp] { uninstallations.map(\.app) }
     public var needsFullDiskAccess: Bool {
@@ -90,6 +97,11 @@ public struct BulkUninstallation: Sendable {
                     && $0.enclosingPackage == nil && !($0.isApplication && $0.isKeptByMacOS)
             }.map(\.url)
         )
+        selectableWithTheHelper = Self.selectable(among: items, canUseHelper: true)
+        selectableWithoutTheHelper = Self.selectable(among: items, canUseHelper: false)
+        totalWithTheHelper = Self.total(of: items, in: selectableWithTheHelper)
+        totalWithoutTheHelper = Self.total(of: items, in: selectableWithoutTheHelper)
+        rowsWaitingForTheHelper = privilegedURLs.intersection(selectableWithTheHelper).count
     }
 
     @concurrent
@@ -161,6 +173,10 @@ public struct BulkUninstallation: Sendable {
     /// excluded inside, nothing that needs the helper while it cannot act, no app macOS keeps, that sits inside
     /// another package, or that the helper can't move, and nothing of Peel.
     public func selectable(canUseHelper: Bool) -> Set<URL> {
+        canUseHelper ? selectableWithTheHelper : selectableWithoutTheHelper
+    }
+
+    private static func selectable(among items: [Item], canUseHelper: Bool) -> Set<URL> {
         Set(items.filter { item in
             !item.isExcluded && item.removedElsewhere == nil && !item.isBeyondTheHelper && !item.isInTheTrash
                 && item.enclosingPackage == nil
@@ -173,14 +189,12 @@ public struct BulkUninstallation: Sendable {
     /// alone, and those waiting for the helper, are not counted. An unmeasured row is never counted as zero: it makes
     /// the total incomplete.
     public func total(canUseHelper: Bool) -> SizeTotal {
-        let selectable = selectable(canUseHelper: canUseHelper)
-        return SizeTotal(movingItemsAt: Dictionary(items.filter { selectable.contains($0.url) }
-            .map { ($0.url, $0.isMeasured ? $0.size : nil) }) { first, _ in first })
+        canUseHelper ? totalWithTheHelper : totalWithoutTheHelper
     }
 
-    /// How many rows only the helper can move and a person could select once it can act.
-    public var rowsWaitingForTheHelper: Int {
-        privilegedURLs.intersection(selectable(canUseHelper: true)).count
+    private static func total(of items: [Item], in selectable: Set<URL>) -> SizeTotal {
+        SizeTotal(movingItemsAt: Dictionary(items.filter { selectable.contains($0.url) }
+            .map { ($0.url, $0.isMeasured ? $0.size : nil) }) { first, _ in first })
     }
 
     /// The files of the app `reference` names (`InstalledApp.reference`): its leftovers, and what it shares with
