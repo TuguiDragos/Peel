@@ -157,9 +157,8 @@ struct FileSearchList: View {
                             if criteria.narrowingFilters > 0 {
                                 Text("The filters you chose may leave out what you’re looking for.")
                             }
-                            if results.unindexedDisks.isEmpty {
-                                Text("File Search finds only what Spotlight indexes, so a folder listed in System Settings > Spotlight > Search Privacy isn’t searched.")
-                            } else {
+                            Text("File Search finds only what Spotlight indexes, so a folder listed in System Settings > Spotlight > Search Privacy isn’t searched.")
+                            if !results.unindexedDisks.isEmpty {
                                 Text("Spotlight isn’t indexing \(disks), so File Search can’t find anything there.")
                             }
                             if criteria.scope == .computer {

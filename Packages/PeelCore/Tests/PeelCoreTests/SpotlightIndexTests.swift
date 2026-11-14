@@ -22,6 +22,19 @@ struct SpotlightIndexTests {
         #expect(await SpotlightIndex.isIndexing(directory.url) == nil)
     }
 
+    @Test func aDiskImageMountedReadOnlyIsNotSearched() throws {
+        let directory = try TemporaryDirectory()
+        let place = directory.url.appending(path: "Installer", directoryHint: .isDirectory)
+        let disk = try ScratchVolume(fileSystem: "HFS+", mountedAt: place)
+        #expect(SpotlightIndex.isSearched(place))
+
+        try disk.remount(at: place, readOnly: true)
+
+        #expect(!SpotlightIndex.isSearched(place))
+        #expect(SpotlightIndex.isSearched(URL(filePath: "/System/Volumes/Data", directoryHint: .isDirectory)))
+        withExtendedLifetime(disk) {}
+    }
+
     @Test func theStartupDiskIsAskedThroughTheVolumeThatHoldsThePersonsFiles() throws {
         let directory = try TemporaryDirectory()
 

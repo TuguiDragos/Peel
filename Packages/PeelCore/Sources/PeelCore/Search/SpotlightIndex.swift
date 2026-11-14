@@ -26,14 +26,26 @@ enum SpotlightIndex {
         return isIndexing(mdutil: output.text)
     }
 
+    /// Whether a search of This Mac reads the volume mounted at `volume`: a local one, but not a disk image mounted
+    /// read only, as an installer's is, which Spotlight doesn't index and which holds nothing a search is for.
+    static func isSearched(_ volume: URL) -> Bool {
+        // Read now: a URL keeps what it read, and a disk can be mounted again read only at the same place.
+        var volume = volume
+        volume.removeAllCachedResourceValues()
+        let values = try? volume.resourceValues(forKeys: [.volumeIsLocalKey, .volumeIsReadOnlyKey])
+        guard values?.volumeIsLocal == true else { return false }
+        return values?.volumeIsReadOnly != true
+            || Disks.volume(mountedAt: volume.path(percentEncoded: false)).map(Disks.isADiskImage) != true
+    }
+
     /// The disks a search in `scope` reads: the one holding `home` and, for This Mac, every other local disk mounted.
     /// The startup disk is asked about through the volume that holds the person's files.
     static func disks(in scope: FileSearchCriteria.Scope, home: URL) -> [Disk] {
-        let keys: [URLResourceKey] = [.volumeIsLocalKey, .volumeLocalizedNameKey]
+        let keys: [URLResourceKey] = [.volumeIsLocalKey, .volumeIsReadOnlyKey, .volumeLocalizedNameKey]
         let homeVolume = (try? home.resourceValues(forKeys: [.volumeURLKey]))?.volume ?? URL(filePath: "/")
         let others = scope == .home ? [] : (FileManager.default.mountedVolumeURLs(
             includingResourceValuesForKeys: keys, options: [.skipHiddenVolumes]
-        ) ?? []).filter { (try? $0.resourceValues(forKeys: [.volumeIsLocalKey]))?.volumeIsLocal == true }
+        ) ?? []).filter(isSearched)
         var seen = Set<String>()
         return ([homeVolume] + others).compactMap { volume in
             let isStartup = PathPattern.comparablePath(of: volume) == "/"
