@@ -47,6 +47,22 @@ struct PluginsTests {
         #expect(scan.unreadable.map(\.lastPathComponent) == ["Vendor"])
     }
 
+    @Test func readsAPlugInsLocalizedNameAgainAfterAnUpdate() throws {
+        let directory = try TemporaryDirectory()
+        let info = try PropertyListSerialization.data(
+            fromPropertyList: ["CFBundleName": "Echo", "CFBundleShortVersionString": "1.0"], format: .xml, options: 0
+        )
+        let plugIn = try directory.file("Echo.component/Contents/Info.plist", contents: info)
+            .deletingLastPathComponent().deletingLastPathComponent()
+        let strings = "Echo.component/Contents/Resources/en.lproj/InfoPlist.strings"
+        try directory.file(strings, contents: Data("CFBundleName = \"Echo One\";\n".utf8))
+        #expect(Plugins.name(of: plugIn, info: nil) == "Echo One")
+
+        try directory.file(strings, contents: Data("CFBundleName = \"Echo Two\";\n".utf8))
+
+        #expect(Plugins.name(of: plugIn, info: nil) == "Echo Two")
+    }
+
     @Test(.permissionsHold) func namesOnceAFolderAboveThePlugInsThatCannotBeSearched() async throws {
         let directory = try TemporaryDirectory()
         try directory.directory("home/Library/Audio/Plug-Ins/VST3/Reverb.vst3/Contents")

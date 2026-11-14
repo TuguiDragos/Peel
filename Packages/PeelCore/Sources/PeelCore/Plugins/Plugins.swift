@@ -322,11 +322,24 @@ public enum Plugins {
            let menuName = item["default"] as? String, !menuName.isEmpty {
             return menuName
         }
-        // `Bundle` reads a bundle without registering it with Launch Services, unlike asking for its display name.
-        let localized = Bundle(url: url)?.localizedInfoDictionary
+        let localized = localizedInfo(of: url)
         let declared = [localized?["CFBundleDisplayName"], localized?["CFBundleName"], info?["CFBundleName"]]
             .lazy.compactMap { ($0 as? String)?.trimmingCharacters(in: .whitespacesAndNewlines) }.first { !$0.isEmpty }
         return declared ?? url.deletingPathExtension().lastPathComponent
+    }
+
+    /// The bundle's `InfoPlist.strings` in the language the Mac would show, read from its files now. It isn't asked of
+    /// `Bundle`, which keeps what it read for a path as long as the process runs, so an update would read as the old
+    /// one; and asking for a display name registers the bundle with Launch Services.
+    static func localizedInfo(of url: URL) -> [String: Any]? {
+        let contents = url.appending(path: "Contents/Resources", directoryHint: .isDirectory)
+        let resources = contents.isRealFolder ? contents : url
+        let names = (try? FileManager.default.contentsOfDirectory(atPath: resources.path(percentEncoded: false))) ?? []
+        let localizations = names.filter { $0.hasSuffix(".lproj") }.map { String($0.dropLast(".lproj".count)) }
+        guard let chosen = Bundle.preferredLocalizations(from: localizations).first,
+              let data = try? Data(contentsOf: resources.appending(path: "\(chosen).lproj/InfoPlist.strings"))
+        else { return nil }
+        return (try? PropertyListSerialization.propertyList(from: data, format: nil)) as? [String: Any]
     }
 
     /// The file extensions each kind of plug-in uses.
