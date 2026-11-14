@@ -925,7 +925,9 @@ public enum DeveloperCaches {
             Folder(".local/share/NuGet/plugins-cache", .cache, source: "https://github.com/NuGet/docs.microsoft.com-nuget/blob/3ecef866b0bc71c8f9ee0b5673dee4b210f8eff1/docs/consume-packages/managing-the-global-packages-and-cache-folders.md#L20"),
         ]),
         Definition(id: "julia", name: "Julia", systemImage: "chevron.left.forwardslash.chevron.right", appBundleIdentifiers: [], folders: [
-            Folder(".julia/artifacts", .downloads, source: "https://github.com/JuliaLang/julia/blob/70432117499f8ac209cb19a904f53611c8893e80/base/initdefs.jl#L111"),
+            // Julia doesn't download a missing artifact again by itself: loading a package that needs one fails until
+            // `Pkg.instantiate()` runs in each environment, so they are never selected.
+            Folder(".julia/artifacts", .environments, source: "https://github.com/JuliaLang/julia/blob/70432117499f8ac209cb19a904f53611c8893e80/base/initdefs.jl#L111"),
             Folder(".julia/clones", .downloads, source: "https://github.com/JuliaLang/julia/blob/70432117499f8ac209cb19a904f53611c8893e80/base/initdefs.jl#L112"),
             Folder(".julia/compiled", .buildData, source: "https://github.com/JuliaLang/julia/blob/70432117499f8ac209cb19a904f53611c8893e80/base/initdefs.jl#L114"),
             Folder(".julia/scratchspaces", .cache, source: "https://github.com/JuliaLang/julia/blob/70432117499f8ac209cb19a904f53611c8893e80/base/initdefs.jl#L120"),

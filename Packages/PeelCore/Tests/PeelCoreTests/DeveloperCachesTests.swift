@@ -384,6 +384,17 @@ struct DeveloperCachesTests {
         #expect(Set(listed) == ["GPUPersistentCache", "Default/GPUCache"])
     }
 
+    @Test func neverSelectsJuliasArtifactsWhichJuliaDoesNotDownloadAgainByItself() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(".julia/artifacts/0123abcd/lib/libexample.dylib", bytes: 4_096)
+
+        let environments = await scanned(directory.url)
+
+        let artifacts = try #require(environments.first { $0.id == "julia" }?.locations.first)
+        #expect(artifacts.kind == .environments)
+        #expect(!artifacts.isRecommended)
+    }
+
     @Test func listsABrowsersModelsWithoutSelectingThem() async throws {
         let directory = try TemporaryDirectory()
         let chrome = "Library/Application Support/Google/Chrome"
