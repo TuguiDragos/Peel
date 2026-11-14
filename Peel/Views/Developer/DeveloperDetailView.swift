@@ -16,6 +16,14 @@ struct DeveloperDetailView: View {
             if !environment.locations.isEmpty {
                 folders
             }
+            if !environment.modelCommands.isEmpty {
+                Section {
+                    CopyableLines(
+                        caption: Text("To remove one model, use \(environment.name)’s own commands in Terminal, which keep its store in step. What they remove is deleted for good, without the Trash, and Peel never runs them."),
+                        lines: environment.modelCommands
+                    )
+                }
+            }
         }
         .scrollBarBelowSectionHeaders()
         .dimmedWhileBusy(developer.isScanning)

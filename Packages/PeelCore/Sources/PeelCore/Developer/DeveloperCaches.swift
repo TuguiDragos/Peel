@@ -128,6 +128,8 @@ public struct DeveloperEnvironment: Sendable, Hashable, Identifiable {
     public var appIdentifierPrefixes: [String] = []
     /// The programs of the tool, by name, that use these locations with no app around them, such as `ollama serve`.
     public var programs: [String] = []
+    /// The tool's own commands to list its models and remove one, given to copy while its program is on this Mac.
+    public var modelCommands: [String] = []
     /// The folders the tool keeps elsewhere through a link, which Peel doesn't follow: moving the link frees nothing,
     /// and what it leads to is the tool's own on that disk.
     public var keptElsewhere: [URL] = []
@@ -184,6 +186,16 @@ public enum DeveloperCaches {
         var programs: [String] = []
         /// The Homebrew formulae that install the tool, whose programs keep these folders too.
         var homebrewFormulae: [String] = []
+        var modelCommands: ModelCommands?
+    }
+
+    /// A tool's own commands to list its models and remove one, which keep its store in step. The Developer page gives
+    /// them to copy, never runs them, and only while `program` is in a folder commands run from.
+    struct ModelCommands {
+        let program: String
+        let lines: [String]
+        /// Where the tool documents them, read at a commit.
+        let sources: [String]
     }
 
     /// A folder a tool keeps, relative to the home folder or to the user's cache folder, and what it holds.
@@ -1222,7 +1234,11 @@ public enum DeveloperCaches {
             folders: [
                 Folder(".docker/models", .models, source: "https://github.com/docker/model-runner/blob/0bb6e68619861f8d4b1dc53cfcf980ecb620d229/pkg/envconfig/envconfig.go#L82-L93"),
                 Folder("Library/Containers/com.docker.docker/Data/log", .logs, source:"https://github.com/docker/docs/blob/1cb9a4d2c65d712da863e30cd3a1319ddeea3298/content/manuals/engine/daemon/logs.md#L16"),
-            ]
+            ],
+            modelCommands: ModelCommands(
+                program: "docker", lines: ["docker model list", "docker model rm <model>"],
+                sources: ["https://github.com/docker/model-runner/blob/0bb6e68619861f8d4b1dc53cfcf980ecb620d229/cmd/cli/docs/reference/docker_model_list.yaml#L1-L5", "https://github.com/docker/model-runner/blob/0bb6e68619861f8d4b1dc53cfcf980ecb620d229/cmd/cli/docs/reference/docker_model_rm.yaml#L1-L5"]
+            )
         ),
         Definition(id: "lima", name: "Lima", systemImage: "server.rack", appBundleIdentifiers: [], folders: [
             Folder("Library/Caches/lima", .downloads, source: "https://github.com/lima-vm/lima/blob/97b6b86ca429d836830e62394b1dd91acbef8e5f/website/content/en/docs/dev/internals.md#L137-L145"),
@@ -1323,7 +1339,10 @@ public enum DeveloperCaches {
             Folder(".ollama/models", .models, source: "https://github.com/ollama/ollama/blob/42e911bc3d05798cad729cb474bf62f378cb2e26/docs/faq.mdx#L233-L236"),
             Folder(".ollama/logs", .logs, source: "https://github.com/ollama/ollama/blob/42e911bc3d05798cad729cb474bf62f378cb2e26/docs/macos.mdx#L26-L28"),
             Folder("Library/Caches/ollama/updates", .downloads, source: "https://github.com/ollama/ollama/blob/42e911bc3d05798cad729cb474bf62f378cb2e26/app/updater/updater_darwin.go#L88-L96"),
-        ], programs: ["ollama"], homebrewFormulae: ["ollama"]),
+        ], programs: ["ollama"], homebrewFormulae: ["ollama"], modelCommands: ModelCommands(
+            program: "ollama", lines: ["ollama ls", "ollama rm <model>"],
+            sources: ["https://github.com/ollama/ollama/blob/42e911bc3d05798cad729cb474bf62f378cb2e26/docs/cli.mdx#L88-L97"]
+        )),
         Definition(id: "lmstudio", name: "LM Studio", systemImage: "brain", appBundleIdentifiers: ["ai.elementlabs.lmstudio"], folders: [
             Folder(".lmstudio/models", .models, source: "https://lmstudio.ai/docs/app/advanced/import-model", rowsDepth: 2, movedBy: .lmStudioModels),
             Folder(".cache/lm-studio/models", .models, source: "https://lmstudio.ai/blog/lmstudio-v0.3.6"),
@@ -1335,7 +1354,10 @@ public enum DeveloperCaches {
             Folder(".cache/huggingface/assets", .cache, source: "https://github.com/huggingface/huggingface_hub/blob/d711944ddf94abe9ef2a34f80d41007968ff9c30/docs/source/en/package_reference/environment_variables.md#L50-L56"),
             Folder(".cache/huggingface/transformers", .models, source: "https://github.com/huggingface/transformers/blob/983e40ac3b2af68fd6c927dce09324d54d023e54/src/transformers/utils/hub.py#L70"),
             Folder(".cache/huggingface/modules", .cache, source: "https://github.com/huggingface/transformers/blob/469230357aab0f2b303b0d638c1f8d06edb14184/src/transformers/utils/hub.py#L108"),
-        ]),
+        ], modelCommands: ModelCommands(
+            program: "hf", lines: ["hf cache ls", "hf cache rm <repo>", "hf cache prune"],
+            sources: ["https://github.com/huggingface/huggingface_hub/blob/d711944ddf94abe9ef2a34f80d41007968ff9c30/docs/source/en/guides/manage-cache.md#L435-L439", "https://github.com/huggingface/huggingface_hub/blob/d711944ddf94abe9ef2a34f80d41007968ff9c30/docs/source/en/guides/manage-cache.md#L607-L611", "https://github.com/huggingface/huggingface_hub/blob/d711944ddf94abe9ef2a34f80d41007968ff9c30/docs/source/en/guides/manage-cache.md#L658-L661"]
+        )),
         Definition(id: "torch", name: "PyTorch", systemImage: "brain", appBundleIdentifiers: [], folders: [
             Folder(".cache/torch/hub", .models, source: "https://github.com/pytorch/pytorch/blob/e8f41c0ef97e73484550856d369c702f69fc10e1/docs/source/hub.md#L122-L124"),
             Folder(".cache/torch/transformers", .models, source: "https://github.com/huggingface/transformers/blob/983e40ac3b2af68fd6c927dce09324d54d023e54/src/transformers/utils/hub.py#L65"),
@@ -1740,17 +1762,34 @@ public enum DeveloperCaches {
         let settings = ToolSettings(home: homeDirectory, root: rootDirectory)
         let listening = definitions.contains { $0.folders.contains(where: \.namesItsPort) }
             ? ListeningPorts.ofThisAccount() : []
+        let commandFolders = SearchEnvironment(homeDirectory: homeDirectory, rootDirectory: rootDirectory)
+            .commandFolders
         // Four tools at a time: measured all at once, their big folders would share the disk and each run out of
         // the time `FileSize` gives a walk, where alone they would finish.
         return await definitions.concurrentMap(width: 4) { definition in
-            await environment(
+            var found = await environment(
                 for: definition, homeDirectory: homeDirectory, userCacheDirectory: userCacheDirectory,
                 userTemporaryDirectory: userTemporaryDirectory, exclusions: exclusions, measure: measure,
                 preference: preference, settings: settings, openFiles: openFiles, listening: listening
             )
+            if let commands = definition.modelCommands,
+               found?.locations.contains(where: { $0.kind == .models }) == true,
+               isInstalled(commands.program, in: commandFolders) {
+                found?.modelCommands = commands.lines
+            }
+            return found
         }
         .compactMap(\.self)
         .sorted { $0.total != $1.total ? $0.total > $1.total : $0.name < $1.name }
+    }
+
+    /// Whether `program` is in one of `folders` as a file that runs, a link followed to it.
+    static func isInstalled(_ program: String, in folders: [URL]) -> Bool {
+        folders.contains { folder in
+            let path = folder.appending(path: program).path(percentEncoded: false)
+            var info = stat()
+            return stat(path, &info) == 0 && info.st_mode & S_IFMT == S_IFREG && access(path, X_OK) == 0
+        }
     }
 
     /// Among folders named `<kind>.<port>.<number>`, the newest of each kind on a port in `listening`.

@@ -954,6 +954,27 @@ struct DeveloperCachesTests {
         #expect(listed.allSatisfy { $0.kind == .models && !$0.isRecommended })
     }
 
+    @Test func givesAToolsOwnCommandsForOneModelOnlyWhileItsProgramAndItsStoreAreHere() async throws {
+        let directory = try TemporaryDirectory()
+        let root = directory.url.appending(path: "root", directoryHint: .isDirectory)
+        let ollama = DeveloperCaches.definitions.filter { $0.id == "ollama" }
+        let commands = { (home: String) in
+            await DeveloperCaches.scan(
+                ollama, homeDirectory: directory.url.appending(path: home, directoryHint: .isDirectory),
+                rootDirectory: root
+            ).first?.modelCommands
+        }
+        try directory.file("store/.ollama/models/blobs/sha256-1a2b", bytes: 4_096)
+        try directory.file("logs/.ollama/logs/server.log", bytes: 4_096)
+        #expect(await commands("store") == [])
+
+        let program = try directory.file("root/usr/local/bin/ollama")
+        try directory.setPermissions(0o755, of: program)
+
+        #expect(await commands("store") == ["ollama ls", "ollama rm <model>"])
+        #expect(await commands("logs") == [])
+    }
+
     @Test func listsTheModelsAILibrariesDownloadAndNothingElseOfTheirFolders() async throws {
         let directory = try TemporaryDirectory()
         for path in [
@@ -1050,6 +1071,7 @@ struct DeveloperCachesTests {
         try #require(!electron.isEmpty)
         let sources = (DeveloperCaches.definitions + electron).flatMap { $0.folders.map(\.source) }
             + DeveloperCaches.definitions.flatMap { $0.folders.compactMap(\.movedBy).flatMap(\.sources) }
+            + DeveloperCaches.definitions.compactMap(\.modelCommands).flatMap(\.sources)
             + ProjectArtifacts.definitions.map(\.source)
 
         for source in sources {

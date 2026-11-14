@@ -236211,6 +236211,112 @@
         }
       }
     },
+    "To remove one model, use %@’s own commands in Terminal, which keep its store in step. What they remove is deleted for good, without the Trash, and Peel never runs them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokud chcete odstranit jeden model, použijte v Terminálu vlastní příkazy nástroje %@, se kterými jeho úložiště zůstane v pořádku. Co tyto příkazy odstraní, se trvale smaže bez použití koše. Peel je nikdy nespouští."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um ein einzelnes Modell zu entfernen, verwende die eigenen Befehle von %@ im Terminal, die den Modellspeicher konsistent halten. Was sie entfernen, wird ohne Papierkorb endgültig gelöscht, und Peel führt sie nie aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para eliminar un solo modelo, usa los propios comandos de %@ en Terminal, que mantienen coherente su almacén. Lo que eliminan se borra definitivamente, sin pasar por la papelera, y Peel nunca los ejecuta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour supprimer un seul modèle, utilisez les commandes propres à %@ dans Terminal, qui maintiennent la cohérence de son stockage. Ce qu’elles suppriment l’est définitivement, sans passer par la corbeille, et Peel ne les exécute jamais."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per rimuovere un singolo modello, usa i comandi di %@ in Terminale, che mantengono coerente il suo archivio. Ciò che rimuovono viene eliminato definitivamente, senza passare dal Cestino, e Peel non li esegue mai."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "モデルを1つだけ取り除くには、ターミナルで%@独自のコマンドを使用してください。これらのコマンドなら、モデルの保管場所の整合性が保たれます。コマンドで取り除いたものはゴミ箱に入らず、完全に削除されます。Peelがこれらのコマンドを実行することは決してありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모델 하나를 제거하려면 터미널에서 ‘%@’의 자체 명령을 사용하십시오. 이 명령은 해당 도구의 저장소를 일관된 상태로 유지합니다. 이 명령으로 제거한 항목은 휴지통을 거치지 않고 영구적으로 삭제되며, Peel은 이 명령을 절대 실행하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wil je één model verwijderen, gebruik dan de eigen commando's van %@ in Terminal, die de opslag ervan bijgewerkt houden. Wat ze verwijderen, wordt definitief verwijderd, buiten de prullenmand om, en Peel voert ze nooit uit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby usunąć jeden model, użyj w Terminalu własnych poleceń narzędzia %@, które utrzymują spójność jego magazynu. To, co usuwają, jest usuwane trwale, z pominięciem Kosza, a Peel nigdy ich nie uruchamia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para remover um modelo, use os próprios comandos de %@ no Terminal, que mantêm o armazenamento dele consistente. O que eles removem é apagado definitivamente, sem passar pelo Lixo, e o Peel nunca os executa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pentru a elimina un singur model, folosiți în Terminal comenzile proprii ale instrumentului %@, care îi mențin colecția de modele coerentă. Ce elimină acestea este șters definitiv, fără să treacă prin Coș, iar Peel nu le rulează niciodată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы удалить одну модель, используйте собственные команды %@ в Терминале: они поддерживают его хранилище в согласованном состоянии. Эти команды удаляют безвозвратно, минуя Корзину, и Peel никогда их не запускает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om du vill ta bort en enda modell kör du de kommandon som %@ själv tillhandahåller i Terminal, eftersom de håller dess modellager i ordning. Det som de tar bort raderas permanent, utan att gå via papperskorgen, och Peel kör dem aldrig."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tek bir modeli kaldırmak için Terminal’de %@ aracının kendi komutlarını kullanın; bu komutlar aracın deposunu tutarlı tutar. Bu komutların kaldırdıkları Çöp Sepeti’ne gitmeden kalıcı olarak silinir ve Peel bu komutları hiçbir zaman çalıştırmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щоб вилучити одну модель, скористайтеся власними командами %@ у Терміналі, які підтримують узгодженість сховища моделей. Те, що вони вилучають, видаляється назавжди, без Смітника, і Peel ніколи їх не запускає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要移除单个模型，请在“终端”中使用“%@”自己的命令，这些命令会让它的模型存储保持一致。它们移除的内容会被永久删除，不经过废纸篓，而且Peel绝不会运行这些命令。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若要移除單一模型，請在「終端機」中使用「%@」本身的指令，這些指令會讓它的儲存區保持一致。這些指令移除的內容會被永久刪除，不會經過「垃圾桶」，而且Peel絕不會執行這些指令。"
+          }
+        }
+      }
+    },
     "To remove them, run `%@`." : {
       "localizations" : {
         "cs" : {
