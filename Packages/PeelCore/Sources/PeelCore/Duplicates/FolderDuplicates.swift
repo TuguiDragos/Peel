@@ -409,23 +409,25 @@ struct FolderDuplicates: Sendable {
         return allowed.compactMap { group -> DuplicateFolderGroup? in
             let topmost = group.folders.filter { !DuplicateFinder.isInside(offered, $0.url) }
             guard topmost.count > 1 else { return nil }
-            let sorted = topmost.sorted {
-                keepOrder.rank(of: $0.url, identity: $0.identity) < keepOrder.rank(of: $1.url, identity: $1.identity)
+            let ranked = topmost.map { folder in
+                let frees = Self.reclaimable(folder)
+                let rank = keepOrder.rank(of: folder.url, identity: folder.identity, frees: frees)
+                return (folder: folder, frees: frees, rank: rank)
             }
-            let folders = sorted.compactMap(duplicate)
+            let folders = ranked.sorted { $0.rank < $1.rank }.compactMap { duplicate($0.folder, frees: $0.frees) }
             guard folders.count > 1 else { return nil }
             return DuplicateFolderGroup(id: group.digest.hexadecimal, folders: folders)
         }
         .sorted { ($0.reclaimableSize, $0.size, $1.id) > ($1.reclaimableSize, $1.size, $0.id) }
     }
 
-    private func duplicate(_ folder: Folder) -> DuplicateFolder? {
+    private func duplicate(_ folder: Folder, frees: Int64) -> DuplicateFolder? {
         guard let contents = identity(of: folder) else { return nil }
         return DuplicateFolder(
             url: folder.url,
             fileCount: folder.fileCount,
             size: folder.size,
-            reclaimableSize: Self.reclaimable(folder),
+            reclaimableSize: frees,
             contents: contents.hexadecimal,
             neverProjects: neverProjects
         )

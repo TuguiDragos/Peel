@@ -165,10 +165,11 @@ Space shows what fills your disk, area by area, and what each area is.
   name, since the tool looks for it there by name. After a
   scan you start, Peel selects every copy in each group but the one it suggests keeping: one on the disk your home
   folder is on, then one outside `/Users/Shared`, then one outside Downloads, then one whose name doesn't end like a
-  copy's, such as `photo copy.jpg` or `photo (1).jpg`, then the oldest. A copy in `/Users/Shared` isn't selected for
-  you, since every account may use it. Look before you move them: one copy is always kept, and right before they
-  move, Peel reads them again with the copies that stay, so moving them takes about as long as reading them. A copy in
-  a folder that syncs to your other devices, such as iCloud Drive or what Desktop and Documents hold when they are in
+  copy's, such as `photo copy.jpg` or `photo (1).jpg`, then the one that frees the least when it moves, such as a
+  copy macOS keeps compressed, so moving the others frees the most, then the oldest. A copy in `/Users/Shared` isn't
+  selected for you, since every account may use it. Look before you move them: one copy is always kept, and right
+  before they move, Peel reads them again with the copies that stay, so moving them takes about as long as reading
+  them. A copy in a folder that syncs to your other devices, such as iCloud Drive or what Desktop and Documents hold when they are in
   iCloud, is listed and never moved, since the Trash would take it
   from your other devices too: beside a copy on this Mac it is marked Stays, and a group whose every copy syncs is
   listed under Synced to Other Devices. When a sync app such as Syncthing keeps the folder in step, the copy's note

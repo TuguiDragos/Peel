@@ -464,7 +464,13 @@ public struct DuplicateFinder: Sendable {
         let order = KeepOrder(home: homeDirectory)
         // A copy whose extras can't be read isn't known to be like the others.
         var copies = members.compactMap { member in FileExtras.of(member.item.url).map { (member.item, $0) } }
-            .map { (item: $0.0, extras: $0.1, rank: order.rank(of: $0.0.url, identity: $0.0.identity)) }
+            .map { item, extras in
+                let frees = ReclaimableSpace.of(item.url)
+                return (
+                    item: item, extras: extras, frees: frees,
+                    rank: order.rank(of: item.url, identity: item.identity, frees: frees)
+                )
+            }
             .sorted { $0.rank < $1.rank }
         guard copies.count > 1 else { return nil }
         // A copy in a folder a developer tool keeps, such as a model in its store, is one the tool looks for by name.
@@ -481,11 +487,11 @@ public struct DuplicateFinder: Sendable {
             }
         }
         let files = copies
-            .map { candidate, _, _ in
+            .map { candidate, _, frees, _ in
                 DuplicateFile(
                     url: candidate.url,
                     size: candidate.identity.size,
-                    reclaimableSize: ReclaimableSpace.of(candidate.url),
+                    reclaimableSize: frees,
                     allocatedSize: ReclaimableSpace.allocated(candidate.url),
                     identity: candidate.identity,
                     heldBack: candidate.heldBack,
@@ -509,9 +515,9 @@ public struct DuplicateFinder: Sendable {
         }
 
         /// Ranks a copy for keeping, lower being better: on the disk the home folder is on, outside `/Users/Shared`
-        /// and Downloads, without a copy suffix, created earlier, less deeply nested, then with a shorter name. The
-        /// path breaks any tie that is left.
-        func rank(of url: URL, identity: FileIdentity) -> (Int, Int, Int, Int, String) {
+        /// and Downloads, without a copy suffix, freeing less when it moves (`frees`), so moving the others frees
+        /// the most, created earlier, less deeply nested, then with a shorter name. The path breaks any tie left.
+        func rank(of url: URL, identity: FileIdentity, frees: Int64) -> (Int, Int64, Int, Int, Int, String) {
             let path = DuplicateFinder.path(of: url)
             let name = url.deletingPathExtension().lastPathComponent
             let flags = [
@@ -521,6 +527,7 @@ public struct DuplicateFinder: Sendable {
             return (
                 // Each flag outweighs those after it.
                 flags.reduce(0) { $0 * 2 + ($1 ? 1 : 0) },
+                frees,
                 identity.creationTime,
                 url.pathComponents.count,
                 name.count,

@@ -2,6 +2,7 @@ import Darwin
 import Foundation
 import Synchronization
 @testable import PeelCore
+import PeelPrivileged
 import Testing
 
 struct DuplicateFinderTests {
@@ -260,7 +261,7 @@ struct DuplicateFinderTests {
         let name = { (url: URL) in url.pathComponents.drop { $0 != "home" }.dropFirst().joined(separator: "/") }
         #expect(Set(names(result)) == [
             ["Documents/Contract.pdf", "Desktop/Contract.pdf", "Downloads/Contract.pdf"],
-            ["Music/sound.aiff", "Documents/sound.aiff"], ["Projects/a/notes.txt", "Projects/b/notes.txt"],
+            ["Documents/sound.aiff", "Music/sound.aiff"], ["Projects/a/notes.txt", "Projects/b/notes.txt"],
         ])
         let staying = result.groups.flatMap(\.files).filter { $0.heldBack == .keepsWhatTheOthersLack }.map(\.url)
         #expect(Set(staying.map(name)) == ["Desktop/Contract.pdf", "Music/sound.aiff", "Projects/b/notes.txt"])
@@ -685,6 +686,52 @@ struct DuplicateFinderTests {
         #expect(names(try await scan(directory)) == [["Movies/clip.mov", "Movies/clip clone.mov"]])
     }
 
+    @Test func keepsTheCopyThatFreesLessWhenPlaceAndNameAgree() async throws {
+        let directory = try TemporaryDirectory()
+        let text = Data(String(repeating: "Peel keeps one copy and offers the others. ", count: 10_000).utf8)
+        let plain = try directory.file("home/Documents/a.txt", contents: text)
+        let compressed = directory.url.appending(path: "home/Documents/report.txt")
+        try await compress(plain, into: compressed)
+        try #require(ReclaimableSpace.allocated(compressed) * 10 < ReclaimableSpace.allocated(plain))
+        let earlier = Date.now.addingTimeInterval(-2 * 24 * 3_600)
+        try FileManager.default.setAttributes([.creationDate: earlier], ofItemAtPath: plain.path(percentEncoded: false))
+
+        let group = try #require(try await scan(directory).groups.first)
+
+        #expect(PathPattern.comparablePath(of: group.files[0].url) == PathPattern.comparablePath(of: compressed))
+        let suggested = group.suggestedFiles.map { PathPattern.comparablePath(of: $0.url) }
+        #expect(suggested == [PathPattern.comparablePath(of: plain)])
+        #expect(group.reclaimableSize == ReclaimableSpace.of(plain))
+    }
+
+    @Test func keepsTheFolderThatFreesLessWhenPlaceAndNameAgree() async throws {
+        let directory = try TemporaryDirectory()
+        let text = Data(String(repeating: "Peel keeps one folder and offers the others. ", count: 10_000).utf8)
+        let plain = try directory.file("home/Documents/a/notes.txt", contents: text).deletingLastPathComponent()
+        let compressed = directory.url.appending(path: "home/Documents/report", directoryHint: .isDirectory)
+        try await compress(plain, into: compressed)
+        try #require(
+            ReclaimableSpace.allocated(compressed.appending(path: "notes.txt")) * 10
+                < ReclaimableSpace.allocated(plain.appending(path: "notes.txt"))
+        )
+        let earlier = Date.now.addingTimeInterval(-2 * 24 * 3_600)
+        try FileManager.default.setAttributes([.creationDate: earlier], ofItemAtPath: plain.path(percentEncoded: false))
+
+        let group = try #require(try await scan(directory).folderGroups.first)
+
+        #expect(PathPattern.comparablePath(of: group.folders[0].url) == PathPattern.comparablePath(of: compressed))
+        #expect(group.reclaimableSize == ReclaimableSpace.of(plain.appending(path: "notes.txt")))
+    }
+
+    private func compress(_ source: URL, into destination: URL) async throws {
+        let output = try await Subprocess.run(
+            "/usr/bin/ditto",
+            ["--hfsCompression", source.path(percentEncoded: false), destination.path(percentEncoded: false)],
+            timeout: nil
+        ).get()
+        try #require(output.status == 0)
+    }
+
     @Test func recognizesCopySuffixes() {
         #expect(DuplicateFinder.hasCopySuffix("Invoice copy"))
         #expect(DuplicateFinder.hasCopySuffix("Invoice Copy 2"))
@@ -845,8 +892,8 @@ struct DuplicateFinderTests {
     @Test func prefersACopyOutsideTheFolderEveryAccountSharesAndNeverSuggestsOneThere() async throws {
         let order = DuplicateFinder.KeepOrder(home: URL(filePath: "/Users/me", directoryHint: .isDirectory))
         let identity = FileIdentity(stat())
-        let shared = order.rank(of: URL(filePath: "/Users/Shared/Film.mov"), identity: identity)
-        let own = order.rank(of: URL(filePath: "/Users/me/Downloads/Film.mov"), identity: identity)
+        let shared = order.rank(of: URL(filePath: "/Users/Shared/Film.mov"), identity: identity, frees: 0)
+        let own = order.rank(of: URL(filePath: "/Users/me/Downloads/Film.mov"), identity: identity, frees: 100)
         #expect(own < shared)
         func file(_ path: String) -> DuplicateFile {
             DuplicateFile(
