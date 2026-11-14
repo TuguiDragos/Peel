@@ -17,4 +17,15 @@ struct IntelHomebrewWordsTests {
         #expect(explained?.contains("/opt/homebrew") == true)
         #expect(finding.subtitle.map { String(localized: $0) } == "from Homebrew’s wget")
     }
+
+    @Test func aCommandFromACaskOnAppleSiliconSaysSoAndWhichCask() {
+        let cask = IntelFinding.Cask(token: "inso", prefix: URL(filePath: "/opt/homebrew"))
+        let finding = IntelFinding(
+            url: URL(filePath: "/opt/homebrew/Caskroom/inso/12.0/inso"), kind: .commandLineTool, name: "inso",
+            owner: nil, size: nil, commandFolder: .optHomebrew, cask: cask
+        )
+
+        #expect(String(localized: finding.explanation(onAppleSilicon: true)).contains("needs Rosetta"))
+        #expect(finding.subtitle.map { String(localized: $0) } == "from Homebrew’s inso")
+    }
 }

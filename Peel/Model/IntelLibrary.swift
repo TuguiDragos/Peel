@@ -134,6 +134,10 @@ extension IntelFinding.CommandFolder {
             onAppleSilicon
                 ? "This command comes from the Homebrew in /usr/local, which is built for Intel. Homebrew for Apple silicon installs in /opt/homebrew."
                 : "This tool from Homebrew is Intel only. On this Intel Mac it runs natively."
+        case .optHomebrew:
+            onAppleSilicon
+                ? "This tool from Homebrew is Intel only, so it needs Rosetta to run."
+                : "This tool from Homebrew is Intel only. On this Intel Mac it runs natively."
         case .macPorts:
             onAppleSilicon
                 ? "This tool from MacPorts is Intel only, so it needs Rosetta to run. MacPorts reinstalls its ports for this Mac with `sudo port migrate`."
@@ -190,7 +194,8 @@ extension IntelFinding {
     /// a plug-in's format, since one plug-in is often installed in several formats under one name.
     var subtitle: LocalizedStringResource? {
         guard let owner else {
-            return formula.map { LocalizedStringResource("from Homebrew’s \($0.name)") } ?? pluginCategory?.title
+            let package = formula?.name ?? cask?.token
+            return package.map { LocalizedStringResource("from Homebrew’s \($0)") } ?? pluginCategory?.title
         }
         return kind == .backgroundItem ? "started by \(owner)" : "in \(owner)"
     }

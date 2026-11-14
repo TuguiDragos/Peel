@@ -148,14 +148,16 @@ struct IntelDetailView: View {
         .toolbar(removing: .title)
     }
 
-    /// The formula that installed it, when the Homebrew page lists it: that page reads one Homebrew, which may be
-    /// another than the one in `/usr/local`.
-    private var formulaOnTheHomebrewPage: HomebrewPackage.ID? {
-        guard let formula = finding.formula,
+    /// The formula or cask that installed it, when the Homebrew page lists it: that page reads one Homebrew, which
+    /// may be another than the one that installed it.
+    private var packageOnTheHomebrewPage: HomebrewPackage.ID? {
+        let installed: (name: String, kind: HomebrewPackage.Kind, prefix: URL)? =
+            finding.formula.map { ($0.name, .formula, $0.prefix) } ?? finding.cask.map { ($0.token, .cask, $0.prefix) }
+        guard let installed,
               homebrew.installation.map({ PathPattern.comparablePath(of: $0.prefix) })
-                  == PathPattern.comparablePath(of: formula.prefix)
+                  == PathPattern.comparablePath(of: installed.prefix)
         else { return nil }
-        return homebrew.packages?.first { $0.kind == .formula && $0.name == formula.name }?.id
+        return homebrew.packages?.first { $0.kind == installed.kind && $0.name == installed.name }?.id
     }
 
     /// The button that leads to the page where this can be dealt with.
@@ -185,7 +187,7 @@ struct IntelDetailView: View {
                 Navigator.shared.requestedTool = .packages
             }
             .buttonStyle(.borderedProminent)
-        } else if let package = formulaOnTheHomebrewPage {
+        } else if let package = packageOnTheHomebrewPage {
             Button("Review in Homebrew") {
                 homebrew.selection = .package(package)
                 Navigator.shared.requestedTool = .homebrew
@@ -206,6 +208,8 @@ struct IntelDetailView: View {
         switch finding.kind {
         case .commandLineTool where finding.formula != nil:
             "Peel only reports here. Homebrew installed it with its formula \(finding.formula?.name ?? ""), so it goes when Homebrew uninstalls that formula."
+        case .commandLineTool where finding.cask != nil:
+            "Peel only reports here. Homebrew installed it with its cask \(finding.cask?.token ?? ""), so it goes when Homebrew uninstalls that cask."
         case .driver, .commandLineTool:
             "Peel only reports here. The software that installed it may have an uninstaller of its own."
         case .app:

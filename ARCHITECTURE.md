@@ -454,11 +454,11 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   and, inside each, at the folders that hold code of its own (`embeddedDirectories`, and in `Contents/Frameworks` only
   the apps and services kept there), at the plug-ins the Plug-ins page lists, at the drivers in `Image Capture` and
   `Printers` and what else sits in `Audio/Plug-Ins` and `ColorPickers`, at the programs launchd jobs run, at the
-  tools in `/usr/local`, MacPorts' `/opt/local`, and the home's `bin` and `.local/bin` (`toolDirectories`, each found
-  with its `CommandFolder`), and at the Java runtimes in each Library's `Java/JavaVirtualMachines`, judged by their
-  `java`, since the library their bundle names is run by nothing. It only reports: an app goes from Applications, a
-  plug-in the Plug-ins page lists from there, a Java runtime as its folder, and the rest with the software that
-  installed it.
+  tools in `/usr/local`, Homebrew's `/opt/homebrew`, MacPorts' `/opt/local`, and the home's `bin` and `.local/bin`
+  (`toolDirectories`, each found with its `CommandFolder`, and one from Homebrew with its formula or cask), and at the
+  Java runtimes in each Library's `Java/JavaVirtualMachines`, judged by their `java`, since the library their bundle
+  names is run by nothing. It only reports: an app goes from Applications, a plug-in the Plug-ins page lists from
+  there, a Java runtime as its folder, and the rest with the software that installed it.
 - **Space.** `SpaceInventory` measures each area its definitions name (`SpaceReport`), the folders inside apps'
   containers included, and lists an area from 50 MB (`minimumSize`), one whose size didn't come back in time, and the
   area open on its page. An area's figure is all its folders hold, or only what it offers where it leaves macOS's own

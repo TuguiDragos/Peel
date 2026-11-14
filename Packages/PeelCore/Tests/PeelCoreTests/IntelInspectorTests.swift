@@ -510,6 +510,29 @@ struct IntelInspectorTests {
         #expect(found == ["brewed": .usrLocal, "ported": .macPorts, "legacy": .home, "cli": .home])
     }
 
+    @Test func findsTheIntelCommandACaskLinksIntoHomebrewsFolderOnAppleSilicon() async throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.file("root/opt/homebrew/Caskroom/inso/12.0/inso", contents: intelHeader(fileType: 2))
+        try directory.setPermissions(0o755, of: program)
+        let bin = try directory.directory("root/opt/homebrew/bin")
+        try FileManager.default.createSymbolicLink(at: bin.appending(path: "inso"), withDestinationURL: program)
+
+        let scan = await IntelInspector.scan(
+            installedApps: [],
+            exclusions: .none,
+            environment: SearchEnvironment(
+                homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+                rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+            ),
+            measure: { _ in 1 }
+        )
+
+        let command = try #require(scan.findings.first { $0.kind == .commandLineTool })
+        #expect(command.name == "inso")
+        #expect(command.cask?.token == "inso")
+        #expect(command.commandFolder == .optHomebrew)
+    }
+
     @Test func findsTheIntelOnlyJavaRuntimesInEitherLibrary() async throws {
         let directory = try TemporaryDirectory()
         try javaRuntime(directory, "home/Library/Java/JavaVirtualMachines/jdk-21.0.13+9", [intel], name: "OpenJDK 21.0.13")

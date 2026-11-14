@@ -35,6 +35,8 @@ public struct IntelFinding: Sendable, Hashable, Identifiable {
     public var commandFolder: CommandFolder?
     /// The Homebrew formula whose folder in the Cellar holds it, read from where it is (`IntelInspector.formula`).
     public var formula: Formula?
+    /// The Homebrew cask whose folder in the Caskroom holds it, read from where it is (`IntelInspector.cask`).
+    public var cask: Cask?
 
     public var id: URL { url }
 
@@ -44,10 +46,18 @@ public struct IntelFinding: Sendable, Hashable, Identifiable {
         public let prefix: URL
     }
 
+    public struct Cask: Sendable, Hashable {
+        public let token: String
+        /// Where the Homebrew that installed it lives.
+        public let prefix: URL
+    }
+
     public enum CommandFolder: Sendable, Hashable {
         case usrLocal
-        /// The Cellar of a Homebrew in `/usr/local`, which installed it with one of its formulae (`formula`).
+        /// A Homebrew in `/usr/local`, which installed it with one of its formulae (`formula`) or casks (`cask`).
         case homebrew
+        /// Homebrew's `/opt/homebrew` on Apple silicon, where it links its formulae's commands and a cask's `binary`.
+        case optHomebrew
         /// MacPorts' `/opt/local`, whose ports `sudo port migrate` reinstalls after a move to another kind of Mac
         /// (MacPorts' Migration guide).
         case macPorts
@@ -105,14 +115,17 @@ public enum IntelInspector {
         }
         return [
             (under(environment.rootDirectory, CommandFolders.usrLocal + ["usr/local/libexec"]), .usrLocal),
+            (under(environment.rootDirectory, CommandFolders.homebrew), .optHomebrew),
             (under(environment.rootDirectory, CommandFolders.macPorts + ["opt/local/libexec"]), .macPorts),
             (under(environment.homeDirectory, CommandFolders.home), .home),
         ]
     }
 
-    /// The tool folders but `libexec`, whose helpers nobody runs by name.
+    /// The tool folders but Homebrew's `/opt/homebrew`, whose commands are its formulae's and casks', and `libexec`,
+    /// whose helpers nobody runs by name.
     static func commandDirectories(_ environment: SearchEnvironment) -> [String] {
-        toolDirectories(environment).flatMap(\.folders).filter { !$0.hasSuffix("/libexec") }
+        toolDirectories(environment).filter { $0.place != .optHomebrew }.flatMap(\.folders)
+            .filter { !$0.hasSuffix("/libexec") }
     }
 
     /// Folders inside an app that hold code of its own, as processes or as plug-ins the app loads, so an Intel-only one
@@ -309,14 +322,17 @@ public enum IntelInspector {
                     continue
                 }
                 let formula = Self.formula(holding: tool.program, environment: environment)
+                let cask = formula == nil ? Self.cask(holding: tool.program, environment: environment) : nil
+                let homebrew = formula?.prefix ?? cask?.prefix
                 findings.append(IntelFinding(
                     url: tool.program,
                     kind: .commandLineTool,
                     name: tool.name,
                     owner: nil,
                     size: nil,
-                    commandFolder: formula == nil ? place : .homebrew,
-                    formula: formula
+                    commandFolder: Self.homebrewPrefixes(environment).first { $0.prefix == homebrew }?.place ?? place,
+                    formula: formula,
+                    cask: cask
                 ))
             }
         }
@@ -503,11 +519,40 @@ public enum IntelInspector {
     /// The formula whose folder in the Cellar of the Homebrew in `/usr/local` holds `url`, read from where it is
     /// alone, `<prefix>/Cellar/<formula>/`, without asking Homebrew. Only that Homebrew can install Intel code.
     static func formula(holding url: URL, environment: SearchEnvironment) -> IntelFinding.Formula? {
-        let prefix = environment.rootDirectory.appending(path: "usr/local", directoryHint: .isDirectory)
-        let cellar = PathComponents.of(PathPattern.comparablePath(of: prefix.appending(path: "Cellar")))
+        package(holding: url, in: "Cellar", environment: environment).map {
+            IntelFinding.Formula(name: $0.name, prefix: $0.prefix)
+        }
+    }
+
+    static func cask(holding url: URL, environment: SearchEnvironment) -> IntelFinding.Cask? {
+        package(holding: url, in: "Caskroom", environment: environment).map {
+            IntelFinding.Cask(token: $0.name, prefix: $0.prefix)
+        }
+    }
+
+    /// Homebrew's two prefixes, `/usr/local` on an Intel Mac and `/opt/homebrew` on Apple silicon, with the place a
+    /// command one of them installed is said to come from.
+    static func homebrewPrefixes(
+        _ environment: SearchEnvironment
+    ) -> [(prefix: URL, place: IntelFinding.CommandFolder)] {
+        [
+            (environment.rootDirectory.appending(path: "usr/local", directoryHint: .isDirectory), .homebrew),
+            (environment.rootDirectory.appending(path: "opt/homebrew", directoryHint: .isDirectory), .optHomebrew),
+        ]
+    }
+
+    /// The package whose folder in `folder` (Homebrew's `Cellar` or `Caskroom`) under either prefix holds `url`.
+    private static func package(
+        holding url: URL, in folder: String, environment: SearchEnvironment
+    ) -> (name: String, prefix: URL)? {
         let names = PathComponents.of(PathPattern.comparablePath(of: url))
-        guard names.count > cellar.count + 1, names.starts(with: cellar) else { return nil }
-        return IntelFinding.Formula(name: names[cellar.count], prefix: prefix)
+        for (prefix, _) in homebrewPrefixes(environment) {
+            let packages = PathComponents.of(PathPattern.comparablePath(of: prefix.appending(path: folder)))
+            if names.count > packages.count + 1, names.starts(with: packages) {
+                return (names[packages.count], prefix)
+            }
+        }
+        return nil
     }
 
     static func intelOnlyJavaRuntimes(in directories: [String], unreadable: inout [URL]) -> [URL] {

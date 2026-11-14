@@ -133204,108 +133204,108 @@
         }
       }
     },
-    "Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the Java runtimes, and the tools in /usr/local, /opt/local, ~/bin, and ~/.local/bin." : {
+    "Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the Java runtimes, and the tools in /usr/local, /opt/homebrew, /opt/local, ~/bin, and ~/.local/bin." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nic z toho, co Peel prověřil, nevyžaduje prostředí Rosetta: aplikace ve složkách Aplikace a ve složkách, které jste přidali v Nastavení, jejich vnitřní součásti, plug-iny, ovladače, položky na pozadí, běhová prostředí Java a nástroje v /usr/local, /opt/local, ~/bin a ~/.local/bin."
+            "value" : "Nic z toho, co Peel prověřil, nevyžaduje prostředí Rosetta: aplikace ve složkách Aplikace a ve složkách, které jste přidali v Nastavení, jejich vnitřní součásti, plug-iny, ovladače, položky na pozadí, běhová prostředí Java a nástroje v /usr/local, /opt/homebrew, /opt/local, ~/bin a ~/.local/bin."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nichts, was Peel geprüft hat, benötigt Rosetta: die Apps in den Ordnern „Programme“ und in den Ordnern, die du in den Einstellungen hinzugefügt hast, was sie in sich tragen, die Plug-ins, die Treiber, die Hintergrundobjekte, die Java-Laufzeitumgebungen und die Tools in /usr/local, /opt/local, ~/bin und ~/.local/bin."
+            "value" : "Nichts, was Peel geprüft hat, benötigt Rosetta: die Apps in den Ordnern „Programme“ und in den Ordnern, die du in den Einstellungen hinzugefügt hast, was sie in sich tragen, die Plug-ins, die Treiber, die Hintergrundobjekte, die Java-Laufzeitumgebungen und die Tools in /usr/local, /opt/homebrew, /opt/local, ~/bin und ~/.local/bin."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nada de lo que Peel ha revisado necesita Rosetta: las apps de las carpetas Aplicaciones y de las carpetas que has añadido en Ajustes, lo que llevan dentro, los módulos, los drivers, los ítems en segundo plano, los entornos de ejecución de Java y las herramientas de /usr/local, /opt/local, ~/bin y ~/.local/bin."
+            "value" : "Nada de lo que Peel ha revisado necesita Rosetta: las apps de las carpetas Aplicaciones y de las carpetas que has añadido en Ajustes, lo que llevan dentro, los módulos, los drivers, los ítems en segundo plano, los entornos de ejecución de Java y las herramientas de /usr/local, /opt/homebrew, /opt/local, ~/bin y ~/.local/bin."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rien de ce que Peel a examiné ne nécessite Rosetta : les apps des dossiers Applications et des dossiers que vous avez ajoutés dans les Réglages, ce qu’elles contiennent, les modules, les gestionnaires, les éléments en arrière-plan, les environnements d’exécution Java et les outils de /usr/local, de /opt/local, de ~/bin et de ~/.local/bin."
+            "value" : "Rien de ce que Peel a examiné ne nécessite Rosetta : les apps des dossiers Applications et des dossiers que vous avez ajoutés dans les Réglages, ce qu’elles contiennent, les modules, les gestionnaires, les éléments en arrière-plan, les environnements d’exécution Java et les outils de /usr/local, de /opt/homebrew, de /opt/local, de ~/bin et de ~/.local/bin."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nulla di ciò che Peel ha esaminato richiede Rosetta: le app nelle cartelle Applicazioni e nelle cartelle che hai aggiunto nelle Impostazioni, ciò che contengono, i plugin, i driver, gli elementi in background, i runtime Java e gli strumenti in /usr/local, /opt/local, ~/bin e ~/.local/bin."
+            "value" : "Nulla di ciò che Peel ha esaminato richiede Rosetta: le app nelle cartelle Applicazioni e nelle cartelle che hai aggiunto nelle Impostazioni, ciò che contengono, i plugin, i driver, gli elementi in background, i runtime Java e gli strumenti in /usr/local, /opt/homebrew, /opt/local, ~/bin e ~/.local/bin."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelが調べたもの（“アプリケーション”フォルダと“設定”で追加したフォルダにあるアプリ、アプリの内部にあるもの、プラグイン、ドライバ、バックグラウンド項目、Javaランタイム、/usr/local、/opt/local、~/bin、~/.local/binの各フォルダにあるツール）には、Rosettaが必要なものはありません。"
+            "value" : "Peelが調べたもの（“アプリケーション”フォルダと“設定”で追加したフォルダにあるアプリ、アプリの内部にあるもの、プラグイン、ドライバ、バックグラウンド項目、Javaランタイム、/usr/local、/opt/homebrew、/opt/local、~/bin、~/.local/binの各フォルダにあるツール）には、Rosettaが必要なものはありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 살펴본 응용 프로그램 폴더와 설정에서 추가한 폴더의 앱, 앱 내부의 구성 요소, 플러그인, 드라이버, 백그라운드 항목, Java 런타임 및 /usr/local, /opt/local, ~/bin, ~/.local/bin의 도구 중 Rosetta가 필요한 항목은 없습니다."
+            "value" : "Peel이 살펴본 응용 프로그램 폴더와 설정에서 추가한 폴더의 앱, 앱 내부의 구성 요소, 플러그인, 드라이버, 백그라운드 항목, Java 런타임 및 /usr/local, /opt/homebrew, /opt/local, ~/bin, ~/.local/bin의 도구 중 Rosetta가 필요한 항목은 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Niets van wat Peel heeft bekeken, heeft Rosetta nodig: de apps in de mappen 'Apps' en in de mappen die je in Instellingen hebt toegevoegd, wat erin zit, de plug-ins, de besturingsbestanden, de achtergrondonderdelen, de Java-runtimes en de tools in /usr/local, /opt/local, ~/bin en ~/.local/bin."
+            "value" : "Niets van wat Peel heeft bekeken, heeft Rosetta nodig: de apps in de mappen 'Apps' en in de mappen die je in Instellingen hebt toegevoegd, wat erin zit, de plug-ins, de besturingsbestanden, de achtergrondonderdelen, de Java-runtimes en de tools in /usr/local, /opt/homebrew, /opt/local, ~/bin en ~/.local/bin."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nic z tego, co sprawdził Peel, nie wymaga Rosetty: aplikacje w folderach Aplikacje i w folderach dodanych przez Ciebie w Ustawieniach, ich zawartość, wtyczki, sterowniki, rzeczy działające w tle, środowiska uruchomieniowe Java i narzędzia w /usr/local, /opt/local, ~/bin i ~/.local/bin."
+            "value" : "Nic z tego, co sprawdził Peel, nie wymaga Rosetty: aplikacje w folderach Aplikacje i w folderach dodanych przez Ciebie w Ustawieniach, ich zawartość, wtyczki, sterowniki, rzeczy działające w tle, środowiska uruchomieniowe Java i narzędzia w /usr/local, /opt/homebrew, /opt/local, ~/bin i ~/.local/bin."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nada do que o Peel examinou precisa do Rosetta: os apps das pastas Aplicativos e das pastas que você adicionou nos Ajustes, o que eles trazem dentro, os plug-ins, os drivers, os itens em segundo plano, os runtimes Java e as ferramentas em /usr/local, /opt/local, ~/bin e ~/.local/bin."
+            "value" : "Nada do que o Peel examinou precisa do Rosetta: os apps das pastas Aplicativos e das pastas que você adicionou nos Ajustes, o que eles trazem dentro, os plug-ins, os drivers, os itens em segundo plano, os runtimes Java e as ferramentas em /usr/local, /opt/homebrew, /opt/local, ~/bin e ~/.local/bin."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nimic din ce a examinat Peel nu are nevoie de Rosetta: aplicațiile din dosarele Aplicații și din dosarele pe care le‑ați adăugat în Configurări, ce conțin aceste aplicații, plug-inurile, driverele, articolele de fundal, mediile de rulare Java și instrumentele din /usr/local, /opt/local, ~/bin și ~/.local/bin."
+            "value" : "Nimic din ce a examinat Peel nu are nevoie de Rosetta: aplicațiile din dosarele Aplicații și din dosarele pe care le‑ați adăugat în Configurări, ce conțin aceste aplicații, plug-inurile, driverele, articolele de fundal, mediile de rulare Java și instrumentele din /usr/local, /opt/homebrew, /opt/local, ~/bin și ~/.local/bin."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ничему из того, что проверил Peel, не нужна Rosetta: ни приложениям в папках «Программы» и в папках, добавленных Вами в Настройках, ни тому, что у них внутри, ни плагинам, ни драйверам, ни фоновым объектам, ни средам выполнения Java, ни инструментам в /usr/local, /opt/local, ~/bin и ~/.local/bin."
+            "value" : "Ничему из того, что проверил Peel, не нужна Rosetta: ни приложениям в папках «Программы» и в папках, добавленных Вами в Настройках, ни тому, что у них внутри, ни плагинам, ни драйверам, ни фоновым объектам, ни средам выполнения Java, ни инструментам в /usr/local, /opt/homebrew, /opt/local, ~/bin и ~/.local/bin."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inget som Peel har tittat på behöver Rosetta: apparna i mapparna Appar och i de mappar som du har lagt till i Inställningar, det de bär med sig inuti, insticksfilerna, drivrutinerna, bakgrundsobjekten, Java-körmiljöerna och verktygen i /usr/local, /opt/local, ~/bin och ~/.local/bin."
+            "value" : "Inget som Peel har tittat på behöver Rosetta: apparna i mapparna Appar och i de mappar som du har lagt till i Inställningar, det de bär med sig inuti, insticksfilerna, drivrutinerna, bakgrundsobjekten, Java-körmiljöerna och verktygen i /usr/local, /opt/homebrew, /opt/local, ~/bin och ~/.local/bin."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’in baktığı hiçbir şey Rosetta gerektirmiyor: Uygulamalar klasörlerindeki ve Ayarlar’da eklediğiniz klasörlerdeki uygulamalar, içlerinde taşıdıkları, yazılım ekleri, sürücüler, arka plan öğeleri, Java çalışma ortamları ve /usr/local, /opt/local, ~/bin ve ~/.local/bin içindeki araçlar."
+            "value" : "Peel’in baktığı hiçbir şey Rosetta gerektirmiyor: Uygulamalar klasörlerindeki ve Ayarlar’da eklediğiniz klasörlerdeki uygulamalar, içlerinde taşıdıkları, yazılım ekleri, sürücüler, arka plan öğeleri, Java çalışma ortamları ve /usr/local, /opt/homebrew, /opt/local, ~/bin ve ~/.local/bin içindeki araçlar."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ніщо з того, що переглянула Peel, не потребує Rosetta: програми в папках «Програми» і в папках, які ви додали в Параметрах, те, що вони містять усередині, плагіни, драйвери, фонові елементи, середовища виконання Java та інструменти в /usr/local, /opt/local, ~/bin і ~/.local/bin."
+            "value" : "Ніщо з того, що переглянула Peel, не потребує Rosetta: програми в папках «Програми» і в папках, які ви додали в Параметрах, те, що вони містять усередині, плагіни, драйвери, фонові елементи, середовища виконання Java та інструменти в /usr/local, /opt/homebrew, /opt/local, ~/bin і ~/.local/bin."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel查看过的内容都不需要Rosetta：包括“应用程序”文件夹和你在“设置”中添加的文件夹里的App、这些App内部包含的内容、插件、驱动程序、后台项目、Java运行时，以及/usr/local、/opt/local、~/bin和~/.local/bin中的工具。"
+            "value" : "Peel查看过的内容都不需要Rosetta：包括“应用程序”文件夹和你在“设置”中添加的文件夹里的App、这些App内部包含的内容、插件、驱动程序、后台项目、Java运行时，以及/usr/local、/opt/homebrew、/opt/local、~/bin和~/.local/bin中的工具。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel檢查過的項目都不需要Rosetta：包括「應用程式」檔案夾和你在「設定」中加入的檔案夾裡的App、App內含的項目、外掛模組、驅動程式、背景項目、Java執行環境，以及/usr/local、/opt/local、~/bin和~/.local/bin中的工具。"
+            "value" : "Peel檢查過的項目都不需要Rosetta：包括「應用程式」檔案夾和你在「設定」中加入的檔案夾裡的App、App內含的項目、外掛模組、驅動程式、背景項目、Java執行環境，以及/usr/local、/opt/homebrew、/opt/local、~/bin和~/.local/bin中的工具。"
           }
         }
       }
@@ -165610,6 +165610,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel在此只負責回報。「背景項目」會移動工作的設定檔，而不是它執行的程式：程式會隨安裝它的軟體一起移除。"
+          }
+        }
+      }
+    },
+    "Peel only reports here. Homebrew installed it with its cask %@, so it goes when Homebrew uninstalls that cask." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zde jen informuje. Homebrew tuto položku nainstaloval pomocí svého casku %@, takže zmizí, až Homebrew tento cask odinstaluje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hier informiert Peel nur. Homebrew hat dies mit dem Cask „%@“ installiert, daher wird es entfernt, wenn Homebrew diesen Cask deinstalliert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aquí Peel solo informa. Homebrew lo instaló con el cask %@, así que desaparece cuando Homebrew desinstala ese cask."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ici, Peel se contente de signaler. Homebrew l’a installé avec le cask %@ : il sera donc supprimé quand Homebrew désinstallera ce cask."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qui Peel si limita a segnalare. Homebrew l’ha installato con il suo cask %@, quindi verrà rimosso quando Homebrew disinstallerà quel cask."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはここでは報告するだけです。これはHomebrewのcask“%@”でインストールされたもので、Homebrewがそのcaskをアンインストールすると削除されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "여기에서 Peel은 보고만 합니다. Homebrew가 ‘%@’ cask로 이 항목을 설치했으므로, Homebrew가 그 cask를 제거하면 이 항목도 함께 제거됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel geeft hier alleen informatie. Homebrew heeft het geïnstalleerd met de cask %@, dus het verdwijnt wanneer Homebrew die cask deïnstalleert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tylko to tutaj zgłasza. Homebrew zainstalował to w ramach cask %@, więc zostanie to usunięte, gdy Homebrew go odinstaluje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aqui o Peel apenas informa. O Homebrew instalou isto com o cask %@, então isto é removido quando o Homebrew desinstala esse cask."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aici Peel doar raportează. Homebrew l‑a instalat prin cask‑ul %@, așa că dispare când Homebrew dezinstalează acel cask."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здесь Peel только сообщает. Homebrew установил этот объект в составе cask «%@», поэтому он будет удален, когда Homebrew удалит этот cask."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Här rapporterar Peel bara. Homebrew installerade det med sin cask %@, så det tas bort när Homebrew avinstallerar casken."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel burada yalnızca bilgi verir. Homebrew bunu %@ adlı cask ile yükledi, bu yüzden Homebrew o cask için yüklemeyi kaldırdığında bu da kaldırılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тут Peel лише повідомляє. Homebrew інсталював це з cask «%@», тож це зникне, коли Homebrew деінсталює цей cask."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel在此仅作报告。Homebrew通过其cask“%@”安装了它，因此当Homebrew卸载该cask时，它也会随之移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel在此只負責回報。Homebrew透過cask「%@」安裝了它，因此在Homebrew解除安裝該cask時，它也會隨之移除。"
           }
         }
       }
@@ -241683,6 +241789,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此設定檔已損毀，因此沒有任何App能讀取它。"
+          }
+        }
+      }
+    },
+    "This tool from Homebrew is Intel only, so it needs Rosetta to run." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento nástroj z Homebrew je jen pro procesory Intel, takže ke spuštění potřebuje prostředí Rosetta."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses Tool von Homebrew ist nur für Intel, daher benötigt es Rosetta, um zu laufen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta herramienta de Homebrew es solo para Intel, así que necesita Rosetta para ejecutarse."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet outil de Homebrew n’existe qu’en version Intel : il a donc besoin de Rosetta pour s’exécuter."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo strumento di Homebrew è solo per Intel, quindi per funzionare richiede Rosetta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HomebrewのこのツールはIntel専用のため、実行するにはRosettaが必要です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew의 이 도구는 Intel 전용이므로 실행하려면 Rosetta가 필요합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze tool van Homebrew is alleen voor Intel en heeft dus Rosetta nodig om te werken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To narzędzie z Homebrew jest tylko dla procesorów Intel, więc do działania potrzebuje Rosetty."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta ferramenta do Homebrew é só para Intel, então precisa do Rosetta para ser executada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest instrument din Homebrew este doar pentru Intel, așa că are nevoie de Rosetta pentru a rula."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот инструмент из Homebrew собран только для Intel, поэтому для работы ему нужна Rosetta."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här verktyget från Homebrew är bara för Intel, så det behöver Rosetta för att köras."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew’dan gelen bu araç yalnızca Intel içindir, bu yüzden çalışması için Rosetta gerekir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цей інструмент із Homebrew призначений лише для Intel, тож для роботи потребує Rosetta."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来自Homebrew的此工具仅支持Intel，因此需要Rosetta才能运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "來自Homebrew的此工具僅支援Intel，因此需要Rosetta才能執行。"
           }
         }
       }

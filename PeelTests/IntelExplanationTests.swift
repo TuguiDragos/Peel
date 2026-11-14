@@ -36,6 +36,7 @@ struct IntelExplanationTests {
         #expect(words(.home, onAppleSilicon: false) == String(localized: "This tool in your home folder is Intel only. On this Intel Mac it runs natively."))
         #expect(words(.macPorts, onAppleSilicon: false) == String(localized: "This tool from MacPorts is Intel only. On this Intel Mac it runs natively."))
         #expect(words(.usrLocal) == String(localized: "This tool in /usr/local is Intel only, so it needs Rosetta to run."))
+        #expect(words(.optHomebrew) == String(localized: "This tool from Homebrew is Intel only, so it needs Rosetta to run."))
         #expect(words(nil) == words(.usrLocal))
     }
 

@@ -8,7 +8,7 @@ struct CommandLineToolsTests {
         let script = Data("#!/bin/sh\n".utf8)
         for path in ["root/usr/local/bin/kav", "root/usr/local/sbin/served", "root/opt/local/bin/ported", "home/bin/mine",
                      "home/.local/bin/mytool", "root/usr/local/libexec/helper", "root/Applications/Dock.app/Contents/MacOS/dock",
-                     "root/usr/local/Cellar/jq/1.7/bin/jq"] {
+                     "root/usr/local/Cellar/jq/1.7/bin/jq", "root/opt/homebrew/bin/brewed"] {
             try directory.setPermissions(0o755, of: try directory.file(path, contents: script))
         }
         try directory.file("root/usr/local/bin/notes.txt", contents: script)
