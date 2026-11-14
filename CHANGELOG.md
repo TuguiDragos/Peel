@@ -73,6 +73,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Under a store of models, Developer gives Ollama's, Hugging Face's, and Docker's own commands to list the models and
   remove one, to copy into Terminal while the tool is on the Mac. Peel never runs them.
 
+#### Installers and Backups
+
+- Every row shows a day beside its size: when the item came, or when a download that never finished or an update an
+  app downloaded last changed. Only backups showed one before.
+
 ### Changed
 
 #### Home
@@ -176,6 +181,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - When a scan stops early, Build Artifacts and `peel projects` say after how many folders, and that choosing the folder
   your projects are in shows the rest.
+
+#### Duplicates
+
+- When copies are alike in where they are and in their names, the one Peel keeps is the one whose move would free the
+  least, before the oldest, so moving the others frees the most: of a file and a copy macOS keeps compressed, it keeps
+  the compressed one. The same holds for folders, here and in `peel duplicates`.
 
 #### iCloud Drive
 
@@ -805,6 +816,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A folder above the plug-ins that can't be searched is named among the folders Peel couldn't look inside, no longer
   read as empty.
 - After a plug-in is replaced, Rescan shows its new localized name.
+- The copy Mail keeps of a plug-in from `/Library/Mail/Bundles`, at that plug-in's own path repeated under Mail's folder
+  of copies, is found here, at an uninstall and in Orphaned Files, and its row says Mail's copy, so it no longer reads
+  like the plug-in itself.
 
 #### Every page
 
