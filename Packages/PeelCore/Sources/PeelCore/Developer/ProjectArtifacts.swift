@@ -302,9 +302,11 @@ public enum ProjectArtifacts {
             name: ".angular", markers: ["angular.json"], tool: "Angular", isGeneric: false,
             source: "https://angular.dev/cli/cache"
         ),
+        // `.turbo` also keeps `config.json`, where `turbo link` writes the remote cache the repository is linked to,
+        // so only its cache is offered.
         Definition(
-            name: ".turbo", markers: ["turbo.json"], tool: "Turborepo", isGeneric: false,
-            source: "https://turborepo.dev/docs/crafting-your-repository/caching"
+            name: ".turbo/cache", markers: ["turbo.json"], tool: "Turborepo", isGeneric: false,
+            source: "https://turborepo.dev/docs/reference/configuration#cachedir"
         ),
         Definition(
             name: ".rollup.cache", markers: ["package.json"], tool: "@rollup/plugin-typescript", isGeneric: false,

@@ -413,7 +413,7 @@ struct ProjectArtifactsTests {
             Kind(artifact: ".svelte-kit", marker: "svelte.config.js", tool: "SvelteKit", isGeneric: false),
             Kind(artifact: ".expo", marker: "app.json", tool: "Expo", isGeneric: false),
             Kind(artifact: ".angular", marker: "angular.json", tool: "Angular", isGeneric: false),
-            Kind(artifact: ".turbo", marker: "turbo.json", tool: "Turborepo", isGeneric: false),
+            Kind(artifact: ".turbo/cache", marker: "turbo.json", tool: "Turborepo", isGeneric: false),
             Kind(artifact: ".parcel-cache", marker: "package.json", tool: "Parcel", isGeneric: false),
             Kind(
                 artifact: "storybook-static", marker: ".storybook", markerIsAFolder: true, tool: "Storybook",
@@ -1021,6 +1021,18 @@ struct ProjectArtifactsTests {
         #expect(found.map(\.name) == [".react-router"])
         #expect(found.first?.tool == "React Router")
         #expect(found.first?.isRecommended == true)
+    }
+
+    @Test func offersOnlyTurborepoCacheAndNeverTheLinkToItsRemoteCache() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("mono/turbo.json", bytes: 16)
+        try directory.file("mono/.turbo/config.json", contents: Data(#"{"teamId":"team_example"}"#.utf8))
+        try directory.file("mono/.turbo/cache/a1b2.tar.zst", bytes: 400_000)
+        try age(directory.url, days: 60)
+
+        let found = await ProjectArtifacts.scan(roots: [directory.url]).artifacts
+
+        #expect(found.map(\.name) == [".turbo/cache"])
     }
 
     @Test func offersThePackageTheServerlessFrameworkBuilds() async throws {
