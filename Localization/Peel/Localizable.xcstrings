@@ -54510,6 +54510,112 @@
         }
       }
     },
+    "Finder restarts." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder se restartuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Finder wird neu gestartet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El Finder se reinicia."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le Finder redémarre."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il Finder si riavvia."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finderが再起動します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder가 다시 시작됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder start opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder uruchamia się ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Finder reinicia."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder repornește."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder перезапустится."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder startas om."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder yeniden başlar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder перезапускається."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“访达”会重新启动。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder會重新啟動。"
+          }
+        }
+      }
+    },
     "Finder stops asking whether you’re sure when you change a file’s extension." : {
       "localizations" : {
         "cs" : {
@@ -231245,6 +231351,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這些設定會還原為Peel更改之前的狀態，你自己設定的內容則會維持原樣。macOS的某些部分（例如Dock或Finder）可能會重新啟動，這會中斷Finder正在進行的拷貝作業。"
+          }
+        }
+      }
+    },
+    "They go back to how they were before Peel, and what you set yourself stays as it is. Parts of macOS, like the Dock or Finder, may restart." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vrátí se do stavu, jaký byl před Peelem, a co jste nastavili sami, zůstane tak, jak je. Některé části macOS, například Dock nebo Finder, se mohou restartovat."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sie kehren zu dem Wert zurück, den sie vor Peel hatten, und was du selbst eingestellt hast, bleibt, wie es ist. Teile von macOS wie das Dock oder der Finder werden möglicherweise neu gestartet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuelven a estar como estaban antes de Peel, y lo que hayas establecido tú se queda como está. Algunas partes de macOS, como el Dock o el Finder, pueden reiniciarse."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ils reviennent à leur état d’avant Peel, et ce que vous avez défini vous-même reste tel quel. Certaines parties de macOS, comme le Dock ou le Finder, peuvent redémarrer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tornano com’erano prima di Peel, e ciò che hai impostato tu resta com’è. Alcune parti di macOS, come il Dock o il Finder, potrebbero riavviarsi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これらの設定はPeelが変更する前の状態に戻り、自分で設定したものはそのまま残ります。DockやFinderなどmacOSの一部が再起動する場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 설정들은 Peel이 변경하기 전의 상태로 돌아가고, 사용자가 직접 설정한 내용은 그대로 유지됩니다. Dock이나 Finder 등 macOS의 일부가 다시 시작될 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ze gaan terug naar hoe ze waren vóór Peel, en wat je zelf hebt ingesteld blijft zoals het is. Onderdelen van macOS, zoals het Dock of Finder, starten misschien opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wrócą do tego, co było przed Peel, a to, co ustawiasz samodzielnie, pozostanie bez zmian. Niektóre części macOS, na przykład Dock lub Finder, mogą uruchomić się ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eles voltam a ser como eram antes do Peel, e o que você mesmo definiu fica como está. Partes do macOS, como o Dock ou o Finder, podem reiniciar."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acestea revin la cum erau înainte de Peel, iar ce ați stabilit dvs. rămâne așa cum este. Unele părți ale macOS, precum Dock‑ul sau Finder, pot reporni."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Они вернутся к значениям, которые были до Peel, а то, что Вы задали сами, останется без изменений. Некоторые части macOS, например Dock или Finder, могут перезапуститься."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De återgår till hur de var före Peel, och det som du själv har ställt in förblir som det är. Delar av macOS, som Dock eller Finder, kan startas om."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarlar Peel’den önceki hâline döner ve kendi ayarladıklarınız olduğu gibi kalır. Dock veya Finder gibi macOS bileşenleri yeniden başlayabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вони повернуться до того стану, в якому були до Peel, а те, що ви задали самі, лишиться без змін. Частини macOS, як-от Dock чи Finder, можуть перезапуститися."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些设置会恢复到Peel更改之前的状态，而你自己设定的内容会保持原样。macOS的某些部分（例如程序坞或“访达”）可能会重新启动。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些設定會還原為Peel更改之前的狀態，你自己設定的內容則會維持原樣。macOS的某些部分（例如Dock或Finder）可能會重新啟動。"
           }
         }
       }

@@ -332,7 +332,10 @@ extension Tweak.Restart {
         switch self {
         case .none: nil
         case .dock: "The Dock restarts."
-        case .finder: "Finder restarts, which stops anything it is copying."
+        case .finder:
+            // On macOS 27 a copy Finder runs goes on through `killall Finder`; on 26 that isn't known, so the warning
+            // stays there.
+            if #available(macOS 27, *) { "Finder restarts." } else { "Finder restarts, which stops anything it is copying." }
         case .controlCenter: "macOS’s menu bar items restart, since Control Center draws them."
         case .windowManager: "The window manager restarts."
         case .relaunchApps: "Open apps keep the old setting until you reopen them, and an app with a setting of its own for this keeps that."

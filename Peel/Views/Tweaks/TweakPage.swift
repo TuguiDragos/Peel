@@ -44,7 +44,11 @@ struct TweakPage: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("They go back to how they were before Peel, and what you set yourself stays as it is. Parts of macOS, like the Dock or Finder, may restart, which stops anything Finder is copying.")
+            if #available(macOS 27, *) {
+                Text("They go back to how they were before Peel, and what you set yourself stays as it is. Parts of macOS, like the Dock or Finder, may restart.")
+            } else {
+                Text("They go back to how they were before Peel, and what you set yourself stays as it is. Parts of macOS, like the Dock or Finder, may restart, which stops anything Finder is copying.")
+            }
         }
         .navigationTitle(Text(Tool.tweaks.title))
         .task {
