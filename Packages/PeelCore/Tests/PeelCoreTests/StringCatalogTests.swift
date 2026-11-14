@@ -305,6 +305,7 @@ import Testing
             "%@ free of %@": ["localizations": ["ro": unit("%@ din %lld")]],
             "%1$@ in %2$@": ["localizations": ["ro": unit("%2$@ în %@")]],
             "^[%lld file](inflect: true)": ["localizations": ["ro": unit("^[%lld fișier](inflect: true)")]],
+            "^[%lld kind](inflect: true) of ^[file](agreeWithArgument: 1)": ["localizations": ["ro": plural(["one": "%lld fel de fișier", "few": "%lld feluri de fișiere", "other": "%lld de feluri de fișiere"])]],
             "%lld files": ["localizations": ["ro": plural(["one": "%lld fișier", "other": "%lld de fișiere"])]],
             "%lld kept": ["localizations": ["ro": unit("%lld păstrate")]],
             "Step %lld of %lld": ["localizations": ["ro": unit("Pasul %lld din %lld")]],
@@ -400,6 +401,10 @@ import Testing
         #expect(caught["ellipsis"]?.contains("Choose…") == true)
         #expect(caught["markdown"]?.contains("Run `brew unpin`") == true)
         #expect(caught["markdown"]?.contains("Uses [a tool](peel-license:tool)") == true, "a link's address changed")
+        #expect(
+            caught["markdown"]?.contains("^[%lld kind](inflect: true) of ^[file](agreeWithArgument: 1)") != true,
+            "an agreement is no link"
+        )
         #expect(caught["sameEverywhere"]?.contains("OrbStack") == true, "a name or a command, never to translate")
         #expect(caught["apostrophe"]?.contains("Don't") == true, "the English writes the curly apostrophe")
         #expect(caught["apostrophe"]?.contains("Can’t open %@") == true, "French writes its own apostrophe")
@@ -704,12 +709,12 @@ struct CatalogChecker {
         return (slots.sorted(), numbered, unnumbered, named.sorted())
     }
 
-    /// The addresses of a string's Markdown links, which a translation keeps as they are.
+    /// The addresses of a string's Markdown links, which a translation keeps as they are. A run marked `^[…](…)` is
+    /// Apple's grammar agreement, such as `inflect` or `agreeWithArgument`, and no link.
     static func linkTargets(_ text: String) -> [String] {
-        let link = try! NSRegularExpression(pattern: #"\]\(([^)]*)\)"#)
+        let link = try! NSRegularExpression(pattern: #"(?<!\^)\[[^\]]*\]\(([^)]*)\)"#)
         return link.matches(in: text, range: NSRange(text.startIndex..., in: text))
             .map { String(text[Range($0.range(at: 1), in: text)!]) }
-            .filter { !$0.hasPrefix("inflect:") }
             .sorted()
     }
 

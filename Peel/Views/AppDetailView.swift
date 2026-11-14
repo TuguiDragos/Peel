@@ -204,7 +204,7 @@ struct AppDetailView: View {
                     recommendedSection
                     reviewSection
                     AppRemovalOptions(plan: plan)
-                    defaultsSection
+                    DefaultAppsSection(roles: plan.defaultRoles)
                     PackageReceiptSection(plan: plan)
                 }
                 .dimmedWhileBusy(isAtWork)
@@ -250,35 +250,6 @@ struct AppDetailView: View {
                     let app = plan.app
                     Task { await library.checkForUpdates([app], force: true) }
                 }
-            }
-        }
-    }
-
-    /// The kinds of files and links this app opens by default, and which app would open them once it is gone.
-    @ViewBuilder
-    private var defaultsSection: some View {
-        if !plan.defaultRoles.isEmpty {
-            Section {
-                ForEach(plan.defaultRoles) { role in
-                    VStack(alignment: .leading, spacing: 2) {
-                        role.kind == .link ? Text("\(role.identifier): links") : Text(verbatim: role.name)
-                        if role.others.isEmpty {
-                            StatusLabel(title: Text("Nothing else on this Mac opens these."), tint: .accentColor)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        } else {
-                            Text("Once it’s gone, \(role.others.first ?? "") would open these.")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                }
-                .listRowSeparator(.hidden)
-            } header: {
-                heading(
-                    "Opens These by Default",
-                    "Peel never changes which app opens what. For a kind of file, choose that in Finder, with Get Info. For a kind of link, choose it in System Settings or in the app itself."
-                )
             }
         }
     }

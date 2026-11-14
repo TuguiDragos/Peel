@@ -9050,6 +9050,698 @@
         }
       }
     },
+    "%@ would open ^[%lld kind](inflect: true) of ^[file](agreeWithArgument: 2)" : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplikace %@ by otevírala %lld druhy souborů"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplikace %@ by otevírala %lld druhu souborů"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplikace %@ by otevírala %lld druh souborů"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplikace %@ by otevírala %lld druhů souborů"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "„%@“ würde %lld Dateiart öffnen"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "„%@“ würde %lld Dateiarten öffnen"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ would open ^[%2$lld kind](inflect: true) of ^[file](agreeWithArgument: 2)"
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ abriría %lld de tipos de archivo"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ abriría %lld tipo de archivo"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ abriría %lld tipos de archivo"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ ouvrirait %lld de types de fichiers"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ ouvrirait %lld type de fichier"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ ouvrirait %lld types de fichiers"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ aprirebbe %lld di tipi di file"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ aprirebbe %lld tipo di file"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ aprirebbe %lld tipi di file"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”が%lld種類のファイルを開くことになります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 파일 종류 %lld개를 열게 됨"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ zou %lld bestandssoort openen"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ zou %lld bestandssoorten openen"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplikacja %@ otwierałaby %lld rodzaje plików"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplikacja %@ otwierałaby %lld rodzajów plików"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplikacja %@ otwierałaby %lld rodzaj pliku"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplikacja %@ otwierałaby %lld rodzaju plików"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ abriria %lld de tipos de arquivo"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ abriria %lld tipo de arquivo"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ abriria %lld tipos de arquivo"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ ar deschide %lld tipuri de fișiere"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ ar deschide %lld tip de fișier"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ ar deschide %lld de tipuri de fișiere"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Приложение «%1$@» будет открывать %2$lld типа файлов"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Приложение «%1$@» будет открывать %2$lld типов файлов"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Приложение «%1$@» будет открывать %2$lld тип файлов"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Приложение «%1$@» будет открывать %2$lld типа файлов"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ skulle öppna %lld filtyp"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ skulle öppna %lld filtyper"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@, %lld dosya türünü açar"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@, %lld dosya türünü açar"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ відкриватиме %lld типи файлів"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ відкриватиме %lld типів файлів"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ відкриватиме %lld тип файлів"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ відкриватиме %lld типу файлів"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”将打开%lld种文件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」將會打開%lld種檔案"
+          }
+        }
+      }
+    },
+    "%@ would open ^[%lld kind](inflect: true) of ^[link](agreeWithArgument: 2)" : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplikace %@ by otevírala %lld druhy odkazů"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplikace %@ by otevírala %lld druhu odkazů"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplikace %@ by otevírala %lld druh odkazů"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplikace %@ by otevírala %lld druhů odkazů"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "„%@“ würde %lld Art von Link öffnen"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "„%@“ würde %lld Arten von Links öffnen"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ would open ^[%2$lld kind](inflect: true) of ^[link](agreeWithArgument: 2)"
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ abriría %lld de tipos de enlace"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ abriría %lld tipo de enlace"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ abriría %lld tipos de enlace"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ ouvrirait %lld de types de liens"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ ouvrirait %lld type de lien"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ ouvrirait %lld types de liens"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ aprirebbe %lld di tipi di link"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ aprirebbe %lld tipo di link"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ aprirebbe %lld tipi di link"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”が%lld種類のリンクを開くことになります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 링크 종류 %lld개를 열게 됨"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ zou %lld soort link openen"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ zou %lld soorten links openen"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplikacja %@ otwierałaby %lld rodzaje łączy"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplikacja %@ otwierałaby %lld rodzajów łączy"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplikacja %@ otwierałaby %lld rodzaj łącza"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplikacja %@ otwierałaby %lld rodzaju łączy"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ abriria %lld de tipos de link"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ abriria %lld tipo de link"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ abriria %lld tipos de link"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ ar deschide %lld tipuri de linkuri"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ ar deschide %lld tip de link"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ ar deschide %lld de tipuri de linkuri"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Приложение «%1$@» будет открывать %2$lld типа ссылок"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Приложение «%1$@» будет открывать %2$lld типов ссылок"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Приложение «%1$@» будет открывать %2$lld тип ссылок"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Приложение «%1$@» будет открывать %2$lld типа ссылок"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ skulle öppna %lld typ av länk"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ skulle öppna %lld typer av länkar"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@, %lld bağlantı türünü açar"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@, %lld bağlantı türünü açar"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ відкриватиме %lld типи посилань"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ відкриватиме %lld типів посилань"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ відкриватиме %lld тип посилань"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%@ відкриватиме %lld типу посилань"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”将打开%lld种链接"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」將會打開%lld種連結"
+          }
+        }
+      }
+    },
     "%@ · ^[%lld vulnerability](inflect: true)" : {
       "localizations" : {
         "cs" : {
@@ -11207,112 +11899,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@：%lld個項目，大小未知"
-          }
-        }
-      }
-    },
-    "%@: links" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@: odkazy"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@-Links"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enlaces %@:"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Liens %@"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@: link"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@: リンク"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@: 링크"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@-links"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@: łącza"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Links %@:"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Linkuri %@:"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@: ссылки"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@: länkar"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@: bağlantıları"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@: посилання"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "“%@:”链接"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "「%@:」連結"
           }
         }
       }
@@ -36054,6 +36640,112 @@
         }
       }
     },
+    "Clicking such a link opens nothing until you install an app that opens it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kliknutí na takový odkaz nic neotevře, dokud nenainstalujete aplikaci, která ho otevírá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Klick auf einen solchen Link öffnet nichts, bis du eine App installierst, die ihn öffnet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al hacer clic en un enlace de este tipo, no se abre nada hasta que instales una app que lo abra."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cliquer sur un tel lien n’ouvre rien tant que vous n’avez pas installé d’app capable de l’ouvrir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Facendo clic su un link di questo tipo non si apre nulla finché non installi un’app in grado di aprirlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このようなリンクは、開けるアプリをインストールするまで、クリックしても何も開きません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이러한 링크를 여는 앱을 설치하기 전까지는 링크를 클릭해도 아무것도 열리지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als je op zo'n link klikt, wordt er niets geopend totdat je een app installeert die de link opent."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kliknięcie takiego łącza niczego nie otworzy, dopóki nie zainstalujesz aplikacji, która je otwiera."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clicar em um link desse tipo não abre nada até que você instale um app capaz de abri-lo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un clic pe un astfel de link nu deschide nimic până când nu instalați o aplicație care să îl deschidă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажатие на такую ссылку ничего не откроет, пока Вы не установите приложение, которое ее открывает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om du klickar på en sådan länk öppnas ingenting förrän du installerar en app som kan öppna den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Böyle bir bağlantıyı tıkladığınızda, siz onu açabilen bir uygulama yükleyene kadar hiçbir şey açılmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Клацання такого посилання нічого не відкриє, доки ви не інсталюєте програму, яка його відкриває."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你安装能打开此类链接的App之前，点按此类链接不会打开任何内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你安裝能打開這類連結的App之前，按一下這類連結不會打開任何項目。"
+          }
+        }
+      }
+    },
     "Cloud Storage" : {
       "localizations" : {
         "cs" : {
@@ -41150,6 +41842,1500 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "預設"
+          }
+        }
+      }
+    },
+    "Default App for ^[%lld Kind](inflect: true) of ^[File](agreeWithArgument: 1)" : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Výchozí aplikace pro %lld druhy souborů"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Výchozí aplikace pro %lld druhu souborů"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Výchozí aplikace pro %lld druh souborů"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Výchozí aplikace pro %lld druhů souborů"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Standard-App für %lld Dateiart"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Standard-App für %lld Dateiarten"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App por omisión para %lld de tipos de archivo"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App por omisión para %lld tipo de archivo"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App por omisión para %lld tipos de archivo"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App par défaut pour %lld de types de fichiers"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App par défaut pour %lld type de fichier"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App par défaut pour %lld types de fichiers"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App predefinita per %lld di tipi di file"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App predefinita per %lld tipo di file"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App predefinita per %lld tipi di file"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld種類のファイルを開くデフォルトのアプリ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파일 종류 %lld개의 기본 앱"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Standaardapp voor %lld bestandssoort"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Standaardapp voor %lld bestandssoorten"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Domyślna aplikacja dla %lld rodzajów plików"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Domyślna aplikacja dla %lld rodzajów plików"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Domyślna aplikacja dla %lld rodzaju pliku"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Domyślna aplikacja dla %lld rodzaju plików"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App Padrão para %lld de Tipos de Arquivo"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App Padrão para %lld Tipo de Arquivo"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App Padrão para %lld Tipos de Arquivo"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplicație implicită pentru %lld tipuri de fișiere"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplicație implicită pentru %lld tip de fișier"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplicație implicită pentru %lld de tipuri de fișiere"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Приложение по умолчанию для %lld типов файлов"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Приложение по умолчанию для %lld типов файлов"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Приложение по умолчанию для %lld типа файлов"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Приложение по умолчанию для %lld типа файлов"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Förvald app för %lld filtyp"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Förvald app för %lld filtyper"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Dosya Türü İçin Saptanmış Uygulama"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Dosya Türü İçin Saptanmış Uygulama"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Типова програма для %lld типів файлів"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Типова програма для %lld типів файлів"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Типова програма для %lld типу файлів"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Типова програма для %lld типу файлів"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld种文件的默认App"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld種檔案的預設App"
+          }
+        }
+      }
+    },
+    "Default App for ^[%lld Kind](inflect: true) of ^[File](agreeWithArgument: 1) and ^[%lld Kind](inflect: true) of ^[Link](agreeWithArgument: 2)" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Výchozí aplikace pro %#@files@ a %#@links@"
+          },
+          "substitutions" : {
+            "files" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "few" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg druhy souborů"
+                    }
+                  },
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg druhu souborů"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg druh souborů"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg druhů souborů"
+                    }
+                  }
+                }
+              }
+            },
+            "links" : {
+              "argNum" : 2,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "few" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg druhy odkazů"
+                    }
+                  },
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg druhu odkazů"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg druh odkazů"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg druhů odkazů"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standard-App für %#@files@ und %#@links@"
+          },
+          "substitutions" : {
+            "files" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg Dateiart"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg Dateiarten"
+                    }
+                  }
+                }
+              }
+            },
+            "links" : {
+              "argNum" : 2,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg Art von Link"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg Arten von Links"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Default App for ^[%1$lld Kind](inflect: true) of ^[File](agreeWithArgument: 1) and ^[%2$lld Kind](inflect: true) of ^[Link](agreeWithArgument: 2)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App por omisión para %#@files@ y %#@links@"
+          },
+          "substitutions" : {
+            "files" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg de tipos de archivo"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tipo de archivo"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tipos de archivo"
+                    }
+                  }
+                }
+              }
+            },
+            "links" : {
+              "argNum" : 2,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg de tipos de enlace"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tipo de enlace"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tipos de enlace"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App par défaut pour %#@files@ et %#@links@"
+          },
+          "substitutions" : {
+            "files" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg de types de fichiers"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg type de fichier"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg types de fichiers"
+                    }
+                  }
+                }
+              }
+            },
+            "links" : {
+              "argNum" : 2,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg de types de liens"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg type de lien"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg types de liens"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App predefinita per %#@files@ e %#@links@"
+          },
+          "substitutions" : {
+            "files" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg di tipi di file"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tipo di file"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tipi di file"
+                    }
+                  }
+                }
+              }
+            },
+            "links" : {
+              "argNum" : 2,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg di tipi di link"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tipo di link"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tipi di link"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld種類のファイルと%2$lld種類のリンクを開くデフォルトのアプリ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파일 종류 %1$lld개 및 링크 종류 %2$lld개의 기본 앱"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standaardapp voor %#@files@ en %#@links@"
+          },
+          "substitutions" : {
+            "files" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg bestandssoort"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg bestandssoorten"
+                    }
+                  }
+                }
+              }
+            },
+            "links" : {
+              "argNum" : 2,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg soort link"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg soorten links"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Domyślna aplikacja dla %#@files@ i %#@links@"
+          },
+          "substitutions" : {
+            "files" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "few" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg rodzajów plików"
+                    }
+                  },
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg rodzajów plików"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg rodzaju pliku"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg rodzaju plików"
+                    }
+                  }
+                }
+              }
+            },
+            "links" : {
+              "argNum" : 2,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "few" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg rodzajów łączy"
+                    }
+                  },
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg rodzajów łączy"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg rodzaju łącza"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg rodzaju łączy"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Padrão para %#@files@ e %#@links@"
+          },
+          "substitutions" : {
+            "files" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg de Tipos de Arquivo"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg Tipo de Arquivo"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg Tipos de Arquivo"
+                    }
+                  }
+                }
+              }
+            },
+            "links" : {
+              "argNum" : 2,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg de Tipos de Link"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg Tipo de Link"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg Tipos de Link"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicație implicită pentru %#@files@ și %#@links@"
+          },
+          "substitutions" : {
+            "files" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "few" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tipuri de fișiere"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tip de fișier"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg de tipuri de fișiere"
+                    }
+                  }
+                }
+              }
+            },
+            "links" : {
+              "argNum" : 2,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "few" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tipuri de linkuri"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tip de link"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg de tipuri de linkuri"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение по умолчанию для %#@files@ и %#@links@"
+          },
+          "substitutions" : {
+            "files" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "few" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg типов файлов"
+                    }
+                  },
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg типов файлов"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg типа файлов"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg типа файлов"
+                    }
+                  }
+                }
+              }
+            },
+            "links" : {
+              "argNum" : 2,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "few" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg типов ссылок"
+                    }
+                  },
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg типов ссылок"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg типа ссылок"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg типа ссылок"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Förvald app för %#@files@ och %#@links@"
+          },
+          "substitutions" : {
+            "files" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg filtyp"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg filtyper"
+                    }
+                  }
+                }
+              }
+            },
+            "links" : {
+              "argNum" : 2,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg typ av länk"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg typer av länkar"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@files@ ve %#@links@ İçin Saptanmış Uygulama"
+          },
+          "substitutions" : {
+            "files" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg Dosya Türü"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg Dosya Türü"
+                    }
+                  }
+                }
+              }
+            },
+            "links" : {
+              "argNum" : 2,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg Bağlantı Türü"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg Bağlantı Türü"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Типова програма для %#@files@ і %#@links@"
+          },
+          "substitutions" : {
+            "files" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "few" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg типів файлів"
+                    }
+                  },
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg типів файлів"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg типу файлів"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg типу файлів"
+                    }
+                  }
+                }
+              }
+            },
+            "links" : {
+              "argNum" : 2,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "few" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg типів посилань"
+                    }
+                  },
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg типів посилань"
+                    }
+                  },
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg типу посилань"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg типу посилань"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld种文件和%2$lld种链接的默认App"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld種檔案和%2$lld種連結的預設App"
+          }
+        }
+      }
+    },
+    "Default App for ^[%lld Kind](inflect: true) of ^[Link](agreeWithArgument: 1)" : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Výchozí aplikace pro %lld druhy odkazů"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Výchozí aplikace pro %lld druhu odkazů"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Výchozí aplikace pro %lld druh odkazů"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Výchozí aplikace pro %lld druhů odkazů"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Standard-App für %lld Art von Link"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Standard-App für %lld Arten von Links"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App por omisión para %lld de tipos de enlace"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App por omisión para %lld tipo de enlace"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App por omisión para %lld tipos de enlace"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App par défaut pour %lld de types de liens"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App par défaut pour %lld type de lien"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App par défaut pour %lld types de liens"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App predefinita per %lld di tipi di link"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App predefinita per %lld tipo di link"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App predefinita per %lld tipi di link"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld種類のリンクを開くデフォルトのアプリ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "링크 종류 %lld개의 기본 앱"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Standaardapp voor %lld soort link"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Standaardapp voor %lld soorten links"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Domyślna aplikacja dla %lld rodzajów łączy"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Domyślna aplikacja dla %lld rodzajów łączy"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Domyślna aplikacja dla %lld rodzaju łącza"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Domyślna aplikacja dla %lld rodzaju łączy"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App Padrão para %lld de Tipos de Link"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App Padrão para %lld Tipo de Link"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "App Padrão para %lld Tipos de Link"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplicație implicită pentru %lld tipuri de linkuri"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplicație implicită pentru %lld tip de link"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aplicație implicită pentru %lld de tipuri de linkuri"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Приложение по умолчанию для %lld типов ссылок"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Приложение по умолчанию для %lld типов ссылок"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Приложение по умолчанию для %lld типа ссылок"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Приложение по умолчанию для %lld типа ссылок"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Förvald app för %lld typ av länk"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Förvald app för %lld typer av länkar"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Bağlantı Türü İçin Saptanmış Uygulama"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Bağlantı Türü İçin Saptanmış Uygulama"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Типова програма для %lld типів посилань"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Типова програма для %lld типів посилань"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Типова програма для %lld типу посилань"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Типова програма для %lld типу посилань"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld种链接的默认App"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld種連結的預設App"
           }
         }
       }
@@ -114741,6 +116927,112 @@
         }
       }
     },
+    "No app" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Žádná aplikace"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine App"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ninguna app"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune app"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuna app"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリなし"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen app"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brak aplikacji"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum app"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicio aplicație"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет приложения"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingen app"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama yok"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Немає програми"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无App"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有App"
+          }
+        }
+      }
+    },
     "No app installed on this Mac claims these files." : {
       "localizations" : {
         "cs" : {
@@ -115055,6 +117347,686 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這部Mac上沒有任何App加入App延伸功能或系統延伸功能。"
+          }
+        }
+      }
+    },
+    "No app on this Mac opens ^[%lld kind](inflect: true) of ^[file](agreeWithArgument: 1)" : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Žádná aplikace v tomto Macu neotevírá %lld druhy souborů"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Žádná aplikace v tomto Macu neotevírá %lld druhu souborů"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Žádná aplikace v tomto Macu neotevírá %lld druh souborů"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Žádná aplikace v tomto Macu neotevírá %lld druhů souborů"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Keine App auf diesem Mac öffnet %lld Dateiart"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Keine App auf diesem Mac öffnet %lld Dateiarten"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ninguna app de este Mac abre %lld de tipos de archivo"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ninguna app de este Mac abre %lld tipo de archivo"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ninguna app de este Mac abre %lld tipos de archivo"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aucune app sur ce Mac n’ouvre %lld de types de fichiers"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aucune app sur ce Mac n’ouvre %lld type de fichier"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aucune app sur ce Mac n’ouvre %lld types de fichiers"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nessuna app su questo Mac apre %lld di tipi di file"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nessuna app su questo Mac apre %lld tipo di file"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nessuna app su questo Mac apre %lld tipi di file"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacには、%lld種類のファイルを開けるアプリがありません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac에서 파일 종류 %lld개를 여는 앱이 없음"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Geen app op deze Mac opent %lld bestandssoort"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Geen app op deze Mac opent %lld bestandssoorten"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Żadna aplikacja na tym Macu nie otwiera %lld rodzajów plików"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Żadna aplikacja na tym Macu nie otwiera %lld rodzajów plików"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Żadna aplikacja na tym Macu nie otwiera %lld rodzaju pliku"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Żadna aplikacja na tym Macu nie otwiera %lld rodzaju plików"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nenhum app neste Mac abre %lld de tipos de arquivo"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nenhum app neste Mac abre %lld tipo de arquivo"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nenhum app neste Mac abre %lld tipos de arquivo"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nicio aplicație de pe acest Mac nu deschide %lld tipuri de fișiere"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nicio aplicație de pe acest Mac nu deschide %lld tip de fișier"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nicio aplicație de pe acest Mac nu deschide %lld de tipuri de fișiere"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ни одно приложение на этом Mac не открывает %lld типа файлов"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ни одно приложение на этом Mac не открывает %lld типов файлов"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ни одно приложение на этом Mac не открывает %lld тип файлов"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ни одно приложение на этом Mac не открывает %lld типа файлов"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ingen app på den här datorn öppnar %lld filtyp"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ingen app på den här datorn öppnar %lld filtyper"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bu Mac’te %lld dosya türünü açan bir uygulama yok"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bu Mac’te %lld dosya türünü açan bir uygulama yok"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Жодна програма на цьому Mac не відкриває %lld типи файлів"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Жодна програма на цьому Mac не відкриває %lld типів файлів"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Жодна програма на цьому Mac не відкриває %lld тип файлів"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Жодна програма на цьому Mac не відкриває %lld типу файлів"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld种文件在这台Mac上没有App能打开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這部Mac上沒有App能打開%lld種檔案"
+          }
+        }
+      }
+    },
+    "No app on this Mac opens ^[%lld kind](inflect: true) of ^[link](agreeWithArgument: 1)" : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Žádná aplikace v tomto Macu neotevírá %lld druhy odkazů"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Žádná aplikace v tomto Macu neotevírá %lld druhu odkazů"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Žádná aplikace v tomto Macu neotevírá %lld druh odkazů"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Žádná aplikace v tomto Macu neotevírá %lld druhů odkazů"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Keine App auf diesem Mac öffnet %lld Art von Link"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Keine App auf diesem Mac öffnet %lld Arten von Links"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ninguna app de este Mac abre %lld de tipos de enlace"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ninguna app de este Mac abre %lld tipo de enlace"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ninguna app de este Mac abre %lld tipos de enlace"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aucune app sur ce Mac n’ouvre %lld de types de liens"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aucune app sur ce Mac n’ouvre %lld type de lien"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aucune app sur ce Mac n’ouvre %lld types de liens"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nessuna app su questo Mac apre %lld di tipi di link"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nessuna app su questo Mac apre %lld tipo di link"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nessuna app su questo Mac apre %lld tipi di link"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacには、%lld種類のリンクを開けるアプリがありません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac에서 링크 종류 %lld개를 여는 앱이 없음"
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Geen app op deze Mac opent %lld soort link"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Geen app op deze Mac opent %lld soorten links"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Żadna aplikacja na tym Macu nie otwiera %lld rodzajów łączy"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Żadna aplikacja na tym Macu nie otwiera %lld rodzajów łączy"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Żadna aplikacja na tym Macu nie otwiera %lld rodzaju łącza"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Żadna aplikacja na tym Macu nie otwiera %lld rodzaju łączy"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nenhum app neste Mac abre %lld de tipos de link"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nenhum app neste Mac abre %lld tipo de link"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nenhum app neste Mac abre %lld tipos de link"
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nicio aplicație de pe acest Mac nu deschide %lld tipuri de linkuri"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nicio aplicație de pe acest Mac nu deschide %lld tip de link"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nicio aplicație de pe acest Mac nu deschide %lld de tipuri de linkuri"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ни одно приложение на этом Mac не открывает %lld типа ссылок"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ни одно приложение на этом Mac не открывает %lld типов ссылок"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ни одно приложение на этом Mac не открывает %lld тип ссылок"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ни одно приложение на этом Mac не открывает %lld типа ссылок"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ingen app på den här datorn öppnar %lld typ av länk"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ingen app på den här datorn öppnar %lld typer av länkar"
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bu Mac’te %lld bağlantı türünü açan bir uygulama yok"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Bu Mac’te %lld bağlantı türünü açan bir uygulama yok"
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Жодна програма на цьому Mac не відкриває %lld типи посилань"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Жодна програма на цьому Mac не відкриває %lld типів посилань"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Жодна програма на цьому Mac не відкриває %lld тип посилань"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Жодна програма на цьому Mac не відкриває %lld типу посилань"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld种链接在这台Mac上没有App能打开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這部Mac上沒有App能打開%lld種連結"
           }
         }
       }
@@ -129786,112 +132758,6 @@
         }
       }
     },
-    "Nothing else on this Mac opens these." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nic jiného v tomto Macu je neotevírá."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nichts anderes auf diesem Mac öffnet diese."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ninguna otra app de este Mac los abre."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rien d’autre sur ce Mac ne les ouvre."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nient’altro su questo Mac li apre."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このMacには、これらを開けるほかのアプリはありません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 Mac에서 이 항목을 여는 다른 앱이 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geen andere app op deze Mac opent deze."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nic innego na tym Macu ich nie otwiera."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nada mais neste Mac os abre."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nimic altceva de pe acest Mac nu le deschide."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Больше ничто на этом Mac их не открывает."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inget annat på den här datorn öppnar dessa."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu Mac’te bunları açan başka bir şey yok."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ніщо інше на цьому Mac їх не відкриває."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这台Mac上没有其他App能打开这些内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "這部Mac上沒有其他App能打開這些項目。"
-          }
-        }
-      }
-    },
     "Nothing found." : {
       "localizations" : {
         "cs" : {
@@ -133185,108 +136051,320 @@
         }
       }
     },
-    "Once it’s gone, %@ would open these." : {
+    "Once it’s gone, its files open with" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jakmile tato aplikace zmizí, otevírala by je aplikace %@."
+            "value" : "Jakmile tato aplikace zmizí, její soubory se budou otevírat v těchto aplikacích"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sobald die App entfernt ist, würde „%@“ diese öffnen."
+            "value" : "Sobald die App entfernt ist, öffnen sich ihre Dateien mit"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cuando ya no esté, los abriría %@."
+            "value" : "Cuando ya no esté, sus archivos se abrirán con"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Une fois cette app supprimée, %@ les ouvrirait."
+            "value" : "Une fois cette app supprimée, ses fichiers s’ouvrent avec"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Una volta rimossa l’app, li aprirebbe %@."
+            "value" : "Una volta rimossa l’app, i suoi file si aprono con"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このアプリがなくなった後は、“%@”がこれらを開くことになります。"
+            "value" : "このアプリがなくなった後にファイルを開くアプリ"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 앱이 없어지면 ‘%@’이(가) 이 항목을 열게 됩니다."
+            "value" : "이 앱이 없어지면 파일이 다음 앱으로 열림"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zodra de app weg is, zou %@ deze openen."
+            "value" : "Zodra de app weg is, worden de bestanden geopend met"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gdy jej nie będzie, otwierałaby je aplikacja %@."
+            "value" : "Gdy jej nie będzie, jej pliki będą otwierane przez"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quando ele for removido, %@ passará a abri-los."
+            "value" : "Quando ele for removido, os arquivos dele abrirão com"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "După ce aplicația dispare, le‑ar deschide %@."
+            "value" : "După ce aplicația dispare, fișierele ei se deschid cu"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "После его удаления их будет открывать приложение «%@»."
+            "value" : "После его удаления файлы будут открываться в"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "När den är borta skulle %@ öppna dessa."
+            "value" : "När den är borta öppnas dess filer med"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu uygulama gittikten sonra bunları %@ açar."
+            "value" : "Bu uygulama gittikten sonra dosyaları şunlarla açılır"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Щойно її не стане, їх відкриватиме %@."
+            "value" : "Щойно її не стане, її файли відкриватимуться в"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "一旦它被移除，将改由“%@”打开这些内容。"
+            "value" : "一旦它被移除，其文件将改由以下App打开"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它移除後，會改由「%@」打開這些項目。"
+            "value" : "它移除後，其檔案會改由以下App打開"
+          }
+        }
+      }
+    },
+    "Once it’s gone, its links open with" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jakmile tato aplikace zmizí, její odkazy se budou otevírat v těchto aplikacích"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobald die App entfernt ist, öffnen sich ihre Links mit"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando ya no esté, sus enlaces se abrirán con"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une fois cette app supprimée, ses liens s’ouvrent avec"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una volta rimossa l’app, i suoi link si aprono con"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアプリがなくなった後にリンクを開くアプリ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 앱이 없어지면 링크가 다음 앱으로 열림"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zodra de app weg is, worden de links geopend met"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy jej nie będzie, jej łącza będą otwierane przez"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando ele for removido, os links dele abrirão com"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "După ce aplicația dispare, linkurile ei se deschid cu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "После его удаления ссылки будут открываться в"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När den är borta öppnas dess länkar med"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu uygulama gittikten sonra bağlantıları şunlarla açılır"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щойно її не стане, її посилання відкриватимуться в"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一旦它被移除，其链接将改由以下App打开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它移除後，其連結會改由以下App打開"
+          }
+        }
+      }
+    },
+    "Once it’s gone, they open with" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jakmile tato aplikace zmizí, budou se otevírat v těchto aplikacích"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobald die App entfernt ist, öffnen sie sich mit"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando ya no esté, se abrirán con"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une fois cette app supprimée, ils s’ouvrent avec"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una volta rimossa l’app, si aprono con"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアプリがなくなった後にこれらを開くアプリ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 앱이 없어지면 다음 앱으로 열림"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zodra de app weg is, worden ze geopend met"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy jej nie będzie, będą otwierane przez"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando ele for removido, eles abrirão com"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "După ce aplicația dispare, acestea se deschid cu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "После его удаления они будут открываться в"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När den är borta öppnas de med"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu uygulama gittikten sonra bunlar şunlarla açılır"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Щойно її не стане, вони відкриватимуться в"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一旦它被移除，它们将改由以下App打开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它移除後，它們會改由以下App打開"
           }
         }
       }
@@ -137963,112 +141041,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在Peel中打開某個App的頁面，並列出它會留下的檔案。在你下達指示之前，不會移除任何項目。"
-          }
-        }
-      }
-    },
-    "Opens These by Default" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jako výchozí otevírá"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Öffnet diese standardmäßig"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lo que abre por omisión"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ouvre ces éléments par défaut"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App predefinita per"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "デフォルトで開くもの"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "기본으로 여는 항목"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opent deze standaard"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Domyślnie otwiera"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abre por Padrão"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le deschide în mod implicit"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Открывает по умолчанию"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Förvald app för dessa"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bunları Saptanmış Olarak Açar"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Типово відкриває"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "默认由此App打开"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "預設由此App打開的項目"
           }
         }
       }
@@ -159625,112 +162597,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel需要「完全取用磁碟」權限才能監看「垃圾桶」。"
-          }
-        }
-      }
-    },
-    "Peel never changes which app opens what. For a kind of file, choose that in Finder, with Get Info. For a kind of link, choose it in System Settings or in the app itself." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nikdy nemění, která aplikace co otevírá. U druhu souboru to zvolíte ve Finderu v okně Informace. U druhu odkazu to zvolíte v Nastavení systému nebo přímo v aplikaci."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ändert nie, welche App was öffnet. Für eine Dateiart legst du das im Finder unter „Informationen“ fest. Für eine Art von Link legst du es in den Systemeinstellungen oder in der App selbst fest."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nunca cambia qué app abre cada cosa. Para un tipo de archivo, elige la app en el Finder, con Obtener información. Para un tipo de enlace, elígela en Ajustes del Sistema o en la propia app."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ne modifie jamais l’app qui ouvre tel ou tel élément. Pour un type de fichier, faites ce choix dans le Finder, avec « Lire les informations ». Pour un type de lien, faites-le dans Réglages Système ou dans l’app elle-même."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel non cambia mai quale app apre cosa. Per un tipo di file, sceglilo nel Finder, con “Ottieni informazioni”. Per un tipo di link, sceglilo in Impostazioni di Sistema o nell’app stessa."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "どのアプリで何を開くかを、Peelが変更することは決してありません。ファイルの種類については、Finderの“情報を見る”で選択してください。リンクの種類については、システム設定またはアプリ自体で選択してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel은 어떤 앱이 무엇을 여는지 절대 변경하지 않습니다. 파일 종류는 Finder의 정보 가져오기에서 선택하십시오. 링크 종류는 시스템 설정이나 해당 앱에서 선택하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel wijzigt nooit welke app wat opent. Voor een bestandssoort kies je dat in Finder, met 'Toon info'. Voor een soort link kies je het in Systeeminstellingen of in de app zelf."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nigdy nie zmienia, która aplikacja co otwiera. Dla rodzaju pliku wybierz to w Finderze, w oknie Informacje. Dla rodzaju łącza wybierz to w Ustawieniach systemowych lub w samej aplikacji."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel nunca muda qual app abre o quê. Para um tipo de arquivo, escolha isso no Finder, com Obter Informações. Para um tipo de link, escolha nos Ajustes do Sistema ou no próprio app."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nu schimbă niciodată ce aplicație deschide un anumit tip de fișier sau de link. Pentru un tip de fișier, faceți alegerea în Finder, cu Obțineți informații. Pentru un tip de link, faceți‑o în Configurări sistem sau în aplicația însăși."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel никогда не меняет, какое приложение что открывает. Для типа файлов это выбирается в Finder, в окне «Свойства». Для типа ссылок это выбирается в Системных настройках или в самом приложении."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ändrar aldrig vilken app som öppnar vad. För en filtyp väljer du det i Finder, med Visa info. För en typ av länk väljer du det i Systeminställningar eller i själva appen."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel hangi uygulamanın neyi açacağını asla değiştirmez. Bir dosya türü için bunu Finder’da Bilgi Ver ile seçin. Bir bağlantı türü için Sistem Ayarları’nda veya uygulamanın kendisinde seçin."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ніколи не змінює, яка програма що відкриває. Для типу файлів це можна вибрати у Finder, у вікні «Досьє». Для типу посилань це можна вибрати в Системних параметрах або в самій програмі."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel绝不会更改由哪个App打开哪些内容。对于某种文件，请在“访达”中通过“显示简介”选取。对于某种链接，请在“系统设置”或App本身中选取。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel絕不會更改由哪個App打開哪些項目。若是某種檔案，請在Finder中使用「取得資訊」選擇。若是某種連結，請在「系統設定」或該App本身中選擇。"
           }
         }
       }
@@ -220423,6 +223289,112 @@
         }
       }
     },
+    "The files stay where they are. They won’t open with a double-click until you install an app that reads them." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soubory zůstanou tam, kde jsou. Po dvojitém kliknutí se neotevřou, dokud nenainstalujete aplikaci, která je umí číst."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Dateien bleiben, wo sie sind. Sie lassen sich erst per Doppelklick öffnen, wenn du eine App installierst, die sie lesen kann."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los archivos se quedan donde están. No se abrirán con un doble clic hasta que instales una app que los lea."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les fichiers restent à leur place. Ils ne s’ouvriront pas d’un double-clic tant que vous n’aurez pas installé d’app capable de les lire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I file restano dove sono. Non si apriranno con un doppio clic finché non installi un’app in grado di leggerli."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ファイルはそのままの場所に残ります。読み込めるアプリをインストールするまでは、ダブルクリックしても開きません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파일은 그대로 남아 있습니다. 파일을 읽을 수 있는 앱을 설치하기 전까지는 이중 클릭해도 열리지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De bestanden blijven waar ze zijn. Een dubbelklik opent ze pas als je een app installeert die ze kan lezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pliki pozostaną tam, gdzie są. Nie otworzą się po dwukrotnym kliknięciu, dopóki nie zainstalujesz aplikacji, która potrafi je odczytać."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os arquivos ficam onde estão. Eles não vão abrir com um clique duplo até que você instale um app capaz de lê-los."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierele rămân unde se află. Nu se vor deschide cu dublu clic până când nu instalați o aplicație care să le citească."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файлы остаются на месте. Они не будут открываться двойным нажатием, пока Вы не установите приложение, которое может их прочитать."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filerna ligger kvar där de är. De öppnas inte med ett dubbelklick förrän du installerar en app som kan läsa dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosyalar oldukları yerde kalır. Siz onları okuyabilen bir uygulama yükleyene kadar çift tıklamayla açılmazlar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файли лишаються на своїх місцях. Вони не відкриватимуться подвійним клацанням, доки ви не інсталюєте програму, яка їх читає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些文件会保留在原处。在你安装能读取它们的App之前，连按也无法打开它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些檔案會保留在原處。在你安裝能讀取它們的App之前，按兩下也無法打開它們。"
+          }
+        }
+      }
+    },
     "The file’s contents aren’t in a form Peel can read." : {
       "localizations" : {
         "cs" : {
@@ -227531,6 +230503,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這些檔案夾本身的權限讓你的帳號無法進入。「完全取用磁碟」權限能讓Peel越過macOS的隱私權保護，但無法越過檔案夾本身的權限。"
+          }
+        }
+      }
+    },
+    "These kinds of files open with this app when you double-click one.\n\nOnce the app is gone, macOS opens each kind with another app that can read it, and Peel shows which app that would be. A kind under No app has nothing else on this Mac to open it.\n\nYour files stay where they are. Peel never changes which app opens what: you choose that in Finder, with Get Info." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tyto druhy souborů se otevírají v této aplikaci, když na soubor dvakrát kliknete.\n\nAž aplikace zmizí, systém macOS otevře každý druh v jiné aplikaci, která ho umí číst, a Peel ukazuje, která aplikace to bude. Druh uvedený pod „Žádná aplikace“ nemá v tomto Macu jinou aplikaci, která by ho otevřela.\n\nVaše soubory zůstanou tam, kde jsou. Peel nikdy nemění, která aplikace co otevírá: to zvolíte ve Finderu v okně Informace."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Dateiarten werden mit dieser App geöffnet, wenn du auf eine solche Datei doppelklickst.\n\nSobald die App entfernt ist, öffnet macOS jede Art mit einer anderen App, die sie lesen kann, und Peel zeigt, welche App das wäre. Für eine Art unter „Keine App“ gibt es auf diesem Mac nichts anderes, das sie öffnen kann.\n\nDeine Dateien bleiben, wo sie sind. Peel ändert nie, welche App was öffnet: Das legst du im Finder unter „Informationen“ fest."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estos tipos de archivo se abren con esta app cuando haces doble clic en uno.\n\nCuando la app ya no esté, macOS abrirá cada tipo con otra app que pueda leerlo, y Peel muestra cuál sería esa app. Un tipo que aparece en “Ninguna app” no tiene ninguna otra app en este Mac que pueda abrirlo.\n\nTus archivos se quedan donde están. Peel nunca cambia qué app abre cada cosa: eso lo eliges tú en el Finder, con Obtener información."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les fichiers de ces types s’ouvrent avec cette app lorsque vous double-cliquez dessus.\n\nUne fois l’app supprimée, macOS ouvre chaque type de fichier avec une autre app capable de le lire, et Peel indique de quelle app il s’agirait. Pour un type classé sous « Aucune app », rien d’autre sur ce Mac ne peut l’ouvrir.\n\nVos fichiers restent à leur place. Peel ne modifie jamais l’app qui ouvre tel ou tel élément : vous faites ce choix dans le Finder, avec « Lire les informations »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questi tipi di file si aprono con questa app quando fai doppio clic su uno di questi file.\n\nUna volta rimossa l’app, macOS apre ogni tipo con un’altra app in grado di leggerlo, e Peel mostra quale app sarebbe. Per un tipo sotto “Nessuna app” non c’è nient’altro su questo Mac in grado di aprirlo.\n\nI tuoi file restano dove sono. Peel non cambia mai quale app apre cosa: lo scegli tu nel Finder, con “Ottieni informazioni”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これらの種類のファイルは、ダブルクリックするとこのアプリで開きます。\n\nこのアプリがなくなった後は、macOSがそれぞれの種類を、読み込めるほかのアプリで開きます。それがどのアプリになるかはPeelに表示されます。“アプリなし”の下にある種類には、このMac上にそれを開けるほかのアプリがありません。\n\nファイルはそのままの場所に残ります。どのアプリで何を開くかを、Peelが変更することは決してありません。これは、Finderの“情報を見る”で選択します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이러한 종류의 파일은 이중 클릭하면 이 앱으로 열립니다.\n\n이 앱이 없어지면 macOS는 각 종류를 읽을 수 있는 다른 앱으로 열며, Peel은 그 앱이 무엇인지 보여 줍니다. ‘앱 없음’ 아래에 있는 종류는 이 Mac에 열 수 있는 다른 앱이 없습니다.\n\n파일은 그대로 남아 있습니다. Peel은 어떤 앱이 무엇을 여는지 절대 변경하지 않습니다. 이는 Finder의 정보 가져오기에서 직접 선택합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bestanden van deze soorten worden met deze app geopend als je erop dubbelklikt.\n\nZodra de app weg is, opent macOS elke soort met een andere app die de bestanden kan lezen, en Peel toont welke app dat zou zijn. Voor een soort onder 'Geen app' is er op deze Mac niets anders om die te openen.\n\nJe bestanden blijven waar ze zijn. Peel wijzigt nooit welke app wat opent: dat kies je in Finder, met 'Toon info'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pliki tych rodzajów otwierają się w tej aplikacji po dwukrotnym kliknięciu.\n\nGdy tej aplikacji nie będzie, macOS otworzy każdy rodzaj w innej aplikacji, która potrafi go odczytać, a Peel pokazuje, która to będzie. Rodzaju oznaczonego jako „Brak aplikacji” nie otworzy na tym Macu nic innego.\n\nTwoje pliki pozostaną tam, gdzie są. Peel nigdy nie zmienia, która aplikacja co otwiera: wybierasz to w Finderze, w oknie Informacje."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estes tipos de arquivo abrem com este app quando você clica duas vezes em um deles.\n\nQuando o app for removido, o macOS abrirá cada tipo com outro app capaz de lê-lo, e o Peel mostra qual app será esse. Um tipo em “Nenhum app” não tem mais nada neste Mac que o abra.\n\nOs seus arquivos ficam onde estão. O Peel nunca muda qual app abre o quê: você escolhe isso no Finder, com Obter Informações."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fișierele de aceste tipuri se deschid cu această aplicație când faceți dublu clic pe unul.\n\nDupă ce aplicația dispare, macOS deschide fiecare tip cu altă aplicație care îl poate citi, iar Peel arată care ar fi aceasta. Un tip listat la „Nicio aplicație” nu are nimic altceva pe acest Mac care să îl deschidă.\n\nFișierele dvs. rămân unde se află. Peel nu schimbă niciodată ce aplicație deschide un anumit tip de fișier: faceți alegerea în Finder, cu Obțineți informații."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файлы этих типов открываются в этом приложении, когда Вы дважды нажимаете на такой файл.\n\nПосле удаления приложения macOS открывает каждый тип в другом приложении, которое может его прочитать, и Peel показывает, в каком именно. Для типов из списка «Нет приложения» на этом Mac больше нет приложений, которые могли бы их открыть.\n\nВаши файлы остаются на месте. Peel никогда не меняет, какое приложение что открывает: это выбирается в Finder, в окне «Свойства»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De här filtyperna öppnas med den här appen när du dubbelklickar på en sådan fil.\n\nNär appen är borta öppnar macOS varje typ med en annan app som kan läsa den, och Peel visar vilken app det skulle bli. En typ under ”Ingen app” har inget annat på den här datorn som kan öppna den.\n\nDina filer ligger kvar där de är. Peel ändrar aldrig vilken app som öppnar vad: det väljer du i Finder, med Visa info."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu türlerdeki bir dosyayı çift tıkladığınızda dosya bu uygulamayla açılır.\n\nUygulama gittikten sonra macOS her türü onu okuyabilen başka bir uygulamayla açar ve Peel bunun hangi uygulama olacağını gösterir. “Uygulama yok” altındaki bir türü bu Mac’te açabilecek başka bir şey yoktur.\n\nDosyalarınız oldukları yerde kalır. Peel hangi uygulamanın neyi açacağını asla değiştirmez: bunu Finder’da Bilgi Ver ile siz seçersiniz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файли цих типів відкриваються в цій програмі, коли ви двічі клацаєте будь-який із них.\n\nЩойно програми не стане, macOS відкриватиме файли кожного типу в іншій програмі, яка може їх читати, і Peel показує, що це буде за програма. Файли типу з позначкою «Немає програми» на цьому Mac більше нічим не відкрити.\n\nВаші файли лишаються на своїх місцях. Peel ніколи не змінює, яка програма що відкриває: це можна вибрати у Finder, у вікні «Досьє»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连按这些种类的文件时，它们会用此App打开。\n\n此App被移除后，macOS会用另一个能读取该种类文件的App打开每种文件，Peel会显示将使用哪个App。“无App”下的种类在这台Mac上没有其他App可以打开。\n\n你的文件会保留在原处。Peel绝不会更改由哪个App打开哪些内容：这由你在“访达”中通过“显示简介”选取。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按兩下這些種類的檔案時，會以此App打開。\n\n此App移除後，macOS會以另一個能讀取的App打開每一種檔案，而Peel會顯示將由哪個App打開。列在「沒有App」下的種類，在這部Mac上沒有其他App能打開。\n\n你的檔案會保留在原處。Peel絕不會更改由哪個App打開哪些項目：你可以在Finder中使用「取得資訊」來選擇。"
+          }
+        }
+      }
+    },
+    "These kinds of links open with this app when you click one, and once it’s gone with the app Peel shows. For a kind of link, choose it in System Settings or in the app itself." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tyto druhy odkazů se po kliknutí otevírají v této aplikaci. Až aplikace zmizí, budou se otevírat v aplikaci, kterou ukazuje Peel. U druhu odkazu to zvolíte v Nastavení systému nebo přímo v aplikaci."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Arten von Links werden mit dieser App geöffnet, wenn du auf einen davon klickst, und sobald diese App entfernt ist, mit der App, die Peel anzeigt. Welche App eine Art von Link öffnet, legst du in den Systemeinstellungen oder in der App selbst fest."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estos tipos de enlace se abren con esta app cuando haces clic en uno y, cuando ya no esté, con la app que muestra Peel. Para un tipo de enlace, elige la app en Ajustes del Sistema o en la propia app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les liens de ces types s’ouvrent avec cette app lorsque vous cliquez dessus et, une fois cette app supprimée, avec l’app qu’indique Peel. Pour un type de lien, ce choix se fait dans Réglages Système ou dans l’app elle-même."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questi tipi di link si aprono con questa app quando fai clic su uno di questi link e, una volta rimossa l’app, con l’app che mostra Peel. Per un tipo di link, scegli quale app lo apre in Impostazioni di Sistema o nell’app stessa."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これらの種類のリンクは、クリックするとこのアプリで開きます。このアプリがなくなった後は、Peelに表示されるアプリで開きます。リンクの種類については、システム設定またはアプリ自体で選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이러한 종류의 링크를 클릭하면 이 앱으로 열리며, 이 앱이 없어지면 Peel이 보여 주는 앱으로 열립니다. 링크 종류는 시스템 설정이나 해당 앱에서 선택하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Links van deze soorten worden met deze app geopend als je erop klikt, en zodra de app weg is, met de app die Peel toont. Voor een soort link kies je het in Systeeminstellingen of in de app zelf."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Łącza tych rodzajów otwierają się w tej aplikacji po kliknięciu, a gdy jej nie będzie, w aplikacji, którą pokazuje Peel. Dla rodzaju łącza wybierz ją w Ustawieniach systemowych lub w samej aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estes tipos de link abrem com este app quando você clica em um deles e, quando ele for removido, com o app que o Peel mostra. Para um tipo de link, escolha nos Ajustes do Sistema ou no próprio app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linkurile de aceste tipuri se deschid cu această aplicație când faceți clic pe unul, iar după ce aplicația dispare, cu aplicația pe care o arată Peel. Pentru un tip de link, faceți alegerea în Configurări sistem sau în aplicația însăși."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ссылки этих типов открываются в этом приложении, когда Вы нажимаете на такую ссылку, а после его удаления будут открываться в приложении, которое показывает Peel. Для типа ссылок это выбирается в Системных настройках или в самом приложении."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De här typerna av länkar öppnas med den här appen när du klickar på en sådan länk, och när den är borta med den app som Peel visar. För en typ av länk väljer du det i Systeminställningar eller i själva appen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu türlerdeki bir bağlantıyı tıkladığınızda bağlantı bu uygulamayla, uygulama gittikten sonra ise Peel’in gösterdiği uygulamayla açılır. Bir bağlantı türü için Sistem Ayarları’nda veya uygulamanın kendisinde seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Посилання цих типів відкриваються в цій програмі, коли ви клацаєте будь-яке з них, а щойно її не стане, відкриватимуться в програмі, яку показує Peel. Для типу посилань це можна вибрати в Системних параметрах або в самій програмі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点按这些种类的链接时，它们会用此App打开；此App被移除后，则会用Peel显示的App打开。对于某种链接，请在“系统设置”或App本身中选取。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按一下這些種類的連結時，會以此App打開，而在此App移除後，則會以Peel顯示的App打開。若要為某種連結選擇App，請在「系統設定」或該App本身中選擇。"
           }
         }
       }

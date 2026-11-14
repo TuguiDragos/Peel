@@ -9,6 +9,48 @@ struct DefaultAppsTests {
         InstalledApp(url: URL(filePath: path, directoryHint: .isDirectory), bundleIdentifier: "com.example.app", name: "Example")
     }
 
+    @Test func groupsWhatWouldOpenEachKindAndJoinsTheKindsOfOneName() {
+        func file(_ name: String, _ fileExtension: String?, _ next: String?) -> DefaultRole {
+            DefaultRole(
+                kind: .fileKind, identifier: "org.example.\(fileExtension ?? name)", name: name,
+                others: next.map { [$0, "Later"] } ?? [], fileExtension: fileExtension
+            )
+        }
+        let named = ["JPEG image", "PNG image", "TIFF image", "HEIF image", "WebP image", "OpenEXR image",
+                     "Targa image", "Photoshop document", "Amiga disk archive"]
+        var roles = ["erf", "mos", "x3f"].map { file("Image File", $0, nil) }
+        roles += named.map { file($0, nil, "Preview") }
+        roles += ["dng", "cr2", "cr3", "nef", "nrw", "pef", "srw", "rwl", "dcr", "kdc", "mrw", "iiq", "3fr"]
+            .map { file("Image File", $0, "Preview") }
+        roles += ["arw", "raf", "orf", "rw2", "srf", "sr2"].map { file("Image File", $0, "Photos") }
+        roles += [file("Image File", "dng", "Photos"), file("Odd kind", nil, nil)]
+        roles.append(DefaultRole(kind: .link, identifier: "example", name: "example:", others: ["Mail"]))
+
+        let files = DefaultApps.handOvers(roles, of: .fileKind)
+
+        #expect(files.map(\.app) == ["Preview", "Photos", nil])
+        #expect(files.map(\.count) == [22, 7, 4])
+        #expect(files[0].kinds.first == "Amiga disk archive")
+        #expect(files[0].kinds.contains("Image File (.dng, .cr2, .cr3, .nef, .nrw, .pef, .srw, .rwl, .dcr, .kdc, .mrw, .iiq, .3fr)"))
+        #expect(files[1].kinds == ["Image File (.arw, .raf, .orf, .rw2, .srf, .sr2, .dng)"])
+        #expect(files[2].kinds == ["Image File (.erf, .mos, .x3f)", "Odd kind"])
+        #expect(DefaultApps.handOvers(roles, of: .link).map(\.app) == ["Mail"])
+        #expect(DefaultApps.handOvers(roles, of: .link).first?.kinds == ["example:"])
+    }
+
+    @Test func joinsAKindOfOneNameWithNoExtensionOrTheSameOneTwice() {
+        let roles = [
+            DefaultRole(kind: .fileKind, identifier: "org.example.a", name: "Notes", others: [], fileExtension: "note"),
+            DefaultRole(kind: .fileKind, identifier: "org.example.b", name: "Notes", others: [], fileExtension: "note"),
+            DefaultRole(kind: .fileKind, identifier: "org.example.c", name: "Notes", others: [], fileExtension: nil),
+            DefaultRole(kind: .fileKind, identifier: "org.example.d", name: "Plain", others: [], fileExtension: nil),
+            DefaultRole(kind: .fileKind, identifier: "org.example.e", name: "Plain", others: [], fileExtension: nil),
+        ]
+
+        #expect(DefaultApps.handOvers(roles, of: .fileKind).map(\.kinds) == [["Notes (.note)", "Plain"]])
+        #expect(DefaultApps.handOvers(roles, of: .link).isEmpty)
+    }
+
     @Test func knowsWhenTheAppIsTheOneThatOpensSomething() {
         let subject = app()
 
