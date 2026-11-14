@@ -162,10 +162,7 @@ final class SelfUninstall {
         let exclusions = ExclusionsStore.shared.exclusions
         let plan = await Uninstallation.prepare(app, installedApps: installedApps, exclusions: exclusions)
         let urls = plan.unreviewedSelection
-        let isOnAReadOnlyVolume = SelfRemoval.isOnAReadOnlyVolume(bundleURL)
-        if let block = SelfRemoval.block(
-            selection: urls, isExcluded: plan.isExcluded, isOnAReadOnlyVolume: isOnAReadOnlyVolume
-        ) {
+        if let block = SelfRemoval.block(selection: urls, isExcluded: plan.isExcluded, app: bundleURL) {
             tell(.stayed(Self.explanation(of: block)), words)
             return
         }
@@ -209,6 +206,10 @@ final class SelfUninstall {
             String(localized: "Peel is running from a copy macOS made because it is still marked as downloaded, or from its disk image, and that copy can’t be moved. Quit Peel, move it to the Applications folder, open it there, and choose Remove Peel again.")
         case .needsAnAdministrator:
             String(localized: "Peel won’t move itself from here: its folder needs an administrator. Log in as an administrator and choose Remove Peel there. You can also drag Peel to the Trash in Finder, which asks for an administrator, but that leaves its helper, its login item, and its files behind.")
+        case .needsItsOwner(let owner):
+            String(localized: "Peel won’t move itself from here: it belongs to the account \(owner). Log in to that account and choose Remove Peel there. You can also drag Peel to the Trash in Finder, which asks for an administrator, but that leaves its helper, its login item, and its files behind.")
+        case .leftToFinder:
+            String(localized: "Peel won’t move itself from here: this account isn’t allowed to move it. You can drag Peel to the Trash in Finder, which asks for an administrator, but that leaves its helper, its login item, and its files behind.")
         }
     }
 

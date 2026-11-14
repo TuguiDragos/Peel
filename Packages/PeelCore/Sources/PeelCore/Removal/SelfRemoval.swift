@@ -82,19 +82,62 @@ public enum SelfRemoval {
         case readOnlyCopy
         /// Peel's folder needs an administrator, which only Finder asks for.
         case needsAnAdministrator
+        /// Peel belongs to another account, named here, which may move it from where it is.
+        case needsItsOwner(String)
+        /// Neither this account, the one Peel belongs to, nor an administrator may move Peel from where it is, so
+        /// only Finder can, asking for an administrator.
+        case leftToFinder
     }
 
-    /// Why a plan that selects `selection` of Peel's would move nothing, or nil when it moves something.
-    public static func block(selection: [URL], isExcluded: Bool, isOnAReadOnlyVolume: Bool) -> Block? {
+    /// Why a plan that selects `selection` of Peel's at `app` would move nothing, or nil when it moves something.
+    public static func block(selection: [URL], isExcluded: Bool, app: URL) -> Block? {
         guard selection.isEmpty else { return nil }
         if isExcluded { return .excluded }
-        return isOnAReadOnlyVolume ? .readOnlyCopy : .needsAnAdministrator
+        return blockAhead(of: app) ?? .needsAnAdministrator
     }
 
     /// Why Peel at `app` won't move itself, known from where it is before any plan is made.
     public static func blockAhead(of app: URL) -> Block? {
         if isOnAReadOnlyVolume(app) { return .readOnlyCopy }
-        return FileAccess.requiresPrivilegesToRemove(app) ? .needsAnAdministrator : nil
+        guard FileAccess.requiresPrivilegesToRemove(app) else { return nil }
+        return block(
+            forAnAccountThatMayNotMove: FolderPermissions(of: app, followingALink: false),
+            outOf: FolderPermissions(of: app.deletingLastPathComponent(), followingALink: true),
+            account: getuid(),
+            isAdministrator: PrivilegedHelper.isAdministrator,
+            isMember: GroupMembership.isMember(_:of:),
+            isAdministratorsGroup: GroupMembership.isTheAdministratorsGroup(_:),
+            name: AccountRecord.name(of:)
+        )
+    }
+
+    /// Who may move Peel when this account may not: the account Peel belongs to when that one may, else an
+    /// administrator when this account isn't one and any administrator may, else nobody but Finder.
+    static func block(
+        forAnAccountThatMayNotMove bundle: FolderPermissions?, outOf parent: FolderPermissions?, account: uid_t,
+        isAdministrator: Bool, isMember: (uid_t, gid_t) -> Bool, isAdministratorsGroup: (gid_t) -> Bool,
+        name: (uid_t) -> String?
+    ) -> Block {
+        guard let bundle, let parent else { return .leftToFinder }
+        let owner = bundle.owner
+        if owner != 0, owner != account,
+           mayMove(bundle, outOf: parent, as: owner, isInGroup: { isMember(owner, $0) }),
+           let ownersName = name(owner) {
+            return .needsItsOwner(ownersName)
+        }
+        if !isAdministrator, mayMove(bundle, outOf: parent, as: nil, isInGroup: isAdministratorsGroup) {
+            return .needsAnAdministrator
+        }
+        return .leftToFinder
+    }
+
+    /// Whether `account` may move a folder out of its parent, as `rename(2)` and `man 7 sticky` judge it: it writes
+    /// in both, and a sticky parent lets only the folder's owner or the parent's do it. A nil account owns neither.
+    static func mayMove(
+        _ bundle: FolderPermissions, outOf parent: FolderPermissions, as account: uid_t?, isInGroup: (gid_t) -> Bool
+    ) -> Bool {
+        if parent.mode & S_ISVTX != 0, account != bundle.owner, account != parent.owner { return false }
+        return parent.lets(account, write: isInGroup) && bundle.lets(account, write: isInGroup)
     }
 
     /// Whether `url` is on a volume mounted read-only (`statfs(2)`, `MNT_RDONLY`), which Foundation's resource value

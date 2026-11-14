@@ -7,11 +7,16 @@ import Testing
 struct SelfUninstallWayTests {
     /// Finder moves only the app, so the advice to use it says what it leaves.
     @Test func theAdviceToUseFinderSaysWhatStaysBehind() {
-        let words = SelfUninstall.explanation(of: .needsAnAdministrator)
+        for block in [SelfRemoval.Block.needsAnAdministrator, .needsItsOwner("Alex"), .leftToFinder] {
+            let words = SelfUninstall.explanation(of: block)
 
-        #expect(words.contains("Finder"))
-        #expect(words.contains("helper"))
-        #expect(words.contains("login item"))
+            #expect(words.contains("Finder"))
+            #expect(words.contains("helper"))
+            #expect(words.contains("login item"))
+        }
+        #expect(SelfUninstall.explanation(of: .needsItsOwner("Alex")).contains("the account Alex"))
+        #expect(!SelfUninstall.explanation(of: .needsItsOwner("Alex")).contains("as an administrator"))
+        #expect(!SelfUninstall.explanation(of: .leftToFinder).contains("Log in"))
     }
 
     @Test func waitsForHomebrewToSayWhetherItInstalledThisCopy() {

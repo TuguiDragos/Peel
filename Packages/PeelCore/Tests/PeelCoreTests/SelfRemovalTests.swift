@@ -37,13 +37,13 @@ private actor StepLog {
 struct SelfRemovalTests {
     @Test func saysWhyRemovePeelWouldMoveNothingOfPeelsFromWhereItRuns() throws {
         let directory = try TemporaryDirectory()
-        let app = URL(filePath: "/Applications/Peel.app")
+        let app = try directory.directory("Applications/Peel.app")
+        let readOnly = URL(filePath: "/System/Applications/Calculator.app")
 
-        #expect(SelfRemoval.block(selection: [app], isExcluded: false, isOnAReadOnlyVolume: true) == nil)
-        #expect(SelfRemoval.block(selection: [], isExcluded: true, isOnAReadOnlyVolume: true) == .excluded)
-        #expect(SelfRemoval.block(selection: [], isExcluded: false, isOnAReadOnlyVolume: true) == .readOnlyCopy)
-        let administrator = SelfRemoval.block(selection: [], isExcluded: false, isOnAReadOnlyVolume: false)
-        #expect(administrator == .needsAnAdministrator)
+        #expect(SelfRemoval.block(selection: [app], isExcluded: false, app: readOnly) == nil)
+        #expect(SelfRemoval.block(selection: [], isExcluded: true, app: readOnly) == .excluded)
+        #expect(SelfRemoval.block(selection: [], isExcluded: false, app: readOnly) == .readOnlyCopy)
+        #expect(SelfRemoval.block(selection: [], isExcluded: false, app: app) == .needsAnAdministrator)
         #expect(SelfRemoval.isOnAReadOnlyVolume(URL(filePath: "/System/Applications/Calculator.app")))
         #expect(!SelfRemoval.isOnAReadOnlyVolume(directory.url))
     }
@@ -364,7 +364,7 @@ struct SelfRemovalTests {
         #expect(try String(contentsOf: moved.trashedURL.appending(path: "removals.json"), encoding: .utf8) == "2")
     }
 
-    @Test(.permissionsHold) func knowsAheadThatAFolderOnlyAnAdministratorCanChangeHoldsPeel() throws {
+    @Test(.permissionsHold) func knowsAheadThatAFolderThisAccountMayNotChangeHoldsPeel() throws {
         let directory = try TemporaryDirectory()
         let app = try directory.directory("Applications/Peel.app")
         #expect(SelfRemoval.blockAhead(of: app) == nil)
@@ -372,7 +372,55 @@ struct SelfRemovalTests {
         try directory.setPermissions(0o555, of: "Applications")
         defer { try? directory.setPermissions(0o755, of: "Applications") }
 
-        #expect(SelfRemoval.blockAhead(of: app) == .needsAnAdministrator)
+        #expect(SelfRemoval.blockAhead(of: app) == .leftToFinder)
+        #expect(SelfRemoval.block(selection: [], isExcluded: false, app: app) == .leftToFinder)
+    }
+
+    @Test(.permissionsHold) func leavesToFinderAPeelThisAccountOwnsButMayNotChange() throws {
+        let directory = try TemporaryDirectory()
+        let app = try directory.directory("Applications/Peel.app")
+        try directory.setPermissions(0o555, of: "Applications/Peel.app")
+        defer { try? directory.setPermissions(0o755, of: "Applications/Peel.app") }
+
+        #expect(SelfRemoval.blockAhead(of: app) == .leftToFinder)
+    }
+
+    @Test func sendsToWhoeverMayMovePeelWhenThisAccountMayNot() {
+        let wheel: gid_t = 0, staff: gid_t = 20, administrators: gid_t = 80
+        let alex: uid_t = 501, blair: uid_t = 502, sam: uid_t = 503
+        let groups: [uid_t: Set<gid_t>] = [alex: [staff, administrators], blair: [staff, administrators], sam: [staff]]
+        let applications = FolderPermissions(owner: 0, group: administrators, mode: 0o40775)
+        func block(_ bundle: FolderPermissions?, in parent: FolderPermissions = applications, for account: uid_t)
+            -> SelfRemoval.Block
+        {
+            SelfRemoval.block(
+                forAnAccountThatMayNotMove: bundle, outOf: parent, account: account,
+                isAdministrator: groups[account, default: []].contains(administrators),
+                isMember: { groups[$0, default: []].contains($1) },
+                isAdministratorsGroup: { $0 == administrators },
+                name: { [alex: "Alex", blair: "Blair", sam: "Sam"][$0] }
+            )
+        }
+        let alexs = FolderPermissions(owner: alex, group: administrators, mode: 0o40755)
+        let sams = FolderPermissions(owner: sam, group: administrators, mode: 0o40755)
+        let roots = FolderPermissions(owner: 0, group: wheel, mode: 0o40755)
+        let everyAdministrators = FolderPermissions(owner: 0, group: administrators, mode: 0o40775)
+        let sticky = FolderPermissions(owner: 0, group: staff, mode: 0o41777)
+        let staffs = FolderPermissions(owner: 0, group: staff, mode: 0o40775)
+
+        #expect(block(alexs, for: blair) == .needsItsOwner("Alex"))
+        #expect(block(alexs, for: sam) == .needsItsOwner("Alex"))
+        #expect(block(sams, for: blair) == .leftToFinder)
+        #expect(block(sams, for: sam) == .leftToFinder)
+        #expect(block(sams, in: staffs, for: blair) == .needsItsOwner("Sam"))
+        #expect(block(roots, for: blair) == .leftToFinder)
+        #expect(block(roots, for: sam) == .leftToFinder)
+        #expect(block(everyAdministrators, for: sam) == .needsAnAdministrator)
+        #expect(block(everyAdministrators, in: sticky, for: sam) == .leftToFinder)
+        #expect(block(alexs, in: sticky, for: blair) == .needsItsOwner("Alex"))
+        let lockedByAlex = FolderPermissions(owner: alex, group: administrators, mode: 0o40555)
+        #expect(block(lockedByAlex, for: blair) == .leftToFinder)
+        #expect(block(nil, for: sam) == .leftToFinder)
     }
 
     @Test func aScanThatEndsAfterPeelLeftDoesNotBringItsFolderBack() async throws {

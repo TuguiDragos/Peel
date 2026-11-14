@@ -22,4 +22,10 @@ enum AccountRecord {
         }
         return nil
     }
+
+    /// The account's full name, as the login window shows it, else its short name.
+    static func name(of user: uid_t) -> String? {
+        if let full = field(of: user, { $0.pw_gecos }), !full.isEmpty { return full }
+        return field(of: user) { $0.pw_name }
+    }
 }
