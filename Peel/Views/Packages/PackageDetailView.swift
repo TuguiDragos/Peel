@@ -154,7 +154,7 @@ struct PackageDetailView: View {
             isPresented: $isConfirmingRemoval
         ) {
             Button("Move to Trash") {
-                let apps = receipt.apps.filter { app in selectedItems.contains { $0.url == app.url } }
+                let apps = receipt.apps(in: selectedItems.map(\.url))
                 Task {
                     let asked = await Self.toQuit(apps, among: RunningCopies.current, installedApps: library.apps)
                     quitting.check(asked.compactMap { NSRunningApplication(processIdentifier: $0.identifier) }) {

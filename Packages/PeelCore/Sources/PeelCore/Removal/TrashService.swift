@@ -347,6 +347,21 @@ public struct TrashResult: Sendable {
         Dictionary(trashed.map { ($0.originalURL, $0.trashedURL) }) { first, _ in first }
     }
 
+    /// Where each of `urls` is now, for those that moved themselves or inside a folder that moved.
+    public func places(of urls: [URL]) -> [URL: URL] {
+        var places: [URL: URL] = [:]
+        for url in urls {
+            for item in trashed {
+                if let below = url.path(below: item.originalURL) {
+                    places[url] = item.trashedURL.appending(path: below)
+                } else if PathPattern.comparablePath(of: url) == PathPattern.comparablePath(of: item.originalURL) {
+                    places[url] = item.trashedURL
+                }
+            }
+        }
+        return places
+    }
+
     /// Marks each item whose move stopped the job it declares.
     mutating func note(_ stopped: [LaunchdCleanup.Job]) {
         for job in stopped {

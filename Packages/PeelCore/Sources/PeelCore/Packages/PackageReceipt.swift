@@ -61,6 +61,14 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
     /// The apps the package put on this Mac that are still where it put them. Excluding one leaves the receipt alone
     /// too, which is asked of the exclusions as they stand whenever it counts.
     public var apps: [InstalledApp] = []
+
+    /// The apps a removal of `selected` takes: those at or inside an item, which run from it.
+    public func apps(in selected: [URL]) -> [InstalledApp] {
+        apps.filter { app in
+            let place = PathPattern.comparablePath(of: app.url)
+            return selected.contains { app.url.path(below: $0) != nil || PathPattern.comparablePath(of: $0) == place }
+        }
+    }
     /// The name macOS gave the package when it installed it, such as "AdGuard", if its install history keeps one.
     public var name: String?
     /// The version of what the installer installed, as its history says it, which is what a person knows it by:
