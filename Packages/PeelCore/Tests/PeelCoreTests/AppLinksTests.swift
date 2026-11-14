@@ -112,6 +112,26 @@ struct AppLinksTests {
         #expect(AppInspector.inspect(loop) == nil)
     }
 
+    @Test(.permissionsHold) func aBundleWithADamagedInfoPlistKeepsNothingFromBeingRead() async throws {
+        let directory = try TemporaryDirectory()
+        let applications = try directory.directory("Applications")
+        let dangling = try directory.directory("Applications/Dangling.app/Contents")
+        try FileManager.default.createSymbolicLink(
+            at: dangling.appending(path: "Info.plist"), withDestinationURL: directory.url.appending(path: "nowhere")
+        )
+        _ = try directory.directory("Applications/Folder.app/Contents/Info.plist")
+        let closed = try directory.file("Applications/Closed.app/Contents/Info.plist", contents: Data("{}".utf8))
+        try directory.setPermissions(0o000, of: closed)
+        defer { try? directory.setPermissions(0o644, of: closed) }
+
+        let scan = await AppCatalog.scan(in: [applications])
+
+        #expect(scan.unreadable.map(\.lastPathComponent) == ["Closed.app"])
+        #expect(AppInspector.whyUnreadable(applications.appending(path: "Dangling.app")) == .noInfo)
+        #expect(AppInspector.whyUnreadable(applications.appending(path: "Folder.app")) == .infoDamaged)
+        #expect(AppInspector.whyUnreadable(applications.appending(path: "Closed.app")) == .infoClosed)
+    }
+
     /// A link thrown into the Trash is no app leaving this Mac, while the app it leads to stays where it is.
     @Test func aLinkInTheTrashIsNoAppThatLeft() throws {
         let directory = try TemporaryDirectory()

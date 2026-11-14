@@ -148,9 +148,14 @@ public enum AppInspector {
     }
 
     /// Why an Info.plist that is there can't be read, from what `access(2)` answered: `EPERM` is macOS's privacy
-    /// protection, which System Settings lifts, and anything else the permissions.
+    /// protection, which System Settings lifts, a link that leads nowhere is no Info.plist, and anything else the
+    /// permissions.
     static func unreadableInfo(accessError: Int32) -> Unreadable {
-        accessError == EPERM ? .infoKeptByPrivacy : .infoClosed
+        switch accessError {
+        case EPERM: .infoKeptByPrivacy
+        case ENOENT, ENOTDIR, ELOOP: .noInfo
+        default: .infoClosed
+        }
     }
 
     public static func inspect(_ url: URL) -> InstalledApp? {
@@ -267,11 +272,12 @@ public enum AppInspector {
         return text
     }
 
-    /// Whether the bundle's Info.plist is there and macOS will not let Peel read it, so nothing can be told about
-    /// the app.
+    /// Whether macOS will not let Peel open the bundle's Info.plist, so nothing can be told about the app. One that
+    /// leads nowhere, is a folder, or is too large to read is a damaged bundle, which keeps nothing from being told.
     static func isClosed(_ bundle: URL) -> Bool {
         let info = AppBundleLayout(of: bundle).infoFolder.appending(path: "Info.plist")
-        return !info.isMissing && BoundedRead.data(at: info) == nil
+        guard case .failed(let error) = BoundedRead.whyUnreadable(info) else { return false }
+        return error.code == Int(EACCES) || error.code == Int(EPERM)
     }
 
     /// The name Finder shows for the app macOS knows by `identifier`, or the identifier itself when it knows none.
