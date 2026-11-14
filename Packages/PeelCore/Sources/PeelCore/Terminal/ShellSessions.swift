@@ -126,7 +126,7 @@ public enum ShellSessions: Sendable, Equatable {
         var named = NamedFolders(folders: [], unsettledVariables: unsettled)
         var depth = 0
         for line in text.split(whereSeparator: \.isNewline) {
-            let code = withoutComment(line.drop(while: \.isWhitespace))
+            let code = ShellFile.LineReading.withoutComment(line.drop(while: \.isWhitespace))
             var words = code[...]
             for prefix in ["export ", "typeset -x ", "typeset -gx "] where words.hasPrefix(prefix) {
                 words = words.dropFirst(prefix.count).drop(while: \.isWhitespace)
@@ -186,24 +186,6 @@ public enum ShellSessions: Sendable, Equatable {
             "XDG_CONFIG_HOME": homePath + "/.config", "XDG_DATA_HOME": homePath + "/.local/share",
             "XDG_STATE_HOME": homePath + "/.local/state", "XDG_CACHE_HOME": homePath + "/.cache",
         ]
-    }
-
-    /// A line without what follows an unquoted `#` that begins a word, which zsh reads as a comment.
-    private static func withoutComment(_ line: Substring) -> Substring {
-        var quote: Character?
-        var previous: Character = " "
-        for index in line.indices {
-            let character = line[index]
-            if let open = quote {
-                if character == open { quote = nil }
-            } else if character == "\"" || character == "'" {
-                quote = character
-            } else if character == "#", previous.isWhitespace || previous == ";" {
-                return line[..<index]
-            }
-            previous = character
-        }
-        return line
     }
 
     /// How many blocks a line opens, less those it closes, counted by the words that open and close them in zsh.

@@ -145,6 +145,9 @@ struct ShellFileTests {
             ("[[ -r \"~/Library/Application Support/Peel/Terminal/zshrc\" ]] && source \"~/Library/Application Support/Peel/Terminal/zshrc\"\n", false),
             ("alias ll='ls -l' # source \"$HOME/Library/Application Support/Peel/Terminal/zshrc\"\n", false),
             ("alias ll='ls -l#'; source \"$HOME/Library/Application Support/Peel/Terminal/zshrc\"\n", true),
+            ("true;# source \"$HOME/Library/Application Support/Peel/Terminal/zshrc\"\n", false),
+            ("true &&# source \"$HOME/Library/Application Support/Peel/Terminal/zshrc\"\n", false),
+            ("[[ -n ~/.zcompdump(#qN.mh+24) ]]; source \"$HOME/Library/Application Support/Peel/Terminal/zshrc\"\n", true),
         ] {
             try text.write(to: startup, atomically: true, encoding: .utf8)
             #expect(ShellFile.isSourced(shell.peelFile, from: startup, home: shell.home) == found, "\(text)")
