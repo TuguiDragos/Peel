@@ -146,6 +146,9 @@ struct SSHFileTests {
             ("Include=\"~/Library/Application Support/Peel/Terminal/ssh_config\"\n", true),
             ("# Include \"~/Library/Application Support/Peel/Terminal/ssh_config\"\n", false),
             ("Host server\n  IdentityFile ~/Library/Application Support/Peel/Terminal/ssh_config\n", false),
+            ("Host work\n  Include \"~/Library/Application Support/Peel/Terminal/ssh_config\"\n", false),
+            ("Host work\n  User me\nInclude \"~/Library/Application Support/Peel/Terminal/ssh_config\"\n", false),
+            ("Host *\n  Include \"~/Library/Application Support/Peel/Terminal/ssh_config\"\n", true),
         ] {
             try text.write(to: user, atomically: true, encoding: .utf8)
             let home = URL(filePath: "/Users/example", directoryHint: .isDirectory)

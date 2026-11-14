@@ -84,14 +84,23 @@ public enum SSHFile {
         return "mkdir -p -m 700 \(folder) && " + ShellCommand.appending(lines, to: config, home: home)
     }
 
-    /// Whether an `Include` line of `config` names the file, however its spaces are written.
+    /// Whether an `Include` line of `config` names the file, however its spaces are written, where it applies to every
+    /// server: before any `Host` or `Match`, or under `Match all` or `Host *`.
     public static func isIncluded(_ url: URL, from config: URL, home: URL) -> Bool {
         guard let data = BoundedRead.data(at: config) else { return false }
         let name = url.path(below: home) ?? url.path(percentEncoded: false)
-        return String(decoding: data, as: UTF8.self).split(separator: "\n").contains { line in
+        var reachesEveryServer = true
+        for line in String(decoding: data, as: UTF8.self).split(separator: "\n") {
             let code = line.trimmingCharacters(in: .whitespaces)
-            return code.lowercased().hasPrefix("include") && code.replacing("\\ ", with: " ").contains(name)
+            let words = code.split { $0 == " " || $0 == "\t" || $0 == "=" }.map { $0.lowercased() }
+            guard let keyword = words.first else { continue }
+            if keyword == "host" || keyword == "match" {
+                reachesEveryServer = words.dropFirst() == [keyword == "host" ? "*" : "all"]
+            } else if keyword == "include", reachesEveryServer, code.replacing("\\ ", with: " ").contains(name) {
+                return true
+            }
         }
+        return false
     }
 
     /// The settings the ssh on this Mac accepts, asked on its command line so nothing is written to try them, or nil
