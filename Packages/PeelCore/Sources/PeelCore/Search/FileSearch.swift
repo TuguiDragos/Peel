@@ -81,6 +81,9 @@ public struct FileSearchResults: Sendable {
     public var didRun = true
     /// The disks Spotlight doesn't index, named as Finder names them.
     public var unindexedDisks: [String] = []
+    /// The disks whose index Spotlight no longer keeps up to date, as on a full disk, so what changed since may be
+    /// missing.
+    public var staleDisks: [String] = []
     /// True when nothing was found and Spotlight indexes none of the disks searched.
     public var isNothingIndexed = false
 }
@@ -155,7 +158,7 @@ public enum FileSearch {
         }
     }
 
-    /// The same, with the query, the disks and their index asked of `gather`, `disks` and `isIndexing`, so a test can
+    /// The same, with the query, the disks and their index asked of `gather`, `disks` and `indexState`, so a test can
     /// stand in for them.
     static func run(
         _ criteria: FileSearchCriteria,
@@ -163,7 +166,7 @@ public enum FileSearch {
         exclusions: Exclusions = .none,
         gather: Gather,
         disks: (FileSearchCriteria.Scope) -> [SpotlightIndex.Disk]? = { _ in nil },
-        isIndexing: @Sendable (URL) async -> Bool? = SpotlightIndex.isIndexing
+        indexState: @Sendable (URL) async -> SpotlightIndex.State? = SpotlightIndex.state
     ) async -> FileSearchResults {
         guard criteria.isSearchable, let query = makeQuery(for: criteria) else {
             return FileSearchResults(didRun: false)
@@ -175,12 +178,18 @@ public enum FileSearch {
             from: found.paths, transportStreams: found.transportStreams, environment: environment,
             exclusions: exclusions
         )
+        guard results.didRun else { return results }
         // Files found on one disk say nothing of another, while a search of the home that found any has read its disk.
-        guard results.didRun, results.files.isEmpty || criteria.scope == .computer else { return results }
+        // An index that is read-only answers with what it held, so every disk is asked about that.
+        let namesUnindexed = results.files.isEmpty || criteria.scope == .computer
         let searched = disks(criteria.scope)
             ?? SpotlightIndex.disks(in: criteria.scope, home: environment.homeDirectory)
-        for disk in searched where await isIndexing(disk.volume) == false {
-            results.unindexedDisks.append(disk.name)
+        for disk in searched {
+            switch await indexState(disk.volume) {
+            case .notIndexing? where namesUnindexed: results.unindexedDisks.append(disk.name)
+            case .readOnly?: results.staleDisks.append(disk.name)
+            case .notIndexing?, .indexing?, nil: break
+            }
         }
         guard !Task.isCancelled else { return FileSearchResults(didRun: false) }
         results.isNothingIndexed = results.files.isEmpty && !searched.isEmpty

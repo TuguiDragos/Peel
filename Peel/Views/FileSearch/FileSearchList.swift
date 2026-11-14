@@ -60,6 +60,14 @@ struct FileSearchList: View {
                 .foregroundStyle(.secondary)
                 .listRowSeparator(.hidden)
             }
+            if let results = search.results, !results.files.isEmpty, !results.staleDisks.isEmpty {
+                Label(
+                    "Spotlight has stopped updating its index of \(results.staleDisks.formatted(.list(type: .and))), as it does when a disk is full, so files added or changed since may be missing here.",
+                    systemImage: "magnifyingglass"
+                )
+                .foregroundStyle(.secondary)
+                .listRowSeparator(.hidden)
+            }
             if let results = search.results, !results.files.isEmpty {
                 Section {
                     ForEach(results.files) { file in
@@ -160,6 +168,9 @@ struct FileSearchList: View {
                             Text("File Search finds only what Spotlight indexes, so a folder listed in System Settings > Spotlight > Search Privacy isn’t searched.")
                             if !results.unindexedDisks.isEmpty {
                                 Text("Spotlight isn’t indexing \(disks), so File Search can’t find anything there.")
+                            }
+                            if !results.staleDisks.isEmpty {
+                                Text("Spotlight has stopped updating its index of \(results.staleDisks.formatted(.list(type: .and))), as it does when a disk is full, so files added or changed since may be missing here.")
                             }
                             if criteria.scope == .computer {
                                 Text("Network volumes aren’t searched.")

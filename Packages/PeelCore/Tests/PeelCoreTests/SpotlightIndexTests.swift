@@ -4,22 +4,22 @@ import Testing
 
 struct SpotlightIndexTests {
     @Test func readsWhatMdutilPrints() {
-        #expect(SpotlightIndex.isIndexing(mdutil: "/:\n\tIndexing enabled. \n") == true)
-        #expect(SpotlightIndex.isIndexing(mdutil: "/System/Volumes/Data:\n\tIndex is read-only.\n") == true)
-        #expect(SpotlightIndex.isIndexing(mdutil: "/Volumes/Backup:\n\tIndexing disabled.\n") == false)
-        #expect(SpotlightIndex.isIndexing(mdutil: "/Volumes/Backup:\n\tIndexing and searching disabled.\n") == false)
+        #expect(SpotlightIndex.state(mdutil: "/:\n\tIndexing enabled. \n") == .indexing)
+        #expect(SpotlightIndex.state(mdutil: "/System/Volumes/Data:\n\tIndex is read-only.\n") == .readOnly)
+        #expect(SpotlightIndex.state(mdutil: "/Volumes/Backup:\n\tIndexing disabled.\n") == .notIndexing)
+        #expect(SpotlightIndex.state(mdutil: "/Volumes/Backup:\n\tIndexing and searching disabled.\n") == .notIndexing)
         let neverIndexed = "/Volumes/Backup:\n\tIndexing and searching disabled because of \".metadata_never_index\" "
             + "file at root of volume.\n"
-        #expect(SpotlightIndex.isIndexing(mdutil: neverIndexed) == false)
-        #expect(SpotlightIndex.isIndexing(mdutil: "/Users/someone:\n\tError: unknown indexing state.\n") == nil)
-        #expect(SpotlightIndex.isIndexing(mdutil: "Error: invalid path `/nowhere'.\n") == nil)
+        #expect(SpotlightIndex.state(mdutil: neverIndexed) == .notIndexing)
+        #expect(SpotlightIndex.state(mdutil: "/Users/someone:\n\tError: unknown indexing state.\n") == nil)
+        #expect(SpotlightIndex.state(mdutil: "Error: invalid path `/nowhere'.\n") == nil)
     }
 
     @Test func asksMdutilAboutAVolumeAndNothingElse() async throws {
         let directory = try TemporaryDirectory()
 
-        #expect(await SpotlightIndex.isIndexing(URL(filePath: "/System/Volumes/Data")) != nil)
-        #expect(await SpotlightIndex.isIndexing(directory.url) == nil)
+        #expect(await SpotlightIndex.state(URL(filePath: "/System/Volumes/Data")) != nil)
+        #expect(await SpotlightIndex.state(directory.url) == nil)
     }
 
     @Test func aDiskImageMountedReadOnlyIsNotSearched() throws {

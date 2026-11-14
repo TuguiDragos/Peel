@@ -9,21 +9,31 @@ enum SpotlightIndex {
         let name: String
     }
 
-    /// What `mdutil -s` printed about a volume: indexed or not, or nil when it couldn't say.
-    static func isIndexing(mdutil output: String) -> Bool? {
-        // A read-only index, on a full or read-only volume, still answers searches with what it holds.
-        if output.contains("Indexing enabled.") || output.contains("Index is read-only.") { return true }
-        if output.contains("Indexing disabled.") || output.contains("Indexing and searching disabled") { return false }
+    /// What Spotlight does with a volume's index.
+    enum State: Sendable, Equatable {
+        case indexing
+        /// The index still answers searches with what it holds, but isn't kept up to date, as on a full disk.
+        case readOnly
+        case notIndexing
+    }
+
+    /// What `mdutil -s` printed about a volume, or nil when it couldn't say.
+    static func state(mdutil output: String) -> State? {
+        if output.contains("Index is read-only.") { return .readOnly }
+        if output.contains("Indexing enabled.") { return .indexing }
+        if output.contains("Indexing disabled.") || output.contains("Indexing and searching disabled") {
+            return .notIndexing
+        }
         return nil
     }
 
-    /// Asks `mdutil -s` whether Spotlight indexes the volume mounted at `volume`.
+    /// Asks `mdutil -s` what Spotlight does with the index of the volume mounted at `volume`.
     @concurrent
-    static func isIndexing(_ volume: URL) async -> Bool? {
+    static func state(_ volume: URL) async -> State? {
         guard case .success(let output) = await Subprocess.run(
             "/usr/bin/mdutil", ["-s", volume.path(percentEncoded: false)], timeout: 5
         ) else { return nil }
-        return isIndexing(mdutil: output.text)
+        return state(mdutil: output.text)
     }
 
     /// Whether a search of This Mac reads the volume mounted at `volume`: a local one, but not a disk image mounted

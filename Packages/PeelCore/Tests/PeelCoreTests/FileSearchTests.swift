@@ -63,7 +63,7 @@ struct FileSearchTests {
         func search(indexing: Set<String>, finding paths: [String] = []) async -> FileSearchResults {
             await FileSearch.run(
                 criteria, gather: { _ in FileSearch.Found(paths: paths) }, disks: { _ in disks },
-                isIndexing: { indexing.contains($0.path) }
+                indexState: { indexing.contains($0.path) ? .indexing : .notIndexing }
             )
         }
         let directory = try TemporaryDirectory()
@@ -80,6 +80,22 @@ struct FileSearchTests {
         #expect(found.files.count == 1 && found.unindexedDisks.isEmpty)
     }
 
+    @Test func aSearchThatFindsFilesNamesADiskWhoseIndexIsReadOnly() async throws {
+        let directory = try TemporaryDirectory()
+        let file = try directory.file("report.txt")
+        var criteria = FileSearchCriteria()
+        criteria.name = "report"
+        let disks = [SpotlightIndex.Disk(volume: URL(filePath: "/System/Volumes/Data"), name: "Macintosh HD")]
+
+        let results = await FileSearch.run(
+            criteria, gather: { _ in FileSearch.Found(paths: [file.path(percentEncoded: false)]) },
+            disks: { _ in disks }, indexState: { _ in .readOnly }
+        )
+
+        #expect(results.files.count == 1)
+        #expect(results.staleDisks == ["Macintosh HD"] && results.unindexedDisks.isEmpty)
+    }
+
     @Test func aSearchOfThisMacNamesTheDisksSpotlightDoesNotIndexWhateverItFinds() async throws {
         let directory = try TemporaryDirectory()
         let file = try directory.file("report.txt")
@@ -94,7 +110,7 @@ struct FileSearchTests {
             await FileSearch.run(
                 criteria, gather: { _ in FileSearch.Found(paths: [file.path(percentEncoded: false)]) },
                 disks: { _ in disks },
-                isIndexing: { indexing.contains($0.path) }
+                indexState: { indexing.contains($0.path) ? .indexing : .notIndexing }
             )
         }
 

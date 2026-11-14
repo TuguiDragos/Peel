@@ -1170,6 +1170,10 @@ struct SearchCommand: AsyncParsableCommand {
             let unindexed = results.unindexedDisks.map(Output.plain).joined(separator: ", ")
             Output.note("Spotlight isn't indexing \(unindexed), so nothing there was searched.")
         }
+        if !results.staleDisks.isEmpty {
+            let stale = results.staleDisks.map(Output.plain).joined(separator: ", ")
+            Output.note("Spotlight has stopped updating its index of \(stale), as it does when a disk is full, so files added or changed since may be missing.")
+        }
     }
 
     /// What moving `file` would free, with its length beside it when that is more.

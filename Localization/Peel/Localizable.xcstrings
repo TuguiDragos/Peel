@@ -211442,6 +211442,112 @@
         }
       }
     },
+    "Spotlight has stopped updating its index of %@, as it does when a disk is full, so files added or changed since may be missing here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight přestal aktualizovat svůj index pro %@, jak to dělá, když je disk plný, takže tu mohou chybět soubory přidané nebo změněné od té doby."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight aktualisiert seinen Index von %@ nicht mehr, wie es bei einem vollen Volume geschieht, daher fehlen hier möglicherweise Dateien, die seitdem hinzugefügt oder geändert wurden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight ha dejado de actualizar su índice de %@, como hace cuando un disco está lleno, así que puede que aquí falten archivos añadidos o modificados desde entonces."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight a cessé de mettre à jour son index de %@, comme il le fait lorsqu’un disque est plein : des fichiers ajoutés ou modifiés depuis peuvent donc manquer ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight ha smesso di aggiornare il suo indice di %@, come fa quando un disco è pieno, quindi qui potrebbero mancare i file aggiunti o modificati da allora."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlightは、ディスクがいっぱいのときと同じように、%@の索引の更新を停止しています。そのため、それ以降に追加または変更されたファイルは、ここに表示されない可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "디스크가 가득 차면 Spotlight는 인덱스 업데이트를 중단하는데, %@의 인덱스 업데이트가 중단된 상태이므로 그 이후에 추가되거나 변경된 파일이 여기에 없을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight is gestopt met het bijwerken van de index van %@, zoals Spotlight doet wanneer een schijf vol is, dus bestanden die sindsdien zijn toegevoegd of gewijzigd, kunnen hier ontbreken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight przestał uaktualniać swój indeks na %@, co robi, gdy dysk jest pełny, więc może tu brakować plików dodanych lub zmienionych od tego czasu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Spotlight parou de atualizar o índice de %@, como faz quando um disco está cheio, então arquivos adicionados ou alterados desde então podem não aparecer aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight a încetat să actualizeze indexul pentru %@, cum face atunci când un disc este plin, astfel că fișierele adăugate sau modificate de atunci pot lipsi de aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight перестал обновлять свой индекс для %@, как это бывает, когда диск заполнен, поэтому файлов, добавленных или измененных с тех пор, здесь может не быть."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight har slutat uppdatera sitt index över %@, vilket händer när en skiva är full, så filer som har lagts till eller ändrats sedan dess kan saknas här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight, bir disk dolduğunda yaptığı gibi %@ dizinini güncellemeyi durdurdu, bu yüzden o zamandan beri eklenen veya değiştirilen dosyalar burada eksik olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оновлення індексу Spotlight для %@ зупинено, як це буває, коли диск заповнений, тож файлів, доданих чи змінених відтоді, тут може не бути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“聚焦”已停止更新%@的索引，磁盘已满时它就会这样，因此此后添加或更改的文件可能不会显示在此处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotlight已停止更新%@的索引，磁碟已滿時它就會這樣做，因此此後加入或變更的檔案可能不會出現在這裡。"
+          }
+        }
+      }
+    },
     "Spotlight isn’t indexing %@, so File Search can’t find anything there." : {
       "localizations" : {
         "cs" : {
