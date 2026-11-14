@@ -366,7 +366,7 @@ and how many items the others hold.
 ## Tweak your Mac
 
 <p align="center">
-  <img src="readme-assets/peel-tweaks-hidden-macos-settings.png" width="900" alt="Peel's Tweaks page, on Screenshots: no floating thumbnail after a screenshot, where screenshots are saved, no shadow around a captured window, names without the date, what screenshots are named, and JPEG instead of PNG, each with its own control, and Turn All Off">
+  <img src="readme-assets/peel-tweaks-hidden-macos-settings.png" width="900" alt="Peel's Tweaks page, on Screenshots: no floating thumbnail after a screenshot, where screenshots are saved, no window shadow from the screencapture command, names without the date, what screenshots are named, and JPEG instead of PNG, each with its own control, and Turn All Off">
 </p>
 
 Tweaks gathers 40 settings macOS already has, many of them out of sight, in six groups: Dock, Screenshots, Finder,
