@@ -24,13 +24,20 @@ struct FileSearchList: View {
                     .foregroundStyle(.secondary)
                     .listRowSeparator(.hidden)
             }
-            if !search.selection.outside.isEmpty, !search.keepsWhatIsOutside {
+            if !search.selection.outside.isEmpty {
                 HStack(alignment: .firstTextBaseline) {
-                    Label("Selected but not in this search: ^[\(search.selection.outside.count) file](inflect: true).", systemImage: "checklist")
-                        .foregroundStyle(.secondary)
+                    if search.keepsWhatIsOutside {
+                        Label("Still selected from earlier searches: ^[\(search.selection.outside.count) file](inflect: true).", systemImage: "checklist")
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Label("Selected but not in this search: ^[\(search.selection.outside.count) file](inflect: true).", systemImage: "checklist")
+                            .foregroundStyle(.secondary)
+                    }
                     Spacer(minLength: 8)
-                    Button("Keep Selected") { search.keepWhatIsOutside() }
-                        .buttonStyle(.borderless)
+                    if !search.keepsWhatIsOutside {
+                        Button("Keep Selected") { search.keepWhatIsOutside() }
+                            .buttonStyle(.borderless)
+                    }
                     Button("Deselect") { search.deselectWhatIsOutside() }
                         .buttonStyle(.borderless)
                 }
@@ -92,11 +99,7 @@ struct FileSearchList: View {
                         Text("Files")
                     } actions: {
                         SelectMenu(
-                            list: SelectableRows(
-                                rows: results.files.map(\.url),
-                                selectable: results.files.filter { !$0.requiresPrivileges }.map(\.url),
-                                recommended: results.files.map(\.url).filter(search.recommendedURLs.contains)
-                            ),
+                            list: search.selection.rows(showing: results.files, recommended: search.recommendedURLs),
                             place: Text(Tool.fileSearch.title),
                             selection: search
                         )

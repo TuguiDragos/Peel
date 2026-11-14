@@ -35,6 +35,22 @@ public struct SearchSelection: Sendable {
         return selected.subtracting(outside.keys)
     }
 
+    /// What the list's Select menu works on: the files it shows, then the files kept apart, which Deselect All takes
+    /// out too and the rest leaves selected.
+    public func rows(showing files: [FoundFile], recommended: Set<URL>) -> SelectableRows<URL> {
+        let apart = Array(outside.keys)
+        return SelectableRows(
+            rows: files.map(\.url) + apart,
+            selectable: files.filter { !$0.requiresPrivileges }.map(\.url) + apart,
+            recommended: files.map(\.url).filter(recommended.contains) + apart
+        )
+    }
+
+    /// Forgets the files kept apart that are no longer in `selected`.
+    public mutating func forgetUnselected(_ selected: Set<URL>) {
+        outside = outside.filter { selected.contains($0.key) }
+    }
+
     /// Forgets `urls`, as when they are excluded or moved.
     public mutating func forget(_ urls: some Sequence<URL>) {
         for url in urls {

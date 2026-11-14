@@ -16,7 +16,13 @@ final class FileSearchLibrary {
         scanRun.isRunning || (criteria.isSearchable && criteria != searchedCriteria)
     }
     var isRemoving = false
-    var selectedURLs: Set<URL> = []
+    var selectedURLs: Set<URL> = [] {
+        didSet {
+            if selection.outside.keys.contains(where: { !selectedURLs.contains($0) }) {
+                selection.forgetUnselected(selectedURLs)
+            }
+        }
+    }
     /// The file the detail shows. The files selected for the Trash are `selectedURLs`.
     var chosen: URL?
     /// The files Peel recommends: not the ones that need an administrator, the ones an app keeps for itself, nor the

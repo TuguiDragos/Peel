@@ -143,6 +143,28 @@ struct SearchingTests {
         #expect(result.failures.map(\.reason) == [.changedSinceScan])
     }
 
+    @Test func theListsSelectMenuReachesWhatIsKeptApart() throws {
+        let directory = try TemporaryDirectory()
+        let a = try directory.file("a.dmg")
+        let c = try directory.file("c.dmg")
+        let found = { (url: URL) in
+            FoundFile(
+                url: url, size: 16, length: 16, modificationDate: .now, requiresPrivileges: false,
+                identity: FileIdentity.of(url)
+            )
+        }
+        var selection = SearchSelection()
+        var selected = selection.update([a], was: [], now: [found(a), found(c)])
+        selected = selection.update(selected, was: [found(a), found(c)], now: [found(c)])
+
+        let rows = selection.rows(showing: [found(c)], recommended: [c])
+
+        #expect(rows.deselectingAll(in: selected.union([c])).isEmpty)
+        #expect(rows.selectingRecommended(in: selected) == [a, c])
+        selection.forgetUnselected([])
+        #expect(selection.outside.isEmpty)
+    }
+
     @Test func keepsWhatANewSearchLeavesOutSelectedApart() throws {
         let directory = try TemporaryDirectory()
         let a = try directory.file("a.dmg")
