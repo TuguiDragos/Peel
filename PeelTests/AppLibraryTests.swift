@@ -539,6 +539,22 @@ private nonisolated final class TestClock: Sendable {
         #expect(!library.isCheckingEveryApp)
     }
 
+    @Test func theListFilteredBySourceFollowsTheAppsHomebrewInstalled() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        let bundle = try caskApp("Tool", in: folder, feed: "https://feed.example.com/appcast.xml")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let library = library(with: made.defaults, notesIn: folder)
+        #expect(await library.reveal([bundle]))
+        library.sources = [.homebrew]
+        #expect(library.visibleApps(matching: "").isEmpty)
+
+        library.loadHomebrewCasks([cask("Tool", checked: homebrewChecked)], knowsItsOwnApps: true)
+
+        #expect(library.visibleApps(matching: "").rest.map(\.bundleIdentifier) == ["org.example.tool"])
+    }
+
     @Test func knowsHomebrewsAppsOnlyOnceAReadingKnowsThemAll() async throws {
         let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }

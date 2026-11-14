@@ -155,6 +155,8 @@ final class AppLibrary {
     /// The cask each Homebrew-installed app came from. Matched with the same evidence everything else uses,
     /// rather than by guessing a token from the app's name.
     private(set) var homebrewApps: [InstalledApp.ID: HomebrewPackage] = [:]
+    /// Moves whenever the apps Homebrew installed are others, which the list filtered by source follows.
+    @ObservationIgnored private var homebrewAppsRevision = 0
     /// The apps Homebrew didn't install whose versions its catalog lists (`UpdateChecker.catalogCask(for:in:)`).
     private var appsInTheCatalog: Set<InstalledApp.ID> = []
     /// The same, by cask, since the Homebrew page asks about every outdated cask each time it is drawn.
@@ -640,6 +642,7 @@ final class AppLibrary {
         let lastOpened: Int
         let updates: Int
         let sizes: Int
+        let homebrew: Int
         let sort: AppSort
         let sources: Set<AppSource>
         let developer: String?
@@ -658,6 +661,7 @@ final class AppLibrary {
             lastOpened: lastOpenedRevision,
             updates: updatesRevision,
             sizes: sort == .size ? sizesRevision : 0,
+            homebrew: sources.isEmpty ? 0 : homebrewAppsRevision,
             sort: sort,
             sources: sources,
             developer: selectedDeveloper,
@@ -1141,9 +1145,11 @@ final class AppLibrary {
 
     private func matchHomebrewApps() {
         let casks = casks
-        homebrewApps = Dictionary(uniqueKeysWithValues: apps.compactMap { app in
+        let matched = Dictionary(uniqueKeysWithValues: apps.compactMap { app in
             CaskEvidence.installedCask(for: app, in: casks).map { (app.id, $0) }
         })
+        if Set(matched.keys) != Set(homebrewApps.keys) { homebrewAppsRevision += 1 }
+        homebrewApps = matched
         appsInTheCatalog = Set(apps.filter { app in
             homebrewApps[app.id] == nil && UpdateChecker.catalogCask(for: app, in: casks) != nil
         }.map(\.id))
