@@ -141,7 +141,8 @@ extension SearchLocation.Kind {
         case .audioUnits, .audioDrivers, .vst, .vst3, .clap, .midiDrivers, .cameraPlugIns, .internetPlugIns,
             .preferencePanes, .quickLook,
              .screenSavers, .spotlight, .services, .inputMethods, .colorPickers, .contextualMenuItems, .mailBundles,
-             .mailPlugInCopies, .aax, .mas, .imageUnits, .dictionaries, .automatorActions, .contactsPlugIns:
+             .mailPlugInCopies, .mailCopiesOfTheMacsPlugIns, .aax, .mas, .imageUnits, .dictionaries,
+             .automatorActions, .contactsPlugIns:
             self = .plugIns
         }
     }
@@ -245,10 +246,10 @@ public struct SearchEnvironment: Sendable {
     /// only the other Library searches, such as `PrivilegedHelperTools` in the home's, is a folder like any other. The
     /// home's `Receipts` holds what packages installed for this account left, each weighed as a receipt.
     static let homeLibraryEntriesScannedElsewhere = firstFolders(
-        of: userEntries.map(\.1) + Plugins.folders.map(\.0) + ["Receipts"]
+        of: userEntries.map(\.1) + Plugins.folders.map(\.folder.rawValue) + ["Receipts"]
     )
     static let localLibraryEntriesScannedElsewhere = firstFolders(
-        of: localEntries.map(\.1) + Plugins.folders.map(\.0) + systemCodeFolders
+        of: localEntries.map(\.1) + Plugins.folders.map(\.folder.rawValue) + systemCodeFolders
     )
 
     private static func firstFolders(of paths: [String]) -> Set<String> {
@@ -277,8 +278,10 @@ public struct SearchEnvironment: Sendable {
         }
         // The Plug-ins tool's own table, so the two cannot diverge.
         locations += [userLibrary, localLibrary].flatMap { library in
-            Plugins.folders.map {
-                SearchLocation(kind: .plugIns, url: library.appending(path: $0.0, directoryHint: .isDirectory))
+            Plugins.folders.map { folder, _ in
+                SearchLocation(
+                    kind: .plugIns, url: library.appending(path: folder.rawValue, directoryHint: .isDirectory)
+                )
             }
         }
         locations += Self.systemCodeFolders.map {

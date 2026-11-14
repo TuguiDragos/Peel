@@ -44,7 +44,7 @@ In the Library of every account on the Mac and, for the last rows, in the home f
 | `Application Support/MobileSync` | iPhone and iPad backups. |
 | `Application Support/AddressBook`, `Contacts` | Your contacts. |
 | `Application Support/CallHistoryDB` | Your call history. |
-| `Mail`, `Messages` | Your mail and your messages. A Mail plug-in in `Mail/Bundles`, or the copy Mail keeps of it in `Application Support/Mail/Plug-ins/Bundles`, which hold code and no mail, may go. |
+| `Mail`, `Messages` | Your mail and your messages. A Mail plug-in in `Mail/Bundles`, or the copy Mail keeps of it in `Application Support/Mail/Plug-ins/Bundles`, where a plug-in from `/Library/Mail/Bundles` is copied to its own path repeated (`Library/Mail/Bundles`), which hold code and no mail, may go. |
 | `Safari` | Bookmarks, history, reading list. |
 | `Calendars`, `Reminders` | Your calendars and reminders, where older systems kept them. |
 | `Photos` | The library macOS keeps of what people shared with you. |
@@ -729,7 +729,7 @@ your Trash on the startup disk. It is deliberately small: no shell, no arbitrary
   something on the list is refused like the thing itself.
 - It serves a fixed list of folders and refuses everything else: `/Applications`, for whole apps only, never one
   inside another; eight folders of `/Library` (Application Support, Caches, Preferences, Logs, LaunchAgents,
-  LaunchDaemons, PrivilegedHelperTools, and StartupItems) and the 24 that hold plug-ins; the installer receipts in
+  LaunchDaemons, PrivilegedHelperTools, and StartupItems) and the 25 that hold plug-ins; the installer receipts in
   `/private/var/db/receipts`; the links in `/usr/local/bin`, `/usr/local/sbin`, MacPorts' `/opt/local/bin` and
   `/opt/local/sbin`, and the four folders of `/usr/local` that shell completions are linked into; the folders of
   `/Library` browsers read native messaging manifests from; and the Library of the account that asks.

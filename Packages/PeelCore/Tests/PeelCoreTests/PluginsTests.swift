@@ -310,8 +310,27 @@ struct PluginsTests {
         let plugins = await Plugins.scan(environment: environment).plugins.filter { $0.category == .mailBundles }
 
         #expect(Set(plugins.map(\.name)) == ["Public", "Copy"])
+        #expect(plugins.filter(\.isMailsCopy).map(\.name) == ["Copy"])
         #expect(plugins.allSatisfy { $0.refusal == nil })
         #expect(environment.locations.contains { $0.url.path(percentEncoded: false).hasSuffix("Mail/Plug-ins/Bundles/") })
+    }
+
+    @Test func listsTheCopyMailKeepsOfAPlugInForAllUsersWhereMailPutsIt() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("root/Library/Mail/Bundles/Sorter.mailbundle/Contents")
+        try directory.directory(
+            "home/Library/Application Support/Mail/Plug-ins/Bundles/Library/Mail/Bundles/Sorter.mailbundle/Contents"
+        )
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let plugins = await Plugins.scan(environment: environment).plugins.filter { $0.category == .mailBundles }
+
+        #expect(plugins.map(\.name) == ["Sorter", "Sorter"])
+        #expect(plugins.filter(\.isInstalledForAllUsers).count == 1)
+        #expect(plugins.filter(\.isMailsCopy).map(\.isInstalledForAllUsers) == [false])
     }
 
     @Test func offersAMailBundleInTheUsersLibrary() async throws {
@@ -372,7 +391,7 @@ struct PluginsTests {
     @Test func theHelperServesEveryFolderPlugInsAreReadFrom() {
         let served = Set(PrivilegedPathPolicy.systemLocations)
         for (folder, _) in Plugins.folders {
-            #expect(served.contains("/Library/" + folder), "/Library/\(folder) is read and not served")
+            #expect(served.contains("/Library/" + folder.rawValue), "/Library/\(folder.rawValue) is read and not served")
         }
     }
 

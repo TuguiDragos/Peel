@@ -1547,6 +1547,22 @@ struct LeftoverScannerTests {
         #expect(scan.leftovers.first { $0.url.lastPathComponent == "Mailer.mailbundle" }?.match.isRecommended == true)
     }
 
+    @Test func findsTheCopyMailKeepsOfTheAppsMailBundleWhereMailPutsIt() async throws {
+        let directory = try TemporaryDirectory()
+        let app = InstalledApp(
+            url: URL(filePath: "/Applications/Sorter.app"), bundleIdentifier: "org.example.sorter", name: "Sorter"
+        )
+        let copy = "home/Library/Application Support/Mail/Plug-ins/Bundles/Library/Mail/Bundles/Sorter.mailbundle"
+        try directory.file("root/Library/Mail/Bundles/Sorter.mailbundle/Contents/Info.plist", contents: plist("org.example.sorter.mail"))
+        try directory.file(copy + "/Contents/Info.plist", contents: plist("org.example.sorter.mail"))
+
+        let scan = await LeftoverScanner(environment: environment(in: directory)).scan(app, installedApps: [app])
+
+        let found = scan.leftovers.filter { $0.url.lastPathComponent == "Sorter.mailbundle" }
+        #expect(found.count == 2, "\(scan.leftovers.map(\.url))")
+        #expect(found.allSatisfy { $0.match.isRecommended })
+    }
+
     /// A plug-in is named for what it does, so when its name matches nothing, the identifier in its `Info.plist`
     /// is used instead. A match on the maker's prefix is only a guess, so the row is shown but never selected.
     @Test func readsThePlugInsOwnIdentifierWhenItsNameSaysNothing() async throws {

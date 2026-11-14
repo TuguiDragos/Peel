@@ -31,10 +31,7 @@ struct PluginList: View {
                                 VStack(alignment: .leading, spacing: 1) {
                                     Text(verbatim: plugin.name)
                                         .lineLimit(1)
-                                    let details = [
-                                        plugin.version,
-                                        forAllUsers.contains(plugin.id) ? String(localized: "All users") : nil,
-                                    ].compactMap(\.self)
+                                    let details = plugin.details(forAllUsers: forAllUsers)
                                     if !details.isEmpty {
                                         Text(verbatim: details.joined(separator: " · "))
                                             .font(.caption)
@@ -133,6 +130,16 @@ extension Plugin {
         [name, url.deletingPathExtension().lastPathComponent, bundleIdentifier].contains {
             $0.map { SearchText.matches($0, text) } == true
         }
+    }
+
+    /// What its row says under its name: the version, then All users or Mail's copy for a plug-in whose row would
+    /// otherwise read like another's.
+    func details(forAllUsers: Set<Plugin.ID>) -> [String] {
+        [
+            version,
+            forAllUsers.contains(id) ? String(localized: "All users") : nil,
+            isMailsCopy ? String(localized: "Mail’s copy") : nil,
+        ].compactMap(\.self)
     }
 
     /// The copies for all users of the plug-ins installed in both Libraries, whose rows would otherwise read alike.

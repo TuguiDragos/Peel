@@ -40,6 +40,9 @@ public enum LibraryFolder: String, CaseIterable, Sendable {
     case mailBundles = "Mail/Bundles"
     /// The copy Mail keeps of each plug-in that is on, in the one folder of plug-ins its own program names.
     case mailPlugInCopies = "Application Support/Mail/Plug-ins/Bundles"
+    /// Mail's copy of a plug-in from the Mac's own `Mail/Bundles`, at that plug-in's path repeated under its copies,
+    /// as the maker of one saw it (MailTrackerBlocker, issue 27 on GitHub).
+    case mailCopiesOfTheMacsPlugIns = "Application Support/Mail/Plug-ins/Bundles/Library/Mail/Bundles"
     /// Avid's "Where is the Plug-Ins folder for Pro Tools located?" (kb.avid.com).
     case aax = "Application Support/Avid/Audio/Plug-Ins"
     /// MOTU's "What differences are there between MAS and AU plug-ins in Digital Performer?".
@@ -57,9 +60,13 @@ public enum LibraryFolder: String, CaseIterable, Sendable {
     public static let plugIns: [LibraryFolder] = [
         .audioUnits, .audioDrivers, .vst, .vst3, .clap, .midiDrivers, .cameraPlugIns, .internetPlugIns,
         .preferencePanes, .quickLook, .screenSavers, .spotlight, .services, .inputMethods, .colorPickers,
-        .contextualMenuItems, .mailBundles, .mailPlugInCopies, .aax, .mas, .imageUnits, .dictionaries,
-        .automatorActions, .contactsPlugIns,
+        .contextualMenuItems, .mailBundles, .mailPlugInCopies, .mailCopiesOfTheMacsPlugIns, .aax, .mas, .imageUnits,
+        .dictionaries, .automatorActions, .contactsPlugIns,
     ]
+
+    public var holdsMailsCopies: Bool {
+        self == .mailPlugInCopies || self == .mailCopiesOfTheMacsPlugIns
+    }
 
     /// The folders searched in the home's Library, besides the plug-in folders.
     public static let user: [LibraryFolder] = [

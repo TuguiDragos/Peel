@@ -43,6 +43,7 @@ public struct Plugin: Sendable, Hashable, Identifiable {
     /// True when, moved through Peel's helper, it could not come back from History: code is loaded from its folder,
     /// and it isn't root's alone (the helper's `.loadsCode`).
     public var staysInTheTrash = false
+    public var isMailsCopy = false
 
     /// The app the plug-in came with, as Orphaned Files tells it.
     public enum Origin: Sendable, Hashable {
@@ -102,7 +103,7 @@ extension Plugin.Category {
         case .inputMethods: self = .inputMethods
         case .colorPickers: self = .colorPickers
         case .contextualMenuItems: self = .contextualMenuItems
-        case .mailBundles, .mailPlugInCopies: self = .mailBundles
+        case .mailBundles, .mailPlugInCopies, .mailCopiesOfTheMacsPlugIns: self = .mailBundles
         case .aax: self = .aax
         case .mas: self = .mas
         case .imageUnits: self = .imageUnits
@@ -131,7 +132,7 @@ public enum Plugins {
     /// The folders in each Library that macOS loads plug-ins from, with what each holds. `SearchEnvironment` reuses
     /// this table, so the uninstall and Orphaned Files search these folders.
     static let folders = LibraryFolder.plugIns.compactMap { folder in
-        Plugin.Category(folder).map { (folder.rawValue, $0) }
+        Plugin.Category(folder).map { (folder: folder, category: $0) }
     }
 
     /// The folders of plug-ins music apps and other hosts load on their own, in the home's Library and the Mac's,
@@ -141,7 +142,7 @@ public enum Plugins {
         private let places: [[String]]
 
         init(environment: SearchEnvironment) {
-            let names = Plugins.folders.filter { $0.1.isLoadedByOtherApps }.map(\.0)
+            let names = Plugins.folders.filter { $0.category.isLoadedByOtherApps }.map(\.folder.rawValue)
             places = [environment.homeDirectory, environment.rootDirectory].flatMap { base in
                 names.map { PathComponents.of(PathPattern.comparablePath(of: base.appending(path: "Library/\($0)"))) }
             }
@@ -249,6 +250,7 @@ public enum Plugins {
             )
             plugin.staysInTheTrash = requiresPrivileges
                 && reach.refusal(ofPuttingBack: item.url, at: item.url) == .loadsCode
+            plugin.isMailsCopy = item.isMailsCopy
             plugin.noLongerLoaded = noLongerLoaded(item.url, category: item.category)
             plugin.origin = origin(
                 of: item.url, identifier: plugin.bundleIdentifier, claimants: claimants, goneApps: goneApps
@@ -292,21 +294,21 @@ public enum Plugins {
 
     private static let webKitPlugInType = "WBPL".utf8.reduce(UInt32(0)) { $0 << 8 | UInt32($1) }
 
-    /// The plug-ins in the user's Library and the Mac's, each with its kind and whether it is there for every account.
-    /// A folder that is there and can't be listed joins `unreadable`.
+    /// The plug-ins in the user's Library and the Mac's, each with its kind, whether it is there for every account,
+    /// and whether it is the copy Mail keeps of one. A folder that is there and can't be listed joins `unreadable`.
     static func installed(
         in environment: SearchEnvironment, unreadable: inout [URL]
-    ) -> [(url: URL, category: Plugin.Category, isForAllUsers: Bool)] {
+    ) -> [(url: URL, category: Plugin.Category, isForAllUsers: Bool, isMailsCopy: Bool)] {
         let libraries = [
             (environment.homeDirectory.appending(path: "Library", directoryHint: .isDirectory), false),
             (environment.rootDirectory.appending(path: "Library", directoryHint: .isDirectory), true),
         ]
-        var found: [(url: URL, category: Plugin.Category, isForAllUsers: Bool)] = []
+        var found: [(url: URL, category: Plugin.Category, isForAllUsers: Bool, isMailsCopy: Bool)] = []
         for (library, isForAllUsers) in libraries {
             for (folder, category) in folders {
-                let directory = library.appending(path: folder, directoryHint: .isDirectory)
+                let directory = library.appending(path: folder.rawValue, directoryHint: .isDirectory)
                 for url in bundles(in: directory, category: category, unreadable: &unreadable) where !Task.isCancelled {
-                    found.append((url, category, isForAllUsers))
+                    found.append((url, category, isForAllUsers, folder.holdsMailsCopies))
                 }
             }
         }

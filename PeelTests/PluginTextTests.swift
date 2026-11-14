@@ -29,6 +29,19 @@ struct PluginTextTests {
         #expect(Plugin.sayingForAllUsers([mine, everyones, alone]) == [everyones.id])
     }
 
+    @Test func tellsTheCopyMailKeepsOfAPlugIn() {
+        let path = "/Users/org.example/Library/Application Support/Mail/Plug-ins/Bundles/Library/Mail/Bundles/"
+        var copy = plugin(path + "Sorter.mailbundle", name: "Sorter", category: .mailBundles)
+        copy.isMailsCopy = true
+        let everyones = plugin(
+            "/Library/Mail/Bundles/Sorter.mailbundle", name: "Sorter", forAllUsers: true, category: .mailBundles
+        )
+        let forAllUsers = Plugin.sayingForAllUsers([copy, everyones])
+
+        #expect(copy.details(forAllUsers: forAllUsers) == [String(localized: "Mail’s copy")])
+        #expect(everyones.details(forAllUsers: forAllUsers) == [String(localized: "All users")])
+    }
+
     @Test func saysNothingLoadsADriverInTheHomesLibrary() {
         let inTheHome = "macOS loads plug-ins like this one only from /Library, so nothing loads this one and moving it changes nothing."
         let audio = plugin(
