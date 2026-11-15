@@ -98,6 +98,20 @@ private struct StandInBrew {
         #expect(homebrew.exclusionRefusal(of: package)?.key == "Exclusions can’t be read: see Settings")
     }
 
+    @Test func aFormulaWhoseDependencyIsExcludedCanStillBeUninstalled() async throws {
+        let installed = #"{"formulae":[{"name":"tool","installed":[{"version":"1.0","installed_on_request":true}],"versions":{"stable":"1.0"},"outdated":false,"dependencies":["dep"]},{"name":"dep","installed":[{"version":"1.0","installed_on_request":false}],"versions":{"stable":"2.0"},"outdated":true,"dependencies":[]}],"casks":[]}"#
+        let brew = try StandInBrew(info: "echo '\(installed)'")
+        defer { brew.goAway() }
+        let dep = brew.folder.appending(path: "Cellar/dep", directoryHint: .isDirectory)
+        let homebrew = HomebrewLibrary(exclusions: { Exclusions(paths: [dep]) })
+
+        await Homebrew.$standIn.withValue(brew.url) { await homebrew.refresh() }
+        let tool = try #require(homebrew.packages?.first { $0.name == "tool" })
+
+        #expect(homebrew.upgradeRefusal(of: tool) != nil)
+        #expect(HomebrewDetailView.uninstallRefusal(of: tool, homebrew: homebrew, extensions: .known(nil)) == nil)
+    }
+
     @Test func forgetLeavesACaskTheExclusionsKeep() {
         let kept = HomebrewPackage(name: "kept", kind: .cask, appTargets: ["/Applications/Kept.app"])
         let gone = HomebrewPackage(name: "gone", kind: .cask, appTargets: ["/Applications/Gone.app"])

@@ -467,10 +467,20 @@ struct HomebrewDetailView: View {
         let apps = library.apps(of: package)
         // Homebrew deletes the app, so an app its own page never removes is never uninstalled from here either.
         if let removedElsewhere = apps.lazy.compactMap(\.removedElsewhere).first { return removedElsewhere.explanation }
-        switch Self.extensionsStanding(of: apps, answer: extensionsAnswer) {
-        case .waiting: return "Checking…"
-        case .known(let removedElsewhere?): return removedElsewhere.explanation
-        case .known(nil): return upgradeRefusal
+        return Self.uninstallRefusal(
+            of: package, homebrew: homebrew, extensions: Self.extensionsStanding(of: apps, answer: extensionsAnswer)
+        )
+    }
+
+    /// Why `package` can't be uninstalled from here once what its apps carry is known. Only its own exclusion keeps
+    /// it: an uninstall upgrades nothing with it.
+    static func uninstallRefusal(
+        of package: HomebrewPackage, homebrew: HomebrewLibrary, extensions: ExtensionsStanding
+    ) -> LocalizedStringResource? {
+        switch extensions {
+        case .waiting: "Checking…"
+        case .known(let removedElsewhere?): removedElsewhere.explanation
+        case .known(nil): homebrew.exclusionRefusal(of: package)
         }
     }
 
