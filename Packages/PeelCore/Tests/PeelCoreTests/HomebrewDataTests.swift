@@ -58,6 +58,16 @@ import Testing
         ])
     }
 
+    @Test func readsAFolderAtTheEndOfASentenceWithoutItsPunctuation() {
+        let caveats = """
+              Its data is in #{var}/zdep. Logs go to #{var}/log/zdep, and the cache to (#{var}/zcache).
+              DocumentRoot is #{var}/www.
+              Settings are in #{var}/conf.d: edit them there.
+            """
+
+        #expect(HomebrewData.names(in: caveats, formula: "zdep") == ["zdep", "log", "zcache", "www", "conf.d"])
+    }
+
     @Test func knowsNoFolderUnnamedWhileAFormulaLeavesVarToItsProgram() throws {
         #expect(HomebrewData.names(in: Self.mariadb, formula: "mariadb") == nil)
         #expect(HomebrewData.names(in: Self.redis, formula: "redis") == nil)

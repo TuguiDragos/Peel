@@ -96,10 +96,11 @@ enum HomebrewData {
     }
 
     /// How a formula names a folder under `var`, each with the name it gives: `var/"x"`, `var/'x'`, `var/name`;
-    /// `#{var}/x` or `#{var}/#{name}` inside a string; and an install step with `base: :var`.
+    /// `#{var}/x` or `#{var}/#{name}` inside a string, where the name may be followed by a sentence's punctuation;
+    /// and an install step with `base: :var`.
     private static let readableForms = [
         ##"var\s*/\s*(?:"([^"#/]+)|'([^'/]+)|("#\{name\}|name\b))"##,
-        ##"#\{var\}/(?:(#\{name\})|([^/"'\s#}\\]+))"##,
+        ##"#\{var\}/(?:(#\{name\})|([^/"'\s#}\\]*[^/"'\s#}\\.,;:!?()]))"##,
         ##"\b(?:init_data_dir|mkdir_p|mkdir|touch)\s*\(?\s*(?:"([^"#/]+)[^"\n]*"|(formula_name|name)\b)[^\n]*?\bbase:\s*:var\b"##,
     ]
 }
