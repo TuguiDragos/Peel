@@ -395,13 +395,22 @@ public enum BackgroundItems {
                     settled[row].stateNotKnown = .whichFileNotSaid
                     continue
                 }
-                if let plist = items[row].plistURL, PathPattern.comparablePath(of: plist) != path {
+                if let plist = items[row].plistURL, PathPattern.comparablePath(of: plist) != path,
+                   !isTheSameFile(plist, path) {
                     settled[row].state = .notLoaded
                     settled[row].anotherFileIsLoaded = true
                 }
             }
         }
         return settled
+    }
+
+    /// launchd names the file a link leads to, so a job file that is a link is matched by what it leads to.
+    private static func isTheSameFile(_ plist: URL, _ path: String) -> Bool {
+        var linked = stat()
+        var loaded = stat()
+        return stat(plist.path(percentEncoded: false), &linked) == 0 && stat(path, &loaded) == 0
+            && linked.st_dev == loaded.st_dev && linked.st_ino == loaded.st_ino
     }
 
     /// A job file launchd can't load, named by its file since it declares no label that can be read.

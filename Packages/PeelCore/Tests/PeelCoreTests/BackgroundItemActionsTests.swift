@@ -1023,6 +1023,27 @@ struct DeclaredBackgroundItemsTests {
         #expect(unknown.allSatisfy { $0.stateNotKnown == .whichFileNotSaid })
     }
 
+    @Test func aJobFileThatIsALinkIsTheFileLaunchdLoadedThroughIt() async throws {
+        let directory = try TemporaryDirectory()
+        let real = try directory.file("root/opt/local/etc/org.example.daemon.plist", contents: job("org.example.daemon"))
+        try directory.directory("home/Library/LaunchAgents")
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "home/Library/LaunchAgents/org.example.daemon.plist"),
+            withDestinationURL: real
+        )
+        let loaded = BackgroundItems.Loaded(user: ["org.example.daemon": 42])
+        let items = BackgroundItems.declared(
+            in: environment(directory), ownership: BackgroundItemOwnership(installedApps: []), loaded: loaded
+        )
+
+        let settled = await BackgroundItems.settlingWhereJobsLoadFrom(items) { _ in real.path(percentEncoded: false) }
+
+        let row = try #require(settled.first)
+        #expect(row.state == .running(pid: 42))
+        #expect(!row.anotherFileIsLoaded)
+        #expect(BackgroundItems.undeclared(in: loaded, declared: settled, uid: 501).isEmpty)
+    }
+
     @Test func aFileBesideAJobAnAppGaveLaunchdUnderItsNameIsNotThatJob() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/LaunchAgents/org.example.helper.plist", contents: job("org.example.helper"))
