@@ -88,6 +88,7 @@ struct ShellReferencesTests {
         "export XDG_CONFIG_HOME=\"$HOME/.config\"\nexport ZDOTDIR=\"$XDG_CONFIG_HOME/zsh\"\n",
         "export ZDOTDIR=\"$XDG_CONFIG_HOME/zsh\"\n",
         "if [ -d \"$HOME/.config/zsh\" ]; then\n  export ZDOTDIR=\"$HOME/.config/zsh\"\nfi\n",
+        "[[ -d \"$HOME/.config/zsh\" ]] && export ZDOTDIR=\"$HOME/.config/zsh\"\n",
     ])
     func findsTheZshrcAFolderTheTextCantSettleMayHold(zshenv: String) async throws {
         let directory = try TemporaryDirectory()

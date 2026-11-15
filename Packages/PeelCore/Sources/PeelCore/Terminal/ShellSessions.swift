@@ -143,7 +143,10 @@ public enum ShellSessions: Sendable, Equatable {
                 } else {
                     named.isSettled = false
                     let defaults = known.merging(xdgDefaults(home: home)) { set, _ in set }
-                    if let value, let folder = plainFolder(value, home: home, environment: defaults) {
+                    // Given after a condition on the same line, as `[[ -d … ]] && export ZDOTDIR=…`, it may hold too.
+                    let assigned = value
+                        ?? code.firstMatch(of: /(?:^|[\s;&|])ZDOTDIR=/).map { code[$0.range.upperBound...] }
+                    if let assigned, let folder = plainFolder(assigned, home: home, environment: defaults) {
                         named.candidates.append(folder)
                     }
                 }
