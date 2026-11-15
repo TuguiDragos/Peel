@@ -197,7 +197,9 @@ struct HomebrewDetailView: View {
                         }
                         .disabled(uninstallRefusal != nil)
                     }
-                    stateAndUpgrade
+                    upgradeButton
+                } notes: {
+                    notes
                 }
                 .disabled(
                     homebrew.runningCommand != nil || homebrew.isForgetting || homebrew.quittingToUpgrade.isWaiting
@@ -257,18 +259,35 @@ struct HomebrewDetailView: View {
         }
     }
 
-    /// What is under way or in the way, and the step that brings the package up to date.
-    private var stateAndUpgrade: some View {
-        HStack {
-            if let underWay {
+    /// What is under way, or why Uninstall or Upgrade is off, each said once.
+    @ViewBuilder
+    private var notes: some View {
+        if let underWay {
+            HStack {
                 ProgressView()
                     .controlSize(.small)
                 Text(underWay)
                     .foregroundStyle(.secondary)
-            } else if let uninstallRefusal {
-                Label { Text(uninstallRefusal) } icon: { Image(systemName: "hand.raised.fill") }
+            }
+        } else {
+            ForEach(Array(refusals.enumerated()), id: \.offset) { _, refusal in
+                Label { Text(refusal) } icon: { Image(systemName: "hand.raised.fill") }
                     .foregroundStyle(.secondary)
             }
+        }
+    }
+
+    private var refusals: [LocalizedStringResource] {
+        var refusals: [LocalizedStringResource] = []
+        if !isUninstalledInTerminal, let uninstallRefusal { refusals.append(uninstallRefusal) }
+        let offersUpgrade = !package.isMissingWhatItInstalled && package.waitsForAnUpgrade && !package.isPeelItself
+        if offersUpgrade, let upgradeRefusal, !refusals.contains(upgradeRefusal) { refusals.append(upgradeRefusal) }
+        return refusals
+    }
+
+    /// The step that brings the package up to date.
+    private var upgradeButton: some View {
+        HStack {
             if package.isMissingWhatItInstalled {
                 Button("Forget Cask") { casksToForget = [package] }
                     .buttonStyle(.borderedProminent)

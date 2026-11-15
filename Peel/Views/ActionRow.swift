@@ -45,14 +45,25 @@ extension View {
 
 /// The buttons of a page, under its last group and outside any box, as System Settings has them under a list of
 /// accounts. An action that concerns one row stays at that row's right end.
-struct PageActions<Buttons: View>: View {
+/// What is under way, or why a button is off, goes on a line of its own under them.
+struct PageActions<Buttons: View, Notes: View>: View {
     @ViewBuilder let buttons: Buttons
+    @ViewBuilder let notes: Notes
 
     var body: some View {
         // A grouped form keeps the box around a section's rows whatever their background, and none around a footer.
         Section {
         } footer: {
-            ActionRow { buttons }
+            VStack(alignment: .trailing, spacing: 6) {
+                ActionRow { buttons }
+                notes
+            }
         }
+    }
+}
+
+extension PageActions where Notes == EmptyView {
+    init(@ViewBuilder buttons: () -> Buttons) {
+        self.init(buttons: buttons) { EmptyView() }
     }
 }
