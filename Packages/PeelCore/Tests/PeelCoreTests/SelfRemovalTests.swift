@@ -71,14 +71,15 @@ struct SelfRemovalTests {
     private func steps(
         _ log: StepLog,
         in directory: borrowing TemporaryDirectory,
-        helperMayBeChanged: Bool = true
+        helperMayBeChanged: Bool = true,
+        ledgerMove: PrivilegedHelper.LedgerMove = .moved
     ) -> SelfRemoval.Steps {
         SelfRemoval.Steps(
             helperIsRegistered: { await log.helperIsRegistered },
             helperIsEnabled: { await log.helperIsRegistered },
             helperMayBeChanged: { helperMayBeChanged },
             helperAnswers: { true },
-            moveLedger: { await log.note("move ledger"); return .moved },
+            moveLedger: { await log.note("move ledger"); return ledgerMove },
             ledger: directory.url.appending(path: "root/var/db/org.example.helper", directoryHint: .isDirectory),
             uninstallHelper: { await log.uninstallHelper() },
             pauseWork: { await log.note("pause") },
@@ -156,6 +157,26 @@ struct SelfRemovalTests {
         }
         #expect(stayed == [TrashFailure(url: ledger, reason: .failed(PrivilegedHelper.leftBehind))])
         #expect(ledger.isThere)
+    }
+
+    @Test func whatTheHelperDidNotTakeBeforeItWentSaysHowToRemoveIt() async throws {
+        let directory = try TemporaryDirectory()
+        let log = StepLog(helperIsRegistered: true)
+        let app = try directory.directory("home/Applications/Peel.app")
+        let folder = try directory.directory("home/Library/Application Support/Peel")
+        let ledger = try directory.directory("root/var/db/org.example.helper")
+        let unanswered = TrashFailure(url: ledger, reason: .failed(PrivilegedHelper.unavailable))
+
+        let outcome = await SelfRemoval.remove(
+            [app], links: [], app: app, folder: folder,
+            steps: steps(log, in: directory, ledgerMove: .stayed(unanswered)), using: try service(in: directory)
+        ) { _ in }
+
+        guard case .moved(_, let stayed, _) = outcome else {
+            Issue.record("Peel stayed: \(outcome)")
+            return
+        }
+        #expect(stayed == [TrashFailure(url: ledger, reason: .failed(PrivilegedHelper.leftBehind))])
     }
 
     @Test func anAccountThatCannotChangeTheHelperLeavesPeelAsItWas() async throws {
