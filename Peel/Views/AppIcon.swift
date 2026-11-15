@@ -1,7 +1,6 @@
 import AppKit
 import PeelCore
 import SwiftUI
-import Synchronization
 import UniformTypeIdentifiers
 
 /// An app's or a file's own icon. Smart Invert leaves it as it is, as it leaves photos, because it shows the
@@ -73,92 +72,57 @@ final class IconArrivals {
     }
 }
 
-/// The icons rows draw. `NSWorkspace.icon(forFile:)` doesn't promise to cache and builds a new image each
-/// time, and rows ask for icons in `body`, on the main thread, so a list scrolled quickly would build the same
-/// icons again and again. `NSCache` holds them and lets them go when memory is short. Apps are held apart from
-/// files, so a long list of files never pushes the apps' icons out.
+/// The icons rows draw, so a list scrolled quickly doesn't build them again. An app's icon is read from its bundle,
+/// which can be on a disk that doesn't answer, so it is built away from the main thread and the row shows `anyApp`
+/// until it arrives. A file's icon is built in its row, so `NSCache` may let it go.
 enum IconCache {
+    /// `AppInspector` asks IconServices only about an app Launch Services knows.
+    nonisolated private static let apps = AppIconStore(
+        make: { AppInspector.icon(ofAppAt: $0) }, arrived: { IconArrivals.shared.arrived() }
+    )
     /// "You can add, remove, and query items in the cache from different threads" (`NSCache.h`).
-    nonisolated(unsafe) private static let apps = cache()
-    nonisolated(unsafe) private static let files = cache()
-    /// Counts the times every icon was let go, so an icon built before one is never kept after it.
-    nonisolated private static let forgotten = Mutex(0)
-
-    nonisolated private static func cache() -> NSCache<NSString, NSImage> {
+    nonisolated(unsafe) private static let files: NSCache<NSString, NSImage> = {
         let cache = NSCache<NSString, NSImage>()
         cache.countLimit = 512
         return cache
-    }
-
-    nonisolated private static func images(for url: URL) -> NSCache<NSString, NSImage> {
-        url.isNamedAsAnApp ? apps : files
-    }
-
-    /// An app's icon is asked of `AppInspector`, which asks IconServices only about an app Launch Services knows.
-    nonisolated private static func image(for url: URL) -> NSImage {
-        url.isNamedAsAnApp
-            ? AppInspector.icon(ofAppAt: url) : NSWorkspace.shared.icon(forFile: url.path(percentEncoded: false))
-    }
+    }()
 
     /// What a row shows for an app until its own icon is built.
     @MainActor static let anyApp = NSWorkspace.shared.icon(for: .applicationBundle)
-    @MainActor private static var building: Set<String> = []
 
-    /// An app's own icon is read from its bundle, which can be on a disk that doesn't answer, so one not built yet is
-    /// built away from the main thread, and the row shows `anyApp` until it arrives.
     @MainActor
     static func icon(for url: URL) -> NSImage {
         _ = IconStyle.shared.revision
-        _ = IconArrivals.shared.count
-        let path = url.path(percentEncoded: false)
-        if let image = images(for: url).object(forKey: path as NSString) { return image }
         guard url.isNamedAsAnApp else {
-            let image = image(for: url)
-            images(for: url).setObject(image, forKey: path as NSString)
+            let path = url.path(percentEncoded: false)
+            if let image = files.object(forKey: path as NSString) { return image }
+            let image = NSWorkspace.shared.icon(forFile: path)
+            files.setObject(image, forKey: path as NSString)
             return image
         }
-        if building.insert(path).inserted {
-            Task {
-                await warm([url])
-                building.remove(path)
-                IconArrivals.shared.arrived()
-            }
-        }
-        return anyApp
+        _ = IconArrivals.shared.count
+        return apps.icon(for: url) ?? anyApp
     }
 
-    /// Builds the icons not held yet away from the main thread, so a list finds them ready when it first
-    /// scrolls. `icon(forFile:)` may be called from any thread (its documentation).
+    /// Builds the icons a list shows before it scrolls, and keeps them until they are forgotten.
     @concurrent
     static func warm(_ urls: [URL]) async {
-        let generation = forgotten.withLock { $0 }
-        for url in urls {
-            let path = url.path(percentEncoded: false)
-            guard images(for: url).object(forKey: path as NSString) == nil else { continue }
-            let image = image(for: url)
-            let isCurrent = forgotten.withLock { forgotten in
-                guard forgotten == generation else { return false }
-                images(for: url).setObject(image, forKey: path as NSString)
-                return true
-            }
-            guard isCurrent else { return }
-        }
+        await apps.keep(urls.filter(\.isNamedAsAnApp))
     }
 
     @MainActor
     static func forgetAll() {
-        forgotten.withLock { forgotten in
-            forgotten += 1
-            apps.removeAllObjects()
-            files.removeAllObjects()
-        }
+        apps.forgetAll()
+        files.removeAllObjects()
     }
 
     /// Icons are held by path, so once what was at a path is removed or replaced, its icon is let go.
     @MainActor
     static func forget(_ urls: some Sequence<URL>) {
-        for url in urls {
-            images(for: url).removeObject(forKey: url.path(percentEncoded: false) as NSString)
+        let urls = Array(urls)
+        apps.forget(urls)
+        for url in urls where !url.isNamedAsAnApp {
+            files.removeObject(forKey: url.path(percentEncoded: false) as NSString)
         }
     }
 }
