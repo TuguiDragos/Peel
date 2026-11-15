@@ -48,6 +48,12 @@ struct OrphanList: View {
                     .padding(.vertical, 6)
                     .listRowSeparator(.hidden)
             }
+            if let scan = orphans.scan {
+                SkippedFolderNotices(
+                    crowded: scan.crowdedFolders, cutShort: scan.cutShortLocations.map(\.url), subject: .orphans
+                )
+                .padding(.vertical, 6)
+            }
             if !forAnAdministrator.isEmpty {
                 AdministratorRow(items: forAnAdministrator)
                     .tag(OrphanPage.forAnAdministrator)
@@ -117,19 +123,6 @@ struct OrphanList: View {
             } else {
                 ContentUnavailableView.search(text: searchText)
             }
-        }
-        .edgeBar(.bottom) {
-            Group {
-                if let cutShort = orphans.scan?.cutShortLocations, !cutShort.isEmpty {
-                    Text("There are more folders in \(cutShort.map(\.url.abbreviatedPath).formatted(.list(type: .and))) than Peel looks inside, so an orphaned file may be in a folder Peel didn’t reach.")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .padding(.horizontal, 12)
-                        .padding(.bottom, 8)
-                        .transition(.opacity)
-                }
-            }
-            .motion(.settle, .movement, value: orphans.scan?.cutShortLocations.isEmpty == false)
         }
         .columnSearch(text: $searchText, prompt: "Search Orphaned Files", when: orphans.scan != nil && !listsNothing)
         .fadesInColumn(whenRowsChange: orphans.pages)

@@ -747,6 +747,54 @@ struct LeftoverScannerTests {
 
     /// A vendor's folder the deep search cannot look into may hold the app's files, so the scan says it could not
     /// read it rather than passing over it as if it held nothing.
+    @Test func readsNoFolderWithMoreEntriesThanAScanReads() async throws {
+        let directory = try TemporaryDirectory()
+        let crowded = try directory.directory("home/.cache/crowded")
+        for number in 0...ScanReads.entryLimit {
+            FileManager.default.createFile(atPath: crowded.appending(path: "\(number)").path(percentEncoded: false), contents: nil)
+        }
+        let read = ScanCount()
+
+        let scan = await ScanCount.$current.withValue(read) {
+            await LeftoverScanner(environment: environment(in: directory)).scan(tunewell, installedApps: [tunewell])
+        }
+
+        #expect(read.value < ScanReads.entryLimit, "the scan read every name in the folder")
+        #expect(scan.crowdedFolders.map(\.url.lastPathComponent) == ["crowded"])
+        #expect(scan.crowdedFolders.map(\.entries) == [ScanReads.entryLimit + 1])
+    }
+
+    @Test func namesTheFolderWhoseFoldersItDidNotAllReach() async throws {
+        let directory = try TemporaryDirectory()
+        for index in 0..<6 {
+            try directory.directory("home/Library/Caches/SomeVendor/Part \(index)")
+        }
+
+        let byFolders = await LeftoverScanner(
+            environment: environment(in: directory), measure: LeftoverScanner.walk, nestedFolderLimit: 3
+        ).scan(tunewell, installedApps: [tunewell])
+        let byEntries = await LeftoverScanner(
+            environment: environment(in: directory), measure: LeftoverScanner.walk, nestedEntryLimit: 4
+        ).scan(tunewell, installedApps: [tunewell])
+
+        #expect(byFolders.cutShortLocations.map(\.url.lastPathComponent) == ["SomeVendor"])
+        #expect(byEntries.cutShortLocations.map(\.url.lastPathComponent) == ["SomeVendor"])
+    }
+
+    @Test(.permissionsHold) func leavesOutWhatHoldsNoneOfTheAppsFilesWhereItCannotLook() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/SomeVendor/Helper.app/Contents/Info.plist")
+        try directory.file("home/Library/Caches/com.example.updater/506/state")
+        let closed = ["home/Library/Application Support/SomeVendor/Helper.app", "home/Library/Caches/com.example.updater/506"]
+        for folder in closed { try directory.setPermissions(0o000, of: folder) }
+        defer { for folder in closed { try? directory.setPermissions(0o755, of: folder) } }
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        #expect(scan.unreadableLocations.isEmpty)
+    }
+
     @Test(.permissionsHold) func reportsAFolderTheDeepSearchCannotLookInto() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Application Support/Vendor/Tunewell/state.db")

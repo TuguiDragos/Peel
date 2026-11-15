@@ -409,8 +409,9 @@ extension Leftover {
 public struct LeftoverScan: Sendable {
     public let leftovers: [Leftover]
     public let unreadableLocations: [SearchLocation]
-    /// Locations where the search inside other folders hit its limit, so some of the app's files may be missed.
+    /// The folders whose folders the search inside other folders did not all reach, at its limit.
     public var cutShortLocations: [SearchLocation] = []
+    public var crowdedFolders: [CrowdedFolder] = []
     /// True when macOS's privacy protection, not ordinary permissions, kept Peel out of one of `unreadableLocations`,
     /// so Full Disk Access would open it.
     public var needsFullDiskAccess = false
@@ -428,6 +429,7 @@ public struct LeftoverScan: Sendable {
             },
             unreadableLocations: unreadableLocations,
             cutShortLocations: cutShortLocations,
+            crowdedFolders: crowdedFolders,
             needsFullDiskAccess: needsFullDiskAccess
         )
     }
@@ -456,6 +458,7 @@ public struct LeftoverScan: Sendable {
             },
             unreadableLocations: unreadableLocations,
             cutShortLocations: cutShortLocations,
+            crowdedFolders: crowdedFolders,
             needsFullDiskAccess: needsFullDiskAccess
         )
     }
@@ -471,6 +474,7 @@ public struct LeftoverScan: Sendable {
             },
             unreadableLocations: unreadableLocations,
             cutShortLocations: cutShortLocations,
+            crowdedFolders: crowdedFolders,
             needsFullDiskAccess: needsFullDiskAccess
         )
     }
@@ -480,6 +484,7 @@ public struct LeftoverScan: Sendable {
             leftovers: leftovers.map { SignInPlugIns.isOne($0.url, root: root) ? $0.heldBack(.signInPlugIn) : $0 },
             unreadableLocations: unreadableLocations,
             cutShortLocations: cutShortLocations,
+            crowdedFolders: crowdedFolders,
             needsFullDiskAccess: needsFullDiskAccess
         )
     }
@@ -493,6 +498,7 @@ public struct LeftoverScan: Sendable {
             },
             unreadableLocations: unreadableLocations,
             cutShortLocations: cutShortLocations,
+            crowdedFolders: crowdedFolders,
             needsFullDiskAccess: needsFullDiskAccess
         )
     }
@@ -502,6 +508,7 @@ public struct LeftoverScan: Sendable {
             leftovers: leftovers.map { leftover in app.holdBack(for: leftover.url).map(leftover.heldBack) ?? leftover },
             unreadableLocations: unreadableLocations,
             cutShortLocations: cutShortLocations,
+            crowdedFolders: crowdedFolders,
             needsFullDiskAccess: needsFullDiskAccess
         )
     }
@@ -544,6 +551,7 @@ public struct LeftoverScan: Sendable {
             leftovers: split.sorted(by: Leftover.comesBefore),
             unreadableLocations: unreadableLocations,
             cutShortLocations: cutShortLocations,
+            crowdedFolders: crowdedFolders,
             needsFullDiskAccess: needsFullDiskAccess
         )
     }
@@ -558,6 +566,7 @@ public struct LeftoverScan: Sendable {
             leftovers: merged.sorted(by: Leftover.comesBefore),
             unreadableLocations: unreadableLocations,
             cutShortLocations: cutShortLocations,
+            crowdedFolders: crowdedFolders,
             needsFullDiskAccess: needsFullDiskAccess
         )
     }

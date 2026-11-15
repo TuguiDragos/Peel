@@ -157,6 +157,7 @@ struct LeftoversCommand: AsyncParsableCommand {
         let unreadableLocations: [String]
         let needsFullDiskAccess: Bool
         let cutShortLocations: [String]
+        let notLookedInside: [Output.CrowdedRecord]
         /// Why `peel uninstall` would leave the app itself where it is, or `null` when it would move it. While the app
         /// stays, none of its files moves.
         let appStays: String?
@@ -171,6 +172,7 @@ struct LeftoversCommand: AsyncParsableCommand {
             unreadableLocations = scan.unreadableLocations.map { Output.path($0.url) }
             needsFullDiskAccess = scan.needsFullDiskAccess
             cutShortLocations = scan.cutShortLocations.map { Output.path($0.url) }
+            notLookedInside = scan.crowdedFolders.map(Output.CrowdedRecord.init)
             self.appStays = appStays
         }
 
@@ -182,6 +184,7 @@ struct LeftoversCommand: AsyncParsableCommand {
             case unreadableLocations
             case needsFullDiskAccess
             case cutShortLocations
+            case notLookedInside
             case appStays
         }
 
@@ -194,6 +197,7 @@ struct LeftoversCommand: AsyncParsableCommand {
             try container.encode(unreadableLocations, forKey: .unreadableLocations)
             try container.encode(needsFullDiskAccess, forKey: .needsFullDiskAccess)
             try container.encode(cutShortLocations, forKey: .cutShortLocations)
+            try container.encode(notLookedInside, forKey: .notLookedInside)
             try container.encode(appStays, forKey: .appStays)
         }
     }
@@ -302,8 +306,11 @@ struct LeftoversCommand: AsyncParsableCommand {
             let folders = scan.unreadableLocations.map(\.url)
             Output.note(Output.unreadableNote(for: folders, needsFullDiskAccess: scan.needsFullDiskAccess))
         }
-        for location in uninstallation.scan.cutShortLocations {
-            Output.note("There are more folders in \(Output.plain(Output.path(location.url))) than Peel looks inside, so something of this app's may be in a folder Peel didn't reach.")
+        for note in Output.skippedNotes(
+            crowded: uninstallation.scan.crowdedFolders, cutShort: uninstallation.scan.cutShortLocations,
+            leftInside: "Anything this app left inside it stays where it is.", leftInSkipped: "Anything this app left in the folders Peel skipped stays where it is."
+        ) {
+            Output.note(note)
         }
     }
 }
@@ -406,6 +413,7 @@ struct UninstallCommand: AsyncParsableCommand {
         let unreadableLocations: [String]
         let needsFullDiskAccess: Bool
         let cutShortLocations: [String]
+        let notLookedInside: [Output.CrowdedRecord]
         /// Why the app itself would stay, which only a dry run reports: a real run refuses instead.
         let appStays: String?
         let shellReferences: [ShellReference]
@@ -431,6 +439,7 @@ struct UninstallCommand: AsyncParsableCommand {
             case unreadableLocations
             case needsFullDiskAccess
             case cutShortLocations
+            case notLookedInside
             case appStays
             case shellReferences
             case dockIconStayed
@@ -452,6 +461,7 @@ struct UninstallCommand: AsyncParsableCommand {
             try container.encode(unreadableLocations, forKey: .unreadableLocations)
             try container.encode(needsFullDiskAccess, forKey: .needsFullDiskAccess)
             try container.encode(cutShortLocations, forKey: .cutShortLocations)
+            try container.encode(notLookedInside, forKey: .notLookedInside)
             try container.encode(appStays, forKey: .appStays)
             try container.encode(shellReferences, forKey: .shellReferences)
             try container.encode(dockIconStayed, forKey: .dockIconStayed)
@@ -490,6 +500,7 @@ struct UninstallCommand: AsyncParsableCommand {
             unreadableLocations: scan.unreadableLocations.map { Output.path($0.url) },
             needsFullDiskAccess: scan.needsFullDiskAccess,
             cutShortLocations: scan.cutShortLocations.map { Output.path($0.url) },
+            notLookedInside: scan.crowdedFolders.map(Output.CrowdedRecord.init),
             appStays: appStays,
             shellReferences: shellReferences.map { Report.ShellReference(file: Output.path($0.file), line: $0.line) },
             dockIconStayed: dockIconStayed?.rawValue
@@ -979,9 +990,10 @@ struct UninstallCommand: AsyncParsableCommand {
             let folders = scan.unreadableLocations.map(\.url)
             notes.append(Output.unreadableNote(for: folders, needsFullDiskAccess: scan.needsFullDiskAccess))
         }
-        notes += scan.cutShortLocations.map {
-            "There are more folders in \(Output.plain(Output.path($0.url))) than Peel looks inside, so something of this app's may be in a folder Peel didn't reach."
-        }
+        notes += Output.skippedNotes(
+            crowded: scan.crowdedFolders, cutShort: scan.cutShortLocations,
+            leftInside: "Anything this app left inside it stays where it is.", leftInSkipped: "Anything this app left in the folders Peel skipped stays where it is."
+        )
         if plan.needsAdministrator > 0 {
             let them = plan.needsAdministrator == 1 ? "it" : "them"
             notes.append("\(Output.count(plan.needsAdministrator, "item needs", "items need")) administrator access and will stay. Remove \(them) with the Peel app.")

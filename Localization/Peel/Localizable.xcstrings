@@ -83708,6 +83708,1344 @@
         }
       }
     },
+    "It holds %lld items, too many to read quickly. Everything listed here can still go to the Trash. An orphaned file inside it stays where it is." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tato složka obsahuje %lld položky, což je příliš mnoho na rychlé přečtení. Vše, co je tu uvedeno, lze přesto přesunout do koše. Pokud je v ní nějaký osiřelý soubor, zůstane, kde je."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tato složka obsahuje %lld položky, což je příliš mnoho na rychlé přečtení. Vše, co je tu uvedeno, lze přesto přesunout do koše. Pokud je v ní nějaký osiřelý soubor, zůstane, kde je."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tato složka obsahuje %lld položku, což je příliš mnoho na rychlé přečtení. Vše, co je tu uvedeno, lze přesto přesunout do koše. Pokud je v ní nějaký osiřelý soubor, zůstane, kde je."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tato složka obsahuje %lld položek, což je příliš mnoho na rychlé přečtení. Vše, co je tu uvedeno, lze přesto přesunout do koše. Pokud je v ní nějaký osiřelý soubor, zůstane, kde je."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dieser Ordner enthält %lld Objekt, zu viel, um es schnell zu lesen. Alles, was hier aufgeführt ist, kann trotzdem in den Papierkorb gelegt werden. Eine verwaiste Datei darin bleibt, wo sie ist."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dieser Ordner enthält %lld Objekte, zu viele, um sie schnell zu lesen. Alles, was hier aufgeführt ist, kann trotzdem in den Papierkorb gelegt werden. Eine verwaiste Datei darin bleibt, wo sie ist."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld de ítems, demasiados para leerlos rápidamente. Aun así, todo lo que aparece aquí puede ir a la papelera. Cualquier archivo huérfano que haya dentro se queda donde está."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld ítem, demasiado para leerlo rápidamente. Aun así, todo lo que aparece aquí puede ir a la papelera. Cualquier archivo huérfano que haya dentro se queda donde está."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld ítems, demasiados para leerlos rápidamente. Aun así, todo lo que aparece aquí puede ir a la papelera. Cualquier archivo huérfano que haya dentro se queda donde está."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il contient %lld d’éléments, trop pour que Peel les lise rapidement. Tout ce qui est listé ici peut quand même être placé dans la corbeille. Tout fichier orphelin qui s’y trouve reste en place."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il contient %lld élément, trop pour que Peel le lise rapidement. Tout ce qui est listé ici peut quand même être placé dans la corbeille. Tout fichier orphelin qui s’y trouve reste en place."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il contient %lld éléments, trop pour que Peel les lise rapidement. Tout ce qui est listé ici peut quand même être placé dans la corbeille. Tout fichier orphelin qui s’y trouve reste en place."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld di elementi, troppi per una lettura rapida. Tutto ciò che è elencato qui si può comunque spostare nel Cestino. Un file orfano al suo interno resta dov’è."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld elemento, troppo per una lettura rapida. Tutto ciò che è elencato qui si può comunque spostare nel Cestino. Un file orfano al suo interno resta dov’è."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld elementi, troppi per una lettura rapida. Tutto ciò che è elencato qui si può comunque spostare nel Cestino. Un file orfano al suo interno resta dov’è."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダには%lld項目があり、すばやく読み取るには多すぎます。ここに表示されているものはすべて、引き続きゴミ箱に入れることができます。このフォルダ内に孤立ファイルがあっても、そのまま残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더에는 항목 %lld개가 들어 있어 빠르게 읽기에는 너무 많습니다. 여기에 나열된 모든 항목은 여전히 휴지통으로 이동할 수 있습니다. 이 폴더 안에 있는 주인 없는 파일은 원래 위치에 그대로 있습니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Deze map bevat %lld onderdeel, te veel om snel te lezen. Alles wat hier wordt getoond, kan nog steeds naar de prullenmand worden verplaatst. Een verweesd bestand erin blijft waar het is."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Deze map bevat %lld onderdelen, te veel om snel te lezen. Alles wat hier wordt getoond, kan nog steeds naar de prullenmand worden verplaatst. Een verweesd bestand erin blijft waar het is."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zawiera %lld rzeczy, a to zbyt wiele, by szybko je odczytać. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. Osierocone pliki w tym folderze zostają na miejscu."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zawiera %lld rzeczy, a to zbyt wiele, by szybko je odczytać. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. Osierocone pliki w tym folderze zostają na miejscu."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zawiera %lld rzecz, a to zbyt wiele, by szybko ją odczytać. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. Osierocone pliki w tym folderze zostają na miejscu."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zawiera %lld rzeczy, a to zbyt wiele, by szybko je odczytać. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. Osierocone pliki w tym folderze zostają na miejscu."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contém %lld de itens, o que é demais para uma leitura rápida. Tudo o que está listado aqui ainda pode ir para o Lixo. Um arquivo órfão que esteja lá dentro fica onde está."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contém %lld item, o que é demais para uma leitura rápida. Tudo o que está listado aqui ainda pode ir para o Lixo. Um arquivo órfão que esteja lá dentro fica onde está."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contém %lld itens, o que é demais para uma leitura rápida. Tudo o que está listado aqui ainda pode ir para o Lixo. Um arquivo órfão que esteja lá dentro fica onde está."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dosarul conține %lld articole, prea multe pentru a fi citite rapid. Totuși, tot ce este listat aici poate fi mutat în Coș. Orice fișier orfan din dosar rămâne unde se află."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dosarul conține %lld articol, prea mult pentru a fi citit rapid. Totuși, tot ce este listat aici poate fi mutat în Coș. Orice fișier orfan din dosar rămâne unde se află."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dosarul conține %lld de articole, prea multe pentru a fi citite rapid. Totuși, tot ce este listat aici poate fi mutat în Coș. Orice fișier orfan din dosar rămâne unde se află."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В этой папке %lld объекта, а это слишком много, чтобы быстро их прочитать. Все, что здесь показано, по-прежнему можно переместить в Корзину. Осиротевшие файлы внутри нее остаются на месте."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В этой папке %lld объектов, а это слишком много, чтобы быстро их прочитать. Все, что здесь показано, по-прежнему можно переместить в Корзину. Осиротевшие файлы внутри нее остаются на месте."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В этой папке %lld объект, а это слишком много, чтобы быстро их прочитать. Все, что здесь показано, по-прежнему можно переместить в Корзину. Осиротевшие файлы внутри нее остаются на месте."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В этой папке %lld объекта, а это слишком много, чтобы быстро их прочитать. Все, что здесь показано, по-прежнему можно переместить в Корзину. Осиротевшие файлы внутри нее остаются на месте."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Den innehåller %lld objekt, för många för att läsas snabbt. Allt som listas här kan ändå flyttas till papperskorgen. En övergiven fil i mappen stannar där den är."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Den innehåller %lld objekt, för många för att läsas snabbt. Allt som listas här kan ändå flyttas till papperskorgen. En övergiven fil i mappen stannar där den är."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "İçinde %lld öğe var, hızlıca okunamayacak kadar çok. Burada listelenen her şey yine de Çöp Sepeti’ne taşınabilir. Bu klasördeki sahipsiz dosyalar olduğu yerde kalır."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "İçinde %lld öğe var, hızlıca okunamayacak kadar çok. Burada listelenen her şey yine de Çöp Sepeti’ne taşınabilir. Bu klasördeki sahipsiz dosyalar olduğu yerde kalır."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "У цій папці %lld елементи, а це забагато, щоб швидко їх прочитати. Проте все, що тут показано, можна перемістити в Смітник. Будь-який покинутий файл усередині неї лишається на місці."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "У цій папці %lld елементів, а це забагато, щоб швидко їх прочитати. Проте все, що тут показано, можна перемістити в Смітник. Будь-який покинутий файл усередині неї лишається на місці."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "У цій папці %lld елемент, а це забагато, щоб швидко їх прочитати. Проте все, що тут показано, можна перемістити в Смітник. Будь-який покинутий файл усередині неї лишається на місці."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "У цій папці %lld елемента, а це забагато, щоб швидко їх прочитати. Проте все, що тут показано, можна перемістити в Смітник. Будь-який покинутий файл усередині неї лишається на місці."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含%lld个项目，数量过多，无法快速读取。此处列出的所有内容仍可移到废纸篓。其中的任何孤立文件都会保留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含%lld個項目，數量太多，無法快速讀取。此處列出的所有項目仍可丟到「垃圾桶」。位於其中的孤立檔案會保留在原處。"
+          }
+        }
+      }
+    },
+    "It holds %lld items, too many to read quickly. Everything listed here can still go to the Trash. Anything these apps left inside it stays where it is." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tato složka obsahuje %lld položky, což je příliš mnoho na rychlé přečtení. Vše, co je tu uvedeno, lze přesto přesunout do koše. Cokoli, co v ní tyto aplikace zanechaly, zůstane, kde je."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tato složka obsahuje %lld položky, což je příliš mnoho na rychlé přečtení. Vše, co je tu uvedeno, lze přesto přesunout do koše. Cokoli, co v ní tyto aplikace zanechaly, zůstane, kde je."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tato složka obsahuje %lld položku, což je příliš mnoho na rychlé přečtení. Vše, co je tu uvedeno, lze přesto přesunout do koše. Cokoli, co v ní tyto aplikace zanechaly, zůstane, kde je."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tato složka obsahuje %lld položek, což je příliš mnoho na rychlé přečtení. Vše, co je tu uvedeno, lze přesto přesunout do koše. Cokoli, co v ní tyto aplikace zanechaly, zůstane, kde je."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dieser Ordner enthält %lld Objekt, zu viel, um es schnell zu lesen. Alles, was hier aufgeführt ist, kann trotzdem in den Papierkorb gelegt werden. Was diese Apps darin hinterlassen haben, bleibt, wo es ist."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dieser Ordner enthält %lld Objekte, zu viele, um sie schnell zu lesen. Alles, was hier aufgeführt ist, kann trotzdem in den Papierkorb gelegt werden. Was diese Apps darin hinterlassen haben, bleibt, wo es ist."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld de ítems, demasiados para leerlos rápidamente. Aun así, todo lo que aparece aquí puede ir a la papelera. Lo que estas apps hayan dejado dentro se queda donde está."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld ítem, demasiado para leerlo rápidamente. Aun así, todo lo que aparece aquí puede ir a la papelera. Lo que estas apps hayan dejado dentro se queda donde está."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld ítems, demasiados para leerlos rápidamente. Aun así, todo lo que aparece aquí puede ir a la papelera. Lo que estas apps hayan dejado dentro se queda donde está."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il contient %lld d’éléments, trop pour que Peel les lise rapidement. Tout ce qui est listé ici peut quand même être placé dans la corbeille. Tout ce que ces apps y ont laissé reste en place."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il contient %lld élément, trop pour que Peel le lise rapidement. Tout ce qui est listé ici peut quand même être placé dans la corbeille. Tout ce que ces apps y ont laissé reste en place."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il contient %lld éléments, trop pour que Peel les lise rapidement. Tout ce qui est listé ici peut quand même être placé dans la corbeille. Tout ce que ces apps y ont laissé reste en place."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld di elementi, troppi per una lettura rapida. Tutto ciò che è elencato qui si può comunque spostare nel Cestino. Qualsiasi cosa queste app abbiano lasciato al suo interno resta dov’è."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld elemento, troppo per una lettura rapida. Tutto ciò che è elencato qui si può comunque spostare nel Cestino. Qualsiasi cosa queste app abbiano lasciato al suo interno resta dov’è."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld elementi, troppi per una lettura rapida. Tutto ciò che è elencato qui si può comunque spostare nel Cestino. Qualsiasi cosa queste app abbiano lasciato al suo interno resta dov’è."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダには%lld項目があり、すばやく読み取るには多すぎます。ここに表示されているものはすべて、引き続きゴミ箱に入れることができます。このフォルダ内にこれらのアプリが残したものがあっても、そのままになります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더에는 항목 %lld개가 들어 있어 빠르게 읽기에는 너무 많습니다. 여기에 나열된 모든 항목은 여전히 휴지통으로 이동할 수 있습니다. 이 앱들이 이 폴더 안에 남긴 항목은 원래 위치에 그대로 있습니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Deze map bevat %lld onderdeel, te veel om snel te lezen. Alles wat hier wordt getoond, kan nog steeds naar de prullenmand worden verplaatst. Wat deze apps erin hebben achtergelaten, blijft waar het is."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Deze map bevat %lld onderdelen, te veel om snel te lezen. Alles wat hier wordt getoond, kan nog steeds naar de prullenmand worden verplaatst. Wat deze apps erin hebben achtergelaten, blijft waar het is."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zawiera %lld rzeczy, a to zbyt wiele, by szybko je odczytać. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. To, co te aplikacje pozostawiły w tym folderze, zostaje na miejscu."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zawiera %lld rzeczy, a to zbyt wiele, by szybko je odczytać. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. To, co te aplikacje pozostawiły w tym folderze, zostaje na miejscu."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zawiera %lld rzecz, a to zbyt wiele, by szybko ją odczytać. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. To, co te aplikacje pozostawiły w tym folderze, zostaje na miejscu."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zawiera %lld rzeczy, a to zbyt wiele, by szybko je odczytać. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. To, co te aplikacje pozostawiły w tym folderze, zostaje na miejscu."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contém %lld de itens, o que é demais para uma leitura rápida. Tudo o que está listado aqui ainda pode ir para o Lixo. O que estes apps deixaram lá dentro fica onde está."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contém %lld item, o que é demais para uma leitura rápida. Tudo o que está listado aqui ainda pode ir para o Lixo. O que estes apps deixaram lá dentro fica onde está."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contém %lld itens, o que é demais para uma leitura rápida. Tudo o que está listado aqui ainda pode ir para o Lixo. O que estes apps deixaram lá dentro fica onde está."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dosarul conține %lld articole, prea multe pentru a fi citite rapid. Totuși, tot ce este listat aici poate fi mutat în Coș. Ce au lăsat aceste aplicații în dosar rămâne unde se află."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dosarul conține %lld articol, prea mult pentru a fi citit rapid. Totuși, tot ce este listat aici poate fi mutat în Coș. Ce au lăsat aceste aplicații în dosar rămâne unde se află."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dosarul conține %lld de articole, prea multe pentru a fi citite rapid. Totuși, tot ce este listat aici poate fi mutat în Coș. Ce au lăsat aceste aplicații în dosar rămâne unde se află."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В этой папке %lld объекта, а это слишком много, чтобы быстро их прочитать. Все, что здесь показано, по-прежнему можно переместить в Корзину. То, что эти приложения оставили внутри нее, остается на месте."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В этой папке %lld объектов, а это слишком много, чтобы быстро их прочитать. Все, что здесь показано, по-прежнему можно переместить в Корзину. То, что эти приложения оставили внутри нее, остается на месте."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В этой папке %lld объект, а это слишком много, чтобы быстро их прочитать. Все, что здесь показано, по-прежнему можно переместить в Корзину. То, что эти приложения оставили внутри нее, остается на месте."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В этой папке %lld объекта, а это слишком много, чтобы быстро их прочитать. Все, что здесь показано, по-прежнему можно переместить в Корзину. То, что эти приложения оставили внутри нее, остается на месте."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Den innehåller %lld objekt, för många för att läsas snabbt. Allt som listas här kan ändå flyttas till papperskorgen. Det som de här apparna har lämnat kvar i mappen stannar där det är."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Den innehåller %lld objekt, för många för att läsas snabbt. Allt som listas här kan ändå flyttas till papperskorgen. Det som de här apparna har lämnat kvar i mappen stannar där det är."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "İçinde %lld öğe var, hızlıca okunamayacak kadar çok. Burada listelenen her şey yine de Çöp Sepeti’ne taşınabilir. Bu uygulamaların bu klasörde bıraktığı her şey olduğu yerde kalır."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "İçinde %lld öğe var, hızlıca okunamayacak kadar çok. Burada listelenen her şey yine de Çöp Sepeti’ne taşınabilir. Bu uygulamaların bu klasörde bıraktığı her şey olduğu yerde kalır."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "У цій папці %lld елементи, а це забагато, щоб швидко їх прочитати. Проте все, що тут показано, можна перемістити в Смітник. Те, що ці програми залишили всередині неї, лишається на місці."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "У цій папці %lld елементів, а це забагато, щоб швидко їх прочитати. Проте все, що тут показано, можна перемістити в Смітник. Те, що ці програми залишили всередині неї, лишається на місці."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "У цій папці %lld елемент, а це забагато, щоб швидко їх прочитати. Проте все, що тут показано, можна перемістити в Смітник. Те, що ці програми залишили всередині неї, лишається на місці."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "У цій папці %lld елемента, а це забагато, щоб швидко їх прочитати. Проте все, що тут показано, можна перемістити в Смітник. Те, що ці програми залишили всередині неї, лишається на місці."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含%lld个项目，数量过多，无法快速读取。此处列出的所有内容仍可移到废纸篓。这些App在其中留下的任何内容都会保留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含%lld個項目，數量太多，無法快速讀取。此處列出的所有項目仍可丟到「垃圾桶」。這些App在其中留下的任何項目會保留在原處。"
+          }
+        }
+      }
+    },
+    "It holds %lld items, too many to read quickly. Everything listed here can still go to the Trash. Anything this app left inside it stays where it is." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tato složka obsahuje %lld položky, což je příliš mnoho na rychlé přečtení. Vše, co je tu uvedeno, lze přesto přesunout do koše. Cokoli, co v ní tato aplikace zanechala, zůstane, kde je."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tato složka obsahuje %lld položky, což je příliš mnoho na rychlé přečtení. Vše, co je tu uvedeno, lze přesto přesunout do koše. Cokoli, co v ní tato aplikace zanechala, zůstane, kde je."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tato složka obsahuje %lld položku, což je příliš mnoho na rychlé přečtení. Vše, co je tu uvedeno, lze přesto přesunout do koše. Cokoli, co v ní tato aplikace zanechala, zůstane, kde je."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Tato složka obsahuje %lld položek, což je příliš mnoho na rychlé přečtení. Vše, co je tu uvedeno, lze přesto přesunout do koše. Cokoli, co v ní tato aplikace zanechala, zůstane, kde je."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dieser Ordner enthält %lld Objekt, zu viel, um es schnell zu lesen. Alles, was hier aufgeführt ist, kann trotzdem in den Papierkorb gelegt werden. Was diese App darin hinterlassen hat, bleibt, wo es ist."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dieser Ordner enthält %lld Objekte, zu viele, um sie schnell zu lesen. Alles, was hier aufgeführt ist, kann trotzdem in den Papierkorb gelegt werden. Was diese App darin hinterlassen hat, bleibt, wo es ist."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld de ítems, demasiados para leerlos rápidamente. Aun así, todo lo que aparece aquí puede ir a la papelera. Lo que esta app haya dejado dentro se queda donde está."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld ítem, demasiado para leerlo rápidamente. Aun así, todo lo que aparece aquí puede ir a la papelera. Lo que esta app haya dejado dentro se queda donde está."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld ítems, demasiados para leerlos rápidamente. Aun así, todo lo que aparece aquí puede ir a la papelera. Lo que esta app haya dejado dentro se queda donde está."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il contient %lld d’éléments, trop pour que Peel les lise rapidement. Tout ce qui est listé ici peut quand même être placé dans la corbeille. Tout ce que cette app y a laissé reste en place."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il contient %lld élément, trop pour que Peel le lise rapidement. Tout ce qui est listé ici peut quand même être placé dans la corbeille. Tout ce que cette app y a laissé reste en place."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il contient %lld éléments, trop pour que Peel les lise rapidement. Tout ce qui est listé ici peut quand même être placé dans la corbeille. Tout ce que cette app y a laissé reste en place."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld di elementi, troppi per una lettura rapida. Tutto ciò che è elencato qui si può comunque spostare nel Cestino. Qualsiasi cosa questa app abbia lasciato al suo interno resta dov’è."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld elemento, troppo per una lettura rapida. Tutto ciò che è elencato qui si può comunque spostare nel Cestino. Qualsiasi cosa questa app abbia lasciato al suo interno resta dov’è."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contiene %lld elementi, troppi per una lettura rapida. Tutto ciò che è elencato qui si può comunque spostare nel Cestino. Qualsiasi cosa questa app abbia lasciato al suo interno resta dov’è."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダには%lld項目があり、すばやく読み取るには多すぎます。ここに表示されているものはすべて、引き続きゴミ箱に入れることができます。このフォルダ内にこのアプリが残したものがあっても、そのままになります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더에는 항목 %lld개가 들어 있어 빠르게 읽기에는 너무 많습니다. 여기에 나열된 모든 항목은 여전히 휴지통으로 이동할 수 있습니다. 이 앱이 이 폴더 안에 남긴 항목은 원래 위치에 그대로 있습니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Deze map bevat %lld onderdeel, te veel om snel te lezen. Alles wat hier wordt getoond, kan nog steeds naar de prullenmand worden verplaatst. Wat deze app erin heeft achtergelaten, blijft waar het is."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Deze map bevat %lld onderdelen, te veel om snel te lezen. Alles wat hier wordt getoond, kan nog steeds naar de prullenmand worden verplaatst. Wat deze app erin heeft achtergelaten, blijft waar het is."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zawiera %lld rzeczy, a to zbyt wiele, by szybko je odczytać. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. To, co ta aplikacja pozostawiła w tym folderze, zostaje na miejscu."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zawiera %lld rzeczy, a to zbyt wiele, by szybko je odczytać. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. To, co ta aplikacja pozostawiła w tym folderze, zostaje na miejscu."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zawiera %lld rzecz, a to zbyt wiele, by szybko ją odczytać. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. To, co ta aplikacja pozostawiła w tym folderze, zostaje na miejscu."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zawiera %lld rzeczy, a to zbyt wiele, by szybko je odczytać. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. To, co ta aplikacja pozostawiła w tym folderze, zostaje na miejscu."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contém %lld de itens, o que é demais para uma leitura rápida. Tudo o que está listado aqui ainda pode ir para o Lixo. O que este app deixou lá dentro fica onde está."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contém %lld item, o que é demais para uma leitura rápida. Tudo o que está listado aqui ainda pode ir para o Lixo. O que este app deixou lá dentro fica onde está."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Contém %lld itens, o que é demais para uma leitura rápida. Tudo o que está listado aqui ainda pode ir para o Lixo. O que este app deixou lá dentro fica onde está."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dosarul conține %lld articole, prea multe pentru a fi citite rapid. Totuși, tot ce este listat aici poate fi mutat în Coș. Ce a lăsat această aplicație în dosar rămâne unde se află."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dosarul conține %lld articol, prea mult pentru a fi citit rapid. Totuși, tot ce este listat aici poate fi mutat în Coș. Ce a lăsat această aplicație în dosar rămâne unde se află."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Dosarul conține %lld de articole, prea multe pentru a fi citite rapid. Totuși, tot ce este listat aici poate fi mutat în Coș. Ce a lăsat această aplicație în dosar rămâne unde se află."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В этой папке %lld объекта, а это слишком много, чтобы быстро их прочитать. Все, что здесь показано, по-прежнему можно переместить в Корзину. То, что это приложение оставило внутри нее, остается на месте."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В этой папке %lld объектов, а это слишком много, чтобы быстро их прочитать. Все, что здесь показано, по-прежнему можно переместить в Корзину. То, что это приложение оставило внутри нее, остается на месте."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В этой папке %lld объект, а это слишком много, чтобы быстро их прочитать. Все, что здесь показано, по-прежнему можно переместить в Корзину. То, что это приложение оставило внутри нее, остается на месте."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В этой папке %lld объекта, а это слишком много, чтобы быстро их прочитать. Все, что здесь показано, по-прежнему можно переместить в Корзину. То, что это приложение оставило внутри нее, остается на месте."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Den innehåller %lld objekt, för många för att läsas snabbt. Allt som listas här kan ändå flyttas till papperskorgen. Det som den här appen har lämnat kvar i mappen stannar där det är."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Den innehåller %lld objekt, för många för att läsas snabbt. Allt som listas här kan ändå flyttas till papperskorgen. Det som den här appen har lämnat kvar i mappen stannar där det är."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "İçinde %lld öğe var, hızlıca okunamayacak kadar çok. Burada listelenen her şey yine de Çöp Sepeti’ne taşınabilir. Bu uygulamanın bu klasörde bıraktığı her şey olduğu yerde kalır."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "İçinde %lld öğe var, hızlıca okunamayacak kadar çok. Burada listelenen her şey yine de Çöp Sepeti’ne taşınabilir. Bu uygulamanın bu klasörde bıraktığı her şey olduğu yerde kalır."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "У цій папці %lld елементи, а це забагато, щоб швидко їх прочитати. Проте все, що тут показано, можна перемістити в Смітник. Те, що ця програма залишила всередині неї, лишається на місці."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "У цій папці %lld елементів, а це забагато, щоб швидко їх прочитати. Проте все, що тут показано, можна перемістити в Смітник. Те, що ця програма залишила всередині неї, лишається на місці."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "У цій папці %lld елемент, а це забагато, щоб швидко їх прочитати. Проте все, що тут показано, можна перемістити в Смітник. Те, що ця програма залишила всередині неї, лишається на місці."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "У цій папці %lld елемента, а це забагато, щоб швидко їх прочитати. Проте все, що тут показано, можна перемістити в Смітник. Те, що ця програма залишила всередині неї, лишається на місці."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含%lld个项目，数量过多，无法快速读取。此处列出的所有内容仍可移到废纸篓。此App在其中留下的任何内容都会保留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含%lld個項目，數量太多，無法快速讀取。此處列出的所有項目仍可丟到「垃圾桶」。這個App在其中留下的任何項目會保留在原處。"
+          }
+        }
+      }
+    },
+    "It holds more folders than Peel looks through. Everything listed here can still go to the Trash. An orphaned file in the folders Peel skipped stays where it is." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato složka obsahuje víc složek, než kolik jich Peel prochází. Vše, co je tu uvedeno, lze přesto přesunout do koše. Pokud je nějaký osiřelý soubor ve složkách, které Peel přeskočil, zůstane, kde je."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Ordner enthält mehr Unterordner, als Peel durchsieht. Alles, was hier aufgeführt ist, kann trotzdem in den Papierkorb gelegt werden. Eine verwaiste Datei in den von Peel übersprungenen Ordnern bleibt, wo sie ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene más carpetas de las que Peel revisa. Aun así, todo lo que aparece aquí puede ir a la papelera. Cualquier archivo huérfano que haya en las carpetas que Peel no ha revisado se queda donde está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il contient plus de dossiers que Peel n’en parcourt. Tout ce qui est listé ici peut quand même être placé dans la corbeille. Tout fichier orphelin situé dans les dossiers que Peel n’a pas parcourus reste en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene più cartelle di quante Peel ne esamini. Tutto ciò che è elencato qui si può comunque spostare nel Cestino. Un file orfano nelle cartelle che Peel ha saltato resta dov’è."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダには、Peelが調べる数より多くのフォルダがあります。ここに表示されているものはすべて、引き続きゴミ箱に入れることができます。Peelがスキップしたフォルダに孤立ファイルがあっても、そのまま残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더에는 Peel이 살펴보는 것보다 많은 폴더가 들어 있습니다. 여기에 나열된 모든 항목은 여전히 휴지통으로 이동할 수 있습니다. Peel이 건너뛴 폴더에 있는 주인 없는 파일은 원래 위치에 그대로 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze map bevat meer mappen dan Peel doorzoekt. Alles wat hier wordt getoond, kan nog steeds naar de prullenmand worden verplaatst. Een verweesd bestand in de mappen die Peel heeft overgeslagen, blijft waar het is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zawiera więcej folderów, niż Peel przegląda. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. Osierocone pliki w folderach, które Peel pominął, zostają na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contém mais pastas do que o Peel examina. Tudo o que está listado aqui ainda pode ir para o Lixo. Um arquivo órfão que esteja nas pastas que o Peel pulou fica onde está."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosarul conține mai multe dosare decât examinează Peel. Totuși, tot ce este listat aici poate fi mutat în Coș. Orice fișier orfan din dosarele omise de Peel rămâne unde se află."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В этой папке больше вложенных папок, чем Peel просматривает. Все, что здесь показано, по-прежнему можно переместить в Корзину. Осиротевшие файлы в папках, которые Peel пропустил, остаются на месте."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den innehåller fler mappar än Peel går igenom. Allt som listas här kan ändå flyttas till papperskorgen. En övergiven fil i mapparna som Peel hoppade över stannar där den är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İçinde, Peel’in baktığından daha fazla klasör var. Burada listelenen her şey yine de Çöp Sepeti’ne taşınabilir. Peel’in atladığı klasörlerdeki sahipsiz dosyalar olduğu yerde kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У цій папці більше папок, ніж Peel переглядає. Проте все, що тут показано, можна перемістити в Смітник. Будь-який покинутий файл у папках, які Peel пропустила, лишається на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含的文件夹数量超出了Peel查看的上限。此处列出的所有内容仍可移到废纸篓。Peel跳过的文件夹中的任何孤立文件都会保留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含的檔案夾數量超出Peel查看的範圍。此處列出的所有項目仍可丟到「垃圾桶」。位於Peel略過之檔案夾中的孤立檔案會保留在原處。"
+          }
+        }
+      }
+    },
+    "It holds more folders than Peel looks through. Everything listed here can still go to the Trash. Anything these apps left in the folders Peel skipped stays where it is." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato složka obsahuje víc složek, než kolik jich Peel prochází. Vše, co je tu uvedeno, lze přesto přesunout do koše. Cokoli, co tyto aplikace zanechaly ve složkách, které Peel přeskočil, zůstane, kde je."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Ordner enthält mehr Unterordner, als Peel durchsieht. Alles, was hier aufgeführt ist, kann trotzdem in den Papierkorb gelegt werden. Was diese Apps in den von Peel übersprungenen Ordnern hinterlassen haben, bleibt, wo es ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene más carpetas de las que Peel revisa. Aun así, todo lo que aparece aquí puede ir a la papelera. Lo que estas apps hayan dejado en las carpetas que Peel no ha revisado se queda donde está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il contient plus de dossiers que Peel n’en parcourt. Tout ce qui est listé ici peut quand même être placé dans la corbeille. Tout ce que ces apps ont laissé dans les dossiers que Peel n’a pas parcourus reste en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene più cartelle di quante Peel ne esamini. Tutto ciò che è elencato qui si può comunque spostare nel Cestino. Qualsiasi cosa queste app abbiano lasciato nelle cartelle che Peel ha saltato resta dov’è."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダには、Peelが調べる数より多くのフォルダがあります。ここに表示されているものはすべて、引き続きゴミ箱に入れることができます。Peelがスキップしたフォルダにこれらのアプリが残したものがあっても、そのままになります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더에는 Peel이 살펴보는 것보다 많은 폴더가 들어 있습니다. 여기에 나열된 모든 항목은 여전히 휴지통으로 이동할 수 있습니다. Peel이 건너뛴 폴더에 이 앱들이 남긴 항목은 원래 위치에 그대로 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze map bevat meer mappen dan Peel doorzoekt. Alles wat hier wordt getoond, kan nog steeds naar de prullenmand worden verplaatst. Wat deze apps hebben achtergelaten in de mappen die Peel heeft overgeslagen, blijft waar het is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zawiera więcej folderów, niż Peel przegląda. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. To, co te aplikacje pozostawiły w folderach, które Peel pominął, zostaje na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contém mais pastas do que o Peel examina. Tudo o que está listado aqui ainda pode ir para o Lixo. O que estes apps deixaram nas pastas que o Peel pulou fica onde está."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosarul conține mai multe dosare decât examinează Peel. Totuși, tot ce este listat aici poate fi mutat în Coș. Ce au lăsat aceste aplicații în dosarele omise de Peel rămâne unde se află."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В этой папке больше вложенных папок, чем Peel просматривает. Все, что здесь показано, по-прежнему можно переместить в Корзину. То, что эти приложения оставили в папках, которые Peel пропустил, остается на месте."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den innehåller fler mappar än Peel går igenom. Allt som listas här kan ändå flyttas till papperskorgen. Det som de här apparna har lämnat kvar i mapparna som Peel hoppade över stannar där det är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İçinde, Peel’in baktığından daha fazla klasör var. Burada listelenen her şey yine de Çöp Sepeti’ne taşınabilir. Bu uygulamaların, Peel’in atladığı klasörlerde bıraktığı her şey olduğu yerde kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У цій папці більше папок, ніж Peel переглядає. Проте все, що тут показано, можна перемістити в Смітник. Те, що ці програми залишили в папках, які Peel пропустила, лишається на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含的文件夹数量超出了Peel查看的上限。此处列出的所有内容仍可移到废纸篓。这些App在Peel跳过的文件夹中留下的任何内容都会保留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含的檔案夾數量超出Peel查看的範圍。此處列出的所有項目仍可丟到「垃圾桶」。這些App在Peel略過的檔案夾中留下的任何項目會保留在原處。"
+          }
+        }
+      }
+    },
+    "It holds more folders than Peel looks through. Everything listed here can still go to the Trash. Anything this app left in the folders Peel skipped stays where it is." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato složka obsahuje víc složek, než kolik jich Peel prochází. Vše, co je tu uvedeno, lze přesto přesunout do koše. Cokoli, co tato aplikace zanechala ve složkách, které Peel přeskočil, zůstane, kde je."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Ordner enthält mehr Unterordner, als Peel durchsieht. Alles, was hier aufgeführt ist, kann trotzdem in den Papierkorb gelegt werden. Was diese App in den von Peel übersprungenen Ordnern hinterlassen hat, bleibt, wo es ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene más carpetas de las que Peel revisa. Aun así, todo lo que aparece aquí puede ir a la papelera. Lo que esta app haya dejado en las carpetas que Peel no ha revisado se queda donde está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il contient plus de dossiers que Peel n’en parcourt. Tout ce qui est listé ici peut quand même être placé dans la corbeille. Tout ce que cette app a laissé dans les dossiers que Peel n’a pas parcourus reste en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene più cartelle di quante Peel ne esamini. Tutto ciò che è elencato qui si può comunque spostare nel Cestino. Qualsiasi cosa questa app abbia lasciato nelle cartelle che Peel ha saltato resta dov’è."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダには、Peelが調べる数より多くのフォルダがあります。ここに表示されているものはすべて、引き続きゴミ箱に入れることができます。Peelがスキップしたフォルダにこのアプリが残したものがあっても、そのままになります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더에는 Peel이 살펴보는 것보다 많은 폴더가 들어 있습니다. 여기에 나열된 모든 항목은 여전히 휴지통으로 이동할 수 있습니다. Peel이 건너뛴 폴더에 이 앱이 남긴 항목은 원래 위치에 그대로 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze map bevat meer mappen dan Peel doorzoekt. Alles wat hier wordt getoond, kan nog steeds naar de prullenmand worden verplaatst. Wat deze app heeft achtergelaten in de mappen die Peel heeft overgeslagen, blijft waar het is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zawiera więcej folderów, niż Peel przegląda. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. To, co ta aplikacja pozostawiła w folderach, które Peel pominął, zostaje na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contém mais pastas do que o Peel examina. Tudo o que está listado aqui ainda pode ir para o Lixo. O que este app deixou nas pastas que o Peel pulou fica onde está."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosarul conține mai multe dosare decât examinează Peel. Totuși, tot ce este listat aici poate fi mutat în Coș. Ce a lăsat această aplicație în dosarele omise de Peel rămâne unde se află."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В этой папке больше вложенных папок, чем Peel просматривает. Все, что здесь показано, по-прежнему можно переместить в Корзину. То, что это приложение оставило в папках, которые Peel пропустил, остается на месте."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den innehåller fler mappar än Peel går igenom. Allt som listas här kan ändå flyttas till papperskorgen. Det som den här appen har lämnat kvar i mapparna som Peel hoppade över stannar där det är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İçinde, Peel’in baktığından daha fazla klasör var. Burada listelenen her şey yine de Çöp Sepeti’ne taşınabilir. Bu uygulamanın, Peel’in atladığı klasörlerde bıraktığı her şey olduğu yerde kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У цій папці більше папок, ніж Peel переглядає. Проте все, що тут показано, можна перемістити в Смітник. Те, що ця програма залишила в папках, які Peel пропустила, лишається на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含的文件夹数量超出了Peel查看的上限。此处列出的所有内容仍可移到废纸篓。此App在Peel跳过的文件夹中留下的任何内容都会保留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含的檔案夾數量超出Peel查看的範圍。此處列出的所有項目仍可丟到「垃圾桶」。這個App在Peel略過的檔案夾中留下的任何項目會保留在原處。"
+          }
+        }
+      }
+    },
     "It holds something nothing could bring back, so Peel never moves it." : {
       "localizations" : {
         "cs" : {
@@ -83810,6 +85148,324 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "其中存有無法復原的內容，因此Peel絕不會移動它。"
+          }
+        }
+      }
+    },
+    "It holds too many items to read quickly. Everything listed here can still go to the Trash. An orphaned file inside it stays where it is." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato složka obsahuje příliš mnoho položek na rychlé přečtení. Vše, co je tu uvedeno, lze přesto přesunout do koše. Pokud je v ní nějaký osiřelý soubor, zůstane, kde je."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Ordner enthält zu viele Objekte, um sie schnell zu lesen. Alles, was hier aufgeführt ist, kann trotzdem in den Papierkorb gelegt werden. Eine verwaiste Datei darin bleibt, wo sie ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene demasiados ítems para leerlos rápidamente. Aun así, todo lo que aparece aquí puede ir a la papelera. Cualquier archivo huérfano que haya dentro se queda donde está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il contient trop d’éléments pour que Peel les lise rapidement. Tout ce qui est listé ici peut quand même être placé dans la corbeille. Tout fichier orphelin qui s’y trouve reste en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene troppi elementi per una lettura rapida. Tutto ciò che è elencato qui si può comunque spostare nel Cestino. Un file orfano al suo interno resta dov’è."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダには、すばやく読み取るには多すぎる数の項目があります。ここに表示されているものはすべて、引き続きゴミ箱に入れることができます。このフォルダ内に孤立ファイルがあっても、そのまま残ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더에는 항목이 너무 많아 빠르게 읽을 수 없습니다. 여기에 나열된 모든 항목은 여전히 휴지통으로 이동할 수 있습니다. 이 폴더 안에 있는 주인 없는 파일은 원래 위치에 그대로 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze map bevat te veel onderdelen om snel te lezen. Alles wat hier wordt getoond, kan nog steeds naar de prullenmand worden verplaatst. Een verweesd bestand erin blijft waar het is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zawiera zbyt wiele rzeczy, by szybko je odczytać. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. Osierocone pliki w tym folderze zostają na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contém itens demais para uma leitura rápida. Tudo o que está listado aqui ainda pode ir para o Lixo. Um arquivo órfão que esteja lá dentro fica onde está."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosarul conține prea multe articole pentru a fi citite rapid. Totuși, tot ce este listat aici poate fi mutat în Coș. Orice fișier orfan din dosar rămâne unde se află."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В этой папке слишком много объектов, чтобы быстро их прочитать. Все, что здесь показано, по-прежнему можно переместить в Корзину. Осиротевшие файлы внутри нее остаются на месте."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den innehåller för många objekt för att läsas snabbt. Allt som listas här kan ändå flyttas till papperskorgen. En övergiven fil i mappen stannar där den är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İçinde hızlıca okunamayacak kadar çok öğe var. Burada listelenen her şey yine de Çöp Sepeti’ne taşınabilir. Bu klasördeki sahipsiz dosyalar olduğu yerde kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У цій папці забагато елементів, щоб швидко їх прочитати. Проте все, що тут показано, можна перемістити в Смітник. Будь-який покинутий файл усередині неї лишається на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含的项目过多，无法快速读取。此处列出的所有内容仍可移到废纸篓。其中的任何孤立文件都会保留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含的項目太多，無法快速讀取。此處列出的所有項目仍可丟到「垃圾桶」。位於其中的孤立檔案會保留在原處。"
+          }
+        }
+      }
+    },
+    "It holds too many items to read quickly. Everything listed here can still go to the Trash. Anything these apps left inside it stays where it is." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato složka obsahuje příliš mnoho položek na rychlé přečtení. Vše, co je tu uvedeno, lze přesto přesunout do koše. Cokoli, co v ní tyto aplikace zanechaly, zůstane, kde je."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Ordner enthält zu viele Objekte, um sie schnell zu lesen. Alles, was hier aufgeführt ist, kann trotzdem in den Papierkorb gelegt werden. Was diese Apps darin hinterlassen haben, bleibt, wo es ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene demasiados ítems para leerlos rápidamente. Aun así, todo lo que aparece aquí puede ir a la papelera. Lo que estas apps hayan dejado dentro se queda donde está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il contient trop d’éléments pour que Peel les lise rapidement. Tout ce qui est listé ici peut quand même être placé dans la corbeille. Tout ce que ces apps y ont laissé reste en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene troppi elementi per una lettura rapida. Tutto ciò che è elencato qui si può comunque spostare nel Cestino. Qualsiasi cosa queste app abbiano lasciato al suo interno resta dov’è."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダには、すばやく読み取るには多すぎる数の項目があります。ここに表示されているものはすべて、引き続きゴミ箱に入れることができます。このフォルダ内にこれらのアプリが残したものがあっても、そのままになります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더에는 항목이 너무 많아 빠르게 읽을 수 없습니다. 여기에 나열된 모든 항목은 여전히 휴지통으로 이동할 수 있습니다. 이 앱들이 이 폴더 안에 남긴 항목은 원래 위치에 그대로 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze map bevat te veel onderdelen om snel te lezen. Alles wat hier wordt getoond, kan nog steeds naar de prullenmand worden verplaatst. Wat deze apps erin hebben achtergelaten, blijft waar het is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zawiera zbyt wiele rzeczy, by szybko je odczytać. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. To, co te aplikacje pozostawiły w tym folderze, zostaje na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contém itens demais para uma leitura rápida. Tudo o que está listado aqui ainda pode ir para o Lixo. O que estes apps deixaram lá dentro fica onde está."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosarul conține prea multe articole pentru a fi citite rapid. Totuși, tot ce este listat aici poate fi mutat în Coș. Ce au lăsat aceste aplicații în dosar rămâne unde se află."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В этой папке слишком много объектов, чтобы быстро их прочитать. Все, что здесь показано, по-прежнему можно переместить в Корзину. То, что эти приложения оставили внутри нее, остается на месте."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den innehåller för många objekt för att läsas snabbt. Allt som listas här kan ändå flyttas till papperskorgen. Det som de här apparna har lämnat kvar i mappen stannar där det är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İçinde hızlıca okunamayacak kadar çok öğe var. Burada listelenen her şey yine de Çöp Sepeti’ne taşınabilir. Bu uygulamaların bu klasörde bıraktığı her şey olduğu yerde kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У цій папці забагато елементів, щоб швидко їх прочитати. Проте все, що тут показано, можна перемістити в Смітник. Те, що ці програми залишили всередині неї, лишається на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含的项目过多，无法快速读取。此处列出的所有内容仍可移到废纸篓。这些App在其中留下的任何内容都会保留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含的項目太多，無法快速讀取。此處列出的所有項目仍可丟到「垃圾桶」。這些App在其中留下的任何項目會保留在原處。"
+          }
+        }
+      }
+    },
+    "It holds too many items to read quickly. Everything listed here can still go to the Trash. Anything this app left inside it stays where it is." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato složka obsahuje příliš mnoho položek na rychlé přečtení. Vše, co je tu uvedeno, lze přesto přesunout do koše. Cokoli, co v ní tato aplikace zanechala, zůstane, kde je."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Ordner enthält zu viele Objekte, um sie schnell zu lesen. Alles, was hier aufgeführt ist, kann trotzdem in den Papierkorb gelegt werden. Was diese App darin hinterlassen hat, bleibt, wo es ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene demasiados ítems para leerlos rápidamente. Aun así, todo lo que aparece aquí puede ir a la papelera. Lo que esta app haya dejado dentro se queda donde está."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il contient trop d’éléments pour que Peel les lise rapidement. Tout ce qui est listé ici peut quand même être placé dans la corbeille. Tout ce que cette app y a laissé reste en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contiene troppi elementi per una lettura rapida. Tutto ciò che è elencato qui si può comunque spostare nel Cestino. Qualsiasi cosa questa app abbia lasciato al suo interno resta dov’è."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフォルダには、すばやく読み取るには多すぎる数の項目があります。ここに表示されているものはすべて、引き続きゴミ箱に入れることができます。このフォルダ内にこのアプリが残したものがあっても、そのままになります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 폴더에는 항목이 너무 많아 빠르게 읽을 수 없습니다. 여기에 나열된 모든 항목은 여전히 휴지통으로 이동할 수 있습니다. 이 앱이 이 폴더 안에 남긴 항목은 원래 위치에 그대로 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze map bevat te veel onderdelen om snel te lezen. Alles wat hier wordt getoond, kan nog steeds naar de prullenmand worden verplaatst. Wat deze app erin heeft achtergelaten, blijft waar het is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zawiera zbyt wiele rzeczy, by szybko je odczytać. Wszystko, co jest tutaj na liście, nadal można przenieść do Kosza. To, co ta aplikacja pozostawiła w tym folderze, zostaje na miejscu."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contém itens demais para uma leitura rápida. Tudo o que está listado aqui ainda pode ir para o Lixo. O que este app deixou lá dentro fica onde está."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosarul conține prea multe articole pentru a fi citite rapid. Totuși, tot ce este listat aici poate fi mutat în Coș. Ce a lăsat această aplicație în dosar rămâne unde se află."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В этой папке слишком много объектов, чтобы быстро их прочитать. Все, что здесь показано, по-прежнему можно переместить в Корзину. То, что это приложение оставило внутри нее, остается на месте."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den innehåller för många objekt för att läsas snabbt. Allt som listas här kan ändå flyttas till papperskorgen. Det som den här appen har lämnat kvar i mappen stannar där det är."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İçinde hızlıca okunamayacak kadar çok öğe var. Burada listelenen her şey yine de Çöp Sepeti’ne taşınabilir. Bu uygulamanın bu klasörde bıraktığı her şey olduğu yerde kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У цій папці забагато елементів, щоб швидко їх прочитати. Проте все, що тут показано, можна перемістити в Смітник. Те, що ця програма залишила всередині неї, лишається на місці."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含的项目过多，无法快速读取。此处列出的所有内容仍可移到废纸篓。此App在其中留下的任何内容都会保留在原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它包含的項目太多，無法快速讀取。此處列出的所有項目仍可丟到「垃圾桶」。這個App在其中留下的任何項目會保留在原處。"
           }
         }
       }
@@ -158301,108 +159957,108 @@
         }
       }
     },
-    "Peel didn’t look everywhere" : {
+    "Peel did not look inside %@" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel se nepodíval všude"
+            "value" : "Peel nenahlédl do %@"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel hat nicht überall nachgesehen"
+            "value" : "Peel hat in %@ nicht hineingesehen"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel no ha mirado en todas partes"
+            "value" : "Peel no ha mirado dentro de %@"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel n’a pas regardé partout"
+            "value" : "Peel n’a pas regardé dans %@"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel non ha guardato dappertutto"
+            "value" : "Peel non ha esaminato %@"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelはすべての場所を調べていません"
+            "value" : "Peelは%@の中を調べていません"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 모든 곳을 살펴보지는 않음"
+            "value" : "Peel이 %@ 안을 살펴보지 않음"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel heeft niet overal gekeken"
+            "value" : "Peel heeft niet in %@ gekeken"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nie zajrzał wszędzie"
+            "value" : "Peel nie zajrzał do %@"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel não examinou todos os lugares"
+            "value" : "O Peel não examinou o conteúdo de %@"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu a căutat peste tot"
+            "value" : "Peel nu a căutat în %@"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel заглянул не везде"
+            "value" : "Peel не заглядывал в папку %@"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel har inte tittat överallt"
+            "value" : "Peel har inte tittat i %@"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel her yere bakmadı"
+            "value" : "Peel, %@ klasörünün içine bakmadı"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel зазирнула не всюди"
+            "value" : "Peel не зазирала в %@"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel没有查看所有位置"
+            "value" : "Peel没有查看%@内部"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel沒有查看所有位置"
+            "value" : "Peel沒有查看%@的內容"
           }
         }
       }
@@ -165412,6 +167068,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel會列出最大的下載項目，最多%@個。移除其中一些後，就會顯示接下來的項目。"
+          }
+        }
+      }
+    },
+    "Peel looked inside only part of %@" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nahlédl jen do části %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hat nur in einen Teil von %@ hineingesehen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel solo ha mirado en una parte de %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a regardé que dans une partie de %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ha esaminato solo una parte di %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは%@の一部しか調べていません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 %@ 안의 일부만 살펴봄"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel heeft alleen in een deel van %@ gekeken"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel przejrzał tylko część folderu %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel examinou só parte do conteúdo de %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel a căutat doar într‑o parte din %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel просмотрел только часть папки %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel har bara tittat i en del av %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, %@ klasörünün yalnızca bir kısmına baktı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel зазирнула лише в частину %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel只查看了%@的部分内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel只查看了%@的部分內容"
           }
         }
       }
@@ -234986,324 +236748,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "然後在「終端機」中執行"
-          }
-        }
-      }
-    },
-    "There are more folders in %@ than Peel looks inside, so an orphaned file may be in a folder Peel didn’t reach." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "V %@ je víc složek, než kolik jich Peel prochází, takže nějaký osiřelý soubor může být ve složce, kam se Peel nedostal."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In %@ gibt es mehr Ordner, als Peel durchsieht, daher liegt möglicherweise eine verwaiste Datei in einem Ordner, den Peel nicht erreicht hat."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En %@ hay más carpetas de las que Peel revisa, así que puede que haya algún archivo huérfano en una carpeta a la que Peel no ha llegado."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il y a plus de dossiers dans %@ que Peel n’en examine : un fichier orphelin peut donc se trouver dans un dossier que Peel n’a pas atteint."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In %@ ci sono più cartelle di quante Peel ne esamini, quindi un file orfano potrebbe trovarsi in una cartella che Peel non ha raggiunto."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@にはPeelが調べる数より多くのフォルダがあるため、Peelが調べなかったフォルダに孤立ファイルがある可能性があります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@에 Peel이 살펴보는 것보다 많은 폴더가 있으므로, 주인 없는 파일이 Peel이 살펴보지 못한 폴더에 있을 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Er zijn meer mappen in %@ dan Peel doorzoekt, dus er kan een verweesd bestand staan in een map die Peel niet heeft bereikt."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "W %@ jest więcej folderów, niż Peel przegląda, więc jakiś osierocony plik może być w folderze, do którego Peel nie dotarł."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Há mais pastas em %@ do que o Peel examina, então um arquivo órfão pode estar em uma pasta que o Peel não alcançou."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "În %@ sunt mai multe dosare decât examinează Peel, așa că un fișier orfan se poate afla într‑un dosar la care Peel nu a ajuns."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "В %@ больше папок, чем Peel просматривает, поэтому какой-то осиротевший файл может лежать в папке, до которой Peel не добрался."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det finns fler mappar i %@ än Peel tittar i, så en övergiven fil kan ligga i en mapp som Peel inte nådde."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ içinde Peel’in içine baktığından daha fazla klasör var, bu yüzden sahipsiz bir dosya Peel’in ulaşmadığı bir klasörde olabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "У %@ більше папок, ніж Peel переглядає, тож покинутий файл може бути в папці, до якої Peel не дійшла."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@中的文件夹数量超出了Peel查看的上限，因此可能有孤立文件位于Peel未查看到的文件夹中。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@中的檔案夾數量超出Peel查看的範圍，因此可能有孤立檔案位於Peel沒有查看到的檔案夾中。"
-          }
-        }
-      }
-    },
-    "There are more folders in %@ than Peel looks inside, so something of these apps’ may be in a folder Peel didn’t reach." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "V %@ je víc složek, než kolik jich Peel prochází, takže něco, co patří těmto aplikacím, může být ve složce, kam se Peel nedostal."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In %@ gibt es mehr Ordner, als Peel durchsieht, daher liegt möglicherweise etwas von diesen Apps in einem Ordner, den Peel nicht erreicht hat."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En %@ hay más carpetas de las que Peel revisa, así que puede que algo de estas apps esté en una carpeta a la que Peel no ha llegado."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il y a plus de dossiers dans %@ que Peel n’en examine : quelque chose appartenant à ces apps peut donc se trouver dans un dossier que Peel n’a pas atteint."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In %@ ci sono più cartelle di quante Peel ne esamini, quindi qualcosa di queste app potrebbe trovarsi in una cartella che Peel non ha raggiunto."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@にはPeelが調べる数より多くのフォルダがあるため、Peelが調べなかったフォルダにこれらのアプリのものがある可能性があります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@에 Peel이 살펴보는 것보다 많은 폴더가 있으므로, 이 앱들의 항목이 Peel이 살펴보지 못한 폴더에 있을 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Er zijn meer mappen in %@ dan Peel doorzoekt, dus er kan iets van deze apps staan in een map die Peel niet heeft bereikt."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "W %@ jest więcej folderów, niż Peel przegląda, więc coś należącego do tych aplikacji może być w folderze, do którego Peel nie dotarł."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Há mais pastas em %@ do que o Peel examina, então algo destes apps pode estar em uma pasta que o Peel não alcançou."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "În %@ sunt mai multe dosare decât examinează Peel, așa că ceva ce aparține acestor aplicații se poate afla într‑un dosar la care Peel nu a ajuns."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "В %@ больше папок, чем Peel просматривает, поэтому что-то от этих приложений может лежать в папке, до которой Peel не добрался."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det finns fler mappar i %@ än Peel tittar i, så något som hör till de här apparna kan ligga i en mapp som Peel inte nådde."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ içinde Peel’in içine baktığından daha fazla klasör var, bu yüzden bu uygulamalara ait bir şey Peel’in ulaşmadığı bir klasörde olabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "У %@ більше папок, ніж Peel переглядає, тож щось, що належить цим програмам, може бути в папці, до якої Peel не дійшла."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@中的文件夹数量超出了Peel查看的上限，因此这些App的某些内容可能位于Peel未查看到的文件夹中。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@中的檔案夾數量超出Peel查看的範圍，因此這些App的某些項目可能位於Peel沒有查看到的檔案夾中。"
-          }
-        }
-      }
-    },
-    "There are more folders in %@ than Peel looks inside, so something of this app’s may be in a folder Peel didn’t reach." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "V %@ je víc složek, než kolik jich Peel prochází, takže něco, co patří této aplikaci, může být ve složce, kam se Peel nedostal."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In %@ gibt es mehr Ordner, als Peel durchsieht, daher liegt möglicherweise etwas von dieser App in einem Ordner, den Peel nicht erreicht hat."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En %@ hay más carpetas de las que Peel revisa, así que puede que algo de esta app esté en una carpeta a la que Peel no ha llegado."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il y a plus de dossiers dans %@ que Peel n’en examine : quelque chose appartenant à cette app peut donc se trouver dans un dossier que Peel n’a pas atteint."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In %@ ci sono più cartelle di quante Peel ne esamini, quindi qualcosa di questa app potrebbe trovarsi in una cartella che Peel non ha raggiunto."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@にはPeelが調べる数より多くのフォルダがあるため、Peelが調べなかったフォルダにこのアプリのものがある可能性があります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@에 Peel이 살펴보는 것보다 많은 폴더가 있으므로, 이 앱의 항목이 Peel이 살펴보지 못한 폴더에 있을 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Er zijn meer mappen in %@ dan Peel doorzoekt, dus er kan iets van deze app staan in een map die Peel niet heeft bereikt."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "W %@ jest więcej folderów, niż Peel przegląda, więc coś należącego do tej aplikacji może być w folderze, do którego Peel nie dotarł."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Há mais pastas em %@ do que o Peel examina, então algo deste app pode estar em uma pasta que o Peel não alcançou."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "În %@ sunt mai multe dosare decât examinează Peel, așa că ceva ce aparține acestei aplicații se poate afla într‑un dosar la care Peel nu a ajuns."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "В %@ больше папок, чем Peel просматривает, поэтому что-то от этого приложения может лежать в папке, до которой Peel не добрался."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det finns fler mappar i %@ än Peel tittar i, så något som hör till den här appen kan ligga i en mapp som Peel inte nådde."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ içinde Peel’in içine baktığından daha fazla klasör var, bu yüzden bu uygulamaya ait bir şey Peel’in ulaşmadığı bir klasörde olabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "У %@ більше папок, ніж Peel переглядає, тож щось, що належить цій програмі, може бути в папці, до якої Peel не дійшла."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@中的文件夹数量超出了Peel查看的上限，因此这个App的某些内容可能位于Peel未查看到的文件夹中。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@中的檔案夾數量超出Peel查看的範圍，因此這個App的某些項目可能位於Peel沒有查看到的檔案夾中。"
           }
         }
       }

@@ -11,7 +11,12 @@ final class ScanReads: Sendable {
         case names([String])
         case missing
         case unreadable
+        /// More entries than a scan reads, with their number when the file system tells it.
+        case holdsTooMany(Int?)
     }
+
+    /// The most entries a scan reads of one folder.
+    static let entryLimit = 20_000
 
     typealias List = @Sendable (URL) -> Listing
 
@@ -58,13 +63,67 @@ final class ScanReads: Sendable {
     }
 
     static func listing(of folder: URL) -> Listing {
-        do {
-            let names = try FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false))
-            return .names(names.sorted())
-        } catch CocoaError.fileReadNoSuchFile {
-            return .missing
-        } catch {
-            return .unreadable
+        listing(of: folder, limit: entryLimit)
+    }
+
+    /// Never more of a folder than `limit` entries: the file system is asked how many it holds first. Where it doesn't
+    /// tell, the names are read a few at a time, so Stop ends a read under way and a slow one ends at `budget`.
+    static func listing(of folder: URL, limit: Int, budget: TimeInterval = FileSize.budget) -> Listing {
+        // The enumerator follows no link at the top, as listing a folder by its path does.
+        let folder = folder.resolvingSymlinksInPath()
+        let path = folder.path(percentEncoded: false)
+        let count = entryCount(of: path)
+        if let count {
+            guard count <= limit else { return .holdsTooMany(count) }
+            do {
+                return .names(try FileManager.default.contentsOfDirectory(atPath: path).sorted())
+            } catch CocoaError.fileReadNoSuchFile {
+                return .missing
+            } catch {
+                return .unreadable
+            }
+        }
+        var failure: (any Error)?
+        // It hides what `contentsOfDirectory` hides, such as the `._` files of a disk without extended attributes.
+        let entries = FileManager.default.enumerator(
+            at: folder, includingPropertiesForKeys: [], options: [.skipsSubdirectoryDescendants]
+        ) { _, error in
+            failure = error
+            return false
+        }
+        let clock = ContinuousClock()
+        let deadline = clock.now + .seconds(budget)
+        var names: [String] = []
+        while let entry = entries?.nextObject() as? URL {
+            guard names.count < limit else { return .holdsTooMany(nil) }
+            names.append(entry.lastPathComponent)
+            if names.count.isMultiple(of: 1_000) {
+                if Task.isCancelled { return .unreadable }
+                if clock.now > deadline { return .holdsTooMany(nil) }
+            }
+        }
+        guard failure != nil else { return .names(names.sorted()) }
+        // What isn't there, a path through a file among it, is missing; what is there and can't be listed isn't.
+        var info = stat()
+        return stat(path, &info) == 0 ? .unreadable : .missing
+    }
+
+    /// The number of entries in the folder at `path`, without reading them, when its file system keeps it.
+    private static func entryCount(of path: String) -> Int? {
+        var request = attrlist()
+        request.bitmapcount = u_short(ATTR_BIT_MAP_COUNT)
+        request.commonattr = attrgroup_t(ATTR_CMN_RETURNED_ATTRS)
+        request.dirattr = attrgroup_t(ATTR_DIR_ENTRYCOUNT)
+        // UInt32 length, the attribute_set_t of what was returned (its third word the folder's), then the count.
+        var buffer = [UInt8](repeating: 0, count: 64)
+        let status = buffer.withUnsafeMutableBytes { bytes in
+            getattrlist(path, &request, bytes.baseAddress, bytes.count, UInt32(FSOPT_PACK_INVAL_ATTRS))
+        }
+        guard status == 0 else { return nil }
+        return buffer.withUnsafeBytes { bytes in
+            let returned = bytes.loadUnaligned(fromByteOffset: MemoryLayout<UInt32>.size * 3, as: UInt32.self)
+            guard returned & UInt32(ATTR_DIR_ENTRYCOUNT) != 0 else { return nil }
+            return Int(bytes.loadUnaligned(fromByteOffset: MemoryLayout<UInt32>.size * 6, as: UInt32.self))
         }
     }
 

@@ -1043,7 +1043,7 @@ struct CommandLineTests {
         #expect(notes.count == 5)
         #expect(notes[0].hasPrefix("Homebrew didn't answer, so what only its casks know is missing."))
         #expect(notes[1] == "Peel couldn't look inside /Users/me/Library/Caches, so something may be there that isn't listed. Give your terminal app Full Disk Access in System Settings to read the folders macOS protects.")
-        #expect(notes[2].hasPrefix("There are more folders in /Users/me/Library/Caches than Peel looks inside"))
+        #expect(notes[2] == "Peel looked inside only part of /Users/me/Library/Caches. It holds more folders than Peel looks through. Everything listed here can still go to the Trash. Anything this app left in the folders Peel skipped stays where it is.")
         #expect(notes[3] == "1 item needs administrator access and will stay. Remove it with the Peel app.")
         #expect(notes[4] == "1 file needs review and will stay. See it with `peel leftovers --all /Applications/Editor.app`.")
     }

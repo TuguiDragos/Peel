@@ -19,10 +19,11 @@ enum NestedSearch {
 
     struct Findings<Item> {
         var found: [Item] = []
-        /// True when the search stopped at its limit, so a folder it did not reach may hold more.
-        var wasCutShort = false
+        /// Where the search stopped at a limit: the folder whose folders it did not all reach.
+        var stoppedIn: URL?
         /// The folders it could not list, which may hold what it searched for.
         var unreadable: [URL] = []
+        var crowded: [CrowdedFolder] = []
     }
 
     /// The kinds of location whose folders are looked inside. In `/Users/Shared`, everything found is held back.
@@ -37,27 +38,32 @@ enum NestedSearch {
     /// and each listing is cheap.
     static let folderLimit = 5_000
 
+    /// The most entries read per location, however they are spread over its folders.
+    static let entryLimit = 50_000
+
     /// Lists `folders`, the entries of a location of `kind`, and every folder inside them that `visit` asks to look
-    /// inside, `depth` levels down and at most `limit` folders in all, through `reads`. `visit` is told whether a
-    /// folder it asks to look inside would still be listed. A folder of Apple's own, or one inside it, that cannot be
-    /// listed is not returned, since it holds no other app's files.
+    /// inside, `depth` levels down, at most `limit` folders and `entryLimit` entries in all, through `reads`. `visit`
+    /// is told whether a folder it asks to look inside would still be listed. A folder of Apple's own, or one inside
+    /// it, that cannot be listed is not returned, since it holds no other app's files.
     static func walk<Item>(
         inside folders: [URL],
         of kind: SearchLocation.Kind,
         limit: Int,
+        entryLimit: Int = NestedSearch.entryLimit,
         reads: ScanReads = ScanReads(),
         visit: (_ entry: URL, _ name: String, _ parent: ParentAccess, _ canLookInside: Bool) async -> Step<Item>
     ) async -> Findings<Item> {
         var findings = Findings<Item>()
         var pending = folders.map { (url: $0, isInsideApplesOwn: false) }
         var listed = 0
+        var read = 0
         for level in 0..<depth {
             var deeper: [(url: URL, isInsideApplesOwn: Bool)] = []
             for (folder, isInsideApplesOwn) in pending {
                 // A canceled scan stops here, since nobody will read what it finds.
                 guard !Task.isCancelled else { return findings }
-                guard listed < limit else {
-                    findings.wasCutShort = true
+                guard listed < limit, read < entryLimit else {
+                    findings.stoppedIn = folder.deletingLastPathComponent()
                     return findings
                 }
                 listed += 1
@@ -71,7 +77,11 @@ enum NestedSearch {
                 case .unreadable:
                     if !isApplesOwn { findings.unreadable.append(folder) }
                     continue
+                case .holdsTooMany(let entries):
+                    if !isApplesOwn { findings.crowded.append(CrowdedFolder(url: folder, entries: entries)) }
+                    continue
                 }
+                read += names.count
                 ScanCount.current?.add(names.count)
 
                 let parent = await reads.parentAccess(folder)

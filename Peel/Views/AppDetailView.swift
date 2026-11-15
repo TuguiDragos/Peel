@@ -185,14 +185,9 @@ struct AppDetailView: View {
                         needsFullDiskAccess: scan.needsFullDiskAccess
                     )
                 }
-                if !scan.cutShortLocations.isEmpty {
-                    Notice(
-                        title: Text("Peel didn’t look everywhere"),
-                        detail: Text("There are more folders in \(scan.cutShortLocations.map(\.url.abbreviatedPath).formatted(.list(type: .and))) than Peel looks inside, so something of this app’s may be in a folder Peel didn’t reach."),
-                        kind: .note
-                    ) {}
-                    .listRowSeparator(.hidden)
-                }
+                SkippedFolderNotices(
+                    crowded: scan.crowdedFolders, cutShort: scan.cutShortLocations.map(\.url), subject: .app
+                )
                 if !helper.canAct, let use = plan.helperUse {
                     switch use {
                     case .moving(let rows): HelperRequiredBanner(need: .moving(rows))

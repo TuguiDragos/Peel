@@ -820,12 +820,16 @@ struct FileCommandTests {
         let caches = SearchLocation(kind: .caches, url: URL(filePath: "/Users/me/Library/Caches", directoryHint: .isDirectory))
         var scan = OrphanScan(groups: [], unreadableLocations: [caches], needsFullDiskAccess: true)
         scan.cutShortLocations = [caches]
+        scan.crowdedFolders = [
+            CrowdedFolder(url: URL(filePath: "/Users/me/.cache/big", directoryHint: .isDirectory), entries: 1_221_973),
+        ]
 
         let notes = OrphansCommand.notes(for: scan, ownersUnreadable: false)
 
         #expect(notes == [
             "Peel couldn't look inside /Users/me/Library/Caches, so something may be there that isn't listed. Give your terminal app Full Disk Access in System Settings to read the folders macOS protects.",
-            "There are more folders in /Users/me/Library/Caches than Peel looks inside, so an orphaned file may be in a folder Peel didn't reach.",
+            "Peel did not look inside /Users/me/.cache/big. It holds 1221973 items, too many to read quickly. Everything listed here can still go to the Trash. An orphaned file inside it stays where it is.",
+            "Peel looked inside only part of /Users/me/Library/Caches. It holds more folders than Peel looks through. Everything listed here can still go to the Trash. An orphaned file in the folders Peel skipped stays where it is.",
         ])
     }
 

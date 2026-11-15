@@ -77,9 +77,13 @@ public struct BulkUninstallation: Sendable {
     public var unreadableLocations: [SearchLocation] {
         Self.places(uninstallations.flatMap { $0.scan.unreadableLocations })
     }
-    /// The places with more folders than Peel looks inside, as any of the apps' pages names them.
+    /// The folders with more folders than Peel looks through, as any of the apps' pages names them.
     public var cutShortLocations: [SearchLocation] {
         Self.places(uninstallations.flatMap { $0.scan.cutShortLocations })
+    }
+    public var crowdedFolders: [CrowdedFolder] {
+        Array(Set(uninstallations.flatMap(\.scan.crowdedFolders)))
+            .sorted { $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false) }
     }
 
     private static func places(_ locations: [SearchLocation]) -> [SearchLocation] {

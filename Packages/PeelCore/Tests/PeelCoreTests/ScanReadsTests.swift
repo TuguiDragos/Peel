@@ -38,4 +38,55 @@ struct ScanReadsTests {
         #expect(await reads.listing(of: directory.url.appending(path: "missing")) == .missing)
         #expect(await reads.listing(of: closed) == .unreadable)
     }
+
+    @Test func readsTheNamesOfAFolderSortedAndSaysWhatIsNotOne() throws {
+        let directory = try TemporaryDirectory()
+        for name in ["b", "c", "a", ".hidden"] { try directory.file("folder/\(name)") }
+        let folder = directory.url.appending(path: "folder", directoryHint: .isDirectory)
+
+        #expect(ScanReads.listing(of: folder) == .names([".hidden", "a", "b", "c"]))
+        #expect(ScanReads.listing(of: folder.appending(path: "a")) == .unreadable)
+        #expect(ScanReads.listing(of: folder.appending(path: "a/inside")) == .missing)
+    }
+
+    @Test func readsNoFolderWithMoreEntriesThanItsLimit() throws {
+        let directory = try TemporaryDirectory()
+        for name in 0..<6 { try directory.file("folder/\(name)") }
+
+        #expect(ScanReads.listing(of: directory.url.appending(path: "folder"), limit: 5) == .holdsTooMany(6))
+    }
+
+    @Test func stopsAtItsLimitOnADiskThatDoesNotTellHowManyEntriesAFolderHolds() throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "disk"))
+        let folder = disk.url.appending(path: "folder", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        for name in 0..<6 {
+            FileManager.default.createFile(atPath: folder.appending(path: "\(name)").path(percentEncoded: false), contents: nil)
+        }
+
+        // macOS keeps a file's extended attributes beside it there, in a file of its own, so the folder holds more.
+        let entries = try FileManager.default.contentsOfDirectory(atPath: folder.path(percentEncoded: false)).sorted()
+
+        #expect(ScanReads.listing(of: folder, limit: entries.count - 1) == .holdsTooMany(nil))
+        #expect(ScanReads.listing(of: folder, limit: entries.count) == .names(entries))
+    }
+
+    @Test func stopsAReadThatIsStoppedOrRunsPastItsBudget() async throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(fileSystem: "ExFAT", mountedAt: directory.url.appending(path: "disk"))
+        let folder = disk.url.appending(path: "folder", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        for name in 0..<2_000 {
+            FileManager.default.createFile(atPath: folder.appending(path: "\(name)").path(percentEncoded: false), contents: nil)
+        }
+
+        let stopped = await Task {
+            withUnsafeCurrentTask { $0?.cancel() }
+            return ScanReads.listing(of: folder, limit: 10_000)
+        }.value
+
+        #expect(stopped == .unreadable)
+        #expect(ScanReads.listing(of: folder, limit: 10_000, budget: 0) == .holdsTooMany(nil))
+    }
 }

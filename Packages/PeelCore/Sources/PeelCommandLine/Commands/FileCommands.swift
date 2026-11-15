@@ -24,8 +24,9 @@ struct OrphansCommand: AsyncParsableCommand {
         let groups: [Group]
         let forAnAdministrator: [ForAnAdministrator]
         let unreadableLocations: [String]
-        /// The places with more folders inside than Peel looks into, where an orphaned file may be that isn't listed.
+        /// The folders with more folders than Peel looks through, where an orphaned file may be that isn't listed.
         let cutShortLocations: [String]
+        let notLookedInside: [Output.CrowdedRecord]
         let needsFullDiskAccess: Bool
 
         struct ForAnAdministrator: Encodable {
@@ -172,9 +173,11 @@ struct OrphansCommand: AsyncParsableCommand {
             let folders = scan.unreadableLocations.map(\.url)
             notes.append(Output.unreadableNote(for: folders, needsFullDiskAccess: scan.needsFullDiskAccess))
         }
-        notes += scan.cutShortLocations.map {
-            "There are more folders in \(Output.plain(Output.path($0.url))) than Peel looks inside, so an orphaned file may be in a folder Peel didn't reach."
-        }
+        notes += Output.skippedNotes(
+            crowded: scan.crowdedFolders, cutShort: scan.cutShortLocations,
+            leftInside: "An orphaned file inside it stays where it is.",
+            leftInSkipped: "An orphaned file in the folders Peel skipped stays where it is."
+        )
         if scan.otherAccountsMayOwn {
             notes.append("This Mac has other accounts. An app one of them keeps in its own Applications folder isn't visible from here, so check what you move from /Library.")
         }
@@ -229,6 +232,7 @@ struct OrphansCommand: AsyncParsableCommand {
             },
             unreadableLocations: scan.unreadableLocations.map { Output.path($0.url) },
             cutShortLocations: scan.cutShortLocations.map { Output.path($0.url) },
+            notLookedInside: scan.crowdedFolders.map(Output.CrowdedRecord.init),
             needsFullDiskAccess: scan.needsFullDiskAccess
         )
     }

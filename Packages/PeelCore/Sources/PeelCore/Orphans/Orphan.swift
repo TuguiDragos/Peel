@@ -111,9 +111,10 @@ public struct OrphanScan: Sendable {
     /// True when macOS's privacy protection, not ordinary permissions, kept Peel out of one of `unreadableLocations`,
     /// so Full Disk Access would open it.
     public var needsFullDiskAccess = false
-    /// The places with more folders inside than Peel looks into (`NestedSearch.folderLimit`), so an orphaned file
-    /// may be in one it did not reach.
+    /// The folders whose folders the search inside did not all reach, at its limit, so an orphaned file may be in
+    /// one it did not reach.
     public var cutShortLocations: [SearchLocation] = []
+    public var crowdedFolders: [CrowdedFolder] = []
     /// What only an administrator can move, listed apart from the groups.
     public let forAnAdministrator: [AdministratorItem]
     /// Apps macOS knows on another disk that claimed something: Peel remembers them for when that disk isn't connected.
@@ -129,13 +130,15 @@ public struct OrphanScan: Sendable {
     /// it kept.
     init(
         groups: [OrphanGroup], unreadableLocations: [SearchLocation], needsFullDiskAccess: Bool = false,
-        cutShortLocations: [SearchLocation] = [], forAnAdministrator: [AdministratorItem] = [],
-        appsOnOtherDisks: [InstalledApp] = [], foldersOfThisAccountAlone: [URL]? = nil
+        cutShortLocations: [SearchLocation] = [], crowdedFolders: [CrowdedFolder] = [],
+        forAnAdministrator: [AdministratorItem] = [], appsOnOtherDisks: [InstalledApp] = [],
+        foldersOfThisAccountAlone: [URL]? = nil
     ) {
         self.groups = groups
         self.unreadableLocations = unreadableLocations
         self.needsFullDiskAccess = needsFullDiskAccess
         self.cutShortLocations = cutShortLocations
+        self.crowdedFolders = crowdedFolders
         self.forAnAdministrator = forAnAdministrator
         self.appsOnOtherDisks = appsOnOtherDisks
         self.foldersOfThisAccountAlone = foldersOfThisAccountAlone
@@ -169,7 +172,7 @@ public struct OrphanScan: Sendable {
         OrphanScan(
             groups: groups.filter(isKept), unreadableLocations: unreadableLocations,
             needsFullDiskAccess: needsFullDiskAccess, cutShortLocations: cutShortLocations,
-            forAnAdministrator: forAnAdministrator, appsOnOtherDisks: appsOnOtherDisks,
+            crowdedFolders: crowdedFolders, forAnAdministrator: forAnAdministrator, appsOnOtherDisks: appsOnOtherDisks,
             foldersOfThisAccountAlone: foldersOfThisAccountAlone
         )
     }

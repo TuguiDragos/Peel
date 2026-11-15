@@ -138,12 +138,14 @@ public struct OrphanScanner: Sendable {
         var seen: Set<String> = []
         var unreadableLocations: [SearchLocation] = []
         var cutShortLocations: [SearchLocation] = []
+        var crowdedFolders: [CrowdedFolder] = []
         for (_, result) in results.sorted(by: { Self.isNearer($0.location, than: $1.location) }) {
             switch result {
-            case .found(let items, let cutShort, let unreadable):
+            case .found(let items, let cutShort, let unreadable, let crowded):
                 found += items.filter { seen.insert(PathPattern.comparablePath(of: $0.item.url)).inserted }
                 unreadableLocations += unreadable
                 if let cutShort { cutShortLocations.append(cutShort) }
+                crowdedFolders += crowded
             case .unreadable(let location):
                 unreadableLocations.append(location)
             }
@@ -239,6 +241,9 @@ public struct OrphanScanner: Sendable {
             unreadableLocations: unreadableLocations.sorted(by: byPath),
             needsFullDiskAccess: unreadableLocations.contains { FullDiskAccess.canList($0.url) == .missing },
             cutShortLocations: cutShortLocations.sorted(by: byPath),
+            crowdedFolders: crowdedFolders.sorted {
+                $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
+            },
             forAnAdministrator: forAnAdministrator,
             appsOnOtherDisks: knownToMacOS.identifiers.flatMap(knownPlaces).filter(isOnAnotherDisk)
                 .compactMap { AppInspector.inspect($0) },
@@ -400,13 +405,13 @@ public struct OrphanScanner: Sendable {
         walk: @escaping LeftoverScanner.Measure
     ) async -> LocationResult {
         let entries: [String]
-        do {
-            entries = try FileManager.default.contentsOfDirectory(atPath: location.url.path(percentEncoded: false))
-                .sorted()
-        } catch CocoaError.fileReadNoSuchFile {
-            return .found([], cutShort: nil, unreadable: [])
-        } catch {
-            return .unreadable(location)
+        switch ScanReads.listing(of: location.url) {
+        case .names(let names): entries = names
+        case .missing: return .found([], cutShort: nil, unreadable: [])
+        case .unreadable: return .unreadable(location)
+        case .holdsTooMany(let count):
+            let crowded = CrowdedFolder(url: location.url, entries: count)
+            return .found([], cutShort: nil, unreadable: [], crowded: [crowded])
         }
         let parent = ParentAccess(location.url)
         var found: [(identifier: String, item: OrphanItem)] = []
@@ -760,8 +765,7 @@ public struct OrphanScanner: Sendable {
         root: String,
         walk: @escaping LeftoverScanner.Measure
     ) async -> (items: [(identifier: String, item: OrphanItem)], unreadable: [SearchLocation]) {
-        let path = location.url.path(percentEncoded: false)
-        guard let entries = try? FileManager.default.contentsOfDirectory(atPath: path) else { return ([], []) }
+        guard case .names(let entries) = ScanReads.listing(of: location.url) else { return ([], []) }
         let parent = ParentAccess(location.url)
         var candidates: [Candidate] = []
         var unreadable: [SearchLocation] = []
@@ -828,9 +832,12 @@ public struct OrphanScanner: Sendable {
 
 
     private enum LocationResult: Sendable {
-        /// `cutShort` is the location itself when the search inside its folders hit the limit, and `unreadable` the
-        /// folders inside it that search could not look into.
-        case found([(identifier: String, item: OrphanItem)], cutShort: SearchLocation?, unreadable: [SearchLocation])
+        /// `cutShort` is the folder whose folders the search inside did not all reach, `unreadable` the folders that
+        /// search could not look into, and `crowded` those it did not read.
+        case found(
+            [(identifier: String, item: OrphanItem)], cutShort: SearchLocation?, unreadable: [SearchLocation],
+            crowded: [CrowdedFolder] = []
+        )
         case unreadable(SearchLocation)
     }
 
@@ -857,15 +864,15 @@ public struct OrphanScanner: Sendable {
         walk: @escaping LeftoverScanner.Measure
     ) async -> LocationResult {
         let entries: [String]
-        do {
-            // Sorted, because with a limit on how many folders are looked inside, the order decides which ones.
-            entries = try FileManager.default.contentsOfDirectory(atPath: location.url.path(percentEncoded: false))
-                .sorted()
+        switch ScanReads.listing(of: location.url) {
+        case .names(let names):
+            entries = names
             ScanCount.current?.add(entries.count)
-        } catch CocoaError.fileReadNoSuchFile {
-            return .found([], cutShort: nil, unreadable: [])
-        } catch {
-            return .unreadable(location)
+        case .missing: return .found([], cutShort: nil, unreadable: [])
+        case .unreadable: return .unreadable(location)
+        case .holdsTooMany(let count):
+            let crowded = CrowdedFolder(url: location.url, entries: count)
+            return .found([], cutShort: nil, unreadable: [], crowded: [crowded])
         }
 
         let parent = ParentAccess(location.url)
@@ -946,8 +953,9 @@ public struct OrphanScanner: Sendable {
         }
         return .found(
             found,
-            cutShort: inside.wasCutShort ? location : nil,
-            unreadable: (notLookedInto + inside.unreadable).map { SearchLocation(kind: location.kind, url: $0) }
+            cutShort: inside.stoppedIn.map { SearchLocation(kind: location.kind, url: $0) },
+            unreadable: (notLookedInto + inside.unreadable).map { SearchLocation(kind: location.kind, url: $0) },
+            crowded: inside.crowded
         )
     }
 

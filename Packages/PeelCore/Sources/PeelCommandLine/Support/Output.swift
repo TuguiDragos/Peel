@@ -192,6 +192,43 @@ enum Output {
             .compactMap(\.self).joined(separator: " ")
     }
 
+    /// `items` is `null` when the file system doesn't tell.
+    struct CrowdedRecord: Encodable {
+        let path: String
+        let items: Int?
+
+        init(_ folder: CrowdedFolder) {
+            path = Output.path(folder.url)
+            items = folder.entries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path
+            case items
+        }
+
+        func encode(to encoder: any Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(path, forKey: .path)
+            try container.encode(items, forKey: .items)
+        }
+    }
+
+    /// What a scan did not read whole, in the app's words.
+    static func skippedNotes(
+        crowded: [CrowdedFolder], cutShort: [SearchLocation], leftInside: String, leftInSkipped: String
+    ) -> [String] {
+        let tooMany = crowded.map { folder in
+            let holds = folder.entries.map { "It holds \(number($0)) items, too many to read quickly." }
+                ?? "It holds too many items to read quickly."
+            return "Peel did not look inside \(plain(path(folder.url))). \(holds) Everything listed here can still go to the Trash. \(leftInside)"
+        }
+        let part = cutShort.map {
+            "Peel looked inside only part of \(plain(path($0.url))). It holds more folders than Peel looks through. Everything listed here can still go to the Trash. \(leftInSkipped)"
+        }
+        return tooMany + part
+    }
+
     /// The sentence that says the permissions kept Peel out of `items`, or nil when they didn't.
     static func whyNotRead(_ items: [URL]) -> String? {
         let closed = items.count(where: FileAccess.isClosedByItsPermissions)

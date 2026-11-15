@@ -16,6 +16,7 @@ public struct LeftoverScanner: Sendable {
     private let installedByApple: InstalledByApple
     /// The most folders listed per location while searching inside folders the app does not claim.
     private let nestedFolderLimit: Int
+    private let nestedEntryLimit: Int
 
     public init(environment: SearchEnvironment = .current, exclusions: Exclusions = .none) {
         self.init(environment: environment, exclusions: exclusions, measure: Self.walk)
@@ -31,6 +32,7 @@ public struct LeftoverScanner: Sendable {
         refuses: @escaping Refuses = { ProtectedData.refuses($0, home: $1) },
         installedByApple: @escaping InstalledByApple = { await PackageReceipts.isInstalledByApple($0) },
         nestedFolderLimit: Int = NestedSearch.folderLimit,
+        nestedEntryLimit: Int = NestedSearch.entryLimit,
         list: @escaping ScanReads.List = ScanReads.listing(of:)
     ) {
         self.environment = environment
@@ -39,6 +41,7 @@ public struct LeftoverScanner: Sendable {
         reads = ScanReads(list: list, refuses: refuses)
         self.installedByApple = installedByApple
         self.nestedFolderLimit = nestedFolderLimit
+        self.nestedEntryLimit = nestedEntryLimit
     }
 
     /// Finds the files `app` keeps outside its bundle. `installedApps` should hold every app on the Mac, so files
@@ -128,7 +131,7 @@ public struct LeftoverScanner: Sendable {
                 let home = environment.homeDirectory.path(percentEncoded: false)
                 let root = environment.rootDirectory.path(percentEncoded: false)
                 _ = group.addTaskUnlessCancelled {
-                    [exclusions, measure, reads, installedByApple, nestedFolderLimit] in
+                    [exclusions, measure, reads, installedByApple, nestedFolderLimit, nestedEntryLimit] in
                     (location, await Self.scan(
                         location,
                         matcher: matcher,
@@ -139,7 +142,8 @@ public struct LeftoverScanner: Sendable {
                         measure: measure,
                         reads: reads,
                         installedByApple: installedByApple,
-                        nestedFolderLimit: nestedFolderLimit
+                        nestedFolderLimit: nestedFolderLimit,
+                        nestedEntryLimit: nestedEntryLimit
                     ))
                 }
             }
@@ -149,13 +153,15 @@ public struct LeftoverScanner: Sendable {
         var found: [(location: SearchLocation, leftovers: [Leftover])] = []
         var unreadableLocations: [SearchLocation] = []
         var cutShortLocations: [SearchLocation] = []
+        var crowdedFolders: [CrowdedFolder] = []
         var jobs: [UnclaimedJob] = []
         for (location, result) in results {
             switch result {
-            case .found(let leftovers, let cutShort, let unreadable, let unclaimed):
+            case .found(let leftovers, let cutShort, let unreadable, let crowded, let unclaimed):
                 found.append((location, leftovers))
                 if let cutShort { cutShortLocations.append(cutShort) }
                 unreadableLocations += unreadable
+                crowdedFolders += crowded
                 jobs += unclaimed
             case .unreadable(let location):
                 unreadableLocations.append(location)
@@ -185,6 +191,9 @@ public struct LeftoverScanner: Sendable {
                 .sorted(by: Leftover.comesBefore),
             unreadableLocations: unreadableLocations.sorted(by: byPath),
             cutShortLocations: cutShortLocations.sorted(by: byPath),
+            crowdedFolders: crowdedFolders.sorted {
+                $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
+            },
             needsFullDiskAccess: unreadableLocations.contains { FullDiskAccess.canList($0.url) == .missing }
         )
     }
@@ -217,10 +226,13 @@ public struct LeftoverScanner: Sendable {
     }
 
     private enum LocationResult: Sendable {
-        /// `cutShort` is the location itself when the search inside its folders hit the limit, `unreadable` the
-        /// folders inside it that search could not look into, and `jobs` the launchd jobs nothing claimed by name or
-        /// by a program inside the app.
-        case found([Leftover], cutShort: SearchLocation?, unreadable: [SearchLocation], jobs: [UnclaimedJob])
+        /// `cutShort` is the folder whose folders the search inside did not all reach, `unreadable` the folders that
+        /// search could not look into, `crowded` those it did not read, and `jobs` the launchd jobs nothing claimed by
+        /// name or by a program inside the app.
+        case found(
+            [Leftover], cutShort: SearchLocation?, unreadable: [SearchLocation], crowded: [CrowdedFolder],
+            jobs: [UnclaimedJob]
+        )
         case unreadable(SearchLocation)
     }
 
@@ -267,7 +279,8 @@ public struct LeftoverScanner: Sendable {
         measure: @escaping Measure,
         reads: ScanReads,
         installedByApple: @escaping InstalledByApple,
-        nestedFolderLimit: Int
+        nestedFolderLimit: Int,
+        nestedEntryLimit: Int
     ) async -> LocationResult {
         let entries: [String]
         switch await reads.listing(of: location.url) {
@@ -275,9 +288,12 @@ public struct LeftoverScanner: Sendable {
             entries = names
             ScanCount.current?.add(entries.count)
         case .missing:
-            return .found([], cutShort: nil, unreadable: [], jobs: [])
+            return .found([], cutShort: nil, unreadable: [], crowded: [], jobs: [])
         case .unreadable:
             return .unreadable(location)
+        case .holdsTooMany(let count):
+            let crowded = CrowdedFolder(url: location.url, entries: count)
+            return .found([], cutShort: nil, unreadable: [], crowded: [crowded], jobs: [])
         }
 
         let parent = await reads.parentAccess(location.url)
@@ -320,15 +336,17 @@ public struct LeftoverScanner: Sendable {
         let inside = await nested(
             in: nobodysFolders, of: location, matcher: matcher, home: home, root: root, bundle: bundle,
             exclusions: exclusions, measure: measure, reads: reads, installedByApple: installedByApple,
-            limit: nestedFolderLimit
+            limit: nestedFolderLimit, entryLimit: nestedEntryLimit
         )
         let makersOwn = await inItsMakersFolders(
             nobodysFolders + makersItems, rows: inside.found, of: location, matcher: matcher, home: home, root: root,
             exclusions: exclusions, measure: measure, reads: reads, installedByApple: installedByApple
         )
         return .found(
-            leftovers + inside.found + makersOwn, cutShort: inside.wasCutShort ? location : nil,
-            unreadable: inside.unreadable.map { SearchLocation(kind: location.kind, url: $0) }, jobs: jobs
+            leftovers + inside.found + makersOwn,
+            cutShort: inside.stoppedIn.map { SearchLocation(kind: location.kind, url: $0) },
+            unreadable: inside.unreadable.map { SearchLocation(kind: location.kind, url: $0) }, crowded: inside.crowded,
+            jobs: jobs
         )
     }
 
@@ -396,8 +414,9 @@ public struct LeftoverScanner: Sendable {
         measure: @escaping Measure,
         reads: ScanReads,
         installedByApple: @escaping InstalledByApple,
-        limit: Int
-    ) async -> (found: [Leftover], wasCutShort: Bool, unreadable: [URL]) {
+        limit: Int,
+        entryLimit: Int
+    ) async -> (found: [Leftover], stoppedIn: URL?, unreadable: [URL], crowded: [CrowdedFolder]) {
         let kind = location.kind
         let locationLength = location.url.pathComponents.count
         func matching(_ url: URL, named name: String) -> LeftoverMatch? {
@@ -407,7 +426,7 @@ public struct LeftoverScanner: Sendable {
                 : Self.match(name, at: url, kind: kind, matcher: matcher, home: home, nested: true)
         }
         let search: NestedSearch.Findings<Found> = await NestedSearch.walk(
-            inside: folders, of: kind, limit: limit, reads: reads
+            inside: folders, of: kind, limit: limit, entryLimit: entryLimit, reads: reads
         ) { url, name, parent, canLookInside in
             let path = url.path(percentEncoded: false)
             let match = matching(url, named: name)
@@ -432,12 +451,24 @@ public struct LeftoverScanner: Sendable {
         let taken = await withoutWhatAppleInstalled(search.found, home: home, installedByApple: installedByApple)
         let found = await measured(taken, kind: kind, home: home, root: root, measure: measure)
         // A program keeps its files in a folder named by its identifier (Apple's File System Programming Guide), so
-        // one the app has no claim on holds none of its files, even where Peel can't look inside.
-        let unreadable = search.unreadable.filter { folder in
-            !Identifier.isReverseDNS(LeftoverMatcher.key(from: folder.lastPathComponent, kind: kind))
-                || matching(folder, named: folder.lastPathComponent) != nil
+        // one the app has no claim on holds none of its files, even where Peel can't look inside, and neither does
+        // another app's bundle.
+        func mayHoldTheAppsFiles(_ folder: URL) -> Bool {
+            guard !folder.isNamedAsAnApp else { return false }
+            var url = location.url
+            for name in folder.pathComponents.dropFirst(locationLength) {
+                url = url.appending(path: name)
+                if Identifier.isReverseDNS(LeftoverMatcher.key(from: name, kind: kind)),
+                   matching(url, named: name) == nil {
+                    return false
+                }
+            }
+            return true
         }
-        return (found, search.wasCutShort, unreadable)
+        return (
+            found, search.stoppedIn, search.unreadable.filter(mayHoldTheAppsFiles),
+            search.crowded.filter { mayHoldTheAppsFiles($0.url) }
+        )
     }
 
     /// What a search took, less what one of Apple's packages installed, which is Apple's whatever its name says. Only
