@@ -359,6 +359,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Applications
 
+- The icons in the list no longer flicker and keep several processors busy while the Mac is short of memory: Peel
+  keeps them until an app leaves the list or changes.
+- An app's page and several apps' page no longer read a folder of a million files whole at every click, which took a
+  minute and gigabytes of memory: a folder with more than 20,000 items is left out, and the page names it, says
+  what that means, and offers Show in Finder. When the search inside other folders stops early, it names the folder
+  that holds too many, not the whole home folder, and a folder that can't hold the app's files is no longer named.
 - After an uninstall, the page no longer keeps the window waiting while it reads code signatures to learn whether Peel
   has App Management.
 - An app shown from outside the app folders, through a `peel://` link, a drop, or Finder, is looked for away from the
@@ -521,6 +527,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### Orphaned Files
 
+- Orphaned Files no longer reads a folder of a million files whole: it names the folder it did not look inside, or
+  looked inside only in part, in a note at the top of the list, where the note no longer sits over the rows.
 - A file named like an app in an Applications folder no longer counts as an app Peel couldn't read, which left Orphaned
   Files and `peel orphans` listing nothing.
 - An alias in an Applications folder that leads to an app that's gone is listed under that app, and one that leads to
@@ -882,6 +890,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### `peel`
 
+- `peel leftovers`, `peel uninstall`, and `peel orphans` read no folder of more than 20,000 items, say which folder
+  they left out and why, and `--json` lists it under `notLookedInside`.
 - `peel uninstall` lists an app kept in a place it searches, such as an input method in `~/Library/Input Methods`, once
   in its plan, its total, and its JSON, no longer a second time among the app's own leftovers.
 - `peel uninstall --dry-run` and `peel leftovers` say the app stays while a program from it runs, on the app's row and
