@@ -197,7 +197,7 @@ struct HistoryCommand: AsyncParsableCommand {
 
     func run(in log: RemovalLog, refusals: RefusalLog, trash: TrashService) async throws {
         guard !refused else { return try await listRefusals(in: refusals, trash: trash) }
-        let outcome = await log.load()
+        let outcome = await log.loadForgettingWhatIsBack()
         guard let records = outcome.records else {
             throw CommandFailure("Peel couldn't read its History.\(outcome.problem.map { " \($0.summary)" } ?? "")")
         }
@@ -381,7 +381,7 @@ struct RestoreCommand: AsyncParsableCommand {
                 ExclusionStore.defaultURL.path(percentEncoded: false), service.whyExclusionsAreUnreadable
             )
         }
-        let outcome = await log.load()
+        let outcome = await log.loadForgettingWhatIsBack()
         guard let records = outcome.records else {
             throw CommandFailure("Peel couldn't read its History.\(outcome.problem.map { " \($0.summary)" } ?? "")")
         }

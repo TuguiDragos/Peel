@@ -57,6 +57,42 @@ struct RemovalStandingTests {
         #expect(await RemovalStanding.stillGone([gone, back]).map(\.id) == [gone.id])
     }
 
+    @Test func anItemPutBackByAPutBackThatWasCutShortHasNotLeftTheTrash() async throws {
+        let directory = try TemporaryDirectory()
+        let trashed = try directory.directory("home/.Trash/Notes")
+        let original = directory.url.appending(path: "home/Documents/Notes", directoryHint: .isDirectory)
+        let item = TrashedItem(
+            originalURL: original, trashedURL: trashed, date: .now, identity: .init(ofItemAt: trashed)
+        )
+        let record = RemovalRecord(batch: UUID(), item: item, size: 1, source: "Example", tool: "test")
+        try directory.directory("home/Documents")
+        try FileManager.default.moveItem(at: trashed, to: original)
+
+        #expect(record.standing == .backInItsPlace)
+        #expect(RemovalStanding([record]).missingCount == 0)
+        #expect(await RemovalStanding.stillGone([record]).isEmpty)
+    }
+
+    @Test func historyForgetsWhatIsBackInItsPlaceWhenItIsRead() async throws {
+        let directory = try TemporaryDirectory()
+        func record(_ name: String) throws -> RemovalRecord {
+            let trashed = try directory.directory("home/.Trash/\(name)")
+            let item = TrashedItem(
+                originalURL: directory.url.appending(path: "home/\(name)", directoryHint: .isDirectory),
+                trashedURL: trashed, date: .now, identity: .init(ofItemAt: trashed)
+            )
+            return RemovalRecord(batch: UUID(), item: item, size: 1, source: "Example", tool: "test")
+        }
+        let back = try record("Back")
+        let still = try record("Still")
+        let log = RemovalLog(url: directory.url.appending(path: "removals.json"))
+        _ = await log.add([back, still])
+        try FileManager.default.moveItem(at: back.trashedURL, to: back.originalURL)
+
+        #expect(await log.loadForgettingWhatIsBack().records?.map(\.id) == [still.id])
+        #expect(await log.load().records?.map(\.id) == [still.id])
+    }
+
     @Test func findsWhatLeftTheTrashAcrossRemovalsAndNothingElse() async throws {
         let directory = try TemporaryDirectory()
         let disk = try ScratchVolume(

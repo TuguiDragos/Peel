@@ -235,7 +235,7 @@ final class RemovalHistoryStore {
     }
 
     func load() async {
-        await apply(await log.load())
+        await apply(await log.loadForgettingWhatIsBack())
         await loadRefusals()
         hasLoaded = true
     }

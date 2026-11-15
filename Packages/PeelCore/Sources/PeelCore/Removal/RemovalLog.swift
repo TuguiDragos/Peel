@@ -203,6 +203,22 @@ public actor RemovalLog {
         }
     }
 
+    /// Reads History, first taking out the records of items back in their place, as a Put Back that was cut short
+    /// leaves them: one that ended would have taken them out.
+    public func loadForgettingWhatIsBack() -> RemovalLogOutcome {
+        whileNoOtherProcessWrites {
+            guard let existing = current() else { return outcome(nil) }
+            let disks = MountedDisks.now()
+            let back = Set(existing.filter {
+                $0.isOnAConnectedDisk(disks) && $0.located(on: disks).standing == .backInItsPlace
+            }.map(\.id))
+            guard !back.isEmpty else { return outcome(existing) }
+            // History that couldn't be written is still read, as it was.
+            let kept = write(existing.filter { !back.contains($0.id) }, orNote: RemovalLogProblem.couldNotUpdate)
+            return outcome(kept ?? existing)
+        }
+    }
+
     /// What a read or change of the log answers, once it has `records` or left the file untouched (nil).
     private func outcome(_ records: [RemovalRecord]?) -> RemovalLogOutcome {
         RemovalLogOutcome(

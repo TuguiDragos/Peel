@@ -7,6 +7,7 @@ public struct RemovalStanding: Sendable {
     public private(set) var inTrash: Set<RemovalRecord.ID> = []
     public private(set) var away: Set<RemovalRecord.ID> = []
     public private(set) var notKnown: Set<RemovalRecord.ID> = []
+    public private(set) var backInItsPlace: Set<RemovalRecord.ID> = []
     /// What macOS answered when Peel looked for those, each answer once.
     public private(set) var whyNotKnown: [SystemError] = []
     /// What can be put back, in the removal's order.
@@ -60,6 +61,8 @@ public struct RemovalStanding: Sendable {
             } else if case .notKnown(let error) = place {
                 notKnown.insert(record.id)
                 if !whyNotKnown.contains(error) { whyNotKnown.append(error) }
+            } else if place == .backInItsPlace {
+                backInItsPlace.insert(record.id)
             } else {
                 missingCount += 1
             }
@@ -75,7 +78,10 @@ public struct RemovalStanding: Sendable {
 
     /// The records among `records` that have left the Trash.
     public func missing(among records: [RemovalRecord]) -> [RemovalRecord] {
-        records.filter { !inTrash.contains($0.id) && !away.contains($0.id) && !notKnown.contains($0.id) }
+        records.filter {
+            !inTrash.contains($0.id) && !away.contains($0.id) && !notKnown.contains($0.id)
+                && !backInItsPlace.contains($0.id)
+        }
     }
 
     /// The records among `records` that are selected and can be put back, in their order.

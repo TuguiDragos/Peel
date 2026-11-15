@@ -100,6 +100,8 @@ public struct TrashedItem: Sendable, Hashable, Codable {
         case inTheTrash
         /// Nothing is where it went, or, when Peel knows which item went, another item is.
         case gone
+        /// Out of the Trash and back where it was, as a Put Back cut short leaves it.
+        case backInItsPlace
         /// macOS would not let Peel look, so whether it is there is not known, and answered this.
         case notKnown(SystemError)
     }
@@ -108,11 +110,18 @@ public struct TrashedItem: Sendable, Hashable, Codable {
         var info = stat()
         guard lstat(trashedURL.path(percentEncoded: false), &info) == 0 else {
             let code = errno
-            guard code != ENOENT, code != ENOTDIR else { return .gone }
+            guard code != ENOENT, code != ENOTDIR else { return isBackInItsPlace ? .backInItsPlace : .gone }
             return .notKnown(SystemError(domain: NSPOSIXErrorDomain, code: Int(code)))
         }
         guard let identity else { return .inTheTrash }
-        return identity.isTheItem(info) ? .inTheTrash : .gone
+        if identity.isTheItem(info) { return .inTheTrash }
+        return isBackInItsPlace ? .backInItsPlace : .gone
+    }
+
+    private var isBackInItsPlace: Bool {
+        var info = stat()
+        guard let identity, lstat(originalURL.path(percentEncoded: false), &info) == 0 else { return false }
+        return identity.isTheItem(info)
     }
 
     /// Whether the item is still where it went in the Trash: something is there and, when Peel knows which item
