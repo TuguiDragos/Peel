@@ -108,6 +108,10 @@ final class RemovalPlan {
         uninstallation?.isAppBeyondTheHelper ?? false
     }
 
+    var isAppOnAReadOnlyDisk: Bool {
+        uninstallation?.isAppOnAReadOnlyDisk ?? false
+    }
+
     var isAppInTheTrash: Bool {
         uninstallation?.isAppInTheTrash ?? false
     }

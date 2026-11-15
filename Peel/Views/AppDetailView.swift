@@ -264,7 +264,7 @@ struct AppDetailView: View {
                 isLocked: plan.appRequiresPrivileges && !helper.canAct,
                 isExcluded: plan.isExcluded,
                 isLeftAlone: plan.app.isSystemProtected || plan.app.enclosingPackage != nil || plan.isAppBeyondTheHelper
-                    || plan.isAppInTheTrash || plan.removedElsewhere != nil,
+                    || plan.isAppOnAReadOnlyDisk || plan.isAppInTheTrash || plan.removedElsewhere != nil,
                 appIdentifier: plan.app.bundleIdentifier,
                 selection: plan, isSelected: plan.isSelected(plan.app.url)
             )
@@ -342,6 +342,9 @@ struct AppDetailView: View {
         }
         if plan.isAppInTheTrash {
             return String(localized: "Already in the Trash. What it left behind can still go.")
+        }
+        if plan.isAppOnAReadOnlyDisk {
+            return String(localized: HoldBack.onAReadOnlyDisk.explanation)
         }
         return plan.isAppBeyondTheHelper ? String(localized: HoldBack.beyondTheHelper.explanation) : nil
     }

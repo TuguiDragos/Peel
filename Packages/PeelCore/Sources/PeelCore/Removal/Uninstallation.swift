@@ -17,6 +17,8 @@ public struct Uninstallation: Sendable {
     /// True when the app needs administrator rights and the helper can't move it, so it is never selected. An app
     /// inside another package stays as part of it instead, the one reason its page gives.
     public var isAppBeyondTheHelper = false
+    /// True when the app is on a disk mounted to be read only, where nobody can move it, an administrator included.
+    public var isAppOnAReadOnlyDisk = false
     /// True when the app is already in the Trash, where Watch the Trash finds it: its bundle can't move again, so
     /// it is never selected or counted, and what it left behind still is.
     public var isAppInTheTrash = false
@@ -146,6 +148,7 @@ public struct Uninstallation: Sendable {
             appSharesStorage: await bundle?.sharesMostOfItsStorage ?? false,
             isAppBeyondTheHelper: appRequiresPrivileges && !app.isSystemProtected && app.enclosingPackage == nil
                 && reach.isBeyond(app.url),
+            isAppOnAReadOnlyDisk: FileAccess.isOnAReadOnlyDisk(app.url),
             isAppInTheTrash: TrashService.isInsideATrash(app.url, home: environment.homeDirectory),
             uninstallsItself: uninstallsItself,
             installedSystemExtensions: await AppExtensions.installed(carriedBy: app, asking: systemExtensions),
@@ -455,11 +458,12 @@ public struct Uninstallation: Sendable {
     }
 
     /// True when the app itself would stay: excluded, removed elsewhere, kept by macOS, part of another package,
-    /// beyond the helper, or needing the helper while it is not there. Nothing of it is then selected for the user:
-    /// while it stays, its files are not leftovers. For an app macOS keeps, what it holds is data in use.
+    /// beyond the helper, on a disk that can only be read, or needing the helper while it is not there. Nothing of it
+    /// is then selected for the user: while it stays, its files are not leftovers. For an app macOS keeps, what it
+    /// holds is data in use.
     public func appStays(canUseHelper: Bool) -> Bool {
         isExcluded || removedElsewhere != nil || app.isSystemProtected || app.enclosingPackage != nil
-            || isAppBeyondTheHelper
+            || isAppBeyondTheHelper || isAppOnAReadOnlyDisk
             || (appRequiresPrivileges && !canUseHelper)
     }
 
@@ -483,8 +487,8 @@ public struct Uninstallation: Sendable {
         var urls = Set(scan.leftovers.filter { leftover in
             leftover.match.heldBack?.cannotBeMoved != true && (canUseHelper || !leftover.requiresPrivileges)
         }.map(\.url))
-        if !app.isSystemProtected, app.enclosingPackage == nil, !isAppBeyondTheHelper, !isAppInTheTrash,
-           canUseHelper || !appRequiresPrivileges {
+        if !app.isSystemProtected, app.enclosingPackage == nil, !isAppBeyondTheHelper, !isAppOnAReadOnlyDisk,
+           !isAppInTheTrash, canUseHelper || !appRequiresPrivileges {
             urls.insert(app.url)
         }
         return urls

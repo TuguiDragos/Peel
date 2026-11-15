@@ -19,8 +19,8 @@ public struct SearchSelection: Sendable {
         var apart: [URL: FoundFile] = [:]
         for url in selected {
             if let file = listed[url] {
-                if !file.requiresPrivileges { kept.insert(url) }
-            } else if let file = records[url], !file.requiresPrivileges, !url.isMissing {
+                if !file.isLeftAlone { kept.insert(url) }
+            } else if let file = records[url], !file.isLeftAlone, !url.isMissing {
                 apart[url] = file
                 kept.insert(url)
             }
@@ -41,7 +41,7 @@ public struct SearchSelection: Sendable {
         let apart = Array(outside.keys)
         return SelectableRows(
             rows: files.map(\.url) + apart,
-            selectable: files.filter { !$0.requiresPrivileges }.map(\.url) + apart,
+            selectable: files.filter { !$0.isLeftAlone }.map(\.url) + apart,
             recommended: files.map(\.url).filter(recommended.contains) + apart
         )
     }

@@ -103187,6 +103187,112 @@
         }
       }
     },
+    "Left alone: this is on a disk that can only be read, so nothing can move it to the Trash." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: tato položka je na disku, který je jen pro čtení, takže ji nic nemůže přesunout do koše."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: Dieses Objekt liegt auf einem schreibgeschützten Volume, daher lässt es sich durch nichts in den Papierkorb legen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: esto está en un disco de solo lectura, así que nada puede trasladarlo a la papelera."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : il se trouve sur un disque en lecture seule, et rien ne peut donc le placer dans la corbeille."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: si trova su un disco di sola lettura, quindi nulla può spostarlo nel Cestino."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: これは読み出し専用のディスク上にあるため、どの方法でもゴミ箱に入れることはできません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: 이 항목은 읽기 전용 디스크에 있으므로 어떤 방법으로도 휴지통으로 이동할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: dit staat op een schijf die alleen kan worden gelezen, dus niets kan het naar de prullenmand verplaatsen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: jest na dysku tylko do odczytu, więc nic nie może przenieść tego do Kosza."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: este item está em um disco que só pode ser lido, então nada pode movê-lo para o Lixo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: se află pe un disc care poate fi doar citit, așa că nimic nu îl poate muta în Coș."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: этот объект находится на диске, доступном только для чтения, поэтому его невозможно переместить в Корзину."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: det här ligger på en skiva som bara kan läsas, så inget kan flytta det till papperskorgen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: bu, yalnızca okunabilen bir diskte, bu yüzden hiçbir şey onu Çöp Sepeti’ne taşıyamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: цей елемент лежить на диску, доступному лише для читання, тож ніщо не може перемістити його в Смітник."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：此项位于只能读取的磁盘上，因此任何程序都无法将它移到废纸篓。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：此項目位於唯讀磁碟上，因此任何程式都無法將它丟到「垃圾桶」。"
+          }
+        }
+      }
+    },
     "Left alone: this syncs to your other devices through iCloud or another app, and moving it to the Trash would also remove it from them." : {
       "localizations" : {
         "cs" : {

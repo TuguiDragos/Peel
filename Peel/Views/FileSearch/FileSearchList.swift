@@ -80,7 +80,7 @@ struct FileSearchList: View {
                                 kind: "\(file.modificationDate, format: .dateTime.day().month(.abbreviated).year())",
                                 warning: warning(for: file),
                                 size: file.size,
-                                isLeftAlone: file.requiresPrivileges,
+                                isLeftAlone: file.isLeftAlone,
                                 isFirst: file.id == results.files.first?.id,
                                 isChoosable: true,
                                 selection: search, isSelected: search.isSelected(file.url)
@@ -93,7 +93,7 @@ struct FileSearchList: View {
                                 detail: "Modified \(file.modificationDate, format: .relative(presentation: .named))",
                                 warning: warning(for: file),
                                 size: file.size,
-                                isLeftAlone: file.requiresPrivileges,
+                                isLeftAlone: file.isLeftAlone,
                                 isFirst: file.id == results.files.first?.id,
                                 isChoosable: true,
                                 selection: search, isSelected: search.isSelected(file.url)

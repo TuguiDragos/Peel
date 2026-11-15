@@ -566,6 +566,8 @@ public struct LeftoverScanner: Sendable {
             (.holdsALibrary, nil)
         } else if work == .found {
             (.holdsWorkKeptInACache, nil)
+        } else if parent.isOnAReadOnlyDisk {
+            (.onAReadOnlyDisk, nil)
         } else if !requiresPrivileges, [wallet, library, work].contains(.notKnown) {
             (.couldNotLookInside, nil)
         } else if let keeper = syncKeeper(url) {

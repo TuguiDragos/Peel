@@ -1,4 +1,5 @@
 import Foundation
+@testable import PeelCommandLine
 @testable import PeelCore
 import PeelPrivileged
 import Synchronization
@@ -34,6 +35,31 @@ struct UninstallationTests {
             appRequiresPrivileges: appRequiresPrivileges,
             scan: LeftoverScan(leftovers: leftovers, unreadableLocations: [])
         )
+    }
+
+    @Test func anAppOnADiskThatCanOnlyBeReadStaysAndNeedsNoAdministrator() async throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        let home = disk.url.appending(path: "home", directoryHint: .isDirectory)
+        let bundle = disk.url.appending(path: "Applications/Reader.app", directoryHint: .isDirectory)
+        for folder in [home.appending(path: "Library/Caches/org.example.reader"), bundle] {
+            try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        }
+        try disk.remount(at: disk.url, readOnly: true)
+        let app = InstalledApp(url: bundle, bundleIdentifier: "org.example.reader", name: "Reader")
+        let environment = SearchEnvironment(
+            homeDirectory: home, rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let plan = await Uninstallation.prepare(app, installedApps: [app], environment: environment)
+
+        #expect(plan.isAppOnAReadOnlyDisk && !plan.appRequiresPrivileges && !plan.isAppBeyondTheHelper)
+        #expect(plan.appStays(canUseHelper: true) && plan.selectable(canUseHelper: true).isEmpty)
+        let cache = try #require(plan.scan.leftovers.first { $0.url.lastPathComponent == "org.example.reader" })
+        #expect(cache.match.heldBack == .onAReadOnlyDisk && !cache.requiresPrivileges)
+        let why = UninstallCommand.whyItStays(plan)?.description ?? ""
+        #expect(why.contains("can only be read") && !why.contains("administrator"), "\(why)")
+        withExtendedLifetime(disk) {}
     }
 
     @Test func theHelperIsAskedForOnlyWhatThePageCanDoWithIt() {

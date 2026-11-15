@@ -23,6 +23,8 @@ public struct BulkUninstallation: Sendable {
         public var isMeasured = true
         /// Needs administrator rights, and the helper can't move it. Shown, never selected, never moved.
         public var isBeyondTheHelper = false
+        /// An app on a disk mounted to be read only, where nobody can move it. Shown, never selected, never moved.
+        public var isOnAReadOnlyDisk = false
         /// Only an administrator can move it, and nothing else holds it back, for every chosen app it belongs to.
         public var isLeftForAnAdministrator = false
         /// How an app removed elsewhere is removed instead, for it and its files: Peel by Remove Peel, an agent by its
@@ -182,8 +184,8 @@ public struct BulkUninstallation: Sendable {
 
     private static func selectable(among items: [Item], canUseHelper: Bool) -> Set<URL> {
         Set(items.filter { item in
-            !item.isExcluded && item.removedElsewhere == nil && !item.isBeyondTheHelper && !item.isInTheTrash
-                && item.enclosingPackage == nil
+            !item.isExcluded && item.removedElsewhere == nil && !item.isBeyondTheHelper && !item.isOnAReadOnlyDisk
+                && !item.isInTheTrash && item.enclosingPackage == nil
                 && !(item.isApplication && item.isKeptByMacOS) && item.match?.heldBack?.cannotBeMoved != true
                 && (canUseHelper || !item.requiresPrivileges)
         }.map(\.url))
@@ -315,6 +317,7 @@ public struct BulkUninstallation: Sendable {
                     isKeptByMacOS: existing.isKeptByMacOS || item.isKeptByMacOS,
                     isMeasured: existing.isMeasured || item.isMeasured,
                     isBeyondTheHelper: existing.isBeyondTheHelper || item.isBeyondTheHelper,
+                    isOnAReadOnlyDisk: existing.isOnAReadOnlyDisk || item.isOnAReadOnlyDisk,
                     isLeftForAnAdministrator: existing.isLeftForAnAdministrator && item.isLeftForAnAdministrator,
                     removedElsewhere: existing.removedElsewhere ?? item.removedElsewhere,
                     isInTheTrash: existing.isInTheTrash || item.isInTheTrash,
@@ -370,6 +373,7 @@ public struct BulkUninstallation: Sendable {
                 isKeptByMacOS: uninstallation.app.isSystemProtected,
                 isMeasured: uninstallation.isAppMeasured,
                 isBeyondTheHelper: uninstallation.isAppBeyondTheHelper,
+                isOnAReadOnlyDisk: uninstallation.isAppOnAReadOnlyDisk,
                 removedElsewhere: uninstallation.removedElsewhere,
                 isInTheTrash: uninstallation.isAppInTheTrash,
                 sharesStorage: uninstallation.appSharesStorage,

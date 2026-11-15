@@ -142,6 +142,8 @@ public enum HoldBack: String, Sendable, Hashable {
     case holdsTerraformState
     /// Needs an administrator, and the helper's own rule refuses it (`HelperReach`).
     case beyondTheHelper
+    /// On a disk mounted to be read only, where nobody can move it, an administrator included.
+    case onAReadOnlyDisk
     /// Removed by the app's own uninstaller once the app has moved (`UninstallsItself`). Moved first, the file of
     /// the job that runs the uninstaller would stop it, and the rest of its cleanup would never happen.
     case leftToItsUninstaller
@@ -216,7 +218,8 @@ public enum HoldBack: String, Sendable, Hashable {
     public var cannotBeMoved: Bool {
         self == .holdsDocuments || self == .holdsALibrary || self == .holdsKeys || self == .holdsWorkKeptInACache
             || self == .couldNotLookInside
-            || self == .beyondTheHelper || self == .leftToItsUninstaller || self == .neededWhenTheAppLeaves
+            || self == .beyondTheHelper || self == .onAReadOnlyDisk
+            || self == .leftToItsUninstaller || self == .neededWhenTheAppLeaves
             || self == .systemExtension || self == .systemExtensionGoingAtRestart || self == .deletableSystemExtension
             || self == .systemExtensionOfAnAppInside
             || self == .signInPlugIn

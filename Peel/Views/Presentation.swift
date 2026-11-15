@@ -813,6 +813,8 @@ extension HoldBack {
             "Not selected: this holds model weights or datasets, a long download to get back, and any you made or imported may exist only on this Mac."
         case .beyondTheHelper:
             "Left alone: only an administrator can move this, and Peel’s helper can’t move it from here."
+        case .onAReadOnlyDisk:
+            "Left alone: this is on a disk that can only be read, so nothing can move it to the Trash."
         case .leftToItsUninstaller:
             "Left alone: the app’s own uninstaller removes this once the app is in the Trash, and History can’t bring it back."
         case .neededWhenTheAppLeaves:

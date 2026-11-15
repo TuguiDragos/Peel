@@ -5,17 +5,24 @@ import Foundation
 /// owner. File flags are not read: moving a locked item fails, and the move reports that macOS didn't allow it.
 struct ParentAccess {
     let isWritable: Bool
+    /// True when the folder is on a disk mounted to be read only (`access(2)` fails with `EROFS`), where nobody can
+    /// move anything, an administrator included.
+    let isOnAReadOnlyDisk: Bool
     /// Who owns the folder, when it is sticky.
     let stickyOwner: uid_t?
 
     init(_ url: URL) {
         let path = url.path(percentEncoded: false)
         var info = stat()
-        isWritable = access(path, W_OK) == 0
+        let answer = access(path, W_OK)
+        isWritable = answer == 0
+        isOnAReadOnlyDisk = answer != 0 && errno == EROFS
         stickyOwner = stat(path, &info) == 0 && info.st_mode & S_ISVTX != 0 ? info.st_uid : nil
     }
 
+    /// False on a disk mounted to be read only, where an administrator can't move it either.
     func requiresPrivileges(toRemove url: URL) -> Bool {
+        guard !isOnAReadOnlyDisk else { return false }
         guard isWritable else { return true }
         let path = url.path(percentEncoded: false)
         var info = stat()

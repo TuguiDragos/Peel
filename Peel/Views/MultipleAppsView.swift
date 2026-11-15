@@ -265,7 +265,7 @@ struct MultipleAppsView: View {
             isMeasured: item.isMeasured,
             isLocked: item.requiresPrivileges && !helper.canAct,
             isExcluded: item.isApplication && item.isExcluded,
-            isLeftAlone: item.match?.heldBack?.cannotBeMoved == true || item.isBeyondTheHelper
+            isLeftAlone: item.match?.heldBack?.cannotBeMoved == true || item.isBeyondTheHelper || item.isOnAReadOnlyDisk
                 || (item.isApplication && item.isKeptByMacOS)
                 || item.removedElsewhere != nil || item.isInTheTrash || item.enclosingPackage != nil,
             appIdentifier: item.isApplication ? item.apps.first : nil,
@@ -306,6 +306,9 @@ struct MultipleAppsView: View {
         }
         if item.isApplication, item.isBeyondTheHelper {
             lines.append(String(localized: HoldBack.beyondTheHelper.explanation))
+        }
+        if item.isApplication, item.isOnAReadOnlyDisk {
+            lines.append(String(localized: HoldBack.onAReadOnlyDisk.explanation))
         }
         if let removedElsewhere = item.removedElsewhere {
             lines.append(String(localized: removedElsewhere.explanation))

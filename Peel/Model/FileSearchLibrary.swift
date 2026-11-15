@@ -65,7 +65,7 @@ final class FileSearchLibrary {
     /// Selects the chosen file or takes it out, for the keyboard: a list takes focus as a whole, so Tab never reaches
     /// a row's checkbox. False where that checkbox is off.
     func toggleChosen() -> Bool {
-        guard let chosenFile, !chosenFile.requiresPrivileges, !isSearching, !isRemoving else { return false }
+        guard let chosenFile, !chosenFile.isLeftAlone, !isSearching, !isRemoving else { return false }
         setSelected(!isSelected(chosenFile.url), for: chosenFile.url)
         return true
     }
@@ -96,7 +96,7 @@ final class FileSearchLibrary {
         answered = criteria
         filteredBy = exclusions
         recommendedURLs = Set(
-            found.files.filter { !$0.requiresPrivileges && !$0.belongsToAnApp && $0.heldBack == nil }.map(\.url)
+            found.files.filter { !$0.isLeftAlone && !$0.belongsToAnApp && $0.heldBack == nil }.map(\.url)
         )
         keepSelection(was: known, now: found.files)
         // The search ran under the exclusions as they were when it started, so leave out anything excluded since.
@@ -205,7 +205,7 @@ extension FileSearchLibrary: CarriesSelection {
 
     func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? {
         let files = ((results?.files ?? []) + selection.outside.values).filter {
-            selectedURLs.contains($0.url) && part.sizes.keys.contains($0.url) && !$0.requiresPrivileges
+            selectedURLs.contains($0.url) && part.sizes.keys.contains($0.url) && !$0.isLeftAlone
         }
         return await FileSearch.trash(files, using: TrashService(exclusions: ExclusionsStore.shared.exclusions))
     }

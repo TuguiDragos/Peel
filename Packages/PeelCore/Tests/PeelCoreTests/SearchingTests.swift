@@ -153,8 +153,21 @@ struct SearchingTests {
         try disk.remount(at: disk.url, readOnly: true)
 
         #expect(FileAccess.isOnAReadOnlyDisk(file))
-        #expect(FileAccess.requiresPrivilegesToRemove(file))
+        #expect(!FileAccess.requiresPrivilegesToRemove(file), "an administrator can't move it either")
         withExtendedLifetime(disk) {}
+    }
+
+    @Test func aFileOnADiskThatCanOnlyBeReadCannotBeSelected() throws {
+        let directory = try TemporaryDirectory()
+        let url = try directory.file("a.dmg")
+        let file = FoundFile(
+            url: url, size: 16, length: 16, modificationDate: .now, requiresPrivileges: false,
+            identity: FileIdentity.of(url), isOnAReadOnlyDisk: true
+        )
+        var selection = SearchSelection()
+
+        #expect(selection.update([url], was: [], now: [file]).isEmpty)
+        #expect(selection.rows(showing: [file], recommended: []).selectable.isEmpty)
     }
 
     @Test func theListsSelectMenuReachesWhatIsKeptApart() throws {

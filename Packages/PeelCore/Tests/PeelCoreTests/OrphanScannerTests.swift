@@ -4,6 +4,26 @@ import Synchronization
 import Testing
 
 struct OrphanScannerTests {
+    @Test func anOrphanOnADiskThatCanOnlyBeReadIsLeftAloneAndNeedsNoAdministrator() async throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        let home = disk.url.appending(path: "home", directoryHint: .isDirectory)
+        let cache = home.appending(path: "Library/Caches/com.gone.app", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: cache, withIntermediateDirectories: true)
+        try Data(count: 16).write(to: cache.appending(path: "cache.db"))
+        try disk.remount(at: disk.url, readOnly: true)
+        let environment = SearchEnvironment(
+            homeDirectory: home, rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+
+        let scan = await OrphanScanner(environment: environment) { _ in false }.scan(installedApps: [])
+
+        let item = try #require(scan.groups.flatMap(\.items).first { $0.url.lastPathComponent == "com.gone.app" })
+        #expect(item.heldBack == .onAReadOnlyDisk && !item.requiresPrivileges && !item.isLeftForAnAdministrator)
+        #expect(scan.forAnAdministrator.isEmpty)
+        withExtendedLifetime(disk) {}
+    }
+
     @Test func aFinderAliasLeadsToTheAppThatWentAsALinkDoes() throws {
         let directory = try TemporaryDirectory()
         let app = try directory.directory("Apps/Gone.app")

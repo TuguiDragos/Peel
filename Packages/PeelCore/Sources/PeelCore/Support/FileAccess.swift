@@ -11,7 +11,7 @@ public enum FileAccess {
     /// True when the disk `url` is on is mounted to be read only, so nothing can move it, Finder and an administrator
     /// included: `access(2)` fails with `EROFS`.
     public static func isOnAReadOnlyDisk(_ url: URL) -> Bool {
-        access(url.deletingLastPathComponent().path(percentEncoded: false), W_OK) != 0 && errno == EROFS
+        ParentAccess(url.deletingLastPathComponent()).isOnAReadOnlyDisk
     }
 
     /// True when macOS's privacy protection, rather than the permissions or a lock, keeps this process from

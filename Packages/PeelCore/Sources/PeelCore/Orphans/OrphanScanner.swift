@@ -428,7 +428,8 @@ public struct OrphanScanner: Sendable {
                 kind: location.kind,
                 size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                 modificationDate: contents?.newestChange,
-                requiresPrivileges: parent.requiresPrivileges(toRemove: url)
+                requiresPrivileges: parent.requiresPrivileges(toRemove: url),
+                heldBack: parent.isOnAReadOnlyDisk ? .onAReadOnlyDisk : nil
             )))
         }
         return .found(found, cutShort: nil, unreadable: [])
@@ -987,6 +988,8 @@ public struct OrphanScanner: Sendable {
             .holdsALibrary
         } else if work == .found {
             .holdsWorkKeptInACache
+        } else if parent.isOnAReadOnlyDisk {
+            .onAReadOnlyDisk
         } else if !requiresPrivileges, [wallet, library, work].contains(.notKnown) {
             .couldNotLookInside
         } else if let keptOnlyHere = KeptOnlyHere.reason(for: path, home: home, root: root) {

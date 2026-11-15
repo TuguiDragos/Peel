@@ -61,6 +61,8 @@ public struct FoundFile: Sendable, Hashable, Identifiable {
     public var heldBack: HoldBack?
     /// True when it is on a disk mounted to be read only, so nothing can move it.
     public var isOnAReadOnlyDisk = false
+    /// True when File Search leaves it where it is: only an administrator could move it, or nobody can.
+    public var isLeftAlone: Bool { requiresPrivileges || isOnAReadOnlyDisk }
 
     public var id: URL { url }
 

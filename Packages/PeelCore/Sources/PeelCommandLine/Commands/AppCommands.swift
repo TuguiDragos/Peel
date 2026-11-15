@@ -688,6 +688,11 @@ struct UninstallCommand: AsyncParsableCommand {
             ?? keptByMacOS(app) ?? partOfAnotherPackage(app) {
             return refusal
         }
+        if uninstallation.isAppOnAReadOnlyDisk {
+            return CommandFailure(
+                "\(Output.plain(app.name)) is on a disk that can only be read, so nothing can move it to the Trash."
+            )
+        }
         guard uninstallation.appRequiresPrivileges else { return nil }
         return whyItCannotMove(
             app,

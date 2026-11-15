@@ -491,7 +491,8 @@ public enum PackageReceipts {
             // link, the item is the link itself, not what it leads to.
             let url = URL(filePath: PathPattern.located(path) ?? path)
             guard !exclusions.excludes(url), seen.insert(PathPattern.comparablePath(of: url)).inserted else { continue }
-            let requiresPrivileges = FileAccess.requiresPrivilegesToRemove(url)
+            let parent = ParentAccess(url.deletingLastPathComponent())
+            let requiresPrivileges = parent.requiresPrivileges(toRemove: url)
             let contents = await FileSize.contents(of: url)
             let place = PathPattern.comparablePath(of: url)
             let isShared = shared.contains { PathComponents.isPath(place, atOrInside: $0) }
@@ -499,6 +500,8 @@ public enum PackageReceipts {
             let app = apps.first { PathComponents.isPath(PathPattern.comparablePath(of: $0.url), atOrInside: place) }
             let heldBack: HoldBack? = if SignInPlugIns.isOne(url, root: volume) {
                 .signInPlugIn
+            } else if parent.isOnAReadOnlyDisk {
+                .onAReadOnlyDisk
             } else if requiresPrivileges && reach.isBeyond(url) {
                 .beyondTheHelper
             } else if let held = uninstaller?.holdBack(for: url) {
