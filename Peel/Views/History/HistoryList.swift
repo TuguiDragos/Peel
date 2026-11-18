@@ -26,12 +26,6 @@ struct HistoryList: View {
         let revision: Int
     }
 
-    /// What starts the filter's look again: turning it on, or other lists.
-    private struct Look: Hashable {
-        let isOn: Bool
-        let revision: Int
-    }
-
     private var batches: [RemovalBatch] {
         let all = searchText.isEmpty ? history.batches : found?.batches ?? history.batches
         guard showsOnlyWhatLeft else { return all }
@@ -199,7 +193,7 @@ struct HistoryList: View {
         .onChange(of: history.batches.isEmpty) { _, isEmpty in
             if isEmpty { showsOnlyWhatLeft = false }
         }
-        .task(id: Look(isOn: showsOnlyWhatLeft, revision: history.revision)) {
+        .task(id: Self.look(isOn: showsOnlyWhatLeft, in: history)) {
             guard showsOnlyWhatLeft else {
                 leftTheTrash = nil
                 return
@@ -244,6 +238,18 @@ extension HistoryList {
         if isKnownEmpty { return .noRemovals }
         if filterIsOn, goneWhole == 0 { return .nothingHasLeftTheTrash }
         return listsNothing && isSearching ? .nothingFound : nil
+    }
+
+    /// What starts the filter's look again: turning it on, other lists, or the Trash looked at again, as when Peel
+    /// comes forward once the Trash was emptied, which changes nothing History lists.
+    struct Look: Hashable {
+        let isOn: Bool
+        let revision: Int
+        let trashLooks: Int
+    }
+
+    static func look(isOn: Bool, in history: RemovalHistoryStore) -> Look {
+        Look(isOn: isOn, revision: history.revision, trashLooks: history.trashLooks)
     }
 
     private func check(_ removals: [RemovalBatch], _ entries: [RefusalBatch]) {
