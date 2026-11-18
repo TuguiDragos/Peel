@@ -8,11 +8,14 @@ struct MakersUninstallerNotice: View {
     @Environment(HelperModel.self) private var helper
     let app: String
     let uninstaller: MakersUninstaller
+    /// The page's own words for the circled i, in place of the app page's, as on a job's page, which offers its
+    /// buttons.
+    var saying: Text?
 
     var body: some View {
         Notice(
             title: Text(Self.title(of: uninstaller)), detail: detail, kind: .note,
-            info: (name: String(localized: Self.title(of: uninstaller)), detail: said)
+            info: (name: String(localized: Self.title(of: uninstaller)), detail: saying ?? said)
         ) {
             Link("\(uninstaller.maker)’s Instructions", destination: uninstaller.instructions)
             switch uninstaller.step {

@@ -22,7 +22,10 @@ struct BackgroundItemDetailView: View {
 
             if let found = Self.makersUninstaller(of: item, among: library.apps) {
                 Section {
-                    MakersUninstallerNotice(app: found.app.name, uninstaller: found.uninstaller)
+                    MakersUninstallerNotice(
+                        app: found.app.name, uninstaller: found.uninstaller,
+                        saying: Text(verbatim: Self.makersWarning(app: found.app.name))
+                    )
                 }
             }
 
