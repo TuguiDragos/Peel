@@ -145,7 +145,7 @@ public struct MakersUninstaller: Sendable, Hashable {
         // OpenSC's package puts `opensc-uninstall` in /usr/local/bin, where its own uninstaller looks for it. OpenSC
         // Notify comes with no identifier, and the script removes it from both places it names. The script leaves the
         // p11-kit module file the package puts where the p11-kit of the Mac that built it keeps them
-        // (`src/pkcs11/Makefile.am`), which Homebrew's own `opensc` formula would write too.
+        // (`src/pkcs11/Makefile.am`).
         (
             "L7897KTAHV",
             [
