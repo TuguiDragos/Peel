@@ -293,6 +293,7 @@ struct AppDetailView: View {
             count: 1 + leftovers.count,
             size: SizeTotal([plan.isAppMeasured ? plan.appSize : nil] + leftovers.map { $0.isMeasured ? $0.size : nil })
         ) {
+            RemovalColumnHeaders()
             appRow(isReadOnly: true)
                 .listRowSeparator(.hidden)
             ForEach(leftovers) { leftover in

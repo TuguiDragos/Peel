@@ -4,10 +4,12 @@ import SwiftUI
 struct OrphanDetailView: View {
     @Environment(OrphanLibrary.self) private var orphans
     @Environment(HelperModel.self) private var helper
+    @Environment(SelectionCarrier.self) private var carrier
     let group: OrphanGroup
 
     var body: some View {
-        List {
+        let isOnlyToRead = Self.isOnlyToRead(group, canUseHelper: helper.canAct)
+        return List {
             header
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner()
@@ -16,7 +18,7 @@ struct OrphanDetailView: View {
                 MakersUninstallerNotice(app: group.title, uninstaller: uninstaller, isForWhatIsLeft: true)
             }
 
-            if let scan = orphans.scan {
+            if let scan = orphans.scan, !isOnlyToRead {
                 UnreadableFoldersNotice(
                     folders: scan.unreadableLocations.map(\.url),
                     needsFullDiskAccess: scan.needsFullDiskAccess
@@ -27,45 +29,64 @@ struct OrphanDetailView: View {
                 HelperRequiredBanner(need: .moving(locked))
             }
 
-            Section {
-                RemovalColumnHeaders(hasNoteColumn: hasNoteColumn)
-                ForEach(Array(group.items.enumerated()), id: \.element.id) { index, item in
-                    RemovalRow(
-                        url: item.url,
-                        icon: .symbol(item.kind.symbolName),
-                        detail: item.modificationDate.map { "Modified \($0, format: .relative(presentation: .named))" },
-                        kind: item.kind.title,
-                        warning: warning(for: item),
-                        size: item.size ?? 0,
-                        isMeasured: item.size != nil,
-                        isLocked: item.isLocked(canUseHelper: helper.canAct),
-                        isLeftAlone: item.leftAlone != nil,
-                        isFirst: index == 0,
-                        hasNoteColumn: hasNoteColumn,
-                        selection: orphans, isSelected: orphans.isSelected(item.url)
-                    )
+            if isOnlyToRead {
+                FoundOnThisMacSection(count: group.items.count, size: SizeTotal(group.items.map(\.size))) {
+                    rows(isReadOnly: true)
                 }
-                .listRowSeparator(.hidden)
-            } header: {
-                SectionHeaderLine {
-                    Text("Files")
-                } actions: {
-                    SelectMenu(
-                        list: group.selectableRows(canUseHelper: helper.canAct),
-                        place: Text(verbatim: group.title),
-                        selection: orphans
-                    )
+            } else {
+                Section {
+                    rows(isReadOnly: false)
+                } header: {
+                    SectionHeaderLine {
+                        Text("Files")
+                    } actions: {
+                        SelectMenu(
+                            list: group.selectableRows(canUseHelper: helper.canAct),
+                            place: Text(verbatim: group.title),
+                            selection: orphans
+                        )
+                    }
                 }
             }
         }
         .scrollBarBelowSectionHeaders()
         .dimmedWhileBusy(orphans.isScanning)
         .edgeBar(.bottom) {
-            RemovalBar(page: group.page, isScanning: orphans.isScanning, scan: orphans.scanRun)
+            if !isOnlyToRead || carrier.movesSomething(from: group.page) {
+                RemovalBar(page: group.page, isScanning: orphans.isScanning, scan: orphans.scanRun)
+            }
         }
         .fadesInColumn(whenRowsChange: group.items.map(\.id))
         .navigationTitle(group.title)
         .toolbar(removing: .title)
+    }
+
+    /// True when a click can select none of the group's files: the page is then a list to read.
+    static func isOnlyToRead(_ group: OrphanGroup, canUseHelper: Bool) -> Bool {
+        group.selectableRows(canUseHelper: canUseHelper).selectable.isEmpty
+    }
+
+    @ViewBuilder
+    private func rows(isReadOnly: Bool) -> some View {
+        RemovalColumnHeaders(hasNoteColumn: hasNoteColumn)
+        ForEach(Array(group.items.enumerated()), id: \.element.id) { index, item in
+            RemovalRow(
+                url: item.url,
+                icon: .symbol(item.kind.symbolName),
+                detail: item.modificationDate.map { "Modified \($0, format: .relative(presentation: .named))" },
+                kind: item.kind.title,
+                warning: warning(for: item),
+                size: item.size ?? 0,
+                isMeasured: item.size != nil,
+                isLocked: item.isLocked(canUseHelper: helper.canAct),
+                isLeftAlone: item.leftAlone != nil,
+                isFirst: index == 0,
+                hasNoteColumn: hasNoteColumn,
+                isReadOnly: isReadOnly,
+                selection: orphans, isSelected: orphans.isSelected(item.url)
+            )
+        }
+        .listRowSeparator(.hidden)
     }
 
     private var hasNoteColumn: Bool {
@@ -137,8 +158,10 @@ struct OrphanDetailView: View {
             Button("This Belongs To…") { orphans.groupToGive = group }
         } trailing: {
             let movable = group.movable(canUseHelper: helper.canAct)
-            TotalLabel(total: movable, caption: Text("to remove"))
-                .accessibilityLabel(Text("\(movable.text) can be moved to the Trash"))
+            if !movable.isNothing {
+                TotalLabel(total: movable, caption: Text("to remove"))
+                    .accessibilityLabel(Text("\(movable.text) can be moved to the Trash"))
+            }
         }
     }
 }

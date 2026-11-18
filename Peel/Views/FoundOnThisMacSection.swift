@@ -6,12 +6,10 @@ import SwiftUI
 struct FoundOnThisMacSection<Rows: View>: View {
     let count: Int
     let size: SizeTotal
-    var hasNoteColumn = true
     @ViewBuilder let rows: Rows
 
     var body: some View {
         Section {
-            RemovalColumnHeaders(hasNoteColumn: hasNoteColumn)
             rows
         } header: {
             SectionHeaderLine {

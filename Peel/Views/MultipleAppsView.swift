@@ -149,6 +149,7 @@ struct MultipleAppsView: View {
         return FoundOnThisMacSection(
             count: items.count, size: SizeTotal(items.map { $0.isMeasured ? $0.size : nil })
         ) {
+            RemovalColumnHeaders()
             ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
                 row(item, isFirst: index == 0, isReadOnly: true)
             }

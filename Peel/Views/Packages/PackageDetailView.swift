@@ -64,7 +64,8 @@ struct PackageDetailView: View {
     }
 
     var body: some View {
-        List {
+        let isOnlyToRead = Self.isOnlyToRead(receipt, canUseHelper: helper.canAct)
+        return List {
             header
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner()
@@ -112,33 +113,24 @@ struct PackageDetailView: View {
                 .listRowSeparator(.hidden)
             }
 
-            Section {
-                if receipt.items.isEmpty {
-                    Text(emptyListReason)
-                        .foregroundStyle(.secondary)
-                        .listRowSeparator(.hidden)
+            if isOnlyToRead {
+                FoundOnThisMacSection(count: receipt.items.count, size: SizeTotal(receipt.items.map(\.size))) {
+                    rows(isReadOnly: true)
                 }
-                ForEach(Array(receipt.items.enumerated()), id: \.element.id) { index, item in
-                    RemovalRow(
-                        url: item.url,
-                        icon: item.url.isNamedAsAnApp ? .file(item.url) : .symbol("doc"),
-                        detail: item.refusal?.explanation,
-                        warning: item.refusal == nil ? note(for: item) : nil,
-                        size: item.size ?? 0,
-                        isMeasured: item.size != nil,
-                        isLocked: isLocked(item),
-                        isLeftAlone: item.isLeftAlone,
-                        isFirst: index == 0,
-                        hasNoteColumn: receipt.items.contains { $0.isLeftAlone || $0.heldBack != nil },
-                        selection: packages, isSelected: packages.isSelected(item.url)
-                    )
-                }
-                .listRowSeparator(.hidden)
-            } header: {
-                SectionHeaderLine {
-                    Text("Installed Items")
-                } actions: {
-                    SelectMenu(list: list, place: Text(verbatim: receipt.identifier), selection: packages)
+            } else {
+                Section {
+                    if receipt.items.isEmpty {
+                        Text(emptyListReason)
+                            .foregroundStyle(.secondary)
+                            .listRowSeparator(.hidden)
+                    }
+                    rows(isReadOnly: false)
+                } header: {
+                    SectionHeaderLine {
+                        Text("Installed Items")
+                    } actions: {
+                        SelectMenu(list: list, place: Text(verbatim: receipt.identifier), selection: packages)
+                    }
                 }
             }
 
@@ -162,7 +154,7 @@ struct PackageDetailView: View {
         .disabled(packages.isWorking)
         .dimmedWhileBusy(packages.isScanning)
         .edgeBar(.bottom) {
-            if !receipt.items.isEmpty {
+            if !receipt.items.isEmpty, !isOnlyToRead {
                 RemovalBar(
                     selectedSize: SizeTotal(selectedItems.map(\.size)).known,
                     isSelectionMeasured: SizeTotal(selectedItems.map(\.size)).isComplete,
@@ -313,6 +305,31 @@ struct PackageDetailView: View {
 
     /// The selected items of this receipt. `packages.selectedURLs` is one set shared by all receipts, so it is
     /// filtered to this receipt's items.
+    /// True when the receipt lists items and a click can select none of them: the page is then a list to read.
+    static func isOnlyToRead(_ receipt: PackageReceipt, canUseHelper: Bool) -> Bool {
+        !receipt.items.isEmpty && receipt.selectableRows(canUseHelper: canUseHelper).selectable.isEmpty
+    }
+
+    private func rows(isReadOnly: Bool) -> some View {
+        ForEach(Array(receipt.items.enumerated()), id: \.element.id) { index, item in
+            RemovalRow(
+                url: item.url,
+                icon: item.url.isNamedAsAnApp ? .file(item.url) : .symbol("doc"),
+                detail: item.refusal?.explanation,
+                warning: item.refusal == nil ? note(for: item) : nil,
+                size: item.size ?? 0,
+                isMeasured: item.size != nil,
+                isLocked: isLocked(item),
+                isLeftAlone: item.isLeftAlone,
+                isFirst: index == 0,
+                hasNoteColumn: receipt.items.contains { $0.isLeftAlone || $0.heldBack != nil },
+                isReadOnly: isReadOnly,
+                selection: packages, isSelected: packages.isSelected(item.url)
+            )
+        }
+        .listRowSeparator(.hidden)
+    }
+
     private var selectedItems: [PackageReceipt.Item] {
         receipt.items.filter { packages.selectedURLs.contains($0.url) }
     }

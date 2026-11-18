@@ -81,6 +81,12 @@ final class SelectionCarrier {
         )
     }
 
+    /// Whether Move to Trash on `page` would move anything, which keeps the bar on a page where nothing can be selected
+    /// while another page holds a selection.
+    func movesSomething(from page: CarriedSelection.Page) -> Bool {
+        !parts(from: page).isEmpty
+    }
+
     /// The parts an open app keeps, each with that app, in the order of `parts`.
     func kept(among parts: [CarriedSelection.Part]) -> [(part: CarriedSelection.Part, app: String)] {
         parts.compactMap { part in self.tool(of: part)?.appToQuit(for: part).map { (part, $0) } }

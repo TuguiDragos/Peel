@@ -1,6 +1,6 @@
 import AppKit
 @testable import Peel
-import PeelCore
+@testable import PeelCore
 import Synchronization
 import SwiftUI
 import Testing
@@ -9,6 +9,16 @@ import Testing
 struct ReadOnlyListTests {
     private final class Rows: RowSelection {
         var selectedURLs: Set<URL> = []
+    }
+
+    private final class Carrying: CarriesSelection {
+        var isRemoving = false
+        var carriedParts: [CarriedSelection.Part]
+        init(_ parts: [CarriedSelection.Part]) { carriedParts = parts }
+        func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? { nil }
+        func lists(_ moved: MovedItems) -> Bool { false }
+        func refresh(after parts: [CarriedSelection.Part], moved: MovedItems, apps: AppLibrary) async {}
+        func deselect(_ part: CarriedSelection.Part) {}
     }
 
     private func checkboxes(in view: NSView) -> Int {
@@ -88,5 +98,63 @@ struct ReadOnlyListTests {
         await plan.followSystemExtensions()
 
         #expect(!MultipleAppsView.isOnlyToRead(plan))
+    }
+
+    @Test func anOrphanGroupIsAListToReadUntilTheHelperCanMoveIt() {
+        var locked = OrphanItem(
+            url: URL(filePath: "/Library/Application Support/org.example.gone"), kind: .applicationSupport, size: 10,
+            modificationDate: nil, requiresPrivileges: true
+        )
+        let group = OrphanGroup(identifier: "org.example.gone", items: [locked])
+        locked.heldBack = .holdsDocuments
+        let documents = OrphanGroup(identifier: "org.example.gone", items: [locked])
+
+        #expect(OrphanDetailView.isOnlyToRead(group, canUseHelper: false))
+        #expect(!OrphanDetailView.isOnlyToRead(group, canUseHelper: true))
+        #expect(OrphanDetailView.isOnlyToRead(documents, canUseHelper: true))
+    }
+
+    @Test func aReceiptIsAListToReadUntilTheHelperCanMoveWhatItInstalled() {
+        let receipt = PackageReceipt(
+            identifier: "org.example.pkg", version: nil, installDate: nil, volume: URL(filePath: "/"),
+            items: [PackageReceipt.Item(url: URL(filePath: "/Library/LaunchDaemons/org.example.helper.plist"), size: 10, requiresPrivileges: true)]
+        )
+        let empty = PackageReceipt(
+            identifier: "org.example.pkg", version: nil, installDate: nil, volume: URL(filePath: "/"), items: []
+        )
+
+        #expect(PackageDetailView.isOnlyToRead(receipt, canUseHelper: false))
+        #expect(!PackageDetailView.isOnlyToRead(receipt, canUseHelper: true))
+        #expect(!PackageDetailView.isOnlyToRead(empty, canUseHelper: false))
+    }
+
+    @Test func aCarriedBarStaysOnAListToReadOnlyWhileAnotherPageHoldsASelection() throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let npm = Tool.developer.page("npm")
+        let holding = Carrying([CarriedSelection.Part(
+            page: npm, title: "npm", source: "npm", sourceKey: nil, sizes: [URL(filePath: "/Users/me/.npm"): 4_096]
+        )])
+        let carrier = SelectionCarrier(
+            tools: [.developer: holding],
+            apps: AppLibrary(
+                defaults: made.defaults, releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "notes.json"))
+            ),
+            history: RemovalHistoryStore(
+                log: RemovalLog(url: folder.appending(path: "removals.json")),
+                refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+                knowsTheExclusions: { true }
+            ),
+            outcome: RemovalOutcome()
+        )
+        let group = Tool.orphans.page("org.example.gone")
+
+        #expect(!carrier.movesSomething(from: group), "a page never seen carried its selection")
+        carrier.saw(npm)
+        #expect(carrier.movesSomething(from: group))
+        holding.carriedParts = []
+        #expect(!carrier.movesSomething(from: group))
     }
 }
