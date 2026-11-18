@@ -3,6 +3,7 @@ import SwiftUI
 
 /// The files a search found, and every state of the search, in the list column.
 struct FileSearchList: View {
+    @Environment(SelectionCarrier.self) private var carrier
     @Environment(FileSearchLibrary.self) private var search
     @Environment(ExclusionsStore.self) private var exclusions
     @State private var isShowingFilters = false
@@ -69,52 +70,25 @@ struct FileSearchList: View {
                 .listRowSeparator(.hidden)
             }
             if let results = search.results, !results.files.isEmpty {
-                Section {
-                    ForEach(results.files) { file in
-                        // On macOS 27 the day the file was modified stands in the column other lists give the kind.
-                        if #available(macOS 27, *) {
-                            RemovalRow(
-                                url: file.url,
-                                icon: .file(file.url),
-                                detail: nil,
-                                kind: "\(file.modificationDate, format: .dateTime.day().month(.abbreviated).year())",
-                                warning: warning(for: file),
-                                size: file.size,
-                                isLeftAlone: file.isLeftAlone,
-                                isFirst: file.id == results.files.first?.id,
-                                isChoosable: true,
-                                selection: search, isSelected: search.isSelected(file.url)
-                            )
-                            .tag(file.url)
-                        } else {
-                            RemovalRow(
-                                url: file.url,
-                                icon: .file(file.url),
-                                detail: "Modified \(file.modificationDate, format: .relative(presentation: .named))",
-                                warning: warning(for: file),
-                                size: file.size,
-                                isLeftAlone: file.isLeftAlone,
-                                isFirst: file.id == results.files.first?.id,
-                                isChoosable: true,
-                                selection: search, isSelected: search.isSelected(file.url)
-                            )
-                            .tag(file.url)
+                let list = search.selection.rows(showing: results.files, recommended: search.recommendedURLs)
+                if Self.isOnlyToRead(list, files: results.files) {
+                    FoundOnThisMacSection(count: results.files.count, size: SizeTotal(results.files.map(\.size))) {
+                        files(results.files, isReadOnly: true)
+                    }
+                } else {
+                    Section {
+                        files(results.files, isReadOnly: false)
+                    } header: {
+                        SectionHeaderLine {
+                            Text("Files")
+                        } actions: {
+                            SelectMenu(list: list, place: Text(Tool.fileSearch.title), selection: search)
                         }
                     }
-                    .listRowSeparator(.hidden)
-                } header: {
-                    SectionHeaderLine {
-                        Text("Files")
-                    } actions: {
-                        SelectMenu(
-                            list: search.selection.rows(showing: results.files, recommended: search.recommendedURLs),
-                            place: Text(Tool.fileSearch.title),
-                            selection: search
-                        )
-                    }
+                    // Disables the section, not the list, so the list still scrolls and the user can review the
+                    // selection.
+                    .disabled(search.isSearching || search.isRemoving)
                 }
-                // Disables the section, not the list, so the list still scrolls and the user can review the selection.
-                .disabled(search.isSearching || search.isRemoving)
             }
         }
         .accessibilityLabel(Text(Tool.fileSearch.title))
@@ -185,7 +159,7 @@ struct FileSearchList: View {
             }
         }
         .edgeBar(.bottom) {
-            if search.results?.files.isEmpty == false || !search.selectedURLs.isEmpty {
+            if Self.offersItsBar(search) || carrier.movesSomething(from: Tool.fileSearch.page()) {
                 RemovalBar(page: Tool.fileSearch.page(), isScanning: search.isSearching)
             }
         }
@@ -232,6 +206,56 @@ struct FileSearchList: View {
         .task(id: exclusions.revision) {
             await search.leaveOut(exclusions.exclusions)
         }
+    }
+
+    /// True when the search found files and a click can select none of them, nor any kept from an earlier search: the
+    /// list is then one to read, whose rows are still chosen for the column beside it.
+    static func isOnlyToRead(_ list: SelectableRows<URL>, files: [FoundFile]) -> Bool {
+        !files.isEmpty && list.selectable.isEmpty
+    }
+
+    /// The bar once something is listed that can be selected, or something is selected from an earlier search.
+    static func offersItsBar(_ search: FileSearchLibrary) -> Bool {
+        let files = search.results?.files ?? []
+        return !search.selection.rows(showing: files, recommended: search.recommendedURLs).selectable.isEmpty
+            || !search.selectedURLs.isEmpty
+    }
+
+    private func files(_ files: [FoundFile], isReadOnly: Bool) -> some View {
+        ForEach(files) { file in
+            // On macOS 27 the day the file was modified stands in the column other lists give the kind.
+            if #available(macOS 27, *) {
+                RemovalRow(
+                    url: file.url,
+                    icon: .file(file.url),
+                    detail: nil,
+                    kind: "\(file.modificationDate, format: .dateTime.day().month(.abbreviated).year())",
+                    warning: warning(for: file),
+                    size: file.size,
+                    isLeftAlone: file.isLeftAlone,
+                    isFirst: file.id == files.first?.id,
+                    isChoosable: true,
+                    isReadOnly: isReadOnly,
+                    selection: search, isSelected: search.isSelected(file.url)
+                )
+                .tag(file.url)
+            } else {
+                RemovalRow(
+                    url: file.url,
+                    icon: .file(file.url),
+                    detail: "Modified \(file.modificationDate, format: .relative(presentation: .named))",
+                    warning: warning(for: file),
+                    size: file.size,
+                    isLeftAlone: file.isLeftAlone,
+                    isFirst: file.id == files.first?.id,
+                    isChoosable: true,
+                    isReadOnly: isReadOnly,
+                    selection: search, isSelected: search.isSelected(file.url)
+                )
+                .tag(file.url)
+            }
+        }
+        .listRowSeparator(.hidden)
     }
 
     private func warning(for file: FoundFile) -> String? {

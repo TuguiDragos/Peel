@@ -187,4 +187,22 @@ struct ReadOnlyListTests {
         #expect(!InstallerDetailView.isOnlyToRead([installer], of: .macOSInstaller, canUseHelper: true))
         #expect(!InstallerDetailView.isOnlyToRead([], of: .macOSInstaller, canUseHelper: false))
     }
+
+    @Test func fileSearchIsAListToReadWhenEveryFileNeedsAnAdministrator() {
+        let rootsFile = FoundFile(
+            url: URL(filePath: "/Library/Logs/org.example.log"), size: 10, length: 10, modificationDate: .distantPast,
+            requiresPrivileges: true
+        )
+        let ownFile = FoundFile(
+            url: URL(filePath: "/Users/me/Downloads/org.example.zip"), size: 10, length: 10,
+            modificationDate: .distantPast, requiresPrivileges: false
+        )
+        func isOnlyToRead(_ files: [FoundFile]) -> Bool {
+            FileSearchList.isOnlyToRead(SearchSelection().rows(showing: files, recommended: []), files: files)
+        }
+
+        #expect(isOnlyToRead([rootsFile]))
+        #expect(!isOnlyToRead([rootsFile, ownFile]))
+        #expect(!isOnlyToRead([]))
+    }
 }
