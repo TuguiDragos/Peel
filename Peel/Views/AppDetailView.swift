@@ -62,7 +62,7 @@ struct AppDetailView: View {
             Button("Upgrade") { upgradesConfirmed += 1 }
             Button("Cancel", role: .cancel) {}
         } message: {
-            HomebrewUpgradeWarning.text(deletesAnApp: true)
+            HomebrewUpgradeWarning.text(deletesAnApp: true, on: .appPage)
         }
         .alert(quitTitle, isPresented: Bindable(quitting).isAsking) {
             Button("Quit \(plan.app.name)") { quitting.quit() }
