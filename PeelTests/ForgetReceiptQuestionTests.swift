@@ -33,4 +33,26 @@ struct ForgetReceiptQuestionTests {
         #expect(some.hasPrefix(everything))
         #expect(some.contains("helper"))
     }
+
+    @Test func asksToForgetOnlyOnceAMoveLeftNothingOfThePackage() {
+        let item = PackageReceipt.Item(url: URL(filePath: "/Library/Example/tool"), size: 1, requiresPrivileges: false)
+        let before = PackageReceipt(
+            identifier: "org.example.pkg", version: nil, installDate: nil, volume: URL(filePath: "/"), items: [item]
+        )
+        var gone = PackageReceipt(
+            identifier: "org.example.pkg", version: nil, installDate: nil, volume: URL(filePath: "/"), items: []
+        )
+        gone.nothingLeftOnDisk = true
+        var other = PackageReceipt(
+            identifier: "org.example.other", version: nil, installDate: nil, volume: URL(filePath: "/"), items: []
+        )
+        other.nothingLeftOnDisk = true
+
+        #expect(PackageDetailView.toForgetNext(gone, after: before, mayForget: true)?.identifier == "org.example.pkg")
+        #expect(PackageDetailView.toForgetNext(gone, after: before, mayForget: false) == nil)
+        #expect(PackageDetailView.toForgetNext(before, after: before, mayForget: true) == nil)
+        #expect(PackageDetailView.toForgetNext(other, after: before, mayForget: true) == nil)
+        #expect(PackageDetailView.toForgetNext(nil, after: before, mayForget: true) == nil)
+    }
 }
+

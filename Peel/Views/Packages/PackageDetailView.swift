@@ -8,6 +8,8 @@ struct PackageDetailView: View {
     @Environment(RemovalHistoryStore.self) private var history
     @State private var isConfirmingRemoval = false
     @State private var receiptToForget: PackageReceipt?
+    /// The receipt to ask about once the removal's alert closes, since two questions can't show at once.
+    @State private var forgetOnceTheAlertCloses: PackageReceipt?
     @Environment(RemovalOutcome.self) private var outcome
     @Environment(AppLibrary.self) private var library
     @Environment(\.openSettings) private var openSettings
@@ -41,6 +43,24 @@ struct PackageDetailView: View {
         outcome.report(result, dockIcons: RemovalOutcome.DockIcons(stayed) { url in
             receipt.apps.first { $0.url == url }?.name ?? url.deletingPathExtension().lastPathComponent
         })
+        guard let left = Self.toForgetNext(
+            packages.selectedReceipt, after: receipt,
+            mayForget: !forgettingWaitsForTheHelper && history.mayMove && !isForAnExcludedApp
+        ) else { return }
+        if outcome.isEmpty {
+            receiptToForget = left
+        } else {
+            forgetOnceTheAlertCloses = left
+        }
+    }
+
+    /// The receipt to ask about forgetting once a move on `receipt`'s page left nothing of it on the disk, since then
+    /// forgetting it is all there is left to do.
+    static func toForgetNext(
+        _ left: PackageReceipt?, after receipt: PackageReceipt, mayForget: Bool
+    ) -> PackageReceipt? {
+        guard mayForget, let left, left.id == receipt.id, left.nothingLeftOnDisk else { return nil }
+        return left
     }
 
     var body: some View {
@@ -169,6 +189,11 @@ struct PackageDetailView: View {
             }
         }
         .forgetReceiptDialog(for: $receiptToForget, forget: packages.forget)
+        .onChange(of: outcome.isEmpty) { _, isEmpty in
+            guard isEmpty, let left = forgetOnceTheAlertCloses else { return }
+            forgetOnceTheAlertCloses = nil
+            receiptToForget = left
+        }
         .alert(
             Text(Self.quitTitle(names: quitting.names, several: quitting.namesSeveral)),
             isPresented: Bindable(quitting).isAsking
