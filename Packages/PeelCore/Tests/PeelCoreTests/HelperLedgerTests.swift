@@ -60,6 +60,25 @@ struct HelperLedgerTests {
         #expect(!unflushed.record([item], movedBy: getuid()), "an item could move with its record not on the drive")
     }
 
+    @Test func forgetsWithoutWaitingForTheDrive() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        let url = directory.url.appending(path: "private/moved.plist")
+        let flushes = Mutex(0)
+        let ledger = try #require(HelperLedger(at: url) { _ in
+            flushes.withLock { $0 += 1 }
+            return true
+        })
+        try directory.file("root/Library/Caches/com.example.plist")
+        let item = try policy.open(path("root/Library/Caches/com.example.plist", in: directory)).get()
+        #expect(ledger.record([item], movedBy: getuid()))
+
+        ledger.forget([item])
+
+        #expect(flushes.withLock { $0 } == 1, "a record forgotten moves nothing, so it needn't wait for the drive")
+        #expect((try? HelperLedger(at: url)?.origin(of: item, movedBy: getuid())) == nil)
+    }
+
     @Test func knowsWhereItTookAnItemFromWhateverItIsCalledNow() throws {
         let directory = try TemporaryDirectory()
         let policy = try policy(in: directory)

@@ -64,12 +64,13 @@ public final class HelperLedger: Sendable {
         }
     }
 
-    /// Removes `items` from the ledger: those that did not move after all, and those that were put back.
+    /// Removes `items` from the ledger: those that did not move after all, and those that were put back. The write
+    /// doesn't wait for the drive: a record left behind names an item that isn't in the Trash, so it moves nothing.
     public func forget(_ items: [OpenItem]) {
         Self.lock.withLock {
             let gone = items.compactMap { item in item.identity.map { ($0, Self.volume(of: item)) } }
             guard !gone.isEmpty, let entries = read() else { return }
-            _ = write(entries.filter { entry in !gone.contains { entry.names($0.0, on: $0.1) } })
+            _ = write(entries.filter { entry in !gone.contains { entry.names($0.0, on: $0.1) } }, flushing: false)
         }
     }
 
@@ -240,13 +241,13 @@ public final class HelperLedger: Sendable {
         }
     }
 
-    private func write(_ entries: some Sequence<Entry>) -> Bool {
+    private func write(_ entries: some Sequence<Entry>, flushing: Bool = true) -> Bool {
         let encoder = PropertyListEncoder()
         encoder.outputFormat = .binary
         guard let data = try? encoder.encode(Array(entries)), (try? data.write(to: url, options: .atomic)) != nil else {
             return false
         }
         let path = url.path(percentEncoded: false)
-        return chmod(path, 0o600) == 0 && flush(path)
+        return chmod(path, 0o600) == 0 && (!flushing || flush(path))
     }
 }
