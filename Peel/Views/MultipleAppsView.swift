@@ -21,94 +21,30 @@ struct MultipleAppsView: View {
     }
 
     var body: some View {
-        ScrollViewReader { proxy in
+        let isOnlyToRead = Self.isOnlyToRead(plan)
+        return ScrollViewReader { proxy in
             List {
                 header
                     .listRowSeparator(.hidden)
                 RemovalsHeldBanner()
 
                 if plan.bulk != nil {
-                    UnreadableFoldersNotice(
-                        folders: plan.unreadableLocations.map(\.url),
-                        needsFullDiskAccess: plan.bulk?.needsFullDiskAccess == true
-                    )
+                    if !isOnlyToRead {
+                        UnreadableFoldersNotice(
+                            folders: plan.unreadableLocations.map(\.url),
+                            needsFullDiskAccess: plan.bulk?.needsFullDiskAccess == true
+                        )
+                    }
                     SkippedFolderNotices(
                         crowded: plan.crowdedFolders, cutShort: plan.cutShortLocations.map(\.url), subject: .apps
                     )
                     if plan.rowsWaitingForTheHelper > 0, !helper.canAct {
                         HelperRequiredBanner(need: .moving(plan.rowsWaitingForTheHelper))
                     }
-                    // Here, above the lists, so they are seen before Move to Trash however long the lists run.
-                    BulkRemovalOptions(plan: plan)
-                    ListJumps(
-                        toFiles: !plan.recommendedFiles.isEmpty,
-                        toReview: !plan.filesToReview.isEmpty,
-                        proxy: proxy
-                    )
-                    CommandsToRunSection(commands: commands(moving: plan.selectedURLs))
-
-                    Section {
-                        RemovalColumnHeaders()
-                        ForEach(Array(plan.applications.enumerated()), id: \.element.id) { index, item in
-                            row(item, isFirst: index == 0)
-                        }
-                        .listRowSeparator(.hidden)
-                    } header: {
-                        SectionHeaderLine {
-                            Text("Apps")
-                        } actions: {
-                            SelectMenu(
-                                list: list(of: plan.applications), place: Text("Apps"), selection: plan,
-                                offersItsCommands: false
-                            )
-                        }
-                    }
-
-                    if !plan.recommendedFiles.isEmpty {
-                        Section {
-                            RemovalColumnHeaders()
-                                .id(ListJumps.Target.files)
-                            ForEach(Array(plan.recommendedFiles.enumerated()), id: \.element.id) { index, item in
-                                row(item, isFirst: index == 0)
-                            }
-                            .listRowSeparator(.hidden)
-                        } header: {
-                            SectionHeaderLine {
-                                Text("Files They Leave Behind")
-                            } actions: {
-                                SelectMenu(
-                                    list: list(of: plan.recommendedFiles),
-                                    place: Text("Files They Leave Behind"),
-                                    selection: plan,
-                                    offersItsCommands: false
-                                )
-                            }
-                        }
-                    }
-
-                    if !plan.filesToReview.isEmpty {
-                        Section {
-                            RemovalColumnHeaders()
-                                .id(ListJumps.Target.review)
-                            ForEach(Array(plan.filesToReview.enumerated()), id: \.element.id) { index, item in
-                                row(item, isFirst: index == 0)
-                            }
-                            .listRowSeparator(.hidden)
-                        } header: {
-                            SectionHeaderLine {
-                                heading(
-                                    "Review Before Removing",
-                                    "These are here because Peel is less sure about them, another app on this Mac uses them too, or Peel held them back for the reason each row gives. Nothing here is selected for you: read each one and select only what you recognize."
-                                )
-                            } actions: {
-                                SelectMenu(
-                                    list: list(of: plan.filesToReview),
-                                    place: Text("Review Before Removing"),
-                                    selection: plan,
-                                    offersItsCommands: false
-                                )
-                            }
-                        }
+                    if isOnlyToRead {
+                        foundSection
+                    } else {
+                        choices(proxy)
                     }
                 }
             }
@@ -128,7 +64,7 @@ struct MultipleAppsView: View {
             wasStopped: plan.scanRun.wasStopped
         )
         .edgeBar(.bottom) {
-            if plan.bulk != nil {
+            if plan.bulk != nil, !isOnlyToRead {
                 let selected = plan.request.total
                 RemovalBar(
                     selectedSize: selected.known,
@@ -202,6 +138,101 @@ struct MultipleAppsView: View {
         }
     }
 
+    /// True once the scan is in and a click can select none of its rows: the page is then a list to read.
+    static func isOnlyToRead(_ plan: BulkRemovalPlan) -> Bool {
+        let rows = plan.applications + plan.recommendedFiles + plan.filesToReview
+        return plan.bulk != nil && !rows.contains { plan.selectable.contains($0.url) }
+    }
+
+    private var foundSection: some View {
+        let items = plan.applications + plan.recommendedFiles + plan.filesToReview
+        return FoundOnThisMacSection(
+            count: items.count, size: SizeTotal(items.map { $0.isMeasured ? $0.size : nil })
+        ) {
+            ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
+                row(item, isFirst: index == 0, isReadOnly: true)
+            }
+            .listRowSeparator(.hidden)
+        }
+    }
+
+    /// The page while something can be selected: the options, the jumps to the files, and a list for each part.
+    @ViewBuilder
+    private func choices(_ proxy: ScrollViewProxy) -> some View {
+        // Here, above the lists, so they are seen before Move to Trash however long the lists run.
+        BulkRemovalOptions(plan: plan)
+        ListJumps(
+            toFiles: !plan.recommendedFiles.isEmpty,
+            toReview: !plan.filesToReview.isEmpty,
+            proxy: proxy
+        )
+        CommandsToRunSection(commands: commands(moving: plan.selectedURLs))
+
+        Section {
+            RemovalColumnHeaders()
+            ForEach(Array(plan.applications.enumerated()), id: \.element.id) { index, item in
+                row(item, isFirst: index == 0)
+            }
+            .listRowSeparator(.hidden)
+        } header: {
+            SectionHeaderLine {
+                Text("Apps")
+            } actions: {
+                SelectMenu(
+                    list: list(of: plan.applications), place: Text("Apps"), selection: plan,
+                    offersItsCommands: false
+                )
+            }
+        }
+
+        if !plan.recommendedFiles.isEmpty {
+            Section {
+                RemovalColumnHeaders()
+                    .id(ListJumps.Target.files)
+                ForEach(Array(plan.recommendedFiles.enumerated()), id: \.element.id) { index, item in
+                    row(item, isFirst: index == 0)
+                }
+                .listRowSeparator(.hidden)
+            } header: {
+                SectionHeaderLine {
+                    Text("Files They Leave Behind")
+                } actions: {
+                    SelectMenu(
+                        list: list(of: plan.recommendedFiles),
+                        place: Text("Files They Leave Behind"),
+                        selection: plan,
+                        offersItsCommands: false
+                    )
+                }
+            }
+        }
+
+        if !plan.filesToReview.isEmpty {
+            Section {
+                RemovalColumnHeaders()
+                    .id(ListJumps.Target.review)
+                ForEach(Array(plan.filesToReview.enumerated()), id: \.element.id) { index, item in
+                    row(item, isFirst: index == 0)
+                }
+                .listRowSeparator(.hidden)
+            } header: {
+                SectionHeaderLine {
+                    heading(
+                        "Review Before Removing",
+                        "These are here because Peel is less sure about them, another app on this Mac uses them too, or Peel held them back for the reason each row gives. Nothing here is selected for you: read each one and select only what you recognize."
+                    )
+                } actions: {
+                    SelectMenu(
+                        list: list(of: plan.filesToReview),
+                        place: Text("Review Before Removing"),
+                        selection: plan,
+                        offersItsCommands: false
+                    )
+                }
+            }
+        }
+    }
+
     /// A scan asked for while the question is up or a removal runs waits for them.
     private func rescan() async {
         guard plan.question.mayScan() else { return }
@@ -251,7 +282,7 @@ struct MultipleAppsView: View {
         )
     }
 
-    private func row(_ item: BulkUninstallation.Item, isFirst: Bool) -> some View {
+    private func row(_ item: BulkUninstallation.Item, isFirst: Bool, isReadOnly: Bool = false) -> some View {
         RemovalRow(
             url: item.url,
             icon: item.isApplication ? .file(item.url) : .symbol(item.kind?.symbolName ?? "doc"),
@@ -268,6 +299,7 @@ struct MultipleAppsView: View {
                 || item.removedElsewhere != nil || item.isInTheTrash || item.enclosingPackage != nil,
             appIdentifier: item.isApplication ? item.apps.first : nil,
             isFirst: isFirst,
+            isReadOnly: isReadOnly,
             selection: plan, isSelected: plan.isSelected(item.url)
         )
     }

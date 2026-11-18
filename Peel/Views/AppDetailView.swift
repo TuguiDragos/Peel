@@ -122,7 +122,8 @@ struct AppDetailView: View {
     }
 
     private var page: some View {
-        List {
+        let isOnlyToRead = Self.isOnlyToRead(plan)
+        return List {
             AppPageHeader(
                 plan: plan,
                 privacyReset: privacyReset,
@@ -205,9 +206,11 @@ struct AppDetailView: View {
                 .listRowSeparator(.hidden)
             }
             if let scan = plan.scan {
-                UnreadableFoldersNotice(
-                    folders: scan.unreadableLocations.map(\.url), needsFullDiskAccess: scan.needsFullDiskAccess
-                )
+                if !isOnlyToRead {
+                    UnreadableFoldersNotice(
+                        folders: scan.unreadableLocations.map(\.url), needsFullDiskAccess: scan.needsFullDiskAccess
+                    )
+                }
                 SkippedFolderNotices(
                     crowded: scan.crowdedFolders, cutShort: scan.cutShortLocations.map(\.url), subject: .app
                 )
@@ -220,8 +223,12 @@ struct AppDetailView: View {
 
                 Group {
                     CommandsToRunSection(commands: commands(moving: plan.selectedURLs))
-                    recommendedSection
-                    reviewSection
+                    if isOnlyToRead {
+                        foundSection
+                    } else {
+                        recommendedSection
+                        reviewSection
+                    }
                     AppRemovalOptions(plan: plan)
                     DefaultAppsSection(roles: plan.defaultRoles, app: plan.app.url, openFor: $defaultAppsOpenFor)
                     PackageReceiptSection(plan: plan)
@@ -239,7 +246,7 @@ struct AppDetailView: View {
             wasStopped: plan.scanRun.wasStopped
         )
         .edgeBar(.bottom) {
-            if plan.scan != nil {
+            if plan.scan != nil, !isOnlyToRead {
                 let selected = plan.request.total
                 RemovalBar(
                     selectedSize: selected.known,
@@ -273,25 +280,52 @@ struct AppDetailView: View {
         }
     }
 
+    /// True once the scan is in and a click can select none of the page's rows: the page is then a list to read.
+    static func isOnlyToRead(_ plan: RemovalPlan) -> Bool {
+        plan.scan != nil && plan.selectableRows(
+            [plan.app.url] + plan.recommended.map(\.url) + plan.needsReview.map(\.url)
+        ).selectable.isEmpty
+    }
+
+    private var foundSection: some View {
+        let leftovers = plan.recommended + plan.needsReview
+        return FoundOnThisMacSection(
+            count: 1 + leftovers.count,
+            size: SizeTotal([plan.isAppMeasured ? plan.appSize : nil] + leftovers.map { $0.isMeasured ? $0.size : nil })
+        ) {
+            appRow(isReadOnly: true)
+                .listRowSeparator(.hidden)
+            ForEach(leftovers) { leftover in
+                row(for: leftover, isReadOnly: true)
+            }
+            .listRowSeparator(.hidden)
+        }
+    }
+
+    private func appRow(isReadOnly: Bool = false) -> some View {
+        RemovalRow(
+            url: plan.app.url,
+            icon: .file(plan.app.url),
+            detail: "The app itself. Everything under it is what Peel found for this app elsewhere on this Mac.",
+            kind: "Application",
+            warning: appWarning,
+            size: plan.appSize,
+            isMeasured: plan.isAppMeasured,
+            isLocked: plan.appRequiresPrivileges && !helper.canAct,
+            isExcluded: plan.isExcluded,
+            isLeftAlone: plan.app.isSystemProtected || plan.app.enclosingPackage != nil || plan.isAppBeyondTheHelper
+                || plan.isAppOnAReadOnlyDisk || plan.isAppInTheTrash || plan.removedElsewhere != nil,
+            appIdentifier: plan.app.bundleIdentifier,
+            isReadOnly: isReadOnly,
+            selection: plan, isSelected: plan.isSelected(plan.app.url)
+        )
+    }
+
     private var recommendedSection: some View {
         Section {
             RemovalColumnHeaders()
-            RemovalRow(
-                url: plan.app.url,
-                icon: .file(plan.app.url),
-                detail: "The app itself. Everything under it is what Peel found for this app elsewhere on this Mac.",
-                kind: "Application",
-                warning: appWarning,
-                size: plan.appSize,
-                isMeasured: plan.isAppMeasured,
-                isLocked: plan.appRequiresPrivileges && !helper.canAct,
-                isExcluded: plan.isExcluded,
-                isLeftAlone: plan.app.isSystemProtected || plan.app.enclosingPackage != nil || plan.isAppBeyondTheHelper
-                    || plan.isAppOnAReadOnlyDisk || plan.isAppInTheTrash || plan.removedElsewhere != nil,
-                appIdentifier: plan.app.bundleIdentifier,
-                selection: plan, isSelected: plan.isSelected(plan.app.url)
-            )
-            .listRowSeparator(.hidden)
+            appRow()
+                .listRowSeparator(.hidden)
             ForEach(plan.recommended) { leftover in
                 row(for: leftover)
             }
@@ -419,7 +453,7 @@ struct AppDetailView: View {
         return result
     }
 
-    private func row(for leftover: Leftover) -> some View {
+    private func row(for leftover: Leftover, isReadOnly: Bool = false) -> some View {
         RemovalRow(
             url: leftover.url,
             icon: .symbol(leftover.kind.symbolName),
@@ -430,6 +464,7 @@ struct AppDetailView: View {
             isMeasured: leftover.isMeasured,
             isLocked: leftover.requiresPrivileges && !helper.canAct,
             isLeftAlone: leftover.match.heldBack?.cannotBeMoved == true || plan.removedElsewhere != nil,
+            isReadOnly: isReadOnly,
             selection: plan, isSelected: plan.isSelected(leftover.url)
         )
     }

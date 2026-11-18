@@ -36,6 +36,8 @@ struct RemovalRow: View {
     var hasNoteColumn = true
     /// A click on the row chooses it for the detail column, and only the checkbox selects the item.
     var isChoosable = false
+    /// A row of a list where nothing can be selected: no checkbox and no badge, since the page's notice says why once.
+    var isReadOnly = false
     /// The object the checkbox writes to. A `Binding` here would rebuild every row in the list: see `RowSelection`.
     let selection: any RowSelection
     let isSelected: Bool
@@ -67,7 +69,11 @@ struct RemovalRow: View {
         // On the title's line, where the checkbox is: centered on the whole row, the note sat below the size and
         // the kind whenever the badge or the kind took a second line.
         HStack(alignment: .checkboxTitleLine, spacing: 6) {
-            checkboxAndItem
+            if isReadOnly {
+                readOnlyItem
+            } else {
+                checkboxAndItem
+            }
             if hasNoteColumn {
                 note
             }
@@ -100,6 +106,19 @@ struct RemovalRow: View {
                 .accessibilityHidden(true)
         }
         .disabled(isLocked || isExcluded || isLeftAlone)
+    }
+
+    /// The item alone, which VoiceOver reads as it reads a checkbox's label, with the note as its hint.
+    @ViewBuilder
+    private var readOnlyItem: some View {
+        let element = item
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(Text(verbatim: spokenItem))
+        if hasExplanation {
+            element.accessibilityHint(Text(verbatim: spokenNote))
+        } else {
+            element
+        }
     }
 
     @ViewBuilder
@@ -141,7 +160,7 @@ struct RemovalRow: View {
 
     /// What the row keeps beside its item: the checkbox, the note, and their gaps.
     private var besideTheItem: CGFloat {
-        21 + (hasNoteColumn ? Self.controlWidth + 6 : 0)
+        (isReadOnly ? 0 : 21) + (hasNoteColumn ? Self.controlWidth + 6 : 0)
     }
 
     private var itemUnderThePath: some View {
@@ -196,7 +215,7 @@ struct RemovalRow: View {
     /// The path with its badge beside it, or under it when the path would get less than `pathFloor`.
     @ViewBuilder
     private var pathAndBadge: some View {
-        if isExcluded || isLeftAlone || isLocked {
+        if badgeKind != nil {
             ViewThatFits(in: .horizontal) {
                 HStack(alignment: .firstTextBaseline, spacing: 12) {
                     path
@@ -217,6 +236,7 @@ struct RemovalRow: View {
 
     /// Why the row's checkbox can't be selected, which would otherwise look like a fault, as its badge says it.
     private var badgeKind: (title: LocalizedStringResource, symbol: String)? {
+        if isReadOnly { return nil }
         if isExcluded { return ("Excluded in Settings", "hand.raised.fill") }
         if isLeftAlone { return ("Left alone", "hand.raised") }
         if isLocked { return ("Needs administrator access", "lock.fill") }
