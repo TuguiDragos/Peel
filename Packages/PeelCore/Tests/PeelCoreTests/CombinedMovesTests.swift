@@ -23,14 +23,28 @@ struct CombinedMovesTests {
         }
     }
 
-    /// Writes into the disk at `disk` until it has no room left.
+    /// Writes into the disk at `disk` until it has no room left, then once more after closing the file, which can give
+    /// back room it held, and records an issue when a write stops for any other reason, since the test would then prove
+    /// nothing.
     private static func fill(_ disk: URL) {
-        let descriptor = open(disk.appending(path: "filler").path(percentEncoded: false), O_WRONLY | O_CREAT, 0o600)
-        guard descriptor >= 0 else { return }
-        defer { close(descriptor) }
-        for size in [1 << 20, 1 << 12] {
-            let chunk = [UInt8](repeating: 1, count: size)
-            while chunk.withUnsafeBytes({ write(descriptor, $0.baseAddress, $0.count) }) > 0 {}
+        let path = disk.appending(path: "filler").path(percentEncoded: false)
+        for flags in [O_WRONLY | O_CREAT, O_WRONLY | O_APPEND] {
+            let descriptor = open(path, flags, 0o600)
+            guard descriptor >= 0 else {
+                Issue.record("the filler couldn't be opened: \(String(cString: strerror(errno)))")
+                return
+            }
+            defer { close(descriptor) }
+            for size in [1 << 20, 1 << 12, 1 << 9] {
+                let chunk = [UInt8](repeating: 1, count: size)
+                while true {
+                    let written = chunk.withUnsafeBytes { write(descriptor, $0.baseAddress, $0.count) }
+                    if written > 0 || written < 0 && errno == EINTR { continue }
+                    if written < 0, errno == ENOSPC { break }
+                    Issue.record("filling stopped: \(written < 0 ? String(cString: strerror(errno)) : "0 bytes")")
+                    return
+                }
+            }
         }
     }
 
