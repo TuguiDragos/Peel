@@ -298151,6 +298151,112 @@
         }
       }
     },
+    "macOS has its own control for this setting. If it changes there, Peel shows the change here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systém macOS má pro toto nastavení vlastní ovládací prvek. Pokud se tam změní, Peel změnu zobrazí zde."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat für diese Einstellung ein eigenes Steuerelement. Ändert sich die Einstellung dort, zeigt Peel die Änderung hier an."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS tiene su propio control para este ajuste. Si cambia ahí, Peel muestra el cambio aquí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS a sa propre option pour ce réglage. Si le réglage est modifié depuis cette option, Peel affiche le changement ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ha un proprio controllo per questa impostazione. Se cambia lì, Peel mostra qui la modifica."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSにもこの設定を変更する項目があります。そちらで変更されると、Peelはその変更をここに表示します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS에도 이 설정을 바꾸는 자체 제어 항목이 있습니다. 그곳에서 설정이 바뀌면 Peel이 여기에 그 변경 사항을 표시합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS heeft hiervoor een eigen instelling. Als die daar verandert, toont Peel de wijziging hier."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ma własną opcję do zmiany tego ustawienia. Jeśli zostanie ono tam zmienione, Peel pokaże tę zmianę tutaj."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS tem um controle próprio para este ajuste. Se ele mudar lá, o Peel mostra a mudança aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS are propria comandă pentru această configurare. Dacă se schimbă acolo, Peel afișează schimbarea aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В macOS есть собственная настройка для этого параметра. Если изменить ее там, Peel покажет это изменение здесь."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS har ett eget reglage för den här inställningen. Om den ändras där visar Peel ändringen här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS’in bu ayar için kendi denetimi var. Ayar orada değişirse Peel değişikliği burada gösterir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У macOS є власний елемент керування для цього налаштування. Якщо його змінити там, Peel покаже цю зміну тут."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS自己也有此设置的控制选项。如果在那里更改了它，Peel会在此处显示这一更改。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS本身也有此設定的控制選項。如果在那裡更改了此設定，Peel會在這裡顯示此變更。"
+          }
+        }
+      }
+    },
     "macOS has its own control for this setting. If it changes there, this switch follows." : {
       "localizations" : {
         "cs" : {

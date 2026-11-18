@@ -119,7 +119,12 @@ struct TweakRow: View {
             paragraphs.append(String(localized: restart))
         }
         if tweak.hasASystemControl {
-            paragraphs.append(String(localized: "macOS has its own control for this setting. If it changes there, this switch follows."))
+            switch tweak.kind {
+            case .aSwitch, .aSwitchForThisAppAlone:
+                paragraphs.append(String(localized: "macOS has its own control for this setting. If it changes there, this switch follows."))
+            case .folder, .name:
+                paragraphs.append(String(localized: "macOS has its own control for this setting. If it changes there, Peel shows the change here."))
+            }
         }
         return paragraphs.joined(separator: "\n\n")
     }
