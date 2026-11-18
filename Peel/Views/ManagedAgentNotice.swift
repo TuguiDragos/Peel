@@ -6,11 +6,10 @@ struct ManagedAgentNotice: View {
     let agent: ManagedAgent
 
     var body: some View {
-        Notice(title: Text(Self.title(of: agent)), detail: Text("Your IT administrator removes it."), kind: .note) {
-            if let page = agent.page {
-                Link("Instructions from \(agent.name)", destination: page)
-            }
-        }
+        Notice(
+            title: Text(Self.title(of: agent)), detail: Text("Your IT administrator removes it."), kind: .note,
+            link: agent.page.map { ($0, String(localized: "Instructions from \(agent.name)")) }
+        ) {}
     }
 
     static func title(of agent: ManagedAgent) -> LocalizedStringResource {

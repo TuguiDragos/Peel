@@ -1950,112 +1950,6 @@
         }
       }
     },
-    "%@ documents removing %@ with its own uninstaller, which also takes what it keeps in the system and the settings that manage it. Moved from here, those would stay behind, so Peel leaves it and its files where they are." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Výrobce %@ uvádí ve své dokumentaci, že se aplikace %@ odstraňuje vlastním odinstalátorem, který odstraní i to, co aplikace uchovává v systému, a nastavení, která ji spravují. Kdyby byla aplikace odtud přesunuta do koše, zanechala by je po sobě, a proto Peel aplikaci i její soubory ponechává na místě."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ beschreibt, wie „%@“ mit einem eigenen Deinstallationsprogramm entfernt wird, das auch erfasst, was die App im System ablegt, und die Einstellungen, mit denen sie verwaltet wird. Würde die App von hier aus verschoben, blieben beide zurück, daher lässt Peel die App und ihre Dateien dort, wo sie sind."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ indica en su documentación que %@ se elimina con su propio desinstalador, que también se lleva lo que la app guarda en el sistema y los ajustes con los que se gestiona. Si se trasladara desde aquí, todo eso se quedaría atrás, así que Peel deja la app y sus archivos donde están."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Selon la documentation de %@, pour supprimer %@, il faut utiliser son propre programme de désinstallation, qui supprime aussi ce que l’app conserve dans le système et les réglages qui la gèrent. Placée dans la corbeille depuis cette page, l’app les laisserait derrière elle : Peel la laisse donc là où elle est, avec ses fichiers."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ indica di rimuovere %@ con il proprio programma di disinstallazione, che toglie anche ciò che l’app tiene nel sistema e le impostazioni che la gestiscono. Spostandola da qui, tutto questo resterebbe sul Mac, quindi Peel lascia l’app e i suoi file dove sono."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@は、“%@”を専用のアンインストーラで取り除くよう案内しています。このアンインストーラは、アプリがシステム内に置いているものや、アプリを管理する設定も一緒に取り除きます。ここからゴミ箱に入れた場合はそれらが残ってしまうため、Peelはこのアプリとそのファイルをそのままにします。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@은(는) 공식 문서에서 ‘%@’을(를) 자체 제거 프로그램으로 제거하도록 안내합니다. 이 제거 프로그램은 앱이 시스템에 보관하는 항목과 앱을 관리하는 설정도 함께 제거합니다. 여기에서 휴지통으로 이동하면 이러한 항목이 남게 되므로, Peel은 앱과 앱의 파일을 그대로 둡니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ beschrijft hoe je %@ verwijdert met het eigen de-installatieprogramma. Dat verwijdert ook wat de app in het systeem bewaart en de instellingen waarmee de app wordt beheerd. Als de app hier naar de prullenmand werd verplaatst, zouden die achterblijven, dus laat Peel de app en de bestanden ervan staan."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Według dokumentacji producenta %@ aplikację %@ odinstalowuje się jej własnym dezinstalatorem, który usuwa też to, co aplikacja przechowuje w systemie, oraz ustawienia, które nią zarządzają. Przeniesiona stąd do Kosza, pozostawiłaby po sobie jedno i drugie, dlatego Peel zostawia ją i jej pliki na miejscu."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Segundo a documentação de %@, %@ deve ser removido com o próprio desinstalador, que também leva o que ele mantém no sistema e os ajustes que o gerenciam. Se o app fosse movido daqui, isso ficaria para trás, então o Peel deixa o app e os arquivos dele onde estão."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Potrivit instrucțiunilor de la %@, %@ se elimină cu propriul program de dezinstalare, care elimină atât ce păstrează aplicația în sistem, cât și configurările care o gestionează. Dacă ar fi mutată în Coș de aici, acestea ar rămâne în urmă, așa că Peel lasă aplicația și fișierele ei acolo unde sunt."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "В документации %@ сказано, что приложение «%@» удаляется его собственной программой удаления, которая также убирает то, что оно хранит в системе, и управляющие им настройки. Если бы его переместили отсюда, все это осталось бы после него, поэтому Peel оставляет на месте и приложение, и его файлы."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ beskriver hur %@ tas bort med en egen avinstallerare, som även tar bort det appen har i systemet och inställningarna som hanterar den. Om appen flyttades härifrån skulle de lämnas kvar, så Peel låter appen och dess filer vara där de är."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ belgelerine göre, %@ uygulaması kendi yükleme kaldırıcısıyla kaldırılır; bu kaldırıcı, uygulamanın sistemde tuttuklarını ve onu yöneten ayarları da kaldırır. Uygulama buradan Çöp Sepeti’ne taşınsaydı bunlar geride kalırdı, bu yüzden Peel uygulamaya ve dosyalarına dokunmaz."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ у своїй документації описує вилучення програми «%@» власним деінсталятором, який вилучає також те, що програма зберігає в системі, і налаштування, які нею керують. Якби програму перемістили звідси, вона залишила б їх по собі, тому Peel лишає її та її файли на місці."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@在文档中说明，“%@”应使用其自己的卸载器移除，该卸载器还会一并移除它保存在系统中的内容以及管理它的设置。如果从此处移走，这些内容会被留下，因此Peel会将它及其文件留在原处。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@在說明文件中指出，移除「%@」應使用其自己的解除安裝程式，該程式也會一併移除此App保存在系統中的項目，以及管理它的設定。若從這裡移動此App，這些項目就會留下，因此Peel會將它及其檔案原地保留。"
-          }
-        }
-      }
-    },
     "%@ doesn’t say where it updates from in a way Peel can read. Peel reads an app’s update feed from the app’s own files, and asking Apple about every app instead would send Apple a list of what is installed on this Mac. Look for an update inside the app." : {
       "localizations" : {
         "cs" : {
@@ -8408,112 +8302,6 @@
         }
       }
     },
-    "%@ offers the uninstaller as a download on its website." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Odinstalátor je ke stažení na webu výrobce %@."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Deinstallationsprogramm lässt sich von der Website von %@ laden."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ ofrece el desinstalador como descarga en su sitio web."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ propose le programme de désinstallation en téléchargement sur son site web."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ offre il programma di disinstallazione da scaricare dal suo sito web."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アンインストーラは%@のWebサイトからダウンロードできます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@은(는) 웹사이트에서 제거 프로그램을 다운로드할 수 있도록 제공합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ biedt het de-installatieprogramma als download aan op de eigen website."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dezinstalator jest do pobrania ze strony producenta %@."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ oferece o desinstalador para download no próprio site."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ oferă programul de dezinstalare spre descărcare pe site‑ul său web."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ предлагает загрузить программу удаления со своего сайта."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ erbjuder avinstalleraren för hämtning på sin webbplats."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, yükleme kaldırıcıyı web sitesinde indirmeye sunar."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ пропонує деінсталятор для викачування на своєму вебсайті."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@在其网站上提供该卸载器的下载。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@在其網站上提供解除安裝程式下載。"
-          }
-        }
-      }
-    },
     "%@ recommends uninstalling %@" : {
       "localizations" : {
         "cs" : {
@@ -8626,112 +8414,6 @@
         }
       }
     },
-    "%@ removes it with its own uninstaller" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Odstraňuje se vlastním odinstalátorem výrobce %@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wird mit dem eigenen Deinstallationsprogramm von %@ entfernt"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ la elimina con su propio desinstalador"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ la supprime avec son propre programme de désinstallation"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ la rimuove con il proprio programma di disinstallazione"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アンインストールは%@独自のアンインストーラで行います"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@이(가) 자체 제거 프로그램으로 제거함"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ verwijdert dit met het eigen de-installatieprogramma"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Odinstalowanie własnym dezinstalatorem producenta %@"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ o remove com o próprio desinstalador"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se elimină cu programul de dezinstalare de la %@"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удаляется программой удаления от %@"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ tar bort appen med sin egen avinstallerare"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ kendi yükleme kaldırıcısıyla kaldırır"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ вилучає це власним деінсталятором"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@使用自己的卸载器将其移除"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@自己的解除安裝程式會移除它"
-          }
-        }
-      }
-    },
     "%@ removes itself once it leaves Applications." : {
       "localizations" : {
         "cs" : {
@@ -8834,112 +8516,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「%@」一旦離開「應用程式」檔案夾，就會移除自己。"
-          }
-        }
-      }
-    },
-    "%@ removes what is left with its own uninstaller" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Co zůstalo, odstraní vlastní odinstalátor výrobce %@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Was übrig ist, wird mit dem eigenen Deinstallationsprogramm von %@ entfernt"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ elimina lo que queda con su propio desinstalador"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ supprime ce qu’il en reste avec son propre programme de désinstallation"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ rimuove ciò che resta con il proprio programma di disinstallazione"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "残っているものは%@独自のアンインストーラで取り除きます"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@이(가) 자체 제거 프로그램으로 남은 항목을 제거함"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ verwijdert met het eigen de-installatieprogramma wat er nog over is"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usunięcie pozostałości własnym dezinstalatorem producenta %@"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ remove o que restou com o próprio desinstalador"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce a rămas se elimină cu programul de dezinstalare de la %@"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Остатки удаляются программой удаления от %@"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ tar bort det som finns kvar med sin egen avinstallerare"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ geride kalanları kendi yükleme kaldırıcısıyla kaldırır"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ вилучає решту власним деінсталятором"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@使用自己的卸载器移除剩余内容"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@自己的解除安裝程式會移除剩餘的項目"
           }
         }
       }
@@ -12971,112 +12547,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「%@」的根憑證在App移除後，仍會受到這部Mac信任。"
-          }
-        }
-      }
-    },
-    "%@’s uninstaller for %@" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Odinstalátor výrobce %@ pro aplikaci %@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deinstallationsprogramm von %@ für „%@“"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Desinstalador de %@ para %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Programme de désinstallation de %@ pour %@"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Programma di disinstallazione di %@ per %@"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@の%@用アンインストーラ"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@의 ‘%@’ 제거 프로그램"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De-installatieprogramma van %@ voor %@"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dezinstalator producenta %@ dla aplikacji %@"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Desinstalador de %@ para %@"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Programul de dezinstalare de la %@ pentru %@"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Программа удаления от %@ для приложения «%@»"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avinstalleraren från %@ för %@"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ tarafından %@ için hazırlanan yükleme kaldırıcı"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Деінсталятор %@ для програми «%@»"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@的%@卸载器"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@的「%@」解除安裝程式"
           }
         }
       }
@@ -42162,6 +41632,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「郵件」保留的副本"
+          }
+        }
+      }
+    },
+    "Copy the command, paste it into Terminal, and press Return." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkopírujte příkaz, vložte ho do Terminálu a stiskněte klávesu Return."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopiere den Befehl, setze ihn im Terminal ein und drücke den Zeilenschalter."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia el comando, pégalo en Terminal y pulsa Retorno."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiez la commande, collez-la dans Terminal, puis appuyez sur Retour."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia il comando, incollalo in Terminale e premi il tasto A capo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コマンドをコピーしてターミナルにペーストし、Returnキーを押してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "명령을 복사하여 터미널에 붙여넣은 다음 Return 키를 누르십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopieer het commando, plak het in Terminal en druk op Return."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skopiuj polecenie, wklej je do Terminala i naciśnij klawisz Return."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copie o comando, cole-o no Terminal e pressione a tecla Return."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiați comanda, lipiți‑o în Terminal și apăsați Retur."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопируйте команду, вставьте ее в Терминал и нажмите клавишу Return."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopiera kommandot, klistra in det i Terminal och tryck på returtangenten."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komutu kopyalayın, Terminal’e yapıştırın ve Return tuşuna basın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопіюйте команду, вставте її в Термінал і натисніть клавішу Return."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请拷贝该命令，将其粘贴到“终端”中，然后按下Return键。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請拷貝指令，貼到「終端機」中，然後按下Return鍵。"
           }
         }
       }
@@ -86393,6 +85969,112 @@
         }
       }
     },
+    "It asks for an administrator password." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyžádá si heslo správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er fragt nach dem Passwort eines Administrators."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pide una contraseña de administrador."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elle demande le mot de passe d’un administrateur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiede la password di un amministratore."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "実行すると、管理者のパスワードの入力を求められます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "명령을 실행하면 관리자 암호를 묻습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het commando vraagt om het wachtwoord van een beheerder."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Polecenie poprosi o hasło administratora."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele pede uma senha de administrador."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comanda cere parola unui administrator."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Она запросит пароль администратора."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det ber om ett administratörslösenord."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komut bir yönetici parolası ister."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Команда попросить пароль адміністратора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它会要求输入管理员密码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它會要求輸入管理者密碼。"
+          }
+        }
+      }
+    },
     "It came inside an app, and it goes when that app goes." : {
       "localizations" : {
         "cs" : {
@@ -99268,6 +98950,218 @@
         }
       }
     },
+    "Its maker offers an uninstaller that removes what the app left." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Výrobce nabízí odinstalátor, který odstraní, co po sobě aplikace zanechala."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Hersteller bietet ein Deinstallationsprogramm an, das entfernt, was die App hinterlassen hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su fabricante ofrece un desinstalador que elimina lo que ha dejado la app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son éditeur propose un programme de désinstallation qui supprime ce que l’app a laissé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo produttore offre un programma di disinstallazione che rimuove ciò che l’app ha lasciato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開発元が、アプリが残したものを取り除くアンインストーラを提供しています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱이 남긴 항목을 제거하는 제거 프로그램을 제작자가 제공합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De maker biedt een de-installatieprogramma aan dat verwijdert wat de app heeft achtergelaten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Producent udostępnia dezinstalator, który usuwa to, co pozostawiła aplikacja."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O fabricante oferece um desinstalador que remove o que o app deixou para trás."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Producătorul aplicației oferă un program de dezinstalare care elimină ce a lăsat aceasta în urmă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Производитель предлагает программу удаления, которая убирает то, что осталось после приложения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tillverkaren erbjuder en avinstallerare som tar bort det som appen lämnade kvar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Üreticisi, uygulamanın geride bıraktıklarını kaldıran bir yükleme kaldırıcı sunar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Її виробник пропонує деінсталятор, який вилучає те, що залишила програма."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其厂商提供了一个卸载器，可移除该App留下的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其廠商提供的解除安裝程式可移除此App留下的項目。"
+          }
+        }
+      }
+    },
+    "Its maker offers the uninstaller on its website." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Výrobce nabízí odinstalátor na svém webu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Hersteller bietet das Deinstallationsprogramm auf seiner Website an."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su fabricante ofrece el desinstalador en su sitio web."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son éditeur propose le programme de désinstallation sur son site web."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo produttore offre il programma di disinstallazione da scaricare dal proprio sito web."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開発元がWebサイトでアンインストーラを提供しています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "제작자가 웹사이트에서 제거 프로그램을 제공합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De maker biedt het de-installatieprogramma aan op de eigen website."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Producent udostępnia dezinstalator w swojej witrynie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O fabricante oferece o desinstalador no próprio site."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Producătorul ei oferă programul de dezinstalare pe site‑ul său web."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Производитель предлагает загрузить программу удаления со своего сайта."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tillverkaren erbjuder avinstalleraren på sin webbplats."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Üreticisi, yükleme kaldırıcıyı web sitesinde sunar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Її виробник пропонує деінсталятор на своєму вебсайті."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其厂商在自己的网站上提供该卸载器。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其廠商在網站上提供解除安裝程式。"
+          }
+        }
+      }
+    },
     "Its name could reach another job" : {
       "localizations" : {
         "cs" : {
@@ -101072,108 +100966,214 @@
         }
       }
     },
-    "Its uninstaller is on the disk image %@ came on." : {
+    "Its uninstaller is on the disk image the app came on." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Odinstalátor je na obrazu disku, na kterém byla dodána aplikace %@."
+            "value" : "Odinstalátor je na obrazu disku, na kterém byla aplikace dodána."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Das Deinstallationsprogramm befindet sich in der Image-Datei, mit der „%@“ geliefert wurde."
+            "value" : "Das Deinstallationsprogramm befindet sich in der Image-Datei, mit der die App geliefert wurde."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Su desinstalador está en la imagen de disco en la que venía %@."
+            "value" : "Su desinstalador está en la imagen de disco en la que venía la app."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Son programme de désinstallation se trouve sur l’image disque d’où provient %@."
+            "value" : "Son programme de désinstallation se trouve sur l’image disque d’où provient l’app."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il suo programma di disinstallazione si trova nell’immagine disco con cui è stata fornita %@."
+            "value" : "Il suo programma di disinstallazione si trova nell’immagine disco con cui è stata fornita l’app."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アンインストーラは、“%@”が入っていたディスクイメージにあります。"
+            "value" : "アンインストーラは、アプリが入っていたディスクイメージにあります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 앱의 제거 프로그램은 ‘%@’이(가) 들어 있던 디스크 이미지에 있습니다."
+            "value" : "이 앱의 제거 프로그램은 앱이 들어 있던 디스크 이미지에 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het bijbehorende de-installatieprogramma staat op de schijfkopie waarop %@ werd geleverd."
+            "value" : "Het bijbehorende de-installatieprogramma staat op de schijfkopie waarop de app werd geleverd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dezinstalator jest na obrazie dysku, z którego pochodzi aplikacja %@."
+            "value" : "Dezinstalator jest na obrazie dysku, z którego pochodzi aplikacja."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O desinstalador dele está na imagem de disco em que %@ veio."
+            "value" : "O desinstalador dele está na imagem de disco em que o app veio."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Programul său de dezinstalare se află pe imaginea de disc cu care a venit %@."
+            "value" : "Programul său de dezinstalare se află pe imaginea de disc cu care a venit aplicația."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Его программа удаления находится в образе диска, в котором поставлялось приложение «%@»."
+            "value" : "Его программа удаления находится в образе диска, в котором поставлялось приложение."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avinstalleraren finns på den skivavbild som %@ levererades på."
+            "value" : "Avinstalleraren finns på den skivavbild som appen levererades på."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yükleme kaldırıcısı, %@ uygulamasının içinde geldiği disk görüntüsündedir."
+            "value" : "Yükleme kaldırıcısı, uygulamanın içinde geldiği disk görüntüsündedir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Її деінсталятор лежить на образі диска, з яким постачалася програма «%@»."
+            "value" : "Її деінсталятор лежить на образі диска, з яким постачалася програма."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的卸载器位于提供“%@”的磁盘映像中。"
+            "value" : "它的卸载器位于提供该App的磁盘映像中。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的解除安裝程式位於當初提供「%@」的磁碟映像檔中。"
+            "value" : "它的解除安裝程式位於當初提供此App的磁碟映像檔中。"
+          }
+        }
+      }
+    },
+    "Its uninstaller removes the app and everything it keeps in the system." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odinstalátor odstraní aplikaci i vše, co uchovává v systému."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Deinstallationsprogramm entfernt die App und alles, was sie im System aufbewahrt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su desinstalador elimina la app y todo lo que guarda en el sistema."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son programme de désinstallation supprime l’app et tout ce qu’elle conserve dans le système."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo programma di disinstallazione rimuove l’app e tutto ciò che tiene nel sistema."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリ独自のアンインストーラは、アプリと、アプリがシステム内に置いているものをすべて取り除きます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 앱의 제거 프로그램은 앱과 앱이 시스템에 보관하는 모든 항목을 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het bijbehorende de-installatieprogramma verwijdert de app en alles wat die in het systeem bewaart."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dezinstalator usuwa aplikację i wszystko, co przechowuje ona w systemie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O desinstalador dele remove o app e tudo o que ele mantém no sistema."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programul său de dezinstalare elimină aplicația și tot ce păstrează aceasta în sistem."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Его программа удаления убирает приложение и все, что оно хранит в системе."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avinstalleraren tar bort appen och allt som appen har i systemet."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yükleme kaldırıcısı, uygulamayı ve uygulamanın sistemde tuttuğu her şeyi kaldırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Її деінсталятор вилучає програму та все, що вона зберігає в системі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的卸载器会移除该App及其保存在系统中的所有内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它的解除安裝程式會移除此App及其保存在系統中的所有內容。"
           }
         }
       }
@@ -104593,112 +104593,6 @@
         }
       }
     },
-    "Left alone: %@ removes it with its own uninstaller." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nedotčeno: tuto položku odstraní vlastní odinstalátor výrobce %@."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unangetastet: Das eigene Deinstallationsprogramm von %@ entfernt dies."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No se toca: %@ lo elimina con su propio desinstalador."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Laissé en place : %@ le supprime avec son propre programme de désinstallation."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resta dov’è: %@ lo rimuove con il proprio programma di disinstallazione."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "対象外: %@独自のアンインストーラによって取り除かれます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "그대로 둠: %@이(가) 자체 제거 프로그램으로 이 항목을 제거합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Blijft staan: %@ verwijdert dit met het eigen de-installatieprogramma."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nietknięte: usuwa to własny dezinstalator producenta %@."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preservado: %@ remove isto com o próprio desinstalador."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lăsat neatins: se elimină cu programul de dezinstalare de la %@."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Остается на месте: удаляется программой удаления от %@."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rörs inte: %@ tar bort det här med sin egen avinstallerare."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yerinde kalır: %@ kendi yükleme kaldırıcısıyla kaldırır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Лишається на місці: %@ вилучає це власним деінсталятором."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "留在原处：%@会使用自己的卸载器将其移除。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "原地保留：%@自己的解除安裝程式會移除它。"
-          }
-        }
-      }
-    },
     "Left alone: Peel can’t look inside the app to see which system extensions it carries, and macOS removes those only when the app goes to the Trash in Finder." : {
       "localizations" : {
         "cs" : {
@@ -107564,6 +107458,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "原地保留：此項目會透過iCloud或其他App與你的其他裝置同步，丟到「垃圾桶」也會將它從這些裝置上移除。"
+          }
+        }
+      }
+    },
+    "Left alone: use its own uninstaller." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedotčeno: použijte vlastní odinstalátor výrobce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unangetastet: Verwende das eigene Deinstallationsprogramm."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se toca: usa su propio desinstalador."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissé en place : utilisez son propre programme de désinstallation."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resta dov’è: usa il suo programma di disinstallazione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "対象外: アプリ独自のアンインストーラを使用してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그대로 둠: 자체 제거 프로그램을 사용하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blijft staan: gebruik het eigen de-installatieprogramma."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nietknięte: użyj własnego dezinstalatora aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preservado: use o desinstalador do próprio app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lăsat neatins: folosiți programul său de dezinstalare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остается на месте: используйте его собственную программу удаления."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rörs inte: använd appens egen avinstallerare."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerinde kalır: kendi yükleme kaldırıcısını kullanın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лишається на місці: скористайтеся власним деінсталятором програми."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留在原处：请使用它自己的卸载器。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原地保留：請使用它自己的解除安裝程式。"
           }
         }
       }
@@ -151248,6 +151248,112 @@
         }
       }
     },
+    "Open the app and follow the steps its maker gives." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřete aplikaci a postupujte podle pokynů výrobce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffne die App und folge den Schritten, die der Hersteller angibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre la app y sigue los pasos que indica su fabricante."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez l’app et suivez les étapes indiquées par son éditeur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri l’app e segui i passaggi indicati dal suo produttore."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリを開き、開発元が示す手順に従ってください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱을 열고 제작자가 안내하는 단계를 따르십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open de app en volg de stappen die de maker geeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otwórz aplikację i wykonaj kroki podane przez producenta."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abra o app e siga as etapas indicadas pelo fabricante."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deschideți aplicația și urmați pașii indicați de producătorul ei."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Откройте приложение и выполните шаги, которые указывает производитель."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öppna appen och följ stegen som tillverkaren anger."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulamayı açın ve üreticisinin verdiği adımları izleyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Відкрийте програму й виконайте кроки, які вказує її виробник."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请打开该App，然后按照其厂商给出的步骤操作。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請打開此App，並依照其廠商提供的步驟操作。"
+          }
+        }
+      }
+    },
     "Opened %@" : {
       "localizations" : {
         "cs" : {
@@ -174169,6 +174275,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會動它和它的檔案。你可以在「設定」中更改。"
+          }
+        }
+      }
+    },
+    "Peel leaves it where it is, since a move would leave behind what it keeps in the system." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ji ponechá tam, kde je, protože po přesunutí by v systému zůstalo to, co v něm uchovává."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel lässt die App, wo sie ist, da beim Verschieben zurückbliebe, was sie im System aufbewahrt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel la deja donde está, ya que un traslado dejaría atrás lo que guarda en el sistema."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel la laisse là où elle est, car un déplacement laisserait derrière lui ce qu’elle conserve dans le système."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel la lascia dov’è, perché spostandola resterebbe indietro ciò che tiene nel sistema."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動すると、アプリがシステム内に置いているものが残ってしまうため、Peelはこのアプリをそのままにします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이동하면 앱이 시스템에 보관하는 항목이 남게 되므로 Peel은 앱을 그대로 둡니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel laat de app staan waar die is, omdat bij een verplaatsing zou achterblijven wat de app in het systeem bewaart."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zostawia aplikację na miejscu, ponieważ po jej przeniesieniu zostałoby to, co przechowuje ona w systemie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel deixa o app onde está, já que movê-lo deixaria para trás o que ele mantém no sistema."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel lasă aplicația unde se află, deoarece o mutare ar lăsa în urmă ce păstrează aceasta în sistem."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel оставляет его на месте, поскольку при перемещении осталось бы то, что оно хранит в системе."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel låter appen vara där den är, eftersom en flytt skulle lämna kvar det som appen har i systemet."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel onu olduğu yerde bırakır, çünkü taşınırsa sistemde tuttukları geride kalır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel залишає її на місці, бо після переміщення лишилося б те, що програма зберігає в системі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会将它留在原处，因为移动它会留下它保存在系统中的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會將它保留在原處，因為移動它會留下它保存在系統中的內容。"
           }
         }
       }
@@ -250174,6 +250386,112 @@
         }
       }
     },
+    "This app is an uninstaller" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato aplikace je odinstalátor"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese App ist ein Deinstallationsprogramm"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta app es un desinstalador"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette app est un programme de désinstallation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questa app è un programma di disinstallazione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアプリはアンインストーラです"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 앱은 제거 프로그램임"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze app is een de-installatieprogramma"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta aplikacja jest dezinstalatorem"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este app é um desinstalador"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Această aplicație este un program de dezinstalare"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это программа удаления"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den här appen är en avinstallerare"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu uygulama bir yükleme kaldırıcı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ця програма є деінсталятором"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此App是一个卸载器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此App是解除安裝程式"
+          }
+        }
+      }
+    },
     "This app is excluded" : {
       "localizations" : {
         "cs" : {
@@ -265924,6 +266242,112 @@
         }
       }
     },
+    "Use its own uninstaller" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Použijte vlastní odinstalátor aplikace"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwende das eigene Deinstallationsprogramm"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa su propio desinstalador"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilisez son propre programme de désinstallation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa il suo programma di disinstallazione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリ独自のアンインストーラを使用してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자체 제거 프로그램 사용"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik het eigen de-installatieprogramma"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Użyj własnego dezinstalatora aplikacji"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use o desinstalador do próprio app"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Folosiți programul său de dezinstalare"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Используйте его собственную программу удаления"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Använd appens egen avinstallerare"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kendi yükleme kaldırıcısını kullanın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скористайтеся її власним деінсталятором"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请使用它自己的卸载器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用它自己的解除安裝程式"
+          }
+        }
+      }
+    },
     "Use the Usual Places" : {
       "localizations" : {
         "cs" : {
@@ -266132,6 +266556,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用histogram差異演算法"
+          }
+        }
+      }
+    },
+    "Use the uninstaller from its maker" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Použijte odinstalátor od výrobce"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwende das Deinstallationsprogramm des Herstellers"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa el desinstalador de su fabricante"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilisez le programme de désinstallation de son éditeur"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa il programma di disinstallazione del produttore"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開発元のアンインストーラを使用してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "제작자의 제거 프로그램 사용"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik het de-installatieprogramma van de maker"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Użyj dezinstalatora producenta"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use o desinstalador do fabricante"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Folosiți programul de dezinstalare de la producător"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Используйте программу удаления от производителя"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Använd tillverkarens avinstallerare"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Üreticisinin yükleme kaldırıcısını kullanın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скористайтеся деінсталятором від її виробника"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请使用其厂商提供的卸载器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用其廠商提供的解除安裝程式"
           }
         }
       }

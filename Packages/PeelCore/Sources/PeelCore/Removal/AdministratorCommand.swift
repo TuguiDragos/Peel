@@ -5,6 +5,11 @@ public enum AdministratorCommand {
     /// account isn't an administrator. `isAdministrator` is passed in, since opendirectoryd answers it and a page
     /// shouldn't wait for that each time it draws.
     public static func needsAnAdministrator(_ command: String, isAdministrator: Bool) -> Bool {
-        !isAdministrator && command.split(whereSeparator: { " &;|()".contains($0) }).contains("sudo")
+        !isAdministrator && runsWithSudo(command)
+    }
+
+    /// Whether `command` runs something with `sudo`, which asks for an administrator password.
+    public static func runsWithSudo(_ command: String) -> Bool {
+        command.split(whereSeparator: { " &;|()".contains($0) }).contains("sudo")
     }
 }

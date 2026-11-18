@@ -381,7 +381,8 @@ struct AppDetailView: View {
         if plan.isExcluded { return Self.excludedTitle }
         switch plan.removedElsewhere {
         case .byRemovePeel?: return Self.removesItselfTitle
-        case .byItsMaker(let uninstaller)?: return MakersUninstallerNotice.title(of: uninstaller)
+        case .byItsMaker(let uninstaller)?:
+            return MakersUninstallerNotice.title(of: uninstaller, isForWhatIsLeft: false)
         case .byYourOrganization(let agent)?: return ManagedAgentNotice.title(of: agent)
         case .byFinder?: return SystemExtensionNotice.title
         case .onceItsSystemExtensionsAreOff(let extensions)?: return SystemExtensionInsideNotice.title(of: extensions)

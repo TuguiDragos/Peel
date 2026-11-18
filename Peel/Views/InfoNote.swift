@@ -12,6 +12,8 @@ struct InfoNote: View {
     var footnote: Text?
     /// A page the note leads to, shown as its last line.
     var link: URL?
+    /// Already localized: the words the link goes by, in place of its address.
+    var linkTitle: String?
     /// Something to know before acting. It draws the circle in the accent color.
     var caution: Text?
     /// Only Home passes this; see `noteTint`.
@@ -52,10 +54,12 @@ struct InfoNote: View {
     }
 
     /// A notice's circled i. Its title is a sentence, so VoiceOver calls it More Info, as an info button is called.
-    init(about title: Text, detail: Text, isAlbum: Bool) {
+    init(about title: Text, detail: Text, link: URL? = nil, linkTitle: String? = nil, isAlbum: Bool) {
         heading = title
         label = Text("More Info")
         self.detail = { detail }
+        self.link = link
+        self.linkTitle = linkTitle
         self.isAlbum = isAlbum
     }
 
@@ -83,7 +87,7 @@ struct InfoNote: View {
         .popover(isPresented: isOpen, arrowEdge: .bottom) {
             NoteCard(
                 heading: heading, detail: detail(), symbol: symbol ?? mark, footnote: footnote, link: link,
-                caution: caution, isAlbum: isAlbum
+                linkTitle: linkTitle, caution: caution, isAlbum: isAlbum
             )
         }
     }
@@ -97,6 +101,8 @@ struct NoteCard: View {
     var symbol: String?
     var footnote: Text?
     var link: URL?
+    /// Already localized: the words the link goes by, in place of its address.
+    var linkTitle: String?
     var caution: Text?
     var isAlbum = false
 
@@ -130,7 +136,11 @@ struct NoteCard: View {
                         .textSelection(.enabled)
                         .padding(.top, 2)
                 }
-                if let link {
+                if let link, let linkTitle {
+                    LinkedText(Self.words(linkTitle, leadingTo: link))
+                        .font(.callout)
+                        .padding(.top, 2)
+                } else if let link {
                     LinkedText(Self.address(link))
                         .font(.caption.monospaced())
                         .foregroundStyle(.secondary)
@@ -157,9 +167,13 @@ struct NoteCard: View {
 
     /// The page without its scheme, as the note shows it.
     private static func address(_ url: URL) -> AttributedString {
-        var words = AttributedString("\(url.host() ?? "")\(url.path())")
-        words.link = url
-        return words
+        words("\(url.host() ?? "")\(url.path())", leadingTo: url)
+    }
+
+    private static func words(_ words: String, leadingTo url: URL) -> AttributedString {
+        var linked = AttributedString(words)
+        linked.link = url
+        return linked
     }
 }
 

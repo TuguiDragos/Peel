@@ -26,6 +26,8 @@ struct Notice<Actions: View>: View {
     var isAlbum = false
     /// What has to be read to act, kept under the title: the sentence before a command to copy, or steps in Finder.
     var step: Text?
+    /// A page the circled i leads to, with the words it goes by, already localized.
+    var link: (url: URL, title: String)?
     @ViewBuilder let actions: Actions
 
     var body: some View {
@@ -37,7 +39,7 @@ struct Notice<Actions: View>: View {
                     .font(isAlbum ? .system(size: 12.5, weight: .bold, design: .rounded) : .callout.weight(.semibold))
                     .foregroundStyle(titleColor)
                 if let detail {
-                    InfoNote(about: title, detail: detail, isAlbum: isAlbum)
+                    InfoNote(about: title, detail: detail, link: link?.url, linkTitle: link?.title, isAlbum: isAlbum)
                 }
             }
             .noticePart(.words)
