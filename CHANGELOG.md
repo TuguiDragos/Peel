@@ -47,6 +47,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Details.
 - A leftover whose job launchd has loaded says it can run until it moves or is stopped in Background Items, on an app's
   page, several apps' page, and from `peel uninstall`.
+- Jamf Protect, Carbon Black Cloud, Cisco Secure Endpoint, Elastic Agent, CrowdStrike Falcon, and SentinelOne, which
+  an organization manages its Macs with, are left to its IT administrator: their pages, the Extensions page, and
+  `peel uninstall` say so, with a link to the maker's instructions where the maker publishes them, and move nothing.
+- Intel Power Gadget's page says that Intel recommends uninstalling it, since it has known security flaws and Intel no
+  longer updates it, with a link to Intel's advisory.
 
 #### Orphaned Files
 
@@ -60,6 +65,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   and `peel orphans` say that an app another account keeps in its own Applications folder isn't visible from here.
 - Once Ollama, LM Studio, or Osaurus is gone, Orphaned Files lists the folder where it kept its models, as long as no
   command of the same tool, such as the `ollama` Homebrew installs, still uses it. Nothing in it is selected for you.
+- When an app Peel saw go leaves a service behind, a launchd job whose program the app's maker signed while no app of
+  that maker is installed, Orphaned Files and `peel orphans` list the job's file and its program under that app, left
+  for you to select. Moving both stops the job before its program goes.
+- The group of an app that is gone names the uninstaller its maker documents, or where to download it, since that
+  uninstaller also takes what the app kept in the system.
 
 #### Intel Software
 
@@ -85,6 +95,15 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - Every row shows a day beside its size: when the item came, or when a download that never finished or an update an
   app downloaded last changed. Only backups showed one before.
+
+#### Background Items
+
+- A job whose program was signed by the maker of an app Peel saw go says that app has left this Mac, and Open Orphaned
+  Files shows the job there with what else the app left.
+- A job of an app that is gone names the uninstaller its maker documents, and so does a job a maker's product keeps
+  outside its app, such as CrashPlan's service, once the app is gone.
+- The jobs of the agents an organization manages its Macs with say that its IT administrator removes them, and offer
+  no control, no Edit…, and no Move to Trash.
 
 ### Changed
 
@@ -618,6 +637,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   says why each such row stays.
 - A file on a disk mounted read only is no longer listed under Needs an Administrator: its row says the disk can only
   be read.
+- A program an installed launchd job runs, or a folder holding it, is no longer listed when the program is named
+  otherwise than the job: moving it left the job with nothing to run.
 
 #### Intel Software
 
@@ -868,6 +889,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   question before its move no longer says Peel stops a job launchd doesn't have loaded.
 - On the page of a job whose app its maker's uninstaller removes, the circled i says that changing the job can keep the
   app from working, no longer that Peel leaves it where it is.
+- A job tied to an app only because one maker signed both reads From the same maker as that app, its page says only its
+  maker points to the app, and moving it no longer warns that the app uses it to run in the background.
 
 #### Extensions
 
