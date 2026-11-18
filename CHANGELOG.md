@@ -67,9 +67,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   command of the same tool, such as the `ollama` Homebrew installs, still uses it. Nothing in it is selected for you.
 - When an app Peel saw go leaves a service behind, a launchd job whose program the app's maker signed while no app of
   that maker is installed, Orphaned Files and `peel orphans` list the job's file and its program under that app, left
-  for you to select. Moving both stops the job before its program goes.
-- The group of an app that is gone names the uninstaller its maker documents, or where to download it, since that
-  uninstaller also takes what the app kept in the system.
+  for you to select. Moving both stops the job before its program goes. A program in a folder of tools, such as
+  `/usr/local/bin`, is listed only when it is a link, since Peel moves nothing else from there.
+- The group of an app that is gone names the uninstaller its maker documents, or where to download it, once no other
+  app of that product is installed, since that uninstaller also takes what the app kept in the system.
 
 #### Intel Software
 
@@ -79,7 +80,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Package Receipts
 
 - A receipt a maker's product left, such as Bitdefender's agent, names the uninstaller its maker documents once no app
-  of that maker is installed, in place of the steps to remove its items in Finder.
+  of that product is installed, in place of the steps to remove its items in Finder.
 
 #### Homebrew
 
@@ -106,7 +107,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A job whose program was signed by the maker of an app Peel saw go says that app has left this Mac, and Open Orphaned
   Files shows the job there with what else the app left.
 - A job of an app that is gone names the uninstaller its maker documents, and so does a job a maker's product keeps
-  outside its app, such as CrashPlan's service, once the app is gone.
+  outside its app, such as CrashPlan's service, once no app of that product is installed.
 - The jobs of the agents an organization manages its Macs with say that its IT administrator removes them, and offer
   no control, no Edit…, and no Move to Trash.
 
@@ -642,8 +643,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   says why each such row stays.
 - A file on a disk mounted read only is no longer listed under Needs an Administrator: its row says the disk can only
   be read.
-- A program an installed launchd job runs, or a folder holding it, is no longer listed when the program is named
-  otherwise than the job: moving it left the job with nothing to run.
+- What an installed launchd job runs is no longer listed when it is named otherwise than the job: its program, the
+  script or program it starts through a shell, an interpreter, or `env`, or a folder holding one. Moving it left the
+  job with nothing to run.
 
 #### Intel Software
 

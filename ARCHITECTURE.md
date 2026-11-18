@@ -162,12 +162,13 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      it, or points to the uninstaller on the app's disk image, and links the instructions, nothing of it is selected or
      moved, and `peel uninstall` refuses it. Once the app is gone the step is found again for what it left
      (`MakersUninstaller.ofWhatIsLeft`): from the team and identifier Peel remembers for the app, or from a part its
-     maker ships outside the app, such as a job's label or a package's identifier, signed by that team.
+     maker ships outside the app, such as a job's label or a package's identifier, signed by that team, and never
+     while an app of the same product is installed, which that uninstaller would take too.
    - An agent an organization manages its Macs with is left to its IT administrator
      (`RemovedElsewhere.byYourOrganization`, `ManagedAgent`), known by its checked team and its identifiers: its page
      says so, with the maker's instructions where they are public, `peel uninstall` refuses it, and its jobs offer no
-     control. An app its maker asks people to uninstall for its security flaws, Intel Power Gadget, says so on its
-     page (`DiscontinuedApp`).
+     control (`BackgroundItemOwnership.managedAgent`). An app its maker asks people to uninstall for its security
+     flaws, Intel Power Gadget, says so on its page (`DiscontinuedApp`).
    - A program another account runs, root's included, can't be quit by the person or by Peel (`kill(2)` answers
      `EPERM`), so it is never in the question to quit apps (`RunningCopies.Process.mayBeQuit`), and what it runs
      from stays with a reason of its own: `openForAnotherUser` when it is another user's of this Mac (an account
@@ -462,7 +463,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   (`CommandLineTools`), a command that leads into an app or into the Cellar left to its app or formula. A launchd job
   whose program sits outside any installed app, signed by the team of an app Peel saw go while no installed app has
   that team, is listed under that app with its program (`BackgroundItemOwnership.appThatLeft`), and what any other
-  installed job runs, or a folder holding it, is never listed (`BackgroundItemOwnership.needs`).
+  installed job runs, its program or the script an interpreter starts (`UnusualCommand.runs`), or a folder holding
+  it, is never listed (`BackgroundItemOwnership.needs`).
 - **Intel Software.** `IntelInspector` judges by the code itself: what a bundle runs, or a file, is Intel only when
   its Mach-O slices are x86_64 alone (`MachOHeader`), and a file found inside an app or beside a printer driver counts
   only when it is a program (`MH_EXECUTE`), since a library runs in whatever loads it. It looks at the installed apps

@@ -143,9 +143,10 @@ Space shows what fills your disk, area by area, and what each area is.
   connected, even with another disk of the same name plugged in, once Orphaned Files has looked with the disk connected.
   It also lists the files browsers keep to start a helper program that is gone. When an app Peel saw go leaves a
   service behind, a launchd job whose program that app's maker signed while no app of that maker is installed, it lists
-  the job's file and its program under that app, and the group of an app whose maker documents an uninstaller names it,
-  since that uninstaller also takes what the app kept in the system. What an installed job runs, or a folder holding it,
-  is never listed apart from that job. In your account's temporary folder,
+  the job's file and its program under that app, and the group of an app whose maker documents an uninstaller names it
+  once no other app of that product is installed, since that uninstaller also takes what the app kept in the system.
+  What an installed job runs, a program or a script a shell starts, or a folder holding it, is never listed apart from
+  that job. In your account's temporary folder,
   where every program writes files named as it likes, it lists only what came with an app it saw go, as it does for
   plug-ins. A folder the Developer page knows as a tool's, such as Carthage's cache, is left to that page, unless Peel
   saw the app it's named for go. Nothing is selected for you. A system extension's copy can't be selected, since only
@@ -342,10 +343,10 @@ and how many items the others hold.
   with its own uninstaller, such as a security agent or a VPN, says so as Applications does, and Disable and Move to
   Trash ask first. A job whose program was signed by the maker of an app Peel saw go says that app has left and opens
   Orphaned Files, where it is listed with what else the app left. A job of an app that is gone names the uninstaller
-  its maker documents, and so does one a maker's product keeps outside its app, such as CrashPlan's service, once the
-  app is gone. A job tied to an app only because one maker signed both says From the same maker as that app. A job of
-  an agent an organization manages its Macs with offers no control, since its IT administrator removes it. An agent
-  its file limits to the login window offers no Load, since macOS loads it only there. One
+  its maker documents, and so does one a maker's product keeps outside its app, such as CrashPlan's service, once no
+  app of that product is installed. A job tied to an app only because one maker signed both says From the same maker as
+  that app. A job of an agent an organization manages its Macs with offers no control, since its IT administrator
+  removes it. An agent its file limits to the login window offers no Load, since macOS loads it only there. One
   turned off in System Settings > General > Login Items & Extensions, or waiting for approval there, is only ever
   stopped here, never started, not even when its file comes back from History. Edit… beside an agent's file in your own
   `~/Library/LaunchAgents` opens the file as text: Save moves the file as it was to the Trash, writes yours in its
@@ -372,7 +373,7 @@ and how many items the others hold.
   follows the rules of its own page, and so does the rest of its package:
   what is left to Finder or to the maker's uninstaller stays where it is, and what may exist only on this Mac is shown
   and not selected. A receipt a maker's product left, such as Bitdefender's agent, names the uninstaller its maker
-  documents once no app of that maker is installed.
+  documents once no app of that product is installed.
 - **Intel Software:** what still needs Rosetta, which macOS 27 is the last release to offer for most Intel software:
   apps, apps built for both that ask macOS to open them as Intel, the Intel-only parts inside other apps, plug-ins,
   drivers, background items, the Java runtimes in either Library's `Java/JavaVirtualMachines`, and the commands in
