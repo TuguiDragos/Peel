@@ -2374,6 +2374,112 @@
         }
       }
     },
+    "%@ has left this Mac" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace %@ už v tomto Macu není"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ ist nicht mehr auf diesem Mac"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ya no está en este Mac"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ a quitté ce Mac"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ non è più su questo Mac"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”はこのMacからなくなりました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’이(가) 이 Mac에서 사라짐"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ is van deze Mac verdwenen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacji %@ nie ma już na tym Macu"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ não está mais neste Mac"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ nu mai este pe acest Mac"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложения «%@» больше нет на этом Mac"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ finns inte längre på den här datorn"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ uygulaması artık bu Mac’te değil"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програми «%@» уже немає на цьому Mac"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“%@”已不在这台Mac上"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」已不在這部Mac上"
+          }
+        }
+      }
+    },
     "%@ has no Info.plist, the file that says what an app is, so Peel can’t read it as one." : {
       "localizations" : {
         "cs" : {
@@ -136166,6 +136272,218 @@
         }
       }
     },
+    "Not selected: its app has left this Mac, but the job that runs this program is still installed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: aplikace, ke které patří, už v tomto Macu není, ale úloha, která tento program spouští, je stále nainstalovaná."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Die zugehörige App ist nicht mehr auf diesem Mac, aber der Job, der dieses Programm ausführt, ist noch installiert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: su app ya no está en este Mac, pero la tarea que ejecuta este programa sigue instalada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : son app a quitté ce Mac, mais la tâche qui exécute ce programme est toujours installée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: la sua app non è più su questo Mac, ma l’elemento in background che esegue questo programma è ancora installato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: アプリはこのMacからなくなりましたが、このプログラムを実行するジョブはまだインストールされています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 항목의 앱은 이 Mac에서 사라졌지만, 이 프로그램을 실행하는 작업은 아직 설치되어 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: de bijbehorende app is van deze Mac verdwenen, maar de taak die dit programma uitvoert, is nog geïnstalleerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: aplikacji tego programu nie ma już na tym Macu, ale zadanie, które go uruchamia, jest nadal zainstalowane."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: o app deste programa não está mais neste Mac, mas a tarefa que o executa ainda está instalada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: aplicația sa nu mai este pe acest Mac, dar sarcina care rulează acest program este încă instalată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: его приложения больше нет на этом Mac, но задание, которое запускает эту программу, все еще установлено."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: appen finns inte längre på den här datorn, men jobbet som kör det här programmet är fortfarande installerat."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: uygulaması artık bu Mac’te değil, ancak bu programı çalıştıran iş hâlâ yüklü."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: його програми вже немає на цьому Mac, але завдання, яке запускає цей виконуваний файл, досі інстальоване."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：它的App已不在这台Mac上，但运行此程序的任务仍已安装。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：它的App已不在這部Mac上，但執行此程式的工作仍已安裝。"
+          }
+        }
+      }
+    },
+    "Not selected: its app has left this Mac, but this job is still installed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nevybráno: aplikace, ke které patří, už v tomto Macu není, ale tato úloha je stále nainstalovaná."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht ausgewählt: Die zugehörige App ist nicht mehr auf diesem Mac, aber dieser Job ist noch installiert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar: su app ya no está en este Mac, pero esta tarea sigue instalada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sélectionné : son app a quitté ce Mac, mais cette tâche est toujours installée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non selezionato: la sua app non è più su questo Mac, ma questo elemento in background è ancora installato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選択: アプリはこのMacからなくなりましたが、このジョブはまだインストールされています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택되지 않음: 이 항목의 앱은 이 Mac에서 사라졌지만, 이 작업은 아직 설치되어 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geselecteerd: de bijbehorende app is van deze Mac verdwenen, maar deze taak is nog geïnstalleerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie zaznaczono: aplikacji tego zadania nie ma już na tym Macu, ale samo zadanie jest nadal zainstalowane."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não selecionado: o app desta tarefa não está mais neste Mac, mas ela ainda está instalada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neselectat: aplicația sa nu mai este pe acest Mac, dar această sarcină este încă instalată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не выбрано: его приложения больше нет на этом Mac, но это задание все еще установлено."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte markerad: appen finns inte längre på den här datorn, men det här jobbet är fortfarande installerat."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçilmedi: uygulaması artık bu Mac’te değil, ancak bu iş hâlâ yüklü."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вибрано: його програми вже немає на цьому Mac, але це завдання досі інстальоване."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未选择：它的App已不在这台Mac上，但此任务仍已安装。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選取：它的App已不在這部Mac上，但此工作仍已安裝。"
+          }
+        }
+      }
+    },
     "Not selected: its own permissions keep your account out, so what is in there isn’t known. Full Disk Access lets Peel past macOS’s privacy protections, not past a folder’s own permissions." : {
       "localizations" : {
         "cs" : {
@@ -250801,6 +251119,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這不是有效的屬性列表。請查看第%lld行。"
+          }
+        }
+      }
+    },
+    "This job is from the same maker and is still installed. Orphaned Files lists it with what else %@ left." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato úloha pochází od stejného výrobce a je stále nainstalovaná. Stránka Osiřelé soubory ji zobrazuje spolu s ostatními položkami, které po sobě aplikace %@ zanechala."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Job stammt vom selben Hersteller und ist noch installiert. Die Seite „Verwaiste Dateien“ führt ihn zusammen mit allem auf, was „%@“ sonst noch hinterlassen hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta tarea es del mismo fabricante y sigue instalada. La página Archivos huérfanos la muestra junto con todo lo demás que ha dejado %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette tâche provient du même éditeur et est toujours installée. La page Fichiers orphelins la répertorie avec ce que %@ a laissé d’autre."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo elemento proviene dallo stesso produttore ed è ancora installato. “File orfani” lo elenca insieme agli altri elementi che %@ si è lasciata dietro."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このジョブは同じ開発元のもので、まだインストールされています。“孤立ファイル”には、“%@”が残したほかのものとともに表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 작업은 같은 제작자의 것이며 아직 설치되어 있습니다. 주인 없는 파일 페이지에 ‘%@’이(가) 남긴 다른 항목과 함께 이 작업이 나열됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze taak is van dezelfde maker en is nog geïnstalleerd. De pagina 'Verweesde bestanden' toont de taak samen met wat %@ nog meer heeft achtergelaten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To zadanie pochodzi od tego samego producenta i jest nadal zainstalowane. Strona Osierocone pliki wyświetla je razem z innymi pozostałościami po aplikacji %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta tarefa é do mesmo fabricante e ainda está instalada. A página Arquivos Órfãos lista a tarefa junto com o que mais %@ deixou para trás."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Această sarcină provine de la același producător și este încă instalată. Pagina Fișiere orfane o listează împreună cu ce a mai lăsat în urmă %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это задание от того же производителя, и оно все еще установлено. Раздел «Осиротевшие файлы» показывает его вместе с другими остатками приложения «%@»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här jobbet kommer från samma tillverkare och är fortfarande installerat. Sidan Övergivna filer listar det tillsammans med allt annat som %@ lämnade kvar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu iş aynı üreticiye ait ve hâlâ yüklü. Sahipsiz Dosyalar, onu %@ uygulamasının geride bıraktığı diğer öğelerle birlikte listeler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це завдання від того самого виробника, і воно досі інстальоване. Розділ «Покинуті файли» показує його разом з усім іншим, що залишила по собі програма «%@»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此任务来自同一厂商，并且仍已安装。“孤立文件”会将它与“%@”留下的其他内容一并列出。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此工作來自同一廠商，且仍已安裝。「孤立檔案」會將它與「%@」留下的其他項目一併列出。"
           }
         }
       }

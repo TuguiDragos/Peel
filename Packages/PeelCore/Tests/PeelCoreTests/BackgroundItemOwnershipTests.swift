@@ -34,6 +34,75 @@ struct BackgroundItemOwnershipTests {
         #expect(reads.programs.withLock { $0 } == ["/opt/org.example/gone"])
     }
 
+    @Test func knowsTheAppThatLeftAJobByItsProgramsTeam() throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.file("Library/PrivilegedHelperTools/org.example.helper").path(percentEncoded: false)
+        func gone(_ identifier: String, _ name: String, team: String = "EXAMPLE123", left: Date) -> RememberedApp {
+            var app = RememberedApp(
+                bundleIdentifier: identifier, name: name, teamIdentifier: team, lastSeen: left,
+                lastPath: directory.url.appending(path: "Applications/\(name).app").path(percentEncoded: false)
+            )
+            app.goneSince = left
+            return app
+        }
+        let older = gone("org.example.writer", "Writer", left: .now.addingTimeInterval(-86_400))
+        let newer = gone("org.example.sheets", "Sheets", left: .now)
+        func ownership(
+            installed: [InstalledApp] = [], remembered: [RememberedApp]? = nil
+        ) -> BackgroundItemOwnership {
+            BackgroundItemOwnership(
+                installedApps: installed, remembered: remembered ?? [older, newer],
+                teamOfProgram: { $0 == program ? "EXAMPLE123" : nil }
+            )
+        }
+        let helper = try #require(JobDefinition(["Label": "org.example.helper", "Program": program]))
+        let writers = try #require(JobDefinition(["Label": "org.example.writer.helper", "Program": program]))
+        let named = try #require(JobDefinition([
+            "Label": "org.example.helper", "Program": program, "AssociatedBundleIdentifiers": ["org.example.writer"],
+        ]))
+        let missing = try #require(JobDefinition(["Label": "org.example.helper", "Program": program + "-gone"]))
+        let apples = try #require(JobDefinition(["Label": "com.apple.example", "Program": program]))
+        let trashed = try directory.file(".Trash/Writer.app/Contents/MacOS/helper").path(percentEncoded: false)
+        let fromTheTrash = try #require(JobDefinition(["Label": "org.example.helper", "Program": trashed]))
+
+        #expect(ownership().appThatLeft(running: helper) == newer)
+        #expect(ownership().appThatLeft(running: writers) == older)
+        #expect(ownership().appThatLeft(running: named) == older)
+        #expect(ownership(installed: [app("org.example.other", "Other", team: "EXAMPLE123")]).appThatLeft(running: helper) == nil)
+        #expect(ownership(installed: [app("org.example.helper", "Helper", team: "ABCDE12345")]).appThatLeft(running: helper) == nil)
+        #expect(ownership(remembered: [gone("org.example.writer", "Writer", team: "OTHER12345", left: .now)]).appThatLeft(running: helper) == nil)
+        #expect(ownership().appThatLeft(running: missing) == nil)
+        #expect(ownership().appThatLeft(running: apples) == nil)
+        #expect(ownership().appThatLeft(running: fromTheTrash) == nil)
+    }
+
+    @Test func aJobsRowNamesTheAppThatLeftIt() throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.file("root/Library/PrivilegedHelperTools/org.example.sync.agent").path(percentEncoded: false)
+        let plist = try PropertyListSerialization.data(
+            fromPropertyList: ["Label": "org.example.sync.agent", "ProgramArguments": [program]], format: .xml, options: 0
+        )
+        try directory.file("root/Library/LaunchAgents/org.example.sync.agent.plist", contents: plist)
+        let gone = RememberedApp(
+            bundleIdentifier: "org.example.sync", name: "Sync", teamIdentifier: "EXAMPLE123", lastSeen: .now,
+            lastPath: directory.url.appending(path: "Applications/Sync.app").path(percentEncoded: false)
+        )
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        func row(remembering remembered: [RememberedApp]) -> BackgroundItem? {
+            let ownership = BackgroundItemOwnership(
+                installedApps: [], remembered: remembered, teamOfProgram: { $0 == program ? "EXAMPLE123" : nil }
+            )
+            return BackgroundItems.declared(in: environment, ownership: ownership).first
+        }
+
+        #expect(row(remembering: [gone])?.appThatLeft == gone)
+        #expect(row(remembering: [gone])?.isOrphan == false)
+        #expect(row(remembering: [])?.appThatLeft == nil)
+    }
+
     @Test func neverCallsGoneAProgramWhosePathHoldsANul() throws {
         let ownership = BackgroundItemOwnership(installedApps: []) { _ in nil }
         let job = try #require(JobDefinition(["Label": "org.example.cut", "Program": "/bin/sh\u{0}gone"]))

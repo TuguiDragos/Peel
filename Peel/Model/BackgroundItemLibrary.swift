@@ -40,7 +40,7 @@ final class BackgroundItemLibrary {
 
     init(
         scan: @escaping @MainActor ([InstalledApp], Exclusions) async -> BackgroundItems.Scan = {
-            await BackgroundItems.scan(installedApps: $0, exclusions: $1)
+            await BackgroundItems.scan(installedApps: $0, remembered: await AppMemory().load(), exclusions: $1)
         },
         control: @escaping @MainActor (Action, BackgroundItem) async throws(BackgroundItemActions.Failure) -> Void =
             BackgroundItemLibrary.control,

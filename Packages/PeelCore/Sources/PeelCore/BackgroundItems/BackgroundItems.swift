@@ -57,13 +57,15 @@ public enum BackgroundItems {
         case unreadable(BackgroundItem.Kind)
     }
 
+    /// `remembered` are the apps Peel has seen, so a job can name the app that left it (`appThatLeft`).
     @concurrent
     public static func scan(
         installedApps: [InstalledApp] = [],
+        remembered: [RememberedApp] = [],
         environment: SearchEnvironment = .current,
         exclusions: Exclusions = .none
     ) async -> Scan {
-        let ownership = BackgroundItemOwnership(installedApps: installedApps)
+        let ownership = BackgroundItemOwnership(installedApps: installedApps, remembered: remembered)
         let userDomain = "gui/\(getuid())"
         async let userList = Launchctl.run(["list"])
         async let systemPrint = Launchctl.run(["print", "system"])
@@ -370,6 +372,7 @@ public enum BackgroundItems {
                 )
                 item.loadsInTheBackgroundSession = kind == .agent && job.loadsInTheBackground
                 item.loadsOnlyAtTheLoginWindow = kind == .agent && job.loadsOnlyAtTheLoginWindow
+                item.appThatLeft = ownership.appThatLeft(running: job)
                 items.append(item)
             }
         }

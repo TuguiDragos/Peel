@@ -7,6 +7,7 @@ struct BackgroundItemDetailView: View {
     @Environment(AppLibrary.self) private var library
     @Environment(BackgroundItemLibrary.self) private var backgroundItems
     @Environment(HelperModel.self) private var helper
+    @Environment(OrphanLibrary.self) private var orphans
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(\.openSettings) private var openSettings
     @State private var isConfirmingTrash = false
@@ -26,6 +27,24 @@ struct BackgroundItemDetailView: View {
                         app: found.app.name, uninstaller: found.uninstaller,
                         saying: Text(verbatim: Self.makersWarning(app: found.app.name))
                     )
+                }
+            }
+
+            if let app = item.appThatLeft {
+                Section {
+                    Notice(
+                        title: Text("\(app.name) has left this Mac"),
+                        detail: Text("This job is from the same maker and is still installed. Orphaned Files lists it with what else \(app.name) left."),
+                        kind: .note
+                    ) {
+                        Button("Open Orphaned Files") {
+                            let identifier = app.bundleIdentifier.lowercased()
+                            let group = orphans.scan?.groups.first { $0.identifier.lowercased() == identifier }
+                            orphans.selection = .group(group?.id ?? app.bundleIdentifier)
+                            Navigator.shared.requestedTool = .orphans
+                        }
+                    }
+                    .padding(.vertical, 6)
                 }
             }
 

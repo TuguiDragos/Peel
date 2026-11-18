@@ -833,6 +833,10 @@ extension HoldBack {
             "Left alone: macOS installed this system extension, and only macOS removes it. In System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension."
         case .systemExtensionOfAnAppInside:
             "Left alone: macOS installed this for an app bundled inside another app, and moving that app to the Trash in Finder does not remove it, so installing the app again will not help. While it is turned off, macOS does not run it."
+        case .jobOfAnAppThatLeft:
+            "Not selected: its app has left this Mac, but this job is still installed."
+        case .programOfAJobOfAnAppThatLeft:
+            "Not selected: its app has left this Mac, but the job that runs this program is still installed."
         case .signInPlugIn:
             "Left alone: macOS may load this plug-in when someone logs in, and taking it away could keep anyone from logging in, so only its maker’s uninstaller removes it."
         case .loadedByOtherApps:

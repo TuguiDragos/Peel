@@ -92,6 +92,8 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public var isSubmittedByItsApp = false
     public var anotherFileIsLoaded = false
     public internal(set) var loginItemsStatus: LoginItemsStatus?
+    /// The app that left whose team signed the job's program (`BackgroundItemOwnership.appThatLeft(running:)`).
+    public var appThatLeft: RememberedApp?
 
     public var isOwnerInstalled: Bool { ownerURL != nil }
 

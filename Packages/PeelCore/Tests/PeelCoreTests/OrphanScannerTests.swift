@@ -427,7 +427,8 @@ struct OrphanScannerTests {
         registered: Set<String> = [],
         systemApps: [InstalledApp] = [],
         nestedFolderLimit: Int = NestedSearch.folderLimit,
-        systemExtensions: @escaping AppExtensions.SystemExtensionsAnswer = { [] }
+        systemExtensions: @escaping AppExtensions.SystemExtensionsAnswer = { [] },
+        teams: [String: String] = [:]
     ) -> OrphanScanner {
         let environment = SearchEnvironment(
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
@@ -438,7 +439,8 @@ struct OrphanScannerTests {
             isRegisteredApp: { registered.contains($0) },
             systemApps: systemApps,
             nestedFolderLimit: nestedFolderLimit,
-            systemExtensions: systemExtensions
+            systemExtensions: systemExtensions,
+            teamOfProgram: { teams[$0] }
         )
     }
 
@@ -1728,6 +1730,59 @@ struct OrphanScannerTests {
         #expect(scanned.isEmpty, "\(scanned.map(\.url.path))")
         #expect(Set(unclaimed.map(\.url.lastPathComponent)) == ["org.example.toolhelper", "org.example.vendor"])
         #expect(still.isEmpty)
+    }
+
+    @Test func listsTheJobAndTheProgramOfAnAppThatLeftUnderThatApp() async throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.file("root/Library/PrivilegedHelperTools/org.example.synchelper")
+        let path = program.path(percentEncoded: false)
+        let plist = try directory.file(
+            "root/Library/LaunchDaemons/org.example.sync.daemon.plist", contents: job("org.example.sync.daemon", runs: [path])
+        )
+        let agent = try directory.file(
+            "root/Library/LaunchAgents/org.example.sync.agent.plist", contents: job("org.example.sync.agent", runs: [path])
+        )
+        try directory.file("root/Library/PrivilegedHelperTools/org.example.sync.daemon.json")
+        let inABundle = try directory.file("root/Library/Application Support/Sync/Updater.app/Contents/MacOS/updater")
+        let updater = directory.url.appending(path: "root/Library/Application Support/Sync/Updater.app")
+        let updaterPlist = try directory.file(
+            "root/Library/LaunchDaemons/org.example.sync.updater.plist",
+            contents: job("org.example.sync.updater", runs: [inABundle.path(percentEncoded: false)])
+        )
+        let gone = RememberedApp(
+            bundleIdentifier: "org.example.sync", name: "Sync", teamIdentifier: "EXAMPLE123", lastSeen: .now,
+            lastPath: directory.url.appending(path: "Applications/Sync.app").path(percentEncoded: false)
+        )
+        let sameMaker = InstalledApp(
+            url: URL(filePath: "/Applications/Sync Pro.app"), bundleIdentifier: "org.example.syncpro", name: "Sync Pro",
+            teamIdentifier: "EXAMPLE123"
+        )
+        let teams = [path: "EXAMPLE123", inABundle.path(percentEncoded: false): "EXAMPLE123"]
+        let scanner = scanner(in: directory, teams: teams)
+
+        let scan = await scanner.scan(installedApps: installed, remembered: [gone])
+        let items = scan.groups.flatMap(\.items)
+
+        #expect(scan.groups.map(\.identifier) == ["org.example.sync"])
+        #expect(scan.groups.first?.rememberedApp == gone)
+        let reasons = Dictionary(
+            uniqueKeysWithValues: items.map { (PathPattern.comparablePath(of: $0.url), $0.heldBack) }
+        )
+        #expect(items.count == 5)
+        #expect(reasons == [
+            PathPattern.comparablePath(of: plist): .jobOfAnAppThatLeft,
+            PathPattern.comparablePath(of: agent): .jobOfAnAppThatLeft,
+            PathPattern.comparablePath(of: program): .programOfAJobOfAnAppThatLeft,
+            PathPattern.comparablePath(of: updaterPlist): .jobOfAnAppThatLeft,
+            PathPattern.comparablePath(of: updater): .programOfAJobOfAnAppThatLeft,
+        ])
+        #expect(items.allSatisfy { $0.leftAlone == nil })
+        #expect(await scanner.scan(installedApps: installed + [sameMaker], remembered: [gone]).groups.isEmpty)
+        #expect(await scanner.scan(installedApps: installed, remembered: []).groups.isEmpty)
+        #expect(await self.scanner(in: directory).scan(installedApps: installed, remembered: [gone]).groups.isEmpty)
+        let still = await scanner.stillOrphaned(items, installedApps: installed, remembered: [gone])
+        #expect(Set(still.map(\.url)) == Set(items.map(\.url)))
+        #expect(await scanner.stillOrphaned(items, installedApps: installed + [sameMaker], remembered: [gone]).isEmpty)
     }
 
     /// A file that cannot be read is not called a leftover on its name; one that is no job at all still is.

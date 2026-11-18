@@ -511,6 +511,8 @@ extension HoldBack {
             "a system extension macOS installed for an app inside another; moving that app in Finder doesn't remove it"
         case .deletableSystemExtension:
             "a network extension macOS installed; System Settings deletes it: in General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension"
+        case .jobOfAnAppThatLeft: "its app has left this Mac, but this job is still installed"
+        case .programOfAJobOfAnAppThatLeft: "its app has left this Mac, but the job that runs it is still installed"
         case .signInPlugIn: "a plug-in macOS may load at login, left to its maker's uninstaller"
         case .loadedByOtherApps: "other apps can load it on their own, such as music apps"
         case .keptByMacOS: "macOS keeps it for its own services"

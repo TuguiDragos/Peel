@@ -27,6 +27,7 @@ public struct OrphanScanner: Sendable {
     }
     private let systemExtensions: AppExtensions.SystemExtensionsAnswer
     private let installedByApple: LeftoverScanner.InstalledByApple
+    private let teamOfProgram: @Sendable (String) -> String?
 
     public init(environment: SearchEnvironment = .current, exclusions: Exclusions = .none) {
         self.init(
@@ -46,8 +47,10 @@ public struct OrphanScanner: Sendable {
         systemExtensions: @escaping AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS,
         installedByApple: @escaping LeftoverScanner.InstalledByApple = { await PackageReceipts.isInstalledByApple($0) },
         knownPlaces: @escaping @Sendable (String) -> [URL] = AppInspector.applicationURLs(forBundleIdentifier:),
-        isOnAnotherDisk: @escaping @Sendable (URL) -> Bool = Disks.isOnAnotherDisk
+        isOnAnotherDisk: @escaping @Sendable (URL) -> Bool = Disks.isOnAnotherDisk,
+        teamOfProgram: @escaping @Sendable (String) -> String? = BackgroundItemOwnership.ProgramTeams.shared.team(of:)
     ) {
+        self.teamOfProgram = teamOfProgram
         self.environment = environment
         self.exclusions = exclusions
         self.isRegisteredApp = isRegisteredApp
@@ -60,8 +63,13 @@ public struct OrphanScanner: Sendable {
         self.installedByApple = installedByApple
     }
 
-    private var launchdFolders: [URL] {
-        environment.locations.filter { $0.kind == .launchAgents || $0.kind == .launchDaemons }.map(\.url)
+    private var launchdFolders: [SearchLocation] {
+        environment.locations.filter { $0.kind == .launchAgents || $0.kind == .launchDaemons }
+    }
+
+    private func jobs(installedApps: [InstalledApp], gone: [RememberedApp]) -> BackgroundItemOwnership {
+        BackgroundItemOwnership(installedApps: installedApps, remembered: gone, teamOfProgram: teamOfProgram)
+            .knowingJobs(in: launchdFolders)
     }
 
     /// Finds the items that no app claims, in every location, grouped by identifier.
@@ -97,7 +105,7 @@ public struct OrphanScanner: Sendable {
                 return true
             }
         )
-        let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps).knowingJobs(in: launchdFolders)
+        let jobs = jobs(installedApps: installedApps + systemApps, gone: gone)
         let linkedApps = LinkedApps(remembered, gone: gone)
 
         let goneNames = Dictionary(
@@ -132,10 +140,13 @@ public struct OrphanScanner: Sendable {
             return await group.reduce(into: [(location: SearchLocation, result: LocationResult)]()) { $0.append($1) }
         }
 
+        // The file and the program of a job an app that left still has installed go under that app, whatever their
+        // names say, so no location lists them under another name.
+        let ofAppsThatLeft = await Self.files(of: jobs.ofAppsThatLeft, in: environment, walk: walk)
         // One location can sit inside another one the walk reaches (the recent documents folder, two levels into
         // Application Support), so a file is listed once, under the location nearer it.
         var found: [(identifier: String, item: OrphanItem)] = []
-        var seen: Set<String> = []
+        var seen = Set(ofAppsThatLeft.map { PathPattern.comparablePath(of: $0.item.url) })
         var unreadableLocations: [SearchLocation] = []
         var cutShortLocations: [SearchLocation] = []
         var crowdedFolders: [CrowdedFolder] = []
@@ -166,6 +177,7 @@ public struct OrphanScanner: Sendable {
             found += named.items.filter { seen.insert(PathPattern.comparablePath(of: $0.item.url)).inserted }
             unreadableLocations += named.unreadable
         }
+        found += ofAppsThatLeft
 
         let reach = HelperReach(environment: environment)
         let staged = PathPattern.comparablePath(of: environment.rootDirectory.appending(path: "Library/SystemExtensions"))
@@ -464,7 +476,10 @@ public struct OrphanScanner: Sendable {
             toolsFolders: toolsFolders,
             isRegisteredApp: isRegisteredApp
         )
-        let jobs = BackgroundItemOwnership(installedApps: installedApps + systemApps).knowingJobs(in: launchdFolders)
+        let jobs = jobs(installedApps: installedApps + systemApps, gone: gone)
+        let ofAppsThatLeft = Set(
+            jobs.ofAppsThatLeft.flatMap { [$0.plist, $0.runs] }.map(PathPattern.comparablePath(of:))
+        )
         let folders = manifestFolders
         let goneFolders = GoneFolders(
             gone, installedApps: installedApps, home: environment.homeDirectory, tools: tools
@@ -472,7 +487,9 @@ public struct OrphanScanner: Sendable {
         let linkedApps = LinkedApps(remembered, gone: gone)
         var kept: [OrphanItem] = []
         for item in items where !Self.servesAProgram(item.url, in: folders) && !jobs.needs(item.url) {
-            let isStillOrphaned = if item.kind == .nativeMessagingHosts {
+            let isStillOrphaned = if ofAppsThatLeft.contains(PathPattern.comparablePath(of: item.url)) {
+                true
+            } else if item.kind == .nativeMessagingHosts {
                 NativeMessagingManifest.startsNothing(at: item.url)
             } else if item.productFolder != nil {
                 Self.goneApp(owningFolder: item.url, kind: item.kind, among: goneFolders, ownership: ownership) != nil
@@ -794,6 +811,46 @@ public struct OrphanScanner: Sendable {
             )
         }
         return (items, unreadable)
+    }
+
+    /// The file of each of `jobs` and what it runs, measured, under the identifier of the app that left them. What it
+    /// runs is listed only inside a place Peel searches, with no link between the two.
+    private static func files(
+        of jobs: [BackgroundItemOwnership.JobOfAnAppThatLeft],
+        in environment: SearchEnvironment,
+        walk: @escaping LeftoverScanner.Measure
+    ) async -> [(identifier: String, item: OrphanItem)] {
+        let home = environment.homeDirectory.path(percentEncoded: false)
+        let root = environment.rootDirectory.path(percentEncoded: false)
+        var files: [(url: URL, kind: SearchLocation.Kind, below: URL, reason: HoldBack, app: String)] = []
+        for job in jobs {
+            files.append((job.plist, job.folder.kind, job.folder.url, .jobOfAnAppThatLeft, job.app.bundleIdentifier))
+            let runs = PathPattern.comparablePath(of: job.runs)
+            let place = environment.locations
+                .filter { PathComponents.isPath(runs, inside: PathPattern.comparablePath(of: $0.url)) }
+                .max { $0.url.path(percentEncoded: false).count < $1.url.path(percentEncoded: false).count }
+            if let place, !TrashService.hasALinkOnTheWay(job.runs, below: place.url) {
+                files.append((job.runs, place.kind, place.url, .programOfAJobOfAnAppThatLeft, job.app.bundleIdentifier))
+            }
+        }
+        var paths: Set<String> = []
+        let listed = files.filter { file in
+            paths.insert(PathPattern.comparablePath(of: file.url)).inserted
+                && isAFileAFolderOrALink(file.url) && !FileAccess.cannotBeRemoved(file.url)
+                && !ProtectedData.refuses(file.url.path(percentEncoded: false), home: home)
+        }
+        let walked = await listed.map(\.url).concurrentMap(width: LeftoverScanner.concurrentMeasurements) {
+            await walk($0)
+        }
+        return zip(listed, walked).map { file, contents in
+            var found = item(
+                at: file.url, kind: file.kind, contents: contents,
+                parent: ParentAccess(file.url.deletingLastPathComponent()), home: home, root: root,
+                foundBelow: file.below
+            )
+            found.heldBack = found.heldBack ?? file.reason
+            return (file.app, found)
+        }
     }
 
     /// A folder every Library has and no one app owns, as the folders packages share name it.

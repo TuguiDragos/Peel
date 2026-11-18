@@ -44,16 +44,22 @@ public struct BackgroundItemOwnership: Sendable {
     private let byTeam: [String: [InstalledApp]]
     private let teamOfProgram: @Sendable (String) -> String?
     private var liveLabels: Set<String> = []
-    private var livePrograms: [String] = []
+    /// The path of each program, with what is offered with it when its job came with an app that left.
+    private var livePrograms: [(program: String, offeredAs: String?)] = []
     private let declared: DeclaredJobs
+    private let remembered: [RememberedApp]
 
-    public init(installedApps: [InstalledApp]) {
-        self.init(installedApps: installedApps, teamOfProgram: ProgramTeams.shared.team(of:))
+    public init(installedApps: [InstalledApp], remembered: [RememberedApp] = []) {
+        self.init(installedApps: installedApps, remembered: remembered, teamOfProgram: ProgramTeams.shared.team(of:))
     }
 
     /// For tests: `teamOfProgram` stands in for reading each program's code signature.
-    init(installedApps: [InstalledApp], teamOfProgram: @escaping @Sendable (String) -> String?) {
+    init(
+        installedApps: [InstalledApp], remembered: [RememberedApp] = [],
+        teamOfProgram: @escaping @Sendable (String) -> String?
+    ) {
         self.teamOfProgram = teamOfProgram
+        self.remembered = remembered
         byIdentifier = Dictionary(
             installedApps.compactMap { app in app.bundleIdentifier.map { ($0.lowercased(), app) } },
             uniquingKeysWith: { first, _ in first }
@@ -141,6 +147,36 @@ public struct BackgroundItemOwnership: Sendable {
         return !Self.exists(program)
     }
 
+    /// The app Peel saw go whose team signed the program of `job`: a program on disk outside every installed app and
+    /// every Trash, while no installed app has that team or claims the job by its label. Of several such apps, the one
+    /// the job names, by its label or its plist, or else the one that left last. A program its maker ships with no
+    /// app, such as Nix's, has none.
+    func appThatLeft(running job: JobDefinition) -> RememberedApp? {
+        guard !remembered.isEmpty, !job.label.hasPrefix("com.apple."), !job.label.hasPrefix("application."),
+              let program = job.program, program.hasPrefix("/"), !program.utf8.contains(0),
+              appMatching(label: job.label) == nil
+        else { return nil }
+        if let bundle = PathComponents.outermostApp(of: program) {
+            guard !AppInspector.isInATrash(URL(filePath: bundle, directoryHint: .isDirectory)),
+                  Self.bundle(holding: program).map({ byIdentifier[$0.identifier.lowercased()] == nil }) ?? true
+            else { return nil }
+        }
+        var info = stat()
+        guard stat(program, &info) == 0, let team = teamOfProgram(program), byTeam[team] == nil else { return nil }
+        let gone = remembered.filter {
+            $0.teamIdentifier == team && byIdentifier[$0.bundleIdentifier.lowercased()] == nil
+        }
+        let mounted = MountedDisks.now()
+        guard !gone.isEmpty, gone.allSatisfy({ $0.stillInstalled(on: mounted) == nil }) else { return nil }
+        if let named = AppMemory.app(for: job.label, in: gone) { return named }
+        let associated = Set(job.associated.map { $0.lowercased() })
+        if let named = gone.first(where: { associated.contains($0.bundleIdentifier.lowercased()) }) { return named }
+        return gone.max { one, other in
+            let (left, otherLeft) = (one.goneSince ?? one.lastSeen, other.goneSince ?? other.lastSeen)
+            return left == otherLeft ? one.bundleIdentifier > other.bundleIdentifier : left < otherLeft
+        }
+    }
+
     /// Runs the same check on a job read from its property list. Orphaned Files uses this one.
     func isOrphan(_ job: JobDefinition) -> Bool {
         // A program still on disk keeps its job whoever owns it, so the owner, which reads signatures, is not needed.
@@ -149,18 +185,37 @@ public struct BackgroundItemOwnership: Sendable {
         return isOrphan(label: job.label, program: job.program, owner: owner)
     }
 
+    struct JobOfAnAppThatLeft: Sendable {
+        let plist: URL
+        let folder: SearchLocation
+        /// The program, or the app bundle it is in.
+        let runs: URL
+        let app: RememberedApp
+    }
+
+    /// The jobs `knowingJobs(in:)` read that came with an app that left.
+    private(set) var ofAppsThatLeft: [JobOfAnAppThatLeft] = []
+
     /// This ownership, also knowing the jobs defined in `folders` that are not orphans: a helper keeps its settings
     /// beside its job, named for the job's label, while the app behind it may have another identifier.
-    func knowingJobs(in folders: [URL]) -> BackgroundItemOwnership {
+    func knowingJobs(in folders: [SearchLocation]) -> BackgroundItemOwnership {
         var knowing = self
         for folder in folders {
-            let files = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil))
+            let files = (try? FileManager.default.contentsOfDirectory(at: folder.url, includingPropertiesForKeys: nil))
             for plist in files ?? [] where plist.pathExtension == "plist" {
                 guard let job = JobDefinition(contentsOf: plist), !isOrphan(job) else { continue }
                 knowing.liveLabels.insert(job.label.lowercased())
-                if let program = job.program, program.hasPrefix("/"), Self.exists(program) {
-                    knowing.livePrograms.append(PathPattern.comparablePath(of: URL(filePath: program)))
+                guard let program = job.program, program.hasPrefix("/"), Self.exists(program) else { continue }
+                let path = PathPattern.comparablePath(of: URL(filePath: program))
+                guard let app = appThatLeft(running: job) else {
+                    knowing.livePrograms.append((path, offeredAs: nil))
+                    continue
                 }
+                let runs = PathComponents.outermostApp(of: program).map {
+                    URL(filePath: $0, directoryHint: .isDirectory)
+                } ?? URL(filePath: program)
+                knowing.livePrograms.append((path, offeredAs: PathPattern.comparablePath(of: runs)))
+                knowing.ofAppsThatLeft.append(JobOfAnAppThatLeft(plist: plist, folder: folder, runs: runs, app: app))
             }
         }
         return knowing
@@ -171,10 +226,13 @@ public struct BackgroundItemOwnership: Sendable {
         return liveLabels.contains { name == $0 || name.hasPrefix($0 + ".") }
     }
 
-    /// Whether `url` is, or holds, the program of a job `knowingJobs(in:)` found that still has one.
+    /// Whether `url` is, or holds, the program of a job `knowingJobs(in:)` found that still has one. What a job of an
+    /// app that left runs is offered with that job, so it counts only for a folder around it.
     func needs(_ url: URL) -> Bool {
         let path = PathPattern.comparablePath(of: url)
-        return livePrograms.contains { PathComponents.isPath($0, atOrInside: path) }
+        return livePrograms.contains { program, offeredAs in
+            offeredAs != path && PathComponents.isPath(program, atOrInside: path)
+        }
     }
 
     /// The folders launchd searches when the first item of `ProgramArguments` is a relative path.
