@@ -235,9 +235,14 @@ public struct OrphanScanner: Sendable {
         let byPath: (SearchLocation, SearchLocation) -> Bool = {
             $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
         }
-        let (groups, apart) = Self.settingApart(
+        let (grouped, apart) = Self.settingApart(
             Self.group(kept, remembered: gone, installedTeams: teams, running: RunningCopies.byIdentifier(running))
         )
+        let groups = grouped.map { grouped in
+            var group = grouped
+            group.makersUninstaller = group.rememberedApp.flatMap { MakersUninstaller.ofWhatIsLeft(by: $0) }
+            return group
+        }
         let recorded = await recorded(
             records,
             listed: Set(kept.map { ItemKey($0.1.url) }),

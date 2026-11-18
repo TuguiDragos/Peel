@@ -35,6 +35,7 @@ public struct MakersUninstaller: Sendable, Hashable {
         /// The app is the uninstaller, which removes the product named here and then itself.
         case itself(removing: String)
         case inTheApp
+        case inTheAppThenFromTheMakersPage
         case onItsDiskImage
         case fromTheMakersPage
         /// The first script, run with `sudo`, with its own page while it is on the Mac, and the other one, with the
@@ -57,6 +58,8 @@ public struct MakersUninstaller: Sendable, Hashable {
     private enum Name: Sendable, ExpressibleByStringLiteral {
         case identifier(String)
         case place(String)
+        /// A part outside the app, such as a job's label, never an app.
+        case part(String)
 
         init(stringLiteral identifier: String) {
             self = .identifier(identifier)
@@ -111,7 +114,7 @@ public struct MakersUninstaller: Sendable, Hashable {
             "GUNFMW623Y",
             [
                 "com.bitdefender.antivirusformac", "com.bitdefender.coresecurity", "com.bitdefender.agentui",
-                "com.bitdefender.vpn",
+                "com.bitdefender.vpn", .part("com.bitdefender.agent"), .part("com.bitdefender.upgrade"),
             ],
             "Bitdefender", .uninstaller("/Library/Bitdefender/Central/Agent/BitdefenderUninstaller.app"),
             "https://www.bitdefender.com/consumer/support/answer/1784/"
@@ -140,7 +143,7 @@ public struct MakersUninstaller: Sendable, Hashable {
             "https://docs.zerotier.com/faq/macos-uninstall/"
         ),
         (
-            "Z2SG5H3HC8", ["net.tunnelblick.tunnelblick"], "Tunnelblick", .inTheApp,
+            "Z2SG5H3HC8", ["net.tunnelblick.tunnelblick"], "Tunnelblick", .inTheAppThenFromTheMakersPage,
             "https://tunnelblick.net/cUninstall.html"
         ),
         // OpenSC's package puts `opensc-uninstall` in /usr/local/bin, where its own uninstaller looks for it. OpenSC
@@ -214,7 +217,8 @@ public struct MakersUninstaller: Sendable, Hashable {
         ),
         // The page names a copy for everyone and one for a single account, and the installer to download for neither.
         (
-            "UGHXR79U6M", ["com.crashplan.desktop"], "CrashPlan",
+            "UGHXR79U6M", ["com.crashplan.desktop", .part("com.crashplan.service"), .part("com.crashplan.engine")],
+            "CrashPlan",
             .uninstaller(
                 "/Library/Application Support/CrashPlan/Uninstall.app",
                 or: "~/Library/Application Support/CrashPlan/Uninstall.app", otherwise: .fromTheMakersPage
@@ -337,11 +341,64 @@ public struct MakersUninstaller: Sendable, Hashable {
                   place: PathPattern.comparablePath(of: app.url)
               )
         else { return nil }
+        return made(
+            product, team: team, app: app, home: home, isOnTheMac: isOnTheMac, isOnlyRoots: isOnlyRoots,
+            isTheMakers: { isTheMakers($0, app) }
+        )
+    }
+
+    static func ofWhatIsLeft(
+        by app: RememberedApp,
+        home: URL = .homeDirectory,
+        isOnTheMac: (String) -> Bool = { !URL(filePath: $0).isMissing },
+        isOnlyRoots: (URL) -> Bool = MakersUninstaller.onlyRootCanChange,
+        isTheMakers: (URL, String) -> Bool = VendorRemoval.isSigned(_:by:)
+    ) -> MakersUninstaller? {
+        guard let team = app.teamIdentifier,
+              let product = product(team: team, identifier: app.bundleIdentifier.lowercased())
+        else { return nil }
+        return made(
+            product, team: team, app: nil, home: home, isOnTheMac: isOnTheMac, isOnlyRoots: isOnlyRoots,
+            isTheMakers: { isTheMakers($0, team) }
+        )
+    }
+
+    /// The maker's step for a part `team` signed, when exactly one of its products names it.
+    static func ofWhatIsLeft(
+        team: String,
+        part: String,
+        home: URL = .homeDirectory,
+        isOnTheMac: (String) -> Bool = { !URL(filePath: $0).isMissing },
+        isOnlyRoots: (URL) -> Bool = MakersUninstaller.onlyRootCanChange,
+        isTheMakers: (URL, String) -> Bool = VendorRemoval.isSigned(_:by:)
+    ) -> MakersUninstaller? {
+        let part = part.lowercased()
+        let products = known.filter { product in
+            product.team == team && product.identifiers.contains { name in
+                switch name {
+                case .identifier(let known), .part(let known): part == known || part.hasPrefix(known + ".")
+                case .place: false
+                }
+            }
+        }
+        guard products.count == 1, let product = products.first else { return nil }
+        return made(
+            product, team: team, app: nil, home: home, isOnTheMac: isOnTheMac, isOnlyRoots: isOnlyRoots,
+            isTheMakers: { isTheMakers($0, team) }
+        )
+    }
+
+    /// The step `product` documents for `app`, or, with no app, for what it left.
+    private static func made(
+        _ product: Product, team: String, app: InstalledApp?, home: URL, isOnTheMac: (String) -> Bool,
+        isOnlyRoots: (URL) -> Bool, isTheMakers: (URL) -> Bool
+    ) -> MakersUninstaller? {
         func run(_ path: String, with runner: String?) -> Step {
             let isInsideTheApp = !path.hasPrefix("/")
-            let script = isInsideTheApp ? app.url.appending(path: path) : URL(filePath: path)
-            guard isOnTheMac(script.path(percentEncoded: false)) else { return .notOnTheMac }
-            guard isInsideTheApp ? app.isSealIntact == true : isOnlyRoots(script) else { return .notTrusted }
+            guard let script = isInsideTheApp ? app?.url.appending(path: path) : URL(filePath: path),
+                  isOnTheMac(script.path(percentEncoded: false))
+            else { return .notOnTheMac }
+            guard isInsideTheApp ? app?.isSealIntact == true : isOnlyRoots(script) else { return .notTrusted }
             return .command(([runner].compactMap(\.self) + [script.wordForTheShell(home: home)]).joined(separator: " "))
         }
         // Anything an administrator's program writes could take the uninstaller's name, so only one its checked
@@ -350,30 +407,35 @@ public struct MakersUninstaller: Sendable, Hashable {
             guard let uninstaller = places.first(where: { isOnTheMac($0.path(percentEncoded: false)) }) else {
                 return otherwise
             }
-            return isTheMakers(uninstaller, app) ? .uninstaller(uninstaller) : .notTrusted
+            return isTheMakers(uninstaller) ? .uninstaller(uninstaller) : .notTrusted
         }
         func place(_ path: String) -> URL {
             guard path.hasPrefix("~/") else { return URL(filePath: path, directoryHint: .isDirectory) }
             return home.appending(path: String(path.dropFirst(2)), directoryHint: .isDirectory)
         }
-        let chosen: (step: Step, page: String) = switch product.step {
-        case .script(let path, let runner, _): (run(path, with: runner), product.page)
+        let chosen: (step: Step, page: String)
+        switch product.step {
+        case .script(let path, let runner, _): chosen = (run(path, with: runner), product.page)
         case .uninstaller(let path, let other, let otherwise):
-            (open(first: ([path] + [other].compactMap(\.self)).map(place), otherwise: otherwise), product.page)
+            chosen = (open(first: ([path] + [other].compactMap(\.self)).map(place), otherwise: otherwise), product.page)
         case .uninstallerInsideTheApp(let path):
-            (open(first: [app.url.appending(path: path, directoryHint: .isDirectory)]), product.page)
-        case .itself: (.uninstaller(app.url), product.page)
-        case .inTheApp: (.inTheApp(app.url), product.page)
-        case .onItsDiskImage: (.onItsDiskImage, product.page)
-        case .fromTheMakersPage: (.fromTheMakersPage, product.page)
+            let inside = app.map { [$0.url.appending(path: path, directoryHint: .isDirectory)] } ?? []
+            chosen = (open(first: inside), product.page)
+        case .itself:
+            guard let app else { return nil }
+            chosen = (.uninstaller(app.url), product.page)
+        case .inTheApp: chosen = (app.map { .inTheApp($0.url) } ?? .notOnTheMac, product.page)
+        case .inTheAppThenFromTheMakersPage:
+            chosen = (app.map { .inTheApp($0.url) } ?? .fromTheMakersPage, product.page)
+        case .onItsDiskImage: chosen = (.onItsDiskImage, product.page)
+        case .fromTheMakersPage: chosen = (.fromTheMakersPage, product.page)
         case .scriptOnTheMac(let script, let page, let otherwise):
-            isOnTheMac(script) ? (run(script, with: "sudo"), page) : (run(otherwise, with: "sudo"), product.page)
+            chosen = isOnTheMac(script) ? (run(script, with: "sudo"), page) : (run(otherwise, with: "sudo"), product.page)
         }
         guard let instructions = URL(string: chosen.page) else { return nil }
-        let step = chosen.step
         let removes: String? = if case .itself(let removing) = product.step { removing } else { nil }
         var uninstaller = MakersUninstaller(
-            maker: product.maker, step: step, instructions: instructions, removes: removes
+            maker: product.maker, step: chosen.step, instructions: instructions, removes: removes
         )
         uninstaller.team = team
         if case .script(_, _, let leaves) = product.step {
@@ -390,6 +452,7 @@ public struct MakersUninstaller: Sendable, Hashable {
                 switch name {
                 case .identifier(let known): identifier.map { $0 == known || $0.hasPrefix(known + ".") } == true
                 case .place(let known): identifier == nil && place == known
+                case .part: false
                 }
             }
         }

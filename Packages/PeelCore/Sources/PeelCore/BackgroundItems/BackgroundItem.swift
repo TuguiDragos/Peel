@@ -96,6 +96,7 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public internal(set) var loginItemsStatus: LoginItemsStatus?
     /// The app that left whose team signed the job's program (`BackgroundItemOwnership.appThatLeft(running:)`).
     public var appThatLeft: RememberedApp?
+    public var makersUninstallerForWhatIsLeft: MakersUninstaller?
 
     public var isOwnerInstalled: Bool { ownerURL != nil }
 

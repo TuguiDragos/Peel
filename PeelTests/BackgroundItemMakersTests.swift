@@ -14,6 +14,23 @@ struct BackgroundItemMakersTests {
         )
     }
 
+    @Test func aJobWhoseAppLeftGivesTheMakersStepForWhatIsLeft() throws {
+        let box = URL(filePath: "/Applications/Box.app", directoryHint: .isDirectory)
+        var leftover = job(of: box, identifier: "com.box.desktop")
+        leftover.appThatLeft = RememberedApp(
+            bundleIdentifier: "com.box.desktop", name: "Box", teamIdentifier: "M683GB7CPW", lastSeen: .now,
+            lastPath: "/Applications/Box.app"
+        )
+        leftover.makersUninstallerForWhatIsLeft = leftover.appThatLeft
+            .flatMap { MakersUninstaller.ofWhatIsLeft(by: $0) }
+
+        let found = try #require(BackgroundItemDetailView.makersUninstaller(of: leftover, among: []))
+
+        #expect(found.name == "Box")
+        #expect(found.isForWhatIsLeft)
+        #expect(found.uninstaller.step == .fromTheMakersPage)
+    }
+
     @Test func aJobOfAnAppItsMakerRemovesSaysSo() {
         let agent = InstalledApp(
             url: URL(filePath: "/Applications/Kaspersky.app", directoryHint: .isDirectory),
@@ -27,7 +44,7 @@ struct BackgroundItemMakersTests {
 
         let kaspersky = job(of: agent.url, identifier: "com.kaspersky.kav")
         let found = BackgroundItemDetailView.makersUninstaller(of: kaspersky, among: apps)
-        #expect(found?.app.name == "Kaspersky")
+        #expect(found?.name == "Kaspersky")
         #expect(found?.uninstaller.maker == "Kaspersky")
         let backup = job(of: other.url, identifier: "org.example.backup")
         #expect(BackgroundItemDetailView.makersUninstaller(of: backup, among: apps) == nil)

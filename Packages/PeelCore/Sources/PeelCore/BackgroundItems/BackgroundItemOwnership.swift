@@ -180,6 +180,10 @@ public struct BackgroundItemOwnership: Sendable {
         }
     }
 
+    func team(ofProgram program: String) -> String? {
+        teamOfProgram(program)
+    }
+
     /// Runs the same check on a job read from its property list. Orphaned Files uses this one.
     func isOrphan(_ job: JobDefinition) -> Bool {
         // A program still on disk keeps its job whoever owns it, so the owner, which reads signatures, is not needed.

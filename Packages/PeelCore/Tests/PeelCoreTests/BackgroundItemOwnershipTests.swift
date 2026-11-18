@@ -103,6 +103,26 @@ struct BackgroundItemOwnershipTests {
         #expect(row(remembering: [])?.appThatLeft == nil)
     }
 
+    @Test func aJobOfAMakersProductNamesTheMakersStep() throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.file("root/Library/Application Support/Example/engine").path(percentEncoded: false)
+        let plist = try PropertyListSerialization.data(
+            fromPropertyList: ["Label": "com.crashplan.service", "ProgramArguments": [program]], format: .xml, options: 0
+        )
+        try directory.file("root/Library/LaunchDaemons/com.crashplan.service.plist", contents: plist)
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        func row(team: String) -> BackgroundItem? {
+            let ownership = BackgroundItemOwnership(installedApps: [], teamOfProgram: { $0 == program ? team : nil })
+            return BackgroundItems.declared(in: environment, ownership: ownership).first
+        }
+
+        #expect(row(team: "UGHXR79U6M")?.makersUninstallerForWhatIsLeft?.maker == "CrashPlan")
+        #expect(row(team: "ABCDE12345")?.makersUninstallerForWhatIsLeft == nil)
+    }
+
     @Test func neverCallsGoneAProgramWhosePathHoldsANul() throws {
         let ownership = BackgroundItemOwnership(installedApps: []) { _ in nil }
         let job = try #require(JobDefinition(["Label": "org.example.cut", "Program": "/bin/sh\u{0}gone"]))

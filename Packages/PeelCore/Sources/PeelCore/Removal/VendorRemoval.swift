@@ -25,8 +25,11 @@ public enum VendorRemoval {
 
     /// Whether the uninstaller at `url` is signed by `app`'s team, as its checked signature says.
     static func isSignedByTheSameTeam(_ url: URL, as app: InstalledApp) -> Bool {
-        guard let team = app.teamIdentifier else { return false }
-        return CodeSignature.teamIdentifier(at: url) == team
+        app.teamIdentifier.map { isSigned(url, by: $0) } ?? false
+    }
+
+    static func isSigned(_ url: URL, by team: String) -> Bool {
+        CodeSignature.teamIdentifier(at: url) == team
     }
 
     /// Whether the uninstaller at `url` may be opened now: `team` signed it, and its whole seal holds, every file and

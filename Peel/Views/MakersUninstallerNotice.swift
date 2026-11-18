@@ -11,11 +11,16 @@ struct MakersUninstallerNotice: View {
     /// The page's own words for the circled i, in place of the app page's, as on a job's page, which offers its
     /// buttons.
     var saying: Text?
+    var isForWhatIsLeft = false
+
+    private var heading: LocalizedStringResource {
+        isForWhatIsLeft ? "\(uninstaller.maker) removes what is left with its own uninstaller" : Self.title(of: uninstaller)
+    }
 
     var body: some View {
         Notice(
-            title: Text(Self.title(of: uninstaller)), detail: detail, kind: .note,
-            info: (name: String(localized: Self.title(of: uninstaller)), detail: saying ?? said)
+            title: Text(heading), detail: detail, kind: .note,
+            info: (name: String(localized: heading), detail: saying ?? said)
         ) {
             Link("Instructions from \(uninstaller.maker)", destination: uninstaller.instructions)
             switch uninstaller.step {

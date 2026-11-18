@@ -8726,6 +8726,112 @@
         }
       }
     },
+    "%@ removes what is left with its own uninstaller" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Co zůstalo, odstraní vlastní odinstalátor výrobce %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was übrig ist, wird mit dem eigenen Deinstallationsprogramm von %@ entfernt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ elimina lo que queda con su propio desinstalador"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ supprime ce qu’il en reste avec son propre programme de désinstallation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ rimuove ciò che resta con il proprio programma di disinstallazione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "残っているものは%@独自のアンインストーラで取り除きます"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@이(가) 자체 제거 프로그램으로 남은 항목을 제거함"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ verwijdert met het eigen de-installatieprogramma wat er nog over is"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usunięcie pozostałości własnym dezinstalatorem producenta %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ remove o que restou com o próprio desinstalador"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce a rămas se elimină cu programul de dezinstalare de la %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остатки удаляются программой удаления от %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ tar bort det som finns kvar med sin egen avinstallerare"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ geride kalanları kendi yükleme kaldırıcısıyla kaldırır"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ вилучає решту власним деінсталятором"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@使用自己的卸载器移除剩余内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@自己的解除安裝程式會移除剩餘的項目"
+          }
+        }
+      }
+    },
     "%@ stayed, and so did its files." : {
       "localizations" : {
         "cs" : {
@@ -242485,6 +242591,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@指定的解除安裝程式不在這部Mac上，因此請依照%@的說明操作。"
+          }
+        }
+      }
+    },
+    "The uninstaller from %@ also takes what the app kept in the system, which may not all be listed here." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odinstalátor výrobce %@ odstraní také to, co aplikace uchovávala v systému, i když tu nemusí být uvedeno všechno."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Deinstallationsprogramm von %@ entfernt auch, was die App im System abgelegt hat, wovon hier möglicherweise nicht alles aufgeführt ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El desinstalador de %@ también se lleva lo que la app guardaba en el sistema, y puede que no todo aparezca aquí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le programme de désinstallation de %@ supprime aussi ce que l’app conservait dans le système, et tout n’est peut-être pas listé ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il programma di disinstallazione di %@ toglie anche ciò che l’app teneva nel sistema, e non tutto potrebbe essere elencato qui."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@のアンインストーラは、アプリがシステム内に置いていたものも取り除きますが、そのすべてがここに表示されているとは限りません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@의 제거 프로그램은 앱이 시스템에 보관했던 항목도 함께 제거하며, 그중 일부는 여기에 나열되지 않을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het de-installatieprogramma van %@ verwijdert ook wat de app in het systeem bewaarde, en dat wordt hier misschien niet allemaal getoond."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dezinstalator producenta %@ usuwa też to, co aplikacja przechowywała w systemie, a być może nie wszystko z tego jest tutaj na liście."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O desinstalador de %@ também leva o que o app mantinha no sistema, e talvez nem tudo isso esteja listado aqui."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programul de dezinstalare de la %@ elimină și ce a păstrat aplicația în sistem, iar unele dintre acestea s‑ar putea să nu fie listate aici."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Программа удаления от %@ также убирает то, что приложение хранило в системе, и, возможно, здесь показано не все из этого."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avinstalleraren från %@ tar även bort det som appen hade i systemet, och det är inte säkert att allt listas här."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ yükleme kaldırıcısı, uygulamanın sistemde tuttuklarını da kaldırır; bunların hepsi burada listelenmemiş olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Деінсталятор від %@ вилучає також те, що програма зберігала в системі, і, можливо, не все це тут показано."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的卸载器还会一并移除该App保存在系统中的内容，这些内容未必全部列在此处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@的解除安裝程式也會一併移除該App保存在系統中的項目，其中可能有部分未列在此處。"
           }
         }
       }

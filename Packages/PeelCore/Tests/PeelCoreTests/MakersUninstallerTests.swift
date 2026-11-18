@@ -165,6 +165,57 @@ struct MakersUninstallerTests {
         )
     }
 
+    @Test func findsTheMakersStepForWhatAnAppThatLeftLeftBehind() {
+        func gone(_ identifier: String, team: String) -> RememberedApp {
+            RememberedApp(
+                bundleIdentifier: identifier, name: "Gone", teamIdentifier: team, lastSeen: .now,
+                lastPath: "/Applications/Gone.app"
+            )
+        }
+        func step(_ app: RememberedApp, isThere: Bool = true) -> MakersUninstaller.Step? {
+            MakersUninstaller.ofWhatIsLeft(
+                by: app, home: URL(filePath: "/Users/me", directoryHint: .isDirectory), isOnTheMac: { _ in isThere },
+                isOnlyRoots: { _ in true }, isTheMakers: { _, team in team == app.teamIdentifier }
+            )?.step
+        }
+
+        #expect(step(gone("com.box.desktop", team: "M683GB7CPW")) == .fromTheMakersPage)
+        #expect(step(gone("com.crashplan.desktop", team: "UGHXR79U6M")) == .uninstaller(
+            URL(filePath: "/Library/Application Support/CrashPlan/Uninstall.app", directoryHint: .isDirectory)
+        ))
+        #expect(step(gone("com.crashplan.desktop", team: "UGHXR79U6M"), isThere: false) == .fromTheMakersPage)
+        #expect(step(gone("com.zerotier.zerotier-one", team: "8ZD9JUCZ4V")) == .command(
+            "sudo '/Library/Application Support/ZeroTier/One/uninstall.sh'"
+        ))
+        #expect(step(gone("com.paloaltonetworks.GlobalProtect.client", team: "PXPZ95SK77")) == .notOnTheMac)
+        #expect(step(gone("com.express.vpn", team: "TC292Y5427")) == .notOnTheMac)
+        #expect(step(gone("net.tunnelblick.tunnelblick", team: "Z2SG5H3HC8")) == .fromTheMakersPage)
+        #expect(step(gone("com.avast.av.uninstaller", team: "6H4HRTU5E3")) == nil)
+        #expect(step(gone("com.box.desktop", team: "ABCDE12345")) == nil)
+        #expect(MakersUninstaller.ofWhatIsLeft(by: gone("com.box.desktop", team: "M683GB7CPW"))?.removes == nil)
+    }
+
+    @Test func knowsAPartOfAProductItsMakerShipsOutsideTheApp() {
+        func step(team: String, part: String) -> MakersUninstaller.Step? {
+            MakersUninstaller.ofWhatIsLeft(
+                team: team, part: part, home: URL(filePath: "/Users/me", directoryHint: .isDirectory),
+                isOnTheMac: { _ in true }, isOnlyRoots: { _ in true }, isTheMakers: { _, signer in signer == team }
+            )?.step
+        }
+        let bitdefender = MakersUninstaller.Step.uninstaller(
+            URL(filePath: "/Library/Bitdefender/Central/Agent/BitdefenderUninstaller.app", directoryHint: .isDirectory)
+        )
+
+        #expect(step(team: "UGHXR79U6M", part: "com.crashplan.service") != nil)
+        #expect(step(team: "UGHXR79U6M", part: "com.crashplan.engine") != nil)
+        #expect(step(team: "GUNFMW623Y", part: "com.bitdefender.agent") == bitdefender)
+        #expect(step(team: "GUNFMW623Y", part: "com.bitdefender.upgrade") == bitdefender)
+        #expect(step(team: "PXPZ95SK77", part: "com.paloaltonetworks.cortex.agent") != nil)
+        #expect(step(team: "PXPZ95SK77", part: "com.paloaltonetworks.gp.pangpd") == nil)
+        #expect(step(team: "ABCDE12345", part: "com.crashplan.service") == nil)
+        #expect(MakersUninstaller.of(agent("com.crashplan.service", team: "UGHXR79U6M")) == nil)
+    }
+
     @Test func findsCrashPlansUninstallerForOneAccountOrItsDownload() throws {
         let home = try TemporaryDirectory()
         let empty = try TemporaryDirectory()

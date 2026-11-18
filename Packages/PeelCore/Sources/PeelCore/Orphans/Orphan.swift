@@ -50,6 +50,7 @@ public struct OrphanGroup: Sendable, Hashable, Identifiable {
     /// How sure Peel is that nothing uses these files anymore. It changes how the row reads, where it is listed
     /// and whether Peel recommends the files, never what is selected: orphaned files are never selected for the user.
     public var confidence = OrphanConfidence(level: .likely, reasons: [.nothingClaimsIt])
+    public var makersUninstaller: MakersUninstaller?
 
     public var id: String { identifier }
 

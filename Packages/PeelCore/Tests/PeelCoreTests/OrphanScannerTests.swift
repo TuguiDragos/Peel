@@ -1699,6 +1699,21 @@ struct OrphanScannerTests {
         #expect(scan.groups.flatMap(\.items).map(\.url.lastPathComponent) == ["com.gone.app.helper.plist"])
     }
 
+    @Test func aGroupOfAnAppThatLeftNamesItsMakersStep() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/com.box.desktop/sync.db")
+        let box = RememberedApp(
+            bundleIdentifier: "com.box.desktop", name: "Box", teamIdentifier: "M683GB7CPW", lastSeen: .now,
+            lastPath: directory.url.appending(path: "Applications/Box.app").path(percentEncoded: false)
+        )
+
+        let scan = await scanner(in: directory).scan(installedApps: installed, remembered: [box])
+        let group = try #require(scan.groups.first)
+
+        #expect(group.makersUninstaller?.maker == "Box")
+        #expect(group.makersUninstaller?.step == .fromTheMakersPage)
+    }
+
     @Test func whatALiveJobRunsIsNeverAnOrphan() async throws {
         let withJobs = try TemporaryDirectory()
         let withoutJobs = try TemporaryDirectory()

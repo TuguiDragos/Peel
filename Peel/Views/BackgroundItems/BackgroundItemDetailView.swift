@@ -24,8 +24,9 @@ struct BackgroundItemDetailView: View {
             if let found = Self.makersUninstaller(of: item, among: library.apps) {
                 Section {
                     MakersUninstallerNotice(
-                        app: found.app.name, uninstaller: found.uninstaller,
-                        saying: Text(verbatim: Self.makersWarning(app: found.app.name))
+                        app: found.name, uninstaller: found.uninstaller,
+                        saying: Text(verbatim: Self.makersWarning(app: found.name)),
+                        isForWhatIsLeft: found.isForWhatIsLeft
                     )
                 }
             }
@@ -375,7 +376,7 @@ struct BackgroundItemDetailView: View {
                 item.trashWarning(ownerName: item.ownerName ?? library.name(forReference: owner))
             }
             let maker = Self.makersUninstaller(of: item, among: library.apps)
-                .map { Self.makersWarning(app: $0.app.name) }
+                .map { Self.makersWarning(app: $0.name) }
             Text(verbatim: ([warning, item.whenTrashed].compactMap { $0.map { String(localized: $0) } } + [maker])
                 .compactMap(\.self).joined(separator: "\n\n"))
         }
@@ -386,23 +387,22 @@ struct BackgroundItemDetailView: View {
             Button("Cancel", role: .cancel) {}
         } message: {
             if let found = Self.makersUninstaller(of: item, among: library.apps) {
-                Text(verbatim: Self.makersWarning(app: found.app.name))
+                Text(verbatim: Self.makersWarning(app: found.name))
             }
         }
     }
 
-    /// The installed app the job comes with, and its maker's uninstaller, when Peel leaves that app to it: such an app
-    /// is a security or management agent or a VPN, whose jobs its own uninstaller knows.
+    /// The maker's uninstaller for the job's installed app, or for what its app left once gone.
     static func makersUninstaller(
         of item: BackgroundItem, among apps: [InstalledApp]
-    ) -> (app: InstalledApp, uninstaller: MakersUninstaller)? {
+    ) -> (name: String, uninstaller: MakersUninstaller, isForWhatIsLeft: Bool)? {
         let place = item.ownerURL.map(PathPattern.comparablePath(of:))
         let app = apps.first { app in
             place.map { $0 == PathPattern.comparablePath(of: app.url) }
                 ?? (item.ownerBundleIdentifier != nil && app.bundleIdentifier == item.ownerBundleIdentifier)
         }
-        guard let app, case .byItsMaker(let uninstaller)? = app.removedElsewhere else { return nil }
-        return (app, uninstaller)
+        if let app, case .byItsMaker(let uninstaller)? = app.removedElsewhere { return (app.name, uninstaller, false) }
+        return item.makersUninstallerForWhatIsLeft.map { (item.appThatLeft?.name ?? $0.maker, $0, true) }
     }
 
     /// What the questions before Disable and Move to Trash add for a job of an app its maker removes.
