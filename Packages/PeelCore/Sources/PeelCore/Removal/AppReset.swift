@@ -20,6 +20,8 @@ public struct AppReset: Sendable {
         /// Always known: a folder that was not measured or not read is never offered, nor one holding a wallet or a
         /// repository, as the uninstall holds such a folder back.
         public let size: Int64
+        /// The folder its scan walked down from to reach it, into real folders alone (`Leftover.foundBelow`).
+        public var foundBelow: URL? = nil
 
         public var id: URL { url }
     }
@@ -154,7 +156,12 @@ public struct AppReset: Sendable {
             outcome.stop = .appOpened
             return outcome
         }
-        outcome.result = await service.trash(urls, ownedBy: app.bundleIdentifier)
+        let walked = Dictionary(
+            items.compactMap { item in item.foundBelow.map { (item.url, $0) } }, uniquingKeysWith: { first, _ in first }
+        )
+        outcome.result = await service.trash(
+            urls, ownedBy: app.bundleIdentifier, refusing: TrashService.refusingLinksOnTheWay(below: walked)
+        )
         outcome.askedToMove = urls.count
         outcome.clearedSettings = clearsSettings(
             moving: outcome.result.trashed.map(\.originalURL),
@@ -243,7 +250,10 @@ public struct AppReset: Sendable {
         var items = usable.compactMap { leftover -> Item? in
             guard leftover.kind != .containers, let group = group(for: leftover.kind) else { return nil }
             guard !(keepsAppData && group == .appData) else { return nil }
-            return Item(url: leftover.url, kind: leftover.kind, group: group, size: leftover.size)
+            return Item(
+                url: leftover.url, kind: leftover.kind, group: group, size: leftover.size,
+                foundBelow: leftover.foundBelow
+            )
         }
 
         var needsFullDiskAccess = false
@@ -261,6 +271,7 @@ public struct AppReset: Sendable {
                 of: app,
                 exclusions: exclusions,
                 home: environment.homeDirectory,
+                foundBelow: container.foundBelow,
                 measure: measure
             )
         }
@@ -278,21 +289,26 @@ public struct AppReset: Sendable {
         of app: InstalledApp,
         exclusions: Exclusions,
         home: URL,
+        foundBelow: URL? = nil,
         measure: LeftoverScanner.Measure
     ) async -> [Item] {
         var items: [Item] = []
+        guard container.isRealFolder else { return items }
         for folder in containerFolders {
             let url = container.appending(path: folder.path, directoryHint: .isDirectory)
-            guard url.isRealFolder, !exclusions.excludes(url), !exclusions.holds(url), !holdsKeys(url, home: home)
+            guard isReached(folder.path, throughRealFoldersOf: container), !exclusions.excludes(url),
+                  !exclusions.holds(url), !holdsKeys(url, home: home)
             else { continue }
             // What the uninstall would hold back is never offered: a wallet or a repository inside, or a folder that
             // was not measured or not read.
             let seen = await measure(url)
             guard let seen, HoldBack.seen(in: seen) == nil else { continue }
-            items.append(Item(url: url, kind: folder.kind, group: folder.group, size: seen.size))
+            items.append(
+                Item(url: url, kind: folder.kind, group: folder.group, size: seen.size, foundBelow: foundBelow)
+            )
         }
         let preferences = container.appending(path: containerPreferenceFolder, directoryHint: .isDirectory)
-        guard preferences.isRealFolder else { return items }
+        guard isReached(containerPreferenceFolder, throughRealFoldersOf: container) else { return items }
         // Only the file named after the app, or after the container when it is a helper's: that is the file
         // `defaults` reads. A name that merely starts the same (`com.foo.AppOther`) belongs to another app.
         let names = Set(([app.bundleIdentifier] + [container.lastPathComponent]).compactMap { $0?.lowercased() })
@@ -307,9 +323,22 @@ public struct AppReset: Sendable {
             else { continue }
             let seen = await measure(file)
             guard let seen, HoldBack.seen(in: seen) == nil else { continue }
-            items.append(Item(url: file, kind: .preferences, group: .settings, size: seen.size))
+            items.append(
+                Item(url: file, kind: .preferences, group: .settings, size: seen.size, foundBelow: foundBelow)
+            )
         }
         return items
+    }
+
+    /// Whether `path` inside `container` is a real folder reached through real folders alone, as a scan reaches what
+    /// it lists, so a link among them at the move is one made since.
+    private static func isReached(_ path: String, throughRealFoldersOf container: URL) -> Bool {
+        var url = container
+        for name in PathComponents.of(path) {
+            url.append(path: name, directoryHint: .isDirectory)
+            guard url.isRealFolder else { return false }
+        }
+        return true
     }
 
     /// True for a folder that holds a wallet's or a key's file `ProtectedData` names, or a browser profile with a

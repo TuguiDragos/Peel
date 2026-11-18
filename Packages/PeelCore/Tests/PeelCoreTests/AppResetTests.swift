@@ -348,6 +348,48 @@ struct AppResetTests {
         #expect(settings.isMissing)
     }
 
+    @Test func aResetLeavesWhatAFolderOnItsWayNowLeadsElsewhereFor() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("Library/Application Support/Holder/com.example.app/notes.db", bytes: 4096)
+        try directory.file("Library/Containers/com.example.app/Data/Library/Caches/cache", bytes: 4096)
+        let elsewhere = try directory.file("Elsewhere/Holder/com.example.app/other.db", bytes: 4096)
+        let otherCache = try directory.file("Elsewhere/Data/Library/Caches/cache", bytes: 4096)
+        let reset = await AppReset.prepare(app(), installedApps: [app()], environment: home(directory))
+        let moving = Set(reset.items.map(\.url).filter { ["com.example.app", "Caches"].contains($0.lastPathComponent) })
+        try #require(moving.count == 2)
+        for name in ["Library/Application Support/Holder", "Library/Containers/com.example.app/Data"] {
+            let folder = directory.url.appending(path: name)
+            try FileManager.default.moveItem(at: folder, to: directory.url.appending(path: "Aside \(folder.lastPathComponent)"))
+            try FileManager.default.createSymbolicLink(
+                at: folder, withDestinationURL: directory.url.appending(path: "Elsewhere/\(folder.lastPathComponent)")
+            )
+        }
+
+        let outcome = await reset.run(
+            moving, resettingPrivacy: false, through: try service(in: directory), isOpen: { false },
+            save: { _ in .nothingToSave }, resetPrivacy: { _ in .reset }
+        )
+
+        #expect(outcome.result.trashed.isEmpty)
+        #expect(outcome.result.failures.map(\.reason) == [.linkOnTheWay, .linkOnTheWay])
+        #expect(elsewhere.isThere && otherCache.isThere)
+    }
+
+    @Test func offersNothingInAContainerReachedThroughALink() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Library/Containers/com.example.app")
+        try directory.file("Elsewhere/Data/Library/Caches/cache", bytes: 4096)
+        try directory.file("Elsewhere/Data/Library/Preferences/com.example.app.plist", bytes: 4096)
+        try FileManager.default.createSymbolicLink(
+            at: directory.url.appending(path: "Library/Containers/com.example.app/Data"),
+            withDestinationURL: directory.url.appending(path: "Elsewhere/Data")
+        )
+
+        let reset = await AppReset.prepare(app(), installedApps: [app()], environment: home(directory))
+
+        #expect(reset.items.isEmpty)
+    }
+
     @Test func aResetMovesNothingWhenTheSettingsCouldNotBeCopied() async throws {
         let directory = try TemporaryDirectory()
         let settings = try directory.file("Library/Preferences/com.example.app.plist", bytes: 4096)
