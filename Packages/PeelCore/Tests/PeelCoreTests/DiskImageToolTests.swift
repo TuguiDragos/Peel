@@ -12,6 +12,18 @@ struct DiskImageToolTests {
         #expect(String(describing: error).contains("hdiutil: create failed"))
     }
 
+    @Test func aDiskWhoseProcessEndedIsDetachedByTheNextAndNoOtherIs() throws {
+        let directory = try TemporaryDirectory()
+        let left = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Left"))
+        let kept = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Kept"))
+        try left.leaveAsIfItsProcessEnded()
+
+        ScratchVolume.detachTheLeftovers()
+
+        #expect(!left.isAttached)
+        #expect(kept.isAttached)
+    }
+
     @Test func disksMadeTogetherHaveVolumesOfTheirOwn() async throws {
         let directory = try TemporaryDirectory()
         let places = ["First", "Second"].map { directory.url.appending(path: $0, directoryHint: .isDirectory) }

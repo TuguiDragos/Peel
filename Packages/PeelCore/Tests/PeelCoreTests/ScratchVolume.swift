@@ -1,5 +1,6 @@
 import Darwin
 import Foundation
+@testable import PeelCore
 import Synchronization
 
 /// A small disk of its own for a test, formatted with a file system the startup disk does not use, made with `hdiutil`
@@ -18,8 +19,10 @@ final class ScratchVolume {
     init(
         fileSystem: String, mountedAt url: URL, serial: UInt32? = nil, owners: Bool = false, size: String = "64m"
     ) throws {
+        _ = Self.detachTheLeftoversOnce
         image = try TemporaryDirectory()
         self.url = url
+        try Data((Self.identity(of: getpid()) ?? "").utf8).write(to: image.url.appending(path: Self.ownerFile))
         let file = image.url.appending(path: "disk.dmg")
         try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
         try DiskImageTool.hdiutil(
@@ -43,6 +46,52 @@ final class ScratchVolume {
 
     deinit {
         _ = try? DiskImageTool.hdiutil("detach", "-force", url.path)
+    }
+
+    /// Where a disk names the process that made it, since a process stopped before its tests end never detaches them.
+    private static let ownerFile = "owner"
+
+    /// A process as no other can be: its pid and when it started, or nil when it no longer runs.
+    private static func identity(of pid: pid_t) -> String? {
+        var info = proc_bsdinfo()
+        let size = Int32(MemoryLayout<proc_bsdinfo>.size)
+        guard proc_pidinfo(pid, PROC_PIDTBSDINFO, 0, &info, size) == size else { return nil }
+        return "\(pid) \(info.pbi_start_tvsec).\(info.pbi_start_tvusec)"
+    }
+
+    private static let detachTheLeftoversOnce: Void = detachTheLeftovers()
+
+    /// Detaches the disks whose process no longer runs, and no other: those of a process still running, another
+    /// suite's included, stay.
+    static func detachTheLeftovers() {
+        guard let answer = try? DiskImageTool.hdiutil("info", "-plist"),
+              let info = try? PropertyListSerialization.propertyList(from: answer, format: nil) as? [String: Any],
+              let images = info["images"] as? [[String: Any]]
+        else { return }
+        for image in images {
+            guard let path = image["image-path"] as? String, path.hasSuffix("/disk.dmg") else { continue }
+            let owner = URL(filePath: path).deletingLastPathComponent().appending(path: ownerFile)
+            guard let recorded = try? String(contentsOf: owner, encoding: .utf8),
+                  let pid = pid_t(recorded.prefix { $0 != " " }), identity(of: pid) != recorded
+            else { continue }
+            let entities = image["system-entities"] as? [[String: Any]] ?? []
+            if let disk = entities.compactMap({ $0["dev-entry"] as? String }).min() {
+                _ = try? DiskImageTool.hdiutil("detach", "-force", disk)
+            }
+        }
+    }
+
+    /// Records the disk as made by a process that ended, as a suite stopped in the middle leaves it.
+    func leaveAsIfItsProcessEnded() throws {
+        try Data("999999 0.0".utf8).write(to: image.url.appending(path: Self.ownerFile))
+    }
+
+    var isAttached: Bool {
+        var info = statfs()
+        guard statfs(url.path(percentEncoded: false), &info) == 0 else { return false }
+        let mount = withUnsafeBytes(of: info.f_mntonname) { String(decoding: $0.prefix { $0 != 0 }, as: UTF8.self) }
+        return PathPattern.comparablePath(of: URL(filePath: mount))
+            == PathPattern.comparablePath(of: url.resolvingSymlinksInPath())
     }
 
     /// The same disk, detached and mounted again at `place`, as a disk renamed or plugged in again lands elsewhere, or,
