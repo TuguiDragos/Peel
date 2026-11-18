@@ -16,7 +16,15 @@ final class PeelAppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
-        QuitGuard.shared.replyToQuit()
+        // linkd quits an app it started for an intent once the intent has ended, though Peel's intents bring it to the
+        // front. Peel stays while it shows a window or its menu bar item, as when the person opens it, and never runs
+        // unseen.
+        let showsItself = NSApp.windows.containsAnOpenWindow()
+            || UserDefaults.standard.bool(forKey: SettingsKey.showsInMenuBar)
+        if showsItself, IntentIdleQuit.isAsked(by: NSAppleEventManager.shared().currentAppleEvent) {
+            return .terminateCancel
+        }
+        return QuitGuard.shared.replyToQuit()
     }
 }
 
