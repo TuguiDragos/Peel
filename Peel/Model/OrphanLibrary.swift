@@ -39,6 +39,19 @@ final class OrphanLibrary {
         return scan?.groups.first { $0.id == id }
     }
 
+    /// Chooses the group that lists `file`, or else the one `identifier` falls in. Before a scan lists either, the
+    /// scan that follows settles it.
+    func chooseGroup(listing file: URL?, orOf identifier: String) {
+        let group = file.flatMap { scan?.group(listing: $0) } ?? scan?.group(holding: identifier)
+        selection = .group(group?.id ?? identifier)
+    }
+
+    /// What a selection that names no page of `scan` becomes: the group its identifier falls in, or nothing.
+    static func settled(_ selection: OrphanPage, in scan: OrphanScan) -> OrphanPage? {
+        guard case .group(let id) = selection else { return nil }
+        return scan.group(holding: id).map { .group($0.id) }
+    }
+
     /// The pages the list shows, in its order.
     var pages: [OrphanPage] {
         guard let scan else { return [] }
@@ -106,7 +119,7 @@ final class OrphanLibrary {
         scannedAgainst = listing
         selectedURLs.formIntersection(remainingURLs)
         if let selection, !pages.contains(selection) {
-            self.selection = nil
+            self.selection = Self.settled(selection, in: result)
         }
     }
 

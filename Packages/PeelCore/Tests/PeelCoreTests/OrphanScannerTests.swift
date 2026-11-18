@@ -1901,6 +1901,9 @@ struct OrphanScannerTests {
         #expect(scan.groups.map(\.identifier) == ["org.example"])
         #expect(scan.group(listing: plist)?.identifier == "org.example")
         #expect(scan.group(listing: directory.url.appending(path: "root/Library/LaunchDaemons/other.plist")) == nil)
+        #expect(scan.group(holding: "org.example.sync")?.identifier == "org.example")
+        #expect(scan.group(holding: "Org.Example")?.identifier == "org.example")
+        #expect(scan.group(holding: "org.elsewhere") == nil)
     }
 
     /// A file that cannot be read is not called a leftover on its name; one that is no job at all still is.
