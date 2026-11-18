@@ -29,7 +29,8 @@ public struct MakersUninstaller: Sendable, Hashable {
         /// inside the app when the path is relative, so the command follows the app wherever it is. `leaves` is what
         /// it leaves in `/etc` or `/opt`.
         case script(String, runner: String?, leaves: [String] = [])
-        case uninstaller(String)
+        /// An uninstaller at the first of its places on the Mac, `~/` standing for the home, or else `otherwise`.
+        case uninstaller(String, or: String? = nil, otherwise: Step = .notOnTheMac)
         case uninstallerInsideTheApp(String)
         /// The app is the uninstaller, which removes the product named here and then itself.
         case itself(removing: String)
@@ -211,9 +212,13 @@ public struct MakersUninstaller: Sendable, Hashable {
             "P8DQRXPVLP", ["com.eset.ecs"], "ESET", .uninstallerInsideTheApp("Contents/Helpers/Uninstaller.app"),
             "https://support.eset.com/en/kb3239-how-do-i-uninstall-eset-cyber-security"
         ),
+        // The page names a copy for everyone and one for a single account, and the installer to download for neither.
         (
             "UGHXR79U6M", ["com.crashplan.desktop"], "CrashPlan",
-            .uninstaller("/Library/Application Support/CrashPlan/Uninstall.app"),
+            .uninstaller(
+                "/Library/Application Support/CrashPlan/Uninstall.app",
+                or: "~/Library/Application Support/CrashPlan/Uninstall.app", otherwise: .fromTheMakersPage
+            ),
             "https://support.crashplan.com/hc/en-us/articles/9025086987661-Uninstall-the-CrashPlan-app"
         ),
         // Backblaze's page opens Backblaze Uninstaller from the installer; its package puts the same app here.
@@ -341,15 +346,22 @@ public struct MakersUninstaller: Sendable, Hashable {
         }
         // Anything an administrator's program writes could take the uninstaller's name, so only one its checked
         // signature says the app's team made is opened.
-        func open(_ uninstaller: URL) -> Step {
-            guard isOnTheMac(uninstaller.path(percentEncoded: false)) else { return .notOnTheMac }
+        func open(first places: [URL], otherwise: Step = .notOnTheMac) -> Step {
+            guard let uninstaller = places.first(where: { isOnTheMac($0.path(percentEncoded: false)) }) else {
+                return otherwise
+            }
             return isTheMakers(uninstaller, app) ? .uninstaller(uninstaller) : .notTrusted
+        }
+        func place(_ path: String) -> URL {
+            guard path.hasPrefix("~/") else { return URL(filePath: path, directoryHint: .isDirectory) }
+            return home.appending(path: String(path.dropFirst(2)), directoryHint: .isDirectory)
         }
         let chosen: (step: Step, page: String) = switch product.step {
         case .script(let path, let runner, _): (run(path, with: runner), product.page)
-        case .uninstaller(let path): (open(URL(filePath: path, directoryHint: .isDirectory)), product.page)
+        case .uninstaller(let path, let other, let otherwise):
+            (open(first: ([path] + [other].compactMap(\.self)).map(place), otherwise: otherwise), product.page)
         case .uninstallerInsideTheApp(let path):
-            (open(app.url.appending(path: path, directoryHint: .isDirectory)), product.page)
+            (open(first: [app.url.appending(path: path, directoryHint: .isDirectory)]), product.page)
         case .itself: (.uninstaller(app.url), product.page)
         case .inTheApp: (.inTheApp(app.url), product.page)
         case .onItsDiskImage: (.onItsDiskImage, product.page)

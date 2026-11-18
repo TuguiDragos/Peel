@@ -165,6 +165,32 @@ struct MakersUninstallerTests {
         )
     }
 
+    @Test func findsCrashPlansUninstallerForOneAccountOrItsDownload() throws {
+        let home = try TemporaryDirectory()
+        let empty = try TemporaryDirectory()
+        let forOneAccount = try home.directory("Library/Application Support/CrashPlan/Uninstall.app")
+        let forEveryone = "/Library/Application Support/CrashPlan/Uninstall.app"
+        let crashPlan = agent("com.crashplan.desktop", team: "UGHXR79U6M", at: "/Applications/CrashPlan.app")
+        func step(in home: URL, forEveryoneIsThere: Bool, signedByTheMaker: Bool = true) -> MakersUninstaller.Step? {
+            MakersUninstaller.of(
+                crashPlan, home: home,
+                isOnTheMac: { path in
+                    PathPattern.comparablePath(of: URL(filePath: path)) == forEveryone
+                        ? forEveryoneIsThere : !URL(filePath: path).isMissing
+                },
+                isTheMakers: { _, _ in signedByTheMaker }
+            )?.step
+        }
+
+        #expect(step(in: home.url, forEveryoneIsThere: false) == .uninstaller(forOneAccount))
+        #expect(step(in: empty.url, forEveryoneIsThere: false) == .fromTheMakersPage)
+        #expect(
+            step(in: home.url, forEveryoneIsThere: true)
+                == .uninstaller(URL(filePath: forEveryone, directoryHint: .isDirectory))
+        )
+        #expect(step(in: home.url, forEveryoneIsThere: false, signedByTheMaker: false) == .notTrusted)
+    }
+
     @Test func knowsAnAppItsMakerShipsWithoutAnIdentifierByWhereItPutsItAndByItsTeam() {
         func notify(at path: String, team: String?) -> InstalledApp {
             InstalledApp(
