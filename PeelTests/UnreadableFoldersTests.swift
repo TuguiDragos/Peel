@@ -29,6 +29,15 @@ struct UnreadableFoldersTests {
         #expect(sentences.allSatisfy { $0.hasSuffix("may not be listed.") })
     }
 
+    @Test func promisesFullDiskAccessOnlyForTheFoldersItOpens() throws {
+        let protected = UnreadableFoldersNotice.detail(count: 3, closed: 0, needsFullDiskAccess: true)
+        let mixed = UnreadableFoldersNotice.detail(count: 3, closed: 1, needsFullDiskAccess: true)
+        let reason = try #require(UnreadableFoldersNotice.reason(count: 3, closed: 1, needsFullDiskAccess: true))
+
+        #expect(mixed != protected, "Full Disk Access was said to open folders their own permissions close")
+        #expect(mixed.hasPrefix(reason) && mixed.hasSuffix("may not be listed.") && !mixed.contains("\n"))
+    }
+
     @Test func saysThePermissionsKeptPeelOutOnlyWhenTheyDid() throws {
         let some = try #require(UnreadableFoldersNotice.reason(count: 2, closed: 1, needsFullDiskAccess: false))
         let all = try #require(UnreadableFoldersNotice.reason(count: 2, closed: 2, needsFullDiskAccess: false))

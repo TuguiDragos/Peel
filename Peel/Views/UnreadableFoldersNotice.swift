@@ -27,9 +27,13 @@ struct UnreadableFoldersNotice: View {
         .task(id: folders) { counted = await .counting(folders) }
     }
 
-    /// One sentence: why Peel did not read the folders, when that is known, and what that means for the list.
+    /// Why Peel did not read the folders, when that is known, and what that means for the list, in one sentence, or in
+    /// two when Full Disk Access would open only some of them.
     static func detail(count: Int, closed: Int, needsFullDiskAccess: Bool, reopens: Bool = false) -> String {
-        let why: String = if needsFullDiskAccess {
+        let why: String = if needsFullDiskAccess, closed > 0 {
+            String(localized: "macOS keeps Peel out of the folders it protects until Peel has Full Disk Access.")
+                + " " + String(localized: "Something there may not be listed.")
+        } else if needsFullDiskAccess {
             count == 1
                 ? String(localized: "macOS keeps Peel out of it until Peel has Full Disk Access, so something there may not be listed.")
                 : String(localized: "macOS keeps Peel out of them until Peel has Full Disk Access, so something there may not be listed.")
