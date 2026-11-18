@@ -87,13 +87,13 @@ struct HomebrewDetailView: View {
 
             if package.isMissingWhatItInstalled, package.appTargets.isEmpty {
                 Notice(
-                    title: Text("macOS Has No Receipt for Its Packages"),
+                    title: Text("macOS has no receipt for its packages"),
                     detail: Text("Homebrew still lists this cask, but macOS has no installer receipt left for the packages it installed. They were uninstalled, or their receipts were forgotten and what they installed is still here. If nothing of it is left, Forget Cask moves the cask’s Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back."),
                     kind: .note
                 ) {}
             } else if package.isStoppedMidUpgrade {
                 Notice(
-                    title: Text("The Upgrade Was Stopped"),
+                    title: Text("The upgrade was stopped"),
                     detail: Text("Homebrew was stopped while it upgraded this cask, so its app is still in Homebrew’s folder rather than where it belongs. Reinstalling the cask in Terminal puts it back."),
                     kind: .caution
                 ) {
@@ -105,7 +105,7 @@ struct HomebrewDetailView: View {
                 }
             } else if package.isMissingWhatItInstalled {
                 Notice(
-                    title: Text("The App Is Already Gone"),
+                    title: Text("The app is already gone"),
                     detail: Text("Homebrew still lists this cask, but its app isn’t where Homebrew put it anymore, so Homebrew can’t upgrade it. Forget Cask moves the cask’s Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back."),
                     kind: .note
                 ) {}

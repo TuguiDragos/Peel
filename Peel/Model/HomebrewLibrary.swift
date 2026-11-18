@@ -206,7 +206,10 @@ final class HomebrewLibrary {
 
     /// Why this account can't change Homebrew, and the command that puts it right where this account can run one.
     struct CantChange {
+        /// The title over the page when nothing else can show, written as a title.
         let title: LocalizedStringResource
+        /// The same, as a note above the page's list says it.
+        let noteTitle: LocalizedStringResource
         let detail: LocalizedStringResource
         var command: String?
     }
@@ -220,29 +223,29 @@ final class HomebrewLibrary {
         switch unwritable.owner {
         case .another(let owner?):
             return CantChange(
-                title: "Homebrew Belongs to Another Account",
+                title: "Homebrew Belongs to Another Account", noteTitle: "Homebrew belongs to another account",
                 detail: "Homebrew on this Mac belongs to \(owner), so only that account can update or change it."
             )
         case .another(nil):
             return CantChange(
-                title: "Homebrew Belongs to Another Account",
+                title: "Homebrew Belongs to Another Account", noteTitle: "Homebrew belongs to another account",
                 detail: "Homebrew on this Mac belongs to another account, so only that account can update or change it."
             )
         case .root where AdministratorCommand.needsAnAdministrator(command, isAdministrator: isAdministrator):
             return CantChange(
-                title: "This Account Can’t Change Homebrew",
+                title: "This Account Can’t Change Homebrew", noteTitle: "This account cannot change Homebrew",
                 detail: "\(folder) belongs to root, so Homebrew can’t change it, and Homebrew doesn’t run as root. To give the folder back to this account, an administrator runs this in Terminal, or you run it after `su` and an administrator’s short name: \(command)",
                 command: command
             )
         case .root:
             return CantChange(
-                title: "This Account Can’t Change Homebrew",
+                title: "This Account Can’t Change Homebrew", noteTitle: "This account cannot change Homebrew",
                 detail: "\(folder) belongs to root, so Homebrew can’t change it, and Homebrew doesn’t run as root. Give the folder back to this account by running this in Terminal: \(command)",
                 command: command
             )
         case .thisAccount:
             return CantChange(
-                title: "This Account Can’t Change Homebrew",
+                title: "This Account Can’t Change Homebrew", noteTitle: "This account cannot change Homebrew",
                 detail: "\(folder) belongs to this account but can’t be written to, so Homebrew can’t change it. Allow it by running this in Terminal: \(command)",
                 command: command
             )

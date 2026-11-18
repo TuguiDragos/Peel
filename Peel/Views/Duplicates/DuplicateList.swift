@@ -59,7 +59,7 @@ struct DuplicateList: View {
                         ContentUnavailableView.search(text: searchText)
                     } else if scan.exclusionsNotKnown {
                         ContentUnavailableView {
-                            Label("Peel couldn’t read your exclusions", systemImage: "exclamationmark.triangle")
+                            Label("Peel Could Not Read Your Exclusions", systemImage: "exclamationmark.triangle")
                         } description: {
                             Text("Peel compares nothing until you start the list over in Settings, since it would read what you asked it to leave alone.")
                         } actions: {
@@ -158,7 +158,7 @@ struct DuplicateList: View {
         .announcesScan(
             duplicates.isScanning,
             found: summary,
-            couldNotLook: duplicates.scan?.exclusionsNotKnown == true ? "Peel couldn’t read your exclusions"
+            couldNotLook: duplicates.scan?.exclusionsNotKnown == true ? "Peel Could Not Read Your Exclusions"
                 : duplicates.scan?.readNothing != true ? nil
                 : duplicates.scan?.unreadableLocations.isEmpty == true ? "Not Everything Could Be Searched"
                 : "Not Everything Could Be Read",

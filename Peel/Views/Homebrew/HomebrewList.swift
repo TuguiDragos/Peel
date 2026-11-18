@@ -214,13 +214,13 @@ struct HomebrewList: View {
         let overrides = homebrew.overrides
         if !overrides.isEmpty {
             Section {
-                Notice(title: Text("Homebrew’s Own Settings Change How Peel Runs It"), detail: Text(verbatim: explanation(of: overrides)), kind: .caution) {}
+                Notice(title: Text("Homebrew settings files change how Peel runs it"), detail: Text(verbatim: explanation(of: overrides)), kind: .caution) {}
             }
         }
         if homebrew.leavesChangesToTerminal {
             Section {
                 Notice(
-                    title: Text("Upgrades and Uninstalls Go to Terminal"),
+                    title: Text("Upgrades and uninstalls go to Terminal"),
                     detail: Text(HomebrewLibrary.homebrewElsewhere),
                     kind: .note
                 ) {}
@@ -229,7 +229,7 @@ struct HomebrewList: View {
         if let unread = homebrew.unreadSettingsFile {
             Section {
                 Notice(
-                    title: Text("Homebrew Run From Peel Doesn’t Read One of Your Settings Files"),
+                    title: Text("Homebrew run from Peel does not read one of your settings files"),
                     detail: Text("Homebrew reads \(unread.abbreviatedPath) only from a shell that sets XDG_CONFIG_HOME to ~/.config. Peel runs Homebrew without your shell’s settings, so there it reads ~/.homebrew/brew.env. Put what you want it to follow from Peel, such as a proxy, in ~/.homebrew/brew.env."),
                     kind: .note
                 ) {}
@@ -478,7 +478,7 @@ struct HomebrewList: View {
             cantChange(reason)
         } else {
             Notice(
-                title: Text("Homebrew Has to Update First"),
+                title: Text("Homebrew has to update first"),
                 detail: Text("Homebrew’s own list of packages isn’t on this Mac, so asking it about packages would download the list again. Peel doesn’t start that on its own."),
                 kind: .note
             ) {
@@ -491,7 +491,7 @@ struct HomebrewList: View {
     }
 
     private func cantChange(_ reason: HomebrewLibrary.CantChange) -> some View {
-        Notice(title: Text(reason.title), detail: Text(reason.detail), kind: .note) {
+        Notice(title: Text(reason.noteTitle), detail: Text(reason.detail), kind: .note) {
             if let command = reason.command {
                 CopyButton(text: command)
             }

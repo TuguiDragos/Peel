@@ -31,7 +31,7 @@ struct IntelList: View {
             }
             if !intel.findings.isEmpty, let unread = unreadParts {
                 Notice(
-                    title: Text("Not Everything Could Be Read"), detail: unread,
+                    title: Text("Not everything could be read"), detail: unread,
                     kind: needsFullDiskAccess ? .problem : .note
                 ) {
                     unreadActions
