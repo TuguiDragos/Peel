@@ -322,9 +322,10 @@ macOS asks the user to approve it once. It talks to the app over XPC.
 - It keeps a ledger of what it moved, in a folder only root can write (`/private/var/db/com.tuguidragos.Peel.Helper`),
   and puts back only what that ledger knows. An item moves only once its record is on the drive (`DriveFlush`,
   `F_FULLFSYNC`), and History is on the drive before the journal lets a removal's items go; a record taken off once
-  its item is back doesn't wait for the drive, since it can move nothing. While the ledger can't be
-  read it moves nothing, and one it can't make sense of is kept under another name (`DamagedFile`), never written
-  over.
+  its item is back doesn't wait for the drive, since it can move nothing. Each new ledger is written beside the old
+  one and renamed over it once its bytes are on the drive ahead of the rename (`F_BARRIERFSYNC`), so a power cut
+  leaves one ledger or the other whole. While the ledger can't be read it moves nothing, and one it can't make sense
+  of is kept under another name (`DamagedFile`), never written over.
 - An update needs nothing from the person, although Apple's `SMAppService.h` asks an app that changes a daemon's
   program or property list to register it again, or it may not launch. launchd starts `Contents/MacOS/PeelHelper`
   from the app as it is at that moment, under a spawn constraint that names only the team and the helper's

@@ -60,6 +60,31 @@ struct HelperLedgerTests {
         #expect(!unflushed.record([item], movedBy: getuid()), "an item could move with its record not on the drive")
     }
 
+    @Test func everyWriteHasItsBytesOnTheDriveAheadOfTheLedgersName() throws {
+        let directory = try TemporaryDirectory()
+        let policy = try policy(in: directory)
+        let url = directory.url.appending(path: "private/moved.plist")
+        // What the ledger's name led to each time a new ledger was sent ahead.
+        let named = Mutex<[Data?]>([])
+        let ledger = try #require(HelperLedger(at: url, flush: { _ in true }) { _ in
+            named.withLock { $0.append(try? Data(contentsOf: url)) }
+            return true
+        })
+        try directory.file("root/Library/Caches/com.example.plist")
+        let item = try policy.open(path("root/Library/Caches/com.example.plist", in: directory)).get()
+
+        #expect(ledger.record([item], movedBy: getuid()))
+        let recorded = try Data(contentsOf: url)
+        ledger.forget([item])
+
+        #expect(named.withLock { $0 } == [nil, recorded], "a power cut could leave the name over bytes never written")
+        let forgotten = try Data(contentsOf: url)
+        #expect(forgotten != recorded)
+        let unordered = try #require(HelperLedger(at: url, flush: { _ in true }) { _ in false })
+        #expect(!unordered.record([item], movedBy: getuid()), "an item could move with its record not on the drive")
+        #expect(try Data(contentsOf: url) == forgotten, "a ledger that couldn't be written changed")
+    }
+
     @Test func forgetsWithoutWaitingForTheDrive() throws {
         let directory = try TemporaryDirectory()
         let policy = try policy(in: directory)

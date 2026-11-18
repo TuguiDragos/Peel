@@ -30,6 +30,7 @@ public final class HelperLedger: Sendable {
     private let url: URL
     private let maximumEntries: Int
     private let flush: @Sendable (String) -> Bool
+    private let ahead: @Sendable (Int32) -> Bool
     /// One lock for every ledger in the process: the helper serves each connection on a queue of its own, and each
     /// request opens the ledger afresh, so a lock of each instance's own would let two requests overwrite each other.
     private static let lock = NSLock()
@@ -39,7 +40,8 @@ public final class HelperLedger: Sendable {
     public init?(
         at url: URL = HelperLedger.defaultURL,
         maximumEntries: Int = HelperLedger.entriesKept,
-        flush: @escaping @Sendable (String) -> Bool = DriveFlush.file(at:)
+        flush: @escaping @Sendable (String) -> Bool = DriveFlush.file(at:),
+        ahead: @escaping @Sendable (Int32) -> Bool = { DriveFlush.ahead(of: $0, acrossDrives: false) }
     ) {
         let folder = url.deletingLastPathComponent().path(percentEncoded: false)
         mkdir(folder, 0o700)
@@ -47,6 +49,7 @@ public final class HelperLedger: Sendable {
         self.url = url
         self.maximumEntries = maximumEntries
         self.flush = flush
+        self.ahead = ahead
     }
 
     /// Records `items` in one write, before any of them moves. Returns false when the write fails, and then
@@ -241,13 +244,41 @@ public final class HelperLedger: Sendable {
         }
     }
 
+    /// Writes the new ledger beside the old one and renames it over it once its bytes are on the drive ahead of the
+    /// rename, so a power cut leaves the old ledger or the new one, never the name over bytes the drive never wrote.
+    /// launchd runs one helper at a time, so one name beside it is enough.
     private func write(_ entries: some Sequence<Entry>, flushing: Bool = true) -> Bool {
         let encoder = PropertyListEncoder()
         encoder.outputFormat = .binary
-        guard let data = try? encoder.encode(Array(entries)), (try? data.write(to: url, options: .atomic)) != nil else {
+        guard let data = try? encoder.encode(Array(entries)) else { return false }
+        let path = url.path(percentEncoded: false)
+        let beside = path + ".new"
+        let descriptor = open(beside, O_WRONLY | O_CREAT | O_TRUNC | O_NOFOLLOW | O_CLOEXEC, 0o600)
+        guard descriptor >= 0 else { return false }
+        defer { close(descriptor) }
+        guard Self.writeWhole(data, to: descriptor), fchmod(descriptor, 0o600) == 0, ahead(descriptor),
+              rename(beside, path) == 0
+        else {
+            // Kept empty for the next write rather than deleted.
+            ftruncate(descriptor, 0)
             return false
         }
-        let path = url.path(percentEncoded: false)
-        return chmod(path, 0o600) == 0 && (!flushing || flush(path))
+        return !flushing || flush(path)
+    }
+
+    private static func writeWhole(_ data: Data, to descriptor: Int32) -> Bool {
+        data.withUnsafeBytes { bytes in
+            guard let start = bytes.baseAddress else { return true }
+            var offset = 0
+            while offset < bytes.count {
+                let written = Darwin.write(descriptor, start + offset, bytes.count - offset)
+                if written < 0 {
+                    guard errno == EINTR else { return false }
+                    continue
+                }
+                offset += written
+            }
+            return true
+        }
     }
 }
