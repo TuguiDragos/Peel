@@ -187,16 +187,17 @@ public struct BackgroundItemOwnership: Sendable {
         byTeam[team] ?? []
     }
 
-    /// The agent an organization manages the Mac with that a job is part of: `team`, which signed its program, with
-    /// its label or its owner, or the owner itself when the job is surely that app's.
-    func managedAgent(label: String, team: String?, owner: Owner?) -> ManagedAgent? {
-        if let agent = ManagedAgent.of(team: team, identifier: label)
-            ?? ManagedAgent.of(team: team, identifier: owner?.bundleIdentifier) {
+    /// The agent an organization manages the Mac with that a job is part of: its owner, when the job is surely that
+    /// app's, or the team that signed its program with its label or its owner. The signature is read only for a name
+    /// an agent's family holds.
+    func managedAgent(label: String, program: String?, owner: Owner?) -> ManagedAgent? {
+        if let owner, owner.isConfirmed, let app = owner.bundleIdentifier.flatMap({ byIdentifier[$0.lowercased()] }),
+           let agent = ManagedAgent.of(team: app.teamIdentifier, identifier: app.bundleIdentifier) {
             return agent
         }
-        guard let owner, owner.isConfirmed, let app = owner.bundleIdentifier.flatMap({ byIdentifier[$0.lowercased()] })
-        else { return nil }
-        return ManagedAgent.of(team: app.teamIdentifier, identifier: app.bundleIdentifier)
+        let named = [label, owner?.bundleIdentifier].compactMap(\.self).filter(ManagedAgent.isInAFamily)
+        guard !named.isEmpty, let team = program.flatMap(teamOfProgram) else { return nil }
+        return named.lazy.compactMap { ManagedAgent.of(team: team, identifier: $0) }.first
     }
 
     /// Runs the same check on a job read from its property list. Orphaned Files uses this one.

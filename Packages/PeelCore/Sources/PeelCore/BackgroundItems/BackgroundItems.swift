@@ -277,7 +277,7 @@ public enum BackgroundItems {
                 isDisabled: true,
                 isOwnerConfirmed: owner.isConfirmed
             )
-            item.managedBy = ownership.managedAgent(label: label, team: nil, owner: owner)
+            item.managedBy = ownership.managedAgent(label: label, program: nil, owner: owner)
             return item
         }
     }
@@ -375,9 +375,9 @@ public enum BackgroundItems {
                 item.loadsOnlyAtTheLoginWindow = kind == .agent && job.loadsOnlyAtTheLoginWindow
                 item.appThatLeft = ownership.appThatLeft(running: job)
                 item.isOwnerOnlyItsMaker = owner?.isOnlyItsMaker == true
-                let team = job.program.flatMap(ownership.team(ofProgram:))
-                item.managedBy = ownership.managedAgent(label: job.label, team: team, owner: owner)
-                if let team, owner?.isInstalled != true || item.appThatLeft != nil {
+                item.managedBy = ownership.managedAgent(label: job.label, program: job.program, owner: owner)
+                if owner?.isInstalled != true || item.appThatLeft != nil,
+                   let team = job.program.flatMap(ownership.team(ofProgram:)) {
                     let installed = ownership.installedApps(signedBy: team)
                     item.makersUninstallerForWhatIsLeft = item.appThatLeft
                         .flatMap { MakersUninstaller.ofWhatIsLeft(by: $0, installed: installed) }
@@ -556,9 +556,7 @@ public enum BackgroundItems {
         item.isSubmittedByItsApp = isSubmittedByApp && !item.isManagedByServiceManagement && !item.isSystemExtension
         item.isFileGone = !isAnApps && path?.isMissing == true
         item.isOwnerOnlyItsMaker = owner?.isOnlyItsMaker == true
-        item.managedBy = ownership.managedAgent(
-            label: candidate.label, team: program.flatMap(ownership.team(ofProgram:)), owner: owner
-        )
+        item.managedBy = ownership.managedAgent(label: candidate.label, program: program, owner: owner)
         item.loadsInTheBackgroundSession = candidate.kind == .agent && loaded.isInTheUserDomain(candidate.label)
         if isAnApps, item.canBeControlled, !item.isManagedByServiceManagement {
             item.staysListedWhenDisabled =

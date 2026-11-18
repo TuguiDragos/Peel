@@ -27,10 +27,17 @@ public struct ManagedAgent: Sendable, Hashable {
 
     static func of(team: String?, identifier: String?) -> ManagedAgent? {
         guard let team, let identifier = identifier?.lowercased(),
-              let agent = known.first(where: { agent in
-                  agent.team == team && agent.families.contains { identifier == $0 || identifier.hasPrefix($0 + ".") }
-              })
+              let agent = known.first(where: { $0.team == team && holds(identifier, in: $0.families) })
         else { return nil }
         return ManagedAgent(name: agent.name, page: agent.page.flatMap(URL.init(string:)))
+    }
+
+    /// Whether an agent's family holds `identifier`, whoever signed what bears it.
+    static func isInAFamily(_ identifier: String) -> Bool {
+        known.contains { holds(identifier.lowercased(), in: $0.families) }
+    }
+
+    private static func holds(_ identifier: String, in families: [String]) -> Bool {
+        families.contains { identifier == $0 || identifier.hasPrefix($0 + ".") }
     }
 }

@@ -1,6 +1,7 @@
 import Foundation
 @testable import PeelCommandLine
 @testable import PeelCore
+import Synchronization
 import Testing
 
 struct ManagedAgentTests {
@@ -103,6 +104,31 @@ struct ManagedAgentTests {
         #expect(declared.managedBy?.name == "CrowdStrike Falcon")
         #expect(!declared.offersEnableOrDisable)
         #expect(disabled.first { $0.label == named }.map { $0.managedBy == nil && $0.offersEnableOrDisable } == true)
+    }
+
+    @Test func aJobNoAgentNamesHasNoSignatureRead() throws {
+        let tide = InstalledApp(
+            url: URL(filePath: "/Applications/Tide.app", directoryHint: .isDirectory), bundleIdentifier: "org.example.tide",
+            name: "Tide", teamIdentifier: "EXAMPLE123"
+        )
+        let read = Mutex(0)
+        let ownership = BackgroundItemOwnership(installedApps: [tide]) { _ in
+            read.withLock { $0 += 1 }
+            return "EXAMPLE123"
+        }
+        let details = Launchctl.JobDetails(
+            path: "(submitted by smd.341)", program: "/Applications/Tide.app/Contents/MacOS/helper",
+            managedBy: "com.apple.xpc.ServiceManagement", parentBundleIdentifier: "org.example.tide"
+        )
+
+        let found = BackgroundItems.undeclaredItem(
+            ("org.example.tide.helper", .agent, "gui/501/org.example.tide.helper"), answer: .details(details),
+            ownership: ownership, loaded: .init(), exclusions: .none
+        )
+
+        guard case .item(let item) = found else { throw CocoaError(.featureUnsupported) }
+        #expect(item.managedBy == nil)
+        #expect(read.withLock { $0 } == 0)
     }
 
     @Test func anAppOfSuchAnAgentStaysForTheAdministrator() {
