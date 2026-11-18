@@ -160,7 +160,14 @@ the Homebrew page's uninstall and cleanups are Homebrew's own.
      documents, such as Chrome Remote Desktop Host Uninstaller. Each is known by its checked signing team and the
      identifier its maker documents or signs; its page names the maker's step, opens the app whose own command removes
      it, or points to the uninstaller on the app's disk image, and links the instructions, nothing of it is selected or
-     moved, and `peel uninstall` refuses it.
+     moved, and `peel uninstall` refuses it. Once the app is gone the step is found again for what it left
+     (`MakersUninstaller.ofWhatIsLeft`): from the team and identifier Peel remembers for the app, or from a part its
+     maker ships outside the app, such as a job's label or a package's identifier, signed by that team.
+   - An agent an organization manages its Macs with is left to its IT administrator
+     (`RemovedElsewhere.byYourOrganization`, `ManagedAgent`), known by its checked team and its identifiers: its page
+     says so, with the maker's instructions where they are public, `peel uninstall` refuses it, and its jobs offer no
+     control. An app its maker asks people to uninstall for its security flaws, Intel Power Gadget, says so on its
+     page (`DiscontinuedApp`).
    - A program another account runs, root's included, can't be quit by the person or by Peel (`kill(2)` answers
      `EPERM`), so it is never in the question to quit apps (`RunningCopies.Process.mayBeQuit`), and what it runs
      from stays with a reason of its own: `openForAnotherUser` when it is another user's of this Mac (an account
@@ -452,7 +459,10 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   tool (`OrphanOwner`) stays out while that app or tool is installed (`OrphanOwners.given`), the tools read right before
   each scan (`InstalledTools.read`), in the app and in `peel orphans` alike: Homebrew's formulae from its Cellar as
   Homebrew counts them (`Homebrew.installedFormulae`), and the commands in the tool folders Intel Software reads
-  (`CommandLineTools`), a command that leads into an app or into the Cellar left to its app or formula.
+  (`CommandLineTools`), a command that leads into an app or into the Cellar left to its app or formula. A launchd job
+  whose program sits outside any installed app, signed by the team of an app Peel saw go while no installed app has
+  that team, is listed under that app with its program (`BackgroundItemOwnership.appThatLeft`), and what any other
+  installed job runs, or a folder holding it, is never listed (`BackgroundItemOwnership.needs`).
 - **Intel Software.** `IntelInspector` judges by the code itself: what a bundle runs, or a file, is Intel only when
   its Mach-O slices are x86_64 alone (`MachOHeader`), and a file found inside an app or beside a printer driver counts
   only when it is a program (`MH_EXECUTE`), since a library runs in whatever loads it. It looks at the installed apps
@@ -503,7 +513,9 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   user's own, and the system's, and which it keeps disabled (`launchctl print-disabled`). A loaded job no file there
   declares is one an app registered or submitted, asked about on its own and listed only while it is loaded, and a
   disabled job that isn't loaded is listed from what launchd keeps disabled. Whose a job is comes from
-  `BackgroundItemOwnership`: an app it runs from inside, else the app its label names, a rule Orphaned Files reads too.
+  `BackgroundItemOwnership`: an app it runs from inside, else the app its label names, else the one installed app of
+  the team that signed its program, said as only its maker (`isOnlyItsMaker`), a rule Orphaned Files reads too; a job
+  whose program the team of an app Peel saw go signed names that app (`appThatLeft`).
   Start, Stop, Enable, and Disable go to `launchctl`, a daemon's through the helper, never under a label macOS uses for
   its own jobs (`SystemDaemons`, `SystemAgents`), and a job ServiceManagement manages is turned off only in System
   Settings. A job file System Settings keeps from running (`LoginItemsStatus`, from

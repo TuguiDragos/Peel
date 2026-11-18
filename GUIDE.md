@@ -52,7 +52,9 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   its extension runs, it keeps anyone from moving the app.
   A security or management agent, a VPN, or another app whose maker documents an
   uninstaller of its own, such as GlobalProtect, Microsoft Defender, ExpressVPN, or Laravel Herd, is left to that
-  uninstaller, and its page says how. An app that runs
+  uninstaller, and its page says how. An agent an organization manages its Macs with, such as Jamf Protect or
+  CrowdStrike Falcon, is left to its IT administrator, and its page says so. Intel Power Gadget's page says that Intel
+  recommends uninstalling it, since it has known security flaws and Intel no longer updates it. An app that runs
   its own uninstaller once it leaves the Applications folder, such as Mullvad VPN or Citrix Workspace, is moved only
   after Peel tells you what that uninstaller will do. An app that leaves a program waiting for it to go, such as
   LanguageTool for Desktop, keeps that program and the file that starts it in place so the program can finish, and
@@ -139,7 +141,11 @@ Space shows what fills your disk, area by area, and what each area is.
   left, or, for the copy macOS keeps of a system extension, by the app macOS's own record names. What only a name ties
   to an app is shown and never selected. An app on another disk keeps its files out of the list while that disk isn't
   connected, even with another disk of the same name plugged in, once Orphaned Files has looked with the disk connected.
-  It also lists the files browsers keep to start a helper program that is gone. In your account's temporary folder,
+  It also lists the files browsers keep to start a helper program that is gone. When an app Peel saw go leaves a
+  service behind, a launchd job whose program that app's maker signed while no app of that maker is installed, it lists
+  the job's file and its program under that app, and the group of an app whose maker documents an uninstaller names it,
+  since that uninstaller also takes what the app kept in the system. What an installed job runs, or a folder holding it,
+  is never listed apart from that job. In your account's temporary folder,
   where every program writes files named as it likes, it lists only what came with an app it saw go, as it does for
   plug-ins. A folder the Developer page knows as a tool's, such as Carthage's cache, is left to that page, unless Peel
   saw the app it's named for go. Nothing is selected for you. A system extension's copy can't be selected, since only
@@ -334,7 +340,12 @@ and how many items the others hold.
   and an item whose app is in the Trash says that macOS starts it from there each time you log in, until you empty
   the Trash. A job an app gave launchd itself, such as an update's installer, says so. A job of an app its maker removes
   with its own uninstaller, such as a security agent or a VPN, says so as Applications does, and Disable and Move to
-  Trash ask first. An agent its file limits to the login window offers no Load, since macOS loads it only there. One
+  Trash ask first. A job whose program was signed by the maker of an app Peel saw go says that app has left and opens
+  Orphaned Files, where it is listed with what else the app left. A job of an app that is gone names the uninstaller
+  its maker documents, and so does one a maker's product keeps outside its app, such as CrashPlan's service, once the
+  app is gone. A job tied to an app only because one maker signed both says From the same maker as that app. A job of
+  an agent an organization manages its Macs with offers no control, since its IT administrator removes it. An agent
+  its file limits to the login window offers no Load, since macOS loads it only there. One
   turned off in System Settings > General > Login Items & Extensions, or waiting for approval there, is only ever
   stopped here, never started, not even when its file comes back from History. Edit… beside an agent's file in your own
   `~/Library/LaunchAgents` opens the file as text: Save moves the file as it was to the Trash, writes yours in its
@@ -360,7 +371,8 @@ and how many items the others hold.
   still on your Mac; without the helper, it forgets those installed for your account alone. An app a package installed
   follows the rules of its own page, and so does the rest of its package:
   what is left to Finder or to the maker's uninstaller stays where it is, and what may exist only on this Mac is shown
-  and not selected.
+  and not selected. A receipt a maker's product left, such as Bitdefender's agent, names the uninstaller its maker
+  documents once no app of that maker is installed.
 - **Intel Software:** what still needs Rosetta, which macOS 27 is the last release to offer for most Intel software:
   apps, apps built for both that ask macOS to open them as Intel, the Intel-only parts inside other apps, plug-ins,
   drivers, background items, the Java runtimes in either Library's `Java/JavaVirtualMachines`, and the commands in

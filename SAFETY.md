@@ -436,7 +436,15 @@ app's jobs and asks before it disables one or moves its file to the Trash. An un
 remove a product, such as Google's Chrome Remote Desktop Host Uninstaller, Wacom Tablet Utility, or Avast Security
 Uninstaller, is treated the same way: moved on its own, it would leave the product installed, so its page offers to open
 it instead. Before Peel opens a maker's uninstaller it reads the uninstaller's whole seal, every file and every
-architecture, and opens none that changed after its maker signed it.
+architecture, and opens none that changed after its maker signed it. Once such an app is gone, what it left names the
+same uninstaller, which also takes what the app kept in the system: its group in Orphaned Files, a job of its maker in
+Background Items, and, while no app of that maker is installed, a receipt of its package in Package Receipts.
+
+An agent an organization manages its Macs with (Jamf Protect, Carbon Black Cloud, Cisco Secure Endpoint, Elastic Agent,
+CrowdStrike Falcon, and SentinelOne) is listed the same way, and nothing of it can be selected: its page says that the
+organization's IT administrator removes it, with the maker's instructions where the maker publishes them. Peel knows it
+by the team its checked signature names together with that agent's identifiers, never by an identifier alone.
+`peel uninstall` refuses it, and Background Items offers none of its jobs' controls and no Move to Trash.
 
 An app carrying a system extension macOS installed, such as a VPN's network extension or a virtual camera, is listed
 the same way, and nothing of it can be selected: moved by Peel, the app would leave the extension installed, while
@@ -558,13 +566,16 @@ Orphaned Files selects nothing for you, and `peel orphans --remove` leaves out e
 holds back moves only when you select it yourself in the app: a folder in `/Users/Shared`, one with a repository, a
 wallet, a signing key, a password database, or Terraform's state inside, one that may hold what exists only on this
 Mac, one that holds what a developer tool still uses, such as installed packages or model weights, one Peel could not
-read or measure in time, a crash report, and what only a gone app's name ties to it.
+read or measure in time, a crash report, the file of a job an app left and the program that job runs, and what only a
+gone app's name ties to it.
 The copy macOS installed of a system extension, in `/Library/SystemExtensions`, is listed and can't be selected:
 only macOS removes it, and its note says how (on macOS 27, Delete Extension in System Settings for a network
 extension; otherwise the app's move to the Trash in Finder), or that macOS removes it at the next restart. A file
 named for a background job whose program is still there, such as the settings a remote access host keeps beside its
 job, is that job's and is never listed, and so is a folder named like a gone app while an installed app's name holds
-that name as whole words, as Epic Games Launcher holds Epic: it may be that app's.
+that name as whole words, as Epic Games Launcher holds Epic: it may be that app's. Nor is the program a job still
+installed runs, or a folder holding it, except beside that job once its app has left: moved alone, it would leave the
+job with nothing to run.
 
 On every list, Select All selects every row you can select, what Peel holds back included, and asks first, counting what
 Peel doesn't recommend; Return answers Select Recommended, or Cancel when nothing is recommended. Each held back row
