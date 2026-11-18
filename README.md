@@ -106,9 +106,10 @@ does, what Peel asks for and why, and how to remove Peel.
 A cleaner should never cost you something you wanted.
 
 - **Almost everything can come back.** Peel moves files to the Trash, and History puts them back where they were.
-  Remove Downloads in iCloud Drive only frees this Mac's copy of a file, which stays in iCloud. Four things can't be
-  undone that way, and Peel says so before you confirm them: Homebrew's own uninstall, its cleanups, resetting an
-  app's privacy permissions, and Force Quit for an app that won't quit.
+  Remove Downloads in iCloud Drive only frees this Mac's copy of a file, which stays in iCloud. Five things can't be
+  undone that way, and Peel says so before you confirm them: Homebrew's own uninstall and cleanups, a cask's upgrade,
+  which deletes the app version it replaces, resetting an app's privacy permissions, and Force Quit for an app that
+  won't quit.
   [SAFETY.md](SAFETY.md#what-peel-changes-besides-moving-files) lists everything else Peel changes besides moving
   files.
 - **Some places are off limits.** Peel refuses to move iCloud Drive and anything else that syncs to your other

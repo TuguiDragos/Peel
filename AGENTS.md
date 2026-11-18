@@ -92,7 +92,8 @@ fail, the rule is right and the change is wrong.
   its move was refused; and the empty file cfprefsd writes back where a moved settings file was, when
   `PreferenceCleanup` forgets a domain cfprefsd still holds. Peel's list of refusals, with any copy of it
   set aside because it couldn't be read, goes to the Trash when `peel history --refused --clear` asks.
-- **What History can't undo says so where the person confirms it**: Homebrew's own uninstall and its cleanups,
+- **What History can't undo says so where the person confirms it**: Homebrew's own uninstall and its cleanups, a
+  cask's upgrade, which deletes the app version it replaces (`HomebrewUpgradeWarning`, on an app's page too),
   resetting an app's privacy permissions, and Force Quit for an app that is still open 10 seconds after Peel asked
   it to quit. `defaults delete` for an app's preferences runs only once their file is in the Trash, and a reset
   exports the domain first, so putting the file back undoes it; putting saved settings back clears a domain only
@@ -187,8 +188,9 @@ fail, the rule is right and the change is wrong.
   started it, so `brew`, Git, and a shell that reads the account's startup files would reach what was given to Peel.
   Each starts through `Subprocess.runOnItsOwn`: stopped, as its own responsible process, and let run only once macOS
   says it answers for itself; when macOS offers no way to start it so, it doesn't run (`OnItsOwnTests`). The one
-  exception is a Homebrew upgrade or uninstall the person asks for, which needs Peel's App Management to replace or
-  remove an app (`Homebrew.execute`, `changesApps`). `Subprocess.run` is for macOS's own tools.
+  exception is a cask's upgrade or uninstall the person asks for, which needs Peel's App Management to replace or
+  remove an app (`Homebrew.execute`, `HomebrewPackage.Kind.changesApps`); a formula stays in Homebrew's own folders,
+  so its upgrade and uninstall run on their own. `Subprocess.run` is for macOS's own tools.
 
 ## The privileged helper
 

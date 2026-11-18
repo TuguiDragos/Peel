@@ -13,7 +13,7 @@ Peel is four programs built from one Xcode project, and a Swift package that hol
 |---|---|---|---|
 | Peel.app | `Peel/` | You | The SwiftUI app: every page, and a model for each. |
 | The helper | `PeelHelper/` | root | A launch daemon for the few things only an administrator can do: move items to the Trash and back, and start, stop, enable, or disable another vendor's launch daemon. |
-| The Finder extension | `PeelFinder/` | You, sandboxed | Adds Uninstall with Peel to the menu Finder shows when you Control-click an app, and opens Peel with `peel://open?path=`. |
+| The Finder extension | `PeelFinder/` | You, sandboxed | Adds Uninstall with Peel to the menu Finder shows when you Control-click an app on a disk that can be written to, and opens Peel with `peel://open?path=`. |
 | The `peel` tool | `PeelCLI/` | You | The command-line tool, shipped inside `Peel.app/Contents/Helpers`. |
 
 ```mermaid
@@ -240,15 +240,16 @@ A handful of ideas carry most of the weight. Each is enforced in one place and t
   (`SelfRemoval`), once they are back out of it because its move was refused; and the empty file cfprefsd writes back
   where a moved settings file was when `PreferenceCleanup` forgets a domain it still holds, which would keep History
   from putting that file back. Peel's list of refusals, with any copy of it set aside because it couldn't be read, goes
-  to the Trash when `peel history --refused --clear` asks. Four actions can't be undone by History, and each says so
-  where it is confirmed: Homebrew's own uninstall and cleanups, resetting an app's privacy permissions, and Force Quit
-  for an app that is still open 10 seconds after Peel asked it to quit (`QuitBeforeRemoving`). Moving Mullvad VPN,
+  to the Trash when `peel history --refused --clear` asks. Five actions can't be undone by History, and each says so
+  where it is confirmed: Homebrew's own uninstall and cleanups, a cask's upgrade, which deletes the app version it
+  replaces (`HomebrewUpgradeWarning`), resetting an app's privacy permissions, and Force Quit for an app that is still
+  open 10 seconds after Peel asked it to quit (`QuitBeforeRemoving`). Moving Mullvad VPN,
   Citrix Workspace, TeamViewer, BlueStacks, or NoMachine starts that app's own uninstaller, which deletes what History
   can't bring back, and moving an app a loaded launch job watches starts that job's program, which may delete too; Peel
   says so before it moves them (`UninstallsItself`). Forgetting a preference domain happens only once its file is in the
   Trash, so putting the file back undoes it, or, when saved settings are put back, once the settings in use are saved as
   a copy of their own (`PreferenceBackup`). Every `brew` call runs without Homebrew's automatic cleanup
-  (`HOMEBREW_NO_INSTALL_CLEANUP`), so an upgrade never deletes on its own; when a `brew.env` file of the user's turns
+  (`HOMEBREW_NO_INSTALL_CLEANUP`), so an upgrade never cleans up on its own; when a `brew.env` file of the user's turns
   that back on (`Homebrew.overrides()`, from `brew config`), the Homebrew page says so and leaves upgrades to Terminal.
 - **One guard judges every item.** `RemovalGuard` answers for the app and the `peel` tool alike. Its
   list of what nothing can bring back lives in `ProtectedData`, in PeelPrivileged, so the helper applies the
@@ -320,7 +321,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   the answer says so (`StagedFailure.leftInStaging`).
 - It keeps a ledger of what it moved, in a folder only root can write (`/private/var/db/com.tuguidragos.Peel.Helper`),
   and puts back only what that ledger knows. An item moves only once its record is on the drive (`DriveFlush`,
-  `F_FULLFSYNC`), and History is on the drive before the journal lets a removal's items go. While the ledger can't be
+  `F_FULLFSYNC`), and History is on the drive before the journal lets a removal's items go; a record taken off once
+  its item is back doesn't wait for the drive, since it can move nothing. While the ledger can't be
   read it moves nothing, and one it can't make sense of is kept under another name (`DamagedFile`), never written
   over.
 - An update needs nothing from the person, although Apple's `SMAppService.h` asks an app that changes a daemon's
@@ -346,7 +348,9 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   the pages that free space (Orphaned Files, Space, Developer, Build Artifacts, Installers and Backups,
   Duplicates, and File Search) the selection travels: what is selected on every such page the user has opened
   stays selected, and Move to Trash on any of them moves it all as one removal, each page's part by its own tool
-  with that tool's checks (`SelectionCarrier`, over `CarriedSelection` in PeelCore).
+  with that tool's checks (`SelectionCarrier`, over `CarriedSelection` in PeelCore). After any Move to Trash, every
+  page whose list shows something that moved, sits inside it, or holds it reads its list again
+  (`CarriesSelection.lists`, `MovedItems`).
 - **Concurrency.** Everything builds with Swift 6.4 in the Swift 6 language mode (Xcode 27). The app target runs on
   the main actor by default (`SWIFT_DEFAULT_ACTOR_ISOLATION`). Heavy work lives in PeelCore and is marked
   `@concurrent`, so it runs off the main actor.
@@ -527,6 +531,10 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   (`countsAsOpen`), since AppKit answers that a minimized window can't be main and the menu bar panel's never can.
   macOS hides a menu bar item when the menu bar has no room for it, and `isInserted` stays true, so Peel can then run
   with no window, no Dock icon, and no item to see; the setting's note says to open Peel from Finder or Spotlight.
+- **Opened for a shortcut.** On macOS 27 the system's intents service, `linkd`, quits an app it started for a
+  shortcut once the action has ended and the app isn't in front, with a quit that gives no reason. Peel declines only
+  that quit, and only while it shows a window or its menu bar item (`IntentIdleQuit`), so it never runs unseen; a
+  quit from its menu, the Dock, another app, or a logout goes on as before.
 
 ## The `peel` tool
 

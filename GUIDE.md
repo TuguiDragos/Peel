@@ -65,8 +65,9 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   Duplicates it has no Select All, since one copy of every group always stays.
 - **Several ways in.** Choose an app in the list, drop one or more on Peel's Dock icon, select several apps at once, or
   Control-click an app in Finder and choose Uninstall with Peel, once the Finder extension is on in System
-  Settings; an app in macOS's own `/System` folder doesn't offer it, since nothing moves from there. With Watch the
-  Trash on, Peel notices when you drag an app to the Trash yourself and offers to clear
+  Settings. Finder offers it on every disk that can be written to; an app in macOS's own `/System` folder, or on a
+  disk that can only be read, such as an installer's disk image, doesn't offer it, since nothing moves from there.
+  With Watch the Trash on, Peel notices when you drag an app to the Trash yourself and offers to clear
   what it left behind, while Peel is open or in the menu bar, and once it has Full Disk Access. An old copy thrown
   away while another copy of the app is still installed brings no such offer, since nothing was left behind. Apps
   you keep outside the Applications folders, such as on another disk, join the list once you add their folder, or that
@@ -354,7 +355,8 @@ and how many items the others hold.
   for every account or for yours alone, item by item, to move to the Trash. Nothing is selected for you, and Select
   Recommended passes by a folder a package made that now holds what something else put there. Forget Receipt moves the
   receipt itself to the Trash, through Peel's helper where it takes one, so macOS no longer counts the package as
-  installed, and Forget All does so at once for every package listed under Receipt Only, whose receipt lists nothing
+  installed, and Peel offers it right away once a move leaves nothing on the receipt on your disk. Forget All does so
+  at once for every package listed under Receipt Only, whose receipt lists nothing
   still on your Mac; without the helper, it forgets those installed for your account alone. An app a package installed
   follows the rules of its own page, and so does the rest of its package:
   what is left to Finder or to the maker's uninstaller stays where it is, and what may exist only on this Mac is shown
@@ -368,9 +370,10 @@ and how many items the others hold.
 - **Homebrew:** your formulae and casks, with Update, Clean Up (and two deeper ones: downloads older than 30 days, or
   every download), Repair Taps, Check Health, Scan for Vulnerabilities, Upgrade, and Uninstall, or the command to run in
   Terminal for a cask that asks for an administrator's password. Uninstall and the cleanups delete for good, as Homebrew
-  does, and Peel says so before you confirm them. For a cask whose app Peel leaves alone on the app's own page, such as
+  does, and so does a cask's upgrade, which deletes the version of the app it replaces: Peel says so before you
+  confirm each, on an app's page too. For a cask whose app Peel leaves alone on the app's own page, such as
   one with a system extension, and for a package you excluded, Uninstall stays off, with the reason beside it, and
-  Upgrade stays off for a package you excluded, since an upgrade deletes the version it replaces. Homebrew
+  Upgrade stays off for a package you excluded, since an upgrade replaces what is installed. Homebrew
   replaces or deletes a cask's app even while it runs, so Peel asks the app to quit first, and opens it again after an
   upgrade. It deletes a formula from under what runs from it too, and leaves its `brew services` job behind, so the
   question before Uninstall names what uses the formula and the command that stops the job. On a Mac with Apple
@@ -429,13 +432,17 @@ It sets up the command line as well:
   <img src="readme-assets/peel-history-put-back-from-trash.png" width="900" alt="Peel's History: Godot with its app, caches, support folder, and the command Homebrew linked to it, moved to the Trash yesterday, each item ready to put back, and under Not Moved, what Peel was asked to move and didn't">
 </p>
 
-- **History:** everything Peel moved to the Trash, ready to put back, from the app and from Terminal alike, and
-  what it was asked to move and wouldn't, with the reason for each item. It puts back what is still in the Trash
-  and keeps the latest 20,000 items, fewer when their paths are very long, saying once how many older removals it
-  no longer lists, and Peel moves no more at once than History can keep. Not Moved keeps the latest 5,000 items and
-  says the same of what it no longer lists. While Peel stays open, Undo in the Edit menu puts back the last removal you
-  made in it. Forget What Left the Trash… in its toolbar takes off the list, after one question, everything that has
-  already left the Trash; what is still there, or on a disk that isn't connected, stays listed.
+- **History:** everything Peel moved to the Trash, ready to put back, from the app and from Terminal alike, and what it
+  was asked to move and wouldn't, with the reason for each item, such as a folder on its way that became a link after
+  Peel looked. It puts back what is still in the Trash and keeps the latest 20,000 items, fewer when their paths are
+  very long, saying once how many older removals it no longer lists, and Peel moves no more at once than History can
+  keep. Not Moved keeps the latest 5,000 items and says the same of what it no longer lists. A Not Moved entry shows in
+  Finder each item still where it was, and opens the tool it was to move from, where a new scan judges it again. While
+  Peel stays open, Undo in the Edit menu puts back the last removal you made in it. Check the removals and Not Moved
+  entries you no longer need, or choose Select All, and Forget… at the foot takes off the list, after one question, what
+  the checked removals moved that has already left the Trash, and the checked Not Moved entries whole; what is still in
+  the Trash, or on a disk that isn't connected, stays listed. Show Only What Left the Trash, in the toolbar, lists only
+  the removals that can no longer be put back.
 - **Exclusions:** files, folders, and apps Peel must never touch. An excluded app still appears in Applications, and
   its jobs in Background Items, but Peel won't offer to remove or reset it or act on its jobs, and leaves out of every
   page the folders named exactly with its identifier, such as its caches, and an update it downloaded; to keep its

@@ -9,8 +9,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### History
 
-- Forget What Left the Trash… in History's toolbar forgets, after one question, everything History lists that has
-  already left the Trash. What is still in the Trash, or on a disk that isn't connected, stays listed.
+- Each removal and each Not Moved entry in History has a checkbox, with Select All and Deselect All in the toolbar and
+  the Edit menu, and Forget… at the foot forgets, after one question, what is checked: from a removal only what has
+  already left the Trash, and a Not Moved entry whole. What is still in the Trash, or on a disk that isn't connected,
+  stays listed. Show Only What Left the Trash, in the toolbar, lists only the removals that can no longer be put back.
+- On a Not Moved entry's page, each item still where it was has Show in Finder, and a button opens each tool the items
+  were to move from, where a new scan judges them again.
 
 #### Applications
 
@@ -28,11 +32,14 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   tablet driver, Splashtop Streamer, OpenSC, Box Drive, Webex, GPG Suite, and Datadog Agent are left to the uninstaller
   their makers document: an app's page and `peel uninstall` name it, or say to download it from the maker's page, and
   link to the maker's steps.
+- OpenSC Notify, which comes without a bundle identifier, is known as OpenSC's by where OpenSC puts it and by its
+  signature's team, and is left to OpenSC's script like OpenSC. Their pages and `peel uninstall` say that the script
+  leaves the p11-kit module file `/opt/homebrew/etc/pkcs11/modules/opensc.module`, and give the command that removes it.
 - Uninstalling NoMachine lists the connections and recordings it keeps in `Documents/NoMachine` and its favorites in
   `.nx`, as NoMachine's own documentation names them, and leaves them for you to select.
-- Avast Security, AVG AntiVirus, Trend Micro Antivirus, Tuxera NTFS, and Background Music are left to their makers'
-  uninstallers the same way. For Tuxera NTFS that is the script its page gives, since its button in System Settings
-  deletes only Tuxera Disk Manager on macOS 27.
+- Avast Security, AVG AntiVirus, Bitdefender Antivirus for Mac, Bitdefender VPN, Trend Micro Antivirus, Tuxera NTFS, and
+  Background Music are left to their makers' uninstallers the same way. For Tuxera NTFS that is the script its page
+  gives, since its button in System Settings deletes only Tuxera Disk Manager on macOS 27.
 - An app's page and several apps' page list under Commands to Run the commands a removal leaves you, such as
   `battery uninstall` or the one that removes what an app leaves in `/etc`, each with a button to copy it, since the
   question before the move can't be copied from. The alert after the move gives again those still to run, with Copy
@@ -108,6 +115,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   items, and Not Moved up to 5,000. `peel history` says the same.
 - History says while it keeps aside a copy of History or of its journal it couldn't read, with Show in Finder, and `peel
   history` notes each one.
+- Put Back of what Peel's helper moved no longer waits for the drive after each item, which made it about ten times
+  slower than the move.
 
 #### Settings
 
@@ -147,7 +156,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   row says why: models are a long download to get back, and the ones you made or imported may exist only there.
 - What an app opens by default is one row of badges under Default App for N Kinds of Files: each names the app that
   would open those kinds once it's gone, with how many, and No app counts the kinds nothing else on this Mac opens. A
-  click on a badge lists them, kinds of one name together with their extensions. Links have a row of their own.
+  click on a badge lists them, kinds of one name together with their extensions. Links have a row of their own. The
+  section opens and closes from its heading, and starts closed.
+- The note on an app that removes itself once it leaves Applications, such as Mullvad VPN, or that its maker's
+  uninstaller removes, is one line, with the rest behind its circled i.
 
 #### Orphaned Files
 
@@ -157,6 +169,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Package Receipts
 
 - A receipt of 20,000 lines opens in less than half the time.
+- Once a move leaves nothing of what a package installed on the disk, its page asks right away whether to forget the
+  receipt too, or once the move's alert closes.
 
 #### Homebrew
 
@@ -166,6 +180,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   your exclusions, no longer only that it can't check them.
 - Why Uninstall or Upgrade is turned off, or what is under way, goes on a line under the buttons, each reason once,
   rather than between the buttons.
+- The questions before Upgrade and Upgrade All say that a cask's upgrade deletes the version of the app it replaces,
+  which History can't put back, and an app's page asks the same question before it upgrades with Homebrew.
 
 #### Space
 
@@ -189,6 +205,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - When copies are alike in where they are and in their names, the one Peel keeps is the one whose move would free the
   least, before the oldest, so moving the others frees the most: of a file and a copy macOS keeps compressed, it keeps
   the compressed one. The same holds for folders, here and in `peel duplicates`.
+- Before moving folder copies, Duplicates reads all of them again in one round rather than one folder after another,
+  about three times faster when each holds one large file.
 
 #### iCloud Drive
 
@@ -226,6 +244,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A removal finds what holds each item faster, and measuring a folder and searching read each name once.
 - On an account that isn't an administrator's, Peel says whether its helper is installed, waiting to be allowed, or not
   answering, and that an administrator sets it up in Peel on their own account, after which this account can use it.
+- The note on folders Peel didn't read says how many and why in one sentence, lists them under Show Folders, each with
+  Show in Finder, and opens Full Disk Access from its own button. Pages with nothing to list, and Intel Software, say it
+  the same short way.
+- Every note's title is in sentence case, on the Homebrew page and in Intel Software too, while the title of a page with
+  nothing to show keeps title case.
 
 #### `peel`
 
@@ -258,6 +281,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Updates Peel finds while macOS doesn't show its notifications are told once you turn them on, no longer passed over
   as told.
 
+#### Finder
+
+- Uninstall with Peel is offered for an app on any disk that can be written to, not only on the startup disk. An
+  installer's disk image, which can only be read, still gets nothing.
+
 #### Tweaks
 
 - On macOS 27, a switch's long title is no longer drawn smaller, or cut, to make room for the switch, as in Romanian
@@ -271,6 +299,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   is making: there the copy goes on to the end.
 - Choose… for the screenshot folder opens as a sheet of the window, so nothing else on the page can be pressed while it
   is open, and the row says when the folder chosen can't take screenshots.
+- The note on a row that shows a folder or a name, such as where screenshots go, says Peel shows there what you change
+  in macOS, no longer that a switch the row doesn't have follows it.
 
 #### Terminal
 
@@ -324,6 +354,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Trash.
 - What moved while History couldn't be written, as on a full disk, goes into History as soon as History can be written
   again, while Peel still runs, rather than at Peel's next launch.
+- After a Move to Trash of items from several pages, Not Moved lists every item the alert says stayed, no longer one
+  fewer.
 
 #### Settings
 
@@ -538,6 +570,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   apps' page.
 - After a removal, the lines of the shell startup files that still name what moved include those of the .zshrc a
   ZDOTDIR given after a condition on one line points to.
+- A long list of extensions in what an app opens by default breaks between two extensions, no longer inside one.
 
 #### Orphaned Files
 
@@ -676,6 +709,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Upgrade and Uninstall ask the exclusions again as they start, and run nothing for a package the exclusions keep.
 - Uninstall is no longer turned off for a formula because a formula it uses is excluded: only the package's own
   exclusion stops it.
+- After Stop, an upgrade ends as stopped: the sheet with Homebrew's output says Homebrew stopped, rather than that it
+  couldn't finish, an app's page says so too and sends no notification, and a stop between Upgrade All's two calls no
+  longer counts as a finished run.
 
 #### Space
 
@@ -697,6 +733,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Only a released .NET SDK counts as newer: a preview no longer gives the stable SDK in use the note that a newer one is
   installed.
 - Homebrew Data reads the name of a folder a formula keeps under `var` without the punctuation of the sentence it ends.
+- On macOS 27, the notes above Space's list, such as what macOS clears by itself, take the lines their words need, no
+  longer cut off on one.
 
 #### Developer
 
@@ -773,6 +811,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   shared.
 - After another page moved the copy Duplicates keeps, one of the others stays unselected, so Move to Trash no longer
   refuses them all.
+- A copy whose disk is ejected while Duplicates moves its group says its disk is no longer connected, rather than that
+  the copy Peel kept changed or moved.
 
 #### iCloud Drive
 - When iCloud Drive itself can't be read but Desktop and Documents can, their files are listed with a note and a total
@@ -822,6 +862,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   command `env` or `nohup` runs.
 - A daemon whose file in /Library/LaunchDaemons is a link, as MacPorts makes it, shows as one row after Load, rather
   than as two rows saying it wasn't loaded.
+- A copy of Peel's helper's file put in `/Library/LaunchDaemons` by hand is no longer called Peel's helper, and the
+  question before its move no longer says Peel stops a job launchd doesn't have loaded.
+- On the page of a job whose app its maker's uninstaller removes, the circled i says that changing the job can keep the
+  app from working, no longer that Peel leaves it where it is.
 
 #### Extensions
 
@@ -909,6 +953,14 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The time macOS's question about another app's data stays on screen no longer counts against the time a read is given,
   so iCloud Drive no longer says it ran out of time when the question took it.
 - An item a full disk keeps from moving says its disk is full, rather than giving the system's error.
+- Where the button at a page's foot shows only its symbol, as in French and Dutch in the narrowest column, the pointer
+  shows its title.
+- An item whose name held nothing as it was to move, such as one swapped for a link at that moment, no longer stays
+  without a word: once the move is over, what came back to its name is said to have changed since the scan.
+- After a Move to Trash, every page whose list shows something that moved, sits inside it, or holds it reads its list
+  again, so Duplicates no longer shows a copy another page moved, the one it keeps included.
+- On macOS 27, Peel no longer quits 30 seconds after a shortcut's Show in Peel opens it in the background: it stays open
+  while its window or its menu bar item shows.
 
 #### `peel`
 
@@ -964,17 +1016,18 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   github.com.
 - A `PEEL_MEASURE` report is written through descriptors from the home folder down, so a link put at `Library`,
   `Logs`, or `Peel` on the way is never followed.
-- Homebrew, Git, and zsh as it reads your startup files start as their own responsible process, so they no longer
-  reach what you gave Peel, such as Full Disk Access: any program of your account can rewrite them. Only a Homebrew
-  upgrade or uninstall you ask for runs with Peel's App Management. After a removal, Peel finds your shell's startup
-  files without running them, and the Terminal page's Shell tab runs them only when you press Ask zsh: until then it
-  goes by what their text says, and says when that can't tell which `.zshrc` zsh reads.
+- Homebrew, Git, and zsh as it reads your startup files start as their own responsible process, so they no longer reach
+  what you gave Peel, such as Full Disk Access: any program of your account can rewrite them. Only the upgrade or
+  uninstall of a cask you ask for, which replaces or removes an app, runs with Peel's App Management. After a removal,
+  Peel finds your shell's startup files without running them, and the Terminal page's Shell tab runs them only when you
+  press Ask zsh: until then it goes by what their text says, and says when that can't tell which `.zshrc` zsh reads.
 - A Homebrew chosen in Settings outside `/opt/homebrew` and `/usr/local` has its upgrades and uninstalls handed to
   Terminal, since which `brew` Peel runs is a file any program of your account can write.
 - Put Back puts nothing inside an app: a record of History written by hand could place a file in another app's
   bundle, and Peel moves an app only whole.
-- Putting back a saved copy of an app's settings no longer replaces one of Apple's settings that isn't the app's own,
-  nor the settings of an app you excluded, when a file for them was added to the copy's folder.
+- Putting back a saved copy of an app's settings puts back only what a reset of that app saves, its own settings and
+  those of what it carries inside it: a file added to the copy's folder no longer replaces another app's settings, one
+  of Apple's, or an excluded app's.
 - Peel's own updates come only from the feed its app names, and Peel sends no profile of your Mac, whatever its
   preferences hold.
 - An app can no longer have another installed app's files selected for its uninstall by naming, among what its bundle
@@ -1000,6 +1053,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The helper writes a line to the Mac's log for each request: what was asked, for which account, and what came of it,
   with the path of an item it left in place kept private.
 - A link to an update's notes in a feed needs a host as well as https.
+- Open Uninstaller reads the whole seal of a maker's uninstaller, every file and every architecture, right before it
+  opens it, so one changed after its maker signed it, which would then ask for an administrator's password, no longer
+  opens, and Peel says why.
+- An item in a Library no longer moves when a folder on its way there became a link after the scan, which could have
+  moved something on another disk that was never listed: it stays, and says why.
 
 ## 1.3.0 (2026-11-04)
 

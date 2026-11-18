@@ -143,7 +143,9 @@ and as the system names it, spelled as the disk stores it.
 **Between the check and the move.** A check made by name and a move made by name are two looks at
 the disk, and between them a folder can be swapped for a link into Messages by anything running as you. So
 Peel holds the folder open, asks the question again about the name the system gives that open folder, and
-moves the item through it: whatever the old name leads to by then is not touched. A rename still takes whatever
+moves the item through it: whatever the old name leads to by then is not touched. In a Library, an item stays when a
+folder on its way there, below a folder such as Application Support, has become a link since the scan: no scan walks
+into a link there, so what it leads to, on another disk perhaps, was never listed. A rename still takes whatever
 holds the name at that instant; for Peel's own moves that is something your account could have moved anyway, and
 its helper, which moves what only root can, checks each item once more in a folder only root can reach, as the
 section on the helper says. Putting an item back holds the folder it returns to in the same way. The cost is that
@@ -238,9 +240,11 @@ the empty settings file macOS writes back when Peel forgets a preference domain,
 of refusals, with any copy of it set aside because it couldn't be read, goes to the Trash when
 `peel history --refused --clear` is asked to forget it, after a question.
 
-Four things Peel starts can't be undone by History, and Peel says so before you confirm each of them:
+Five things Peel starts can't be undone by History, and Peel says so before you confirm each of them:
 
 - Homebrew's own uninstall, which deletes what it removes.
+- A cask's upgrade, which deletes the version of the app it replaces. A formula's upgrade keeps its earlier versions
+  until a cleanup.
 - Homebrew's cleanups (Clean Up, and clearing older or every download), which delete what they remove, the broken
   links and empty folders in Homebrew's prefix included (on a Mac with an Intel processor, `/usr/local`). An upgrade
   from the Homebrew page never cleans up on its own, although Homebrew would by default; if
@@ -294,7 +298,7 @@ it was made), so once the Trash is emptied, another item that lands in the same 
 Nor does it put anything back inside an app, since Peel moves an app only whole.
 History offers to forget a record only once its item has certainly left the Trash, or is on a disk you say won't come
 back, asks first, and looks again just before; an item Peel isn't allowed to look at is shown as not known and kept.
-Forget What Left the Trash does the same for every removal at once, and never takes what is on a disk that isn't
+Forget… at the foot of History does the same for the removals you check, and never takes what is on a disk that isn't
 connected.
 
 ## What Peel changes besides moving files
@@ -309,7 +313,7 @@ Some of what Peel does is not a move to the Trash. Each is here with how it is u
 | An app's privacy permissions are reset, only when you choose it | Can't be undone: the app asks again for each permission |
 | An app Launch Services knows no copy of is registered with it before its privacy permissions are reset, since `tccutil` finds an app only through Launch Services, and an app History puts back is registered again | Nothing to undo: it is the same record macOS makes of an app Finder shows |
 | Homebrew uninstalls a package, or cleans up its downloads, the old versions it kept, and the formulae nothing needs anymore | Can't be undone: Homebrew deletes what it removes |
-| Homebrew upgrades a package, updates itself and its taps, or repairs its taps' links (Upgrade, Upgrade All, Update, Repair Taps) | Not through History: an upgrade replaces the version that was installed, and the earlier versions of a formula stay until you clean up |
+| Homebrew upgrades a package, updates itself and its taps, or repairs its taps' links (Upgrade, Upgrade All, Update, Repair Taps) | Not through History: an upgrade replaces the version that was installed, a cask's deleting the app it replaces, and the earlier versions of a formula stay until you clean up |
 | An app that would not quit is force quit, only when you choose it | Can't be undone: what the app had not saved is lost |
 | Remove Downloads frees this Mac's copy of a file in iCloud Drive | The file stays in iCloud and downloads again when you open it |
 | Build Artifacts leaves a project's build folders out of Time Machine, when you ask it to | The same checkbox takes the mark off, and leaves alone a mark a tool put on what Peel never marks |
@@ -422,16 +426,19 @@ Cyber Security, Microsoft Defender, Netskope Client, FortiClient, Bitdefender En
 Endpoint, Symantec Endpoint Protection, Zscaler Client Connector, Datadog Agent, ExpressVPN, Private Internet Access,
 Cloudflare WARP, ZeroTier, Tunnelblick, IVPN, Splashtop Streamer, OpenSC, Arq, CrashPlan, Backblaze, Carbon Copy Cloner,
 Box Drive, Webex, GPG Suite, Laravel Herd, Multipass, Karabiner-Elements, iStat Menus, Wacom Center and Wacom Display
-Settings, Disk Drill, Malwarebytes, Kaspersky, Avast Security, AVG AntiVirus, Trend Micro Antivirus, Tuxera NTFS, and
-Background Music) is listed the same way, and nothing of it can be selected: its page names the maker's uninstaller, or
-opens the app whose own command removes it, and links to the maker's instructions, since moved from its place, what it
-keeps in the system and the settings that manage it would stay behind. Peel knows it by the team its checked signature
-names, a signature that seals the app's own Info.plist, and by its identifier, both as the maker documents or signs
-them, never by the identifier alone, which any app could claim. `peel uninstall` refuses it and names the same
-uninstaller, and Background Items says the same on the app's jobs and asks before it disables one or moves its file to
-the Trash. An uninstaller its maker documents opening to remove a product, such as Google's Chrome Remote Desktop Host
-Uninstaller, Wacom Tablet Utility, or Avast Security Uninstaller, is treated the same way: moved on its own, it would
-leave the product installed, so its page offers to open it instead.
+Settings, Disk Drill, Malwarebytes, Kaspersky, Avast Security, AVG AntiVirus, Bitdefender Antivirus for Mac, Bitdefender
+VPN, Trend Micro Antivirus, Tuxera NTFS, and Background Music) is listed the same way, and nothing of it can be
+selected: its page names the maker's uninstaller, or opens the app whose own command removes it, and links to the
+maker's instructions, since moved from its place, what it keeps in the system and the settings that manage it would stay
+behind. Peel knows it by the team its checked signature names, a signature that seals the app's own Info.plist, and by
+its identifier, both as the maker documents or signs them, never by the identifier alone, which any app could claim; an
+app its maker ships without an identifier, such as OpenSC Notify, is known instead by the place the maker puts it, with
+the same team. `peel uninstall` refuses it and names the same uninstaller, and Background Items says the same on the
+app's jobs and asks before it disables one or moves its file to the Trash. An uninstaller its maker documents opening to
+remove a product, such as Google's Chrome Remote Desktop Host Uninstaller, Wacom Tablet Utility, or Avast Security
+Uninstaller, is treated the same way: moved on its own, it would leave the product installed, so its page offers to open
+it instead. Before Peel opens a maker's uninstaller it reads the uninstaller's whole seal, every file and every
+architecture, and opens none that changed after its maker signed it.
 
 An app carrying a system extension macOS installed, such as a VPN's network extension or a virtual camera, is listed
 the same way, and nothing of it can be selected: moved by Peel, the app would leave the extension installed, while
@@ -654,7 +661,8 @@ and on Package Receipts. Its other files, such as plug-ins or a folder named aft
 own paths, so to keep them, exclude them too.
 
 Exclusions reach the Homebrew page too, since Homebrew deletes for good: Peel never runs `brew uninstall` or `brew
-upgrade`, which deletes the version it replaces, for a package whose app or own folder you excluded, or anything else it
+upgrade`, which replaces what is installed and deletes a cask's old app, for a package whose app or own folder you
+excluded, or anything else it
 placed or its `uninstall` stanza names, nor for one with a folder Peel can't look into for an app you excluded, nor for
 any package while your list isn't read or can't be,
 and Homebrew's cleanup keeps every formula whose folder you excluded. While Peel can't read Homebrew's Cellar, or can't
@@ -674,9 +682,10 @@ A reset clears an app's settings and never the app itself.
 - Before anything moves, Peel saves the app's settings, and if that copy fails, nothing moves. Settings lists the saved
   copies, where each can be put back or moved to the Trash, since one can hold a license key, and they stay until you
   move them there. Putting one back asks first, and saves the settings the app has now as a copy of their own before it
-  replaces them. A copy is a folder any program of your account can add a file to, so putting one back never
-  replaces one of Apple's settings unless it is the app's own, nor the settings of an app you excluded. Any other
-  settings file in the folder goes back with the rest.
+  replaces them. A copy is a folder any program of your account can add a file to, so putting one back takes only
+  what a reset of that app saves, its own settings and those of what it carries inside it, never one of Apple's
+  settings unless it is the app's own, nor the settings of an app you excluded. Any other settings file in the folder
+  stays there.
 - What the app keeps for you (its Application Support folder, group containers, and application scripts) goes only
   when you select it, and is never offered for Mail, Messages, Notes, or Photos.
 - Inside a sandboxed app's container, a reset touches only the app's preferences, saved state, caches, logs, and web
