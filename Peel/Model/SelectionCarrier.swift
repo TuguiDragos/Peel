@@ -107,16 +107,15 @@ final class SelectionCarrier {
         defer { moving.forEach { $0.isRemoving = false } }
         await progress.run(toMove: parts.reduce(0) { $0 + $1.count }) {
             var removal = RemovalInProgress()
+            let batch = removal.batch
             var appsToQuit: [String] = []
             let pass = await QuitGuard.shared.run {
                 // Every part shares one administrator's approval, for an account that isn't one.
                 await PrivilegedHelper.withOneConsent {
-                    await CarriedSelection.pass(parts) { part in
+                    await CarriedSelection.pass(parts, move: { part in
                         // What a part moves is written down with the removal and the part, so a stop before the part is
                         // recorded leaves one removal in History, not two.
-                        let recorded = RecordedRemoval(
-                            batch: removal.batch, part: part.removalPart, sizes: part.measuredSizes
-                        )
+                        let recorded = RecordedRemoval(batch: batch, part: part.removalPart, sizes: part.measuredSizes)
                         guard let tool = tool(of: part),
                               let result = await RecordedRemoval.$current.withValue(recorded, operation: {
                                   await tool.move(part, apps: apps)
@@ -125,9 +124,10 @@ final class SelectionCarrier {
                             appsToQuit.append(tool(of: part)?.appToQuit(for: part) ?? part.title)
                             return nil
                         }
-                        await history.record(result, part: part.removalPart, sizes: part.measuredSizes, in: &removal)
                         return result
-                    }
+                    }, recording: { part, result in
+                        await history.record(result, part: part.removalPart, sizes: part.measuredSizes, in: &removal)
+                    })
                 }
             }
             history.finish(removal)

@@ -188,14 +188,17 @@ public struct CarriedSelection: Sendable {
     }
 
     /// Moves each part in turn with `move`, which runs the part's own tool with its own checks and answers nil when
-    /// the tool kept the whole part (an app it waits for was opened, for example). Every part is tried, whatever
-    /// came of the ones before.
-    public static func pass(_ parts: [Part], move: (Part) async -> TrashResult?) async -> Pass {
+    /// the tool kept the whole part (an app it waits for was opened, for example), and hands what came of each part to
+    /// `recording`, as the pass tells it. Every part is tried, whatever came of the ones before.
+    public static func pass(
+        _ parts: [Part], move: (Part) async -> TrashResult?, recording: (Part, TrashResult) async -> Void = { _, _ in }
+    ) async -> Pass {
         var pass = Pass()
         for part in parts {
             if var result = await move(part) {
                 // A tool moves what its page lists and selects now, so what changed since the question stays.
                 result.failures += part.unaccounted(by: result).map { TrashFailure(url: $0, reason: .changedSinceScan) }
+                await recording(part, result)
                 pass.moved.append((part, result))
             } else {
                 pass.kept.append(part)

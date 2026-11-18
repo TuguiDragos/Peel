@@ -136,6 +136,20 @@ struct CarriedSelectionTests {
         #expect(pass.result.failures.first { $0.url.lastPathComponent == "gone" }?.reason == .changedSinceScan)
     }
 
+    @Test func whatIsRecordedOfAPartIsWhatThePassTells() async {
+        let parts = [part("orphans", "org.example.chat", ["Chat": 100, "gone": 5])]
+        var recorded: [TrashFailure] = []
+        let pass = await CarriedSelection.pass(parts, move: { _ in
+            let folder = URL(filePath: "/Users/x/Chat")
+            return TrashResult(trashed: [TrashedItem(originalURL: folder, trashedURL: folder, date: .now)])
+        }, recording: { _, result in
+            recorded += result.failures
+        })
+
+        #expect(recorded.map(\.url) == pass.result.failures.map(\.url))
+        #expect(recorded.map(\.url.lastPathComponent) == ["gone"])
+    }
+
     /// What a pass did is told once, whichever parts it came from: every item the parts moved, and every one
     /// their tools refused.
     @Test func aPassTellsWhatEveryPartMovedAndRefused() async {
