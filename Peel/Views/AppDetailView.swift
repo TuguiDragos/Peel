@@ -13,6 +13,7 @@ struct AppDetailView: View {
     @State private var isRescanning = false
     @State private var progress = MoveProgress()
     @State private var isConfirmingPrivacyReset = false
+    @State private var defaultAppsOpenFor: URL?
     /// The result of the last privacy reset started from the More menu, shown under the buttons.
     @State private var privacyReset: PrivacyReset.Result?
     @State private var upgradeOutput: HomebrewLibrary.CommandResult?
@@ -200,7 +201,7 @@ struct AppDetailView: View {
                     recommendedSection
                     reviewSection
                     AppRemovalOptions(plan: plan)
-                    DefaultAppsSection(roles: plan.defaultRoles)
+                    DefaultAppsSection(roles: plan.defaultRoles, app: plan.app.url, openFor: $defaultAppsOpenFor)
                     PackageReceiptSection(plan: plan)
                 }
                 .dimmedWhileBusy(isAtWork)

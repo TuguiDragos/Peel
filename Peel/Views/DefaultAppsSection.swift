@@ -2,22 +2,36 @@ import PeelCore
 import SwiftUI
 
 /// What an app opens by default: a row of badges for its kinds of files and one for its kinds of links, each badge
-/// naming the app that would open them once it is gone, or No app, and opening their list.
+/// naming the app that would open them once it is gone, or No app, and opening their list. Its heading opens and
+/// closes it, as the sidebar's groups do, and it starts closed for every app.
 struct DefaultAppsSection: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     let roles: [DefaultRole]
+    /// The app the page shows.
+    let app: URL
+    /// The app the section is open for, so the page of another app finds it closed.
+    @Binding var openFor: URL?
+
+    private var isExpanded: Bool { openFor == app }
+
+    private func toggle() {
+        withAnimation(reduceMotion ? nil : Motion.step.animation) {
+            openFor = isExpanded ? nil : app
+        }
+    }
 
     var body: some View {
         let files = DefaultApps.handOvers(roles, of: .fileKind)
         let links = DefaultApps.handOvers(roles, of: .link)
         if !files.isEmpty || !links.isEmpty {
             Section {
-                if !files.isEmpty {
+                if isExpanded, !files.isEmpty {
                     HandOverRow(
                         lead: links.isEmpty ? "Once it’s gone, they open with" : "Once it’s gone, its files open with",
                         handOvers: files, kind: .fileKind
                     )
                 }
-                if !links.isEmpty {
+                if isExpanded, !links.isEmpty {
                     HandOverRow(lead: "Once it’s gone, its links open with", handOvers: links, kind: .link)
                 }
             } header: {
@@ -26,9 +40,21 @@ struct DefaultAppsSection: View {
                     Text(verbatim: title)
                         .accessibilityAddTraits(.isHeader)
                         .accessibilityHeading(.h2)
+                        .onTapGesture(perform: toggle)
                     InfoNote(
                         name: title, detail: Text(verbatim: Self.note(files: !files.isEmpty, links: !links.isEmpty))
                     )
+                    Spacer(minLength: 0)
+                    Button(action: toggle) {
+                        Image(systemName: "chevron.right")
+                            .font(.caption.weight(.bold))
+                            .foregroundStyle(.secondary)
+                            .rotationEffect(.degrees(isExpanded ? 90 : 0))
+                            .minimumTarget()
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(Text(verbatim: title))
+                    .accessibilityValue(isExpanded ? Text("Expanded") : Text("Collapsed"))
                 }
             }
         }
