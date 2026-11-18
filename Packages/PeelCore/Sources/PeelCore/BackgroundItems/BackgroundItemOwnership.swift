@@ -167,8 +167,9 @@ public struct BackgroundItemOwnership: Sendable {
         let gone = remembered.filter {
             $0.teamIdentifier == team && byIdentifier[$0.bundleIdentifier.lowercased()] == nil
         }
+        guard !gone.isEmpty else { return nil }
         let mounted = MountedDisks.now()
-        guard !gone.isEmpty, gone.allSatisfy({ $0.stillInstalled(on: mounted) == nil }) else { return nil }
+        guard gone.allSatisfy({ $0.stillInstalled(on: mounted) == nil }) else { return nil }
         if let named = AppMemory.app(for: job.label, in: gone) { return named }
         let associated = Set(job.associated.map { $0.lowercased() })
         if let named = gone.first(where: { associated.contains($0.bundleIdentifier.lowercased()) }) { return named }
