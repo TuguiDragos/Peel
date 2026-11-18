@@ -114,6 +114,7 @@ struct SpaceList: View {
                     Text("Apple Intelligence can keep up to \(size.byteCount) on this Mac, by Apple’s figure.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                        .wrapsInARow()
                     Link(destination: Links.appleIntelligenceGuide) {
                         Text("How to Turn Off Apple Intelligence Features, in the Mac User Guide")
                             .minimumTarget()
@@ -126,6 +127,7 @@ struct SpaceList: View {
                     modelsLine(models)
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                        .wrapsInARow()
                     Button {
                         Navigator.shared.requestedTool = .developer
                     } label: {
@@ -187,10 +189,12 @@ struct DiskBands: View {
                         Text("The available space includes \(purgeable.byteCount) that macOS clears when something needs the room.")
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                            .wrapsInARow()
                     } else if disk.purgeable == nil {
                         Text("Peel couldn’t find out how much of the available space macOS clears by itself.")
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                            .wrapsInARow()
                     }
                     let kept = snapshots.first { $0.volume == disk.snapshotVolume }
                     if let list = kept?.snapshots, !list.isEmpty {
@@ -199,6 +203,7 @@ struct DiskBands: View {
                         Text("Peel couldn’t list the snapshots kept on this disk, which may hold some of its space.")
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                            .wrapsInARow()
                     }
                 }
             }
@@ -294,6 +299,18 @@ private struct SpaceRow: View {
         } trailing: {
             Text(item.size.text)
                 .rowFigure()
+        }
+    }
+}
+
+private extension View {
+    /// macOS 27 draws the text of a list row on one line unless it asks for its full height; macOS 26 wraps it.
+    @ViewBuilder
+    func wrapsInARow() -> some View {
+        if #available(macOS 27, *) {
+            fixedSize(horizontal: false, vertical: true)
+        } else {
+            self
         }
     }
 }
