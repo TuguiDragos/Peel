@@ -108,6 +108,13 @@ public enum UnusualCommand: String, Sendable, Hashable {
         }
     }
 
+    /// What `arguments` run from disk: the program, past a launcher such as `env`, and the script an interpreter runs.
+    static func runs(_ arguments: [String]) -> [String] {
+        let arguments = withoutLauncher(arguments)
+        guard let program = arguments.first else { return [] }
+        return [program] + [given(arguments, as: (program as NSString).lastPathComponent).script].compactMap(\.self)
+    }
+
     /// The command `env` or `nohup` runs (`man env`, `man nohup`): past `env`'s options, `-C`, `-P` and `-u` with their
     /// value, and then its `NAME=value` settings. `env -S`, which splits a string into the command, is left as it is.
     private static func withoutLauncher(_ arguments: [String]) -> [String] {

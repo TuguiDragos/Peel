@@ -1767,6 +1767,35 @@ struct OrphanScannerTests {
         #expect(still.isEmpty)
     }
 
+    @Test func whatALiveJobRunsThroughAShellOrALauncherIsNeverAnOrphan() async throws {
+        let withJobs = try TemporaryDirectory()
+        let withoutJobs = try TemporaryDirectory()
+        func files(in directory: borrowing TemporaryDirectory) throws -> (script: String, program: String) {
+            (
+                try directory.file("home/Library/Application Support/org.example.scripted/run.sh")
+                    .path(percentEncoded: false),
+                try directory.file("home/Library/Application Support/org.example.launched/bin/agent")
+                    .path(percentEncoded: false)
+            )
+        }
+        let (script, program) = try files(in: withJobs)
+        _ = try files(in: withoutJobs)
+        try withJobs.file(
+            "home/Library/LaunchAgents/org.example.runner.plist",
+            contents: job("org.example.runner", runs: ["/bin/sh", "-e", script])
+        )
+        try withJobs.file(
+            "home/Library/LaunchAgents/org.example.starter.plist",
+            contents: job("org.example.starter", runs: ["/usr/bin/env", "MODE=quiet", program])
+        )
+
+        let scanned = await scanner(in: withJobs).scan(installedApps: installed).groups.flatMap(\.items)
+        let unclaimed = await scanner(in: withoutJobs).scan(installedApps: installed).groups.flatMap(\.items)
+
+        #expect(scanned.isEmpty, "\(scanned.map(\.url.path))")
+        #expect(Set(unclaimed.map(\.url.lastPathComponent)) == ["org.example.scripted", "org.example.launched"])
+    }
+
     @Test func listsTheJobAndTheProgramOfAnAppThatLeftUnderThatApp() async throws {
         let directory = try TemporaryDirectory()
         let program = try directory.file("root/Library/PrivilegedHelperTools/org.example.synchelper")

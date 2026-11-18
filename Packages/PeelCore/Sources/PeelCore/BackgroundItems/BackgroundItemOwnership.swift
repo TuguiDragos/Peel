@@ -225,6 +225,11 @@ public struct BackgroundItemOwnership: Sendable {
             for plist in files ?? [] where plist.pathExtension == "plist" {
                 guard let job = JobDefinition(contentsOf: plist), !isOrphan(job) else { continue }
                 knowing.liveLabels.insert(job.label.lowercased())
+                // A launcher or an interpreter is the program, and what it runs is what the job needs.
+                for run in UnusualCommand.runs(job.arguments)
+                where run != job.program && run.hasPrefix("/") && Self.exists(run) {
+                    knowing.livePrograms.append((PathPattern.comparablePath(of: URL(filePath: run)), offeredAs: nil))
+                }
                 guard let program = job.program, program.hasPrefix("/"), Self.exists(program) else { continue }
                 let path = PathPattern.comparablePath(of: URL(filePath: program))
                 guard let app = appThatLeft(running: job) else {
