@@ -321,6 +321,12 @@ public struct DuplicateScan: Sendable {
         })
     }
 
+    /// The copies a removal left behind: moved, inside what moved, or, for a folder, holding what moved, so no longer
+    /// the same as the others.
+    public func copies(touchedBy moved: MovedItems) -> Set<URL> {
+        Set((groups.flatMap(\.files).map(\.url) + folderGroups.flatMap(\.folders).map(\.url)).filter(moved.touches))
+    }
+
     /// The copies no longer there in the groups holding any of `urls`, where another page may have taken one this page
     /// never had selected, even the one it keeps.
     public func copiesGone(inGroupsHolding urls: Set<URL>) -> Set<URL> {

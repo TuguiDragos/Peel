@@ -247,7 +247,11 @@ extension SpaceLibrary: CarriesSelection {
         return result
     }
 
-    func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {
+    func lists(_ moved: MovedItems) -> Bool {
+        report?.items.contains { $0.urls.contains(where: moved.touches) } == true
+    }
+
+    func refresh(after parts: [CarriedSelection.Part], moved: MovedItems, apps: AppLibrary) async {
         await refresh(replanning: Set(parts.map(\.page.scope)), keepingTheOpenArea: true)
     }
 

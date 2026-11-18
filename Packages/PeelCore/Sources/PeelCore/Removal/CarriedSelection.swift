@@ -233,3 +233,23 @@ extension Sequence where Element == CarriedSelection.Part {
         return tools
     }
 }
+
+/// What a removal moved, asked of what any page lists: a row is left behind when it is one of the moved items, sits
+/// inside one, or holds one.
+public struct MovedItems: Sendable {
+    private let gone: Set<Substring>
+    /// Every folder above a moved item.
+    private let holding: Set<Substring>
+
+    public init(_ moved: [URL]) {
+        let paths = moved.map(CarriedSelection.writtenPath(of:))
+        gone = Set(paths)
+        holding = Set(paths.flatMap(CarriedSelection.folders(above:)))
+    }
+
+    public func touches(_ url: URL) -> Bool {
+        let path = CarriedSelection.writtenPath(of: url)
+        return gone.contains(path) || holding.contains(path)
+            || CarriedSelection.folders(above: path).contains(where: gone.contains)
+    }
+}

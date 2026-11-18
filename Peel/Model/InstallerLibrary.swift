@@ -140,7 +140,11 @@ extension InstallerLibrary: CarriesSelection {
             .trash(selected.map(\.url), usingHelperFor: privileged)
     }
 
-    func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {
+    func lists(_ moved: MovedItems) -> Bool {
+        scan?.items.contains { moved.touches($0.url) } == true
+    }
+
+    func refresh(after parts: [CarriedSelection.Part], moved: MovedItems, apps: AppLibrary) async {
         await refresh(installedApps: apps.apps)
     }
 

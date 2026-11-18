@@ -15,9 +15,10 @@ final class DuplicateLibrary {
     /// and the default folders stay a default until the user changes the list.
     var folders: [URL] {
         didSet {
-            UserDefaults.standard.set(folders.map { $0.path(percentEncoded: false) }, forKey: Self.foldersKey)
+            defaults.set(folders.map { $0.path(percentEncoded: false) }, forKey: Self.foldersKey)
         }
     }
+    @ObservationIgnored private let defaults: UserDefaults
     var kind = FileKind.any
     var minimumSize = DuplicateScanOptions.defaultMinimumSize
     private(set) var scan: DuplicateScan? {
@@ -51,8 +52,9 @@ final class DuplicateLibrary {
     /// Numbers each scan, so a stopped scan that finishes late can't replace a newer scan's results.
     private var generation = 0
 
-    init() {
-        if let paths = UserDefaults.standard.stringArray(forKey: Self.foldersKey) {
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+        if let paths = defaults.stringArray(forKey: Self.foldersKey) {
             folders = paths.map { URL(filePath: $0, directoryHint: .isDirectory) }
         } else {
             folders = DuplicateFinder().defaultFolders
@@ -350,12 +352,16 @@ extension DuplicateLibrary: CarriesSelection {
         return result
     }
 
+    func lists(_ moved: MovedItems) -> Bool {
+        scan?.copies(touchedBy: moved).isEmpty == false
+    }
+
     /// Takes out of the list what another page moved, which may be a copy this page shows and never had selected, even
-    /// the one it keeps. What this page's own move took is out already.
-    func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {
+    /// the one it keeps, and a folder copy that held what moved. What this page's own move took is out already.
+    func refresh(after parts: [CarriedSelection.Part], moved: MovedItems, apps: AppLibrary) async {
         let asked = selectedURLs.union(selectedFolders).union(parts.flatMap(\.sizes.keys))
         guard let scan else { return }
-        let gone = scan.copiesGone(inGroupsHolding: asked)
+        let gone = scan.copiesGone(inGroupsHolding: asked).union(scan.copies(touchedBy: moved))
         guard !gone.isEmpty else { return }
         narrow(scan, leavingOut: gone)
     }

@@ -291,6 +291,22 @@ struct CarriedSelectionTests {
         #expect(parts.holding(moved).map(\.page.scope) == ["updateDownload", "updateDownload2"])
     }
 
+    @Test func aRowIsLeftBehindWhenItMovedSitsInWhatMovedOrHoldsIt() {
+        let moved = MovedItems([
+            URL(filePath: "/Users/x/Downloads/Film.mov"),
+            URL(filePath: "/Users/x/Library/Caches/pip/", directoryHint: .isDirectory),
+        ])
+
+        #expect(moved.touches(URL(filePath: "/Users/x/Downloads/Film.mov")))
+        #expect(moved.touches(URL(filePath: "/Users/x/Library/Caches/pip")))
+        #expect(moved.touches(URL(filePath: "/Users/x/Library/Caches/pip/http/a.bin")))
+        #expect(moved.touches(URL(filePath: "/Users/x/Library/Caches/", directoryHint: .isDirectory)))
+        #expect(moved.touches(URL(filePath: "/Users/x/Downloads", directoryHint: .isDirectory)))
+        #expect(!moved.touches(URL(filePath: "/Users/x/Downloads/Film.mov.part")))
+        #expect(!moved.touches(URL(filePath: "/Users/x/Library/Caches/pipx")))
+        #expect(!moved.touches(URL(filePath: "/Users/x/Documents", directoryHint: .isDirectory)))
+    }
+
     /// What a pass moved is one History batch, each record under its own part's source and tool, with the size
     /// its page measured, and none for an item whose size was not known.
     @Test func whatMovedIsOneBatchWithEachPartsName() async {

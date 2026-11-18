@@ -210,7 +210,11 @@ extension FileSearchLibrary: CarriesSelection {
         return await FileSearch.trash(files, using: TrashService(exclusions: ExclusionsStore.shared.exclusions))
     }
 
-    func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {
+    func lists(_ moved: MovedItems) -> Bool {
+        results?.files.contains { moved.touches($0.url) } == true
+    }
+
+    func refresh(after parts: [CarriedSelection.Part], moved: MovedItems, apps: AppLibrary) async {
         await search()
     }
 }

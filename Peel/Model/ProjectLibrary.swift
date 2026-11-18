@@ -246,7 +246,11 @@ extension ProjectLibrary: CarriesSelection {
         )
     }
 
-    func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {
+    func lists(_ moved: MovedItems) -> Bool {
+        groups?.contains { $0.artifacts.contains { moved.touches($0.url) } } == true
+    }
+
+    func refresh(after parts: [CarriedSelection.Part], moved: MovedItems, apps: AppLibrary) async {
         await refresh()
     }
 

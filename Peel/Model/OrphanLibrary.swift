@@ -185,7 +185,13 @@ extension OrphanLibrary: CarriesSelection {
         )
     }
 
-    func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {
+    func lists(_ moved: MovedItems) -> Bool {
+        guard let scan else { return false }
+        return scan.groups.contains { $0.items.contains { moved.touches($0.url) } }
+            || scan.forAnAdministrator.contains { moved.touches($0.item.url) }
+    }
+
+    func refresh(after parts: [CarriedSelection.Part], moved: MovedItems, apps: AppLibrary) async {
         await refresh(from: apps)
     }
 

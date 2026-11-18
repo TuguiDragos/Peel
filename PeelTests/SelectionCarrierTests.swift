@@ -12,7 +12,8 @@ struct SelectionCarrierTests {
         var carriedParts: [CarriedSelection.Part] { [] }
         func appToQuit(for part: CarriedSelection.Part) -> String? { openApps[part.page.scope] }
         func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? { nil }
-        func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {}
+        func lists(_ moved: MovedItems) -> Bool { false }
+        func refresh(after parts: [CarriedSelection.Part], moved: MovedItems, apps: AppLibrary) async {}
         func deselect(_ part: CarriedSelection.Part) {}
     }
 
@@ -28,7 +29,8 @@ struct SelectionCarrierTests {
             let item = try? JSONDecoder().decode(TrashedItem.self, from: Data(json.utf8))
             return TrashResult(trashed: [item].compactMap(\.self))
         }
-        func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {}
+        func lists(_ moved: MovedItems) -> Bool { false }
+        func refresh(after parts: [CarriedSelection.Part], moved: MovedItems, apps: AppLibrary) async {}
         func deselect(_ part: CarriedSelection.Part) {}
     }
 
@@ -42,9 +44,23 @@ struct SelectionCarrierTests {
             seen += [isRemoving, other?.isRemoving ?? true]
             return TrashResult()
         }
-        func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async {
+        func lists(_ moved: MovedItems) -> Bool { false }
+        func refresh(after parts: [CarriedSelection.Part], moved: MovedItems, apps: AppLibrary) async {
             seen += [isRemoving, other?.isRemoving ?? true]
         }
+        func deselect(_ part: CarriedSelection.Part) {}
+    }
+
+    /// A tool with nothing selected that lists `listed`, and counts how often it is brought up to date.
+    private final class Listing: CarriesSelection {
+        var isRemoving = false
+        let listed: [URL]
+        var refreshed = 0
+        init(_ listed: [URL]) { self.listed = listed }
+        var carriedParts: [CarriedSelection.Part] { [] }
+        func lists(_ moved: MovedItems) -> Bool { listed.contains(where: moved.touches) }
+        func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult? { TrashResult() }
+        func refresh(after parts: [CarriedSelection.Part], moved: MovedItems, apps: AppLibrary) async { refreshed += 1 }
         func deselect(_ part: CarriedSelection.Part) {}
     }
 
@@ -138,5 +154,31 @@ struct SelectionCarrierTests {
         #expect(space.seen == Array(repeating: true, count: 4))
         #expect(!developer.isRemoving && !space.isRemoving)
         #expect(orphans.seen.isEmpty && !orphans.isRemoving)
+    }
+
+    @Test func aToolShowingWhatAnotherPageMovedIsBroughtUpToDate() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let made = try MadeUpDefaults()
+        defer { made.forget() }
+        let showing = Listing([URL(filePath: "/Users/me/npm/_cacache/index")])
+        let elsewhere = Listing([URL(filePath: "/Users/me/Documents/a.bin")])
+        let carrier = SelectionCarrier(
+            tools: [.developer: Recording(), .duplicates: showing, .fileSearch: elsewhere],
+            apps: AppLibrary(
+                defaults: made.defaults, releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "notes.json"))
+            ),
+            history: RemovalHistoryStore(
+                log: RemovalLog(url: folder.appending(path: "removals.json")),
+                refusals: RefusalLog(url: folder.appending(path: "refusals.json")),
+                knowsTheExclusions: { true }
+            ),
+            outcome: RemovalOutcome()
+        )
+
+        await carrier.move([part("npm")])
+
+        #expect(showing.refreshed == 1)
+        #expect(elsewhere.refreshed == 0)
     }
 }

@@ -864,6 +864,38 @@ struct DuplicateFinderTests {
         #expect(DuplicateGroup(id: "c", files: [plain, clone]).sharesStorage)
     }
 
+    @Test func aCopyIsLeftBehindWhenItMovedOrAFolderCopyLostWhatMoved() {
+        func file(_ path: String) -> DuplicateFile {
+            DuplicateFile(
+                url: URL(filePath: path), size: 100, reclaimableSize: 100, allocatedSize: 100,
+                identity: FileIdentity(stat())
+            )
+        }
+        func folder(_ path: String) -> DuplicateFolder {
+            DuplicateFolder(
+                url: URL(filePath: path, directoryHint: .isDirectory), fileCount: 1, size: 100, reclaimableSize: 100,
+                contents: "", neverProjects: []
+            )
+        }
+        let files = DuplicateGroup(id: "a", files: [file("/Users/me/Downloads/a.dmg"), file("/Users/me/Desktop/a.dmg")])
+        let folders = DuplicateFolderGroup(
+            id: "b", folders: [folder("/Users/me/Photos"), folder("/Users/me/Old/Photos")]
+        )
+        let scan = DuplicateScan(
+            groups: [files], folderGroups: [folders], unreadableLocations: [], skippedLocations: [],
+            needsFullDiskAccess: false
+        )
+
+        let touched = scan.copies(touchedBy: MovedItems([
+            URL(filePath: "/Users/me/Downloads/a.dmg"), URL(filePath: "/Users/me/Old/Photos/1.jpg"),
+        ]))
+
+        #expect(touched == [
+            URL(filePath: "/Users/me/Downloads/a.dmg"), URL(filePath: "/Users/me/Old/Photos", directoryHint: .isDirectory),
+        ])
+        #expect(scan.copies(touchedBy: MovedItems([URL(filePath: "/Users/me/Documents/a.dmg")])).isEmpty)
+    }
+
     @Test func whatCopiesWouldFreeStopsAtTheLargestNumberAServerCanReport() {
         func file(_ name: String) -> DuplicateFile {
             DuplicateFile(

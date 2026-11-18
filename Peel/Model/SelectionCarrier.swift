@@ -15,8 +15,11 @@ protocol CarriesSelection: AnyObject {
     /// Moves what is still selected of `part`, by the tool's own routine and checks. Nil, moving nothing, when the
     /// tool keeps the whole part because one of its apps is open.
     func move(_ part: CarriedSelection.Part, apps: AppLibrary) async -> TrashResult?
-    /// Brings the tool up to date once `parts` have moved, as after its own Move to Trash.
-    func refresh(after parts: [CarriedSelection.Part], apps: AppLibrary) async
+    /// Whether the tool's list shows an item of `moved`, something inside one, or a folder holding one.
+    func lists(_ moved: MovedItems) -> Bool
+    /// Brings the tool up to date once `parts` have moved, as after its own Move to Trash, or once something its list
+    /// shows is among `moved`.
+    func refresh(after parts: [CarriedSelection.Part], moved: MovedItems, apps: AppLibrary) async
     func deselect(_ part: CarriedSelection.Part)
     /// Chooses the page in its tool, so the tool shows it when it is shown.
     func choose(_ page: CarriedSelection.Page)
@@ -135,14 +138,17 @@ final class SelectionCarrier {
             for part in pass.refused {
                 tool(of: part)?.deselect(part)
             }
-            // A tool whose selection holds what another page moved is brought up to date as well, and one that refused
-            // a part, which may be because of what another page moved.
-            let held = Tool.Group.allCases.flatMap(\.tools).compactMap { tools[$0] }.flatMap(\.carriedParts)
+            // A tool whose selection holds what another page moved is brought up to date as well, one whose list shows
+            // it, and one that refused a part, which may be because of what another page moved.
+            let order = Tool.Group.allCases.flatMap(\.tools)
+            let held = order.compactMap { tools[$0] }.flatMap(\.carriedParts)
                 .holding(pass.result.trashed.map(\.originalURL))
             let changed = pass.moved.map(\.part) + held + pass.refused
-            for name in changed.tools {
+            let moved = MovedItems(pass.result.trashed.map(\.originalURL))
+            let showing = order.filter { tools[$0]?.lists(moved) == true }.map(\.rawValue)
+            for name in changed.tools + showing.filter({ !changed.tools.contains($0) }) {
                 guard let tool = Tool(rawValue: name) else { continue }
-                await tools[tool]?.refresh(after: changed.filter { $0.page.tool == name }, apps: apps)
+                await tools[tool]?.refresh(after: changed.filter { $0.page.tool == name }, moved: moved, apps: apps)
             }
         }
     }
