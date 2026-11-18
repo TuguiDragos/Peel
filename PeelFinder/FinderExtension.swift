@@ -6,8 +6,15 @@ final class FinderExtension: FIFinderSync {
     override init() {
         super.init()
         // Finder tells the extension what is selected only inside the folders it watches (`selectedItemURLs` in
-        // FinderSync.h). An app can sit anywhere, so the extension watches the whole disk.
-        FIFinderSyncController.default().directoryURLs = [URL(filePath: "/", directoryHint: .isDirectory)]
+        // FinderSync.h). An app can sit anywhere, so the extension watches the startup disk and every other disk
+        // mounted, again as disks come and go.
+        FIFinderSyncController.default().directoryURLs = OpenRequest.foldersToWatchNow()
+        let center = NSWorkspace.shared.notificationCenter
+        for name in [NSWorkspace.didMountNotification, NSWorkspace.didUnmountNotification] {
+            center.addObserver(forName: name, object: nil, queue: .main) { _ in
+                FIFinderSyncController.default().directoryURLs = OpenRequest.foldersToWatchNow()
+            }
+        }
     }
 
     override func menu(for menuKind: FIMenuKind) -> NSMenu? {

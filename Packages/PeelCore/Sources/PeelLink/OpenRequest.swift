@@ -16,6 +16,25 @@ public enum OpenRequest {
         return components?.url
     }
 
+    /// The folders the Finder extension watches, since Finder says what is selected only inside them: the startup disk,
+    /// and every other volume `volumes` names that can be written to, where an app can be moved from. `volumes` leaves
+    /// out the hidden ones.
+    public static func foldersToWatch(_ volumes: [(url: URL, isReadOnly: Bool)]) -> Set<URL> {
+        // The startup disk's system volume is sealed and read only, and its apps are on the data volume it shows.
+        let others = volumes.filter { !$0.isReadOnly && $0.url.path(percentEncoded: false) != "/" }.map(\.url)
+        return Set([URL(filePath: "/", directoryHint: .isDirectory)] + others)
+    }
+
+    /// The folders to watch among the volumes mounted now.
+    public static func foldersToWatchNow() -> Set<URL> {
+        let volumes = FileManager.default.mountedVolumeURLs(
+            includingResourceValuesForKeys: [.volumeIsReadOnlyKey], options: [.skipHiddenVolumes]
+        ) ?? []
+        return foldersToWatch(volumes.map { volume in
+            (volume, (try? volume.resourceValues(forKeys: [.volumeIsReadOnlyKey]))?.volumeIsReadOnly ?? true)
+        })
+    }
+
     public static func hostApplication(ofExtensionAt bundle: URL) -> URL? {
         let host = bundle.deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
         return isNamedAsAnApp(host) ? host : nil
