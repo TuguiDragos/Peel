@@ -143,14 +143,14 @@ and as the system names it, spelled as the disk stores it.
 **Between the check and the move.** A check made by name and a move made by name are two looks at the disk, and between
 them a folder can be swapped for a link into Messages by anything running as you. So Peel holds the folder open, asks
 the question again about the name the system gives that open folder, and moves the item through it: whatever the old
-name leads to by then is not touched. What an uninstall or Orphaned Files found stays when a folder between it and the
-place its scan started from has become a link since: those scans walk into real folders alone, so what the link leads
-to, on another disk perhaps, was never listed. A rename still takes whatever holds the name at that instant; for Peel's
-own moves that is something your account could have moved anyway, and its helper, which moves what only root can, checks
-each item once more in a folder only root can reach, as the section on the helper says. Putting an item back holds the
-folder it returns to in the same way. The cost is that Finder's own Put Back does not know these items, since only
-Apple's by-name call writes the note Finder reads; Peel's History puts them back, and in Finder they can be dragged out.
-One move still goes by name, the first ever made on a disk, because that call is the only thing that makes a disk's
+name leads to by then is not touched. What an uninstall, a reset, or Orphaned Files found stays when a folder between it
+and the place its scan started from has become a link since: those scans walk into real folders alone, so what the link
+leads to, on another disk perhaps, was never listed. A rename still takes whatever holds the name at that instant; for
+Peel's own moves that is something your account could have moved anyway, and its helper, which moves what only root can,
+checks each item once more in a folder only root can reach, as the section on the helper says. Putting an item back
+holds the folder it returns to in the same way. The cost is that Finder's own Put Back does not know these items, since
+only Apple's by-name call writes the note Finder reads; Peel's History puts them back, and in Finder they can be dragged
+out. One move still goes by name, the first ever made on a disk, because that call is the only thing that makes a disk's
 Trash. What it moved is then compared with what was judged, and a difference is reported instead of recorded.
 
 The place Put Back writes to does not exist yet, so asking the disk about the file itself answers nothing. Peel
@@ -681,9 +681,9 @@ A reset clears an app's settings and never the app itself.
   copies, where each can be put back or moved to the Trash, since one can hold a license key, and they stay until you
   move them there. Putting one back asks first, and saves the settings the app has now as a copy of their own before it
   replaces them. A copy is a folder any program of your account can add a file to, so putting one back takes only
-  what a reset of that app saves, its own settings and those of what it carries inside it, never one of Apple's
-  settings unless it is the app's own, nor the settings of an app you excluded. Any other settings file in the folder
-  stays there.
+  what a reset of that app saves, its own settings, those of what it carries inside it, and those of its app groups,
+  never one of Apple's settings unless it is the app's own, nor the settings of an app you excluded. Any other settings
+  file in the folder stays there.
 - What the app keeps for you (its Application Support folder, group containers, and application scripts) goes only
   when you select it, and is never offered for Mail, Messages, Notes, or Photos.
 - Inside a sandboxed app's container, a reset touches only the app's preferences, saved state, caches, logs, and web

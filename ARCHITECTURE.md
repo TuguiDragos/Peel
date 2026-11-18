@@ -349,8 +349,8 @@ macOS asks the user to approve it once. It talks to the app over XPC.
   the pages that free space (Orphaned Files, Space, Developer, Build Artifacts, Installers and Backups,
   Duplicates, and File Search) the selection travels: what is selected on every such page the user has opened
   stays selected, and Move to Trash on any of them moves it all as one removal, each page's part by its own tool
-  with that tool's checks (`SelectionCarrier`, over `CarriedSelection` in PeelCore). After any Move to Trash, every
-  page whose list shows something that moved, sits inside it, or holds it reads its list again
+  with that tool's checks (`SelectionCarrier`, over `CarriedSelection` in PeelCore). After such a move, each of those
+  pages whose list shows something that moved, sits inside it, or holds it reads its list again
   (`CarriesSelection.lists`, `MovedItems`).
 - **Concurrency.** Everything builds with Swift 6.4 in the Swift 6 language mode (Xcode 27). The app target runs on
   the main actor by default (`SWIFT_DEFAULT_ACTOR_ISOLATION`). Heavy work lives in PeelCore and is marked

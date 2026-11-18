@@ -181,7 +181,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Why Uninstall or Upgrade is turned off, or what is under way, goes on a line under the buttons, each reason once,
   rather than between the buttons.
 - The questions before Upgrade and Upgrade All say that a cask's upgrade deletes the version of the app it replaces,
-  which History can't put back, and an app's page asks the same question before it upgrades with Homebrew.
+  which History can't put back, and an app's page asks before it upgrades with Homebrew, saying the same.
 
 #### Space
 
@@ -404,7 +404,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An app's page and several apps' page no longer read a folder of a million files whole at every click, which took a
   minute and gigabytes of memory: a folder with more than 20,000 items is left out, and the page names it, says
   what that means, and offers Show in Finder. When the search inside other folders stops early, it names the folder
-  that holds too many, not the whole home folder, and a folder that can't hold the app's files is no longer named.
+  that holds too many, not the whole place it was searching, and a folder that can't hold the app's files is no longer
+  named.
 - After an uninstall, the page no longer keeps the window waiting while it reads code signatures to learn whether Peel
   has App Management.
 - An app shown from outside the app folders, through a `peel://` link, a drop, or Finder, is looked for away from the
@@ -861,7 +862,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Unusual command also judges where the script an interpreter runs from disk is, as it judges the program, and reads the
   command `env` or `nohup` runs.
 - A daemon whose file in /Library/LaunchDaemons is a link, as MacPorts makes it, shows as one row after Load, rather
-  than as two rows saying it wasn't loaded.
+  than as two rows saying it wasn't loaded, and moving that link to the Trash stops its job, as the question says.
 - A copy of Peel's helper's file put in `/Library/LaunchDaemons` by hand is no longer called Peel's helper, and the
   question before its move no longer says Peel stops a job launchd doesn't have loaded.
 - On the page of a job whose app its maker's uninstaller removes, the circled i says that changing the job can keep the
@@ -957,8 +958,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   shows its title.
 - An item whose name held nothing as it was to move, such as one swapped for a link at that moment, no longer stays
   without a word: once the move is over, what came back to its name is said to have changed since the scan.
-- After a Move to Trash, every page whose list shows something that moved, sits inside it, or holds it reads its list
-  again, so Duplicates no longer shows a copy another page moved, the one it keeps included.
+- After a Move to Trash on one of the pages that free space, each of them whose list shows something that moved, sits
+  inside it, or holds it reads its list again, so Duplicates no longer shows a copy another of them moved, the one it
+  keeps included.
 - On macOS 27, Peel no longer quits 30 seconds after a shortcut's Show in Peel opens it in the background: it stays open
   while its window or its menu bar item shows.
 
@@ -1025,9 +1027,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Terminal, since which `brew` Peel runs is a file any program of your account can write.
 - Put Back puts nothing inside an app: a record of History written by hand could place a file in another app's
   bundle, and Peel moves an app only whole.
-- Putting back a saved copy of an app's settings puts back only what a reset of that app saves, its own settings and
-  those of what it carries inside it: a file added to the copy's folder no longer replaces another app's settings, one
-  of Apple's, or an excluded app's.
+- Putting back a saved copy of an app's settings puts back only what a reset of that app saves, its own settings,
+  those of what it carries inside it, and those of its app groups: a file added to the copy's folder no longer replaces
+  another app's settings, one of Apple's, or an excluded app's.
 - Peel's own updates come only from the feed its app names, and Peel sends no profile of your Mac, whatever its
   preferences hold.
 - An app can no longer have another installed app's files selected for its uninstall by naming, among what its bundle
@@ -1056,9 +1058,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Open Uninstaller reads the whole seal of a maker's uninstaller, every file and every architecture, right before it
   opens it, so one changed after its maker signed it, which would then ask for an administrator's password, no longer
   opens, and Peel says why.
-- What an uninstall or Orphaned Files found no longer moves when a folder on its way there became a link after the scan,
-  which could have moved something on another disk that was never listed: it stays, and says why. A page that lists a
-  folder where a link of yours leads, as Developer does, still moves what it listed.
+- What an uninstall, a reset, or Orphaned Files found no longer moves when a folder on its way there became a link after
+  the scan, which could have moved something on another disk that was never listed: it stays, and says why. A page that
+  lists a folder where a link of yours leads, as Developer does, still moves what it listed.
 
 ## 1.3.0 (2026-11-04)
 
