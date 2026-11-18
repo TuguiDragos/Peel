@@ -94,14 +94,14 @@ public struct RemovalStanding: Sendable {
     }
 }
 
-/// What has left the Trash among History's records: those records, in History's order, and how many removals they
-/// belong to.
+/// What has left the Trash among History's records: those records, in History's order, and the removals they belong
+/// to, one only partly gone among them.
 public struct LeftTheTrash: Sendable {
     public let records: [RemovalRecord]
-    public let removals: Int
+    public let removals: Set<UUID>
 
     init(_ records: [RemovalRecord]) {
         self.records = records
-        removals = Set(records.map(\.batch)).count
+        removals = Set(records.map(\.batch))
     }
 }

@@ -442,7 +442,7 @@ It sets up the command line as well:
   entries you no longer need, or choose Select All, and Forget… at the foot takes off the list, after one question, what
   the checked removals moved that has already left the Trash, and the checked Not Moved entries whole; what is still in
   the Trash, or on a disk that isn't connected, stays listed. Show Only What Left the Trash, in the toolbar, lists only
-  the removals that can no longer be put back.
+  the removals from which something has left the Trash.
 - **Exclusions:** files, folders, and apps Peel must never touch. An excluded app still appears in Applications, and
   its jobs in Background Items, but Peel won't offer to remove or reset it or act on its jobs, and leaves out of every
   page the folders named exactly with its identifier, such as its caches, and an update it downloaded; to keep its

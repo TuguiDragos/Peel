@@ -73,7 +73,7 @@ struct ForgetCheckedBar: View {
     /// The question for what a look found, or nil when there is nothing to forget.
     static func question(for found: Found) -> String? {
         let items = found.leftTheTrash.records.count
-        let removals = found.leftTheTrash.removals
+        let removals = found.leftTheTrash.removals.count
         let entries = found.entries.count
         // An alert's title is drawn as plain text, which leaves inflection markup as written.
         return switch (items > 0, entries > 0) {

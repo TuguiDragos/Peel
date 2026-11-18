@@ -46,4 +46,22 @@ struct HistoryFilterTests {
         #expect(history.batches.count == 1)
         #expect(HistoryList.look(isOn: true, in: history) != before, "the filter kept what it found before the Trash was emptied")
     }
+
+    @Test func listsEveryRemovalSomethingHasLeftTheTrashOf() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let trash = folder.appending(path: "Trash", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: trash, withIntermediateDirectories: true)
+        let history = history(in: folder)
+        await record([["One", "Two"], ["Three", "Four"], ["Five"]], into: history, trash: trash)
+        for name in ["One", "Five"] { try Data().write(to: trash.appending(path: name)) }
+        await history.load()
+
+        let left = await RemovalStanding.leftTheTrash(history.records)
+
+        let names = history.batches.filter { left.removals.contains($0.id) }.map { batch in
+            Set(batch.records.map(\.originalURL.lastPathComponent))
+        }
+        #expect(Set(names) == [["One", "Two"], ["Three", "Four"]])
+    }
 }

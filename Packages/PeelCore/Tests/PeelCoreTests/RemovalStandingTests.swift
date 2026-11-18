@@ -142,7 +142,7 @@ struct RemovalStandingTests {
         let found = await RemovalStanding.leftTheTrash([kept, gone, notSeen, alsoGone, away, goneLater])
 
         #expect(found.records.map(\.id) == [gone.id, alsoGone.id, goneLater.id])
-        #expect(found.removals == 2)
+        #expect(found.removals == [first, second])
         withExtendedLifetime(disk) {}
     }
 

@@ -10,9 +10,9 @@ struct HistoryList: View {
     /// What the search found, worked out off the main actor, since a removal's key names every item in it. Kept while
     /// the next answer is worked out.
     @State private var found: Found?
-    /// Pejax's filter: only the removals that can no longer be put back, since all they moved has left the Trash.
     @State private var showsOnlyWhatLeft = false
-    /// The removals all of whose items have left the Trash, while the filter is on and once Peel has looked.
+    /// The removals something has left the Trash from, while the filter is on and once Peel has looked. One only
+    /// partly gone is among them: Forget takes from a removal only what has left.
     @State private var leftTheTrash: Set<RemovalBatch.ID>?
 
     private struct Found {
@@ -135,7 +135,7 @@ struct HistoryList: View {
         .overlay {
             switch Self.emptyState(
                 hasLoaded: history.hasLoaded, isKnownEmpty: history.isKnownEmpty, filterIsOn: showsOnlyWhatLeft,
-                goneWhole: leftTheTrash?.count, listsNothing: listed.isEmpty && refused.isEmpty,
+                leftTheTrash: leftTheTrash?.count, listsNothing: listed.isEmpty && refused.isEmpty,
                 isSearching: !searchText.isEmpty
             ) {
             case .looking:
@@ -200,8 +200,7 @@ struct HistoryList: View {
             }
             let left = await RemovalStanding.leftTheTrash(history.records)
             guard !Task.isCancelled else { return }
-            let gone = Set(left.records.map(\.id))
-            leftTheTrash = Set(history.batches.filter { $0.records.allSatisfy { gone.contains($0.id) } }.map(\.id))
+            leftTheTrash = left.removals
         }
         .task(id: Search(text: searchText, revision: history.revision)) {
             guard !searchText.isEmpty else {
@@ -229,14 +228,15 @@ extension HistoryList {
         case nothingFound
     }
 
-    /// `goneWhole` is how many removals have left the Trash whole, nil while Peel looks for the filter. A search that
-    /// finds none of them is a search that found nothing, not a Trash nothing has left.
+    /// `leftTheTrash` is how many removals something has left the Trash from, nil while Peel looks for the filter. A
+    /// search that finds none of them is a search that found nothing, not a Trash nothing has left.
     static func emptyState(
-        hasLoaded: Bool, isKnownEmpty: Bool, filterIsOn: Bool, goneWhole: Int?, listsNothing: Bool, isSearching: Bool
+        hasLoaded: Bool, isKnownEmpty: Bool, filterIsOn: Bool, leftTheTrash: Int?, listsNothing: Bool,
+        isSearching: Bool
     ) -> EmptyState? {
-        if !hasLoaded || filterIsOn && goneWhole == nil { return .looking }
+        if !hasLoaded || filterIsOn && leftTheTrash == nil { return .looking }
         if isKnownEmpty { return .noRemovals }
-        if filterIsOn, goneWhole == 0 { return .nothingHasLeftTheTrash }
+        if filterIsOn, leftTheTrash == 0 { return .nothingHasLeftTheTrash }
         return listsNothing && isSearching ? .nothingFound : nil
     }
 

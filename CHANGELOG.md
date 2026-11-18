@@ -12,7 +12,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Each removal and each Not Moved entry in History has a checkbox, with Select All and Deselect All in the toolbar and
   the Edit menu, and Forget… at the foot forgets, after one question, what is checked: from a removal only what has
   already left the Trash, and a Not Moved entry whole. What is still in the Trash, or on a disk that isn't connected,
-  stays listed. Show Only What Left the Trash, in the toolbar, lists only the removals that can no longer be put back.
+  stays listed. Show Only What Left the Trash, in the toolbar, lists only the removals from which something has left the
+  Trash.
 - On a Not Moved entry's page, each item still where it was has Show in Finder, and a button opens each tool the items
   were to move from, where a new scan judges them again.
 
