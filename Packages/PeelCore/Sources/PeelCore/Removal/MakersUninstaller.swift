@@ -215,7 +215,6 @@ public struct MakersUninstaller: Sendable, Hashable {
             "P8DQRXPVLP", ["com.eset.ecs"], "ESET", .uninstallerInsideTheApp("Contents/Helpers/Uninstaller.app"),
             "https://support.eset.com/en/kb3239-how-do-i-uninstall-eset-cyber-security"
         ),
-        // The page names a copy for everyone and one for a single account, and the installer to download for neither.
         (
             "UGHXR79U6M", ["com.crashplan.desktop", .part("com.crashplan.service"), .part("com.crashplan.engine")],
             "CrashPlan",

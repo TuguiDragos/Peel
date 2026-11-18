@@ -54,7 +54,6 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public internal(set) var isDisabled: Bool
     /// False when only a name points to the owner (`BackgroundItemOwnership.Owner.isConfirmed`).
     public var isOwnerConfirmed = true
-    /// True when only its maker points to the owner (`BackgroundItemOwnership.Owner.isOnlyItsMaker`).
     public var isOwnerOnlyItsMaker = false
     /// True for a file launchd can't load: not a property list, or one without a `Label`.
     public var isUnreadable = false
@@ -94,7 +93,7 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public var isSubmittedByItsApp = false
     public var anotherFileIsLoaded = false
     public internal(set) var loginItemsStatus: LoginItemsStatus?
-    /// The app that left whose team signed the job's program (`BackgroundItemOwnership.appThatLeft(running:)`).
+    /// The app that left whose team signed the job's program.
     public var appThatLeft: RememberedApp?
     public var makersUninstallerForWhatIsLeft: MakersUninstaller?
 

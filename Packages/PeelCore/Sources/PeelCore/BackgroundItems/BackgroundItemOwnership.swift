@@ -14,7 +14,7 @@ public struct BackgroundItemOwnership: Sendable {
         /// inside the app (outside the scanned folders, an app signed by the program's team). False when only a name
         /// points to the app: a label, or a bundle anyone can make.
         public var isConfirmed = true
-        /// True when only the team that signed the program points to the app, the only one of that team installed.
+        /// True when only the program's team ties the job to this app.
         public var isOnlyItsMaker = false
 
         public var isInstalled: Bool { url != nil }
@@ -46,7 +46,7 @@ public struct BackgroundItemOwnership: Sendable {
     private let byTeam: [String: [InstalledApp]]
     private let teamOfProgram: @Sendable (String) -> String?
     private var liveLabels: Set<String> = []
-    /// The path of each program, with what is offered with it when its job came with an app that left.
+    /// Each job's program, and what is listed with it for an app that left.
     private var livePrograms: [(program: String, offeredAs: String?)] = []
     private let declared: DeclaredJobs
     private let remembered: [RememberedApp]
@@ -150,10 +150,8 @@ public struct BackgroundItemOwnership: Sendable {
         return !Self.exists(program)
     }
 
-    /// The app Peel saw go whose team signed the program of `job`: a program on disk outside every installed app and
-    /// every Trash, while no installed app has that team or claims the job by its label. Of several such apps, the one
-    /// the job names, by its label or its plist, or else the one that left last. A program its maker ships with no
-    /// app, such as Nix's, has none.
+    /// The app Peel saw leave whose team signed `job`'s program, while no installed app has that team or the label.
+    /// Of several, the one the job names, else the last to leave.
     func appThatLeft(running job: JobDefinition) -> RememberedApp? {
         guard !remembered.isEmpty, !job.label.hasPrefix("com.apple."), !job.label.hasPrefix("application."),
               let program = job.program, program.hasPrefix("/"), !program.utf8.contains(0),
@@ -200,7 +198,6 @@ public struct BackgroundItemOwnership: Sendable {
         let app: RememberedApp
     }
 
-    /// The jobs `knowingJobs(in:)` read that came with an app that left.
     private(set) var ofAppsThatLeft: [JobOfAnAppThatLeft] = []
 
     /// This ownership, also knowing the jobs defined in `folders` that are not orphans: a helper keeps its settings
@@ -233,8 +230,7 @@ public struct BackgroundItemOwnership: Sendable {
         return liveLabels.contains { name == $0 || name.hasPrefix($0 + ".") }
     }
 
-    /// Whether `url` is, or holds, the program of a job `knowingJobs(in:)` found that still has one. What a job of an
-    /// app that left runs is offered with that job, so it counts only for a folder around it.
+    /// Whether `url` is or holds a program a job still runs, unless it is listed with a job of an app that left.
     func needs(_ url: URL) -> Bool {
         let path = PathPattern.comparablePath(of: url)
         return livePrograms.contains { program, offeredAs in

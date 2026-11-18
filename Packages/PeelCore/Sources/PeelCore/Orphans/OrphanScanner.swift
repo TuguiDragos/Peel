@@ -140,8 +140,7 @@ public struct OrphanScanner: Sendable {
             return await group.reduce(into: [(location: SearchLocation, result: LocationResult)]()) { $0.append($1) }
         }
 
-        // The file and the program of a job an app that left still has installed go under that app, whatever their
-        // names say, so no location lists them under another name.
+        // Taken first, so no location lists them under another name.
         let ofAppsThatLeft = await Self.files(of: jobs.ofAppsThatLeft, in: environment, walk: walk)
         // One location can sit inside another one the walk reaches (the recent documents folder, two levels into
         // Application Support), so a file is listed once, under the location nearer it.
@@ -818,8 +817,7 @@ public struct OrphanScanner: Sendable {
         return (items, unreadable)
     }
 
-    /// The file of each of `jobs` and what it runs, measured, under the identifier of the app that left them. What it
-    /// runs is listed only inside a place Peel searches, with no link between the two.
+    /// The file of each of `jobs` and what it runs, under the app that left them.
     private static func files(
         of jobs: [BackgroundItemOwnership.JobOfAnAppThatLeft],
         in environment: SearchEnvironment,

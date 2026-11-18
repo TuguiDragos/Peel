@@ -159,8 +159,7 @@ public enum HoldBack: String, Sendable, Hashable {
     /// The copy macOS installed of a system extension for an app bundled inside another, which no move of that app in
     /// Finder removes (`isForAnAppInsideAnother`).
     case systemExtensionOfAnAppInside
-    /// The file of a job whose program is signed by the team of an app that left, while no installed app has that
-    /// team (`BackgroundItemOwnership.appThatLeft(running:)`): macOS may still run it.
+    /// The file of a job whose app left (`BackgroundItemOwnership.appThatLeft(running:)`).
     case jobOfAnAppThatLeft
     /// The program such a job runs.
     case programOfAJobOfAnAppThatLeft

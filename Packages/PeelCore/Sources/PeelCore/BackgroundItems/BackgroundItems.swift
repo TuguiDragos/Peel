@@ -57,7 +57,6 @@ public enum BackgroundItems {
         case unreadable(BackgroundItem.Kind)
     }
 
-    /// `remembered` are the apps Peel has seen, so a job can name the app that left it (`appThatLeft`).
     @concurrent
     public static func scan(
         installedApps: [InstalledApp] = [],
