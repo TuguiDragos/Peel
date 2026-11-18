@@ -374,6 +374,9 @@ public struct Leftover: Sendable, Hashable, Identifiable {
     public var leadsTo: URL? = nil
     /// True for a job's file whose job launchd has loaded from it now, so the job stays loaded until the file moves.
     public var isALoadedJob = false
+    /// The folder a scan walked down from to find it, into real folders alone. Nil when it came from elsewhere, such
+    /// as a cask's paths.
+    public var foundBelow: URL? = nil
 
     public var id: URL { url }
 
@@ -382,7 +385,7 @@ public struct Leftover: Sendable, Hashable, Identifiable {
             url: url, kind: kind, match: match.sharing(with: apps), size: size, isMeasured: isMeasured,
             requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings,
             isLeftForAnAdministrator: isLeftForAnAdministrator, syncedBy: syncedBy, leadsTo: leadsTo,
-            isALoadedJob: isALoadedJob
+            isALoadedJob: isALoadedJob, foundBelow: foundBelow
         )
     }
 
@@ -394,7 +397,7 @@ public struct Leftover: Sendable, Hashable, Identifiable {
             url: url, kind: kind, match: match.forReview(reason), size: size, isMeasured: isMeasured,
             requiresPrivileges: requiresPrivileges, holdsDamagedSettings: holdsDamagedSettings,
             isLeftForAnAdministrator: isLeftForAnAdministrator, syncedBy: syncedBy, leadsTo: leadsTo,
-            isALoadedJob: isALoadedJob
+            isALoadedJob: isALoadedJob, foundBelow: foundBelow
         )
     }
 }

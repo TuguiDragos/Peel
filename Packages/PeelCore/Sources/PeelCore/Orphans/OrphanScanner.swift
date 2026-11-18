@@ -429,7 +429,8 @@ public struct OrphanScanner: Sendable {
                 size: contents.flatMap { $0.couldNotBeRead ? nil : $0.size },
                 modificationDate: contents?.newestChange,
                 requiresPrivileges: parent.requiresPrivileges(toRemove: url),
-                heldBack: parent.isOnAReadOnlyDisk ? .onAReadOnlyDisk : nil
+                heldBack: parent.isOnAReadOnlyDisk ? .onAReadOnlyDisk : nil,
+                foundBelow: location.url
             )))
         }
         return .found(found, cutShort: nil, unreadable: [])
@@ -790,7 +791,7 @@ public struct OrphanScanner: Sendable {
                 identifier: candidate.identifier,
                 item: item(
                     at: candidate.url, kind: location.kind, contents: contents, parent: candidate.parent, home: home,
-                    root: root, namedAfter: candidate.namedAfter
+                    root: root, namedAfter: candidate.namedAfter, foundBelow: location.url
                 )
             )
         }
@@ -948,7 +949,7 @@ public struct OrphanScanner: Sendable {
                 identifier: candidate.identifier,
                 item: item(
                     at: candidate.url, kind: location.kind, contents: contents, parent: candidate.parent, home: home,
-                    root: root, namedAfter: candidate.namedAfter, folder: candidate.folder
+                    root: root, namedAfter: candidate.namedAfter, folder: candidate.folder, foundBelow: location.url
                 )
             )
         }
@@ -970,7 +971,8 @@ public struct OrphanScanner: Sendable {
         home: String,
         root: String,
         namedAfter: String? = nil,
-        folder: ProductFolder? = nil
+        folder: ProductFolder? = nil,
+        foundBelow: URL? = nil
     ) -> OrphanItem {
         // The item's own date changes when something is taken out of it, but not when a file inside is
         // rewritten in place, so the newest date inside comes from the walk.
@@ -1015,7 +1017,8 @@ public struct OrphanScanner: Sendable {
             holdsDamagedSettings: kind == .preferences && PreferenceFile.isDamaged(url),
             productFolder: folder,
             // A link in a folder of links leads into the gone app, as its group says.
-            leadsTo: kind.isForLinks || !url.isSymbolicLink ? nil : url.leadsToInTheEnd
+            leadsTo: kind.isForLinks || !url.isSymbolicLink ? nil : url.leadsToInTheEnd,
+            foundBelow: foundBelow
         )
     }
 }

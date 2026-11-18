@@ -26,6 +26,9 @@ public struct OrphanItem: Sendable, Hashable, Identifiable {
     public var isLeftForAnAdministrator = false
     /// Where it leads in the end, when it is a symbolic link: moving it moves the link, not what is there.
     public var leadsTo: URL? = nil
+    /// The folder a scan walked down from to find it, into real folders alone. Nil for a record of an earlier
+    /// uninstall.
+    public var foundBelow: URL? = nil
 
     /// Why the item cannot be selected at all: `RemovalGuard` or the helper would refuse it.
     public var leftAlone: HoldBack? {

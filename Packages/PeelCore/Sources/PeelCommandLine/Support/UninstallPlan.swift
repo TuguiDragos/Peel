@@ -14,6 +14,8 @@ struct UninstallPlan {
         var leadsTo: URL?
         /// True for a job's file whose job launchd has loaded from it (`Leftover.isALoadedJob`).
         var isALoadedJob = false
+        /// The folder the scan walked down from to find it (`Leftover.foundBelow`).
+        var foundBelow: URL?
     }
 
     let app: URL
@@ -73,7 +75,7 @@ struct UninstallPlan {
                 : (leftover?.isMeasured == true ? leftover?.size : nil)
             return Item(
                 url: url, size: size, refusal: refusal(url), leadsTo: leftover?.leadsTo,
-                isALoadedJob: leftover?.isALoadedJob ?? false
+                isALoadedJob: leftover?.isALoadedJob ?? false, foundBelow: leftover?.foundBelow
             )
         }
         let rest = keepLeftovers ? [] : uninstallation.scan.leftovers
@@ -140,7 +142,13 @@ struct UninstallPlan {
             thenFiles: { stayed in stayed.isEmpty ? files : [] },
             usingHelperFor: [],
             lettingTheirProgramsRun: letsItsProgramsRun ? [app] : [],
-            emptiedFoldersNamed: makersFolderNames
+            emptiedFoldersNamed: makersFolderNames,
+            refusing: TrashService.refusingLinksOnTheWay(
+                below: Dictionary(
+                    moving.compactMap { item in item.foundBelow.map { (item.url, $0) } },
+                    uniquingKeysWith: { first, _ in first }
+                )
+            )
         )
     }
 }

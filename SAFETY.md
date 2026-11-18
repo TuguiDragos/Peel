@@ -140,20 +140,18 @@ in, is one of them. That also catches a file name that begins with a combining a
 comparison can't see. Every other rule on this page judges an item by its names: as written, where it really sits,
 and as the system names it, spelled as the disk stores it.
 
-**Between the check and the move.** A check made by name and a move made by name are two looks at
-the disk, and between them a folder can be swapped for a link into Messages by anything running as you. So
-Peel holds the folder open, asks the question again about the name the system gives that open folder, and
-moves the item through it: whatever the old name leads to by then is not touched. In a Library, an item stays when a
-folder on its way there, below a folder such as Application Support, has become a link since the scan: no scan walks
-into a link there, so what it leads to, on another disk perhaps, was never listed. A rename still takes whatever
-holds the name at that instant; for Peel's own moves that is something your account could have moved anyway, and
-its helper, which moves what only root can, checks each item once more in a folder only root can reach, as the
-section on the helper says. Putting an item back holds the folder it returns to in the same way. The cost is that
-Finder's own Put Back does not know these items, since only Apple's by-name call writes the note Finder reads;
-Peel's History puts them back, and in Finder they can be dragged out. One move still goes by name, the first ever
-made on a disk, because that
-call is the only thing that makes a disk's Trash. What it moved is then compared with what was judged, and
-a difference is reported instead of recorded.
+**Between the check and the move.** A check made by name and a move made by name are two looks at the disk, and between
+them a folder can be swapped for a link into Messages by anything running as you. So Peel holds the folder open, asks
+the question again about the name the system gives that open folder, and moves the item through it: whatever the old
+name leads to by then is not touched. What an uninstall or Orphaned Files found stays when a folder between it and the
+place its scan started from has become a link since: those scans walk into real folders alone, so what the link leads
+to, on another disk perhaps, was never listed. A rename still takes whatever holds the name at that instant; for Peel's
+own moves that is something your account could have moved anyway, and its helper, which moves what only root can, checks
+each item once more in a folder only root can reach, as the section on the helper says. Putting an item back holds the
+folder it returns to in the same way. The cost is that Finder's own Put Back does not know these items, since only
+Apple's by-name call writes the note Finder reads; Peel's History puts them back, and in Finder they can be dragged out.
+One move still goes by name, the first ever made on a disk, because that call is the only thing that makes a disk's
+Trash. What it moved is then compared with what was judged, and a difference is reported instead of recorded.
 
 The place Put Back writes to does not exist yet, so asking the disk about the file itself answers nothing. Peel
 asks about the deepest folder on the way that does exist, with every link resolved, and gets back the name

@@ -1237,6 +1237,45 @@ struct UninstallationTests {
         #expect(!plan.keptItsFiles(after: went, selection: [bundle, cache]))
     }
 
+    /// What the scan reached through real folders alone stays once one of them is a link: it became one since the
+    /// scan, and what it leads to was never listed.
+    @Test func anItemWhoseFolderBecameALinkSinceTheScanStays() async throws {
+        let directory = try TemporaryDirectory()
+        let bundle = try directory.directory("Applications/DirApp.app")
+        let support = try directory.directory("home/Library/Application Support")
+        let item = try directory.file("home/Library/Application Support/Holder/org.example.DirApp/state.json")
+            .deletingLastPathComponent()
+        let cache = try directory.directory("home/Library/Caches/org.example.DirApp")
+        let elsewhere = try directory.file("elsewhere/Holder/org.example.DirApp/state.json").deletingLastPathComponent()
+        let app = InstalledApp(url: bundle, bundleIdentifier: "org.example.DirApp", name: "DirApp")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let scan = await LeftoverScanner(environment: environment).scan(app, installedApps: [app])
+        let found = Dictionary(scan.leftovers.map { (PathPattern.comparablePath(of: $0.url), $0) }) { first, _ in
+            first
+        }
+        let nested = try #require(found[PathPattern.comparablePath(of: item)])
+        let direct = try #require(found[PathPattern.comparablePath(of: cache)])
+        #expect(nested.foundBelow.map(PathPattern.comparablePath(of:)) == PathPattern.comparablePath(of: support))
+        #expect(direct.foundBelow.map(PathPattern.comparablePath(of:)) == PathPattern.comparablePath(of: cache)
+            .components(separatedBy: "/").dropLast().joined(separator: "/"))
+        let holder = item.deletingLastPathComponent()
+        try FileManager.default.removeItem(at: holder)
+        try FileManager.default.createSymbolicLink(
+            at: holder, withDestinationURL: elsewhere.deletingLastPathComponent()
+        )
+
+        let plan = Uninstallation(app: app, appSize: 10_000, appRequiresPrivileges: false, scan: scan)
+        let went = await plan.move([bundle, nested.url, direct.url], using: try service(in: directory, refusing: nil))
+
+        #expect(Set(went.trashed.map { PathPattern.comparablePath(of: $0.originalURL) })
+            == Set([bundle, direct.url].map(PathPattern.comparablePath(of:))))
+        #expect(went.failures.map(\.reason) == [.linkOnTheWay])
+        #expect(!elsewhere.isMissing)
+    }
+
     private func file(_ url: URL, _ kind: SearchLocation.Kind) -> Leftover {
         Leftover(
             url: url,
@@ -1317,15 +1356,14 @@ struct UninstallationTests {
         )
         #expect(MakersFolders(environment: environment, names: ["caches", "library"]).above([cache]).isEmpty)
 
-        let moving = [bundle, cache, config, logs]
-        let went = await plan.move(Set(moving + [throughLink]), using: try service(in: directory, refusing: nil))
+        let all = [bundle, cache, config, logs, throughLink]
+        let went = await plan.move(Set(all), using: try service(in: directory, refusing: nil))
 
         #expect(Set(went.trashed.map { PathPattern.comparablePath(of: $0.originalURL) })
-            == Set(moving.map(PathPattern.comparablePath(of:))))
-        #expect(went.failures.map(\.reason) == [.linkOnTheWay], "what a link on its way leads to stays")
+            == Set(all.map(PathPattern.comparablePath(of:))))
         let kept = [
             "home/Library/Caches", "home/.config/Example", "home/Library/Logs/Example",
-            "home/Library/Application Support/Example", "home/Library/Application Support/Linked/Notes",
+            "home/Library/Application Support/Example",
         ]
         for kept in kept {
             #expect(!directory.url.appending(path: kept).isMissing, "\(kept) went")

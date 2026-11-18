@@ -37,6 +37,40 @@ struct OrphanRemovalTests {
         #expect(result.failures.first?.reason == .claimedSinceScan)
     }
 
+    /// The scan reached it through real folders alone, so a link on its way now became one since the scan.
+    @Test func leavesWhatAFolderOnItsWayNowLeadsElsewhereFor() async throws {
+        let directory = try TemporaryDirectory()
+        let support = try directory.directory("home/Library/Application Support")
+        try directory.file("home/Library/Application Support/Example Software/org.example.mixer/settings.json")
+        let elsewhere = try directory.file("elsewhere/Example Software/org.example.mixer/settings.json")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let scanner = OrphanScanner(environment: environment) { _ in false }
+        let gone = RememberedApp(
+            bundleIdentifier: "org.example.mixer", name: "Mixer", teamIdentifier: nil, lastSeen: .now,
+            lastPath: "/Applications/Mixer.app"
+        )
+        let listed = await scanner.scan(installedApps: [], remembered: [gone]).groups.flatMap(\.items)
+        let item = try #require(listed.first { $0.url.lastPathComponent == "org.example.mixer" })
+        #expect(item.foundBelow.map(PathPattern.comparablePath(of:)) == PathPattern.comparablePath(of: support))
+        let folder = support.appending(path: "Example Software")
+        try FileManager.default.removeItem(at: folder)
+        try FileManager.default.createSymbolicLink(
+            at: folder, withDestinationURL: elsewhere.deletingLastPathComponent().deletingLastPathComponent()
+        )
+        let trash = TrashService(environment: environment) { url in url }
+
+        let result = await OrphanRemoval.trash(
+            [item], installedApps: [], remembered: [gone], scanner: scanner, using: trash, mayUseHelper: true
+        )
+
+        #expect(result.trashed.isEmpty)
+        #expect(result.failures.map(\.reason) == [.linkOnTheWay])
+        #expect(!elsewhere.isMissing)
+    }
+
     @Test(.permissionsHold) func whatNeedsAnAdministratorStaysWhenTheHelperMayNotBeUsed() async throws {
         let directory = try TemporaryDirectory()
         try directory.file("home/Library/Caches/com.gone.app/cache.db")

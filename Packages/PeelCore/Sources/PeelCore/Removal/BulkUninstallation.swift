@@ -45,6 +45,8 @@ public struct BulkUninstallation: Sendable {
         public var leadsTo: URL?
         /// True for a job's file whose job launchd has loaded from it (`Leftover.isALoadedJob`).
         public var isALoadedJob = false
+        /// The folder the scan walked down from to find it (`Leftover.foundBelow`).
+        public var foundBelow: URL? = nil
 
         public var id: URL { url }
 
@@ -245,7 +247,13 @@ public struct BulkUninstallation: Sendable {
             lettingTheirProgramsRun: Set(
                 uninstallations.filter { $0.uninstallsItself?.letsItsProgramsRun == true }.map(\.app.url)
             ),
-            emptiedFoldersNamed: MakersFolders.names(of: uninstallations.map(\.app))
+            emptiedFoldersNamed: MakersFolders.names(of: uninstallations.map(\.app)),
+            refusing: TrashService.refusingLinksOnTheWay(
+                below: Dictionary(
+                    items.compactMap { item in item.foundBelow.map { (item.url, $0) } },
+                    uniquingKeysWith: { first, _ in first }
+                )
+            )
         )
     }
 
@@ -325,7 +333,8 @@ public struct BulkUninstallation: Sendable {
                     holdsDamagedSettings: existing.holdsDamagedSettings || item.holdsDamagedSettings,
                     syncedBy: existing.syncedBy ?? item.syncedBy,
                     leadsTo: existing.leadsTo ?? item.leadsTo,
-                    isALoadedJob: existing.isALoadedJob || item.isALoadedJob
+                    isALoadedJob: existing.isALoadedJob || item.isALoadedJob,
+                    foundBelow: existing.foundBelow == item.foundBelow ? existing.foundBelow : nil
                 )
             } else {
                 byURL[item.url] = item
@@ -358,7 +367,8 @@ public struct BulkUninstallation: Sendable {
                     holdsDamagedSettings: leftover.holdsDamagedSettings,
                     syncedBy: leftover.syncedBy,
                     leadsTo: leftover.leadsTo,
-                    isALoadedJob: leftover.isALoadedJob
+                    isALoadedJob: leftover.isALoadedJob,
+                    foundBelow: leftover.foundBelow
                 ))
             }
             add(Item(

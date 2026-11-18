@@ -342,8 +342,14 @@ public struct LeftoverScanner: Sendable {
             nobodysFolders + makersItems, rows: inside.found, of: location, matcher: matcher, home: home, root: root,
             exclusions: exclusions, measure: measure, reads: reads, installedByApple: installedByApple
         )
+        // Each was reached from the location through real folders alone, whatever the location itself is.
+        let reached = (leftovers + inside.found + makersOwn).map { leftover in
+            var leftover = leftover
+            leftover.foundBelow = location.url
+            return leftover
+        }
         return .found(
-            leftovers + inside.found + makersOwn,
+            reached,
             cutShort: inside.stoppedIn.map { SearchLocation(kind: location.kind, url: $0) },
             unreadable: inside.unreadable.map { SearchLocation(kind: location.kind, url: $0) }, crowded: inside.crowded,
             jobs: jobs

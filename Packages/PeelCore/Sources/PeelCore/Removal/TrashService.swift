@@ -736,10 +736,6 @@ public struct TrashService: Sendable {
                 result.failures.append(TrashFailure(url: url, reason: refusal))
                 return
             }
-            if hasALinkOnTheWay(url) {
-                result.failures.append(TrashFailure(url: url, reason: .linkOnTheWay))
-                return
-            }
             if let held = openFiles.refusal(of: url, lettingItsProgramsRun: apps.contains(url)) {
                 result.failures.append(TrashFailure(url: url, reason: held))
                 return
@@ -803,21 +799,29 @@ public struct TrashService: Sendable {
         return result
     }
 
-    /// Whether a folder between `url` and the first folder of the Library it is in is a link now. No scan walks into a
-    /// link in a Library, so it became one since the scan; the first folder is the person's to make a link of.
-    func hasALinkOnTheWay(_ url: URL) -> Bool {
-        let path = PathPattern.comparablePath(of: url)
-        let libraries = [environment.homeDirectory, environment.rootDirectory].map {
-            PathPattern.comparablePath(of: $0.appending(path: "Library", directoryHint: .isDirectory))
+    /// Refuses an item a scan found by walking down from its folder in `folders` into real folders alone, when a
+    /// folder between the two is a link now: it became one since the scan, so what it leads to was never listed.
+    public static func refusingLinksOnTheWay(below folders: [URL: URL]) -> @Sendable (URL) -> TrashFailure.Reason? {
+        let folders = Dictionary(
+            folders.map { (PathPattern.comparablePath(of: $0.key), $0.value) }, uniquingKeysWith: { first, _ in first }
+        )
+        return { url in
+            guard let folder = folders[PathPattern.comparablePath(of: url)], hasALinkOnTheWay(url, below: folder) else {
+                return nil
+            }
+            return .linkOnTheWay
         }
-        guard let library = libraries.first(where: { PathComponents.isPath(path, inside: $0) }) else { return false }
-        let names = PathComponents.of(path).dropFirst(PathComponents.of(library).count)
-        guard let first = names.first, names.count > 2 else { return false }
-        var folder = (library == "/" ? "" : library) + "/" + first
+    }
+
+    static func hasALinkOnTheWay(_ url: URL, below folder: URL) -> Bool {
+        let names = PathComponents.of(PathPattern.comparablePath(of: url))
+        let above = PathComponents.of(PathPattern.comparablePath(of: folder))
+        guard names.count > above.count + 1, Array(names.prefix(above.count)) == above else { return false }
+        var path = "/" + above.joined(separator: "/")
         var info = stat()
-        for name in names.dropFirst().dropLast() {
-            folder += "/" + name
-            if lstat(folder, &info) == 0, info.st_mode & S_IFMT == S_IFLNK { return true }
+        for name in names.dropFirst(above.count).dropLast() {
+            path += (path == "/" ? "" : "/") + name
+            if lstat(path, &info) == 0, info.st_mode & S_IFMT == S_IFLNK { return true }
         }
         return false
     }
@@ -841,29 +845,37 @@ public struct TrashService: Sendable {
     /// Moves `privilegedURLs` through the privileged helper and everything else as the current user.
     @concurrent
     public func trash(
-        _ urls: [URL], usingHelperFor privilegedURLs: Set<URL>, lettingTheirProgramsRun running: Set<URL> = []
+        _ urls: [URL],
+        usingHelperFor privilegedURLs: Set<URL>,
+        lettingTheirProgramsRun running: Set<URL> = [],
+        refusing: (@Sendable (URL) -> TrashFailure.Reason?)? = nil
     ) async -> TrashResult {
         await PrivilegedHelper.withOneConsent {
-            await trash(urls, usingHelperFor: privilegedURLs, removal: UUID(), lettingTheirProgramsRun: running)
+            await trash(
+                urls, usingHelperFor: privilegedURLs, removal: UUID(), lettingTheirProgramsRun: running,
+                refusing: refusing
+            )
         }
     }
 
     /// Moves `apps` first, then what `files` returns for the apps that stayed, as one removal. An app's files wait
     /// for it, so an app that stays keeps everything of its own. A program running from inside one of
     /// `lettingTheirProgramsRun` doesn't keep it, since that app uninstalls itself once it has moved. A folder
-    /// named in `emptiedFoldersNamed` (`MakersFolders.names`) that the files leave empty goes too.
+    /// named in `emptiedFoldersNamed` (`MakersFolders.names`) that the files leave empty goes too. `refusing` is asked
+    /// about each file right before it moves.
     @concurrent
     public func trash(
         apps: [URL],
         thenFiles files: @Sendable (_ appsThatStayed: Set<URL>) -> [URL],
         usingHelperFor privilegedURLs: Set<URL>,
         lettingTheirProgramsRun running: Set<URL>,
-        emptiedFoldersNamed names: Set<String> = []
+        emptiedFoldersNamed names: Set<String> = [],
+        refusing: (@Sendable (URL) -> TrashFailure.Reason?)? = nil
     ) async -> TrashResult {
         await PrivilegedHelper.withOneConsent {
             await trash(
                 apps: apps, thenFiles: files, usingHelperFor: privilegedURLs, lettingTheirProgramsRun: running,
-                emptiedFoldersNamed: names, removal: UUID()
+                emptiedFoldersNamed: names, removal: UUID(), refusing: refusing
             )
         }
     }
@@ -874,7 +886,8 @@ public struct TrashService: Sendable {
         usingHelperFor privilegedURLs: Set<URL>,
         lettingTheirProgramsRun running: Set<URL>,
         emptiedFoldersNamed names: Set<String>,
-        removal: UUID
+        removal: UUID,
+        refusing: (@Sendable (URL) -> TrashFailure.Reason?)?
     ) async -> TrashResult {
         // Asked before anything moves: a job stopped so its app could move is no longer named by launchd.
         var registrations: [URL: StartsAtLogin.Registration] = [:]
@@ -904,7 +917,9 @@ public struct TrashService: Sendable {
             await startAgain(stopped, unlessMoved: [])
             return result
         }
-        let more = await trash(rest, usingHelperFor: privilegedURLs, removal: removal, lettingTheirProgramsRun: [])
+        let more = await trash(
+            rest, usingHelperFor: privilegedURLs, removal: removal, lettingTheirProgramsRun: [], refusing: refusing
+        )
         result.trashed += more.trashed
         result.failures += more.failures
         let filesMoved = Set(more.trashed.map(\.originalURL))
@@ -988,14 +1003,16 @@ public struct TrashService: Sendable {
         _ urls: [URL],
         usingHelperFor privilegedURLs: Set<URL>,
         removal: UUID,
-        lettingTheirProgramsRun apps: Set<URL>
+        lettingTheirProgramsRun apps: Set<URL>,
+        refusing: (@Sendable (URL) -> TrashFailure.Reason?)? = nil
     ) async -> TrashResult {
         if let refused = refusingAllWhileHistoryCannotBeRead(urls) { return refused }
         var result = await trash(
             urls.filter { !privilegedURLs.contains($0) },
             ownedBy: nil,
             removal: removal,
-            lettingTheirProgramsRun: apps
+            lettingTheirProgramsRun: apps,
+            refusing: refusing
         )
         let helperURLs = urls.filter(privilegedURLs.contains)
         guard !helperURLs.isEmpty else { return result }
@@ -1004,6 +1021,8 @@ public struct TrashService: Sendable {
         for url in helperURLs {
             if let refusal = removalGuard.refusal(of: url) {
                 result.failures.append(TrashFailure(url: url, reason: .guarded(refusal)))
+            } else if let refusal = refusing?(url) {
+                result.failures.append(TrashFailure(url: url, reason: refusal))
             } else {
                 permitted.append(url)
             }

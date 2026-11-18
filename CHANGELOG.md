@@ -1056,8 +1056,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Open Uninstaller reads the whole seal of a maker's uninstaller, every file and every architecture, right before it
   opens it, so one changed after its maker signed it, which would then ask for an administrator's password, no longer
   opens, and Peel says why.
-- An item in a Library no longer moves when a folder on its way there became a link after the scan, which could have
-  moved something on another disk that was never listed: it stays, and says why.
+- What an uninstall or Orphaned Files found no longer moves when a folder on its way there became a link after the scan,
+  which could have moved something on another disk that was never listed: it stays, and says why. A page that lists a
+  folder where a link of yours leads, as Developer does, still moves what it listed.
 
 ## 1.3.0 (2026-11-04)
 

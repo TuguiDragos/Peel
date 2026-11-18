@@ -75,9 +75,10 @@ struct TrashServiceTests {
         #expect(result.failures.map(\.reason) == [.changedSinceScan])
     }
 
-    @Test func leavesAnItemWhoseFolderInALibraryBecameALink() async throws {
+    @Test func leavesAnItemFoundThroughRealFoldersWhoseFolderBecameALink() async throws {
         let directory = try TemporaryDirectory()
         let service = try service(in: directory)
+        let location = try directory.directory("home/Library/Application Support")
         let item = try directory.directory("home/Library/Application Support/Example/DirApp")
         let elsewhere = try directory.directory("elsewhere/Example/DirApp")
         let example = item.deletingLastPathComponent()
@@ -86,11 +87,31 @@ struct TrashServiceTests {
         try FileManager.default.createSymbolicLink(at: example, withDestinationURL: target)
         let cache = try directory.directory("home/Library/Caches/org.example.dirapp")
 
-        let result = await service.trash([item, cache])
+        let result = await service.trash(
+            [item, cache], refusing: TrashService.refusingLinksOnTheWay(below: [item: location])
+        )
 
         #expect(result.failures.map(\.reason) == [.linkOnTheWay])
         #expect(result.trashed.map(\.originalURL) == [cache])
         #expect(FileManager.default.fileExists(atPath: elsewhere.path(percentEncoded: false)))
+    }
+
+    /// A page that lists a tool's folder where a link the person made leads, as Developer does, moves what it listed.
+    @Test func movesAnItemListedThroughALinkThatWasThere() async throws {
+        let directory = try TemporaryDirectory()
+        let service = try service(in: directory)
+        let elsewhere = try directory.directory("elsewhere/DerivedData/Project-abc")
+        let xcode = try directory.directory("home/Library/Developer/Xcode")
+        try FileManager.default.createSymbolicLink(
+            at: xcode.appending(path: "DerivedData"), withDestinationURL: elsewhere.deletingLastPathComponent()
+        )
+        let item = xcode.appending(path: "DerivedData/Project-abc")
+
+        let result = await service.trash([item])
+
+        #expect(result.failures.isEmpty)
+        #expect(result.trashed.map(\.originalURL) == [item])
+        #expect(!FileManager.default.fileExists(atPath: elsewhere.path(percentEncoded: false)))
     }
 
     @Test func asksTheCallersQuestionBesideEachMove() async throws {
@@ -1492,20 +1513,21 @@ struct TrashServiceTests {
     }
 
     /// The guard answers by name for the whole request, then again for the folder the move holds open, which became a
-    /// link into Messages in between. It is the Library's first folder, which may be a link of the person's own.
+    /// link into Messages in between.
     @Test func refusesAnItemWhoseFolderLeadsSomewhereProtectedOnceItIsHeld() async throws {
         let directory = try TemporaryDirectory()
         let secret = try directory.file("home/Library/Messages/chat.db", contents: Data("secret".utf8))
-        let decoy = try directory.file("home/Library/Caches/chat.db", contents: Data("decoy".utf8))
-        let library = directory.url.appending(path: "home/Library", directoryHint: .isDirectory)
+        let decoy = try directory.file("home/Library/Caches/org.example.app/chat.db", contents: Data("decoy".utf8))
+        let caches = directory.url.appending(path: "home/Library/Caches", directoryHint: .isDirectory)
         let service = try realService(in: directory)
 
         let result = await service.trash([decoy]) { _ in
             try? FileManager.default.moveItem(
-                at: library.appending(path: "Caches"), to: library.appending(path: "Caches.real")
+                at: caches.appending(path: "org.example.app"), to: caches.appending(path: "org.example.app.real")
             )
             try? FileManager.default.createSymbolicLink(
-                atPath: library.appending(path: "Caches").path(percentEncoded: false), withDestinationPath: "Messages"
+                atPath: caches.appending(path: "org.example.app").path(percentEncoded: false),
+                withDestinationPath: "../Messages"
             )
             return nil
         }
