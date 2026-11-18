@@ -15,6 +15,13 @@ public struct FileIdentity: Sendable, Hashable {
             guard lstat(url.path(percentEncoded: false), &info) == 0 else { return nil }
             return Link(device: info.st_dev, inode: info.st_ino)
         }
+
+        /// The same for what `url` leads to, a link followed to its end.
+        static func leadingTo(_ url: URL) -> Link? {
+            var info = stat()
+            guard stat(url.path(percentEncoded: false), &info) == 0 else { return nil }
+            return Link(device: info.st_dev, inode: info.st_ino)
+        }
     }
 
     let link: Link

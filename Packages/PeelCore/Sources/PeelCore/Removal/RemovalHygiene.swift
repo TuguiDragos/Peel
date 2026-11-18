@@ -8,6 +8,16 @@ enum LaunchdCleanup {
         /// The file that declares it.
         let plist: URL
         var loadsInTheBackgroundSession = false
+        /// The file `plist` is, or leads to when it is a link, read while it is in its place: launchd names that file.
+        let file: FileIdentity.Link?
+
+        init(label: String, isDaemon: Bool, plist: URL, loadsInTheBackgroundSession: Bool = false) {
+            self.label = label
+            self.isDaemon = isDaemon
+            self.plist = plist
+            self.loadsInTheBackgroundSession = loadsInTheBackgroundSession
+            file = FileIdentity.Link.leadingTo(plist)
+        }
 
         var domain: String { LaunchdCleanup.domain(isDaemon: isDaemon, background: loadsInTheBackgroundSession) }
 
@@ -100,14 +110,18 @@ enum LaunchdCleanup {
     }
 
     /// Whether the job launchd runs under `job`'s label comes from `job`'s file: not when launchd names another file
-    /// that is still there, as when two files declare one label.
+    /// that is still there, as when two files declare one label. For a job file that is a link, launchd names the file
+    /// it leads to, which stays in its place once the link has moved.
     static func isLoaded(from loadedFrom: String?, _ job: Job) -> Bool {
         guard let loadedFrom else { return true }
         // launchd says `(submitted by …)` in place of a path for a job an app gave it: no file is gone, and the job
         // isn't this file's.
         guard loadedFrom.hasPrefix("/") else { return false }
         let other = URL(filePath: loadedFrom)
-        return PathPattern.comparablePath(of: other) == PathPattern.comparablePath(of: job.plist) || other.isMissing
+        if PathPattern.comparablePath(of: other) == PathPattern.comparablePath(of: job.plist) || other.isMissing {
+            return true
+        }
+        return job.file != nil && job.file == FileIdentity.Link.leadingTo(other)
     }
 
     /// Whether launchd has `job` loaded from its file now, or nil when its answer can't be read.

@@ -99,6 +99,24 @@ struct RemovalHygieneTests {
         #expect(!LaunchdCleanup.isLoaded(from: other.path(percentEncoded: false), job))
     }
 
+    @Test func aJobFileThatIsALinkIsLoadedFromTheFileItLeadsTo() throws {
+        let directory = try TemporaryDirectory()
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home"),
+            rootDirectory: directory.url.appending(path: "root")
+        )
+        let real = try launchdPlist("root/opt/local/etc/org.example.daemon.plist", label: "org.example.daemon", in: directory)
+        let other = try launchdPlist("root/opt/local/etc/other.plist", label: "org.example.daemon", in: directory)
+        let linked = try directory.directory("root/Library/LaunchDaemons").appending(path: "org.example.daemon.plist")
+        try FileManager.default.createSymbolicLink(at: linked, withDestinationURL: real)
+        let job = try #require(LaunchdCleanup.jobs(for: [linked], environment: environment).first)
+
+        #expect(LaunchdCleanup.isLoaded(from: real.path(percentEncoded: false), job))
+        #expect(!LaunchdCleanup.isLoaded(from: other.path(percentEncoded: false), job))
+        try FileManager.default.moveItem(at: linked, to: directory.url.appending(path: "moved.plist"))
+        #expect(LaunchdCleanup.isLoaded(from: real.path(percentEncoded: false), job), "its job ran on once the link moved")
+    }
+
     @Test func findsThePreferenceDomainsToForget() {
         let urls = [
             URL(filePath: "/Users/x/Library/Preferences/com.example.app.plist"),

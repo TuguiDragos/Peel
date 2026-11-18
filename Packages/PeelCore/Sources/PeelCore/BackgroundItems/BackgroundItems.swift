@@ -407,10 +407,8 @@ public enum BackgroundItems {
 
     /// launchd names the file a link leads to, so a job file that is a link is matched by what it leads to.
     private static func isTheSameFile(_ plist: URL, _ path: String) -> Bool {
-        var linked = stat()
-        var loaded = stat()
-        return stat(plist.path(percentEncoded: false), &linked) == 0 && stat(path, &loaded) == 0
-            && linked.st_dev == loaded.st_dev && linked.st_ino == loaded.st_ino
+        guard let linked = FileIdentity.Link.leadingTo(plist) else { return false }
+        return linked == FileIdentity.Link.leadingTo(URL(filePath: path))
     }
 
     /// A job file launchd can't load, named by its file since it declares no label that can be read.
