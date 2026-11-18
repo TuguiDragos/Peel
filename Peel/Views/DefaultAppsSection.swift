@@ -156,7 +156,7 @@ struct HandOverList: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 ForEach(handOver.kinds, id: \.self) { name in
-                    Text(verbatim: name)
+                    Text(verbatim: Self.breakable(name))
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
@@ -166,6 +166,12 @@ struct HandOverList: View {
         .frame(width: 340)
         .frame(maxHeight: 460)
         .fixedSize(horizontal: false, vertical: true)
+    }
+
+    /// `name` with a place to break a line before each extension after the first.
+    static func breakable(_ name: String) -> String {
+        // Unicode allows no break before a period, even after a space; a zero width space allows one after it.
+        name.replacingOccurrences(of: ", .", with: ", \u{200B}.")
     }
 
     static func title(of handOver: DefaultHandOver, kind: DefaultRole.Kind) -> String {
