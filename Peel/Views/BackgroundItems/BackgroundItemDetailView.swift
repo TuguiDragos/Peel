@@ -348,15 +348,13 @@ struct BackgroundItemDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            let stops = item.whenTrashed
-            let maker = Self.makersUninstaller(of: item, among: library.apps)
-                .map { "\n\n" + Self.makersWarning(app: $0.app.name) } ?? ""
-            if let owner = item.ownerBundleIdentifier,
-               let warning = item.trashWarning(ownerName: item.ownerName ?? library.name(forReference: owner)) {
-                Text(verbatim: "\(String(localized: warning))\n\n\(String(localized: stops))\(maker)")
-            } else {
-                Text(verbatim: String(localized: stops) + maker)
+            let warning = item.ownerBundleIdentifier.flatMap { owner in
+                item.trashWarning(ownerName: item.ownerName ?? library.name(forReference: owner))
             }
+            let maker = Self.makersUninstaller(of: item, among: library.apps)
+                .map { Self.makersWarning(app: $0.app.name) }
+            Text(verbatim: ([warning, item.whenTrashed].compactMap { $0.map { String(localized: $0) } } + [maker])
+                .compactMap(\.self).joined(separator: "\n\n"))
         }
         .confirmationDialog(Text("Disable \(item.label)?"), isPresented: $isConfirmingDisable) {
             Button("Disable") {
@@ -630,8 +628,10 @@ extension BackgroundItem {
 
     /// What the question before a move says becomes of the job once its file is in the Trash. A row named by its file
     /// has no label Peel read, so nothing is stopped for it.
-    var whenTrashed: LocalizedStringResource {
-        guard canBeControlled && !isNamedByItsFile || state == .notLoaded else { return stopsForGood }
+    var whenTrashed: LocalizedStringResource? {
+        // A file launchd doesn't have loaded starts nothing, so its move stops nothing.
+        guard !anotherFileIsLoaded, state != .notLoaded else { return nil }
+        guard canBeControlled && !isNamedByItsFile else { return stopsForGood }
         // An agent in `/Library/LaunchAgents` runs in every account logged in, and Stop reaches only this one.
         return kind == .agent && source == .systemLibrary
             ? "Peel stops the job for your account once its file is in the Trash. Other accounts logged in now run it until they log out, and none starts it again."

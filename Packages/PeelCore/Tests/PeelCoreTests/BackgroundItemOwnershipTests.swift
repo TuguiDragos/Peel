@@ -87,6 +87,9 @@ struct BackgroundItemOwnershipTests {
         #expect(!PrivilegedPathPolicy.allowsDaemon(helper.label))
         #expect(!item(HelperIdentity.helperIdentifier, .agent).isPeelsHelper, "an agent never reaches the helper")
         #expect(!item("com.example.helper", .daemon).isPeelsHelper)
+        var copy = helper
+        copy.anotherFileIsLoaded = true
+        #expect(!copy.isPeelsHelper, "a copy of its file beside the one launchd loaded is not the helper")
     }
 
     @Test func prefersTheBundleTheJobNames() {

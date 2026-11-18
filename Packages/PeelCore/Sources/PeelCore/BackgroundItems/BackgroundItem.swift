@@ -120,7 +120,9 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
 
     /// True for Peel's own privileged helper. The helper refuses to act on its own label, so this job is
     /// installed and uninstalled only from Peel's Settings.
-    public var isPeelsHelper: Bool { kind == .daemon && label == HelperIdentity.helperIdentifier }
+    public var isPeelsHelper: Bool {
+        kind == .daemon && label == HelperIdentity.helperIdentifier && !anotherFileIsLoaded
+    }
 
     /// True when the label starts with `com.apple.`.
     public var declaresAnAppleLabel: Bool { label.hasPrefix("com.apple.") }

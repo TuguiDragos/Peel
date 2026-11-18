@@ -13,8 +13,8 @@ struct BackgroundItemTrashWordsTests {
     }
 
     @Test func saysWhatAMoveDoesForEveryAccountThatRunsTheAgent() {
-        #expect(String(localized: job(.systemLibrary).whenTrashed) == String(localized: "Peel stops the job for your account once its file is in the Trash. Other accounts logged in now run it until they log out, and none starts it again."))
-        #expect(String(localized: job(.userLibrary).whenTrashed) == String(localized: "Peel stops the job once its file is in the Trash."))
+        #expect(job(.systemLibrary).whenTrashed.map { String(localized: $0) } == String(localized: "Peel stops the job for your account once its file is in the Trash. Other accounts logged in now run it until they log out, and none starts it again."))
+        #expect(job(.userLibrary).whenTrashed.map { String(localized: $0) } == String(localized: "Peel stops the job once its file is in the Trash."))
     }
 
     @Test func saysWhenAJobStillRunningEnds() {
@@ -33,9 +33,19 @@ struct BackgroundItemTrashWordsTests {
         let atLogout = String(localized: "macOS won’t start it again: it stops for good when you log out.")
         let atRestart = String(localized: "macOS won’t start it again: it stops for good when the Mac restarts.")
 
-        #expect(String(localized: agent.whenTrashed) == atLogout)
-        #expect(String(localized: daemon.whenTrashed) == atRestart)
-        #expect(String(localized: inTheBackground.whenTrashed) == atRestart)
+        #expect(agent.whenTrashed.map { String(localized: $0) } == atLogout)
+        #expect(daemon.whenTrashed.map { String(localized: $0) } == atRestart)
+        #expect(inTheBackground.whenTrashed.map { String(localized: $0) } == atRestart)
+    }
+
+    @Test func promisesNothingForAFileLaunchdDoesNotHaveLoaded() {
+        var copy = job(.userLibrary)
+        copy.anotherFileIsLoaded = true
+        var notLoaded = job(.userLibrary)
+        notLoaded.state = .notLoaded
+
+        #expect(copy.whenTrashed == nil)
+        #expect(notLoaded.whenTrashed == nil)
     }
 
     @Test func promisesNoStopForARowNamedByItsFile() {
@@ -44,6 +54,6 @@ struct BackgroundItemTrashWordsTests {
         named.isClosedToPeel = true
         named.isNamedByItsFile = true
 
-        #expect(String(localized: named.whenTrashed) == String(localized: "macOS won’t start it again: it stops for good when you log out."))
+        #expect(named.whenTrashed.map { String(localized: $0) } == String(localized: "macOS won’t start it again: it stops for good when you log out."))
     }
 }
