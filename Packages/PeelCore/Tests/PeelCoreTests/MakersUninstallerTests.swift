@@ -197,6 +197,25 @@ struct MakersUninstallerTests {
         #expect(leftBehind(moduleIsThere: false) == nil)
     }
 
+    @Test func knowsBitdefenderForHomeByItsAppsAndOpensItsUninstaller() {
+        let uninstaller = MakersUninstaller.Step.uninstaller(
+            URL(filePath: "/Library/Bitdefender/Central/Agent/BitdefenderUninstaller.app", directoryHint: .isDirectory)
+        )
+        let identifiers = [
+            "com.bitdefender.antivirusformac", "com.bitdefender.coresecurity", "com.bitdefender.agentui",
+            "com.bitdefender.vpn",
+        ]
+
+        for identifier in identifiers {
+            #expect(step(agent(identifier, team: "GUNFMW623Y")) == uninstaller, "\(identifier)")
+            #expect(MakersUninstaller.of(agent(identifier, team: "ABCDE12345")) == nil, "\(identifier)")
+        }
+        #expect(
+            step(agent("com.bitdefender.endpointsecurityformac", team: "GUNFMW623Y"))
+                == .uninstaller(URL(filePath: "/Applications/Bitdefender/EndpointSecurityforMacUninstaller.app/"))
+        )
+    }
+
     @Test func knowsTheAppsWhoseUninstallerTheirMakersPageOffersToDownload() {
         #expect(MakersUninstaller.of(agent("com.box.desktop", team: "M683GB7CPW"))?.step == .fromTheMakersPage)
         #expect(MakersUninstaller.of(agent("com.box.desktop.helper", team: "M683GB7CPW"))?.maker == "Box")

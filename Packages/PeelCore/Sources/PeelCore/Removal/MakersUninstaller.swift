@@ -103,6 +103,16 @@ public struct MakersUninstaller: Sendable, Hashable {
             .uninstaller("/Applications/Bitdefender/EndpointSecurityforMacUninstaller.app"),
             "https://www.bitdefender.com/business/support/en/77209-87953-uninstalling-security-agents.html"
         ),
+        // The page names Bitdefender Uninstaller in /Applications/Bitdefender, an alias of this app.
+        (
+            "GUNFMW623Y",
+            [
+                "com.bitdefender.antivirusformac", "com.bitdefender.coresecurity", "com.bitdefender.agentui",
+                "com.bitdefender.vpn",
+            ],
+            "Bitdefender", .uninstaller("/Library/Bitdefender/Central/Agent/BitdefenderUninstaller.app"),
+            "https://www.bitdefender.com/consumer/support/answer/1784/"
+        ),
         (
             "2H5GFH3774", ["com.sophos.endpoint.uiserver"], "Sophos",
             .uninstaller("/Applications/Sophos/Remove Sophos Endpoint.app"),
