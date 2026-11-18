@@ -1849,6 +1849,34 @@ struct OrphanScannerTests {
         #expect(await scanner.stillOrphaned(items, installedApps: installed + [sameMaker], remembered: [gone]).isEmpty)
     }
 
+    @Test func inAFolderOfLinksOnlyALinkIsListedWithItsJob() async throws {
+        func listed(programIsALink: Bool) async throws -> Set<String> {
+            let directory = try TemporaryDirectory()
+            let tool = try directory.directory("root/usr/local/bin").appending(path: "syncd")
+            if programIsALink {
+                let program = try directory.file("root/Library/Sync/syncd")
+                try FileManager.default.createSymbolicLink(at: tool, withDestinationURL: program)
+            } else {
+                try directory.file("root/usr/local/bin/syncd")
+            }
+            let path = tool.path(percentEncoded: false)
+            try directory.file(
+                "root/Library/LaunchDaemons/org.example.sync.daemon.plist",
+                contents: job("org.example.sync.daemon", runs: [path])
+            )
+            let gone = RememberedApp(
+                bundleIdentifier: "org.example.sync", name: "Sync", teamIdentifier: "EXAMPLE123", lastSeen: .now,
+                lastPath: directory.url.appending(path: "Applications/Sync.app").path(percentEncoded: false)
+            )
+            let scan = await scanner(in: directory, teams: [path: "EXAMPLE123"])
+                .scan(installedApps: installed, remembered: [gone])
+            return Set(scan.groups.flatMap(\.items).map(\.url.lastPathComponent))
+        }
+
+        #expect(try await listed(programIsALink: false) == ["org.example.sync.daemon.plist"])
+        #expect(try await listed(programIsALink: true) == ["org.example.sync.daemon.plist", "syncd"])
+    }
+
     @Test func findsTheGroupThatListsAJobWhateverTheGroupIsCalled() async throws {
         let directory = try TemporaryDirectory()
         let program = try directory.file("root/Library/PrivilegedHelperTools/org.example.synchelper")

@@ -834,7 +834,9 @@ public struct OrphanScanner: Sendable {
             let place = environment.locations
                 .filter { PathComponents.isPath(runs, inside: PathPattern.comparablePath(of: $0.url)) }
                 .max { $0.url.path(percentEncoded: false).count < $1.url.path(percentEncoded: false).count }
-            if let place, !TrashService.hasALinkOnTheWay(job.runs, below: place.url) {
+            // From a folder of links only a link moves, so anything else there is left out.
+            if let place, !place.kind.isForLinks || job.runs.isSymbolicLink,
+               !TrashService.hasALinkOnTheWay(job.runs, below: place.url) {
                 files.append((job.runs, place.kind, place.url, .programOfAJobOfAnAppThatLeft, job.app.bundleIdentifier))
             }
         }
