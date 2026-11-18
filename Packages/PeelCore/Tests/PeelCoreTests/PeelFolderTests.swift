@@ -79,6 +79,7 @@ struct PeelFolderTests {
         _ = AppFolders(url: file("app-folders.json")).load()
         _ = DigestMemory(url: file("digests.bin")).load()
         _ = await RemovalLog(url: file("removals.json")).load()
+        _ = await RemovalLog(url: file("removals.json")).loadForgettingWhatIsBack()
         _ = await RemovalLog(url: file("removals.json")).placesInTheTrash()
         _ = await RefusalLog(url: file("refusals.json")).load()
         _ = await RefusalLog(url: file("refusals.json")).holdsNothing()

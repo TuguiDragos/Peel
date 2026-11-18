@@ -208,9 +208,9 @@ public actor RemovalLog {
     }
 
     /// Reads History, first taking out the records of items back in their place, as a Put Back that was cut short
-    /// leaves them: one that ended would have taken them out.
+    /// leaves them: one that ended would have taken them out. Like any read, it makes nothing where there is no folder.
     public func loadForgettingWhatIsBack() -> RemovalLogOutcome {
-        whileNoOtherProcessWrites {
+        FileLock.whileReading(beside: url) {
             guard let existing = current() else { return outcome(nil) }
             let disks = MountedDisks.now()
             let back = Set(existing.filter {
