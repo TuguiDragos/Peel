@@ -14,12 +14,14 @@ private struct StandInBrew {
 
     private var log: URL { folder.appending(path: "asked") }
 
-    /// `info`, `cleanup` and `update` are what its `brew info`, `brew cleanup` and `brew update` run, in shell.
+    /// `info`, `cleanup`, `update`, `config` and `upgrade` are what the `brew` commands of those names run, in shell.
     init(
         hasDefinitions: Bool = true,
         info: String = #"echo '{"formulae":[],"casks":[]}'"#,
         cleanup: String = ":",
-        update: String = ":"
+        update: String = ":",
+        config: String = ":",
+        upgrade: String = ":"
     ) throws {
         let manager = FileManager.default
         let path = folder.path(percentEncoded: false)
@@ -35,6 +37,8 @@ private struct StandInBrew {
           info) \(info) ;;
           cleanup) \(cleanup) ;;
           update) \(update) ;;
+          config) \(config) ;;
+          upgrade) \(upgrade) ;;
         esac
 
         """
@@ -195,6 +199,39 @@ private struct StandInBrew {
         let prefix = try #require(homebrew.installation?.prefix)
         #expect(PathPattern.comparablePath(of: prefix) == PathPattern.comparablePath(of: second.folder))
         #expect(homebrew.settingsFolders == Homebrew.settingsFolders(prefix: prefix))
+    }
+
+    @Test(.timeLimit(.minutes(1))) func anUpgradeThePersonStopsEndsAsStopped() async throws {
+        let waiting = FileManager.default.temporaryDirectory.appending(path: "PeelTests-wait-\(UUID().uuidString)")
+        let path = waiting.path(percentEncoded: false)
+        #expect(mkfifo(path, 0o600) == 0)
+        defer {
+            // Lets a `brew` the stop missed read the end of the pipe and end.
+            let end = open(path, O_WRONLY | O_NONBLOCK)
+            if end >= 0 { close(end) }
+            unlink(path)
+        }
+        let outdated = #"{"formulae":[{"name":"tool","installed":[{"version":"1.0","installed_on_request":true}],"versions":{"stable":"2.0"},"outdated":true,"dependencies":[]}],"casks":[]}"#
+        let brew = try StandInBrew(
+            info: "echo '\(outdated)'", config: "echo 'HOMEBREW_NO_INSTALL_CLEANUP: set'",
+            upgrade: "echo started; read -r line < '\(path)'"
+        )
+        defer { brew.goAway() }
+        let homebrew = HomebrewLibrary(exclusions: { .none })
+        await Homebrew.$standIn.withValue(brew.url) { await homebrew.refresh() }
+        let tool = try #require(homebrew.packages?.first { $0.name == "tool" })
+
+        let run = Task {
+            await Homebrew.$standIn.withValue(brew.url) { await homebrew.run(.upgrade(tool.id), showsResult: false) }
+        }
+        while homebrew.progress?.contains("started") != true {
+            await withCheckedContinuation { going in
+                withObservationTracking { _ = homebrew.progress } onChange: { going.resume() }
+            }
+        }
+        homebrew.stopUpgrade()
+
+        #expect(await run.value?.ending == .stopped)
     }
 
     @Test func aCommandPeelNeverStartedSaysSo() async throws {

@@ -541,21 +541,69 @@ struct HomebrewTests {
         ]
         let asked = Mutex<[String]>([])
 
-        let run = Task { () -> String? in
+        let run = Task { () -> Homebrew.CommandFailure? in
             do throws(Homebrew.CommandFailure) {
                 _ = try await Homebrew.upgrade(packages) { arguments throws(Homebrew.CommandFailure) in
                     asked.withLock { $0.append(arguments[1]) }
                     withUnsafeCurrentTask { $0?.cancel() }
-                    throw Homebrew.CommandFailure(output: "Stopped before it finished.")
+                    throw Homebrew.CommandFailure(output: "Stopped before it finished.", wasStopped: true)
                 }
                 return nil
             } catch {
-                return error.output
+                return error
             }
         }
 
-        #expect(await run.value == "Stopped before it finished.\n")
+        let failure = await run.value
+        #expect(failure?.output == "Stopped before it finished.\n")
+        #expect(failure?.wasStopped == true)
         #expect(asked.withLock { $0 } == ["--formula"])
+    }
+
+    /// A stop that comes once the formulae are done still ends the run as stopped: the casks' call starts nothing
+    /// and says so, as `execute` does in a stopped task.
+    @Test func aStopBetweenTheFormulaeAndTheCasksIsAStop() async {
+        let packages = [
+            HomebrewPackage(name: "wget", kind: .formula, installedVersion: "1.0"),
+            HomebrewPackage(name: "firefox", kind: .cask, installedVersion: "1.0"),
+        ]
+        let run = Task { () -> Homebrew.CommandFailure? in
+            do throws(Homebrew.CommandFailure) {
+                _ = try await Homebrew.upgrade(packages) { _ throws(Homebrew.CommandFailure) in
+                    guard !Task.isCancelled else {
+                        throw Homebrew.CommandFailure(output: "Stopped before it finished.", wasStopped: true)
+                    }
+                    withUnsafeCurrentTask { $0?.cancel() }
+                    return Homebrew.Attempt(status: 0, standardOutput: "wget was upgraded.\n", standardError: "")
+                }
+                return nil
+            } catch {
+                return error
+            }
+        }
+
+        let failure = await run.value
+        #expect(failure?.wasStopped == true)
+        #expect(failure?.output == "wget was upgraded.\nStopped before it finished.\n")
+    }
+
+    @Test func homebrewStoppedBeforeItStartsSaysItWasStopped() async {
+        let brew = URL(filePath: "/usr/bin/true")
+        let run = Task { () -> Bool? in
+            withUnsafeCurrentTask { $0?.cancel() }
+            return await Homebrew.$standIn.withValue(brew) { () async -> Bool? in
+                do throws(Homebrew.CommandFailure) {
+                    _ = try await Homebrew.execute(
+                        ["upgrade"], autoUpdate: false, timeout: nil, executable: brew, changesApps: true
+                    )
+                    return nil
+                } catch {
+                    return error.wasStopped
+                }
+            }
+        }
+
+        #expect(await run.value == true)
     }
 
     /// Homebrew writes warnings to stderr and still exits 0, for example for a formula from a tap that uses a

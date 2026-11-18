@@ -646,9 +646,12 @@ public enum Homebrew {
     public struct CommandFailure: Error, Sendable, Hashable {
         /// What Homebrew printed, or nil when it printed nothing but blank space.
         public let output: String?
+        /// True when the run was stopped before it ended on its own.
+        public let wasStopped: Bool
 
-        public init(output: String) {
+        public init(output: String, wasStopped: Bool = false) {
             self.output = output.allSatisfy(\.isWhitespace) ? nil : output
+            self.wasStopped = wasStopped
         }
     }
 
@@ -1190,15 +1193,16 @@ public enum Homebrew {
 
     /// Formulae and casks go in separate calls because a name can belong to both. Both are attempted even when
     /// the first fails, whether `brew` reported the failure or never finished, so the report covers the whole
-    /// run, but nothing starts once the person has stopped it. `execute` is a parameter so a test can stand in for
-    /// `brew`.
+    /// run, but none after a call that was stopped. A call made once the run is stopped starts nothing and says
+    /// so, as `execute` does. `execute` is a parameter so a test can stand in for `brew`.
     static func upgrade(
         _ packages: [HomebrewPackage],
         execute: (_ arguments: [String]) async throws(CommandFailure) -> Attempt
     ) async throws(CommandFailure) -> String {
         var output = ""
         var didFail = false
-        for kind in [HomebrewPackage.Kind.formula, .cask] where !Task.isCancelled {
+        var wasStopped = false
+        for kind in [HomebrewPackage.Kind.formula, .cask] where !wasStopped {
             let names = packages.filter { $0.kind == kind }.map(\.name)
             guard !names.isEmpty else { continue }
             do {
@@ -1212,9 +1216,10 @@ public enum Homebrew {
                 // its own.
                 if let said = error.output { output += said.hasSuffix("\n") ? said : said + "\n" }
                 didFail = true
+                wasStopped = error.wasStopped
             }
         }
-        guard !didFail else { throw CommandFailure(output: output) }
+        guard !didFail else { throw CommandFailure(output: output, wasStopped: wasStopped) }
         return output
     }
 
@@ -1611,7 +1616,7 @@ public enum Homebrew {
         case .failure(let failure):
             // A run someone follows shows Peel's own sentence where it happened, after what the tool wrote.
             onOutput?(Data((failure.explanation + "\n").utf8))
-            throw CommandFailure(output: failure.explanation)
+            throw CommandFailure(output: failure.explanation, wasStopped: failure == .canceled)
         }
     }
 

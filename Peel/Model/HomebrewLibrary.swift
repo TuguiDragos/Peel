@@ -81,8 +81,8 @@ final class HomebrewLibrary {
     }
 
     struct CommandResult: Identifiable {
-        /// How a command ended: Homebrew finished it, or failed, or Peel stopped before it started Homebrew.
-        enum Ending { case finished, failed, notRun }
+        /// How a command ended: Homebrew finished it, failed, or was stopped while it ran, or Peel never started it.
+        enum Ending { case finished, failed, stopped, notRun }
 
         let id = UUID()
         let ending: Ending
@@ -815,7 +815,8 @@ final class HomebrewLibrary {
         case .success(let output):
             return CommandResult(ending: .finished, output: written.isEmpty ? output : written)
         case .failure(let failure):
-            return CommandResult(ending: .failed, output: written.isEmpty ? failure.output ?? "" : written)
+            let ending: CommandResult.Ending = failure.wasStopped ? .stopped : .failed
+            return CommandResult(ending: ending, output: written.isEmpty ? failure.output ?? "" : written)
         }
     }
 

@@ -844,12 +844,14 @@ struct HomebrewOutputView: View {
                 switch result.ending {
                 case .finished: Text("Homebrew finished").font(.headline)
                 case .failed: Text("Homebrew couldn’t finish").font(.headline)
+                case .stopped: Text("Homebrew stopped").font(.headline)
                 case .notRun: Text("Peel didn’t run Homebrew").font(.headline)
                 }
             } icon: {
                 switch result.ending {
                 case .finished: Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
                 case .failed: Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.red)
+                case .stopped: Image(systemName: "stop.circle.fill").foregroundStyle(.secondary)
                 case .notRun: Image(systemName: "info.circle.fill").foregroundStyle(.secondary)
                 }
             }

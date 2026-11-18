@@ -281,8 +281,7 @@ struct AppPageHeader: View {
         library.record(nil, of: app)
         // Nil when Homebrew is already running a command. The button is disabled then, so this is only a safeguard.
         guard let result = await homebrew.run(.upgrade(cask.id), showsResult: false, reopening: reopen) else { return }
-        let succeeded = result.succeeded
-        upgradeOutput = succeeded || homebrew.replacedPeel != nil ? nil : result
+        upgradeOutput = result.succeeded || homebrew.replacedPeel != nil ? nil : result
         guard result.ending != .notRun else {
             library.record(AppLibrary.Upgrade(app: app, ending: .notRun), of: app)
             return
@@ -296,11 +295,11 @@ struct AppPageHeader: View {
         library.record(AppLibrary.Upgrade(app: upgraded, ending: result.ending), of: upgraded)
         await library.checkForUpdates([upgraded], force: true)
 
-        // A notification either way, so the user learns how it went even after leaving the page.
-        if succeeded {
-            notifications?.notify(appUpgraded: upgraded.name, to: upgraded.version, app: upgraded.url)
-        } else {
-            notifications?.notify(appUpgradeFailed: upgraded.name, app: upgraded.url)
+        // A notification, so the user learns how it went even after leaving the page. A stop was theirs.
+        switch result.ending {
+        case .finished: notifications?.notify(appUpgraded: upgraded.name, to: upgraded.version, app: upgraded.url)
+        case .failed: notifications?.notify(appUpgradeFailed: upgraded.name, app: upgraded.url)
+        case .stopped, .notRun: break
         }
     }
 
@@ -318,6 +317,12 @@ struct AppPageHeader: View {
                 title: Text("Homebrew couldn’t finish the upgrade."),
                 systemImage: "exclamationmark.triangle.fill",
                 tint: .red
+            )
+        case .stopped:
+            StatusLabel(
+                title: Text("Homebrew stopped before it finished the upgrade."),
+                systemImage: "stop.circle.fill",
+                tint: .secondary
             )
         case .notRun:
             StatusLabel(title: Text("Peel didn’t run Homebrew."), systemImage: "info.circle.fill", tint: .secondary)
