@@ -69,6 +69,7 @@ struct MultipleAppsView: View {
                 RemovalBar(
                     selectedSize: selected.known,
                     isSelectionMeasured: selected.isComplete,
+                    hasSelection: !plan.selectedURLs.isEmpty,
                     isScanning: plan.isScanning,
                     scan: plan.scanRun,
                     isEnabled: !plan.selectedURLs.isEmpty && !plan.isRemoving && !quitting.isWaiting,

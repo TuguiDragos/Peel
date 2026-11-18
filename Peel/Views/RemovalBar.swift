@@ -47,7 +47,7 @@ struct RemovalBar: View {
 
     private enum Purpose {
         /// What the page itself selected, which `onRemove` acts on.
-        case own(SizeTotal, isEnabled: Bool, onRemove: () -> Void)
+        case own(SizeTotal, hasSelection: Bool, isEnabled: Bool, onRemove: () -> Void)
         /// A storage tool's page: the bar counts and moves what is selected there and on every such page seen
         /// before (`SelectionCarrier`). `message` goes under the question when only this page's selection moves,
         /// and is asked for only then, since it can walk all the page holds.
@@ -56,6 +56,7 @@ struct RemovalBar: View {
 
     private struct Reading {
         let total: SizeTotal
+        let hasSelection: Bool
         /// How many pages the selection is on, when one of them is not this page.
         let pages: Int?
         let isEnabled: Bool
@@ -67,6 +68,7 @@ struct RemovalBar: View {
     init(
         selectedSize: Int64,
         isSelectionMeasured: Bool = true,
+        hasSelection: Bool,
         isScanning: Bool,
         isWorking: Bool = false,
         scan: ScanRun? = nil,
@@ -82,6 +84,7 @@ struct RemovalBar: View {
     ) {
         purpose = .own(
             SizeTotal(known: selectedSize, isComplete: isSelectionMeasured),
+            hasSelection: hasSelection,
             isEnabled: isEnabled,
             onRemove: onRemove
         )
@@ -122,9 +125,10 @@ struct RemovalBar: View {
 
     private var reading: Reading {
         switch purpose {
-        case .own(let total, let isEnabled, let onRemove):
+        case .own(let total, let hasSelection, let isEnabled, let onRemove):
             return Reading(
                 total: total,
+                hasSelection: hasSelection,
                 pages: nil,
                 isEnabled: isEnabled && !isScanning && !isWorking,
                 remove: onRemove
@@ -133,11 +137,23 @@ struct RemovalBar: View {
             let parts = carrier.parts(from: page)
             return Reading(
                 total: parts.total,
+                hasSelection: !parts.isEmpty,
                 pages: parts.contains { $0.page != page } ? parts.count : nil,
                 isEnabled: !parts.isEmpty && !carrier.progress.isMoving && !isScanning && !isWorking,
                 remove: { ask(about: parts) }
             )
         }
+    }
+
+    enum Words: Equatable {
+        case nothingSelected
+        case selected(SizeTotal)
+    }
+
+    /// What the bar says beside its button when nothing else is under way: a selection's size, even of an empty file,
+    /// and Nothing selected only when nothing is.
+    static func words(for total: SizeTotal, hasSelection: Bool) -> Words {
+        hasSelection ? .selected(total) : .nothingSelected
     }
 
     static func mayAct(recordsInHistory: Bool, history: RemovalHistoryStore, exclusionsAreKnown: Bool) -> Bool {
@@ -146,6 +162,7 @@ struct RemovalBar: View {
 
     var body: some View {
         let reading = reading
+        let words = Self.words(for: reading.total, hasSelection: reading.hasSelection)
         let isEnabled = reading.isEnabled && Self.mayAct(
             recordsInHistory: recordsInHistory, history: history, exclusionsAreKnown: exclusions.exclusions.isKnown
         )
@@ -220,6 +237,9 @@ struct RemovalBar: View {
                                 .popover(isPresented: $isShowingPages, arrowEdge: .top) {
                                     CarriedPartsList(page: page)
                                 }
+                            } else if words == .nothingSelected {
+                                Text("Nothing selected")
+                                    .foregroundStyle(.secondary)
                             } else {
                                 figure(reading.total)
                                 Text("Selected", comment: "A label after a figure at the foot of a page: a size, such as 303 kB, or a count, such as 3 items. Write it so it reads right after any figure, as \"en la selección\" does, never as a form that agrees with the number or adds (s).")

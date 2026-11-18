@@ -251,6 +251,7 @@ struct AppDetailView: View {
                 RemovalBar(
                     selectedSize: selected.known,
                     isSelectionMeasured: selected.isComplete,
+                    hasSelection: !plan.selectedURLs.isEmpty,
                     isScanning: isBusy,
                     scan: plan.scanRun,
                     isEnabled: !plan.selectedURLs.isEmpty && !plan.isRemoving && !quitting.isWaiting,

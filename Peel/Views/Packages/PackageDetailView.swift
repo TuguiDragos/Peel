@@ -158,6 +158,7 @@ struct PackageDetailView: View {
                 RemovalBar(
                     selectedSize: SizeTotal(selectedItems.map(\.size)).known,
                     isSelectionMeasured: SizeTotal(selectedItems.map(\.size)).isComplete,
+                    hasSelection: !selectedItems.isEmpty,
                     isScanning: packages.isScanning,
                     isWorking: packages.isWorking,
                     scan: packages.scanRun,

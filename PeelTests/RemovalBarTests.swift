@@ -56,4 +56,13 @@ struct RemovalBarTests {
         #expect(!RemovalBar.mayAct(recordsInHistory: false, history: history, exclusionsAreKnown: false))
         #expect(!RemovalBar.mayAct(recordsInHistory: true, history: history, exclusionsAreKnown: true))
     }
+
+    @Test func saysNothingSelectedOnlyWhenNothingIs() {
+        let empty = SizeTotal(known: 0, isComplete: true)
+
+        #expect(RemovalBar.words(for: empty, hasSelection: false) == .nothingSelected)
+        #expect(RemovalBar.words(for: empty, hasSelection: true) == .selected(empty), "an empty file read as none")
+        let page = SizeTotal(known: 4_096, isComplete: true)
+        #expect(RemovalBar.words(for: page, hasSelection: true) == .selected(page))
+    }
 }

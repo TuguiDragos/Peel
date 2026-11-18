@@ -176,6 +176,7 @@ struct CloudView: View {
             if cloud.files?.isEmpty == false {
                 RemovalBar(
                     selectedSize: cloud.selectedSize,
+                    hasSelection: !cloud.selectedURLs.isEmpty,
                     isScanning: cloud.isScanning,
                     isWorking: cloud.isFreeing,
                     scan: cloud.scanRun,
