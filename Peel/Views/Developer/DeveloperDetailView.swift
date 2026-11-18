@@ -3,6 +3,7 @@ import SwiftUI
 
 struct DeveloperDetailView: View {
     @Environment(DeveloperLibrary.self) private var developer
+    @Environment(SelectionCarrier.self) private var carrier
     let environment: DeveloperEnvironment
 
     static let keptNote: LocalizedStringResource = "Peel does not select these for you, and Select Recommended leaves them out: each row says why. You can still select them yourself."
@@ -28,11 +29,15 @@ struct DeveloperDetailView: View {
         .scrollBarBelowSectionHeaders()
         .dimmedWhileBusy(developer.isScanning)
         .edgeBar(.bottom) {
-            RemovalBar(
-                page: environment.page,
-                isScanning: developer.isScanning,
-                scan: developer.scanRun
-            )
+            // Every folder listed can be selected, so only an environment that lists none, only its model commands,
+            // has nothing for the bar.
+            if !environment.locations.isEmpty || carrier.movesSomething(from: environment.page) {
+                RemovalBar(
+                    page: environment.page,
+                    isScanning: developer.isScanning,
+                    scan: developer.scanRun
+                )
+            }
         }
         .fadesInColumn(whenRowsChange: environment.locations.map(\.id))
         .navigationTitle(environment.name)

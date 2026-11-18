@@ -157,4 +157,34 @@ struct ReadOnlyListTests {
         holding.carriedParts = []
         #expect(!carrier.movesSomething(from: group))
     }
+
+    @Test func aSpaceAreaIsAListToReadUntilTheHelperCanMoveWhatIsInside() {
+        let caches = URL(filePath: "/Library/Caches/org.example.app", directoryHint: .isDirectory)
+        var plan = SpaceRemoval.Plan(removable: [caches], inUse: [], leftToDeveloper: [], sizes: [caches: 10])
+        plan.needsTheHelper = [caches]
+        var heldBack = plan
+        heldBack.heldBack = [caches: .holdsDocuments]
+        let empty = SpaceRemoval.Plan(removable: [], inUse: [], leftToDeveloper: [], sizes: [:])
+
+        #expect(SpaceDetailView.isOnlyToRead(plan, canUseHelper: false))
+        #expect(!SpaceDetailView.offersItsBar(plan, canUseHelper: false))
+        #expect(!SpaceDetailView.isOnlyToRead(plan, canUseHelper: true))
+        #expect(SpaceDetailView.offersItsBar(plan, canUseHelper: true))
+        #expect(SpaceDetailView.isOnlyToRead(heldBack, canUseHelper: true))
+        #expect(!SpaceDetailView.isOnlyToRead(empty, canUseHelper: true))
+        #expect(!SpaceDetailView.offersItsBar(empty, canUseHelper: true))
+        #expect(SpaceDetailView.offersItsBar(nil, canUseHelper: false), "the bar left while the plan was being made")
+    }
+
+    @Test func anInstallersKindIsAListToReadUntilTheHelperCanMoveIt() {
+        var installer = InstallerItem(
+            url: URL(filePath: "/Applications/Install macOS.app"), kind: .macOSInstaller, name: "Install macOS",
+            size: 10, date: nil, installedApp: nil, isReadOnly: false, notes: []
+        )
+        installer.requiresPrivileges = true
+
+        #expect(InstallerDetailView.isOnlyToRead([installer], of: .macOSInstaller, canUseHelper: false))
+        #expect(!InstallerDetailView.isOnlyToRead([installer], of: .macOSInstaller, canUseHelper: true))
+        #expect(!InstallerDetailView.isOnlyToRead([], of: .macOSInstaller, canUseHelper: false))
+    }
 }

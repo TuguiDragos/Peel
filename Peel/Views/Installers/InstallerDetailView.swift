@@ -5,6 +5,7 @@ import SwiftUI
 struct InstallerDetailView: View {
     @Environment(InstallerLibrary.self) private var installers
     @Environment(HelperModel.self) private var helper
+    @Environment(SelectionCarrier.self) private var carrier
     let kind: InstallerItem.Kind
 
     var body: some View {
@@ -13,6 +14,7 @@ struct InstallerDetailView: View {
             !$0.isReadOnly && (detail(for: $0) != nil || Self.warning(for: $0) != nil)
         }
         let showsDays = rows.contains { !$0.isReadOnly && $0.date != nil }
+        let isOnlyToRead = Self.isOnlyToRead(rows, of: kind, canUseHelper: helper.canAct)
 
         List {
             header(rows)
@@ -43,6 +45,7 @@ struct InstallerDetailView: View {
                             isLeftAlone: item.heldBack?.cannotBeMoved == true,
                             isFirst: item.id == rows.first?.id,
                             hasNoteColumn: hasNoteColumn,
+                            isReadOnly: isOnlyToRead,
                             selection: installers, isSelected: installers.isSelected(item.url)
                         )
                     }
@@ -51,12 +54,22 @@ struct InstallerDetailView: View {
             } header: {
                 SectionHeaderLine {
                     heading(kind.title, kind.explanation)
+                } count: {
+                    // A list to read keeps the heading that says what these are, with how many and their size.
+                    if isOnlyToRead {
+                        Text("^[\(rows.count) item](inflect: true) · \(SizeTotal(rows.map(\.size)).text)")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .monospacedDigit()
+                    }
                 } actions: {
-                    SelectMenu(
-                        list: rows.selectableRows(canUseHelper: helper.canAct),
-                        place: Text(kind.title),
-                        selection: installers
-                    )
+                    if !isOnlyToRead {
+                        SelectMenu(
+                            list: rows.selectableRows(canUseHelper: helper.canAct),
+                            place: Text(kind.title),
+                            selection: installers
+                        )
+                    }
                 }
             }
 
@@ -79,7 +92,9 @@ struct InstallerDetailView: View {
         .scrollBarBelowSectionHeaders()
         .dimmedWhileBusy(installers.isScanning)
         .edgeBar(.bottom) {
-            if kind != .deviceBackup {
+            if kind != .deviceBackup,
+               !rows.selectableRows(canUseHelper: helper.canAct).selectable.isEmpty
+                || carrier.movesSomething(from: kind.page) {
                 RemovalBar(
                     page: kind.page,
                     isScanning: installers.isScanning,
@@ -90,6 +105,12 @@ struct InstallerDetailView: View {
         .fadesInColumn(whenRowsChange: items.map(\.id))
         .navigationTitle(Text(kind.title))
         .toolbar(removing: .title)
+    }
+
+    /// True when a kind other than device backups lists items and a click can select none of them: the page is then a
+    /// list to read. Device backups are always one, with rows of their own.
+    static func isOnlyToRead(_ rows: [InstallerItem], of kind: InstallerItem.Kind, canUseHelper: Bool) -> Bool {
+        kind != .deviceBackup && !rows.isEmpty && rows.selectableRows(canUseHelper: canUseHelper).selectable.isEmpty
     }
 
     private var items: [InstallerItem] {
@@ -108,10 +129,10 @@ struct InstallerDetailView: View {
                 }
             }
         } trailing: {
-            TotalLabel(
-                total: rows.shownTotal(of: kind, canUseHelper: helper.canAct),
-                caption: Text(kind == .deviceBackup ? "on this Mac" : "to remove")
-            )
+            let total = rows.shownTotal(of: kind, canUseHelper: helper.canAct)
+            if kind == .deviceBackup || !total.isNothing {
+                TotalLabel(total: total, caption: Text(kind == .deviceBackup ? "on this Mac" : "to remove"))
+            }
         }
     }
 

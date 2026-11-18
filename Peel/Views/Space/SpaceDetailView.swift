@@ -5,6 +5,7 @@ import SwiftUI
 struct SpaceDetailView: View {
     @Environment(SpaceLibrary.self) private var space
     @Environment(HelperModel.self) private var helper
+    @Environment(SelectionCarrier.self) private var carrier
     let item: SpaceItem
 
     private var plan: SpaceRemoval.Plan? {
@@ -100,7 +101,8 @@ struct SpaceDetailView: View {
         .scrollBarBelowSectionHeaders()
         .dimmedWhileBusy(space.isScanning)
         .edgeBar(.bottom) {
-            if !item.isReadOnly {
+            if !item.isReadOnly,
+               Self.offersItsBar(plan, canUseHelper: helper.canAct) || carrier.movesSomething(from: item.page) {
                 RemovalBar(
                     page: item.page,
                     isScanning: space.isScanning,
@@ -147,54 +149,77 @@ struct SpaceDetailView: View {
             : String(inflecting: "\(folders) inside ^[\(place.containers) app container](inflect: true)")
     }
 
+    /// True when the area lists folders and a click can select none of them: the page is then a list to read.
+    static func isOnlyToRead(_ plan: SpaceRemoval.Plan, canUseHelper: Bool) -> Bool {
+        !plan.removable.isEmpty && plan.selectableRows(canUseHelper: canUseHelper).selectable.isEmpty
+    }
+
+    /// The bar while the plan is made, or once something in it can be selected.
+    static func offersItsBar(_ plan: SpaceRemoval.Plan?, canUseHelper: Bool) -> Bool {
+        guard let plan else { return true }
+        return !plan.selectableRows(canUseHelper: canUseHelper).selectable.isEmpty
+    }
+
     @ViewBuilder
     private func contents(of plan: SpaceRemoval.Plan) -> some View {
-        UnreadableFoldersNotice(folders: plan.unreadable, needsFullDiskAccess: plan.needsFullDiskAccess)
-        Section {
-            if plan.removable.isEmpty, plan.unreadable.isEmpty {
-                Text("Nothing in here can be moved now.")
-                    .foregroundStyle(.secondary)
-                    .listRowSeparator(.hidden)
+        if Self.isOnlyToRead(plan, canUseHelper: helper.canAct) {
+            FoundOnThisMacSection(count: rows.count, size: SizeTotal(rows.map { plan.sizes[$0] })) {
+                inside(plan, isReadOnly: true)
             }
-            ForEach(Array(rows.enumerated()), id: \.element) { index, url in
-                RemovalRow(
-                    url: url,
-                    icon: .file(url),
-                    detail: nil,
-                    warning: plan.heldBack[url].map { String(localized: $0.explanation) },
-                    size: plan.sizes[url] ?? 0,
-                    isMeasured: plan.sizes[url] != nil,
-                    isLocked: plan.isLocked(url, canUseHelper: helper.canAct),
-                    isLeftAlone: plan.heldBack[url]?.cannotBeMoved == true,
-                    isFirst: index == 0,
-                    hasNoteColumn: !plan.heldBack.isEmpty,
-                    selection: space, isSelected: space.isSelected(url)
-                )
-            }
-            .listRowSeparator(.hidden)
-            if !plan.appsToQuit.isEmpty || !plan.refused.isEmpty {
-                ListNotes {
-                    if !plan.appsToQuit.isEmpty {
-                        Text("Peel doesn’t include folders an open app is still writing to: \(plan.appsToQuit.formatted(.list(type: .and))). Quit an app to include its folders. Peel can only tell a folder is an open app’s when it carries the app’s own name or identifier, not its maker’s.")
-                    }
-                    let keepingWork = plan.refused.values.count { $0 == .holdsWorkKeptInACache }
-                    if keepingWork > 0 {
-                        Text("Peel leaves ^[\(keepingWork) folder](inflect: true) here alone because an app keeps work there that exists nowhere else, such as an editor’s local history.")
-                    }
-                    if plan.refused.count > keepingWork {
-                        Text("Peel leaves ^[\(plan.refused.count - keepingWork) folder](inflect: true) here alone because it protects what is there, such as what iCloud keeps to stay in sync, a wallet, an app’s documents, or a library.")
-                    }
+        } else {
+            UnreadableFoldersNotice(folders: plan.unreadable, needsFullDiskAccess: plan.needsFullDiskAccess)
+            Section {
+                if plan.removable.isEmpty, plan.unreadable.isEmpty {
+                    Text("Nothing in here can be moved now.")
+                        .foregroundStyle(.secondary)
+                        .listRowSeparator(.hidden)
+                }
+                inside(plan, isReadOnly: false)
+            } header: {
+                SectionHeaderLine {
+                    heading("Inside", "What is selected goes to the Trash, and History can put it back. The folders it sits in stay, since macOS expects to find them.")
+                } actions: {
+                    SelectMenu(
+                        list: plan.selectableRows(canUseHelper: helper.canAct),
+                        place: Text(item.words.title),
+                        selection: space
+                    )
                 }
             }
-        } header: {
-            SectionHeaderLine {
-                heading("Inside", "What is selected goes to the Trash, and History can put it back. The folders it sits in stay, since macOS expects to find them.")
-            } actions: {
-                SelectMenu(
-                    list: plan.selectableRows(canUseHelper: helper.canAct),
-                    place: Text(item.words.title),
-                    selection: space
-                )
+        }
+    }
+
+    @ViewBuilder
+    private func inside(_ plan: SpaceRemoval.Plan, isReadOnly: Bool) -> some View {
+        ForEach(Array(rows.enumerated()), id: \.element) { index, url in
+            RemovalRow(
+                url: url,
+                icon: .file(url),
+                detail: nil,
+                warning: plan.heldBack[url].map { String(localized: $0.explanation) },
+                size: plan.sizes[url] ?? 0,
+                isMeasured: plan.sizes[url] != nil,
+                isLocked: plan.isLocked(url, canUseHelper: helper.canAct),
+                isLeftAlone: plan.heldBack[url]?.cannotBeMoved == true,
+                isFirst: index == 0,
+                hasNoteColumn: !plan.heldBack.isEmpty,
+                isReadOnly: isReadOnly,
+                selection: space, isSelected: space.isSelected(url)
+            )
+        }
+        .listRowSeparator(.hidden)
+        if !plan.appsToQuit.isEmpty || !plan.refused.isEmpty {
+            ListNotes {
+                if !plan.appsToQuit.isEmpty {
+                    Text("Peel doesn’t include folders an open app is still writing to: \(plan.appsToQuit.formatted(.list(type: .and))). Quit an app to include its folders. Peel can only tell a folder is an open app’s when it carries the app’s own name or identifier, not its maker’s.")
+                }
+                let keepingWork = plan.refused.values.count { $0 == .holdsWorkKeptInACache }
+                if keepingWork > 0 {
+                    Text("Peel leaves ^[\(keepingWork) folder](inflect: true) here alone because an app keeps work there that exists nowhere else, such as an editor’s local history.")
+                }
+                if plan.refused.count > keepingWork {
+                    Text("Peel leaves ^[\(plan.refused.count - keepingWork) folder](inflect: true) here alone because it protects what is there, such as what iCloud keeps to stay in sync, a wallet, an app’s documents, or a library.")
+                }
             }
         }
     }
@@ -214,6 +239,7 @@ struct SpaceDetailView: View {
                         ?? folder.lastPathComponent
                 }
         )
+        let total = plan.movable(canUseHelper: helper.canAct)
         let title: Text = if let seen = plan.seen, seen.isComplete, total.reading != .unknown {
             Text("\(total.text) of \(seen.known.byteCount) can be moved here.")
         } else {
@@ -245,18 +271,18 @@ struct SpaceDetailView: View {
                 }
             }
         } trailing: {
-            TotalLabel(total: total, caption: caption)
+            let figure = figure
+            TotalLabel(total: figure.total, caption: figure.caption)
         }
     }
 
-    /// The size of the item's folders until the plan is ready, then the size of what can be moved to the Trash.
-    private var total: SizeTotal {
-        plan?.movable(canUseHelper: helper.canAct) ?? item.size
-    }
-
-    private var caption: Text {
-        if item.isReadOnly { return Text("on this Mac") }
-        return plan == nil ? Text("in here") : Text("to remove")
+    /// The size of what can be moved to the Trash once the plan holds something to move, else of the item's folders.
+    private var figure: (total: SizeTotal, caption: Text) {
+        if item.isReadOnly { return (item.size, Text("on this Mac")) }
+        guard let movable = plan?.movable(canUseHelper: helper.canAct), !movable.isNothing else {
+            return (item.size, Text("in here"))
+        }
+        return (movable, Text("to remove"))
     }
 
     private static func ordered(_ plan: SpaceRemoval.Plan) -> [URL] {
