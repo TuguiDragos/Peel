@@ -261,7 +261,7 @@ public enum BackgroundItems {
                 return nil
             }
             let declared = StartsAtLogin.declaration(of: label, kind: kind, in: app)
-            return BackgroundItem(
+            var item = BackgroundItem(
                 label: label,
                 kind: kind,
                 source: .app,
@@ -277,6 +277,8 @@ public enum BackgroundItems {
                 isDisabled: true,
                 isOwnerConfirmed: owner.isConfirmed
             )
+            item.managedBy = ownership.managedAgent(label: label, team: nil, owner: owner)
+            return item
         }
     }
 
@@ -374,8 +376,7 @@ public enum BackgroundItems {
                 item.appThatLeft = ownership.appThatLeft(running: job)
                 item.isOwnerOnlyItsMaker = owner?.isOnlyItsMaker == true
                 let team = job.program.flatMap(ownership.team(ofProgram:))
-                item.managedBy = ManagedAgent.of(team: team, identifier: job.label)
-                    ?? ManagedAgent.of(team: team, identifier: owner?.bundleIdentifier)
+                item.managedBy = ownership.managedAgent(label: job.label, team: team, owner: owner)
                 if let team, owner?.isInstalled != true || item.appThatLeft != nil {
                     let installed = ownership.installedApps(signedBy: team)
                     item.makersUninstallerForWhatIsLeft = item.appThatLeft
@@ -555,6 +556,9 @@ public enum BackgroundItems {
         item.isSubmittedByItsApp = isSubmittedByApp && !item.isManagedByServiceManagement && !item.isSystemExtension
         item.isFileGone = !isAnApps && path?.isMissing == true
         item.isOwnerOnlyItsMaker = owner?.isOnlyItsMaker == true
+        item.managedBy = ownership.managedAgent(
+            label: candidate.label, team: program.flatMap(ownership.team(ofProgram:)), owner: owner
+        )
         item.loadsInTheBackgroundSession = candidate.kind == .agent && loaded.isInTheUserDomain(candidate.label)
         if isAnApps, item.canBeControlled, !item.isManagedByServiceManagement {
             item.staysListedWhenDisabled =

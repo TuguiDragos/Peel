@@ -186,6 +186,18 @@ public struct BackgroundItemOwnership: Sendable {
         byTeam[team] ?? []
     }
 
+    /// The agent an organization manages the Mac with that a job is part of: `team`, which signed its program, with
+    /// its label or its owner, or the owner itself when the job is surely that app's.
+    func managedAgent(label: String, team: String?, owner: Owner?) -> ManagedAgent? {
+        if let agent = ManagedAgent.of(team: team, identifier: label)
+            ?? ManagedAgent.of(team: team, identifier: owner?.bundleIdentifier) {
+            return agent
+        }
+        guard let owner, owner.isConfirmed, let app = owner.bundleIdentifier.flatMap({ byIdentifier[$0.lowercased()] })
+        else { return nil }
+        return ManagedAgent.of(team: app.teamIdentifier, identifier: app.bundleIdentifier)
+    }
+
     /// Runs the same check on a job read from its property list. Orphaned Files uses this one.
     func isOrphan(_ job: JobDefinition) -> Bool {
         // A program still on disk keeps its job whoever owns it, so the owner, which reads signatures, is not needed.

@@ -141,8 +141,9 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     }
 
     /// True when Peel may start, stop, enable and disable the job: never under a label of macOS, for a system
-    /// extension or for an excluded app, an agent only under a label `launchctl` reads whole, and a daemon only under a
-    /// label the helper takes, which also leaves out the helper itself.
+    /// extension, for an excluded app or for an agent an organization manages the Mac with, an agent only under a
+    /// label `launchctl` reads whole, and a daemon only under a label the helper takes, which also leaves out the
+    /// helper itself.
     public var canBeControlled: Bool {
         !usesALabelOfMacOS && !isSystemExtension && !isExcluded && !exclusionsAreNotKnown && managedBy == nil
             && (requiresPrivileges ? PrivilegedPathPolicy.allowsDaemon(label) : isReadWholeByLaunchctl)

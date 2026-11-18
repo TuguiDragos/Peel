@@ -48,6 +48,63 @@ struct ManagedAgentTests {
         #expect(row(team: "ABCDE12345")?.canMoveToTrash == true)
     }
 
+    @Test func aJobNoFileHereDeclaresStaysForTheAdministratorToo() throws {
+        let directory = try TemporaryDirectory()
+        try directory.file(
+            "Applications/Falcon.app/Contents/Library/LoginItems/Helper.app/Contents/Info.plist",
+            contents: PropertyListSerialization.data(
+                fromPropertyList: ["CFBundleIdentifier": "org.example.loginhelper"], format: .xml, options: 0
+            )
+        )
+        let falcon = InstalledApp(
+            url: directory.url.appending(path: "Applications/Falcon.app", directoryHint: .isDirectory),
+            bundleIdentifier: "com.crowdstrike.falcon.App", name: "Falcon", teamIdentifier: "X9E956P446"
+        )
+        let other = InstalledApp(
+            url: URL(filePath: "/Applications/Tide.app", directoryHint: .isDirectory), bundleIdentifier: "org.example.tide",
+            name: "Tide", teamIdentifier: "EXAMPLE123"
+        )
+        let daemon = directory.url.appending(path: "Library/Example/agentd").path(percentEncoded: false)
+        let ownership = BackgroundItemOwnership(
+            installedApps: [falcon, other], teamOfProgram: { $0 == daemon ? "4AYE5J54KN" : nil }
+        )
+        func item(
+            _ label: String, _ kind: BackgroundItem.Kind, _ details: Launchctl.JobDetails
+        ) throws -> BackgroundItem {
+            let found = BackgroundItems.undeclaredItem(
+                (label, kind, "system/\(label)"), answer: .details(details), ownership: ownership,
+                loaded: .init(user: [label: 77], system: [label: 77]), exclusions: .none
+            )
+            guard case .item(let item) = found else { throw CocoaError(.featureUnsupported) }
+            return item
+        }
+        func registered(by app: String) -> Launchctl.JobDetails {
+            Launchctl.JobDetails(
+                path: "(submitted by smd.341)", managedBy: "com.apple.xpc.ServiceManagement", parentBundleIdentifier: app
+            )
+        }
+        let closedFile = directory.url.appending(path: "Library/LaunchDaemons/com.sentinelone.sentineld.plist")
+
+        let ofTheAgent = try item("org.example.helper", .agent, registered(by: "com.crowdstrike.falcon.App"))
+        #expect(ofTheAgent.managedBy?.name == "CrowdStrike Falcon")
+        #expect(ofTheAgent.controls.isEmpty)
+        let fromAFile = try item("com.sentinelone.sentineld", .daemon, .init(path: closedFile.path(percentEncoded: false), program: daemon))
+        #expect(fromAFile.managedBy?.name == "SentinelOne")
+        #expect(!fromAFile.canBeControlled)
+        let ofAnotherApp = try item("org.example.helper", .agent, registered(by: "org.example.tide"))
+        #expect(ofAnotherApp.managedBy == nil)
+        #expect(ofAnotherApp.controls == [.stop])
+        let named = "com.crowdstrike.falcon.App.other"
+        let disabled = BackgroundItems.disabledJobs(
+            in: .init(user: [:], system: [:], userDisabled: ["org.example.loginhelper": true, named: true]),
+            listed: [], ownership: ownership
+        )
+        let declared = try #require(disabled.first { $0.label == "org.example.loginhelper" })
+        #expect(declared.managedBy?.name == "CrowdStrike Falcon")
+        #expect(!declared.offersEnableOrDisable)
+        #expect(disabled.first { $0.label == named }.map { $0.managedBy == nil && $0.offersEnableOrDisable } == true)
+    }
+
     @Test func anAppOfSuchAnAgentStaysForTheAdministrator() {
         let falcon = app("com.crowdstrike.falcon.App", team: "X9E956P446")
 
