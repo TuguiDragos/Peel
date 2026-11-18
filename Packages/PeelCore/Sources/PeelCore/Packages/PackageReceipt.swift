@@ -61,6 +61,9 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
     /// The apps the package put on this Mac that are still where it put them. Excluding one leaves the receipt alone
     /// too, which is asked of the exclusions as they stand whenever it counts.
     public var apps: [InstalledApp] = []
+    /// The maker's step for what its product left, when this package is part of it and no app of that maker is
+    /// installed.
+    public var makersUninstaller: MakersUninstaller?
 
     /// The apps a removal of `selected` takes: those at or inside an item, which run from it.
     public func apps(in selected: [URL]) -> [InstalledApp] {
@@ -136,8 +139,10 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
 
     /// The items an administrator can remove by hand in Finder: the helper can't move them from where they are, and
     /// neither the guard nor the rules of an app keep them in place, but for `/usr/local`, where Peel moves only links.
+    /// None when the maker's uninstaller removes what the package left.
     public var itemsLeftForAnAdministrator: [Item] {
-        items.filter { item in
+        guard makersUninstaller == nil else { return [] }
+        return items.filter { item in
             item.heldBack == .beyondTheHelper && item.removedElsewhere == nil
                 && (item.refusal == nil || item.refusal == .inUsrLocal)
         }

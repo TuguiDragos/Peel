@@ -150,7 +150,9 @@ public enum PackageReceipts {
         exclusions: Exclusions,
         pkgutil: @escaping Pkgutil,
         environment: SearchEnvironment = .current,
-        systemExtensions: @escaping AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS
+        systemExtensions: @escaping AppExtensions.SystemExtensionsAnswer = AppExtensions.askingMacOS,
+        teamOf: @escaping @Sendable (URL) -> String? = CodeSignature.teamIdentifier(at:),
+        installedApps: (@Sendable () async -> [InstalledApp])? = nil
     ) async -> PackageScan {
         let removalGuard = RemovalGuard(environment: environment, exclusions: exclusions)
         let reach = HelperReach(environment: environment)
@@ -165,48 +167,39 @@ public enum PackageReceipts {
         let asked: [(identifier: String, volume: URL?, pkgutil: Pkgutil)] =
             packages.map { ($0, nil, pkgutil) } + forTheAccount.map { ($0, environment.homeDirectory, account) }
 
-        let receipts = await withTaskGroup(of: PackageReceipt.self) { group in
+        typealias Read = (receipt: PackageReceipt, makersTeam: String?)
+        let read: @Sendable ((identifier: String, volume: URL?, pkgutil: Pkgutil)) async -> Read = { package in
+            let found = await Self.receipt(
+                package.identifier,
+                volume: package.volume,
+                exclusions: exclusions,
+                pkgutil: package.pkgutil,
+                removalGuard: removalGuard,
+                reach: reach,
+                shared: shared,
+                macOS: macOS,
+                installed: installed,
+                environment: environment
+            )
+            return (found.receipt, Self.makersTeam(of: found, teamOf: teamOf))
+        }
+        let found = await withTaskGroup(of: Read.self) { group in
             var pending = asked.filter { !$0.identifier.hasPrefix("com.apple.") }.makeIterator()
-            var results: [PackageReceipt] = []
+            var results: [Read] = []
             for _ in 0..<concurrentReceipts where !Task.isCancelled {
                 guard let package = pending.next() else { break }
-                group.addTask {
-                    await Self.receipt(
-                        package.identifier,
-                        volume: package.volume,
-                        exclusions: exclusions,
-                        pkgutil: package.pkgutil,
-                        removalGuard: removalGuard,
-                        reach: reach,
-                        shared: shared,
-                        macOS: macOS,
-                        installed: installed,
-                        environment: environment
-                    ).receipt
-                }
+                group.addTask { await read(package) }
             }
             while let result = await group.next() {
                 results.append(result)
                 // A stopped scan starts no other package: each would ask `pkgutil` for nothing.
                 if !Task.isCancelled, let package = pending.next() {
-                    group.addTask {
-                        await Self.receipt(
-                            package.identifier,
-                            volume: package.volume,
-                            exclusions: exclusions,
-                            pkgutil: package.pkgutil,
-                            removalGuard: removalGuard,
-                            reach: reach,
-                            shared: shared,
-                            macOS: macOS,
-                            installed: installed,
-                            environment: environment
-                        ).receipt
-                    }
+                    group.addTask { await read(package) }
                 }
             }
             return results
         }
+        let receipts = await withMakersSteps(found, environment: environment, installedApps: installedApps)
         let history = InstallHistory.entries(onVolume: environment.rootDirectory)
         return PackageScan(
             receipts: heldBackWhereShared(receipts)
@@ -218,6 +211,51 @@ public enum PackageReceipts {
                 }
                 .sorted { $0.identifier.localizedStandardCompare($1.identifier) == .orderedAscending }
         )
+    }
+
+    /// The receipts `found` with the maker's step on each package of a product that left: no installed app has the team
+    /// that signed what the package wrote, since another app of that maker may use it.
+    private static func withMakersSteps(
+        _ found: [(receipt: PackageReceipt, makersTeam: String?)], environment: SearchEnvironment,
+        installedApps: (@Sendable () async -> [InstalledApp])?
+    ) async -> [PackageReceipt] {
+        guard found.contains(where: { $0.makersTeam != nil }), !Task.isCancelled else { return found.map(\.receipt) }
+        let apps = if let installedApps {
+            await installedApps()
+        } else {
+            await AppCatalog.installedApps(in: AppCatalog.directories(in: environment))
+        }
+        let teams = Set(apps.compactMap(\.teamIdentifier))
+        return found.map { read in
+            var receipt = read.receipt
+            if let team = read.makersTeam, !teams.contains(team) {
+                receipt.makersUninstaller = MakersUninstaller.ofWhatIsLeft(
+                    team: team, part: receipt.identifier, home: environment.homeDirectory
+                )
+            }
+            return receipt
+        }
+    }
+
+    /// The team of the maker's product the package of `found` is part of: a product that names the package and whose
+    /// team signed an app or a program the package wrote, since its identifier is only what the package says.
+    static func makersTeam(of found: Found, teamOf: (URL) -> String?) -> String? {
+        let teams = MakersUninstaller.teams(naming: found.receipt.identifier)
+        guard !teams.isEmpty else { return nil }
+        if let team = found.receipt.apps.lazy.compactMap(\.teamIdentifier).first(where: teams.contains) {
+            return team
+        }
+        guard let installLocation = found.installLocation else { return nil }
+        return found.files.lazy.map { path(of: $0, in: installLocation) }.filter(isAProgram)
+            .prefix(programsReadForTheirTeam).compactMap(teamOf).first(where: teams.contains)
+    }
+
+    private static let programsReadForTheirTeam = 16
+
+    private static func isAProgram(_ url: URL) -> Bool {
+        var info = stat()
+        guard lstat(url.path(percentEncoded: false), &info) == 0 else { return false }
+        return info.st_mode & S_IFMT == S_IFREG && info.st_mode & 0o111 != 0 && info.st_size > 0
     }
 
     /// `receipts` with each item two of them list held back in both: moved from one package's page, it would leave

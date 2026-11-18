@@ -371,15 +371,7 @@ public struct MakersUninstaller: Sendable, Hashable {
         isOnlyRoots: (URL) -> Bool = MakersUninstaller.onlyRootCanChange,
         isTheMakers: (URL, String) -> Bool = VendorRemoval.isSigned(_:by:)
     ) -> MakersUninstaller? {
-        let part = part.lowercased()
-        let products = known.filter { product in
-            product.team == team && product.identifiers.contains { name in
-                switch name {
-                case .identifier(let known), .part(let known): part == known || part.hasPrefix(known + ".")
-                case .place: false
-                }
-            }
-        }
+        let products = naming(part).filter { $0.team == team }
         guard products.count == 1, let product = products.first else { return nil }
         return made(
             product, team: team, app: nil, home: home, isOnTheMac: isOnTheMac, isOnlyRoots: isOnlyRoots,
@@ -445,6 +437,22 @@ public struct MakersUninstaller: Sendable, Hashable {
 
     /// The product `team` signed whose identifiers name `identifier`, or, for an app with none, whose places name
     /// `place`.
+    static func teams(naming part: String) -> Set<String> {
+        Set(naming(part).map(\.team))
+    }
+
+    private static func naming(_ part: String) -> [Product] {
+        let part = part.lowercased()
+        return known.filter { product in
+            product.identifiers.contains { name in
+                switch name {
+                case .identifier(let known), .part(let known): part == known || part.hasPrefix(known + ".")
+                case .place: false
+                }
+            }
+        }
+    }
+
     private static func product(team: String, identifier: String?, place: String? = nil) -> Product? {
         known.first { product in
             product.team == team && product.identifiers.contains { name in
