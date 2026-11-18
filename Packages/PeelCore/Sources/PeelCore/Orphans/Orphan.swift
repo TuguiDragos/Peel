@@ -157,6 +157,11 @@ public struct OrphanScan: Sendable {
         } ?? false
     }
 
+    public func group(listing url: URL) -> OrphanGroup? {
+        let path = PathPattern.comparablePath(of: url)
+        return groups.first { $0.items.contains { PathPattern.comparablePath(of: $0.url) == path } }
+    }
+
     /// The same scan without the group `id`, as when the person said it belongs to an app.
     public func without(_ id: OrphanGroup.ID) -> OrphanScan {
         keeping { $0.id != id }

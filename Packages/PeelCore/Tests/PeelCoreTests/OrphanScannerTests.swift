@@ -1800,6 +1800,32 @@ struct OrphanScannerTests {
         #expect(await scanner.stillOrphaned(items, installedApps: installed + [sameMaker], remembered: [gone]).isEmpty)
     }
 
+    @Test func findsTheGroupThatListsAJobWhateverTheGroupIsCalled() async throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.file("root/Library/PrivilegedHelperTools/org.example.synchelper")
+        let plist = try directory.file(
+            "root/Library/LaunchDaemons/org.example.sync.daemon.plist",
+            contents: job("org.example.sync.daemon", runs: [program.path(percentEncoded: false)])
+        )
+        try directory.file("home/Library/Caches/org.example/cache.db")
+        func gone(_ identifier: String, _ name: String, team: String) -> RememberedApp {
+            RememberedApp(
+                bundleIdentifier: identifier, name: name, teamIdentifier: team, lastSeen: .now,
+                lastPath: directory.url.appending(path: "Applications/\(name).app").path(percentEncoded: false)
+            )
+        }
+        let scanner = scanner(in: directory, teams: [program.path(percentEncoded: false): "EXAMPLE123"])
+
+        let scan = await scanner.scan(
+            installedApps: installed,
+            remembered: [gone("org.example.sync", "Sync", team: "EXAMPLE123"), gone("org.example", "Example", team: "OTHER12345")]
+        )
+
+        #expect(scan.groups.map(\.identifier) == ["org.example"])
+        #expect(scan.group(listing: plist)?.identifier == "org.example")
+        #expect(scan.group(listing: directory.url.appending(path: "root/Library/LaunchDaemons/other.plist")) == nil)
+    }
+
     /// A file that cannot be read is not called a leftover on its name; one that is no job at all still is.
     @Test(.permissionsHold) func aJobThatCannotBeReadIsNotCalledALeftover() async throws {
         let directory = try TemporaryDirectory()

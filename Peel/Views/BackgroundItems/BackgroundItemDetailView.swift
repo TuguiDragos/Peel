@@ -45,8 +45,7 @@ struct BackgroundItemDetailView: View {
                         kind: .note
                     ) {
                         Button("Open Orphaned Files") {
-                            let identifier = app.bundleIdentifier.lowercased()
-                            let group = orphans.scan?.groups.first { $0.identifier.lowercased() == identifier }
+                            let group = item.plistURL.flatMap { orphans.scan?.group(listing: $0) }
                             orphans.selection = .group(group?.id ?? app.bundleIdentifier)
                             Navigator.shared.requestedTool = .orphans
                         }
