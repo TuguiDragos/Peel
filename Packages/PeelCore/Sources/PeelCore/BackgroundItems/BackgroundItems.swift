@@ -373,10 +373,11 @@ public enum BackgroundItems {
                 item.loadsOnlyAtTheLoginWindow = kind == .agent && job.loadsOnlyAtTheLoginWindow
                 item.appThatLeft = ownership.appThatLeft(running: job)
                 item.isOwnerOnlyItsMaker = owner?.isOnlyItsMaker == true
+                let team = job.program.flatMap(ownership.team(ofProgram:))
+                item.managedBy = ManagedAgent.of(team: team, identifier: job.label)
+                    ?? ManagedAgent.of(team: team, identifier: owner?.bundleIdentifier)
                 if owner?.isInstalled != true || item.appThatLeft != nil {
-                    let byPart = job.program.flatMap(ownership.team(ofProgram:)).flatMap {
-                        MakersUninstaller.ofWhatIsLeft(team: $0, part: job.label)
-                    }
+                    let byPart = team.flatMap { MakersUninstaller.ofWhatIsLeft(team: $0, part: job.label) }
                     item.makersUninstallerForWhatIsLeft = item.appThatLeft
                         .flatMap { MakersUninstaller.ofWhatIsLeft(by: $0) } ?? byPart
                 }

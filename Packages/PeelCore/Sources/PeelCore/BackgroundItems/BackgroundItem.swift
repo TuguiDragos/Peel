@@ -96,6 +96,7 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// The app that left whose team signed the job's program.
     public var appThatLeft: RememberedApp?
     public var makersUninstallerForWhatIsLeft: MakersUninstaller?
+    public var managedBy: ManagedAgent?
 
     public var isOwnerInstalled: Bool { ownerURL != nil }
 
@@ -143,7 +144,7 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     /// extension or for an excluded app, an agent only under a label `launchctl` reads whole, and a daemon only under a
     /// label the helper takes, which also leaves out the helper itself.
     public var canBeControlled: Bool {
-        !usesALabelOfMacOS && !isSystemExtension && !isExcluded && !exclusionsAreNotKnown
+        !usesALabelOfMacOS && !isSystemExtension && !isExcluded && !exclusionsAreNotKnown && managedBy == nil
             && (requiresPrivileges ? PrivilegedPathPolicy.allowsDaemon(label) : isReadWholeByLaunchctl)
     }
 
@@ -185,7 +186,7 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public var isSeenOnlyWhileLoaded: Bool { source == .app || source == .otherFile }
 
     public var canMoveToTrash: Bool {
-        !isSeenOnlyWhileLoaded && plistURL != nil && !usesALabelOfMacOS && !isExcluded
+        !isSeenOnlyWhileLoaded && plistURL != nil && !usesALabelOfMacOS && !isExcluded && managedBy == nil
     }
 
     /// True for an agent whose file Peel may edit: one in this account's own Library, which runs as the person, that

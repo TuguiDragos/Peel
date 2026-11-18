@@ -23,6 +23,31 @@ struct ManagedAgentTests {
         #expect(ManagedAgent.of(team: nil, identifier: "com.crowdstrike.falcon.Agent") == nil)
     }
 
+    @Test func aJobOfSuchAnAgentStaysForTheAdministrator() throws {
+        let directory = try TemporaryDirectory()
+        let program = try directory.file("root/Library/Application Support/Example/agentd").path(percentEncoded: false)
+        let plist = try PropertyListSerialization.data(
+            fromPropertyList: ["Label": "com.crowdstrike.falcon.daemon", "ProgramArguments": [program]],
+            format: .xml, options: 0
+        )
+        try directory.file("root/Library/LaunchDaemons/com.crowdstrike.falcon.daemon.plist", contents: plist)
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        func row(team: String) -> BackgroundItem? {
+            let ownership = BackgroundItemOwnership(installedApps: [], teamOfProgram: { $0 == program ? team : nil })
+            return BackgroundItems.declared(in: environment, ownership: ownership).first
+        }
+
+        let managed = try #require(row(team: "X9E956P446"))
+        #expect(managed.managedBy?.name == "CrowdStrike Falcon")
+        #expect(!managed.canMoveToTrash)
+        #expect(!managed.canBeControlled)
+        #expect(row(team: "ABCDE12345")?.managedBy == nil)
+        #expect(row(team: "ABCDE12345")?.canMoveToTrash == true)
+    }
+
     @Test func anAppOfSuchAnAgentStaysForTheAdministrator() {
         let falcon = app("com.crowdstrike.falcon.App", team: "X9E956P446")
 

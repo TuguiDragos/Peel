@@ -31,6 +31,12 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
+            if let agent = item.managedBy {
+                Section {
+                    ManagedAgentNotice(agent: agent)
+                }
+            }
+
             if let app = item.appThatLeft {
                 Section {
                     Notice(
