@@ -2,8 +2,9 @@ import SwiftUI
 
 /// A circled i beside a title. What would otherwise be paragraphs under the row lives in here instead.
 struct InfoNote: View {
-    /// Already localized: the heading of the note, and the name its accessibility label uses.
-    let name: String
+    let heading: Text
+    /// What VoiceOver calls the button.
+    let label: Text
     /// Built when the note opens: a list draws hundreds of these, and few are ever opened.
     let detail: () -> Text?
     var symbol: String?
@@ -26,6 +27,7 @@ struct InfoNote: View {
         opening ?? $isOpenHere
     }
 
+    /// `name` is already localized: the note's heading, and what its accessibility label names.
     init(
         name: String,
         detail: @autoclosure @escaping () -> Text?,
@@ -37,7 +39,8 @@ struct InfoNote: View {
         isInRow: Bool = false,
         opening: Binding<Bool>? = nil
     ) {
-        self.name = name
+        heading = Text(verbatim: name)
+        label = caution == nil ? Text("What \(name) is for") : Text("A caution about \(name)")
         self.detail = detail
         self.symbol = symbol
         self.footnote = footnote
@@ -46,6 +49,14 @@ struct InfoNote: View {
         self.isAlbum = isAlbum
         self.isInRow = isInRow
         self.opening = opening
+    }
+
+    /// A notice's circled i. Its title is a sentence, so VoiceOver calls it More Info, as an info button is called.
+    init(about title: Text, detail: Text, isAlbum: Bool) {
+        heading = title
+        label = Text("More Info")
+        self.detail = { detail }
+        self.isAlbum = isAlbum
     }
 
     private var isMarked: Bool {
@@ -68,11 +79,11 @@ struct InfoNote: View {
         .noteButtonStyle(isInRow: isInRow)
         // The button takes clicks across its own frame, 4 points around the glyph; the layout keeps the glyph's.
         .padding(-4)
-        .accessibilityLabel(isMarked ? Text("A caution about \(name)") : Text("What \(name) is for"))
+        .accessibilityLabel(label)
         .popover(isPresented: isOpen, arrowEdge: .bottom) {
             NoteCard(
-                name: name, detail: detail(), symbol: symbol ?? mark, footnote: footnote, link: link, caution: caution,
-                isAlbum: isAlbum
+                heading: heading, detail: detail(), symbol: symbol ?? mark, footnote: footnote, link: link,
+                caution: caution, isAlbum: isAlbum
             )
         }
     }
@@ -81,8 +92,7 @@ struct InfoNote: View {
 /// What a note says once something has opened it. Shared, so a note a badge raises reads exactly like one
 /// raised by the circled i beside a title.
 struct NoteCard: View {
-    /// Already localized: the heading of the note.
-    let name: String
+    let heading: Text
     let detail: Text?
     var symbol: String?
     var footnote: Text?
@@ -100,7 +110,7 @@ struct NoteCard: View {
                 .foregroundStyle(tint)
                 .frame(width: 20)
             VStack(alignment: .leading, spacing: 5) {
-                Text(verbatim: name)
+                heading
                     .font(.headline)
                     .foregroundStyle(isAlbum ? Album.ink : .primary)
                 if let detail {

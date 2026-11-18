@@ -1,6 +1,7 @@
 import SwiftUI
 
-/// A short notice on a page (a problem, a caution, or a note), with the actions that go with it.
+/// A short notice on a page (a problem, a caution, or a note): its title, a circled i with what more there is to know,
+/// and the actions that go with it.
 ///
 /// On Home it is drawn as an album sticker. Everywhere else it looks like a system notice: a colored symbol,
 /// system type, and a quiet rounded panel.
@@ -16,15 +17,15 @@ struct Notice<Actions: View>: View {
     }
 
     let title: Text
-    /// Nil when there is nothing to add, so the title stands alone in the middle of the panel.
+    /// What more there is to know, in the circled i beside the title. Nil when there is nothing to add.
     let detail: Text?
     var kind = Kind.problem
     /// A symbol to use instead of the default, such as the one a list row shows for the same fact.
     var systemImage: String?
     /// True on Home, which draws the notice in the album's look.
     var isAlbum = false
-    /// What more there is to know, in a circled i beside the title.
-    var info: (name: String, detail: Text)?
+    /// What has to be read to act, kept under the title: the sentence before a command to copy, or steps in Finder.
+    var step: Text?
     @ViewBuilder let actions: Actions
 
     var body: some View {
@@ -35,13 +36,13 @@ struct Notice<Actions: View>: View {
                 title
                     .font(isAlbum ? .system(size: 12.5, weight: .bold, design: .rounded) : .callout.weight(.semibold))
                     .foregroundStyle(titleColor)
-                if let info {
-                    InfoNote(name: info.name, detail: info.detail)
+                if let detail {
+                    InfoNote(about: title, detail: detail, isAlbum: isAlbum)
                 }
             }
             .noticePart(.words)
-            if let detail {
-                detail
+            if let step {
+                step
                     .font(isAlbum ? .system(size: 11) : .caption)
                     .foregroundStyle(.secondary)
                     .noticePart(.detail)

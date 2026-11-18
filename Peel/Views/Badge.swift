@@ -52,7 +52,7 @@ struct NoteBadge: View {
         .pointerStyle(.link)
         .accessibilityLabel(label ?? title)
         .popover(isPresented: $isOpen, arrowEdge: .bottom) {
-            NoteCard(name: name, detail: detail, symbol: systemImage)
+            NoteCard(heading: Text(verbatim: name), detail: detail, symbol: systemImage)
         }
     }
 }

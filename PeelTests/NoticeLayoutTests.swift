@@ -44,7 +44,7 @@ private let paragraph = "Peel couldn’t look inside /Library/Bluetooth, /Librar
 struct NoticeLayoutTests {
     private func notice(_ detail: String, width: CGFloat) async -> Frames {
         let frames = Frames()
-        let view = Notice(title: Text(verbatim: "Some folders couldn’t be read"), detail: Text(verbatim: detail)) {
+        let view = Notice(title: Text(verbatim: "Some folders couldn’t be read"), detail: nil, step: Text(verbatim: detail)) {
             button("Open System Settings", into: frames)
             button("Reopen Peel", into: frames)
         }
@@ -83,11 +83,33 @@ struct NoticeLayoutTests {
         #expect(abs(reopen.maxX - (frames.panel.maxX - 12)) < 1)
     }
 
-    @Test func aDetailWrapsBesideALongButtonRatherThanLeaveItALine() async throws {
+    @Test func aDetailWaitsInTheCircledIRatherThanUnderTheTitle() async {
+        func panel(_ detail: Text?) async -> CGRect {
+            let frames = Frames()
+            let view = Notice(title: Text(verbatim: "Some folders couldn’t be read"), detail: detail, kind: .note) {
+                button("Open System Settings", into: frames)
+            }
+            .measured(into: frames)
+            return await laidOut(view, width: 600, frames: frames, buttons: 1).panel
+        }
+
+        let withDetail = await panel(Text(verbatim: [paragraph, paragraph].joined(separator: "\n\n")))
+        let without = await panel(nil)
+
+        #expect(withDetail.height == without.height, "the detail took lines under the title")
+    }
+
+    @Test func aNoticesCircledIIsCalledMoreInfoSinceItsTitleIsASentence() {
+        let note = InfoNote(about: Text(verbatim: "Full Disk Access is off"), detail: Text(verbatim: "Why"), isAlbum: false)
+
+        #expect(note.label == Text("More Info"))
+    }
+
+    @Test func aStepWrapsBesideALongButtonRatherThanLeaveItALine() async throws {
         let frames = Frames()
         let view = Notice(
-            title: Text(verbatim: "Peel couldn’t read your exclusions"),
-            detail: Text(verbatim: "Peel removes nothing and puts nothing back until you start the list over in Settings.")
+            title: Text(verbatim: "Peel couldn’t read your exclusions"), detail: nil,
+            step: Text(verbatim: "Peel removes nothing and puts nothing back until you start the list over in Settings.")
         ) {
             button("Open Peel Settings", into: frames)
         }

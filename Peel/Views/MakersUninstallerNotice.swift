@@ -18,10 +18,7 @@ struct MakersUninstallerNotice: View {
     }
 
     var body: some View {
-        Notice(
-            title: Text(heading), detail: detail, kind: .note,
-            info: (name: String(localized: heading), detail: saying ?? said)
-        ) {
+        Notice(title: Text(heading), detail: explanation, kind: .note) {
             Link("Instructions from \(uninstaller.maker)", destination: uninstaller.instructions)
             switch uninstaller.step {
             case .command(let command):
@@ -56,9 +53,14 @@ struct MakersUninstallerNotice: View {
         }
     }
 
-    /// What has to be seen to act: where the uninstaller is, or that its command needs an administrator. The rest is
-    /// in the circled i beside the title.
-    private var detail: Text? {
+    /// Where the uninstaller is, or that its command needs an administrator, before why Peel leaves the app.
+    private var explanation: Text {
+        let why = saying ?? said
+        guard let step else { return why }
+        return Text("\(step)\n\n\(why)")
+    }
+
+    private var step: Text? {
         if let whereItIs = Self.whereItIs(uninstaller, app: app) {
             return Text(whereItIs)
         }

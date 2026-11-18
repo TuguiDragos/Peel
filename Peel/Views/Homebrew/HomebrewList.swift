@@ -491,7 +491,11 @@ struct HomebrewList: View {
     }
 
     private func cantChange(_ reason: HomebrewLibrary.CantChange) -> some View {
-        Notice(title: Text(reason.noteTitle), detail: Text(reason.detail), kind: .note) {
+        // With a command, the sentence ends in the command to copy, so it stays on the page.
+        Notice(
+            title: Text(reason.noteTitle), detail: reason.command == nil ? Text(reason.detail) : nil, kind: .note,
+            step: reason.command == nil ? nil : Text(reason.detail)
+        ) {
             if let command = reason.command {
                 CopyButton(text: command)
             }

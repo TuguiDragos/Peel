@@ -12,9 +12,8 @@ struct LayoutLeastSizeTests {
 
     @Test func aNoticeAskedForItsLeastSizeIsNoTallerThanItsIdealOne() {
         let heights = leastAndIdealHeight(of: Notice(
-            title: Text(verbatim: "History no longer lists 1 older removal"),
-            detail: Text(verbatim: "What was moved is still in the Trash unless you emptied it."),
-            kind: .note
+            title: Text(verbatim: "History no longer lists 1 older removal"), detail: nil, kind: .note,
+            step: Text(verbatim: "What was moved is still in the Trash unless you emptied it.")
         ) { EmptyView() })
 
         #expect(heights.least <= heights.ideal)

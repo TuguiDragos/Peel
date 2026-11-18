@@ -106,7 +106,7 @@ struct BirthdayNote: View {
 
     var body: some View {
         NoteCard(
-            name: String(inflecting: "Peel is ^[\(years) year](inflect: true) old"),
+            heading: Text(verbatim: String(inflecting: "Peel is ^[\(years) year](inflect: true) old")),
             detail: Text("On October 8, 2026, I put Peel on GitHub for everyone. Thank you for trusting it with your Mac.\n**-Dragoș**"),
             symbol: "birthday.cake.fill",
             isAlbum: true
