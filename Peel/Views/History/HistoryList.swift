@@ -139,23 +139,30 @@ struct HistoryList: View {
         }
         .focusedSceneValue(\.selectRows, listed.isEmpty && refused.isEmpty ? nil : selectCommands(listed, refused))
         .overlay {
-            if !history.hasLoaded || showsOnlyWhatLeft && leftTheTrash == nil {
+            switch Self.emptyState(
+                hasLoaded: history.hasLoaded, isKnownEmpty: history.isKnownEmpty, filterIsOn: showsOnlyWhatLeft,
+                goneWhole: leftTheTrash?.count, listsNothing: listed.isEmpty && refused.isEmpty,
+                isSearching: !searchText.isEmpty
+            ) {
+            case .looking:
                 ProgressView()
-            } else if showsOnlyWhatLeft, listed.isEmpty {
+            case .nothingHasLeftTheTrash:
                 ContentUnavailableView(
                     "Nothing Has Left the Trash",
                     systemImage: "trash",
                     description: Text("Everything these removals moved is still in the Trash, so Put Back can bring it back.")
                 )
-            } else if history.isKnownEmpty {
+            case .noRemovals:
                 // Put Back and Forget can empty a History Peel did write to.
                 ContentUnavailableView(
                     stats.hasCleaned || history.noLongerListed > 0 ? "No Removals" : "Nothing Removed Yet",
                     systemImage: "clock.arrow.circlepath",
                     description: Text("What you move to the Trash with Peel shows up here, and can be put back while it’s still in the Trash.")
                 )
-            } else if listed.isEmpty, refused.isEmpty, !searchText.isEmpty {
+            case .nothingFound:
                 ContentUnavailableView.search(text: searchText)
+            case nil:
+                EmptyView()
             }
         }
         .fadesInColumn(whenRowsChange: history.batches.map(\.id) + history.refusalBatches.map(\.id))
@@ -188,6 +195,10 @@ struct HistoryList: View {
         .task {
             await history.load()
         }
+        // The filter is for removals: with none left it would only hide Not Moved.
+        .onChange(of: history.batches.isEmpty) { _, isEmpty in
+            if isEmpty { showsOnlyWhatLeft = false }
+        }
         .task(id: Look(isOn: showsOnlyWhatLeft, revision: history.revision)) {
             guard showsOnlyWhatLeft else {
                 leftTheTrash = nil
@@ -216,6 +227,25 @@ struct HistoryList: View {
 }
 
 extension HistoryList {
+    /// What the page shows in place of its list.
+    enum EmptyState {
+        case looking
+        case nothingHasLeftTheTrash
+        case noRemovals
+        case nothingFound
+    }
+
+    /// `goneWhole` is how many removals have left the Trash whole, nil while Peel looks for the filter. A search that
+    /// finds none of them is a search that found nothing, not a Trash nothing has left.
+    static func emptyState(
+        hasLoaded: Bool, isKnownEmpty: Bool, filterIsOn: Bool, goneWhole: Int?, listsNothing: Bool, isSearching: Bool
+    ) -> EmptyState? {
+        if !hasLoaded || filterIsOn && goneWhole == nil { return .looking }
+        if isKnownEmpty { return .noRemovals }
+        if filterIsOn, goneWhole == 0 { return .nothingHasLeftTheTrash }
+        return listsNothing && isSearching ? .nothingFound : nil
+    }
+
     private func check(_ removals: [RemovalBatch], _ entries: [RefusalBatch]) {
         history.checkedRemovals.formUnion(removals.map(\.id))
         history.checkedRefusals.formUnion(entries.map(\.id))
