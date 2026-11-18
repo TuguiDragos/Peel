@@ -40,7 +40,7 @@ public enum DuplicateRemoval {
         let checkedFiles = selectedFiles
         let (folders, files) = await MoveCount.reading {
             (
-                await readAgain(Set(selectedFolders.values.flatMap { [$0.folder] + $0.kept })),
+                await FolderDuplicates.readAgain(Set(selectedFolders.values.flatMap { [$0.folder] + $0.kept })),
                 await readAgain(Set(selectedFiles.values.flatMap { [$0.file.url] + $0.kept.map(\.url) }))
             )
         }
@@ -69,16 +69,6 @@ public enum DuplicateRemoval {
             }
             return alike ? nil : .lastCopy
         })
-    }
-
-    private static func readAgain(
-        _ folders: Set<DuplicateFolder>
-    ) async -> [URL: (contents: SHA256.Digest, entries: SHA256.Digest)] {
-        var read: [URL: (contents: SHA256.Digest, entries: SHA256.Digest)] = [:]
-        for folder in folders {
-            read[folder.url] = await FolderDuplicates.readAgain(folder)
-        }
-        return read
     }
 
     private static func readAgain(_ urls: Set<URL>) async -> [URL: (identity: FileIdentity, digest: ContentDigest)] {

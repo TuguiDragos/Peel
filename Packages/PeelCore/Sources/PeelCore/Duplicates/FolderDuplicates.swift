@@ -117,17 +117,31 @@ struct FolderDuplicates: Sendable {
         return finder.listedAgain(folder.url).flatMap { finder.identity(of: $0) }?.hexadecimal == folder.contents
     }
 
-    /// What `folder` holds, its bytes read again with no memory, and its entries then, status change times included.
-    /// Nil when anything in it can't be read.
-    static func readAgain(_ folder: DuplicateFolder) async -> (contents: SHA256.Digest, entries: SHA256.Digest)? {
-        let finder = FolderDuplicates(neverProjects: folder.neverProjects)
-        guard let listed = finder.listedAgain(folder.url), let entries = finder.identity(of: listed, exactly: true)
-        else { return nil }
-        let read = await FileDigest.many(Self.files(in: [listed])) { file, isGivenUp in
+    /// What each of `folders` holds, its bytes read again with no memory, and its entries then, status change times
+    /// included; a folder anything in which can't be read is left out. Every folder is listed first and the files of
+    /// all of them read in one round, so a folder that holds one large file doesn't hold up the others.
+    static func readAgain(
+        _ folders: some Sequence<DuplicateFolder>
+    ) async -> [URL: (contents: SHA256.Digest, entries: SHA256.Digest)] {
+        typealias Listed = (url: URL, finder: FolderDuplicates, tree: Folder, entries: SHA256.Digest)
+        let listed = folders.compactMap { folder -> Listed? in
+            let finder = FolderDuplicates(neverProjects: folder.neverProjects)
+            guard let tree = finder.listedAgain(folder.url), let entries = finder.identity(of: tree, exactly: true)
+            else { return nil }
+            return (folder.url, finder, tree, entries)
+        }
+        let read = await FileDigest.many(Self.files(in: listed.map(\.tree))) { file, isGivenUp in
             FileDigest.full(of: file.url, identity: file.identity, isGivenUp: isGivenUp)
         }
-        var known: [ObjectIdentifier: SHA256.Digest?] = [:]
-        return finder.content(of: listed, using: Self.table(read), known: &known).map { ($0, entries) }
+        let table = Self.table(read)
+        var answers: [URL: (contents: SHA256.Digest, entries: SHA256.Digest)] = [:]
+        for folder in listed {
+            var known: [ObjectIdentifier: SHA256.Digest?] = [:]
+            answers[folder.url] = folder.finder.content(of: folder.tree, using: table, known: &known).map {
+                ($0, folder.entries)
+            }
+        }
+        return answers
     }
 
     /// `folder`'s entries as they are now, status change times included.
