@@ -4,7 +4,7 @@ import Foundation
 import Testing
 
 struct BackgroundItemTrashWarningTests {
-    private func job(installed: Bool, confirmed: Bool = true) -> BackgroundItem {
+    private func job(installed: Bool, confirmed: Bool = true, onlyItsMaker: Bool = false) -> BackgroundItem {
         var job = BackgroundItem(
             label: "org.example.backup.agent", kind: .agent, source: .userLibrary, plistURL: nil,
             program: "/Applications/Backup.app/Contents/MacOS/agent", runsAtLoad: true, keepsAlive: true,
@@ -13,6 +13,7 @@ struct BackgroundItemTrashWarningTests {
             isOrphan: false, state: .loaded, isDisabled: false
         )
         job.isOwnerConfirmed = confirmed
+        job.isOwnerOnlyItsMaker = onlyItsMaker
         return job
     }
 
@@ -21,5 +22,6 @@ struct BackgroundItemTrashWarningTests {
         #expect(String(localized: warning).contains("Backup"))
         #expect(job(installed: true, confirmed: false).trashWarning(ownerName: "Backup") == nil)
         #expect(job(installed: false).trashWarning(ownerName: "Backup") == nil)
+        #expect(job(installed: true, onlyItsMaker: true).trashWarning(ownerName: "Backup") == nil)
     }
 }

@@ -64,6 +64,10 @@ struct BackgroundItemDetailView: View {
                                 Text("No longer installed")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
+                            } else if item.isOwnerOnlyItsMaker {
+                                Text("Only its maker points to this app.")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
                             } else if !item.isOwnerConfirmed {
                                 Text("Only its name points to this app.")
                                     .font(.caption)
@@ -630,7 +634,7 @@ extension BackgroundItem {
     /// What moving the job's file may cost the app that added it, said only of an installed app the job is known to be
     /// part of. "May": Peel can't tell what the app uses the job for.
     func trashWarning(ownerName: String) -> LocalizedStringResource? {
-        guard isOwnerInstalled, isOwnerConfirmed else { return nil }
+        guard isOwnerInstalled, isOwnerConfirmed, !isOwnerOnlyItsMaker else { return nil }
         return "\(ownerName) uses it to run in the background, and may stop working until you put it back."
     }
 

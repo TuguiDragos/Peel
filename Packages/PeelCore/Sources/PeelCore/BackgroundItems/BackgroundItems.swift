@@ -373,6 +373,7 @@ public enum BackgroundItems {
                 item.loadsInTheBackgroundSession = kind == .agent && job.loadsInTheBackground
                 item.loadsOnlyAtTheLoginWindow = kind == .agent && job.loadsOnlyAtTheLoginWindow
                 item.appThatLeft = ownership.appThatLeft(running: job)
+                item.isOwnerOnlyItsMaker = owner?.isOnlyItsMaker == true
                 items.append(item)
             }
         }
@@ -545,6 +546,7 @@ public enum BackgroundItems {
         item.isManagedByServiceManagement = details.managedBy == serviceManagement
         item.isSubmittedByItsApp = isSubmittedByApp && !item.isManagedByServiceManagement && !item.isSystemExtension
         item.isFileGone = !isAnApps && path?.isMissing == true
+        item.isOwnerOnlyItsMaker = owner?.isOnlyItsMaker == true
         item.loadsInTheBackgroundSession = candidate.kind == .agent && loaded.isInTheUserDomain(candidate.label)
         if isAnApps, item.canBeControlled, !item.isManagedByServiceManagement {
             item.staysListedWhenDisabled =

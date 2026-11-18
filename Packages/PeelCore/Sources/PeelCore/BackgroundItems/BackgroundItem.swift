@@ -54,6 +54,8 @@ public struct BackgroundItem: Sendable, Hashable, Identifiable {
     public internal(set) var isDisabled: Bool
     /// False when only a name points to the owner (`BackgroundItemOwnership.Owner.isConfirmed`).
     public var isOwnerConfirmed = true
+    /// True when only its maker points to the owner (`BackgroundItemOwnership.Owner.isOnlyItsMaker`).
+    public var isOwnerOnlyItsMaker = false
     /// True for a file launchd can't load: not a property list, or one without a `Label`.
     public var isUnreadable = false
     /// True for a file macOS lets only its owner read, as launchd does as root: what Peel knows of its job comes from

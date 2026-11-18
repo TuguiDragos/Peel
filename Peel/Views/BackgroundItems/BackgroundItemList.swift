@@ -273,7 +273,9 @@ private struct BackgroundItemRow: View {
                         .lineLimit(1)
                 } else if let ownerName {
                     Group {
-                        if item.isOwnerConfirmed {
+                        if item.isOwnerOnlyItsMaker {
+                            Text("From the same maker as \(ownerName)")
+                        } else if item.isOwnerConfirmed {
                             Text(ownerName)
                         } else {
                             Text("Named like \(ownerName)")

@@ -221,6 +221,11 @@ struct BackgroundItemOwnershipTests {
         #expect(owner("org.unrelated.label", registeredBy: "com.other.tool", program: nil)?.isConfirmed == true)
         #expect(owner("org.unrelated.label", associated: ["com.example.app"], program: "/usr/local/bin/example-helper")?.isConfirmed == true)
         #expect(owner("com.example.app.updater", program: "/usr/local/bin/example-helper")?.isConfirmed == true)
+        let sameMaker = try #require(owner("org.unrelated.label", program: "/usr/local/bin/example-helper"))
+        #expect(sameMaker.bundleIdentifier == "com.example.app")
+        #expect(sameMaker.isOnlyItsMaker)
+        #expect(owner("com.example.app.updater", program: "/usr/local/bin/example-helper")?.isOnlyItsMaker == false)
+        #expect(owner("org.unrelated.label", associated: ["com.example.app"], program: "/usr/local/bin/example-helper")?.isOnlyItsMaker == false)
         #expect(owner("org.unrelated.label", program: installed.appending(path: "Contents/MacOS/helper").path(percentEncoded: false))?.isConfirmed == true)
 
         let impostor = try #require(owner("com.example.app.updater", program: "/usr/local/bin/impostor"))

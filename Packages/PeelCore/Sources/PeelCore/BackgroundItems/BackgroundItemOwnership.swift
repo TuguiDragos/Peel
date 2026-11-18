@@ -14,6 +14,8 @@ public struct BackgroundItemOwnership: Sendable {
         /// inside the app (outside the scanned folders, an app signed by the program's team). False when only a name
         /// points to the app: a label, or a bundle anyone can make.
         public var isConfirmed = true
+        /// True when only the team that signed the program points to the app, the only one of that team installed.
+        public var isOnlyItsMaker = false
 
         public var isInstalled: Bool { url != nil }
     }
@@ -118,7 +120,8 @@ public struct BackgroundItemOwnership: Sendable {
             return Owner(
                 bundleIdentifier: candidates[0].bundleIdentifier,
                 name: candidates[0].name,
-                url: candidates[0].url
+                url: candidates[0].url,
+                isOnlyItsMaker: true
             )
         }
         // No installed app claims the job. An app the plist names that is gone is still returned, so the user
