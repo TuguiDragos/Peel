@@ -5,6 +5,8 @@ import SwiftUI
 struct FloatingBar<Reading: View, Action: View>: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Namespace private var glass
+    /// What the pointer shows over the button while it shows its symbol alone.
+    var actionHelp: Text?
     @ViewBuilder let reading: Reading
     @ViewBuilder let action: Action
 
@@ -41,7 +43,9 @@ struct FloatingBar<Reading: View, Action: View>: View {
             .accessibilityElement(children: .combine)
 
             Group {
-                if symbolOnly {
+                if symbolOnly, let actionHelp {
+                    action.labelStyle(.iconOnly).help(actionHelp)
+                } else if symbolOnly {
                     action.labelStyle(.iconOnly)
                 } else {
                     action

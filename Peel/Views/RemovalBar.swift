@@ -153,7 +153,7 @@ struct RemovalBar: View {
             BusyShown(isBusy: waitingToQuit != nil) { isShowingWait in
                 BusyShown(isBusy: isScanning) { isShowingScan in
                     BusyShown(isBusy: isWorking) { isShowingWork in
-                        FloatingBar {
+                        FloatingBar(actionHelp: Text(title)) {
                             if let notice {
                                 Text(verbatim: notice.figure)
                                     .font(.barFigure)

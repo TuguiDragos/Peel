@@ -203,7 +203,7 @@ private struct RestoreBar: View {
     let onRestore: () -> Void
 
     var body: some View {
-        FloatingBar {
+        FloatingBar(actionHelp: Text("Put Back")) {
             if isRestoring {
                 ProgressView()
                     .controlSize(.small)
