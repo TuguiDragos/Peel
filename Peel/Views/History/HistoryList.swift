@@ -14,6 +14,8 @@ struct HistoryList: View {
     /// The removals something has left the Trash from, while the filter is on and once Peel has looked. One only
     /// partly gone is among them: Forget takes from a removal only what has left.
     @State private var leftTheTrash: Set<RemovalBatch.ID>?
+    /// How many looks changed the rows the filter lists while it stayed on.
+    @State private var changesUnderTheFilter = 0
 
     private struct Found {
         let batches: [RemovalBatch]
@@ -160,6 +162,8 @@ struct HistoryList: View {
             }
         }
         .fadesInColumn(whenRowsChange: history.batches.map(\.id) + history.refusalBatches.map(\.id))
+        // The Trash changes what the filter lists without changing what History lists.
+        .fadesInColumn(on: changesUnderTheFilter)
         .navigationTitle(Text(Tool.history.title))
         // Every tool has a button in the toolbar, so the window keeps one height from page to page.
         .toolbar {
@@ -200,6 +204,7 @@ struct HistoryList: View {
             }
             let left = await RemovalStanding.leftTheTrash(history.records)
             guard !Task.isCancelled else { return }
+            if Self.changesRows(history.batches, from: leftTheTrash, to: left.removals) { changesUnderTheFilter += 1 }
             leftTheTrash = left.removals
         }
         .task(id: Search(text: searchText, revision: history.revision)) {
@@ -238,6 +243,15 @@ extension HistoryList {
         if isKnownEmpty { return .noRemovals }
         if filterIsOn, leftTheTrash == 0 { return .nothingHasLeftTheTrash }
         return listsNothing && isSearching ? .nothingFound : nil
+    }
+
+    /// Whether a look's answer changes the rows the filter lists among `batches`, for the column's fade. The first
+    /// answer after the filter came on, `shown` nil, is the person's own choice and fades nothing.
+    static func changesRows(
+        _ batches: [RemovalBatch], from shown: Set<RemovalBatch.ID>?, to new: Set<RemovalBatch.ID>
+    ) -> Bool {
+        guard let shown else { return false }
+        return batches.contains { shown.contains($0.id) != new.contains($0.id) }
     }
 
     /// What starts the filter's look again: turning it on, other lists, or the Trash looked at again, as when Peel

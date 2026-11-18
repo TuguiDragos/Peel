@@ -64,4 +64,22 @@ struct HistoryFilterTests {
         }
         #expect(Set(names) == [["One", "Two"], ["Three", "Four"]])
     }
+
+    @Test func fadesOnlyWhenALookChangesTheRowsTheFilterLists() async throws {
+        let folder = FileManager.default.temporaryDirectory.appending(path: "PeelTests-\(UUID().uuidString)")
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let history = history(in: folder)
+        await record([["One"], ["Two"]], into: history, trash: folder.appending(path: "Trash"))
+        let listed = history.batches
+        let (first, second) = (listed[0].id, listed[1].id)
+
+        #expect(!HistoryList.changesRows(listed, from: nil, to: [first]), "turning the filter on faded the column")
+        #expect(HistoryList.changesRows(listed, from: [first, second], to: [first]))
+        #expect(HistoryList.changesRows(listed, from: [], to: [second]))
+        #expect(!HistoryList.changesRows(listed, from: [first], to: [first]))
+        #expect(
+            !HistoryList.changesRows(listed, from: [first, UUID()], to: [first]),
+            "a removal History no longer lists faded the column again"
+        )
+    }
 }
