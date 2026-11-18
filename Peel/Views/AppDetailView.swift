@@ -162,6 +162,16 @@ struct AppDetailView: View {
                 MakersUninstallerNotice(app: plan.app.name, uninstaller: uninstaller)
                     .listRowSeparator(.hidden)
             }
+            if let discontinued = DiscontinuedApp.of(plan.app) {
+                Notice(
+                    title: Text("\(discontinued.maker) recommends uninstalling \(plan.app.name)"),
+                    detail: Text("It has known security flaws, and \(discontinued.maker) no longer updates it."),
+                    kind: .caution
+                ) {
+                    Link("Advisory from \(discontinued.maker)", destination: discontinued.advisory)
+                }
+                .listRowSeparator(.hidden)
+            }
             if case .byFinder(let extensions) = plan.removedElsewhere {
                 SystemExtensionNotice(app: plan.app, extensions: extensions)
                     .listRowSeparator(.hidden)
