@@ -32,19 +32,33 @@ public enum VendorRemoval {
         CodeSignature.teamIdentifier(at: url) == team
     }
 
-    /// Whether the uninstaller at `url` may be opened now: `team` signed it, and its whole seal holds, every file and
-    /// every architecture. Read right before it opens, since a program of an administrator can change it after the
-    /// page found it, and the person gives it an administrator's password.
-    @concurrent
-    public static func mayOpen(_ url: URL, signedBy team: String?) async -> Bool {
-        mayOpen(url, signedBy: team, teamOf: CodeSignature.teamIdentifier(at:), sealHolds: CodeSignature.sealHolds(at:))
+    /// What opening a maker's uninstaller would do now.
+    public enum Opening: Sendable, Equatable {
+        /// `team` signed it and its whole seal holds, every file and every architecture.
+        case allowed
+        /// It is no longer where the page found it.
+        case gone
+        /// Its team or its seal no longer holds, so something could have changed it.
+        case notVouchedFor
     }
 
-    static func mayOpen(
-        _ url: URL, signedBy team: String?, teamOf: (URL) -> String?, sealHolds: (URL) -> Bool
-    ) -> Bool {
-        guard let team, teamOf(url) == team else { return false }
-        return sealHolds(url)
+    /// Whether the uninstaller at `url` may be opened now. Read right before it opens, since a program of an
+    /// administrator can change it after the page found it, and the person gives it an administrator's password.
+    @concurrent
+    public static func opening(_ url: URL, signedBy team: String?) async -> Opening {
+        opening(
+            url, signedBy: team, isGone: \.isMissing, teamOf: CodeSignature.teamIdentifier(at:),
+            sealHolds: CodeSignature.sealHolds(at:)
+        )
+    }
+
+    static func opening(
+        _ url: URL, signedBy team: String?, isGone: (URL) -> Bool, teamOf: (URL) -> String?,
+        sealHolds: (URL) -> Bool
+    ) -> Opening {
+        if isGone(url) { return .gone }
+        guard let team, teamOf(url) == team, sealHolds(url) else { return .notVouchedFor }
+        return .allowed
     }
 
     private static func shippedOrBeside(

@@ -565,4 +565,36 @@ struct MakersUninstallerTests {
         #expect(MakersUninstaller.of(agent("com.microsoft.wdavx", team: "UBF8T346G9")) == nil)
         #expect(MakersUninstaller.of(agent("com.cisco.webexmeetingsapp", team: "DE8Y96K9QP")) == nil)
     }
+
+    @Test func everyCommandToCopyIsOneLineWithNothingAroundIt() {
+        let home = URL(filePath: "/Users/someone", directoryHint: .isDirectory)
+        var commands = 0
+        for product in MakersUninstaller.known {
+            switch product.step {
+            case .script, .scriptOnTheMac: break
+            default: continue
+            }
+            let identifier = product.identifiers.lazy.compactMap { name -> String? in
+                if case .identifier(let known) = name { known } else { nil }
+            }.first
+            let place = product.identifiers.lazy.compactMap { name -> String? in
+                if case .place(let known) = name { known } else { nil }
+            }.first
+            let app = InstalledApp(
+                url: URL(filePath: place ?? "/Applications/Example App.app", directoryHint: .isDirectory),
+                bundleIdentifier: identifier, name: product.maker, teamIdentifier: product.team, isSealIntact: true
+            )
+            let found = MakersUninstaller.of(
+                app, home: home, isOnTheMac: { _ in true }, isOnlyRoots: { _ in true }, isTheMakers: { _, _ in true }
+            )
+            guard case .command(let command)? = found?.step else {
+                Issue.record("\(product.maker): no command for \(product.identifiers.count) names")
+                continue
+            }
+            commands += 1
+            #expect(!command.contains("\n") && !command.contains("\r"), "\(command)")
+            #expect(command == command.trimmingCharacters(in: .whitespaces), "\(command)")
+        }
+        #expect(commands > 10)
+    }
 }

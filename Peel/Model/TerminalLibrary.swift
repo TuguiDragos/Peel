@@ -128,16 +128,23 @@ final class TerminalLibrary {
     }
 
     func openTerminal() {
+        let isTerminalOpen = settings.isTerminalOpen
+        Task { try? await Self.openNewWindow(isTerminalOpen: isTerminalOpen) }
+    }
+
+    /// Opens a new Terminal window at the home folder: the home folder opened with Terminal while it runs, or the
+    /// window Terminal opens when it starts.
+    static func openNewWindow(isTerminalOpen: Bool) async throws {
         guard let terminal = NSWorkspace.shared.urlForApplication(withBundleIdentifier: TerminalSettings.identifier)
-        else { return }
-        if settings.isTerminalOpen {
-            NSWorkspace.shared.open(
-                [URL.homeDirectory],
-                withApplicationAt: terminal,
-                configuration: NSWorkspace.OpenConfiguration()
+        else { throw CocoaError(.fileNoSuchFile) }
+        if isTerminalOpen {
+            _ = try await NSWorkspace.shared.open(
+                [URL.homeDirectory], withApplicationAt: terminal, configuration: NSWorkspace.OpenConfiguration()
             )
         } else {
-            NSWorkspace.shared.openApplication(at: terminal, configuration: NSWorkspace.OpenConfiguration())
+            _ = try await NSWorkspace.shared.openApplication(
+                at: terminal, configuration: NSWorkspace.OpenConfiguration()
+            )
         }
     }
 }

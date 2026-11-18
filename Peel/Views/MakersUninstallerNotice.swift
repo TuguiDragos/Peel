@@ -18,16 +18,41 @@ struct MakersUninstallerNotice: View {
             kind: .note,
             link: (uninstaller.instructions, String(localized: "Instructions from \(uninstaller.maker)"))
         ) {
-            switch uninstaller.step {
-            case .command(let command):
-                CopyButton(text: command, title: "Copy Uninstall Command")
-            case .uninstaller(let url):
-                OpenUninstallerButton(uninstaller: url, team: uninstaller.team)
-            case .inTheApp(let url):
-                Button("Open \(app)") { NSWorkspace.shared.open(url) }
-            case .onItsDiskImage, .fromTheMakersPage, .notOnTheMac, .notTrusted:
-                EmptyView()
+            ForEach(Self.actions(for: uninstaller), id: \.self) { action in
+                switch action {
+                case .openUninstaller(let url):
+                    OpenUninstallerButton(uninstaller: url, team: uninstaller.team)
+                case .copyCommand(let command):
+                    CopyButton(text: command, title: "Copy Command")
+                        .accessibilityLabel(Text("Copy Uninstall Command"))
+                case .openTerminal:
+                    OpenTerminalButton()
+                case .openApp(let url):
+                    OpenAppButton(app: url, name: app)
+                case .openWebsite(let url):
+                    Link("Open Website", destination: url)
+                }
             }
+        }
+    }
+
+    /// A button of the note, by the step it takes.
+    enum Action: Hashable {
+        case openUninstaller(URL)
+        case copyCommand(String)
+        case openTerminal
+        case openApp(URL)
+        case openWebsite(URL)
+    }
+
+    /// The buttons for `uninstaller`'s step: what is on the Mac opens, a command is copied for Terminal, and any other
+    /// step leads to its maker's page.
+    static func actions(for uninstaller: MakersUninstaller) -> [Action] {
+        switch uninstaller.step {
+        case .command(let command): [.copyCommand(command), .openTerminal]
+        case .uninstaller(let url): [.openUninstaller(url)]
+        case .inTheApp(let url): [.openApp(url)]
+        case .onItsDiskImage, .fromTheMakersPage, .notOnTheMac, .notTrusted: [.openWebsite(uninstaller.instructions)]
         }
     }
 

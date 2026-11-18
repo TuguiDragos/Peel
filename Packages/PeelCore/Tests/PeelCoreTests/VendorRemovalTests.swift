@@ -274,14 +274,24 @@ struct VendorRemovalTests {
     @Test func opensAnUninstallerOnlyWhileItsTeamSignedItAndItsWholeSealHolds() {
         let uninstaller = URL(filePath: "/Applications/Example Uninstaller.app", directoryHint: .isDirectory)
         // A test can't make an uninstaller signed with a Developer ID, so the team and the seal are stood in for.
-        func mayOpen(team: String?, sealHolds: Bool, given: String? = "ABCDE12345") -> Bool {
-            VendorRemoval.mayOpen(uninstaller, signedBy: given, teamOf: { _ in team }, sealHolds: { _ in sealHolds })
+        func opening(team: String?, sealHolds: Bool, given: String? = "ABCDE12345") -> VendorRemoval.Opening {
+            VendorRemoval.opening(
+                uninstaller, signedBy: given, isGone: { _ in false }, teamOf: { _ in team },
+                sealHolds: { _ in sealHolds }
+            )
         }
 
-        #expect(mayOpen(team: "ABCDE12345", sealHolds: true))
-        #expect(!mayOpen(team: "ABCDE12345", sealHolds: false))
-        #expect(!mayOpen(team: "FGHIJ67890", sealHolds: true))
-        #expect(!mayOpen(team: nil, sealHolds: true, given: nil))
+        #expect(opening(team: "ABCDE12345", sealHolds: true) == .allowed)
+        #expect(opening(team: "ABCDE12345", sealHolds: false) == .notVouchedFor)
+        #expect(opening(team: "FGHIJ67890", sealHolds: true) == .notVouchedFor)
+        #expect(opening(team: nil, sealHolds: true, given: nil) == .notVouchedFor)
+    }
+
+    @Test func anUninstallerThatLeftIsGoneRatherThanChanged() async throws {
+        let folder = try TemporaryDirectory()
+        let uninstaller = folder.url.appending(path: "Example Uninstaller.app", directoryHint: .isDirectory)
+
+        #expect(await VendorRemoval.opening(uninstaller, signedBy: "ABCDE12345") == .gone)
     }
 }
 

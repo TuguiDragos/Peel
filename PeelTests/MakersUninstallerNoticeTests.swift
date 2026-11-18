@@ -35,4 +35,18 @@ struct MakersUninstallerNoticeTests {
         let itself = uninstaller(.uninstaller(URL(filePath: "/Applications/Uninstall.app")), removes: "Example")
         #expect(MakersUninstallerNotice.step(of: itself, isForWhatIsLeft: false) == nil)
     }
+
+    @Test func everyStepHasTheButtonsThatTakeIt() {
+        let script = "sudo /opt/example/uninstall"
+        let tool = URL(filePath: "/Applications/Uninstall Example.app")
+        let app = URL(filePath: "/Applications/Example.app")
+
+        let command = MakersUninstallerNotice.actions(for: uninstaller(.command(script)))
+        #expect(command == [.copyCommand(script), .openTerminal])
+        #expect(MakersUninstallerNotice.actions(for: uninstaller(.uninstaller(tool))) == [.openUninstaller(tool)])
+        #expect(MakersUninstallerNotice.actions(for: uninstaller(.inTheApp(app))) == [.openApp(app)])
+        for step in [MakersUninstaller.Step.onItsDiskImage, .fromTheMakersPage, .notOnTheMac, .notTrusted] {
+            #expect(MakersUninstallerNotice.actions(for: uninstaller(step)) == [.openWebsite(page)], "\(step)")
+        }
+    }
 }

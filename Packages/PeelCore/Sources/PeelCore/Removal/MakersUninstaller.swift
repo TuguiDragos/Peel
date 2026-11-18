@@ -24,7 +24,7 @@ public struct MakersUninstaller: Sendable, Hashable {
         case notTrusted
     }
 
-    private enum Documented: Sendable {
+    enum Documented: Sendable {
         /// A script to run in Terminal, after `runner` when the maker's page names one: where the maker puts it, or
         /// inside the app when the path is relative, so the command follows the app wherever it is. `leaves` is what
         /// it leaves in `/etc` or `/opt`.
@@ -55,7 +55,7 @@ public struct MakersUninstaller: Sendable, Hashable {
     public var team: String? = nil
 
     /// How a maker names its apps: by identifier, or, for an app it ships without one, by where it puts it.
-    private enum Name: Sendable, ExpressibleByStringLiteral {
+    enum Name: Sendable, ExpressibleByStringLiteral {
         case identifier(String)
         case place(String)
         /// A part outside the app, such as a job's label, never an app.
@@ -68,9 +68,9 @@ public struct MakersUninstaller: Sendable, Hashable {
 
     /// Each product with the signing team and the identifiers its maker's own pages or its signed bundle give, and the
     /// step and page of its maker's uninstall instructions. An identifier names itself and any longer one after a dot.
-    private typealias Product = (team: String, identifiers: [Name], maker: String, step: Documented, page: String)
+    typealias Product = (team: String, identifiers: [Name], maker: String, step: Documented, page: String)
 
-    private static let known: [Product] = [
+    static let known: [Product] = [
         (
             "PXPZ95SK77", ["com.paloaltonetworks.globalprotect"], "Palo Alto Networks",
             .script("Contents/Resources/uninstall_gp.sh", runner: "sudo"),
