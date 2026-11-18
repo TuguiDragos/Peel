@@ -61,7 +61,7 @@ public struct PackageReceipt: Sendable, Hashable, Identifiable {
     /// The apps the package put on this Mac that are still where it put them. Excluding one leaves the receipt alone
     /// too, which is asked of the exclusions as they stand whenever it counts.
     public var apps: [InstalledApp] = []
-    /// The maker's step for what its product left, when this package is part of it and no app of that maker is
+    /// The maker's step for what its product left, when this package is part of it and no app of that product is
     /// installed.
     public var makersUninstaller: MakersUninstaller?
 

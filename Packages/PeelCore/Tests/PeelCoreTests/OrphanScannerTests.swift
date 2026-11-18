@@ -1714,6 +1714,26 @@ struct OrphanScannerTests {
         #expect(group.makersUninstaller?.step == .fromTheMakersPage)
     }
 
+    @Test func aGroupNamesNoMakersStepWhileAnAppOfThatProductIsInstalled() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.file("home/Library/Application Support/com.bitdefender.vpn/settings.db")
+        let vpn = RememberedApp(
+            bundleIdentifier: "com.bitdefender.vpn", name: "Bitdefender VPN", teamIdentifier: "GUNFMW623Y",
+            lastSeen: .now, lastPath: directory.url.appending(path: "Applications/VPN.app").path(percentEncoded: false)
+        )
+        let antivirus = InstalledApp(
+            url: URL(filePath: "/Applications/Antivirus.app"), bundleIdentifier: "com.bitdefender.antivirusformac",
+            name: "Antivirus", teamIdentifier: "GUNFMW623Y"
+        )
+
+        let alone = await scanner(in: directory).scan(installedApps: installed, remembered: [vpn])
+        let beside = await scanner(in: directory).scan(installedApps: installed + [antivirus], remembered: [vpn])
+
+        #expect(alone.groups.first?.makersUninstaller?.maker == "Bitdefender")
+        #expect(beside.groups.map(\.identifier) == ["com.bitdefender.vpn"])
+        #expect(beside.groups.first?.makersUninstaller == nil)
+    }
+
     @Test func whatALiveJobRunsIsNeverAnOrphan() async throws {
         let withJobs = try TemporaryDirectory()
         let withoutJobs = try TemporaryDirectory()

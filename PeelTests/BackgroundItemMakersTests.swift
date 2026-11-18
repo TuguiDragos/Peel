@@ -22,7 +22,7 @@ struct BackgroundItemMakersTests {
             lastPath: "/Applications/Box.app"
         )
         leftover.makersUninstallerForWhatIsLeft = leftover.appThatLeft
-            .flatMap { MakersUninstaller.ofWhatIsLeft(by: $0) }
+            .flatMap { MakersUninstaller.ofWhatIsLeft(by: $0, installed: []) }
 
         let found = try #require(BackgroundItemDetailView.makersUninstaller(of: leftover, among: []))
 

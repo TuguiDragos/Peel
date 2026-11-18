@@ -376,10 +376,11 @@ public enum BackgroundItems {
                 let team = job.program.flatMap(ownership.team(ofProgram:))
                 item.managedBy = ManagedAgent.of(team: team, identifier: job.label)
                     ?? ManagedAgent.of(team: team, identifier: owner?.bundleIdentifier)
-                if owner?.isInstalled != true || item.appThatLeft != nil {
-                    let byPart = team.flatMap { MakersUninstaller.ofWhatIsLeft(team: $0, part: job.label) }
+                if let team, owner?.isInstalled != true || item.appThatLeft != nil {
+                    let installed = ownership.installedApps(signedBy: team)
                     item.makersUninstallerForWhatIsLeft = item.appThatLeft
-                        .flatMap { MakersUninstaller.ofWhatIsLeft(by: $0) } ?? byPart
+                        .flatMap { MakersUninstaller.ofWhatIsLeft(by: $0, installed: installed) }
+                        ?? MakersUninstaller.ofWhatIsLeft(team: team, part: job.label, installed: installed)
                 }
                 items.append(item)
             }

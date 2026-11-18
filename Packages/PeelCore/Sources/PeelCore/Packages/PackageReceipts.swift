@@ -213,8 +213,7 @@ public enum PackageReceipts {
         )
     }
 
-    /// The receipts `found` with the maker's step on each package of a product that left: no installed app has the team
-    /// that signed what the package wrote, since another app of that maker may use it.
+    /// The receipts `found`, each naming the maker's step when its product left: the installed apps are read to tell.
     private static func withMakersSteps(
         _ found: [(receipt: PackageReceipt, makersTeam: String?)], environment: SearchEnvironment,
         installedApps: (@Sendable () async -> [InstalledApp])?
@@ -225,12 +224,11 @@ public enum PackageReceipts {
         } else {
             await AppCatalog.installedApps(in: AppCatalog.directories(in: environment))
         }
-        let teams = Set(apps.compactMap(\.teamIdentifier))
         return found.map { read in
             var receipt = read.receipt
-            if let team = read.makersTeam, !teams.contains(team) {
-                receipt.makersUninstaller = MakersUninstaller.ofWhatIsLeft(
-                    team: team, part: receipt.identifier, home: environment.homeDirectory
+            receipt.makersUninstaller = read.makersTeam.flatMap { team in
+                MakersUninstaller.ofWhatIsLeft(
+                    team: team, part: receipt.identifier, installed: apps, home: environment.homeDirectory
                 )
             }
             return receipt

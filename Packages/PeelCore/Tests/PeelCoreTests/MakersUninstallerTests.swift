@@ -174,8 +174,9 @@ struct MakersUninstallerTests {
         }
         func step(_ app: RememberedApp, isThere: Bool = true) -> MakersUninstaller.Step? {
             MakersUninstaller.ofWhatIsLeft(
-                by: app, home: URL(filePath: "/Users/me", directoryHint: .isDirectory), isOnTheMac: { _ in isThere },
-                isOnlyRoots: { _ in true }, isTheMakers: { _, team in team == app.teamIdentifier }
+                by: app, installed: [], home: URL(filePath: "/Users/me", directoryHint: .isDirectory),
+                isOnTheMac: { _ in isThere }, isOnlyRoots: { _ in true },
+                isTheMakers: { _, team in team == app.teamIdentifier }
             )?.step
         }
 
@@ -192,13 +193,13 @@ struct MakersUninstallerTests {
         #expect(step(gone("net.tunnelblick.tunnelblick", team: "Z2SG5H3HC8")) == .fromTheMakersPage)
         #expect(step(gone("com.avast.av.uninstaller", team: "6H4HRTU5E3")) == nil)
         #expect(step(gone("com.box.desktop", team: "ABCDE12345")) == nil)
-        #expect(MakersUninstaller.ofWhatIsLeft(by: gone("com.box.desktop", team: "M683GB7CPW"))?.removes == nil)
+        #expect(MakersUninstaller.ofWhatIsLeft(by: gone("com.box.desktop", team: "M683GB7CPW"), installed: [])?.removes == nil)
     }
 
     @Test func knowsAPartOfAProductItsMakerShipsOutsideTheApp() {
         func step(team: String, part: String) -> MakersUninstaller.Step? {
             MakersUninstaller.ofWhatIsLeft(
-                team: team, part: part, home: URL(filePath: "/Users/me", directoryHint: .isDirectory),
+                team: team, part: part, installed: [], home: URL(filePath: "/Users/me", directoryHint: .isDirectory),
                 isOnTheMac: { _ in true }, isOnlyRoots: { _ in true }, isTheMakers: { _, signer in signer == team }
             )?.step
         }
@@ -214,6 +215,39 @@ struct MakersUninstallerTests {
         #expect(step(team: "PXPZ95SK77", part: "com.paloaltonetworks.gp.pangpd") == nil)
         #expect(step(team: "ABCDE12345", part: "com.crashplan.service") == nil)
         #expect(MakersUninstaller.of(agent("com.crashplan.service", team: "UGHXR79U6M")) == nil)
+    }
+
+    @Test func whatIsLeftHasNoStepWhileAnAppOfThatProductIsInstalled() {
+        func gone(_ identifier: String, team: String) -> RememberedApp {
+            RememberedApp(
+                bundleIdentifier: identifier, name: "Gone", teamIdentifier: team, lastSeen: .now,
+                lastPath: "/Applications/Gone.app"
+            )
+        }
+        func left(by app: RememberedApp, installed: [InstalledApp]) -> MakersUninstaller? {
+            MakersUninstaller.ofWhatIsLeft(
+                by: app, installed: installed, isOnTheMac: { _ in true }, isOnlyRoots: { _ in true },
+                isTheMakers: { _, _ in true }
+            )
+        }
+        func left(part: String, installed: [InstalledApp]) -> MakersUninstaller? {
+            MakersUninstaller.ofWhatIsLeft(
+                team: "GUNFMW623Y", part: part, installed: installed, isOnTheMac: { _ in true },
+                isOnlyRoots: { _ in true }, isTheMakers: { _, _ in true }
+            )
+        }
+        let vpn = gone("com.bitdefender.vpn", team: "GUNFMW623Y")
+        let antivirus = agent("com.bitdefender.antivirusformac", team: "GUNFMW623Y")
+        let anotherProduct = agent("com.bitdefender.EndpointSecurityforMac", team: "GUNFMW623Y")
+        let anotherTeams = agent("com.bitdefender.antivirusformac", team: "ABCDE12345")
+        let avastsUninstaller = agent("com.avast.av.uninstaller", team: "6H4HRTU5E3")
+
+        #expect(left(by: vpn, installed: []) != nil)
+        #expect(left(by: vpn, installed: [antivirus]) == nil)
+        #expect(left(by: vpn, installed: [anotherProduct, anotherTeams]) != nil)
+        #expect(left(part: "com.bitdefender.agent", installed: [antivirus]) == nil)
+        #expect(left(part: "com.bitdefender.agent", installed: [anotherProduct]) != nil)
+        #expect(left(by: gone("com.avast.aafm", team: "6H4HRTU5E3"), installed: [avastsUninstaller]) != nil)
     }
 
     @Test func findsCrashPlansUninstallerForOneAccountOrItsDownload() throws {

@@ -239,7 +239,9 @@ public struct OrphanScanner: Sendable {
         )
         let groups = grouped.map { grouped in
             var group = grouped
-            group.makersUninstaller = group.rememberedApp.flatMap { MakersUninstaller.ofWhatIsLeft(by: $0) }
+            group.makersUninstaller = group.rememberedApp.flatMap {
+                MakersUninstaller.ofWhatIsLeft(by: $0, installed: installedApps)
+            }
             return group
         }
         let recorded = await recorded(

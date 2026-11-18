@@ -55,19 +55,24 @@ struct PackageReceiptMakersTests {
         #expect(found?.makersUninstaller?.maker == "Bitdefender")
     }
 
-    @Test func anotherAppOfTheMakerStillInstalledMayUseThePackage() async throws {
-        let directory = try TemporaryDirectory()
-        let app = InstalledApp(
-            url: URL(filePath: "/Applications/Box Tools.app"), bundleIdentifier: "com.box.tools", name: "Box Tools",
-            teamIdentifier: "M683GB7CPW"
-        )
+    @Test func aPackageNamesNoStepWhileAnAppOfItsProductIsInstalled() async throws {
+        func found(beside identifier: String) async throws -> PackageReceipt? {
+            let directory = try TemporaryDirectory()
+            let app = InstalledApp(
+                url: URL(filePath: "/Applications/Box.app"), bundleIdentifier: identifier, name: "Box",
+                teamIdentifier: "M683GB7CPW"
+            )
+            return try await receipt(
+                "com.box.desktop.installer", in: directory, signedBy: ["agentd": "M683GB7CPW"], installed: [app]
+            )
+        }
 
-        let found = try await receipt(
-            "com.box.desktop.installer", in: directory, signedBy: ["agentd": "M683GB7CPW"], installed: [app]
-        )
+        let besideItsApp = try await found(beside: "com.box.desktop")
+        let besideAnotherProduct = try await found(beside: "com.box.tools")
 
-        #expect(found != nil)
-        #expect(found?.makersUninstaller == nil)
+        #expect(besideItsApp != nil)
+        #expect(besideItsApp?.makersUninstaller == nil)
+        #expect(besideAnotherProduct?.makersUninstaller?.maker == "Box")
     }
 
     @Test func aPackageNamedLikeAProductIsNotItsWithoutItsMakersSignature() async throws {
@@ -90,7 +95,9 @@ struct PackageReceiptMakersTests {
         )
         #expect(receipt.itemsLeftForAnAdministrator == [item])
 
-        receipt.makersUninstaller = MakersUninstaller.ofWhatIsLeft(team: "M683GB7CPW", part: receipt.identifier)
+        receipt.makersUninstaller = MakersUninstaller.ofWhatIsLeft(
+            team: "M683GB7CPW", part: receipt.identifier, installed: []
+        )
 
         #expect(receipt.makersUninstaller != nil)
         #expect(receipt.itemsLeftForAnAdministrator.isEmpty)

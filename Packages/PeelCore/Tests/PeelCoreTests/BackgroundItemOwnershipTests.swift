@@ -114,13 +114,22 @@ struct BackgroundItemOwnershipTests {
             homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
             rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
         )
-        func row(team: String) -> BackgroundItem? {
-            let ownership = BackgroundItemOwnership(installedApps: [], teamOfProgram: { $0 == program ? team : nil })
+        func row(team: String, installed: [InstalledApp] = []) -> BackgroundItem? {
+            let ownership = BackgroundItemOwnership(
+                installedApps: installed, teamOfProgram: { $0 == program ? team : nil }
+            )
             return BackgroundItems.declared(in: environment, ownership: ownership).first
         }
+        let crashPlan = app("com.crashplan.desktop", "CrashPlan", team: "UGHXR79U6M")
+        let another = app("org.example.other", "Other", team: "UGHXR79U6M")
 
         #expect(row(team: "UGHXR79U6M")?.makersUninstallerForWhatIsLeft?.maker == "CrashPlan")
         #expect(row(team: "ABCDE12345")?.makersUninstallerForWhatIsLeft == nil)
+        let besideItsApp = try #require(row(team: "UGHXR79U6M", installed: [crashPlan, another]))
+        #expect(besideItsApp.ownerBundleIdentifier == nil)
+        #expect(besideItsApp.makersUninstallerForWhatIsLeft == nil)
+        let more = app("org.example.more", "More", team: "UGHXR79U6M")
+        #expect(row(team: "UGHXR79U6M", installed: [another, more])?.makersUninstallerForWhatIsLeft != nil)
     }
 
     @Test func neverCallsGoneAProgramWhosePathHoldsANul() throws {

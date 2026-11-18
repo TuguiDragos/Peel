@@ -346,15 +346,19 @@ public struct MakersUninstaller: Sendable, Hashable {
         )
     }
 
+    /// The maker's step for what `app` left, found as it is for an app. None while an app of the same product is among
+    /// `installed`: its page gives the step, and the uninstaller would take that app too.
     static func ofWhatIsLeft(
         by app: RememberedApp,
+        installed: [InstalledApp],
         home: URL = .homeDirectory,
         isOnTheMac: (String) -> Bool = { !URL(filePath: $0).isMissing },
         isOnlyRoots: (URL) -> Bool = MakersUninstaller.onlyRootCanChange,
         isTheMakers: (URL, String) -> Bool = VendorRemoval.isSigned(_:by:)
     ) -> MakersUninstaller? {
         guard let team = app.teamIdentifier,
-              let product = product(team: team, identifier: app.bundleIdentifier.lowercased())
+              let product = product(team: team, identifier: app.bundleIdentifier.lowercased()),
+              !isInstalled(product, among: installed)
         else { return nil }
         return made(
             product, team: team, app: nil, home: home, isOnTheMac: isOnTheMac, isOnlyRoots: isOnlyRoots,
@@ -362,17 +366,21 @@ public struct MakersUninstaller: Sendable, Hashable {
         )
     }
 
-    /// The maker's step for a part `team` signed, when exactly one of its products names it.
+    /// The maker's step for a part `team` signed, when exactly one of its products names it and no app of that product
+    /// is among `installed`.
     static func ofWhatIsLeft(
         team: String,
         part: String,
+        installed: [InstalledApp],
         home: URL = .homeDirectory,
         isOnTheMac: (String) -> Bool = { !URL(filePath: $0).isMissing },
         isOnlyRoots: (URL) -> Bool = MakersUninstaller.onlyRootCanChange,
         isTheMakers: (URL, String) -> Bool = VendorRemoval.isSigned(_:by:)
     ) -> MakersUninstaller? {
         let products = naming(part).filter { $0.team == team }
-        guard products.count == 1, let product = products.first else { return nil }
+        guard products.count == 1, let product = products.first, !isInstalled(product, among: installed) else {
+            return nil
+        }
         return made(
             product, team: team, app: nil, home: home, isOnTheMac: isOnTheMac, isOnlyRoots: isOnlyRoots,
             isTheMakers: { isTheMakers($0, team) }
@@ -435,8 +443,6 @@ public struct MakersUninstaller: Sendable, Hashable {
         return uninstaller
     }
 
-    /// The product `team` signed whose identifiers name `identifier`, or, for an app with none, whose places name
-    /// `place`.
     static func teams(naming part: String) -> Set<String> {
         Set(naming(part).map(\.team))
     }
@@ -453,15 +459,28 @@ public struct MakersUninstaller: Sendable, Hashable {
         }
     }
 
+    /// The product `team` signed whose identifiers name `identifier`, or, for an app with none, whose places name
+    /// `place`.
     private static func product(team: String, identifier: String?, place: String? = nil) -> Product? {
-        known.first { product in
-            product.team == team && product.identifiers.contains { name in
-                switch name {
-                case .identifier(let known): identifier.map { $0 == known || $0.hasPrefix(known + ".") } == true
-                case .place(let known): identifier == nil && place == known
-                case .part: false
-                }
+        known.first { names($0, team: team, identifier: identifier, place: place) }
+    }
+
+    private static func names(_ product: Product, team: String, identifier: String?, place: String?) -> Bool {
+        product.team == team && product.identifiers.contains { name in
+            switch name {
+            case .identifier(let known): identifier.map { $0 == known || $0.hasPrefix(known + ".") } == true
+            case .place(let known): identifier == nil && place == known
+            case .part: false
             }
+        }
+    }
+
+    private static func isInstalled(_ product: Product, among apps: [InstalledApp]) -> Bool {
+        apps.contains { app in
+            app.teamIdentifier == product.team && names(
+                product, team: product.team, identifier: app.bundleIdentifier?.lowercased(),
+                place: PathPattern.comparablePath(of: app.url)
+            )
         }
     }
 
