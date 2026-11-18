@@ -191,9 +191,7 @@ public struct LeftoverScanner: Sendable {
                 .sorted(by: Leftover.comesBefore),
             unreadableLocations: unreadableLocations.sorted(by: byPath),
             cutShortLocations: cutShortLocations.sorted(by: byPath),
-            crowdedFolders: crowdedFolders.sorted {
-                $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
-            },
+            crowdedFolders: crowdedFolders.eachOnce,
             needsFullDiskAccess: unreadableLocations.contains { FullDiskAccess.canList($0.url) == .missing }
         )
     }

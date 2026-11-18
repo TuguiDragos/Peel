@@ -86,8 +86,7 @@ public struct BulkUninstallation: Sendable {
         Self.places(uninstallations.flatMap { $0.scan.cutShortLocations })
     }
     public var crowdedFolders: [CrowdedFolder] {
-        Array(Set(uninstallations.flatMap(\.scan.crowdedFolders)))
-            .sorted { $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false) }
+        uninstallations.flatMap(\.scan.crowdedFolders).eachOnce
     }
 
     private static func places(_ locations: [SearchLocation]) -> [SearchLocation] {

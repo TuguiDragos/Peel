@@ -24,6 +24,23 @@ struct OrphanScannerTests {
         withExtendedLifetime(disk) {}
     }
 
+    @Test func namesACrowdedHomeFolderOnceThoughTwoPlacesReadIt() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        for number in 0...ScanReads.entryLimit {
+            FileManager.default.createFile(atPath: home.appending(path: "\(number)").path(percentEncoded: false), contents: nil)
+        }
+        let environment = SearchEnvironment(
+            homeDirectory: home, rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory),
+            userCacheDirectory: directory.url.appending(path: "var/C", directoryHint: .isDirectory),
+            userTemporaryDirectory: directory.url.appending(path: "var/T", directoryHint: .isDirectory)
+        )
+
+        let scan = await OrphanScanner(environment: environment) { _ in false }.scan(installedApps: [])
+
+        #expect(scan.crowdedFolders.map(\.url.lastPathComponent) == ["home"])
+    }
+
     @Test func aFinderAliasLeadsToTheAppThatWentAsALinkDoes() throws {
         let directory = try TemporaryDirectory()
         let app = try directory.directory("Apps/Gone.app")

@@ -241,9 +241,7 @@ public struct OrphanScanner: Sendable {
             unreadableLocations: unreadableLocations.sorted(by: byPath),
             needsFullDiskAccess: unreadableLocations.contains { FullDiskAccess.canList($0.url) == .missing },
             cutShortLocations: cutShortLocations.sorted(by: byPath),
-            crowdedFolders: crowdedFolders.sorted {
-                $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false)
-            },
+            crowdedFolders: crowdedFolders.eachOnce,
             forAnAdministrator: forAnAdministrator,
             appsOnOtherDisks: knownToMacOS.identifiers.flatMap(knownPlaces).filter(isOnAnotherDisk)
                 .compactMap { AppInspector.inspect($0) },

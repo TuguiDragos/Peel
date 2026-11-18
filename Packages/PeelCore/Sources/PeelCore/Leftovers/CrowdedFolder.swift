@@ -11,3 +11,12 @@ public struct CrowdedFolder: Sendable, Hashable {
         self.entries = entries
     }
 }
+
+extension Sequence<CrowdedFolder> {
+    /// Each folder once, by its path: two places a scan reads can be one folder, as the home folder is.
+    var eachOnce: [CrowdedFolder] {
+        var seen: Set<String> = []
+        return filter { seen.insert(PathPattern.comparablePath(of: $0.url)).inserted }
+            .sorted { $0.url.path(percentEncoded: false) < $1.url.path(percentEncoded: false) }
+    }
+}

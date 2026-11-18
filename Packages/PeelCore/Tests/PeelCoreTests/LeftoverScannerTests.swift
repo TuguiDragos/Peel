@@ -764,6 +764,32 @@ struct LeftoverScannerTests {
         #expect(scan.crowdedFolders.map(\.entries) == [ScanReads.entryLimit + 1])
     }
 
+    @Test func namesACrowdedHomeFolderOnceThoughTwoPlacesReadIt() async throws {
+        let directory = try TemporaryDirectory()
+        let home = try directory.directory("home")
+        for number in 0...ScanReads.entryLimit {
+            FileManager.default.createFile(atPath: home.appending(path: "\(number)").path(percentEncoded: false), contents: nil)
+        }
+
+        let scanner = LeftoverScanner(environment: environment(in: directory))
+
+        let scan = await scanner.scan(tunewell, installedApps: [tunewell])
+
+        #expect(scan.crowdedFolders.map(\.url.lastPathComponent) == ["home"])
+    }
+
+    @Test func namesAFolderTwoScansCountedDifferentlyOnce() {
+        let folder = URL(filePath: "/Users/someone/.cache/tool", directoryHint: .isDirectory)
+        let other = URL(filePath: "/Users/someone/.cache/another")
+        let crowded = [
+            CrowdedFolder(url: folder, entries: 20_500), CrowdedFolder(url: other, entries: nil),
+            CrowdedFolder(url: URL(filePath: "/Users/someone/.cache/tool"), entries: 20_501),
+        ]
+
+        #expect(crowded.eachOnce.map(\.url) == [other, folder])
+        #expect(crowded.eachOnce.map(\.entries) == [nil, 20_500])
+    }
+
     @Test func namesTheFolderWhoseFoldersItDidNotAllReach() async throws {
         let directory = try TemporaryDirectory()
         for index in 0..<6 {
