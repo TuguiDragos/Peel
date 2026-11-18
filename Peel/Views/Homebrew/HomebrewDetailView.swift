@@ -232,7 +232,7 @@ struct HomebrewDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("This can take a long time, since Homebrew builds some packages on this Mac. Its progress shows on this page as it works, and you can stop it there.")
+            HomebrewUpgradeWarning.text(deletesAnApp: package.kind == .cask)
         }
         .forgetCasksDialog(for: $casksToForget)
         .task(id: package.fullName) { readWhatItLeaves() }

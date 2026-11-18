@@ -14,6 +14,8 @@ struct AppPageHeader: View {
     let privacyReset: PrivacyReset.Result?
     @Binding var isShowingReset: Bool
     @Binding var isConfirmingPrivacyReset: Bool
+    @Binding var isConfirmingUpgrade: Bool
+    let upgradesConfirmed: Int
     @Binding var upgradeOutput: HomebrewLibrary.CommandResult?
     @Binding var receiptToForget: PackageReceipt?
     let isForgettingReceipt: Bool
@@ -40,6 +42,7 @@ struct AppPageHeader: View {
             updatePanel
         }
         .padding(.bottom, 8)
+        .onChange(of: upgradesConfirmed) { upgradeWithHomebrew() }
     }
 
     /// The version an update would bring. Nil when there is no update, or when the user muted this app or
@@ -229,7 +232,7 @@ struct AppPageHeader: View {
             }
         case .homebrew:
             Button {
-                upgradeWithHomebrew()
+                isConfirmingUpgrade = true
             } label: {
                 if isUpgrading {
                     HStack(spacing: 6) {

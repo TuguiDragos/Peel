@@ -13,6 +13,9 @@ struct AppDetailView: View {
     @State private var isRescanning = false
     @State private var progress = MoveProgress()
     @State private var isConfirmingPrivacyReset = false
+    @State private var isConfirmingUpgrade = false
+    /// Counts the upgrades confirmed, which the header starts: the question sits on the page, not in its list.
+    @State private var upgradesConfirmed = 0
     @State private var defaultAppsOpenFor: URL?
     /// The result of the last privacy reset started from the More menu, shown under the buttons.
     @State private var privacyReset: PrivacyReset.Result?
@@ -54,6 +57,12 @@ struct AppDetailView: View {
         }
         .onChange(of: plan.mayResetPrivacy) { _, may in
             if !may { isConfirmingPrivacyReset = false }
+        }
+        .confirmationDialog(Text("Upgrade \(plan.app.name)?"), isPresented: $isConfirmingUpgrade) {
+            Button("Upgrade") { upgradesConfirmed += 1 }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            HomebrewUpgradeWarning.text(deletesAnApp: true)
         }
         .alert(quitTitle, isPresented: Bindable(quitting).isAsking) {
             Button("Quit \(plan.app.name)") { quitting.quit() }
@@ -119,6 +128,8 @@ struct AppDetailView: View {
                 privacyReset: privacyReset,
                 isShowingReset: $isShowingReset,
                 isConfirmingPrivacyReset: $isConfirmingPrivacyReset,
+                isConfirmingUpgrade: $isConfirmingUpgrade,
+                upgradesConfirmed: upgradesConfirmed,
                 upgradeOutput: $upgradeOutput,
                 receiptToForget: $receiptToForget,
                 isForgettingReceipt: isForgettingReceipt,

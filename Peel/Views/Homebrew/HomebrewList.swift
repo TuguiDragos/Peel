@@ -99,7 +99,7 @@ struct HomebrewList: View {
             Button("Upgrade All") { upgradeAll() }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("This can take a long time, since Homebrew builds some packages on this Mac. Its progress shows on this page as it works, and you can stop it there.")
+            HomebrewUpgradeWarning.text(deletesAnApp: homebrew.upgradable.contains { $0.kind == .cask })
         }
         .forgetCasksDialog(for: $casksToForget)
         // Clean Up is confirmed first, like Uninstall on a package's page, because Homebrew deletes these files

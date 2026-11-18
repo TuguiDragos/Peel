@@ -71296,6 +71296,112 @@
         }
       }
     },
+    "Homebrew deletes each app version it replaces, which History cannot put back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew smaže každou verzi aplikace, kterou nahradí, a Historie ji nemůže vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew löscht jede App-Version, die es ersetzt, und im Verlauf lässt sich keine davon zurücklegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew borra cada versión de app que reemplaza, e Historial no puede restaurarla."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew supprime définitivement chaque version d’app qu’il remplace, et l’Historique ne peut pas la remettre en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando sostituisce la versione di un’app, Homebrew la elimina e la Cronologia non può ripristinarla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewは置き換えるアプリのバージョンをそれぞれ削除します。削除されたバージョンは履歴から戻せません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew는 대치되는 앱 버전을 모두 삭제하며, 삭제된 버전은 기록에서 되돌려 놓을 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew verwijdert definitief elke appversie die het vervangt, en Geschiedenis kan die niet terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew trwale usuwa każdą wersję aplikacji, którą zastępuje, a Historia nie może jej przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew apaga cada versão de app que substitui, e o Histórico não pode colocá-la de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew șterge fiecare versiune de aplicație pe care o înlocuiește și nu o puteți pune înapoi din Istoric."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew безвозвратно удаляет каждую версию приложения, которую заменяет, и История не сможет ее восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew raderar varje appversion som det ersätter, och Historik kan inte lägga tillbaka den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew, yenisiyle değiştirdiği her uygulama sürümünü siler ve Geçmiş bunları yerine koyamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew видаляє кожну версію програми, яку замінює, і Історія не зможе її повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew会删除它所替换的每个App版本，而“历史记录”无法将其放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew會刪除它所取代的每個App版本，而「歷史記錄」無法將其還原。"
+          }
+        }
+      }
+    },
     "Homebrew deletes for good every download it keeps, even for the latest versions, except those of what is installed now, and what Clean Up deletes. Nothing goes to the Trash, and History can’t put it back." : {
       "localizations" : {
         "cs" : {
