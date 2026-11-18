@@ -459,6 +459,7 @@ struct MultipleAppsView: View {
                 let result = await history.moving(
                     plan.part(naming: []), sizes: request.sizes, sharingStorage: request.sharingStorage
                 ) { await plan.move(request, using: service) }
+                await plan.record(result, sizes: request.sizes, sharingStorage: request.sharingStorage, in: history)
                 let kept = plan.bulk?.appsThatKeptTheirFiles(after: result, selection: request.urls) ?? []
                 let left = plan.bulk?.leftForAnAdministrator(after: result) ?? []
                 await LeftForAnAdministrator().record(left)
@@ -492,7 +493,6 @@ struct MultipleAppsView: View {
                 ) {
                     home.record(appManagement: state)
                 }
-                await plan.record(result, sizes: request.sizes, sharingStorage: request.sharingStorage, in: history)
                 return result
             }
         } }

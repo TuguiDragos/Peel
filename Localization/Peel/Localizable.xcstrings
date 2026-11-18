@@ -93933,6 +93933,112 @@
         }
       }
     },
+    "Its disk is full, with no room left even to move it to the Trash. Make some room on that disk, then try again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disk, na kterém leží, je plný a nezbylo na něm místo ani na přesunutí do koše. Uvolněte na tomto disku trochu místa a zkuste to znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Volume, auf dem es liegt, ist voll, sodass nicht einmal Platz bleibt, um es in den Papierkorb zu legen. Gib auf diesem Volume etwas Speicherplatz frei und versuche es dann erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su disco está lleno y no queda espacio ni siquiera para trasladarlo a la papelera. Libera algo de espacio en ese disco y vuelve a intentarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son disque est plein : il n’y reste même pas assez de place pour le placer dans la corbeille. Libérez de l’espace sur ce disque, puis réessayez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il suo disco è pieno e non resta spazio nemmeno per spostarlo nel Cestino. Libera un po’ di spazio su quel disco, poi riprova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これがあるディスクがいっぱいで、ゴミ箱に入れるだけの空き領域も残っていません。そのディスクの空き領域を確保してから、やり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목이 있는 디스크가 가득 차서 휴지통으로 이동할 공간조차 남아 있지 않습니다. 그 디스크에 여유 공간을 확보한 다음 다시 시도하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De schijf waarop het staat, is vol en heeft zelfs geen ruimte meer om het naar de prullenmand te verplaatsen. Maak wat ruimte vrij op die schijf en probeer het opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dysk, na którym się znajduje, jest pełny i nie ma na nim miejsca nawet na przeniesienie tego do Kosza. Zwolnij trochę miejsca na tym dysku, a następnie spróbuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O disco dele está cheio, sem espaço nem mesmo para movê-lo para o Lixo. Libere espaço nesse disco e tente novamente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discul pe care se află este plin și nu mai are spațiu nici măcar pentru a‑l muta în Coș. Eliberați spațiu pe acel disc, apoi încercați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Диск, на котором находится объект, заполнен, и на нем не осталось места даже для перемещения в Корзину. Освободите место на этом диске, а затем повторите попытку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skivan som det ligger på är full och har inte ens plats kvar för att flytta det till papperskorgen. Frigör lite utrymme på den skivan och försök sedan igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bulunduğu disk dolu, onu Çöp Sepeti’ne taşımaya bile yer kalmadı. O diskte biraz yer açın, ardından yeniden deneyin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Диск, на якому лежить елемент, заповнений, і місця не лишилося навіть для переміщення в Смітник. Звільніть трохи місця на цьому диску та спробуйте ще раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它所在的磁盘已满，连将它移到废纸篓的空间都没有了。请在该磁盘上腾出一些空间，然后重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它所在的磁碟已滿，連將它丟到「垃圾桶」的空間都沒有。請在該磁碟上清出一些空間，然後再試一次。"
+          }
+        }
+      }
+    },
     "Its download isn’t on this Mac anymore, so there is nothing to remove." : {
       "localizations" : {
         "cs" : {
@@ -261358,108 +261464,108 @@
         }
       }
     },
-    "What moved is in the Trash: drag it back out in Finder if you need it." : {
+    "What moved is in the Trash, and History lists it once History can be written again. Until then, drag it out of the Trash in Finder if you need it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Co se přesunulo, je v koši: pokud to potřebujete, přetáhněte to ve Finderu zpět ven."
+            "value" : "Co se přesunulo, je v koši a Historie to uvede, jakmile do ní bude možné znovu zapisovat. Pokud to do té doby budete potřebovat, přetáhněte to ve Finderu z koše."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Was verschoben wurde, liegt im Papierkorb: Ziehe es im Finder wieder heraus, wenn du es brauchst."
+            "value" : "Was verschoben wurde, liegt im Papierkorb, und der Verlauf führt es auf, sobald wieder in den Verlauf geschrieben werden kann. Ziehe es bis dahin im Finder aus dem Papierkorb, wenn du es brauchst."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lo que se ha trasladado está en la papelera: si lo necesitas, sácalo arrastrándolo en el Finder."
+            "value" : "Lo que se ha trasladado está en la papelera, e Historial lo mostrará en cuanto se pueda volver a escribir en él. Hasta entonces, si lo necesitas, sácalo de la papelera arrastrándolo en el Finder."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce qui a été déplacé se trouve dans la corbeille : faites-le glisser hors de la corbeille dans le Finder si vous en avez besoin."
+            "value" : "Ce qui a été déplacé se trouve dans la corbeille, et l’Historique le listera dès qu’il sera de nouveau possible d’y écrire. D’ici là, faites-le glisser hors de la corbeille dans le Finder si vous en avez besoin."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ciò che è stato spostato è nel Cestino: se ti serve, trascinalo fuori nel Finder."
+            "value" : "Ciò che è stato spostato è nel Cestino, e la Cronologia lo elencherà non appena sarà di nuovo possibile scriverci. Fino ad allora, se ti serve, trascinalo fuori dal Cestino nel Finder."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "移動した項目はゴミ箱にあります。必要な場合は、Finderでドラッグして取り出してください。"
+            "value" : "移動した項目はゴミ箱にあり、履歴に再び書き込めるようになった時点で履歴に表示されます。それまでの間、必要な場合はFinderでゴミ箱からドラッグして取り出してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이동한 항목은 휴지통에 있습니다. 필요하면 Finder에서 휴지통 밖으로 드래그하여 꺼내십시오."
+            "value" : "이동한 항목은 휴지통에 있으며, 기록을 다시 쓸 수 있게 되면 기록에 나열됩니다. 그때까지 필요하면 Finder에서 휴지통 밖으로 드래그하여 꺼내십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wat is verplaatst, staat in de prullenmand: sleep het in Finder er weer uit als je het nodig hebt."
+            "value" : "Wat is verplaatst, staat in de prullenmand, en Geschiedenis toont het zodra er weer naar Geschiedenis kan worden geschreven. Sleep het tot die tijd in Finder uit de prullenmand als je het nodig hebt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To, co przeniesiono, jest w Koszu: wyciągnij to z Kosza w Finderze, jeśli tego potrzebujesz."
+            "value" : "To, co przeniesiono, jest w Koszu, a Historia wyświetli to, gdy znów będzie można ją zapisać. Do tego czasu wyciągnij to z Kosza w Finderze, jeśli tego potrzebujesz."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O que foi movido está no Lixo: arraste-o para fora no Finder se precisar."
+            "value" : "O que foi movido está no Lixo, e o Histórico vai listá-lo assim que puder ser gravado de novo. Até lá, arraste-o para fora do Lixo no Finder se precisar."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce s‑a mutat se află în Coș: în Finder, îl puteți trage afară de acolo dacă aveți nevoie de el."
+            "value" : "Ce s‑a mutat se află în Coș, iar Istoricul îl va lista după ce se va putea scrie din nou în acesta. Până atunci, în Finder, îl puteți trage afară din Coș dacă aveți nevoie de el."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "То, что было перемещено, находится в Корзине: если оно Вам нужно, в Finder перетащите его из Корзины обратно."
+            "value" : "То, что было перемещено, находится в Корзине и появится в Истории, как только ее снова можно будет записать. До тех пор, если оно Вам нужно, в Finder перетащите его из Корзины."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det som flyttades ligger i papperskorgen: dra ut det igen i Finder om du behöver det."
+            "value" : "Det som flyttades ligger i papperskorgen, och Historik listar det så snart det går att skriva till Historik igen. Tills dess kan du dra ut det ur papperskorgen i Finder om du behöver det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Taşınanlar Çöp Sepeti’nde: ihtiyacınız varsa onları Finder’da dışarı sürükleyin."
+            "value" : "Taşınanlar Çöp Sepeti’nde ve Geçmiş’e yeniden yazılabildiğinde Geçmiş onları listeler. O zamana kadar ihtiyacınız varsa onları Finder’da Çöp Sepeti’nden dışarı sürükleyin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Те, що переміщено, лежить у Смітнику: якщо воно вам потрібне, у Finder перетягніть його зі Смітника назад."
+            "value" : "Те, що переміщено, лежить у Смітнику, і Історія покаже його, щойно в Історію знову можна буде записувати. Доти, якщо воно вам потрібне, у Finder перетягніть його зі Смітника."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已移走的内容在废纸篓中：如果你需要，请在“访达”中将它拖出来。"
+            "value" : "已移走的内容在废纸篓中，等到“历史记录”可以再次写入后，就会在其中列出。在此之前，如果你需要，请在“访达”中将它从废纸篓中拖出来。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已移動的項目在「垃圾桶」中：如有需要，請在Finder中將它們拖出來。"
+            "value" : "已移動的項目在「垃圾桶」中，「歷史記錄」可以再次寫入後就會列出它們。在那之前，如有需要，請在Finder中將它們從「垃圾桶」拖出來。"
           }
         }
       }

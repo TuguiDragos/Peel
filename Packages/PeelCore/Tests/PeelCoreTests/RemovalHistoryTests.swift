@@ -395,6 +395,22 @@ struct RemovalHistoryTests {
         #expect(await log.add([Self.record(batch: UUID())]).problem == nil, "a removal that was recorded is what ends it")
     }
 
+    @Test(.permissionsHold) func whatHistoryCouldNotRecordGoesInOnceItCanBeWritten() async throws {
+        let directory = try TemporaryDirectory()
+        let url = try directory.file("Peel/removals.json", contents: Data("[]".utf8))
+        let log = RemovalLog(url: url)
+        try directory.setPermissions(0o500, of: "Peel")
+        defer { try? directory.setPermissions(0o755, of: "Peel") }
+        #expect(await log.add([Self.record(batch: UUID(), name: "Moved")]).records == nil)
+
+        try directory.setPermissions(0o755, of: "Peel")
+        let outcome = await log.load()
+
+        #expect(outcome.records?.map(\.source) == ["Moved"])
+        #expect(outcome.problem == nil)
+        #expect(await RemovalLog(url: url).load().records?.map(\.source) == ["Moved"], "it was only in memory")
+    }
+
     /// A Put Back that cannot update the log reports `couldNotUpdate`, not `couldNotRecord`: nothing was
     /// removed, and the items have left the Trash.
     @Test(.permissionsHold) func aPutBackThatCouldNotBeWrittenDownSaysSo() async throws {

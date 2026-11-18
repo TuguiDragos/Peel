@@ -210,7 +210,7 @@ struct RemovalJournal: Sendable {
         }
     }
 
-    private static func isOutOfRoom(_ error: Int32) -> Bool {
+    static func isOutOfRoom(_ error: Int32) -> Bool {
         error == ENOSPC || error == EDQUOT
     }
 

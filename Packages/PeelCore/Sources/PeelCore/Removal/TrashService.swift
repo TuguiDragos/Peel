@@ -182,6 +182,8 @@ public struct TrashFailure: Sendable, Hashable {
         /// Its Trash is at the top of the startup disk, where macOS makes none while the home folder is on another
         /// disk, and Peel's helper hasn't made it.
         case noTrashOnThisDisk
+        /// Its disk is full, with no room left even to move it to the Trash.
+        case noRoomOnItsDisk
         case failed(String)
     }
 
@@ -201,7 +203,8 @@ extension TrashFailure.Reason {
     /// state: History it cannot read, or the helper it needs.
     public var isAboutTheItem: Bool {
         switch self {
-        case .historyUnreadable, .historyCannotBeWritten, .peelRemovesItself, .needsHelper, .noTrashOnThisDisk: false
+        case .historyUnreadable, .historyCannotBeWritten, .peelRemovesItself, .needsHelper, .noTrashOnThisDisk,
+             .noRoomOnItsDisk: false
         case .guarded, .changedSinceScan, .changeNotKnown, .claimedSinceScan, .lastCopy, .notPermitted, .locked,
              .movedWithoutATrace,
              .somethingElseMoved, .heldOpen, .heldOpenByAJob, .peelRunsFromIt, .heldByAnotherAccount,
@@ -248,6 +251,7 @@ extension TrashFailure.Reason {
         case .attachedImagesNotKnown: "attached-images-not-known"
         case .stillLeadsTo: "still-leads-to"
         case .noTrashOnThisDisk: "no-trash-on-this-disk"
+        case .noRoomOnItsDisk: "no-room-on-its-disk"
         case .failed: "failed"
         }
     }
@@ -302,6 +306,7 @@ extension TrashFailure.Reason {
         case "attached-images-not-known": self = .attachedImagesNotKnown
         case "still-leads-to": self = .stillLeadsTo(detail ?? "")
         case "no-trash-on-this-disk": self = .noTrashOnThisDisk
+        case "no-room-on-its-disk": self = .noRoomOnItsDisk
         case "failed": self = .failed(detail ?? "")
         default: return nil
         }
@@ -1383,12 +1388,14 @@ public struct TrashService: Sendable {
             return .somethingElseMoved(named: moved.trashedURL.lastPathComponent)
         }
         let error = error as NSError
+        if error.domain == NSCocoaErrorDomain, error.code == NSFileWriteOutOfSpaceError { return .noRoomOnItsDisk }
         if error.domain == NSCocoaErrorDomain,
            [NSFileWriteNoPermissionError, NSFileReadNoPermissionError].contains(error.code) {
             return .notPermitted
         }
         let codes = ([error] + error.underlyingErrors.map { $0 as NSError }).filter { $0.domain == NSPOSIXErrorDomain }
             .map(\.code)
+        if codes.contains(where: { RemovalJournal.isOutOfRoom(Int32(clamping: $0)) }) { return .noRoomOnItsDisk }
         if codes.contains(Int(EPERM)) || codes.contains(Int(EACCES)) { return .notPermitted }
         return .failed(error.localizedDescription)
     }

@@ -549,6 +549,10 @@ struct AppDetailView: View {
                 ) {
                     await plan.move(request, using: service)
                 }
+                await history.record(
+                    result, tool: .applications, source: plan.app.name, sizes: request.sizes,
+                    sharingStorage: request.sharingStorage
+                )
                 let keptItsFiles = plan.uninstallation?.keptItsFiles(after: result, selection: request.urls) == true
                 let left = plan.uninstallation?.leftForAnAdministrator(after: result) ?? []
                 await LeftForAnAdministrator().record(left)
@@ -578,10 +582,6 @@ struct AppDetailView: View {
                 ) {
                     home.record(appManagement: state)
                 }
-                await history.record(
-                    result, tool: .applications, source: plan.app.name, sizes: request.sizes,
-                    sharingStorage: request.sharingStorage
-                )
                 return result
             }
         } }

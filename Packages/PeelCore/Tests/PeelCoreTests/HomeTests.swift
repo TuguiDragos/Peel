@@ -270,6 +270,16 @@ struct AccessTests {
         let missing = NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError)
         #expect(TrashService.reason(for: missing) != .notPermitted)
     }
+
+    @Test func callsADiskWithNoRoomLeftByPeelsOwnReason() {
+        #expect(TrashService.reason(for: POSIXError(.ENOSPC)) == .noRoomOnItsDisk)
+        #expect(TrashService.reason(for: NSError(domain: NSPOSIXErrorDomain, code: Int(EDQUOT))) == .noRoomOnItsDisk)
+        let wrapped = NSError(domain: NSCocoaErrorDomain, code: NSFileWriteOutOfSpaceError, userInfo: [
+            NSUnderlyingErrorKey: NSError(domain: NSPOSIXErrorDomain, code: Int(ENOSPC))
+        ])
+        #expect(TrashService.reason(for: wrapped) == .noRoomOnItsDisk)
+        #expect(TrashFailure.Reason(name: "no-room-on-its-disk", detail: nil) == .noRoomOnItsDisk)
+    }
 }
 
 struct AppManagementTests {

@@ -45,6 +45,9 @@ public actor RemovalLog {
     private var kept: (file: FileIdentity, records: [RemovalRecord])?
     /// What removals moved and have not recorded yet, item by item.
     private let journal: RemovalJournal
+    /// What this process moved and couldn't record, written with the next read or change of the log that can. A
+    /// process that stops before then leaves it to the journal.
+    private var unrecorded: [RemovalRecord] = []
     private let totals: URL
     private let flush: @Sendable (String) -> Bool
     private let readLimit: Int
@@ -96,6 +99,7 @@ public actor RemovalLog {
             let new = Set(records.map(\.batch))
             guard let updated = write(existing + records, keeping: new, orNote: RemovalLogProblem.couldNotRecord) else {
                 journal.keep(records)
+                unrecorded += records
                 return outcome(nil)
             }
             RemovalTotals.change(at: totals) { $0.add(records) }
@@ -254,7 +258,29 @@ public actor RemovalLog {
     /// must not be replaced because it could not be read.
     private func current() -> [RemovalRecord]? {
         guard let records = stored() else { return nil }
-        return takingInInterrupted(records)
+        return takingInUnrecorded(takingInInterrupted(records))
+    }
+
+    /// Writes in what this process couldn't record before, unless the log has it already.
+    private func takingInUnrecorded(_ records: [RemovalRecord]) -> [RemovalRecord] {
+        guard !unrecorded.isEmpty else { return records }
+        let recorded = Set(records.map { RemovalJournal.Key($0.trashedItem) })
+        let missing = unrecorded.filter { !recorded.contains(RemovalJournal.Key($0.trashedItem)) }
+        guard !missing.isEmpty else {
+            unrecorded = []
+            return records
+        }
+        let batches = Set(missing.map(\.batch))
+        guard let written = write(records + missing, keeping: batches, orNote: RemovalLogProblem.couldNotRecord) else {
+            return records
+        }
+        unrecorded = []
+        RemovalTotals.change(at: totals) { $0.add(missing) }
+        if flush(url.path(percentEncoded: false)) {
+            journal.forget(missing.map(\.trashedItem))
+        }
+        if hasUnrecordedRemoval { problem = nil }
+        return written
     }
 
     /// Records what the journal holds for processes that no longer run, as interrupted removals, then lets those

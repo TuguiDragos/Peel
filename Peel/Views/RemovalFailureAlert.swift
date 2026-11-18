@@ -180,7 +180,7 @@ struct RemovalFailureAlert: ViewModifier {
 
     private static func historyLines(_ outcome: RemovalOutcome) -> [String] {
         guard outcome.historyCouldNotRecord else { return [] }
-        return [String(localized: "What moved is in the Trash: drag it back out in Finder if you need it.")]
+        return [String(localized: "What moved is in the Trash, and History lists it once History can be written again. Until then, drag it out of the Trash in Finder if you need it.")]
     }
 
     private static func administratorLines(_ outcome: RemovalOutcome) -> [String] {
