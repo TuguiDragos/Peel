@@ -5,6 +5,7 @@ public enum RemovedElsewhere: Sendable, Hashable {
     case byRemovePeel
     /// A security or management agent, or a VPN, which its maker's own uninstaller removes whole.
     case byItsMaker(MakersUninstaller)
+    case byYourOrganization(ManagedAgent)
     /// An app with system extensions macOS installed, which Finder's move asks macOS to remove and Peel's would not.
     case byFinder(systemExtensions: CarriedSystemExtensions)
     /// An app with system extensions macOS runs for an app inside it, which stay installed whoever moves the app: it

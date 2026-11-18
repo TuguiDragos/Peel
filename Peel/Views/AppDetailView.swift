@@ -162,6 +162,10 @@ struct AppDetailView: View {
                 MakersUninstallerNotice(app: plan.app.name, uninstaller: uninstaller)
                     .listRowSeparator(.hidden)
             }
+            if case .byYourOrganization(let agent) = plan.removedElsewhere {
+                ManagedAgentNotice(agent: agent)
+                    .listRowSeparator(.hidden)
+            }
             if let discontinued = DiscontinuedApp.of(plan.app) {
                 Notice(
                     title: Text("\(discontinued.maker) recommends uninstalling \(plan.app.name)"),
@@ -345,6 +349,7 @@ struct AppDetailView: View {
         switch plan.removedElsewhere {
         case .byRemovePeel?: return Self.removesItselfTitle
         case .byItsMaker(let uninstaller)?: return MakersUninstallerNotice.title(of: uninstaller)
+        case .byYourOrganization(let agent)?: return ManagedAgentNotice.title(of: agent)
         case .byFinder?: return SystemExtensionNotice.title
         case .onceItsSystemExtensionsAreOff(let extensions)?: return SystemExtensionInsideNotice.title(of: extensions)
         case nil: return "Nothing here can be moved. Each file’s note says why."

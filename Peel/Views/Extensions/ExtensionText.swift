@@ -68,7 +68,8 @@ extension AppExtension {
         // With its app gone, the advice for an installed app leads nowhere: Orphaned Files' words say what does.
         if goneApp != nil, let reason = leftAlone { return reason.explanation }
         // An app its maker's own uninstaller removes takes this with it, as the app's own page says.
-        if case .byItsMaker? = removedElsewhere, let removedElsewhere { return removedElsewhere.explanation }
+        if let removedElsewhere, case .byItsMaker = removedElsewhere { return removedElsewhere.explanation }
+        if let removedElsewhere, case .byYourOrganization = removedElsewhere { return removedElsewhere.explanation }
         // A version macOS is removing goes on its own, whatever happens to the app.
         if election == .beingRemoved {
             guard let newer = replacedBy else { return election.explanation }

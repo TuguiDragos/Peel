@@ -196,7 +196,11 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     /// How this app is removed when Peel never removes it from its page: Peel itself, or an agent its maker's own
     /// uninstaller removes.
     public var removedElsewhere: RemovedElsewhere? {
-        isPeelItself ? .byRemovePeel : MakersUninstaller.of(self).map(RemovedElsewhere.byItsMaker)
+        if isPeelItself { return .byRemovePeel }
+        if let agent = ManagedAgent.of(team: teamIdentifier, identifier: bundleIdentifier) {
+            return .byYourOrganization(agent)
+        }
+        return MakersUninstaller.of(self).map(RemovedElsewhere.byItsMaker)
     }
 
     /// What a folder of the app's or its maker's is called, as `Naming.folderName` writes it: the app's names, its

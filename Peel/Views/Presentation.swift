@@ -713,6 +713,7 @@ extension RemovedElsewhere {
         switch self {
         case .byRemovePeel: "Left alone: Peel removes itself only from Settings."
         case .byItsMaker(let uninstaller): "Left alone: \(uninstaller.maker) removes it with its own uninstaller."
+        case .byYourOrganization(let agent): "Left alone: your organization manages this Mac with \(agent.name)."
         case .byFinder(let carried): Self.leftToFinder(carried)
         case .onceItsSystemExtensionsAreOff(let carried):
             carried.inAnAppInside.count == 1

@@ -729,6 +729,9 @@ struct UninstallCommand: AsyncParsableCommand {
             return nil
         case .byRemovePeel:
             return CommandFailure("Peel removes itself from its own settings, which unregisters the helper first. Open Peel and click Remove Peel in Settings.")
+        case .byYourOrganization(let agent):
+            let page = agent.page.map { " See \($0.absoluteString)" } ?? ""
+            return CommandFailure("Your organization manages this Mac with \(agent.name), and your IT administrator removes \(Output.plain(target.name)).\(page)")
         case .byItsMaker(let uninstaller) where uninstaller.removes != nil:
             let product = Output.plain(uninstaller.removes ?? "")
             return CommandFailure("\(Output.plain(target.name)) is \(uninstaller.maker)'s uninstaller for \(product): open it, and it removes \(product) and then itself. See \(uninstaller.instructions.absoluteString)")
