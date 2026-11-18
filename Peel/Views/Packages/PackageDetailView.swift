@@ -71,9 +71,7 @@ struct PackageDetailView: View {
 
             if let uninstaller = receipt.makersUninstaller {
                 MakersUninstallerNotice(
-                    app: receipt.name ?? receipt.identifier, uninstaller: uninstaller,
-                    saying: Text("The uninstaller from \(uninstaller.maker) also takes what the app kept in the system, which may not all be listed here."),
-                    isForWhatIsLeft: true
+                    app: receipt.name ?? receipt.identifier, uninstaller: uninstaller, isForWhatIsLeft: true
                 )
                 .listRowSeparator(.hidden)
             }

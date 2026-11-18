@@ -69,6 +69,9 @@ struct MakersUninstallerNotice: View {
     }
 
     private var said: Text {
+        guard !isForWhatIsLeft else {
+            return Text("The uninstaller from \(uninstaller.maker) also takes what the app kept in the system, which may not all be listed here.")
+        }
         let why = if let product = uninstaller.removes {
             Text("\(uninstaller.maker) documents removing \(product) by opening this app, which then removes itself too. Moving only this app would leave \(product) behind, so Peel leaves it for you to open.")
         } else {

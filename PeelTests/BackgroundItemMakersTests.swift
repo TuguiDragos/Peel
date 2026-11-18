@@ -29,6 +29,7 @@ struct BackgroundItemMakersTests {
         #expect(found.name == "Box")
         #expect(found.isForWhatIsLeft)
         #expect(found.uninstaller.step == .fromTheMakersPage)
+        #expect(BackgroundItemDetailView.makersWarning(for: found) == nil)
     }
 
     @Test func aJobOfAnAppItsMakerRemovesSaysSo() {
@@ -48,6 +49,7 @@ struct BackgroundItemMakersTests {
         #expect(found?.uninstaller.maker == "Kaspersky")
         let backup = job(of: other.url, identifier: "org.example.backup")
         #expect(BackgroundItemDetailView.makersUninstaller(of: backup, among: apps) == nil)
-        #expect(BackgroundItemDetailView.makersWarning(app: "Kaspersky").contains("Kaspersky"))
+        #expect(BackgroundItemDetailView.makersWarning(for: found)?.contains("Kaspersky") == true)
+        #expect(BackgroundItemDetailView.makersWarning(for: nil) == nil)
     }
 }

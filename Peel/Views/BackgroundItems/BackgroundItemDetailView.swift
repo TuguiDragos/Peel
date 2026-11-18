@@ -25,7 +25,7 @@ struct BackgroundItemDetailView: View {
                 Section {
                     MakersUninstallerNotice(
                         app: found.name, uninstaller: found.uninstaller,
-                        saying: Text(verbatim: Self.makersWarning(app: found.name)),
+                        saying: Self.makersWarning(for: found).map { Text(verbatim: $0) },
                         isForWhatIsLeft: found.isForWhatIsLeft
                     )
                 }
@@ -380,8 +380,7 @@ struct BackgroundItemDetailView: View {
             let warning = item.ownerBundleIdentifier.flatMap { owner in
                 item.trashWarning(ownerName: item.ownerName ?? library.name(forReference: owner))
             }
-            let maker = Self.makersUninstaller(of: item, among: library.apps)
-                .map { Self.makersWarning(app: $0.name) }
+            let maker = Self.makersWarning(for: Self.makersUninstaller(of: item, among: library.apps))
             Text(verbatim: ([warning, item.whenTrashed].compactMap { $0.map { String(localized: $0) } } + [maker])
                 .compactMap(\.self).joined(separator: "\n\n"))
         }
@@ -391,16 +390,16 @@ struct BackgroundItemDetailView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            if let found = Self.makersUninstaller(of: item, among: library.apps) {
-                Text(verbatim: Self.makersWarning(app: found.name))
+            if let warning = Self.makersWarning(for: Self.makersUninstaller(of: item, among: library.apps)) {
+                Text(verbatim: warning)
             }
         }
     }
 
+    typealias MakersStep = (name: String, uninstaller: MakersUninstaller, isForWhatIsLeft: Bool)
+
     /// The maker's uninstaller for the job's installed app, or for what its app left once gone.
-    static func makersUninstaller(
-        of item: BackgroundItem, among apps: [InstalledApp]
-    ) -> (name: String, uninstaller: MakersUninstaller, isForWhatIsLeft: Bool)? {
+    static func makersUninstaller(of item: BackgroundItem, among apps: [InstalledApp]) -> MakersStep? {
         let place = item.ownerURL.map(PathPattern.comparablePath(of:))
         let app = apps.first { app in
             place.map { $0 == PathPattern.comparablePath(of: app.url) }
@@ -410,9 +409,11 @@ struct BackgroundItemDetailView: View {
         return item.makersUninstallerForWhatIsLeft.map { (item.appThatLeft?.name ?? $0.maker, $0, true) }
     }
 
-    /// What the questions before Disable and Move to Trash add for a job of an app its maker removes.
-    static func makersWarning(app: String) -> String {
-        String(localized: "\(app) is removed with the uninstaller from its maker, which knows everything that goes with it. Changing its job here can keep it from working.")
+    /// What the questions before Disable and Move to Trash add for a job of an installed app its maker removes. None
+    /// for what an app left: no app is there to stop working.
+    static func makersWarning(for found: MakersStep?) -> String? {
+        guard let found, !found.isForWhatIsLeft else { return nil }
+        return String(localized: "\(found.name) is removed with the uninstaller from its maker, which knows everything that goes with it. Changing its job here can keep it from working.")
     }
 
     private var needsHelper: Bool { item.waitsForTheHelper && !helper.canAct }
@@ -525,7 +526,8 @@ struct BackgroundItemDetailView: View {
             }
             if item.offersEnableOrDisable {
                 Button(item.isDisabled ? "Enable" : "Disable") {
-                    if !item.isDisabled, Self.makersUninstaller(of: item, among: library.apps) != nil {
+                    let found = Self.makersUninstaller(of: item, among: library.apps)
+                    if !item.isDisabled, Self.makersWarning(for: found) != nil {
                         isConfirmingDisable = true
                     } else {
                         Task { await backgroundItems.perform(item.isDisabled ? .enable : .disable, on: item) }

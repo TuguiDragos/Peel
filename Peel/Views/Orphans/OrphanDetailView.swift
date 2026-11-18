@@ -13,11 +13,7 @@ struct OrphanDetailView: View {
             RemovalsHeldBanner()
 
             if let uninstaller = group.makersUninstaller {
-                MakersUninstallerNotice(
-                    app: group.title, uninstaller: uninstaller,
-                    saying: Text("The uninstaller from \(uninstaller.maker) also takes what the app kept in the system, which may not all be listed here."),
-                    isForWhatIsLeft: true
-                )
+                MakersUninstallerNotice(app: group.title, uninstaller: uninstaller, isForWhatIsLeft: true)
             }
 
             if let scan = orphans.scan, scan.needsFullDiskAccess || !scan.unreadableLocations.isEmpty {
