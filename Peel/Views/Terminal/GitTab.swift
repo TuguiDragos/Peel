@@ -54,7 +54,7 @@ struct GitTab: View {
         .edgeBar(.bottom) {
             TurnAllOffBar(
                 explanation: Self.turningOneOff,
-                isEnabled: git.hasSomethingOn
+                hasSomethingOn: git.hasSomethingOn
             ) {
                 isConfirmingTurnAllOff = true
             }

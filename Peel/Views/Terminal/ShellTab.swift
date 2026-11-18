@@ -72,7 +72,7 @@ struct ShellTab: View {
         .edgeBar(.bottom) {
             TurnAllOffBar(
                 explanation: "Peel writes these to a file of its own, which zsh reads. Turning one off takes it out of that file, and your own shell files stay as they are.",
-                isEnabled: shell.hasSomethingOn
+                hasSomethingOn: shell.hasSomethingOn
             ) {
                 isConfirmingTurnAllOff = true
             }

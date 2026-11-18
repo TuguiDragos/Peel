@@ -33,7 +33,8 @@ struct TweakPage: View {
         // Shown once for every tab, at the foot of the page, rather than under each group's section.
         .edgeBar(.bottom) {
             TurnAllOffBar(
-                explanation: explanation, isEnabled: !tweaks.peelsChanges.isEmpty && !tweaks.isTurningAllOff
+                explanation: explanation, hasSomethingOn: !tweaks.peelsChanges.isEmpty,
+                isEnabled: !tweaks.isTurningAllOff
             ) {
                 isConfirmingTurnAllOff = true
             }

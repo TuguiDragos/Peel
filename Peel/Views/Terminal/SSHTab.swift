@@ -54,7 +54,7 @@ struct SSHTab: View {
         .edgeBar(.bottom) {
             TurnAllOffBar(
                 explanation: "Peel writes these to a file of its own, which ssh reads. Turning one off takes it out of that file, and your ~/.ssh/config stays as it is.",
-                isEnabled: ssh.hasSomethingOn
+                hasSomethingOn: ssh.hasSomethingOn
             ) {
                 isConfirmingTurnAllOff = true
             }
