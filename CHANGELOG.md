@@ -76,6 +76,11 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Intel Software also reads the commands in `/opt/homebrew/bin`, where Homebrew links a cask's command on Apple silicon,
   and names the formula or cask that installed each, with the way to the Homebrew page.
 
+#### Package Receipts
+
+- A receipt a maker's product left, such as Bitdefender's agent, names the uninstaller its maker documents once no app
+  of that maker is installed, in place of the steps to remove its items in Finder.
+
 #### Homebrew
 
 - Uninstalling the battery or Postgres.app cask says first what its app leaves in `/etc`, which Homebrew's uninstall
