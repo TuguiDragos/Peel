@@ -164,6 +164,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   and the row's note says the same.
 - Beside a stopped Uninstall or Upgrade, Peel says it couldn't look inside the package's folders to check them against
   your exclusions, no longer only that it can't check them.
+- Why Uninstall or Upgrade is turned off, or what is under way, goes on a line under the buttons, each reason once,
+  rather than between the buttons.
 
 #### Space
 
@@ -318,6 +320,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Items moved to the Trash of a disk that isn't connected can be forgotten, after a question of their own: if the disk
   comes back, what is in its Trash can only be dragged out in Finder.
 - Forget stays off while Peel holds every removal, as Put Back does.
+- After a Put Back that stopped partway, History no longer says that the items it had already put back left the
+  Trash.
+- What moved while History couldn't be written, as on a full disk, goes into History as soon as History can be written
+  again, while Peel still runs, rather than at Peel's next launch.
 
 #### Settings
 
@@ -356,6 +362,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - When Homebrew removes Peel, Settings says that a `peel` link only an administrator can move stays.
 - When Remove Peel can't move Peel after the helper went, its alert says the helper is already removed for every
   account, and where to install it again.
+- When Peel's helper stops answering partway through Remove Peel, the last alert no longer asks to repair the helper
+  once Peel is in the Trash: it says how to remove what the helper left.
 
 #### Applications
 
@@ -524,6 +532,12 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The list names a chosen app folder Peel no longer looks in, with a way to Settings.
 - A file you selected of an app that stays says the app it belongs to stays where it is, no longer Not selected, on an
   app's page and on several apps' page alike.
+- An app on a disk mounted read only is no longer said to need an administrator and Finder: its page, and several
+  apps' page, say the disk can only be read and leave the app and its files where they are.
+- When History can't record a removal, as on a full disk, the alert after it says so, on an app's page and on several
+  apps' page.
+- After a removal, the lines of the shell startup files that still name what moved include those of the .zshrc a
+  ZDOTDIR given after a condition on one line points to.
 
 #### Orphaned Files
 
@@ -567,6 +581,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - When the list of files given to an app or a tool can't be read, the page says so, with the way to Settings.
 - `peel orphans` no longer counts as movable, in a group's figure or its JSON, what only an administrator can move, and
   says why each such row stays.
+- A file on a disk mounted read only is no longer listed under Needs an Administrator: its row says the disk can only
+  be read.
 
 #### Intel Software
 
@@ -658,6 +674,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - On an account that isn't an administrator's, a cask whose step needs an administrator's password says Homebrew stops
   at the password, and that the command works from an administrator's account that can change this Homebrew.
 - Upgrade and Uninstall ask the exclusions again as they start, and run nothing for a package the exclusions keep.
+- Uninstall is no longer turned off for a formula because a formula it uses is excluded: only the package's own
+  exclusion stops it.
 
 #### Space
 
@@ -678,6 +696,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   page leaves it.
 - Only a released .NET SDK counts as newer: a preview no longer gives the stable SDK in use the note that a newer one is
   installed.
+- Homebrew Data reads the name of a folder a formula keeps under `var` without the punctuation of the sentence it ends.
 
 #### Developer
 
@@ -801,6 +820,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - An agent its file limits to the login window offers no Load, and its page says macOS loads it only there.
 - Unusual command also judges where the script an interpreter runs from disk is, as it judges the program, and reads the
   command `env` or `nohup` runs.
+- A daemon whose file in /Library/LaunchDaemons is a link, as MacPorts makes it, shows as one row after Load, rather
+  than as two rows saying it wasn't loaded.
 
 #### Extensions
 
@@ -887,6 +908,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   names no longer sits inside one pair of quotation marks.
 - The time macOS's question about another app's data stays on screen no longer counts against the time a read is given,
   so iCloud Drive no longer says it ran out of time when the question took it.
+- An item a full disk keeps from moving says its disk is full, rather than giving the system's error.
 
 #### `peel`
 
@@ -920,6 +942,10 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - `peel leftovers` and `peel orphans` say when a settings file is damaged, in a row's notes and as `damaged` in JSON.
 - `peel search` prints a file's length beside a smaller size, and says once what a size is.
 - The help of `peel inventory` says Installed On is the day the app last arrived in its folder, which an update moves.
+- `peel history` and `peel restore` no longer list what a stopped Put Back had already put back as gone from the Trash.
+- `peel uninstall` says an app on a disk mounted read only can't be moved by anyone, rather than pointing to Finder
+  and an administrator's password, and `peel leftovers` and `peel orphans` no longer say such a file needs an
+  administrator.
 
 ### Security
 
