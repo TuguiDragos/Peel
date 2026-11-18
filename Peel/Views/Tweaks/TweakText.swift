@@ -203,7 +203,7 @@ extension Tweak {
         ),
         "terminal-fresh-windows": Words(
             title: "Terminal doesn’t reopen its windows",
-            detail: "When Terminal quits, it keeps no windows to open again, even when Desktop & Dock keeps other apps’ windows."
+            detail: "When Terminal quits, it keeps no windows to open again, even when Desktop & Dock keeps the windows of other apps."
         ),
     ]
 }
@@ -221,7 +221,7 @@ extension ScreenshotDestination {
         case .messages:
             "Screenshots go to Messages, not to a folder. To save them in one, press Shift-Command-5, click Options, and choose it under Save to."
         case .unknown:
-            "Screenshots don’t go to a folder now. To save them in one, press Shift-Command-5, click Options, and choose it under Save to."
+            "Screenshots do not go to a folder now. To save them in one, press Shift-Command-5, click Options, and choose it under Save to."
         }
     }
 }

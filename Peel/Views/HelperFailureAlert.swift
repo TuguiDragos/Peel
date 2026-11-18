@@ -20,9 +20,9 @@ private struct HelperFailureAlert: ViewModifier {
 extension HelperModel.Failure {
     fileprivate var title: Text {
         switch action {
-        case .install: Text("Peel’s helper couldn’t be installed.")
-        case .repair: Text("Peel’s helper couldn’t be repaired.")
-        case .uninstall: Text("Peel’s helper couldn’t be uninstalled.")
+        case .install: Text("The Peel helper could not be installed.")
+        case .repair: Text("The Peel helper could not be repaired.")
+        case .uninstall: Text("The Peel helper could not be uninstalled.")
         }
     }
 }

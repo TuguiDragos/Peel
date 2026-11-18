@@ -234,7 +234,7 @@ final class HomebrewLibrary {
         case .root where AdministratorCommand.needsAnAdministrator(command, isAdministrator: isAdministrator):
             return CantChange(
                 title: "This Account Can’t Change Homebrew", noteTitle: "This account cannot change Homebrew",
-                detail: "\(folder) belongs to root, so Homebrew can’t change it, and Homebrew doesn’t run as root. To give the folder back to this account, an administrator runs this in Terminal, or you run it after `su` and an administrator’s short name: \(command)",
+                detail: "\(folder) belongs to root, so Homebrew cannot change it, and Homebrew does not run as root. To give the folder back to this account, an administrator runs this in Terminal, or you run it after `su` and the short name of an administrator: \(command)",
                 command: command
             )
         case .root:
@@ -394,7 +394,7 @@ final class HomebrewLibrary {
         return others.contains { exclusionAnswer(of: $0) == nil } ? Self.cantLookInside : nil
     }
 
-    static let cantLookInside: LocalizedStringResource = "Peel couldn’t look inside this package’s folders to check them against your exclusions"
+    static let cantLookInside: LocalizedStringResource = "Peel could not look inside the folders of this package to check them against your exclusions"
 
     func isExcluded(_ package: HomebrewPackage) -> Bool {
         readExclusions().isKnown && exclusionAnswer(of: package) == true

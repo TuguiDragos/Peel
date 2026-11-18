@@ -56,7 +56,7 @@ import Testing
             moving: [battery.url], of: battery, uninstallsItself: nil, leftInTheSystem: nil,
             commandToRunFirst: plan.commandToRunFirst, resettingPrivacy: false
         ) == [
-            "battery may have paused this Mac's charging at a limit. Before it goes, run `battery uninstall`, which turns charging back on and removes its tools from /usr/local/bin.",
+            "battery may have paused charging on this Mac at a limit. Before it goes, run `battery uninstall`, which turns charging back on and removes its tools from /usr/local/bin.",
         ])
     }
 }

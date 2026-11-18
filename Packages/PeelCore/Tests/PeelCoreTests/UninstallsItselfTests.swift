@@ -843,7 +843,7 @@ struct UninstallsItselfTests {
         )
 
         #expect(warnings == [
-            "Moving Watched to the Trash starts a program that waits for it to leave. Peel leaves that program and the file that starts it in place so it can finish, and the Trash can't bring back anything it removes.",
+            "Moving Watched to the Trash starts a program that waits for it to leave. Peel leaves that program and the file that starts it in place so it can finish, and the Trash cannot bring back anything it removes.",
         ])
     }
 }

@@ -144,11 +144,11 @@ struct HomebrewList: View {
     private func confirmationMessage(_ command: HomebrewLibrary.Command) -> Text {
         switch command {
         case .clearOlderDownloads:
-            Text("Homebrew deletes for good every file in its cache older than 30 days, and what Clean Up deletes. Nothing goes to the Trash, and History can’t put it back.")
+            Text("Homebrew deletes for good every file in its cache older than 30 days, and what Clean Up deletes. Nothing goes to the Trash, and History cannot put it back.")
         case .clearEveryDownload:
-            Text("Homebrew deletes for good every download it keeps, even for the latest versions, except those of what is installed now, and what Clean Up deletes. Nothing goes to the Trash, and History can’t put it back.")
+            Text("Homebrew deletes for good every download it keeps, even for the latest versions, except those of what is installed now, and what Clean Up deletes. Nothing goes to the Trash, and History cannot put it back.")
         default:
-            Text("Homebrew adds the missing links to its taps’ manual pages and shell completions, and points a tap whose main branch was renamed at the new name. It deletes nothing.")
+            Text("Homebrew adds the missing links to the manual pages and shell completions of its taps, and points a tap whose main branch was renamed at the new name. It deletes nothing.")
         }
     }
 
@@ -167,11 +167,11 @@ struct HomebrewList: View {
         if let reclaimable, reclaimable > 0 {
             sentences.append(keepsDependencies
                 ? String(localized: "Homebrew deletes these for good: about \(reclaimable.byteCount) of downloads and old versions. Nothing goes to the Trash, and History can’t put it back.")
-                : String(localized: "Homebrew deletes these for good: about \(reclaimable.byteCount) of downloads and old versions, and the formulae nothing needs anymore, which that figure leaves out. Nothing goes to the Trash, and History can’t put it back."))
+                : String(localized: "Homebrew deletes these for good: about \(reclaimable.byteCount) of downloads and old versions, and the formulae nothing needs anymore, which that figure leaves out. Nothing goes to the Trash, and History cannot put it back."))
         } else {
             sentences.append(keepsDependencies
                 ? String(localized: "Homebrew deletes these for good: the downloads and old versions it kept. Nothing goes to the Trash, and History can’t put it back.")
-                : String(localized: "Homebrew deletes these for good: the downloads and old versions it kept, and the formulae nothing needs anymore. Nothing goes to the Trash, and History can’t put it back."))
+                : String(localized: "Homebrew deletes these for good: the downloads and old versions it kept, and the formulae nothing needs anymore. Nothing goes to the Trash, and History cannot put it back."))
         }
         if let prefix {
             sentences.append(Self.prunes(prefix))
@@ -318,7 +318,7 @@ struct HomebrewList: View {
             }
             row(
                 title: "Clear Older Downloads",
-                detail: Text("Deletes every file in Homebrew’s cache older than 30 days, as well as what Clean Up deletes."),
+                detail: Text("Deletes every file in the Homebrew cache older than 30 days, as well as what Clean Up deletes."),
                 systemImage: "clock.arrow.trianglehead.counterclockwise.rotate.90",
                 command: .clearOlderDownloads
             ) {
@@ -336,7 +336,7 @@ struct HomebrewList: View {
             }
             row(
                 title: "Repair Taps",
-                detail: Text("Adds the missing links to your taps’ manual pages and shell completions, and follows a tap whose main branch was renamed. It deletes nothing."),
+                detail: Text("Adds the missing links to the manual pages and shell completions of your taps, and follows a tap whose main branch was renamed. It deletes nothing."),
                 systemImage: "wrench.adjustable",
                 command: .repairTaps
             ) {
@@ -603,7 +603,7 @@ struct HomebrewList: View {
                 SectionHeaderLine {
                     heading(
                         "Apps Already Gone",
-                        "Homebrew still lists these casks, but their apps aren’t where Homebrew put them anymore, or macOS has no receipt left for the packages they installed. Forgetting a cask moves its Homebrew receipt to the Trash, with the links Homebrew made into it in its command and completion folders, so Homebrew stops listing it. History can put it back."
+                        "Homebrew still lists these casks, but their apps are not where Homebrew put them anymore, or macOS has no receipt left for the packages they installed. Forgetting a cask moves its Homebrew receipt to the Trash, with the links Homebrew made into it in its command and completion folders, so Homebrew stops listing it. History can put it back."
                     )
                 } count: {
                     Text("^[\(casks.count) cask](inflect: true)")
@@ -845,7 +845,7 @@ struct HomebrewOutputView: View {
                 case .finished: Text("Homebrew finished").font(.headline)
                 case .failed: Text("Homebrew couldn’t finish").font(.headline)
                 case .stopped: Text("Homebrew stopped").font(.headline)
-                case .notRun: Text("Peel didn’t run Homebrew").font(.headline)
+                case .notRun: Text("Peel did not run Homebrew").font(.headline)
                 }
             } icon: {
                 switch result.ending {

@@ -7,7 +7,7 @@ struct DeveloperKeptNoteTests {
     @Test func theKeptNoteSaysTheRuleFirstAndNamesNoOtherTool() {
         let note = DeveloperDetailView.keptNote.key
 
-        #expect(note.hasPrefix("Peel doesn’t select these for you"), "\(note)")
+        #expect(note.hasPrefix("Peel does not select these for you"), "\(note)")
         #expect(note.split(separator: " ").count < 30)
     }
 }

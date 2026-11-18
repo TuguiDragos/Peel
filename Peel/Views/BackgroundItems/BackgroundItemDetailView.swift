@@ -166,7 +166,7 @@ struct BackgroundItemDetailView: View {
                 Section {
                     Notice(
                         title: Text("Another file with this name is loaded"),
-                        detail: Text("macOS runs this job from another file that declares the same name, so this file isn’t loaded. Peel doesn’t start, stop, enable, or disable it from here."),
+                        detail: Text("macOS runs this job from another file that declares the same name, so this file is not loaded. Peel does not start, stop, enable, or disable it from here."),
                         kind: .note
                     ) {}
                 }
@@ -190,7 +190,7 @@ struct BackgroundItemDetailView: View {
                     case .notTakenByTheHelper:
                         Notice(
                             title: Text("Its name has characters the helper doesn’t take"),
-                            detail: Text("Peel’s helper passes launchctl only a name of ASCII letters, digits, dots, hyphens, underscores, @ and +, not starting with a dot or a hyphen, so Peel doesn’t start, stop, enable, or disable this job here."),
+                            detail: Text("The Peel helper passes launchctl only a name of ASCII letters, digits, dots, hyphens, underscores, @ and +, not starting with a dot or a hyphen, so Peel does not start, stop, enable, or disable this job here."),
                             kind: .note
                         ) {}
                     }
@@ -238,7 +238,7 @@ struct BackgroundItemDetailView: View {
                 Section {
                     Notice(
                         title: Text("Its app added it without a file"),
-                        detail: Text("It isn’t listed in System Settings, and macOS forgets it at the next logout or restart. Apps do this for work such as installing an update."),
+                        detail: Text("It is not listed in System Settings, and macOS forgets it at the next logout or restart. Apps do this for work such as installing an update."),
                         kind: .note
                     ) {}
                 }
@@ -288,7 +288,7 @@ struct BackgroundItemDetailView: View {
                 Section {
                     Notice(
                         title: Text("Loaded only at the login window"),
-                        detail: Text("Its file says macOS loads it only at the login window, before anyone logs in, so it isn’t loaded in your session, and Peel doesn’t load it there."),
+                        detail: Text("Its file says macOS loads it only at the login window, before anyone logs in, so it is not loaded in your session, and Peel does not load it there."),
                         kind: .note
                     ) {}
                 }
@@ -384,7 +384,7 @@ struct BackgroundItemDetailView: View {
 
     /// What the questions before Disable and Move to Trash add for a job of an app its maker removes.
     static func makersWarning(app: String) -> String {
-        String(localized: "\(app) is removed with its maker’s own uninstaller, which knows everything that goes with it. Changing its job here can keep it from working.")
+        String(localized: "\(app) is removed with the uninstaller from its maker, which knows everything that goes with it. Changing its job here can keep it from working.")
     }
 
     private var needsHelper: Bool { item.waitsForTheHelper && !helper.canAct }
@@ -602,7 +602,7 @@ extension UnusualCommand {
         case .decodesBase64:
             "Its command decodes base64, which keeps what it runs from being read at a glance. Software installed on purpose can do this too."
         case .runsCodeFromItsSettings:
-            "A shell or a script interpreter runs code written in this job’s own file, so no script on disk shows what it does. Software installed on purpose can do this too."
+            "A shell or a script interpreter runs code written in the job file itself, so no script on disk shows what it does. Software installed on purpose can do this too."
         }
     }
 }
@@ -647,7 +647,7 @@ extension BackgroundItemDetailView {
         case .disabledNotListed:
             "Peel couldn’t read launchctl’s list of the jobs turned off, so it doesn’t start, stop, enable, or disable this one here."
         case .whichFileNotSaid:
-            "Another file declares the same job, and macOS didn’t say which of the two it loaded, so Peel doesn’t start, stop, enable, or disable it here."
+            "Another file declares the same job, and macOS did not say which of the two it loaded, so Peel does not start, stop, enable, or disable it here."
         case nil:
             "Peel asked macOS about it and got no answer it could read, so Peel doesn’t start, stop, enable, or disable it here."
         }

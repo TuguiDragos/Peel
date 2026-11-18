@@ -9,7 +9,7 @@ struct PackageList: View {
     @State private var isRescanning = false
     @State private var receiptsToForget: ForgetAll?
 
-    static let noAnswer: LocalizedStringResource = "Peel asked macOS which packages are installed and got no answer, so it can’t list them. Rescan to try again."
+    static let noAnswer: LocalizedStringResource = "Peel asked macOS which packages are installed and got no answer, so it cannot list them. Rescan to try again."
 
     var body: some View {
         @Bindable var packages = packages
@@ -72,7 +72,7 @@ struct PackageList: View {
                 ContentUnavailableView(
                     "No Package Receipts",
                     systemImage: "shippingbox",
-                    description: Text("Software installed with an installer package other than Apple’s, for every account or for you alone, will appear here.")
+                    description: Text("Software installed with an installer package not made by Apple, for every account or for you alone, will appear here.")
                 )
             } else if filtered.isEmpty, !searchText.isEmpty {
                 ContentUnavailableView.search(text: searchText)

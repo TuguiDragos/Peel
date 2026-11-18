@@ -11,8 +11,8 @@ struct ExclusionsNotesTests {
         let apps = String(localized: ExclusionsSettingsView.appsNote)
 
         #expect(files.contains("never puts anything back into them"))
-        #expect(files.contains("won’t upgrade or uninstall it"))
-        #expect(apps.contains("won’t put one back"))
+        #expect(files.contains("will not upgrade or uninstall it"))
+        #expect(apps.contains("will not put one back"))
         #expect(apps.contains("add them to Files and Folders above"))
     }
 

@@ -7,9 +7,9 @@ struct GitTab: View {
 
     static let turningOneOff: LocalizedStringResource = "Peel changes these with `git config --global`. Turning one off puts back what was there before Peel, or removes it when you had set it yourself."
 
-    static let settingsUnreadable: LocalizedStringResource = "Git couldn’t read your settings, so Peel changes nothing here. Run `git config --global --list` in Terminal to see what Git says."
+    static let settingsUnreadable: LocalizedStringResource = "Git could not read your settings, so Peel changes nothing here. Run `git config --global --list` in Terminal to see what Git says."
 
-    static let afterTurningAllOff: LocalizedStringResource = "Settings Peel changed go back to what they were. Settings you made yourself that are on here are removed from your Git settings, so Git’s defaults apply."
+    static let afterTurningAllOff: LocalizedStringResource = "Settings Peel changed go back to what they were. Settings you made yourself that are on here are removed from your Git settings, so the Git defaults apply."
 
     var body: some View {
         Form {

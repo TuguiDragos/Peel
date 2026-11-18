@@ -15,7 +15,7 @@ struct IntelHomebrewWordsTests {
             .map { String(localized: $0) }
 
         #expect(explained?.contains("/opt/homebrew") == true)
-        #expect(finding.subtitle.map { String(localized: $0) } == "from Homebrew’s wget")
+        #expect(finding.subtitle.map { String(localized: $0) } == "from wget in Homebrew")
     }
 
     @Test func aCommandFromACaskOnAppleSiliconSaysSoAndWhichCask() {
@@ -26,6 +26,6 @@ struct IntelHomebrewWordsTests {
         )
 
         #expect(String(localized: finding.explanation(onAppleSilicon: true)).contains("needs Rosetta"))
-        #expect(finding.subtitle.map { String(localized: $0) } == "from Homebrew’s inso")
+        #expect(finding.subtitle.map { String(localized: $0) } == "from inso in Homebrew")
     }
 }

@@ -2009,7 +2009,7 @@ struct TrashServiceTests {
         )
 
         #expect(result.failures.map(\.reason) == [.failed(PrivilegedHelper.saidNothing)])
-        #expect(PrivilegedHelper.unavailable.hasSuffix("Repair it in Peel’s Settings."))
+        #expect(PrivilegedHelper.unavailable.hasSuffix("Repair it in Settings > Helper."))
         #expect(FixedSentence("Peel’s helper isn’t available.") == .helperUnavailable)
         #expect(FixedSentence(PrivilegedHelper.saidNothing) == .helperSaidNothing)
     }

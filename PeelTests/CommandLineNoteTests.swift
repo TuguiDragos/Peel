@@ -18,6 +18,6 @@ struct CommandLineNoteTests {
         #expect(note(standard: true).contains("Add the line below"))
         #expect(note().contains("Run the command"))
         #expect(!note(offered: false).contains("Run the command"))
-        #expect(note(offered: false).contains("says why there’s no command"))
+        #expect(note(offered: false).contains("says why there is no command"))
     }
 }

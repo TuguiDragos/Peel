@@ -4,14 +4,14 @@ import ServiceManagement
 import Synchronization
 
 public enum PrivilegedHelper {
-    static let unavailable = "Peel’s helper isn’t answering. Repair it in Peel’s Settings."
+    static let unavailable = "The Peel helper is not answering. Repair it in Settings > Helper."
     /// What Remove Peel says of what the helper didn't take before it went, once Peel is in the Trash.
-    static let leftBehind = "Peel’s helper couldn’t take this with it. To remove it, choose Go > Go to Folder in Finder, enter the folder it is in, and drag it to the Trash, which asks for an administrator."
+    static let leftBehind = "The Peel helper could not take this with it. To remove it, choose Go > Go to Folder in Finder, enter the folder it is in, and drag it to the Trash, which asks for an administrator."
     /// What is said of an item a helper's answer leaves out, which is no sign the helper didn't answer.
-    static let saidNothing = "Peel’s helper said nothing about this one, so Peel doesn’t know what became of it."
+    static let saidNothing = "The Peel helper said nothing about this one, so Peel does not know what became of it."
     /// What is said of an item still in its place when the helper's answer never came: a helper held up in a move
     /// may still take it, and a line written before the request brings it into History once Peel opens again.
-    static let mayStillMove = "Peel’s helper didn’t answer in time, so whether it moved this isn’t known. If it did, History lists it the next time Peel opens."
+    static let mayStillMove = "The Peel helper did not answer in time, so whether it moved this is not known. If it did, History lists it the next time Peel opens."
 
     public enum Status: Sendable, Equatable {
         case notRegistered

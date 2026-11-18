@@ -24,7 +24,7 @@ extension Subprocess {
         }()
     }
 
-    static let notOnItsOwn = "Peel didn’t run it, since macOS couldn’t keep it from using Peel’s permissions."
+    static let notOnItsOwn = "Peel did not run it, since macOS could not keep it from using the permissions Peel has."
 
     /// Runs a program the account can rewrite, or one that runs the account's files as code, such as Homebrew or a
     /// login shell: macOS judges what a program may reach by the app that started it, and this one must not reach

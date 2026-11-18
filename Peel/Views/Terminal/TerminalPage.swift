@@ -88,10 +88,10 @@ struct TerminalPage: View {
 
     /// Said while `tool` didn't say what it knows, so its tab's switches are off.
     static func didNotAnswer(_ tool: String) -> LocalizedStringResource {
-        "\(tool) didn’t answer, so these settings are off for now. Peel asks again when you open this page or come back to Peel."
+        "\(tool) did not answer, so these settings are off for now. Peel asks again when you open this page or come back to Peel."
     }
 
-    static let profilesUnreadable: LocalizedStringResource = "Peel couldn’t read Terminal’s profiles, so it changes none of them for now. Peel reads them again when you open this page or come back to Peel."
+    static let profilesUnreadable: LocalizedStringResource = "Peel could not read the Terminal profiles, so it changes none of them for now. Peel reads them again when you open this page or come back to Peel."
 
     private func refresh() async {
         terminal.refresh()

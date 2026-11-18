@@ -148,7 +148,7 @@ struct SpaceList: View {
         switch reading {
         case .exactly(let size): "The AI models and datasets the Developer page lists take \(size.byteCount)."
         case .atLeast(let size): "The AI models and datasets the Developer page lists take over \(size.byteCount)."
-        case .unknown: "Peel couldn’t measure the AI models and datasets the Developer page lists."
+        case .unknown: "Peel could not measure the AI models and datasets the Developer page lists."
         }
     }
 

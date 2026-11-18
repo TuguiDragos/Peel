@@ -396,7 +396,7 @@ struct RemovalJournalTests {
         #expect(aside.isThere)
         #expect(journal.url.isMissing)
         #expect(RemovalLog.writeProblem(at: history) == nil)
-        #expect(outcome.problem?.summary == "Peel couldn't read its record of a removal under way, so it kept it as \(Output.plain(Output.path(aside))). If a removal was cut short, what it moved is in the Trash but isn't listed in History.")
+        #expect(outcome.problem?.summary == "Peel could not read its record of a removal under way, so it kept it as \(Output.plain(Output.path(aside))). If a removal was cut short, what it moved is in the Trash but is not listed in History.")
     }
 
     @Test func aJournalThatCannotBeReadIsKeptAsideWithoutReadingHistory() async throws {

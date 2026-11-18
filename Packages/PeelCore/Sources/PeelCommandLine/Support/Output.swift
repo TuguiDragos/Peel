@@ -330,8 +330,8 @@ extension RemovalLogProblem {
         case .couldNotRecord(let why): "History couldn't be saved, so the last removal isn't in it." + why.sentence
         case .couldNotUpdate(let why): "History couldn't be saved, so what was put back is still listed in it." + why.sentence
         case .journalSetAside(let setAside):
-            "Peel couldn't read its record of a removal under way, so it kept it as \(Output.plain(Output.path(setAside)))."
-                + " If a removal was cut short, what it moved is in the Trash but isn't listed in History."
+            "Peel could not read its record of a removal under way, so it kept it as \(Output.plain(Output.path(setAside)))."
+                + " If a removal was cut short, what it moved is in the Trash but is not listed in History."
         }
     }
 }
@@ -343,7 +343,7 @@ extension FileProblem {
         case .notAFile: " Something other than a file, such as a folder, is where the file should be."
         case .tooLarge: " The file is larger than Peel ever writes it, so Peel doesn't read it."
         case .damaged: " The file's contents aren't in a form Peel can read."
-        case .aLink: " It's a link, so Peel reads the file it leads to but doesn't write over it."
+        case .aLink: " It is a link, so Peel reads the file it leads to but does not write over it."
         case .failed(let error): " macOS answered: \(Output.plain(error.localizedDescription))"
         }
     }

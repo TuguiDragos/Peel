@@ -36,7 +36,7 @@ struct FileSearchFileView: View {
                     Text(file.modificationDate, format: .relative(presentation: .named))
                 }
                 if file.isOnAReadOnlyDisk {
-                    Text("This disk can’t be changed, so nothing on it can be moved.")
+                    Text("This disk cannot be changed, so nothing on it can be moved.")
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 } else if file.requiresPrivileges {

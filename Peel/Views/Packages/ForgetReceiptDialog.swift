@@ -96,7 +96,7 @@ struct ForgetReceiptsDialog: ViewModifier {
         let message = String(localized: "Their receipts go to the Trash, so macOS no longer counts these packages as installed. Nothing on these receipts is left on this Mac, and History can put them back.\n\n\(names)")
         guard request.waitingForTheHelper > 0 else { return message }
         return message + "\n\n"
-            + String(localized: "The receipts of packages installed for every account stay until Peel’s helper can move them.")
+            + String(localized: "The receipts of packages installed for every account stay until the Peel helper can move them.")
     }
 
     private var title: Text {

@@ -199,7 +199,7 @@ extension IntelFinding {
     var subtitle: LocalizedStringResource? {
         guard let owner else {
             let package = formula?.name ?? cask?.token
-            return package.map { LocalizedStringResource("from Homebrew’s \($0)") } ?? pluginCategory?.title
+            return package.map { LocalizedStringResource("from \($0) in Homebrew") } ?? pluginCategory?.title
         }
         return kind == .backgroundItem ? "started by \(owner)" : "in \(owner)"
     }

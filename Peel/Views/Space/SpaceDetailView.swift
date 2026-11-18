@@ -50,7 +50,7 @@ struct SpaceDetailView: View {
                     } label: {
                         titled(
                             "How to free it",
-                            "Space doesn’t touch this. How to free it, on this page, says what does."
+                            "Space does not touch this. How to free it, on this page, says what does."
                         )
                     }
                 }
@@ -242,7 +242,7 @@ struct SpaceDetailView: View {
                     NoteBadge(
                         title: Text("Listed only"), systemImage: "hand.raised",
                         name: String(localized: "Listed only"),
-                        detail: Text("Space doesn’t touch this. How to free it, on this page, says what does.")
+                        detail: Text("Space does not touch this. How to free it, on this page, says what does.")
                     )
                 }
             }

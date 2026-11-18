@@ -70,7 +70,7 @@ struct AdministratorItemsView: View {
             Text("Needs an Administrator")
                 .pageHeading()
         } details: {
-            Text("Only an administrator can move these, and Peel’s helper can’t move them from where they are. To remove one, show it in Finder, drag it to the Trash, then enter an administrator name and password when macOS asks.")
+            Text("Only an administrator can move these, and the Peel helper cannot move them from where they are. To remove one, show it in Finder, drag it to the Trash, then enter an administrator name and password when macOS asks.")
                 .font(.callout)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)

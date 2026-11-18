@@ -54,7 +54,7 @@ struct HistoryList: View {
     }
 
     static var notMovedKeepsItsLatest: String {
-        String(inflecting: "It keeps only its latest removals, up to ^[\(RefusalLog.maximumRecords) item](inflect: true). What the older ones couldn’t move stayed where it was.")
+        String(inflecting: "It keeps only its latest removals, up to ^[\(RefusalLog.maximumRecords) item](inflect: true). What the older ones could not move stayed where it was.")
     }
 
     var body: some View {
@@ -96,7 +96,7 @@ struct HistoryList: View {
                 let copies = history.untoldSetAsideCopies
                 if !copies.isEmpty {
                     Notice(
-                        title: Text("Peel kept ^[\(copies.count) copy](inflect: true) of History it couldn’t read"),
+                        title: Text("Peel kept ^[\(copies.count) copy](inflect: true) of History it could not read"),
                         detail: Text("It started History again and kept those files beside it. What their removals moved is in the Trash unless you emptied it."),
                         kind: .note
                     ) {
@@ -256,7 +256,7 @@ private struct HistoryProblemNotice: View {
         case .unreadable(let why):
             Notice(
                 title: Text("Peel couldn’t read History"),
-                detail: Text(verbatim: why.said(after: String(localized: "Until it can read History, or you start over, Peel removes nothing, because anything it moved now couldn’t be put back. Starting over keeps the old file beside a new one. Items it lists can then only be dragged back out of the Trash in Finder."), about: history.historyFile))
+                detail: Text(verbatim: why.said(after: String(localized: "Until it can read History, or you start over, Peel removes nothing, because anything it moved now could not be put back. Starting over keeps the old file beside a new one. Items it lists can then only be dragged back out of the Trash in Finder."), about: history.historyFile))
             ) {
                 StartOverButton(file: history.historyFile, startedOver: "Started History over.") {
                     await history.startOver()
@@ -274,8 +274,8 @@ private struct HistoryProblemNotice: View {
             ) { EmptyView() }
         case .journalSetAside(let setAside):
             Notice(
-                title: Text("Peel couldn’t read its record of a removal under way"),
-                detail: Text("Peel kept that file aside. If a removal was cut short, what it moved is in the Trash but isn’t listed here: you can drag it back out in Finder.")
+                title: Text("Peel could not read its record of a removal under way"),
+                detail: Text("Peel kept that file aside. If a removal was cut short, what it moved is in the Trash but is not listed here: you can drag it back out in Finder.")
             ) {
                 Button("Show in Finder") {
                     NSWorkspace.shared.activateFileViewerSelecting([setAside])

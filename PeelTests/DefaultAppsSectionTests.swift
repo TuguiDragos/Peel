@@ -29,7 +29,7 @@ struct DefaultAppsSectionTests {
         let twelve = (1...12).map { DefaultHandOver(app: "Viewer \($0)", kinds: ["Kind \($0)"], count: $0) }
         let size = { (handOvers: [DefaultHandOver]) in
             NSHostingController(
-                rootView: HandOverRow(lead: "Once it’s gone, they open with", handOvers: handOvers, kind: .fileKind)
+                rootView: HandOverRow(lead: "Once it is gone, they open with", handOvers: handOvers, kind: .fileKind)
             ).sizeThatFits(in: CGSize(width: 480, height: 10_000))
         }
 

@@ -179,7 +179,7 @@ struct OrphansCommand: AsyncParsableCommand {
             leftInSkipped: "An orphaned file in the folders Peel skipped stays where it is."
         )
         if scan.otherAccountsMayOwn {
-            notes.append("This Mac has other accounts. An app one of them keeps in its own Applications folder isn't visible from here, so check what you move from /Library.")
+            notes.append("This Mac has other accounts. An app one of them keeps in its own Applications folder is not visible from here, so check what you move from /Library.")
         }
         if !scan.forAnAdministrator.isEmpty {
             notes.append(byHand)
@@ -483,7 +483,7 @@ struct CachesCommand: AsyncParsableCommand {
         }
         let elsewhere = environments.flatMap(\.keptElsewhere).map { Output.plain(Output.path($0)) }
         if !elsewhere.isEmpty {
-            notes.append("Peel doesn't follow a link to a folder kept elsewhere, so it leaves out \(elsewhere.joined(separator: ", ")). What's there is the tool's own, on the disk the link leads to.")
+            notes.append("Peel does not follow a link to a folder kept elsewhere, so it leaves out \(elsewhere.joined(separator: ", ")). What is there belongs to the tool, on the disk the link leads to.")
         }
         return notes
     }

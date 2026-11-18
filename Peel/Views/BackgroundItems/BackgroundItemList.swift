@@ -146,8 +146,8 @@ struct BackgroundItemList: View {
     /// What becomes of a job launchd didn't stop after its file was saved: it runs as it was until its domain ends.
     static func notStoppedWords(endsAtLogout: Bool) -> LocalizedStringResource {
         endsAtLogout
-            ? "macOS didn’t stop it, so it runs as it was until you log out, and from the new file after that."
-            : "macOS didn’t stop it, so it runs as it was until the Mac restarts, and from the new file after that."
+            ? "macOS did not stop it, so it runs as it was until you log out, and from the new file after that."
+            : "macOS did not stop it, so it runs as it was until the Mac restarts, and from the new file after that."
     }
 
     private func reloadMessage(_ reload: LaunchAgentFile.Reload, endsAtLogout: Bool) -> Text {
@@ -185,17 +185,17 @@ struct BackgroundItemList: View {
 
     private func reasonMessage(_ reason: BackgroundItemActions.Failure) -> Text {
         switch reason {
-        case .requiresPrivileges: Text("It needs administrator access, which Peel’s helper provides. Home says what the helper needs.")
+        case .requiresPrivileges: Text("It needs administrator access, which the Peel helper provides. Home says what the helper needs.")
         case .notControlled:
-            Text("Peel doesn’t act on this job anymore: something about it, or your exclusions, changed since the list was read. Rescan to see why.")
-        case .labelNotPassed: Text("Peel doesn’t pass this job’s name to launchctl, so it didn’t stop it.")
+            Text("Peel does not act on this job anymore: something about it, or your exclusions, changed since the list was read. Rescan to see why.")
+        case .labelNotPassed: Text("Peel does not pass the name of this job to launchctl, so it did not stop it.")
         case .noFileToMove: Text("This one comes from the app itself, so there is no file to move. Remove the app to get rid of it.")
         case .launchctl(let output) where FixedSentence(output) == .toolTimedOut:
             // Peel and its helper give `launchctl` 30 seconds, and a job that ignores the signal outlasts them.
-            Text("The command didn’t answer within 30 seconds, so Peel ended it. The job may still stop or restart on its own.")
+            Text("The command did not answer within 30 seconds, so Peel ended it. The job may still stop or restart on its own.")
         case .launchctl(let output): Text(verbatim: FixedSentence.translated(output))
         case .trash(let reason): Text(verbatim: reason.explanation)
-        case .disabled: Text("macOS won’t load this while it is disabled. Enable it first, then load it.")
+        case .disabled: Text("macOS will not load this while it is disabled. Enable it first, then load it.")
         case .quarantinedPlist: Text("macOS won’t load this: its configuration file carries the mark macOS puts on downloads. Reinstalling the app that put it there may write it again without the mark.")
         case .turnedOffInSystemSettings: Text(.keptOffBySystemSettings)
         }

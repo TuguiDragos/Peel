@@ -326,7 +326,7 @@ struct AppPageHeader: View {
                 tint: .secondary
             )
         case .notRun:
-            StatusLabel(title: Text("Peel didn’t run Homebrew."), systemImage: "info.circle.fill", tint: .secondary)
+            StatusLabel(title: Text("Peel did not run Homebrew."), systemImage: "info.circle.fill", tint: .secondary)
         }
     }
 

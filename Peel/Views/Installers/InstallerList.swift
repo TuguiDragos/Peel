@@ -122,7 +122,7 @@ struct InstallerList: View {
     /// Why the list leaves out what is in a folder Peel moves from that a link keeps elsewhere.
     private var keptElsewhere: String {
         let folders = RemovalFailureAlert.listedFolders(installers.keptElsewhere.map(\.abbreviatedPath))
-        return String(localized: "Peel doesn’t follow a link to a folder kept elsewhere, so it leaves out what is in \(folders).")
+        return String(localized: "Peel does not follow a link to a folder kept elsewhere, so it leaves out what is in \(folders).")
     }
 
     private func phase(_ filtered: [InstallerItem.Kind]) -> ScanPhase {

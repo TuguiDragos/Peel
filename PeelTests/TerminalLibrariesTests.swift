@@ -251,7 +251,7 @@ struct TerminalLibrariesTests {
 
         await library.refresh()
 
-        #expect(ToolsTab.shellNote(library.state, zshrc: "~/.zshrc").key.contains("don’t apply"))
+        #expect(ToolsTab.shellNote(library.state, zshrc: "~/.zshrc").key.contains("do not apply"))
         #expect(ToolsTab.shellNote(nil, zshrc: "~/.zshrc").key == ToolsTab.linesGoIn("~/.zshrc").key)
     }
 

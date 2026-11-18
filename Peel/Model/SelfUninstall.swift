@@ -219,16 +219,16 @@ final class SelfUninstall {
         case .readOnlyCopy:
             String(localized: "Peel is running from a copy macOS made because it is still marked as downloaded, or from its disk image, and that copy can’t be moved. Quit Peel, move it to the Applications folder, open it there, and choose Remove Peel again.")
         case .needsAnAdministrator:
-            String(localized: "Peel won’t move itself from here: its folder needs an administrator. Log in as an administrator and choose Remove Peel there. You can also drag Peel to the Trash in Finder, which asks for an administrator, but that leaves its helper, its login item, and its files behind.")
+            String(localized: "Peel will not move itself from here: its folder needs an administrator. Log in as an administrator and choose Remove Peel there. You can also drag Peel to the Trash in Finder, which asks for an administrator, but that leaves its helper, its login item, and its files behind.")
         case .needsItsOwner(let owner):
-            String(localized: "Peel won’t move itself from here: it belongs to the account \(owner). Log in to that account and choose Remove Peel there. You can also drag Peel to the Trash in Finder, which asks for an administrator, but that leaves its helper, its login item, and its files behind.")
+            String(localized: "Peel will not move itself from here: it belongs to the account \(owner). Log in to that account and choose Remove Peel there. You can also drag Peel to the Trash in Finder, which asks for an administrator, but that leaves its helper, its login item, and its files behind.")
         case .leftToFinder:
-            String(localized: "Peel won’t move itself from here: this account isn’t allowed to move it. You can drag Peel to the Trash in Finder, which asks for an administrator, but that leaves its helper, its login item, and its files behind.")
+            String(localized: "Peel will not move itself from here: this account is not allowed to move it. You can drag Peel to the Trash in Finder, which asks for an administrator, but that leaves its helper, its login item, and its files behind.")
         }
     }
 
     private static func failure(for stay: SelfRemoval.Stay) -> String {
-        let helperStayed = String(localized: "Peel’s helper couldn’t be removed, so Peel stayed where it was.")
+        let helperStayed = String(localized: "The Peel helper could not be removed, so Peel stayed where it was.")
         switch stay {
         case .helperIsNotThisAccounts:
             return onlyAnAdministrator
@@ -238,7 +238,7 @@ final class SelfUninstall {
         case .appStayed(let failures, let ledger, let helperIsGone):
             let lines = failures.map { "\($0.url.abbreviatedPath)\n\($0.reason.explanation)" }
             let helper = helperIsGone
-                ? [String(localized: "Peel’s helper is already removed, for every account. Install it again in Settings > Helper.")]
+                ? [String(localized: "The Peel helper is already removed, for every account. Install it again in Settings > Helper.")]
                 : []
             return (lines + (ledger == .moved ? [ledgerInTheTrash] : []) + helper).joined(separator: "\n\n")
         }

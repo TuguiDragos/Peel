@@ -162,7 +162,7 @@ final class HelperModel {
     /// has a change this account may not make.
     private func told(_ action: Action, _ wasAllowed: Bool, _ failure: Failure?) -> Failure? {
         guard wasAllowed else {
-            return Failure(action: action, reason: String(localized: "Only an administrator can change Peel’s helper."))
+            return Failure(action: action, reason: String(localized: "Only an administrator can change the Peel helper."))
         }
         if failure == nil {
             announcing(AttributedString(localized: "\(String(localized: "Helper")): \(String(localized: stateWords))"))

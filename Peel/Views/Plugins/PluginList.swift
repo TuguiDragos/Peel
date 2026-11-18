@@ -138,7 +138,7 @@ extension Plugin {
         [
             version,
             forAllUsers.contains(id) ? String(localized: "All users") : nil,
-            isMailsCopy ? String(localized: "Mail’s copy") : nil,
+            isMailsCopy ? String(localized: "Copy kept by Mail") : nil,
         ].compactMap(\.self)
     }
 

@@ -78,7 +78,7 @@ struct ActionAnnouncementTests {
         let failure = await helper.uninstall()
 
         #expect(failure?.action == .uninstall)
-        #expect(failure?.reason == String(localized: "Only an administrator can change Peel’s helper."))
+        #expect(failure?.reason == String(localized: "Only an administrator can change the Peel helper."))
         #expect(!ran)
         #expect(spoken.words.isEmpty)
     }

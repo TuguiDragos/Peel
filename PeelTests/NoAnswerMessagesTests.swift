@@ -7,7 +7,7 @@ struct NoAnswerMessagesTests {
     @Test func eachSaysWhichQuestionGotNoAnswerAndWhatToDo() {
         #expect(PackageList.noAnswer.key.hasPrefix("Peel asked macOS which packages are installed and got no answer"))
         for message in [PackageList.noAnswer, ExtensionList.noAnswer] {
-            #expect(message.key.hasSuffix("so it can’t list them. Rescan to try again."), "\(message.key)")
+            #expect(message.key.hasSuffix("so it cannot list them. Rescan to try again."), "\(message.key)")
         }
     }
 }

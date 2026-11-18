@@ -38,7 +38,7 @@ struct PluginTextTests {
         )
         let forAllUsers = Plugin.sayingForAllUsers([copy, everyones])
 
-        #expect(copy.details(forAllUsers: forAllUsers) == [String(localized: "Mail’s copy")])
+        #expect(copy.details(forAllUsers: forAllUsers) == [String(localized: "Copy kept by Mail")])
         #expect(everyones.details(forAllUsers: forAllUsers) == [String(localized: "All users")])
     }
 

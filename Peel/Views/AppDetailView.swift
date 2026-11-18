@@ -474,7 +474,7 @@ struct AppDetailView: View {
         let urls = plan.question.request?.urls ?? []
         var lines: [Text] = []
         if !resetting(urls).isEmpty {
-            lines.append(Text("The app’s privacy permissions are reset first, and History can’t bring them back."))
+            lines.append(Text("The privacy permissions of the app are reset first, and History cannot bring them back."))
         }
         if let uninstallsItself = plan.uninstallation?.uninstallsItself, urls.contains(uninstallsItself.app.url) {
             lines.append(uninstallsItself.warning)

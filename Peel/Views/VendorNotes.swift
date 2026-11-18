@@ -79,11 +79,11 @@ struct SystemExtensionInsideNotice: View {
     private var detail: Text {
         let names = extensions.inAnAppInside.formatted(.list(type: .and))
         return if extensions.inAnAppInside.count > 1 {
-            Text("macOS runs \(names) for an app bundled inside \(app.name), and no move of the app removes them: Finder asks macOS to remove only the extensions in the app’s own folder. Turn them off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extensions, turned off.")
+            Text("macOS runs \(names) for an app bundled inside \(app.name), and no move of the app removes them: Finder asks macOS to remove only the extensions in the folder of the app it moves. Turn them off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extensions, turned off.")
         } else if extensions.keepsTheAppInPlace {
             Text("While \(names) runs, it keeps \(app.name) from being moved, by Finder, by Peel, or by an administrator. Turn it off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extension, turned off.")
         } else {
-            Text("macOS runs \(names) for an app bundled inside \(app.name), and no move of the app removes it: Finder asks macOS to remove only the extensions in the app’s own folder. Turn it off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extension, turned off.")
+            Text("macOS runs \(names) for an app bundled inside \(app.name), and no move of the app removes it: Finder asks macOS to remove only the extensions in the folder of the app it moves. Turn it off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extension, turned off.")
         }
     }
 }

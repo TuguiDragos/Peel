@@ -564,8 +564,8 @@ struct UninstallCommand: AsyncParsableCommand {
         let name = Output.plain(app.name)
         return switch reason {
         case .notRemembered:
-            "The Dock still shows \(name): Peel takes an icon out only once it has saved where to put it back, and it couldn't save that."
-        case .notSaved: "The Dock still shows \(name): macOS didn't save the change to the Dock."
+            "The Dock still shows \(name): Peel takes an icon out only once it has saved where to put it back, and it could not save that."
+        case .notSaved: "The Dock still shows \(name): macOS did not save the change to the Dock."
         }
     }
 
@@ -604,7 +604,7 @@ struct UninstallCommand: AsyncParsableCommand {
     }
 
     /// Said after a command that runs `sudo`, on an account that isn't an administrator's.
-    static let administratorRunsIt = "This account isn't an administrator, so an administrator runs this command, or you run it after `su` and an administrator's short name."
+    static let administratorRunsIt = "This account is not an administrator, so an administrator runs this command, or you run it after `su` and the short name of an administrator."
 
     /// What the removal does that the Trash can't bring back, and what the app leaves behind, said before the question.
     static func warnings(
@@ -629,11 +629,11 @@ struct UninstallCommand: AsyncParsableCommand {
             case .removesItsComponents:
                 warnings.append("Once \(app.app.name) leaves the Applications folder, its own uninstaller opens and asks to remove the components it keeps in the system. If you continue there, it deletes them, which the Trash can't bring back.")
             case .deletesItsSuite:
-                warnings.append("Once \(app.app.name) leaves the Applications folder, the cleanup BlueStacks installs runs as an administrator. It deletes the other BlueStacks app if it's still in the Applications folder and the data BlueStacks keeps for every account in /Users/Shared, which the Trash can't bring back, and signs you out of now.gg unless BlueAI is installed.")
+                warnings.append("Once \(app.app.name) leaves the Applications folder, the cleanup BlueStacks installs runs as an administrator. It deletes the other BlueStacks app if it is still in the Applications folder and the data BlueStacks keeps for every account in /Users/Shared, which the Trash cannot bring back, and signs you out of now.gg unless BlueAI is installed.")
             case .uninstallsWithoutAsking:
-                warnings.append("Once \(app.app.name) leaves the Applications folder, its own service uninstalls it as an administrator, without asking: it deletes its system files and can delete the app from the Trash too, which the Trash can't bring back. Then NoMachine Uninstall opens and asks for an administrator's password to delete the accounts NoMachine made.")
+                warnings.append("Once \(app.app.name) leaves the Applications folder, its own service uninstalls it as an administrator, without asking: it deletes its system files and can delete the app from the Trash too, which the Trash cannot bring back. Then NoMachine Uninstall opens and asks for an administrator password to delete the accounts NoMachine made.")
             case .watchedByAJob:
-                warnings.append("Moving \(app.app.name) to the Trash starts a program that waits for it to leave. Peel leaves that program and the file that starts it in place so it can finish, and the Trash can't bring back anything it removes.")
+                warnings.append("Moving \(app.app.name) to the Trash starts a program that waits for it to leave. Peel leaves that program and the file that starts it in place so it can finish, and the Trash cannot bring back anything it removes.")
             }
         }
         if urls.contains(app.url), let root = TrustedRoot.of(app) {
@@ -648,7 +648,7 @@ struct UninstallCommand: AsyncParsableCommand {
         if urls.contains(app.url), let first = commandToRunFirst {
             switch first.undoes {
             case .chargingLimit:
-                warnings.append("\(app.name) may have paused this Mac's charging at a limit. Before it goes, run `\(first.command)`, which turns charging back on and removes its tools from /usr/local/bin.")
+                warnings.append("\(app.name) may have paused charging on this Mac at a limit. Before it goes, run `\(first.command)`, which turns charging back on and removes its tools from /usr/local/bin.")
             }
         }
         if urls.contains(app.url), let left = leftInTheSystem {
@@ -741,7 +741,7 @@ struct UninstallCommand: AsyncParsableCommand {
             case .fromTheMakersPage: "download its uninstaller from \(uninstaller.maker)'s page"
             case .notOnTheMac: "follow \(uninstaller.maker)'s instructions, since the uninstaller they name isn't on this Mac"
             case .notTrusted:
-                "follow \(uninstaller.maker)'s instructions: Peel can't vouch for the uninstaller on this Mac, since programs other than its maker's could have changed it"
+                "follow the instructions from \(uninstaller.maker): Peel cannot vouch for the uninstaller on this Mac, since programs not made by its maker could have changed it"
             }
             let who = if case .command(let command) = uninstaller.step,
                          AdministratorCommand.needsAnAdministrator(command, isAdministrator: isAdministrator) {

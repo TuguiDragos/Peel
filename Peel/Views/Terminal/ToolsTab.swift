@@ -19,11 +19,11 @@ struct ToolsTab: View {
     static func shellNote(_ state: ShellLibrary.State?, zshrc: String) -> LocalizedStringResource {
         if let state, !state.isZsh {
             return state.shell == .bash
-                ? "Terminal opens bash, so these lines, written for zsh, don’t apply."
-                : "Terminal opens a shell other than zsh, so these lines, written for zsh, don’t apply."
+                ? "Terminal opens bash, so these lines, written for zsh, do not apply."
+                : "Terminal opens a shell other than zsh, so these lines, written for zsh, do not apply."
         }
         return state?.zshrcNotKnown == true
-            ? "Peel can’t tell which .zshrc zsh reads, so these lines say ~/.zshrc. Ask zsh on the Shell tab to find out."
+            ? "Peel cannot tell which .zshrc zsh reads, so these lines say ~/.zshrc. Ask zsh on the Shell tab to find out."
             : linesGoIn(zshrc)
     }
 

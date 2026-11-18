@@ -11,7 +11,7 @@ struct OrphanList: View {
     @State private var isRescanning = false
     @State private var notGiven: (name: String, why: FileProblem?)?
 
-    static let nothingYet: LocalizedStringResource = "What removed apps left behind appears here: files named for an app that isn’t installed, and files of apps Peel saw removed."
+    static let nothingYet: LocalizedStringResource = "What removed apps left behind appears here: files named for an app that is not installed, and files of apps Peel saw removed."
 
     /// Whether the page says that the list of what the person gave to apps and tools can't be read: the groups it
     /// names are then listed again.
@@ -20,7 +20,7 @@ struct OrphanList: View {
     }
 
     private var ownersUnreadable: String {
-        orphans.whyOwnersUnreadable.said(after: String(localized: "Peel can’t read the list of files you said belong to an app or a command-line tool, so they’re listed here again. Start the list over in Settings > Exclusions."), about: OrphanOwners.defaultURL)
+        orphans.whyOwnersUnreadable.said(after: String(localized: "Peel cannot read the list of files you said belong to an app or a command-line tool, so they are listed here again. Start the list over in Settings > Exclusions."), about: OrphanOwners.defaultURL)
     }
 
     var body: some View {
@@ -42,7 +42,7 @@ struct OrphanList: View {
             if orphans.scan?.otherAccountsMayOwn == true {
                 Notice(
                     title: Text("This Mac has other accounts"),
-                    detail: Text("An app one of them keeps in its own Applications folder isn’t visible from here, so check what you move from /Library."),
+                    detail: Text("An app one of them keeps in its own Applications folder is not visible from here, so check what you move from /Library."),
                     kind: .note
                 ) {}
                     .padding(.vertical, 6)

@@ -194,10 +194,10 @@ struct GeneralSettingsView: View {
             return "`peel` is on your path. Type `peel --help` in Terminal to see what it can do."
         }
         if standardAccount {
-            return "Add the line below to your shell’s startup file to use `peel` from this account, then type `peel --help` in Terminal to see what it can do."
+            return "Add the line below to the startup file of your shell to use `peel` from this account, then type `peel --help` in Terminal to see what it can do."
         }
         guard offersACommand else {
-            return "`peel` does from Terminal what Peel does in its window. The line below says why there’s no command to run yet."
+            return "`peel` does from Terminal what Peel does in its window. The line below says why there is no command to run yet."
         }
         return "Run the command in Terminal to use `peel` from anywhere, then type `peel --help` to see what it can do."
     }
@@ -322,7 +322,7 @@ struct GeneralSettingsView: View {
                         }
                     }
                 } else if watchesTrash, trashMonitor.status == .closedByPermissions {
-                    StatusLabel(title: Text("Peel can’t read your Trash folder, so it isn’t watching it. The folder’s permissions keep this account out."))
+                    StatusLabel(title: Text("Peel cannot read your Trash folder, so it is not watching it. The permissions of the folder keep this account out."))
                 } else if watchesTrash, trashMonitor.status == .unavailable {
                     StatusLabel(title: Text("Peel isn’t watching the Trash right now. It tries again each time you come back to Peel."))
                 }
@@ -330,7 +330,7 @@ struct GeneralSettingsView: View {
                     notificationsOff(Text("Peel isn’t allowed to send notifications, so it can’t offer to remove the files an app left behind."))
                 }
                 toggle("Warn when the disk is almost full", isOn: $warnsWhenDiskIsNearlyFull,
-                       "When less than a tenth of the disk your home folder is on is available, Peel sends a notification. Clicking it opens Space, which shows what’s using the disk. It checks only while it is running.")
+                       "When less than a tenth of the disk your home folder is on is available, Peel sends a notification. Clicking it opens Space, which shows what is using the disk. It checks only while it is running.")
                 if warnsWhenDiskIsNearlyFull, PeelNotifications.areTurnedOff(home.notificationStatus) {
                     notificationsOff(Text("Peel isn’t allowed to send notifications, so it can’t warn you when the disk is almost full."))
                 }

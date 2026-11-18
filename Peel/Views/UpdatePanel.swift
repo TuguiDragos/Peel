@@ -75,7 +75,7 @@ extension ReleaseNotesMemory.Standing {
     func sentence(beside link: ReleaseNotesLink?) -> LocalizedStringResource? {
         switch self {
         case .notGiven: link?.leadsToTheNotes == false ? "This update came with no notes." : nil
-        case .unanswered: "Peel couldn’t get this update’s notes. It asks again later."
+        case .unanswered: "Peel could not get the notes for this update. It asks again later."
         case .found, .notAskedYet: nil
         }
     }

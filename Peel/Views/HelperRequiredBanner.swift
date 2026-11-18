@@ -67,15 +67,15 @@ extension PrivilegedHelper.Standing {
             registeredByAnotherCopy
                 ? "Peel’s helper was installed by another copy of Peel, and this copy can’t use it. Open the copy of Peel that installed it."
                 : "Install Peel’s helper, which does this as an administrator in the system folders it serves."
-        case .waitingForApproval: "Peel’s helper is waiting to be allowed in System Settings > General > Login Items & Extensions."
+        case .waitingForApproval: "The Peel helper is waiting to be allowed in System Settings > General > Login Items & Extensions."
         case .notThisAccount:
             switch status {
             case .notRegistered, .unavailable:
-                "Peel’s helper isn’t installed, and only an administrator can install it. Log in as an administrator, open Peel there, and install the helper. Then this account can use it, with an administrator’s name and password each time."
+                "The Peel helper is not installed, and only an administrator can install it. Log in as an administrator, open Peel there, and install the helper. Then this account can use it, with an administrator name and password each time."
             case .requiresApproval:
-                "Peel’s helper is installed but not yet allowed, and only an administrator can allow it. Log in as an administrator, open Peel there, and allow the helper. Then this account can use it, with an administrator’s name and password each time."
+                "The Peel helper is installed but not yet allowed, and only an administrator can allow it. Log in as an administrator, open Peel there, and allow the helper. Then this account can use it, with an administrator name and password each time."
             case .enabled:
-                "Peel’s helper isn’t answering, and only an administrator can repair it. Log in as an administrator, open Peel there, and repair the helper. Then this account can use it, with an administrator’s name and password each time."
+                "The Peel helper is not answering, and only an administrator can repair it. Log in as an administrator, open Peel there, and repair the helper. Then this account can use it, with an administrator name and password each time."
             }
         case .notAnswering: "Peel’s helper isn’t answering. Repair it in Settings."
         }

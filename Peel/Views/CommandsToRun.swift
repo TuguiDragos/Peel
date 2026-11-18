@@ -65,7 +65,7 @@ struct CommandToRun: Identifiable {
     /// that Homebrew in Terminal (`Homebrew.wordForTerminal`).
     static func takingOffHomebrewsList(_ cask: HomebrewPackage, brew: String) -> (said: Text, command: String) {
         let command = "\(brew) uninstall --cask \(Homebrew.lastWord(naming: cask.name))"
-        return (Text("Homebrew installed this app and will keep listing it as installed. To take it off that list, run `\(command)`: Homebrew then carries out the cask’s own uninstall steps, which can delete files for good."), command)
+        return (Text("Homebrew installed this app and will keep listing it as installed. To take it off that list, run `\(command)`: Homebrew then carries out the uninstall steps the cask defines, which can delete files for good."), command)
     }
 }
 

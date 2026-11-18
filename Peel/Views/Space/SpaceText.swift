@@ -199,7 +199,7 @@ nonisolated extension SpaceItem {
             title: "iCloud Drive",
             detail: "All that iCloud Drive keeps downloaded on this Mac, small files and files not yet uploaded included.",
             hint: LocalizedStringResource(
-                "Peel’s own iCloud Drive page removes the downloads of files of \(CloudStorage.minimumSize.formatted(.byteCount(style: .file))) or more that are already safe in iCloud",
+                "The iCloud Drive page in Peel removes the downloads of files of \(CloudStorage.minimumSize.formatted(.byteCount(style: .file))) or more that are already safe in iCloud",
                 comment: "%@ is a file size, such as 1 MB."
             ),
             isFreedByPeel: true
@@ -234,7 +234,7 @@ nonisolated extension SpaceItem {
         ),
         "homebrew-data": Words(
             title: "Homebrew Data",
-            detail: "What the formulae Homebrew installed keep in its var folder, such as a database’s data. Homebrew’s uninstall leaves it, so it can outlive its formula. A folder that no installed formula names is marked. The services’ logs are listed apart, and the settings a formula keeps in Homebrew’s etc folder or in /etc stay where they are.",
+            detail: "What the formulae Homebrew installed keep in its var folder, such as the data of a database. Uninstalling with Homebrew leaves it, so it can outlive its formula. A folder that no installed formula names is marked. The logs of the services are listed apart, and the settings a formula keeps in the etc folder of Homebrew or in /etc stay where they are.",
             hint: "Remove a folder in Finder once no formula needs it. Homebrew never removes it."
         ),
         "tex-live": Words(

@@ -5,7 +5,7 @@ struct DeveloperDetailView: View {
     @Environment(DeveloperLibrary.self) private var developer
     let environment: DeveloperEnvironment
 
-    static let keptNote: LocalizedStringResource = "Peel doesn’t select these for you, and Select Recommended leaves them out: each row says why. You can still select them yourself."
+    static let keptNote: LocalizedStringResource = "Peel does not select these for you, and Select Recommended leaves them out: each row says why. You can still select them yourself."
 
     var body: some View {
         List {
@@ -19,7 +19,7 @@ struct DeveloperDetailView: View {
             if !environment.modelCommands.isEmpty {
                 Section {
                     CopyableLines(
-                        caption: Text("To remove one model, use \(environment.name)’s own commands in Terminal, which keep its store in step. What they remove is deleted for good, without the Trash, and Peel never runs them."),
+                        caption: Text("To remove one model, use the commands that come with \(environment.name) in Terminal, which keep its store in step. What they remove is deleted for good, without the Trash, and Peel never runs them."),
                         lines: environment.modelCommands
                     )
                 }
@@ -84,7 +84,7 @@ struct DeveloperDetailView: View {
                     NoteBadge(
                         title: Text("Kept elsewhere"), systemImage: "link",
                         name: String(localized: "Kept elsewhere"),
-                        detail: Text("Peel doesn’t follow a link to a folder kept elsewhere, so it leaves out \(RemovalFailureAlert.listedFolders(environment.keptElsewhere.map(\.abbreviatedPath))). What’s there is the tool’s own, on the disk the link leads to.")
+                        detail: Text("Peel does not follow a link to a folder kept elsewhere, so it leaves out \(RemovalFailureAlert.listedFolders(environment.keptElsewhere.map(\.abbreviatedPath))). What is there belongs to the tool, on the disk the link leads to.")
                     )
                 }
                 if keptByDefault > 0 {

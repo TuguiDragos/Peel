@@ -19,6 +19,6 @@ struct SavedSettingsHelpTests {
             #expect(!help.contains("in Settings"), "\(help)")
         }
         #expect(excluded.contains("is excluded"))
-        #expect(unreadable.contains("can’t read your exclusions"))
+        #expect(unreadable.contains("cannot read your exclusions"))
     }
 }

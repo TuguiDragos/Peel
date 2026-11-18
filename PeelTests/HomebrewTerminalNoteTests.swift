@@ -8,6 +8,6 @@ struct HomebrewTerminalNoteTests {
         #expect(HomebrewDetailView.needsTerminal(isAdministrator: true).count == 1)
         let said = HomebrewDetailView.needsTerminal(isAdministrator: false)
         #expect(said.count == 2)
-        #expect(said.last?.key.contains("isn’t an administrator") == true)
+        #expect(said.last?.key.contains("is not an administrator") == true)
     }
 }

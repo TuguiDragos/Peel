@@ -88,7 +88,7 @@ struct HomebrewDetailView: View {
             if package.isMissingWhatItInstalled, package.appTargets.isEmpty {
                 Notice(
                     title: Text("macOS has no receipt for its packages"),
-                    detail: Text("Homebrew still lists this cask, but macOS has no installer receipt left for the packages it installed. They were uninstalled, or their receipts were forgotten and what they installed is still here. If nothing of it is left, Forget Cask moves the cask’s Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back."),
+                    detail: Text("Homebrew still lists this cask, but macOS has no installer receipt left for the packages it installed. They were uninstalled, or their receipts were forgotten and what they installed is still here. If nothing of it is left, Forget Cask moves the Homebrew receipt of the cask to the Trash, so Homebrew stops listing it, and History can put it back."),
                     kind: .note
                 ) {}
             } else if package.isStoppedMidUpgrade {
@@ -346,7 +346,7 @@ struct HomebrewDetailView: View {
     private var uninstallMessage: Text {
         let deletes = homebrew.overrides.contains(.keepsDependencies)
             ? Text("Homebrew deletes the package for good: nothing goes to the Trash, and History can’t put it back. It won’t do this while another package needs it.")
-            : Text("Homebrew deletes the package for good: nothing goes to the Trash, and History can’t put it back. It won’t do this while another package needs it, and it also deletes every formula nothing needs anymore, whichever package brought it in.")
+            : Text("Homebrew deletes the package for good: nothing goes to the Trash, and History cannot put it back. It will not do this while another package needs it, and it also deletes every formula nothing needs anymore, whichever package brought it in.")
         let deletesAndLeaves = whatStays.map { Text("\(deletes)\n\n\($0)") } ?? deletes
         return whatUsesIt.map { Text("\($0)\n\n\(deletesAndLeaves)") } ?? deletesAndLeaves
     }
@@ -468,7 +468,7 @@ struct HomebrewDetailView: View {
         if isAdministrator {
             return [said]
         }
-        return [said, "This account isn’t an administrator, so `sudo` refuses it and Homebrew stops at the password. The command works from an account that is an administrator and can change this Homebrew."]
+        return [said, "This account is not an administrator, so `sudo` refuses it and Homebrew stops at the password. The command works from an account that is an administrator and can change this Homebrew."]
     }
 
     /// A cask whose uninstall needs an administrator is offered as a command, unless it may not be uninstalled at all.

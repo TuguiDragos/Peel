@@ -16,7 +16,7 @@ struct UpdatePanelTests {
         #expect(said(.notGiven, beside: notes) == nil)
         #expect(said(.notGiven, beside: site) == "This update came with no notes.")
         #expect(said(.notGiven, beside: nil) == nil)
-        #expect(said(.unanswered, beside: notes) == "Peel couldn’t get this update’s notes. It asks again later.")
+        #expect(said(.unanswered, beside: notes) == "Peel could not get the notes for this update. It asks again later.")
         #expect(said(.notAskedYet, beside: notes) == nil)
     }
 }

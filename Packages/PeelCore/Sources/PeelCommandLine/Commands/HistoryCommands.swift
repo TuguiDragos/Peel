@@ -483,7 +483,7 @@ struct RestoreCommand: AsyncParsableCommand {
             Output.note("Couldn't put \(Output.plain(Output.path(record.originalURL))) back: \(failure.summary)")
         }
         for (label, answer) in notStarted {
-            Output.note("\(Output.plain(label)) is back, but launchd didn't start it again: \(Output.plain(answer))")
+            Output.note("\(Output.plain(label)) is back, but launchd did not start it again: \(Output.plain(answer))")
         }
         let stayed = gone > 0 || !failures.isEmpty || !refused.isEmpty || !waiting.isEmpty || !notKnown.isEmpty
         try Cleanup.end(failed: stayed, recorded: forgotten)

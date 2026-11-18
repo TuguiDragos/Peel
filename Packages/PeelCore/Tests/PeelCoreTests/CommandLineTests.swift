@@ -820,9 +820,9 @@ struct CommandLineTests {
 
         #expect(report["dockIconStayed"] as? String == "notRemembered")
         #expect(UninstallCommand.dockStayedNote(for: editor, reason: .notRemembered)
-            == "The Dock still shows Editor: Peel takes an icon out only once it has saved where to put it back, and it couldn't save that.")
+            == "The Dock still shows Editor: Peel takes an icon out only once it has saved where to put it back, and it could not save that.")
         #expect(UninstallCommand.dockStayedNote(for: editor, reason: .notSaved)
-            == "The Dock still shows Editor: macOS didn't save the change to the Dock.")
+            == "The Dock still shows Editor: macOS did not save the change to the Dock.")
     }
 
     /// `peel uninstall --json` says what stays and why, what moved and what failed, with every key in every record.
@@ -1421,7 +1421,7 @@ struct CommandLineTests {
 
         let said = UninstallCommand.said(.byItsMaker(step), of: app, isAdministrator: true)?.description
 
-        #expect(said?.contains("Peel can't vouch for the uninstaller on this Mac") == true, "\(said ?? "")")
+        #expect(said?.contains("Peel cannot vouch for the uninstaller on this Mac") == true, "\(said ?? "")")
         #expect(said?.contains("isn't on this Mac") == false)
     }
 

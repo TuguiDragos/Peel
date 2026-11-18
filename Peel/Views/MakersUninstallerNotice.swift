@@ -17,7 +17,7 @@ struct MakersUninstallerNotice: View {
             title: Text(Self.title(of: uninstaller)), detail: detail, kind: .note,
             info: (name: String(localized: Self.title(of: uninstaller)), detail: saying ?? said)
         ) {
-            Link("\(uninstaller.maker)’s Instructions", destination: uninstaller.instructions)
+            Link("Instructions from \(uninstaller.maker)", destination: uninstaller.instructions)
             switch uninstaller.step {
             case .command(let command):
                 CopyButton(text: command, title: "Copy Uninstall Command")
@@ -35,7 +35,7 @@ struct MakersUninstallerNotice: View {
         if let product = uninstaller.removes {
             "\(uninstaller.maker)’s uninstaller for \(product)"
         } else {
-            "Removed with \(uninstaller.maker)’s own uninstaller"
+            "\(uninstaller.maker) removes it with its own uninstaller"
         }
     }
 
@@ -43,10 +43,10 @@ struct MakersUninstallerNotice: View {
     static func whereItIs(_ uninstaller: MakersUninstaller, app: String) -> LocalizedStringResource? {
         switch uninstaller.step {
         case .onItsDiskImage: "Its uninstaller is on the disk image \(app) came on."
-        case .fromTheMakersPage: "Its uninstaller is a download from \(uninstaller.maker)’s page."
-        case .notOnTheMac: "The uninstaller \(uninstaller.maker) names isn’t on this Mac, so follow \(uninstaller.maker)’s instructions."
+        case .fromTheMakersPage: "\(uninstaller.maker) offers the uninstaller as a download on its website."
+        case .notOnTheMac: "The uninstaller \(uninstaller.maker) names is not on this Mac, so follow the instructions from \(uninstaller.maker)."
         case .notTrusted:
-            "Peel can’t vouch for the uninstaller on this Mac, since programs other than \(uninstaller.maker)’s could have changed it, so follow \(uninstaller.maker)’s instructions."
+            "Peel cannot vouch for the uninstaller on this Mac, since programs not made by \(uninstaller.maker) could have changed it, so follow the instructions from \(uninstaller.maker)."
         case .command, .uninstaller, .inTheApp: nil
         }
     }

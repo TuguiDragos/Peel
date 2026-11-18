@@ -12,7 +12,7 @@ struct CleanUpQuestionTests {
         )
 
         #expect(warning == [
-            String(localized: "Homebrew deletes these for good: about \(size.byteCount) of downloads and old versions, and the formulae nothing needs anymore, which that figure leaves out. Nothing goes to the Trash, and History can’t put it back."),
+            String(localized: "Homebrew deletes these for good: about \(size.byteCount) of downloads and old versions, and the formulae nothing needs anymore, which that figure leaves out. Nothing goes to the Trash, and History cannot put it back."),
             String(inflecting: "Right now that is ^[\(formulae.count) formula](inflect: true): \(RemovalFailureAlert.listedFormulae(formulae))."),
         ].joined(separator: "\n\n"))
     }

@@ -24,7 +24,7 @@ extension MatchReason {
         case .managedByTheApp: "Managed by the app"
         case .updaterDownloads: "Where the app’s updater keeps its downloads"
         case .namedByTheApp: "Named by the app’s own files"
-        case .documentedByItsMaker: "Documented by the app’s maker"
+        case .documentedByItsMaker: "Documented by the maker of the app"
         case .inItsMakersFolder: "In its maker’s folder, and no other app of that maker is installed"
         }
     }
@@ -163,11 +163,11 @@ extension UninstallsItself {
         case .removesItsComponents:
             Text("Once \(app.name) leaves the Applications folder, its own uninstaller opens and asks to remove the components it keeps in the system. If you continue there, it deletes them, which History can’t bring back.")
         case .deletesItsSuite:
-            Text("Once \(app.name) leaves the Applications folder, the cleanup BlueStacks installs runs as an administrator. It deletes the other BlueStacks app if it’s still in the Applications folder and the data BlueStacks keeps for every account in /Users/Shared, which History can’t bring back, and signs you out of now.gg unless BlueAI is installed.")
+            Text("Once \(app.name) leaves the Applications folder, the cleanup BlueStacks installs runs as an administrator. It deletes the other BlueStacks app if it is still in the Applications folder and the data BlueStacks keeps for every account in /Users/Shared, which History cannot bring back, and signs you out of now.gg unless BlueAI is installed.")
         case .uninstallsWithoutAsking:
-            Text("Once \(app.name) leaves the Applications folder, its own service uninstalls it as an administrator, without asking: it deletes its system files and can delete the app from the Trash too, which History can’t bring back. Then NoMachine Uninstall opens and asks for an administrator’s password to delete the accounts NoMachine made.")
+            Text("Once \(app.name) leaves the Applications folder, its own service uninstalls it as an administrator, without asking: it deletes its system files and can delete the app from the Trash too, which History cannot bring back. Then NoMachine Uninstall opens and asks for an administrator password to delete the accounts NoMachine made.")
         case .watchedByAJob:
-            Text("Moving \(app.name) to the Trash starts a program that waits for it to leave. Peel leaves that program and the file that starts it in place so it can finish, and History can’t bring back anything it removes.")
+            Text("Moving \(app.name) to the Trash starts a program that waits for it to leave. Peel leaves that program and the file that starts it in place so it can finish, and History cannot bring back anything it removes.")
         }
     }
 }
@@ -177,7 +177,7 @@ extension CommandToRunFirst {
     func note(for app: String) -> Text {
         switch undoes {
         case .chargingLimit:
-            Text("\(app) may have paused this Mac’s charging at a limit. Before it goes, run `\(command)`, which turns charging back on and removes its tools from /usr/local/bin.")
+            Text("\(app) may have paused charging on this Mac at a limit. Before it goes, run `\(command)`, which turns charging back on and removes its tools from /usr/local/bin.")
         }
     }
 }
@@ -185,7 +185,7 @@ extension CommandToRunFirst {
 extension AdministratorCommand {
     /// Said after a command that runs `sudo`, on an account that isn't an administrator's.
     static var note: Text {
-        Text("This account isn’t an administrator, so an administrator runs this command, or you run it after `su` and an administrator’s short name.")
+        Text("This account is not an administrator, so an administrator runs this command, or you run it after `su` and the short name of an administrator.")
     }
 }
 
@@ -194,7 +194,7 @@ extension PreferenceBackup.Restored {
     static func saidAfterIncomplete(clearedSome: Bool) -> String {
         clearedSome
             ? String(localized: "The settings that didn’t go back were cleared first, so the app starts them from scratch. The copy is still here to try again.")
-            : String(localized: "Part of the copy wasn’t put back, because it couldn’t be read or holds settings Peel leaves alone, so those settings stay as they are now. The rest went back.")
+            : String(localized: "Part of the copy was not put back, because it could not be read or holds settings Peel leaves alone, so those settings stay as they are now. The rest went back.")
     }
 }
 
@@ -218,12 +218,12 @@ extension TeamRegistry.Change {
     /// now.
     func explanation(named name: String?) -> String {
         if current.isEmpty {
-            return String(localized: "It was first seen signed by team \(previous). A copy someone has changed looks like this, and so does one built from source. If you didn’t expect this, get the app again from its maker.")
+            return String(localized: "It was first seen signed by team \(previous). A copy someone has changed looks like this, and so does one built from source. If you did not expect this, get the app again from its maker.")
         }
         guard let name else {
-            return String(localized: "It was first seen signed by team \(previous), and is signed by team \(current) now. A maker can change the team it signs with, as after a sale, but a copy someone else rebuilt looks the same. If you didn’t expect this, get the app again from its maker.")
+            return String(localized: "It was first seen signed by team \(previous), and is signed by team \(current) now. A maker can change the team it signs with, as after a sale, but a copy someone else rebuilt looks the same. If you did not expect this, get the app again from its maker.")
         }
-        return String(localized: "It was first seen signed by team \(previous), and is signed by \(name), team \(current), now. A maker can change the team it signs with, as after a sale, but a copy someone else rebuilt looks the same. If you didn’t expect this, get the app again from its maker.")
+        return String(localized: "It was first seen signed by team \(previous), and is signed by \(name), team \(current), now. A maker can change the team it signs with, as after a sale, but a copy someone else rebuilt looks the same. If you did not expect this, get the app again from its maker.")
     }
 }
 
@@ -272,7 +272,7 @@ extension GuardRefusal {
         case .excluded: "Peel won’t move this: your exclusions in Settings keep it where it is."
         case .staysItself: "Peel won’t move this folder itself, since macOS expects to find it. What is inside it can go."
         case .protectedLocation: "Peel won’t move this: it is part of macOS, or inside something Peel protects."
-        case .inUsrLocal: "Peel won’t move this: /usr/local holds other programs’ files, and from there Peel moves only an app’s links and Homebrew’s records."
+        case .inUsrLocal: "Peel will not move this: /usr/local holds files of other programs, and from there Peel moves only the links an app made and the records Homebrew keeps."
         case .holdsProtectedData: "Peel won’t move this: something Peel protects is inside, such as a keychain or a wallet."
         case .inTheCloud(.cloud): "Peel won’t move this: it syncs to your other devices through iCloud or another app, and moving it to the Trash would also remove it from them."
         case .inTheCloud(.app(let app, let marker)):
@@ -300,9 +300,9 @@ extension TrashFailure.Reason {
         case .changeNotKnown: String(localized: "Peel couldn’t read it in time to see whether it changed after Peel looked at it. Scan again to review it.", bundle: bundle)
         case .claimedSinceScan: String(localized: "Peel couldn’t confirm it is still nobody’s: an installed app may claim it now. Scan again to review it.", bundle: bundle)
         case .lastCopy: String(localized: "The copy Peel was keeping has changed or moved since the scan, so this one may be the last, and Peel left it. Scan again to review it.", bundle: bundle)
-        case .notPermitted: String(localized: "macOS didn’t allow it and didn’t say why. Home shows which permissions Peel is missing.", bundle: bundle)
+        case .notPermitted: String(localized: "macOS did not allow it and did not say why. Home shows which permissions Peel is missing.", bundle: bundle)
         case .locked: String(localized: "It is locked. In Finder, choose File > Get Info and deselect Locked, then try again.", bundle: bundle)
-        case .needsHelper: String(localized: "It needs administrator access, which Peel’s helper provides. Home says what the helper needs.", bundle: bundle)
+        case .needsHelper: String(localized: "It needs administrator access, which the Peel helper provides. Home says what the helper needs.", bundle: bundle)
         case .movedWithoutATrace: String(localized: "It is in the Trash, but macOS didn’t say where, so it can only be put back from Finder.", bundle: bundle)
         case .somethingElseMoved(let name): String(localized: "Something else was at that path by the time it moved. It is in the Trash as \(name), and Finder can put it back.", bundle: bundle)
         case .historyUnreadable: String(localized: "Peel couldn’t read History, and it moves nothing it can’t put back.", bundle: bundle)
@@ -317,9 +317,9 @@ extension TrashFailure.Reason {
             String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop it in Background Items (View > Background Items) if it has no window, then try again.", bundle: bundle)
         case .peelRunsFromIt: String(localized: "Peel itself runs from here, and only Remove Peel, in Settings > General, removes Peel.", bundle: bundle)
         case .heldByAnotherAccount(let processes) where processes.count > 1:
-            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which run as another account or as the system, so neither you nor Peel can quit them. Stop them in Background Items (View > Background Items), or with the app’s own uninstaller, then try again.", bundle: bundle)
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which run as another account or as the system, so neither you nor Peel can quit them. Stop them in Background Items (View > Background Items), or with the uninstaller that came with the app, then try again.", bundle: bundle)
         case .heldByAnotherAccount(let processes):
-            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which runs as another account or as the system, so neither you nor Peel can quit it. Stop it in Background Items (View > Background Items), or with the app’s own uninstaller, then try again.", bundle: bundle)
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which runs as another account or as the system, so neither you nor Peel can quit it. Stop it in Background Items (View > Background Items), or with the uninstaller that came with the app, then try again.", bundle: bundle)
         case .openForAnotherUser(let processes) where processes.count > 1:
             String(localized: "It is in use by \(processes.formatted(.list(type: .and))) in another user’s account on this Mac. Quit them in that account, then try again.", bundle: bundle)
         case .openForAnotherUser(let processes):
@@ -333,11 +333,11 @@ extension TrashFailure.Reason {
         case .attachedDiskImage:
             String(localized: "It is a disk image that is open right now. Eject it, then try again.", bundle: bundle)
         case .attachedImagesNotKnown:
-            String(localized: "It is a disk image, and Peel couldn’t tell whether it is open right now, so it stays where it is. Try again.", bundle: bundle)
+            String(localized: "It is a disk image, and Peel could not tell whether it is open right now, so it stays where it is. Try again.", bundle: bundle)
         case .stillLeadsTo(let target):
-            String(localized: "It is a link that still leads to \(URL(filePath: target).abbreviatedPath), and from this folder Peel’s helper removes only links that lead nowhere.", bundle: bundle)
+            String(localized: "It is a link that still leads to \(URL(filePath: target).abbreviatedPath), and from this folder the Peel helper removes only links that lead nowhere.", bundle: bundle)
         case .noTrashOnThisDisk:
-            String(localized: "Your home folder is on another disk, and macOS keeps no Trash for you on this one until Peel’s helper makes it. Set up the helper in Settings, then try again.", bundle: bundle)
+            String(localized: "Your home folder is on another disk, and macOS keeps no Trash for you on this one until the Peel helper makes it. Set up the helper in Settings, then try again.", bundle: bundle)
         case .noRoomOnItsDisk:
             String(localized: "Its disk is full, with no room left even to move it to the Trash. Make some room on that disk, then try again.", bundle: bundle)
         case .diskNotConnected:
@@ -388,7 +388,7 @@ extension FileProblem {
         case .notAFile: String(localized: "Something other than a file, such as a folder, is where the file should be.")
         case .tooLarge: String(localized: "The file is larger than Peel ever writes it, so Peel doesn’t read it.")
         case .damaged: String(localized: "The file’s contents aren’t in a form Peel can read.")
-        case .aLink: String(localized: "It’s a link, so Peel reads the file it leads to but doesn’t write over it.")
+        case .aLink: String(localized: "It is a link, so Peel reads the file it leads to but does not write over it.")
         case .failed(let error): String(localized: "macOS answered: \(error.description(of: url))")
         }
     }
@@ -430,7 +430,7 @@ extension OrphanLibrary {
     /// why.
     func ownersNotSaved(_ why: FileProblem?) -> String {
         let said = owners == nil
-            ? String(localized: "Peel can’t read its list of the orphaned files you said belong to an app or a tool, so it lists them all. Start the list over in Settings > Exclusions.")
+            ? String(localized: "Peel cannot read its list of the orphaned files you said belong to an app or a tool, so it lists them all. Start the list over in Settings > Exclusions.")
             : String(localized: "Nothing changed.")
         return why.said(after: said, about: OrphanOwners.defaultURL)
     }
@@ -448,8 +448,8 @@ extension PreferenceBackup.NotSaved {
     var sentence: String {
         switch self {
         case .noUsableIdentifier: String(localized: "The app has no identifier Peel can name a copy after.")
-        case .noAnswer(let domain): String(localized: "macOS didn’t answer when Peel asked for the settings of \(domain).")
-        case .notExported(let domain): String(localized: "macOS couldn’t copy the settings of \(domain).")
+        case .noAnswer(let domain): String(localized: "macOS did not answer when Peel asked for the settings of \(domain).")
+        case .notExported(let domain): String(localized: "macOS could not copy the settings of \(domain).")
         case .noFolder(let why):
             why.said(after: String(localized: "Peel couldn’t make a folder for the copy."), about: PreferenceBackup.defaultDirectory)
         }
@@ -497,7 +497,7 @@ extension HistoryWriteProblem {
         case .journalNotWritable(let journal):
             String(localized: "This account can’t write \(journal.abbreviatedPath), where Peel writes down each move. Peel removes nothing until it can, so that everything it moves can be put back.", bundle: bundle)
         case .lockClosed(let lock):
-            String(localized: "This account can’t open \(lock.abbreviatedPath), which keeps two programs from writing History at once. Peel removes nothing until it can, so that everything it moves can be put back.", bundle: bundle)
+            String(localized: "This account cannot open \(lock.abbreviatedPath), which keeps two programs from writing History at once. Peel removes nothing until it can, so that everything it moves can be put back.", bundle: bundle)
         case .aLink(let link):
             String(localized: "\(link.abbreviatedPath) is a link, and Peel keeps History only in files of its own. Peel removes nothing until the link is gone, so that everything it moves can be put back.", bundle: bundle)
         }
@@ -537,7 +537,7 @@ extension PrivacyReset.Result {
     var explanation: String? {
         switch self {
         case .reset: nil
-        case .notKnownToTheSystem: String(localized: "macOS didn’t recognize the app. If it has access to anything, such as the camera, you can turn it off in System Settings > Privacy & Security.")
+        case .notKnownToTheSystem: String(localized: "macOS did not recognize the app. If it has access to anything, such as the camera, you can turn it off in System Settings > Privacy & Security.")
         case .refused: String(localized: "Peel never resets them for this app.")
         case .failed(let message): message.isEmpty ? String(localized: "macOS didn’t say why.") : String(localized: "macOS reported: \(message)")
         case .couldNotAsk(let message): FixedSentence.translated(message)
@@ -647,7 +647,7 @@ extension RestoreFailure {
         case .alreadyThere: String(localized: "Something is already there, and Peel never replaces it.")
         case .emptyFolderInItsPlace:
             String(localized: "An empty folder was made here after this moved, often by the app or tool that uses it. Quit that, move the empty folder to the Trash, then put this back: Peel never replaces what is there.")
-        case .needsHelper: String(localized: "It needs administrator access, which Peel’s helper provides. Home says what the helper needs.")
+        case .needsHelper: String(localized: "It needs administrator access, which the Peel helper provides. Home says what the helper needs.")
         case .notAllowed(.excluded):
             String(localized: "Your exclusions in Settings keep Peel from putting anything back there. Take it off the list to put this back, or drag it out of the Trash in Finder.")
         case .notAllowed: String(localized: "Peel protects that place now, so it puts nothing back there. You can drag it out of the Trash in Finder.")
@@ -660,7 +660,7 @@ extension RestoreFailure {
             String(localized: "The folder it goes back to isn’t there anymore. Put that folder back first, or drag this out of the Trash in Finder.")
         case .needsAppManagement:
             String(localized: "macOS lets Peel put back another developer’s app only with App Management. Allow Peel in System Settings > Privacy & Security > App Management, then try again.")
-        case .notPermitted: String(localized: "macOS didn’t allow it and didn’t say why. Home shows which permissions Peel is missing.")
+        case .notPermitted: String(localized: "macOS did not allow it and did not say why. Home shows which permissions Peel is missing.")
         case .failed(let message): FixedSentence.translated(message)
         case .replacementStays(let reason):
             String(localized: "The version now in its place couldn’t move to the Trash first, so nothing changed.") + " "
@@ -701,7 +701,7 @@ extension CloudRefusal {
         case .hasSeveralNames:
             String(localized: "It, or a file inside it, has another name on this Mac, so iCloud keeps its download.")
         case .couldNotBeRead:
-            String(localized: "Peel couldn’t read all of it, so it can’t tell whether it changed and left it alone. Scan again to review it.")
+            String(localized: "Peel could not read all of it, so it cannot tell whether it changed and left it alone. Scan again to review it.")
         case .failed(let message): message
         }
     }
@@ -712,7 +712,7 @@ extension RemovedElsewhere {
     var explanation: LocalizedStringResource {
         switch self {
         case .byRemovePeel: "Left alone: Peel removes itself only from Settings."
-        case .byItsMaker(let uninstaller): "Left alone: \(uninstaller.maker)’s own uninstaller removes it."
+        case .byItsMaker(let uninstaller): "Left alone: \(uninstaller.maker) removes it with its own uninstaller."
         case .byFinder(let carried): Self.leftToFinder(carried)
         case .onceItsSystemExtensionsAreOff(let carried):
             carried.inAnAppInside.count == 1
@@ -756,7 +756,7 @@ extension HoldBack {
         case .keepsWhatItDeployed:
             "Not selected: it also keeps the state of what this project deployed, which the next deployment reads to find the resources it made."
         case .markedOnlyByACacheTag:
-            "Not selected: only a cache tag marks this folder, and Peel can’t tell what wrote it or whether it can be made again."
+            "Not selected: only a cache tag marks this folder, and Peel cannot tell what wrote it or whether it can be made again."
         case .sharedWithEveryone:
             "Not selected: /Users/Shared belongs to every account on this Mac, so this may be another account’s."
         case .listedByAnotherPackage:
@@ -806,7 +806,7 @@ extension HoldBack {
         case .holdsKeys:
             "Left alone: a wallet or a key Peel protects is inside, so Peel leaves this folder where it is."
         case .holdsWorkKeptInACache:
-            "Left alone: an app keeps work inside that exists nowhere else, such as an editor’s local history."
+            "Left alone: an app keeps work inside that exists nowhere else, such as the local history of an editor."
         case .insideAnotherAppsFolder:
             "Not selected: only the name matches, and it sits inside a folder that belongs to macOS or to another installed app, which may be keeping it for itself."
         case .holdsAnotherAppsData:
@@ -818,7 +818,7 @@ extension HoldBack {
         case .holdsModels:
             "Not selected: this holds model weights or datasets, a long download to get back, and any you made or imported may exist only on this Mac."
         case .beyondTheHelper:
-            "Left alone: only an administrator can move this, and Peel’s helper can’t move it from here."
+            "Left alone: only an administrator can move this, and the Peel helper cannot move it from here."
         case .onAReadOnlyDisk:
             "Left alone: this is on a disk that can only be read, so nothing can move it to the Trash."
         case .leftToItsUninstaller:
@@ -832,7 +832,7 @@ extension HoldBack {
         case .deletableSystemExtension:
             "Left alone: macOS installed this system extension, and only macOS removes it. In System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension."
         case .systemExtensionOfAnAppInside:
-            "Left alone: macOS installed this for an app bundled inside another app, and moving that app to the Trash in Finder doesn’t remove it, so installing the app again won’t help. While it is turned off, macOS doesn’t run it."
+            "Left alone: macOS installed this for an app bundled inside another app, and moving that app to the Trash in Finder does not remove it, so installing the app again will not help. While it is turned off, macOS does not run it."
         case .signInPlugIn:
             "Left alone: macOS may load this plug-in when someone logs in, and taking it away could keep anyone from logging in, so only its maker’s uninstaller removes it."
         case .loadedByOtherApps:
@@ -860,7 +860,7 @@ extension HoldBack {
         case .attachedDiskImage:
             "Not selected: this disk image is open right now. Eject it first."
         case .attachedImagesNotKnown:
-            "Not selected: Peel couldn’t tell whether this disk image is open right now."
+            "Not selected: Peel could not tell whether this disk image is open right now."
         case .changedRecently:
             "Not selected: this changed in the last day, so it may still be downloading."
         case .arrivedRecently:

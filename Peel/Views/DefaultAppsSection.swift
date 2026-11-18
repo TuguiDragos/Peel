@@ -27,12 +27,12 @@ struct DefaultAppsSection: View {
             Section {
                 if isExpanded, !files.isEmpty {
                     HandOverRow(
-                        lead: links.isEmpty ? "Once it’s gone, they open with" : "Once it’s gone, its files open with",
+                        lead: links.isEmpty ? "Once it is gone, they open with" : "Once it is gone, its files open with",
                         handOvers: files, kind: .fileKind
                     )
                 }
                 if isExpanded, !links.isEmpty {
-                    HandOverRow(lead: "Once it’s gone, its links open with", handOvers: links, kind: .link)
+                    HandOverRow(lead: "Once it is gone, its links open with", handOvers: links, kind: .link)
                 }
             } header: {
                 let title = Self.title(files: files.map(\.count).reduce(0, +), links: links.map(\.count).reduce(0, +))
@@ -72,7 +72,7 @@ struct DefaultAppsSection: View {
     static func note(files: Bool, links: Bool) -> String {
         [
             files ? String(localized: "These kinds of files open with this app when you double-click one.\n\nOnce the app is gone, macOS opens each kind with another app that can read it, and Peel shows which app that would be. A kind under No app has nothing else on this Mac to open it.\n\nYour files stay where they are. Peel never changes which app opens what: you choose that in Finder, with Get Info.") : nil,
-            links ? String(localized: "These kinds of links open with this app when you click one, and once it’s gone with the app Peel shows. For a kind of link, choose it in System Settings or in the app itself.") : nil,
+            links ? String(localized: "These kinds of links open with this app when you click one. Once it is gone, they open with the app Peel shows. For a kind of link, choose it in System Settings or in the app itself.") : nil,
         ].compactMap(\.self).joined(separator: "\n\n")
     }
 }
@@ -149,7 +149,7 @@ struct HandOverList: View {
                     .fixedSize(horizontal: false, vertical: true)
                 if handOver.app == nil {
                     Text(kind == .fileKind
-                        ? "The files stay where they are. They won’t open with a double-click until you install an app that reads them."
+                        ? "The files stay where they are. They will not open with a double-click until you install an app that reads them."
                         : "Clicking such a link opens nothing until you install an app that opens it.")
                         .font(.callout)
                         .foregroundStyle(.secondary)

@@ -108,7 +108,7 @@ extension HomebrewChoice.Refusal {
             Text("Another account owns it, so that account could change what Peel would run. Peel runs only a brew your account or the system owns.")
         case .writableByEveryone: Text("Anyone on this Mac can change it, so Peel won’t run it.")
         case .unreadable:
-            Text("Peel can’t read which `brew` you chose, so it runs none until you choose it again or use the usual places.")
+            Text("Peel cannot read which `brew` you chose, so it runs none until you choose it again or use the usual places.")
         }
     }
 }

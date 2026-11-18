@@ -12,7 +12,7 @@ struct ExtensionList: View {
         return all.filter { $0.matches(searchText) }
     }
 
-    static let noAnswer: LocalizedStringResource = "Peel asked macOS which extensions apps have added and got no answer, so it can’t list them. Rescan to try again."
+    static let noAnswer: LocalizedStringResource = "Peel asked macOS which extensions apps have added and got no answer, so it cannot list them. Rescan to try again."
 
     var body: some View {
         @Bindable var extensions = extensions

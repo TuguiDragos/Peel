@@ -25,7 +25,7 @@ struct ResetSheet: View {
         _changedFiles = changedFiles
     }
 
-    static let changeOfMindNote: LocalizedStringResource = "The old settings were saved before they were cleared. Put them back from here, or later from Settings > General > Saved Settings, where the copy stays until you move it to the Trash. History won’t put the old files back once the app has written new ones in their place."
+    static let changeOfMindNote: LocalizedStringResource = "The old settings were saved before they were cleared. Put them back from here, or later from Settings > General > Saved Settings, where the copy stays until you move it to the Trash. History will not put the old files back once the app has written new ones in their place."
 
     var body: some View {
         VStack(spacing: 0) {

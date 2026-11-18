@@ -4,6 +4,6 @@ import Testing
 
 struct HomebrewExclusionRefusalTests {
     @Test func theRefusalSaysPeelCouldNotLookInside() {
-        #expect(HomebrewLibrary.cantLookInside.key.hasPrefix("Peel couldn’t look inside this package’s folders"))
+        #expect(HomebrewLibrary.cantLookInside.key.hasPrefix("Peel could not look inside the folders of this package"))
     }
 }

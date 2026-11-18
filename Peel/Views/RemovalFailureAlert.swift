@@ -104,7 +104,7 @@ struct RemovalFailureAlert: ViewModifier {
             return Text(verbatim: RestoreFailure.title(stayed: outcome.putBackFailures.count, of: outcome.putBackAsked))
         }
         if !outcome.jobsNotStarted.isEmpty, outcome.failures.isEmpty {
-            return Text(verbatim: String(inflecting: "^[\(outcome.jobsNotStarted.count) job](inflect: true) didn’t start again."))
+            return Text(verbatim: String(inflecting: "^[\(outcome.jobsNotStarted.count) job](inflect: true) did not start again."))
         }
         if !outcome.appsStartingFromTheTrash.isEmpty, outcome.failures.isEmpty, outcome.appsToQuit.isEmpty,
            outcome.privacy.isEmpty {
@@ -162,7 +162,7 @@ struct RemovalFailureAlert: ViewModifier {
 
     /// Each job a Put Back brought back that didn't start again, with what launchd answered.
     private static func jobLines(_ outcome: RemovalOutcome) -> [String] {
-        outcome.jobsNotStarted.map { String(localized: "\($0.label) is back, but launchd didn’t start it again: \($0.answer)") }
+        outcome.jobsNotStarted.map { String(localized: "\($0.label) is back, but launchd did not start it again: \($0.answer)") }
     }
 
     private static func runToFinish(_ outcome: RemovalOutcome) -> String {
@@ -187,8 +187,8 @@ struct RemovalFailureAlert: ViewModifier {
         let count = outcome.leftForAnAdministrator
         guard count > 0 else { return [] }
         return count == 1
-            ? [String(localized: "One item stayed because only an administrator can move it, and Peel’s helper can’t. Orphaned Files lists it under Needs an Administrator, with how to remove it.")]
-            : [String(inflecting: "^[\(count) item](inflect: true) stayed because only an administrator can move them, and Peel’s helper can’t. Orphaned Files lists them under Needs an Administrator, with how to remove them.")]
+            ? [String(localized: "One item stayed because only an administrator can move it, and the Peel helper cannot. Orphaned Files lists it under Needs an Administrator, with how to remove it.")]
+            : [String(inflecting: "^[\(count) item](inflect: true) stayed because only an administrator can move them, and the Peel helper cannot. Orphaned Files lists them under Needs an Administrator, with how to remove them.")]
     }
 
     /// One line for the shell startup files that still name what moved: the person edits them, Peel never does.
@@ -222,8 +222,8 @@ struct RemovalFailureAlert: ViewModifier {
         let names = naming(icons.apps)
         return switch icons.reason {
         case .notRemembered:
-            [String(localized: "The Dock still shows \(names): Peel takes an icon out only once it has saved where to put it back, and it couldn’t save that.")]
-        case .notSaved: [String(localized: "The Dock still shows \(names): macOS didn’t save the change to the Dock.")]
+            [String(localized: "The Dock still shows \(names): Peel takes an icon out only once it has saved where to put it back, and it could not save that.")]
+        case .notSaved: [String(localized: "The Dock still shows \(names): macOS did not save the change to the Dock.")]
         }
     }
 
@@ -278,8 +278,8 @@ struct RemovalFailureAlert: ViewModifier {
         let unrecognized = outcome.privacy.filter { $0.result == .notKnownToTheSystem }.map(\.app)
         let together: [String] = switch unrecognized.count {
         case 0: []
-        case 1: [String(localized: "macOS didn’t recognize \(unrecognized[0]), so its privacy permissions weren’t reset. If it has access to anything, such as the camera, you can turn it off in System Settings > Privacy & Security.")]
-        default: [String(localized: "macOS didn’t recognize \(naming(unrecognized)), so their privacy permissions weren’t reset. If they have access to anything, such as the camera, you can turn it off in System Settings > Privacy & Security.")]
+        case 1: [String(localized: "macOS did not recognize \(unrecognized[0]), so its privacy permissions were not reset. If it has access to anything, such as the camera, you can turn it off in System Settings > Privacy & Security.")]
+        default: [String(localized: "macOS did not recognize \(naming(unrecognized)), so their privacy permissions were not reset. If they have access to anything, such as the camera, you can turn it off in System Settings > Privacy & Security.")]
         }
         return together + shortening(outcome.privacy.filter { $0.result != .notKnownToTheSystem }.map { privacy in
             guard let problem = privacy.result.explanation else {

@@ -115,7 +115,7 @@ struct SavedSettingsSection: View {
         switch refusal {
         case .exclusionsNotKnown?:
             exclusionsUnreadable
-                ? String(localized: "Peel can’t read your exclusions, so it puts nothing back. Start the list over in the Exclusions tab.")
+                ? String(localized: "Peel cannot read your exclusions, so it puts nothing back. Start the list over in the Exclusions tab.")
                 : String(localized: "Checking…")
         case .excluded?:
             String(localized: "This app is excluded, so Peel leaves its settings alone. Change that in the Exclusions tab.")

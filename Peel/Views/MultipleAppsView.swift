@@ -354,7 +354,7 @@ struct MultipleAppsView: View {
             lines.append(Text("Apps that stay: \(list(staying))"))
         }
         if !resetting(urls).isEmpty {
-            lines.append(Text("The selected apps’ privacy permissions are reset first, and History can’t bring them back."))
+            lines.append(Text("The privacy permissions of the selected apps are reset first, and History cannot bring them back."))
         }
         lines += (plan.bulk?.uninstallations ?? []).compactMap(\.uninstallsItself)
             .filter { urls.contains($0.app.url) }.map(\.warning)

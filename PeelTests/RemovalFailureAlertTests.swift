@@ -116,9 +116,9 @@ struct RemovalFailureAlertTests {
         let notSaved = RemovalOutcome()
         notSaved.report(TrashResult(), dockIcons: RemovalOutcome.DockIcons(apps: ["Example"], reason: .notSaved))
         let couldNotSave = String(
-            localized: "The Dock still shows \("Example"): Peel takes an icon out only once it has saved where to put it back, and it couldn’t save that."
+            localized: "The Dock still shows \("Example"): Peel takes an icon out only once it has saved where to put it back, and it could not save that."
         )
-        let notSavedLine = String(localized: "The Dock still shows \("Example"): macOS didn’t save the change to the Dock.")
+        let notSavedLine = String(localized: "The Dock still shows \("Example"): macOS did not save the change to the Dock.")
 
         #expect(!notRemembered.isEmpty)
         #expect(RemovalFailureAlert.message(for: notRemembered).contains(couldNotSave))

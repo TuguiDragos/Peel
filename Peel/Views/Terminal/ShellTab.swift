@@ -12,7 +12,7 @@ struct ShellTab: View {
     static func didNotAnswer(known: Set<String>?, askedWithTheFiles: Bool) -> LocalizedStringResource? {
         if known == nil { return TerminalPage.didNotAnswer("zsh") }
         return askedWithTheFiles
-            ? "zsh didn’t answer when Peel ran it with your startup files, so Peel goes by what they say. Ask zsh to try again."
+            ? "zsh did not answer when Peel ran it with your startup files, so Peel goes by what they say. Ask zsh to try again."
             : nil
     }
 
@@ -131,7 +131,7 @@ private struct ShellLineRow: View {
             } else if state.zshrcNotKnown {
                 HStack(spacing: 5) {
                     Label {
-                        Text("Peel can’t tell which .zshrc zsh reads")
+                        Text("Peel cannot tell which .zshrc zsh reads")
                     } icon: {
                         Image(systemName: "questionmark.circle.fill")
                             .foregroundStyle(Color.accentColor)
@@ -140,7 +140,7 @@ private struct ShellLineRow: View {
                     AskZshButton()
                 }
                 .font(.body.weight(.semibold))
-                Text("Your startup files name its folder in a way Peel can’t read without running them. Ask zsh to find out.")
+                Text("Your startup files name its folder in a way Peel cannot read without running them. Ask zsh to find out.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             } else if state.shell == .bash {

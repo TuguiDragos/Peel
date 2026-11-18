@@ -93,7 +93,7 @@ struct PackageDetailView: View {
             if !forAnAdministrator.isEmpty {
                 Notice(
                     title: Text("Needs an Administrator"),
-                    detail: Text("Only an administrator can move these, and Peel’s helper can’t move them from where they are. To remove one, show it in Finder, drag it to the Trash, then enter an administrator name and password when macOS asks."),
+                    detail: Text("Only an administrator can move these, and the Peel helper cannot move them from where they are. To remove one, show it in Finder, drag it to the Trash, then enter an administrator name and password when macOS asks."),
                     kind: .note,
                     systemImage: "lock.shield"
                 ) {
@@ -257,7 +257,7 @@ struct PackageDetailView: View {
         } else if receipt.installedThroughItsScripts {
             "This package’s scripts put its files in place, so its receipt doesn’t say where they are."
         } else if receipt.nothingLeftOnDisk {
-            "Nothing on this package’s receipt is left on this Mac."
+            "Nothing on the receipt of this package is left on this Mac."
         } else {
             "What this package installed is either excluded in Settings or sits in a folder Peel never touches."
         }

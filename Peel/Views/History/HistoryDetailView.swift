@@ -120,7 +120,7 @@ struct HistoryDetailView: View {
             }
             .listRowSeparator(.hidden)
             .confirmationDialog(
-                Text(verbatim: String(inflecting: "Forget ^[\(standing.away.count) item](inflect: true) on a disk that isn’t connected?")),
+                Text(verbatim: String(inflecting: "Forget ^[\(standing.away.count) item](inflect: true) on a disk that is not connected?")),
                 isPresented: $isAskingToForgetAway
             ) {
                 Button("Forget", role: .destructive) {

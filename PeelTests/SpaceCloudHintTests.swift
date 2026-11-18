@@ -8,6 +8,6 @@ struct SpaceCloudHintTests {
     @Test func theHintNamesWhatTheCloudPageDoes() throws {
         let hint = try #require(SpaceItem.words(for: "icloud")?.hint).key
 
-        #expect(hint.hasPrefix("Peel’s own iCloud Drive page removes the downloads of files of"), "\(hint)")
+        #expect(hint.hasPrefix("The iCloud Drive page in Peel removes the downloads of files of"), "\(hint)")
     }
 }
