@@ -645,6 +645,22 @@ struct RemovalJournalTests {
         #expect(line.disk?.originalPath == "Example")
     }
 
+    @Test func takesBackTheLineOfAMoveThatFoundNothingWhateverStandsAtTheNameSince() async throws {
+        let directory = try TemporaryDirectory()
+        let journal = RemovalJournal(beside: directory.url.appending(path: "Peel/removals.json"))
+        let swapped = try directory.directory("home/Library/Caches/org.example.swap")
+        let aside = directory.url.appending(path: "aside")
+        let service = service(in: directory, journal: journal) { url in
+            try FileManager.default.moveItem(at: url, to: aside)
+            throw POSIXError(.ENOENT)
+        }
+
+        _ = await service.trash([swapped], usingHelperFor: [])
+        try FileManager.default.createSymbolicLink(at: swapped, withDestinationURL: directory.url)
+
+        #expect(journal.entries().isEmpty, "the line of a move that found nothing stayed behind")
+    }
+
     @Test func anItemWithBothItsLinesComesBackOnce() async throws {
         let directory = try TemporaryDirectory()
         let history = directory.url.appending(path: "Peel/removals.json")

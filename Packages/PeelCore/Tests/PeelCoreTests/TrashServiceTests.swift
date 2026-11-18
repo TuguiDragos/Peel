@@ -41,6 +41,40 @@ struct TrashServiceTests {
         }
     }
 
+    @Test func saysANameThatWasEmptyAtItsMoveAndHoldsSomethingAgain() async throws {
+        let directory = try TemporaryDirectory()
+        let trash = try directory.directory("home/.Trash")
+        let swapped = try directory.file("home/Library/Caches/swapped")
+        let gone = try directory.file("home/Library/Caches/gone")
+        let other = try directory.file("home/Library/Caches/other")
+        let aside = directory.url.appending(path: "home/aside")
+        let environment = SearchEnvironment(
+            homeDirectory: directory.url.appending(path: "home", directoryHint: .isDirectory),
+            rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )
+        let service = TrashService(environment: environment) { url in
+            switch url {
+            case swapped:
+                try FileManager.default.moveItem(at: swapped, to: aside)
+                throw POSIXError(.ENOENT)
+            case gone:
+                try FileManager.default.removeItem(at: gone)
+                throw POSIXError(.ENOENT)
+            default:
+                try FileManager.default.moveItem(at: aside, to: swapped)
+                let destination = trash.appending(path: url.lastPathComponent)
+                try FileManager.default.moveItem(at: url, to: destination)
+                return destination
+            }
+        }
+
+        let result = await service.trash([swapped, gone, other])
+
+        #expect(result.trashed.map(\.originalURL) == [other])
+        #expect(result.failures.map(\.url) == [swapped], "a name still empty has nothing to say")
+        #expect(result.failures.map(\.reason) == [.changedSinceScan])
+    }
+
     @Test func asksTheCallersQuestionBesideEachMove() async throws {
         let directory = try TemporaryDirectory()
         let service = try service(in: directory)

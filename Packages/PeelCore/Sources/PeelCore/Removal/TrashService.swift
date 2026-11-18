@@ -709,6 +709,8 @@ public struct TrashService: Sendable {
         var unrecorded: TrashFailure.Reason?
         // What a line was written for, ahead of a move that then didn't happen.
         var stayed: [URL] = []
+        // What had nothing at its name when it was to move, which may hold something again once the pass is over.
+        var emptied: [URL] = []
         ownMoves.began()
         func move(_ url: URL) {
             if let refusal = refusals[url] {
@@ -754,8 +756,12 @@ public struct TrashService: Sendable {
                 MoveCount.current?.add(1)
             } catch {
                 stayed.append(url)
-                // Nothing was there to move: like an item inside a folder that moved, neither moved nor a failure.
-                if Self.foundNothing(error), url.isMissing { return }
+                // Nothing was there to move: neither moved nor a failure, unless the name holds something again.
+                if Self.foundNothing(error), url.isMissing {
+                    stayed.removeLast()
+                    emptied.append(url)
+                    return
+                }
                 if lacksItsTrash(url) {
                     result.failures.append(TrashFailure(url: url, reason: .noTrashOnThisDisk))
                     return
@@ -774,8 +780,9 @@ public struct TrashService: Sendable {
             openFiles = await readingOfOpenFiles()
         }
         urls.filter { !jobFiles.contains($0) }.forEach(move)
+        result.failures += emptied.filter { !$0.isMissing }.map { TrashFailure(url: $0, reason: .changedSinceScan) }
         if let removal {
-            journal?.takeBack(linesBefore: stayed, batch: removal)
+            journal?.takeBack(linesBefore: stayed, foundEmpty: emptied, batch: removal)
         }
         ownMoves.ended(landedAt: result.trashed.map(\.trashedURL))
         FileSize.forgetAnswers(holding: result.trashed.map(\.originalURL))
