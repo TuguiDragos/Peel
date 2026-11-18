@@ -331,4 +331,23 @@ struct AppMemoryTests {
         #expect(unknown.first?.title == "com.example.app")
         #expect(unknown.first?.rememberedApp == nil)
     }
+
+    @Test func anAppLastSeenWhereAnInstallerOrATemporaryFolderPutItWasATemporaryCopy() {
+        func seen(at path: String) -> RememberedApp {
+            RememberedApp(
+                bundleIdentifier: "org.example.app", name: "Example", teamIdentifier: nil, lastSeen: .now, lastPath: path
+            )
+        }
+        let temporary = URL(filePath: "/var/folders/ab/cdef/T/", directoryHint: .isDirectory)
+
+        #expect(seen(at: "/Users/me/Library/Caches/org.example.installer/MountPoints/1234/Example.app")
+            .wasLastSeenInATemporaryCopy(temporaryFolder: temporary))
+        #expect(seen(at: "/private/var/folders/ab/cdef/T/Installer/Example.app")
+            .wasLastSeenInATemporaryCopy(temporaryFolder: temporary))
+        #expect(seen(at: "/private/tmp/Example.app").wasLastSeenInATemporaryCopy(temporaryFolder: temporary))
+        #expect(!seen(at: "/private/var/folders/ab/cdef/T/AppTranslocation/41B9A/d/Example.app")
+            .wasLastSeenInATemporaryCopy(temporaryFolder: temporary))
+        #expect(!seen(at: "/Applications/Example.app").wasLastSeenInATemporaryCopy(temporaryFolder: temporary))
+        #expect(!seen(at: "/Volumes/Backup/Example.app").wasLastSeenInATemporaryCopy(temporaryFolder: temporary))
+    }
 }

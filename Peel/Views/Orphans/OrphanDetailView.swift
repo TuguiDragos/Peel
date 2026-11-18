@@ -127,11 +127,13 @@ struct OrphanDetailView: View {
                     .font(.subheadline.monospaced())
                     .foregroundStyle(.secondary)
                     .textSelection(.enabled)
-                // Shown in full, so a long path never hides the date, which is what this line is for.
-                Text("Peel last saw it at \((remembered.lastPath as NSString).abbreviatingWithTildeInPath) on \(remembered.lastSeen, format: .dateTime.day().month().year()).")
-                    .font(.callout)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                    Text("Peel last saw it on \(remembered.lastSeen, format: .dateTime.day().month().year()).")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                    WhereSeenNote(app: remembered)
+                }
             } else if let app = group.installedFor {
                 let name = URL(filePath: app).deletingPathExtension().lastPathComponent
                 Text("macOS installed these for \(name), at \((app as NSString).abbreviatingWithTildeInPath), which is no longer there.")
@@ -162,6 +164,43 @@ struct OrphanDetailView: View {
                 TotalLabel(total: movable, caption: Text("to remove"))
                     .accessibilityLabel(Text("\(movable.text) can be moved to the Trash"))
             }
+        }
+    }
+}
+
+private struct WhereSeenNote: View {
+    let app: RememberedApp
+    @State private var isOpen = false
+
+    var body: some View {
+        Button { isOpen = true } label: {
+            Image(systemName: "info.circle")
+                .font(.callout.weight(.semibold))
+                .foregroundStyle(isOpen ? Color.accentColor : .secondary)
+                .padding(4)
+                .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .padding(-4)
+        .accessibilityLabel(Text("Where Peel saw it"))
+        .popover(isPresented: $isOpen, arrowEdge: .bottom) {
+            VStack(alignment: .trailing, spacing: 0) {
+                NoteCard(
+                    heading: Text("Where Peel saw it"),
+                    detail: app.wasLastSeenInATemporaryCopy() ? Text("It was a copy opened from an installer.") : nil,
+                    footnote: Text(verbatim: (app.lastPath as NSString).abbreviatingWithTildeInPath)
+                )
+                ActionRow {
+                    if !URL(filePath: app.lastPath).isMissing {
+                        Button("Show in Finder") {
+                            NSWorkspace.shared.activateFileViewerSelecting([URL(filePath: app.lastPath)])
+                        }
+                    }
+                    CopyButton(text: app.lastPath, title: "Copy Path")
+                }
+                .padding([.horizontal, .bottom], 14)
+            }
+            .frame(width: NoteCard.width)
         }
     }
 }

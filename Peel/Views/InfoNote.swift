@@ -106,6 +106,8 @@ struct NoteCard: View {
     var caution: Text?
     var isAlbum = false
 
+    static let width: CGFloat = 262
+
     private var tint: Color { noteTint(isAlbum: isAlbum) }
 
     var body: some View {
@@ -158,7 +160,7 @@ struct NoteCard: View {
         .truncationMode(.tail)
         .textCase(nil)
         .padding(14)
-        .frame(width: 262, alignment: .leading)
+        .frame(width: Self.width, alignment: .leading)
         // Only the album's note is papered; a system popover brings its own material.
         .background(isAlbum ? Album.sheet : Color.clear)
         .accessibilityElement(children: .combine)

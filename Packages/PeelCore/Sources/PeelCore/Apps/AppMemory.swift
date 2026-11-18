@@ -30,6 +30,20 @@ public struct RememberedApp: Sendable, Hashable, Codable, Identifiable {
 }
 
 extension RememberedApp {
+    /// Whether Peel last saw the app in a copy that doesn't stay: one an installer mounted in a `MountPoints` folder,
+    /// or one in a temporary folder, other than the copy macOS runs a downloaded app from.
+    public func wasLastSeenInATemporaryCopy(
+        temporaryFolder: URL? = SearchEnvironment.current.userTemporaryDirectory
+    ) -> Bool {
+        guard !PathPattern.isInATranslocatedCopy(lastPath) else { return false }
+        let temporary = ["/private/tmp", "/tmp"] + [temporaryFolder].compactMap(\.self).flatMap { folder in
+            let path = PathPattern.comparablePath(of: folder)
+            return [path, path.hasPrefix("/private/") ? String(path.dropFirst("/private".count)) : "/private" + path]
+        }
+        return PathComponents.of(lastPath).contains("MountPoints")
+            || temporary.contains { PathComponents.isPath(lastPath, inside: $0) }
+    }
+
     /// The app as it is now, when Peel cannot tell that it left: its bundle is still where Peel last saw it, the disk
     /// it was on is not connected, or macOS will not let Peel read its Info.plist. Nil once the place can be looked at
     /// and the app is not there.

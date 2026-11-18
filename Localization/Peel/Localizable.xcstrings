@@ -96073,6 +96073,112 @@
         }
       }
     },
+    "It was a copy opened from an installer." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Byla to kopie otevřená z instalátoru."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es war eine Kopie, die aus einem Installer geöffnet wurde."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Era una copia abierta desde un instalador."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il s’agissait d’une copie ouverte depuis un programme d’installation."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Era una copia aperta da un installer."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "インストーラから開かれたコピーでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설치 프로그램에서 연 복사본이었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het was een kopie die vanuit een installatieprogramma werd geopend."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To była kopia otwarta z instalatora."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Era uma cópia aberta a partir de um instalador."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Era o copie deschisă dintr‑un program de instalare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это была копия, открытая из установщика."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det var en kopia som öppnades från en installerare."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir yükleyiciden açılmış bir kopyaydı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це була копія, відкрита з інсталятора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是从安装器打开的副本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是從安裝程式中打開的副本。"
+          }
+        }
+      }
+    },
     "It was already forgotten." : {
       "localizations" : {
         "cs" : {
@@ -174023,108 +174129,108 @@
         }
       }
     },
-    "Peel last saw it at %@ on %@." : {
+    "Peel last saw it on %@." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ji naposledy viděl v umístění %@ dne %@."
+            "value" : "Peel ji naposledy viděl dne %@."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel hat die App zuletzt am %2$@ unter %1$@ gesehen."
+            "value" : "Peel hat die App zuletzt am %@ gesehen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel vio la app por última vez en %@ el %@."
+            "value" : "Peel vio la app por última vez el %@."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a vu cette app pour la dernière fois à l’emplacement %@, le %@."
+            "value" : "Peel a vu cette app pour la dernière fois le %@."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel l’ha vista l’ultima volta in %@, in data %@."
+            "value" : "Peel l’ha vista l’ultima volta in data %@."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelが最後に確認したのは%2$@で、場所は%1$@でした。"
+            "value" : "Peelが最後に確認したのは%@です。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 %2$@에 %1$@에서 이 앱을 마지막으로 확인했습니다."
+            "value" : "Peel이 %@에 이 앱을 마지막으로 확인했습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zag de app voor het laatst in %@, op %@."
+            "value" : "Peel zag de app voor het laatst op %@."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ostatnio widział tę aplikację w %@ dnia %@."
+            "value" : "Peel ostatnio widział tę aplikację dnia %@."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel viu o app pela última vez em %@, no dia %@."
+            "value" : "O Peel viu o app pela última vez em %@."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel a văzut‑o ultima dată la %@, pe %@."
+            "value" : "Peel a văzut‑o ultima dată pe %@."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Последний раз Peel видел его %2$@ в %1$@."
+            "value" : "Последний раз Peel видел его %@."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel såg appen senast på %@, den %@."
+            "value" : "Peel såg appen senast den %@."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel onu en son %@ konumunda, %@ tarihinde gördü."
+            "value" : "Peel onu en son %@ tarihinde gördü."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel востаннє бачила цю програму %2$@ за шляхом %1$@."
+            "value" : "Peel востаннє бачила цю програму %@."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel上次于%2$@在%1$@看到它。"
+            "value" : "Peel上次于%@看到它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel上次於%2$@在%1$@看到它。"
+            "value" : "Peel上次於%@看到它。"
           }
         }
       }
@@ -274625,6 +274731,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homebrew下載升級套件的位置，以及它重新導向的任何位置。若套件沒有適用於你的Mac之現成建置版本，就會從其formula指定的網址下載原始碼；而每個cask則是從它的廠商自己的網址下載。"
+          }
+        }
+      }
+    },
+    "Where Peel saw it" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kde ji Peel viděl"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wo Peel die App gesehen hat"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dónde vio Peel la app"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Où Peel l’a vue"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dove Peel l’ha vista"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelが確認した場所"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 앱을 확인한 위치"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waar Peel de app zag"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdzie Peel widział tę aplikację"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onde o Peel o viu"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unde a văzut‑o Peel"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Где Peel видел его"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Var Peel såg appen"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in onu gördüğü yer"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Де Peel її бачила"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel看到它的位置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel看到它的位置"
           }
         }
       }

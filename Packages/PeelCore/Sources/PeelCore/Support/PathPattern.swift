@@ -12,6 +12,12 @@ public enum PathPattern {
         return path
     }
 
+    /// Whether `path` is inside the copy macOS runs an app from while it is still marked as downloaded (App
+    /// Translocation).
+    public static func isInATranslocatedCopy(_ path: String) -> Bool {
+        path.contains("/AppTranslocation/")
+    }
+
     /// The name the kernel gives the file at `url`: one spelling, with links resolved, or `url` unchanged when
     /// no name can be found. A path Peel is told about (by a cask, by an installer receipt) goes through this
     /// before it can become something to remove.

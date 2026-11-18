@@ -128,7 +128,7 @@ public enum CommandLineTool {
         isReadOnly: (URL) -> Bool = SelfRemoval.isOnAReadOnlyVolume
     ) -> Place {
         let path = PathPattern.comparablePath(of: bundle)
-        guard !path.contains("/AppTranslocation/") else { return .temporaryCopy }
+        guard !PathPattern.isInATranslocatedCopy(path) else { return .temporaryCopy }
         let applications = ["/Applications", PathPattern.comparablePath(of: home) + "/Applications"]
         guard !applications.contains(where: { PathComponents.isPath(path, inside: $0) }) else { return .applications }
         return isReadOnly(bundle) ? .readOnlyVolume : .elsewhere
