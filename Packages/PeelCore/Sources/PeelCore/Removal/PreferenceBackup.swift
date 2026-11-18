@@ -171,6 +171,7 @@ public enum PreferenceBackup {
         return await restore(
             from: folder,
             of: bundleIdentifier,
+            carrying: apps.compactMap(AppInspector.inspect).flatMap(\.embeddedBundleIdentifiers),
             installedAt: apps,
             in: directory,
             exclusions: exclusions,
@@ -183,6 +184,7 @@ public enum PreferenceBackup {
     static func restore(
         from folder: URL,
         of bundleIdentifier: String,
+        carrying carried: [String] = [],
         installedAt apps: [URL] = [],
         in directory: URL,
         exclusions: Exclusions = .none,
@@ -204,10 +206,13 @@ public enum PreferenceBackup {
             domain(from: file.lastPathComponent).map { ($0, file) }
         }
         guard !saved.isEmpty else { return .copyUnreadable(.noSettings) }
-        // Anyone can add a file to the copy's folder, so none of Apple's settings goes back but this app's own, nor
-        // any of an excluded app.
+        // Anyone can add a file to the copy's folder, so only what a reset of this app saves goes back: its own
+        // settings and those of what it carries inside it, never Apple's but its own, nor an excluded app's.
+        let owners = [bundleIdentifier] + carried
         let taken = saved.filter { domain, _ in
-            (!ProtectedData.isApplesName(domain.name) || PreferenceCleanup.isOwned(domain.name, by: bundleIdentifier))
+            let isTheApps = PreferenceCleanup.isOwned(domain.name, by: bundleIdentifier)
+            return (isTheApps || owners.contains { PreferenceCleanup.isOwned(domain.name, by: $0) })
+                && (isTheApps || !ProtectedData.isApplesName(domain.name))
                 && !exclusions.excludes(bundleIdentifier: domain.name)
         }
         // A copy that is not a readable property list would put nothing back once the delete had cleared the
