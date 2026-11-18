@@ -54,12 +54,10 @@ struct AppPageHeader: View {
         VStack(alignment: .leading, spacing: 6) {
             FlowLayout {
                 if let uninstaller = plan.vendorUninstaller {
-                    Button("Open Uninstaller") {
-                        NSWorkspace.shared.open(uninstaller)
-                    }
-                    .buttonStyle(.bordered)
-                    .disabled(plan.isExcluded)
-                    .help(plan.isExcluded ? Text(.excludedApp) : Text("Run the maker’s uninstaller first: it knows what Peel can only guess at."))
+                    OpenUninstallerButton(uninstaller: uninstaller, team: plan.app.teamIdentifier)
+                        .buttonStyle(.bordered)
+                        .disabled(plan.isExcluded)
+                        .help(plan.isExcluded ? Text(.excludedApp) : Text("Run the maker’s uninstaller first: it knows what Peel can only guess at."))
                 }
                 // Not on Peel's own page, where the sheet could only offer to quit Peel, nor for an app in the Trash,
                 // which no longer stays installed: its page offers its files.

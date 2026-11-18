@@ -270,6 +270,19 @@ struct VendorRemovalTests {
 
         #expect(files.map(\.url) == [plain(tool)], "the app's own bundle was listed as outside it")
     }
+
+    @Test func opensAnUninstallerOnlyWhileItsTeamSignedItAndItsWholeSealHolds() {
+        let uninstaller = URL(filePath: "/Applications/Example Uninstaller.app", directoryHint: .isDirectory)
+        // A test can't make an uninstaller signed with a Developer ID, so the team and the seal are stood in for.
+        func mayOpen(team: String?, sealHolds: Bool, given: String? = "ABCDE12345") -> Bool {
+            VendorRemoval.mayOpen(uninstaller, signedBy: given, teamOf: { _ in team }, sealHolds: { _ in sealHolds })
+        }
+
+        #expect(mayOpen(team: "ABCDE12345", sealHolds: true))
+        #expect(!mayOpen(team: "ABCDE12345", sealHolds: false))
+        #expect(!mayOpen(team: "FGHIJ67890", sealHolds: true))
+        #expect(!mayOpen(team: nil, sealHolds: true, given: nil))
+    }
 }
 
 private extension VendorRemoval {

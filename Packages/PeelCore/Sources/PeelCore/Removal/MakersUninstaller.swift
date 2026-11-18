@@ -49,6 +49,8 @@ public struct MakersUninstaller: Sendable, Hashable {
     public let removes: String?
     /// What the maker's step leaves in `/etc` or `/opt`, as far as any of it is on this Mac.
     public var leftBehind: LeftInTheSystem? = nil
+    /// The team that signs the product and its uninstaller.
+    public var team: String? = nil
 
     /// How a maker names its apps: by identifier, or, for an app it ships without one, by where it puts it.
     private enum Name: Sendable, ExpressibleByStringLiteral {
@@ -361,6 +363,7 @@ public struct MakersUninstaller: Sendable, Hashable {
         var uninstaller = MakersUninstaller(
             maker: product.maker, step: step, instructions: instructions, removes: removes
         )
+        uninstaller.team = team
         if case .script(_, _, let leaves) = product.step {
             uninstaller.leftBehind = LeftInTheSystem.found(leaves, isThere: isOnTheMac)
         }

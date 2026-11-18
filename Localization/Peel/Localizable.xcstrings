@@ -85328,6 +85328,112 @@
         }
       }
     },
+    "It changed after its maker signed it, so Peel cannot vouch for it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Změnil se poté, co ho výrobce podepsal, takže za něj Peel nemůže ručit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es wurde geändert, nachdem sein Hersteller es signiert hat, daher kann Peel nicht dafür bürgen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha cambiado después de que su fabricante lo firmara, así que Peel no puede dar fe de él."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il a été modifié après que son éditeur l’a signé : Peel ne peut donc pas s’en porter garant."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È cambiato dopo che il suo produttore l’ha firmato, quindi Peel non può garantirne l’affidabilità."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアンインストーラは開発元が署名した後に変更されているため、Peelでは保証できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 제거 프로그램은 제작자가 서명한 후에 변경되었으므로 Peel이 보증할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het is gewijzigd nadat de maker het heeft ondertekend, dus Peel kan er niet voor instaan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Został zmieniony po tym, jak producent go podpisał, więc Peel nie może za niego ręczyć."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele foi alterado depois que o fabricante o assinou, então o Peel não pode garantir a integridade dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "S‑a modificat după ce producătorul său l‑a semnat, așa că Peel nu poate garanta pentru el."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Программа удаления изменилась после того, как ее подписал производитель, поэтому Peel не может за нее ручаться."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den har ändrats efter att tillverkaren signerade den, så Peel kan inte gå i god för den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Üreticisi imzaladıktan sonra değişti, bu yüzden Peel ona kefil olamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Деінсталятор змінився після того, як його підписав виробник, тож Peel не може за нього ручатися."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它在其厂商签名后发生了变化，因此Peel无法为它作担保。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它在其廠商簽署後已被更改，因此Peel無法擔保它。"
+          }
+        }
+      }
+    },
     "It changes the same setting as Personalized Ads in Privacy & Security. The ad service on this Mac learns of the change at once only from the switch there." : {
       "localizations" : {
         "cs" : {
@@ -162783,6 +162889,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel沒有查看%@的內容"
+          }
+        }
+      }
+    },
+    "Peel did not open the uninstaller" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel neotevřel odinstalátor"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hat das Deinstallationsprogramm nicht geöffnet"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha abierto el desinstalador"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas ouvert le programme de désinstallation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non ha aperto il programma di disinstallazione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはアンインストーラを開きませんでした"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 제거 프로그램을 열지 않음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel heeft het de-installatieprogramma niet geopend"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie otworzył dezinstalatora"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não abriu o desinstalador"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a deschis programul de dezinstalare"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не открыл программу удаления"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel öppnade inte avinstalleraren"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel yükleme kaldırıcıyı açmadı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не відкрила деінсталятор"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel没有打开卸载器"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel沒有打開解除安裝程式"
           }
         }
       }

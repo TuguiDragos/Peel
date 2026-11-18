@@ -22,7 +22,7 @@ struct MakersUninstallerNotice: View {
             case .command(let command):
                 CopyButton(text: command, title: "Copy Uninstall Command")
             case .uninstaller(let url):
-                Button("Open Uninstaller") { NSWorkspace.shared.open(url) }
+                OpenUninstallerButton(uninstaller: url, team: uninstaller.team)
             case .inTheApp(let url):
                 Button("Open \(app)") { NSWorkspace.shared.open(url) }
             case .onItsDiskImage, .fromTheMakersPage, .notOnTheMac, .notTrusted:

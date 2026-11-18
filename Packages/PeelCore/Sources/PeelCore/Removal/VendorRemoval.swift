@@ -29,6 +29,21 @@ public enum VendorRemoval {
         return CodeSignature.teamIdentifier(at: url) == team
     }
 
+    /// Whether the uninstaller at `url` may be opened now: `team` signed it, and its whole seal holds, every file and
+    /// every architecture. Read right before it opens, since a program of an administrator can change it after the
+    /// page found it, and the person gives it an administrator's password.
+    @concurrent
+    public static func mayOpen(_ url: URL, signedBy team: String?) async -> Bool {
+        mayOpen(url, signedBy: team, teamOf: CodeSignature.teamIdentifier(at:), sealHolds: CodeSignature.sealHolds(at:))
+    }
+
+    static func mayOpen(
+        _ url: URL, signedBy team: String?, teamOf: (URL) -> String?, sealHolds: (URL) -> Bool
+    ) -> Bool {
+        guard let team, teamOf(url) == team else { return false }
+        return sealHolds(url)
+    }
+
     private static func shippedOrBeside(
         _ app: InstalledApp, applicationsFolders: [URL], isTheMakers: (URL, InstalledApp) -> Bool
     ) -> URL? {
