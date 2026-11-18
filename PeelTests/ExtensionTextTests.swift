@@ -196,4 +196,19 @@ struct ExtensionTextTests {
             ).key == removed.explanation.key)
         }
     }
+
+    @Test func aSystemExtensionOfAnOrganizationsAgentSaysWhatTheAgentsPageSays() throws {
+        let agent = try #require(ManagedAgent.of(team: "X9E956P446", identifier: "com.crowdstrike.falcon.Agent"))
+        let removed = RemovedElsewhere.byYourOrganization(agent)
+        let part = AppExtension(
+            identifier: "com.crowdstrike.falcon.Agent", name: "Falcon", kind: .systemExtension, point: nil,
+            owner: "Falcon", url: nil, election: .on, teamIdentifier: "X9E956P446", reportedState: "activated enabled"
+        )
+
+        for isOn27 in [false, true] {
+            #expect(part.systemExtensionNote(
+                isOnMacOS27: isOn27, systemSettingsDeletesIt: false, removedElsewhere: removed
+            ).key == removed.explanation.key)
+        }
+    }
 }
