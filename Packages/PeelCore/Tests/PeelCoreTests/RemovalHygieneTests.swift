@@ -469,6 +469,30 @@ struct RemovalHygieneTests {
         #expect(restored == .incomplete(clearedSome: false))
     }
 
+    @Test func aCopyPutsBackWhatAResetSavesUnderAGroupOrOtherCapitals() async throws {
+        let directory = try TemporaryDirectory()
+        let backups = try directory.directory("Backups")
+        let folder = try directory.directory("Backups/org.example.harmless 2026-11-09 120000")
+        let plist = try PropertyListSerialization.data(fromPropertyList: ["key": "value"], format: .xml, options: 0)
+        for domain in ["Org.Example.Harmless", "group.org.example.harmless", "group.org.example.other"] {
+            try plist.write(to: folder.appending(path: "\(domain).plist"))
+        }
+        let asked = Mutex<[[String]]>([])
+        let run: PreferenceBackup.Run = { arguments in
+            asked.withLock { $0.append(arguments) }
+            return Self.exporting(arguments)
+        }
+
+        let restored = await PreferenceBackup.restore(
+            from: folder, of: "org.example.harmless", groups: ["group.org.example.Harmless"], in: backups,
+            through: Self.service, run: run, isOpen: { false }
+        )
+
+        let changed = Set(asked.withLock { $0 }.filter { $0.first == "delete" || $0.first == "import" }.map { $0[1] })
+        #expect(changed == ["Org.Example.Harmless", "group.org.example.harmless"])
+        #expect(restored == .incomplete(clearedSome: false))
+    }
+
     @Test func aCopyWithNothingToReadPutsNothingBack() async throws {
         let directory = try TemporaryDirectory()
         let backups = try directory.directory("Backups")

@@ -168,10 +168,12 @@ public enum PreferenceBackup {
         isOpen: @Sendable () async -> Bool
     ) async -> Restored {
         let service = TrashService(exclusions: exclusions)
+        let installed = apps.compactMap(AppInspector.inspect)
         return await restore(
             from: folder,
             of: bundleIdentifier,
-            carrying: apps.compactMap(AppInspector.inspect).flatMap(\.embeddedBundleIdentifiers),
+            carrying: installed.flatMap(\.embeddedBundleIdentifiers),
+            groups: installed.flatMap(\.applicationGroups),
             installedAt: apps,
             in: directory,
             exclusions: exclusions,
@@ -185,6 +187,7 @@ public enum PreferenceBackup {
         from folder: URL,
         of bundleIdentifier: String,
         carrying carried: [String] = [],
+        groups: [String] = [],
         installedAt apps: [URL] = [],
         in directory: URL,
         exclusions: Exclusions = .none,
@@ -207,12 +210,17 @@ public enum PreferenceBackup {
         }
         guard !saved.isEmpty else { return .copyUnreadable(.noSettings) }
         // Anyone can add a file to the copy's folder, so only what a reset of this app saves goes back: its own
-        // settings and those of what it carries inside it, never Apple's but its own, nor an excluded app's.
-        let owners = [bundleIdentifier] + carried
+        // settings, those of what it carries inside it and of its app groups, never Apple's but its own, nor an
+        // excluded app's. A reset matches these names without their case, since the disk folds it.
+        let owner = bundleIdentifier.lowercased()
+        let carried = carried.map { $0.lowercased() }
+        let groups = Set(groups.map { $0.lowercased() })
         let taken = saved.filter { domain, _ in
-            let isTheApps = PreferenceCleanup.isOwned(domain.name, by: bundleIdentifier)
-            return (isTheApps || owners.contains { PreferenceCleanup.isOwned(domain.name, by: $0) })
-                && (isTheApps || !ProtectedData.isApplesName(domain.name))
+            let name = domain.name.lowercased()
+            let isTheApps = PreferenceCleanup.isOwned(name, by: owner)
+            let isSaved = isTheApps || carried.contains { PreferenceCleanup.isOwned(name, by: $0) }
+                || groups.contains(name)
+            return isSaved && (isTheApps || !ProtectedData.isApplesName(domain.name))
                 && !exclusions.excludes(bundleIdentifier: domain.name)
         }
         // A copy that is not a readable property list would put nothing back once the delete had cleared the
