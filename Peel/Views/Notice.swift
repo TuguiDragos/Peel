@@ -23,16 +23,23 @@ struct Notice<Actions: View>: View {
     var systemImage: String?
     /// True on Home, which draws the notice in the album's look.
     var isAlbum = false
+    /// What more there is to know, in a circled i beside the title.
+    var info: (name: String, detail: Text)?
     @ViewBuilder let actions: Actions
 
     var body: some View {
         NoticeLayout(markGap: isAlbum ? 10 : 8) {
             mark
                 .noticePart(.mark)
-            title
-                .font(isAlbum ? .system(size: 12.5, weight: .bold, design: .rounded) : .callout.weight(.semibold))
-                .foregroundStyle(titleColor)
-                .noticePart(.words)
+            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                title
+                    .font(isAlbum ? .system(size: 12.5, weight: .bold, design: .rounded) : .callout.weight(.semibold))
+                    .foregroundStyle(titleColor)
+                if let info {
+                    InfoNote(name: info.name, detail: info.detail)
+                }
+            }
+            .noticePart(.words)
             if let detail {
                 detail
                     .font(isAlbum ? .system(size: 11) : .caption)

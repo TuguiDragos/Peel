@@ -8,6 +8,8 @@ struct CommandToRun: Identifiable {
     let command: String
     /// True for one still to run once the app is gone, which the alert after the move gives again.
     let isForAfterwards: Bool
+    /// What more there is to know, in the circled i beside `said`.
+    var more: Text?
 
     var id: String { "\(app)\n\(command)" }
 
@@ -23,7 +25,8 @@ struct CommandToRun: Identifiable {
         var commands: [CommandToRun] = []
         if let uninstallsItself, case .logsOut(let command) = uninstallsItself.uninstaller {
             commands.append(CommandToRun(
-                app: name, said: uninstallsItself.warning, command: command, isForAfterwards: false
+                app: name, said: Text("\(app.name) removes itself once it leaves Applications."), command: command,
+                isForAfterwards: false, more: uninstallsItself.warning
             ))
         }
         if let root = TrustedRoot.of(app), case .command(let command) = root.step {
@@ -76,10 +79,15 @@ struct CommandsToRunSection: View {
             Section {
                 ForEach(commands) { command in
                     HStack(alignment: .firstTextBaseline, spacing: 12) {
-                        command.said
-                            .font(.callout)
-                            .foregroundStyle(.secondary)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                        HStack(alignment: .firstTextBaseline, spacing: 4) {
+                            command.said
+                                .font(.callout)
+                                .foregroundStyle(.secondary)
+                            if let more = command.more {
+                                InfoNote(name: command.app, detail: more)
+                            }
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         CopyButton(text: command.command)
                     }
                 }

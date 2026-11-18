@@ -10,7 +10,10 @@ struct MakersUninstallerNotice: View {
     let uninstaller: MakersUninstaller
 
     var body: some View {
-        Notice(title: Text(Self.title(of: uninstaller)), detail: detail, kind: .note) {
+        Notice(
+            title: Text(Self.title(of: uninstaller)), detail: detail, kind: .note,
+            info: (name: String(localized: Self.title(of: uninstaller)), detail: said)
+        ) {
             Link("\(uninstaller.maker)’s Instructions", destination: uninstaller.instructions)
             switch uninstaller.step {
             case .command(let command):
@@ -45,14 +48,16 @@ struct MakersUninstallerNotice: View {
         }
     }
 
-    private var detail: Text {
+    /// What has to be seen to act: where the uninstaller is, or that its command needs an administrator. The rest is
+    /// in the circled i beside the title.
+    private var detail: Text? {
         if let whereItIs = Self.whereItIs(uninstaller, app: app) {
-            return Text("\(said)\n\n\(Text(whereItIs))")
+            return Text(whereItIs)
         }
         guard case .command(let command) = uninstaller.step,
               AdministratorCommand.needsAnAdministrator(command, isAdministrator: helper.isAdministrator)
-        else { return said }
-        return Text("\(said)\n\n\(AdministratorCommand.note)")
+        else { return nil }
+        return AdministratorCommand.note
     }
 
     private var said: Text {
