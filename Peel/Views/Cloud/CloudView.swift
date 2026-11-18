@@ -24,9 +24,7 @@ struct CloudView: View {
             header
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner(recordsInHistory: false)
-            if !cloud.notRead.isEmpty {
-                UnreadableFoldersNotice(folders: cloud.notRead)
-            }
+            UnreadableFoldersNotice(folders: cloud.notRead)
 
             if !cloud.refusals.isEmpty {
                 Section {

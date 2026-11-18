@@ -27,7 +27,7 @@ struct ProjectList: View {
         let filtered = listed
 
         List(selection: $projects.selection) {
-            if projects.needsFullDiskAccess || !projects.unreadable.isEmpty, !filtered.isEmpty {
+            if !filtered.isEmpty {
                 UnreadableFoldersNotice(folders: projects.unreadable, needsFullDiskAccess: projects.needsFullDiskAccess)
             }
             if !projects.unsearchable.isEmpty, !filtered.isEmpty {

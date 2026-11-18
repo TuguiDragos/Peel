@@ -205,12 +205,9 @@ struct AppDetailView: View {
                 .listRowSeparator(.hidden)
             }
             if let scan = plan.scan {
-                if scan.needsFullDiskAccess || !scan.unreadableLocations.isEmpty {
-                    UnreadableFoldersNotice(
-                        folders: scan.unreadableLocations.map(\.url),
-                        needsFullDiskAccess: scan.needsFullDiskAccess
-                    )
-                }
+                UnreadableFoldersNotice(
+                    folders: scan.unreadableLocations.map(\.url), needsFullDiskAccess: scan.needsFullDiskAccess
+                )
                 SkippedFolderNotices(
                     crowded: scan.crowdedFolders, cutShort: scan.cutShortLocations.map(\.url), subject: .app
                 )

@@ -45,12 +45,9 @@ struct AppList: View {
                 .padding(.vertical, 6)
                 .listRowSeparator(.hidden)
             }
-            if library.unreadableNeedsFullDiskAccess || !library.unreadable.isEmpty {
-                UnreadableFoldersNotice(
-                    folders: library.unreadable,
-                    needsFullDiskAccess: library.unreadableNeedsFullDiskAccess
-                )
-            }
+            UnreadableFoldersNotice(
+                folders: library.unreadable, needsFullDiskAccess: library.unreadableNeedsFullDiskAccess
+            )
             if visible.waiting.isEmpty {
                 ForEach(visible.rest, content: row)
             } else {

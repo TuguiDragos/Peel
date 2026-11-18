@@ -79,13 +79,12 @@ struct DuplicateSummaryView: View {
             RemovalsHeldBanner()
                 .padding(.horizontal, 20)
                 .padding(.top, 12)
-            if scan.needsFullDiskAccess || !scan.unreadableLocations.isEmpty {
-                UnreadableFoldersNotice(
-                    folders: scan.unreadableLocations,
-                    needsFullDiskAccess: scan.needsFullDiskAccess
-                )
-                .padding(.horizontal, 20)
-                .padding(.top, 12)
+            if let notice = UnreadableFoldersNotice(
+                folders: scan.unreadableLocations, needsFullDiskAccess: scan.needsFullDiskAccess
+            ) {
+                notice
+                    .padding(.horizontal, 20)
+                    .padding(.top, 12)
             }
             if !scan.skippedLocations.isEmpty {
                 Notice(

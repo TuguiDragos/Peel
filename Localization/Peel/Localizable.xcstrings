@@ -65517,6 +65517,112 @@
         }
       }
     },
+    "Full Disk Access is off" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plný přístup k disku je vypnutý"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Festplattenvollzugriff ist deaktiviert"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El acceso total al disco está desactivado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’accès complet au disque est désactivé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’accesso completo al disco non è attivo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フルディスクアクセスがオフです"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전체 디스크 접근 권한이 꺼져 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volledige schijftoegang is uitgeschakeld"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pełny dostęp do dysku jest wyłączony"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Acesso Total ao Disco está desativado"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acces complet la disc este dezactivat"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Полный доступ к диску выключен"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Full skivtillgång är avstängd"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tam Disk Erişimi kapalı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повний доступ до диска вимкнено"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完全磁盘访问权限已关闭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「完全取用磁碟」已關閉"
+          }
+        }
+      }
+    },
     "GNU GPL, version 3 or later" : {
       "comment" : "The license's name. GNU GPL stays as it is.",
       "localizations" : {
@@ -218274,6 +218380,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的部分排除項目無法讀取"
+          }
+        }
+      }
+    },
+    "Some places stay closed to Peel until you turn it on, so this list may not be complete." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Některá místa zůstanou pro Peel nepřístupná, dokud ho nezapnete, takže tento seznam nemusí být úplný."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einige Orte bleiben für Peel verschlossen, bis du ihn aktivierst, daher ist diese Liste möglicherweise nicht vollständig."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algunos lugares siguen cerrados para Peel hasta que lo actives, así que puede que esta lista no esté completa."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Certains emplacements restent fermés à Peel tant que vous ne l’activez pas : cette liste n’est donc peut-être pas complète."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alcune posizioni restano chiuse a Peel finché non lo attivi, quindi questo elenco potrebbe non essere completo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オンにするまでPeelがアクセスできない場所があるため、このリストは完全ではない可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 권한을 켜기 전까지는 Peel이 일부 위치에 접근할 수 없으므로 이 목록이 완전하지 않을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sommige plekken blijven voor Peel gesloten totdat je die inschakelt, dus deze lijst is misschien niet volledig."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niektóre miejsca pozostają zamknięte dla Peel, dopóki go nie włączysz, więc ta lista może nie być pełna."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alguns locais ficam fechados para o Peel até você ativá-lo, então esta lista pode não estar completa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unele locuri îi rămân închise aplicației Peel până când îl activați, așa că această listă ar putea fi incompletă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Некоторые места остаются закрытыми для Peel, пока Вы его не включите, поэтому этот список может быть неполным."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vissa platser förblir stängda för Peel tills du slår på den, så den här listan kanske inte är fullständig."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siz onu açana kadar bazı yerler Peel’e kapalı kalır, bu yüzden bu liste eksik olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Деякі місця лишаються закритими для Peel, доки ви його не ввімкнете, тож цей список може бути неповним."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你打开此权限之前，部分位置会一直对Peel关闭，因此这份列表可能不完整。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你開啟此權限之前，Peel無法進入某些位置，因此這個列表可能不完整。"
           }
         }
       }

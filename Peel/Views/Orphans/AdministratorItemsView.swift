@@ -12,7 +12,7 @@ struct AdministratorItemsView: View {
             header
                 .listRowSeparator(.hidden)
 
-            if let scan = orphans.scan, scan.needsFullDiskAccess || !scan.unreadableLocations.isEmpty {
+            if let scan = orphans.scan {
                 UnreadableFoldersNotice(
                     folders: scan.unreadableLocations.map(\.url),
                     needsFullDiskAccess: scan.needsFullDiskAccess

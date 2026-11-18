@@ -18,11 +18,9 @@ struct InstallerList: View {
         let filtered = listed
 
         List(selection: $installers.selection) {
-            if !installers.unreadable.isEmpty {
-                UnreadableFoldersNotice(
-                    folders: installers.unreadable, needsFullDiskAccess: installers.needsFullDiskAccess
-                )
-            }
+            UnreadableFoldersNotice(
+                folders: installers.unreadable, needsFullDiskAccess: installers.needsFullDiskAccess
+            )
             if !installers.keptElsewhere.isEmpty {
                 Notice(title: Text("Kept elsewhere"), detail: Text(keptElsewhere), kind: .note, systemImage: "link") {}
                     .padding(.vertical, 6)

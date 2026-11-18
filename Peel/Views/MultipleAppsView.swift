@@ -28,12 +28,10 @@ struct MultipleAppsView: View {
                 RemovalsHeldBanner()
 
                 if plan.bulk != nil {
-                    if plan.bulk?.needsFullDiskAccess == true || !plan.unreadableLocations.isEmpty {
-                        UnreadableFoldersNotice(
-                            folders: plan.unreadableLocations.map(\.url),
-                            needsFullDiskAccess: plan.bulk?.needsFullDiskAccess == true
-                        )
-                    }
+                    UnreadableFoldersNotice(
+                        folders: plan.unreadableLocations.map(\.url),
+                        needsFullDiskAccess: plan.bulk?.needsFullDiskAccess == true
+                    )
                     SkippedFolderNotices(
                         crowded: plan.crowdedFolders, cutShort: plan.cutShortLocations.map(\.url), subject: .apps
                     )

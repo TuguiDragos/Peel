@@ -31,7 +31,7 @@ struct SpaceList: View {
                 storage(report)
                     .listRowSeparator(.hidden)
                 if report.needsFullDiskAccess {
-                    UnreadableFoldersNotice(folders: [], needsFullDiskAccess: true)
+                    FullDiskAccessOffNotice()
                 }
                 // Both messages are rows under the storage strip, not an overlay on the list, so the disk's
                 // figures stay visible when no item is listed.

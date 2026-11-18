@@ -149,9 +149,7 @@ struct SpaceDetailView: View {
 
     @ViewBuilder
     private func contents(of plan: SpaceRemoval.Plan) -> some View {
-        if plan.needsFullDiskAccess || !plan.unreadable.isEmpty {
-            UnreadableFoldersNotice(folders: plan.unreadable, needsFullDiskAccess: plan.needsFullDiskAccess)
-        }
+        UnreadableFoldersNotice(folders: plan.unreadable, needsFullDiskAccess: plan.needsFullDiskAccess)
         Section {
             if plan.removable.isEmpty, plan.unreadable.isEmpty {
                 Text("Nothing in here can be moved now.")

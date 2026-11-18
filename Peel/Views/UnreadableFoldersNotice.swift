@@ -9,6 +9,13 @@ struct UnreadableFoldersNotice: View {
     var needsFullDiskAccess = false
     @State private var counted = ClosedByPermissions()
 
+    /// Nil with no folder, so a page never says Peel did not read 0 folders.
+    init?(folders: [URL], needsFullDiskAccess: Bool = false) {
+        guard !folders.isEmpty else { return nil }
+        self.folders = folders
+        self.needsFullDiskAccess = needsFullDiskAccess
+    }
+
     var body: some View {
         Notice(
             title: Text("Peel did not read ^[\(folders.count) folder](inflect: true)"),
@@ -65,6 +72,21 @@ struct UnreadableFoldersNotice: View {
     }
 }
 
+/// What a page says when macOS kept Peel out of places it does not name, which Full Disk Access opens.
+struct FullDiskAccessOffNotice: View {
+    @Environment(HomeModel.self) private var home
+
+    var body: some View {
+        let sentences = [String(localized: "Some places stay closed to Peel until you turn it on, so this list may not be complete.")]
+            + (home.needsRelaunchForFullDiskAccess ? [HomeModel.reopenForFullDiskAccess] : [])
+        Notice(title: Text("Full Disk Access is off"), detail: Text(verbatim: sentences.joined(separator: "\n\n"))) {
+            UnreadableFoldersActions(folders: [], needsFullDiskAccess: true)
+        }
+        .padding(.vertical, 6)
+        .listRowSeparator(.hidden)
+    }
+}
+
 /// What Peel did not read, said under a page's own message, with why when that is known.
 struct UnreadableFoldersDetail: View {
     let folders: [URL]
@@ -118,10 +140,12 @@ struct UnreadableFoldersActions: View {
     @State private var isShowingFolders = false
 
     var body: some View {
-        Button("Show Folders") { isShowingFolders = true }
-            .popover(isPresented: $isShowingFolders, arrowEdge: .bottom) {
-                UnreadableFoldersList(folders: folders, needsFullDiskAccess: needsFullDiskAccess)
-            }
+        if !folders.isEmpty {
+            Button("Show Folders") { isShowingFolders = true }
+                .popover(isPresented: $isShowingFolders, arrowEdge: .bottom) {
+                    UnreadableFoldersList(folders: folders, needsFullDiskAccess: needsFullDiskAccess)
+                }
+        }
         if needsFullDiskAccess {
             Button("Turn On Full Disk Access") { home.openFullDiskAccessSettings() }
             // Full Disk Access applies only to a new process, so once it may have been given, Peel offers to reopen.

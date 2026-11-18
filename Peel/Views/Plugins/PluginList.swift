@@ -14,12 +14,7 @@ struct PluginList: View {
 
         List(selection: $plugins.selection) {
             if plugins.plugins?.isEmpty == false {
-                if plugins.needsFullDiskAccess || !plugins.unreadable.isEmpty {
-                    UnreadableFoldersNotice(
-                        folders: plugins.unreadable,
-                        needsFullDiskAccess: plugins.needsFullDiskAccess
-                    )
-                }
+                UnreadableFoldersNotice(folders: plugins.unreadable, needsFullDiskAccess: plugins.needsFullDiskAccess)
             }
             ForEach(Plugin.Category.allCases, id: \.self) { category in
                 if let items = byCategory[category] {

@@ -106,6 +106,41 @@ struct UnreadableFoldersReasonTests {
     }
 }
 
+@MainActor
+struct NothingUnreadTests {
+    private func size(of view: some View, home: HomeModel) -> CGSize {
+        let host = NSHostingView(rootView: HStack(spacing: 8) { view }.fixedSize().environment(home))
+        host.layoutSubtreeIfNeeded()
+        return host.fittingSize
+    }
+
+    @Test func aNoticeOfNoFolderIsNeverDrawn() throws {
+        let madeUp = try MadeUpDefaults()
+        defer { madeUp.forget() }
+        let home = HomeModel(helper: .notAsking(), defaults: madeUp.defaults)
+        let folder = URL(filePath: "/Volumes/Old/Projects", directoryHint: .isDirectory)
+
+        let none = size(of: UnreadableFoldersNotice(folders: [], needsFullDiskAccess: true), home: home)
+        let one = size(of: UnreadableFoldersNotice(folders: [folder], needsFullDiskAccess: true), home: home)
+
+        #expect(none.height == 0, "a notice said Peel did not read 0 folders")
+        #expect(one.height > 0)
+    }
+
+    @Test func showFoldersIsOfferedOnlyWithAFolderToShow() throws {
+        let madeUp = try MadeUpDefaults()
+        defer { madeUp.forget() }
+        let home = HomeModel(helper: .notAsking(), defaults: madeUp.defaults)
+
+        let nothing = size(of: UnreadableFoldersActions(folders: [], needsFullDiskAccess: false), home: home)
+        let access = size(of: UnreadableFoldersActions(folders: [], needsFullDiskAccess: true), home: home)
+        let turnOn = size(of: Button("Turn On Full Disk Access") {}, home: home)
+
+        #expect(nothing.width == 0, "Show Folders opened an empty list")
+        #expect(access == turnOn, "Show Folders stood beside Turn On Full Disk Access with no folder to show")
+    }
+}
+
 struct CleanUpWarningTests {
     @Test func namesTheFirstFourFormulaeItUninstalls() {
         let formulae = (1...30).map { "formula\($0)x" }
