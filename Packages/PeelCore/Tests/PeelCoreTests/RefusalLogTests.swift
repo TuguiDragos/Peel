@@ -43,6 +43,21 @@ struct RefusalLogTests {
         #expect(records.first { $0.reason == "protected-place" }?.detail == nil)
     }
 
+    @Test func forgetsTheRemovalsItIsGivenWhole() async throws {
+        let directory = try TemporaryDirectory()
+        let log = RefusalLog(url: directory.url.appending(path: "Peel/refusals.json"))
+        let forgotten = UUID()
+        let kept = UUID()
+        let first = [failure("/Users/me/a.bin", .locked), failure("/Users/me/b.bin", .locked)]
+        await log.add(first, source: "One", tool: "applications", batch: forgotten)
+        await log.add([failure("/Users/me/c.bin", .locked)], source: "Two", tool: "applications", batch: kept)
+
+        #expect(await log.forget(batches: [forgotten]))
+
+        #expect(await log.load().records?.map(\.source) == ["Two"])
+        #expect(await RefusalLog(url: log.url).load().records?.map(\.source) == ["Two"], "it was only in memory")
+    }
+
     /// History records nothing when nothing moved, but the refusals are still written: a removal where
     /// everything stayed is the one most worth a record.
     @Test func recordsARemovalWhereNothingMoved() async throws {

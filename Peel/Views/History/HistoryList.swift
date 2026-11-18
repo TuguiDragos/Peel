@@ -10,6 +10,10 @@ struct HistoryList: View {
     /// What the search found, worked out off the main actor, since a removal's key names every item in it. Kept while
     /// the next answer is worked out.
     @State private var found: Found?
+    /// Pejax's filter: only the removals that can no longer be put back, since all they moved has left the Trash.
+    @State private var showsOnlyWhatLeft = false
+    /// The removals all of whose items have left the Trash, while the filter is on and once Peel has looked.
+    @State private var leftTheTrash: Set<RemovalBatch.ID>?
 
     private struct Found {
         let batches: [RemovalBatch]
@@ -22,12 +26,21 @@ struct HistoryList: View {
         let revision: Int
     }
 
+    /// What starts the filter's look again: turning it on, or other lists.
+    private struct Look: Hashable {
+        let isOn: Bool
+        let revision: Int
+    }
+
     private var batches: [RemovalBatch] {
-        searchText.isEmpty ? history.batches : found?.batches ?? history.batches
+        let all = searchText.isEmpty ? history.batches : found?.batches ?? history.batches
+        guard showsOnlyWhatLeft else { return all }
+        return all.filter { leftTheTrash?.contains($0.id) == true }
     }
 
     private var refusals: [RefusalBatch] {
-        searchText.isEmpty ? history.refusalBatches : found?.refusals ?? history.refusalBatches
+        guard !showsOnlyWhatLeft else { return [] }
+        return searchText.isEmpty ? history.refusalBatches : found?.refusals ?? history.refusalBatches
     }
 
     private var hasNotices: Bool {
@@ -117,9 +130,23 @@ struct HistoryList: View {
             .motion(.settle, .movement, value: history.untoldNoLongerListed != nil)
             .motion(.settle, .movement, value: history.untoldSetAsideCopies.isEmpty)
         }
+        .edgeBar(.bottom) {
+            let removals = listed.filter { history.checkedRemovals.contains($0.id) }
+            let entries = refused.filter { history.checkedRefusals.contains($0.id) }
+            if !removals.isEmpty || !entries.isEmpty {
+                ForgetCheckedBar(removals: removals, entries: entries)
+            }
+        }
+        .focusedSceneValue(\.selectRows, listed.isEmpty && refused.isEmpty ? nil : selectCommands(listed, refused))
         .overlay {
-            if !history.hasLoaded {
+            if !history.hasLoaded || showsOnlyWhatLeft && leftTheTrash == nil {
                 ProgressView()
+            } else if showsOnlyWhatLeft, listed.isEmpty {
+                ContentUnavailableView(
+                    "Nothing Has Left the Trash",
+                    systemImage: "trash",
+                    description: Text("Everything these removals moved is still in the Trash, so Put Back can bring it back.")
+                )
             } else if history.isKnownEmpty {
                 // Put Back and Forget can empty a History Peel did write to.
                 ContentUnavailableView(
@@ -136,7 +163,21 @@ struct HistoryList: View {
         // Every tool has a button in the toolbar, so the window keeps one height from page to page.
         .toolbar {
             ToolbarItem {
-                ForgetWhatLeftTheTrash()
+                Toggle(isOn: $showsOnlyWhatLeft) {
+                    Label("Show Only What Left the Trash", systemImage: "line.3.horizontal.decrease")
+                }
+                .toggleStyle(.button)
+                .help(Text("Show Only What Left the Trash"))
+                .disabled(!history.hasLoaded || history.batches.isEmpty && !showsOnlyWhatLeft)
+            }
+            ToolbarItem {
+                Menu {
+                    Button("Select All") { check(listed, refused) }
+                    Button("Deselect All") { uncheck() }
+                } label: {
+                    ToolbarMenuLabel(title: "Select", systemImage: "checklist")
+                }
+                .disabled(listed.isEmpty && refused.isEmpty)
             }
             ToolbarItem {
                 RescanButton(isRunning: $isReloading, title: "Reload") {
@@ -146,6 +187,16 @@ struct HistoryList: View {
         }
         .task {
             await history.load()
+        }
+        .task(id: Look(isOn: showsOnlyWhatLeft, revision: history.revision)) {
+            guard showsOnlyWhatLeft else {
+                leftTheTrash = nil
+                return
+            }
+            let left = await RemovalStanding.leftTheTrash(history.records)
+            guard !Task.isCancelled else { return }
+            let gone = Set(left.records.map(\.id))
+            leftTheTrash = Set(history.batches.filter { $0.records.allSatisfy { gone.contains($0.id) } }.map(\.id))
         }
         .task(id: Search(text: searchText, revision: history.revision)) {
             guard !searchText.isEmpty else {
@@ -161,6 +212,29 @@ struct HistoryList: View {
             else { return }
             found = Found(batches: batches, refusals: refusals)
         }
+    }
+}
+
+extension HistoryList {
+    private func check(_ removals: [RemovalBatch], _ entries: [RefusalBatch]) {
+        history.checkedRemovals.formUnion(removals.map(\.id))
+        history.checkedRefusals.formUnion(entries.map(\.id))
+    }
+
+    private func uncheck() {
+        history.checkedRemovals = []
+        history.checkedRefusals = []
+    }
+
+    /// Select All and Deselect All in the Edit menu, which the keyboard reaches, for what the list shows.
+    private func selectCommands(_ removals: [RemovalBatch], _ entries: [RefusalBatch]) -> SelectCommands {
+        let isAnyChecked = removals.contains { history.checkedRemovals.contains($0.id) }
+            || entries.contains { history.checkedRefusals.contains($0.id) }
+        return SelectCommands(
+            recommended: nil,
+            all: MenuCommand(title: "Select All", isEnabled: true) { check(removals, entries) },
+            none: MenuCommand(title: "Deselect All", isEnabled: isAnyChecked) { uncheck() }
+        )
     }
 }
 
@@ -246,9 +320,26 @@ private struct RefusalProblemNotice: View {
 }
 
 private struct HistoryBatchRow: View {
+    @Environment(RemovalHistoryStore.self) private var history
     let batch: RemovalBatch
 
+    private var isChecked: Binding<Bool> {
+        Binding(
+            get: { history.checkedRemovals.contains(batch.id) },
+            set: { isOn in
+                if isOn { history.checkedRemovals.insert(batch.id) } else { history.checkedRemovals.remove(batch.id) }
+            }
+        )
+    }
+
     var body: some View {
+        HStack(spacing: 10) {
+            NativeCheckbox(isOn: isChecked, label: batch.title, help: String(localized: "Select to forget it in History"))
+            row
+        }
+    }
+
+    private var row: some View {
         ToolRow(systemImage: batch.tool?.systemImage ?? "clock.arrow.circlepath") {
             Text(verbatim: batch.title)
                 .lineLimit(1)
@@ -270,9 +361,26 @@ private struct HistoryBatchRow: View {
 
 /// One removal's refusals: what Peel was asked to move and did not.
 private struct RefusalBatchRow: View {
+    @Environment(RemovalHistoryStore.self) private var history
     let batch: RefusalBatch
 
+    private var isChecked: Binding<Bool> {
+        Binding(
+            get: { history.checkedRefusals.contains(batch.id) },
+            set: { isOn in
+                if isOn { history.checkedRefusals.insert(batch.id) } else { history.checkedRefusals.remove(batch.id) }
+            }
+        )
+    }
+
     var body: some View {
+        HStack(spacing: 10) {
+            NativeCheckbox(isOn: isChecked, label: batch.title, help: String(localized: "Select to forget it in History"))
+            row
+        }
+    }
+
+    private var row: some View {
         ToolRow(systemImage: "nosign") {
             Text(verbatim: batch.title)
                 .lineLimit(1)

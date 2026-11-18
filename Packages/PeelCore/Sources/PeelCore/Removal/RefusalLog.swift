@@ -131,6 +131,18 @@ public actor RefusalLog {
         }
     }
 
+    /// Forgets the removals `batches` name, each whole, as History's Forget asks. False when the file could not be read
+    /// or written, so they are still listed.
+    public func forget(batches: Set<UUID>) async -> Bool {
+        await afterAnyClear()
+        return FileLock.whileHeld(beside: url) {
+            guard let existing = current() else { return false }
+            let kept = existing.filter { !batches.contains($0.batch ?? $0.id) }
+            guard kept.count < existing.count else { return true }
+            return write(kept) == nil
+        }
+    }
+
     /// Keeps a file that cannot be read beside a new one, under another name, and starts writing refusals down again.
     public func startOver() async -> StartOver {
         await afterAnyClear()

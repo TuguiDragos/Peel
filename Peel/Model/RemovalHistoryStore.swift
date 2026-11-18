@@ -186,6 +186,9 @@ final class RemovalHistoryStore {
     /// By record, not by path: Space and Developer move the same cache folders again and again, so one path
     /// sits in many batches.
     var selectedIDs: Set<RemovalRecord.ID> = []
+    /// The removals and the Not Moved entries checked in History's list, for its Forget.
+    var checkedRemovals: Set<RemovalBatch.ID> = []
+    var checkedRefusals: Set<RefusalBatch.ID> = []
     var failures: [RemovalRecord.ID: RestoreFailure] = [:]
     /// Counts the times a removal's page has to look in the Trash again: History read again, by Reload or as Peel came
     /// forward, and a Put Back that brought something back, whatever History could write of it.
@@ -623,15 +626,25 @@ final class RemovalHistoryStore {
         }
     }
 
-    /// What has left the Trash among everything History lists, looked at off the main actor.
-    func whatLeftTheTrash() async -> LeftTheTrash {
-        await RemovalStanding.leftTheTrash(records)
-    }
-
     /// Forgets what `found` names that has still left the Trash, looked at again: while its question was open, an item
     /// can have come back to the Trash, or stopped being visible.
     func forgetWhatLeftTheTrash(_ found: LeftTheTrash) async {
         await forget(await RemovalStanding.stillGone(found.records))
+    }
+
+    /// Forgets what has still left the Trash among `found`, and the Not Moved `entries` whole, then clears the checks.
+    /// Nothing on the Mac changes: what is still in the Trash stays listed, with Put Back.
+    func forgetChecked(_ found: LeftTheTrash, entries: Set<RefusalBatch.ID>) async {
+        guard mayMove else { return }
+        if !found.records.isEmpty {
+            await forgetWhatLeftTheTrash(found)
+        }
+        if !entries.isEmpty, await refusals.forget(batches: entries) {
+            await loadRefusals()
+            announcing(AttributedString(localized: "Forgot ^[\(entries.count) entry](inflect: true) under Not Moved."))
+        }
+        checkedRemovals = []
+        checkedRefusals = []
     }
 
     func isSelected(_ record: RemovalRecord) -> Bool {
