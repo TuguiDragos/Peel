@@ -6,6 +6,12 @@ public struct HomebrewPackage: Sendable, Hashable, Identifiable {
     public enum Kind: String, Sendable, Hashable {
         case formula
         case cask
+
+        /// Whether upgrading or uninstalling a package of this kind replaces or removes an app, which needs Peel's App
+        /// Management. A formula stays in Homebrew's own folders.
+        public var changesApps: Bool {
+            self == .cask
+        }
     }
 
     public let name: String
@@ -1172,7 +1178,8 @@ public enum Homebrew {
             ["upgrade", package.kind == .cask ? "--cask" : "--formula"], naming: [package.name]
         )
         return try await execute(
-            arguments, autoUpdate: true, timeout: nil, inWritingOrder: true, onOutput: onOutput, changesApps: true
+            arguments, autoUpdate: true, timeout: nil, inWritingOrder: true, onOutput: onOutput,
+            changesApps: package.kind.changesApps
         ).transcript()
     }
 
@@ -1184,9 +1191,10 @@ public enum Homebrew {
     ) async throws(CommandFailure) -> String {
         // Said once: both calls below would fail the same way.
         guard executableURL != nil else { throw CommandFailure(output: notInstalled) }
-        return try await upgrade(packages) { arguments throws(CommandFailure) in
+        return try await upgrade(packages) { arguments, kind throws(CommandFailure) in
             try await execute(
-                arguments, autoUpdate: true, timeout: nil, inWritingOrder: true, onOutput: onOutput, changesApps: true
+                arguments, autoUpdate: true, timeout: nil, inWritingOrder: true, onOutput: onOutput,
+                changesApps: kind.changesApps
             )
         }
     }
@@ -1197,7 +1205,7 @@ public enum Homebrew {
     /// so, as `execute` does. `execute` is a parameter so a test can stand in for `brew`.
     static func upgrade(
         _ packages: [HomebrewPackage],
-        execute: (_ arguments: [String]) async throws(CommandFailure) -> Attempt
+        execute: (_ arguments: [String], _ kind: HomebrewPackage.Kind) async throws(CommandFailure) -> Attempt
     ) async throws(CommandFailure) -> String {
         var output = ""
         var didFail = false
@@ -1207,7 +1215,7 @@ public enum Homebrew {
             guard !names.isEmpty else { continue }
             do {
                 let attempt = try await execute(
-                    arguments(["upgrade", kind == .cask ? "--cask" : "--formula"], naming: names)
+                    arguments(["upgrade", kind == .cask ? "--cask" : "--formula"], naming: names), kind
                 )
                 output += attempt.output
                 didFail = didFail || attempt.status != 0
@@ -1369,7 +1377,7 @@ public enum Homebrew {
         )
         return try await execute(
             arguments, autoUpdate: false, keeping: kept, timeout: longestCommand, inWritingOrder: true,
-            changesApps: true
+            changesApps: package.kind.changesApps
         ).transcript()
     }
 

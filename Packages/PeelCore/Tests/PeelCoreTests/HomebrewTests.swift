@@ -473,7 +473,7 @@ struct HomebrewTests {
         let asked = Mutex<[String]>([])
 
         do {
-            _ = try await Homebrew.upgrade(packages) { arguments throws(Homebrew.CommandFailure) in
+            _ = try await Homebrew.upgrade(packages) { arguments, _ throws(Homebrew.CommandFailure) in
                 asked.withLock { $0.append(arguments[1]) }
                 guard arguments[1] == "--cask" else { throw Homebrew.CommandFailure(output: "The formulae ran out of time.") }
                 return Homebrew.Attempt(status: 0, standardOutput: "firefox was upgraded.\n", standardError: "")
@@ -483,6 +483,26 @@ struct HomebrewTests {
             #expect(error.output == "The formulae ran out of time.\nfirefox was upgraded.\n")
         }
         #expect(asked.withLock { $0 } == ["--formula", "--cask"])
+    }
+
+    @Test func onlyACasksUpgradeOrUninstallRunsWithPeelsPermissions() {
+        #expect(HomebrewPackage.Kind.cask.changesApps)
+        #expect(!HomebrewPackage.Kind.formula.changesApps)
+    }
+
+    @Test func upgradeAllTellsEachCallItsKind() async throws {
+        let packages = [
+            HomebrewPackage(name: "wget", kind: .formula, installedVersion: "1.0"),
+            HomebrewPackage(name: "firefox", kind: .cask, installedVersion: "1.0"),
+        ]
+        let asked = Mutex<[String: HomebrewPackage.Kind]>([:])
+
+        _ = try await Homebrew.upgrade(packages) { arguments, kind throws(Homebrew.CommandFailure) in
+            asked.withLock { $0[arguments[1]] = kind }
+            return Homebrew.Attempt(status: 0, standardOutput: "", standardError: "")
+        }
+
+        #expect(asked.withLock { $0 } == ["--formula": .formula, "--cask": .cask])
     }
 
     @Test func aPackagesNameIsOneWordOfACommandForTerminal() {
@@ -497,7 +517,7 @@ struct HomebrewTests {
         let packages = [HomebrewPackage(name: "--greedy", kind: .cask, installedVersion: "1.0")]
         let asked = Mutex<[[String]]>([])
 
-        _ = try await Homebrew.upgrade(packages) { arguments throws(Homebrew.CommandFailure) in
+        _ = try await Homebrew.upgrade(packages) { arguments, _ throws(Homebrew.CommandFailure) in
             asked.withLock { $0.append(arguments) }
             return Homebrew.Attempt(status: 0, standardOutput: "", standardError: "")
         }
@@ -543,7 +563,7 @@ struct HomebrewTests {
 
         let run = Task { () -> Homebrew.CommandFailure? in
             do throws(Homebrew.CommandFailure) {
-                _ = try await Homebrew.upgrade(packages) { arguments throws(Homebrew.CommandFailure) in
+                _ = try await Homebrew.upgrade(packages) { arguments, _ throws(Homebrew.CommandFailure) in
                     asked.withLock { $0.append(arguments[1]) }
                     withUnsafeCurrentTask { $0?.cancel() }
                     throw Homebrew.CommandFailure(output: "Stopped before it finished.", wasStopped: true)
@@ -569,7 +589,7 @@ struct HomebrewTests {
         ]
         let run = Task { () -> Homebrew.CommandFailure? in
             do throws(Homebrew.CommandFailure) {
-                _ = try await Homebrew.upgrade(packages) { _ throws(Homebrew.CommandFailure) in
+                _ = try await Homebrew.upgrade(packages) { _, _ throws(Homebrew.CommandFailure) in
                     guard !Task.isCancelled else {
                         throw Homebrew.CommandFailure(output: "Stopped before it finished.", wasStopped: true)
                     }
@@ -634,7 +654,7 @@ struct HomebrewTests {
             HomebrewPackage(name: "firefox", kind: .cask, installedVersion: "1.0"),
         ]
         do {
-            _ = try await Homebrew.upgrade(packages) { arguments throws(Homebrew.CommandFailure) in
+            _ = try await Homebrew.upgrade(packages) { arguments, _ throws(Homebrew.CommandFailure) in
                 guard arguments[1] == "--cask" else { throw Homebrew.CommandFailure(output: "") }
                 return Homebrew.Attempt(status: 0, standardOutput: "firefox was upgraded.\n", standardError: "")
             }
