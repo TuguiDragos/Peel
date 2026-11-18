@@ -30,11 +30,14 @@ public struct RemovalStanding: Sendable {
         return records.filter { $0.isOnAConnectedDisk(disks) && $0.located(on: disks).standing == .gone }
     }
 
-    /// Every record among `records` that has left the Trash, looked at once as `stillGone` judges each: never one still
-    /// in the Trash, on a disk that isn't connected, or that Peel can't look at.
+    /// Every record among `records` that has left the Trash, looked at once: never one still in the Trash, and one on
+    /// a disk that isn't connected, or that Peel can't look at, is counted apart.
     @concurrent
     public static func leftTheTrash(_ records: [RemovalRecord]) async -> LeftTheTrash {
-        LeftTheTrash(await stillGone(records))
+        let standing = RemovalStanding(records)
+        return LeftTheTrash(
+            standing.missing(among: records), away: standing.away.count, notKnown: standing.notKnown.count
+        )
     }
 
     /// The records among `records` still on a disk that isn't connected, looked at again.
@@ -99,9 +102,15 @@ public struct RemovalStanding: Sendable {
 public struct LeftTheTrash: Sendable {
     public let records: [RemovalRecord]
     public let removals: Set<UUID>
+    /// How many of the other records are on a disk that isn't connected, and how many Peel can't look at: whether
+    /// those have left is not known.
+    public let away: Int
+    public let notKnown: Int
 
-    init(_ records: [RemovalRecord]) {
+    init(_ records: [RemovalRecord], away: Int = 0, notKnown: Int = 0) {
         self.records = records
         removals = Set(records.map(\.batch))
+        self.away = away
+        self.notKnown = notKnown
     }
 }

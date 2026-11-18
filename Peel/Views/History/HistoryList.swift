@@ -11,15 +11,23 @@ struct HistoryList: View {
     /// the next answer is worked out.
     @State private var found: Found?
     @State private var showsOnlyWhatLeft = false
-    /// The removals something has left the Trash from, while the filter is on and once Peel has looked. One only
-    /// partly gone is among them: Forget takes from a removal only what has left.
-    @State private var leftTheTrash: Set<RemovalBatch.ID>?
+    /// What the filter's look found, while the filter is on and once Peel has looked.
+    @State private var leftTheTrash: Left?
     /// How many looks changed the rows the filter lists while it stayed on.
     @State private var changesUnderTheFilter = 0
 
     private struct Found {
         let batches: [RemovalBatch]
         let refusals: [RefusalBatch]
+    }
+
+    private struct Left {
+        /// The removals something has left the Trash from. One only partly gone is among them: Forget takes from a
+        /// removal only what has left.
+        let removals: Set<RemovalBatch.ID>
+        /// How many other items are on a disk that isn't connected, and how many Peel can't look at.
+        let away: Int
+        let notKnown: Int
     }
 
     /// What starts the search again: other words, or other lists.
@@ -31,7 +39,7 @@ struct HistoryList: View {
     private var batches: [RemovalBatch] {
         let all = searchText.isEmpty ? history.batches : found?.batches ?? history.batches
         guard showsOnlyWhatLeft else { return all }
-        return all.filter { leftTheTrash?.contains($0.id) == true }
+        return all.filter { leftTheTrash?.removals.contains($0.id) == true }
     }
 
     private var refusals: [RefusalBatch] {
@@ -137,7 +145,7 @@ struct HistoryList: View {
         .overlay {
             switch Self.emptyState(
                 hasLoaded: history.hasLoaded, isKnownEmpty: history.isKnownEmpty, filterIsOn: showsOnlyWhatLeft,
-                leftTheTrash: leftTheTrash?.count, listsNothing: listed.isEmpty && refused.isEmpty,
+                leftTheTrash: leftTheTrash?.removals.count, listsNothing: listed.isEmpty && refused.isEmpty,
                 isSearching: !searchText.isEmpty
             ) {
             case .looking:
@@ -146,7 +154,11 @@ struct HistoryList: View {
                 ContentUnavailableView(
                     "Nothing Has Left the Trash",
                     systemImage: "trash",
-                    description: Text("Everything these removals moved is still in the Trash, so Put Back can bring it back.")
+                    description: Text(
+                        verbatim: Self.nothingLeftDetail(
+                            away: leftTheTrash?.away ?? 0, notKnown: leftTheTrash?.notKnown ?? 0
+                        )
+                    )
                 )
             case .noRemovals:
                 // Put Back and Forget can empty a History Peel did write to.
@@ -204,8 +216,10 @@ struct HistoryList: View {
             }
             let left = await RemovalStanding.leftTheTrash(history.records)
             guard !Task.isCancelled else { return }
-            if Self.changesRows(history.batches, from: leftTheTrash, to: left.removals) { changesUnderTheFilter += 1 }
-            leftTheTrash = left.removals
+            if Self.changesRows(history.batches, from: leftTheTrash?.removals, to: left.removals) {
+                changesUnderTheFilter += 1
+            }
+            leftTheTrash = Left(removals: left.removals, away: left.away, notKnown: left.notKnown)
         }
         .task(id: Search(text: searchText, revision: history.revision)) {
             guard !searchText.isEmpty else {
@@ -243,6 +257,24 @@ extension HistoryList {
         if isKnownEmpty { return .noRemovals }
         if filterIsOn, leftTheTrash == 0 { return .nothingHasLeftTheTrash }
         return listsNothing && isSearching ? .nothingFound : nil
+    }
+
+    /// What the page says under "Nothing Has Left the Trash": that Put Back can bring everything back, or, of the
+    /// items Peel could not find out about, what a removal's page says.
+    static func nothingLeftDetail(away: Int, notKnown: Int) -> String {
+        guard away > 0 || notKnown > 0 else {
+            return String(localized: "Everything these removals moved is still in the Trash, so Put Back can bring it back.")
+        }
+        var lines: [String] = []
+        if away > 0 {
+            lines.append(String(inflecting: "^[\(away) item](inflect: true) on a disk that isn’t connected"))
+            lines.append(String(localized: "Connect the disk to put them back from its Trash."))
+        }
+        if notKnown > 0 {
+            lines.append(String(localized: "Peel can’t look in the Trash right now"))
+            lines.append(String(localized: "History keeps what it can’t see until Peel can look again."))
+        }
+        return lines.joined(separator: "\n")
     }
 
     /// Whether a look's answer changes the rows the filter lists among `batches`, for the column's fade. The first

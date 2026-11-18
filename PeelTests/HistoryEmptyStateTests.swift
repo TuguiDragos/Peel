@@ -30,4 +30,18 @@ struct HistoryEmptyStateTests {
         #expect(state(leftTheTrash: nil) == .looking)
         #expect(state(filterIsOn: false, leftTheTrash: nil, isSearching: true) == .nothingFound)
     }
+
+    @Test func saysWhatPeelCouldNotFindOutWhereNothingHasLeftTheTrash() {
+        let everything = "Everything these removals moved is still in the Trash, so Put Back can bring it back."
+        #expect(HistoryList.nothingLeftDetail(away: 0, notKnown: 0) == everything)
+        #expect(
+            HistoryList.nothingLeftDetail(away: 3, notKnown: 0)
+                == "3 items on a disk that isn’t connected\nConnect the disk to put them back from its Trash."
+        )
+        #expect(
+            HistoryList.nothingLeftDetail(away: 0, notKnown: 2)
+                == "Peel can’t look in the Trash right now\nHistory keeps what it can’t see until Peel can look again."
+        )
+        #expect(!HistoryList.nothingLeftDetail(away: 1, notKnown: 1).contains(everything))
+    }
 }
