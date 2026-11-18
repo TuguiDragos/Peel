@@ -26,8 +26,9 @@ public struct MakersUninstaller: Sendable, Hashable {
 
     private enum Documented: Sendable {
         /// A script to run in Terminal, after `runner` when the maker's page names one: where the maker puts it, or
-        /// inside the app when the path is relative, so the command follows the app wherever it is.
-        case script(String, runner: String?)
+        /// inside the app when the path is relative, so the command follows the app wherever it is. `leaves` is what
+        /// it leaves in `/etc` or `/opt`.
+        case script(String, runner: String?, leaves: [String] = [])
         case uninstaller(String)
         case uninstallerInsideTheApp(String)
         /// The app is the uninstaller, which removes the product named here and then itself.
@@ -46,10 +47,22 @@ public struct MakersUninstaller: Sendable, Hashable {
     public let instructions: URL
     /// The product this app removes, when the app is the uninstaller itself rather than the product.
     public let removes: String?
+    /// What the maker's step leaves in `/etc` or `/opt`, as far as any of it is on this Mac.
+    public var leftBehind: LeftInTheSystem? = nil
+
+    /// How a maker names its apps: by identifier, or, for an app it ships without one, by where it puts it.
+    private enum Name: Sendable, ExpressibleByStringLiteral {
+        case identifier(String)
+        case place(String)
+
+        init(stringLiteral identifier: String) {
+            self = .identifier(identifier)
+        }
+    }
 
     /// Each product with the signing team and the identifiers its maker's own pages or its signed bundle give, and the
     /// step and page of its maker's uninstall instructions. An identifier names itself and any longer one after a dot.
-    private typealias Product = (team: String, identifiers: [String], maker: String, step: Documented, page: String)
+    private typealias Product = (team: String, identifiers: [Name], maker: String, step: Documented, page: String)
 
     private static let known: [Product] = [
         (
@@ -117,10 +130,21 @@ public struct MakersUninstaller: Sendable, Hashable {
             "Z2SG5H3HC8", ["net.tunnelblick.tunnelblick"], "Tunnelblick", .inTheApp,
             "https://tunnelblick.net/cUninstall.html"
         ),
-        // OpenSC's package puts `opensc-uninstall` in /usr/local/bin, where its own uninstaller looks for it.
+        // OpenSC's package puts `opensc-uninstall` in /usr/local/bin, where its own uninstaller looks for it. OpenSC
+        // Notify comes with no identifier, and the script removes it from both places it names. The script leaves the
+        // p11-kit module file the package puts where the p11-kit of the Mac that built it keeps them
+        // (`src/pkcs11/Makefile.am`), which Homebrew's own `opensc` formula would write too.
         (
-            "L7897KTAHV", ["org.opensc-project.mac.opensctoken"], "OpenSC",
-            .script("/usr/local/bin/opensc-uninstall", runner: "sudo"),
+            "L7897KTAHV",
+            [
+                "org.opensc-project.mac.opensctoken", .place("/Applications/Utilities/OpenSC Notify.app"),
+                .place("/Applications/OpenSC Notify.app"),
+            ],
+            "OpenSC",
+            .script(
+                "/usr/local/bin/opensc-uninstall", runner: "sudo",
+                leaves: ["/opt/homebrew/etc/pkcs11/modules/opensc.module"]
+            ),
             "https://github.com/OpenSC/OpenSC/wiki/macOS-Quick-Start"
         ),
         (
@@ -290,8 +314,11 @@ public struct MakersUninstaller: Sendable, Hashable {
         isOnlyRoots: (URL) -> Bool = MakersUninstaller.onlyRootCanChange,
         isTheMakers: (URL, InstalledApp) -> Bool = VendorRemoval.isSignedByTheSameTeam
     ) -> MakersUninstaller? {
-        guard let team = app.teamIdentifier, let identifier = app.bundleIdentifier?.lowercased(),
-              let product = product(team: team, identifier: identifier)
+        guard let team = app.teamIdentifier,
+              let product = product(
+                  team: team, identifier: app.bundleIdentifier?.lowercased(),
+                  place: PathPattern.comparablePath(of: app.url)
+              )
         else { return nil }
         func run(_ path: String, with runner: String?) -> Step {
             let isInsideTheApp = !path.hasPrefix("/")
@@ -307,7 +334,7 @@ public struct MakersUninstaller: Sendable, Hashable {
             return isTheMakers(uninstaller, app) ? .uninstaller(uninstaller) : .notTrusted
         }
         let chosen: (step: Step, page: String) = switch product.step {
-        case .script(let path, let runner): (run(path, with: runner), product.page)
+        case .script(let path, let runner, _): (run(path, with: runner), product.page)
         case .uninstaller(let path): (open(URL(filePath: path, directoryHint: .isDirectory)), product.page)
         case .uninstallerInsideTheApp(let path):
             (open(app.url.appending(path: path, directoryHint: .isDirectory)), product.page)
@@ -321,18 +348,31 @@ public struct MakersUninstaller: Sendable, Hashable {
         guard let instructions = URL(string: chosen.page) else { return nil }
         let step = chosen.step
         let removes: String? = if case .itself(let removing) = product.step { removing } else { nil }
-        return MakersUninstaller(maker: product.maker, step: step, instructions: instructions, removes: removes)
+        var uninstaller = MakersUninstaller(
+            maker: product.maker, step: step, instructions: instructions, removes: removes
+        )
+        if case .script(_, _, let leaves) = product.step {
+            uninstaller.leftBehind = LeftInTheSystem.found(leaves, isThere: isOnTheMac)
+        }
+        return uninstaller
     }
 
-    private static func product(team: String, identifier: String) -> Product? {
+    /// The product `team` signed whose identifiers name `identifier`, or, for an app with none, whose places name
+    /// `place`.
+    private static func product(team: String, identifier: String?, place: String? = nil) -> Product? {
         known.first { product in
-            product.team == team && product.identifiers.contains { identifier == $0 || identifier.hasPrefix($0 + ".") }
+            product.team == team && product.identifiers.contains { name in
+                switch name {
+                case .identifier(let known): identifier.map { $0 == known || $0.hasPrefix(known + ".") } == true
+                case .place(let known): identifier == nil && place == known
+                }
+            }
         }
     }
 
     static func keepsItsScriptInside(team: String?, identifier: String?) -> Bool {
         guard let team, let identifier = identifier?.lowercased(),
-              case .script(let path, _) = product(team: team, identifier: identifier)?.step
+              case .script(let path, _, _) = product(team: team, identifier: identifier)?.step
         else { return false }
         return !path.hasPrefix("/")
     }

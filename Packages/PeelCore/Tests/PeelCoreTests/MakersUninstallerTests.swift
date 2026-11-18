@@ -165,6 +165,38 @@ struct MakersUninstallerTests {
         )
     }
 
+    @Test func knowsAnAppItsMakerShipsWithoutAnIdentifierByWhereItPutsItAndByItsTeam() {
+        func notify(at path: String, team: String?) -> InstalledApp {
+            InstalledApp(
+                url: URL(filePath: path, directoryHint: .isDirectory), bundleIdentifier: nil, name: "OpenSC Notify",
+                teamIdentifier: team, isSealIntact: true
+            )
+        }
+        let script = MakersUninstaller.Step.command("sudo /usr/local/bin/opensc-uninstall")
+
+        #expect(step(notify(at: "/Applications/Utilities/OpenSC Notify.app", team: "L7897KTAHV")) == script)
+        #expect(step(notify(at: "/Applications/OpenSC Notify.app", team: "L7897KTAHV")) == script)
+        #expect(step(notify(at: "/Applications/Notify.app", team: "L7897KTAHV")) == nil)
+        #expect(step(notify(at: "/Applications/Utilities/OpenSC Notify.app", team: "ABCDE12345")) == nil)
+        #expect(step(notify(at: "/Applications/Utilities/OpenSC Notify.app", team: nil)) == nil)
+        #expect(step(agent("org.example.notify", team: "L7897KTAHV", at: "/Applications/OpenSC Notify.app")) == nil)
+    }
+
+    @Test func saysWhatTheMakersStepLeavesAsFarAsItIsOnTheMac() {
+        let token = agent("org.opensc-project.mac.opensctoken.OpenSCTokenApp", team: "L7897KTAHV")
+        let module = "/opt/homebrew/etc/pkcs11/modules/opensc.module"
+        func leftBehind(moduleIsThere: Bool) -> LeftInTheSystem? {
+            MakersUninstaller.of(
+                token, isOnTheMac: { $0 != module || moduleIsThere }, isOnlyRoots: { _ in true },
+                isTheMakers: { _, _ in true }
+            )?.leftBehind
+        }
+
+        #expect(leftBehind(moduleIsThere: true)?.paths == [module])
+        #expect(leftBehind(moduleIsThere: true)?.command == "sudo rm \(module)")
+        #expect(leftBehind(moduleIsThere: false) == nil)
+    }
+
     @Test func knowsTheAppsWhoseUninstallerTheirMakersPageOffersToDownload() {
         #expect(MakersUninstaller.of(agent("com.box.desktop", team: "M683GB7CPW"))?.step == .fromTheMakersPage)
         #expect(MakersUninstaller.of(agent("com.box.desktop.helper", team: "M683GB7CPW"))?.maker == "Box")

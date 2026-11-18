@@ -1399,6 +1399,19 @@ struct CommandLineTests {
         return UninstallCommand.said(.byItsMaker(step), of: app, isAdministrator: true)?.description
     }
 
+    @Test func saysWhatTheMakersStepLeavesOnTheMac() throws {
+        let token = InstalledApp(
+            url: URL(filePath: "/Applications/Utilities/OpenSCTokenApp.app", directoryHint: .isDirectory),
+            bundleIdentifier: "org.opensc-project.mac.opensctoken.OpenSCTokenApp", name: "OpenSCTokenApp",
+            teamIdentifier: "L7897KTAHV", isSealIntact: true
+        )
+        let step = try #require(MakersUninstaller.of(token, isOnTheMac: { _ in true }, isOnlyRoots: { _ in true }))
+
+        let said = UninstallCommand.said(.byItsMaker(step), of: token, isAdministrator: true)?.description
+
+        #expect(said?.contains("`sudo /usr/local/bin/opensc-uninstall`. OpenSCTokenApp leaves /opt/homebrew/etc/pkcs11/modules/opensc.module on this Mac after it goes, which only an administrator can remove. To remove it, run `sudo rm /opt/homebrew/etc/pkcs11/modules/opensc.module`. See ") == true, "\(said ?? "")")
+    }
+
     @Test func saysPeelCantVouchForAnUninstallerThatIsOnTheMac() {
         let page = URL(string: "https://example.org/uninstall")!
         let step = MakersUninstaller(maker: "Example", step: .notTrusted, instructions: page, removes: nil)

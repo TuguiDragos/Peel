@@ -32,6 +32,13 @@ public struct LeftInTheSystem: Sendable, Hashable {
         return byCask[package.fullName].flatMap { byApp[$0] }.flatMap { found($0, under: environment.rootDirectory) }
     }
 
+    /// What of `paths` is on this Mac, as `isThere` answers for each path, or nil when none is.
+    static func found(_ paths: [String], isThere: (String) -> Bool) -> LeftInTheSystem? {
+        let there = paths.filter(isThere)
+        return there.isEmpty
+            ? nil : LeftInTheSystem(paths: there, folders: Set(there.filter { URL(filePath: $0).isRealFolder }))
+    }
+
     private static func found(_ paths: [String], under root: URL) -> LeftInTheSystem? {
         var there: [String] = []
         var folders: Set<String> = []

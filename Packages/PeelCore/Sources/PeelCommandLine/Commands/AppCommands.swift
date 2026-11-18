@@ -652,15 +652,20 @@ struct UninstallCommand: AsyncParsableCommand {
             }
         }
         if urls.contains(app.url), let left = leftInTheSystem {
-            let rule = left.ruleForSudo.map {
-                " \($0) is a rule that lets anyone run the programs it names as an administrator, without a password."
-            } ?? ""
-            let them = left.paths.count == 1 ? "it" : "them"
             let who = AdministratorCommand.needsAnAdministrator(left.command, isAdministrator: isAdministrator)
                 ? " " + administratorRunsIt : ""
-            warnings.append("\(app.name) leaves \(Output.list(left.paths)) on this Mac after it goes, which only an administrator can remove.\(rule) To remove \(them), run `\(left.command)`.\(who)")
+            warnings.append(whatStays(left, after: app.name) + who)
         }
         return warnings
+    }
+
+    /// What `app` leaves in `/etc` or `/opt` once it is gone, and the command that removes it.
+    static func whatStays(_ left: LeftInTheSystem, after app: String) -> String {
+        let rule = left.ruleForSudo.map {
+            " \($0) is a rule that lets anyone run the programs it names as an administrator, without a password."
+        } ?? ""
+        let them = left.paths.count == 1 ? "it" : "them"
+        return "\(app) leaves \(Output.list(left.paths)) on this Mac after it goes, which only an administrator can remove.\(rule) To remove \(them), run `\(left.command)`."
     }
 
     /// Why the app itself can't move: macOS keeps another developer's app from a terminal without App Management,
@@ -744,7 +749,8 @@ struct UninstallCommand: AsyncParsableCommand {
             } else {
                 ""
             }
-            return CommandFailure("\(Output.plain(target.name)) is removed with \(uninstaller.maker)'s own uninstaller, which also takes what it keeps in the system: \(step). See \(uninstaller.instructions.absoluteString)\(who)")
+            let stays = uninstaller.leftBehind.map { " " + whatStays($0, after: Output.plain(target.name)) } ?? ""
+            return CommandFailure("\(Output.plain(target.name)) is removed with \(uninstaller.maker)'s own uninstaller, which also takes what it keeps in the system: \(step).\(stays) See \(uninstaller.instructions.absoluteString)\(who)")
         case .byFinder(let carried) where !carried.isKnown:
             return CommandFailure("Peel can't look inside \(Output.plain(target.name)) to see which system extensions it carries, and macOS removes those only when the app goes to the Trash in Finder. Move the app to the Trash in Finder.")
         case .byFinder(let carried):
