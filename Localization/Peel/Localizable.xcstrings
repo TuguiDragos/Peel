@@ -235585,6 +235585,112 @@
         }
       }
     },
+    "The disk it is on is no longer connected. Connect it, then scan again." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disk, na kterém leží, už není připojený. Připojte ho a prohledejte znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Volume, auf dem es liegt, ist nicht mehr verbunden. Schließe es an und scanne dann erneut."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El disco en el que se encuentra ya no está conectado. Conéctalo y vuelve a analizar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le disque sur lequel il se trouve n’est plus connecté. Connectez-le, puis relancez l’analyse."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il disco su cui si trova non è più collegato. Collegalo, poi analizza di nuovo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これがあるディスクはもう接続されていません。ディスクを接続してから、もう一度スキャンしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목이 있는 디스크가 더 이상 연결되어 있지 않습니다. 디스크를 연결한 다음 다시 스캔하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De schijf waarop het staat, is niet meer aangesloten. Sluit de schijf aan en scan opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dysk, na którym się znajduje, nie jest już podłączony. Podłącz go, a następnie przeskanuj ponownie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O disco dele não está mais conectado. Conecte-o e analise de novo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discul pe care se află nu mai este conectat. Conectați‑l, apoi scanați din nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Диск, на котором находится объект, больше не подключен. Подключите его, а затем просканируйте снова."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skivan som det ligger på är inte längre ansluten. Anslut den och skanna sedan igen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bulunduğu disk artık bağlı değil. Diski bağlayın, ardından yeniden tarayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Диск, на якому лежить елемент, більше не підʼєднано. Підʼєднайте його та проскануйте знову."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它所在的磁盘已不再连接。请连接该磁盘，然后重新扫描。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它所在的磁碟已不再連接。請連接該磁碟，然後重新掃描。"
+          }
+        }
+      }
+    },
     "The disk that holds %@ has no room left for Peel to write down each move. Peel removes nothing until there is room, so that everything it moves can be put back." : {
       "localizations" : {
         "cs" : {

@@ -57,6 +57,7 @@ public enum DuplicateRemoval {
                 return alike ? nil : .lastCopy
             }
             guard let entry = checkedFiles[url] else { return nil }
+            if entry.file.identity.isOnADiskThatLeft(url) { return .diskNotConnected }
             guard entry.kept.contains(where: { FileIdentity.of($0.url)?.holdsTheSameContents(as: $0.identity) == true })
             else { return .lastCopy }
             guard FileIdentity.of(url)?.holdsTheSameContents(as: entry.file.identity) == true,

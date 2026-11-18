@@ -25,6 +25,19 @@ public struct FileIdentity: Sendable, Hashable {
     /// Built from the `timespec` fields, since `modificationTime` wraps for a date outside 1677 to 2262.
     let modificationDate: Date
 
+    /// Whether the disk this was read on has left `url`: nothing is there, and the nearest folder above it that is
+    /// there is on another disk, as when the disk was ejected.
+    public func isOnADiskThatLeft(_ url: URL) -> Bool {
+        var info = stat()
+        var path = url.path(percentEncoded: false)
+        guard lstat(path, &info) != 0, errno == ENOENT else { return false }
+        repeat {
+            path = (path as NSString).deletingLastPathComponent
+            if lstat(path, &info) == 0 { return info.st_dev != link.device }
+        } while path.count > 1
+        return false
+    }
+
     /// True when both describe the same file with the same contents, even if its metadata changed since.
     /// The status change time is left out: it also moves for `chmod`, `chown`, a rename (`stat(2)`) and an
     /// extended attribute, so adding a tag or opening the file in Finder changes it but not the contents.

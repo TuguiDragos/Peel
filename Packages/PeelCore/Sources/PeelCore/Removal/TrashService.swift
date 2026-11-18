@@ -184,6 +184,8 @@ public struct TrashFailure: Sendable, Hashable {
         case noTrashOnThisDisk
         /// Its disk is full, with no room left even to move it to the Trash.
         case noRoomOnItsDisk
+        /// The disk it was on when Peel looked is no longer connected.
+        case diskNotConnected
         case failed(String)
     }
 
@@ -204,7 +206,7 @@ extension TrashFailure.Reason {
     public var isAboutTheItem: Bool {
         switch self {
         case .historyUnreadable, .historyCannotBeWritten, .peelRemovesItself, .needsHelper, .noTrashOnThisDisk,
-             .noRoomOnItsDisk: false
+             .noRoomOnItsDisk, .diskNotConnected: false
         case .guarded, .changedSinceScan, .changeNotKnown, .claimedSinceScan, .lastCopy, .notPermitted, .locked,
              .movedWithoutATrace,
              .somethingElseMoved, .heldOpen, .heldOpenByAJob, .peelRunsFromIt, .heldByAnotherAccount,
@@ -252,6 +254,7 @@ extension TrashFailure.Reason {
         case .stillLeadsTo: "still-leads-to"
         case .noTrashOnThisDisk: "no-trash-on-this-disk"
         case .noRoomOnItsDisk: "no-room-on-its-disk"
+        case .diskNotConnected: "disk-not-connected"
         case .failed: "failed"
         }
     }
@@ -307,6 +310,7 @@ extension TrashFailure.Reason {
         case "still-leads-to": self = .stillLeadsTo(detail ?? "")
         case "no-trash-on-this-disk": self = .noTrashOnThisDisk
         case "no-room-on-its-disk": self = .noRoomOnItsDisk
+        case "disk-not-connected": self = .diskNotConnected
         case "failed": self = .failed(detail ?? "")
         default: return nil
         }

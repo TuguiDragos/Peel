@@ -1313,6 +1313,27 @@ struct DuplicateRemovalTests {
         return (scan, files[0].url, files[1].url)
     }
 
+    @Test func aCopyOnADiskThatWasEjectedSaysSo() async throws {
+        let directory = try TemporaryDirectory()
+        let disk = try ScratchVolume(fileSystem: "APFS", mountedAt: directory.url.appending(path: "Disk"))
+        let home = disk.url.appending(path: "home", directoryHint: .isDirectory)
+        try FileManager.default.createDirectory(at: home, withIntermediateDirectories: true)
+        let contents = Data((0..<5_000).map { _ in UInt8.random(in: 0...255) })
+        try contents.write(to: home.appending(path: "kept.bin"))
+        try contents.write(to: home.appending(path: "kept copy.bin"))
+        let scan = try await DuplicateFinder(homeDirectory: home).scan(.everySize(in: [home]))
+        let copy = try #require(scan.groups.first?.files.last?.url)
+        let service = TrashService(environment: SearchEnvironment(
+            homeDirectory: home, rootDirectory: directory.url.appending(path: "root", directoryHint: .isDirectory)
+        )) { url in url }
+
+        try DiskImageTool.hdiutil("detach", "-force", disk.url.path)
+        let result = await DuplicateRemoval.trash([copy], from: scan, using: service)
+
+        #expect(result.failures.map(\.reason) == [.diskNotConnected])
+        withExtendedLifetime(disk) {}
+    }
+
     @Test func neverTrashesEveryCopy() async throws {
         let directory = try TemporaryDirectory()
         let (scan, kept, copy) = try await duplicates(in: directory)

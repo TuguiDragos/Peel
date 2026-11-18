@@ -340,6 +340,8 @@ extension TrashFailure.Reason {
             String(localized: "Your home folder is on another disk, and macOS keeps no Trash for you on this one until Peel’s helper makes it. Set up the helper in Settings, then try again.", bundle: bundle)
         case .noRoomOnItsDisk:
             String(localized: "Its disk is full, with no room left even to move it to the Trash. Make some room on that disk, then try again.", bundle: bundle)
+        case .diskNotConnected:
+            String(localized: "The disk it is on is no longer connected. Connect it, then scan again.", bundle: bundle)
         case .failed(let message): FixedSentence.translated(message, in: bundle)
         }
     }
