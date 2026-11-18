@@ -76,7 +76,7 @@ struct OrphanList: View {
                     Label("Not Every App Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
                     let list = Text(verbatim: library.unreadableListOfFolders(saying: String(localized: "Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one.")))
-                    let unread = Text("Peel couldn’t read \(RemovalFailureAlert.listedFolders(library.unreadable.map(\.abbreviatedPath))), so it can’t tell which apps are installed. Nothing is listed here, since the files of an app it can’t see would look orphaned.")
+                    let unread = Text("Peel did not read ^[\(library.unreadable.count) place](inflect: true) where apps are, so it cannot tell which apps are installed. Nothing is listed here, since the files of an app it cannot see would look orphaned.")
                     let parts = (library.listOfFoldersUnreadable ? [list] : [])
                         + (library.unreadable.isEmpty ? [] : [unread])
                     UnreadableFoldersDetail(
@@ -104,7 +104,7 @@ struct OrphanList: View {
                     UnreadableFoldersDetail(
                         folders: unreadable.map(\.url),
                         needsFullDiskAccess: orphans.scan?.needsFullDiskAccess == true,
-                        saying: Text("No orphaned files were found, but Peel couldn’t look inside \(RemovalFailureAlert.listedFolders(unreadable.map(\.url.abbreviatedPath))), so there may be some there.")
+                        saying: Text("No orphaned files were found, but Peel did not read ^[\(unreadable.count) folder](inflect: true), so there may be some there.")
                     )
                 } actions: {
                     EmptyStateActions {

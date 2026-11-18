@@ -159,40 +159,41 @@ struct IntelList: View {
         let parts = (library.listOfFoldersUnreadable
                 ? [Text(verbatim: library.unreadableListOfFolders(saying: String(localized: "Peel can’t read its list of app folders, so it didn’t look at the apps in the folders you added.")))] : [])
             + (paths.isEmpty ? [] : [Text(Self.unreadFolders(
-                RemovalFailureAlert.listedItems(paths), onAppleSilicon: HostArchitecture.isAppleSilicon
+                count: paths.count, onAppleSilicon: HostArchitecture.isAppleSilicon
             ))])
-            + why(closed.unread, of: paths.count)
             + (jobFiles.isEmpty ? [] : [Text(Self.unreadJobFiles(
-                RemovalFailureAlert.listedItems(jobFiles), count: jobFiles.count,
-                onAppleSilicon: HostArchitecture.isAppleSilicon
+                count: jobFiles.count, onAppleSilicon: HostArchitecture.isAppleSilicon
             ))])
-            + why(closed.jobFiles, of: jobFiles.count)
-            + (needsFullDiskAccess ? [Text("macOS keeps Peel out of the folders it protects until Peel has Full Disk Access. Turn it on from Home.")] : [])
+            + (UnreadableFoldersNotice.reason(
+                count: paths.count + jobFiles.count, closed: closed.unread + closed.jobFiles,
+                needsFullDiskAccess: needsFullDiskAccess
+            ).map { [Text(verbatim: $0)] } ?? [])
             + (intel.scan?.unansweredJobs.missingJobsNote.map { [Text($0)] } ?? [])
         guard let first = parts.first else { return nil }
         return parts.dropFirst().reduce(first) { Text("\($0)\n\n\($1)") }
     }
 
-    /// What may be in folders Peel couldn't read: Intel code needs Rosetta only on Apple silicon.
-    static func unreadFolders(_ listed: String, onAppleSilicon: Bool) -> LocalizedStringResource {
-        onAppleSilicon
-            ? "Peel couldn’t read \(listed), so something there may need Rosetta."
-            : "Peel couldn’t read \(listed), so something there may be built for Intel only."
-    }
-
-    static func unreadJobFiles(_ listed: String, count: Int, onAppleSilicon: Bool) -> LocalizedStringResource {
+    /// What may be in folders Peel did not read: Intel code needs Rosetta only on Apple silicon.
+    static func unreadFolders(count: Int, onAppleSilicon: Bool) -> LocalizedStringResource {
         switch (count == 1, onAppleSilicon) {
-        case (true, true): "Peel couldn’t read \(listed), so it can’t tell whether what this job runs needs Rosetta."
-        case (false, true): "Peel couldn’t read \(listed), so it can’t tell whether what these jobs run needs Rosetta."
-        case (true, false):
-            "Peel couldn’t read \(listed), so it can’t tell whether what this job runs is built for Intel only."
-        case (false, false):
-            "Peel couldn’t read \(listed), so it can’t tell whether what these jobs run is built for Intel only."
+        case (true, true): "Peel did not read a folder, so something there may need Rosetta."
+        case (false, true): "Peel did not read \(count) folders, so something there may need Rosetta."
+        case (true, false): "Peel did not read a folder, so something there may be built for Intel only."
+        case (false, false): "Peel did not read \(count) folders, so something there may be built for Intel only."
         }
     }
 
-    private func why(_ closed: Int, of count: Int) -> [Text] {
-        UnreadableFoldersNotice.whyNotRead(closed: closed, of: count).map { [Text(verbatim: $0)] } ?? []
+    static func unreadJobFiles(count: Int, onAppleSilicon: Bool) -> LocalizedStringResource {
+        switch (count == 1, onAppleSilicon) {
+        case (true, true):
+            "Peel did not read the file of a background job, so it cannot tell whether what it runs needs Rosetta."
+        case (false, true):
+            "Peel did not read the files of \(count) background jobs, so it cannot tell whether what they run needs Rosetta."
+        case (true, false):
+            "Peel did not read the file of a background job, so it cannot tell whether what it runs is built for Intel only."
+        case (false, false):
+            "Peel did not read the files of \(count) background jobs, so it cannot tell whether what they run is built for Intel only."
+        }
     }
 
     @ViewBuilder
@@ -202,7 +203,7 @@ struct IntelList: View {
                 library.startFoldersOver()
             }
         }
-        UnreadableFoldersActions(folders: unread, needsFullDiskAccess: needsFullDiskAccess)
+        UnreadableFoldersActions(folders: unread + closedJobFiles, needsFullDiskAccess: needsFullDiskAccess)
         if let job = intel.scan?.closedJobs.first {
             Button("Review in Background Items") {
                 backgroundItems.selection = job.id

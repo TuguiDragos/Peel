@@ -14,38 +14,29 @@ struct UnreadableFoldersTests {
         #expect(RemovalFailureAlert.listedFolders(["/a", "/b"]).contains("/b"))
     }
 
-    @Test func namesTheFoldersAndAddsTheAdviceOnlyWhenFullDiskAccessWouldHelp() {
-        let paths = ["/Users/me/Documents/app", "/Users/me/work/pgdata"]
-        let advice = UnreadableFoldersNotice.detail(naming: [], closed: 0, needsFullDiskAccess: true)
+    @Test func saysWhyInOneSentenceAndLeavesTheFoldersToShowFolders() {
+        let sentences = [
+            UnreadableFoldersNotice.detail(count: 2, closed: 0, needsFullDiskAccess: true),
+            UnreadableFoldersNotice.detail(count: 1, closed: 0, needsFullDiskAccess: true),
+            UnreadableFoldersNotice.detail(count: 2, closed: 0, needsFullDiskAccess: false),
+            UnreadableFoldersNotice.detail(count: 2, closed: 1, needsFullDiskAccess: false),
+            UnreadableFoldersNotice.detail(count: 2, closed: 2, needsFullDiskAccess: false),
+            UnreadableFoldersNotice.detail(count: 1, closed: 1, needsFullDiskAccess: false),
+        ]
 
-        let both = UnreadableFoldersNotice.detail(naming: paths, closed: 0, needsFullDiskAccess: true)
-        let named = UnreadableFoldersNotice.detail(naming: paths, closed: 0, needsFullDiskAccess: false)
-
-        #expect(!advice.isEmpty)
-        #expect(both.contains("pgdata") && both.hasSuffix(advice))
-        #expect(named.contains("pgdata") && !named.contains(advice))
+        #expect(Set(sentences).count == sentences.count)
+        #expect(sentences.allSatisfy { !$0.contains("\n") && !$0.contains("/") && !$0.contains("Home") })
+        #expect(sentences.allSatisfy { $0.hasSuffix("may not be listed.") })
     }
 
     @Test func saysThePermissionsKeptPeelOutOnlyWhenTheyDid() throws {
-        let all = try #require(UnreadableFoldersNotice.whyNotRead(closed: 2, of: 2))
-        let some = try #require(UnreadableFoldersNotice.whyNotRead(closed: 1, of: 2))
-        let one = try #require(UnreadableFoldersNotice.whyNotRead(closed: 1, of: 1))
+        let some = try #require(UnreadableFoldersNotice.reason(count: 2, closed: 1, needsFullDiskAccess: false))
+        let all = try #require(UnreadableFoldersNotice.reason(count: 2, closed: 2, needsFullDiskAccess: false))
+        let one = try #require(UnreadableFoldersNotice.reason(count: 1, closed: 1, needsFullDiskAccess: false))
 
-        #expect(UnreadableFoldersNotice.whyNotRead(closed: 0, of: 2) == nil)
+        #expect(UnreadableFoldersNotice.reason(count: 2, closed: 0, needsFullDiskAccess: false) == nil)
         #expect(Set([all, some, one]).count == 3)
-        #expect(UnreadableFoldersNotice.detail(naming: ["/a", "/b"], closed: 1, needsFullDiskAccess: false).hasSuffix(some))
-    }
-
-    @Test func theFoldersOwnPermissionsAreNotPeelsAndHomeTurnsOnFullDiskAccess() throws {
-        let sentences = try [(1, 1), (2, 2), (1, 2)].map {
-            try #require(UnreadableFoldersNotice.whyNotRead(closed: $0.0, of: $0.1))
-        }
-        let advice = UnreadableFoldersNotice.detail(naming: [], closed: 0, needsFullDiskAccess: true)
-
-        #expect(sentences.allSatisfy { $0.contains("own permissions") || $0.contains("permissions of their own") })
-        #expect(sentences.allSatisfy { $0.contains("Full Disk Access lets Peel past macOS’s privacy protections, not past a folder’s own permissions.") })
-        #expect(advice.contains("Home"))
-        #expect(!advice.contains("System Settings"))
+        #expect(UnreadableFoldersNotice.reason(count: 2, closed: 0, needsFullDiskAccess: true)?.contains("Full Disk Access") == true)
     }
 
     @Test func anAlertsFirstItemsAndHowManyMore() {
