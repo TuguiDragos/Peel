@@ -894,7 +894,6 @@ public struct OrphanScanner: Sendable {
         kind.isLoadedCode || kind == .temporaryItems
     }
 
-
     private enum LocationResult: Sendable {
         /// `cutShort` is the folder whose folders the search inside did not all reach, `unreadable` the folders that
         /// search could not look into, and `crowded` those it did not read.

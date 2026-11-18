@@ -126,8 +126,6 @@ public enum BackgroundItems {
         )
     }
 
-    /// The rows, each job launchd loaded from a file Peel can't read in the place of that file's row, with the file's
-    /// folder as its source; then the other loaded jobs.
     /// The rows in the page's order. A job of an app the person excluded stays listed, marked so: the tab says what
     /// runs in the background, and Peel acts on none of it.
     static func rows(_ items: [BackgroundItem], exclusions: Exclusions) -> [BackgroundItem] {
