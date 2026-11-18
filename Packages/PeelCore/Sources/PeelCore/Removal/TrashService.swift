@@ -186,6 +186,8 @@ public struct TrashFailure: Sendable, Hashable {
         case noRoomOnItsDisk
         /// The disk it was on when Peel looked is no longer connected.
         case diskNotConnected
+        /// A folder on its way in a Library is a link now, which no scan walks into, so it became one since the scan.
+        case linkOnTheWay
         case failed(String)
     }
 
@@ -206,7 +208,7 @@ extension TrashFailure.Reason {
     public var isAboutTheItem: Bool {
         switch self {
         case .historyUnreadable, .historyCannotBeWritten, .peelRemovesItself, .needsHelper, .noTrashOnThisDisk,
-             .noRoomOnItsDisk, .diskNotConnected: false
+             .noRoomOnItsDisk, .diskNotConnected, .linkOnTheWay: false
         case .guarded, .changedSinceScan, .changeNotKnown, .claimedSinceScan, .lastCopy, .notPermitted, .locked,
              .movedWithoutATrace,
              .somethingElseMoved, .heldOpen, .heldOpenByAJob, .peelRunsFromIt, .heldByAnotherAccount,
@@ -255,6 +257,7 @@ extension TrashFailure.Reason {
         case .noTrashOnThisDisk: "no-trash-on-this-disk"
         case .noRoomOnItsDisk: "no-room-on-its-disk"
         case .diskNotConnected: "disk-not-connected"
+        case .linkOnTheWay: "link-on-the-way"
         case .failed: "failed"
         }
     }
@@ -311,6 +314,7 @@ extension TrashFailure.Reason {
         case "no-trash-on-this-disk": self = .noTrashOnThisDisk
         case "no-room-on-its-disk": self = .noRoomOnItsDisk
         case "disk-not-connected": self = .diskNotConnected
+        case "link-on-the-way": self = .linkOnTheWay
         case "failed": self = .failed(detail ?? "")
         default: return nil
         }
@@ -732,6 +736,10 @@ public struct TrashService: Sendable {
                 result.failures.append(TrashFailure(url: url, reason: refusal))
                 return
             }
+            if hasALinkOnTheWay(url) {
+                result.failures.append(TrashFailure(url: url, reason: .linkOnTheWay))
+                return
+            }
             if let held = openFiles.refusal(of: url, lettingItsProgramsRun: apps.contains(url)) {
                 result.failures.append(TrashFailure(url: url, reason: held))
                 return
@@ -793,6 +801,25 @@ public struct TrashService: Sendable {
         await forgetDomains(result.trashed.map(\.originalURL), owner)
         result.note(stopped)
         return result
+    }
+
+    /// Whether a folder between `url` and the first folder of the Library it is in is a link now. No scan walks into a
+    /// link in a Library, so it became one since the scan; the first folder is the person's to make a link of.
+    func hasALinkOnTheWay(_ url: URL) -> Bool {
+        let path = PathPattern.comparablePath(of: url)
+        let libraries = [environment.homeDirectory, environment.rootDirectory].map {
+            PathPattern.comparablePath(of: $0.appending(path: "Library", directoryHint: .isDirectory))
+        }
+        guard let library = libraries.first(where: { PathComponents.isPath(path, inside: $0) }) else { return false }
+        let names = PathComponents.of(path).dropFirst(PathComponents.of(library).count)
+        guard let first = names.first, names.count > 2 else { return false }
+        var folder = (library == "/" ? "" : library) + "/" + first
+        var info = stat()
+        for name in names.dropFirst().dropLast() {
+            folder += "/" + name
+            if lstat(folder, &info) == 0, info.st_mode & S_IFMT == S_IFLNK { return true }
+        }
+        return false
     }
 
     /// Whether `url` would go to this account's Trash at the top of the startup disk, which isn't there.

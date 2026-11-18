@@ -342,6 +342,8 @@ extension TrashFailure.Reason {
             String(localized: "Its disk is full, with no room left even to move it to the Trash. Make some room on that disk, then try again.", bundle: bundle)
         case .diskNotConnected:
             String(localized: "The disk it is on is no longer connected. Connect it, then scan again.", bundle: bundle)
+        case .linkOnTheWay:
+            String(localized: "A folder on its way is now a link to another place, so Peel left it. Scan again to review it.", bundle: bundle)
         case .failed(let message): FixedSentence.translated(message, in: bundle)
         }
     }

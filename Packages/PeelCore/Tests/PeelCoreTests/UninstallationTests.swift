@@ -1317,14 +1317,15 @@ struct UninstallationTests {
         )
         #expect(MakersFolders(environment: environment, names: ["caches", "library"]).above([cache]).isEmpty)
 
-        let all = [bundle, cache, config, logs, throughLink]
-        let went = await plan.move(Set(all), using: try service(in: directory, refusing: nil))
+        let moving = [bundle, cache, config, logs]
+        let went = await plan.move(Set(moving + [throughLink]), using: try service(in: directory, refusing: nil))
 
         #expect(Set(went.trashed.map { PathPattern.comparablePath(of: $0.originalURL) })
-            == Set(all.map(PathPattern.comparablePath(of:))))
+            == Set(moving.map(PathPattern.comparablePath(of:))))
+        #expect(went.failures.map(\.reason) == [.linkOnTheWay], "what a link on its way leads to stays")
         let kept = [
             "home/Library/Caches", "home/.config/Example", "home/Library/Logs/Example",
-            "home/Library/Application Support/Example",
+            "home/Library/Application Support/Example", "home/Library/Application Support/Linked/Notes",
         ]
         for kept in kept {
             #expect(!directory.url.appending(path: kept).isMissing, "\(kept) went")

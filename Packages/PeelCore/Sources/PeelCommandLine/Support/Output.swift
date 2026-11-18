@@ -725,6 +725,7 @@ extension TrashFailure.Reason {
             "your home folder is on another disk, and macOS keeps no Trash for you on this one until Peel's helper makes it, which the Peel app asks for when it moves something from here"
         case .noRoomOnItsDisk: "its disk is full, with no room left even to move it to the Trash; make some room there, then try again"
         case .diskNotConnected: "the disk it is on is no longer connected; connect it, then scan again"
+        case .linkOnTheWay: "a folder on its way is now a link to another place; scan again to review it"
         case .failed(let message): Output.plain(message)
         }
     }

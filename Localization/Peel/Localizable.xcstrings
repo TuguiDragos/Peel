@@ -14476,6 +14476,112 @@
         }
       }
     },
+    "A folder on its way is now a link to another place, so Peel left it. Scan again to review it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ji nechal na místě, protože některá ze složek, ve kterých leží, je teď odkazem, který vede jinam. Prohledejte znovu a zkontrolujte ji."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein übergeordneter Ordner ist inzwischen ein Link, der an einen anderen Ort führt, daher hat Peel es unangetastet gelassen. Scanne erneut, um es zu prüfen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una carpeta de su ruta es ahora un enlace a otro lugar, así que Peel no lo ha tocado. Vuelve a analizar para revisarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un dossier sur son chemin d’accès est désormais un lien vers un autre emplacement : Peel l’a donc laissé en place. Relancez l’analyse pour le vérifier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una cartella lungo il percorso ora è un link a un’altra posizione, quindi Peel l’ha lasciato al suo posto. Analizza di nuovo per rivederlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これに至るまでのフォルダの1つが、現在は別の場所を指すリンクになっているため、Peelはこれをそのままにしました。もう一度スキャンして確認してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목의 경로에 있는 폴더 하나가 이제 다른 위치로 연결되는 링크이므로 Peel이 그대로 두었습니다. 다시 스캔하여 검토하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een bovenliggende map is nu een link naar een andere plek, dus Peel heeft het laten staan. Scan opnieuw om het te bekijken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeden z folderów na ścieżce do tej rzeczy jest teraz dowiązaniem do innego miejsca, więc Peel zostawił ją na miejscu. Przeskanuj ponownie, aby ją przejrzeć."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uma pasta no caminho até ele agora é um link para outro local, então o Peel não mexeu nele. Analise de novo para revisá-lo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un dosar de pe calea sa este acum un link care duce în altă parte, așa că Peel l‑a lăsat pe loc. Scanați din nou pentru a‑l revizui."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Одна из папок на пути к объекту теперь является ссылкой на другое место, поэтому Peel его не тронул. Просканируйте снова, чтобы просмотреть его заново."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En mapp på vägen dit är nu en länk till en annan plats, så Peel lät det vara. Skanna igen för att granska det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yolu üzerindeki bir klasör artık başka bir yeri gösteren bir bağlantı, bu yüzden Peel ona dokunmadı. Gözden geçirmek için yeniden tarayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Одна з папок на шляху до елемента тепер є посиланням на інше місце, тож Peel його не чіпала. Проскануйте знову, щоб переглянути його."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通往它的路径上的某个文件夹现已变成指向其他位置的链接，因此Peel将它留在原处。请重新扫描以检查它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其路徑上的某個檔案夾現在是指向其他位置的連結，因此Peel沒有動它。請重新掃描以檢查。"
+          }
+        }
+      }
+    },
     "A full Git interface inside Terminal." : {
       "localizations" : {
         "cs" : {
