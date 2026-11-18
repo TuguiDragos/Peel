@@ -44,6 +44,7 @@ public struct BackgroundItemOwnership: Sendable {
     private let byTeam: [String: [InstalledApp]]
     private let teamOfProgram: @Sendable (String) -> String?
     private var liveLabels: Set<String> = []
+    private var livePrograms: [String] = []
     private let declared: DeclaredJobs
 
     public init(installedApps: [InstalledApp]) {
@@ -152,19 +153,28 @@ public struct BackgroundItemOwnership: Sendable {
     /// beside its job, named for the job's label, while the app behind it may have another identifier.
     func knowingJobs(in folders: [URL]) -> BackgroundItemOwnership {
         var knowing = self
-        let files = folders.flatMap {
-            (try? FileManager.default.contentsOfDirectory(at: $0, includingPropertiesForKeys: nil)) ?? []
+        for folder in folders {
+            let files = (try? FileManager.default.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil))
+            for plist in files ?? [] where plist.pathExtension == "plist" {
+                guard let job = JobDefinition(contentsOf: plist), !isOrphan(job) else { continue }
+                knowing.liveLabels.insert(job.label.lowercased())
+                if let program = job.program, program.hasPrefix("/"), Self.exists(program) {
+                    knowing.livePrograms.append(PathPattern.comparablePath(of: URL(filePath: program)))
+                }
+            }
         }
-        knowing.liveLabels = Set(
-            files.filter { $0.pathExtension == "plist" }.compactMap(JobDefinition.init(contentsOf:))
-                .filter { !isOrphan($0) }.map { $0.label.lowercased() }
-        )
         return knowing
     }
 
     func ownsItem(named identifier: String) -> Bool {
         let name = identifier.lowercased()
         return liveLabels.contains { name == $0 || name.hasPrefix($0 + ".") }
+    }
+
+    /// Whether `url` is, or holds, the program of a job `knowingJobs(in:)` found that still has one.
+    func needs(_ url: URL) -> Bool {
+        let path = PathPattern.comparablePath(of: url)
+        return livePrograms.contains { PathComponents.isPath($0, atOrInside: path) }
     }
 
     /// The folders launchd searches when the first item of `ProgramArguments` is a relative path.

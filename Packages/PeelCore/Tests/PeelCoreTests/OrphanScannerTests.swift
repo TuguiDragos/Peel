@@ -1697,6 +1697,39 @@ struct OrphanScannerTests {
         #expect(scan.groups.flatMap(\.items).map(\.url.lastPathComponent) == ["com.gone.app.helper.plist"])
     }
 
+    @Test func whatALiveJobRunsIsNeverAnOrphan() async throws {
+        let withJobs = try TemporaryDirectory()
+        let withoutJobs = try TemporaryDirectory()
+        func programs(in directory: borrowing TemporaryDirectory) throws -> (helper: URL, agent: URL) {
+            (
+                try directory.file("root/Library/PrivilegedHelperTools/org.example.toolhelper"),
+                try directory.file("root/Library/Application Support/org.example.vendor/bin/agent")
+            )
+        }
+        func giveThemJobs(in directory: borrowing TemporaryDirectory, _ helper: URL, _ agent: URL) throws {
+            try directory.file(
+                "root/Library/LaunchDaemons/org.example.tool.plist",
+                contents: job("org.example.tool", runs: [helper.path(percentEncoded: false)])
+            )
+            try directory.file(
+                "home/Library/LaunchAgents/org.example.vendor.agent.plist",
+                contents: job("org.example.vendor.agent", runs: [agent.path(percentEncoded: false)])
+            )
+        }
+        let (helper, agent) = try programs(in: withJobs)
+        let (laterHelper, laterAgent) = try programs(in: withoutJobs)
+        try giveThemJobs(in: withJobs, helper, agent)
+
+        let scanned = await scanner(in: withJobs).scan(installedApps: installed).groups.flatMap(\.items)
+        let unclaimed = await scanner(in: withoutJobs).scan(installedApps: installed).groups.flatMap(\.items)
+        try giveThemJobs(in: withoutJobs, laterHelper, laterAgent)
+        let still = await scanner(in: withoutJobs).stillOrphaned(unclaimed, installedApps: installed, remembered: [])
+
+        #expect(scanned.isEmpty, "\(scanned.map(\.url.path))")
+        #expect(Set(unclaimed.map(\.url.lastPathComponent)) == ["org.example.toolhelper", "org.example.vendor"])
+        #expect(still.isEmpty)
+    }
+
     /// A file that cannot be read is not called a leftover on its name; one that is no job at all still is.
     @Test(.permissionsHold) func aJobThatCannotBeReadIsNotCalledALeftover() async throws {
         let directory = try TemporaryDirectory()

@@ -191,7 +191,7 @@ public struct OrphanScanner: Sendable {
         let kept = found.compactMap { entry -> (identifier: String, item: OrphanItem, holds: Bool?)? in
             guard !exclusions.excludes(entry.item.url), !exclusions.excludes(bundleIdentifier: entry.identifier),
                   !Self.isInAGroup(entry.identifier, among: given),
-                  !Self.servesAProgram(entry.item.url, in: folders)
+                  !Self.servesAProgram(entry.item.url, in: folders), !jobs.needs(entry.item.url)
             else { return nil }
             let holds = exclusions.holdsSomething(entry.item.url)
             return holds == true ? nil : (entry.identifier, entry.item, holds)
@@ -233,7 +233,7 @@ public struct OrphanScanner: Sendable {
             ownership: ownership,
             reach: reach
         )
-        let forAnAdministrator = (Self.claiming(apart, by: records) + recorded)
+        let forAnAdministrator = (Self.claiming(apart, by: records) + recorded.filter { !jobs.needs($0.item.url) })
             .sorted { Self.comesBefore($0.item, $1.item) }
         let users = environment.rootDirectory.appending(path: "Users", directoryHint: .isDirectory)
         return OrphanScan(
@@ -471,7 +471,7 @@ public struct OrphanScanner: Sendable {
         )
         let linkedApps = LinkedApps(remembered, gone: gone)
         var kept: [OrphanItem] = []
-        for item in items where !Self.servesAProgram(item.url, in: folders) {
+        for item in items where !Self.servesAProgram(item.url, in: folders) && !jobs.needs(item.url) {
             let isStillOrphaned = if item.kind == .nativeMessagingHosts {
                 NativeMessagingManifest.startsNothing(at: item.url)
             } else if item.productFolder != nil {
