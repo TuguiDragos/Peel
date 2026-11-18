@@ -18,6 +18,12 @@ public struct DeviceInfo: Sendable, Hashable {
     /// The About pane of System Settings (General > About), which System Profiler provides as an extension.
     public static let aboutURL = URL(string: "x-apple.systempreferences:com.apple.SystemProfiler.AboutExtension")!
 
+    /// Whether that pane lists the Intel-based apps the next macOS won't run, which it does from macOS 27.
+    public static var listsIntelBasedApps: Bool {
+        guard #available(macOS 27, *) else { return false }
+        return true
+    }
+
     public let model: String
     public let modelIdentifier: String
     public let chip: String

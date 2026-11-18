@@ -64,7 +64,7 @@ struct IntelDetailView: View {
                         }
                     }
                     // The list also names Intel apps that are only installed, so it matters without Rosetta too.
-                    if #available(macOS 27, *) {
+                    if DeviceInfo.listsIntelBasedApps {
                         HStack(spacing: 8) {
                             Text("The Intel-based Apps list in System Settings > General > About names the apps macOS 28 won’t run. Peel also looks inside apps and at plug-ins and drivers, which that list may leave out.")
                                 .font(.callout)

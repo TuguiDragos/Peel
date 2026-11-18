@@ -175785,6 +175785,112 @@
         }
       }
     },
+    "Peel looked at your apps, what they carry, and your command-line tools." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel prohledal vaše aplikace včetně toho, co obsahují, a vaše nástroje příkazového řádku."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hat deine Apps samt ihrem Inhalt und deine Befehlszeilentools geprüft."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ha revisado tus apps, lo que llevan dentro y tus herramientas de línea de comandos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel a examiné vos apps, ce qu’elles contiennent et vos outils de ligne de commande."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ha esaminato le tue app, ciò che contengono e i tuoi strumenti da riga di comando."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、アプリ、アプリに含まれているもの、コマンドラインツールを調べました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 사용자의 앱과 앱에 포함된 항목, 명령어 라인 도구를 살펴보았습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel heeft je apps, wat erin zit en je commandoregeltools bekeken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel przejrzał Twoje aplikacje, to, co zawierają, oraz Twoje narzędzia wiersza polecenia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel examinou os seus apps, o que eles trazem e as suas ferramentas de linha de comando."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel a examinat aplicațiile dvs., ce conțin acestea și instrumentele dvs. în linie de comandă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel проверил Ваши приложения, то, что у них внутри, и Ваши инструменты командной строки."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel har tittat på dina appar, det de bär med sig och dina kommandoradsverktyg."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel uygulamalarınıza, bunların içerdiklerine ve komut satırı araçlarınıza baktı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel переглянула ваші програми, те, що вони містять, і ваші інструменти командного рядка."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel查看了你的App、它们附带的内容以及你的命令行工具。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel已檢查你的App、它們內含的項目，以及你的命令列工具。"
+          }
+        }
+      }
+    },
     "Peel looked inside only part of %@" : {
       "localizations" : {
         "cs" : {

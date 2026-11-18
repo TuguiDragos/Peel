@@ -67,27 +67,38 @@ struct IntelList: View {
                     EmptyStateActions { unreadActions }
                 }
             } else if intel.findings.isEmpty {
-                if #available(macOS 27, *) {
-                    ContentUnavailableView {
-                        Label("Nothing Needs Rosetta", systemImage: "checkmark.seal")
-                    } description: {
-                        VStack(spacing: 6) {
-                            Text("Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the Java runtimes, and the tools in /usr/local, /opt/homebrew, /opt/local, ~/bin, and ~/.local/bin.")
-                            Text("The Intel-based Apps list in System Settings > General > About names the apps macOS 28 won’t run, including some outside the folders Peel looks in.")
+                let empty = Self.empty(
+                    onAppleSilicon: HostArchitecture.isAppleSilicon,
+                    settingsListsIntelApps: DeviceInfo.listsIntelBasedApps
+                )
+                let note = empty.note.map { Text($0) }
+                let info = InfoNote(
+                    about: Text(empty.title),
+                    detail: note.dropFirst().reduce(note[0]) { Text("\($0)\n\n\($1)") },
+                    isAlbum: false
+                )
+                ContentUnavailableView {
+                    Label {
+                        // Beside a title that takes one line, under one that takes more, so it never stands apart.
+                        ViewThatFits(in: .horizontal) {
+                            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                                Text(empty.title)
+                                info
+                            }
+                            VStack(spacing: 4) {
+                                Text(empty.title)
+                                info
+                            }
                         }
-                    } actions: {
+                    } icon: {
+                        Image(systemName: "checkmark.seal")
+                    }
+                } description: {
+                    Text("Peel looked at your apps, what they carry, and your command-line tools.")
+                } actions: {
+                    if DeviceInfo.listsIntelBasedApps {
                         Button("Open System Settings") { NSWorkspace.shared.open(DeviceInfo.aboutURL) }
                     }
-                } else {
-                    ContentUnavailableView(
-                        HostArchitecture.isAppleSilicon ? "Nothing Needs Rosetta" : "Nothing Built for Intel Only",
-                        systemImage: "checkmark.seal",
-                        // The description claims only what Peel looked at, since Intel plug-ins can be missed, and the
-                        // macOS 27 release notes say some may not appear even in System Settings.
-                        description: HostArchitecture.isAppleSilicon
-                            ? Text("Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the Java runtimes, and the tools in /usr/local, /opt/homebrew, /opt/local, ~/bin, and ~/.local/bin.")
-                            : Text("Nothing Peel looked at is built for Intel only: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the Java runtimes, and the tools in /usr/local, /opt/local, ~/bin, and ~/.local/bin.")
-                    )
                 }
             }
         }
@@ -181,6 +192,22 @@ struct IntelList: View {
         case (true, false): "Peel did not read a folder, so something there may be built for Intel only."
         case (false, false): "Peel did not read \(count) folders, so something there may be built for Intel only."
         }
+    }
+
+    /// The empty page's title, and what its circled i says. It claims only what Peel looked at: Intel plug-ins can be
+    /// missed, and the macOS 27 release notes say some may not appear even in System Settings.
+    static func empty(
+        onAppleSilicon: Bool, settingsListsIntelApps: Bool
+    ) -> (title: LocalizedStringResource, note: [LocalizedStringResource]) {
+        let places: LocalizedStringResource = onAppleSilicon
+            ? "Nothing Peel looked at needs Rosetta: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the Java runtimes, and the tools in /usr/local, /opt/homebrew, /opt/local, ~/bin, and ~/.local/bin."
+            : "Nothing Peel looked at is built for Intel only: the apps in the Applications folders and the folders you added in Settings, what they carry inside, the plug-ins, the drivers, the background items, the Java runtimes, and the tools in /usr/local, /opt/local, ~/bin, and ~/.local/bin."
+        let settingsList: LocalizedStringResource =
+            "The Intel-based Apps list in System Settings > General > About names the apps macOS 28 won’t run, including some outside the folders Peel looks in."
+        return (
+            onAppleSilicon ? "Nothing Needs Rosetta" : "Nothing Built for Intel Only",
+            settingsListsIntelApps ? [places, settingsList] : [places]
+        )
     }
 
     static func unreadJobFiles(count: Int, onAppleSilicon: Bool) -> LocalizedStringResource {
