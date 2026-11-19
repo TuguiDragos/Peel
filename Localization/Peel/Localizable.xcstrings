@@ -16430,6 +16430,112 @@
         }
       }
     },
+    "A removal may be missing from History" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V Historii může chybět záznam o odstranění"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Verlauf fehlt möglicherweise ein Eintrag"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puede que falte una eliminación en Historial"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il manque peut-être une suppression dans l’Historique"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una rimozione potrebbe mancare dalla Cronologia"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ゴミ箱に入れた記録が履歴から欠けている可能性があります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기록에서 제거 내역이 누락되었을 수 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er ontbreekt misschien een verwijdering in Geschiedenis"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W Historii może brakować przeniesienia do Kosza"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uma remoção pode estar faltando no Histórico"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O eliminare ar putea lipsi din Istoric"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удаление может отсутствовать в Истории"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En borttagning kan saknas i Historik"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçmiş’te bir kaldırma işlemi eksik olabilir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В Історії може бракувати вилучення"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“历史记录”中可能缺少某次移除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「歷史記錄」中可能缺少一項移除作業"
+          }
+        }
+      }
+    },
     "A reset keeps a copy of the settings it clears, and Put Back works from it even after the app has written new ones. A copy can hold a license key or an account, so move the ones you no longer need to the Trash." : {
       "localizations" : {
         "cs" : {
@@ -163046,112 +163152,6 @@
         }
       }
     },
-    "Peel could not read its record of a removal under way" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nemohl přečíst svůj záznam o probíhajícím odstraňování"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel konnte seine Aufzeichnung eines laufenden Entfernens nicht lesen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel no ha podido leer su registro de una eliminación en curso"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel n’a pas pu lire son registre d’une suppression en cours"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel non è riuscito a leggere il suo registro di una rimozione in corso"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelは進行中のゴミ箱への移動の記録を読み取れませんでした"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 진행 중인 제거의 기록을 읽을 수 없음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kon de registratie van een lopende verwijdering niet lezen"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nie mógł odczytać zapisu trwającego przenoszenia do Kosza"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel não conseguiu ler o registro de uma remoção em andamento"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nu a putut citi evidența unei eliminări în curs"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не удалось прочитать журнал незавершенного удаления"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kunde inte läsa sin förteckning över en pågående borttagning"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel, devam eden bir kaldırma işlemine ait kaydını okuyamadı"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не вдалося прочитати свій запис вилучення, що триває"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel未能读取正在进行的移除操作的记录"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel無法讀取進行中移除作業的記錄"
-          }
-        }
-      }
-    },
     "Peel could not read the Terminal profiles" : {
       "localizations" : {
         "cs" : {
@@ -181415,6 +181415,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在你於「設定」中重新開始此列表之前，Peel不會移除任何項目，也不會還原任何項目。"
+          }
+        }
+      }
+    },
+    "Peel removes nothing until it can read History or you start over, so that everything it moves can be put back. Starting over keeps the old file beside the new one, and what it lists comes back only from the Trash in Finder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dokud Peel nedokáže Historii přečíst nebo dokud nezačnete znovu, nic neodstraní, aby vše, co přesune, šlo vrátit zpět. Když začnete znovu, starý soubor se ponechá vedle nového a položky, které uvádí, půjde vrátit z koše jen ve Finderu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bis Peel den Verlauf lesen kann oder du neu beginnst, entfernt Peel nichts, damit sich alles, was Peel verschiebt, zurücklegen lässt. Wenn du neu beginnst, bleibt die alte Datei neben der neuen erhalten, und was darin aufgeführt ist, lässt sich nur noch im Finder aus dem Papierkorb zurückholen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no elimina nada hasta que pueda leer Historial o vuelvas a empezar, para que todo lo que traslade se pueda restaurar. Al volver a empezar, el archivo antiguo se conserva junto al nuevo, y los ítems que figuran en él solo se pueden sacar de la papelera en el Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne supprime rien tant qu’il ne peut pas lire l’Historique ou que vous ne l’avez pas recommencé, afin que tout ce qu’il déplace puisse être remis en place. Si vous recommencez, l’ancien fichier est conservé à côté du nouveau, et les éléments qu’il liste ne peuvent alors être récupérés que depuis la corbeille, dans le Finder."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non rimuove nulla finché non riesce a leggere la Cronologia o finché non ricominci da capo, in modo che tutto ciò che sposta si possa ripristinare. Se ricominci da capo, il vecchio file viene conservato accanto a quello nuovo, e ciò che elenca si può recuperare solo dal Cestino nel Finder."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "履歴を読み取れるようになるか、最初からやり直すまで、Peelは何もゴミ箱に入れません。移動するものをすべて戻せるようにするためです。最初からやり直すと、古いファイルは新しいファイルの横に保管され、古いファイルにある項目は、Finderでゴミ箱から取り出すしかなくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이동하는 모든 항목을 되돌려 놓을 수 있도록, 기록을 읽을 수 있게 되거나 사용자가 처음부터 다시 시작하기 전까지는 아무것도 제거하지 않습니다. 처음부터 다시 시작하면 이전 파일은 새 파일 옆에 보관되며, 이전 파일에 나열된 항목은 Finder에서 휴지통 밖으로 꺼내야만 되돌릴 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verwijdert niets totdat het Geschiedenis kan lezen of jij opnieuw begint, zodat alles wat Peel verplaatst, kan worden teruggezet. Als je opnieuw begint, wordt het oude bestand naast het nieuwe bewaard, en wat daarin staat, kun je alleen nog in Finder uit de prullenmand terughalen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel niczego nie przeniesie do Kosza, dopóki nie będzie mógł odczytać Historii albo nie zaczniesz od nowa, aby wszystko, co przeniesie, można było przywrócić. Gdy zaczniesz od nowa, stary plik zostanie zachowany obok nowego, a to, co jest w nim wymienione, będzie można przywrócić tylko z Kosza w Finderze."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não remove nada até conseguir ler o Histórico ou até você recomeçar, para que tudo o que ele mover possa ser colocado de volta. Ao recomeçar, o arquivo antigo é guardado ao lado do novo, e o que ele lista só pode voltar pelo Lixo no Finder."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu elimină nimic până când nu poate citi Istoricul sau până când nu îl reîncepeți, pentru ca tot ce mută să poată fi pus înapoi. Dacă îl reîncepeți, fișierul vechi este păstrat lângă cel nou, iar ce listează acesta poate fi recuperat doar din Coș, în Finder."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока Peel не сможет прочитать Историю или пока Вы не начнете ее заново, Peel ничего не удаляет, чтобы все, что он перемещает, можно было восстановить. Если начать заново, старый файл сохранится рядом с новым, а то, что в нем перечислено, можно будет вернуть только из Корзины в Finder."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tar inte bort något förrän Peel kan läsa Historik eller du börjar om, så att allt som Peel flyttar kan läggas tillbaka. När du börjar om sparas den gamla filen bredvid den nya, och det som den listar går bara att få tillbaka från papperskorgen i Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, Geçmiş’i okuyabilene veya siz baştan başlayana kadar hiçbir şeyi kaldırmaz, böylece taşıdığı her şey yerine konabilir. Baştan başladığınızda eski dosya yeni dosyanın yanında saklanır; eski dosyanın listelediği öğeler ise yalnızca Finder’da Çöp Sepeti’nden geri alınabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel нічого не вилучає, доки не зможе прочитати Історію або доки ви не почнете наново, щоб усе, що вона переміщує, можна було повернути. Коли ви починаєте наново, старий файл зберігається поруч із новим, а те, що в ньому перелічено, можна повернути лише зі Смітника у Finder."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Peel能够读取“历史记录”或你重新开始之前，Peel不会移除任何内容，以确保它移动的所有内容都能放回原处。重新开始会将旧文件保留在新文件旁边，旧文件中列出的项目只能在“访达”中从废纸篓里取回。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Peel能讀取「歷史記錄」或你重新開始之前，Peel不會移除任何項目，以確保它移動的所有項目都能還原。重新開始時，舊檔案會保留在新檔案旁邊，而舊檔案中列出的項目只能在Finder中從「垃圾桶」取回。"
           }
         }
       }
@@ -265005,112 +265111,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未評級"
-          }
-        }
-      }
-    },
-    "Until it can read History, or you start over, Peel removes nothing, because anything it moved now could not be put back. Starting over keeps the old file beside a new one. Items it lists can then only be dragged back out of the Trash in Finder." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dokud Peel nedokáže Historii přečíst nebo dokud nezačnete znovu, nic neodstraní, protože kdyby teď něco přesunul, nešlo by to vrátit zpět. Když začnete znovu, starý soubor se ponechá vedle nového. Položky, které Historie zobrazuje, pak bude možné z koše vrátit jen přetažením ve Finderu."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bis Peel den Verlauf lesen kann oder du neu beginnst, entfernt Peel nichts, da sich nicht zurücklegen ließe, was jetzt verschoben würde. Wenn du neu beginnst, bleibt die alte Datei neben einer neuen erhalten. Die Objekte, die der Verlauf aufführt, lassen sich dann nur noch im Finder aus dem Papierkorb ziehen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hasta que pueda leer Historial, o hasta que vuelvas a empezar, Peel no elimina nada, porque cualquier cosa que trasladara ahora no se podría restaurar. Al volver a empezar, el archivo antiguo se conserva junto a uno nuevo. Los ítems que figuran en el archivo antiguo solo podrán sacarse entonces de la papelera arrastrándolos en el Finder."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tant que Peel ne peut pas lire l’Historique, ou que vous ne l’avez pas recommencé, il ne supprime rien, car tout ce qu’il déplacerait maintenant serait impossible à remettre en place. Si vous recommencez, l’ancien fichier est conservé à côté d’un nouveau. Les éléments que l’Historique liste ne pourront alors être sortis de la corbeille que dans le Finder, en les faisant glisser."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finché non riesce a leggere la Cronologia, o finché non ricominci da capo, Peel non rimuove nulla, perché qualsiasi cosa spostasse ora non si potrebbe ripristinare. Se ricominci da capo, il vecchio file viene conservato accanto a uno nuovo. Gli elementi che elenca, a quel punto, si potranno solo trascinare fuori dal Cestino nel Finder."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "履歴を読み取れるようになるか、最初からやり直すまで、Peelは何もゴミ箱に入れません。今何かを移動すると、それを戻せなくなるためです。最初からやり直すと、古いファイルは新しいファイルの横に保管されます。その場合、古い履歴にある項目は、Finderでゴミ箱からドラッグして取り出すしかなくなります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "기록을 읽을 수 있게 되거나 사용자가 처음부터 다시 시작하기 전까지, Peel은 지금 무엇을 이동하든 되돌려 놓을 수 없으므로 아무것도 제거하지 않습니다. 처음부터 다시 시작하면 이전 파일은 새 파일 옆에 보관됩니다. 그 후에는 기록에 나열되어 있던 항목을 Finder에서 휴지통 밖으로 드래그해야만 꺼낼 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Totdat Peel Geschiedenis kan lezen of jij opnieuw begint, verwijdert Peel niets, omdat wat Peel nu zou verplaatsen, niet kan worden teruggezet. Als je opnieuw begint, wordt het oude bestand naast een nieuw bestand bewaard. Onderdelen die Geschiedenis vermeldt, kun je dan alleen nog in Finder uit de prullenmand slepen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dopóki Peel nie będzie mógł odczytać Historii albo nie zaczniesz od nowa, niczego nie przeniesie do Kosza, ponieważ niczego, co by teraz przeniósł, nie dałoby się przywrócić. Gdy zaczniesz od nowa, stary plik zostanie zachowany obok nowego. Rzeczy wymienione w Historii będzie wtedy można przywrócić tylko przez przeciągnięcie ich z Kosza w Finderze."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Até conseguir ler o Histórico, ou até você recomeçar, o Peel não remove nada, porque nada do que ele movesse agora poderia ser colocado de volta. Ao recomeçar, o arquivo antigo é guardado ao lado de um novo. Depois disso, os itens que ele lista só podem ser arrastados para fora do Lixo no Finder."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Până când poate citi Istoricul sau până când îl reîncepeți, Peel nu elimină nimic, deoarece orice ar muta acum nu ar putea fi pus înapoi. Dacă îl reîncepeți, fișierul vechi este păstrat lângă unul nou. Articolele pe care le listează fișierul vechi pot fi apoi doar trase afară din Coș, în Finder."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пока Peel не сможет прочитать Историю или пока Вы не начнете ее заново, Peel ничего не удаляет, потому что то, что он переместил бы сейчас, нельзя было бы восстановить. Если начать заново, старый файл сохранится рядом с новым. Объекты, перечисленные в старом файле, тогда можно будет вернуть, только перетащив их из Корзины в Finder."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tills Peel kan läsa Historik, eller tills du börjar om, tar Peel inte bort något, eftersom inget som Peel flyttade nu skulle kunna läggas tillbaka. När du börjar om sparas den gamla filen bredvid en ny. Objekten som listas i den gamla filen kan då bara dras ut ur papperskorgen igen i Finder."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel, Geçmiş’i okuyabilene veya siz baştan başlayana kadar hiçbir şeyi kaldırmaz, çünkü şimdi taşıyacağı hiçbir şey yerine konamazdı. Baştan başladığınızda eski dosya yeni bir dosyanın yanında saklanır. Bu durumda Geçmiş’in listelediği öğeler ancak Finder’da sürüklenerek Çöp Sepeti’nden çıkarılabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Доки Peel не зможе прочитати Історію або доки ви не почнете наново, Peel нічого не вилучає, бо те, що вона зараз перемістила б, не можна було б повернути. Коли ви починаєте наново, старий файл зберігається поруч із новим. Після цього елементи, перелічені в старому файлі, можна буде лише перетягнути у Finder зі Смітника назад."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在Peel能够读取“历史记录”或你重新开始之前，Peel不会移除任何内容，因为如果它现在移动任何内容，都将无法放回原处。重新开始会将旧文件保留在新文件旁边。届时，旧文件中列出的项目只能在“访达”中从废纸篓里拖出来。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在Peel能讀取「歷史記錄」或你重新開始之前，Peel不會移除任何項目，因為它現在移動的任何項目都將無法還原。重新開始時，舊檔案會保留在新檔案旁邊。屆時，舊檔案中列出的項目只能在Finder中從「垃圾桶」拖出來。"
           }
         }
       }
