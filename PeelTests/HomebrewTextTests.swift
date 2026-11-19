@@ -47,4 +47,10 @@ struct HomebrewTextTests {
         #expect(unnamed.detail.key == "Only that account can update or change it.")
         #expect(named.step == nil && named.command == nil && unnamed.step == nil)
     }
+
+    @Test func aStoppedUpgradeOffersTerminalBesideItsCommand() {
+        let command = "brew reinstall --cask example"
+        let actions = HomebrewDetailView.stoppedUpgradeActions(reinstalling: command)
+        #expect(actions == [.copyReinstallCommand(command), .openTerminal])
+    }
 }

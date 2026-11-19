@@ -22,6 +22,16 @@ struct HomebrewDetailView: View {
 
     static let dependencyNote: LocalizedStringResource = "Homebrew installed this for another package, not because you asked for it."
     static let packagesGoneNote: LocalizedStringResource = "Its packages were uninstalled, or their receipts forgotten. If nothing of it is left, Forget Cask moves its Homebrew receipt to the Trash, and History can put it back."
+    /// A button of the note on an upgrade that was stopped.
+    enum StoppedUpgradeAction: Hashable {
+        case copyReinstallCommand(String)
+        case openTerminal
+    }
+
+    static func stoppedUpgradeActions(reinstalling command: String) -> [StoppedUpgradeAction] {
+        [.copyReinstallCommand(command), .openTerminal]
+    }
+
     static let stoppedMidUpgradeNote: LocalizedStringResource = "Its app is still in a Homebrew folder. Reinstalling the cask in Terminal puts it back."
     static let appGoneNote: LocalizedStringResource = "Its app is no longer where Homebrew put it, so Homebrew cannot upgrade it. Forget Cask moves its Homebrew receipt to the Trash, so Homebrew stops listing it, and History can put it back."
 
@@ -100,11 +110,16 @@ struct HomebrewDetailView: View {
                     detail: Text(Self.stoppedMidUpgradeNote),
                     kind: .caution
                 ) {
-                    CopyButton(
-                        text: "\(homebrew.wordForTerminal) reinstall --cask "
-                            + Homebrew.lastWord(naming: package.fullName),
-                        title: "Copy Reinstall Command"
-                    )
+                    let command = "\(homebrew.wordForTerminal) reinstall --cask "
+                        + Homebrew.lastWord(naming: package.fullName)
+                    ForEach(Self.stoppedUpgradeActions(reinstalling: command), id: \.self) { action in
+                        switch action {
+                        case .copyReinstallCommand(let command):
+                            CopyButton(text: command, title: "Copy Reinstall Command")
+                        case .openTerminal:
+                            OpenTerminalButton()
+                        }
+                    }
                 }
             } else if package.isMissingWhatItInstalled {
                 Notice(
