@@ -247,9 +247,9 @@ extension TeamRegistry.Change {
             return String(localized: "It was first seen signed by team \(previous). A copy someone has changed looks like this, and so does one built from source. If you did not expect this, get the app again from its maker.")
         }
         guard let name else {
-            return String(localized: "It was first seen signed by team \(previous), and is signed by team \(current) now. A maker can change the team it signs with, as after a sale, but a copy someone else rebuilt looks the same. If you did not expect this, get the app again from its maker.")
+            return String(localized: "It was first seen signed by team \(previous), and is signed by team \(current) now. A maker can change teams, as after a sale, but a copy someone rebuilt looks the same. If you did not expect this, get the app again from its maker.")
         }
-        return String(localized: "It was first seen signed by team \(previous), and is signed by \(name), team \(current), now. A maker can change the team it signs with, as after a sale, but a copy someone else rebuilt looks the same. If you did not expect this, get the app again from its maker.")
+        return String(localized: "It was first seen signed by team \(previous), and is signed by \(name), team \(current), now. A maker can change teams, as after a sale, but a copy someone rebuilt looks the same. If you did not expect this, get the app again from its maker.")
     }
 }
 
@@ -343,9 +343,9 @@ extension TrashFailure.Reason {
             String(localized: "It is in use by \(processes.formatted(.list(type: .and))). Quit \(processes.formatted(.list(type: .and))), or stop it in Background Items (View > Background Items) if it has no window, then try again.", bundle: bundle)
         case .peelRunsFromIt: String(localized: "Peel itself runs from here, and only Remove Peel, in Settings > General, removes Peel.", bundle: bundle)
         case .heldByAnotherAccount(let processes) where processes.count > 1:
-            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which run as another account or as the system, so neither you nor Peel can quit them. Stop them in Background Items (View > Background Items), or with the uninstaller that came with the app, then try again.", bundle: bundle)
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which run as another account or as the system, so neither you nor Peel can quit them. Stop them in Background Items, or with the uninstaller of their app, then try again.", bundle: bundle)
         case .heldByAnotherAccount(let processes):
-            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which runs as another account or as the system, so neither you nor Peel can quit it. Stop it in Background Items (View > Background Items), or with the uninstaller that came with the app, then try again.", bundle: bundle)
+            String(localized: "It is in use by \(processes.formatted(.list(type: .and))), which runs as another account or as the system, so neither you nor Peel can quit it. Stop it in Background Items, or with the uninstaller of its app, then try again.", bundle: bundle)
         case .openForAnotherUser(let processes) where processes.count > 1:
             String(localized: "It is in use by \(processes.formatted(.list(type: .and))) in another user’s account on this Mac. Quit them in that account, then try again.", bundle: bundle)
         case .openForAnotherUser(let processes):
@@ -511,21 +511,21 @@ extension HistoryWriteProblem {
     func explanation(in bundle: Bundle? = nil) -> String {
         switch self {
         case .folderNotWritable(let folder):
-            String(localized: "This account can’t write to \(folder.abbreviatedPath), where Peel keeps History. Peel removes nothing until it can, so that everything it moves can be put back.", bundle: bundle)
+            String(localized: "This account cannot write to \(folder.abbreviatedPath), where Peel keeps History. Peel removes nothing until it can.", bundle: bundle)
         case .diskFull(let free, let needed):
-            String(localized: "The disk that holds Peel’s folder has \(free.formatted(.byteCount(style: .file))) free, and writing History needs \(needed.formatted(.byteCount(style: .file))). Peel removes nothing until there is room, so that everything it moves can be put back.", bundle: bundle)
+            String(localized: "The disk with the Peel folder has \(free.formatted(.byteCount(style: .file))) free, and History needs \(needed.formatted(.byteCount(style: .file))). Peel removes nothing until there is room.", bundle: bundle)
         case .noRoomLeft(let folder):
-            String(localized: "The disk that holds \(folder.abbreviatedPath) has no room left for Peel to write down each move. Peel removes nothing until there is room, so that everything it moves can be put back.", bundle: bundle)
+            String(localized: "The disk that holds \(folder.abbreviatedPath) has no room left for Peel to write down each move. Peel removes nothing until there is room.", bundle: bundle)
         case .freeSpaceNotKnown(let folder):
-            String(localized: "macOS didn’t say how much room is free on the disk that holds \(folder.abbreviatedPath). Peel removes nothing until it knows, so that everything it moves can be put back.", bundle: bundle)
+            String(localized: "macOS did not say how much room is free on the disk that holds \(folder.abbreviatedPath). Peel removes nothing until it knows.", bundle: bundle)
         case .journalUnreadable(let journal):
-            String(localized: "Something Peel can’t use stands at \(journal.abbreviatedPath), where it writes down each move, and Peel couldn’t set it aside. Peel removes nothing until it’s gone, so that everything it moves can be put back.", bundle: bundle)
+            String(localized: "Something Peel cannot use stands at \(journal.abbreviatedPath), where it writes down each move. Peel removes nothing until it is gone.", bundle: bundle)
         case .journalNotWritable(let journal):
-            String(localized: "This account can’t write \(journal.abbreviatedPath), where Peel writes down each move. Peel removes nothing until it can, so that everything it moves can be put back.", bundle: bundle)
+            String(localized: "This account cannot write \(journal.abbreviatedPath), where Peel writes down each move. Peel removes nothing until it can.", bundle: bundle)
         case .lockClosed(let lock):
-            String(localized: "This account cannot open \(lock.abbreviatedPath), which keeps two programs from writing History at once. Peel removes nothing until it can, so that everything it moves can be put back.", bundle: bundle)
+            String(localized: "This account cannot open \(lock.abbreviatedPath), which keeps two programs from writing History at once. Peel removes nothing until it can.", bundle: bundle)
         case .aLink(let link):
-            String(localized: "\(link.abbreviatedPath) is a link, and Peel keeps History only in files of its own. Peel removes nothing until the link is gone, so that everything it moves can be put back.", bundle: bundle)
+            String(localized: "\(link.abbreviatedPath) is a link, and Peel keeps History only in files of its own. Peel removes nothing until the link is gone.", bundle: bundle)
         }
     }
 }
@@ -672,7 +672,7 @@ extension RestoreFailure {
         case .missingFromTrash: String(localized: "It is no longer in the Trash, so there is nothing to put back.")
         case .alreadyThere: String(localized: "Something is already there, and Peel never replaces it.")
         case .emptyFolderInItsPlace:
-            String(localized: "An empty folder was made here after this moved, often by the app or tool that uses it. Quit that, move the empty folder to the Trash, then put this back: Peel never replaces what is there.")
+            String(localized: "An empty folder was made here after this moved, often by the app that uses it. Quit that app, move the empty folder to the Trash, then put this back.")
         case .needsHelper: String(localized: "It needs administrator access, which the Peel helper provides. Home says what the helper needs.")
         case .notAllowed(.excluded):
             String(localized: "Your exclusions in Settings keep Peel from putting anything back there. Take it off the list to put this back, or drag it out of the Trash in Finder.")
@@ -750,18 +750,17 @@ extension RemovedElsewhere {
 
     private static func leftToFinder(_ carried: CarriedSystemExtensions) -> LocalizedStringResource {
         guard carried.isKnown else {
-            return "Left alone: Peel can’t look inside the app to see which system extensions it carries, and macOS removes those only when the app goes to the Trash in Finder."
+            return "Left alone: Peel cannot see which system extensions the app carries, and macOS removes those only when the app goes to the Trash in Finder."
         }
         let names = carried.names.formatted(.list(type: .and))
-        if #available(macOS 27, *) {
-            guard carried.systemSettingsDeletesThem else {
-                return "Left alone: only macOS can remove \(names). Move the app to the Trash in Finder, which asks macOS to do it."
-            }
-            return carried.names.count == 1
-                ? "Left alone: only macOS can remove \(names). Move the app to the Trash in Finder. If it stays, in System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension."
-                : "Left alone: only macOS can remove \(names). Move the app to the Trash in Finder. If they stay, in System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside each and choose Delete Extension."
+        // Only macOS 27 deletes a network extension in System Settings, as `systemSettingsDeletesThem` knows.
+        guard carried.systemSettingsDeletesThem else {
+            return "Left alone: only macOS removes \(names), when the app goes to the Trash in Finder."
         }
-        return "Left alone: macOS removes \(names) only when the app goes to the Trash in Finder."
+        if carried.names.count == 1 {
+            return "Left alone: only macOS removes \(names), when the app goes to the Trash in Finder. If it stays, delete it in System Settings > General > Login Items & Extensions > By Category > Network Extensions."
+        }
+        return "Left alone: only macOS removes \(names), when the app goes to the Trash in Finder. If they stay, delete them in System Settings > General > Login Items & Extensions > By Category > Network Extensions."
     }
 }
 
@@ -797,11 +796,11 @@ extension HoldBack {
         case .notMeasured:
             "Not selected: this took too long to measure, so Peel doesn’t know how big it is or what is inside."
         case .couldNotBeRead:
-            "Not selected: macOS wouldn’t let Peel read inside, so what is in there isn’t known. If Peel doesn’t have Full Disk Access yet, turning it on from Home may let it see."
+            "Not selected: macOS kept Peel from reading inside. Full Disk Access may let Peel see."
         case .closedByPermissions:
-            "Not selected: its own permissions keep your account out, so what is in there isn’t known. Full Disk Access lets Peel past macOS’s privacy protections, not past a folder’s own permissions."
+            "Not selected: its own permissions keep your account out, which Full Disk Access does not change."
         case .couldNotLookInside:
-            "Left alone: macOS wouldn’t let Peel look inside to make sure nothing Peel protects, such as a library or a wallet, is there. If Peel doesn’t have Full Disk Access yet, turning it on from Home may let it see."
+            "Left alone: macOS kept Peel from looking inside, so Peel cannot tell whether it holds something it protects, such as a wallet. Full Disk Access may let Peel see."
         case .holdsDocuments:
             "Left alone: the app’s own Documents folder is inside and may hold what you made with it. Peel never removes that."
         case .holdsALibrary:
@@ -811,25 +810,25 @@ extension HoldBack {
         case .holdsAPasswordDatabase:
             "Not selected: a password database or its key file is inside. Once the Trash is emptied, the passwords are gone for good unless you have a backup."
         case .holdsLocalMail:
-            "Not selected: this may hold mail kept only on this Mac, such as a local or POP account’s. Once the Trash is emptied, it’s gone for good unless you have a backup."
+            "Not selected: it may hold mail kept only on this Mac, such as a local or POP account."
         case .holdsMessageHistory:
-            "Not selected: this holds message history that may exist only on this Mac. Once the Trash is emptied, it’s gone for good unless you have a backup."
+            "Not selected: it holds message history that may exist only on this Mac."
         case .holdsPasswordsOrCodes:
-            "Not selected: this holds passwords or sign-in codes that may exist only on this Mac. Once the Trash is emptied, they’re gone for good unless you have a backup."
+            "Not selected: it holds passwords or sign-in codes that may exist only on this Mac."
         case .holdsVPNConnections:
-            "Not selected: this holds VPN connections, with their keys and certificates, that may exist only on this Mac. Once the Trash is emptied, they’re gone for good unless you have a backup."
+            "Not selected: it holds VPN connections, with their keys and certificates, that may exist only on this Mac."
         case .holdsSignIns:
             "Not selected: this holds a sign-in to a service, such as a token a tool saved when you logged in. Once the Trash is emptied, you’d sign in again."
         case .holdsTorrents:
-            "Not selected: this holds your list of torrents and how far each one got, which may exist only on this Mac. Once the Trash is emptied, you’d have to add each torrent again."
+            "Not selected: it holds your list of torrents and how far each one got."
         case .packageLeftMore:
             "Not selected: the package also left items outside the app. Package Receipts lists them only while this receipt is here."
         case .holdsWorkMadeWithTheApp:
-            "Not selected: this holds what you made with the app, such as saved games, databases, or the app’s own backups, which may exist only on this Mac. Once the Trash is emptied, it’s gone for good unless you have another copy."
+            "Not selected: it holds what you made with the app, such as saved games or databases, which may exist only on this Mac."
         case .holdsSimulators:
-            "Not selected: this holds the app’s simulators, with the apps installed in them and their data, which may exist only on this Mac. Once the Trash is emptied, they’re gone for good unless you have a backup."
+            "Not selected: it holds the simulators of the app, with their apps and data."
         case .holdsVirtualMachines:
-            "Not selected: this holds virtual machines or Windows bottles, with the systems, apps, and files in them, which may exist only on this Mac. Once the Trash is emptied, they’re gone for good unless you have a backup."
+            "Not selected: it holds virtual machines or Windows bottles, with everything in them."
         case .holdsKeys:
             "Left alone: a wallet or a key Peel protects is inside, so Peel leaves this folder where it is."
         case .holdsWorkKeptInACache:
@@ -839,9 +838,9 @@ extension HoldBack {
         case .holdsAnotherAppsData:
             "Left alone: another app on this Mac keeps its own data inside, and moving this would take that data too."
         case .holdsTerraformState:
-            "Not selected: it holds the state Terraform or OpenTofu keeps of what it made, the only copy when the backend is local. Without it, the next apply no longer knows what exists."
+            "Not selected: it holds the state Terraform or OpenTofu keeps, the only copy with a local backend."
         case .holdsWhatAToolKeeps:
-            "Not selected: this holds what a developer tool keeps, such as installed packages, model weights, or app archives, which the tool may still use even if nothing here has changed in months."
+            "Not selected: a developer tool may still use what it keeps here, such as packages or model weights."
         case .holdsModels:
             "Not selected: this holds model weights or datasets, a long download to get back, and any you made or imported may exist only on this Mac."
         case .beyondTheHelper:
@@ -853,13 +852,13 @@ extension HoldBack {
         case .neededWhenTheAppLeaves:
             "Left alone: a program that runs once the app is in the Trash needs this, so Peel leaves it where it is."
         case .systemExtension:
-            "Left alone: macOS installed this system extension and removes it only when the app that uses it goes to the Trash in Finder. If that app is gone, install it again, open it and use the feature that needs the extension, allow it when macOS asks, then move the app to the Trash in Finder and restart your Mac."
+            "Left alone: macOS removes this system extension only when its app goes to the Trash in Finder. If the app is gone, install it again, use the feature that needs the extension and allow it when macOS asks, then move the app to the Trash in Finder and restart."
         case .systemExtensionGoingAtRestart:
             "Left alone: macOS removes this system extension when your Mac restarts."
         case .deletableSystemExtension:
-            "Left alone: macOS installed this system extension, and only macOS removes it. In System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension."
+            "Left alone: only macOS removes this system extension. Delete it in System Settings > General > Login Items & Extensions > By Category > Network Extensions."
         case .systemExtensionOfAnAppInside:
-            "Left alone: macOS installed this for an app bundled inside another app, and moving that app to the Trash in Finder does not remove it, so installing the app again will not help. While it is turned off, macOS does not run it."
+            "Left alone: macOS installed this for an app inside another app, and moving that app does not remove it. While it is turned off, macOS does not run it."
         case .jobOfAnAppThatLeft:
             "Not selected: its app has left this Mac, but this job is still installed."
         case .programOfAJobOfAnAppThatLeft:
