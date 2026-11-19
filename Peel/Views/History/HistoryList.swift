@@ -242,6 +242,7 @@ extension HistoryList {
     static let unreadableNote: LocalizedStringResource = "Peel removes nothing until it can read History or you start over, so that everything it moves can be put back. Starting over keeps the old file beside the new one, and what it lists comes back only from the Trash in Finder."
 
     static let journalSetAside: LocalizedStringResource = "A removal may be missing from History"
+    static let journalSetAsideNote: LocalizedStringResource = "Peel could not read its record of a removal under way. Peel kept that file aside. If a removal was cut short, what it moved is in the Trash but is not listed here: you can drag it back out in Finder."
 
     /// What the page shows in place of its list.
     enum EmptyState {
@@ -363,7 +364,7 @@ private struct HistoryProblemNotice: View {
         case .journalSetAside(let setAside):
             Notice(
                 title: Text(HistoryList.journalSetAside),
-                detail: Text("Peel kept that file aside. If a removal was cut short, what it moved is in the Trash but is not listed here: you can drag it back out in Finder.")
+                detail: Text(HistoryList.journalSetAsideNote)
             ) {
                 Button("Show in Finder") {
                     NSWorkspace.shared.activateFileViewerSelecting([setAside])
