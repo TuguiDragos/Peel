@@ -238,6 +238,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   which History can't put back, and an app's page asks before it upgrades with Homebrew, saying the same.
 - A folder Homebrew can't change is named in the note's title, with why in its circled i and the command that fixes it
   under it, on a package's page too.
+- The note on an upgrade that was stopped offers Open Terminal beside Copy Reinstall Command.
 
 #### Space
 
