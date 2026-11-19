@@ -55404,112 +55404,6 @@
         }
       }
     },
-    "Files you gave to an app are listed again" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Soubory, které jste přiřadili aplikaci, se znovu zobrazují"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dateien, die du einer App zugeordnet hast, werden wieder angezeigt"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Los archivos que has asignado a una app vuelven a aparecer en la lista"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les fichiers que vous avez attribués à une app sont de nouveau listés"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I file che hai assegnato a un’app sono di nuovo in elenco"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アプリに属すると指定したファイルが再び表示されています"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "앱의 소유로 지정한 파일이 다시 나열됨"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bestanden die je aan een app hebt toegewezen, worden weer getoond"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pliki przypisane przez Ciebie do aplikacji znów są na liście"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arquivos que você atribuiu a um app voltaram a ser listados"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fișierele pe care le‑ați atribuit unei aplicații sunt listate din nou"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Файлы, которые Вы отнесли к приложению, снова в списке"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filer som du har angett hör till en app listas igen"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bir uygulamaya atadığınız dosyalar yeniden listeleniyor"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Файли, які ви приписали програмі, знову в списку"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你标为属于某个App的文件已再次列出"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你指定屬於某個App的檔案已再次列出"
-          }
-        }
-      }
-    },
     "Filters" : {
       "localizations" : {
         "cs" : {
@@ -88547,6 +88441,346 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它無法回到原本的檔案夾，因此Peel的輔助程式會保留它，並在輔助程式下次啟動時將它丟到「垃圾桶」。"
+          }
+        }
+      }
+    },
+    "It did not read ^[%lld place](inflect: true) where apps are. Nothing is listed, since the files of an app it cannot see would look orphaned." : {
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nepřečetl %lld místa, kde jsou aplikace. Nic tu není uvedeno, protože by soubory aplikace, kterou nevidí, vypadaly jako osiřelé."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nepřečetl %lld místa, kde jsou aplikace. Nic tu není uvedeno, protože by soubory aplikace, kterou nevidí, vypadaly jako osiřelé."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nepřečetl %lld místo, kde jsou aplikace. Nic tu není uvedeno, protože by soubory aplikace, kterou nevidí, vypadaly jako osiřelé."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nepřečetl %lld míst, kde jsou aplikace. Nic tu není uvedeno, protože by soubory aplikace, kterou nevidí, vypadaly jako osiřelé."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel hat %lld Ort, an dem Apps liegen, nicht gelesen. Es wird nichts aufgeführt, da die Dateien einer App, die Peel nicht sehen kann, verwaist wirken würden."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel hat %lld Orte, an denen Apps liegen, nicht gelesen. Es wird nichts aufgeführt, da die Dateien einer App, die Peel nicht sehen kann, verwaist wirken würden."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No ha leído %lld de lugares donde hay apps. No aparece nada, ya que los archivos de una app que no puede ver parecerían huérfanos."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No ha leído un lugar donde hay apps. No aparece nada, ya que los archivos de una app que no puede ver parecerían huérfanos."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No ha leído %lld lugares donde hay apps. No aparece nada, ya que los archivos de una app que no puede ver parecerían huérfanos."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il n’a pas lu %lld d’emplacements où se trouvent des apps. Rien n’est listé, car les fichiers d’une app qu’il ne peut pas voir sembleraient orphelins."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il n’a pas lu %lld emplacement où se trouvent des apps. Rien n’est listé, car les fichiers d’une app qu’il ne peut pas voir sembleraient orphelins."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Il n’a pas lu %lld emplacements où se trouvent des apps. Rien n’est listé, car les fichiers d’une app qu’il ne peut pas voir sembleraient orphelins."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Non ha letto %lld di posizioni in cui si trovano delle app. Non è elencato nulla, perché i file di un’app che non vede sembrerebbero orfani."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Non ha letto una posizione in cui si trovano delle app. Non è elencato nulla, perché i file di un’app che non vede sembrerebbero orfani."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Non ha letto %lld posizioni in cui si trovano delle app. Non è elencato nulla, perché i file di un’app che non vede sembrerebbero orfani."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、アプリがある場所のうち%lldか所を読み取っていません。Peelが確認できないアプリのファイルが孤立ファイルに見えてしまうため、何も表示していません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 앱이 있는 위치 %lld곳을 읽지 못했습니다. Peel이 볼 수 없는 앱의 파일이 주인 없는 파일처럼 보이게 되므로 아무것도 나열되지 않습니다."
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel heeft %lld plek niet gelezen waar apps staan. Er wordt niets getoond, omdat de bestanden van een app die Peel niet kan zien, verweesd zouden lijken."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel heeft %lld plekken niet gelezen waar apps staan. Er wordt niets getoond, omdat de bestanden van een app die Peel niet kan zien, verweesd zouden lijken."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nie odczytał %lld miejsc, w których są aplikacje. Nic nie jest wyświetlane, ponieważ pliki aplikacji, której nie widzi, wyglądałyby na osierocone."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nie odczytał %lld miejsc, w których są aplikacje. Nic nie jest wyświetlane, ponieważ pliki aplikacji, której nie widzi, wyglądałyby na osierocone."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nie odczytał %lld miejsca, w którym są aplikacje. Nic nie jest wyświetlane, ponieważ pliki aplikacji, której nie widzi, wyglądałyby na osierocone."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nie odczytał %lld miejsca, w którym są aplikacje. Nic nie jest wyświetlane, ponieważ pliki aplikacji, której nie widzi, wyglądałyby na osierocone."
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
+          "variations" : {
+            "plural" : {
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ele não leu %lld de locais onde há apps. Nada é listado, porque os arquivos de um app que ele não consegue ver pareceriam órfãos."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ele não leu %lld local onde há apps. Nada é listado, porque os arquivos de um app que ele não consegue ver pareceriam órfãos."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ele não leu %lld locais onde há apps. Nada é listado, porque os arquivos de um app que ele não consegue ver pareceriam órfãos."
+                }
+              }
+            }
+          }
+        },
+        "ro" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nu a citit %lld locuri în care se află aplicații. Nu este listat nimic, deoarece fișierele unei aplicații pe care nu o poate vedea ar părea orfane."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nu a citit %lld loc în care se află aplicații. Nu este listat nimic, deoarece fișierele unei aplicații pe care nu o poate vedea ar părea orfane."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nu a citit %lld de locuri în care se află aplicații. Nu este listat nimic, deoarece fișierele unei aplicații pe care nu o poate vedea ar părea orfane."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не удалось прочитать %lld места, где находятся приложения. Ничего не показано, так как файлы приложения, которого Peel не видит, выглядели бы осиротевшими."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не удалось прочитать %lld мест, где находятся приложения. Ничего не показано, так как файлы приложения, которого Peel не видит, выглядели бы осиротевшими."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не удалось прочитать %lld место, где находятся приложения. Ничего не показано, так как файлы приложения, которого Peel не видит, выглядели бы осиротевшими."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не удалось прочитать %lld места, где находятся приложения. Ничего не показано, так как файлы приложения, которого Peel не видит, выглядели бы осиротевшими."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel har inte läst en plats där appar finns. Inget listas, eftersom filerna från en app som Peel inte kan se skulle verka övergivna."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Peel har inte läst %lld platser där appar finns. Inget listas, eftersom filerna från en app som Peel inte kan se skulle verka övergivna."
+                }
+              }
+            }
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uygulamaların bulunduğu %lld yeri okumadı. Hiçbir şey listelenmiyor, çünkü göremediği bir uygulamanın dosyaları sahipsiz görünürdü."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Uygulamaların bulunduğu %lld yeri okumadı. Hiçbir şey listelenmiyor, çünkü göremediği bir uygulamanın dosyaları sahipsiz görünürdü."
+                }
+              }
+            }
+          }
+        },
+        "uk" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вона не прочитала %lld місця, де зберігаються програми. Нічого не показано, бо файли програми, якої вона не бачить, здавалися б покинутими."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вона не прочитала %lld місць, де зберігаються програми. Нічого не показано, бо файли програми, якої вона не бачить, здавалися б покинутими."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вона не прочитала %lld місце, де зберігаються програми. Нічого не показано, бо файли програми, якої вона не бачить, здавалися б покинутими."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вона не прочитала %lld місця, де зберігаються програми. Нічого не показано, бо файли програми, якої вона не бачить, здавалися б покинутими."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它没有读取%lld个存放App的位置。此处没有列出任何内容，因为如果它看不到某个App，该App的文件看起来就会像孤立文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel沒有讀取%lld個存放App的位置。此處沒有列出任何項目，因為Peel看不到的App，其檔案看起來會像孤立檔案。"
           }
         }
       }
@@ -150228,108 +150462,108 @@
         }
       }
     },
-    "Only an administrator can move these, and the Peel helper cannot move them from where they are. To remove one, show it in Finder, drag it to the Trash, then enter an administrator name and password when macOS asks." : {
+    "Only an administrator can move these, and the Peel helper cannot. To remove one, show it in Finder, drag it to the Trash, and enter an administrator name and password." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tyto položky může přesunout jen správce a pomocník Peelu je nemůže přesunout z místa, kde jsou. Chcete-li některou z nich odstranit, zobrazte ji ve Finderu, přetáhněte ji do koše a potom zadejte jméno a heslo správce, až o ně macOS požádá."
+            "value" : "Tyto položky může přesunout jen správce a pomocník Peelu je přesunout nemůže. Chcete-li některou z nich odstranit, zobrazte ji ve Finderu, přetáhněte ji do koše a zadejte jméno a heslo správce."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nur ein Administrator kann diese verschieben, und das Hilfsprogramm von Peel kann sie von dort, wo sie sind, nicht verschieben. Um eines davon zu entfernen, zeige es im Finder an, ziehe es in den Papierkorb und gib dann den Adminnamen und das Adminpasswort ein, wenn macOS danach fragt."
+            "value" : "Nur ein Administrator kann diese verschieben, das Hilfsprogramm von Peel nicht. Um eines davon zu entfernen, zeige es im Finder an, ziehe es in den Papierkorb und gib den Adminnamen und das Adminpasswort ein."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo un administrador puede trasladar estos ítems, y el asistente de Peel no puede trasladarlos desde donde están. Para eliminar uno, muéstralo en el Finder, arrástralo a la papelera y, después, introduce un nombre de administrador y la contraseña cuando macOS te lo pida."
+            "value" : "Solo un administrador puede trasladar estos ítems, y el asistente de Peel no puede. Para eliminar uno, muéstralo en el Finder, arrástralo a la papelera e introduce un nombre de administrador y la contraseña."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seul un administrateur peut déplacer ces éléments, et l’utilitaire de Peel ne peut pas les déplacer depuis leur emplacement. Pour en supprimer un, affichez-le dans le Finder, faites-le glisser dans la corbeille, puis saisissez un nom et un mot de passe d’administrateur lorsque macOS vous le demande."
+            "value" : "Seul un administrateur peut déplacer ces éléments, et l’utilitaire de Peel ne le peut pas. Pour en supprimer un, affichez-le dans le Finder, faites-le glisser dans la corbeille, puis saisissez un nom et un mot de passe d’administrateur."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo un amministratore può spostare questi elementi, e l’assistente di Peel non può spostarli da dove si trovano. Per rimuoverne uno, mostralo nel Finder, trascinalo nel Cestino, poi inserisci un nome e una password di amministratore quando macOS te lo chiede."
+            "value" : "Solo un amministratore può spostare questi elementi, e l’assistente di Peel non può farlo. Per rimuoverne uno, mostralo nel Finder, trascinalo nel Cestino e inserisci un nome e una password di amministratore."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これらを移動できるのは管理者だけで、Peelのヘルパーではこれらがある場所から移動できません。項目を取り除くには、Finderに表示してゴミ箱にドラッグし、macOSから求められたら管理者名とパスワードを入力してください。"
+            "value" : "これらを移動できるのは管理者だけで、Peelのヘルパーでは移動できません。項目を取り除くには、Finderに表示してゴミ箱にドラッグし、管理者名とパスワードを入力してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "관리자만 이 항목들을 이동할 수 있으며, Peel 보조 프로그램은 현재 위치에서 이 항목들을 이동할 수 없습니다. 항목을 제거하려면 Finder에서 해당 항목을 보고 휴지통으로 드래그한 다음, macOS가 요청하면 관리자 이름 및 암호를 입력하십시오."
+            "value" : "관리자만 이 항목들을 이동할 수 있으며, Peel 보조 프로그램은 이동할 수 없습니다. 항목을 제거하려면 Finder에서 해당 항목을 보고 휴지통으로 드래그한 다음, 관리자 이름 및 암호를 입력하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alleen een beheerder kan deze verplaatsen, en het hulpprogramma van Peel kan ze daar niet vandaan verplaatsen. Om een onderdeel te verwijderen, toon je het in Finder, sleep je het naar de prullenmand en voer je daarna de naam en het wachtwoord van een beheerder in als macOS erom vraagt."
+            "value" : "Alleen een beheerder kan deze verplaatsen, en het hulpprogramma van Peel kan dat niet. Om een onderdeel te verwijderen, toon je het in Finder, sleep je het naar de prullenmand en voer je de naam en het wachtwoord van een beheerder in."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Przenieść te rzeczy może tylko administrator, a pomocnik Peel nie może ich przenieść z miejsc, w których się znajdują. Aby pozbyć się jednej z nich, pokaż ją w Finderze, przeciągnij do Kosza, a następnie wprowadź nazwę i hasło administratora, gdy macOS o to poprosi."
+            "value" : "Przenieść te rzeczy może tylko administrator, a pomocnik Peel nie może. Aby pozbyć się jednej z nich, pokaż ją w Finderze, przeciągnij do Kosza i wprowadź nazwę i hasło administratora."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Só um administrador pode mover estes itens, e o auxiliar do Peel não pode movê-los de onde estão. Para remover um deles, mostre-o no Finder, arraste-o para o Lixo, depois insira o nome e a senha de um administrador quando o macOS pedir."
+            "value" : "Só um administrador pode mover estes itens, e o auxiliar do Peel não pode. Para remover um deles, mostre-o no Finder, arraste-o para o Lixo e digite o nome e a senha de um administrador."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Doar un administrator poate muta aceste articole, iar instrumentul de ajutor Peel nu le poate muta de unde se află. Pentru a elimina unul, afișați‑l în Finder, trageți‑l în Coș, apoi introduceți un nume de administrator și o parolă când macOS vi le cere."
+            "value" : "Doar un administrator poate muta aceste articole, iar instrumentul de ajutor Peel nu poate. Pentru a elimina unul, afișați‑l în Finder, trageți‑l în Coș și introduceți un nume de administrator și o parolă."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Переместить эти объекты может только администратор, а помощник Peel не может переместить их оттуда, где они находятся. Чтобы удалить объект, покажите его в Finder, перетяните в Корзину, затем введите имя и пароль администратора, когда macOS их запросит."
+            "value" : "Переместить эти объекты может только администратор, а помощник Peel не может. Чтобы удалить объект, покажите его в Finder, перетащите в Корзину и введите имя и пароль администратора."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bara en administratör kan flytta de här, och Peels hjälpprogram kan inte flytta dem från deras nuvarande plats. Om du vill ta bort ett av dem visar du det i Finder, drar det till papperskorgen och anger sedan ett administratörsnamn och lösenord när macOS ber om det."
+            "value" : "Bara en administratör kan flytta de här, och det kan inte Peels hjälpprogram. Om du vill ta bort ett av dem visar du det i Finder, drar det till papperskorgen och anger ett administratörsnamn och lösenord."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bunları yalnızca bir yönetici taşıyabilir ve Peel’in yardımcısı onları bulundukları yerden taşıyamaz. Bunlardan birini kaldırmak için onu Finder’da gösterin, Çöp Sepeti’ne sürükleyin, ardından macOS istediğinde bir yönetici adı ve parolası girin."
+            "value" : "Bunları yalnızca bir yönetici taşıyabilir, Peel’in yardımcısı taşıyamaz. Bunlardan birini kaldırmak için onu Finder’da gösterin, Çöp Sepeti’ne sürükleyin ve bir yönetici adı ve parolası girin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Перемістити їх може лише адміністратор, а помічник Peel не може перемістити їх звідти, де вони лежать. Щоб вилучити один із них, покажіть його у Finder, перетягніть його в Смітник, а потім введіть імʼя й пароль адміністратора, коли macOS запитає."
+            "value" : "Перемістити їх може лише адміністратор, а помічник Peel не може. Щоб вилучити один із них, покажіть його у Finder, перетягніть у Смітник і введіть імʼя й пароль адміністратора."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "只有管理员才能移动这些项目，而Peel的帮助程序无法从其所在的位置移动它们。若要移除其中一项，请在“访达”中显示它，将它拖到废纸篓，然后在macOS要求时输入管理员名称和密码。"
+            "value" : "只有管理员才能移动这些项目，Peel的帮助程序也无法移动它们。若要移除其中一项，请在“访达”中显示它，将它拖到废纸篓，然后输入管理员名称和密码。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "只有管理者能移動這些項目，而Peel的輔助程式無法從所在位置移動它們。若要移除其中一個項目，請將它顯示於Finder並拖到「垃圾桶」，然後在macOS要求時輸入管理者名稱和密碼。"
+            "value" : "只有管理者能移動這些項目，而Peel的輔助程式無法移動它們。若要移除其中一個項目，請將它顯示於Finder，拖到「垃圾桶」，然後輸入管理者名稱和密碼。"
           }
         }
       }
@@ -159791,112 +160025,6 @@
         }
       }
     },
-    "Peel cannot read the list of files you said belong to an app or a command-line tool, so they are listed here again. Start the list over in Settings > Exclusions." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nemůže přečíst seznam souborů, u kterých jste uvedli, že patří některé aplikaci nebo nástroji příkazového řádku, a proto se tu znovu zobrazují. Začněte seznam znovu v Nastavení > Výjimky."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kann die Liste der Dateien, die laut deiner Angabe zu einer App oder einem Befehlszeilentool gehören, nicht lesen, daher werden sie hier wieder angezeigt. Beginne die Liste in den Einstellungen unter „Ausschlüsse“ neu."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel no puede leer la lista de los archivos que has indicado que pertenecen a una app o a una herramienta de línea de comandos, así que vuelven a aparecer aquí. Vuelve a empezar la lista en Ajustes > Exclusiones."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ne peut pas lire la liste des fichiers que vous avez attribués à une app ou à un outil de ligne de commande : ils sont donc de nouveau listés ici. Recommencez la liste dans Réglages > Exclusions."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel non riesce a leggere l’elenco dei file che hai indicato come appartenenti a un’app o a uno strumento a riga di comando, quindi sono di nuovo elencati qui. Ricomincia l’elenco da capo in Impostazioni > Esclusioni."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelは、アプリまたはコマンドラインツールに属すると指定したファイルのリストを読み取れないため、それらのファイルがここに再び表示されています。“設定”＞“除外”でリストを最初からやり直してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "사용자가 앱 또는 명령어 라인 도구의 소유로 지정한 파일 목록을 Peel이 읽을 수 없으므로 해당 파일이 여기에 다시 나열됩니다. 설정 > 제외 항목에서 목록을 처음부터 다시 시작하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kan de lijst van bestanden die volgens jou bij een app of een commandoregeltool horen, niet lezen, dus worden ze hier weer getoond. Begin in Instellingen > Uitsluitingen opnieuw met de lijst."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nie może odczytać listy plików wskazanych przez Ciebie jako należące do aplikacji lub narzędzia wiersza polecenia, więc znów są tutaj wyświetlane. Zacznij tę listę od nowa w Ustawieniach > Wykluczenia."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel não consegue ler a lista dos arquivos que você indicou como pertencentes a um app ou a uma ferramenta de linha de comando, então eles aparecem aqui de novo. Recomece a lista em Ajustes > Exclusões."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nu poate citi lista fișierelor pe care le‑ați atribuit unei aplicații sau unui instrument în linie de comandă, așa că acestea sunt listate din nou aici. Reîncepeți lista în Configurări > Excluderi."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не удается прочитать список файлов, которые Вы отметили как принадлежащие приложению или инструменту командной строки, поэтому они снова показаны здесь. Начните список заново в разделе «Настройки» > «Исключения»."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kan inte läsa listan över filer som du har angett hör till en app eller ett kommandoradsverktyg, så de listas här igen. Börja om listan i Inställningar > Undantag."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel, bir uygulamaya veya komut satırı aracına ait olduğunu söylediğiniz dosyaların listesini okuyamıyor, bu yüzden bu dosyalar burada yeniden listeleniyor. Listeyi Ayarlar > Hariç Tutulanlar’da baştan başlatın."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не може прочитати список файлів, які, за вашими словами, належать програмі або інструменту командного рядка, тож їх знову показано тут. Почніть список наново в розділі Параметри > Винятки."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel无法读取你标为属于某个App或命令行工具的文件的列表，因此它们会在此处再次列出。请在“设置”>“排除项”中重新开始建立该列表。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel無法讀取你指定屬於某個App或命令列工具的檔案列表，因此它們會再次列在這裡。請在「設定」>「排除項目」中重新開始此列表。"
-          }
-        }
-      }
-    },
     "Peel cannot read the saved copies" : {
       "localizations" : {
         "cs" : {
@@ -160211,6 +160339,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法讀取你選擇的是哪個`brew`"
+          }
+        }
+      }
+    },
+    "Peel cannot read which app owns these files" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemůže přečíst, které aplikaci tyto soubory patří"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann nicht lesen, welcher App diese Dateien gehören"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede leer a qué app pertenecen estos archivos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas lire à quelle app appartiennent ces fichiers"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non riesce a leggere a quale app appartengono questi file"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、これらのファイルがどのアプリのものかを読み取れません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 파일들이 어느 앱의 것인지 읽을 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan niet lezen bij welke app deze bestanden horen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może odczytać, do której aplikacji należą te pliki"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue ler a qual app pertencem estes arquivos"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate citi cărei aplicații îi aparțin aceste fișiere"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удается прочитать, какому приложению принадлежат эти файлы"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte läsa vilken app som äger de här filerna"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bu dosyaların hangi uygulamaya ait olduğunu okuyamıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може прочитати, якій програмі належать ці файли"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法读取这些文件属于哪个App"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取這些檔案屬於哪個App"
           }
         }
       }
@@ -160741,6 +160975,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法判斷zsh讀取的是哪個.zshrc。請在「Shell」標籤頁中詢問zsh來查明。"
+          }
+        }
+      }
+    },
+    "Peel cannot tell which apps are installed" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nedokáže zjistit, které aplikace jsou nainstalované"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kann nicht erkennen, welche Apps installiert sind"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no puede saber qué apps hay instaladas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne peut pas savoir quelles apps sont installées"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non riesce a capire quali app sono installate"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、どのアプリがインストールされているかを判断できません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 어떤 앱이 설치되어 있는지 알 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan niet nagaan welke apps er zijn geïnstalleerd"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie może ustalić, które aplikacje są zainstalowane"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não consegue saber quais apps estão instalados"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu poate ști ce aplicații sunt instalate"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не может определить, какие приложения установлены"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kan inte avgöra vilka appar som är installerade"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel hangi uygulamaların yüklü olduğunu bilemiyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не може визначити, які програми інстальовано"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel无法判断安装了哪些App"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法判斷哪些App已安裝"
           }
         }
       }
@@ -161724,112 +162064,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法讀取它的檔案"
-          }
-        }
-      }
-    },
-    "Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nemůže přečíst svůj seznam složek aplikací, takže stránka Osiřelé soubory nic nezobrazuje. Když začnete znovu, starý seznam se ponechá vedle nového."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kann seine Liste der App-Ordner nicht lesen, daher zeigt die Seite „Verwaiste Dateien“ nichts an. Wenn du neu beginnst, bleibt die alte Liste neben einer neuen erhalten."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel no puede leer su lista de carpetas de apps, así que la página Archivos huérfanos no muestra nada. Al volver a empezar, la lista antigua se conserva junto a una nueva."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ne peut pas lire sa liste de dossiers d’apps : la page Fichiers orphelins ne liste donc rien. Si vous recommencez, l’ancienne liste est conservée à côté d’une nouvelle."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel non riesce a leggere il suo elenco di cartelle delle app, quindi “File orfani” non elenca nulla. Se ricominci da capo, il vecchio elenco viene conservato accanto a uno nuovo."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはアプリのフォルダのリストを読み取れないため、“孤立ファイル”には何も表示されません。最初からやり直すと、古いリストは新しいリストの横に保管されます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 앱 폴더 목록을 읽을 수 없으므로 주인 없는 파일 페이지는 아무것도 나열하지 않습니다. 처음부터 다시 시작하면 이전 목록은 새 목록 옆에 보관됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kan zijn lijst van mappen met apps niet lezen, dus toont de pagina 'Verweesde bestanden' niets. Als je opnieuw begint, wordt de oude lijst naast een nieuwe lijst bewaard."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nie może odczytać swojej listy folderów z aplikacjami, więc strona Osierocone pliki niczego nie wyświetla. Gdy zaczniesz od nowa, stara lista zostanie zachowana obok nowej."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel não consegue ler a lista de pastas de apps, então a página Arquivos Órfãos não lista nada. Ao recomeçar, a lista antiga é guardada ao lado de uma nova."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nu își poate citi lista de dosare de aplicații, așa că pagina Fișiere orfane nu listează nimic. Dacă reîncepeți lista, cea veche este păstrată lângă una nouă."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не удается прочитать свой список папок приложений, поэтому раздел «Осиротевшие файлы» ничего не показывает. Если начать заново, старый список сохранится рядом с новым."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kan inte läsa sin lista över appmappar, så sidan Övergivna filer listar ingenting. När du börjar om sparas den gamla listan bredvid en ny."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel, uygulama klasörleri listesini okuyamıyor, bu yüzden Sahipsiz Dosyalar hiçbir şey listelemiyor. Baştan başladığınızda eski liste yeni bir listenin yanında saklanır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не може прочитати свій список папок програм, тож розділ «Покинуті файли» нічого не показує. Коли ви починаєте наново, старий список зберігається поруч із новим."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel无法读取其App文件夹列表，因此“孤立文件”不会列出任何内容。重新开始会将旧列表保留在新列表旁边。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel無法讀取它的App檔案夾列表，因此「孤立檔案」不會列出任何項目。重新開始時，舊列表會保留在新列表旁邊。"
           }
         }
       }
@@ -169616,346 +169850,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel沒有讀取%lld個檔案夾。"
-          }
-        }
-      }
-    },
-    "Peel did not read ^[%lld place](inflect: true) where apps are, so it cannot tell which apps are installed. Nothing is listed here, since the files of an app it cannot see would look orphaned." : {
-      "localizations" : {
-        "cs" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nepřečetl %lld místa, kde jsou aplikace, takže nemůže určit, které aplikace jsou nainstalované. Nic tu není uvedeno, protože by soubory aplikace, kterou Peel nevidí, vypadaly jako osiřelé."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nepřečetl %lld místa, kde jsou aplikace, takže nemůže určit, které aplikace jsou nainstalované. Nic tu není uvedeno, protože by soubory aplikace, kterou Peel nevidí, vypadaly jako osiřelé."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nepřečetl %lld místo, kde jsou aplikace, takže nemůže určit, které aplikace jsou nainstalované. Nic tu není uvedeno, protože by soubory aplikace, kterou Peel nevidí, vypadaly jako osiřelé."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nepřečetl %lld míst, kde jsou aplikace, takže nemůže určit, které aplikace jsou nainstalované. Nic tu není uvedeno, protože by soubory aplikace, kterou Peel nevidí, vypadaly jako osiřelé."
-                }
-              }
-            }
-          }
-        },
-        "de" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel hat %lld Ort, an dem Apps liegen, nicht gelesen und kann daher nicht erkennen, welche Apps installiert sind. Hier wird nichts aufgeführt, da die Dateien einer App, die Peel nicht sehen kann, verwaist wirken würden."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel hat %lld Orte, an denen Apps liegen, nicht gelesen und kann daher nicht erkennen, welche Apps installiert sind. Hier wird nichts aufgeführt, da die Dateien einer App, die Peel nicht sehen kann, verwaist wirken würden."
-                }
-              }
-            }
-          }
-        },
-        "es" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel no ha leído %lld de lugares donde hay apps, así que no puede saber qué apps hay instaladas. Aquí no aparece nada, ya que los archivos de una app que Peel no puede ver parecerían huérfanos."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel no ha leído un lugar donde hay apps, así que no puede saber qué apps hay instaladas. Aquí no aparece nada, ya que los archivos de una app que Peel no puede ver parecerían huérfanos."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel no ha leído %lld lugares donde hay apps, así que no puede saber qué apps hay instaladas. Aquí no aparece nada, ya que los archivos de una app que Peel no puede ver parecerían huérfanos."
-                }
-              }
-            }
-          }
-        },
-        "fr" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel n’a pas lu %lld d’emplacements où se trouvent des apps : il ne peut donc pas savoir quelles apps sont installées. Rien n’est listé ici, car les fichiers d’une app qu’il ne peut pas voir sembleraient orphelins."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel n’a pas lu %lld emplacement où se trouvent des apps : il ne peut donc pas savoir quelles apps sont installées. Rien n’est listé ici, car les fichiers d’une app qu’il ne peut pas voir sembleraient orphelins."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel n’a pas lu %lld emplacements où se trouvent des apps : il ne peut donc pas savoir quelles apps sont installées. Rien n’est listé ici, car les fichiers d’une app qu’il ne peut pas voir sembleraient orphelins."
-                }
-              }
-            }
-          }
-        },
-        "it" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel non ha letto %lld di posizioni in cui si trovano delle app, quindi non può sapere quali app sono installate. Qui non è elencato nulla, perché i file di un’app che Peel non vede sembrerebbero orfani."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel non ha letto una posizione in cui si trovano delle app, quindi non può sapere quali app sono installate. Qui non è elencato nulla, perché i file di un’app che Peel non vede sembrerebbero orfani."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel non ha letto %lld posizioni in cui si trovano delle app, quindi non può sapere quali app sono installate. Qui non è elencato nulla, perché i file di un’app che Peel non vede sembrerebbero orfani."
-                }
-              }
-            }
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはアプリがある場所のうち%lldか所を読み取っていないため、どのアプリがインストールされているかを判断できません。ここに何も表示されていないのは、Peelが確認できないアプリのファイルが孤立ファイルに見えてしまうためです。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 앱이 있는 위치 %lld곳을 읽지 못했으므로 어떤 앱이 설치되어 있는지 알 수 없습니다. Peel이 볼 수 없는 앱의 파일이 주인 없는 파일처럼 보이게 되므로 여기에는 아무것도 나열되지 않습니다."
-          }
-        },
-        "nl" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel heeft %lld plek niet gelezen waar apps staan, en kan dus niet nagaan welke apps er geïnstalleerd zijn. Hier wordt niets getoond, omdat de bestanden van een app die Peel niet kan zien, verweesd zouden lijken."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel heeft %lld plekken niet gelezen waar apps staan, en kan dus niet nagaan welke apps er geïnstalleerd zijn. Hier wordt niets getoond, omdat de bestanden van een app die Peel niet kan zien, verweesd zouden lijken."
-                }
-              }
-            }
-          }
-        },
-        "pl" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nie odczytał %lld miejsc, w których są aplikacje, więc nie może ustalić, które aplikacje są zainstalowane. Niczego tu nie wyświetla, ponieważ pliki aplikacji, której nie widzi, wyglądałyby na osierocone."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nie odczytał %lld miejsc, w których są aplikacje, więc nie może ustalić, które aplikacje są zainstalowane. Niczego tu nie wyświetla, ponieważ pliki aplikacji, której nie widzi, wyglądałyby na osierocone."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nie odczytał %lld miejsca, w którym są aplikacje, więc nie może ustalić, które aplikacje są zainstalowane. Niczego tu nie wyświetla, ponieważ pliki aplikacji, której nie widzi, wyglądałyby na osierocone."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nie odczytał %lld miejsca, w którym są aplikacje, więc nie może ustalić, które aplikacje są zainstalowane. Niczego tu nie wyświetla, ponieważ pliki aplikacji, której nie widzi, wyglądałyby na osierocone."
-                }
-              }
-            }
-          }
-        },
-        "pt" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "O Peel não leu %lld de locais onde há apps, então não sabe dizer quais apps estão instalados. Nada aparece aqui, porque os arquivos de um app que ele não consegue ver pareceriam órfãos."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "O Peel não leu %lld local onde há apps, então não sabe dizer quais apps estão instalados. Nada aparece aqui, porque os arquivos de um app que ele não consegue ver pareceriam órfãos."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "O Peel não leu %lld locais onde há apps, então não sabe dizer quais apps estão instalados. Nada aparece aqui, porque os arquivos de um app que ele não consegue ver pareceriam órfãos."
-                }
-              }
-            }
-          }
-        },
-        "ro" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nu a citit %lld locuri în care se află aplicații, așa că nu poate ști ce aplicații sunt instalate. Aici nu este listat nimic, deoarece fișierele unei aplicații pe care nu o poate vedea ar părea orfane."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nu a citit %lld loc în care se află aplicații, așa că nu poate ști ce aplicații sunt instalate. Aici nu este listat nimic, deoarece fișierele unei aplicații pe care nu o poate vedea ar părea orfane."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel nu a citit %lld de locuri în care se află aplicații, așa că nu poate ști ce aplicații sunt instalate. Aici nu este listat nimic, deoarece fișierele unei aplicații pe care nu o poate vedea ar părea orfane."
-                }
-              }
-            }
-          }
-        },
-        "ru" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не удалось прочитать %lld места, где находятся приложения, поэтому он не может определить, какие приложения установлены. Здесь ничего не показано, так как файлы приложения, которого Peel не видит, выглядели бы осиротевшими."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не удалось прочитать %lld мест, где находятся приложения, поэтому он не может определить, какие приложения установлены. Здесь ничего не показано, так как файлы приложения, которого Peel не видит, выглядели бы осиротевшими."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не удалось прочитать %lld место, где находятся приложения, поэтому он не может определить, какие приложения установлены. Здесь ничего не показано, так как файлы приложения, которого Peel не видит, выглядели бы осиротевшими."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не удалось прочитать %lld места, где находятся приложения, поэтому он не может определить, какие приложения установлены. Здесь ничего не показано, так как файлы приложения, которого Peel не видит, выглядели бы осиротевшими."
-                }
-              }
-            }
-          }
-        },
-        "sv" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel har inte läst en plats där appar finns, så Peel kan inte avgöra vilka appar som är installerade. Inget listas här, eftersom filerna från en app som Peel inte kan se skulle verka övergivna."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel har inte läst %lld platser där appar finns, så Peel kan inte avgöra vilka appar som är installerade. Inget listas här, eftersom filerna från en app som Peel inte kan se skulle verka övergivna."
-                }
-              }
-            }
-          }
-        },
-        "tr" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel, uygulamaların bulunduğu %lld yeri okumadı, bu yüzden hangi uygulamaların yüklü olduğunu bilemiyor. Burada hiçbir şey listelenmiyor, çünkü Peel’in göremediği bir uygulamanın dosyaları sahipsiz görünürdü."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel, uygulamaların bulunduğu %lld yeri okumadı, bu yüzden hangi uygulamaların yüklü olduğunu bilemiyor. Burada hiçbir şey listelenmiyor, çünkü Peel’in göremediği bir uygulamanın dosyaları sahipsiz görünürdü."
-                }
-              }
-            }
-          }
-        },
-        "uk" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не прочитала %lld місця, де зберігаються програми, тож не може визначити, які програми інстальовано. Тут нічого не показано, бо файли програми, якої Peel не бачить, здавалися б покинутими."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не прочитала %lld місць, де зберігаються програми, тож не може визначити, які програми інстальовано. Тут нічого не показано, бо файли програми, якої Peel не бачить, здавалися б покинутими."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не прочитала %lld місце, де зберігаються програми, тож не може визначити, які програми інстальовано. Тут нічого не показано, бо файли програми, якої Peel не бачить, здавалися б покинутими."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не прочитала %lld місця, де зберігаються програми, тож не може визначити, які програми інстальовано. Тут нічого не показано, бо файли програми, якої Peel не бачить, здавалися б покинутими."
-                }
-              }
-            }
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel没有读取%lld个存放App的位置，因此无法判断安装了哪些App。此处没有列出任何内容，因为如果Peel看不到某个App，该App的文件看起来就会像孤立文件。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel沒有讀取%lld個存放App的位置，因此無法判斷哪些App已安裝。此處沒有列出任何項目，因為Peel看不到的App，其檔案看起來會像孤立檔案。"
           }
         }
       }
@@ -220899,6 +220793,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "因此Peel無法在磁碟快滿時提醒你。"
+          }
+        }
+      }
+    },
+    "So they are listed here again. Start the list over in Settings > Exclusions." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proto se tu znovu zobrazují. Začněte seznam znovu v Nastavení > Výjimky."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daher werden sie hier wieder angezeigt. Beginne die Liste in den Einstellungen unter „Ausschlüsse“ neu."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por eso, vuelven a aparecer aquí. Vuelve a empezar la lista en Ajustes > Exclusiones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ils sont donc de nouveau listés ici. Recommencez la liste dans Réglages > Exclusions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quindi sono di nuovo elencati qui. Ricomincia l’elenco da capo in Impostazioni > Esclusioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "そのため、これらのファイルがここに再び表示されています。“設定”＞“除外”でリストを最初からやり直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "따라서 이 파일들이 여기에 다시 나열됩니다. 설정 > 제외 항목에서 목록을 처음부터 다시 시작하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daarom worden ze hier weer getoond. Begin in Instellingen > Uitsluitingen opnieuw met de lijst."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dlatego znów są tutaj wyświetlane. Zacznij tę listę od nowa w Ustawieniach > Wykluczenia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Então eles aparecem aqui de novo. Recomece a lista em Ajustes > Exclusões."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De aceea, acestea sunt listate din nou aici. Reîncepeți lista în Configurări > Excluderi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поэтому они снова показаны здесь. Начните список заново в разделе «Настройки» > «Исключения»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Därför listas de här igen. Börja om listan i Inställningar > Undantag."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu yüzden burada yeniden listeleniyorlar. Listeyi Ayarlar > Hariç Tutulanlar’da baştan başlatın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тож їх знову показано тут. Почніть список наново в розділі Параметри > Винятки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "因此它们会在此处再次列出。请在“设置”>“排除项”中重新开始建立该列表。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "因此它們會再次列在這裡。請在「設定」>「排除項目」中重新開始此列表。"
           }
         }
       }

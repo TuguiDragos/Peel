@@ -19,8 +19,19 @@ struct OrphanList: View {
         owners == nil
     }
 
-    private var ownersUnreadable: String {
-        orphans.whyOwnersUnreadable.said(after: String(localized: "Peel cannot read the list of files you said belong to an app or a command-line tool, so they are listed here again. Start the list over in Settings > Exclusions."), about: OrphanOwners.defaultURL)
+    static let ownersUnreadable: LocalizedStringResource = "Peel cannot read which app owns these files"
+    static let ownersUnreadableNote: LocalizedStringResource =
+        "So they are listed here again. Start the list over in Settings > Exclusions."
+    static let appsNotKnown: LocalizedStringResource = "Peel cannot tell which apps are installed"
+
+    static func placesUnread(_ count: Int) -> LocalizedStringResource {
+        "It did not read ^[\(count) place](inflect: true) where apps are. Nothing is listed, since the files of an app it cannot see would look orphaned."
+    }
+
+    private var ownersUnreadableDetail: String {
+        orphans.whyOwnersUnreadable.said(
+            after: String(localized: Self.ownersUnreadableNote), about: OrphanOwners.defaultURL
+        )
     }
 
     var body: some View {
@@ -31,8 +42,8 @@ struct OrphanList: View {
         List(selection: $orphans.selection) {
             if Self.saysOwnersCannotBeRead(owners: orphans.owners) {
                 Notice(
-                    title: Text("Files you gave to an app are listed again"),
-                    detail: Text(verbatim: ownersUnreadable)
+                    title: Text(Self.ownersUnreadable),
+                    detail: Text(verbatim: ownersUnreadableDetail)
                 ) {
                     Button("Open Peel Settings") { SettingsPane.exclusions.open(with: openSettings) }
                 }
@@ -75,15 +86,28 @@ struct OrphanList: View {
                 ContentUnavailableView {
                     Label("Not Every App Could Be Read", systemImage: "exclamationmark.triangle")
                 } description: {
-                    let list = Text(verbatim: library.unreadableListOfFolders(saying: String(localized: "Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one.")))
-                    let unread = Text("Peel did not read ^[\(library.unreadable.count) place](inflect: true) where apps are, so it cannot tell which apps are installed. Nothing is listed here, since the files of an app it cannot see would look orphaned.")
-                    let parts = (library.listOfFoldersUnreadable ? [list] : [])
-                        + (library.unreadable.isEmpty ? [] : [unread])
-                    UnreadableFoldersDetail(
-                        folders: library.unreadable,
-                        needsFullDiskAccess: library.unreadableNeedsFullDiskAccess,
-                        saying: parts.dropFirst().reduce(parts.first ?? Text(verbatim: "")) { Text("\($0)\n\n\($1)") }
-                    )
+                    VStack(spacing: 8) {
+                        if library.listOfFoldersUnreadable {
+                            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                                Text(AppFoldersSection.unreadable)
+                                InfoNote(
+                                    about: Text(AppFoldersSection.unreadable),
+                                    detail: Text(verbatim: library.unreadableListOfFolders(
+                                        saying: String(localized: AppFoldersSection.unreadableNote)
+                                    )),
+                                    isAlbum: false
+                                )
+                            }
+                        }
+                        if !library.unreadable.isEmpty {
+                            UnreadableFoldersDetail(
+                                folders: library.unreadable,
+                                needsFullDiskAccess: library.unreadableNeedsFullDiskAccess,
+                                saying: Text(Self.placesUnread(library.unreadable.count)),
+                                title: Text(Self.appsNotKnown)
+                            )
+                        }
+                    }
                 } actions: {
                     EmptyStateActions {
                         if library.listOfFoldersUnreadable {

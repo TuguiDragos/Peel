@@ -104,7 +104,7 @@ struct PackageDetailView: View {
                     detail: nil,
                     kind: .note,
                     systemImage: "lock.shield",
-                    step: Text("Only an administrator can move these, and the Peel helper cannot move them from where they are. To remove one, show it in Finder, drag it to the Trash, then enter an administrator name and password when macOS asks.")
+                    step: Text(AdministratorItemsView.howToRemove)
                 ) {
                     Button("Show in Finder") {
                         NSWorkspace.shared.activateFileViewerSelecting(forAnAdministrator.map(\.url))

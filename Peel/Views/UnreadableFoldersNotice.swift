@@ -93,6 +93,8 @@ struct UnreadableFoldersDetail: View {
     var needsFullDiskAccess = false
     /// The page's own sentence about them, in place of the shared one.
     var saying: Text?
+    /// A few words for the page, with the sentence and why in a circled i beside them.
+    var title: Text?
     @State private var counted = ClosedByPermissions()
 
     private var text: Text {
@@ -110,8 +112,17 @@ struct UnreadableFoldersDetail: View {
     }
 
     var body: some View {
-        text
-            .task(id: folders) { counted = await .counting(folders) }
+        Group {
+            if let title {
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                    title
+                    InfoNote(about: title, detail: text, isAlbum: false)
+                }
+            } else {
+                text
+            }
+        }
+        .task(id: folders) { counted = await .counting(folders) }
     }
 }
 
