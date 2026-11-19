@@ -3,6 +3,8 @@ import SwiftUI
 
 /// The filters of a search, in a popover from the toolbar. The name is typed in the list's search field.
 struct FileSearchForm: View {
+    static let filtersNote: LocalizedStringResource = "Peel searches the Spotlight index of the disks of this Mac, not network volumes. Folders, apps, and system files are left out. What apps keep in a Library folder is listed last, and Select Recommended leaves it out."
+
     private static let sizes: [Int64] = [10_000_000, 100_000_000, 500_000_000, 1_000_000_000, 5_000_000_000]
 
     @Environment(FileSearchLibrary.self) private var search
@@ -36,7 +38,7 @@ struct FileSearchForm: View {
                     Text("This Mac").tag(FileSearchCriteria.Scope.computer)
                 }
             } header: {
-                heading("Filters", "Peel searches the Spotlight index for files on the disks of this Mac, not on network volumes. Folders, apps, and system files are not included, and neither are documents Finder shows as one file but keeps as a folder, such as a GarageBand project or a sparse bundle disk image. Each kind is what macOS knows a file to be, so a file whose type no app on this Mac declares, such as some videos and archives, is found by its name or size. What an app keeps in a Library folder is listed last, and Select Recommended leaves it out, as it does what is in a repository or in Shared.")
+                heading("Filters", Self.filtersNote)
             }
         }
         .formStyle(.grouped)

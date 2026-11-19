@@ -294,7 +294,7 @@ struct FileSearchList: View {
     }
 }
 
-private struct LeftOutLines: View {
+struct LeftOutLines: View {
     let leftOut: [FileSearch.LeftOut: Int]
     var syncedBy: [SyncKeeper] = []
     var alignment = HorizontalAlignment.center
@@ -314,18 +314,40 @@ private struct LeftOutLines: View {
         }
     }
 
-    private func line(for reason: FileSearch.LeftOut, count: Int) -> Text {
+    @ViewBuilder
+    private func line(for reason: FileSearch.LeftOut, count: Int) -> some View {
+        let title = Self.title(for: reason, count: count)
+        if let note = Self.note(for: reason) {
+            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                Text(title)
+                InfoNote(about: Text(title), detail: Text(note), isAlbum: false)
+            }
+        } else {
+            Text(title)
+        }
+    }
+
+    static func title(for reason: FileSearch.LeftOut, count: Int) -> LocalizedStringResource {
         switch reason {
         case .syncs:
-            Text("Left out: ^[\(count) file](inflect: true) in iCloud or another place that syncs to your other devices. Peel never moves what syncs, since moving it to the Trash would also remove it from them.")
+            "Left out: ^[\(count) file](inflect: true) in a place that syncs to your other devices"
         case .excluded:
-            Text("Left out: ^[\(count) file](inflect: true) among what you excluded in Settings.")
+            "Left out: ^[\(count) file](inflect: true) among what you excluded in Settings."
         case .exclusionsNotKnown:
-            Text("Left out: ^[\(count) file](inflect: true), since Peel can’t check what it finds against your exclusions until it can read them.")
+            "Left out: ^[\(count) file](inflect: true) until Peel can read your exclusions"
         case .protected:
-            Text("Left out: ^[\(count) file](inflect: true) in places Peel never moves anything from, such as macOS itself, Mail, Messages, or a photo library.")
+            "Left out: ^[\(count) file](inflect: true) in places Peel never moves from"
         case .couldNotBeRead:
-            Text("Left out: ^[\(count) file](inflect: true) macOS didn’t let Peel look at.")
+            "Left out: ^[\(count) file](inflect: true) macOS didn’t let Peel look at."
+        }
+    }
+
+    /// What more there is to know about a line, in the circled i beside it, or nil.
+    static func note(for reason: FileSearch.LeftOut) -> LocalizedStringResource? {
+        switch reason {
+        case .syncs: "Peel never moves what syncs, since moving it to the Trash would also remove it from your other devices."
+        case .protected: "Such as macOS itself, Mail, Messages, or a photo library."
+        case .excluded, .exclusionsNotKnown, .couldNotBeRead: nil
         }
     }
 }
