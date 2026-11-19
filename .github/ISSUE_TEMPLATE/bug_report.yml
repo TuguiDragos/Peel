@@ -7,15 +7,29 @@ body:
     attributes:
       value: >
         Thank you for reporting this. One problem per report makes it easier to fix. Please leave out anything
-        personal, such as file names you would rather not share. A security problem is reported privately instead,
-        as [SECURITY.md](https://github.com/TuguiDragos/Peel/blob/main/SECURITY.md) describes.
+        personal, such as file names you would rather not share. An idea for something new goes to
+        [Discussions](https://github.com/TuguiDragos/Peel/discussions/new?category=ideas). A security problem is
+        reported privately instead, as [SECURITY.md](https://github.com/TuguiDragos/Peel/blob/main/SECURITY.md)
+        describes.
   - type: textarea
     id: what-happened
     attributes:
       label: What happened
-      description: What went wrong, and what Peel showed on screen.
+      description: >
+        What went wrong, and what Peel showed on screen. Where Peel offers Copy Details, paste what it copies.
     validations:
       required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or a screen recording
+      description: >
+        Often the quickest way to a fix. Drag or paste them here: Peel where the problem shows, such as an error
+        message, a page that does not behave as it should, or something that looks wrong. Shift-Command-4 and then
+        the Space bar takes a picture of a window, and Shift-Command-5 opens Screenshot, whose toolbar records the
+        screen. If Peel is slow or stops responding, a sample helps as well: in Activity Monitor, select Peel, choose
+        View > Sample Process, click Save, and drag the file here. A file is uploaded as soon as you add it, so first
+        crop, cover, or delete anything private, such as your account name and the names of your files and folders.
   - type: textarea
     id: steps
     attributes:
@@ -28,15 +42,17 @@ body:
     id: expected
     attributes:
       label: What you expected
-  - type: textarea
-    id: screenshots
+  - type: checkboxes
+    id: this-mac
     attributes:
-      label: Screenshots or a screen recording
-      description: >
-        Drag or paste them here: Peel where the problem shows, such as an error message, a page that doesn't behave as
-        it should, or something that looks wrong. Shift-Command-4 and then the Space bar takes a picture of a window,
-        and Shift-Command-5 opens Screenshot, whose toolbar records the screen. A file is uploaded as soon as you add
-        it, so first crop or cover anything private, such as the names of your files and folders.
+      label: About this Mac
+      description: Select any that apply. Each one changes what Peel can do.
+      options:
+        - label: I use a standard account, not an administrator account.
+        - label: My home folder is on another disk.
+        - label: I keep apps on another disk or partition.
+        - label: This Mac is managed by a company or school.
+        - label: Full Disk Access is on for Peel. Home in Peel shows whether it is.
   - type: input
     id: where
     attributes:
@@ -46,14 +62,16 @@ body:
     id: version
     attributes:
       label: Peel version
-      description: From About Peel.
+      description: Peel menu > About Peel.
+      placeholder: 1.4.0 (261109)
     validations:
       required: true
   - type: input
     id: macos
     attributes:
       label: macOS version
-      description: From About This Mac.
+      description: Apple menu > About This Mac.
+      placeholder: 26.7.1
     validations:
       required: true
   - type: input
@@ -61,6 +79,7 @@ body:
     attributes:
       label: Mac
       description: Apple silicon or Intel.
+      placeholder: Apple silicon
   - type: textarea
     id: anything-else
     attributes:

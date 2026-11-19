@@ -1,4 +1,11 @@
 body:
+  - type: markdown
+    attributes:
+      value: >
+        Share an idea for something Peel could do, or do better. Please leave out anything personal. A question about
+        using Peel goes to [Q&A](https://github.com/TuguiDragos/Peel/discussions/new?category=q-a), and something that
+        does not work as it should is a
+        [problem to report](https://github.com/TuguiDragos/Peel/issues/new?template=bug_report.yml).
   - type: textarea
     id: problem
     attributes:
@@ -15,4 +22,4 @@ body:
     id: alternatives
     attributes:
       label: What you do instead
-      description: Any other app or workaround you use for it now.
+      description: Any workaround you use for it now.
