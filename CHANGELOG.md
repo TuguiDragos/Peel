@@ -936,8 +936,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   Move to Trash ask first.
 - After Save, an edited agent is loaded again as its new file says, with its session and whether it is disabled.
 - An agent its file limits to the login window offers no Load, and its page says macOS loads it only there.
-- Unusual command also judges where the script an interpreter runs from disk is, as it judges the program, and reads the
-  command `env` or `nohup` runs.
+- Unusual command also judges where the script an interpreter runs from disk is, the jar `java -jar` runs, and the app
+  `open` opens, as it judges the program, and reads the command `env` or `nohup` runs.
 - A daemon whose file in /Library/LaunchDaemons is a link, as MacPorts makes it, shows as one row after Load, rather
   than as two rows saying it wasn't loaded, and moving that link to the Trash stops its job, as the question says.
 - A copy of Peel's helper's file put in `/Library/LaunchDaemons` by hand is no longer called Peel's helper, and the
