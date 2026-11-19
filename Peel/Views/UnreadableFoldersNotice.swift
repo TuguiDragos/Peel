@@ -177,36 +177,7 @@ struct UnreadableFoldersList: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 6) {
-                    ForEach(folders, id: \.self) { folder in
-                        HStack(spacing: 8) {
-                            Text(verbatim: folder.abbreviatedPath)
-                                .font(.callout)
-                                .lineLimit(2)
-                                .truncationMode(.middle)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            ShowInFinderButton(url: folder)
-                        }
-                    }
-                }
-            }
-            .frame(maxHeight: 320)
-            .fixedSize(horizontal: false, vertical: true)
-            ForEach(notes, id: \.self) { note in
-                Text(verbatim: note)
-                    .font(.callout)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            HStack {
-                Spacer()
-                CopyButton(text: folders.map(\.abbreviatedPath).joined(separator: "\n"), title: "Copy Details")
-            }
-        }
-        .padding(14)
-        .frame(width: 400)
-        .task(id: folders) { counted = await .counting(folders) }
+        FolderListPopover(folders: folders, notes: notes)
+            .task(id: folders) { counted = await .counting(folders) }
     }
 }

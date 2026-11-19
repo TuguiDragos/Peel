@@ -223,28 +223,23 @@ struct SpaceDetailView: View {
 
     /// Why the area's size in the list is more than this page can move, and where the rest is freed.
     private func developerNotice(_ plan: SpaceRemoval.Plan, sizes: [URL: Int64]) -> some View {
-        let folders = RemovalFailureAlert.listedFolders(
-            plan.leftToDeveloper
-                .sorted { SizeTotal([sizes[$1]]) < SizeTotal([sizes[$0]]) }
-                .map { folder in
-                    sizes[folder].map { String(localized: "\(folder.lastPathComponent) (\($0.byteCount))") }
-                        ?? folder.lastPathComponent
-                }
-        )
-        let total = plan.movable(canUseHelper: helper.canAct)
-        let title: Text = if let seen = plan.seen, seen.isComplete, total.reading != .unknown {
-            Text("\(total.text) of \(seen.known.byteCount) can be moved here.")
-        } else {
-            Text("Part of this folder is left to the Developer page.")
-        }
-        let detail: Text = if case .exactly(let size) = SizeTotal(plan.leftToDeveloper.map { sizes[$0] }).reading {
-            Text("Developer tools’ folders hold \(size.byteCount) of it: \(folders). The Developer page frees them, keeping what is more than a cache.")
-        } else {
-            Text("These developer tools’ folders are left to the Developer page: \(folders). It frees them, keeping what is more than a cache.")
-        }
-        return Notice(title: title, detail: detail, kind: .note, systemImage: Tool.developer.systemImage) {
+        let folders = plan.leftToDeveloper.sorted { SizeTotal([sizes[$1]]) < SizeTotal([sizes[$0]]) }
+        return Notice(
+            title: Text(Self.developerTitle(SizeTotal(folders.map { sizes[$0] }))),
+            detail: Text("The Developer page frees them, keeping what is more than a cache."),
+            kind: .note,
+            systemImage: Tool.developer.systemImage
+        ) {
+            DeveloperFoldersButton(folders: folders, sizes: sizes)
             Button("Open Developer") { Navigator.shared.requestedTool = .developer }
         }
+    }
+
+    /// What the developer tools' folders hold, once Peel has measured any of them.
+    static func developerTitle(_ held: SizeTotal) -> LocalizedStringResource {
+        held.reading == .unknown
+            ? "Part of this folder belongs to developer tools"
+            : "\(held.text) of this folder belongs to developer tools"
     }
 
     private var header: some View {
@@ -308,5 +303,18 @@ struct SpaceStep: View {
                 InfoNote(about: Text(step), detail: Text(note), isAlbum: false)
             }
         }
+    }
+}
+
+private struct DeveloperFoldersButton: View {
+    let folders: [URL]
+    let sizes: [URL: Int64]
+    @State private var isShowingFolders = false
+
+    var body: some View {
+        Button("Show Folders") { isShowingFolders = true }
+            .popover(isPresented: $isShowingFolders, arrowEdge: .bottom) {
+                FolderListPopover(folders: folders, sizes: sizes)
+            }
     }
 }

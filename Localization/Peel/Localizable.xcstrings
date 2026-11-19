@@ -8196,108 +8196,108 @@
         }
       }
     },
-    "%@ of %@ can be moved here." : {
+    "%@ of this folder belongs to developer tools" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ z %@ lze přesunout odsud."
+            "value" : "%@ této složky patří vývojářským nástrojům"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ von %@ können hier verschoben werden."
+            "value" : "Von Entwicklertools belegt: %@ dieses Ordners"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aquí se pueden trasladar %@ de %@ a la papelera."
+            "value" : "Las herramientas para desarrolladores ocupan %@ de esta carpeta"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ sur %@ peuvent être déplacés depuis cette page."
+            "value" : "%@ de ce dossier appartiennent aux outils de développement"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ su %@ si possono spostare da qui."
+            "value" : "%@ di questa cartella appartengono agli strumenti per lo sviluppo"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%2$@のうち、ここで移動できるのは%1$@です。"
+            "value" : "このフォルダのうち%@はデベロッパツールのものです"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "여기에서 이동할 수 있는 항목은 총 %2$@ 중 %1$@입니다."
+            "value" : "이 폴더 중 %@의 공간이 개발자 도구에 속함"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ van %@ kan hier worden verplaatst."
+            "value" : "%@ van deze map hoort bij ontwikkeltools"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ z %@ można tu przenieść do Kosza."
+            "value" : "%@ tego folderu należy do narzędzi dla deweloperów"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ de %@ podem ser movidos daqui."
+            "value" : "%@ desta pasta pertencem às ferramentas para desenvolvedores"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aici puteți muta %@ din %@."
+            "value" : "Instrumentele pentru dezvoltatori ocupă %@ din acest dosar"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ из %@ можно отсюда переместить в Корзину."
+            "value" : "%@ этой папки принадлежит инструментам разработчика"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ av %@ kan flyttas härifrån."
+            "value" : "%@ av den här mappen tillhör utvecklarverktyg"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%2$@ içinden %1$@ buradan taşınabilir."
+            "value" : "Bu klasörde geliştirici araçlarına ait %@ var"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ із %@ можна перемістити тут."
+            "value" : "%@ цієї папки належить інструментам розробника"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此处可移动%@（共%@）。"
+            "value" : "此文件夹中有%@属于开发者工具"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這裡可移動%@（共%@）。"
+            "value" : "此檔案夾中有%@屬於開發者工具"
           }
         }
       }
@@ -46538,112 +46538,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "開發者"
-          }
-        }
-      }
-    },
-    "Developer tools’ folders hold %@ of it: %@. The Developer page frees them, keeping what is more than a cache." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Z celkové velikosti připadá %@ na složky vývojářských nástrojů: %@. Stránka Vývojář je uvolní a ponechá v nich vše, co není jen mezipaměť."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ordner von Entwicklertools belegen %@ davon: %@. Die Seite „Entwicklung“ gibt diesen Speicherplatz frei und behält dabei, was mehr als ein Cache ist."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Las carpetas de las herramientas para desarrolladores ocupan %@ del total: %@. La página Desarrollador libera de cada una la parte que es solo caché y conserva el resto."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les dossiers des outils de développement représentent %@ de ce dossier : %@. La page Développeur libère l’espace qu’ils occupent, en conservant ce qui n’est pas qu’un cache."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le cartelle degli strumenti per lo sviluppo ne occupano %@: %@. La pagina Sviluppo le libera, conservando ciò che non è solo cache."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "そのうち%@は、デベロッパツールのフォルダです: %@。“デベロッパ”ページでは、これらのフォルダのうちキャッシュにすぎない部分だけを解放し、それ以外は残します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "다음 개발자 도구의 폴더가 이 폴더에서 %@의 공간을 차지합니다: %@. 개발자 페이지는 이러한 폴더에서 캐시일 뿐인 부분만 이동하여 공간을 확보하고, 나머지는 그대로 둡니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De mappen van ontwikkeltools nemen daarvan %@ in: %@. De pagina 'Ontwikkelaar' maakt daar ruimte vrij en laat staan wat meer is dan alleen cache."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "W tym folderze %@ zajmują foldery narzędzi dla deweloperów: %@. Strona Deweloper zwalnia je, zachowując to, co nie jest pamięcią podręczną."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "As pastas das ferramentas para desenvolvedores ocupam %@ desta pasta: %@. A página Desenvolvedor libera o espaço delas, mantendo o que não é só cache."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dosarele instrumentelor pentru dezvoltatori ocupă %@ din acest dosar: %@. Pagina Dezvoltator le eliberează, păstrând ce nu este doar memorie tampon."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Папки инструментов разработчика занимают здесь %@: %@. Раздел «Разработчик» освобождает в них место, оставляя все, что не является лишь кэшем."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Utvecklarverktygens mappar upptar %@ av den: %@. Sidan Utvecklare frigör dem men behåller det som är mer än cache."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geliştirici araçlarının klasörleri bu klasörde %@ yer kaplıyor: %@. Geliştirici sayfası bunlarda yer boşaltır ve önbellekten ibaret olmayan kısımlara dokunmaz."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "У цій папці %@ займають папки інструментів розробника: %@. Сторінка «Розробник» звільняє їх, залишаючи те, що не є лише кешем."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "开发者工具的文件夹占用了其中的%@：%@。“开发者”页面会释放这些文件夹，同时保留其中缓存以外的内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "開發者工具的檔案夾佔用其中的%@：%@。「開發者」頁面會釋放這些檔案夾，並保留快取以外的內容。"
           }
         }
       }
@@ -155499,108 +155393,108 @@
         }
       }
     },
-    "Part of this folder is left to the Developer page." : {
+    "Part of this folder belongs to developer tools" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Část této složky je přenechána stránce Vývojář."
+            "value" : "Část této složky patří vývojářským nástrojům"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ein Teil dieses Ordners bleibt der Seite „Entwicklung“ überlassen."
+            "value" : "Ein Teil dieses Ordners ist von Entwicklertools belegt"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Parte de esta carpeta se deja a la página Desarrollador."
+            "value" : "Las herramientas para desarrolladores ocupan parte de esta carpeta"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Une partie de ce dossier est laissée à la page Développeur."
+            "value" : "Une partie de ce dossier appartient aux outils de développement"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Parte di questa cartella è lasciata alla pagina Sviluppo."
+            "value" : "Parte di questa cartella appartiene agli strumenti per lo sviluppo"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このフォルダの一部は“デベロッパ”ページに任せています。"
+            "value" : "このフォルダの一部はデベロッパツールのものです"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 폴더의 일부는 개발자 페이지에 맡깁니다."
+            "value" : "이 폴더의 일부가 개발자 도구에 속함"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een deel van deze map wordt overgelaten aan de pagina 'Ontwikkelaar'."
+            "value" : "Een deel van deze map hoort bij ontwikkeltools"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Część tego folderu jest pozostawiona stronie Deweloper."
+            "value" : "Część tego folderu należy do narzędzi dla deweloperów"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Parte desta pasta fica para a página Desenvolvedor."
+            "value" : "Parte desta pasta pertence às ferramentas para desenvolvedores"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O parte din acest dosar este lăsată în seama paginii Dezvoltator."
+            "value" : "Instrumentele pentru dezvoltatori ocupă o parte din acest dosar"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Часть этой папки оставлена разделу «Разработчик»."
+            "value" : "Часть этой папки принадлежит инструментам разработчика"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En del av den här mappen lämnas åt sidan Utvecklare."
+            "value" : "En del av den här mappen tillhör utvecklarverktyg"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu klasörün bir kısmı Geliştirici sayfasına bırakılır."
+            "value" : "Bu klasörün bir kısmı geliştirici araçlarına ait"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Частину цієї папки залишено для сторінки «Розробник»."
+            "value" : "Частина цієї папки належить інструментам розробника"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此文件夹的一部分交给“开发者”页面处理。"
+            "value" : "此文件夹中有一部分属于开发者工具"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此檔案夾的一部分交給「開發者」頁面處理。"
+            "value" : "此檔案夾的一部分屬於開發者工具"
           }
         }
       }
@@ -233703,6 +233597,112 @@
         }
       }
     },
+    "The Developer page frees them, keeping what is more than a cache." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stránka Vývojář je uvolní a ponechá v nich vše, co není jen mezipaměť."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Seite „Entwicklung“ gibt diesen Speicherplatz frei und behält dabei, was mehr als ein Cache ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La página Desarrollador libera ese espacio y conserva lo que no es solo caché."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La page Développeur libère l’espace qu’ils occupent, en conservant ce qui n’est pas qu’un cache."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La pagina Sviluppo le libera, conservando ciò che non è solo cache."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“デベロッパ”ページでは、これらのフォルダのうちキャッシュにすぎない部分だけを解放し、それ以外は残します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "개발자 페이지는 단순한 캐시가 아닌 항목은 그대로 두고 이러한 폴더의 공간을 확보합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De pagina 'Ontwikkelaar' maakt daar ruimte vrij en laat staan wat meer is dan alleen cache."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Strona Deweloper zwalnia je, zachowując to, co nie jest pamięcią podręczną."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A página Desenvolvedor libera o espaço delas, mantendo o que não é só cache."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagina Dezvoltator le eliberează, păstrând ce nu este doar memorie tampon."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Раздел «Разработчик» освобождает в них место, оставляя все, что не является лишь кэшем."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sidan Utvecklare frigör dem men behåller det som är mer än cache."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geliştirici sayfası bunlarda yer boşaltır ve önbellekten ibaret olmayan kısımlara dokunmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сторінка «Розробник» звільняє їх, залишаючи те, що не є лише кешем."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“开发者”页面会释放这些文件夹，同时保留其中缓存以外的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「開發者」頁面會釋放這些檔案夾，並保留快取以外的內容。"
+          }
+        }
+      }
+    },
     "The Dock appears and disappears without the slide." : {
       "localizations" : {
         "cs" : {
@@ -248028,112 +248028,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這些副本會與你的其他裝置同步，因此Peel會列出它們，但絕不會移動任何一份：丟到「垃圾桶」會將它從所有裝置上移除。"
-          }
-        }
-      }
-    },
-    "These developer tools’ folders are left to the Developer page: %@. It frees them, keeping what is more than a cache." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tyto složky vývojářských nástrojů jsou přenechány stránce Vývojář: %@. Ta je uvolní a ponechá v nich vše, co není jen mezipaměť."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diese Ordner von Entwicklertools bleiben der Seite „Entwicklung“ überlassen: %@. Die Seite gibt deren Speicherplatz frei und behält dabei, was mehr als ein Cache ist."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Estas carpetas de las herramientas para desarrolladores se dejan a la página Desarrollador: %@. Allí se libera de cada una la parte que es solo caché y se conserva el resto."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les dossiers de ces outils de développement sont laissés à la page Développeur : %@. Celle-ci libère l’espace qu’ils occupent, en conservant ce qui n’est pas qu’un cache."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Queste cartelle degli strumenti per lo sviluppo sono lasciate alla pagina Sviluppo: %@. La pagina Sviluppo le libera, conservando ciò che non è solo cache."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "次のデベロッパツールのフォルダは“デベロッパ”ページに任せています: %@。そのページでは、これらのフォルダのうちキャッシュにすぎない部分だけを解放し、それ以外は残します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "다음 개발자 도구의 폴더는 개발자 페이지에 맡깁니다: %@. 개발자 페이지는 이러한 폴더에서 캐시일 뿐인 부분만 이동하여 공간을 확보하고, 나머지는 그대로 둡니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deze mappen van ontwikkeltools worden overgelaten aan de pagina 'Ontwikkelaar': %@. Die maakt daar ruimte vrij en laat staan wat meer is dan alleen cache."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Te foldery narzędzi dla deweloperów są pozostawione stronie Deweloper: %@. Strona Deweloper zwalnia je, zachowując to, co nie jest pamięcią podręczną."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Estas pastas de ferramentas para desenvolvedores ficam para a página Desenvolvedor: %@. Essa página libera o espaço delas, mantendo o que não é só cache."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aceste dosare ale instrumentelor pentru dezvoltatori sunt lăsate în seama paginii Dezvoltator: %@. Aceasta le eliberează, păstrând ce nu este doar memorie tampon."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Эти папки инструментов разработчика оставлены разделу «Разработчик»: %@. Он освобождает в них место, оставляя все, что не является лишь кэшем."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Följande mappar för utvecklarverktyg lämnas åt sidan Utvecklare: %@. Den frigör dem men behåller det som är mer än cache."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Şu geliştirici araçlarının klasörleri Geliştirici sayfasına bırakılır: %@. Geliştirici sayfası bunlarda yer boşaltır ve önbellekten ibaret olmayan kısımlara dokunmaz."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ці папки інструментів розробника залишено для сторінки «Розробник»: %@. Вона звільняє їх, залишаючи те, що не є лише кешем."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "以下开发者工具的文件夹交给“开发者”页面处理：%@。该页面会释放这些文件夹，同时保留其中缓存以外的内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "以下開發者工具的檔案夾交給「開發者」頁面處理：%@。該頁面會釋放這些檔案夾，並保留快取以外的內容。"
           }
         }
       }

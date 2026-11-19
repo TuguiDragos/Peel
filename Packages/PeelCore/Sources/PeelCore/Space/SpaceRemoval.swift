@@ -20,9 +20,6 @@ public enum SpaceRemoval {
         /// The size of each folder left to Developer (`sizesLeftToDeveloper(in:)`), nil until they are measured, apart
         /// from the plan, so a page lists what it can move without waiting for them.
         public var developerSizes: [URL: Int64]?
-        /// The size of each folder an open app keeps or the guard refuses (`sizesKeptInPlace(in:)`), measured with
-        /// those left to Developer, nil until then.
-        public var keptSizes: [URL: Int64]?
         /// Why a removable item is left for the person to choose, from what measuring it saw. One missing here holds
         /// nothing that keeps it from being selected.
         public var heldBack: [URL: HoldBack] = [:]
@@ -57,17 +54,6 @@ public enum SpaceRemoval {
         /// chose that can still be selected. Nothing is selected for them.
         public func selection(keeping selected: Set<URL>, canUseHelper: Bool) -> Set<URL> {
             selected.intersection(selectableRows(canUseHelper: canUseHelper).selectable)
-        }
-
-        /// What the area holds as this plan sees it, from the same moment as what it can move, or nil until what it
-        /// doesn't offer is measured.
-        public var seen: SizeTotal? {
-            guard let developerSizes, let keptSizes else { return nil }
-            let kept = inUse.map(\.url) + refused.keys
-            return SizeTotal(
-                removable.map { sizes[$0] } + leftToDeveloper.map { developerSizes[$0] } + kept.map { keptSizes[$0] }
-                    + unreadable.map { _ -> Int64? in nil }
-            )
         }
 
         /// What the page can move now, which its total says: the rows a checkbox can select, and as unknown each
@@ -143,11 +129,6 @@ public enum SpaceRemoval {
             unreadable: children.unreadable,
             needsFullDiskAccess: children.unreadable.contains { FullDiskAccess.canList($0) == .missing }
         )
-    }
-
-    @concurrent
-    public static func sizesKeptInPlace(in plan: Plan) async -> [URL: Int64] {
-        await sizes(of: plan.inUse.map(\.url) + plan.refused.keys)
     }
 
     @concurrent
