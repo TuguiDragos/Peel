@@ -164296,108 +164296,108 @@
         }
       }
     },
-    "Peel compares files by their full contents. A folder is a copy only when every file in it matches, hidden ones included. Repositories (Git, Mercurial, Subversion), projects with a build file such as package.json or Cargo.toml, node_modules, and libraries such as Photos and Music are left alone, and an app is never offered on its own. A build file at the top of a folder you chose doesn’t make it a project. A copy with Finder tags, a Finder comment, or a resource fork the others don’t have is listed with them and never moved, a hidden file counts only toward the folder around it, and a copy in a folder that syncs to your other devices is listed and never moved." : {
+    "Peel compares files by their full contents, and a folder is a copy only when every file in it matches. Repositories, projects, node_modules, and libraries such as Photos are left alone. A copy with its own tags or comment, or one that syncs, is never moved." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel porovnává soubory podle celého obsahu. Složka je kopií, jen když se shoduje každý soubor v ní, včetně skrytých. Repozitáře (Git, Mercurial, Subversion), projekty se souborem sestavení, jako je package.json nebo Cargo.toml, složky node_modules a knihovny aplikací, jako jsou Fotky a Hudba, zůstávají nedotčené a samotná aplikace se nikdy nenabízí. Soubor sestavení přímo ve složce, kterou jste zvolili, z ní projekt nedělá. Kopie se značkami Finderu, poznámkou Finderu nebo prostředkovou částí, které ostatní nemají, se zobrazuje spolu s nimi, ale nikdy se nepřesune, skrytý soubor se počítá jen jako součást složky, ve které je, a kopie ve složce, která se synchronizuje s vašimi ostatními zařízeními, se zobrazuje, ale nikdy se nepřesune."
+            "value" : "Peel porovnává soubory podle celého obsahu a složka je kopií, jen když se shoduje každý soubor v ní. Repozitáře, projekty, složky node_modules a knihovny, jako jsou Fotky, zůstávají nedotčené. Kopie s vlastními značkami nebo poznámkou, nebo kopie, která se synchronizuje, se nikdy nepřesune."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel vergleicht Dateien anhand ihres vollständigen Inhalts. Ein Ordner gilt nur dann als Kopie, wenn jede Datei darin übereinstimmt, auch die ausgeblendeten. Repositorys (Git, Mercurial, Subversion), Projekte mit einer Build-Datei wie package.json oder Cargo.toml, node_modules und Mediatheken wie die von Fotos und Musik bleiben unangetastet, und eine App wird nie für sich allein angeboten. Eine Build-Datei auf der obersten Ebene eines Ordners, den du gewählt hast, macht ihn nicht zu einem Projekt. Eine Kopie mit Finder-Tags, einem Finder-Kommentar oder einem Resource-Fork, die den übrigen fehlen, wird mit ihnen aufgeführt und nie verschoben, eine ausgeblendete Datei zählt nur für den Ordner, in dem sie liegt, und eine Kopie in einem Ordner, der mit deinen anderen Geräten synchronisiert wird, wird aufgeführt, aber nie verschoben."
+            "value" : "Peel vergleicht Dateien anhand ihres vollständigen Inhalts, und ein Ordner gilt nur dann als Kopie, wenn jede Datei darin übereinstimmt. Repositorys, Projekte, node_modules und Mediatheken wie die von Fotos bleiben unangetastet. Eine Kopie mit eigenen Tags oder einem eigenen Kommentar oder eine, die synchronisiert wird, wird nie verschoben."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel compara los archivos por todo su contenido. Una carpeta es una copia solo cuando coinciden todos sus archivos, incluidos los ocultos. Los repositorios (Git, Mercurial, Subversion), los proyectos con un archivo de compilación como package.json o Cargo.toml, node_modules y las bibliotecas como las de Fotos y Música no se tocan, y una app nunca se ofrece por sí sola. Un archivo de compilación en el primer nivel de una carpeta que hayas elegido no la convierte en un proyecto. Una copia con etiquetas del Finder, un comentario del Finder o una bifurcación de recursos que las demás no tienen aparece con ellas, pero nunca se traslada. Un archivo oculto solo cuenta para la carpeta que lo contiene, y una copia en una carpeta que se sincroniza con tus otros dispositivos aparece en la lista, pero nunca se traslada."
+            "value" : "Peel compara los archivos por todo su contenido, y una carpeta es una copia solo cuando coinciden todos sus archivos. Los repositorios, los proyectos, node_modules y las bibliotecas como la de Fotos no se tocan. Una copia con sus propias etiquetas o su propio comentario, o una que se sincroniza, nunca se traslada."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel compare les fichiers sur l’intégralité de leur contenu. Un dossier n’est une copie que si chacun de ses fichiers correspond, fichiers masqués compris. Les dépôts (Git, Mercurial, Subversion), les projets contenant un fichier de compilation comme package.json ou Cargo.toml, les dossiers node_modules et les bibliothèques comme celles de Photos et de Musique sont laissés de côté, et une app n’est jamais proposée seule. Un fichier de compilation placé à la racine d’un dossier que vous avez choisi n’en fait pas un projet. Une copie dotée de tags du Finder, d’un commentaire du Finder ou d’une branche de ressources que les autres n’ont pas est listée avec elles, mais jamais déplacée, un fichier masqué ne compte que pour le dossier qui le contient, et une copie située dans un dossier synchronisé avec vos autres appareils est listée, mais jamais déplacée."
+            "value" : "Peel compare les fichiers sur l’intégralité de leur contenu, et un dossier n’est une copie que si chacun de ses fichiers correspond. Les dépôts, les projets, les dossiers node_modules et les bibliothèques comme celle de Photos sont laissés de côté. Une copie dotée de ses propres tags ou d’un commentaire, ou une copie synchronisée, n’est jamais déplacée."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel confronta i file in base al loro intero contenuto. Una cartella è una copia solo se ogni file al suo interno corrisponde, compresi quelli nascosti. I repository (Git, Mercurial, Subversion), i progetti con un file di build come package.json o Cargo.toml, node_modules e le librerie come quelle di Foto e Musica non vengono toccati, e un’app non viene mai proposta da sola. Un file di build al primo livello di una cartella che hai scelto non la rende un progetto. Una copia con tag del Finder, un commento del Finder o un resource fork che le altre non hanno viene elencata con loro ma mai spostata, un file nascosto conta solo per la cartella che lo contiene, e una copia in una cartella che si sincronizza con gli altri tuoi dispositivi viene elencata ma mai spostata."
+            "value" : "Peel confronta i file in base al loro intero contenuto, e una cartella è una copia solo se ogni file al suo interno corrisponde. I repository, i progetti, node_modules e le librerie come quella di Foto non vengono toccati. Una copia con tag o un commento propri, o una che si sincronizza, non viene mai spostata."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelはファイルを内容全体で比較します。フォルダがコピーと見なされるのは、中にあるすべてのファイル（隠しファイルを含む）が一致する場合だけです。リポジトリ（Git、Mercurial、Subversion）、package.jsonやCargo.tomlなどのビルドファイルがあるプロジェクト、node_modules、“写真”や“ミュージック”などのライブラリには手を付けず、アプリが単独で候補になることも決してありません。選択したフォルダの最上位にビルドファイルがあっても、そのフォルダがプロジェクトと見なされることはありません。ほかのコピーにはないFinderのタグ、Finderのコメント、またはリソースフォークがあるコピーは、一緒に一覧に表示されますが、移動されることはありません。隠しファイルは、それを含むフォルダの一部としてのみ扱われます。また、ほかのデバイスに同期されるフォルダにあるコピーは、一覧には表示されますが、移動されることはありません。"
+            "value" : "Peelはファイルを内容全体で比較し、フォルダがコピーと見なされるのは、中にあるすべてのファイルが一致する場合だけです。リポジトリ、プロジェクト、node_modules、“写真”などのライブラリには手を付けません。独自のタグやコメントがあるコピーや、同期されるコピーが移動されることは決してありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 파일의 전체 내용을 비교합니다. 폴더는 숨김 파일을 포함하여 안에 있는 모든 파일이 일치할 때만 복사본으로 간주됩니다. 저장소(Git, Mercurial, Subversion), package.json이나 Cargo.toml 같은 빌드 파일이 있는 프로젝트, node_modules, 사진 보관함이나 음악 보관함 같은 보관함은 그대로 두며, 앱은 절대 단독으로 제안되지 않습니다. 선택한 폴더의 최상위에 빌드 파일이 있다고 해서 그 폴더가 프로젝트가 되지는 않습니다. 다른 복사본에 없는 Finder 태그, Finder 설명 또는 자원 포크가 있는 복사본은 함께 나열되지만 절대 이동되지 않으며, 숨김 파일은 그 파일이 들어 있는 폴더를 비교할 때만 반영되고, 다른 기기와 동기화되는 폴더에 있는 복사본은 목록에 표시되지만 절대 이동되지 않습니다."
+            "value" : "Peel은 파일의 전체 내용을 비교하며, 폴더는 안에 있는 모든 파일이 일치할 때만 복사본으로 간주됩니다. 저장소, 프로젝트, node_modules, 사진 보관함 같은 보관함은 그대로 둡니다. 자체 태그나 설명이 있는 복사본, 또는 동기화되는 복사본은 절대 이동되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel vergelijkt bestanden op hun volledige inhoud. Een map is alleen een kopie als elk bestand erin overeenkomt, verborgen bestanden inbegrepen. Repository's (Git, Mercurial, Subversion), projecten met een buildbestand zoals package.json of Cargo.toml, node_modules en bibliotheken zoals die van Foto's en Muziek worden met rust gelaten, en een app wordt nooit apart aangeboden. Een buildbestand bovenin een map die je hebt gekozen, maakt er geen project van. Een kopie met Finder-tags, een Finder-opmerking of een resourcefork die de andere niet hebben, wordt bij de andere getoond en nooit verplaatst, een verborgen bestand telt alleen mee voor de map eromheen, en een kopie in een map die met je andere apparaten wordt gesynchroniseerd, wordt getoond en nooit verplaatst."
+            "value" : "Peel vergelijkt bestanden op hun volledige inhoud, en een map is alleen een kopie als elk bestand erin overeenkomt. Repository's, projecten, node_modules en bibliotheken zoals die van Foto's worden met rust gelaten. Een kopie met eigen tags of een eigen opmerking, of een kopie die wordt gesynchroniseerd, wordt nooit verplaatst."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel porównuje pliki na podstawie całej ich zawartości. Folder jest kopią tylko wtedy, gdy zgadza się każdy plik w nim, łącznie z ukrytymi. Repozytoria (Git, Mercurial, Subversion), projekty z plikiem kompilacji, takim jak package.json lub Cargo.toml, foldery node_modules oraz biblioteki, na przykład aplikacji Zdjęcia i Muzyka, pozostają nietknięte, a aplikacja nigdy nie jest proponowana osobno. Plik kompilacji na najwyższym poziomie wybranego przez Ciebie folderu nie czyni z niego projektu. Kopia z tagami Findera, komentarzem Findera lub częścią zawierającą zasoby, których nie mają pozostałe, jest na liście razem z nimi, ale nigdy nie jest przenoszona, ukryty plik jest brany pod uwagę tylko przy porównywaniu folderu, w którym się znajduje, a kopia w folderze synchronizowanym z Twoimi pozostałymi urządzeniami jest na liście, ale nigdy nie jest przenoszona."
+            "value" : "Peel porównuje pliki na podstawie całej ich zawartości, a folder jest kopią tylko wtedy, gdy zgadza się każdy plik w nim. Repozytoria, projekty, foldery node_modules oraz biblioteki, na przykład aplikacji Zdjęcia, pozostają nietknięte. Kopia z własnymi tagami lub komentarzem albo kopia synchronizowana nigdy nie jest przenoszona."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel compara os arquivos pelo conteúdo completo. Uma pasta só é uma cópia quando todos os arquivos dela coincidem, inclusive os ocultos. Repositórios (Git, Mercurial, Subversion), projetos com um arquivo de compilação como package.json ou Cargo.toml, node_modules e bibliotecas como as dos apps Fotos e Música ficam de fora, e um app nunca é oferecido sozinho. Um arquivo de compilação na raiz de uma pasta que você escolheu não faz dela um projeto. Uma cópia com etiquetas do Finder, um comentário do Finder ou uma bifurcação de recursos que as outras não têm aparece na lista com elas e nunca é movida, um arquivo oculto só conta para a pasta que o contém, e uma cópia em uma pasta sincronizada com os seus outros dispositivos aparece na lista, mas nunca é movida."
+            "value" : "O Peel compara os arquivos pelo conteúdo completo, e uma pasta só é uma cópia quando todos os arquivos dela coincidem. Repositórios, projetos, node_modules e bibliotecas como a do app Fotos ficam de fora. Uma cópia com etiquetas ou um comentário próprios, ou uma que é sincronizada, nunca é movida."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel compară fișierele după întregul lor conținut. Un dosar este o copie doar dacă toate fișierele din el coincid, inclusiv cele ascunse. Depozitele (Git, Mercurial, Subversion), proiectele cu un fișier de compilare precum package.json sau Cargo.toml, node_modules și bibliotecile precum cele din Poze și Muzică sunt lăsate neatinse, iar o aplicație nu este niciodată propusă singură. Un fișier de compilare aflat chiar în dosarul ales de dvs. nu face din acesta un proiect. O copie cu etichete Finder, un comentariu Finder sau o ramură de resurse pe care celelalte nu le au este listată împreună cu ele, dar nu este mutată niciodată, un fișier ascuns contează doar pentru dosarul în care se află, iar o copie dintr‑un dosar care se sincronizează pe celelalte dispozitive ale dvs. este listată, dar nu este mutată niciodată."
+            "value" : "Peel compară fișierele după întregul lor conținut, iar un dosar este o copie doar dacă toate fișierele din el coincid. Depozitele, proiectele, node_modules și bibliotecile precum cea din Poze sunt lăsate neatinse. O copie cu propriile etichete sau cu un comentariu propriu ori una care se sincronizează nu este mutată niciodată."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel сравнивает файлы по всему их содержимому. Папка считается копией, только если в ней совпадает каждый файл, включая скрытые. Репозитории (Git, Mercurial, Subversion), проекты с файлом сборки, например package.json или Cargo.toml, папки node_modules и медиатеки таких приложений, как «Фото» и «Музыка», не затрагиваются, а приложение никогда не предлагается само по себе. Файл сборки в корне выбранной Вами папки не делает ее проектом. Копия с тегами Finder, комментарием Finder или ветвью ресурсов, которых нет у других копий, показывается в списке вместе с ними, но никогда не перемещается, скрытый файл учитывается только при сравнении папки, в которой он находится, а копия в папке, которая синхронизируется с другими Вашими устройствами, показывается в списке, но никогда не перемещается."
+            "value" : "Peel сравнивает файлы по всему их содержимому, и папка считается копией, только если в ней совпадает каждый файл. Репозитории, проекты, папки node_modules и медиатеки таких приложений, как «Фото», не затрагиваются. Копия с собственными тегами или комментарием, а также копия, которая синхронизируется, никогда не перемещается."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel jämför filer utifrån hela innehållet. En mapp räknas som en kopia bara när varje fil i den stämmer överens, gömda filer inräknade. Kodförråd (Git, Mercurial, Subversion), projekt med en byggfil som package.json eller Cargo.toml, node_modules och bibliotek från appar som Bilder och Musik lämnas orörda, och en app erbjuds aldrig ensam. En byggfil högst upp i en mapp som du har valt gör inte mappen till ett projekt. En kopia med Finder-taggar, en Finder-kommentar eller en resursdel som de andra inte har listas tillsammans med dem och flyttas aldrig, en gömd fil räknas bara som en del av mappen som den ligger i, och en kopia i en mapp som synkroniseras till dina andra enheter listas men flyttas aldrig."
+            "value" : "Peel jämför filer utifrån hela innehållet, och en mapp räknas som en kopia bara när varje fil i den stämmer överens. Kodförråd, projekt, node_modules och bibliotek från appar som Bilder lämnas orörda. En kopia med egna taggar eller en egen kommentar, eller en som synkroniseras, flyttas aldrig."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel dosyaları içeriklerinin tamamıyla karşılaştırır. Bir klasör, yalnızca gizli olanlar dahil içindeki her dosya eşleştiğinde kopya sayılır. Depolara (Git, Mercurial, Subversion), package.json veya Cargo.toml gibi bir derleme dosyası olan projelere, node_modules klasörlerine ve Fotoğraflar ve Müzik gibi uygulamaların arşivlerine dokunulmaz; bir uygulama da hiçbir zaman tek başına önerilmez. Seçtiğiniz bir klasörün en üst düzeyindeki bir derleme dosyası, o klasörü proje yapmaz. Diğerlerinde olmayan Finder etiketlerine, Finder açıklamasına veya kaynak yazılım çatalına sahip bir kopya onlarla birlikte listelenir ama hiçbir zaman taşınmaz; gizli bir dosya yalnızca içinde bulunduğu klasör için hesaba katılır ve diğer aygıtlarınızla eşzamanlanan bir klasördeki bir kopya listelenir ama hiçbir zaman taşınmaz."
+            "value" : "Peel dosyaları içeriklerinin tamamıyla karşılaştırır ve bir klasör ancak içindeki her dosya eşleştiğinde kopya sayılır. Depolara, projelere, node_modules klasörlerine ve Fotoğraflar gibi uygulamaların arşivlerine dokunulmaz. Kendine ait etiketleri veya açıklaması olan ya da eşzamanlanan bir kopya hiçbir zaman taşınmaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel порівнює файли за їхнім повним умістом. Папка вважається копією, лише коли збігаються всі файли в ній, зокрема приховані. Репозиторії (Git, Mercurial, Subversion), проєкти з файлом збірки, як-от package.json чи Cargo.toml, node_modules і медіатеки таких програм, як «Фотографії» і «Музика», лишаються на місці, а програма ніколи не пропонується окремо. Файл збірки на верхньому рівні вибраної вами папки не робить її проєктом. Копія з тегами Finder, коментарем Finder або гілкою ресурсів, яких немає в інших копій, показується разом із ними, але ніколи не переміщується, прихований файл враховується лише як частина папки, у якій лежить, а копія в папці, що синхронізується з іншими вашими пристроями, показується, але ніколи не переміщується."
+            "value" : "Peel порівнює файли за їхнім повним умістом, а папка вважається копією, лише коли збігаються всі файли в ній. Репозиторії, проєкти, node_modules і медіатеки таких програм, як «Фотографії», лишаються на місці. Копія з власними тегами чи коментарем або та, що синхронізується, ніколи не переміщується."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel按完整内容比较文件。只有当文件夹中的每个文件（包括隐藏文件）都相同时，该文件夹才算作副本。代码仓库（Git、Mercurial、Subversion）、带有package.json或Cargo.toml等构建文件的项目、node_modules，以及“照片”和“音乐”等资料库，Peel都不会触碰；App也绝不会被单独列出以供移除。你所选文件夹顶层的构建文件不会使该文件夹成为项目。如果某个副本带有其他副本所没有的访达标签、访达注释或资源分支，它会与其他副本列在一起，但绝不会被移动；隐藏文件只在比较其所在文件夹时计入；位于会同步到你的其他设备的文件夹中的副本会列出，但绝不会被移动。"
+            "value" : "Peel按完整内容比较文件，只有当文件夹中的每个文件都相同时，该文件夹才算作副本。代码仓库、项目、node_modules以及“照片”等资料库，Peel都不会触碰。带有自己的标签或注释的副本，或者会同步的副本，绝不会被移动。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel會比對檔案的完整內容。只有當檔案夾中的每個檔案（包括隱藏檔案）都相符時，該檔案夾才算是副本。儲存庫（Git、Mercurial、Subversion）、含有package.json或Cargo.toml等建置檔案的計畫案、node_modules，以及「照片」和「音樂」等App的資料庫都會原地保留，而App絕不會被單獨列出供你移除。你所選擇的檔案夾最上層的建置檔案，並不會讓該檔案夾成為計畫案。具有其他副本沒有的Finder標籤、Finder註解或resource fork的副本，會與它們一起列出，但絕不會移動；隱藏檔案只會計入包含它的檔案夾；而位於與你的其他裝置同步之檔案夾中的副本會列出，但絕不會移動。"
+            "value" : "Peel會比對檔案的完整內容，只有當檔案夾中的每個檔案都相符時，該檔案夾才算是副本。儲存庫、計畫案、node_modules，以及「照片」等資料庫都會原地保留。具有自己的標籤或註解的副本，或會同步的副本，絕不會移動。"
           }
         }
       }

@@ -4,6 +4,8 @@ import UniformTypeIdentifiers
 
 /// What a scan looks at, in a popover from the toolbar: a change applies to the next scan and costs no results.
 struct DuplicateScanForm: View {
+    static let foldersNote: LocalizedStringResource = "Peel compares files by their full contents, and a folder is a copy only when every file in it matches. Repositories, projects, node_modules, and libraries such as Photos are left alone. A copy with its own tags or comment, or one that syncs, is never moved."
+
     private static let sizes: [Int64] = [100_000, 1_000_000, 10_000_000, 100_000_000]
 
     @Environment(DuplicateLibrary.self) private var duplicates
@@ -32,7 +34,7 @@ struct DuplicateScanForm: View {
                     }
                     .disabled(duplicates.isScanning)
                 } header: {
-                    heading("Folders", "Peel compares files by their full contents. A folder is a copy only when every file in it matches, hidden ones included. Repositories (Git, Mercurial, Subversion), projects with a build file such as package.json or Cargo.toml, node_modules, and libraries such as Photos and Music are left alone, and an app is never offered on its own. A build file at the top of a folder you chose doesn’t make it a project. A copy with Finder tags, a Finder comment, or a resource fork the others don’t have is listed with them and never moved, a hidden file counts only toward the folder around it, and a copy in a folder that syncs to your other devices is listed and never moved.")
+                    heading("Folders", Self.foldersNote)
                 }
 
                 Section {
