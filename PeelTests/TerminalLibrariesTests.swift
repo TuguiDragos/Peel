@@ -236,9 +236,11 @@ struct TerminalLibrariesTests {
         await shell.refresh()
         #expect(shell.zshDidNotAnswer)
         let note = ShellTab.didNotAnswer(known: shell.state?.known, askedWithTheFiles: shell.zshDidNotAnswer)
-        #expect(note?.key.contains("off for now") == false)
-        #expect(note?.key.contains("Ask zsh") == true)
-        #expect(ShellTab.didNotAnswer(known: nil, askedWithTheFiles: true)?.key == TerminalPage.didNotAnswer("zsh").key)
+        #expect(note?.note.key.contains("off until") == false)
+        #expect(note?.note.key.contains("Ask zsh") == true)
+        let silent = ShellTab.didNotAnswer(known: nil, askedWithTheFiles: true)
+        #expect(silent?.title.key == TerminalPage.didNotAnswer("zsh").key)
+        #expect(silent?.note.key == TerminalPage.offUntilItAnswers.key)
     }
 
     @Test func theToolsForTheShellSayTheirZshLinesDontApplyWhenTerminalOpensBash() async throws {
@@ -251,8 +253,9 @@ struct TerminalLibrariesTests {
 
         await library.refresh()
 
-        #expect(ToolsTab.shellNote(library.state, zshrc: "~/.zshrc").key.contains("do not apply"))
-        #expect(ToolsTab.shellNote(nil, zshrc: "~/.zshrc").key == ToolsTab.linesGoIn("~/.zshrc").key)
+        #expect(ToolsTab.shellNote(library.state, zshrc: "~/.zshrc").text.key.contains("do not apply"))
+        #expect(ToolsTab.shellNote(nil, zshrc: "~/.zshrc").text.key == ToolsTab.linesGoIn("~/.zshrc").key)
+        #expect(ToolsTab.shellNote(nil, zshrc: "~/.zshrc").note == nil)
     }
 
     @Test func theShellTabLooksForNoZshrcWhenTerminalOpensBash() async throws {

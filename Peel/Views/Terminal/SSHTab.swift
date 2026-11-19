@@ -5,6 +5,8 @@ struct SSHTab: View {
     @Environment(SSHLibrary.self) private var ssh
     @State private var isConfirmingTurnAllOff = false
 
+    static let whereTheyAreKept: LocalizedStringResource = "Peel keeps these in a file of its own, not in your ~/.ssh/config."
+
     var body: some View {
         Form {
             if let state = ssh.state {
@@ -23,7 +25,10 @@ struct SSHTab: View {
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     } else if state.accepted == nil {
-                        StatusLabel(title: Text(TerminalPage.didNotAnswer("ssh")), tint: .accentColor)
+                        NotedStatus(
+                            title: Text(TerminalPage.didNotAnswer("ssh")), note: Text(TerminalPage.offUntilItAnswers),
+                            tint: .accentColor
+                        )
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     } else {
@@ -53,7 +58,7 @@ struct SSHTab: View {
         .formStyle(.grouped)
         .edgeBar(.bottom) {
             TurnAllOffBar(
-                explanation: "Peel writes these to a file of its own, which ssh reads. Turning one off takes it out of that file, and your ~/.ssh/config stays as it is.",
+                explanation: Self.whereTheyAreKept,
                 hasSomethingOn: ssh.hasSomethingOn
             ) {
                 isConfirmingTurnAllOff = true
@@ -92,7 +97,7 @@ private struct SSHLinesRow: View {
                 }
                 InfoNote(
                     name: String(localized: "Peel’s settings file"),
-                    detail: Text("Peel writes these settings only in a file of its own, which ssh reads through two lines at the end of ~/.ssh/config, so Peel never changes your own file. Turn All Off empties Peel’s file, and the lines then do nothing."),
+                    detail: Text("ssh reads these from a file Peel keeps, through two lines at the end of ~/.ssh/config, so your own file stays as it is. Turn All Off empties the file Peel keeps."),
                     footnote: Text(verbatim: ssh.lines.joined(separator: "\n"))
                 )
             }

@@ -7,13 +7,18 @@ struct ShellTab: View {
 
     static let afterTurningAllOff: LocalizedStringResource = "New windows start with only what your own shell files and macOS set."
 
+    static let whereTheyAreKept: LocalizedStringResource = "Peel keeps these in a file of its own, not in your shell files."
+
     /// What the tab says while zsh didn't answer: with `zsh -f` silent its switches are off and Peel asks again by
     /// itself, while with only the person's startup files silent they stay on and only Ask zsh asks again.
-    static func didNotAnswer(known: Set<String>?, askedWithTheFiles: Bool) -> LocalizedStringResource? {
-        if known == nil { return TerminalPage.didNotAnswer("zsh") }
-        return askedWithTheFiles
-            ? "zsh did not answer when Peel ran it with your startup files, so Peel goes by what they say. Ask zsh to try again."
-            : nil
+    static func didNotAnswer(
+        known: Set<String>?, askedWithTheFiles: Bool
+    ) -> (title: LocalizedStringResource, note: LocalizedStringResource)? {
+        if known == nil { return (TerminalPage.didNotAnswer("zsh"), TerminalPage.offUntilItAnswers) }
+        guard askedWithTheFiles else { return nil }
+        let goesByTheFiles: LocalizedStringResource =
+            "Peel goes by what your startup files say. Ask zsh again to try once more."
+        return (TerminalPage.didNotAnswer("zsh"), goesByTheFiles)
     }
 
     var body: some View {
@@ -35,10 +40,10 @@ struct ShellTab: View {
                         )
                             .font(.caption)
                             .foregroundStyle(.secondary)
-                    } else if state.isZsh, let note = Self.didNotAnswer(
+                    } else if state.isZsh, let silence = Self.didNotAnswer(
                         known: state.known, askedWithTheFiles: shell.zshDidNotAnswer
                     ) {
-                        StatusLabel(title: Text(note), tint: .accentColor)
+                        NotedStatus(title: Text(silence.title), note: Text(silence.note), tint: .accentColor)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     } else if state.startupFile != nil {
@@ -71,7 +76,7 @@ struct ShellTab: View {
         .formStyle(.grouped)
         .edgeBar(.bottom) {
             TurnAllOffBar(
-                explanation: "Peel writes these to a file of its own, which zsh reads. Turning one off takes it out of that file, and your own shell files stay as they are.",
+                explanation: Self.whereTheyAreKept,
                 hasSomethingOn: shell.hasSomethingOn
             ) {
                 isConfirmingTurnAllOff = true
@@ -111,7 +116,7 @@ private struct ShellLineRow: View {
                     }
                     InfoNote(
                         name: String(localized: "Peel’s settings file"),
-                        detail: Text("Peel writes these settings only in a file of its own, which zsh reads through one line in \(startupFile.abbreviatedPath), so Peel never changes your own file. The command adds the line at the end. If you load tools such as fzf-tab there, move the line above them, since their settings have to come after Peel’s, but keep zsh-completions’ lines above it, or every new window builds the completion cache again. Turn All Off empties Peel’s file, and the line then does nothing."),
+                        detail: Text("zsh reads these settings from a file Peel keeps, through one line in \(startupFile.abbreviatedPath). If you load tools such as fzf-tab there, put the line above them and below the lines of zsh-completions. Turn All Off empties the file Peel keeps."),
                         footnote: Text(verbatim: shell.file.abbreviatedPath)
                     )
                     Spacer(minLength: 8)
@@ -136,13 +141,15 @@ private struct ShellLineRow: View {
                         Image(systemName: "questionmark.circle.fill")
                             .foregroundStyle(Color.accentColor)
                     }
+                    InfoNote(
+                        about: Text("Peel cannot tell which .zshrc zsh reads"),
+                        detail: Text("Your startup files name its folder in a way Peel can read only by running them. Ask zsh to find out."),
+                        isAlbum: false
+                    )
                     Spacer(minLength: 8)
                     AskZshButton()
                 }
                 .font(.body.weight(.semibold))
-                Text("Your startup files name its folder in a way Peel cannot read without running them. Ask zsh to find out.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
             } else if state.shell == .bash {
                 Text("Terminal opens bash, so these zsh settings don’t apply.")
                     .foregroundStyle(.secondary)
@@ -219,7 +226,7 @@ private struct PromptSection: View {
             Text("Prompt")
         } footer: {
             if prompt != nil, let notice = Self.notice(in: state) {
-                StatusLabel(title: notice, tint: .accentColor)
+                NotedStatus(title: notice.title, note: notice.note, tint: .accentColor)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             } else {
@@ -232,22 +239,25 @@ private struct PromptSection: View {
 
     /// Why zsh shows another prompt than Peel's, as zsh answered: Peel's line not read yet, a function that sets it
     /// before each command, or a line after Peel's; when zsh wasn't asked or didn't answer, what the startup file says.
-    private static func notice(in state: ShellLibrary.State) -> Text? {
+    private static func notice(in state: ShellLibrary.State) -> (title: Text, note: Text?)? {
         guard let startupFile = state.startupFile else { return nil }
         guard state.isSourced else {
-            return Text("zsh shows this prompt once Peel’s line is in \(startupFile.abbreviatedPath).")
+            return (Text("zsh shows this prompt once Peel’s line is in \(startupFile.abbreviatedPath)."), nil)
         }
         let afterPeels = Text("Your \(startupFile.abbreviatedPath) sets its own prompt after Peel’s line, so zsh shows that one.")
         guard let shown = state.shownPrompt, let asked = state.promptAskedAbout else {
-            return state.setsItsOwnPrompt ? afterPeels : nil
+            return state.setsItsOwnPrompt ? (afterPeels, nil) : nil
         }
         guard shown.prompt != asked else { return nil }
         if let function = shown.setBeforeEachCommandBy.last {
-            return Text("A function your zsh runs before each command, \(function), sets its own prompt, so zsh shows that one.")
+            return (
+                Text("Your zsh sets its own prompt"),
+                Text("A function it runs before each command, \(function), sets the prompt, so zsh shows that one.")
+            )
         }
         return state.setsItsOwnPrompt
-            ? afterPeels
-            : Text("Your zsh sets its own prompt after Peel’s file is read, so zsh shows that one.")
+            ? (afterPeels, nil)
+            : (Text("Your zsh sets its own prompt after Peel’s file is read, so zsh shows that one."), nil)
     }
 
     private func partTitle(_ title: LocalizedStringResource, isOn: Bool) -> some View {

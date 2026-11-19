@@ -1632,108 +1632,108 @@
         }
       }
     },
-    "%@ did not answer, so these settings are off for now. Peel asks again when you open this page or come back to Peel." : {
+    "%@ did not answer" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ neodpověděl, takže tato nastavení jsou zatím vypnutá. Peel se zeptá znovu, až otevřete tuto stránku nebo se vrátíte do Peelu."
+            "value" : "%@ neodpověděl"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ hat nicht geantwortet, daher sind diese Einstellungen vorerst nicht verfügbar. Peel fragt erneut, wenn du diese Seite öffnest oder zu Peel zurückkehrst."
+            "value" : "%@ hat nicht geantwortet"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ no ha respondido, así que estos ajustes están desactivados por ahora. Peel volverá a preguntar cuando abras esta página o vuelvas a Peel."
+            "value" : "%@ no ha respondido"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ n’a pas répondu : ces réglages sont donc désactivés pour l’instant. Peel l’interroge à nouveau lorsque vous ouvrez cette page ou revenez à Peel."
+            "value" : "%@ n’a pas répondu"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ non ha risposto, quindi per ora queste impostazioni sono disattivate. Peel riprova quando apri questa pagina o torni a Peel."
+            "value" : "%@ non ha risposto"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@から応答がなかったため、これらの設定は今のところ使用できません。このページを開くか、Peelに戻ったときに、Peelがもう一度問い合わせます。"
+            "value" : "%@から応答がありませんでした"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@이(가) 응답하지 않았으므로 지금은 이 설정을 사용할 수 없습니다. 이 페이지를 열거나 Peel로 돌아오면 Peel이 다시 묻습니다."
+            "value" : "%@이(가) 응답하지 않음"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ gaf geen antwoord, dus deze instellingen zijn voorlopig uitgeschakeld. Peel vraagt het opnieuw als je deze pagina opent of naar Peel terugkeert."
+            "value" : "%@ gaf geen antwoord"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ nie odpowiedział, więc te ustawienia są na razie wyłączone. Peel zapyta ponownie, gdy otworzysz tę stronę lub wrócisz do Peel."
+            "value" : "%@ nie odpowiedział"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O %@ não respondeu, então estes ajustes estão desativados por enquanto. O Peel pergunta novamente quando você abre esta página ou volta ao Peel."
+            "value" : "O %@ não respondeu"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ nu a răspuns, așa că aceste configurări sunt dezactivate deocamdată. Peel întreabă din nou când deschideți această pagină sau reveniți în Peel."
+            "value" : "%@ nu a răspuns"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ не ответил, поэтому эти настройки пока недоступны. Peel спросит снова, когда Вы откроете эту страницу или вернетесь в Peel."
+            "value" : "%@ не ответил"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ svarade inte, så de här inställningarna är avstängda tills vidare. Peel frågar igen när du öppnar den här sidan eller återvänder till Peel."
+            "value" : "%@ svarade inte"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ yanıt vermedi, bu yüzden bu ayarlar şimdilik kapalı. Bu sayfayı açtığınızda veya Peel’e döndüğünüzde Peel yeniden sorar."
+            "value" : "%@ yanıt vermedi"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ не відповів, тож ці налаштування поки що вимкнено. Peel запитає знову, коли ви відкриєте цю сторінку або повернетеся до Peel."
+            "value" : "%@ не відповів"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@没有回应，因此这些设置暂时处于关闭状态。当你打开此页面或返回Peel时，Peel会再次询问。"
+            "value" : "%@没有回应"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@沒有回應，因此這些設定暫時無法使用。當你打開此頁面或回到Peel時，Peel會再次詢問。"
+            "value" : "%@沒有回應"
           }
         }
       }
@@ -15052,108 +15052,108 @@
         }
       }
     },
-    "A function your zsh runs before each command, %@, sets its own prompt, so zsh shows that one." : {
+    "A function it runs before each command, %@, sets the prompt, so zsh shows that one." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Funkce %@, kterou váš zsh spouští před každým příkazem, nastavuje vlastní výzvu, takže zsh zobrazuje tu její."
+            "value" : "Funkce %@, kterou zsh spouští před každým příkazem, nastavuje výzvu, takže zsh zobrazuje tu její."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Funktion %@, die deine zsh vor jedem Befehl ausführt, legt eine eigene Eingabeaufforderung fest, daher zeigt zsh diese an."
+            "value" : "Die Funktion %@, die deine zsh vor jedem Befehl ausführt, legt die Eingabeaufforderung fest, daher zeigt zsh diese an."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Una función que tu zsh ejecuta antes de cada comando, %@, establece su propio indicador, así que zsh muestra ese."
+            "value" : "Una función que ejecuta antes de cada comando, %@, establece el indicador, así que zsh muestra ese."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Une fonction que votre zsh exécute avant chaque commande, %@, définit sa propre invite de commande : c’est donc celle-ci que zsh affiche."
+            "value" : "Une fonction qu’il exécute avant chaque commande, %@, définit l’invite de commande : c’est donc celle-ci que zsh affiche."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Una funzione che il tuo zsh esegue prima di ogni comando, %@, imposta un proprio prompt, quindi zsh mostra quel prompt."
+            "value" : "Una funzione che esegue prima di ogni comando, %@, imposta il prompt, quindi zsh mostra quel prompt."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "お使いのzshが各コマンドの前に実行する%@という関数は、独自のプロンプトを設定しているため、zshはそちらのプロンプトを表示します。"
+            "value" : "zshが各コマンドの前に実行する%@という関数がプロンプトを設定しているため、zshはそちらのプロンプトを表示します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "사용자의 zsh가 명령을 입력하기 전에 매번 실행하는 %@ 함수가 자체 프롬프트를 설정하므로 zsh는 그 프롬프트를 표시합니다."
+            "value" : "zsh가 명령을 입력하기 전에 매번 실행하는 %@ 함수가 프롬프트를 설정하므로 zsh는 그 프롬프트를 표시합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een functie die je zsh vóór elk commando uitvoert, %@, stelt een eigen prompt in, dus zsh toont die prompt."
+            "value" : "Een functie die zsh vóór elk commando uitvoert, %@, stelt de prompt in, dus zsh toont die prompt."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Funkcja %@, którą Twoja powłoka zsh uruchamia przed każdym poleceniem, ustawia własny znak zachęty, więc zsh wyświetla właśnie ten."
+            "value" : "Funkcja %@, którą zsh uruchamia przed każdym poleceniem, ustawia znak zachęty, więc zsh wyświetla właśnie ten."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uma função que o seu zsh executa antes de cada comando, %@, define um prompt próprio, então é esse que o zsh mostra."
+            "value" : "Uma função que ele executa antes de cada comando, %@, define o prompt, então é esse que o zsh mostra."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O funcție pe care zsh‑ul dvs. o rulează înaintea fiecărei comenzi, %@, își stabilește propriul prompt, așa că zsh îl afișează pe acesta."
+            "value" : "O funcție pe care o rulează înaintea fiecărei comenzi, %@, stabilește promptul, așa că zsh îl afișează pe acesta."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Функция %@, которую Ваш zsh выполняет перед каждой командой, задает собственное приглашение ввода, поэтому zsh показывает именно его."
+            "value" : "Функция %@, которую zsh выполняет перед каждой командой, задает приглашение ввода, поэтому zsh показывает именно его."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En funktion som din zsh kör före varje kommando, %@, ställer in sin egen prompt, så det är den som zsh visar."
+            "value" : "En funktion som zsh kör före varje kommando, %@, ställer in prompten, så det är den som zsh visar."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "zsh kabuğunuzun her komuttan önce çalıştırdığı %@ işlevi kendi bilgi istemini ayarlıyor, bu yüzden zsh o bilgi istemini gösteriyor."
+            "value" : "Her komuttan önce çalıştırdığı %@ işlevi bilgi istemini ayarlıyor, bu yüzden zsh o bilgi istemini gösteriyor."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Функція %@, яку ваш zsh виконує перед кожною командою, задає власне запрошення, тож zsh показує саме його."
+            "value" : "Функція %@, яку він виконує перед кожною командою, задає запрошення, тож zsh показує саме його."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你的zsh在每条命令前运行的函数%@设置了自己的提示符，因此zsh会显示那个提示符。"
+            "value" : "它在每条命令前运行的函数%@设置了提示符，因此zsh会显示那个提示符。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你的zsh在每個指令之前執行的函式%@設定了它自己的提示行，因此zsh會顯示該提示行。"
+            "value" : "它在每個指令之前執行的函式%@設定了提示行，因此zsh會顯示該提示行。"
           }
         }
       }
@@ -15794,108 +15794,108 @@
         }
       }
     },
-    "A new connection to a server you’re already connected to opens at once through the first, which stays open 10 minutes after the last one ends. Leave it off if you use two accounts on one server, such as two GitHub accounts: ssh would send the second through the first one’s connection." : {
+    "A new connection to a server you are already connected to opens at once through the first one, which stays open 10 minutes. Leave it off if you use two accounts on one server, such as two GitHub accounts." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nové připojení k serveru, ke kterému jste už připojeni, se okamžitě otevře přes to první, které zůstane otevřené ještě 10 minut po ukončení posledního. Nechte tuto volbu vypnutou, pokud na jednom serveru používáte dva účty, například dva účty GitHub: ssh by připojení druhého účtu poslal přes připojení prvního."
+            "value" : "Nové připojení k serveru, ke kterému jste už připojeni, se okamžitě otevře přes to první, které zůstane otevřené 10 minut. Nechte tuto volbu vypnutou, pokud na jednom serveru používáte dva účty, například dva účty GitHub."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eine neue Verbindung zu einem Server, mit dem du schon verbunden bist, öffnet sich sofort über die erste, die nach dem Ende der letzten noch 10 Minuten offen bleibt. Lass diese Option deaktiviert, wenn du zwei Accounts auf demselben Server verwendest, etwa zwei GitHub-Accounts: ssh würde die Verbindung des zweiten über die des ersten leiten."
+            "value" : "Eine neue Verbindung zu einem Server, mit dem du schon verbunden bist, öffnet sich sofort über die erste, die 10 Minuten offen bleibt. Lass diese Option deaktiviert, wenn du zwei Accounts auf demselben Server verwendest, etwa zwei GitHub-Accounts."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Una conexión nueva a un servidor al que ya estás conectado se abre al instante a través de la primera, que sigue abierta 10 minutos después de que termine la última. Déjalo desactivado si usas dos cuentas en un mismo servidor, como dos cuentas de GitHub: ssh enviaría la segunda a través de la conexión de la primera."
+            "value" : "Una conexión nueva a un servidor al que ya estás conectado se abre al instante a través de la primera, que sigue abierta 10 minutos. Déjalo desactivado si usas dos cuentas en un mismo servidor, como dos cuentas de GitHub."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Une nouvelle connexion à un serveur auquel vous êtes déjà connecté s’ouvre aussitôt en passant par la première, qui reste ouverte 10 minutes après la fin de la dernière. Laissez ce réglage désactivé si vous utilisez deux comptes sur un même serveur, comme deux comptes GitHub : ssh ferait passer le second compte par la connexion du premier."
+            "value" : "Une nouvelle connexion à un serveur auquel vous êtes déjà connecté s’ouvre aussitôt en passant par la première, qui reste ouverte 10 minutes. Laissez ce réglage désactivé si vous utilisez deux comptes sur un même serveur, comme deux comptes GitHub."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quando hai già una connessione con un server, una nuova connessione allo stesso server si apre subito attraverso la prima, che resta aperta per 10 minuti dopo la chiusura dell’ultima. Lascia disattivata questa opzione se usi due account sullo stesso server, come due account GitHub: ssh farebbe passare il secondo attraverso la connessione del primo."
+            "value" : "Quando hai già una connessione con un server, una nuova connessione allo stesso server si apre subito attraverso la prima, che resta aperta per 10 minuti. Lascia disattivata questa opzione se usi due account sullo stesso server, come due account GitHub."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "すでに接続しているサーバへの新しい接続は、最初の接続を通じてすぐに開きます。最初の接続は、最後の接続が終了してから10分間開いたままになります。2つのGitHubアカウントなど、1つのサーバで2つのアカウントを使う場合は、オフのままにしてください。オンにすると、sshは2つ目のアカウントの接続を、最初のアカウントの接続を通じて開いてしまいます。"
+            "value" : "すでに接続しているサーバへの新しい接続は、最初の接続を通じてすぐに開きます。最初の接続は10分間開いたままになります。2つのGitHubアカウントなど、1つのサーバで2つのアカウントを使う場合は、オフのままにしてください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이미 연결된 서버에 새로 연결하면 첫 번째 연결을 통해 바로 열리며, 첫 번째 연결은 마지막 연결이 끝난 후에도 10분 동안 열려 있습니다. GitHub 계정 두 개처럼 한 서버에서 계정 두 개를 사용한다면 이 설정을 끈 상태로 두십시오. 켜 두면 ssh가 두 번째 계정의 연결을 첫 번째 계정의 연결을 통해 보냅니다."
+            "value" : "이미 연결된 서버에 새로 연결하면 첫 번째 연결을 통해 바로 열리며, 첫 번째 연결은 10분 동안 열려 있습니다. GitHub 계정 두 개처럼 한 서버에서 계정 두 개를 사용한다면 이 설정을 끈 상태로 두십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een nieuwe verbinding met een server waarmee je al verbonden bent, wordt meteen geopend via de eerste, die nog 10 minuten open blijft nadat de laatste verbinding is beëindigd. Laat dit uitgeschakeld als je twee accounts op één server gebruikt, zoals twee GitHub-accounts: ssh zou de tweede dan via de verbinding van de eerste sturen."
+            "value" : "Een nieuwe verbinding met een server waarmee je al verbonden bent, wordt meteen geopend via de eerste, die 10 minuten open blijft. Laat dit uitgeschakeld als je twee accounts op één server gebruikt, zoals twee GitHub-accounts."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nowe połączenie z serwerem, z którym masz już połączenie, otwiera się od razu przez to pierwsze, które pozostaje otwarte jeszcze 10 minut po zakończeniu ostatniego. Pozostaw tę opcję wyłączoną, jeśli używasz dwóch kont na jednym serwerze, na przykład dwóch kont GitHub: ssh skierowałby drugie konto przez połączenie pierwszego."
+            "value" : "Nowe połączenie z serwerem, z którym masz już połączenie, otwiera się od razu przez to pierwsze, które pozostaje otwarte przez 10 minut. Pozostaw tę opcję wyłączoną, jeśli używasz dwóch kont na jednym serwerze, na przykład dwóch kont GitHub."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uma nova conexão com um servidor ao qual você já está conectado abre na hora por meio da primeira conexão, que fica aberta por 10 minutos depois que a última termina. Deixe esta opção desativada se você usa duas contas no mesmo servidor, como duas contas do GitHub: o ssh enviaria a segunda conta pela conexão da primeira."
+            "value" : "Uma nova conexão com um servidor ao qual você já está conectado abre na hora por meio da primeira, que fica aberta por 10 minutos. Deixe esta opção desativada se você usa duas contas no mesmo servidor, como duas contas do GitHub."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O conexiune nouă la un server la care sunteți deja conectat se deschide imediat prin prima, care rămâne deschisă 10 minute după ce se încheie ultima. Lăsați această opțiune dezactivată dacă folosiți două conturi pe același server, de exemplu două conturi GitHub: ssh ar trimite conexiunea celui de‑al doilea cont prin cea a primului."
+            "value" : "O conexiune nouă la un server la care sunteți deja conectat se deschide imediat prin prima, care rămâne deschisă 10 minute. Lăsați această opțiune dezactivată dacă folosiți două conturi pe același server, de exemplu două conturi GitHub."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Новое подключение к серверу, к которому Вы уже подключены, сразу открывается через первое подключение. Оно остается открытым еще 10 минут после завершения последнего. Оставьте этот параметр выключенным, если Вы используете две учетные записи на одном сервере, например две учетные записи GitHub: ssh направит подключение второй через подключение первой."
+            "value" : "Новое подключение к серверу, к которому Вы уже подключены, сразу открывается через первое подключение, которое остается открытым 10 минут. Оставьте этот параметр выключенным, если Вы используете две учетные записи на одном сервере, например две учетные записи GitHub."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En ny anslutning till en server som du redan är ansluten till öppnas direkt via den första, som hålls öppen i 10 minuter efter att den sista har avslutats. Låt inställningen vara avstängd om du använder två konton på samma server, till exempel två GitHub-konton: ssh skulle då skicka det andra via det förstas anslutning."
+            "value" : "En ny anslutning till en server som du redan är ansluten till öppnas direkt via den första, som hålls öppen i 10 minuter. Låt inställningen vara avstängd om du använder två konton på samma server, till exempel två GitHub-konton."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zaten bağlı olduğunuz bir sunucuya açılan yeni bir bağlantı ilkinin üzerinden hemen açılır; ilk bağlantı da sonuncusu kapandıktan sonra 10 dakika açık kalır. Aynı sunucuda iki hesap (örneğin iki GitHub hesabı) kullanıyorsanız bunu kapalı bırakın: açıkken ssh, ikinci hesabı ilk hesabın bağlantısı üzerinden gönderir."
+            "value" : "Zaten bağlı olduğunuz bir sunucuya açılan yeni bir bağlantı ilkinin üzerinden hemen açılır; ilk bağlantı 10 dakika açık kalır. Aynı sunucuda iki hesap (örneğin iki GitHub hesabı) kullanıyorsanız bunu kapalı bırakın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Нове зʼєднання із сервером, до якого ви вже підʼєднані, відкривається відразу через перше зʼєднання, яке лишається відкритим ще 10 хвилин після того, як завершиться останнє. Не вмикайте цей параметр, якщо використовуєте два облікові записи на одному сервері, як-от два облікові записи GitHub: ssh підʼєднував би другий через зʼєднання першого."
+            "value" : "Нове зʼєднання із сервером, до якого ви вже підʼєднані, відкривається відразу через перше, яке лишається відкритим 10 хвилин. Не вмикайте цей параметр, якщо використовуєте два облікові записи на одному сервері, як-от два облікові записи GitHub."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "连接到你已连接的服务器时，新连接会通过第一个连接立即打开，而第一个连接会在最后一个连接结束后继续保持打开10分钟。如果你在同一台服务器上使用两个账户（例如两个GitHub账户），请保持此项关闭：ssh会通过第一个账户的连接发送第二个账户的连接。"
+            "value" : "连接到你已连接的服务器时，新连接会通过第一个连接立即打开，而第一个连接会保持打开10分钟。如果你在同一台服务器上使用两个账户（例如两个GitHub账户），请保持此项关闭。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "對你已連線的伺服器建立的新連線，會立即透過第一條連線開啟；第一條連線會在最後一條連線結束後再保持開啟10分鐘。如果你在同一部伺服器上使用兩個帳號，例如兩個GitHub帳號，請讓此選項保持關閉：ssh會透過第一個帳號的連線傳送第二個帳號的連線。"
+            "value" : "對你已連線的伺服器建立的新連線，會立即透過第一條連線開啟，而第一條連線會保持開啟10分鐘。如果你在同一部伺服器上使用兩個帳號，例如兩個GitHub帳號，請讓此選項保持關閉。"
           }
         }
       }
@@ -66839,108 +66839,108 @@
         }
       }
     },
-    "Git could not read your settings, so Peel changes nothing here. Run `git config --global --list` in Terminal to see what Git says." : {
+    "Git could not read your settings" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git nemohl přečíst vaše nastavení, a proto tu Peel nic nemění. Chcete-li zjistit, co Git uvádí, spusťte v Terminálu `git config --global --list`."
+            "value" : "Git nemohl přečíst vaše nastavení"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git konnte deine Einstellungen nicht lesen, daher ändert Peel hier nichts. Führe `git config --global --list` im Terminal aus, um zu sehen, was Git meldet."
+            "value" : "Git konnte deine Einstellungen nicht lesen"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git no ha podido leer tus ajustes, así que Peel no cambia nada aquí. Ejecuta `git config --global --list` en Terminal para ver lo que dice Git."
+            "value" : "Git no ha podido leer tus ajustes"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git n’a pas pu lire vos réglages : Peel ne modifie donc rien ici. Exécutez `git config --global --list` dans Terminal pour voir ce que Git indique."
+            "value" : "Git n’a pas pu lire vos réglages"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git non è riuscito a leggere le tue impostazioni, quindi qui Peel non modifica nulla. Esegui `git config --global --list` in Terminale per vedere cosa dice Git."
+            "value" : "Git non è riuscito a leggere le tue impostazioni"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gitが設定を読み取れなかったため、Peelはここでは何も変更しません。Gitの出力を確認するには、ターミナルで`git config --global --list`を実行してください。"
+            "value" : "Gitが設定を読み取れませんでした"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git이 설정을 읽을 수 없으므로 Peel은 여기에서 아무것도 변경하지 않습니다. Git이 알려 주는 내용을 보려면 터미널에서 `git config --global --list`를 실행하십시오."
+            "value" : "Git이 설정을 읽을 수 없음"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git kon je instellingen niet lezen, dus Peel wijzigt hier niets. Voer `git config --global --list` uit in Terminal om te zien wat Git meldt."
+            "value" : "Git kon je instellingen niet lezen"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git nie mógł odczytać Twoich ustawień, więc Peel niczego tutaj nie zmienia. Uruchom `git config --global --list` w Terminalu, aby zobaczyć, co podaje Git."
+            "value" : "Git nie mógł odczytać Twoich ustawień"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Git não conseguiu ler os seus ajustes, então o Peel não altera nada aqui. Execute `git config --global --list` no Terminal para ver o que o Git diz."
+            "value" : "O Git não conseguiu ler os seus ajustes"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git nu v‑a putut citi configurările, așa că Peel nu modifică nimic aici. Rulați `git config --global --list` în Terminal pentru a vedea ce spune Git."
+            "value" : "Git nu v‑a putut citi configurările"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git не смог прочитать Ваши настройки, поэтому Peel здесь ничего не меняет. Выполните `git config --global --list` в Терминале, чтобы увидеть, что сообщает Git."
+            "value" : "Git не смог прочитать Ваши настройки"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git kunde inte läsa dina inställningar, så Peel ändrar ingenting här. Kör `git config --global --list` i Terminal för att se vad Git säger."
+            "value" : "Git kunde inte läsa dina inställningar"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git ayarlarınızı okuyamadı, bu yüzden Peel burada hiçbir şeyi değiştirmez. Git’in ne söylediğini görmek için Terminal’de `git config --global --list` komutunu çalıştırın."
+            "value" : "Git ayarlarınızı okuyamadı"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git не зміг прочитати ваші налаштування, тож Peel тут нічого не змінює. Виконайте `git config --global --list` у Терміналі, щоб побачити, що повідомляє Git."
+            "value" : "Git не зміг прочитати ваші налаштування"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git未能读取你的设置，因此Peel不会在此处进行任何更改。请在“终端”中运行`git config --global --list`，查看Git给出的信息。"
+            "value" : "Git未能读取你的设置"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Git無法讀取你的設定，因此Peel不會在這裡更改任何設定。請在「終端機」中執行`git config --global --list`，查看Git的回應。"
+            "value" : "Git無法讀取你的設定"
           }
         }
       }
@@ -159263,108 +159263,108 @@
         }
       }
     },
-    "Peel cannot tell which .zshrc zsh reads, so these lines say ~/.zshrc. Ask zsh on the Shell tab to find out." : {
+    "Peel cannot tell which .zshrc zsh reads. Ask zsh on the Shell tab to find out." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nedokáže zjistit, který soubor .zshrc čte zsh, a proto tyto řádky uvádějí ~/.zshrc. Zeptejte se zsh na kartě Shell a zjistíte to."
+            "value" : "Peel nedokáže zjistit, který soubor .zshrc čte zsh. Zeptejte se zsh na kartě Shell a zjistíte to."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kann nicht erkennen, welche .zshrc zsh liest, daher steht in diesen Zeilen ~/.zshrc. Frage zsh im Tab „Shell“, um es herauszufinden."
+            "value" : "Peel kann nicht erkennen, welche .zshrc zsh liest. Frage zsh im Tab „Shell“, um es herauszufinden."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel no puede saber qué .zshrc lee zsh, así que estas líneas usan ~/.zshrc. Para averiguarlo, pregunta a zsh en la pestaña Shell."
+            "value" : "Peel no puede saber qué .zshrc lee zsh. Para averiguarlo, pregunta a zsh en la pestaña Shell."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ne peut pas savoir quel fichier .zshrc lit zsh : ces lignes mentionnent donc ~/.zshrc. Interrogez zsh dans l’onglet Shell pour le savoir."
+            "value" : "Peel ne peut pas savoir quel fichier .zshrc lit zsh. Interrogez zsh dans l’onglet Shell pour le savoir."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel non riesce a capire quale .zshrc legge zsh, quindi queste righe indicano ~/.zshrc. Per scoprirlo, chiedi a zsh nel pannello Shell."
+            "value" : "Peel non riesce a capire quale .zshrc legge zsh. Per scoprirlo, chiedi a zsh nel pannello Shell."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelでは、zshがどの.zshrcを読み込むかを判断できないため、これらの行では~/.zshrcと記載しています。確認するには、“シェル”タブでzshに問い合わせてください。"
+            "value" : "Peelでは、zshがどの.zshrcを読み込むかを判断できません。確認するには、“シェル”タブでzshに問い合わせてください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 zsh가 어떤 .zshrc를 읽는지 알 수 없으므로 이 줄들에는 ~/.zshrc로 적혀 있습니다. 알아보려면 셸 탭에서 zsh에 물어보십시오."
+            "value" : "Peel이 zsh가 어떤 .zshrc를 읽는지 알 수 없습니다. 알아보려면 셸 탭에서 zsh에 물어보십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kan niet zien welke .zshrc zsh leest, dus noemen deze regels ~/.zshrc. Vraag het op het tabblad 'Shell' aan zsh om het te weten te komen."
+            "value" : "Peel kan niet zien welke .zshrc zsh leest. Vraag het op het tabblad 'Shell' aan zsh om het te weten te komen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nie może ustalić, który plik .zshrc wczytuje zsh, więc w tych wierszach jest ~/.zshrc. Aby się dowiedzieć, zapytaj zsh na karcie Powłoka."
+            "value" : "Peel nie może ustalić, który plik .zshrc wczytuje zsh. Aby się dowiedzieć, zapytaj zsh na karcie Powłoka."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel não consegue saber qual .zshrc o zsh lê, então estas linhas usam ~/.zshrc. Pergunte ao zsh na aba Shell para descobrir."
+            "value" : "O Peel não consegue saber qual .zshrc o zsh lê. Pergunte ao zsh na aba Shell para descobrir."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu poate ști ce fișier .zshrc citește zsh, așa că aceste linii indică ~/.zshrc. Întrebați zsh în fila Shell pentru a afla."
+            "value" : "Peel nu poate ști ce fișier .zshrc citește zsh. Întrebați zsh în fila Shell pentru a afla."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не может определить, какой .zshrc читает zsh, поэтому в этих строках указан ~/.zshrc. Чтобы узнать это, спросите zsh на вкладке «Оболочка»."
+            "value" : "Peel не может определить, какой .zshrc читает zsh. Чтобы узнать это, спросите zsh на вкладке «Оболочка»."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kan inte avgöra vilken .zshrc som zsh läser, så de här raderna anger ~/.zshrc. Fråga zsh på fliken Kommandotolk för att ta reda på det."
+            "value" : "Peel kan inte avgöra vilken .zshrc som zsh läser. Fråga zsh på fliken Kommandotolk för att ta reda på det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, zsh kabuğunun hangi .zshrc dosyasını okuduğunu anlayamıyor, bu yüzden bu satırlarda ~/.zshrc yazıyor. Öğrenmek için Kabuk sekmesinde zsh kabuğuna sorun."
+            "value" : "Peel, zsh kabuğunun hangi .zshrc dosyasını okuduğunu anlayamıyor. Öğrenmek için Kabuk sekmesinde zsh kabuğuna sorun."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не може визначити, який файл .zshrc читає zsh, тож у цих рядках указано ~/.zshrc. Щоб дізнатися, запитайте zsh на вкладці «Оболонка»."
+            "value" : "Peel не може визначити, який файл .zshrc читає zsh. Щоб дізнатися, запитайте zsh на вкладці «Оболонка»."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel无法判断zsh读取的是哪个.zshrc，因此这些行中写的是~/.zshrc。请在“Shell”标签页中询问zsh以查明。"
+            "value" : "Peel无法判断zsh读取的是哪个.zshrc。请在“Shell”标签页中询问zsh以查明。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel無法判斷zsh讀取的是哪個.zshrc，因此這幾行中寫的是~/.zshrc。請在「Shell」標籤頁中詢問zsh來查明。"
+            "value" : "Peel無法判斷zsh讀取的是哪個.zshrc。請在「Shell」標籤頁中詢問zsh來查明。"
           }
         }
       }
@@ -161646,108 +161646,214 @@
         }
       }
     },
-    "Peel changes these with `git config --global`. Turning one off puts back what was there before Peel, or removes it when you had set it yourself." : {
+    "Peel changes none of them until it can, and reads them again when you open this page or come back to Peel." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel tato nastavení mění příkazem `git config --global`. Vypnutím se vrátí to, co tu bylo před Peelem, nebo se nastavení odebere, pokud jste ho předtím nastavili sami."
+            "value" : "Peel žádný z nich nezmění, dokud to nebude možné, a znovu je přečte, až otevřete tuto stránku nebo se vrátíte do Peelu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ändert diese Einstellungen mit `git config --global`. Wenn du eine deaktivierst, wird wiederhergestellt, was vor Peel galt, oder sie wird entfernt, wenn du sie selbst festgelegt hattest."
+            "value" : "Peel ändert keines davon, solange die Profile nicht lesbar sind, und liest sie erneut, wenn du diese Seite öffnest oder zu Peel zurückkehrst."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel cambia estos ajustes con `git config --global`. Al desactivar uno, se restaura lo que había antes de Peel, o se elimina si lo habías establecido tú."
+            "value" : "Peel no cambia ninguno hasta que pueda, y volverá a leerlos cuando abras esta página o vuelvas a Peel."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel modifie ces réglages avec `git config --global`. En désactiver un rétablit ce qui était en place avant Peel, ou le supprime si vous l’aviez défini vous-même."
+            "value" : "Peel n’en modifie aucun tant qu’il ne peut pas les lire, et les relit lorsque vous ouvrez cette page ou revenez à Peel."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel modifica queste impostazioni con `git config --global`. Disattivarne una ripristina ciò che c’era prima di Peel, oppure la rimuove se l’avevi impostata tu."
+            "value" : "Peel non ne modifica nessuno finché non ci riesce, e li legge di nuovo quando apri questa pagina o torni a Peel."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは`git config --global`でこれらの設定を変更します。オフにすると、Peelが変更する前の状態に戻ります。自分で設定していたものの場合は、その設定が取り除かれます。"
+            "value" : "読み取れるようになるまで、Peelはどのプロファイルも変更しません。このページを開くか、Peelに戻ったときに、Peelがもう一度読み取ります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 `git config --global` 명령으로 이 설정을 변경합니다. 항목을 끄면 Peel이 변경하기 전의 설정을 되돌려 놓거나, 사용자가 직접 설정했던 경우에는 해당 설정을 제거합니다."
+            "value" : "프로파일을 읽을 수 있게 되기 전까지 Peel은 어떤 프로파일도 변경하지 않으며, 이 페이지를 열거나 Peel로 돌아오면 프로파일을 다시 읽습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel wijzigt deze met `git config --global`. Als je er een uitschakelt, wordt teruggezet wat er vóór Peel was, of wordt de instelling verwijderd als je die zelf had ingesteld."
+            "value" : "Peel wijzigt er geen totdat het ze kan lezen, en leest ze opnieuw als je deze pagina opent of naar Peel terugkeert."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zmienia je za pomocą `git config --global`. Wyłączenie któregoś z nich przywraca to, co było przed Peel, albo je usuwa, jeśli wcześniej ustawiono je samodzielnie."
+            "value" : "Peel nie zmienia żadnego z nich, dopóki nie będzie mógł ich odczytać, i odczyta je ponownie, gdy otworzysz tę stronę lub wrócisz do Peel."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel altera estes ajustes com `git config --global`. Desativar um deles coloca de volta o que havia antes do Peel ou o remove, quando foi você mesmo que o definiu."
+            "value" : "O Peel não altera nenhum deles até conseguir lê-los, e os lê novamente quando você abre esta página ou volta ao Peel."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel modifică aceste configurări prin `git config --global`. Dezactivarea uneia pune înapoi ce era înainte de Peel sau o elimină, dacă ați setat‑o chiar dvs."
+            "value" : "Peel nu modifică niciunul dintre ele până când nu le poate citi și le citește din nou când deschideți această pagină sau reveniți în Peel."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel меняет эти параметры с помощью `git config --global`. Если выключить параметр, вернется то, что было до Peel, а если Вы задали его сами, он будет удален."
+            "value" : "Peel не меняет ни один из них, пока не сможет их прочитать, и прочитает их снова, когда Вы откроете эту страницу или вернетесь в Peel."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel ändrar dessa med `git config --global`. Om du stänger av en av dem återställs det som gällde före Peel, eller så tas inställningen bort om du själv hade gjort den."
+            "value" : "Peel ändrar ingen av dem förrän det går, och läser dem igen när du öppnar den här sidan eller återvänder till Peel."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel bunları `git config --global` ile değiştirir. Birini kapatmak, Peel’den önce orada olanı geri getirir veya ayarı kendiniz yapmışsanız onu kaldırır."
+            "value" : "Peel, onları okuyabilene kadar hiçbirini değiştirmez ve bu sayfayı açtığınızda veya Peel’e döndüğünüzde onları yeniden okur."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel змінює їх командою `git config --global`. Якщо вимкнути одне з них, повернеться те, що було до Peel, або налаштування буде вилучено, якщо ви задали його самі."
+            "value" : "Peel не змінює жодного з них, доки не зможе їх прочитати, і читає їх знову, коли ви відкриваєте цю сторінку або повертаєтеся до Peel."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel使用`git config --global`更改这些设置。关闭某一项会恢复Peel更改之前的设置；如果该设置是你自己设定的，则会将其移除。"
+            "value" : "在能够读取之前，Peel不会更改其中任何一个；当你打开此页面或返回Peel时，Peel会再次读取它们。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel會使用`git config --global`更改這些設定。關閉其中一項，會將它還原為Peel更改之前的狀態；如果是你自己設定的，則會將它移除。"
+            "value" : "在能夠讀取之前，Peel不會更改任何描述檔，並會在你打開此頁面或回到Peel時再次讀取它們。"
+          }
+        }
+      }
+    },
+    "Peel changes nothing here until it can. `git config --global --list` in Terminal shows what Git says." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tu nic nezmění, dokud to nebude možné. Co Git uvádí, zobrazí v Terminálu příkaz `git config --global --list`."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ändert hier nichts, solange Git sie nicht lesen kann. `git config --global --list` im Terminal zeigt, was Git meldet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no cambia nada aquí hasta que pueda. `git config --global --list` en Terminal muestra lo que dice Git."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne modifie rien ici tant que Git ne peut pas les lire. Dans Terminal, `git config --global --list` affiche ce que Git indique."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qui Peel non modifica nulla finché non ci riesce. `git config --global --list` in Terminale mostra cosa dice Git."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gitが設定を読み取れるようになるまで、Peelはここでは何も変更しません。ターミナルで`git config --global --list`を実行すると、Gitの出力を確認できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git이 설정을 읽을 수 있게 되기 전까지 Peel은 여기에서 아무것도 변경하지 않습니다. 터미널에서 `git config --global --list`를 실행하면 Git이 알려 주는 내용을 볼 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel wijzigt hier niets totdat dat kan. In Terminal toont `git config --global --list` wat Git meldt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel niczego tutaj nie zmienia, dopóki Git nie będzie mógł ich odczytać. Polecenie `git config --global --list` uruchomione w Terminalu pokazuje, co podaje Git."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não altera nada aqui até que o Git consiga lê-los. `git config --global --list` no Terminal mostra o que o Git diz."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu modifică nimic aici până când Git nu le poate citi. Comanda `git config --global --list`, rulată în Terminal, arată ce spune Git."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ничего здесь не меняет, пока это не станет возможным. Команда `git config --global --list` в Терминале покажет, что сообщает Git."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ändrar ingenting här förrän det går. `git config --global --list` i Terminal visar vad Git säger."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Git bunları okuyabilene kadar Peel burada hiçbir şeyi değiştirmez. Terminal’deki `git config --global --list` komutu Git’in ne söylediğini gösterir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel тут нічого не змінює, доки Git не зможе їх прочитати. `git config --global --list` у Терміналі покаже, що повідомляє Git."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在能够读取之前，Peel不会在此处进行任何更改。在“终端”中，`git config --global --list`会显示Git给出的信息。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Git能讀取之前，Peel不會在這裡更改任何設定。在「終端機」中執行`git config --global --list`會顯示Git的回應。"
           }
         }
       }
@@ -163046,108 +163152,108 @@
         }
       }
     },
-    "Peel could not read the Terminal profiles, so it changes none of them for now. Peel reads them again when you open this page or come back to Peel." : {
+    "Peel could not read the Terminal profiles" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nemohl přečíst profily Terminálu, a proto zatím žádný z nich nemění. Peel je znovu přečte, až otevřete tuto stránku nebo se vrátíte do Peelu."
+            "value" : "Peel nemohl přečíst profily Terminálu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel konnte die Profile von Terminal nicht lesen und ändert daher vorerst keines davon. Peel liest sie erneut, wenn du diese Seite öffnest oder zu Peel zurückkehrst."
+            "value" : "Peel konnte die Profile von Terminal nicht lesen"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel no ha podido leer los perfiles de Terminal, así que por ahora no cambia ninguno. Peel volverá a leerlos cuando abras esta página o vuelvas a Peel."
+            "value" : "Peel no ha podido leer los perfiles de Terminal"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel n’a pas pu lire les profils de Terminal : il n’en modifie donc aucun pour l’instant. Peel les relit lorsque vous ouvrez cette page ou revenez à Peel."
+            "value" : "Peel n’a pas pu lire les profils de Terminal"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel non è riuscito a leggere i profili di Terminale, quindi per ora non ne modifica nessuno. Peel li legge di nuovo quando apri questa pagina o torni a Peel."
+            "value" : "Peel non è riuscito a leggere i profili di Terminale"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelはターミナルのプロファイルを読み取れなかったため、今のところどのプロファイルも変更しません。このページを開くか、Peelに戻ったときに、Peelがもう一度読み取ります。"
+            "value" : "Peelはターミナルのプロファイルを読み取れませんでした"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel이 터미널의 프로파일을 읽을 수 없었으므로 지금은 어떤 프로파일도 변경하지 않습니다. 이 페이지를 열거나 Peel로 돌아오면 Peel이 프로파일을 다시 읽습니다."
+            "value" : "Peel이 터미널의 프로파일을 읽을 수 없음"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kon de profielen van Terminal niet lezen, dus wijzigt Peel er voorlopig geen. Peel leest ze opnieuw als je deze pagina opent of naar Peel terugkeert."
+            "value" : "Peel kon de profielen van Terminal niet lezen"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nie mógł odczytać profili Terminala, więc na razie żadnego nie zmienia. Peel odczyta je ponownie, gdy otworzysz tę stronę lub wrócisz do Peel."
+            "value" : "Peel nie mógł odczytać profili Terminala"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel não conseguiu ler os perfis do Terminal, então não altera nenhum deles por enquanto. O Peel os lê novamente quando você abre esta página ou volta ao Peel."
+            "value" : "O Peel não conseguiu ler os perfis do Terminal"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel nu a putut citi profilurile din Terminal, așa că deocamdată nu modifică niciunul dintre ele. Peel le citește din nou când deschideți această pagină sau reveniți în Peel."
+            "value" : "Peel nu a putut citi profilurile din Terminal"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не удалось прочитать профили Терминала, поэтому пока он не меняет ни один из них. Peel прочитает их снова, когда Вы откроете эту страницу или вернетесь в Peel."
+            "value" : "Peel не удалось прочитать профили Терминала"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kunde inte läsa Terminals profiler, så Peel ändrar ingen av dem tills vidare. Peel läser dem igen när du öppnar den här sidan eller återvänder till Peel."
+            "value" : "Peel kunde inte läsa Terminals profiler"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, Terminal’in profillerini okuyamadı, bu yüzden şimdilik hiçbirini değiştirmez. Bu sayfayı açtığınızda veya Peel’e döndüğünüzde Peel onları yeniden okur."
+            "value" : "Peel, Terminal’in profillerini okuyamadı"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel не вдалося прочитати профілі Термінала, тож поки що вона не змінює жодного з них. Peel прочитає їх знову, коли ви відкриєте цю сторінку або повернетеся до Peel."
+            "value" : "Peel не вдалося прочитати профілі Термінала"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel未能读取“终端”的描述文件，因此暂时不会更改其中任何一个。当你打开此页面或返回Peel时，Peel会再次读取它们。"
+            "value" : "Peel未能读取“终端”的描述文件"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel無法讀取「終端機」的描述檔，因此暫時不會更改任何描述檔。當你打開此頁面或回到Peel時，Peel會再次讀取它們。"
+            "value" : "Peel無法讀取「終端機」的描述檔"
           }
         }
       }
@@ -172558,6 +172664,112 @@
         }
       }
     },
+    "Peel goes by what your startup files say. Ask zsh again to try once more." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se řídí tím, co stojí ve vašich spouštěcích souborech. Pokud to chcete zkusit ještě jednou, zeptejte se zsh znovu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel richtet sich nach dem, was in deinen Startdateien steht. Frage zsh erneut, um es noch einmal zu versuchen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se guía por lo que dicen tus archivos de inicio. Para intentarlo de nuevo, vuelve a preguntar a zsh."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se fie à ce qu’indiquent vos fichiers de démarrage. Interrogez à nouveau zsh pour réessayer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel si basa su ciò che dicono i tuoi file di avvio. Per riprovare, chiedi di nuovo a zsh."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは起動ファイルの記述をもとに判断しています。もう一度試すには、zshに再度問い合わせてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 셸 시작 파일에 적힌 내용을 따릅니다. 다시 시도하려면 zsh에 다시 물어보십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel gaat af op wat er in je opstartbestanden staat. Vraag het opnieuw aan zsh om het nog eens te proberen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kieruje się tym, co zapisano w Twoich plikach startowych. Zapytaj zsh ponownie, aby spróbować jeszcze raz."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel se baseia no que os seus arquivos de inicialização dizem. Pergunte ao zsh de novo para tentar mais uma vez."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel se ghidează după ce scrie în fișierele dvs. de pornire. Întrebați zsh din nou pentru a mai încerca o dată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel исходит из того, что написано в Ваших файлах запуска. Спросите zsh еще раз, чтобы повторить попытку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel utgår från det som står i dina startfiler. Fråga zsh igen för att försöka en gång till."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, başlangıç dosyalarınızda yazanlara göre hareket ediyor. Bir kez daha denemek için zsh kabuğuna yeniden sorun."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel керується тим, що написано у ваших файлах запуску. Щоб спробувати ще раз, знову запитайте zsh."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会以你的启动文件中写明的内容为准。再次询问zsh即可重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會依據你的啟動檔案中所寫的內容判斷。若要再試一次，請再次詢問zsh。"
+          }
+        }
+      }
+    },
     "Peel installs, repairs, and uninstalls it in Settings, so it can’t be started or stopped from here." : {
       "localizations" : {
         "cs" : {
@@ -174379,6 +174591,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel本身正從這裡執行，而且只有「設定」>「一般」中的「移除Peel」才能移除Peel。"
+          }
+        }
+      }
+    },
+    "Peel keeps these in a file of its own, not in your shell files." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tato nastavení uchovává ve vlastním souboru, ne ve vašich souborech shellu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bewahrt diese Einstellungen in einer eigenen Datei auf, nicht in deinen Shell-Dateien."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel guarda estos ajustes en un archivo propio, no en tus archivos de shell."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel conserve ces réglages dans un fichier qui lui est propre, et non dans vos fichiers de shell."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel conserva queste impostazioni in un proprio file, non nei tuoi file della shell."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこれらの設定を、お使いのシェルファイルではなく独自のファイルに保管します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이 설정을 사용자의 셸 파일이 아닌 Peel 전용 파일에 보관합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bewaart deze in een eigen bestand, niet in je shellbestanden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel przechowuje je we własnym pliku, a nie w Twoich plikach powłoki."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel guarda estes ajustes em um arquivo próprio, não nos seus arquivos do shell."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel păstrează aceste configurări într‑un fișier propriu, nu în fișierele dvs. de shell."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel хранит эти параметры в собственном файле, а не в Ваших файлах оболочки."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sparar dessa i en egen fil, inte i dina filer för kommandotolken."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunları kabuk dosyalarınızda değil, kendine ait bir dosyada tutar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel зберігає їх у власному файлі, а не у ваших файлах оболонки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会将这些设置保存在它自己的文件中，而不是你的shell文件中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會將這些設定保存在它自己的檔案中，而不是你的Shell檔案中。"
+          }
+        }
+      }
+    },
+    "Peel keeps these in a file of its own, not in your ~/.ssh/config." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tato nastavení uchovává ve vlastním souboru, ne ve vašem souboru ~/.ssh/config."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bewahrt diese Einstellungen in einer eigenen Datei auf, nicht in deiner ~/.ssh/config."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel guarda estos ajustes en un archivo propio, no en tu ~/.ssh/config."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel conserve ces réglages dans un fichier qui lui est propre, et non dans votre fichier ~/.ssh/config."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel conserva queste impostazioni in un proprio file, non nel tuo file ~/.ssh/config."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこれらの設定を、お使いの~/.ssh/configではなく独自のファイルに保管します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 이 설정을 사용자의 ~/.ssh/config가 아닌 Peel 전용 파일에 보관합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bewaart deze in een eigen bestand, niet in je ~/.ssh/config."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel przechowuje je we własnym pliku, a nie w Twoim pliku ~/.ssh/config."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel guarda estes ajustes em um arquivo próprio, não no seu ~/.ssh/config."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel păstrează aceste configurări într‑un fișier propriu, nu în fișierul dvs. ~/.ssh/config."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel хранит эти параметры в собственном файле, а не в Вашем ~/.ssh/config."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel sparar dessa i en egen fil, inte i din ~/.ssh/config."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunları ~/.ssh/config dosyanızda değil, kendine ait bir dosyada tutar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel зберігає їх у власному файлі, а не у вашому ~/.ssh/config."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会将这些设置保存在它自己的文件中，而不是你的~/.ssh/config中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會將這些設定保存在它自己的檔案中，而不是你的~/.ssh/config中。"
           }
         }
       }
@@ -181526,109 +181950,108 @@
         }
       }
     },
-    "Peel runs only the `brew` you chose, and that one can’t be run now." : {
-      "comment" : "In Settings > General > Homebrew and on the Terminal page's Tools tab, when the brew program the person chose can no longer be run. A line under it says why. Keep `brew` as it is.",
+    "Peel runs only the `brew` you chose, so it runs none until you choose another." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel spouští jen `brew`, který jste zvolili, a ten teď nelze spustit."
+            "value" : "Peel spouští jen `brew`, který jste zvolili, a proto žádný nespustí, dokud nezvolíte jiný."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel führt nur das `brew` aus, das du gewählt hast, und dieses lässt sich jetzt nicht ausführen."
+            "value" : "Peel führt nur das `brew` aus, das du gewählt hast, und führt daher keines aus, bis du ein anderes wählst."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel solo ejecuta el `brew` que has seleccionado, y ahora no se puede ejecutar."
+            "value" : "Peel solo ejecuta el `brew` que has seleccionado, así que no ejecuta ninguno hasta que selecciones otro."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel n’exécute que le `brew` que vous avez choisi, et celui-ci ne peut pas être exécuté pour l’instant."
+            "value" : "Peel n’exécute que le `brew` que vous avez choisi : il n’en exécute donc aucun tant que vous n’en avez pas choisi un autre."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel esegue solo il `brew` che hai scelto, e al momento non è possibile eseguirlo."
+            "value" : "Peel esegue solo il `brew` che hai scelto, quindi non ne esegue nessuno finché non ne scegli un altro."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは選択した`brew`だけを実行しますが、それは現在実行できません。"
+            "value" : "Peelは選択した`brew`だけを実行するため、別のものを選択するまで、どのHomebrewも実行しません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 사용자가 선택한 `brew`만 실행하는데, 지금은 이를 실행할 수 없습니다."
+            "value" : "Peel은 사용자가 선택한 `brew`만 실행하므로, 다른 것을 선택하기 전까지는 어느 것도 실행하지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel voert alleen de `brew` uit die je hebt gekozen, en die kan nu niet worden uitgevoerd."
+            "value" : "Peel voert alleen de `brew` uit die je hebt gekozen, dus voert Peel er geen uit totdat je een andere kiest."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel uruchamia tylko `brew` wybrany przez Ciebie, a tego nie można teraz uruchomić."
+            "value" : "Peel uruchamia tylko `brew` wybrany przez Ciebie, więc nie uruchamia żadnego, dopóki nie wybierzesz innego."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel só executa o `brew` que você escolheu, e esse não pode ser executado agora."
+            "value" : "O Peel só executa o `brew` que você escolheu, então não executa nenhum até você escolher outro."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel rulează doar programul `brew` pe care l‑ați ales, iar acesta nu poate fi rulat acum."
+            "value" : "Peel rulează doar programul `brew` pe care l‑ați ales, așa că nu rulează niciunul până când nu alegeți altul."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запускает только выбранный Вами `brew`, но сейчас его нельзя запустить."
+            "value" : "Peel запускает только выбранный Вами `brew`, поэтому он не запускает ни один, пока Вы не выберете другой."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kör bara den `brew` som du valde, och den kan inte köras just nu."
+            "value" : "Peel kör bara den `brew` som du valde, så Peel kör ingen förrän du väljer en annan."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel yalnızca seçtiğiniz `brew` programını çalıştırır ve o program şu anda çalıştırılamıyor."
+            "value" : "Peel yalnızca seçtiğiniz `brew` programını çalıştırır, bu yüzden siz başka birini seçene kadar hiçbirini çalıştırmaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запускає лише вибраний вами `brew`, а його зараз не вдається запустити."
+            "value" : "Peel запускає лише вибраний вами `brew`, тож не запускає жодного, доки ви не виберете інший."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel只运行你选取的`brew`，而它现在无法运行。"
+            "value" : "Peel只运行你选取的`brew`，因此在你选取另一个之前，它一个也不会运行。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel只會執行你選擇的`brew`，而目前無法執行它。"
+            "value" : "Peel只會執行你選擇的`brew`，因此在你選擇另一個之前，它不會執行任何一個。"
           }
         }
       }
@@ -181947,6 +182370,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會傳送任何使用資料，也不會保留任何帳號。檢查更新時，只會向每個App自己的Feed（若App是從App Store安裝，則向App Store）查詢該App本身，並會告知App Store一個國家，因為其回應取決於國家：若是iPhone或iPad App，則是其來源商店所屬的國家，否則就是你的Mac所設定的地區。整體而言，這些檢查會讓App Store得知你有哪些它的App，並讓GitHub得知你的哪些App是透過它更新。Homebrew的漏洞掃描由你自己啟動，是唯一會一次傳送整份已安裝項目列表的功能：它會將每個已安裝formula的來源和版本傳送到api.osv.dev。「回報問題」會將Peel的版本、你的macOS版本，以及你的Mac配備的是Apple晶片還是Intel，放入它打開的網址中。"
+          }
+        }
+      }
+    },
+    "Peel sets these with `git config --global` and puts back what was there when you turn one off." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tato nastavení zapisuje příkazem `git config --global` a když některé vypnete, vrátí to, co tu bylo předtím."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel legt diese Einstellungen mit `git config --global` fest und stellt wieder her, was vorher galt, wenn du eine deaktivierst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel establece estos ajustes con `git config --global` y, al desactivar uno, restaura lo que había."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel définit ces réglages avec `git config --global` et rétablit ce qui était en place lorsque vous en désactivez un."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel applica queste impostazioni con `git config --global` e, quando ne disattivi una, ripristina ciò che c’era."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは`git config --global`でこれらを設定し、オフにすると以前の状態に戻します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 `git config --global` 명령으로 이 설정을 지정하며, 항목을 끄면 이전에 있던 설정을 되돌려 놓습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel stelt deze in met `git config --global` en zet terug wat er stond als je er een uitschakelt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ustawia je za pomocą `git config --global`, a gdy wyłączysz któreś z nich, przywraca to, co było wcześniej."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel define estes ajustes com `git config --global` e coloca de volta o que havia antes quando você desativa um deles."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel setează aceste configurări prin `git config --global` și pune înapoi ce era acolo când dezactivați una."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel задает эти параметры с помощью `git config --global` и, если выключить параметр, возвращает то, что было раньше."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ställer in dessa med `git config --global` och återställer det som fanns där när du stänger av en av dem."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunları `git config --global` ile ayarlar ve birini kapattığınızda orada olanı geri getirir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel задає їх командою `git config --global` і повертає те, що було раніше, коли ви вимикаєте одне з них."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel使用`git config --global`设定这些设置，关闭某一项时会恢复原先的设置。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會使用`git config --global`設定這些項目，並在你關閉其中一項時還原原本的內容。"
           }
         }
       }
@@ -185262,430 +185791,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會移動此項目：你在「設定」中的排除項目讓它留在原處。"
-          }
-        }
-      }
-    },
-    "Peel writes these settings only in a file of its own, which ssh reads through two lines at the end of ~/.ssh/config, so Peel never changes your own file. Turn All Off empties Peel’s file, and the lines then do nothing." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tato nastavení zapisuje jen do vlastního souboru, který ssh čte prostřednictvím dvou řádků na konci souboru ~/.ssh/config, takže Peel váš vlastní soubor nikdy nemění. Tlačítko Vypnout vše soubor Peelu vyprázdní a řádky pak nic nedělají."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel schreibt diese Einstellungen nur in eine eigene Datei, die ssh über zwei Zeilen am Ende von ~/.ssh/config liest, daher ändert Peel deine eigene Datei nie. „Alle deaktivieren“ leert die Datei von Peel, und die Zeilen bewirken dann nichts."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel escribe estos ajustes solo en un archivo propio, que ssh lee mediante dos líneas al final de ~/.ssh/config, así que Peel nunca cambia tu propio archivo. “Desactivar todo” vacía el archivo de Peel, y entonces las líneas no hacen nada."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel n’écrit ces réglages que dans un fichier qui lui est propre, que ssh lit grâce à deux lignes placées à la fin de ~/.ssh/config : Peel ne modifie donc jamais votre propre fichier. « Tout désactiver » vide le fichier de Peel, et ces lignes n’ont alors plus aucun effet."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel scrive queste impostazioni solo in un proprio file, che ssh legge tramite due righe alla fine del file ~/.ssh/config, quindi Peel non modifica mai il tuo file. “Disattiva tutto” svuota il file di Peel, e a quel punto le righe non hanno più alcun effetto."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはこれらの設定を独自のファイルにだけ書き込み、sshは~/.ssh/configの末尾にある2行を通じてそのファイルを読み込みます。そのため、Peelがお使いのファイルを変更することは決してありません。“すべてオフにする”を使うとPeelのファイルが空になり、これらの行は何の効果もなくなります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel은 이 설정을 Peel 전용 파일에만 쓰고, ssh는 ~/.ssh/config 끝에 있는 두 줄을 통해 이 파일을 읽으므로 Peel은 사용자의 파일을 절대 변경하지 않습니다. ‘모두 끄기’는 Peel의 파일을 비우며, 그러면 이 두 줄은 아무 효과가 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel schrijft deze instellingen alleen in een eigen bestand, dat ssh leest via twee regels aan het einde van ~/.ssh/config, zodat Peel je eigen bestand nooit wijzigt. 'Schakel alles uit' maakt het bestand van Peel leeg, en de regels doen dan niets."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zapisuje te ustawienia wyłącznie we własnym pliku, który ssh odczytuje dzięki dwóm wierszom na końcu pliku ~/.ssh/config, więc Peel nigdy nie zmienia Twojego własnego pliku. Przycisk „Wyłącz wszystkie” opróżnia plik Peel, a wtedy te wiersze nic nie robią."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel grava estes ajustes apenas em um arquivo próprio, que o ssh lê por meio de duas linhas no final do ~/.ssh/config, então o Peel nunca altera o seu próprio arquivo. Desativar Todas esvazia o arquivo do Peel, e então as linhas não têm mais efeito."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel scrie aceste configurări doar într‑un fișier propriu, pe care ssh îl citește prin două linii de la sfârșitul fișierului ~/.ssh/config, așa că Peel nu vă modifică niciodată propriul fișier. Butonul Dezactivați toate golește fișierul Peel, iar liniile rămân apoi fără efect."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel записывает эти параметры только в собственный файл, который ssh читает через две строки в конце ~/.ssh/config, поэтому Peel никогда не меняет Ваш собственный файл. Кнопка «Выключить все» очищает файл Peel, и тогда эти строки ни на что не влияют."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel skriver de här inställningarna bara i en egen fil, som ssh läser via två rader i slutet av ~/.ssh/config, så Peel ändrar aldrig din egen fil. ”Stäng av alla” tömmer Peels fil, och då gör raderna ingenting."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel bu ayarları yalnızca kendine ait bir dosyaya yazar; ssh bu dosyayı ~/.ssh/config dosyasının sonundaki iki satır aracılığıyla okur, bu yüzden Peel sizin dosyanızı hiçbir zaman değiştirmez. Tümünü Kapat düğmesi Peel’in dosyasını boşaltır ve satırlar artık hiçbir şey yapmaz."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel записує ці налаштування лише у власний файл, який ssh читає завдяки двом рядкам у кінці ~/.ssh/config, тож Peel ніколи не змінює ваш власний файл. Кнопка «Вимкнути всі» очищає файл Peel, і тоді ці рядки нічого не роблять."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel只将这些设置写入它自己的文件，ssh通过~/.ssh/config末尾的两行读取该文件，因此Peel绝不会更改你自己的文件。“全部关闭”会清空Peel的文件，届时这两行将不起任何作用。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel只會將這些設定寫入它自己的檔案，ssh則透過~/.ssh/config結尾的兩行讀取該檔案，因此Peel絕不會更改你自己的檔案。「全部關閉」會清空Peel的檔案，這兩行便不再有任何作用。"
-          }
-        }
-      }
-    },
-    "Peel writes these settings only in a file of its own, which zsh reads through one line in %@, so Peel never changes your own file. The command adds the line at the end. If you load tools such as fzf-tab there, move the line above them, since their settings have to come after Peel’s, but keep zsh-completions’ lines above it, or every new window builds the completion cache again. Turn All Off empties Peel’s file, and the line then does nothing." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tato nastavení zapisuje jen do vlastního souboru, který zsh čte prostřednictvím jednoho řádku v souboru %@, takže Peel váš vlastní soubor nikdy nemění. Příkaz přidá tento řádek na konec souboru. Pokud v něm načítáte nástroje, jako je fzf-tab, přesuňte řádek nad ně, protože jejich nastavení musí následovat až po nastavení Peelu, ale řádky zsh-completions ponechte nad tímto řádkem, jinak každé nové okno vytvoří mezipaměť doplňování znovu. Tlačítko Vypnout vše soubor Peelu vyprázdní a řádek pak nic nedělá."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel schreibt diese Einstellungen nur in eine eigene Datei, die zsh über eine Zeile in %@ liest, daher ändert Peel deine eigene Datei nie. Der Befehl fügt die Zeile am Ende hinzu. Wenn du dort Tools wie fzf-tab lädst, verschiebe die Zeile über die Zeilen dieser Tools, da ihre Einstellungen nach denen von Peel kommen müssen, aber lass die Zeilen von zsh-completions über der Zeile von Peel stehen, sonst wird der Vervollständigungs-Cache in jedem neuen Fenster neu erstellt. „Alle deaktivieren“ leert die Datei von Peel, und die Zeile bewirkt dann nichts."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel escribe estos ajustes solo en un archivo propio, que zsh lee mediante una línea en %@, así que Peel nunca cambia tu propio archivo. El comando añade la línea al final. Si ahí cargas herramientas como fzf-tab, mueve la línea por encima de ellas, ya que sus ajustes tienen que ir después de los de Peel, pero mantén las líneas de zsh-completions por encima de ella, o cada ventana nueva volverá a crear la caché de autocompletado. “Desactivar todo” vacía el archivo de Peel, y entonces la línea no hace nada."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel n’écrit ces réglages que dans un fichier qui lui est propre, que zsh lit grâce à une ligne placée dans %@ : Peel ne modifie donc jamais votre propre fichier. La commande ajoute cette ligne à la fin du fichier. Si vous y chargez des outils comme fzf-tab, déplacez-la au-dessus des lignes qui les chargent, car leurs réglages doivent venir après ceux de Peel, mais gardez les lignes de zsh-completions au-dessus de celle de Peel, sinon chaque nouvelle fenêtre reconstruira le cache de complétion. « Tout désactiver » vide le fichier de Peel, et la ligne n’a alors plus aucun effet."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel scrive queste impostazioni solo in un proprio file, che zsh legge tramite una riga nel file %@, quindi Peel non modifica mai il tuo file. Il comando aggiunge la riga alla fine del file. Se in quel file carichi strumenti come fzf-tab, sposta la riga sopra quelle che li caricano, perché le loro impostazioni devono venire dopo quelle di Peel, ma mantieni le righe di zsh-completions sopra la riga di Peel, altrimenti ogni nuova finestra ricostruisce la cache dei completamenti. “Disattiva tutto” svuota il file di Peel, e a quel punto la riga non ha più alcun effetto."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはこれらの設定を独自のファイルにだけ書き込み、zshは%@にある1行を通じてそのファイルを読み込みます。そのため、Peelがお使いのファイルを変更することは決してありません。コマンドは、この行をファイルの末尾に追加します。そのファイルでfzf-tabなどのツールを読み込んでいる場合は、それらのツールの設定がPeelの設定より後に来る必要があるため、この行をそれらを読み込む行より上に移動してください。ただし、zsh-completionsの行は、この行より上に置いたままにしてください。そうしないと、新規ウインドウを開くたびに補完キャッシュが再作成されます。“すべてオフにする”を使うとPeelのファイルが空になり、この行は何の効果もなくなります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel은 이 설정을 Peel 전용 파일에만 쓰고, zsh는 %@에 있는 한 줄을 통해 이 파일을 읽으므로 Peel은 사용자의 파일을 절대 변경하지 않습니다. 명령을 실행하면 이 줄이 사용자의 파일 끝에 추가됩니다. 사용자의 파일에서 fzf-tab 같은 도구를 불러오는 경우, 해당 도구의 설정이 Peel의 설정보다 뒤에 와야 하므로 이 줄을 그 도구를 불러오는 줄보다 위로 옮기십시오. 단, zsh-completions의 줄은 이 줄보다 위에 두십시오. 그렇지 않으면 새로운 윈도우마다 자동 완성 캐시가 다시 만들어집니다. ‘모두 끄기’는 Peel의 파일을 비우며, 그러면 이 줄은 아무 효과가 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel schrijft deze instellingen alleen in een eigen bestand, dat zsh leest via één regel in %@, zodat Peel je eigen bestand nooit wijzigt. Het commando voegt de regel aan het einde toe. Als je in je eigen bestand tools zoals fzf-tab laadt, zet de regel dan boven die tools, omdat hun instellingen na die van Peel moeten komen, maar laat de regels van zsh-completions boven de regel van Peel staan, anders wordt de aanvulcache in elk nieuw venster opnieuw opgebouwd. 'Schakel alles uit' maakt het bestand van Peel leeg, en de regel doet dan niets."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zapisuje te ustawienia wyłącznie we własnym pliku, który zsh odczytuje dzięki jednemu wierszowi w pliku %@, więc Peel nigdy nie zmienia Twojego własnego pliku. Polecenie dodaje ten wiersz na końcu pliku. Jeśli wczytujesz tam narzędzia takie jak fzf-tab, przenieś ten wiersz nad wiersze, które je wczytują, ponieważ ustawienia tych narzędzi muszą następować po ustawieniach Peel, ale wiersze zsh-completions pozostaw nad tym wierszem, w przeciwnym razie każde nowe okno będzie od nowa tworzyć pamięć podręczną uzupełniania. Przycisk „Wyłącz wszystkie” opróżnia plik Peel, a wtedy ten wiersz nic nie robi."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel grava estes ajustes apenas em um arquivo próprio, que o zsh lê por meio de uma linha no %@, então o Peel nunca altera o seu próprio arquivo. O comando adiciona a linha no final. Se você carrega ferramentas como o fzf-tab nesse arquivo, mova a linha para que fique acima delas, já que os ajustes delas precisam vir depois dos ajustes do Peel, mas mantenha as linhas do zsh-completions acima dela, senão toda nova janela gera de novo o cache de autocompletar. Desativar Todas esvazia o arquivo do Peel, e então a linha não tem mais efeito."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel scrie aceste configurări doar într‑un fișier propriu, pe care zsh îl citește printr‑o linie din %@, așa că Peel nu vă modifică niciodată propriul fișier. Comanda adaugă linia la sfârșitul fișierului. Dacă încărcați acolo instrumente precum fzf-tab, mutați linia deasupra lor, deoarece configurările lor trebuie să vină după cele ale Peel, dar păstrați liniile zsh-completions deasupra ei, altfel fiecare fereastră nouă reface memoria tampon a completărilor. Butonul Dezactivați toate golește fișierul Peel, iar linia rămâne apoi fără efect."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel записывает эти параметры только в собственный файл, который zsh читает через одну строку в %@, поэтому Peel никогда не меняет Ваш собственный файл. Команда добавляет эту строку в конец файла. Если Вы загружаете в нем такие инструменты, как fzf-tab, переместите эту строку выше строк, которые их загружают, поскольку их настройки должны идти после настроек Peel, но строки zsh-completions оставьте выше нее, иначе каждое новое окно будет заново создавать кэш автодополнения. Кнопка «Выключить все» очищает файл Peel, и тогда эта строка ни на что не влияет."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel skriver de här inställningarna bara i en egen fil, som zsh läser via en rad i %@, så Peel ändrar aldrig din egen fil. Kommandot lägger till raden sist i filen. Om du läser in verktyg som fzf-tab där flyttar du raden ovanför dem, eftersom deras inställningar måste komma efter Peels, men raderna för zsh-completions ska stå kvar ovanför den, annars byggs kompletteringscachen om i varje nytt fönster. ”Stäng av alla” tömmer Peels fil, och då gör raden ingenting."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel bu ayarları yalnızca kendine ait bir dosyaya yazar; zsh bu dosyayı %@ dosyasındaki tek bir satır aracılığıyla okur, bu yüzden Peel sizin dosyanızı hiçbir zaman değiştirmez. Komut bu satırı dosyanızın sonuna ekler. Dosyanızda fzf-tab gibi araçları yüklüyorsanız, satırı bunları yükleyen satırların üstüne taşıyın, çünkü bu araçların ayarlarının Peel’in ayarlarından sonra gelmesi gerekir; ancak zsh-completions satırlarını Peel’in satırının üstünde tutun, yoksa her yeni pencere tamamlama önbelleğini yeniden oluşturur. Tümünü Kapat düğmesi Peel’in dosyasını boşaltır ve satır artık hiçbir şey yapmaz."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel записує ці налаштування лише у власний файл, який zsh читає завдяки одному рядку в %@, тож Peel ніколи не змінює ваш власний файл. Команда додає цей рядок у кінець файлу. Якщо ви завантажуєте там інструменти, як-от fzf-tab, перемістіть цей рядок над ними, бо їхні налаштування мають стояти після налаштувань Peel, але рядки zsh-completions залиште над ним, інакше кожне нове вікно знову створюватиме кеш доповнень. Кнопка «Вимкнути всі» очищає файл Peel, і тоді цей рядок нічого не робить."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel只将这些设置写入它自己的文件，zsh通过%@中的一行读取该文件，因此Peel绝不会更改你自己的文件。这条命令会将这一行添加到文件末尾。如果你在该文件中载入fzf-tab等工具，请将这一行移到载入它们的那些行上方，因为它们的设置必须位于Peel的设置之后，但请将zsh-completions的那几行保留在这一行上方，否则每个新窗口都会重新构建补全缓存。“全部关闭”会清空Peel的文件，届时这一行将不起任何作用。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel只會將這些設定寫入它自己的檔案，zsh則透過%@中的一行讀取該檔案，因此Peel絕不會更改你自己的檔案。此指令會將這一行加在檔案結尾。如果你在自己的檔案中載入fzf-tab等工具，請將這一行移到載入它們的設定行上方，因為它們的設定必須排在Peel的設定之後，但請將zsh-completions的設定行留在這一行上方，否則每個新視窗都會重新建立補齊快取。「全部關閉」會清空Peel的檔案，這一行便不再有任何作用。"
-          }
-        }
-      }
-    },
-    "Peel writes these to a file of its own, which ssh reads. Turning one off takes it out of that file, and your ~/.ssh/config stays as it is." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tato nastavení zapisuje do vlastního souboru, který čte ssh. Vypnutím se nastavení z tohoto souboru odebere a váš soubor ~/.ssh/config zůstane, jak je."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel schreibt diese Einstellungen in eine eigene Datei, die ssh liest. Wenn du eine deaktivierst, wird sie aus dieser Datei entfernt, und deine ~/.ssh/config bleibt, wie sie ist."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel escribe estos ajustes en un archivo propio, que lee ssh. Al desactivar uno, se quita de ese archivo, y tu ~/.ssh/config se queda como está."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel écrit ces réglages dans un fichier qui lui est propre, que ssh lit. En désactiver un le retire de ce fichier, et votre fichier ~/.ssh/config reste tel quel."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel scrive queste impostazioni in un proprio file, che ssh legge. Disattivarne una la toglie da quel file, e il tuo file ~/.ssh/config resta com’è."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはこれらの設定を独自のファイルに書き込み、sshがそのファイルを読み込みます。オフにした設定はそのファイルから取り除かれ、お使いの~/.ssh/configはそのまま残ります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel은 이 설정을 ssh가 읽는 Peel 전용 파일에 씁니다. 항목을 끄면 그 파일에서 해당 설정이 빠지며, 사용자의 ~/.ssh/config 파일은 그대로 유지됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel schrijft deze naar een eigen bestand, dat ssh leest. Als je er een uitschakelt, wordt die uit dat bestand gehaald, en je ~/.ssh/config blijft zoals het is."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zapisuje je we własnym pliku, który odczytuje ssh. Wyłączenie któregoś z nich usuwa je z tego pliku, a Twój plik ~/.ssh/config pozostaje bez zmian."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel grava estes ajustes em um arquivo próprio, que o ssh lê. Desativar um deles o retira desse arquivo, e o seu ~/.ssh/config continua como está."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel scrie aceste configurări într‑un fișier propriu, pe care ssh îl citește. Dezactivarea uneia o scoate din acel fișier, iar fișierul dvs. ~/.ssh/config rămâne așa cum este."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel записывает эти параметры в собственный файл, который читает ssh. Если выключить параметр, Peel уберет его из этого файла, а Ваш файл ~/.ssh/config останется без изменений."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel skriver dessa i en egen fil, som ssh läser. Om du stänger av en av dem tas den bort ur filen, och din ~/.ssh/config förblir som den är."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel bunları kendine ait bir dosyaya yazar ve ssh bu dosyayı okur. Birini kapatmak onu bu dosyadan çıkarır; ~/.ssh/config dosyanız ise olduğu gibi kalır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel записує їх у власний файл, який читає ssh. Якщо вимкнути одне з них, його буде вилучено з цього файлу, а ваш ~/.ssh/config лишиться без змін."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel会将这些设置写入它自己的文件，由ssh读取。关闭某一项会将其从该文件中移除，你的~/.ssh/config保持原样。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel會將這些設定寫入它自己的檔案，再由ssh讀取。關閉其中一項，會將它從該檔案中移除，你的~/.ssh/config則維持原樣。"
-          }
-        }
-      }
-    },
-    "Peel writes these to a file of its own, which zsh reads. Turning one off takes it out of that file, and your own shell files stay as they are." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tato nastavení zapisuje do vlastního souboru, který čte zsh. Vypnutím se nastavení z tohoto souboru odebere a vaše vlastní soubory shellu zůstanou, jak jsou."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel schreibt diese Einstellungen in eine eigene Datei, die zsh liest. Wenn du eine deaktivierst, wird sie aus dieser Datei entfernt, und deine eigenen Shell-Dateien bleiben, wie sie sind."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel escribe estos ajustes en un archivo propio, que lee zsh. Al desactivar uno, se quita de ese archivo, y tus propios archivos de shell se quedan como están."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel écrit ces réglages dans un fichier qui lui est propre, que zsh lit. En désactiver un le retire de ce fichier, et vos propres fichiers de shell restent tels quels."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel scrive queste impostazioni in un proprio file, che zsh legge. Disattivarne una la toglie da quel file, e i tuoi file della shell restano come sono."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはこれらの設定を独自のファイルに書き込み、zshがそのファイルを読み込みます。オフにした設定はそのファイルから取り除かれ、お使いのシェルファイルはそのまま残ります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel은 이 설정을 zsh가 읽는 Peel 전용 파일에 씁니다. 항목을 끄면 그 파일에서 해당 설정이 빠지며, 사용자의 셸 파일은 그대로 유지됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel schrijft deze naar een eigen bestand, dat zsh leest. Als je er een uitschakelt, wordt die uit dat bestand gehaald, en je eigen shellbestanden blijven zoals ze zijn."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zapisuje je we własnym pliku, który odczytuje zsh. Wyłączenie któregoś z nich usuwa je z tego pliku, a Twoje własne pliki powłoki pozostają bez zmian."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel grava estes ajustes em um arquivo próprio, que o zsh lê. Desativar um deles o retira desse arquivo, e os seus próprios arquivos do shell continuam como estão."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel scrie aceste configurări într‑un fișier propriu, pe care zsh îl citește. Dezactivarea uneia o scoate din acel fișier, iar propriile dvs. fișiere de shell rămân așa cum sunt."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel записывает эти параметры в собственный файл, который читает zsh. Если выключить параметр, Peel уберет его из этого файла, а Ваши собственные файлы оболочки останутся без изменений."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel skriver dessa i en egen fil, som zsh läser. Om du stänger av en av dem tas den bort ur filen, och dina egna filer för kommandotolken förblir som de är."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel bunları kendine ait bir dosyaya yazar ve zsh bu dosyayı okur. Birini kapatmak onu bu dosyadan çıkarır; kendi kabuk dosyalarınız ise olduğu gibi kalır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel записує їх у власний файл, який читає zsh. Якщо вимкнути одне з них, його буде вилучено з цього файлу, а ваші власні файли оболонки лишаться без змін."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel会将这些设置写入它自己的文件，由zsh读取。关闭某一项会将其从该文件中移除，你自己的shell文件保持原样。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel會將這些設定寫入它自己的檔案，再由zsh讀取。關閉其中一項，會將它從該檔案中移除，你自己的Shell檔案則維持原樣。"
           }
         }
       }
@@ -217515,108 +217620,108 @@
         }
       }
     },
-    "Shows `git diff`, `git log`, and `git show` with syntax highlighting and line numbers. With BAT_THEME set to ansi, which the lines for bat below set, it uses the colors of the Terminal theme." : {
+    "Shows `git diff`, `git log`, and `git show` with syntax highlighting and line numbers, in the colors of the Terminal theme once the lines for bat below are set." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zobrazuje `git diff`, `git log` a `git show` se zvýrazněním syntaxe a čísly řádků. Když je proměnná BAT_THEME nastavena na ansi, což dělají níže uvedené řádky nástroje bat, používá barvy motivu Terminálu."
+            "value" : "Zobrazuje `git diff`, `git log` a `git show` se zvýrazněním syntaxe a čísly řádků v barvách motivu Terminálu, jakmile nastavíte níže uvedené řádky nástroje bat."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zeigt `git diff`, `git log` und `git show` mit Syntaxhervorhebung und Zeilennummern an. Ist BAT_THEME auf ansi gesetzt, wie es die Zeilen für bat weiter unten festlegen, verwendet delta die Farben des Terminal-Themas."
+            "value" : "Zeigt `git diff`, `git log` und `git show` mit Syntaxhervorhebung und Zeilennummern an, in den Farben des Terminal-Themas, sobald die Zeilen für bat weiter unten festgelegt sind."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Muestra `git diff`, `git log` y `git show` con resaltado de sintaxis y números de línea. Si BAT_THEME tiene el valor ansi, que establecen las líneas de bat de abajo, usa los colores del tema de Terminal."
+            "value" : "Muestra `git diff`, `git log` y `git show` con resaltado de sintaxis y números de línea, con los colores del tema de Terminal una vez establecidas las líneas de bat de abajo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Affiche `git diff`, `git log` et `git show` avec coloration syntaxique et numéros de ligne. Avec BAT_THEME réglé sur ansi, comme le font les lignes de bat ci-dessous, delta utilise les couleurs du thème de Terminal."
+            "value" : "Affiche `git diff`, `git log` et `git show` avec coloration syntaxique et numéros de ligne, dans les couleurs du thème de Terminal une fois les lignes de bat ci-dessous en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostra `git diff`, `git log` e `git show` con evidenziazione della sintassi e numeri di riga. Con BAT_THEME impostato su ansi, come fanno le righe di bat qui sotto, usa i colori del tema di Terminale."
+            "value" : "Mostra `git diff`, `git log` e `git show` con evidenziazione della sintassi e numeri di riga, nei colori del tema di Terminale una volta impostate le righe di bat qui sotto."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "`git diff`、`git log`、`git show`の出力を、シンタックスハイライトと行番号付きで表示します。BAT_THEMEがansiに設定されていると（下のbatの行で設定されます）、ターミナルのテーマのカラーを使用します。"
+            "value" : "`git diff`、`git log`、`git show`の出力を、シンタックスハイライトと行番号付きで表示します。下のbatの行を設定すると、ターミナルのテーマのカラーを使用します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "`git diff`, `git log`, `git show`의 결과를 구문 강조 및 줄 번호와 함께 보여 줍니다. 아래 bat의 줄에서 설정하는 것처럼 BAT_THEME을 ansi로 설정하면 터미널 테마의 색상을 사용합니다."
+            "value" : "`git diff`, `git log`, `git show`의 결과를 구문 강조 및 줄 번호와 함께 보여 주며, 아래 bat의 줄을 설정하면 터미널 테마의 색상을 사용합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toont `git diff`, `git log` en `git show` met syntaxiskleuring en regelnummers. Met BAT_THEME ingesteld op ansi, wat de regels van bat hieronder instellen, gebruikt delta de kleuren van het Terminal-thema."
+            "value" : "Toont `git diff`, `git log` en `git show` met syntaxiskleuring en regelnummers, in de kleuren van het Terminal-thema zodra de regels van bat hieronder zijn ingesteld."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wyświetla wyniki `git diff`, `git log` i `git show` z podświetlaniem składni i numerami wierszy. Gdy BAT_THEME ma wartość ansi, którą ustawiają poniższe wiersze bat, używa kolorów motywu Terminala."
+            "value" : "Wyświetla wyniki `git diff`, `git log` i `git show` z podświetlaniem składni i numerami wierszy, w kolorach motywu Terminala, gdy ustawione są poniższe wiersze dla bat."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostra `git diff`, `git log` e `git show` com realce de sintaxe e números de linha. Com a variável BAT_THEME definida como ansi, como fazem as linhas do bat abaixo, o delta usa as cores do tema do Terminal."
+            "value" : "Mostra `git diff`, `git log` e `git show` com realce de sintaxe e números de linha, nas cores do tema do Terminal assim que as linhas do bat abaixo estiverem definidas."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afișează `git diff`, `git log` și `git show` cu evidențierea sintaxei și numere de linie. Când BAT_THEME are valoarea ansi, pe care o setează liniile pentru bat de mai jos, folosește culorile temei din Terminal."
+            "value" : "Afișează `git diff`, `git log` și `git show` cu evidențierea sintaxei și numere de linie, în culorile temei din Terminal, după ce sunt setate liniile pentru bat de mai jos."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Показывает `git diff`, `git log` и `git show` с подсветкой синтаксиса и номерами строк. Если для BAT_THEME задано значение ansi (его задают строки для bat ниже), delta использует цвета темы Терминала."
+            "value" : "Показывает `git diff`, `git log` и `git show` с подсветкой синтаксиса и номерами строк, а когда заданы строки для bat ниже, использует цвета темы Терминала."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Visar `git diff`, `git log` och `git show` med syntaxmarkering och radnummer. Med BAT_THEME inställd på ansi, som raderna för bat nedan ställer in, använder delta Terminal-temats färger."
+            "value" : "Visar `git diff`, `git log` och `git show` med syntaxmarkering och radnummer, i Terminal-temats färger när raderna för bat nedan är inställda."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "`git diff`, `git log` ve `git show` çıktılarını sözdizimi vurgulaması ve satır numaralarıyla gösterir. BAT_THEME, aşağıdaki bat satırlarının yaptığı gibi ansi olarak ayarlandığında Terminal temasının renklerini kullanır."
+            "value" : "`git diff`, `git log` ve `git show` çıktılarını sözdizimi vurgulaması ve satır numaralarıyla gösterir; aşağıdaki bat satırları ayarlandığında Terminal temasının renklerini kullanır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Показує `git diff`, `git log` і `git show` з підсвічуванням синтаксису та номерами рядків. Коли BAT_THEME має значення ansi, яке задають рядки bat нижче, delta використовує кольори теми Термінала."
+            "value" : "Показує `git diff`, `git log` і `git show` з підсвічуванням синтаксису та номерами рядків у кольорах теми Термінала, щойно буде задано рядки для bat нижче."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "以语法高亮和行号显示`git diff`、`git log`和`git show`的输出。将BAT_THEME设为ansi时（下方bat的那几行会进行此设置），它会使用“终端”主题的颜色。"
+            "value" : "以语法高亮和行号显示`git diff`、`git log`和`git show`的输出；设置好下方bat的那几行后，会使用“终端”主题的颜色。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "以語法上色和行號顯示`git diff`、`git log`和`git show`的輸出。將BAT_THEME設為ansi時（下方bat的設定行會這樣設定），它會採用「終端機」主題的顏色。"
+            "value" : "以語法上色和行號顯示`git diff`、`git log`和`git show`的輸出；設定好下方bat的設定行後，會採用「終端機」主題的顏色。"
           }
         }
       }
@@ -238005,6 +238110,112 @@
         }
       }
     },
+    "The `brew` you chose cannot run now" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zvolený `brew` teď nelze spustit"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das gewählte `brew` lässt sich jetzt nicht ausführen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El `brew` que has seleccionado no se puede ejecutar ahora"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le `brew` que vous avez choisi ne peut pas être exécuté pour l’instant"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il `brew` che hai scelto non può essere eseguito ora"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択した`brew`は現在実行できません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택한 `brew`를 지금 실행할 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De `brew` die je hebt gekozen, kan nu niet worden uitgevoerd"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wybranego przez Ciebie `brew` nie można teraz uruchomić"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O `brew` que você escolheu não pode ser executado agora"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programul `brew` ales nu poate fi rulat acum"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбранный Вами `brew` сейчас нельзя запустить"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den `brew` som du valde kan inte köras nu"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçtiğiniz `brew` programı şu anda çalıştırılamıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вибраний вами `brew` зараз не вдається запустити"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你选取的`brew`现在无法运行"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你選擇的`brew`目前無法執行"
+          }
+        }
+      }
+    },
     "The account %@ owns it, so that account could change what Peel would run. Peel runs only a brew your account or the system owns." : {
       "localizations" : {
         "cs" : {
@@ -248835,6 +249046,112 @@
         }
       }
     },
+    "These lines assume ~/.zshrc" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tyto řádky počítají se souborem ~/.zshrc"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Zeilen gehen von ~/.zshrc aus"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estas líneas suponen que es ~/.zshrc"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ces lignes supposent le fichier ~/.zshrc"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queste righe presuppongono ~/.zshrc"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これらの行は~/.zshrcを前提としています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 줄들은 ~/.zshrc를 기준으로 작성됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze regels gaan uit van ~/.zshrc"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Te wiersze zakładają plik ~/.zshrc"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estas linhas presumem o ~/.zshrc"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aceste linii indică ~/.zshrc"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В этих строках указан ~/.zshrc"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De här raderna utgår från ~/.zshrc"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu satırlar ~/.zshrc dosyasını varsayıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У цих рядках указано ~/.zshrc"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些行假定使用~/.zshrc"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這幾行以~/.zshrc為準"
+          }
+        }
+      }
+    },
     "These links lead into an app that is no longer there" : {
       "localizations" : {
         "cs" : {
@@ -248937,6 +249254,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這些連結指向已不存在的App"
+          }
+        }
+      }
+    },
+    "These settings are off until it does. Peel asks again when you open this page or come back to Peel." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tato nastavení zůstanou vypnutá, dokud neodpoví. Peel se zeptá znovu, až otevřete tuto stránku nebo se vrátíte do Peelu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bis eine Antwort kommt, sind diese Einstellungen nicht verfügbar. Peel fragt erneut, wenn du diese Seite öffnest oder zu Peel zurückkehrst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estos ajustes están desactivados hasta que responda. Peel volverá a preguntar cuando abras esta página o vuelvas a Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ces réglages sont désactivés tant qu’il n’a pas répondu. Peel l’interroge à nouveau lorsque vous ouvrez cette page ou revenez à Peel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Queste impostazioni restano disattivate finché non risponde. Peel riprova quando apri questa pagina o torni a Peel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "応答があるまで、これらの設定は使用できません。このページを開くか、Peelに戻ったときに、Peelがもう一度問い合わせます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "응답하기 전까지는 이 설정을 사용할 수 없습니다. 이 페이지를 열거나 Peel로 돌아오면 Peel이 다시 묻습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze instellingen zijn uitgeschakeld totdat er een antwoord komt. Peel vraagt het opnieuw als je deze pagina opent of naar Peel terugkeert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Te ustawienia są wyłączone, dopóki nie odpowie. Peel zapyta ponownie, gdy otworzysz tę stronę lub wrócisz do Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estes ajustes ficam desativados até que ele responda. O Peel pergunta novamente quando você abre esta página ou volta ao Peel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aceste configurări sunt dezactivate până când acesta răspunde. Peel întreabă din nou când deschideți această pagină sau reveniți în Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эти настройки недоступны, пока он не ответит. Peel спросит снова, когда Вы откроете эту страницу или вернетесь в Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De här inställningarna är avstängda tills den svarar. Peel frågar igen när du öppnar den här sidan eller återvänder till Peel."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yanıt verene kadar bu ayarlar kapalı. Bu sayfayı açtığınızda veya Peel’e döndüğünüzde Peel yeniden sorar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ці налаштування вимкнено, доки він не відповість. Peel запитає знову, коли ви відкриєте цю сторінку або повернетеся до Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在它回应之前，这些设置会保持关闭。当你打开此页面或返回Peel时，Peel会再次询问。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在它回應之前，這些設定無法使用。當你打開此頁面或回到Peel時，Peel會再次詢問。"
           }
         }
       }
@@ -274691,108 +275114,108 @@
         }
       }
     },
-    "When Terminal reopens a window, %@ starts it with a “Restored session” line and gives it back its own command history. For that, every shell saves its session as it ends, with a “Saving session” line, and keeps it for two weeks. Peel doesn’t change your shell’s files." : {
+    "When Terminal reopens a window, %@ gives it back its own command history, with a “Restored session” line. Each shell saves its session as it ends and keeps it for two weeks. Peel does not change your shell files." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Když Terminál znovu otevře okno, shell %@ v něm na začátku vypíše řádek „Restored session“ a vrátí mu jeho vlastní historii příkazů. Aby to bylo možné, každý shell při ukončení uloží svou relaci, přičemž vypíše řádek „Saving session“, a uchová ji dva týdny. Peel soubory vašeho shellu nemění."
+            "value" : "Když Terminál znovu otevře okno, shell %@ mu vrátí jeho vlastní historii příkazů a vypíše řádek „Restored session“. Každý shell při ukončení uloží svou relaci a uchová ji dva týdny. Peel soubory vašeho shellu nemění."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wenn Terminal ein Fenster erneut öffnet, zeigt %@ darin zuerst eine Zeile „Restored session“ und gibt dem Fenster seinen eigenen Befehlsverlauf zurück. Dafür sichert jede Shell beim Beenden ihre Sitzung, zeigt dabei eine Zeile „Saving session“ und bewahrt die Sitzung zwei Wochen lang auf. Peel ändert die Dateien deiner Shell nicht."
+            "value" : "Wenn Terminal ein Fenster erneut öffnet, gibt %@ ihm seinen eigenen Befehlsverlauf zurück, mit einer Zeile „Restored session“. Jede Shell sichert beim Beenden ihre Sitzung und bewahrt sie zwei Wochen lang auf. Peel ändert deine Shell-Dateien nicht."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cuando Terminal vuelve a abrir una ventana, %@ muestra al principio una línea “Restored session” y le devuelve su propio historial de comandos. Para ello, cada shell guarda su sesión al terminar, con una línea “Saving session”, y la conserva durante dos semanas. Peel no cambia los archivos de tu shell."
+            "value" : "Cuando Terminal vuelve a abrir una ventana, %@ le devuelve su propio historial de comandos, con una línea “Restored session”. Cada shell guarda su sesión al terminar y la conserva durante dos semanas. Peel no cambia los archivos de tu shell."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lorsque Terminal rouvre une fenêtre, %@ y affiche d’abord une ligne « Restored session » et lui rend son propre historique des commandes. Pour cela, chaque shell, en se terminant, affiche une ligne « Saving session » et enregistre sa session, qu’il conserve pendant deux semaines. Peel ne modifie pas les fichiers de votre shell."
+            "value" : "Lorsque Terminal rouvre une fenêtre, %@ lui rend son propre historique des commandes, avec une ligne « Restored session ». Chaque shell enregistre sa session en se terminant et la conserve pendant deux semaines. Peel ne modifie pas vos fichiers de shell."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quando Terminale riapre una finestra, %@ la fa iniziare con una riga “Restored session” e le restituisce la sua cronologia dei comandi. Per farlo, ogni shell salva la propria sessione quando si conclude, con una riga “Saving session”, e la conserva per due settimane. Peel non modifica i file della tua shell."
+            "value" : "Quando Terminale riapre una finestra, %@ le restituisce la sua cronologia dei comandi, con una riga “Restored session”. Ogni shell salva la propria sessione quando si conclude e la conserva per due settimane. Peel non modifica i file della tua shell."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ターミナルがウインドウを再度開くと、%@は最初に“Restored session”の行を表示し、そのウインドウ独自のコマンド履歴を復元します。そのために、すべてのシェルは終了時に“Saving session”の行を表示してセッションを保存し、2週間保管します。Peelはシェルのファイルを変更しません。"
+            "value" : "ターミナルがウインドウを再度開くと、%@はそのウインドウ独自のコマンド履歴を、“Restored session”の行とともに復元します。各シェルは終了時にセッションを保存し、2週間保管します。Peelはお使いのシェルファイルを変更しません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "터미널이 윈도우를 다시 열면 %@이(가) 그 윈도우를 ‘Restored session’ 줄로 시작하고, 그 윈도우만의 명령 기록을 복원합니다. 이를 위해 모든 셸은 종료될 때 ‘Saving session’ 줄을 표시하며 세션을 저장하고, 저장한 세션을 2주 동안 보관합니다. Peel은 셸 파일을 변경하지 않습니다."
+            "value" : "터미널이 윈도우를 다시 열면 %@이(가) ‘Restored session’ 줄과 함께 그 윈도우만의 명령 기록을 복원합니다. 각 셸은 종료될 때 세션을 저장하고 2주 동안 보관합니다. Peel은 셸 파일을 변경하지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Als Terminal een venster opnieuw opent, laat %@ het beginnen met een regel 'Restored session' en krijgt het venster zijn eigen commandogeschiedenis terug. Daarvoor bewaart elke shell zijn sessie wanneer die eindigt, met een regel 'Saving session', en die sessie blijft twee weken bewaard. Peel wijzigt de bestanden van je shell niet."
+            "value" : "Als Terminal een venster opnieuw opent, geeft %@ het venster zijn eigen commandogeschiedenis terug, met een regel 'Restored session'. Elke shell bewaart zijn sessie wanneer die eindigt, en die sessie blijft twee weken bewaard. Peel wijzigt je shellbestanden niet."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gdy Terminal ponownie otwiera okno, %@ zaczyna je od wiersza „Restored session” i przywraca mu jego własną historię poleceń. W tym celu każda powłoka, gdy kończy działanie, zachowuje swoją sesję, wyświetlając wiersz „Saving session”, i przechowuje ją przez dwa tygodnie. Peel nie zmienia plików Twojej powłoki."
+            "value" : "Gdy Terminal ponownie otwiera okno, %@ przywraca mu jego własną historię poleceń, z wierszem „Restored session”. Każda powłoka zachowuje swoją sesję, gdy kończy działanie, i przechowuje ją przez dwa tygodnie. Peel nie zmienia plików Twojej powłoki."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quando o Terminal reabre uma janela, o %@ a inicia com a linha “Restored session” e devolve a ela o próprio histórico de comandos. Para isso, cada shell salva a sessão ao terminar, com a linha “Saving session”, e a mantém por duas semanas. O Peel não altera os arquivos do seu shell."
+            "value" : "Quando o Terminal reabre uma janela, o %@ devolve a ela o próprio histórico de comandos, com a linha “Restored session”. Cada shell salva a sessão ao terminar e a mantém por duas semanas. O Peel não altera os arquivos do seu shell."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Când Terminal redeschide o fereastră, %@ o începe cu linia „Restored session” și îi redă propriul istoric de comenzi. Pentru aceasta, fiecare shell, când se încheie, afișează linia „Saving session” și își salvează sesiunea, pe care o păstrează timp de două săptămâni. Peel nu modifică fișierele shellului dvs."
+            "value" : "Când Terminal redeschide o fereastră, %@ îi redă propriul istoric de comenzi, cu linia „Restored session”. Fiecare shell își salvează sesiunea când se încheie și o păstrează timp de două săptămâni. Peel nu modifică fișierele dvs. de shell."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Когда Терминал открывает окно заново, %@ сразу выводит в нем строку «Restored session» и возвращает окну его собственную историю команд. Для этого каждая оболочка при завершении работы сохраняет свой сеанс, выводя строку «Saving session», и хранит его две недели. Peel не меняет файлы Вашей оболочки."
+            "value" : "Когда Терминал открывает окно заново, %@ возвращает окну его собственную историю команд и выводит строку «Restored session». Каждая оболочка сохраняет свой сеанс при завершении работы и хранит его две недели. Peel не меняет файлы Вашей оболочки."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "När Terminal öppnar ett fönster igen börjar %@ det med en rad med ”Restored session” och ger fönstret tillbaka dess egen kommandohistorik. För att kunna göra det sparar varje kommandotolk sin session när den avslutas, med en rad med ”Saving session”, och behåller sessionen i två veckor. Peel ändrar inte din kommandotolks filer."
+            "value" : "När Terminal öppnar ett fönster igen ger %@ fönstret tillbaka dess egen kommandohistorik, med en rad med ”Restored session”. Varje kommandotolk sparar sin session när den avslutas och behåller den i två veckor. Peel ändrar inte dina filer för kommandotolken."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Terminal bir pencereyi yeniden açtığında, %@ onu “Restored session” satırıyla başlatır ve ona kendi komut geçmişini geri verir. Bunun için her kabuk, sona ererken “Saving session” satırıyla oturumunu kaydeder ve iki hafta boyunca saklar. Peel kabuğunuzun dosyalarını değiştirmez."
+            "value" : "Terminal bir pencereyi yeniden açtığında, %@ ona “Restored session” satırıyla birlikte kendi komut geçmişini geri verir. Her kabuk, sona ererken oturumunu kaydeder ve iki hafta boyunca saklar. Peel kabuk dosyalarınızı değiştirmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Коли Термінал знову відкриває вікно, %@ починає його з рядка «Restored session» і повертає вікну його власну історію команд. Для цього кожна оболонка, завершуючи роботу, виводить рядок «Saving session» і зберігає свій сеанс на два тижні. Peel не змінює файли вашої оболонки."
+            "value" : "Коли Термінал знову відкриває вікно, %@ повертає вікну його власну історію команд із рядком «Restored session». Кожна оболонка, завершуючи роботу, зберігає свій сеанс на два тижні. Peel не змінює файли вашої оболонки."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“终端”重新打开窗口时，%@会先在窗口中显示“Restored session”行，并恢复该窗口自己的命令历史记录。为此，每个shell都会在结束时保存自己的会话，同时显示“Saving session”行，并将会话保留两周。Peel不会更改你的shell的文件。"
+            "value" : "“终端”重新打开窗口时，%@会恢复该窗口自己的命令历史记录，并显示“Restored session”行。每个shell都会在结束时保存自己的会话，并将其保留两周。Peel不会更改你的shell文件。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「終端機」重新打開視窗時，「%@」會在視窗開頭顯示「Restored session」行，並恢復該視窗自己的指令記錄。為此，每個Shell結束時都會儲存其區段，同時顯示「Saving session」行，並將區段保留兩週。Peel不會更改你的Shell檔案。"
+            "value" : "「終端機」重新打開視窗時，「%@」會恢復該視窗自己的指令記錄，並顯示「Restored session」行。每個Shell結束時都會儲存其區段，並將區段保留兩週。Peel不會更改你的Shell檔案。"
           }
         }
       }
@@ -280334,36 +280757,36 @@
         }
       }
     },
-    "Your startup files name its folder in a way Peel cannot read without running them. Ask zsh to find out." : {
+    "Your startup files name its folder in a way Peel can read only by running them. Ask zsh to find out." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vaše spouštěcí soubory uvádějí složku souboru .zshrc způsobem, který Peel nedokáže přečíst, aniž by je spustil. Zeptejte se zsh a zjistíte to."
+            "value" : "Vaše spouštěcí soubory uvádějí složku souboru .zshrc způsobem, který Peel dokáže přečíst, jen když je spustí. Zeptejte se zsh a zjistíte to."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deine Startdateien geben den Ordner der .zshrc auf eine Weise an, die Peel nicht lesen kann, ohne sie auszuführen. Frage zsh, um es herauszufinden."
+            "value" : "Deine Startdateien geben den Ordner der .zshrc auf eine Weise an, die Peel nur durch Ausführen der Dateien lesen kann. Frage zsh, um es herauszufinden."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tus archivos de inicio indican la carpeta de .zshrc de una forma que Peel no puede leer sin ejecutarlos. Para averiguarlo, pregunta a zsh."
+            "value" : "Tus archivos de inicio indican la carpeta de .zshrc de una forma que Peel solo puede leer ejecutándolos. Para averiguarlo, pregunta a zsh."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vos fichiers de démarrage désignent son dossier d’une façon que Peel ne peut pas lire sans les exécuter. Interrogez zsh pour le savoir."
+            "value" : "Vos fichiers de démarrage désignent son dossier d’une façon que Peel ne peut lire qu’en les exécutant. Interrogez zsh pour le savoir."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I tuoi file di avvio indicano la sua cartella in un modo che Peel non può leggere senza eseguirli. Per scoprirlo, chiedi a zsh."
+            "value" : "I tuoi file di avvio indicano la sua cartella in un modo che Peel può leggere solo eseguendoli. Per scoprirlo, chiedi a zsh."
           }
         },
         "ja" : {
@@ -280375,67 +280798,173 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "셸 시작 파일에서 .zshrc가 있는 폴더를 지정하는 방식은 Peel이 이 파일들을 실행하지 않고는 읽을 수 없습니다. 알아보려면 zsh에 물어보십시오."
+            "value" : "셸 시작 파일에서 .zshrc가 있는 폴더를 지정하는 방식은 Peel이 이 파일들을 실행해야만 읽을 수 있습니다. 알아보려면 zsh에 물어보십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je opstartbestanden geven de map ervan aan op een manier die Peel niet kan lezen zonder ze uit te voeren. Vraag het aan zsh om het te weten te komen."
+            "value" : "Je opstartbestanden geven de map ervan aan op een manier die Peel alleen kan lezen door ze uit te voeren. Vraag het aan zsh om het te weten te komen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Twoje pliki startowe wskazują folder tego pliku w sposób, którego Peel nie odczyta, nie uruchamiając ich. Aby się dowiedzieć, zapytaj zsh."
+            "value" : "Twoje pliki startowe wskazują folder tego pliku w sposób, który Peel może odczytać tylko przez ich uruchomienie. Aby się dowiedzieć, zapytaj zsh."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Os seus arquivos de inicialização indicam a pasta dele de um modo que o Peel não consegue ler sem executá-los. Pergunte ao zsh para descobrir."
+            "value" : "Os seus arquivos de inicialização indicam a pasta dele de um modo que o Peel só consegue ler executando-os. Pergunte ao zsh para descobrir."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fișierele dvs. de pornire indică dosarul fișierului .zshrc într‑un mod pe care Peel nu îl poate citi fără să le ruleze. Întrebați zsh pentru a afla."
+            "value" : "Fișierele dvs. de pornire indică dosarul fișierului .zshrc într‑un mod pe care Peel îl poate citi doar rulându‑le. Întrebați zsh pentru a afla."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ваши файлы запуска указывают папку файла .zshrc так, что Peel не может ее определить, не выполнив их. Чтобы узнать это, спросите zsh."
+            "value" : "Ваши файлы запуска указывают папку файла .zshrc так, что Peel может ее определить, только выполнив их. Чтобы узнать это, спросите zsh."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dina startfiler anger dess mapp på ett sätt som Peel inte kan läsa utan att köra dem. Fråga zsh för att ta reda på det."
+            "value" : "Dina startfiler anger dess mapp på ett sätt som Peel bara kan läsa genom att köra dem. Fråga zsh för att ta reda på det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Başlangıç dosyalarınız, .zshrc dosyasının klasörünü Peel’in onları çalıştırmadan okuyamayacağı bir biçimde belirtiyor. Öğrenmek için zsh kabuğuna sorun."
+            "value" : "Başlangıç dosyalarınız, .zshrc dosyasının klasörünü Peel’in ancak onları çalıştırarak okuyabileceği bir biçimde belirtiyor. Öğrenmek için zsh kabuğuna sorun."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ваші файли, які zsh читає під час запуску, задають папку файлу .zshrc у спосіб, який Peel не може прочитати, не запустивши їх. Щоб дізнатися, запитайте zsh."
+            "value" : "Ваші файли запуску задають папку файлу .zshrc так, що Peel може визначити її, лише запустивши їх. Щоб дізнатися, запитайте zsh."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你的启动文件指定.zshrc所在文件夹的方式，Peel不运行这些文件就无法读取。请询问zsh以查明。"
+            "value" : "你的启动文件指定.zshrc所在文件夹的方式，Peel只有运行这些文件才能读取。请询问zsh以查明。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你的啟動檔案指定.zshrc所在檔案夾的方式，Peel若不執行這些檔案就無法讀取。請詢問zsh來查明。"
+            "value" : "你的啟動檔案指定.zshrc所在檔案夾的方式，Peel只有執行這些檔案才能讀取。請詢問zsh來查明。"
+          }
+        }
+      }
+    },
+    "Your zsh sets its own prompt" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Váš zsh nastavuje vlastní výzvu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deine zsh legt eine eigene Eingabeaufforderung fest"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu zsh establece su propio indicador"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre zsh définit sa propre invite de commande"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il tuo zsh imposta un proprio prompt"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "お使いのzshは独自のプロンプトを設定しています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용자의 zsh가 자체 프롬프트를 설정함"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je zsh stelt een eigen prompt in"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twoja powłoka zsh ustawia własny znak zachęty"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O seu zsh define um prompt próprio"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh‑ul dvs. își stabilește propriul prompt"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш zsh задает собственное приглашение ввода"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Din zsh ställer in sin egen prompt"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh kabuğunuz kendi bilgi istemini ayarlıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш zsh задає власне запрошення"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的zsh设置了自己的提示符"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的zsh設定了它自己的提示行"
           }
         }
       }
@@ -312932,6 +313461,112 @@
         }
       }
     },
+    "ssh reads these from a file Peel keeps, through two lines at the end of ~/.ssh/config, so your own file stays as it is. Turn All Off empties the file Peel keeps." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh tato nastavení čte ze souboru, který uchovává Peel, prostřednictvím dvou řádků na konci souboru ~/.ssh/config, takže váš vlastní soubor zůstane, jak je. Tlačítko Vypnout vše soubor Peelu vyprázdní."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh liest diese Einstellungen über zwei Zeilen am Ende von ~/.ssh/config aus einer Datei von Peel, daher bleibt deine eigene Datei, wie sie ist. „Alle deaktivieren“ leert die Datei von Peel."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh lee estos ajustes de un archivo que guarda Peel, mediante dos líneas al final de ~/.ssh/config, así que tu propio archivo se queda como está. “Desactivar todo” vacía el archivo que guarda Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh lit ces réglages dans un fichier que Peel conserve, grâce à deux lignes placées à la fin de ~/.ssh/config : votre propre fichier reste donc tel quel. « Tout désactiver » vide le fichier que Peel conserve."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh legge queste impostazioni da un file che Peel conserva, tramite due righe alla fine del file ~/.ssh/config, quindi il tuo file resta com’è. “Disattiva tutto” svuota il file che Peel conserva."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "sshは、~/.ssh/configの末尾にある2行を通じて、Peelが管理するファイルからこれらの設定を読み込みます。そのため、お使いのファイルはそのまま残ります。“すべてオフにする”を使うと、Peelが管理するファイルが空になります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh는 ~/.ssh/config 끝에 있는 두 줄을 통해 Peel이 보관하는 파일에서 이 설정을 읽으므로, 사용자의 파일은 그대로 유지됩니다. ‘모두 끄기’는 Peel이 보관하는 파일을 비웁니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh leest deze uit een bestand dat Peel bijhoudt, via twee regels aan het einde van ~/.ssh/config, zodat je eigen bestand blijft zoals het is. 'Schakel alles uit' maakt het bestand van Peel leeg."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh odczytuje je z pliku przechowywanego przez Peel, dzięki dwóm wierszom na końcu pliku ~/.ssh/config, więc Twój własny plik pozostaje bez zmian. Przycisk „Wyłącz wszystkie” opróżnia plik przechowywany przez Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O ssh lê estes ajustes de um arquivo que o Peel mantém, por meio de duas linhas no final do ~/.ssh/config, então o seu próprio arquivo continua como está. Desativar Todas esvazia o arquivo que o Peel mantém."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh citește aceste configurări dintr‑un fișier păstrat de Peel, prin două linii de la sfârșitul fișierului ~/.ssh/config, așa că propriul dvs. fișier rămâne așa cum este. Butonul Dezactivați toate golește fișierul păstrat de Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh читает эти параметры из файла, который хранит Peel, через две строки в конце ~/.ssh/config, поэтому Ваш собственный файл остается без изменений. Кнопка «Выключить все» очищает файл, который хранит Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh läser dessa från en fil som Peel sparar, via två rader i slutet av ~/.ssh/config, så din egen fil förblir som den är. ”Stäng av alla” tömmer filen som Peel sparar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh bunları, ~/.ssh/config dosyasının sonundaki iki satır aracılığıyla Peel’in tuttuğu bir dosyadan okur, bu yüzden kendi dosyanız olduğu gibi kalır. Tümünü Kapat düğmesi Peel’in tuttuğu dosyayı boşaltır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh читає їх із файлу, який зберігає Peel, завдяки двом рядкам у кінці ~/.ssh/config, тож ваш власний файл лишається без змін. Кнопка «Вимкнути всі» очищає файл Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh通过~/.ssh/config末尾的两行，从Peel保存的文件中读取这些设置，因此你自己的文件会保持原样。“全部关闭”会清空Peel保存的文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ssh會透過~/.ssh/config結尾的兩行，從Peel保存的檔案讀取這些設定，因此你自己的檔案會維持原樣。「全部關閉」會清空Peel保存的檔案。"
+          }
+        }
+      }
+    },
     "started by %@" : {
       "localizations" : {
         "cs" : {
@@ -313356,112 +313991,6 @@
         }
       }
     },
-    "zsh did not answer when Peel ran it with your startup files, so Peel goes by what they say. Ask zsh to try again." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh neodpověděl, když ho Peel spustil s vašimi spouštěcími soubory, a proto se Peel řídí tím, co v nich stojí. Zeptejte se zsh znovu."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh hat nicht geantwortet, als Peel zsh mit deinen Startdateien ausgeführt hat, daher richtet sich Peel nach dem, was darin steht. Frage zsh, um es erneut zu versuchen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh no ha respondido cuando Peel la ha ejecutado con tus archivos de inicio, así que Peel se guía por lo que dicen. Para volver a intentarlo, pregunta a zsh."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh n’a pas répondu lorsque Peel l’a exécuté avec vos fichiers de démarrage : Peel se fie donc à ce qu’ils indiquent. Interrogez zsh pour réessayer."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh non ha risposto quando Peel l’ha eseguita con i tuoi file di avvio, quindi Peel si basa su ciò che dicono. Per riprovare, chiedi a zsh."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelが起動ファイルを使ってzshを実行したときに、zshが応答しませんでした。そのため、Peelは起動ファイルの記述をもとに判断しています。やり直すには、zshに問い合わせてください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 셸 시작 파일을 읽도록 zsh를 실행했을 때 zsh가 응답하지 않았으므로, Peel은 시작 파일에 적힌 내용을 따릅니다. 다시 시도하려면 zsh에 다시 물어보십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh gaf geen antwoord toen Peel de shell met je opstartbestanden uitvoerde, dus gaat Peel af op wat erin staat. Vraag het opnieuw aan zsh."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh nie odpowiedział, gdy Peel uruchomił go z Twoimi plikami startowymi, więc Peel kieruje się tym, co w nich zapisano. Aby spróbować ponownie, zapytaj zsh."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O zsh não respondeu quando o Peel o executou com os seus arquivos de inicialização, então o Peel se baseia no que eles dizem. Para tentar novamente, pergunte ao zsh."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh nu a răspuns când Peel l‑a rulat cu fișierele dvs. de pornire, așa că Peel se ghidează după ce scrie în ele. Întrebați zsh pentru a încerca din nou."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh не ответил, когда Peel вызвал его с Вашими файлами запуска, поэтому Peel исходит из того, что в них написано. Спросите zsh еще раз."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh svarade inte när Peel körde den med dina startfiler, så Peel utgår från det som står i dem. Fråga zsh för att försöka igen."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel, zsh kabuğunu başlangıç dosyalarınızla çalıştırdığında kabuk yanıt vermedi, bu yüzden Peel bu dosyalarda yazanlara göre hareket ediyor. Yeniden denemek için zsh kabuğuna sorun."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zsh не відповів, коли Peel запустила його з вашими файлами, які він читає під час запуску, тож Peel керується тим, що в них написано. Щоб спробувати ще раз, запитайте zsh."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel使用你的启动文件运行zsh时，zsh没有回应，因此Peel以这些文件中写明的内容为准。请再次询问zsh以重试。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel使用你的啟動檔案執行zsh時，zsh沒有回應，因此Peel會依據這些檔案中所寫的內容判斷。若要再試一次，請詢問zsh。"
-          }
-        }
-      }
-    },
     "zsh doesn’t read Peel’s settings yet" : {
       "localizations" : {
         "cs" : {
@@ -313776,6 +314305,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "zsh會讀取Peel的設定"
+          }
+        }
+      }
+    },
+    "zsh reads these settings from a file Peel keeps, through one line in %@. If you load tools such as fzf-tab there, put the line above them and below the lines of zsh-completions. Turn All Off empties the file Peel keeps." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh tato nastavení čte ze souboru, který uchovává Peel, prostřednictvím jednoho řádku v souboru %@. Pokud v něm načítáte nástroje jako fzf-tab, umístěte tento řádek nad ně a pod řádky zsh-completions. Tlačítko Vypnout vše soubor Peelu vyprázdní."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh liest diese Einstellungen über eine Zeile in %@ aus einer Datei von Peel. Wenn du dort Tools wie fzf-tab lädst, setze die Zeile über deren Zeilen und unter die Zeilen von zsh-completions. „Alle deaktivieren“ leert die Datei von Peel."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh lee estos ajustes de un archivo que guarda Peel, mediante una línea en %@. Si cargas ahí herramientas como fzf-tab, pon la línea encima de ellas y debajo de las líneas de zsh-completions. “Desactivar todo” vacía el archivo que guarda Peel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh lit ces réglages dans un fichier que Peel conserve, grâce à une ligne dans %@. Si vous y chargez des outils comme fzf-tab, placez cette ligne au-dessus d’eux et sous les lignes de zsh-completions. « Tout désactiver » vide le fichier que Peel conserve."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh legge queste impostazioni da un file che Peel conserva, tramite una riga in %@. Se lì carichi strumenti come fzf-tab, metti la riga sopra di loro e sotto le righe di zsh-completions. “Disattiva tutto” svuota il file che Peel conserva."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zshは、%@にある1行を通じて、Peelが管理するファイルからこれらの設定を読み込みます。そこでfzf-tabなどのツールを読み込んでいる場合は、その行をそれらのツールより上、zsh-completionsの行より下に置いてください。“すべてオフにする”を使うと、Peelが管理するファイルが空になります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh는 %@에 있는 한 줄을 통해 Peel이 보관하는 파일에서 이 설정을 읽습니다. 그곳에서 fzf-tab 같은 도구를 불러오는 경우, 이 줄을 그 도구들보다 위에, zsh-completions의 줄보다 아래에 두십시오. ‘모두 끄기’는 Peel이 보관하는 파일을 비웁니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh leest deze instellingen uit een bestand dat Peel bijhoudt, via één regel in %@. Als je daar tools laadt zoals fzf-tab, zet de regel dan boven die tools en onder de regels van zsh-completions. 'Schakel alles uit' maakt het bestand van Peel leeg."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh odczytuje te ustawienia z pliku przechowywanego przez Peel, dzięki jednemu wierszowi w pliku %@. Jeśli wczytujesz tam narzędzia, takie jak fzf-tab, umieść ten wiersz nad nimi i pod wierszami zsh-completions. Przycisk „Wyłącz wszystkie” opróżnia plik przechowywany przez Peel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O zsh lê estes ajustes de um arquivo que o Peel mantém, por meio de uma linha em %@. Se você carrega ferramentas como o fzf-tab ali, coloque a linha acima delas e abaixo das linhas do zsh-completions. Desativar Todas esvazia o arquivo que o Peel mantém."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh citește aceste configurări dintr‑un fișier păstrat de Peel, printr‑o linie din %@. Dacă încărcați acolo instrumente precum fzf-tab, puneți linia deasupra lor și sub liniile zsh-completions. Butonul Dezactivați toate golește fișierul păstrat de Peel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh читает эти параметры из файла, который хранит Peel, через одну строку в %@. Если Вы загружаете там такие инструменты, как fzf-tab, поместите эту строку выше них и ниже строк zsh-completions. Кнопка «Выключить все» очищает файл, который хранит Peel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh läser de här inställningarna från en fil som Peel sparar, via en rad i %@. Om du läser in verktyg som fzf-tab där placerar du raden ovanför dem och under raderna för zsh-completions. ”Stäng av alla” tömmer filen som Peel sparar."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh bu ayarları, %@ dosyasındaki tek bir satır aracılığıyla Peel’in tuttuğu bir dosyadan okur. Orada fzf-tab gibi araçları yüklüyorsanız, satırı bunları yükleyen satırların üstüne ve zsh-completions satırlarının altına koyun. Tümünü Kapat düğmesi Peel’in tuttuğu dosyayı boşaltır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh читає ці налаштування з файлу, який зберігає Peel, завдяки одному рядку в %@. Якщо ви завантажуєте там інструменти, як-от fzf-tab, розмістіть цей рядок над ними й під рядками zsh-completions. Кнопка «Вимкнути всі» очищає файл Peel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh通过%@中的一行，从Peel保存的文件中读取这些设置。如果你在该文件中载入fzf-tab等工具，请将这一行放在载入它们的那些行上方、zsh-completions的那几行下方。“全部关闭”会清空Peel保存的文件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zsh會透過%@中的一行，從Peel保存的檔案讀取這些設定。如果你在那裡載入fzf-tab等工具，請將這一行放在它們上方，並放在zsh-completions的設定行下方。「全部關閉」會清空Peel保存的檔案。"
           }
         }
       }

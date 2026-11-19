@@ -37,7 +37,7 @@ struct HomebrewSection: View {
             }
             if let unrunnable {
                 VStack(alignment: .leading, spacing: 4) {
-                    StatusLabel(title: Text("Peel runs only the `brew` you chose, and that one can’t be run now."))
+                    NotedStatus(title: Text(ToolsTab.unrunnableBrew), note: Text(ToolsTab.unrunnableBrewNote))
                     unrunnable.refusal.explanation
                         .font(.callout)
                         .foregroundStyle(.secondary)

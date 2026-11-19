@@ -86,12 +86,18 @@ struct TerminalPage: View {
         }
     }
 
-    /// Said while `tool` didn't say what it knows, so its tab's switches are off.
+    /// Said while `tool` didn't say what it knows, so its tab's switches are off (`offUntilItAnswers`).
     static func didNotAnswer(_ tool: String) -> LocalizedStringResource {
-        "\(tool) did not answer, so these settings are off for now. Peel asks again when you open this page or come back to Peel."
+        "\(tool) did not answer"
     }
 
-    static let profilesUnreadable: LocalizedStringResource = "Peel could not read the Terminal profiles, so it changes none of them for now. Peel reads them again when you open this page or come back to Peel."
+    static let offUntilItAnswers: LocalizedStringResource =
+        "These settings are off until it does. Peel asks again when you open this page or come back to Peel."
+
+    static let profilesUnreadable: LocalizedStringResource = "Peel could not read the Terminal profiles"
+
+    static let profilesUnreadableNote: LocalizedStringResource =
+        "Peel changes none of them until it can, and reads them again when you open this page or come back to Peel."
 
     private func refresh() async {
         terminal.refresh()
@@ -187,7 +193,10 @@ private struct TerminalThemeInUse: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             } else if terminal.areProfilesUnreadable {
-                StatusLabel(title: Text(TerminalPage.profilesUnreadable), tint: .accentColor)
+                NotedStatus(
+                    title: Text(TerminalPage.profilesUnreadable), note: Text(TerminalPage.profilesUnreadableNote),
+                    tint: .accentColor
+                )
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -247,7 +256,10 @@ private struct TerminalSettingsForm: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 } else if terminal.areProfilesUnreadable {
-                    StatusLabel(title: Text(TerminalPage.profilesUnreadable), tint: .accentColor)
+                    NotedStatus(
+                        title: Text(TerminalPage.profilesUnreadable), note: Text(TerminalPage.profilesUnreadableNote),
+                        tint: .accentColor
+                    )
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 } else if terminal.options == nil {
@@ -357,7 +369,7 @@ private struct ShellSessionsRow: View {
                     .minimumScaleFactor(0.8)
                 InfoNote(
                     name: String(localized: "No “Restored session” line"),
-                    detail: Text("When Terminal reopens a window, \(sessions.name) starts it with a “Restored session” line and gives it back its own command history. For that, every shell saves its session as it ends, with a “Saving session” line, and keeps it for two weeks. Peel doesn’t change your shell’s files."),
+                    detail: Text("When Terminal reopens a window, \(sessions.name) gives it back its own command history, with a “Restored session” line. Each shell saves its session as it ends and keeps it for two weeks. Peel does not change your shell files."),
                     footnote: Text(verbatim: sessions.script)
                 )
             }

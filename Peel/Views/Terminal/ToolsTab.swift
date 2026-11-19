@@ -15,17 +15,26 @@ struct ToolsTab: View {
     }
 
     /// What the tools for the shell say under them: that their lines, written for zsh, don't apply while Terminal
-    /// opens another shell, as the Shell tab says, and otherwise where they go.
-    static func shellNote(_ state: ShellLibrary.State?, zshrc: String) -> LocalizedStringResource {
+    /// opens another shell, as the Shell tab says, and otherwise where they go, with what more there is in a note.
+    static func shellNote(
+        _ state: ShellLibrary.State?, zshrc: String
+    ) -> (text: LocalizedStringResource, note: LocalizedStringResource?) {
         if let state, !state.isZsh {
-            return state.shell == .bash
+            let text: LocalizedStringResource = state.shell == .bash
                 ? "Terminal opens bash, so these lines, written for zsh, do not apply."
                 : "Terminal opens a shell other than zsh, so these lines, written for zsh, do not apply."
+            return (text, nil)
         }
-        return state?.zshrcNotKnown == true
-            ? "Peel cannot tell which .zshrc zsh reads, so these lines say ~/.zshrc. Ask zsh on the Shell tab to find out."
-            : linesGoIn(zshrc)
+        guard state?.zshrcNotKnown == true else { return (linesGoIn(zshrc), nil) }
+        let assumed: LocalizedStringResource = "These lines assume ~/.zshrc"
+        let why: LocalizedStringResource = "Peel cannot tell which .zshrc zsh reads. Ask zsh on the Shell tab to find out."
+        return (assumed, why)
     }
+
+    static let unrunnableBrew: LocalizedStringResource = "The `brew` you chose cannot run now"
+
+    static let unrunnableBrewNote: LocalizedStringResource =
+        "Peel runs only the `brew` you chose, so it runs none until you choose another."
 
     var body: some View {
         Form {
@@ -33,7 +42,7 @@ struct ToolsTab: View {
                 if let unrunnable = state.unrunnable {
                     Section {
                         VStack(alignment: .leading, spacing: 4) {
-                            StatusLabel(title: Text("Peel runs only the `brew` you chose, and that one can’t be run now."))
+                            NotedStatus(title: Text(Self.unrunnableBrew), note: Text(Self.unrunnableBrewNote))
                             unrunnable.refusal.explanation
                                 .font(.callout)
                                 .foregroundStyle(.secondary)
@@ -80,9 +89,15 @@ struct ToolsTab: View {
                         Text(group.title)
                     } footer: {
                         if group == .shell {
-                            Text(Self.shellNote(shell.state, zshrc: zshrc))
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+                            let note = Self.shellNote(shell.state, zshrc: zshrc)
+                            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                                Text(note.text)
+                                if let more = note.note {
+                                    InfoNote(about: Text(note.text), detail: Text(more), isAlbum: false)
+                                }
+                            }
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                         }
                     }
                 }

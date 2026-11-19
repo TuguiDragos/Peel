@@ -5,9 +5,12 @@ struct GitTab: View {
     @Environment(GitLibrary.self) private var git
     @State private var isConfirmingTurnAllOff = false
 
-    static let turningOneOff: LocalizedStringResource = "Peel changes these with `git config --global`. Turning one off puts back what was there before Peel, or removes it when you had set it yourself."
+    static let turningOneOff: LocalizedStringResource = "Peel sets these with `git config --global` and puts back what was there when you turn one off."
 
-    static let settingsUnreadable: LocalizedStringResource = "Git could not read your settings, so Peel changes nothing here. Run `git config --global --list` in Terminal to see what Git says."
+    static let settingsUnreadable: LocalizedStringResource = "Git could not read your settings"
+
+    static let settingsUnreadableNote: LocalizedStringResource =
+        "Peel changes nothing here until it can. `git config --global --list` in Terminal shows what Git says."
 
     static let afterTurningAllOff: LocalizedStringResource = "Settings Peel changed go back to what they were. Settings you made yourself that are on here are removed from your Git settings, so the Git defaults apply."
 
@@ -28,11 +31,17 @@ struct GitTab: View {
                     }
                 } else if state.settings == nil {
                     Section {
-                        StatusLabel(title: Text(Self.settingsUnreadable), tint: .accentColor)
+                        NotedStatus(
+                            title: Text(Self.settingsUnreadable), note: Text(Self.settingsUnreadableNote),
+                            tint: .accentColor
+                        )
                     }
                 } else if state.known == nil {
                     Section {
-                        StatusLabel(title: Text(TerminalPage.didNotAnswer("Git")), tint: .accentColor)
+                        NotedStatus(
+                            title: Text(TerminalPage.didNotAnswer("Git")), note: Text(TerminalPage.offUntilItAnswers),
+                            tint: .accentColor
+                        )
                     }
                 } else if git.wasRefused {
                     Section {

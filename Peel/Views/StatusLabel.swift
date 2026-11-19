@@ -18,3 +18,19 @@ struct StatusLabel: View {
         }
     }
 }
+
+/// A state said in a few words, with what more there is to know in a circled i beside it.
+struct NotedStatus: View {
+    let title: Text
+    let note: Text?
+    var tint: Color = .orange
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 4) {
+            StatusLabel(title: title, tint: tint)
+            if let note {
+                InfoNote(about: title, detail: note, isAlbum: false)
+            }
+        }
+    }
+}
