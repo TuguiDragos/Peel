@@ -183,7 +183,7 @@ private func state(_ title: LocalizedStringResource, _ symbol: String, _ tint: C
 }
 
 struct GeneralSettingsView: View {
-    static let hidesFromDockNote: LocalizedStringResource = "While Peel shows in the menu bar, its icon leaves the Dock when its last window closes, and comes back when you open Peel from the menu bar, Finder, or Spotlight. If the menu bar is full, macOS may hide Peel there."
+    static let hidesFromDockNote: LocalizedStringResource = "While Peel shows in the menu bar, its icon leaves the Dock when you close its last window, and comes back when you open Peel again from the menu bar, Finder, or Spotlight. If the menu bar is full, macOS may hide Peel there, so open it from Finder or Spotlight."
     static let checkForUpdatesNote: LocalizedStringResource = "Peel asks the feed of each app, the App Store, or Homebrew for the latest version, and never installs anything on its own. With this off, Peel looks for its own updates only when you choose Check for Updates."
     static let preferUpdatesNote: LocalizedStringResource = "Automatic asks Homebrew first about an app it installed, then the feed of the app or the App Store. Any other choice asks the source you prefer first. The catalog of Homebrew answers last, for an app Homebrew did not install."
     static let diskAlmostFullNote: LocalizedStringResource = "While Peel runs, it sends a notification when less than a tenth of the disk with your home folder is free. Clicking it opens Space."
