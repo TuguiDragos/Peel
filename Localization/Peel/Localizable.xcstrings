@@ -279848,6 +279848,112 @@
         }
       }
     },
+    "Widgets are added and removed with Edit Widgets, in Notification Center or when you Control-click the wallpaper. Removing one for good means removing its app." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgety se přidávají a odstraňují pomocí volby Upravit widgety v Oznamovacím centru nebo po kliknutí na tapetu se stisknutou klávesou Control. Trvale odstranit widget znamená odstranit jeho aplikaci."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgets werden mit „Widgets bearbeiten“ hinzugefügt und entfernt, in der Mitteilungszentrale oder wenn du bei gedrückter Control-Taste auf das Hintergrundbild klickst. Um ein Widget endgültig zu entfernen, entfernst du seine App."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los widgets se añaden y se eliminan con “Editar widgets”, en el Centro de notificaciones o al hacer clic con la tecla Control pulsada en el fondo de pantalla. Para eliminar uno definitivamente, hay que eliminar su app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les widgets s’ajoutent et se suppriment avec « Modifier les widgets », dans le centre de notifications ou lorsque vous cliquez sur le fond d’écran en maintenant la touche Contrôle enfoncée. Pour en supprimer un définitivement, il faut supprimer son app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I widget si aggiungono e si rimuovono con “Modifica widget”, in Centro Notifiche o quando fai clic sullo sfondo tenendo premuto il tasto Ctrl. Rimuoverne uno definitivamente significa rimuovere la sua app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ウィジェットは、通知センター、または壁紙をControlキーを押しながらクリックしたときに表示される“ウィジェットを編集”で追加したり削除したりします。ウィジェットを完全に取り除くには、提供元のアプリを取り除く必要があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "위젯은 알림 센터에 있거나 배경화면을 Control-클릭하면 나타나는 ‘위젯 편집’으로 추가하거나 제거합니다. 위젯을 영구적으로 제거하려면 해당 앱을 제거해야 합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgets worden toegevoegd en verwijderd met 'Wijzig widgets', in het meldingencentrum of als je met de Control-toets ingedrukt op de achtergrond klikt. Een widget definitief verwijderen betekent de app ervan verwijderen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widżety dodaje się i usuwa za pomocą polecenia Edytuj widżety w Centrum powiadomień lub po kliknięciu tapety z klawiszem Control. Aby trwale pozbyć się widżetu, trzeba odinstalować jego aplikację."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os widgets são adicionados e removidos com Editar Widgets, na Central de Notificações ou quando você clica na imagem de fundo com a tecla Control pressionada. Remover um widget definitivamente significa remover o app dele."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgeturile se adaugă și se elimină cu „Editați widgeturile”, în centrul de notificări sau când faceți Control‑clic pe fundal. A elimina definitiv un widget înseamnă a‑i elimina aplicația."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виджеты добавляют и удаляют с помощью команды «Изменить виджеты» в Центре уведомлений или в меню, которое открывается, если нажать обои, удерживая клавишу Control. Чтобы удалить виджет насовсем, нужно удалить его приложение."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgetar läggs till och tas bort med Redigera widgetar, i Notiscenter eller när du kontroll-klickar på bakgrundsbilden. För att ta bort en widget för gott tar du bort dess app."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Araç takımları, Bildirim Merkezi’nde veya duvar kâğıdını Kontrol tuşuna basarak tıkladığınızda görünen “Araç Takımlarını Düzenle” ile eklenir ve kaldırılır. Birini kalıcı olarak kaldırmak, onun uygulamasını kaldırmak demektir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Віджети додають і вилучають командою «Змінити віджети» в Центрі сповіщень або коли ви клацаєте шпалеру, утримуючи клавішу Control. Щоб вилучити віджет назавжди, треба вилучити його програму."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小组件通过“编辑小组件”添加和移除，该选项位于“通知中心”中，按住Control键点按墙纸时也会出现。要永久移除某个小组件，就需要移除它所属的App。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小工具是透過「編輯小工具」來加入和移除的，這個選項位於「通知中心」中，也會在你對背景圖片按下Control + 滑鼠鍵時出現。若要永久移除小工具，就得移除它所屬的App。"
+          }
+        }
+      }
+    },
     "Will be disabled on %@" : {
       "localizations" : {
         "cs" : {
@@ -306015,112 +306121,6 @@
         }
       }
     },
-    "macOS doesn’t turn widgets on or off: they are added and removed with Edit Widgets, at the bottom of Notification Center or when you Control-click the wallpaper. Removing one for good means removing the app it came with." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Systém macOS widgety nezapíná ani nevypíná: přidávají se a odstraňují pomocí volby Upravit widgety, kterou najdete v dolní části Oznamovacího centra nebo po kliknutí na tapetu se stisknutou klávesou Control. Trvale odstranit widget znamená odstranit aplikaci, se kterou přišel."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS aktiviert oder deaktiviert keine Widgets: Hinzugefügt und entfernt werden sie mit „Widgets bearbeiten“, unten in der Mitteilungszentrale oder wenn du bei gedrückter Control-Taste auf das Hintergrundbild klickst. Um ein Widget endgültig zu entfernen, entfernst du die App, zu der es gehört."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS no activa ni desactiva los widgets: se añaden y se eliminan con “Editar widgets”, en la parte inferior del centro de notificaciones o al hacer clic con la tecla Control pulsada en el fondo de pantalla. Para eliminar uno definitivamente, hay que eliminar la app con la que vino."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS n’active ni ne désactive les widgets : ils s’ajoutent et se suppriment avec « Modifier les widgets », en bas du centre de notifications ou lorsque vous cliquez sur le fond d’écran en maintenant la touche Contrôle enfoncée. Pour en supprimer un définitivement, il faut supprimer l’app avec laquelle il est arrivé."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS non attiva né disattiva i widget: si aggiungono e si rimuovono con “Modifica widget”, nella parte inferiore di Centro Notifiche o quando fai clic sullo sfondo tenendo premuto il tasto Ctrl. Rimuoverne uno definitivamente significa rimuovere l’app con cui è arrivato."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOSでは、ウィジェットはオン/オフにするのではなく、“ウィジェットを編集”で追加したり削除したりします。“ウィジェットを編集”は、通知センターの下部にあるほか、壁紙をControlキーを押しながらクリックしたときにも表示されます。ウィジェットを完全に取り除くには、提供元のアプリを取り除く必要があります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "위젯은 macOS에서 켜거나 끄는 것이 아니라, 알림 센터 하단에 있거나 배경화면을 Control-클릭하면 나타나는 ‘위젯 편집’으로 추가하거나 제거합니다. 위젯을 영구적으로 제거하려면 함께 설치된 앱을 제거해야 합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS schakelt widgets niet in of uit: ze worden toegevoegd en verwijderd met 'Wijzig widgets', onder in het meldingencentrum of als je met de Control-toets ingedrukt op de achtergrond klikt. Een widget definitief verwijderen betekent de app verwijderen waarmee die is meegekomen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS nie włącza ani nie wyłącza widżetów: dodaje się je i usuwa za pomocą polecenia Edytuj widżety, dostępnego na dole centrum powiadomień lub po kliknięciu w tapetę z klawiszem Control. Aby trwale pozbyć się widżetu, trzeba odinstalować aplikację, z którą go dostarczono."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O macOS não ativa nem desativa widgets: eles são adicionados e removidos com Editar Widgets, na parte inferior da Central de Notificações ou quando você clica na imagem de fundo com a tecla Control pressionada. Remover um widget definitivamente significa remover o app com que ele veio."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS nu activează și nu dezactivează widgeturi: acestea se adaugă și se elimină cu „Editați widgeturile”, în partea de jos a centrului de notificări sau când faceți Control‑clic pe fundal. A elimina definitiv un widget înseamnă a elimina aplicația cu care a venit."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS не включает и не выключает виджеты: их добавляют и удаляют с помощью команды «Изменить виджеты» внизу Центра уведомлений или в меню, которое открывается, если нажать обои, удерживая клавишу Control. Чтобы полностью удалить виджет, нужно удалить приложение, с которым он поставлялся."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS varken slår på eller stänger av widgetar: de läggs till och tas bort med Redigera widgetar, längst ned i Notiscenter eller när du kontroll-klickar på bakgrundsbilden. För att ta bort en widget för gott tar du bort appen som den följde med."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS araç takımlarını açmaz veya kapatmaz: araç takımları, Bildirim Merkezi’nin en altındaki veya duvar kâğıdını Kontrol tuşuna basarak tıkladığınızda görünen “Araç Takımlarını Düzenle” ile eklenir ve kaldırılır. Birini kalıcı olarak kaldırmak, onunla birlikte gelen uygulamayı kaldırmak demektir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS не вмикає і не вимикає віджети: їх додають і вилучають командою «Змінити віджети», яка є внизу Центру сповіщень і в меню, що зʼявляється, коли ви клацаєте шпалеру, утримуючи клавішу Control. Щоб вилучити віджет назавжди, треба вилучити програму, з якою він прийшов."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS不会打开或关闭小组件：小组件通过“编辑小组件”添加和移除，该选项位于“通知中心”底部，按住Control键点按墙纸时也会出现。要永久移除某个小组件，就需要移除它所属的App。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS不會開啟或關閉小工具：小工具是透過「編輯小工具」來加入和移除的，這個選項位於「通知中心」底部，也會在你對背景圖片按下Control + 滑鼠鍵時出現。若要永久移除小工具，就得移除它所屬的App。"
-          }
-        }
-      }
-    },
     "macOS forgets what %@ was allowed to access, such as the camera, the microphone, or your files, and the app asks you again the next time it needs them. History can’t undo this." : {
       "localizations" : {
         "cs" : {
@@ -307935,426 +307935,320 @@
         }
       }
     },
-    "macOS keeps it under %@. In System Settings > General > Login Items & Extensions, By Category shows extensions of each kind under the same name, though it may leave out one whose app is gone." : {
+    "macOS keeps it under %@, as By Category in System Settings > General > Login Items & Extensions shows." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS ho uchovává pod položkou %@. V Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení zobrazení Podle kategorie uvádí rozšíření každého druhu pod stejným názvem, i když může vynechat rozšíření, jehož aplikace už zmizela."
+            "value" : "Systém macOS ho uchovává pod položkou %@, jak ukazuje zobrazení Podle kategorie v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS führt diese Erweiterung unter „%@“. Unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“ zeigt „Nach Kategorie“ Erweiterungen jeder Art unter demselben Namen, lässt aber möglicherweise eine aus, deren App nicht mehr vorhanden ist."
+            "value" : "macOS führt diese Erweiterung unter „%@“, wie „Nach Kategorie“ unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“ zeigt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS la incluye en %@. En Ajustes del Sistema > General > Ítems de inicio y extensiones, la vista “Por categoría” muestra las extensiones de cada tipo con el mismo nombre, aunque puede que omita una cuya app ya no está."
+            "value" : "macOS la incluye en %@, como muestra la vista “Por categoría” de Ajustes del Sistema > General > Ítems de inicio y extensiones."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS la classe sous %@. Dans Réglages Système > Général > Ouverture et extensions, la vue « Par catégorie » affiche les extensions de chaque type sous le même nom, mais elle peut omettre une extension dont l’app a disparu."
+            "value" : "macOS la classe sous %@, comme l’indique la vue « Par catégorie » de Réglages Système > Général > Ouverture et extensions."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS la conserva sotto “%@”. In Impostazioni di Sistema > Generali > Elementi login ed estensioni, “Per categoria” mostra le estensioni di ogni tipo con lo stesso nome, anche se potrebbe tralasciarne una la cui app non c’è più."
+            "value" : "macOS la conserva sotto “%@”, come mostra “Per categoria” in Impostazioni di Sistema > Generali > Elementi login ed estensioni."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSでは“%@”に分類されています。“システム設定”＞“一般”＞“ログイン項目と機能拡張”の“カテゴリ別”では、各種類の機能拡張が同じ名前の下に表示されますが、アプリがなくなった機能拡張は表示されないことがあります。"
+            "value" : "“システム設定”＞“一般”＞“ログイン項目と機能拡張”の“カテゴリ別”に表示されるとおり、macOSでは“%@”に分類されています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS는 이 항목을 ‘%@’ 아래에 둡니다. 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램의 ‘카테고리별’ 보기에도 각 종류의 확장 프로그램이 같은 이름 아래에 표시되지만, 앱이 없어진 확장 프로그램은 빠질 수 있습니다."
+            "value" : "시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램의 ‘카테고리별’에 표시되는 것처럼, macOS는 이 항목을 ‘%@’ 아래에 둡니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bewaart deze extensie onder '%@'. In Systeeminstellingen > Algemeen > Inlogonderdelen en extensies toont 'Op categorie' extensies van elke soort onder dezelfde naam, al ontbreekt daar misschien een extensie waarvan de app er niet meer is."
+            "value" : "macOS bewaart deze extensie onder '%@', zoals 'Op categorie' in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies laat zien."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS zalicza je do kategorii %@. W Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania widok Wg kategorii pokazuje rozszerzenia każdego rodzaju pod tą samą nazwą, choć może pominąć takie, którego aplikacji już nie ma."
+            "value" : "macOS zalicza je do kategorii %@, co pokazuje widok Wg kategorii w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS mantém esta extensão em %@. Em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões, a visualização Por Categoria mostra as extensões de cada tipo em uma categoria com o mesmo nome, embora possa deixar de fora uma cujo app não exista mais."
+            "value" : "O macOS mantém esta extensão em %@, como mostra a visualização Por Categoria em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS o păstrează la %@. În Configurări sistem > General > Lansare la login și extensii, vizualizarea „După categorie” afișează extensiile de fiecare tip sub același nume, deși poate omite una a cărei aplicație nu mai există."
+            "value" : "macOS o păstrează la %@, așa cum arată vizualizarea „După categorie” din Configurări sistem > General > Lansare la login și extensii."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS относит его к группе «%@». В разделе «Системные настройки» > «Основные» > «Объекты входа и расширения» в режиме «По категории» расширения каждого типа показаны под тем же названием, хотя расширение, приложения которого уже нет, там может не отображаться."
+            "value" : "macOS относит его к группе «%@», как показывает режим «По категории» в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения»."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS placerar det under %@. I Systeminställningar > Allmänt > Startobjekt och tillägg visar vyn ”Efter kategori” tillägg av varje slag under samma namn, men den kan utelämna ett tillägg vars app är borta."
+            "value" : "macOS placerar det under %@, som vyn ”Efter kategori” i Systeminställningar > Allmänt > Startobjekt och tillägg visar."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS onu %@ altında tutar. Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünde Kategoriye Göre görünümü her türdeki genişletmeleri aynı ad altında gösterir, ancak uygulaması artık olmayan bir genişletmeyi göstermeyebilir."
+            "value" : "macOS onu %@ altında tutar; Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümündeki Kategoriye Göre görünümü de bunu gösterir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS зберігає його в категорії «%@». У розділі Системні параметри > Загальні > Автозапуск і розширення, якщо вибрати «За категорією», розширення кожного типу показано під тією самою назвою, хоча там може не бути розширення, програми якого вже немає."
+            "value" : "macOS зберігає його в категорії «%@», як показує подання «За категорією» в розділі Системні параметри > Загальні > Автозапуск і розширення."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS将它归在“%@”下。在“系统设置”>“通用”>“登录项与扩展”中，“按类别”会以相同的名称显示每一类扩展，但可能不会显示App已不存在的扩展。"
+            "value" : "macOS将它归在“%@”下，与“系统设置”>“通用”>“登录项与扩展”中“按类别”显示的一致。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS將它歸在「%@」之下。在「系統設定」>「一般」>「登入項目與延伸功能」中，「按照類別」會以相同名稱顯示每一類延伸功能，但可能不會列出其App已不存在的延伸功能。"
+            "value" : "macOS將它歸在「%@」之下，如「系統設定」>「一般」>「登入項目與延伸功能」中的「按照類別」所示。"
           }
         }
       }
     },
-    "macOS keeps its own copy of this, apart from the app, and moving the app to the Trash in Finder asks macOS to remove it, sometimes at the next restart. So Peel leaves that app to Finder." : {
+    "macOS keeps its own copy of this and removes it when the app goes to the Trash in Finder, sometimes at the next restart, so Peel leaves the app to Finder." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS si ho uchovává ve vlastní kopii, odděleně od aplikace, a přesunutím aplikace do koše ve Finderu požádáte systém macOS, aby ho odstranil, někdy až po příštím restartu. Proto Peel tuto aplikaci nechává na Finderu."
+            "value" : "Systém macOS si ho uchovává ve vlastní kopii a odstraní ho, když se aplikace přesune do koše ve Finderu, někdy až po příštím restartu, a proto Peel tuto aplikaci nechává na Finderu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS behält eine eigene Kopie davon, getrennt von der App. Wird die App im Finder in den Papierkorb gelegt, wird macOS aufgefordert, die Erweiterung zu entfernen, manchmal erst beim nächsten Neustart. Daher überlässt Peel diese App dem Finder."
+            "value" : "macOS behält eine eigene Kopie davon und entfernt sie, wenn die App im Finder in den Papierkorb gelegt wird, manchmal erst beim nächsten Neustart, daher überlässt Peel die App dem Finder."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS guarda su propia copia de esta extensión, aparte de la app, y, al trasladar la app a la papelera en el Finder, se le pide a macOS que elimine la extensión, a veces durante el siguiente reinicio. Por eso, Peel deja esa app en manos del Finder."
+            "value" : "macOS guarda su propia copia de esta extensión y la elimina cuando la app va a la papelera en el Finder, a veces durante el siguiente reinicio, así que Peel deja la app en manos del Finder."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS en conserve sa propre copie, séparément de l’app, et lorsque l’app est placée dans la corbeille depuis le Finder, celui-ci demande à macOS de supprimer cette copie, parfois au prochain redémarrage. Peel laisse donc cette app au Finder."
+            "value" : "macOS en conserve sa propre copie et la supprime lorsque l’app est placée dans la corbeille depuis le Finder, parfois au prochain redémarrage : Peel laisse donc cette app au Finder."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS ne conserva una copia propria, separata dall’app, e spostando l’app nel Cestino dal Finder si chiede a macOS di rimuovere questa copia, a volte al prossimo riavvio. Quindi Peel lascia al Finder la rimozione di quell’app."
+            "value" : "macOS ne conserva una copia propria e la rimuove quando l’app viene spostata nel Cestino dal Finder, a volte al prossimo riavvio, quindi Peel lascia al Finder la rimozione dell’app."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSは、これをアプリとは別に独自のコピーとして保持しています。Finderでアプリをゴミ箱に入れると、FinderがmacOSにこれを削除するよう依頼しますが、Macを次に再起動するまで削除されない場合もあります。そのため、PeelはそのアプリをFinderに任せています。"
+            "value" : "macOSはこれを独自のコピーとして保持しており、Finderでアプリをゴミ箱に入れたときに削除します。Macを次に再起動するまで削除されない場合もあります。そのため、PeelはそのアプリをFinderに任せています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS가 앱과는 별도로 이 항목의 자체 복사본을 보관합니다. Finder에서 앱을 휴지통으로 이동하면 macOS에 이 항목을 제거하도록 요청하게 되며, 다음에 Mac을 재시동할 때 제거되는 경우도 있습니다. 따라서 Peel은 해당 앱을 Finder에 맡깁니다."
+            "value" : "macOS가 이 항목의 자체 복사본을 보관하며, 앱이 Finder에서 휴지통으로 이동될 때 제거합니다. 다음에 Mac을 재시동할 때 제거하는 경우도 있습니다. 따라서 Peel은 해당 앱을 Finder에 맡깁니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bewaart hiervan een eigen kopie, los van de app, en als je de app in Finder naar de prullenmand verplaatst, vraagt Finder macOS om die kopie te verwijderen, soms pas bij de volgende herstart. Daarom laat Peel die app over aan Finder."
+            "value" : "macOS bewaart hiervan een eigen kopie en verwijdert die als de app in Finder naar de prullenmand gaat, soms pas bij de volgende herstart, dus laat Peel de app over aan Finder."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS przechowuje własną kopię tego rozszerzenia, oddzielnie od aplikacji, a przeniesienie aplikacji do Kosza w Finderze to prośba do macOS o usunięcie rozszerzenia, czasem dopiero po ponownym uruchomieniu Maca. Dlatego Peel zostawia tę aplikację Finderowi."
+            "value" : "macOS przechowuje własną kopię tego rozszerzenia i usuwa ją, gdy aplikacja zostanie przeniesiona do Kosza w Finderze, czasem dopiero po ponownym uruchomieniu Maca, więc Peel zostawia aplikację Finderowi."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS mantém uma cópia própria desta extensão, à parte do app, e mover o app para o Lixo no Finder pede ao macOS para removê-la, às vezes apenas no próximo reinício. Por isso, o Peel deixa esse app para o Finder."
+            "value" : "O macOS mantém uma cópia própria desta extensão e a remove quando o app vai para o Lixo no Finder, às vezes apenas no próximo reinício, por isso o Peel deixa o app para o Finder."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS păstrează o copie proprie a acestei extensii, separat de aplicație, iar mutarea aplicației în Coș din Finder îi cere sistemului macOS să elimine extensia, uneori abia la următoarea repornire. De aceea, Peel lasă aplicația respectivă în seama Finder."
+            "value" : "macOS păstrează o copie proprie a acestei extensii și o elimină când aplicația este mutată în Coș din Finder, uneori abia la următoarea repornire, așa că Peel lasă aplicația în seama Finder."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS хранит собственную копию этого расширения отдельно от приложения, и когда приложение перемещают в Корзину в Finder, macOS получает запрос на ее удаление, которое иногда происходит лишь при следующей перезагрузке. Поэтому Peel оставляет это приложение для Finder."
+            "value" : "macOS хранит собственную копию этого расширения и удаляет ее, когда приложение перемещают в Корзину в Finder, иногда лишь при следующей перезагрузке, поэтому Peel оставляет это приложение для Finder."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS behåller en egen kopia av det här, separat från appen, och när appen flyttas till papperskorgen i Finder ber Finder macOS att ta bort det, ibland först vid nästa omstart. Därför lämnar Peel den appen åt Finder."
+            "value" : "macOS behåller en egen kopia av det här och tar bort den när appen flyttas till papperskorgen i Finder, ibland först vid nästa omstart, så Peel lämnar appen åt Finder."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bunun uygulamadan ayrı, kendine ait bir kopyasını tutar ve uygulama Finder’da Çöp Sepeti’ne taşındığında macOS’ten onu kaldırması istenir; bu bazen ancak Mac bir sonraki kez yeniden başladığında olur. Bu yüzden Peel o uygulamayı Finder’a bırakır."
+            "value" : "macOS bunun kendine ait bir kopyasını tutar ve onu uygulama Finder’da Çöp Sepeti’ne taşındığında kaldırır; bu bazen ancak Mac bir sonraki kez yeniden başladığında olur. Bu yüzden Peel uygulamayı Finder’a bırakır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS зберігає власну копію цього розширення, окремо від програми, і коли програму переміщують у Смітник у Finder, macOS отримує запит вилучити його, іноді після наступного перезапуску. Тому Peel залишає цю програму для Finder."
+            "value" : "macOS зберігає власну копію цього розширення й вилучає його, коли програму переміщують у Смітник у Finder, іноді після наступного перезапуску, тож Peel залишає програму для Finder."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS在App之外保留了它自己的副本，而在“访达”中将该App移到废纸篓会请求macOS移除此项，有时要等到Mac下次重新启动时才移除。因此Peel会将该App交给“访达”处理。"
+            "value" : "macOS保留了此项自己的副本，并会在“访达”中将该App移到废纸篓时将其移除，有时要等到Mac下次重新启动时才移除，因此Peel会将该App交给“访达”处理。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS會在App之外保留此項目的副本，而在Finder中將該App丟到「垃圾桶」就會要求macOS移除此項目，有時還要等到下次重新開機。因此Peel會將該App交由Finder處理。"
+            "value" : "macOS會保留此項目自己的副本，並在Finder中將該App丟到「垃圾桶」時移除它，有時要等到下次重新開機，因此Peel會將該App交由Finder處理。"
           }
         }
       }
     },
-    "macOS keeps its own copy of this, apart from the app, and removes it only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves that app to Finder." : {
+    "macOS keeps its own copy of this, so Peel leaves the app to Finder, which asks macOS to remove it. If it stays, delete it in System Settings > General > Login Items & Extensions > By Category > Network Extensions." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS si ho uchovává ve vlastní kopii, odděleně od aplikace, a odstraní ho jen tehdy, když se aplikace přesune do koše ve Finderu, někdy až po příštím restartu. Proto Peel tuto aplikaci nechává na Finderu."
+            "value" : "Systém macOS si ho uchovává ve vlastní kopii, a proto Peel tuto aplikaci nechává na Finderu, který systém macOS požádá o jeho odstranění. Pokud zůstane, smažte ho v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení > Podle kategorie > Síťová rozšíření."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS behält eine eigene Kopie davon, getrennt von der App, und entfernt die Erweiterung nur, wenn die App im Finder in den Papierkorb gelegt wird, manchmal erst beim nächsten Neustart. Daher überlässt Peel diese App dem Finder."
+            "value" : "macOS behält eine eigene Kopie davon, daher überlässt Peel die App dem Finder, der macOS auffordert, sie zu entfernen. Falls sie bleibt, lösche sie unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“ > „Nach Kategorie“ > „Netzwerkerweiterungen“."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS guarda su propia copia de esta extensión, aparte de la app, y solo la elimina cuando la app va a la papelera en el Finder, a veces durante el siguiente reinicio. Por eso, Peel deja esa app en manos del Finder."
+            "value" : "macOS guarda su propia copia de esta extensión, así que Peel deja la app en manos del Finder, que le pide a macOS que la elimine. Si sigue ahí, elimínala en Ajustes del Sistema > General > Ítems de inicio y extensiones > Por categoría > Extensiones de red."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS en conserve sa propre copie, séparément de l’app, et ne la supprime que lorsque l’app est placée dans la corbeille depuis le Finder, parfois au prochain redémarrage. Peel laisse donc cette app au Finder."
+            "value" : "macOS en conserve sa propre copie : Peel laisse donc l’app au Finder, qui demande à macOS de supprimer cette copie. Si elle reste, supprimez-la dans Réglages Système > Général > Ouverture et extensions > Par catégorie > Extensions du réseau."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS ne conserva una copia propria, separata dall’app, e la rimuove solo quando l’app viene spostata nel Cestino dal Finder, a volte al prossimo riavvio. Quindi Peel lascia al Finder la rimozione di quell’app."
+            "value" : "macOS ne conserva una copia propria, quindi Peel lascia l’app al Finder, che chiede a macOS di rimuoverla. Se resta, eliminala in Impostazioni di Sistema > Generali > Elementi login ed estensioni > Per categoria > Estensioni di rete."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSは、これをアプリとは別に独自のコピーとして保持しています。macOSがこれを削除するのは、Finderでアプリをゴミ箱に入れたときだけで、Macを次に再起動するまで削除されない場合もあります。そのため、PeelはそのアプリをFinderに任せています。"
+            "value" : "macOSはこれを独自のコピーとして保持しているため、PeelはそのアプリをFinderに任せています。FinderがmacOSにこれを削除するよう依頼します。それでも残る場合は、“システム設定”＞“一般”＞“ログイン項目と機能拡張”＞“カテゴリ別”＞“ネットワーク機能拡張”で削除してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS가 앱과는 별도로 이 항목의 자체 복사본을 보관합니다. macOS는 앱이 Finder에서 휴지통으로 이동될 때만 이 항목을 제거하며, 다음에 Mac을 재시동할 때 제거하는 경우도 있습니다. 따라서 Peel은 해당 앱을 Finder에 맡깁니다."
+            "value" : "macOS가 이 항목의 자체 복사본을 보관하므로 Peel은 해당 앱을 Finder에 맡기며, Finder가 macOS에 이 항목을 제거하도록 요청합니다. 이 항목이 남아 있으면 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램 > 카테고리별 > 네트워크 확장 프로그램에서 삭제하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bewaart hiervan een eigen kopie, los van de app, en verwijdert die alleen als de app in Finder naar de prullenmand gaat, soms pas bij de volgende herstart. Daarom laat Peel die app over aan Finder."
+            "value" : "macOS bewaart hiervan een eigen kopie, dus laat Peel de app over aan Finder, waarna Finder macOS vraagt om die kopie te verwijderen. Blijft de kopie staan, verwijder die dan in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies > Op categorie > Netwerkextensies."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS przechowuje własną kopię tego rozszerzenia, oddzielnie od aplikacji, i usuwa je tylko wtedy, gdy aplikacja zostanie przeniesiona do Kosza w Finderze, czasem dopiero po ponownym uruchomieniu Maca. Dlatego Peel zostawia tę aplikację Finderowi."
+            "value" : "macOS przechowuje własną kopię tego rozszerzenia, więc Peel zostawia aplikację Finderowi, który poprosi macOS o jego usunięcie. Jeśli rozszerzenie pozostanie, usuń je w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania > Wg kategorii > Rozszerzenia sieciowe."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS mantém uma cópia própria desta extensão, à parte do app, e só a remove quando o app vai para o Lixo no Finder, às vezes apenas no próximo reinício. Por isso, o Peel deixa esse app para o Finder."
+            "value" : "O macOS mantém uma cópia própria desta extensão, por isso o Peel deixa o app para o Finder, que pede ao macOS para removê-la. Se ela permanecer, apague-a em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões > Por Categoria > Extensões de Rede."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS păstrează o copie proprie a acestei extensii, separat de aplicație, și o elimină doar când aplicația este mutată în Coș din Finder, uneori abia la următoarea repornire. De aceea, Peel lasă aplicația respectivă în seama Finder."
+            "value" : "macOS păstrează o copie proprie a acestei extensii, așa că Peel lasă aplicația în seama Finder, care îi cere sistemului macOS să o elimine. Dacă extensia rămâne, ștergeți‑o în Configurări sistem > General > Lansare la login și extensii > După categorie > Extensii de rețea."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS хранит собственную копию этого расширения отдельно от приложения и удаляет ее, только когда приложение перемещают в Корзину в Finder, иногда лишь при следующей перезагрузке. Поэтому Peel оставляет это приложение для Finder."
+            "value" : "macOS хранит собственную копию этого расширения, поэтому Peel оставляет приложение для Finder, который попросит macOS удалить ее. Если расширение останется, удалите его в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения» > «По категории» > «Сетевые расширения»."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS behåller en egen kopia av det här, separat från appen, och tar bort det bara när appen flyttas till papperskorgen i Finder, ibland först vid nästa omstart. Därför lämnar Peel den appen åt Finder."
+            "value" : "macOS behåller en egen kopia av det här, så Peel lämnar appen åt Finder, som ber macOS att ta bort det. Om det blir kvar raderar du det i Systeminställningar > Allmänt > Startobjekt och tillägg > Efter kategori > Nätverkstillägg."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bunun uygulamadan ayrı, kendine ait bir kopyasını tutar ve onu yalnızca uygulama Finder’da Çöp Sepeti’ne taşındığında kaldırır; bu bazen ancak Mac bir sonraki kez yeniden başladığında olur. Bu yüzden Peel o uygulamayı Finder’a bırakır."
+            "value" : "macOS bunun kendine ait bir kopyasını tutar, bu yüzden Peel uygulamayı, macOS’ten onu kaldırmasını isteyen Finder’a bırakır. Hâlâ yerindeyse onu Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler > Kategoriye Göre > Ağ Genişletmeleri bölümünde silin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS зберігає власну копію цього розширення, окремо від програми, і вилучає його, лише коли програму переміщують у Смітник у Finder, іноді після наступного перезапуску. Тому Peel залишає цю програму для Finder."
+            "value" : "macOS зберігає власну копію цього розширення, тож Peel залишає програму для Finder, який просить macOS його вилучити. Якщо воно залишиться, видаліть його в розділі Системні параметри > Загальні > Автозапуск і розширення > За категорією > Мережеві розширення."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS在App之外保留了它自己的副本，只有在“访达”中将该App移到废纸篓时，macOS才会移除此项，有时要等到Mac下次重新启动时才移除。因此Peel会将该App交给“访达”处理。"
+            "value" : "macOS保留了此项自己的副本，因此Peel会将该App交给“访达”处理，“访达”会请求macOS将其移除。如果它仍然存在，请在“系统设置”>“通用”>“登录项与扩展”>“按类别”>“网络扩展”中删除它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS會在App之外保留此項目的副本，而且只有在Finder中將該App丟到「垃圾桶」時才會移除它，有時還要等到下次重新開機。因此Peel會將該App交由Finder處理。"
-          }
-        }
-      }
-    },
-    "macOS keeps its own copy of this, apart from the app, so Peel leaves that app to Finder. Moving the app to the Trash in Finder asks macOS to remove it. So does System Settings: in General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Systém macOS si ho uchovává ve vlastní kopii, odděleně od aplikace, a proto Peel tuto aplikaci nechává na Finderu. Přesunutím aplikace do koše ve Finderu požádáte systém macOS, aby ho odstranil. Totéž můžete udělat v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení: zvolte Podle kategorie, klikněte na tlačítko Informace vedle položky Síťová rozšíření, pak klikněte na tlačítko Další vedle tohoto rozšíření a zvolte Smazat rozšíření."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS behält eine eigene Kopie davon, getrennt von der App, daher überlässt Peel diese App dem Finder. Wird die App im Finder in den Papierkorb gelegt, wird macOS aufgefordert, die Erweiterung zu entfernen. Dasselbe bewirken die Systemeinstellungen: Öffne dort „Allgemein“ > „Anmeldeobjekte & Erweiterungen“, wähle „Nach Kategorie“, klicke neben „Netzwerkerweiterungen“ auf die Taste „Info“, klicke dann neben der Erweiterung auf die Taste „Mehr“ und wähle „Erweiterung löschen“."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS guarda su propia copia de esta extensión, aparte de la app, así que Peel deja esa app en manos del Finder. Al trasladar la app a la papelera en el Finder, se le pide a macOS que elimine la extensión. Ajustes del Sistema también permite hacerlo: en General > Ítems de inicio y extensiones, elige “Por categoría”, haz clic en el botón Información junto a Extensiones de red, luego en el botón Más junto a la extensión y elige “Eliminar extensión”."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS en conserve sa propre copie, séparément de l’app : Peel laisse donc cette app au Finder. Lorsque l’app est placée dans la corbeille depuis le Finder, celui-ci demande à macOS de supprimer cette copie. Réglages Système permet aussi de la supprimer : dans Général > Ouverture et extensions, choisissez « Par catégorie », cliquez sur le bouton Informations à côté de « Extensions du réseau », puis sur le bouton Plus à côté de cette extension et choisissez « Supprimer l’extension »."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS ne conserva una copia propria, separata dall’app, quindi Peel lascia al Finder la rimozione di quell’app. Spostando l’app nel Cestino dal Finder si chiede a macOS di rimuovere questa copia. Lo stesso vale per Impostazioni di Sistema: in Generali > Elementi login ed estensioni, scegli “Per categoria”, fai clic sul pulsante Informazioni accanto a “Estensioni di rete”, poi fai clic sul pulsante Altro accanto all’estensione e scegli “Elimina estensione”."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOSは、これをアプリとは別に独自のコピーとして保持しているため、PeelはそのアプリをFinderに任せています。Finderでアプリをゴミ箱に入れると、FinderがmacOSにこれを削除するよう依頼します。システム設定でも同様に依頼できます。“一般”＞“ログイン項目と機能拡張”で“カテゴリ別”を選択し、“ネットワーク機能拡張”の横にある“情報”ボタンをクリックしてください。次に、この機能拡張の横にある“その他”ボタンをクリックして、“機能拡張を削除”を選択してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS가 앱과는 별도로 이 항목의 자체 복사본을 보관하므로 Peel은 해당 앱을 Finder에 맡깁니다. Finder에서 앱을 휴지통으로 이동하면 macOS에 이 항목을 제거하도록 요청하게 됩니다. 시스템 설정에서도 마찬가지로 요청할 수 있습니다. 일반 > 로그인 항목 및 확장 프로그램에서 ‘카테고리별’을 선택하고 ‘네트워크 확장 프로그램’ 옆의 정보 버튼을 클릭한 다음, 이 항목 옆의 더 보기 버튼을 클릭하고 ‘확장 프로그램 삭제’를 선택하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS bewaart hiervan een eigen kopie, los van de app, dus Peel laat die app over aan Finder. Als je de app in Finder naar de prullenmand verplaatst, vraagt Finder macOS om die kopie te verwijderen. Systeeminstellingen doet dat ook: kies in Algemeen > Inlogonderdelen en extensies 'Op categorie', klik op de infoknop naast 'Netwerkextensies', klik vervolgens op de knop 'Meer' naast deze extensie en kies 'Verwijder extensie'."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS przechowuje własną kopię tego rozszerzenia, oddzielnie od aplikacji, więc Peel zostawia tę aplikację Finderowi. Przeniesienie aplikacji do Kosza w Finderze to prośba do macOS o usunięcie rozszerzenia. O to samo można poprosić w Ustawieniach systemowych: w panelu Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania wybierz opcję Wg kategorii, kliknij w przycisk informacji obok kategorii Rozszerzenia sieciowe, a następnie kliknij w przycisk Więcej obok tego rozszerzenia i wybierz polecenie Usuń rozszerzenie."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O macOS mantém uma cópia própria desta extensão, à parte do app, por isso o Peel deixa esse app para o Finder. Mover o app para o Lixo no Finder pede ao macOS para removê-la. Também é possível pedir isso nos Ajustes do Sistema: em Geral > Itens de Início de Sessão e Extensões, escolha Por Categoria, clique no botão Informações ao lado de Extensões de Rede, depois clique no botão Mais ao lado dela e escolha Apagar Extensão."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS păstrează o copie proprie a acestei extensii, separat de aplicație, așa că Peel lasă aplicația respectivă în seama Finder. Mutarea aplicației în Coș din Finder îi cere sistemului macOS să elimine extensia. Același lucru se poate face și din Configurări sistem: în General > Lansare la login și extensii, alegeți „După categorie”, faceți clic pe butonul Informații de lângă „Extensii de rețea”, apoi faceți clic pe butonul Mai mult de lângă extensie și alegeți „Ștergeți extensia”."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS хранит собственную копию этого расширения отдельно от приложения, поэтому Peel оставляет это приложение для Finder. Когда приложение перемещают в Корзину в Finder, macOS получает запрос на ее удаление. То же самое можно сделать в Системных настройках: в разделе «Основные» > «Объекты входа и расширения» выберите «По категории», нажмите кнопку информации рядом с категорией «Сетевые расширения», затем нажмите кнопку «Еще» рядом с этим расширением и выберите «Удалить расширение»."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS behåller en egen kopia av det här, separat från appen, så Peel lämnar den appen åt Finder. När appen flyttas till papperskorgen i Finder ber Finder macOS att ta bort det. Det gör även Systeminställningar: i Allmänt > Startobjekt och tillägg väljer du Efter kategori, klickar på infoknappen bredvid Nätverkstillägg, klickar sedan på merknappen bredvid tillägget och väljer Radera tillägg."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS bunun uygulamadan ayrı, kendine ait bir kopyasını tutar, bu yüzden Peel o uygulamayı Finder’a bırakır. Uygulama Finder’da Çöp Sepeti’ne taşındığında macOS’ten onu kaldırması istenir. Sistem Ayarları da aynı şeyi yapar: Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünde Kategoriye Göre’yi seçin, Ağ Genişletmeleri’nin yanındaki Bilgi düğmesini tıklayın, ardından bu genişletmenin yanındaki Daha Fazla düğmesini tıklayıp Genişletmeyi Sil’i seçin."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS зберігає власну копію цього розширення, окремо від програми, тому Peel залишає цю програму для Finder. Коли програму переміщують у Смітник у Finder, macOS отримує запит вилучити це розширення. Те саме роблять і Системні параметри: у розділі Загальні > Автозапуск і розширення виберіть «За категорією», натисніть кнопку «Досьє» поруч із категорією «Мережеві розширення», а потім натисніть кнопку «Ще» поруч із цим розширенням і виберіть «Видалити розширення»."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS在App之外保留了它自己的副本，因此Peel会将该App交给“访达”处理。在“访达”中将该App移到废纸篓会请求macOS移除此项。“系统设置”也可以做到：在“通用”>“登录项与扩展”中选取“按类别”，点按“网络扩展”旁边的“信息”按钮，然后点按此项旁边的“更多”按钮，再选取“删除扩展”。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS會在App之外保留此項目的副本，因此Peel會將該App交由Finder處理。在Finder中將該App丟到「垃圾桶」會要求macOS移除此項目。「系統設定」也可以要求macOS移除此項目：在「一般」>「登入項目與延伸功能」中選擇「按照類別」，按一下「網路延伸功能」旁邊的「資訊」按鈕，然後按一下此項目旁邊的「更多」按鈕，並選擇「刪除延伸功能」。"
+            "value" : "macOS會保留此項目自己的副本，因此Peel會將該App交由Finder處理，而Finder會要求macOS移除它。如果它仍然存在，請在「系統設定」>「一般」>「登入項目與延伸功能」>「按照類別」>「網路延伸功能」中刪除它。"
           }
         }
       }
@@ -308677,108 +308571,108 @@
         }
       }
     },
-    "macOS keeps this for an app bundled inside another, and it is not running, so Peel can move that app now. No move of that app removes it: Finder asks macOS to remove only the extensions in the folder of the app it moves." : {
+    "macOS keeps this for an app inside another, and it is not running, so Peel can move that app now. Moving that app does not remove it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS uchovává toto rozšíření pro aplikaci uvnitř jiné aplikace. Rozšíření neběží, takže Peel může tuto aplikaci přesunout hned. Žádné přesunutí této aplikace ho neodstraní: Finder žádá systém macOS, aby odstranil jen ta rozšíření, která jsou ve vlastní složce aplikace."
+            "value" : "Systém macOS uchovává toto rozšíření pro aplikaci uvnitř jiné aplikace. Rozšíření neběží, takže Peel může tuto aplikaci přesunout hned. Přesunutí této aplikace ho neodstraní."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bewahrt diese Erweiterung für eine App auf, die in einer anderen App enthalten ist, und da die Erweiterung nicht läuft, kann Peel diese App jetzt verschieben. Durch das Verschieben dieser App wird die Erweiterung nicht entfernt: Der Finder fordert macOS auf, nur die Erweiterungen im eigenen Ordner einer App zu entfernen."
+            "value" : "macOS bewahrt diese Erweiterung für eine App auf, die in einer anderen enthalten ist, und da sie nicht läuft, kann Peel diese App jetzt verschieben. Das Verschieben dieser App entfernt die Erweiterung nicht."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS mantiene esta extensión para una app incluida dentro de otra, y no se está ejecutando, así que Peel puede trasladar esa app ahora. Ningún traslado de esa app la elimina: el Finder le pide a macOS que elimine solo las extensiones que están en la carpeta de la app que traslada."
+            "value" : "macOS mantiene esta extensión para una app incluida dentro de otra, y no se está ejecutando, así que Peel puede trasladar esa app ahora. Trasladar esa app no la elimina."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS conserve cette extension pour une app contenue dans une autre, et elle ne s’exécute pas : Peel peut donc déplacer cette app dès maintenant. Aucun déplacement de cette app ne la supprime : le Finder ne demande à macOS de supprimer que les extensions situées dans le dossier de l’app qu’il déplace."
+            "value" : "macOS conserve cette extension pour une app contenue dans une autre, et elle ne s’exécute pas : Peel peut donc déplacer cette app dès maintenant. Déplacer cette app ne supprime pas l’extension."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS la conserva per un’app inclusa in un’altra, e non è in esecuzione, quindi ora Peel può spostare quell’app. Nessuno spostamento di quell’app la rimuove: il Finder chiede a macOS di rimuovere solo le estensioni nella cartella dell’app stessa."
+            "value" : "macOS la conserva per un’app inclusa in un’altra, e non è in esecuzione, quindi ora Peel può spostare quell’app. Spostare quell’app non la rimuove."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSが保持しているこの機能拡張は、別のアプリに含まれているアプリのためのもので、実行中ではないため、Peelはそのアプリを今すぐ移動できます。そのアプリをどのように移動しても、この機能拡張はインストールされたままになります。FinderがmacOSに削除を依頼するのは、アプリ自体のフォルダにある機能拡張だけです。"
+            "value" : "macOSは、別のアプリに含まれているアプリのためにこれを保持しており、実行中ではないため、Peelはそのアプリを今すぐ移動できます。そのアプリを移動しても、これは削除されません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS는 다른 앱 안에 포함된 앱을 위해 이 확장 프로그램을 보관하고 있으며, 이 확장 프로그램이 실행 중이 아니므로 Peel이 지금 그 앱을 이동할 수 있습니다. 그 앱을 어떻게 이동해도 이 확장 프로그램은 제거되지 않습니다. Finder는 이동하는 앱 자체의 폴더에 있는 확장 프로그램만 제거하도록 macOS에 요청하기 때문입니다."
+            "value" : "macOS는 다른 앱 안에 있는 앱을 위해 이 확장 프로그램을 보관하고 있으며, 이 확장 프로그램이 실행 중이 아니므로 Peel이 지금 그 앱을 이동할 수 있습니다. 그 앱을 이동해도 이 확장 프로그램은 제거되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bewaart dit voor een app die in een andere app is meegeleverd, en de extensie is niet actief, dus Peel kan die app nu verplaatsen. Geen enkele verplaatsing van die app verwijdert de extensie: Finder vraagt macOS om alleen de extensies te verwijderen die in de map staan van de app die Finder verplaatst."
+            "value" : "macOS bewaart dit voor een app in een andere app, en de extensie is niet actief, dus Peel kan die app nu verplaatsen. Als je die app verplaatst, wordt de extensie niet verwijderd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS przechowuje to rozszerzenie dla aplikacji zawartej w innej aplikacji i nie jest ono uruchomione, więc Peel może teraz przenieść tamtą aplikację do Kosza. Żadne przeniesienie tamtej aplikacji go nie usuwa: Finder prosi macOS, aby usunął tylko te rozszerzenia, które są we własnym folderze aplikacji."
+            "value" : "macOS przechowuje to rozszerzenie dla aplikacji zawartej w innej aplikacji i nie jest ono uruchomione, więc Peel może teraz przenieść tamtą aplikację do Kosza. Przeniesienie tamtej aplikacji go nie usuwa."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS mantém esta extensão para um app que vem dentro de outro, e ela não está em execução, então o Peel pode mover esse app agora. Mover esse app não a remove: o Finder pede ao macOS para remover apenas as extensões que estão na pasta do app que ele move."
+            "value" : "O macOS mantém esta extensão para um app que está dentro de outro, e ela não está em execução, então o Peel pode mover esse app agora. Mover esse app não a remove."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS păstrează această extensie pentru o aplicație inclusă în alta, iar extensia nu rulează, așa că Peel poate muta acum acea aplicație. Nicio mutare a acelei aplicații nu o elimină: Finder îi cere sistemului macOS să elimine doar extensiile din dosarul propriu al unei aplicații."
+            "value" : "macOS păstrează această extensie pentru o aplicație inclusă în alta, iar extensia nu rulează, așa că Peel poate muta acum acea aplicație. Mutarea acelei aplicații nu elimină extensia."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS хранит это расширение для приложения, вложенного в другое приложение, и оно не выполняется, поэтому Peel может уже сейчас переместить это приложение. Расширение не удаляется, как бы ни перемещали это приложение: Finder просит macOS удалить только те расширения, которые находятся в собственной папке приложения."
+            "value" : "macOS хранит это расширение для приложения, вложенного в другое, и оно не выполняется, поэтому Peel может переместить это приложение уже сейчас. Перемещение этого приложения расширение не удаляет."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS behåller det här tillägget för en app som ingår i en annan app, och tillägget är inte igång, så Peel kan flytta den appen nu. Tillägget tas inte bort hur den appen än flyttas: Finder ber macOS att ta bort bara de tillägg som ligger i en apps egen mapp."
+            "value" : "macOS behåller det här tillägget för en app inuti en annan app, och tillägget är inte igång, så Peel kan flytta den appen nu. Tillägget tas inte bort när den appen flyttas."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bu genişletmeyi başka bir uygulamanın içindeki bir uygulama için tutar ve genişletme çalışmıyor, bu yüzden Peel o uygulamayı şimdi taşıyabilir. O uygulama nasıl taşınırsa taşınsın genişletme kaldırılmaz: Finder, macOS’ten yalnızca bir uygulamanın kendi klasöründeki genişletmeleri kaldırmasını ister."
+            "value" : "macOS bu genişletmeyi başka bir uygulamanın içindeki bir uygulama için tutar ve genişletme çalışmıyor, bu yüzden Peel o uygulamayı şimdi taşıyabilir. O uygulamayı taşımak genişletmeyi kaldırmaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS зберігає це розширення для програми, вбудованої в іншу програму, і воно не виконується, тож Peel може перемістити цю програму вже зараз. Жодне переміщення цієї програми його не вилучає: Finder просить macOS вилучити лише ті розширення, що лежать у власній папці програми."
+            "value" : "macOS зберігає це розширення для програми, вбудованої в іншу, і воно не виконується, тож Peel може перемістити цю програму вже зараз. Переміщення цієї програми його не вилучає."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS为包含在另一个App中的某个App保留此扩展，而此扩展当前未在运行，因此Peel现在可以移动该App。无论怎样移动该App，都不会移除此扩展：“访达”只会请求macOS移除App自身文件夹中的扩展。"
+            "value" : "macOS为包含在另一个App中的某个App保留此项，而此项当前未在运行，因此Peel现在可以移动该App。移动该App不会将此项移除。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS為內含於另一個App中的App保留此延伸功能，而且它目前沒有在執行，因此Peel現在可以移動該App。無論如何移動該App，都不會移除它：Finder只會要求macOS移除App本身檔案夾中的延伸功能。"
+            "value" : "macOS為內含於另一個App中的App保留此項目，而且它目前沒有在執行，因此Peel現在可以移動該App。移動該App並不會移除它。"
           }
         }
       }
@@ -311701,108 +311595,108 @@
         }
       }
     },
-    "macOS runs this for an app bundled inside another, and no move of that app removes it: Finder asks macOS to remove only the extensions in the folder of the app it moves. Turn it off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extension, turned off." : {
+    "macOS runs this for an app inside another, and moving that app does not remove it. Turn it off in System Settings > General > Login Items & Extensions, and Peel then moves the app." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS spouští toto rozšíření pro aplikaci uvnitř jiné aplikace a žádné přesunutí této aplikace ho neodstraní: Finder žádá systém macOS, aby odstranil jen ta rozšíření, která jsou ve vlastní složce aplikace. Nejprve ho vypněte v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení. Peel pak přesune aplikaci i její soubory a systém macOS ponechá rozšíření nainstalované, ale vypnuté."
+            "value" : "Systém macOS toto rozšíření spouští pro aplikaci uvnitř jiné aplikace a přesunutí této aplikace ho neodstraní. Vypněte ho v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení a Peel pak aplikaci přesune."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS führt diese Erweiterung für eine App aus, die in einer anderen App enthalten ist, und entfernt sie nicht, wenn diese App verschoben wird: Der Finder fordert macOS auf, nur die Erweiterungen im eigenen Ordner einer App zu entfernen. Deaktiviere sie zuerst unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“. Anschließend verschiebt Peel die App und ihre Dateien, und macOS behält die deaktivierte Erweiterung."
+            "value" : "macOS führt diese Erweiterung für eine App aus, die in einer anderen enthalten ist, und das Verschieben dieser App entfernt sie nicht. Deaktiviere sie unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“, dann verschiebt Peel die App."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS ejecuta esta extensión para una app incluida dentro de otra, y ningún traslado de esa app la elimina: el Finder le pide a macOS que elimine solo las extensiones que están en la carpeta de la app que traslada. Desactívala antes en Ajustes del Sistema > General > Ítems de inicio y extensiones. Después, Peel traslada la app y sus archivos, y macOS mantiene la extensión instalada, pero desactivada."
+            "value" : "macOS ejecuta esta extensión para una app incluida dentro de otra, y trasladar esa app no la elimina. Desactívala en Ajustes del Sistema > General > Ítems de inicio y extensiones, y entonces Peel trasladará la app."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS exécute cette extension pour une app contenue dans une autre, et aucun déplacement de cette app ne la supprime : le Finder ne demande à macOS de supprimer que les extensions situées dans le dossier de l’app qu’il déplace. Désactivez-la d’abord dans Réglages Système > Général > Ouverture et extensions. Peel déplace ensuite l’app et ses fichiers, et macOS conserve l’extension, qui reste désactivée."
+            "value" : "macOS exécute cette extension pour une app contenue dans une autre, et déplacer cette app ne supprime pas l’extension. Désactivez-la dans Réglages Système > Général > Ouverture et extensions : Peel déplace ensuite l’app."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS la esegue per un’app inclusa in un’altra, e nessuno spostamento di quell’app la rimuove: il Finder chiede a macOS di rimuovere solo le estensioni nella cartella dell’app stessa. Disattivala prima in Impostazioni di Sistema > Generali > Elementi login ed estensioni. Poi Peel sposta l’app e i suoi file, e macOS mantiene l’estensione installata ma disattivata."
+            "value" : "macOS la esegue per un’app inclusa in un’altra, e spostare quell’app non la rimuove. Disattivala in Impostazioni di Sistema > Generali > Elementi login ed estensioni, e poi Peel sposterà l’app."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSが実行しているこの機能拡張は、別のアプリに含まれているアプリのためのもので、そのアプリをどのように移動しても、インストールされたままになります。FinderがmacOSに削除を依頼するのは、アプリ自体のフォルダにある機能拡張だけです。“システム設定”＞“一般”＞“ログイン項目と機能拡張”で、先にこの機能拡張をオフにしてください。その後は、Peelがアプリとそのファイルを移動し、macOSはこの機能拡張をオフのまま残します。"
+            "value" : "macOSは、別のアプリに含まれているアプリのためにこれを実行しており、そのアプリを移動しても削除されません。“システム設定”＞“一般”＞“ログイン項目と機能拡張”でこれをオフにすると、Peelがそのアプリを移動します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS는 다른 앱 안에 포함된 앱을 위해 이 확장 프로그램을 실행하며, 그 앱을 어떻게 이동해도 이 확장 프로그램은 제거되지 않습니다. Finder는 이동하는 앱 자체의 폴더에 있는 확장 프로그램만 제거하도록 macOS에 요청하기 때문입니다. 먼저 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서 이 확장 프로그램을 끄십시오. 그러면 Peel이 그 앱과 앱의 파일을 이동하며, macOS는 이 확장 프로그램을 꺼진 상태로 유지합니다."
+            "value" : "macOS는 다른 앱 안에 있는 앱을 위해 이 확장 프로그램을 실행하며, 그 앱을 이동해도 이 확장 프로그램은 제거되지 않습니다. 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서 이 확장 프로그램을 끄십시오. 그러면 Peel이 앱을 이동합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS voert dit uit voor een app die in een andere app is meegeleverd, en geen enkele verplaatsing van die app verwijdert deze extensie: Finder vraagt macOS om alleen de extensies te verwijderen die in de map staan van de app die Finder verplaatst. Schakel de extensie eerst uit in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies. Peel verplaatst daarna de app en de bestanden ervan, en macOS houdt de extensie geïnstalleerd, maar uitgeschakeld."
+            "value" : "macOS voert deze extensie uit voor een app in een andere app, en als je die app verplaatst, wordt de extensie niet verwijderd. Schakel de extensie uit in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies, dan verplaatst Peel de app."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS uruchamia to rozszerzenie dla aplikacji zawartej w innej aplikacji, a żadne przeniesienie tamtej aplikacji go nie usuwa: Finder prosi macOS, aby usunął tylko te rozszerzenia, które są we własnym folderze aplikacji. Najpierw wyłącz je w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania. Wtedy Peel przeniesie aplikację i jej pliki do Kosza, a macOS zachowa rozszerzenie, ale wyłączone."
+            "value" : "macOS uruchamia to rozszerzenie dla aplikacji zawartej w innej aplikacji, a przeniesienie tamtej aplikacji go nie usuwa. Wyłącz je w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania, a wtedy Peel przeniesie aplikację do Kosza."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS executa esta extensão para um app que vem dentro de outro, e mover esse app não a remove: o Finder pede ao macOS para remover apenas as extensões que estão na pasta do app que ele move. Desative-a primeiro em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões. Depois, o Peel move o app e os arquivos dele, e o macOS mantém a extensão instalada, mas desativada."
+            "value" : "O macOS executa esta extensão para um app que está dentro de outro, e mover esse app não a remove. Desative-a em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões, e o Peel então move o app."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS rulează această extensie pentru o aplicație inclusă în alta, iar nicio mutare a acelei aplicații nu o elimină: Finder îi cere sistemului macOS să elimine doar extensiile din dosarul propriu al unei aplicații. Dezactivați‑o mai întâi în Configurări sistem > General > Lansare la login și extensii. Peel mută apoi aplicația și fișierele ei, iar macOS păstrează extensia instalată, dar dezactivată."
+            "value" : "macOS rulează această extensie pentru o aplicație inclusă în alta, iar mutarea acelei aplicații nu o elimină. Dezactivați‑o în Configurări sistem > General > Lansare la login și extensii, iar Peel va muta apoi aplicația."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS запускает это расширение для приложения, вложенного в другое приложение, и расширение не удаляется, как бы ни перемещали это приложение: Finder просит macOS удалить только те расширения, которые находятся в собственной папке приложения. Сначала выключите его в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения». После этого Peel переместит приложение и его файлы, а macOS оставит расширение установленным, но выключенным."
+            "value" : "macOS запускает это расширение для приложения, вложенного в другое, и перемещение этого приложения его не удаляет. Выключите его в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения», и тогда Peel переместит приложение."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS kör det här tillägget för en app som ingår i en annan app, och tillägget tas inte bort hur den appen än flyttas: Finder ber macOS att ta bort bara de tillägg som ligger i en apps egen mapp. Stäng först av det i Systeminställningar > Allmänt > Startobjekt och tillägg. Peel flyttar sedan appen och dess filer, och macOS behåller tillägget installerat men avstängt."
+            "value" : "macOS kör det här tillägget för en app inuti en annan app, och det tas inte bort när den appen flyttas. Stäng av det i Systeminställningar > Allmänt > Startobjekt och tillägg, så flyttar Peel sedan appen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bu genişletmeyi başka bir uygulamanın içindeki bir uygulama için çalıştırır ve o uygulama nasıl taşınırsa taşınsın genişletme kaldırılmaz: Finder, macOS’ten yalnızca bir uygulamanın kendi klasöründeki genişletmeleri kaldırmasını ister. Önce genişletmeyi Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünden kapatın. Ardından Peel uygulamayı ve dosyalarını taşır, macOS ise genişletmeyi yüklü ama kapalı tutar."
+            "value" : "macOS bu genişletmeyi başka bir uygulamanın içindeki bir uygulama için çalıştırır ve o uygulamayı taşımak genişletmeyi kaldırmaz. Genişletmeyi Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünden kapatın; ardından Peel uygulamayı taşır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS виконує це розширення для програми, вбудованої в іншу програму, і жодне переміщення цієї програми його не вилучає: Finder просить macOS вилучити лише ті розширення, що лежать у власній папці програми. Спершу вимкніть його в розділі Системні параметри > Загальні > Автозапуск і розширення. Після цього Peel перемістить програму та її файли, а macOS збереже розширення інстальованим, але вимкненим."
+            "value" : "macOS виконує це розширення для програми, вбудованої в іншу, і переміщення цієї програми його не вилучає. Вимкніть його в розділі Системні параметри > Загальні > Автозапуск і розширення, і тоді Peel перемістить програму."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS为包含在另一个App中的某个App运行此扩展，并且无论怎样移动该App，都不会将其移除：“访达”只会请求macOS移除App自身文件夹中的扩展。请先在“系统设置”>“通用”>“登录项与扩展”中将其关闭。之后Peel会移动该App及其文件，而macOS会保留该扩展，并使其保持关闭状态。"
+            "value" : "macOS为包含在另一个App中的某个App运行此项，而移动该App不会将此项移除。请在“系统设置”>“通用”>“登录项与扩展”中将其关闭，之后Peel会移动该App。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS會為內含於另一個App中的App執行此延伸功能，而且無論如何移動該App，都不會移除它：Finder只會要求macOS移除App本身檔案夾中的延伸功能。請先在「系統設定」>「一般」>「登入項目與延伸功能」中將它關閉。Peel接著會移動該App及其檔案，而macOS會保留該延伸功能，並讓它保持關閉。"
+            "value" : "macOS為內含於另一個App中的App執行此項目，而移動該App並不會移除它。請在「系統設定」>「一般」>「登入項目與延伸功能」中將它關閉，Peel接著就會移動該App。"
           }
         }
       }

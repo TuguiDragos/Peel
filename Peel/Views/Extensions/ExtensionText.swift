@@ -50,20 +50,13 @@ extension AppExtension {
 
     /// `removedElsewhere` says how the app it came with is removed when Peel never removes it from its page.
     func systemExtensionNote(removedElsewhere: RemovedElsewhere?) -> LocalizedStringResource {
-        if #available(macOS 27, *) {
-            return systemExtensionNote(
-                isOnMacOS27: true, systemSettingsDeletesIt: systemSettingsDeletesIt, removedElsewhere: removedElsewhere
-            )
-        }
-        return systemExtensionNote(
-            isOnMacOS27: false, systemSettingsDeletesIt: false, removedElsewhere: removedElsewhere
-        )
+        systemExtensionNote(systemSettingsDeletesIt: systemSettingsDeletesIt, removedElsewhere: removedElsewhere)
     }
 
     /// What the page says of a system extension: what its app being gone leaves to do, what macOS is doing with it, or
     /// what moving its app asks of macOS.
     func systemExtensionNote(
-        isOnMacOS27: Bool, systemSettingsDeletesIt: Bool, removedElsewhere: RemovedElsewhere? = nil
+        systemSettingsDeletesIt: Bool, removedElsewhere: RemovedElsewhere? = nil
     ) -> LocalizedStringResource {
         // With its app gone, the advice for an installed app leads nowhere: Orphaned Files' words say what does.
         if goneApp != nil, let reason = leftAlone { return reason.explanation }
@@ -78,15 +71,14 @@ extension AppExtension {
         // The uninstall waits for it only while it may run, so the note says so only then.
         if isForAnAppInsideAnother {
             return mayRun
-                ? "macOS runs this for an app bundled inside another, and no move of that app removes it: Finder asks macOS to remove only the extensions in the folder of the app it moves. Turn it off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extension, turned off."
-                : "macOS keeps this for an app bundled inside another, and it is not running, so Peel can move that app now. No move of that app removes it: Finder asks macOS to remove only the extensions in the folder of the app it moves."
+                ? "macOS runs this for an app inside another, and moving that app does not remove it. Turn it off in System Settings > General > Login Items & Extensions, and Peel then moves the app."
+                : "macOS keeps this for an app inside another, and it is not running, so Peel can move that app now. Moving that app does not remove it."
         }
-        if isOnMacOS27 {
-            return systemSettingsDeletesIt
-                ? "macOS keeps its own copy of this, apart from the app, so Peel leaves that app to Finder. Moving the app to the Trash in Finder asks macOS to remove it. So does System Settings: in General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension."
-                : "macOS keeps its own copy of this, apart from the app, and moving the app to the Trash in Finder asks macOS to remove it, sometimes at the next restart. So Peel leaves that app to Finder."
+        // Only macOS 27 deletes a network extension in System Settings, which `systemSettingsDeletesIt` already knows.
+        if systemSettingsDeletesIt {
+            return "macOS keeps its own copy of this, so Peel leaves the app to Finder, which asks macOS to remove it. If it stays, delete it in System Settings > General > Login Items & Extensions > By Category > Network Extensions."
         }
-        return "macOS keeps its own copy of this, apart from the app, and removes it only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves that app to Finder."
+        return "macOS keeps its own copy of this and removes it when the app goes to the Trash in Finder, sometimes at the next restart, so Peel leaves the app to Finder."
     }
 
     /// Whether a search for `text` finds it, by what its row and page say as well as by its identifiers.

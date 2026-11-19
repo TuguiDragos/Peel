@@ -3,6 +3,12 @@ import PeelCore
 import SwiftUI
 
 struct ExtensionDetailView: View {
+    static let widgetsNote: LocalizedStringResource = "Widgets are added and removed with Edit Widgets, in Notification Center or when you Control-click the wallpaper. Removing one for good means removing its app."
+
+    static func categoryHelp(_ category: String) -> LocalizedStringResource {
+        "macOS keeps it under \(category), as By Category in System Settings > General > Login Items & Extensions shows."
+    }
+
     @Environment(AppLibrary.self) private var library
     let item: AppExtension
 
@@ -34,7 +40,7 @@ struct ExtensionDetailView: View {
                 if let category = item.categoryName {
                     LabeledContent("Category") {
                         Text(verbatim: category)
-                            .help(Text("macOS keeps it under \(category). In System Settings > General > Login Items & Extensions, By Category shows extensions of each kind under the same name, though it may leave out one whose app is gone."))
+                            .help(Text(Self.categoryHelp(category)))
                     }
                 }
                 if let owner = item.appName {
@@ -177,7 +183,7 @@ struct ExtensionDetailView: View {
         case (.appExtension, .safari):
             "Peel doesn’t turn this on or off: Safari does, in Safari > Settings > Extensions, which also shows whether it is on. Removing it means removing the app it came with."
         case (.appExtension, .widgetGallery):
-            "macOS doesn’t turn widgets on or off: they are added and removed with Edit Widgets, at the bottom of Notification Center or when you Control-click the wallpaper. Removing one for good means removing the app it came with."
+            Self.widgetsNote
         case (.appExtension, .nowhere):
             "Nothing turns this on or off: Shortcuts and Siri use it whenever someone asks for the app’s actions. Removing it means removing the app it came with."
         }

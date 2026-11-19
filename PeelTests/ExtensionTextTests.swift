@@ -116,12 +116,9 @@ struct ExtensionTextTests {
             url: nil, election: .on, teamIdentifier: nil, reportedState: nil,
             installedFor: "/Applications/Example.app/Contents/Resources/Inner.app"
         )
-        for isOn27 in [false, true] {
-            let resource = inside.systemExtensionNote(isOnMacOS27: isOn27, systemSettingsDeletesIt: false)
-            let note = String(localized: resource)
-            #expect(!note.contains("Trash in Finder"))
-            #expect(note.contains("Login Items & Extensions"))
-        }
+        let note = String(localized: inside.systemExtensionNote(systemSettingsDeletesIt: false))
+        #expect(!note.contains("Trash in Finder"))
+        #expect(note.contains("Login Items & Extensions"))
     }
 
     @Test func anInnerAppsSystemExtensionIsToldToBeTurnedOffOnlyWhileItMayRun() {
@@ -130,15 +127,13 @@ struct ExtensionTextTests {
                 identifier: "org.example.part", name: "Part", kind: .systemExtension, point: nil, owner: "Example",
                 url: nil, election: election, teamIdentifier: nil, reportedState: nil,
                 installedFor: "/Applications/Example.app/Contents/Resources/Inner.app"
-            ).systemExtensionNote(isOnMacOS27: false, systemSettingsDeletesIt: false).key
+            ).systemExtensionNote(systemSettingsDeletesIt: false).key
         }
 
         for election in [AppExtension.Election.off, .waitingForApproval] {
-            #expect(!inner(election).contains("Turn it off first"))
-            #expect(inner(election).contains("Peel can move that app now"))
+            #expect(inner(election) == "macOS keeps this for an app inside another, and it is not running, so Peel can move that app now. Moving that app does not remove it.")
         }
-        #expect(inner(.on).contains("Turn it off first"))
-        #expect(inner(.on).contains("macOS keeps the extension, turned off"))
+        #expect(inner(.on) == "macOS runs this for an app inside another, and moving that app does not remove it. Turn it off in System Settings > General > Login Items & Extensions, and Peel then moves the app.")
     }
 
     @Test func aSystemExtensionsNoteSaysWhatIsLeftToDoWithIt() {
@@ -153,21 +148,16 @@ struct ExtensionTextTests {
             return item
         }
         let gone = system(goneApp: "/Applications/Example.app")
-        #expect(system(goneApp: "/Applications/Example.app").systemExtensionNote(
-            isOnMacOS27: false, systemSettingsDeletesIt: false
-        ).key == gone.leftAlone?.explanation.key)
+        #expect(system(goneApp: "/Applications/Example.app").systemExtensionNote(systemSettingsDeletesIt: false).key
+            == gone.leftAlone?.explanation.key)
         let goingWithANewerVersion = system(election: .beingRemoved, replacedBy: "2.20.2 (2629)")
-        #expect(goingWithANewerVersion.systemExtensionNote(isOnMacOS27: false, systemSettingsDeletesIt: false).key
+        #expect(goingWithANewerVersion.systemExtensionNote(systemSettingsDeletesIt: false).key
             == "Version %@ replaced this one, which macOS is removing. Some removals finish only when the Mac restarts.")
         let going = system(election: .beingRemoved)
-        #expect(going.systemExtensionNote(isOnMacOS27: true, systemSettingsDeletesIt: true).key
+        #expect(going.systemExtensionNote(systemSettingsDeletesIt: true).key
             == AppExtension.Election.beingRemoved.explanation.key)
-        let onItsOwn = Set([
-            system().systemExtensionNote(isOnMacOS27: false, systemSettingsDeletesIt: false).key,
-            system().systemExtensionNote(isOnMacOS27: true, systemSettingsDeletesIt: false).key,
-            system().systemExtensionNote(isOnMacOS27: true, systemSettingsDeletesIt: true).key,
-        ])
-        #expect(onItsOwn.count == 3)
+        #expect(system().systemExtensionNote(systemSettingsDeletesIt: false).key == "macOS keeps its own copy of this and removes it when the app goes to the Trash in Finder, sometimes at the next restart, so Peel leaves the app to Finder.")
+        #expect(system().systemExtensionNote(systemSettingsDeletesIt: true).key == "macOS keeps its own copy of this, so Peel leaves the app to Finder, which asks macOS to remove it. If it stays, delete it in System Settings > General > Login Items & Extensions > By Category > Network Extensions.")
     }
 
     @Test func findsAPartByTheWordItsPageShows() throws {
@@ -190,11 +180,8 @@ struct ExtensionTextTests {
             installedFor: "/Applications/Example.app/Contents/MacOS/Inner.app"
         )
 
-        for isOn27 in [false, true] {
-            #expect(part.systemExtensionNote(
-                isOnMacOS27: isOn27, systemSettingsDeletesIt: false, removedElsewhere: removed
-            ).key == removed.explanation.key)
-        }
+        #expect(part.systemExtensionNote(systemSettingsDeletesIt: false, removedElsewhere: removed).key
+            == removed.explanation.key)
     }
 
     @Test func aSystemExtensionOfAnOrganizationsAgentSaysWhatTheAgentsPageSays() throws {
@@ -205,10 +192,12 @@ struct ExtensionTextTests {
             owner: "Falcon", url: nil, election: .on, teamIdentifier: "X9E956P446", reportedState: "activated enabled"
         )
 
-        for isOn27 in [false, true] {
-            #expect(part.systemExtensionNote(
-                isOnMacOS27: isOn27, systemSettingsDeletesIt: false, removedElsewhere: removed
-            ).key == removed.explanation.key)
-        }
+        #expect(part.systemExtensionNote(systemSettingsDeletesIt: false, removedElsewhere: removed).key
+            == removed.explanation.key)
+    }
+
+    @Test func widgetsAndTheCategorySayItInAFewWords() {
+        #expect(ExtensionDetailView.widgetsNote.key == "Widgets are added and removed with Edit Widgets, in Notification Center or when you Control-click the wallpaper. Removing one for good means removing its app.")
+        #expect(ExtensionDetailView.categoryHelp("Network Extensions").key == "macOS keeps it under %@, as By Category in System Settings > General > Login Items & Extensions shows.")
     }
 }
