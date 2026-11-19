@@ -40,7 +40,8 @@ private nonisolated final class TransportProtocol: URLProtocol, @unchecked Senda
         )
         let library = AppLibrary(
             defaults: made.defaults, updateChecker: checker,
-            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "notes.json"))
+            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "notes.json")),
+            appMemory: AppMemory(url: folder.appending(path: "apps.json"))
         )
         let bundle = try app("Offline", in: folder, feed: "https://feed.example.com/appcast.xml")
         #expect(await library.reveal([bundle]))
@@ -76,7 +77,8 @@ private nonisolated final class TransportProtocol: URLProtocol, @unchecked Senda
             updateChecker: UpdateChecker(
                 session: URLSession(configuration: configuration), appStoreWindow: .appStore, isOnline: { true }
             ),
-            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json"))
+            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json")),
+            appMemory: AppMemory(url: folder.appending(path: "apps.json"))
         )
     }
 

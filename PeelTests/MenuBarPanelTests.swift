@@ -1,5 +1,6 @@
 import Foundation
 @testable import Peel
+import PeelCore
 import SwiftUI
 import Testing
 
@@ -13,7 +14,7 @@ struct MenuBarPanelTests {
         )
         defer { try? FileManager.default.removeItem(at: folder) }
         let panel = MenuBarPanel()
-            .environment(AppLibrary(defaults: made.defaults))
+            .environment(AppLibrary(defaults: made.defaults, appMemory: AppMemory(url: folder.appending(path: "apps.json"))))
             .environment(HomebrewLibrary())
             .environment(LifetimeStats(
                 defaults: made.defaults, bundle: folder, history: folder.appending(path: "removals.json")

@@ -79,7 +79,8 @@ struct SelectionCarrierTests {
         let carrier = SelectionCarrier(
             tools: [.developer: OpenApps(["chrome": "Google Chrome", "slack": "Slack"])],
             apps: AppLibrary(
-                defaults: made.defaults, releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "notes.json"))
+                defaults: made.defaults, releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "notes.json")),
+                appMemory: AppMemory(url: folder.appending(path: "apps.json"))
             ),
             history: RemovalHistoryStore(
                 log: RemovalLog(url: folder.appending(path: "removals.json")),
@@ -106,7 +107,8 @@ struct SelectionCarrierTests {
         let carrier = SelectionCarrier(
             tools: [.developer: recording],
             apps: AppLibrary(
-                defaults: made.defaults, releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "notes.json"))
+                defaults: made.defaults, releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "notes.json")),
+                appMemory: AppMemory(url: folder.appending(path: "apps.json"))
             ),
             history: RemovalHistoryStore(
                 log: log,
@@ -134,7 +136,8 @@ struct SelectionCarrierTests {
         let carrier = SelectionCarrier(
             tools: [.developer: developer, .space: space, .orphans: orphans],
             apps: AppLibrary(
-                defaults: made.defaults, releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "notes.json"))
+                defaults: made.defaults, releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "notes.json")),
+                appMemory: AppMemory(url: folder.appending(path: "apps.json"))
             ),
             history: RemovalHistoryStore(
                 log: RemovalLog(url: folder.appending(path: "removals.json")),
@@ -166,7 +169,8 @@ struct SelectionCarrierTests {
         let carrier = SelectionCarrier(
             tools: [.developer: Recording(), .duplicates: showing, .fileSearch: elsewhere],
             apps: AppLibrary(
-                defaults: made.defaults, releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "notes.json"))
+                defaults: made.defaults, releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "notes.json")),
+                appMemory: AppMemory(url: folder.appending(path: "apps.json"))
             ),
             history: RemovalHistoryStore(
                 log: RemovalLog(url: folder.appending(path: "removals.json")),

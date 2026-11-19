@@ -184,7 +184,8 @@ private nonisolated final class TestClock: Sendable {
         let library = AppLibrary(
             defaults: defaults,
             updateChecker: UpdateChecker(session: URLSession(configuration: configuration)),
-            releaseNotesStore: notes
+            releaseNotesStore: notes,
+            appMemory: AppMemory(url: folder.appending(path: "apps.json"))
         )
 
         #expect(await library.reveal([bundle]))
@@ -227,7 +228,8 @@ private nonisolated final class TestClock: Sendable {
             defaults: defaults,
             updateChecker: clock.map { clock in UpdateChecker(session: session, clock: { clock.now() }) }
                 ?? UpdateChecker(session: session),
-            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json"))
+            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json")),
+            appMemory: AppMemory(url: folder.appending(path: "apps.json"))
         )
     }
 
@@ -981,7 +983,8 @@ private nonisolated final class TestClock: Sendable {
                 session: URLSession(configuration: configuration), appStoreWindow: .appStore,
                 isOnline: { isOnline.withLock { $0 } }
             ),
-            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json"))
+            releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "release-notes.json")),
+            appMemory: AppMemory(url: folder.appending(path: "apps.json"))
         )
         #expect(await library.reveal([bundle]))
 

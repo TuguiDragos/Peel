@@ -140,7 +140,8 @@ struct ReadOnlyListTests {
         let carrier = SelectionCarrier(
             tools: [.developer: holding],
             apps: AppLibrary(
-                defaults: made.defaults, releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "notes.json"))
+                defaults: made.defaults, releaseNotesStore: ReleaseNotesStore(url: folder.appending(path: "notes.json")),
+                appMemory: AppMemory(url: folder.appending(path: "apps.json"))
             ),
             history: RemovalHistoryStore(
                 log: RemovalLog(url: folder.appending(path: "removals.json")),

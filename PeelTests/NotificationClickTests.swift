@@ -32,7 +32,11 @@ import UserNotifications
         }
         let madeUp = try MadeUpDefaults()
         defer { madeUp.forget() }
-        let library = AppLibrary(defaults: madeUp.defaults)
+        let folder = FileManager.default.temporaryDirectory.appending(
+            path: "NotificationClickTests-\(UUID().uuidString)", directoryHint: .isDirectory
+        )
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let library = AppLibrary(defaults: madeUp.defaults, appMemory: AppMemory(url: folder.appending(path: "apps.json")))
         let app = InstalledApp(
             url: URL(filePath: "/Applications/Example.app", directoryHint: .isDirectory),
             bundleIdentifier: "org.example.app", name: "Example"
