@@ -7,6 +7,7 @@ import SwiftUI
 /// the Trash or into History: each file stays in iCloud and downloads again when it is opened.
 struct CloudView: View {
     @Environment(CloudLibrary.self) private var cloud
+    @Environment(HomeModel.self) private var home
     @State private var isConfirming = false
     @State private var freed: BarNotice?
     /// What the last Remove Downloads left as it was, which an alert tells, since the list moves on without it.
@@ -25,6 +26,13 @@ struct CloudView: View {
                 .listRowSeparator(.hidden)
             RemovalsHeldBanner(recordsInHistory: false)
             UnreadableFoldersNotice(folders: cloud.notRead)
+            if cloud.files?.isEmpty == false, !whyPartlyRead.isEmpty {
+                Notice(title: Text(Self.partlyReadTitle), detail: partlyReadNote) {
+                    UnreadableFoldersActions(folders: [], needsFullDiskAccess: true)
+                }
+                .padding(.vertical, 6)
+                .listRowSeparator(.hidden)
+            }
 
             if !cloud.refusals.isEmpty {
                 Section {
@@ -90,27 +98,27 @@ struct CloudView: View {
                         }
                     }
                     .listRowSeparator(.hidden)
-                    if cloud.cutShort != nil || cloud.sharedDownloads > 0 || !cloud.unreadableFolders.isEmpty
-                        || cloud.readOnlyTheHomesFolders {
+                    if cloud.cutShort != nil || cloud.sharedDownloads > 0 {
                         ListNotes {
                             switch cloud.cutShort {
                             case .listIsFull:
                                 Text("Peel lists the biggest downloads, up to \(CloudStorage.maximumFiles.formatted()). The next ones show once you remove some of these.")
                             case .ranOutOfTime:
-                                Text("There is more in iCloud Drive than Peel can read in the time it gives a scan, so this list isn’t all of it.")
+                                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                                    Text(Self.tooBigTitle)
+                                    InfoNote(
+                                        about: Text(Self.tooBigTitle), detail: Text(Self.tooBigNote), isAlbum: false
+                                    )
+                                }
                             case nil:
                                 EmptyView()
                             }
-                            unreadableFoldersNote
                             sharedDownloadsNote
                         }
                     }
                 } header: {
                     SectionHeaderLine {
-                        heading(
-                            "On This Mac and in iCloud",
-                            "Once their downloads are removed, Finder still lists these files, with a cloud beside each name. Deleting a file is different: that removes it from iCloud and from your other devices, and Peel never does it here."
-                        )
+                        heading("On This Mac and in iCloud", Self.onThisMacNote)
                     } actions: {
                         SelectMenu(
                             list: selectableRows(listed), place: Text(Tool.cloud.title), selection: cloud,
@@ -144,7 +152,12 @@ struct CloudView: View {
                         if cloud.cutShort != nil {
                             Text("There is more in iCloud Drive than Peel can read in the time it gives a scan, and nothing in the part it read is big enough to be worth freeing.")
                         }
-                        unreadableFoldersNote
+                        if !whyPartlyRead.isEmpty {
+                            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                                Text(Self.partlyReadTitle)
+                                InfoNote(about: Text(Self.partlyReadTitle), detail: partlyReadNote, isAlbum: false)
+                            }
+                        }
                         if !cloud.notRead.isEmpty {
                             UnreadableFoldersDetail(folders: cloud.notRead)
                         }
@@ -152,7 +165,7 @@ struct CloudView: View {
                     }
                 } actions: {
                     EmptyStateActions {
-                        UnreadableFoldersActions(folders: cloud.notRead, needsFullDiskAccess: false)
+                        UnreadableFoldersActions(folders: cloud.notRead, needsFullDiskAccess: !whyPartlyRead.isEmpty)
                     }
                 }
             } else if cloud.files?.isEmpty == true, cloud.isNotSetUp {
@@ -244,13 +257,33 @@ struct CloudView: View {
         }
     }
 
-    @ViewBuilder private var unreadableFoldersNote: some View {
-        if cloud.readOnlyTheHomesFolders {
-            Text("macOS did not let Peel read the rest of iCloud Drive, so this list holds only what it keeps in Desktop and Documents. Full Disk Access, which you turn on from Home, gives Peel what it needs.")
+    static let aboutCloud: LocalizedStringResource = "Files in iCloud that are also downloaded to this Mac. Remove Downloads takes away only the copy here; each file stays in iCloud and downloads again when you open it."
+    static let onThisMacNote: LocalizedStringResource = "Finder still lists these files after their downloads are removed. Peel never deletes a file from iCloud."
+    static let partlyReadTitle: LocalizedStringResource = "Peel did not read all of iCloud Drive"
+    static let tooBigTitle: LocalizedStringResource = "iCloud Drive is too big to read in one scan"
+    static let tooBigNote: LocalizedStringResource = "So this list is not all of it."
+
+    /// Why the list may not hold all of iCloud Drive, a sentence for each reason, or none when Peel read all of it.
+    static func whyPartlyRead(restNotRead: Bool, folders: [String]) -> [LocalizedStringResource] {
+        var why: [LocalizedStringResource] = []
+        if restNotRead {
+            why.append("macOS kept Peel out of the rest, so this list may not be complete.")
         }
-        if !cloud.unreadableFolders.isEmpty {
-            Text("macOS didn’t let Peel read \(cloud.unreadableFolders.formatted(.list(type: .and))) in iCloud Drive, so this list isn’t all of it. Full Disk Access, which you turn on from Home, gives Peel what it needs.")
+        if !folders.isEmpty {
+            why.append("macOS kept Peel out of \(folders.formatted(.list(type: .and))), so this list may not be complete.")
         }
+        return why
+    }
+
+    private var whyPartlyRead: [LocalizedStringResource] {
+        Self.whyPartlyRead(restNotRead: cloud.readOnlyTheHomesFolders, folders: cloud.unreadableFolders)
+    }
+
+    /// The reasons, then, once Full Disk Access may have been given, that it takes reopening Peel.
+    private var partlyReadNote: Text {
+        let sentences = whyPartlyRead.map { String(localized: $0) }
+            + (home.needsRelaunchForFullDiskAccess ? [HomeModel.reopenForFullDiskAccess] : [])
+        return Text(verbatim: sentences.joined(separator: "\n\n"))
     }
 
     @ViewBuilder private var sharedDownloadsNote: some View {
@@ -260,7 +293,7 @@ struct CloudView: View {
     }
 
     static func sharedDownloadsWords(_ count: Int) -> String {
-        String(inflecting: "Not listed: ^[\(count) download](inflect: true) sharing space on disk with another copy on this Mac, such as the one iCloud keeps after an upload. Removing one would free nothing now.")
+        String(inflecting: "Not listed: ^[\(count) download](inflect: true) sharing space with another copy. Removing one would free nothing.")
     }
 
     /// Whether the note column is on: while a listed download has a note, so the note is drawn beside it.
@@ -298,12 +331,13 @@ struct CloudView: View {
 
     private var header: some View {
         PageHeader(systemImage: "icloud") {
-            Text("iCloud Drive")
-                .pageTitle()
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                Text("iCloud Drive")
+                    .pageTitle()
+                InfoNote(about: Text("iCloud Drive"), detail: Text(Self.aboutCloud), isAlbum: false)
+            }
         } details: {
-            Text("Files in iCloud that are also downloaded to this Mac. Remove Downloads takes away only the copy here, just as it does in Finder: each file stays in iCloud and downloads again when you open it.")
-                .font(.callout)
-                .foregroundStyle(.secondary)
+            EmptyView()
         } trailing: {
             if let total = cloud.total {
                 TotalLabel(total: total, caption: Text("on this Mac"))
