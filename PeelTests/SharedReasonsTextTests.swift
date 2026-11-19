@@ -61,4 +61,12 @@ struct SharedReasonsTextTests {
         #expect(named.explanation(named: "Example Inc") == String(localized: "It was first seen signed by team \("AAAAAAAAAA"), and is signed by \("Example Inc"), team \("BBBBBBBBBB"), now. A maker can change teams, as after a sale, but a copy someone rebuilt looks the same. If you did not expect this, get the app again from its maker."))
         #expect(named.explanation(named: nil) == String(localized: "It was first seen signed by team \("AAAAAAAAAA"), and is signed by team \("BBBBBBBBBB") now. A maker can change teams, as after a sale, but a copy someone rebuilt looks the same. If you did not expect this, get the app again from its maker."))
     }
+
+    @Test func anUninstallerSaysItIsOneOnItsRow() throws {
+        let page = try #require(URL(string: "https://example.com/uninstall"))
+        let itself = MakersUninstaller(maker: "Example", step: .notOnTheMac, instructions: page, removes: "Example Suite")
+        let another = MakersUninstaller(maker: "Example", step: .notOnTheMac, instructions: page, removes: nil)
+        #expect(RemovedElsewhere.byItsMaker(itself).explanation.key == "Left alone: this app is an uninstaller.")
+        #expect(RemovedElsewhere.byItsMaker(another).explanation.key == "Left alone: use its own uninstaller.")
+    }
 }

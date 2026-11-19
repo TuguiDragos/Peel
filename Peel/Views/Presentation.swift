@@ -738,7 +738,8 @@ extension RemovedElsewhere {
     var explanation: LocalizedStringResource {
         switch self {
         case .byRemovePeel: "Left alone: Peel removes itself only from Settings."
-        case .byItsMaker: "Left alone: use its own uninstaller."
+        case .byItsMaker(let uninstaller):
+            uninstaller.removes == nil ? "Left alone: use its own uninstaller." : "Left alone: this app is an uninstaller."
         case .byYourOrganization(let agent): "Left alone: your organization manages this Mac with \(agent.name)."
         case .byFinder(let carried): Self.leftToFinder(carried)
         case .onceItsSystemExtensionsAreOff(let carried):
