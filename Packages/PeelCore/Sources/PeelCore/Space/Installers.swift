@@ -312,6 +312,7 @@ public enum Installers {
             measure: measure,
             syncKeeper: syncKeeper,
             openFiles: openFiles,
+            canLookInside: { canLookInside($0, for: $0) },
             keptElsewhere: &keptElsewhere
         )
         items += await updateDownloads(
@@ -605,17 +606,23 @@ public enum Installers {
         measure: LeftoverScanner.Measure,
         syncKeeper: (URL) -> SyncKeeper?,
         openFiles: OpenFiles,
+        canLookInside: (URL) -> Bool,
         keptElsewhere: inout [URL]
     ) async -> [InstallerItem] {
-        let folders = ["iPhone", "iPad", "iPod", "Apple TV"].map {
+        let finders = ["iPhone", "iPad", "iPod", "Apple TV"].map {
             home.appending(path: "Library/iTunes/\($0) Software Updates", directoryHint: .isDirectory)
         }
+        let configurators = ProtectedData.appleConfiguratorsGroups.map {
+            home.appending(path: "Library/Group Containers/\($0)/Library/Caches/Firmware", directoryHint: .isDirectory)
+        }
         var items: [InstallerItem] = []
-        for folder in folders {
+        for folder in finders + configurators {
             if folder.isSymbolicLink {
                 keptElsewhere.append(folder)
                 continue
             }
+            // A scan its page left opens no folder macOS asks about.
+            guard !Task.isCancelled, canLookInside(folder) else { continue }
             for url in files(in: folder) where firmwareExtensions.contains(url.pathExtension.lowercased()) {
                 guard !Task.isCancelled else { return items }
                 guard !exclusions.excludes(url), !exclusions.holds(url) else { continue }

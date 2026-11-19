@@ -67,6 +67,27 @@ struct AttackHelperPolicyTests {
         }
     }
 
+    @Test func theHelperTakesOnlyTheFirmwareFromAppleConfiguratorsGroupContainer() throws {
+        let directory = try TemporaryDirectory()
+        let group = "Library/Group Containers/\(ProtectedData.appleConfiguratorsGroups[0])"
+        let firmware = "home/\(group)/Library/Caches/Firmware/iPad.ipsw"
+        let stays = [
+            "home/\(group)/Library/Caches/Firmware/Index.plist", "home/\(group)/Library/Caches/Devices/iPad.ipsw",
+            "home/Library/Group Containers/group.com.apple.notes/\(group)/Library/Caches/Firmware/iPad.ipsw",
+        ]
+        for path in [firmware] + stays {
+            try directory.file(path)
+        }
+        func refusal(_ path: String) -> PrivilegedPathPolicy.Rejection? {
+            policy(directory).refusal(of: directory.url.appending(path: path).path(percentEncoded: false))
+        }
+
+        #expect(refusal(firmware) == nil)
+        for path in stays + ["home/\(group)", "home/\(group)/Library/Caches/Firmware"] {
+            #expect(refusal(path) == .irreplaceable, "ATTACK SUCCEEDED: root would move \(path)")
+        }
+    }
+
     /// "Is this protected" is half the question. The helper runs as root and must ask the other half on its
     /// own too: would moving this take something protected along.
     @Test func theHelperRefusesAFolderThatHoldsWhatIsProtected() throws {

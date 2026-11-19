@@ -105,6 +105,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - Every row shows a day beside its size: when the item came, or when a download that never finished or an update an
   app downloaded last changed. Only backups showed one before.
+- Device Firmware also lists the restore images Apple Configurator keeps, which macOS counts among iOS Files, and
+  moves them to the Trash like the others.
 
 #### Background Items
 

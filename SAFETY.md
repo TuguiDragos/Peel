@@ -48,7 +48,7 @@ In the Library of every account on the Mac and, for the last rows, in the home f
 | `Safari` | Bookmarks, history, reading list. |
 | `Calendars`, `Reminders` | Your calendars and reminders, where older systems kept them. |
 | `Photos` | The library macOS keeps of what people shared with you. |
-| `Group Containers/` any of Apple's own | Where macOS 26 keeps notes, reminders, calendars, voice memos, the journal, and more. Apple moves these between releases, so they are recognized by their name (`com.apple.` after an optional team and an optional `group.`, `groups.`, or `systemgroup.`), not from a list. |
+| `Group Containers/` any of Apple's own | Where macOS 26 keeps notes, reminders, calendars, voice memos, the journal, and more. Apple moves these between releases, so they are recognized by their name (`com.apple.` after an optional team and an optional `group.`, `groups.`, or `systemgroup.`), not from a list. Only the restore images Apple Configurator keeps may leave: an `.ipsw` directly in its `Library/Caches/Firmware`, which macOS itself offers to delete in System Settings > General > Storage > iOS Files. |
 | `Shortcuts` and its two group containers, `HomeKit`, `Accounts`, `Finance`, `IdentityServices` | Your shortcuts, your home, and your accounts and what they hold. |
 | `Application Support/FaceTime`, `Application Support/CallHistoryTransactions` | Calls. |
 | `Containers/com.apple.freeform`, `com.apple.journal`, Stickies' notes, Safari's own store | Boards, journal entries, stickies, and tabs. |

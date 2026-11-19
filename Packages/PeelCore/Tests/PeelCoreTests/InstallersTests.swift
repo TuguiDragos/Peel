@@ -1,5 +1,6 @@
 import Foundation
 @testable import PeelCore
+import PeelPrivileged
 import Synchronization
 import Testing
 
@@ -1076,6 +1077,69 @@ struct InstallersTests {
         #expect(scan.items(in: .firmware).map(\.name) == ["iPad.ipsw"])
         #expect(scan.items(in: .firmware).first?.heldBack == .openInAProgram)
         #expect(scan.items(in: .firmware).first?.openBy == [OpenFiles.name(of: getpid())])
+    }
+
+    @Test func readsTheFirmwareAppleConfiguratorKeepsWhereMacOSCountsIt() async throws {
+        let directory = try TemporaryDirectory()
+        for group in ProtectedData.appleConfiguratorsGroups {
+            try directory.file("Library/Group Containers/\(group)/Library/Caches/Firmware/\(group).ipsw", bytes: 400_000)
+        }
+        let caches = "Library/Group Containers/\(ProtectedData.appleConfiguratorsGroups[0])/Library/Caches"
+        try directory.file("\(caches)/Firmware/Old/Deeper.ipsw", bytes: 400_000)
+        try directory.file("\(caches)/Firmware/Index.zip", bytes: 400_000)
+        try directory.file("\(caches)/Devices/Device.ipsw", bytes: 400_000)
+        try directory.file("Library/Group Containers/group.com.apple.notes/Library/Caches/Firmware/Notes.ipsw", bytes: 400_000)
+        try directory.directory("Applications")
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, minimumSize: 100_000
+        )
+
+        #expect(Set(scan.items(in: .firmware).map(\.name)) == Set(ProtectedData.appleConfiguratorsGroups.map { "\($0).ipsw" }))
+    }
+
+    @Test func namesAppleConfiguratorsFirmwareFolderWhenMacOSKeepsItClosed() async throws {
+        let directory = try TemporaryDirectory()
+        let firmware = "Library/Group Containers/\(ProtectedData.appleConfiguratorsGroups[0])/Library/Caches/Firmware"
+        try directory.file("\(firmware)/iPad.ipsw", bytes: 400_000)
+        try directory.directory("Applications")
+        let closed = PathPattern.comparablePath(of: directory.url.appending(path: firmware))
+
+        let scan = await Installers.scan(
+            installedApps: [], home: directory.url, root: directory.url, exclusions: .none, minimumSize: 100_000,
+            measure: LeftoverScanner.walk,
+            whyUnlistable: { PathPattern.comparablePath(of: $0) == closed ? .privacy : nil }
+        )
+
+        #expect(scan.unreadableLocations.map { PathPattern.comparablePath(of: $0) } == [closed])
+        #expect(scan.needsFullDiskAccess)
+        #expect(scan.items(in: .firmware).isEmpty)
+    }
+
+    @Test func aScanCanceledBeforeTheFirmwareAsksNothingOfItsFolders() async throws {
+        let directory = try TemporaryDirectory()
+        try directory.directory("Applications/Install macOS Tahoe.app/Contents")
+        let firmware = "Library/Group Containers/\(ProtectedData.appleConfiguratorsGroups[0])/Library/Caches/Firmware"
+        try directory.file("\(firmware)/iPad.ipsw", bytes: 400_000)
+        let home = directory.url
+        let asked = Mutex<[String]>([])
+
+        let scan = Task {
+            await Installers.scan(
+                installedApps: [], home: home, root: home, exclusions: .none, minimumSize: 100_000,
+                measure: { url in
+                    withUnsafeCurrentTask { $0?.cancel() }
+                    return await LeftoverScanner.walk(url)
+                },
+                whyUnlistable: { url in
+                    asked.withLock { $0.append(url.lastPathComponent) }
+                    return nil
+                }
+            )
+        }
+        _ = await scan.value
+
+        #expect(asked.withLock { $0.contains("Downloads") && !$0.contains("Firmware") })
     }
 
     @Test func aPlaceThatLeadsIntoAnotherListsWhatIsThereOnce() async throws {

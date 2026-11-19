@@ -1176,6 +1176,22 @@ struct TrashServiceTests {
         #expect(FileManager.default.fileExists(atPath: item.path(percentEncoded: false)))
     }
 
+    @Test func movesAppleConfiguratorsFirmwareAndPutsItBackEvenOnceItsFolderIsGone() async throws {
+        let directory = try TemporaryDirectory()
+        let service = try service(in: directory)
+        let caches = "home/Library/Group Containers/\(ProtectedData.appleConfiguratorsGroups[0])/Library/Caches"
+        let firmware = try directory.file("\(caches)/Firmware/iPad16,3_Restore.ipsw")
+        let index = try directory.file("\(caches)/Firmware/Index.plist")
+
+        let result = await service.trash([firmware, index])
+        #expect(result.trashed.map(\.originalURL) == [firmware])
+        #expect(result.failures.map(\.url) == [index])
+        try FileManager.default.removeItem(at: directory.url.appending(path: caches))
+
+        #expect(await service.restore(try #require(result.trashed.first)) == nil)
+        #expect(FileManager.default.fileExists(atPath: firmware.path(percentEncoded: false)))
+    }
+
     @Test func saysWhenAFolderWithNoFileWasMadeWhereAnItemGoesBack() async throws {
         let directory = try TemporaryDirectory()
         let service = try service(in: directory)

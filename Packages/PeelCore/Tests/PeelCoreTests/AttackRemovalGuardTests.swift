@@ -736,6 +736,42 @@ struct AttackRemovalGuardTests {
         }
     }
 
+    @Test func onlyTheFirmwareAppleConfiguratorKeepsLeavesItsGroupContainer() throws {
+        let directory = try TemporaryDirectory()
+        let home = directory.url.appending(path: "home", directoryHint: .isDirectory)
+        let homePath = home.path(percentEncoded: false)
+        let firmware = try ProtectedData.appleConfiguratorsGroups.map { group in
+            try directory.file("home/Library/Group Containers/\(group)/Library/Caches/Firmware/iPhone17,3_Restore.ipsw")
+        }
+        let trashed = try directory.file("home/.Trash/iPad16,3_Restore.ipsw")
+        let guardian = RemovalGuard(
+            environment: SearchEnvironment(homeDirectory: home, rootDirectory: directory.url.appending(path: "root"))
+        )
+
+        for url in firmware {
+            #expect(guardian.refusal(of: url) == nil, "\(url.path) is refused")
+            #expect(!ProtectedData.refuses(url.path(percentEncoded: false), home: homePath), "\(url.path) is refused")
+            let destination = url.deletingLastPathComponent().appending(path: "iPad16,3_Restore.ipsw")
+            #expect(guardian.refusal(ofPuttingBack: trashed, at: destination) == nil, "\(destination.path) is refused")
+        }
+
+        let group = "Library/Group Containers/\(ProtectedData.appleConfiguratorsGroups[0])"
+        let stays = [
+            group, "\(group)/Library/Caches", "\(group)/Library/Caches/Firmware",
+            "\(group)/Library/Caches/Firmware/Index.plist", "\(group)/Library/Caches/Firmware/Old/iPad.ipsw",
+            "\(group)/Library/Caches/Devices/iPad.ipsw", "\(group)/Library/Firmware/iPad.ipsw",
+            "Library/Group Containers/group.com.apple.notes/Library/Caches/Firmware/iPad.ipsw",
+            "Library/Group Containers/ABCDE12345.group.com.apple.configurator/Library/Caches/Firmware/iPad.ipsw",
+            "Library/Group Containers/group.com.apple.notes/\(group)/Library/Caches/Firmware/iPad.ipsw",
+        ]
+        for path in stays {
+            let url = home.appending(path: path)
+            #expect(guardian.refusal(of: url) != nil, "\(path) may be removed")
+            #expect(ProtectedData.refuses(url.path(percentEncoded: false), home: homePath), "\(path) is not refused")
+            #expect(guardian.refusal(ofPuttingBack: trashed, at: url) != nil, "\(path) may be put back")
+        }
+    }
+
     @Test func iCloudsAndFileProvidersOwnStateStaysAndNothingIsPutBackThere() throws {
         let directory = try TemporaryDirectory()
         let home = directory.url.appending(path: "home", directoryHint: .isDirectory)

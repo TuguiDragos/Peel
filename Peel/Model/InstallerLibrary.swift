@@ -169,7 +169,7 @@ nonisolated extension InstallerItem.Kind {
         switch self {
         case .appInstaller: "Disk images, packages, and archives holding an app or an installer, in Downloads and the other places installers are usually left. A disk image can also be one you made to keep files in."
         case .macOSInstaller: "A full copy of macOS, ready to install. Apple offers the newest release again to any Mac that can run it."
-        case .firmware: "Firmware for restoring an iPhone, an iPad, or a Mac, downloaded again when a device needs it. What Apple Configurator keeps is deleted in System Settings > General > Storage > iOS Files."
+        case .firmware: "Firmware for restoring an iPhone, an iPad, or a Mac, downloaded again when a device needs it."
         case .deviceBackup: "Almost all the data and settings of a device, backed up to this Mac. Peel shows what is here and never touches it."
         case .incompleteDownload: "Downloads that never finished, still named .crdownload, .part, or .download."
         case .updateDownload: "Updates an app downloaded and keeps until it installs them. If one is gone, the app downloads it again."

@@ -275,6 +275,12 @@ public enum ProtectedData: Sendable {
         names.count == 5 && names[0...3] == ["private", "var", "db", "receipts"] && isApplesName(names[4])
     }
 
+    /// Apple Configurator's group containers. macOS offers to delete the restore images in their
+    /// `Library/Caches/Firmware` under iOS Files, so those alone may leave one of Apple's group containers.
+    public static let appleConfiguratorsGroups = [
+        "K36BKF7T3D.group.com.apple.configurator", "4WXS7A4F54.group.com.apple.configurator",
+    ]
+
     /// True at or inside one of Apple's own group containers, where the system's apps keep the user's data,
     /// such as notes, reminders, recordings, and calendars. Apple moves them between releases, so they are
     /// recognized by the shape of their name, not by a list. Expects the path in lowercase.
@@ -285,9 +291,18 @@ public enum ProtectedData: Sendable {
     private static func isInAnApplesGroupContainer(_ names: [String]) -> Bool {
         names.indices.contains { index in
             index + 2 < names.endIndex && names[index] == "library" && names[index + 1] == "group containers"
-                && isApplesName(names[index + 2])
+                && isApplesName(names[index + 2]) && !isAppleConfiguratorsFirmware(names[(index + 2)...])
         }
     }
+
+    /// True for an `.ipsw` directly in that folder, given the lower-cased names from the group container on.
+    private static func isAppleConfiguratorsFirmware(_ names: ArraySlice<String>) -> Bool {
+        guard names.count == 5, let group = names.first, let file = names.last else { return false }
+        return configuratorsGroups.contains(group) && file.count > ".ipsw".count && file.hasSuffix(".ipsw")
+            && names.dropFirst().dropLast().elementsEqual(["library", "caches", "firmware"])
+    }
+
+    private static let configuratorsGroups = Set(appleConfiguratorsGroups.map { $0.lowercased() })
 
     /// True at or inside the `Data/Documents` folder of a sandboxed app's container, where the app keeps what
     /// the user made. The path is compared folder by folder, split on the slash byte, because Swift reads a

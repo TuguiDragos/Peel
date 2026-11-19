@@ -57399,108 +57399,108 @@
         }
       }
     },
-    "Firmware for restoring an iPhone, an iPad, or a Mac, downloaded again when a device needs it. What Apple Configurator keeps is deleted in System Settings > General > Storage > iOS Files." : {
+    "Firmware for restoring an iPhone, an iPad, or a Mac, downloaded again when a device needs it." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Firmware pro obnovu iPhonu, iPadu nebo Macu, který se znovu stáhne, když ho zařízení potřebuje. Co uchovává Apple Configurator, se maže v Nastavení systému > Obecné > Úložiště > iOS soubory."
+            "value" : "Firmware pro obnovu iPhonu, iPadu nebo Macu, který se znovu stáhne, když ho zařízení potřebuje."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Firmware zum Wiederherstellen eines iPhone, iPad oder Mac, die erneut geladen wird, wenn ein Gerät sie benötigt. Was Apple Configurator aufbewahrt, wird unter „Systemeinstellungen“ > „Allgemein“ > „Speicher“ > „iOS-Dateien“ gelöscht."
+            "value" : "Firmware zum Wiederherstellen eines iPhone, iPad oder Mac, die erneut geladen wird, wenn ein Gerät sie benötigt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Firmware para restaurar un iPhone, un iPad o un Mac, que se vuelve a descargar cuando un dispositivo lo necesita. Lo que guarda Apple Configurator se elimina en Ajustes del Sistema > General > Almacenamiento > Archivos de iOS."
+            "value" : "Firmware para restaurar un iPhone, un iPad o un Mac, que se vuelve a descargar cuando un dispositivo lo necesita."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Programme interne servant à restaurer un iPhone, un iPad ou un Mac, téléchargé à nouveau lorsqu’un appareil en a besoin. Ce que conserve Apple Configurator se supprime dans Réglages Système > Général > Stockage > Fichiers iOS."
+            "value" : "Programme interne servant à restaurer un iPhone, un iPad ou un Mac, téléchargé à nouveau lorsqu’un appareil en a besoin."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Firmware per ripristinare un iPhone, un iPad o un Mac, che viene scaricato di nuovo quando un dispositivo ne ha bisogno. Ciò che Apple Configurator conserva si elimina in Impostazioni di Sistema > Generali > Spazio > File iOS."
+            "value" : "Firmware per ripristinare un iPhone, un iPad o un Mac, che viene scaricato di nuovo quando un dispositivo ne ha bisogno."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iPhone、iPad、Macを復元するためのファームウェアです。デバイスが必要とするときに再びダウンロードされます。Apple Configuratorが保管しているものは、“システム設定”＞“一般”＞“ストレージ”＞“iOSファイル”で削除します。"
+            "value" : "iPhone、iPad、Macを復元するためのファームウェアです。デバイスが必要とするときに再びダウンロードされます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iPhone, iPad 또는 Mac을 복원하기 위한 펌웨어로, 기기에 필요할 때 다시 다운로드됩니다. Apple Configurator가 보관하는 항목은 시스템 설정 > 일반 > 저장 공간 > iOS 파일에서 삭제합니다."
+            "value" : "iPhone, iPad 또는 Mac을 복원하기 위한 펌웨어로, 기기에 필요할 때 다시 다운로드됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Firmware om een iPhone, iPad of Mac te herstellen, die opnieuw wordt gedownload wanneer een apparaat die nodig heeft. Wat Apple Configurator bewaart, verwijder je in Systeeminstellingen > Algemeen > Opslag > iOS-bestanden."
+            "value" : "Firmware om een iPhone, iPad of Mac te herstellen, die opnieuw wordt gedownload wanneer een apparaat die nodig heeft."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Oprogramowanie sprzętowe do odtwarzania iPhone’a, iPada lub Maca, pobierane ponownie, gdy urządzenie go potrzebuje. To, co zachowuje Apple Configurator, usuwa się w Ustawieniach systemowych > Ogólne > Miejsce > Pliki iOS."
+            "value" : "Oprogramowanie sprzętowe do odtwarzania iPhone’a, iPada lub Maca, pobierane ponownie, gdy urządzenie go potrzebuje."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Firmware para restaurar um iPhone, um iPad ou um Mac, baixado de novo quando um dispositivo precisa dele. O que o Apple Configurator guarda é apagado em Ajustes do Sistema > Geral > Armazenamento > Arquivos do iOS."
+            "value" : "Firmware para restaurar um iPhone, um iPad ou um Mac, baixado de novo quando um dispositivo precisa dele."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Firmware pentru restaurarea unui iPhone, a unui iPad sau a unui Mac, care se descarcă din nou când un dispozitiv are nevoie de el. Ce păstrează Apple Configurator se șterge din Configurări sistem > General > Stocare > Fișiere iOS."
+            "value" : "Firmware pentru restaurarea unui iPhone, a unui iPad sau a unui Mac, care se descarcă din nou când un dispozitiv are nevoie de el."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Прошивки для восстановления iPhone, iPad или Mac, которые загружаются снова, когда они нужны устройству. То, что хранит Apple Configurator, удаляется в разделе «Системные настройки» > «Основные» > «Хранилище» > «Файлы iOS»."
+            "value" : "Прошивки для восстановления iPhone, iPad или Mac, которые загружаются снова, когда они нужны устройству."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fast programvara för att återställa en iPhone, en iPad eller en Mac, som hämtas igen när en enhet behöver den. Det som Apple Configurator sparar raderas i Systeminställningar > Allmänt > Lagring > iOS-filer."
+            "value" : "Fast programvara för att återställa en iPhone, en iPad eller en Mac, som hämtas igen när en enhet behöver den."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iPhone, iPad veya Mac’i geri yüklemek için firmware; bir aygıt ihtiyaç duyduğunda yeniden indirilir. Apple Configurator’ın tuttukları Sistem Ayarları > Genel > Saklama Alanı > iOS Dosyaları bölümünde silinir."
+            "value" : "iPhone, iPad veya Mac’i geri yüklemek için firmware; bir aygıt ihtiyaç duyduğunda yeniden indirilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Прошивки для відновлення iPhone, iPad чи Mac, які викачуються знову, коли пристрій їх потребує. Те, що зберігає Apple Configurator, видаляють у розділі Системні параметри > Загальні > Сховище > Файли iOS."
+            "value" : "Прошивки для відновлення iPhone, iPad чи Mac, які викачуються знову, коли пристрій їх потребує."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用于恢复iPhone、iPad或Mac的固件，设备需要时会重新下载。Apple Configurator保留的内容可在“系统设置”>“通用”>“储存空间”>“iOS文件”中删除。"
+            "value" : "用于恢复iPhone、iPad或Mac的固件，设备需要时会重新下载。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用於回復iPhone、iPad或Mac的韌體，裝置需要時會重新下載。Apple Configurator保留的項目可在「系統設定」>「一般」>「儲存空間」>「iOS檔案」中刪除。"
+            "value" : "用於回復iPhone、iPad或Mac的韌體，裝置需要時會重新下載。"
           }
         }
       }
