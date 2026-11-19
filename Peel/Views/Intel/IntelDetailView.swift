@@ -66,7 +66,7 @@ struct IntelDetailView: View {
                     // The list also names Intel apps that are only installed, so it matters without Rosetta too.
                     if DeviceInfo.listsIntelBasedApps {
                         HStack(spacing: 8) {
-                            Text("The Intel-based Apps list in System Settings > General > About names the apps macOS 28 won’t run. Peel also looks inside apps and at plug-ins and drivers, which that list may leave out.")
+                            Text(Self.intelBasedAppsList)
                                 .font(.callout)
                                 .foregroundStyle(.secondary)
                             Spacer(minLength: 8)
@@ -121,22 +121,21 @@ struct IntelDetailView: View {
                 Text("Details")
             }
 
-            if app == nil, !finding.isOnThePlugInsPage, finding.job == nil, receipt == nil {
-                Section {
-                    Text(advice)
-                        .font(.callout)
-                } header: {
-                    Text("What to Do About It")
-                }
-            } else {
-                Section {
-                } header: {
-                    HeadingWithActions {
-                        heading("What to Do About It", advice)
-                    } actions: {
-                        review(of: app)
+            Section {
+                let advice = advice
+                HStack(spacing: 8) {
+                    HStack(alignment: .firstTextBaseline, spacing: 4) {
+                        Text(advice.step)
+                            .font(.body.weight(.semibold))
+                        if let why = advice.why {
+                            InfoNote(about: Text(advice.step), detail: Text(why), isAlbum: false)
+                        }
                     }
+                    Spacer(minLength: 8)
+                    review(of: app)
                 }
+            } header: {
+                Text("What to Do About It")
             }
         }
         .formStyle(.grouped)
@@ -199,35 +198,74 @@ struct IntelDetailView: View {
                 Navigator.shared.requestedTool = .backgroundItems
             }
             .buttonStyle(.borderedProminent)
+        } else if finding.kind == .javaRuntime, finding.formula == nil {
+            Button("Show in Finder") {
+                NSWorkspace.shared.activateFileViewerSelecting([finding.url])
+            }
+            .buttonStyle(.borderedProminent)
         }
     }
 
-    /// The advice in the note beside the What to Do About It heading. A driver, a tool in `/usr/local`, or a plug-in
-    /// the Plug-ins page doesn't list is left to the software that installed it, which knows what else goes with it.
-    private var advice: LocalizedStringResource {
-        switch finding.kind {
-        case .commandLineTool where finding.formula != nil:
-            "Peel only reports here. Homebrew installed it with its formula \(finding.formula?.name ?? ""), so it goes when Homebrew uninstalls that formula."
-        case .commandLineTool where finding.cask != nil:
-            "Peel only reports here. Homebrew installed it with its cask \(finding.cask?.token ?? ""), so it goes when Homebrew uninstalls that cask."
+    static let intelBasedAppsList: LocalizedStringResource = "System Settings > General > About > Intel-based Apps lists the apps macOS 28 will not run. Peel also looks inside apps and at plug-ins and drivers."
+
+    /// What to do about a finding: the step, and why in a circled i beside it.
+    struct Advice {
+        let step: LocalizedStringResource
+        var why: LocalizedStringResource?
+    }
+
+    private var advice: Advice {
+        Self.advice(
+            for: finding.kind, formula: finding.formula?.name, cask: finding.cask?.token,
+            isOnThePlugInsPage: finding.isOnThePlugInsPage, hasReceipt: receipt != nil
+        )
+    }
+
+    /// A driver, a tool in `/usr/local`, or a plug-in the Plug-ins page doesn't list is left to the software that
+    /// installed it, which knows what else goes with it.
+    static func advice(
+        for kind: IntelFinding.Kind, formula: String?, cask: String?, isOnThePlugInsPage: Bool, hasReceipt: Bool
+    ) -> Advice {
+        let withItsSoftware = Advice(
+            step: "Remove it with its software", why: "The software that installed it may have an uninstaller of its own."
+        )
+        switch kind {
+        case .commandLineTool where formula != nil:
+            return Advice(
+                step: "Installed by Homebrew", why: "It goes when Homebrew uninstalls the formula \(formula ?? "")."
+            )
+        case .commandLineTool where cask != nil:
+            return Advice(step: "Installed by Homebrew", why: "It goes when Homebrew uninstalls the cask \(cask ?? "").")
         case .driver, .commandLineTool:
-            "Peel only reports here. The software that installed it may have an uninstaller of its own."
+            return withItsSoftware
         case .app:
-            "Peel only reports here. To remove it, go to Applications, where you see everything that goes with the app."
+            return Advice(step: "Remove it in Applications", why: "There you see everything that goes with the app.")
         case .insideApp:
-            "Peel only reports here. This part comes with the app and can’t be removed on its own. An update of the app may replace it."
+            return Advice(
+                step: "Comes with its app", why: "It cannot be removed on its own. An update of the app may replace it."
+            )
         case .plugin:
-            finding.isOnThePlugInsPage
-                ? "Peel only reports here. To remove it, go to Plug-ins."
-                : "Peel only reports here. The software that installed it may have an uninstaller of its own."
+            return isOnThePlugInsPage ? Advice(step: "Remove it in Plug-ins") : withItsSoftware
         case .backgroundItem:
-            "Peel only reports here. Background Items moves a job’s configuration file, not the program it runs: that goes with the software that installed it."
-        case .javaRuntime where finding.formula != nil:
-            "Peel only reports here. Homebrew installed this Java runtime with its formula \(finding.formula?.name ?? ""), so uninstall that formula with Homebrew rather than moving the folder."
+            return Advice(
+                step: "Remove it with its software",
+                why: "Background Items moves only the file of the job, not the program it runs."
+            )
+        case .javaRuntime where formula != nil:
+            return Advice(
+                step: "Remove it with Homebrew",
+                why: "Homebrew installed it with the formula \(formula ?? ""), so uninstall that formula rather than moving the folder."
+            )
+        case .javaRuntime where hasReceipt:
+            return Advice(
+                step: "Remove it in Package Receipts",
+                why: "A package installed it, so Package Receipts can move it and History can put it back."
+            )
         case .javaRuntime:
-            receipt == nil
-                ? "Peel only reports here. A Java runtime is its folder: to remove it, move the folder to the Trash in Finder, which asks for an administrator’s password where only an administrator can change it."
-                : "Peel only reports here. A package installed this Java runtime, so Package Receipts can move it, and History can put it back."
+            return Advice(
+                step: "Remove it in Finder",
+                why: "A Java runtime is its folder. Finder asks for an administrator password where needed."
+            )
         }
     }
 

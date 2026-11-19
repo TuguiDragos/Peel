@@ -191,7 +191,7 @@ extension IntelFinding {
     var withoutRosetta: LocalizedStringResource {
         prefersIntel
             ? "Rosetta isn’t installed on this Mac, so its Intel version can’t run here."
-            : "Rosetta isn’t installed on this Mac, so this doesn’t run at all. macOS offers to install it the first time you open an Intel app, and macOS 27 is the last release that runs most Intel software through it."
+            : "Rosetta is not installed, so this does not run at all. macOS offers to install it the first time you open an Intel app."
     }
 
     /// What the row says under the name: what the finding belongs to, the job file that starts a background item, or

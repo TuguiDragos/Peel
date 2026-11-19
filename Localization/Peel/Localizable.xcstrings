@@ -13461,6 +13461,112 @@
         }
       }
     },
+    "A Java runtime is its folder. Finder asks for an administrator password where needed." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Běhové prostředí Java tvoří jediná složka. Finder si v případě potřeby vyžádá heslo správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Java-Laufzeitumgebung ist ein einziger Ordner. Der Finder fragt bei Bedarf nach dem Passwort eines Administrators."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un entorno de ejecución de Java es una única carpeta. El Finder pide una contraseña de administrador cuando hace falta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un environnement d’exécution Java se résume à son dossier. Le Finder demande le mot de passe d’un administrateur si nécessaire."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un runtime Java è tutto nella sua cartella. Il Finder chiede la password di un amministratore dove serve."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Javaランタイムは1つのフォルダで構成されています。必要な場合は、Finderが管理者のパスワードを求めます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Java 런타임은 폴더 하나로 이루어져 있습니다. 필요한 경우 Finder가 관리자 암호를 요청합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een Java-runtime is één map. Finder vraagt om het wachtwoord van een beheerder waar dat nodig is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Środowisko uruchomieniowe Java to jeden folder. Finder poprosi o hasło administratora, jeśli będzie to potrzebne."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um runtime Java é uma única pasta. O Finder pede uma senha de administrador quando necessário."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un mediu de rulare Java este un singur dosar. Finder cere parola unui administrator acolo unde este nevoie."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Среда выполнения Java целиком находится в своей папке. Finder запросит пароль администратора, если это нужно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En Java-körmiljö är en enda mapp. Finder ber om ett administratörslösenord där det behövs."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir Java çalışma ortamı kendi klasöründen ibarettir. Gerektiğinde Finder bir yönetici parolası ister."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Середовище виконання Java повністю міститься у своїй папці. Finder попросить пароль адміністратора, де це потрібно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Java运行时就是一个文件夹。如有需要，“访达”会要求输入管理员密码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Java執行環境本身就是一個檔案夾。必要時，Finder會要求輸入管理者密碼。"
+          }
+        }
+      }
+    },
     "A Save dialog opens with your folders showing, instead of only a name and where to save it." : {
       "localizations" : {
         "cs" : {
@@ -16320,6 +16426,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Homebrew正在安裝的套件可能只有一部分完成安裝，因此可能需要重新安裝。cask的App可能會留在Homebrew的檔案夾中，直到你重新安裝該cask。"
+          }
+        }
+      }
+    },
+    "A package installed it, so Package Receipts can move it and History can put it back." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nainstaloval ho balíček, takže ho stránka Záznamy o instalaci může přesunout a Historie ho může vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Paket hat sie installiert, daher kann die Seite „Paketquittungen“ sie verschieben, und im Verlauf kannst du sie zurücklegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo instaló un paquete, así que la página Recibos de paquetes puede trasladarlo, e Historial puede restaurarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un paquet l’a installé : la page Reçus de paquets peut donc le déplacer, et l’Historique peut le remettre en place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’ha installato un pacchetto, quindi “Ricevute dei pacchetti” può spostarlo e la Cronologia può ripristinarlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "パッケージでインストールされたため、“パッケージレシート”でゴミ箱に入れることができ、履歴から戻すこともできます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "패키지로 설치되었으므로 패키지 수신 정보 페이지에서 이동할 수 있으며, 기록에서 되돌려 놓을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een pakket heeft het geïnstalleerd, dus de pagina 'Installatiebewijzen' kan het verplaatsen en Geschiedenis kan het terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zainstalował to pakiet, więc strona Potwierdzenia instalacji może to przenieść do Kosza, a Historia może to przywrócić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um pacote instalou isto, então a página Recibos de Pacotes pode movê-lo e o Histórico pode colocá-lo de volta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un pachet l‑a instalat, așa că pagina Înregistrări de pachete îl poate muta și îl puteți pune înapoi din Istoric."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ее установил пакет, поэтому раздел «Квитанции пакетов» может ее переместить, а История может ее восстановить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ett paket installerade den, så sidan Paketkvitton kan flytta den och Historik kan lägga tillbaka den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onu bir paket yükledi, bu yüzden Paket Makbuzları onu taşıyabilir ve Geçmiş yerine koyabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його інстальовано з пакета, тож розділ «Квитанції пакетів» може його перемістити, а Історія може повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它由软件包安装，因此“软件包回执”可以移动它，“历史记录”也可以将其放回原处。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它是由套件安裝的，因此「套件收據」可以移動它，「歷史記錄」也可以將它還原。"
           }
         }
       }
@@ -29135,6 +29347,112 @@
         }
       }
     },
+    "Background Items moves only the file of the job, not the program it runs." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stránka Položky na pozadí přesouvá jen soubor úlohy, ne program, který úloha spouští."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Seite „Hintergrundobjekte“ verschiebt nur die Datei des Jobs, nicht das Programm, das er ausführt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La página Ítems en segundo plano solo traslada el archivo de la tarea, no el programa que ejecuta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La page Éléments en arrière-plan ne déplace que le fichier de la tâche, pas le programme qu’elle exécute."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Elementi in background” sposta solo il file dell’elemento, non il programma che esegue."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“バックグラウンド項目”で移動するのはジョブのファイルだけで、ジョブが実行するプログラムは移動しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "백그라운드 항목 페이지는 작업의 파일만 이동하고 작업이 실행하는 프로그램은 이동하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De pagina 'Achtergrondonderdelen' verplaatst alleen het bestand van de taak, niet het programma dat die uitvoert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Strona Rzeczy działające w tle przenosi tylko plik zadania, a nie program, który ono uruchamia."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A página Itens em Segundo Plano move só o arquivo da tarefa, não o programa que ela executa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagina Articole de fundal mută doar fișierul sarcinii, nu și programul pe care îl rulează aceasta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Раздел «Фоновые объекты» перемещает только файл задания, а не программу, которую оно запускает."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sidan Bakgrundsobjekt flyttar bara jobbets fil, inte programmet som jobbet kör."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arka Plan Öğeleri, işin çalıştırdığı programı değil, yalnızca işin dosyasını taşır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Розділ «Фонові елементи» переміщує лише файл завдання, а не виконуваний файл, який воно запускає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“后台项目”只会移动任务的文件，而不是它运行的程序。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「背景項目」只會移動工作的檔案，不會移動它執行的程式。"
+          }
+        }
+      }
+    },
     "Backups" : {
       "localizations" : {
         "cs" : {
@@ -39124,6 +39442,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隨附於"
+          }
+        }
+      }
+    },
+    "Comes with its app" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je součástí aplikace"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gehört zur App"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viene con su app"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fourni avec son app"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fa parte della sua app"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリに付属"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱과 함께 제공됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoort bij de app"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jest częścią aplikacji"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vem com o app dele"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vine odată cu aplicația sa"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Входит в состав приложения"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Följer med appen"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulamasıyla birlikte gelir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Постачається разом із програмою"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随其App附带"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨附於其App"
           }
         }
       }
@@ -75581,6 +76005,112 @@
         }
       }
     },
+    "Homebrew installed it with the formula %@, so uninstall that formula rather than moving the folder." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ho nainstaloval pomocí formuly %@, takže místo přesouvání složky odinstalujte tuto formulu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew hat sie mit der Formula „%@“ installiert. Deinstalliere daher diese Formula, statt den Ordner zu verschieben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew lo instaló con la formula %@, así que desinstala esa formula en lugar de trasladar la carpeta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew l’a installé avec la formula %@ : désinstallez donc cette formula plutôt que de déplacer le dossier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew l’ha installato con la formula %@, quindi disinstalla quella formula anziché spostare la cartella."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewがformula“%@”でインストールしたため、フォルダを移動するのではなく、そのformulaをアンインストールしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 ‘%@’ formula로 설치했으므로, 폴더를 이동하지 말고 그 formula를 제거하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew heeft het geïnstalleerd met de formula %@, dus deïnstalleer die formula in plaats van de map te verplaatsen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew zainstalował to w ramach formula %@, więc zamiast przenosić folder do Kosza, odinstaluj tę formula."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew instalou isto com a formula %@, então desinstale essa formula em vez de mover a pasta."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew l‑a instalat prin formula %@, așa că dezinstalați acea formulă în loc să mutați dosarul."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew установил ее в составе formula «%@», поэтому удалите эту formula, а не перемещайте папку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew installerade den med formulan %@, så avinstallera den formulan i stället för att flytta mappen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew onu %@ adlı formula ile yükledi, bu yüzden klasörü taşımak yerine o formula için yüklemeyi kaldırın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew інсталював його з formula «%@», тож деінсталюйте цю formula, а не переміщуйте папку."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew通过formula“%@”安装了它，因此请卸载该formula，而不是移动该文件夹。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew透過formula「%@」安裝了它，因此請解除安裝該formula，而不要移動此檔案夾。"
+          }
+        }
+      }
+    },
     "Homebrew installed this app and will keep listing it as installed. To take it off that list, run `%@`: Homebrew then carries out the uninstall steps the cask defines, which can delete files for good." : {
       "localizations" : {
         "cs" : {
@@ -85046,6 +85576,112 @@
         }
       }
     },
+    "Installed by Homebrew" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nainstalováno přes Homebrew"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Von Homebrew installiert"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalado con Homebrew"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installé par Homebrew"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installato da Homebrew"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewでインストール済み"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew로 설치됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geïnstalleerd door Homebrew"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zainstalowane przez Homebrew"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalado pelo Homebrew"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalat de Homebrew"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установлено через Homebrew"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installerat av Homebrew"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew tarafından yüklendi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інстальовано через Homebrew"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由Homebrew安装"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由Homebrew安裝"
+          }
+        }
+      }
+    },
     "Installed by a Package" : {
       "localizations" : {
         "cs" : {
@@ -87809,6 +88445,112 @@
         }
       }
     },
+    "It cannot be removed on its own. An update of the app may replace it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nelze ji odstranit samostatně. Aktualizace aplikace ji může nahradit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Teil kann nicht für sich allein entfernt werden. Ein Update der App ersetzt ihn möglicherweise."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se puede eliminar por separado. Una actualización de la app puede reemplazarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il ne peut pas être supprimé séparément. Une mise à jour de l’app peut le remplacer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non si può rimuovere separatamente. Un aggiornamento dell’app potrebbe sostituirlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "単独では取り除けません。アプリをアップデートすると、置き換えられる場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단독으로 제거할 수 없습니다. 앱 업데이트로 대체될 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het kan niet apart worden verwijderd. Een update van de app kan het vervangen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można się tego pozbyć osobno. Uaktualnienie aplikacji może to zastąpić."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Isto não pode ser removido separadamente. Uma atualização do app pode substituí-lo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Această componentă nu poate fi eliminată separat. O actualizare a aplicației o poate înlocui."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эту часть нельзя удалить отдельно. Обновление приложения может ее заменить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det kan inte tas bort separat. En uppdatering av appen kan ersätta det."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tek başına kaldırılamaz. Uygulamanın bir güncellemesi onu yenisiyle değiştirebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цього не можна вилучити окремо. Оновлення програми може це замінити."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它无法单独移除。更新App时可能会替换它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它無法單獨移除。該App的更新可能會取代它。"
+          }
+        }
+      }
+    },
     "It can’t be read as a property list, or it names no job, so macOS never loads it and nothing runs from it." : {
       "localizations" : {
         "cs" : {
@@ -88887,6 +89629,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此套件無法通過「門禁」，也就是macOS在打開App前進行的檢查。"
+          }
+        }
+      }
+    },
+    "It goes when Homebrew uninstalls the cask %@." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstraní se, až Homebrew odinstaluje cask %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es verschwindet, wenn Homebrew den Cask „%@“ deinstalliert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se va cuando Homebrew desinstala el cask %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il est supprimé lorsque Homebrew désinstalle le cask %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se ne va quando Homebrew disinstalla il cask %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewでcask“%@”をアンインストールすると、一緒に取り除かれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 ‘%@’ cask를 제거하면 함께 제거됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het verdwijnt wanneer Homebrew de cask %@ deïnstalleert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zniknie, gdy Homebrew odinstaluje cask %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Isto é removido quando o Homebrew desinstala o cask %@."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se elimină când Homebrew dezinstalează cask‑ul %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Он будет удален, когда Homebrew удалит cask «%@»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det försvinner när Homebrew avinstallerar casken %@."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew %@ adlı cask için yüklemeyi kaldırdığında o da gider."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його буде вилучено, коли Homebrew деінсталює cask «%@»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它会在Homebrew卸载cask“%@”时一并移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當Homebrew解除安裝cask「%@」時，它會一併移除。"
+          }
+        }
+      }
+    },
+    "It goes when Homebrew uninstalls the formula %@." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstraní se, až Homebrew odinstaluje formulu %@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es verschwindet, wenn Homebrew die Formula „%@“ deinstalliert."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se va cuando Homebrew desinstala la formula %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il est supprimé lorsque Homebrew désinstalle la formula %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se ne va quando Homebrew disinstalla la formula %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewでformula“%@”をアンインストールすると、一緒に取り除かれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew가 ‘%@’ formula를 제거하면 함께 제거됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het verdwijnt wanneer Homebrew de formula %@ deïnstalleert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zniknie, gdy Homebrew odinstaluje formula %@."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Isto é removido quando o Homebrew desinstala a formula %@."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se elimină când Homebrew dezinstalează formula %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Он будет удален, когда Homebrew удалит formula «%@»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det försvinner när Homebrew avinstallerar formulan %@."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew %@ adlı formula için yüklemeyi kaldırdığında o da gider."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Його буде вилучено, коли Homebrew деінсталює formula «%@»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它会在Homebrew卸载formula“%@”时一并移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當Homebrew解除安裝formula「%@」時，它會一併移除。"
           }
         }
       }
@@ -180250,1066 +181204,6 @@
         }
       }
     },
-    "Peel only reports here. A Java runtime is its folder: to remove it, move the folder to the Trash in Finder, which asks for an administrator’s password where only an administrator can change it." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zde jen informuje. Běhové prostředí Java tvoří jediná složka: chcete-li ho odstranit, přesuňte tuto složku do koše ve Finderu, který si vyžádá heslo správce, pokud ji může změnit jen správce."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hier informiert Peel nur. Eine Java-Laufzeitumgebung ist ein einziger Ordner: Um sie zu entfernen, lege den Ordner im Finder in den Papierkorb. Der Finder fragt nach dem Passwort eines Administrators, wenn nur ein Administrator den Ordner ändern kann."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aquí Peel solo informa. Un entorno de ejecución de Java es una única carpeta: para eliminarlo, traslada la carpeta a la papelera en el Finder, que pide una contraseña de administrador donde solo un administrador puede modificarla."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ici, Peel se contente de signaler. Un environnement d’exécution Java se résume à son dossier : pour le supprimer, placez ce dossier dans la corbeille depuis le Finder, qui demande le mot de passe d’un administrateur lorsque seul un administrateur peut le modifier."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qui Peel si limita a segnalare. Un runtime Java è tutto nella sua cartella: per rimuoverlo, sposta la cartella nel Cestino dal Finder, che chiede la password di un amministratore dove solo un amministratore può modificarla."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはここでは報告するだけです。Javaランタイムは1つのフォルダで構成されています。取り除くには、Finderでそのフォルダをゴミ箱に入れてください。管理者しか変更できないフォルダの場合は、Finderが管理者のパスワードを求めます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "여기에서 Peel은 보고만 합니다. Java 런타임은 폴더 하나로 이루어져 있으므로 제거하려면 Finder에서 해당 폴더를 휴지통으로 이동하십시오. 관리자만 변경할 수 있는 폴더라면 Finder가 관리자 암호를 요청합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel geeft hier alleen informatie. Een Java-runtime is één map: verplaats de map in Finder naar de prullenmand om de runtime te verwijderen. Finder vraagt om het wachtwoord van een beheerder als alleen een beheerder de map kan wijzigen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tylko to tutaj zgłasza. Środowisko uruchomieniowe Java to jeden folder: aby się go pozbyć, przenieś ten folder do Kosza w Finderze, który poprosi o hasło administratora, jeśli zmieniać go może tylko administrator."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aqui o Peel apenas informa. Um runtime Java é uma única pasta: para removê-lo, mova essa pasta para o Lixo no Finder, que pede a senha de um administrador quando só um administrador pode alterá-la."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aici Peel doar raportează. Un mediu de rulare Java este un singur dosar: pentru a‑l elimina, mutați dosarul în Coș din Finder, care cere parola unui administrator acolo unde doar un administrator îl poate modifica."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Здесь Peel только сообщает. Среда выполнения Java целиком находится в своей папке: чтобы удалить ее, переместите эту папку в Корзину в Finder, который запросит пароль администратора, если изменять папку может только администратор."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Här rapporterar Peel bara. En Java-körmiljö är en enda mapp: om du vill ta bort den flyttar du mappen till papperskorgen i Finder, som ber om en administratörs lösenord när bara en administratör kan ändra mappen."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel burada yalnızca bilgi verir. Bir Java çalışma ortamı kendi klasöründen ibarettir: kaldırmak için klasörü Finder’da Çöp Sepeti’ne taşıyın; klasörü yalnızca bir yönetici değiştirebiliyorsa Finder bir yönetici parolası ister."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тут Peel лише повідомляє. Середовище виконання Java повністю міститься у власній папці: щоб вилучити його, перемістіть цю папку в Смітник у Finder, який попросить пароль адміністратора, якщо змінювати її може лише адміністратор."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此仅作报告。Java运行时就是一个文件夹：若要移除它，请在“访达”中将该文件夹移到废纸篓；如果只有管理员才能更改该文件夹，“访达”会要求输入管理员密码。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此只負責回報。Java執行環境本身就是一個檔案夾：若要移除，請在Finder中將該檔案夾丟到「垃圾桶」；若只有管理者能更改該檔案夾，Finder會要求輸入管理者的密碼。"
-          }
-        }
-      }
-    },
-    "Peel only reports here. A package installed this Java runtime, so Package Receipts can move it, and History can put it back." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zde jen informuje. Toto běhové prostředí Java nainstaloval balíček, takže ho stránka Záznamy o instalaci může přesunout a Historie ho může vrátit zpět."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hier informiert Peel nur. Ein Paket hat diese Java-Laufzeitumgebung installiert, daher kann die Seite „Paketquittungen“ sie verschieben, und im Verlauf kannst du sie zurücklegen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aquí Peel solo informa. Este entorno de ejecución de Java lo instaló un paquete, así que la página Recibos de paquetes puede trasladarlo, e Historial puede restaurarlo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ici, Peel se contente de signaler. Un paquet a installé cet environnement d’exécution Java : la page Reçus de paquets peut donc le déplacer, et l’Historique peut le remettre en place."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qui Peel si limita a segnalare. Questo runtime Java è stato installato da un pacchetto, quindi “Ricevute dei pacchetti” può spostarlo e la Cronologia può ripristinarlo."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはここでは報告するだけです。このJavaランタイムはパッケージでインストールされたため、“パッケージレシート”でゴミ箱に入れることができ、履歴から戻すこともできます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "여기에서 Peel은 보고만 합니다. 이 Java 런타임은 패키지로 설치되었으므로 패키지 수신 정보 페이지에서 이동할 수 있으며, 기록에서 되돌려 놓을 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel geeft hier alleen informatie. Deze Java-runtime is door een pakket geïnstalleerd, dus de pagina 'Installatiebewijzen' kan die verplaatsen en Geschiedenis kan die terugzetten."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tylko to tutaj zgłasza. To środowisko uruchomieniowe Java zainstalował pakiet, więc strona Potwierdzenia instalacji może je przenieść do Kosza, a Historia może je przywrócić."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aqui o Peel apenas informa. Um pacote instalou este runtime Java, então a página Recibos de Pacotes pode movê-lo, e o Histórico pode colocá-lo de volta."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aici Peel doar raportează. Un pachet a instalat acest mediu de rulare Java, așa că pagina Înregistrări de pachete îl poate muta și îl puteți pune înapoi din Istoric."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Здесь Peel только сообщает. Эту среду выполнения Java установил пакет, поэтому раздел «Квитанции пакетов» может ее переместить, а История может ее восстановить."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Här rapporterar Peel bara. Ett paket har installerat den här Java-körmiljön, så sidan Paketkvitton kan flytta den, och Historik kan lägga tillbaka den."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel burada yalnızca bilgi verir. Bu Java çalışma ortamını bir paket yükledi, bu yüzden Paket Makbuzları onu taşıyabilir ve Geçmiş onu yerine koyabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тут Peel лише повідомляє. Це середовище виконання Java інстальовано з пакета, тож розділ «Квитанції пакетів» може його перемістити, а Історія може його повернути."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此仅作报告。此Java运行时由软件包安装，因此“软件包回执”可以移动它，“历史记录”也可以将其放回原处。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此只負責回報。此Java執行環境是由套件安裝的，因此「套件收據」可以移動它，「歷史記錄」也可以將它還原。"
-          }
-        }
-      }
-    },
-    "Peel only reports here. Background Items moves a job’s configuration file, not the program it runs: that goes with the software that installed it." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zde jen informuje. Stránka Položky na pozadí přesouvá konfigurační soubor úlohy, ne program, který úloha spouští: ten se odstraní spolu se softwarem, který ho nainstaloval."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hier informiert Peel nur. Die Seite „Hintergrundobjekte“ verschiebt die Konfigurationsdatei eines Jobs, nicht das Programm, das er ausführt: Dieses wird mit der Software entfernt, die es installiert hat."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aquí Peel solo informa. La página Ítems en segundo plano traslada el archivo de configuración de una tarea, no el programa que ejecuta: ese se va con el software que lo instaló."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ici, Peel se contente de signaler. La page Éléments en arrière-plan déplace le fichier de configuration d’une tâche, pas le programme qu’elle exécute : celui-ci part avec le logiciel qui l’a installé."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qui Peel si limita a segnalare. “Elementi in background” sposta il file di configurazione di un elemento, non il programma che esegue: quello se ne va con il software che l’ha installato."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはここでは報告するだけです。“バックグラウンド項目”で移動するのはジョブの構成ファイルで、実行されるプログラムではありません。プログラムは、それをインストールしたソフトウェアと一緒に取り除かれます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "여기에서 Peel은 보고만 합니다. 백그라운드 항목 페이지는 작업의 구성 파일만 이동하고 작업이 실행하는 프로그램은 이동하지 않습니다. 그 프로그램은 설치한 소프트웨어와 함께 제거됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel geeft hier alleen informatie. De pagina 'Achtergrondonderdelen' verplaatst het configuratiebestand van een taak, niet het programma dat die uitvoert: dat gaat mee met de software die het heeft geïnstalleerd."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tylko to tutaj zgłasza. Strona Rzeczy działające w tle przenosi plik konfiguracyjny zadania, a nie program, który ono uruchamia: ten znika razem z oprogramowaniem, które go zainstalowało."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aqui o Peel apenas informa. A página Itens em Segundo Plano move o arquivo de configuração de uma tarefa, não o programa que ela executa: esse vai junto com o software que o instalou."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aici Peel doar raportează. Pagina Articole de fundal mută fișierul de configurare al unei sarcini, nu programul pe care îl rulează: acesta se elimină odată cu software‑ul care l‑a instalat."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Здесь Peel только сообщает. Раздел «Фоновые объекты» перемещает файл конфигурации задания, а не программу, которую оно запускает: она удаляется вместе с ПО, которое ее установило."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Här rapporterar Peel bara. Sidan Bakgrundsobjekt flyttar konfigurationsfilen för ett jobb, inte programmet som jobbet kör: det tas bort tillsammans med programvaran som installerade det."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel burada yalnızca bilgi verir. Arka Plan Öğeleri bir işin çalıştırdığı programı değil, konfigürasyon dosyasını taşır: program, onu yükleyen yazılımla birlikte gider."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тут Peel лише повідомляє. Розділ «Фонові елементи» переміщує файл конфігурації завдання, а не виконуваний файл, який воно запускає: його вилучають разом із ПЗ, яке його інсталювало."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此仅作报告。“后台项目”只会移动任务的配置文件，而不是它运行的程序：程序会随安装它的软件一起移除。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此只負責回報。「背景項目」會移動工作的設定檔，而不是它執行的程式：程式會隨安裝它的軟體一起移除。"
-          }
-        }
-      }
-    },
-    "Peel only reports here. Homebrew installed it with its cask %@, so it goes when Homebrew uninstalls that cask." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zde jen informuje. Homebrew tuto položku nainstaloval pomocí svého casku %@, takže zmizí, až Homebrew tento cask odinstaluje."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hier informiert Peel nur. Homebrew hat dies mit dem Cask „%@“ installiert, daher wird es entfernt, wenn Homebrew diesen Cask deinstalliert."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aquí Peel solo informa. Homebrew lo instaló con el cask %@, así que desaparece cuando Homebrew desinstala ese cask."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ici, Peel se contente de signaler. Homebrew l’a installé avec le cask %@ : il sera donc supprimé quand Homebrew désinstallera ce cask."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qui Peel si limita a segnalare. Homebrew l’ha installato con il suo cask %@, quindi verrà rimosso quando Homebrew disinstallerà quel cask."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはここでは報告するだけです。これはHomebrewのcask“%@”でインストールされたもので、Homebrewがそのcaskをアンインストールすると削除されます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "여기에서 Peel은 보고만 합니다. Homebrew가 ‘%@’ cask로 이 항목을 설치했으므로, Homebrew가 그 cask를 제거하면 이 항목도 함께 제거됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel geeft hier alleen informatie. Homebrew heeft het geïnstalleerd met de cask %@, dus het verdwijnt wanneer Homebrew die cask deïnstalleert."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tylko to tutaj zgłasza. Homebrew zainstalował to w ramach cask %@, więc zostanie to usunięte, gdy Homebrew go odinstaluje."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aqui o Peel apenas informa. O Homebrew instalou isto com o cask %@, então isto é removido quando o Homebrew desinstala esse cask."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aici Peel doar raportează. Homebrew l‑a instalat prin cask‑ul %@, așa că dispare când Homebrew dezinstalează acel cask."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Здесь Peel только сообщает. Homebrew установил этот объект в составе cask «%@», поэтому он будет удален, когда Homebrew удалит этот cask."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Här rapporterar Peel bara. Homebrew installerade det med sin cask %@, så det tas bort när Homebrew avinstallerar casken."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel burada yalnızca bilgi verir. Homebrew bunu %@ adlı cask ile yükledi, bu yüzden Homebrew o cask için yüklemeyi kaldırdığında bu da kaldırılır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тут Peel лише повідомляє. Homebrew інсталював це з cask «%@», тож це зникне, коли Homebrew деінсталює цей cask."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此仅作报告。Homebrew通过其cask“%@”安装了它，因此当Homebrew卸载该cask时，它也会随之移除。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此只負責回報。Homebrew透過cask「%@」安裝了它，因此在Homebrew解除安裝該cask時，它也會隨之移除。"
-          }
-        }
-      }
-    },
-    "Peel only reports here. Homebrew installed it with its formula %@, so it goes when Homebrew uninstalls that formula." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zde jen informuje. Homebrew tuto položku nainstaloval pomocí své formuly %@, takže zmizí, až Homebrew tuto formulu odinstaluje."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hier informiert Peel nur. Homebrew hat dies mit der Formula „%@“ installiert, daher wird es entfernt, wenn Homebrew diese Formula deinstalliert."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aquí Peel solo informa. Homebrew lo instaló con la formula %@, así que desaparece cuando Homebrew desinstala esa formula."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ici, Peel se contente de signaler. Homebrew l’a installé avec la formula %@ : il sera donc supprimé quand Homebrew désinstallera cette formula."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qui Peel si limita a segnalare. Homebrew l’ha installato con la sua formula %@, quindi verrà rimosso quando Homebrew disinstallerà quella formula."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはここでは報告するだけです。これはHomebrewのformula“%@”でインストールされたもので、Homebrewがそのformulaをアンインストールすると削除されます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "여기에서 Peel은 보고만 합니다. Homebrew가 ‘%@’ formula로 이 항목을 설치했으므로, Homebrew가 그 formula를 제거하면 이 항목도 함께 제거됩니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel geeft hier alleen informatie. Homebrew heeft het geïnstalleerd met de formula %@, dus het verdwijnt wanneer Homebrew die formula deïnstalleert."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tylko to tutaj zgłasza. Homebrew zainstalował to w ramach formula %@, więc zostanie to usunięte, gdy Homebrew ją odinstaluje."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aqui o Peel apenas informa. O Homebrew instalou isto com a formula %@, então isto é removido quando o Homebrew desinstala essa formula."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aici Peel doar raportează. Homebrew l‑a instalat prin formula %@, așa că dispare când Homebrew dezinstalează acea formulă."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Здесь Peel только сообщает. Homebrew установил этот объект в составе formula «%@», поэтому он будет удален, когда Homebrew удалит эту formula."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Här rapporterar Peel bara. Homebrew installerade det med sin formula %@, så det tas bort när Homebrew avinstallerar formulan."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel burada yalnızca bilgi verir. Homebrew bunu %@ adlı formula ile yükledi, bu yüzden Homebrew o formula için yüklemeyi kaldırdığında bu da kaldırılır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тут Peel лише повідомляє. Homebrew інсталював це з formula «%@», тож це зникне, коли Homebrew деінсталює цю formula."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此仅作报告。Homebrew通过其formula“%@”安装了它，因此当Homebrew卸载该formula时，它也会随之移除。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此只負責回報。Homebrew透過formula「%@」安裝了它，因此在Homebrew解除安裝該formula時，它也會隨之移除。"
-          }
-        }
-      }
-    },
-    "Peel only reports here. Homebrew installed this Java runtime with its formula %@, so uninstall that formula with Homebrew rather than moving the folder." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zde jen informuje. Homebrew toto běhové prostředí Java nainstaloval pomocí své formuly %@, takže místo přesouvání složky odinstalujte tuto formulu pomocí Homebrew."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hier informiert Peel nur. Homebrew hat diese Java-Laufzeitumgebung mit der Formula „%@“ installiert. Deinstalliere daher diese Formula mit Homebrew, statt den Ordner zu verschieben."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aquí Peel solo informa. Homebrew instaló este entorno de ejecución de Java con la formula %@, así que desinstala esa formula con Homebrew en lugar de trasladar la carpeta."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ici, Peel se contente de signaler. Homebrew a installé cet environnement d’exécution Java avec la formula %@ : désinstallez donc cette formula avec Homebrew plutôt que de déplacer le dossier."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qui Peel si limita a segnalare. Homebrew ha installato questo runtime Java con la sua formula %@, quindi disinstalla quella formula con Homebrew anziché spostare la cartella."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはここでは報告するだけです。このJavaランタイムはHomebrewのformula“%@”でインストールされたものです。フォルダを移動するのではなく、Homebrewでそのformulaをアンインストールしてください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "여기에서 Peel은 보고만 합니다. Homebrew가 ‘%@’ formula로 이 Java 런타임을 설치했으므로, 폴더를 이동하지 말고 Homebrew로 그 formula를 제거하십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel geeft hier alleen informatie. Homebrew heeft deze Java-runtime geïnstalleerd met de formula %@, dus deïnstalleer die formula met Homebrew in plaats van de map te verplaatsen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tylko to tutaj zgłasza. Homebrew zainstalował to środowisko uruchomieniowe Java w ramach formula %@, więc zamiast przenosić folder do Kosza, odinstaluj ją za pomocą Homebrew."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aqui o Peel apenas informa. O Homebrew instalou este runtime Java com a formula %@, então desinstale essa formula com o Homebrew em vez de mover a pasta."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aici Peel doar raportează. Homebrew a instalat acest mediu de rulare Java prin formula %@, așa că dezinstalați acea formulă cu Homebrew în loc să mutați dosarul."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Здесь Peel только сообщает. Homebrew установил эту среду выполнения Java в составе formula «%@», поэтому удалите эту formula с помощью Homebrew, а не перемещайте папку."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Här rapporterar Peel bara. Homebrew installerade den här Java-körmiljön med sin formula %@, så avinstallera formulan med Homebrew i stället för att flytta mappen."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel burada yalnızca bilgi verir. Homebrew bu Java çalışma ortamını %@ adlı formula ile yükledi, bu yüzden klasörü taşımak yerine o formula için yüklemeyi Homebrew ile kaldırın."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тут Peel лише повідомляє. Homebrew інсталював це середовище виконання Java з formula «%@», тож деінсталюйте цю formula за допомогою Homebrew, а не переміщуйте папку."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此仅作报告。Homebrew通过其formula“%@”安装了此Java运行时，因此请使用Homebrew卸载该formula，而不是移动该文件夹。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此只負責回報。Homebrew透過formula「%@」安裝了此Java執行環境，因此請使用Homebrew解除安裝該formula，而不要移動此檔案夾。"
-          }
-        }
-      }
-    },
-    "Peel only reports here. The software that installed it may have an uninstaller of its own." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zde jen informuje. Software, který tuto položku nainstaloval, může mít vlastní odinstalátor."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hier informiert Peel nur. Die Software, die es installiert hat, hat möglicherweise ein eigenes Deinstallationsprogramm."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aquí Peel solo informa. El software que lo instaló puede tener su propio desinstalador."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ici, Peel se contente de signaler. Le logiciel qui l’a installé dispose peut-être de son propre programme de désinstallation."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qui Peel si limita a segnalare. Il software che l’ha installato potrebbe avere un proprio programma di disinstallazione."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはここでは報告するだけです。これをインストールしたソフトウェアに、専用のアンインストーラがある場合があります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "여기에서 Peel은 보고만 합니다. 이 항목을 설치한 소프트웨어에 자체 제거 프로그램이 있을 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel geeft hier alleen informatie. De software die het heeft geïnstalleerd, heeft misschien een eigen de-installatieprogramma."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tylko to tutaj zgłasza. Oprogramowanie, które to zainstalowało, może mieć własny dezinstalator."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aqui o Peel apenas informa. O software que instalou isto pode ter um desinstalador próprio."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aici Peel doar raportează. Software‑ul care l‑a instalat poate avea propriul program de dezinstalare."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Здесь Peel только сообщает. У ПО, которое это установило, может быть своя программа удаления."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Här rapporterar Peel bara. Programvaran som installerade det kan ha en egen avinstallerare."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel burada yalnızca bilgi verir. Bunu yükleyen yazılımın kendi yükleme kaldırıcısı olabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тут Peel лише повідомляє. ПЗ, яке це інсталювало, може мати власний деінсталятор."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此仅作报告。安装它的软件可能有自己的卸载器。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此只負責回報。安裝它的軟體可能有自己的解除安裝程式。"
-          }
-        }
-      }
-    },
-    "Peel only reports here. This part comes with the app and can’t be removed on its own. An update of the app may replace it." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zde jen informuje. Tato součást patří k aplikaci a nelze ji odstranit samostatně. Aktualizace aplikace ji může nahradit."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hier informiert Peel nur. Dieser Teil gehört zur App und kann nicht für sich allein entfernt werden. Ein Update der App ersetzt ihn möglicherweise."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aquí Peel solo informa. Esta parte viene con la app y no se puede eliminar por separado. Una actualización de la app puede reemplazarla."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ici, Peel se contente de signaler. Ce composant est fourni avec l’app et ne peut pas être supprimé séparément. Une mise à jour de l’app peut le remplacer."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qui Peel si limita a segnalare. Questa parte è fornita con l’app e non si può rimuovere separatamente. Un aggiornamento dell’app potrebbe sostituirla."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはここでは報告するだけです。この部分はアプリに付属しているため、単独では取り除けません。アプリをアップデートすると、置き換えられる場合があります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "여기에서 Peel은 보고만 합니다. 이 구성 요소는 앱과 함께 제공되며 단독으로 제거할 수 없습니다. 앱 업데이트로 이 구성 요소가 대체될 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel geeft hier alleen informatie. Dit onderdeel hoort bij de app en kan niet apart worden verwijderd. Een update van de app kan het vervangen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tylko to tutaj zgłasza. Ta część jest dostarczana razem z aplikacją i nie można się jej pozbyć osobno. Uaktualnienie aplikacji może ją zastąpić."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aqui o Peel apenas informa. Esta parte vem com o app e não pode ser removida separadamente. Uma atualização do app pode substituí-la."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aici Peel doar raportează. Această componentă vine odată cu aplicația și nu poate fi eliminată separat. O actualizare a aplicației o poate înlocui."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Здесь Peel только сообщает. Эта часть поставляется вместе с приложением, и ее нельзя удалить отдельно. Обновление приложения может ее заменить."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Här rapporterar Peel bara. Den här delen följer med appen och kan inte tas bort separat. En uppdatering av appen kan ersätta den."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel burada yalnızca bilgi verir. Bu parça uygulamayla birlikte gelir ve tek başına kaldırılamaz. Uygulamanın bir güncellemesi onu yenisiyle değiştirebilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тут Peel лише повідомляє. Ця частина постачається разом із програмою, і її не можна вилучити окремо. Оновлення програми може її замінити."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此仅作报告。这一部分随App附带，无法单独移除。更新App时可能会替换它。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此只負責回報。這個部分隨附於該App，無法單獨移除。該App的更新可能會取代它。"
-          }
-        }
-      }
-    },
-    "Peel only reports here. To remove it, go to Applications, where you see everything that goes with the app." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zde jen informuje. Chcete-li ji odstranit, přejděte na stránku Všechny aplikace, kde uvidíte vše, co k aplikaci patří."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hier informiert Peel nur. Um es zu entfernen, wechsle zu „Programme“, wo du alles siehst, was zur App gehört."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aquí Peel solo informa. Para eliminarlo, ve a Aplicaciones, donde verás todo lo que se va con la app."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ici, Peel se contente de signaler. Pour le supprimer, allez dans Applications, où vous voyez tout ce qui part avec l’app."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qui Peel si limita a segnalare. Per la rimozione, vai in Applicazioni, dove vedi tutto ciò che se ne va insieme all’app."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはここでは報告するだけです。取り除くには、“アプリケーション”に移動してください。アプリと一緒に取り除かれるものをすべて確認できます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "여기에서 Peel은 보고만 합니다. 제거하려면 응용 프로그램 페이지로 가십시오. 앱과 함께 제거되는 모든 항목을 그곳에서 볼 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel geeft hier alleen informatie. Ga naar 'Alle apps' om het te verwijderen: daar zie je alles wat bij de app hoort."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tylko to tutaj zgłasza. Aby się tego pozbyć, przejdź do strony Wszystkie aplikacje, gdzie widać wszystko, co należy do aplikacji."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aqui o Peel apenas informa. Para remover isto, vá para Aplicativos, onde você vê tudo o que vai junto com o app."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aici Peel doar raportează. Pentru a‑l elimina, accesați pagina Toate aplicațiile, unde vedeți tot ce se elimină odată cu aplicația."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Здесь Peel только сообщает. Чтобы удалить это, перейдите в раздел «Программы», где видно все, что уходит вместе с приложением."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Här rapporterar Peel bara. Om du vill ta bort det går du till Alla appar, där du ser allt som hör till appen."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel burada yalnızca bilgi verir. Kaldırmak için, uygulamayla birlikte giden her şeyi gördüğünüz Tüm Uygulamalar’a gidin."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тут Peel лише повідомляє. Щоб вилучити це, перейдіть до розділу «Усі програми», де видно все, що піде разом із програмою."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此仅作报告。若要移除它，请前往“应用程序”，在那里可以看到会随该App一起移除的所有内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此只負責回報。若要移除，請前往「應用程式」，你可以在那裡看到會隨該App一起移除的所有項目。"
-          }
-        }
-      }
-    },
-    "Peel only reports here. To remove it, go to Plug-ins." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zde jen informuje. Chcete-li ho odstranit, přejděte na stránku Plug-iny."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hier informiert Peel nur. Um es zu entfernen, wechsle zu „Plug-ins“."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aquí Peel solo informa. Para eliminarlo, ve a Módulos."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ici, Peel se contente de signaler. Pour le supprimer, allez dans Modules."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qui Peel si limita a segnalare. Per rimuoverlo, vai in Plugin."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはここでは報告するだけです。取り除くには、“プラグイン”に移動してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "여기에서 Peel은 보고만 합니다. 제거하려면 플러그인 페이지로 가십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel geeft hier alleen informatie. Ga naar 'Plug-ins' om het te verwijderen."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tylko to tutaj zgłasza. Aby się tego pozbyć, przejdź do strony Wtyczki."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aqui o Peel apenas informa. Para remover isto, vá para Plug-ins."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aici Peel doar raportează. Pentru a‑l elimina, accesați pagina Plug-inuri."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Здесь Peel только сообщает. Чтобы удалить это, перейдите в раздел «Плагины»."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Här rapporterar Peel bara. Om du vill ta bort det går du till sidan Insticksfiler."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel burada yalnızca bilgi verir. Kaldırmak için Yazılım Ekleri’ne gidin."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тут Peel лише повідомляє. Щоб вилучити це, перейдіть до розділу «Плагіни»."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此仅作报告。若要移除它，请前往“插件”。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel在此只負責回報。若要移除，請前往「外掛模組」。"
-          }
-        }
-      }
-    },
     "Peel protects that place now, so it puts nothing back there. You can drag it out of the Trash in Finder." : {
       "localizations" : {
         "cs" : {
@@ -198316,6 +198210,642 @@
         }
       }
     },
+    "Remove it in Applications" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstranit na stránce Všechny aplikace"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In „Programme“ entfernen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimínalo en Aplicaciones"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimez-la dans Applications"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovila in Applicazioni"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“アプリケーション”で取り除く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "응용 프로그램 페이지에서 제거"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder het in 'Alle apps'"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odinstaluj we Wszystkich aplikacjach"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover em Aplicativos"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați‑o din pagina Toate aplicațiile"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалите в разделе «Программы»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort den i Alla appar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm Uygulamalar’da kaldırın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучіть її в розділі «Усі програми»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在应用程序中移除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「應用程式」中移除"
+          }
+        }
+      }
+    },
+    "Remove it in Finder" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstranit ve Finderu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Finder entfernen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimínalo en el Finder"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimez-le dans le Finder"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovilo nel Finder"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finderで取り除く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder에서 제거"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder het in Finder"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przenieś do Kosza w Finderze"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover no Finder"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați‑l din Finder"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалите в Finder"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort den i Finder"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder’da kaldırın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучіть його у Finder"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在访达中移除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Finder中移除"
+          }
+        }
+      }
+    },
+    "Remove it in Package Receipts" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstranit na stránce Záznamy o instalaci"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In „Paketquittungen“ entfernen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimínalo en Recibos de paquetes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimez-le dans Reçus de paquets"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovilo in “Ricevute dei pacchetti”"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“パッケージレシート”で取り除く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "패키지 수신 정보에서 제거"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder het in 'Installatiebewijzen'"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przenieś do Kosza w Potwierdzeniach instalacji"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover em Recibos de Pacotes"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați‑l din pagina Înregistrări de pachete"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалите в разделе «Квитанции пакетов»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort den på sidan Paketkvitton"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paket Makbuzları’nda kaldırın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучіть його в розділі «Квитанції пакетів»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在软件包回执中移除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「套件收據」中移除"
+          }
+        }
+      }
+    },
+    "Remove it in Plug-ins" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstranit na stránce Plug-iny"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In „Plug-ins“ entfernen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimínalo en Módulos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimez-le dans Modules"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovilo in Plugin"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“プラグイン”で取り除く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "플러그인 페이지에서 제거"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder het in 'Plug-ins'"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przenieś do Kosza we Wtyczkach"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover em Plug-ins"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați‑l din pagina Plug-inuri"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалите в разделе «Плагины»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort den i Insticksfiler"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazılım Ekleri’nde kaldırın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучіть його в розділі «Плагіни»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在插件中移除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「外掛模組」中移除"
+          }
+        }
+      }
+    },
+    "Remove it with Homebrew" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstranit pomocí Homebrew"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit Homebrew entfernen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimínalo con Homebrew"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimez-le avec Homebrew"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovilo con Homebrew"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewで取り除く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew로 제거"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder het met Homebrew"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odinstaluj za pomocą Homebrew"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover com o Homebrew"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați‑l cu Homebrew"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалите с помощью Homebrew"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort den med Homebrew"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ile kaldırın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучіть його за допомогою Homebrew"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用Homebrew移除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用Homebrew移除"
+          }
+        }
+      }
+    },
+    "Remove it with its software" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstranit spolu s jeho softwarem"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit der zugehörigen Software entfernen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimínalo con su software"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimez-le avec son logiciel"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovilo con il suo software"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提供元のソフトウェアで取り除く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설치한 소프트웨어로 제거"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder het met de bijbehorende software"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odinstaluj razem z oprogramowaniem"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover com o software dele"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminați‑l odată cu software‑ul său"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалите с помощью ПО, которое его установило"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort det med dess programvara"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ait olduğu yazılımla kaldırın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вилучіть його разом із його ПЗ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随其软件一起移除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隨所屬軟體一起移除"
+          }
+        }
+      }
+    },
     "Remove the bottle in Whisky and choose to delete its files from disk" : {
       "localizations" : {
         "cs" : {
@@ -203008,6 +203538,112 @@
         }
       }
     },
+    "Rosetta is not installed, so this does not run at all. macOS offers to install it the first time you open an Intel app." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prostředí Rosetta není nainstalované, takže tento software vůbec nepoběží. Systém macOS nabídne jeho instalaci, až poprvé otevřete aplikaci pro procesory Intel."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosetta ist nicht installiert, daher läuft dies überhaupt nicht. macOS bietet die Installation an, wenn du zum ersten Mal eine Intel-App öffnest."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosetta no se ha instalado, así que esto no se ejecuta en absoluto. macOS ofrece instalarlo la primera vez que abres una app para Intel."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosetta n’est pas installé : cet élément ne peut donc pas s’exécuter du tout. macOS propose de l’installer la première fois que vous ouvrez une app Intel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosetta non è installato, quindi questo elemento non funziona affatto. macOS propone di installarlo la prima volta che apri un’app Intel."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosettaがインストールされていないため、これはまったく動作しません。Intelプロセッサ用アプリを初めて開いたときに、macOSがRosettaのインストールを提案します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosetta가 설치되어 있지 않으므로 이 항목은 전혀 실행되지 않습니다. Intel 앱을 처음 열 때 macOS가 Rosetta 설치를 제안합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosetta is niet geïnstalleerd, dus dit werkt helemaal niet. De eerste keer dat je een Intel-app opent, biedt macOS aan om Rosetta te installeren."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosetta nie jest zainstalowana, więc to w ogóle nie działa. macOS proponuje jej instalację przy pierwszym otwarciu aplikacji dla procesorów Intel."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Rosetta não está instalado, então isto não é executado de forma alguma. O macOS oferece instalá-lo na primeira vez que você abre um app Intel."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Software‑ul Rosetta nu este instalat, așa că acest articol nu rulează deloc. macOS se oferă să îl instaleze prima dată când deschideți o aplicație Intel."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosetta не установлена, поэтому это ПО вообще не запускается. macOS предлагает установить ее, когда Вы впервые открываете приложение для Intel."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosetta är inte installerad, så det här går inte att köra alls. macOS erbjuder sig att installera Rosetta första gången du öppnar en Intel-app."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosetta yüklü değil, bu yüzden bu hiç çalışmaz. macOS, bir Intel uygulamasını ilk açtığınızda Rosetta’yı yüklemeyi önerir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosetta не інстальовано, тож це взагалі не запускається. macOS пропонує інсталювати Rosetta, коли ви вперше відкриваєте програму для Intel."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未安装Rosetta，因此它根本无法运行。你第一次打开Intel App时，macOS会提示安装Rosetta。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未安裝Rosetta，因此這個項目完全無法執行。你第一次打開Intel App時，macOS會提供安裝Rosetta的選項。"
+          }
+        }
+      }
+    },
     "Rosetta isn’t installed on this Mac, so its Intel version can’t run here." : {
       "localizations" : {
         "cs" : {
@@ -203110,112 +203746,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這部Mac未安裝Rosetta，因此它的Intel版本無法在此執行。"
-          }
-        }
-      }
-    },
-    "Rosetta isn’t installed on this Mac, so this doesn’t run at all. macOS offers to install it the first time you open an Intel app, and macOS 27 is the last release that runs most Intel software through it." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prostředí Rosetta není v tomto Macu nainstalované, takže tento software vůbec nepoběží. Systém macOS nabídne instalaci prostředí Rosetta, až poprvé otevřete aplikaci pro procesory Intel, a macOS 27 je poslední verzí, která přes něj spouští většinu softwaru pro procesory Intel."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rosetta ist auf diesem Mac nicht installiert, daher läuft dies überhaupt nicht. macOS bietet die Installation an, wenn du zum ersten Mal eine Intel-App öffnest, und macOS 27 ist die letzte Version, unter der die meiste Intel-Software darüber läuft."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rosetta no se ha instalado en este Mac, así que esto no se ejecuta en absoluto. macOS ofrece instalarlo la primera vez que abres una app para Intel, y macOS 27 es la última versión que ejecuta la mayor parte del software para Intel mediante Rosetta."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rosetta n’est pas installé sur ce Mac : cet élément ne peut donc pas s’exécuter du tout. macOS propose de l’installer la première fois que vous ouvrez une app Intel, et macOS 27 est la dernière version à exécuter la plupart des logiciels Intel grâce à lui."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rosetta non è installato su questo Mac, quindi questo elemento non funziona affatto. macOS propone di installarlo la prima volta che apri un’app Intel, e macOS 27 è l’ultima versione che esegue la maggior parte del software Intel tramite Rosetta."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このMacにはRosettaがインストールされていないため、これはまったく動作しません。Intelプロセッサ用アプリを初めて開いたときに、macOSがRosettaのインストールを提案します。また、macOS 27は、ほとんどのIntelプロセッサ用ソフトウェアをRosetta経由で実行できる最後のリリースです。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 Mac에 Rosetta가 설치되어 있지 않으므로 이 항목은 전혀 실행되지 않습니다. Intel 앱을 처음 열 때 macOS가 Rosetta 설치를 제안하며, macOS 27은 대부분의 Intel 소프트웨어를 Rosetta로 실행할 수 있는 마지막 버전입니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rosetta is niet op deze Mac geïnstalleerd, dus dit werkt helemaal niet. De eerste keer dat je een Intel-app opent, biedt macOS aan om Rosetta te installeren, en macOS 27 is de laatste versie die de meeste Intel-software via Rosetta uitvoert."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rosetta nie jest zainstalowana na tym Macu, więc to w ogóle nie działa. macOS proponuje jej instalację przy pierwszym otwarciu aplikacji dla procesorów Intel, a macOS 27 to ostatnie wydanie, które za jej pomocą uruchamia większość oprogramowania dla procesorów Intel."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Rosetta não está instalado neste Mac, então isto não é executado de forma alguma. O macOS oferece instalá-lo na primeira vez que você abre um app Intel, e o macOS 27 é a última versão que executa a maior parte do software Intel por meio dele."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Software‑ul Rosetta nu este instalat pe acest Mac, așa că acest articol nu rulează deloc. macOS se oferă să îl instaleze prima dată când deschideți o aplicație Intel, iar macOS 27 este ultima versiune care rulează prin Rosetta majoritatea software‑ului Intel."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rosetta не установлена на этом Mac, поэтому это ПО вообще не запускается. macOS предлагает установить ее, когда Вы впервые открываете приложение для Intel, а macOS 27 является последним выпуском, в котором большинство ПО для Intel работает через нее."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rosetta är inte installerad på den här datorn, så det här går inte att köra alls. macOS erbjuder sig att installera Rosetta första gången du öppnar en Intel-app, och macOS 27 är den sista versionen som kör den mesta Intel-programvaran via Rosetta."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rosetta bu Mac’te yüklü değil, bu yüzden bu hiç çalışmaz. macOS, bir Intel uygulamasını ilk açtığınızda Rosetta’yı yüklemeyi önerir; macOS 27, çoğu Intel yazılımını onunla çalıştıran son sürümdür."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rosetta не інстальовано на цьому Mac, тож це взагалі не запускається. macOS пропонує інсталювати Rosetta, коли ви вперше відкриваєте програму для Intel, а macOS 27 є останнім випуском, який запускає більшість ПЗ для Intel через Rosetta."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这台Mac上未安装Rosetta，因此它根本无法运行。你第一次打开Intel App时，macOS会提示安装Rosetta；macOS 27是最后一个通过Rosetta运行大多数Intel软件的版本。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "這部Mac未安裝Rosetta，因此這個項目完全無法執行。你第一次打開Intel App時，macOS會提供安裝Rosetta的選項；而macOS 27是最後一個透過它執行大部分Intel軟體的版本。"
           }
         }
       }
@@ -230042,6 +230572,112 @@
         }
       }
     },
+    "System Settings > General > About > Intel-based Apps lists the apps macOS 28 will not run. Peel also looks inside apps and at plug-ins and drivers." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V Nastavení systému > Obecné > Informace > Aplikace pro procesory Intel najdete seznam aplikací, které macOS 28 nespustí. Peel se navíc dívá dovnitř aplikací a na plug-iny a ovladače."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unter „Systemeinstellungen“ > „Allgemein“ > „Info“ > „Intel-basierte Apps“ stehen die Apps, die macOS 28 nicht ausführen wird. Peel sieht auch in Apps hinein und prüft Plug-ins und Treiber."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes del Sistema > General > Información > Apps para Intel muestra las apps que macOS 28 no ejecutará. Peel también mira dentro de las apps y revisa los módulos y los drivers."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La liste « Apps basées sur Intel », dans Réglages Système > Général > Informations, indique les apps que macOS 28 n’exécutera pas. Peel examine aussi l’intérieur des apps, ainsi que les modules et les gestionnaires."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Impostazioni di Sistema > Generali > Informazioni > App basate su Intel sono elencate le app che macOS 28 non eseguirà. Peel guarda anche dentro le app e controlla plugin e driver."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“システム設定”＞“一般”＞“情報”＞“Intelプロセッサ用アプリ”に、macOS 28で実行できないアプリが表示されます。Peelはアプリの内部や、プラグイン、ドライバも調べます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시스템 설정 > 일반 > 정보 > Intel 기반 앱에는 macOS 28에서 실행되지 않을 앱이 나와 있습니다. Peel은 앱 내부와 플러그인, 드라이버도 살펴봅니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systeeminstellingen > Algemeen > Info > Op Intel gebaseerde apps noemt de apps die macOS 28 niet meer uitvoert. Peel kijkt ook in apps en naar plug-ins en besturingsbestanden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W Ustawieniach systemowych > Ogólne > Informacje > Aplikacje dla procesorów Intel są wymienione aplikacje, których macOS 28 nie uruchomi. Peel zagląda też do wnętrza aplikacji oraz sprawdza wtyczki i sterowniki."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes do Sistema > Geral > Sobre > Apps para processador Intel lista os apps que o macOS 28 não vai executar. O Peel também examina o interior dos apps, os plug-ins e os drivers."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lista „Aplicații bazate pe Intel” din Configurări sistem > General > Detalii enumeră aplicațiile pe care macOS 28 nu le va rula. Peel caută și în interiorul aplicațiilor, precum și printre plug-inuri și drivere."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В списке «Приложения для процессоров Intel» в разделе «Системные настройки» > «Основные» > «Описание» перечислены приложения, которые macOS 28 не запустит. Peel также заглядывает внутрь приложений и проверяет плагины и драйверы."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systeminställningar > Allmänt > Om > Intel-baserade appar visar vilka appar macOS 28 inte kommer att köra. Peel tittar också inuti appar och på insticksfiler och drivrutiner."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistem Ayarları > Genel > Hakkında > Intel Tabanlı Uygulamalar bölümü, macOS 28’in çalıştırmayacağı uygulamaları listeler. Peel ayrıca uygulamaların içine, yazılım eklerine ve sürücülere de bakar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У розділі Системні параметри > Загальні > Інформація > Програми на основі Intel перелічено програми, які macOS 28 не запускатиме. Peel також зазирає всередину програм і перевіряє плагіни та драйвери."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“系统设置”>“通用”>“关于本机”>“基于Intel的App”列出了macOS 28无法运行的App。Peel还会查看App内部以及插件和驱动程序。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「系統設定」>「一般」>「關於」>「Intel架構式App」會列出macOS 28無法執行的App。Peel也會檢查App內部、外掛模組和驅動程式。"
+          }
+        }
+      }
+    },
     "System Settings > Notifications > Summarize Notifications" : {
       "localizations" : {
         "cs" : {
@@ -236407,112 +237043,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「系統設定」>「一般」>「關於」中的「Intel架構式App」列表，會列出macOS 28無法執行的App，包括一些位於Peel所查看檔案夾以外的App。"
-          }
-        }
-      }
-    },
-    "The Intel-based Apps list in System Settings > General > About names the apps macOS 28 won’t run. Peel also looks inside apps and at plug-ins and drivers, which that list may leave out." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seznam „Aplikace pro procesory Intel“ v Nastavení systému > Obecné > Informace uvádí aplikace, které macOS 28 nespustí. Peel se navíc dívá dovnitř aplikací a na plug-iny a ovladače, které tento seznam může vynechat."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Liste „Intel-basierte Apps“ unter „Systemeinstellungen“ > „Allgemein“ > „Info“ nennt die Apps, die macOS 28 nicht ausführen wird. Peel sieht auch in Apps hinein und prüft Plug-ins und Treiber, die in dieser Liste möglicherweise fehlen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La lista “Apps para Intel” de Ajustes del Sistema > General > Información indica las apps que macOS 28 no ejecutará. Peel también mira dentro de las apps y revisa los módulos y los drivers, que puede que esa lista no incluya."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La liste « Apps basées sur Intel », dans Réglages Système > Général > Informations, indique les apps que macOS 28 n’exécutera pas. Peel examine aussi l’intérieur des apps, ainsi que les modules et les gestionnaires, que cette liste peut omettre."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’elenco “App basate su Intel” in Impostazioni di Sistema > Generali > Informazioni indica le app che macOS 28 non eseguirà. Peel guarda anche dentro le app e controlla plugin e driver, che quell’elenco potrebbe tralasciare."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "“システム設定”＞“一般”＞“情報”にある“Intelプロセッサ用アプリ”のリストに、macOS 28で実行できないアプリが表示されます。Peelはアプリの内部や、プラグイン、ドライバも調べます。これらはそのリストに含まれていない場合があります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "시스템 설정 > 일반 > 정보의 ‘Intel 기반 앱’ 목록에는 macOS 28에서 실행되지 않을 앱이 나와 있습니다. Peel은 그 목록에서 빠질 수 있는 앱 내부와 플러그인, 드라이버도 살펴봅니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De lijst 'Op Intel gebaseerde apps' in Systeeminstellingen > Algemeen > Info noemt de apps die macOS 28 niet meer uitvoert. Peel kijkt ook in apps en naar plug-ins en besturingsbestanden, die in die lijst kunnen ontbreken."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lista „Aplikacje dla procesorów Intel” w Ustawieniach systemowych > Ogólne > Informacje wymienia aplikacje, których macOS 28 nie uruchomi. Peel zagląda też do wnętrza aplikacji oraz sprawdza wtyczki i sterowniki, które ta lista może pominąć."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A lista “Apps para processador Intel” em Ajustes do Sistema > Geral > Sobre mostra os apps que o macOS 28 não vai executar. O Peel também examina o interior dos apps, os plug-ins e os drivers, que essa lista pode deixar de fora."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lista „Aplicații bazate pe Intel” din Configurări sistem > General > Detalii enumeră aplicațiile pe care macOS 28 nu le va rula. Peel caută și în interiorul aplicațiilor, precum și printre plug-inuri și drivere, pe care lista respectivă le poate omite."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "В списке «Приложения для процессоров Intel» в разделе «Системные настройки» > «Основные» > «Описание» перечислены приложения, которые macOS 28 не запустит. Peel также заглядывает внутрь приложений и проверяет плагины и драйверы, которых в этом списке может не быть."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Listan ”Intel-baserade appar” i Systeminställningar > Allmänt > Om visar vilka appar macOS 28 inte kommer att köra. Peel tittar också inuti appar och på insticksfiler och drivrutiner, som den listan kanske utelämnar."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sistem Ayarları > Genel > Hakkında bölümündeki “Intel Tabanlı Uygulamalar” listesi, macOS 28’in çalıştırmayacağı uygulamaları gösterir. Peel ayrıca uygulamaların içine, yazılım eklerine ve sürücülere de bakar; o liste bunları atlayabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Список «Програми на основі Intel» у розділі Системні параметри > Загальні > Інформація містить програми, які macOS 28 не запускатиме. Peel також зазирає всередину програм і перевіряє плагіни та драйвери, яких у тому списку може не бути."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "“系统设置”>“通用”>“关于本机”中的“基于Intel的App”列表会列出macOS 28无法运行的App。Peel还会查看App内部以及插件和驱动程序，而该列表可能会遗漏这些内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "「系統設定」>「一般」>「關於」中的「Intel架構式App」列表，會列出macOS 28無法執行的App。Peel也會檢查App內部、外掛模組和驅動程式，這些可能不在該列表中。"
           }
         }
       }
@@ -247127,6 +247657,112 @@
         }
       }
     },
+    "The software that installed it may have an uninstaller of its own." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Software, který tuto položku nainstaloval, může mít vlastní odinstalátor."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Software, die es installiert hat, hat möglicherweise ein eigenes Deinstallationsprogramm."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El software que lo instaló puede tener su propio desinstalador."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le logiciel qui l’a installé dispose peut-être de son propre programme de désinstallation."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il software che l’ha installato potrebbe avere un proprio programma di disinstallazione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これをインストールしたソフトウェアに、専用のアンインストーラがある場合があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 항목을 설치한 소프트웨어에 자체 제거 프로그램이 있을 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De software die het heeft geïnstalleerd, heeft misschien een eigen de-installatieprogramma."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oprogramowanie, które to zainstalowało, może mieć własny dezinstalator."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O software que instalou isto pode ter um desinstalador próprio."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Software‑ul care l‑a instalat poate avea propriul program de dezinstalare."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У ПО, которое это установило, может быть своя программа удаления."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programvaran som installerade det kan ha en egen avinstallerare."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onu yükleyen yazılımın kendi yükleme kaldırıcısı olabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ПЗ, яке його інсталювало, може мати власний деінсталятор."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装它的软件可能有自己的卸载器。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安裝它的軟體可能有自己的解除安裝程式。"
+          }
+        }
+      }
+    },
     "The symbol starts a line of its own, so the command always has the whole width of the window." : {
       "localizations" : {
         "cs" : {
@@ -249463,6 +250099,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「iCloud雲碟」中的內容超出Peel在一次掃描的時限內能讀取的範圍，因此這個列表並不完整。"
+          }
+        }
+      }
+    },
+    "There you see everything that goes with the app." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tam uvidíte vše, co k aplikaci patří."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dort siehst du alles, was zur App gehört."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ahí verás todo lo que se va con la app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous y voyez tout ce qui part avec l’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lì vedi tutto ciò che se ne va insieme all’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "そこでは、アプリと一緒に取り除かれるものをすべて確認できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그곳에서 앱과 함께 제거되는 모든 항목을 볼 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daar zie je alles wat bij de app hoort."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widać tam wszystko, co należy do aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lá você vê tudo o que vai junto com o app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acolo vedeți tot ce se elimină odată cu aplicația."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Там видно все, что уходит вместе с приложением."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Där ser du allt som hör till appen."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orada uygulamayla birlikte giden her şeyi görürsünüz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Там видно все, що піде разом із програмою."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在那里可以看到会随该App一起移除的所有内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你可以在那裡看到會隨該App一起移除的所有項目。"
           }
         }
       }
