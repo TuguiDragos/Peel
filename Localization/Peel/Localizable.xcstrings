@@ -164083,6 +164083,112 @@
         }
       }
     },
+    "Peel changes these with `git config --global`. Turning one off puts back what was there before Peel, or removes it when you had set it yourself." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tato nastavení mění příkazem `git config --global`. Vypnutím se vrátí to, co tu bylo před Peelem, nebo se nastavení odebere, pokud jste ho předtím nastavili sami."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ändert diese Einstellungen mit `git config --global`. Wenn du eine deaktivierst, wird wiederhergestellt, was vor Peel galt, oder sie wird entfernt, wenn du sie selbst festgelegt hattest."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel cambia estos ajustes con `git config --global`. Al desactivar uno, se restaura lo que había antes de Peel, o se elimina si lo habías establecido tú."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel modifie ces réglages avec `git config --global`. En désactiver un rétablit ce qui était en place avant Peel, ou le supprime si vous l’aviez défini vous-même."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel modifica queste impostazioni con `git config --global`. Disattivarne una ripristina ciò che c’era prima di Peel, oppure la rimuove se l’avevi impostata tu."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは`git config --global`でこれらの設定を変更します。オフにすると、Peelが変更する前の状態に戻ります。自分で設定していたものの場合は、その設定が取り除かれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 `git config --global` 명령으로 이 설정을 변경합니다. 항목을 끄면 Peel이 변경하기 전의 설정을 되돌려 놓거나, 사용자가 직접 설정했던 경우에는 해당 설정을 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel wijzigt deze met `git config --global`. Als je er een uitschakelt, wordt teruggezet wat er vóór Peel was, of wordt de instelling verwijderd als je die zelf had ingesteld."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel zmienia je za pomocą `git config --global`. Wyłączenie któregoś z nich przywraca to, co było przed Peel, albo je usuwa, jeśli wcześniej ustawiono je samodzielnie."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel altera estes ajustes com `git config --global`. Desativar um deles coloca de volta o que havia antes do Peel ou o remove, quando foi você mesmo que o definiu."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel modifică aceste configurări prin `git config --global`. Dezactivarea uneia pune înapoi ce era înainte de Peel sau o elimină, dacă ați setat‑o chiar dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel меняет эти параметры с помощью `git config --global`. Если выключить параметр, вернется то, что было до Peel, а если Вы задали его сами, он будет удален."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ändrar dessa med `git config --global`. Om du stänger av en av dem återställs det som gällde före Peel, eller så tas inställningen bort om du själv hade gjort den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bunları `git config --global` ile değiştirir. Birini kapatmak, Peel’den önce orada olanı geri getirir veya ayarı kendiniz yapmışsanız onu kaldırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel змінює їх командою `git config --global`. Якщо вимкнути одне з них, повернеться те, що було до Peel, або налаштування буде вилучено, якщо ви задали його самі."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel使用`git config --global`更改这些设置。关闭某一项会恢复Peel更改之前的设置；如果该设置是你自己设定的，则会将其移除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會使用`git config --global`更改這些設定。關閉其中一項，會將它還原為Peel更改之前的狀態；如果是你自己設定的，則會將它移除。"
+          }
+        }
+      }
+    },
     "Peel clears what %@ was allowed to access, such as the camera or the microphone, so it asks you again. History cannot bring that back." : {
       "localizations" : {
         "cs" : {
@@ -183278,112 +183384,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會傳送任何使用資料，也不會保留任何帳號。檢查更新時，只會向每個App自己的Feed（若App是從App Store安裝，則向App Store）查詢該App本身，並會告知App Store一個國家，因為其回應取決於國家：若是iPhone或iPad App，則是其來源商店所屬的國家，否則就是你的Mac所設定的地區。整體而言，這些檢查會讓App Store得知你有哪些它的App，並讓GitHub得知你的哪些App是透過它更新。Homebrew的漏洞掃描由你自己啟動，是唯一會一次傳送整份已安裝項目列表的功能：它會將每個已安裝formula的來源和版本傳送到api.osv.dev。「回報問題」會將Peel的版本、你的macOS版本，以及你的Mac配備的是Apple晶片還是Intel，放入它打開的網址中。"
-          }
-        }
-      }
-    },
-    "Peel sets these with `git config --global` and puts back what was there when you turn one off." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tato nastavení zapisuje příkazem `git config --global` a když některé vypnete, vrátí to, co tu bylo předtím."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel legt diese Einstellungen mit `git config --global` fest und stellt wieder her, was vorher galt, wenn du eine deaktivierst."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel establece estos ajustes con `git config --global` y, al desactivar uno, restaura lo que había."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel définit ces réglages avec `git config --global` et rétablit ce qui était en place lorsque vous en désactivez un."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel applica queste impostazioni con `git config --global` e, quando ne disattivi una, ripristina ciò che c’era."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelは`git config --global`でこれらを設定し、オフにすると以前の状態に戻します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel은 `git config --global` 명령으로 이 설정을 지정하며, 항목을 끄면 이전에 있던 설정을 되돌려 놓습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel stelt deze in met `git config --global` en zet terug wat er stond als je er een uitschakelt."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ustawia je za pomocą `git config --global`, a gdy wyłączysz któreś z nich, przywraca to, co było wcześniej."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel define estes ajustes com `git config --global` e coloca de volta o que havia antes quando você desativa um deles."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel setează aceste configurări prin `git config --global` și pune înapoi ce era acolo când dezactivați una."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel задает эти параметры с помощью `git config --global` и, если выключить параметр, возвращает то, что было раньше."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ställer in dessa med `git config --global` och återställer det som fanns där när du stänger av en av dem."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel bunları `git config --global` ile ayarlar ve birini kapattığınızda orada olanı geri getirir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel задає їх командою `git config --global` і повертає те, що було раніше, коли ви вимикаєте одне з них."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel使用`git config --global`设定这些设置，关闭某一项时会恢复原先的设置。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel會使用`git config --global`設定這些項目，並在你關閉其中一項時還原原本的內容。"
           }
         }
       }

@@ -15,7 +15,7 @@ struct TerminalStatusWordsTests {
     }
 
     @Test func theBarsSayWherePeelKeepsTheseSettings() {
-        #expect(GitTab.turningOneOff.key == "Peel sets these with `git config --global` and puts back what was there when you turn one off.")
+        #expect(GitTab.turningOneOff.key == "Peel changes these with `git config --global`. Turning one off puts back what was there before Peel, or removes it when you had set it yourself.")
         #expect(ShellTab.whereTheyAreKept.key == "Peel keeps these in a file of its own, not in your shell files.")
         #expect(SSHTab.whereTheyAreKept.key == "Peel keeps these in a file of its own, not in your ~/.ssh/config.")
     }

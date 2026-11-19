@@ -5,7 +5,7 @@ struct GitTab: View {
     @Environment(GitLibrary.self) private var git
     @State private var isConfirmingTurnAllOff = false
 
-    static let turningOneOff: LocalizedStringResource = "Peel sets these with `git config --global` and puts back what was there when you turn one off."
+    static let turningOneOff: LocalizedStringResource = "Peel changes these with `git config --global`. Turning one off puts back what was there before Peel, or removes it when you had set it yourself."
 
     static let settingsUnreadable: LocalizedStringResource = "Git could not read your settings"
 
