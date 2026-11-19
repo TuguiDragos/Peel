@@ -800,7 +800,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   again.
 - The iCloud Drive area's hint names the iCloud Drive page's Remove Downloads, no longer one file at a time.
 - The line on AI models says it counts what the Developer page lists, no longer every model on this Mac.
-- The Logs area says your crash reports are offered one by one, no longer that only the reports are offered.
+- The Logs area says the crash reports go one by one and the folder they sit in stays, no longer that only the reports
+  are offered.
 - With the home folder on another disk than macOS, Space shows a band for each disk, named, the startup disk first
   with the snapshots kept on it, no longer the home's disk beside the startup disk's snapshots.
 - Homebrew Data no longer says that no installed formula names a folder an installed formula keeps its data in, such

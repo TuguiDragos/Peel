@@ -17,7 +17,7 @@ struct SpaceTextTests {
         #expect(about("mail-downloads") == "Copies of the attachments you opened in Mail. One you edited or saved may be the only copy, so they are listed and never selected.")
         #expect(about("homebrew-logs") == "Logs that the services Homebrew runs, such as a database, write in its folder. Only the logs are offered, never their folders.")
         #expect(about("battlenet-cache") == "What the Battle.net app caches for every account. Blizzard says removing it does not affect your games. It belongs to every account, so it is never selected.")
-        #expect(about("logs") == "Logs that apps wrote in your Library and their containers, and your crash reports, offered one by one.")
+        #expect(about("logs") == "Logs that apps wrote in your Library and in their containers, and the crash reports macOS keeps for your account. The crash reports are offered one by one, and the folder they sit in always stays.")
         #expect(about("caches") == "What apps cached in your Library, each folder moved whole. The folders of developer tools are left to the Developer page.")
     }
 
