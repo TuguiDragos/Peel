@@ -190,8 +190,13 @@ public enum AppCatalog {
         let closedApps = read.filter { $0.answered && $0.app == nil && AppInspector.isClosed($0.bundle) }.map(\.bundle)
         let silent = read.filter { !$0.answered }.map(\.bundle) + unasked
         let refused = answered.flatMap(\.1.unreadable) + closedApps
+        let apps = sorted(read.compactMap(\.app))
+        let agents = apps.compactMap { ManagedAgent.of(team: $0.teamIdentifier, identifier: $0.bundleIdentifier) }
+        if agents.contains(where: \.dependsOnDeviceManagement) {
+            await DeviceManagement.ask()
+        }
         return AppScan(
-            apps: sorted(read.compactMap(\.app)),
+            apps: apps,
             unreadable: (refused + unanswered + silent)
                 .sorted { $0.path(percentEncoded: false) < $1.path(percentEncoded: false) },
             needsFullDiskAccess: refused.contains { FullDiskAccess.canList($0) == .missing }

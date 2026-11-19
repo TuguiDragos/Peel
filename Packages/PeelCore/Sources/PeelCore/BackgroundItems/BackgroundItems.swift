@@ -118,6 +118,9 @@ public enum BackgroundItems {
             item.loginItemsStatus = LoginItemsStatus.of(item)
             return item
         }
+        if items.contains(where: { $0.managedBy?.dependsOnDeviceManagement == true }) {
+            await DeviceManagement.ask()
+        }
 
         return Scan(
             items: rows(items, exclusions: exclusions),

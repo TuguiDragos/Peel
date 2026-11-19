@@ -198,7 +198,7 @@ public struct InstalledApp: Sendable, Hashable, Identifiable {
     public var removedElsewhere: RemovedElsewhere? {
         if isPeelItself { return .byRemovePeel }
         if let agent = ManagedAgent.of(team: teamIdentifier, identifier: bundleIdentifier) {
-            return .byYourOrganization(agent)
+            return agent.makersUninstaller.map(RemovedElsewhere.byItsMaker) ?? .byYourOrganization(agent)
         }
         return MakersUninstaller.of(self).map(RemovedElsewhere.byItsMaker)
     }

@@ -21,7 +21,8 @@ struct BackgroundItemDetailView: View {
                 header
             }
 
-            if let found = Self.makersUninstaller(of: item, among: library.apps) {
+            let found = Self.makersUninstaller(of: item, among: library.apps)
+            if let found {
                 Section {
                     MakersUninstallerNotice(
                         app: found.name, uninstaller: found.uninstaller,
@@ -31,9 +32,18 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
+            // An agent a person installed for themselves is its maker's, whose step the note above may give already.
             if let agent = item.managedBy {
-                Section {
-                    ManagedAgentNotice(agent: agent)
+                if let uninstaller = agent.makersUninstaller {
+                    if found == nil {
+                        Section {
+                            MakersUninstallerNotice(app: agent.name, uninstaller: uninstaller)
+                        }
+                    }
+                } else {
+                    Section {
+                        ManagedAgentNotice(agent: agent)
+                    }
                 }
             }
 

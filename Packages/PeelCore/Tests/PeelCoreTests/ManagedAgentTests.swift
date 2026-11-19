@@ -131,6 +131,46 @@ struct ManagedAgentTests {
         #expect(read.withLock { $0 } == 0)
     }
 
+    /// Elastic Agent can be set up by a person for their own Mac, which then has nobody else to remove it.
+    @Test func anAgentAPersonCanInstallIsTheMakersOnAMacNoOrganizationEnrolled() {
+        let elastic = app("co.elastic.endpoint", team: "2BT3HPN62Z")
+        let falcon = app("com.crowdstrike.falcon.App", team: "X9E956P446")
+        let organizations = ManagedAgent.of(team: "2BT3HPN62Z", identifier: "co.elastic.endpoint")
+
+        DeviceManagement.$standIn.withValue(.init(answer: .notEnrolled)) {
+            guard case .byItsMaker(let uninstaller)? = elastic.removedElsewhere else {
+                Issue.record("Elastic Agent is not left to its maker")
+                return
+            }
+            #expect(uninstaller.maker == "Elastic")
+            #expect(uninstaller.instructions.absoluteString == "https://www.elastic.co/docs/reference/fleet/uninstall-elastic-agent")
+            #expect(falcon.removedElsewhere == .byYourOrganization(ManagedAgent.of(team: "X9E956P446", identifier: "com.crowdstrike.falcon.App")!))
+        }
+        for answer in [DeviceManagement.Enrollment.enrolled, nil] {
+            DeviceManagement.$standIn.withValue(.init(answer: answer)) {
+                #expect(organizations.map { elastic.removedElsewhere == .byYourOrganization($0) } == true)
+            }
+        }
+    }
+
+    @Test func theMakersCommandIsOfferedOnlyWhereOnlyRootCanChangeTheProgram() throws {
+        let elastic = try #require(ManagedAgent.of(team: "2BT3HPN62Z", identifier: "co.elastic.elastic-agent"))
+        let falcon = try #require(ManagedAgent.of(team: "X9E956P446", identifier: "com.crowdstrike.falcon.Agent"))
+
+        DeviceManagement.$standIn.withValue(.init(answer: .notEnrolled)) {
+            #expect(elastic.makersUninstaller(isOnTheMac: { _ in true }, isOnlyRoots: { _ in true })?.step
+                == .command("sudo /Library/Elastic/Agent/elastic-agent uninstall"))
+            let missing = elastic.makersUninstaller(isOnTheMac: { _ in false }, isOnlyRoots: { _ in true })
+            let changeable = elastic.makersUninstaller(isOnTheMac: { _ in true }, isOnlyRoots: { _ in false })
+            #expect(missing?.step == .notOnTheMac)
+            #expect(changeable?.step == .notTrusted)
+            #expect(falcon.makersUninstaller(isOnTheMac: { _ in true }, isOnlyRoots: { _ in true }) == nil)
+        }
+        DeviceManagement.$standIn.withValue(.init(answer: .enrolled)) {
+            #expect(elastic.makersUninstaller(isOnTheMac: { _ in true }, isOnlyRoots: { _ in true }) == nil)
+        }
+    }
+
     @Test func anAppOfSuchAnAgentStaysForTheAdministrator() {
         let falcon = app("com.crowdstrike.falcon.App", team: "X9E956P446")
 
