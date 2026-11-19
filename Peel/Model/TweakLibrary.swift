@@ -317,11 +317,11 @@ extension TweakState.Elsewhere {
     var why: LocalizedStringResource {
         switch self {
         case .thisMac:
-            "This Mac has its own value for this setting, kept apart from the one in your account, and macOS reads that one first. Peel does not change it."
+            "This Mac has its own value for this setting, which macOS reads first. Peel does not change it."
         case .everyAccount:
-            "An administrator set this for every account on this Mac, and you have not set it yourself. Peel leaves it as it is."
+            "An administrator set this for every account on this Mac. Peel leaves it as it is."
         case .everyApp:
-            "This is set for every app at once, in the global settings of macOS, so this switch for one app would change nothing."
+            "macOS sets this for every app at once, so a switch for one app would change nothing."
         }
     }
 }
@@ -352,7 +352,7 @@ extension Tweak.Restart {
             if #available(macOS 27, *) { "Finder restarts." } else { "Finder restarts, which stops anything it is copying." }
         case .controlCenter: "macOS’s menu bar items restart, since Control Center draws them."
         case .windowManager: "The window manager restarts."
-        case .relaunchApps: "Open apps keep the old setting until you reopen them, and an app with a setting of its own for this keeps that."
+        case .relaunchApps: "Apps already open keep the old setting until you reopen them."
         case .logOut: "Takes effect after you log out."
         case .terminalQuits: "Takes effect the next time Terminal quits."
         }

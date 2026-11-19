@@ -10,11 +10,10 @@ struct AppleIntelligenceSection: View {
                 AppleIntelligenceRow(feature: feature)
             }
         } header: {
-            Text("Apple Intelligence")
-        } footer: {
-            Text("Peel doesn’t change these. Each button opens the place where Apple says to turn that feature off.")
-                .font(.callout)
-                .foregroundStyle(.secondary)
+            heading(
+                "Apple Intelligence",
+                "Peel does not change these. Each button opens the place where Apple says to turn that feature off."
+            )
         }
     }
 }
@@ -26,8 +25,13 @@ private struct AppleIntelligenceRow: View {
     var body: some View {
         HStack(spacing: 10) {
             VStack(alignment: .leading, spacing: 2) {
-                Text(feature.words.title)
-                    .font(.body.weight(.semibold))
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                    Text(feature.words.title)
+                        .font(.body.weight(.semibold))
+                    if let note = feature.words.note {
+                        InfoNote(about: Text(feature.words.title), detail: Text(note), isAlbum: false)
+                    }
+                }
                 Text(feature.words.place)
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -37,7 +41,6 @@ private struct AppleIntelligenceRow: View {
             button
         }
         .padding(.vertical, 4)
-        .accessibilityElement(children: .combine)
     }
 
     @ViewBuilder
@@ -77,13 +80,15 @@ extension AppleIntelligenceSwitch {
         let title: LocalizedStringResource
         /// Where the switch is, in macOS's own words.
         let place: LocalizedStringResource
+        var note: LocalizedStringResource?
     }
 
     var words: Words {
         switch self {
         case .siri: Words(
             title: "Siri AI (Beta)",
-            place: "System Settings > Siri > Turn Off Siri. To keep Siri without Siri AI, turn Siri on again and select Use Siri Classic."
+            place: "System Settings > Siri > Turn Off Siri",
+            note: "To keep Siri without Siri AI, turn Siri on again and select Use Siri Classic."
         )
         case .notificationSummaries: Words(
             title: "Notification summaries", place: "System Settings > Notifications > Summarize Notifications"
@@ -100,7 +105,8 @@ extension AppleIntelligenceSwitch {
         )
         case .screenTime: Words(
             title: "Siri in Screen Time",
-            place: "System Settings > Screen Time > Content & Privacy > Siri, to turn off Siri AI or block capabilities such as Writing Assistance."
+            place: "System Settings > Screen Time > Content & Privacy > Siri",
+            note: "Turn off Siri AI there, or block capabilities such as Writing Assistance."
         )
         }
     }

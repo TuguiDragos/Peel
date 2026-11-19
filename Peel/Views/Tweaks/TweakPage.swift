@@ -33,7 +33,8 @@ struct TweakPage: View {
         // Shown once for every tab, at the foot of the page, rather than under each group's section.
         .edgeBar(.bottom) {
             TurnAllOffBar(
-                explanation: explanation, hasSomethingOn: !tweaks.peelsChanges.isEmpty,
+                explanation: Self.explanation(changed: tweaks.peelsChanges.count),
+                hasSomethingOn: !tweaks.peelsChanges.isEmpty,
                 isEnabled: !tweaks.isTurningAllOff
             ) {
                 isConfirmingTurnAllOff = true
@@ -63,11 +64,8 @@ struct TweakPage: View {
         }
     }
 
-    private var explanation: LocalizedStringResource {
-        let count = tweaks.peelsChanges.count
-        return count == 0
-            ? "Each of these is a setting macOS already has, and Peel hasn’t changed any of them."
-            : "Turn All Off puts back the ^[\(count) setting](inflect: true) Peel changed, and leaves what you set yourself as it is."
+    static func explanation(changed count: Int) -> LocalizedStringResource {
+        "Peel changed ^[\(count) setting](inflect: true)."
     }
 
     /// An alert's title shows inflection markup as written, so the count is inflected first.
@@ -86,16 +84,19 @@ struct SleepNotice: View {
             : "To let it sleep again, run this command in Terminal. It asks for your password."
     }
 
+    static let whyItCannotSleep: LocalizedStringResource =
+        "Something turned sleep off, even with the lid closed. It stays after a restart, and System Settings does not show it."
+
     var body: some View {
         let needsAnAdministrator = AdministratorCommand.needsAnAdministrator(
             SleepSetting.undoCommand, isAdministrator: helper.isAdministrator
         )
         VStack(alignment: .leading, spacing: 6) {
-            StatusLabel(title: Text("This Mac can’t sleep"), tint: .accentColor)
-                .font(.headline)
-            Text("Something has turned sleep off altogether, even on a laptop with its lid closed. It survives a restart and System Settings doesn’t show it.")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                StatusLabel(title: Text("This Mac can’t sleep"), tint: .accentColor)
+                    .font(.headline)
+                InfoNote(about: Text("This Mac can’t sleep"), detail: Text(Self.whyItCannotSleep), isAlbum: false)
+            }
             Text(Self.howToUndo(needsAnAdministrator: needsAnAdministrator))
                 .font(.caption)
                 .foregroundStyle(.secondary)

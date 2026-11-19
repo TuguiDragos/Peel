@@ -69,10 +69,7 @@ struct TweakRow: View {
                         .lineLimit(1)
                         .truncationMode(.middle)
                 } else if tweaks.foldersLeftToMacOS.contains(tweak.id) {
-                    StatusLabel(
-                        title: Text("The folder from before can’t take screenshots anymore, so macOS saves them on the Desktop."),
-                        tint: .accentColor
-                    )
+                    StatusLabel(title: Text(Self.leftToMacOS), tint: .accentColor)
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -109,6 +106,9 @@ struct TweakRow: View {
     /// paragraph instead of being joined with a space, since Japanese and Chinese put no space between sentences.
     private func note(for state: TweakState) -> String {
         var paragraphs = [String(localized: tweak.words.detail)]
+        if tweaks.foldersLeftToMacOS.contains(tweak.id) {
+            paragraphs.append(String(localized: Self.leftToMacOSNote))
+        }
         if !state.isManaged, let elsewhere = state.heldElsewhere {
             paragraphs.append(String(localized: elsewhere.why))
         }
@@ -119,15 +119,15 @@ struct TweakRow: View {
             paragraphs.append(String(localized: restart))
         }
         if tweak.hasASystemControl {
-            switch tweak.kind {
-            case .aSwitch, .aSwitchForThisAppAlone:
-                paragraphs.append(String(localized: "macOS has its own control for this setting. If it changes there, this switch follows."))
-            case .folder, .name:
-                paragraphs.append(String(localized: "macOS has its own control for this setting. If it changes there, Peel shows the change here."))
-            }
+            paragraphs.append(String(localized: Self.followsMacOSsControl))
         }
         return paragraphs.joined(separator: "\n\n")
     }
+
+    static let followsMacOSsControl: LocalizedStringResource = "Changes made to it in macOS show here too."
+    static let leftToMacOS: LocalizedStringResource = "Screenshots now go to the Desktop"
+    static let leftToMacOSNote: LocalizedStringResource =
+        "The folder you chose before can no longer take them, so macOS saves them on the Desktop."
 
     /// A label for a setting Peel can't change: one locked by a configuration profile, one held in a layer of
     /// the preferences Peel doesn't write, or one whose last write macOS refused.
