@@ -50,15 +50,16 @@ and how to get it, [SAFETY.md](SAFETY.md) what it protects, [PRIVACY.md](PRIVACY
   moves it, Finder included, so that page says to turn it off first in System Settings > General > Login Items &
   Extensions; Peel then moves the app, and macOS keeps the extension, turned off. SAP's Privileges says why too: while
   its extension runs, it keeps anyone from moving the app.
-  A security or management agent, a VPN, or another app whose maker documents an
-  uninstaller of its own, such as GlobalProtect, Microsoft Defender, ExpressVPN, or Laravel Herd, is left to that
-  uninstaller, and its page says how. An agent an organization manages its Macs with, such as Jamf Protect or
-  CrowdStrike Falcon, is left to its IT administrator, and its page says so. Intel Power Gadget's page says that Intel
-  recommends uninstalling it, since it has known security flaws and Intel no longer updates it. An app that runs
-  its own uninstaller once it leaves the Applications folder, such as Mullvad VPN or Citrix Workspace, is moved only
-  after Peel tells you what that uninstaller will do. An app that leaves a program waiting for it to go, such as
-  LanguageTool for Desktop, keeps that program and the file that starts it in place so the program can finish, and
-  Peel says so first. Peel itself goes only with Remove Peel, in Settings > General.
+  A security or management agent, a VPN, or another app whose maker documents an uninstaller of its own, such as
+  GlobalProtect, Microsoft Defender, ExpressVPN, or Laravel Herd, is left to that uninstaller, and its page says how. An
+  agent an organization manages its Macs with, such as Jamf Protect or CrowdStrike Falcon, is left to its IT
+  administrator, and its page says so. Elastic Agent, which a person can also set up for their own Mac, is left instead
+  to the command Elastic gives, on a Mac no organization enrolled. Intel Power Gadget's page says that Intel recommends
+  uninstalling it, since it has known security flaws and Intel no longer updates it. An app that runs its own
+  uninstaller once it leaves the Applications folder, such as Mullvad VPN or Citrix Workspace, is moved only after Peel
+  tells you what that uninstaller will do. An app that leaves a program waiting for it to go, such as LanguageTool for
+  Desktop, keeps that program and the file that starts it in place so the program can finish, and Peel says so first.
+  Peel itself goes only with Remove Peel, in Settings > General.
 - **Open apps quit first.** Peel asks an app that is open to quit before anything of it moves, and looks again at
   what it left once it has. If the app is still open after 10 seconds, Peel offers Force Quit, which loses what the
   app hasn't saved.
@@ -337,17 +338,19 @@ and how many items the others hold.
 - **Background Items:** launch agents and daemons, and the app that added each one, to stop or restart while it runs,
   run now or unload while it waits for its time, load, enable or disable, show in Finder, or move to the Trash,
   through Peel's helper for those that run as root. One whose program
-  is gone, or whose command looks unusual, says so. Remove takes out a job a deleted app left loaded,
-  and an item whose app is in the Trash says that macOS starts it from there each time you log in, until you empty
-  the Trash. A job an app gave launchd itself, such as an update's installer, says so. A job of an app its maker removes
-  with its own uninstaller, such as a security agent or a VPN, says so as Applications does, and Disable and Move to
-  Trash ask first. A job whose program was signed by the maker of an app Peel saw go says that app has left and opens
-  Orphaned Files, where it is listed with what else the app left. A job of an app that is gone names the uninstaller
-  its maker documents, and so does one a maker's product keeps outside its app, such as CrashPlan's service, once no
-  app of that product is installed. A job tied to an app only because one maker signed both says From the same maker as
-  that app. A job of an agent an organization manages its Macs with offers no control, since its IT administrator
-  removes it. An agent its file limits to the login window offers no Load, since macOS loads it only there. One
-  turned off in System Settings > General > Login Items & Extensions, or waiting for approval there, is only ever
+  is gone, or whose command looks unusual, says so. Remove takes out a job a deleted app left loaded, and an item whose
+  app is in the Trash says that macOS starts it from there each time you log in, until you empty the Trash. A job an app
+  gave launchd itself, such as an update's installer, says so. A job of an app its maker removes with its own
+  uninstaller, such as a security agent or a VPN, says so as Applications does, and Disable and Move to Trash ask first.
+  A job whose program was signed by the maker of an app Peel saw go says that app has left and opens Orphaned Files,
+  where it is listed with what else the app left. A job of an app that is gone names the uninstaller its maker
+  documents, and so does one a maker's product keeps outside its app, such as CrashPlan's service, once no app of that
+  product is installed, and its Move to Trash says first that this uninstaller also takes what the app kept in the
+  system. A job tied to an app only because one maker signed both says From the same maker as that app. A job of an
+  agent an organization manages its Macs with offers no control, since its IT administrator removes it. On a Mac no
+  organization enrolled, Elastic Agent's job names the command Elastic gives instead. An agent its file limits to the
+  login window offers no Load, since macOS loads it only there. One turned off in System Settings > General > Login
+  Items & Extensions, or waiting for approval there, is only ever
   stopped here, never started, not even when its file comes back from History. Edit… beside an agent's file in your own
   `~/Library/LaunchAgents` opens the file as text: Save moves the file as it was to the Trash, writes yours in its
   place, and loads the job again, as your file says, if it was loaded, and putting the old file back from History moves
@@ -409,9 +412,10 @@ Tweaks gathers 40 settings macOS already has, many of them out of sight, in six 
 Typing, Windows, and Privacy. Make a hidden Dock appear at once, save screenshots where you want them and without the
 floating thumbnail, show hidden files and every file extension in Finder, keep straight quotes as you type, drag a
 window from anywhere in it, or put seconds on the menu bar clock. Each tweak says what it changes, and turning it off
-puts back what was there before, or leaves it to macOS. Turn All Off puts back everything Peel changed and leaves what
-you set yourself as it is. On macOS 27, Privacy also has an Apple Intelligence section: each row opens the place where
-Apple says to turn that feature off, in System Settings or in the app, and Peel changes none of them.
+puts back what was there before, or leaves it to macOS. Turn All Off, shown while Peel has changed something, puts back
+everything Peel changed and leaves what you set yourself as it is. On macOS 27, Privacy also has an Apple Intelligence
+section: each row opens the place where Apple says to turn that feature off, in System Settings or in the app, and Peel
+changes none of them.
 
 ## Set up Terminal
 
@@ -433,8 +437,8 @@ It sets up the command line as well:
   alive.
 - **Peel never edits your shell or ssh files.** It writes the zsh and ssh settings to files of its own, which zsh reads
   through one line you add and ssh through two, and changes Git's with `git config`. Turning a Git setting off puts back
-  what you had before Peel set it, and one you set yourself goes back to Git's default. Turn All Off undoes what Peel
-  set on each tab, and on the Git tab also what you set yourself.
+  what you had before Peel set it, and one you set yourself goes back to Git's default. Turn All Off, shown while a tab
+  has something on, undoes what Peel set there, and on the Git tab also what you set yourself.
 - **Tools** suggests command-line tools worth having, with the Homebrew command and the lines to add.
 
 [TERMINAL.md](TERMINAL.md) shows every theme and every setting, with what each one writes.

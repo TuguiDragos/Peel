@@ -50,6 +50,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Jamf Protect, Carbon Black Cloud, Cisco Secure Endpoint, Elastic Agent, CrowdStrike Falcon, and SentinelOne, which
   an organization manages its Macs with, are left to its IT administrator: their pages, the Extensions page, and
   `peel uninstall` say so, with a link to the maker's instructions where the maker publishes them, and move nothing.
+  Elastic Agent, which a person can also set up for their own Mac, is left instead to the command Elastic gives,
+  `sudo /Library/Elastic/Agent/elastic-agent uninstall`, on a Mac no organization enrolled. Peel asks macOS once, and
+  only when it finds Elastic Agent.
 - Intel Power Gadget's page says that Intel recommends uninstalling it, since it has known security flaws and Intel no
   longer updates it, with a link to Intel's advisory.
 
@@ -70,7 +73,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   for you to select. Moving both stops the job before its program goes. A program in a folder of tools, such as
   `/usr/local/bin`, is listed only when it is a link, since Peel moves nothing else from there.
 - The group of an app that is gone names the uninstaller its maker documents, or where to download it, once no other
-  app of that product is installed, since that uninstaller also takes what the app kept in the system.
+  app of that product is installed, since that uninstaller also takes what the app kept in the system. `peel orphans`
+  names it under the group too, and its JSON as `makersUninstaller`.
 
 #### Intel Software
 
@@ -107,7 +111,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A job whose program was signed by the maker of an app Peel saw go says that app has left this Mac, and Open Orphaned
   Files shows the job there with what else the app left.
 - A job of an app that is gone names the uninstaller its maker documents, and so does a job a maker's product keeps
-  outside its app, such as CrashPlan's service, once no app of that product is installed.
+  outside its app, such as CrashPlan's service, once no app of that product is installed. Move to Trash on such a job
+  says that this uninstaller also takes what the app kept in the system.
 - The jobs of the agents an organization manages its Macs with say that its IT administrator removes them, and offer
   no control, no Edit…, and no Move to Trash.
 
@@ -120,6 +125,9 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Reopen Peel comes with its reason: macOS gives Full Disk Access only to an app opened after it was turned on. Settings
   and the note on folders Peel couldn't read say so too.
 - Home's rows read Open Peel at Login and Command-Line Tool, as Settings names them.
+- Home's notes say the step in their title, such as Set up Full Disk Access below, and the one that asks you to allow
+  Peel in Login Items & Extensions has the button that opens it. App Management reads Not known yet until Peel moves
+  another developer's app.
 
 #### Tweaks
 
@@ -128,6 +136,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A setting held for this Mac, for every account, or for every app says in its note why its switch can't be used.
 - This Mac can't sleep says its command lets the Mac sleep again and runs in Terminal, and on an administrator's account
   that it asks your password.
+- Turn All Off shows only while there is something for it to turn off, here and on the Shell, Git, and SSH tabs of the
+  Terminal page.
 
 #### Terminal
 
@@ -143,6 +153,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   history` notes each one.
 - Put Back of what Peel's helper moved no longer waits for the drive after each item, which made it about ten times
   slower than the move.
+- When Peel can't read its record of a removal under way, History says a removal may be missing from History, with how
+  it came to this in the circled i.
 
 #### Settings
 
@@ -162,16 +174,18 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The Command-line tool's note follows its row: it says `peel` is on your path once it is, on an account that isn't an
   administrator's, to add the line below to your shell's startup file, and while Peel offers no command, that the line
   below says why.
+- Settings > General > Sidebar says how many tools are off, such as 6 more tools are available, and Choose Tools… names
+  them.
 
 #### Applications
 
 - The note on an app whose signer changed says these are teams, who signs the app now when Peel knows, that a maker can
   change its team, as after a sale, while a rebuilt copy looks the same, and to get the app again from its maker if you
   didn't expect it.
-- The Reset sheet says the old settings can also go back later from Settings > General > Saved Settings, where the copy
-  stays until you move it to the Trash.
-- On macOS 27, the note on an app with a system extension says, as on macOS 26, that Peel leaves the app and its files
-  where they are, and that Orphaned Files lists what it left once the app is in the Trash.
+- The Reset sheet says the old settings can also go back later from Settings > General > Saved Settings.
+- The note on an app with a system extension reads the same on macOS 26 and 27: macOS removes the extension only when
+  the app goes to the Trash in Finder, and Orphaned Files then lists what the app left. For a network extension still
+  listed after that, only macOS 27 has a step in System Settings, and only there does the note give it.
 - The alert after a removal says to remove or change the lines of your shell's startup files that still name what moved
   if a new Terminal window shows an error. `peel uninstall` says the same.
 - Uninstalling Bear shows its group container, which holds its notes, and leaves it unselected, as Things' is.
@@ -186,11 +200,24 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   section opens and closes from its heading, and starts closed.
 - The note on an app that removes itself once it leaves Applications, such as Mullvad VPN, or that its maker's
   uninstaller removes, is one line, with the rest behind its circled i.
+- The note about a maker's uninstaller reads Use its own uninstaller, This app is an uninstaller on the uninstaller
+  itself, or Use the uninstaller from its maker for what an app left, here, in Package Receipts, Orphaned Files, and
+  Background Items. Its circled i says the step, with the maker's instructions, and its buttons take the step: Open
+  Uninstaller, Copy Command and Open Terminal, Open App, or Open Website.
 
 #### Orphaned Files
 
 - The page with nothing to list says plainly what shows up there: files named for an app that isn't installed, and files
   of apps Peel saw removed.
+- What an app left says on which day Peel last saw the app, with where in the circled i beside it, Copy Path, and
+  Show in Finder while the place is still there.
+
+#### Intel Software
+
+- With nothing to show, Intel Software says in a sentence that it looked at your apps, what they carry, and your
+  command-line tools, with every place it looked in the circled i beside the title.
+- A finding's page says what to do in a few words, such as Remove it in Applications or Remove it in Finder, with why
+  in the circled i and the button that leads there. A Java runtime kept in a folder has Show in Finder.
 
 #### Package Receipts
 
@@ -208,11 +235,18 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   rather than between the buttons.
 - The questions before Upgrade and Upgrade All say that a cask's upgrade deletes the version of the app it replaces,
   which History can't put back, and an app's page asks before it upgrades with Homebrew, saying the same.
+- A folder Homebrew can't change is named in the note's title, with why in its circled i and the command that fixes it
+  under it, on a package's page too.
 
 #### Space
 
 - On macOS 27, the link under Apple's figure for Apple Intelligence says it is how to turn its features off, in the Mac
   User Guide: it opens Apple's guide, and Peel turns nothing off itself.
+- An area's page says what the area is in the circled i beside its title. How to Free It is a section of its own, its
+  step on one line, with what the step does in a circled i where there is more to know.
+- A size Peel doesn't know says why: Needs Full Disk Access, or Unknown when the area took longer than Peel gives it.
+- The note on App Caches says how much of the folder developer tools hold, and Show Folders lists each of their folders
+  with its size and Show in Finder, as the note on folders Peel couldn't read does.
 
 #### Developer
 
@@ -225,6 +259,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - When a scan stops early, Build Artifacts and `peel projects` say after how many folders, and that choosing the folder
   your projects are in shows the rest.
+- What leaving a project out of Time Machine does is in the circled i beside the checkbox, which opens even while the
+  checkbox can't be used.
 
 #### Duplicates
 
@@ -238,6 +274,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 - The note on downloads that would free nothing says first that they aren't listed, then why.
 - iCloud Drive asks iCloud only about the files big enough to list, so its scan takes less time.
+- When macOS kept Peel out of part of iCloud Drive, a note at the top says so, with Turn On Full Disk Access.
 
 #### File Search
 
@@ -247,11 +284,14 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 #### Background Items
 
 - Edit… tells a job file that is gone, or a folder in its place, from a link, and says to rescan.
+- A job Peel leaves alone says why in a few words, with the reason in the circled i.
 
 #### Extensions
 
 - An extension's page calls its category Category, and its tooltip says what lists it there and what System Settings may
   leave out.
+- A system extension's page says the same on macOS 26 and 27, with the step in System Settings for a network
+  extension only on macOS 27, which offers it.
 
 #### Every page
 
@@ -275,6 +315,15 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   the same short way.
 - Every note's title is in sentence case, on the Homebrew page and in Intel Software too, while the title of a page with
   nothing to show keeps title case.
+- A note says what happened in a short title, with what more there is to know in the circled i beside it, and its
+  buttons beside the title while they fit, else under it. Only what you need to act stays on the page, such as the
+  sentence before a command to copy.
+- A page where nothing can be selected is a list to read, with no checkboxes and no Select menu, and goes back to the
+  usual lists as soon as something can be selected. The bar at the foot shows only while something can be selected,
+  here or on another page, and says Nothing selected until something is.
+- A state, such as Notifications are off for Peel or Not known yet, is a few words, with why in the circled i beside it.
+- Where macOS keeps Peel out of places it doesn't name, the note says that Full Disk Access is off, with its button.
+- The notes in the circled i say what they say in fewer words, on every page.
 
 #### `peel`
 
@@ -348,8 +397,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 
 #### History
 
-- Put Back says when an empty folder was made where an item goes back, often by the app or tool that uses it, and to
-  move that folder to the Trash first, instead of failing without saying why.
+- Put Back says when an empty folder was made where an item goes back, often by the app that uses it, and to quit
+  that app and move the folder to the Trash first, instead of failing without saying why.
 - On exFAT and FAT32 disks, History no longer takes an empty file Peel put in the disk's Trash for gone once the disk
   is plugged in again, nor, on FAT32, everything there once the Mac's clocks change for summer time or another time
   zone, and Put Back brings them back.
@@ -644,8 +693,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - A file on a disk mounted read only is no longer listed under Needs an Administrator: its row says the disk can only
   be read.
 - What an installed launchd job runs is no longer listed when it is named otherwise than the job: its program, the
-  script or program it starts through a shell, an interpreter, or `env`, or a folder holding one. Moving it left the
-  job with nothing to run.
+  script or program it starts through a shell, an interpreter, or `env`, the jar it runs with `java -jar`, what it opens
+  with `open`, or a folder holding one. Moving it left the job with nothing to run.
 
 #### Intel Software
 
@@ -750,8 +799,7 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
   again.
 - The iCloud Drive area's hint names the iCloud Drive page's Remove Downloads, no longer one file at a time.
 - The line on AI models says it counts what the Developer page lists, no longer every model on this Mac.
-- The Logs area says the crash reports go one by one and the folder they sit in stays, no longer that only the reports
-  are offered.
+- The Logs area says your crash reports are offered one by one, no longer that only the reports are offered.
 - With the home folder on another disk than macOS, Space shows a band for each disk, named, the startup disk first
   with the snapshots kept on it, no longer the home's disk beside the startup disk's snapshots.
 - Homebrew Data no longer says that no installed formula names a folder an installed formula keeps its data in, such

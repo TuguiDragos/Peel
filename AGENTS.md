@@ -490,6 +490,13 @@ Peel runs on macOS 26 and later, and the two versions are treated differently in
   holds its button through `HeadingWithActions`. Adding to and removing from a list are `+` and `-` at its foot
   (`ListEditingButtons`). One button a page is prominent. A sheet's footer stays on the right, and buttons under a title
   stay in a `FlowLayout`.
+- **A note says what happened in a short title, and what more there is to know goes in its circled i.** A `Notice`
+  takes no line under its title but `step`, for what has to be read to act there, such as the sentence before a
+  command to copy; the rest is its `detail`, which the circled i beside the title shows. Its buttons stand beside the
+  title while they fit and go under it otherwise (`NoticePlan`), and every button Peel draws fits alone in a note on
+  the narrowest page, in every language (`StringCatalogTests`). A state in a row is a few words in `NotedStatus`, with
+  why in its circled i. A page where nothing can be selected is a list to read, with no checkboxes and no Select menu,
+  and the bar at its foot shows only while something can be selected, there or on another page.
 - Rows of a long list stay cheap to build. A checkbox in a row is `NativeCheckbox` beside the item, with
   `checkboxTitleLine()` on the first line of its title and `checkboxTitle()` on the title, rather than a checkbox
   `Toggle` whose label is the row; Duplicates' rows keep their `Toggle`, where the AppKit checkbox costs as much. A
