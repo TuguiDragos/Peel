@@ -1,5 +1,6 @@
 import Foundation
 @testable import Peel
+import PeelCore
 import Testing
 
 struct TerminalStatusWordsTests {
@@ -12,6 +13,11 @@ struct TerminalStatusWordsTests {
         #expect(TerminalPage.profilesUnreadableNote.key.hasSuffix("reads them again when you open this page or come back to Peel."))
         #expect(ToolsTab.unrunnableBrew.key == "The `brew` you chose cannot run now")
         #expect(ToolsTab.unrunnableBrewNote.key == "Peel runs only the `brew` you chose, so it runs none until that one can run or you choose another.")
+    }
+
+    /// `ControlPersist 10m` keeps the first connection open for ten minutes after the last one ends, not ten in all.
+    @Test func aReusedConnectionStaysOpenAfterTheLastOneEnds() {
+        #expect(SSHSetting.reuseConnections.detail.key.contains("stays open 10 minutes after the last one ends"))
     }
 
     @Test func theBarsSayWherePeelKeepsTheseSettings() {
