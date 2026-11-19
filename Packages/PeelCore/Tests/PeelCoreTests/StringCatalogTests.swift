@@ -247,6 +247,48 @@ import Testing
         #expect(problems.isEmpty, "\(problems.joined(separator: "\n"))")
     }
 
+    /// A notice puts its buttons under its words when they don't fit beside them (`NoticePlan`), across the notice's
+    /// whole width, so each button has to fit there on its own, in every language and with Bold Text. A page is never
+    /// narrower than 480 points, a notice in its list has 16 on each side, and its buttons have the rest inside its
+    /// margins of 12. A bordered button is about 30 points wider than its words.
+    @Test func everyButtonFitsInANoticeOnTheNarrowestPage() throws {
+        let catalog = try Self.localizable()
+        let room: CGFloat = 480 - 2 * 16 - 2 * 12
+        let bezel: CGFloat = 30
+        let labels = try Self.buttonLabels()
+        #expect(labels.count > 50)
+        var problems: [String] = []
+        for language in try ["en"] + Self.declaredLanguages() {
+            for label in labels.sorted() {
+                let text = Self.value(of: label, in: language, catalog) ?? label
+                let width = Self.width(text, in: language) + bezel
+                if width > room {
+                    problems.append("\(language): \(text.debugDescription) is \(Int(width.rounded(.up))) points, and a notice has \(Int(room))")
+                }
+            }
+        }
+        #expect(problems.isEmpty, "\(problems.joined(separator: "\n"))")
+    }
+
+    /// The words of every button Peel draws, as its code writes them: `Button("…")`, `Link("…"`, and the title of a
+    /// `CopyButton`. A label made while Peel runs is left out, since its words aren't in the catalog as they show.
+    static func buttonLabels() throws -> Set<String> {
+        let folder = repository.appending(path: "Peel", directoryHint: .isDirectory)
+        let files = (FileManager.default.enumerator(at: folder, includingPropertiesForKeys: nil)?.allObjects ?? [])
+            .compactMap { $0 as? URL }.filter { $0.pathExtension == "swift" }
+        let patterns = [#/(?:Button|Link)\("((?:[^"\\]|\\.)*)"/#, #/CopyButton\(.*title: "((?:[^"\\]|\\.)*)"/#]
+        var labels: Set<String> = []
+        for file in files {
+            let source = try String(contentsOf: file, encoding: .utf8)
+            for pattern in patterns {
+                for match in source.matches(of: pattern) where !match.output.1.contains("\\(") {
+                    labels.insert(String(match.output.1))
+                }
+            }
+        }
+        return labels
+    }
+
     static let sidebarNames = [
         "Home", "Tweaks", "Terminal", "History", "Settings", "Applications", "Orphaned Files", "Intel Software",
         "Package Receipts", "Space", "Developer", "Build Artifacts", "Installers and Backups", "Duplicates",
