@@ -182858,108 +182858,108 @@
         }
       }
     },
-    "Peel runs only the `brew` you chose, so it runs none until you choose another." : {
+    "Peel runs only the `brew` you chose, so it runs none until that one can run or you choose another." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel spouští jen `brew`, který jste zvolili, a proto žádný nespustí, dokud nezvolíte jiný."
+            "value" : "Peel spouští jen `brew`, který jste zvolili, a proto žádný nespustí, dokud ho nebude možné spustit nebo dokud nezvolíte jiný."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel führt nur das `brew` aus, das du gewählt hast, und führt daher keines aus, bis du ein anderes wählst."
+            "value" : "Peel führt nur das `brew` aus, das du gewählt hast, und führt daher keines aus, bis sich dieses ausführen lässt oder du ein anderes wählst."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel solo ejecuta el `brew` que has seleccionado, así que no ejecuta ninguno hasta que selecciones otro."
+            "value" : "Peel solo ejecuta el `brew` que has seleccionado, así que no ejecuta ninguno hasta que ese se pueda ejecutar o selecciones otro."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel n’exécute que le `brew` que vous avez choisi : il n’en exécute donc aucun tant que vous n’en avez pas choisi un autre."
+            "value" : "Peel n’exécute que le `brew` que vous avez choisi : il n’en exécute donc aucun tant que celui-ci ne peut pas être exécuté ou que vous n’en avez pas choisi un autre."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel esegue solo il `brew` che hai scelto, quindi non ne esegue nessuno finché non ne scegli un altro."
+            "value" : "Peel esegue solo il `brew` che hai scelto, quindi non ne esegue nessuno finché quello non può essere eseguito o non ne scegli un altro."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは選択した`brew`だけを実行するため、別のものを選択するまで、どのHomebrewも実行しません。"
+            "value" : "Peelは選択した`brew`だけを実行するため、それが実行できるようになるか、別のものを選択するまで、どのHomebrewも実行しません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 사용자가 선택한 `brew`만 실행하므로, 다른 것을 선택하기 전까지는 어느 것도 실행하지 않습니다."
+            "value" : "Peel은 사용자가 선택한 `brew`만 실행하므로, 그것을 실행할 수 있게 되거나 다른 것을 선택하기 전까지는 어느 것도 실행하지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel voert alleen de `brew` uit die je hebt gekozen, dus voert Peel er geen uit totdat je een andere kiest."
+            "value" : "Peel voert alleen de `brew` uit die je hebt gekozen, dus voert Peel er geen uit totdat die kan worden uitgevoerd of je een andere kiest."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel uruchamia tylko `brew` wybrany przez Ciebie, więc nie uruchamia żadnego, dopóki nie wybierzesz innego."
+            "value" : "Peel uruchamia tylko `brew` wybrany przez Ciebie, więc nie uruchamia żadnego, dopóki nie będzie można uruchomić wybranego albo nie wybierzesz innego."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel só executa o `brew` que você escolheu, então não executa nenhum até você escolher outro."
+            "value" : "O Peel só executa o `brew` que você escolheu, então não executa nenhum até que esse possa ser executado ou você escolha outro."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel rulează doar programul `brew` pe care l‑ați ales, așa că nu rulează niciunul până când nu alegeți altul."
+            "value" : "Peel rulează doar programul `brew` pe care l‑ați ales, așa că nu rulează niciunul până când acesta nu poate fi rulat sau până când nu alegeți altul."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запускает только выбранный Вами `brew`, поэтому он не запускает ни один, пока Вы не выберете другой."
+            "value" : "Peel запускает только выбранный Вами `brew`, поэтому он не запустит ни один, пока выбранный не сможет запуститься или пока Вы не выберете другой."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel kör bara den `brew` som du valde, så Peel kör ingen förrän du väljer en annan."
+            "value" : "Peel kör bara den `brew` som du valde, så Peel kör ingen förrän den kan köras eller du väljer en annan."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel yalnızca seçtiğiniz `brew` programını çalıştırır, bu yüzden siz başka birini seçene kadar hiçbirini çalıştırmaz."
+            "value" : "Peel yalnızca seçtiğiniz `brew` programını çalıştırır, bu yüzden o program çalışabilene veya siz başka birini seçene kadar hiçbirini çalıştırmaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel запускає лише вибраний вами `brew`, тож не запускає жодного, доки ви не виберете інший."
+            "value" : "Peel запускає лише вибраний вами `brew`, тож не запускає жодного, доки його не вдасться запустити або доки ви не виберете інший."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel只运行你选取的`brew`，因此在你选取另一个之前，它一个也不会运行。"
+            "value" : "Peel只运行你选取的`brew`，因此在它能够运行或你选取另一个之前，Peel一个也不会运行。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel只會執行你選擇的`brew`，因此在你選擇另一個之前，它不會執行任何一個。"
+            "value" : "Peel只會執行你選擇的`brew`，因此在那一個能夠執行或你選擇另一個之前，它不會執行任何一個。"
           }
         }
       }

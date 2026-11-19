@@ -34,7 +34,7 @@ struct ToolsTab: View {
     static let unrunnableBrew: LocalizedStringResource = "The `brew` you chose cannot run now"
 
     static let unrunnableBrewNote: LocalizedStringResource =
-        "Peel runs only the `brew` you chose, so it runs none until you choose another."
+        "Peel runs only the `brew` you chose, so it runs none until that one can run or you choose another."
 
     var body: some View {
         Form {

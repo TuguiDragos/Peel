@@ -11,7 +11,7 @@ struct TerminalStatusWordsTests {
         #expect(TerminalPage.profilesUnreadable.key == "Peel could not read the Terminal profiles")
         #expect(TerminalPage.profilesUnreadableNote.key.hasSuffix("reads them again when you open this page or come back to Peel."))
         #expect(ToolsTab.unrunnableBrew.key == "The `brew` you chose cannot run now")
-        #expect(ToolsTab.unrunnableBrewNote.key == "Peel runs only the `brew` you chose, so it runs none until you choose another.")
+        #expect(ToolsTab.unrunnableBrewNote.key == "Peel runs only the `brew` you chose, so it runs none until that one can run or you choose another.")
     }
 
     @Test func theBarsSayWherePeelKeepsTheseSettings() {
