@@ -16,9 +16,13 @@ struct ForgetReceiptQuestionTests {
         receiptOnly.nothingLeftOnDisk = true
 
         #expect(ForgetReceiptDialog.returnKeepsTheReceipt(leftATool))
-        #expect(ForgetReceiptDialog.message(for: leftATool).key.contains("Peel can no longer list what it put on this Mac"))
+        #expect(ForgetReceiptDialog.message(for: leftATool).key.hasSuffix("so Package Receipts cannot list it anymore."))
         #expect(!ForgetReceiptDialog.returnKeepsTheReceipt(receiptOnly))
         #expect(ForgetReceiptDialog.message(for: receiptOnly).key.contains("Nothing on it is left on this Mac"))
+    }
+
+    @Test func theReceiptOnlySectionSaysWhatForgettingDoes() {
+        #expect(PackageList.receiptOnlyNote.key == "macOS still counts these packages as installed, though nothing on their receipts is left. Forgetting moves the receipts to the Trash, and History can put them back.")
     }
 
     @Test func forgetAllSaysWhatStaysUntilTheHelperCanMoveIt() {

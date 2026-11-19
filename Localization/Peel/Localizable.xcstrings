@@ -246915,108 +246915,108 @@
         }
       }
     },
-    "The receipt goes to the Trash. What the package installed stays and keeps working, but macOS, installers that check the receipt, and Peel stop knowing the package installed it, so Peel can no longer list what it put on this Mac." : {
+    "The receipt goes to the Trash. What the package installed stays and keeps working, but macOS and Peel no longer know it came from this package, so Package Receipts cannot list it anymore." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Záznam o instalaci se přesune do koše. Co balíček nainstaloval, zůstane a bude dál fungovat, ale systém macOS, instalátory, které záznam kontrolují, a Peel už nebudou vědět, že to nainstaloval tento balíček, takže Peel už nebude moci zobrazit, co balíček do tohoto Macu umístil."
+            "value" : "Záznam o instalaci se přesune do koše. Co balíček nainstaloval, zůstane a bude dál fungovat, ale systém macOS ani Peel už nebudou vědět, že to pochází z tohoto balíčku, takže to stránka Záznamy o instalaci už nebude moci zobrazit."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Quittung wird in den Papierkorb gelegt. Was das Paket installiert hat, bleibt und funktioniert weiter, aber macOS, Installer, die die Quittung prüfen, und Peel wissen dann nicht mehr, dass das Paket es installiert hat, daher kann Peel nicht mehr anzeigen, was das Paket auf diesem Mac abgelegt hat."
+            "value" : "Die Quittung wird in den Papierkorb gelegt. Was das Paket installiert hat, bleibt und funktioniert weiter, aber macOS und Peel wissen dann nicht mehr, dass es von diesem Paket stammt, daher kann die Seite „Paketquittungen“ es nicht mehr anzeigen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El recibo va a la papelera. Lo que instaló el paquete se queda y sigue funcionando, pero macOS, los instaladores que comprueban el recibo y Peel dejan de saber que lo instaló el paquete, así que Peel ya no puede mostrar lo que puso en este Mac."
+            "value" : "El recibo va a la papelera. Lo que instaló el paquete se queda y sigue funcionando, pero macOS y Peel dejan de saber que vino de este paquete, así que la página Recibos de paquetes ya no puede mostrarlo."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le reçu est placé dans la corbeille. Ce que le paquet a installé reste en place et continue de fonctionner, mais macOS, les programmes d’installation qui vérifient le reçu et Peel ne savent plus que ce paquet l’a installé : Peel ne peut donc plus lister ce qu’il a placé sur ce Mac."
+            "value" : "Le reçu est placé dans la corbeille. Ce que le paquet a installé reste en place et continue de fonctionner, mais macOS et Peel ne savent plus que cela provient de ce paquet : la page Reçus de paquets ne peut donc plus le lister."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La ricevuta va nel Cestino. Ciò che il pacchetto ha installato resta e continua a funzionare, ma macOS, gli installer che controllano la ricevuta e Peel non sapranno più che l’ha installato il pacchetto, quindi Peel non potrà più elencare ciò che ha messo su questo Mac."
+            "value" : "La ricevuta va nel Cestino. Ciò che il pacchetto ha installato resta e continua a funzionare, ma macOS e Peel non sapranno più che proviene da questo pacchetto, quindi “Ricevute dei pacchetti” non potrà più elencarlo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "レシートはゴミ箱に入ります。パッケージがインストールしたものはそのまま残り、引き続き動作しますが、macOS、レシートを確認するインストーラ、およびPeelは、それがこのパッケージによってインストールされたことを認識できなくなります。そのため、PeelはこのパッケージがこのMacに置いたものを一覧に表示できなくなります。"
+            "value" : "レシートはゴミ箱に入ります。パッケージがインストールしたものはそのまま残り、引き続き動作しますが、macOSとPeelは、それがこのパッケージによってインストールされたことを認識できなくなります。そのため、“パッケージレシート”には表示されなくなります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "수신 정보는 휴지통으로 이동합니다. 패키지가 설치한 항목은 그대로 남아 계속 작동하지만, macOS와 수신 정보를 확인하는 설치 프로그램, Peel은 더 이상 이 패키지가 해당 항목을 설치했다는 것을 알 수 없게 됩니다. 따라서 Peel은 이 패키지가 이 Mac에 설치한 항목을 더 이상 나열할 수 없습니다."
+            "value" : "수신 정보는 휴지통으로 이동합니다. 패키지가 설치한 항목은 그대로 남아 계속 작동하지만, macOS와 Peel은 그 항목이 이 패키지로 설치되었다는 것을 더 이상 알 수 없으므로 패키지 수신 정보 페이지에서 나열할 수 없게 됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het installatiebewijs gaat naar de prullenmand. Wat het pakket heeft geïnstalleerd, blijft staan en blijft werken, maar macOS, installatieprogramma's die het installatiebewijs controleren, en Peel weten dan niet meer dat het pakket het heeft geïnstalleerd, dus Peel kan niet meer tonen wat het pakket op deze Mac heeft gezet."
+            "value" : "Het installatiebewijs gaat naar de prullenmand. Wat het pakket heeft geïnstalleerd, blijft staan en blijft werken, maar macOS en Peel weten dan niet meer dat het van dit pakket komt, dus de pagina 'Installatiebewijzen' kan het niet meer tonen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Potwierdzenie trafi do Kosza. To, co zainstalował pakiet, pozostanie i nadal będzie działać, ale macOS, instalatory sprawdzające potwierdzenia i Peel przestaną wiedzieć, że zainstalował to ten pakiet, więc Peel nie będzie już mógł wyświetlić tego, co pakiet umieścił na tym Macu."
+            "value" : "Potwierdzenie trafi do Kosza. To, co zainstalował pakiet, pozostanie i nadal będzie działać, ale macOS i Peel przestaną wiedzieć, że pochodzi to z tego pakietu, więc strona Potwierdzenia instalacji nie będzie już mogła tego wyświetlić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O recibo vai para o Lixo. O que o pacote instalou permanece e continua funcionando, mas o macOS, os instaladores que verificam o recibo e o Peel deixam de saber que o pacote instalou esses itens, então o Peel não pode mais listar o que ele colocou neste Mac."
+            "value" : "O recibo vai para o Lixo. O que o pacote instalou permanece e continua funcionando, mas o macOS e o Peel deixam de saber que isso veio deste pacote, então a página Recibos de Pacotes não pode mais listá-lo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Înregistrarea este mutată în Coș. Ce a instalat pachetul rămâne și funcționează în continuare, dar macOS, programele de instalare care verifică înregistrarea și Peel nu vor mai ști că pachetul l‑a instalat, așa că Peel nu va mai putea lista ce a pus acesta pe acest Mac."
+            "value" : "Înregistrarea este mutată în Coș. Ce a instalat pachetul rămâne și funcționează în continuare, dar macOS și Peel nu vor mai ști că provine din acest pachet, așa că pagina Înregistrări de pachete nu îl va mai putea lista."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Квитанция перемещается в Корзину. То, что установил пакет, остается на месте и продолжает работать, но macOS, установщики, которые проверяют квитанцию, и сам Peel перестают знать, что это установил пакет, поэтому Peel больше не сможет показать, что пакет поместил на этот Mac."
+            "value" : "Квитанция перемещается в Корзину. То, что установил пакет, остается на месте и продолжает работать, но macOS и Peel больше не будут знать, что это установил этот пакет, поэтому раздел «Квитанции пакетов» больше не сможет это показывать."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kvittot flyttas till papperskorgen. Det som paketet installerade finns kvar och fortsätter att fungera, men macOS, installerare som kontrollerar kvittot och Peel vet inte längre att paketet installerade det, så Peel kan inte längre lista det som paketet placerade på den här datorn."
+            "value" : "Kvittot flyttas till papperskorgen. Det som paketet installerade finns kvar och fortsätter att fungera, men macOS och Peel vet inte längre att det kom från det här paketet, så sidan Paketkvitton kan inte längre lista det."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Makbuz Çöp Sepeti’ne gider. Paketin yüklediği şeyler olduğu yerde kalır ve çalışmaya devam eder, ancak macOS, makbuzu denetleyen yükleyiciler ve Peel bunları o paketin yüklediğini artık bilmez; bu yüzden Peel, paketin bu Mac’e koyduklarını artık listeleyemez."
+            "value" : "Makbuz Çöp Sepeti’ne gider. Paketin yüklediği şeyler olduğu yerde kalır ve çalışmaya devam eder, ancak macOS ve Peel bunların bu paketten geldiğini artık bilmez, bu yüzden Paket Makbuzları onları artık listeleyemez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Квитанцію буде переміщено в Смітник. Те, що інсталював пакет, залишиться й працюватиме далі, але macOS, інсталятори, які перевіряють квитанцію, і Peel більше не знатимуть, що це інсталював цей пакет, тож Peel більше не зможе показати, що пакет записав на цей Mac."
+            "value" : "Квитанцію буде переміщено в Смітник. Те, що інсталював пакет, залишиться й працюватиме далі, але macOS і Peel більше не знатимуть, що це інстальовано з цього пакета, тож розділ «Квитанції пакетів» більше не зможе це показати."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "回执会移到废纸篓。该软件包安装的内容会保留并继续正常工作，但macOS、会检查回执的安装器以及Peel都将不再知道这些内容是由该软件包安装的，因此Peel将无法再列出它在这台Mac上放置的内容。"
+            "value" : "回执会移到废纸篓。该软件包安装的内容会保留并继续正常工作，但macOS和Peel将不再知道这些内容来自该软件包，因此“软件包回执”将无法再列出它们。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "收據會丟到「垃圾桶」。此套件安裝的內容會保留並繼續運作，但macOS、會檢查收據的安裝程式以及Peel都將不再知道這些內容是由此套件安裝的，因此Peel將無法再列出它在這部Mac上放置的內容。"
+            "value" : "收據會丟到「垃圾桶」。此套件安裝的內容會保留並繼續運作，但macOS和Peel都將不再知道這些內容來自此套件，因此「套件收據」將無法再列出它們。"
           }
         }
       }
@@ -312168,109 +312168,108 @@
         }
       }
     },
-    "macOS still counts these packages as installed, but nothing on their receipts is left on this Mac. Forgetting their receipts moves them to the Trash, and History can put them back." : {
-      "comment" : "The note behind the circled i of the Receipt Only heading in Package Receipts.",
+    "macOS still counts these packages as installed, though nothing on their receipts is left. Forgetting moves the receipts to the Trash, and History can put them back." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS tyto balíčky stále považuje za nainstalované, ale z toho, co uvádějí jejich záznamy o instalaci, v tomto Macu nic nezůstalo. Když jejich záznamy o instalaci zapomenete, přesunou se do koše a Historie je může vrátit zpět."
+            "value" : "Systém macOS tyto balíčky stále považuje za nainstalované, i když z toho, co uvádějí jejich záznamy o instalaci, nic nezůstalo. Když je zapomenete, záznamy se přesunou do koše a Historie je může vrátit zpět."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS betrachtet diese Pakete noch als installiert, aber nichts von dem, was auf ihren Quittungen steht, ist auf diesem Mac noch da. Das Vergessen ihrer Quittungen legt diese in den Papierkorb, und im Verlauf kannst du sie zurücklegen."
+            "value" : "macOS betrachtet diese Pakete noch als installiert, obwohl nichts mehr von dem da ist, was auf ihren Quittungen steht. Das Vergessen legt die Quittungen in den Papierkorb, und im Verlauf kannst du sie zurücklegen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS sigue contando estos paquetes como instalados, pero no queda en este Mac nada de lo que figura en sus recibos. Olvidar sus recibos los traslada a la papelera, e Historial puede restaurarlos."
+            "value" : "macOS sigue contando estos paquetes como instalados, aunque no queda nada de lo que figura en sus recibos. Olvidarlos traslada los recibos a la papelera, e Historial puede restaurarlos."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS considère toujours ces paquets comme installés, mais il ne reste sur ce Mac rien de ce qui figure sur leurs reçus. Oublier leurs reçus les place dans la corbeille, et l’Historique peut les remettre en place."
+            "value" : "macOS considère toujours ces paquets comme installés, bien qu’il ne reste rien de ce qui figure sur leurs reçus. Oublier les reçus les place dans la corbeille, et l’Historique peut les remettre en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS considera ancora installati questi pacchetti, ma di ciò che è elencato nelle loro ricevute non rimane nulla su questo Mac. Dimenticare le loro ricevute le sposta nel Cestino, e la Cronologia può ripristinarle."
+            "value" : "macOS considera ancora installati questi pacchetti, anche se di ciò che è elencato nelle loro ricevute non rimane nulla. Dimenticare le ricevute le sposta nel Cestino, e la Cronologia può ripristinarle."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSはこれらのパッケージをまだインストール済みと見なしていますが、レシートに記載されているものはこのMacに何も残っていません。レシートをゴミ箱に入れても、履歴から戻すことができます。"
+            "value" : "macOSはこれらのパッケージをまだインストール済みと見なしていますが、レシートに記載されているものは何も残っていません。レシートをゴミ箱に入れても、履歴から戻すことができます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS는 이 패키지들을 아직 설치된 것으로 간주하지만, 이 패키지들의 수신 정보에 나열된 항목은 이 Mac에 남아 있지 않습니다. 수신 정보를 제거하면 휴지통으로 이동하며, 기록에서 되돌려 놓을 수 있습니다."
+            "value" : "macOS는 이 패키지들을 아직 설치된 것으로 간주하지만, 수신 정보에 나열된 항목은 남아 있지 않습니다. 수신 정보를 제거하면 휴지통으로 이동하며, 기록에서 되돌려 놓을 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS beschouwt deze pakketten nog als geïnstalleerd, maar van wat er op hun installatiebewijzen staat, is op deze Mac niets meer over. Als je de installatiebewijzen ervan vergeet, worden ze naar de prullenmand verplaatst, en Geschiedenis kan ze terugzetten."
+            "value" : "macOS beschouwt deze pakketten nog als geïnstalleerd, al is er van wat er op hun installatiebewijzen staat niets meer over. Als je ze vergeet, worden de installatiebewijzen naar de prullenmand verplaatst, en Geschiedenis kan ze terugzetten."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS nadal uznaje te pakiety za zainstalowane, ale na tym Macu nie zostało nic z tego, co wymieniają ich potwierdzenia. Zapomnienie ich potwierdzeń przenosi je do Kosza, a Historia może je przywrócić."
+            "value" : "macOS nadal uznaje te pakiety za zainstalowane, choć nie zostało nic z tego, co wymieniają ich potwierdzenia. Zapomnienie przenosi potwierdzenia do Kosza, a Historia może je przywrócić."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS ainda considera estes pacotes como instalados, mas não resta neste Mac nada do que consta nos recibos deles. Esquecer os recibos deles os move para o Lixo, e o Histórico pode colocá-los de volta."
+            "value" : "O macOS ainda considera estes pacotes como instalados, embora não reste nada do que consta nos recibos deles. Esquecer move os recibos para o Lixo, e o Histórico pode colocá-los de volta."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS consideră în continuare aceste pachete instalate, dar din ce listează înregistrările lor nu a mai rămas nimic pe acest Mac. Dacă le uitați înregistrările, acestea sunt mutate în Coș și le puteți pune înapoi din Istoric."
+            "value" : "macOS consideră în continuare aceste pachete instalate, deși din ce listează înregistrările lor nu a mai rămas nimic. Dacă le uitați, înregistrările sunt mutate în Coș și le puteți pune înapoi din Istoric."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS по-прежнему считает эти пакеты установленными, но из того, что указано в их квитанциях, на этом Mac ничего не осталось. Если забыть их квитанции, они переместятся в Корзину, и История сможет их восстановить."
+            "value" : "macOS по-прежнему считает эти пакеты установленными, хотя из того, что указано в их квитанциях, ничего не осталось. Если забыть квитанции, они переместятся в Корзину, и История сможет их восстановить."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS räknar fortfarande de här paketen som installerade, men inget av det som står på deras kvitton finns kvar på den här datorn. Om du glömmer deras kvitton flyttas kvittona till papperskorgen, och Historik kan lägga tillbaka dem."
+            "value" : "macOS räknar fortfarande de här paketen som installerade, fast inget av det som står på deras kvitton finns kvar. Om du glömmer dem flyttas kvittona till papperskorgen, och Historik kan lägga tillbaka dem."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bu paketleri hâlâ yüklü sayıyor ama paketlerin makbuzlarındaki şeylerden hiçbiri bu Mac’te kalmamış. Makbuzlarını unutmak onları Çöp Sepeti’ne taşır ve Geçmiş onları yerine koyabilir."
+            "value" : "macOS bu paketleri hâlâ yüklü sayıyor, oysa makbuzlarındaki şeylerden hiçbiri kalmamış. Unutmak makbuzları Çöp Sepeti’ne taşır ve Geçmiş onları yerine koyabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS досі вважає ці пакети інстальованими, але з того, що вказано в їхніх квитанціях, на цьому Mac нічого не лишилося. Якщо забути їхні квитанції, їх буде переміщено в Смітник, а Історія зможе їх повернути."
+            "value" : "macOS досі вважає ці пакети інстальованими, хоча з того, що вказано в їхніх квитанціях, нічого не лишилося. Якщо їх забути, квитанції буде переміщено в Смітник, а Історія зможе їх повернути."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS仍将这些软件包视为已安装，但它们的回执中列出的内容已全部不在这台Mac上了。移除它们的回执会将回执移到废纸篓，“历史记录”可以将其放回原处。"
+            "value" : "macOS仍将这些软件包视为已安装，尽管它们的回执中列出的内容已全部不在了。移除回执会将它们移到废纸篓，“历史记录”可以将其放回原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS仍將這些套件視為已安裝，但它們的收據上列出的項目已全部不在這部Mac上。移除它們的收據會將收據丟到「垃圾桶」，「歷史記錄」可以將收據還原。"
+            "value" : "macOS仍將這些套件視為已安裝，但它們的收據上列出的項目已全部不在。移除收據會將收據丟到「垃圾桶」，「歷史記錄」可以將收據還原。"
           }
         }
       }

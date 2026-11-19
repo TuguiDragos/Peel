@@ -48,7 +48,7 @@ struct ForgetReceiptDialog: ViewModifier {
     static func message(for receipt: PackageReceipt) -> LocalizedStringResource {
         receipt.nothingLeftOnDisk
             ? "The receipt goes to the Trash, so macOS no longer counts the package as installed. Nothing on it is left on this Mac, and History can put the receipt back."
-            : "The receipt goes to the Trash. What the package installed stays and keeps working, but macOS, installers that check the receipt, and Peel stop knowing the package installed it, so Peel can no longer list what it put on this Mac."
+            : "The receipt goes to the Trash. What the package installed stays and keeps working, but macOS and Peel no longer know it came from this package, so Package Receipts cannot list it anymore."
     }
 
     private var isAsking: Binding<Bool> {

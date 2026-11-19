@@ -10,6 +10,7 @@ struct PackageList: View {
     @State private var receiptsToForget: ForgetAll?
 
     static let noAnswer: LocalizedStringResource = "Peel asked macOS which packages are installed and got no answer, so it cannot list them. Rescan to try again."
+    static let receiptOnlyNote: LocalizedStringResource = "macOS still counts these packages as installed, though nothing on their receipts is left. Forgetting moves the receipts to the Trash, and History can put them back."
 
     var body: some View {
         @Bindable var packages = packages
@@ -24,10 +25,7 @@ struct PackageList: View {
                     ForEach(receiptsOnly) { row(for: $0, sayingForAllUsers: forAllUsers.contains($0.id)) }
                 } header: {
                     SectionHeaderLine {
-                        heading(
-                            "Receipt Only",
-                            "macOS still counts these packages as installed, but nothing on their receipts is left on this Mac. Forgetting their receipts moves them to the Trash, and History can put them back."
-                        )
+                        heading("Receipt Only", Self.receiptOnlyNote)
                     } count: {
                         Text("^[\(receiptsOnly.count) package](inflect: true)")
                             .font(.caption)
