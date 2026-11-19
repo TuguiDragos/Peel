@@ -61,6 +61,8 @@ struct OrphanDetailView: View {
         .toolbar(removing: .title)
     }
 
+    static let temporaryCopyNote: LocalizedStringResource = "It was a temporary copy, such as one an installer opens."
+
     /// True when a click can select none of the group's files: the page is then a list to read.
     static func isOnlyToRead(_ group: OrphanGroup, canUseHelper: Bool) -> Bool {
         group.selectableRows(canUseHelper: canUseHelper).selectable.isEmpty
@@ -187,7 +189,7 @@ private struct WhereSeenNote: View {
             VStack(alignment: .trailing, spacing: 0) {
                 NoteCard(
                     heading: Text("Where Peel saw it"),
-                    detail: app.wasLastSeenInATemporaryCopy() ? Text("It was a copy opened from an installer.") : nil,
+                    detail: app.wasLastSeenInATemporaryCopy() ? Text(OrphanDetailView.temporaryCopyNote) : nil,
                     footnote: Text(verbatim: (app.lastPath as NSString).abbreviatingWithTildeInPath)
                 )
                 ActionRow {

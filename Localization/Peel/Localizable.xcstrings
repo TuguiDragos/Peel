@@ -98764,108 +98764,108 @@
         }
       }
     },
-    "It was a copy opened from an installer." : {
+    "It was a temporary copy, such as one an installer opens." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Byla to kopie otevřená z instalátoru."
+            "value" : "Byla to dočasná kopie, například taková, kterou otevírá instalátor."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Es war eine Kopie, die aus einem Installer geöffnet wurde."
+            "value" : "Es war eine temporäre Kopie, etwa eine, die ein Installer öffnet."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Era una copia abierta desde un instalador."
+            "value" : "Era una copia temporal, como la que abre un instalador."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il s’agissait d’une copie ouverte depuis un programme d’installation."
+            "value" : "Il s’agissait d’une copie temporaire, comme celle qu’ouvre un programme d’installation."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Era una copia aperta da un installer."
+            "value" : "Era una copia temporanea, come quella che apre un installer."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "インストーラから開かれたコピーでした。"
+            "value" : "インストーラが開くコピーなど、一時的なコピーでした。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "설치 프로그램에서 연 복사본이었습니다."
+            "value" : "설치 프로그램이 여는 복사본처럼 임시 복사본이었습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het was een kopie die vanuit een installatieprogramma werd geopend."
+            "value" : "Het was een tijdelijke kopie, zoals een kopie die een installatieprogramma opent."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To była kopia otwarta z instalatora."
+            "value" : "Była to tymczasowa kopia, na przykład taka, którą otwiera instalator."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Era uma cópia aberta a partir de um instalador."
+            "value" : "Era uma cópia temporária, como as que um instalador abre."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Era o copie deschisă dintr‑un program de instalare."
+            "value" : "Era o copie temporară, cum ar fi una pe care o deschide un program de instalare."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Это была копия, открытая из установщика."
+            "value" : "Это была временная копия, например такая, которую открывает установщик."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det var en kopia som öppnades från en installerare."
+            "value" : "Det var en tillfällig kopia, till exempel en som en installerare öppnar."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir yükleyiciden açılmış bir kopyaydı."
+            "value" : "Bir yükleyicinin açtığı gibi geçici bir kopyaydı."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Це була копія, відкрита з інсталятора."
+            "value" : "Це була тимчасова копія, як-от та, яку відкриває інсталятор."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它是从安装器打开的副本。"
+            "value" : "它是一个临时副本，例如安装器打开的副本。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它是從安裝程式中打開的副本。"
+            "value" : "它是一份暫時的副本，例如安裝程式打開的副本。"
           }
         }
       }
