@@ -36,37 +36,29 @@ struct SpaceDetailView: View {
             Section {
                 Text(item.words.detail)
                     .font(.callout)
-                if item.howToFreeIt != nil || !item.commands.isEmpty {
-                    LabeledContent {
-                        if let hint = item.howToFreeIt {
-                            if #available(macOS 27, *) {
-                                SpaceStep(step: hint)
-                            } else {
-                                Text(hint)
-                                    .font(.callout)
-                                    .textSelection(.enabled)
-                                    .multilineTextAlignment(.trailing)
-                            }
-                        }
-                    } label: {
-                        titled(
-                            "How to free it",
-                            "Space does not touch this. How to free it, on this page, says what does."
-                        )
-                    }
-                }
-                if !item.commands.isEmpty {
-                    CopyableLines(
-                        caption: item.commands.count == 1
-                            ? Text("Run this in Terminal. It deletes for good, without the Trash.")
-                            : Text("Run these in Terminal. Those that remove something delete it for good, without the Trash."),
-                        lines: item.commands
-                    )
-                }
             } header: {
                 Text("What It Is")
             }
             .listRowSeparator(.hidden)
+
+            if item.howToFreeIt != nil || !item.commands.isEmpty {
+                Section {
+                    if let hint = item.howToFreeIt {
+                        SpaceStep(step: hint, note: item.howToFreeItNote)
+                    }
+                    if !item.commands.isEmpty {
+                        CopyableLines(
+                            caption: item.commands.count == 1
+                                ? Text("Run this in Terminal. It deletes for good, without the Trash.")
+                                : Text("Run these in Terminal. Those that remove something delete it for good, without the Trash."),
+                            lines: item.commands
+                        )
+                    }
+                } header: {
+                    Text("How to Free It")
+                }
+                .listRowSeparator(.hidden)
+            }
 
             if !item.isReadOnly, let plan {
                 contents(of: plan)
@@ -266,7 +258,7 @@ struct SpaceDetailView: View {
                     NoteBadge(
                         title: Text("Listed only"), systemImage: "hand.raised",
                         name: String(localized: "Listed only"),
-                        detail: Text("Space does not touch this. How to free it, on this page, says what does.")
+                        detail: Text("Space does not touch this. How to Free It, on this page, says what does.")
                     )
                 }
             }
@@ -300,17 +292,21 @@ struct SpaceDetailView: View {
     }
 }
 
-/// What frees an area's space, beside its label. On macOS 27 a list lays out a selectable text aligned to the trailing
-/// edge narrower than it measured it, which cut its last lines, so the text asks for its whole height.
-@available(macOS 27, *)
+/// What frees an area's space, with what it does in a circled i beside it.
 struct SpaceStep: View {
     let step: LocalizedStringResource
+    var note: LocalizedStringResource?
 
     var body: some View {
-        Text(step)
-            .font(.callout)
-            .textSelection(.enabled)
-            .multilineTextAlignment(.trailing)
-            .fixedSize(horizontal: false, vertical: true)
+        HStack(alignment: .firstTextBaseline, spacing: 4) {
+            Text(step)
+                .font(.callout)
+                .textSelection(.enabled)
+                // A list row on macOS 27 draws its text on one line unless the text asks for its whole height.
+                .fixedSize(horizontal: false, vertical: true)
+            if let note {
+                InfoNote(about: Text(step), detail: Text(note), isAlbum: false)
+            }
+        }
     }
 }

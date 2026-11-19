@@ -16390,6 +16390,112 @@
         }
       }
     },
+    "A shorter time deletes older conversations along with their attachments." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kratší doba smaže starší konverzace i s jejich přílohami."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bei einer kürzeren Dauer werden ältere Konversationen samt ihren Anhängen gelöscht."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un periodo más corto borra las conversaciones más antiguas junto con sus archivos adjuntos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une durée plus courte supprime définitivement les anciennes conversations avec leurs pièces jointes."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un periodo più breve elimina le conversazioni meno recenti insieme ai loro allegati."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "期間を短くすると、古い会話が添付ファイルごと削除されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기간을 짧게 설정하면 오래된 대화가 첨부 파일과 함께 삭제됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Met een kortere bewaartermijn worden oudere gesprekken samen met hun bijlagen definitief verwijderd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Krótszy czas przechowywania usuwa starsze rozmowy razem z ich załącznikami."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um período mais curto apaga as conversas mais antigas junto com os anexos."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O perioadă mai scurtă șterge conversațiile mai vechi împreună cu fișierele lor atașate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если выбрать более короткий срок, старые разговоры будут удалены вместе с их вложениями."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En kortare tid raderar äldre konversationer tillsammans med deras bilagor."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daha kısa bir süre seçmek, eski yazışmaları ilişikleriyle birlikte siler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Коротший термін зберігання видаляє старіші розмови разом із їхніми вкладеннями."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择较短的时间会删除较早的对话及其附件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇較短的時間會刪除較舊的對話及其附件。"
+          }
+        }
+      }
+    },
     "A small tool with administrator rights. It moves items to the Trash and puts them back, starts, stops, enables, or disables background items, and forgets installer receipts. It takes no other orders." : {
       "localizations" : {
         "cs" : {
@@ -49314,6 +49420,218 @@
         }
       }
     },
+    "Drag a year you no longer use to the Trash in Finder" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ročník, který už nepoužíváte, přetáhněte do koše ve Finderu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ziehe eine Jahresversion, die du nicht mehr verwendest, im Finder in den Papierkorb"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrastra un año que ya no uses a la papelera en el Finder"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faites glisser une année que vous n’utilisez plus dans la corbeille depuis le Finder"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trascina nel Cestino dal Finder un’edizione che non usi più"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使わなくなった年版は、Finderでゴミ箱にドラッグしてください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder에서 더 이상 사용하지 않는 연도를 휴지통으로 드래그"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sleep in Finder een jaar dat je niet meer gebruikt naar de prullenmand"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przeciągnij wersję, której już nie używasz, do Kosza w Finderze"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arraste para o Lixo no Finder um ano que você não usa mais"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trageți în Coș din Finder un an pe care nu îl mai folosiți"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перетащите в Корзину в Finder выпуск, который Вы больше не используете"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dra en årgång som du inte längre använder till papperskorgen i Finder"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artık kullanmadığınız bir yılı Finder’da Çöp Sepeti’ne sürükleyin"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перетягніть рік, яким ви більше не користуєтеся, у Смітник у Finder"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“访达”中将不再使用的年度版本拖到废纸篓"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Finder中將你不再使用的年度版本拖到「垃圾桶」"
+          }
+        }
+      }
+    },
+    "Drag an older version to the Trash in Finder, or use the .NET Uninstall Tool" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starší verzi přetáhněte do koše ve Finderu nebo použijte nástroj .NET Uninstall Tool"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ziehe eine ältere Version im Finder in den Papierkorb oder verwende das .NET Uninstall Tool"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrastra una versión anterior a la papelera en el Finder, o usa .NET Uninstall Tool"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faites glisser une ancienne version dans la corbeille depuis le Finder, ou utilisez le .NET Uninstall Tool"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trascina nel Cestino dal Finder una versione meno recente, oppure usa .NET Uninstall Tool"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "古いバージョンは、Finderでゴミ箱にドラッグするか、.NET Uninstall Toolを使用してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder에서 이전 버전을 휴지통으로 드래그하거나 .NET Uninstall Tool 사용"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sleep in Finder een oudere versie naar de prullenmand of gebruik de .NET Uninstall Tool"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przeciągnij starszą wersję do Kosza w Finderze albo użyj narzędzia .NET Uninstall Tool"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arraste uma versão mais antiga para o Lixo no Finder ou use o .NET Uninstall Tool"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trageți în Coș din Finder o versiune mai veche sau folosiți .NET Uninstall Tool"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перетащите старую версию в Корзину в Finder или используйте .NET Uninstall Tool"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dra en äldre version till papperskorgen i Finder, eller använd .NET Uninstall Tool"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daha eski bir sürümü Finder’da Çöp Sepeti’ne sürükleyin veya .NET Uninstall Tool aracını kullanın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перетягніть старішу версію в Смітник у Finder або скористайтеся інструментом .NET Uninstall Tool"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“访达”中将较旧的版本拖到废纸篓，或使用.NET Uninstall Tool"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Finder中將較舊的版本拖到「垃圾桶」，或使用.NET Uninstall Tool"
+          }
+        }
+      }
+    },
     "Driver Extensions" : {
       "localizations" : {
         "cs" : {
@@ -55360,6 +55678,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Finder延伸功能"
+          }
+        }
+      }
+    },
+    "Finder asks for an administrator password for a version in /usr/local." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "U verze v /usr/local si Finder vyžádá heslo správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für eine Version in /usr/local fragt der Finder nach dem Passwort eines Administrators."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El Finder pide una contraseña de administrador para una versión que esté en /usr/local."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le Finder demande le mot de passe d’un administrateur pour une version située dans /usr/local."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per una versione in /usr/local, il Finder chiede la password di un amministratore."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/usr/local内のバージョンの場合は、Finderが管理者のパスワードを求めます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/usr/local에 있는 버전의 경우 Finder가 관리자 암호를 요청합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder vraagt om het wachtwoord van een beheerder bij een versie in /usr/local."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W przypadku wersji w /usr/local Finder poprosi o hasło administratora."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Finder pede uma senha de administrador para uma versão em /usr/local."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder cere parola unui administrator pentru o versiune din /usr/local."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Для версии в /usr/local Finder запросит пароль администратора."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder ber om ett administratörslösenord för en version i /usr/local."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder, /usr/local içindeki bir sürüm için bir yönetici parolası ister."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Для версії в /usr/local Finder запитує пароль адміністратора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对于/usr/local中的版本，“访达”会要求输入管理员密码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "若版本位於/usr/local中，Finder會要求輸入管理者密碼。"
+          }
+        }
+      }
+    },
+    "Finder asks for an administrator password. TeX Live Utility chooses the year in use." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder si vyžádá heslo správce. Používaný ročník volí aplikace TeX Live Utility."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Finder fragt nach dem Passwort eines Administrators. Die verwendete Jahresversion legst du in TeX Live Utility fest."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El Finder pide una contraseña de administrador. El año en uso se elige en TeX Live Utility."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le Finder demande le mot de passe d’un administrateur. TeX Live Utility choisit l’année utilisée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il Finder chiede la password di un amministratore. L’edizione in uso si sceglie con TeX Live Utility."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finderが管理者のパスワードを求めます。使用中の年版はTeX Live Utilityで選択します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder가 관리자 암호를 요청합니다. 사용 중인 연도는 TeX Live Utility에서 선택합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder vraagt om het wachtwoord van een beheerder. Met TeX Live Utility kies je welk jaar in gebruik is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder poprosi o hasło administratora. Używaną wersję wybiera się w aplikacji TeX Live Utility."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Finder pede uma senha de administrador. O TeX Live Utility escolhe o ano em uso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder cere parola unui administrator. Anul în uz se alege din TeX Live Utility."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder запросит пароль администратора. Используемый выпуск выбирается в TeX Live Utility."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder ber om ett administratörslösenord. TeX Live Utility väljer vilken årgång som används."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder bir yönetici parolası ister. Kullanımdaki yıl TeX Live Utility’de seçilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder запитує пароль адміністратора. Рік, що використовується, вибирається в TeX Live Utility."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“访达”会要求输入管理员密码。可在TeX Live Utility中选取要使用的年度版本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder會要求輸入管理者密碼。使用中的年度版本由TeX Live Utility選擇。"
           }
         }
       }
@@ -75861,6 +76391,112 @@
         }
       }
     },
+    "Homebrew never removes it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ji nikdy neodstraní."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew entfernt ihn nie."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew nunca la elimina."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ne le supprime jamais."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew non la rimuove mai."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewが取り除くことは決してありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew는 이러한 폴더를 절대 제거하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew verwijdert die nooit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew nigdy go nie usuwa."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Homebrew nunca a remove."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew nu îl elimină niciodată."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew никогда не удаляет ее сам."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew tar aldrig bort den."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew onu hiçbir zaman kaldırmaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew ніколи її не видаляє."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew绝不会移除它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew絕不會移除它。"
+          }
+        }
+      }
+    },
     "Homebrew no longer lists this package." : {
       "localizations" : {
         "cs" : {
@@ -80130,6 +80766,112 @@
         }
       }
     },
+    "How to Free It" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jak místo uvolnit"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "So gibst du den Speicherplatz frei"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cómo liberarlo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment libérer cet espace"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Come liberarlo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解放する方法"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "공간 확보 방법"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoe je dit vrijmaakt"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jak zwolnić to miejsce"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como Liberar"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cum eliberați spațiul"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как освободить место"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Så frigör du det"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nasıl Boşaltılır"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Як це звільнити"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如何释放空间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如何釋放空間"
+          }
+        }
+      }
+    },
     "How to Turn Off Apple Intelligence Features, in the Mac User Guide" : {
       "localizations" : {
         "cs" : {
@@ -80232,112 +80974,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在「Mac使用手冊」中瞭解如何關閉Apple Intelligence功能"
-          }
-        }
-      }
-    },
-    "How to free it" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jak místo uvolnit"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "So gibst du den Speicherplatz frei"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cómo liberarlo"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comment libérer cet espace"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Come liberarlo"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "解放する方法"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "공간 확보 방법"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hoe je dit vrijmaakt"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jak zwolnić to miejsce"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Como liberar"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cum eliberați spațiul"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Как освободить место"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Så frigör du det"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nasıl boşaltılır"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Як це звільнити"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "如何释放空间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "如何釋放空間"
           }
         }
       }
@@ -95645,6 +96281,113 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這只適用於App調整視窗大小的情況。拖移視窗邊緣不受影響。"
+          }
+        }
+      }
+    },
+    "It removes the downloads of files of %@ or more that are already safe in iCloud." : {
+      "comment" : "%@ is a file size, such as 1 MB.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstraní stažené kopie souborů o velikosti alespoň %@, které už jsou bezpečně na iCloudu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Seite entfernt die Downloads von Dateien ab %@, die bereits sicher in iCloud liegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina las descargas de los archivos de %@ o más que ya están a salvo en iCloud."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elle retire les téléchargements des fichiers de %@ ou plus déjà en sécurité dans iCloud."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuove i download dei file di almeno %@ già al sicuro su iCloud."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すでにiCloudに安全に保存されている%@以上のファイルについて、ダウンロードしたものを削除します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "크기가 %@ 이상이고 이미 iCloud에 안전하게 보관된 파일의 다운로드를 제거합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die pagina verwijdert de downloads van bestanden van %@ of meer die al veilig in iCloud staan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuwa pobrane kopie plików o wielkości co najmniej %@, które są już bezpieczne w iCloud."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ela remove os downloads dos arquivos de %@ ou mais que já estão seguros no iCloud."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimină descărcările fișierelor de cel puțin %@ aflate deja în siguranță pe iCloud."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Он удаляет загрузки файлов размером %@ и более, которые уже надежно сохранены в iCloud."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den tar bort hämtningarna av filer på %@ eller mer som redan är säkert lagrade i iCloud."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud’da zaten güvende olan, %@ veya daha büyük dosyaların indirilmiş kopyalarını kaldırır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вона вилучає викачування файлів розміром від %@, які вже надійно збережено в iCloud."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它会移除大小为%@或以上、已安全储存在iCloud中的文件的下载副本。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它可以為已安全存放在iCloud中、大小達%@或以上的檔案移除下載項目。"
           }
         }
       }
@@ -115460,108 +116203,109 @@
         }
       }
     },
-    "Messages > Settings > Keep Messages, which deletes older conversations along with their attachments" : {
+    "Messages > Settings > General > Keep Messages" : {
+      "comment" : "The menu, settings, tab, and setting of Apple's Messages app, as macOS names them in each language.",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zprávy > Nastavení > Ponechat zprávy, což smaže starší konverzace i s jejich přílohami"
+            "value" : "Zprávy > Nastavení > Obecné > Ponechat zprávy"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "„Nachrichten“ > „Einstellungen“ > „Nachrichten behalten“, wodurch ältere Konversationen samt ihren Anhängen gelöscht werden"
+            "value" : "„Nachrichten“ > „Einstellungen“ > „Allgemein“ > „Nachrichten behalten“"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mensajes > Ajustes > Conservar mensajes, que borra las conversaciones más antiguas junto con sus archivos adjuntos"
+            "value" : "Mensajes > Ajustes > General > Conservar mensajes"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Messages > Réglages > Garder les messages, qui supprime définitivement les anciennes conversations avec leurs pièces jointes"
+            "value" : "Messages > Réglages > Général > Garder les messages"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Messaggi > Impostazioni > Conserva i messaggi, che elimina le conversazioni meno recenti insieme ai loro allegati"
+            "value" : "Messaggi > Impostazioni > Generali > Conserva i messaggi"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“メッセージ”＞“設定”＞“メッセージの保存期間”（古い会話を添付ファイルごと削除します）"
+            "value" : "“メッセージ”＞“設定”＞“一般”＞“メッセージの保存期間”"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "메시지 > 설정 > 메시지 유지(오래된 대화를 첨부 파일과 함께 삭제함)"
+            "value" : "메시지 > 설정 > 일반 > 메시지 유지"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Berichten > Instellingen > Bewaar berichten, waarmee oudere gesprekken samen met hun bijlagen definitief worden verwijderd"
+            "value" : "Berichten > Instellingen > Algemeen > Bewaar berichten"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wiadomości > Ustawienia > Przechowuj wiadomości, co usuwa starsze rozmowy razem z ich załącznikami"
+            "value" : "Wiadomości > Ustawienia > Ogólne > Przechowuj wiadomości"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mensagens > Ajustes > Manter Mensagens, que apaga as conversas mais antigas junto com os anexos"
+            "value" : "Mensagens > Ajustes > Geral > Manter Mensagens"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mesaje > Configurări > Păstrare mesaje, care șterge conversațiile mai vechi împreună cu fișierele lor atașate"
+            "value" : "Mesaje > Configurări > General > Păstrare mesaje"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "«Сообщения» > «Настройки» > «Оставлять сообщения» (удаляет старые разговоры вместе с их вложениями)"
+            "value" : "«Сообщения» > «Настройки» > «Основные» > «Оставлять сообщения»"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Meddelanden > Inställningar > Behåll meddelanden, som raderar äldre konversationer tillsammans med deras bilagor"
+            "value" : "Meddelanden > Inställningar > Allmänt > Behåll meddelanden"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mesajlar > Ayarlar > Mesajları Tut; bu ayar eski yazışmaları ilişikleriyle birlikte siler"
+            "value" : "Mesajlar > Ayarlar > Genel > Mesajları Tut"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Повідомлення > Параметри > Зберігати повідомлення: цей параметр видаляє старіші розмови разом із їхніми вкладеннями"
+            "value" : "Повідомлення > Параметри > Загальні > Зберігати повідомлення"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“信息”>“设置”>“保留信息”，这会删除较早的对话及其附件"
+            "value" : "“信息”>“设置”>“通用”>“保留信息”"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「訊息」>「設定」>「保留訊息」，這會刪除較舊的對話及其附件"
+            "value" : "「訊息」>「設定」>「一般」>「保留訊息」"
           }
         }
       }
@@ -196029,320 +196773,108 @@
         }
       }
     },
-    "Remove a folder in Finder once no formula needs it. Homebrew never removes it." : {
+    "Remove a folder in Finder once no formula needs it" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Složku odstraňte ve Finderu, až ji nebude potřebovat žádná formula. Homebrew ji nikdy neodstraní."
+            "value" : "Složku odstraňte ve Finderu, až ji nebude potřebovat žádná formula"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Entferne einen Ordner im Finder, sobald ihn keine Formula mehr benötigt. Homebrew entfernt ihn nie."
+            "value" : "Entferne einen Ordner im Finder, sobald ihn keine Formula mehr benötigt"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Elimina una carpeta en el Finder cuando ya no la necesite ninguna formula. Homebrew nunca la elimina."
+            "value" : "Elimina una carpeta en el Finder cuando ya no la necesite ninguna formula"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Supprimez un dossier dans le Finder lorsque plus aucune formula n’en a besoin. Homebrew ne le supprime jamais."
+            "value" : "Supprimez un dossier dans le Finder lorsque plus aucune formula n’en a besoin"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rimuovi una cartella nel Finder quando nessuna formula ne ha più bisogno. Homebrew non la rimuove mai."
+            "value" : "Rimuovi una cartella nel Finder quando nessuna formula ne ha più bisogno"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "どのformulaにも必要とされなくなったフォルダは、Finderで取り除いてください。Homebrewが取り除くことは決してありません。"
+            "value" : "どのformulaにも必要とされなくなったフォルダは、Finderで取り除いてください"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "어떤 formula에도 더 이상 필요하지 않은 폴더는 Finder에서 제거하십시오. Homebrew는 이러한 폴더를 절대 제거하지 않습니다."
+            "value" : "어떤 formula에도 더 이상 필요하지 않은 폴더는 Finder에서 제거"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verplaats een map in Finder naar de prullenmand zodra geen enkele formula die nog nodig heeft. Homebrew verwijdert die nooit."
+            "value" : "Verplaats een map in Finder naar de prullenmand zodra geen enkele formula die nog nodig heeft"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Przenieś folder do Kosza w Finderze, gdy żadna formula nie będzie go już potrzebować. Homebrew nigdy go nie usuwa."
+            "value" : "Przenieś folder do Kosza w Finderze, gdy żadna formula nie będzie go już potrzebować"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remova uma pasta no Finder quando nenhuma formula precisar mais dela. O Homebrew nunca a remove."
+            "value" : "Remova uma pasta no Finder quando nenhuma formula precisar mais dela"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "În Finder, eliminați un dosar după ce nicio formulă nu mai are nevoie de el. Homebrew nu îl elimină niciodată."
+            "value" : "În Finder, eliminați un dosar după ce nicio formulă nu mai are nevoie de el"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Переместите папку в Корзину в Finder, когда она больше не будет нужна ни одной formula. Homebrew никогда не удаляет ее сам."
+            "value" : "Переместите папку в Корзину в Finder, когда она больше не будет нужна ни одной formula"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ta bort en mapp i Finder när ingen formula längre behöver den. Homebrew tar aldrig bort den."
+            "value" : "Ta bort en mapp i Finder när ingen formula längre behöver den"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir klasöre artık hiçbir formula ihtiyaç duymadığında onu Finder’da kaldırın. Homebrew onu hiçbir zaman kaldırmaz."
+            "value" : "Bir klasöre artık hiçbir formula ihtiyaç duymadığında onu Finder’da kaldırın"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вилучіть папку у Finder, коли вона вже не потрібна жодній formula. Homebrew ніколи її не видаляє."
+            "value" : "Вилучіть папку у Finder, коли вона вже не потрібна жодній formula"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "某个文件夹不再被任何formula需要后，请在“访达”中移除它。Homebrew绝不会移除它。"
+            "value" : "某个文件夹不再被任何formula需要后，在“访达”中移除它"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "當沒有任何formula需要某個檔案夾時，請在Finder中將它移除。Homebrew絕不會移除它。"
-          }
-        }
-      }
-    },
-    "Remove a version with a newer one beside it by dragging its folder to the Trash in Finder, or with Microsoft’s .NET Uninstall Tool. Finder asks for an administrator’s password for a version in /usr/local." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verzi, vedle které je nainstalovaná novější verze, odstraňte přetažením její složky do koše ve Finderu nebo pomocí nástroje .NET Uninstall Tool od společnosti Microsoft. U verze v /usr/local si Finder vyžádá heslo správce."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entferne eine Version, neben der eine neuere installiert ist, indem du ihren Ordner im Finder in den Papierkorb ziehst oder das .NET Uninstall Tool von Microsoft verwendest. Für eine Version in /usr/local fragt der Finder nach dem Passwort eines Administrators."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Para eliminar una versión que tenga otra más reciente al lado, arrastra su carpeta a la papelera en el Finder o usa .NET Uninstall Tool de Microsoft. El Finder pide una contraseña de administrador para una versión que esté en /usr/local."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprimez une version lorsqu’une plus récente est installée à côté, en faisant glisser son dossier dans la corbeille depuis le Finder, ou avec le .NET Uninstall Tool de Microsoft. Le Finder demande le mot de passe d’un administrateur pour une version située dans /usr/local."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rimuovi una versione affiancata da una più recente trascinandone la cartella nel Cestino dal Finder, oppure con .NET Uninstall Tool di Microsoft. Per una versione in /usr/local, il Finder chiede la password di un amministratore."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "より新しいバージョンもインストールされているバージョンは、Finderでそのフォルダをゴミ箱にドラッグするか、Microsoftの.NET Uninstall Toolを使用して取り除いてください。/usr/local内のバージョンの場合は、Finderが管理者のパスワードを求めます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "새로운 버전이 함께 설치되어 있는 버전은 Finder에서 해당 폴더를 휴지통으로 드래그하거나 Microsoft의 .NET Uninstall Tool을 사용하여 제거하십시오. /usr/local에 있는 버전의 경우 Finder가 관리자 암호를 요청합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verwijder een versie waarnaast een nieuwere staat door de map ervan in Finder naar de prullenmand te slepen, of met de .NET Uninstall Tool van Microsoft. Finder vraagt om het wachtwoord van een beheerder bij een versie in /usr/local."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aby pozbyć się wersji, obok której jest nowsza, przeciągnij jej folder do Kosza w Finderze albo użyj narzędzia .NET Uninstall Tool firmy Microsoft. W przypadku wersji w /usr/local Finder poprosi o hasło administratora."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remova uma versão que tenha outra mais recente ao lado arrastando a pasta dela para o Lixo no Finder, ou com o .NET Uninstall Tool da Microsoft. O Finder pede a senha de um administrador para uma versão em /usr/local."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminați o versiune care are alături una mai nouă, trăgându‑i dosarul în Coș din Finder sau folosind .NET Uninstall Tool de la Microsoft. Finder cere parola unui administrator pentru o versiune din /usr/local."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удалите версию, рядом с которой установлена более новая, перетащив ее папку в Корзину в Finder или с помощью .NET Uninstall Tool от Microsoft. Для версии в /usr/local Finder запросит пароль администратора."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ta bort en version som har en nyare bredvid sig genom att dra dess mapp till papperskorgen i Finder, eller med Microsofts .NET Uninstall Tool. Finder ber om en administratörs lösenord för en version i /usr/local."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yanında daha yeni bir sürüm bulunan bir sürümü, klasörünü Finder’da Çöp Sepeti’ne sürükleyerek veya Microsoft’un .NET Uninstall Tool aracıyla kaldırın. /usr/local içindeki bir sürüm için Finder bir yönetici parolası ister."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Щоб вилучити версію, поряд з якою є новіша, перетягніть її папку в Смітник у Finder або скористайтеся інструментом .NET Uninstall Tool від Microsoft. Для версії в /usr/local Finder запитує пароль адміністратора."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "若要移除已有较新版本并存的版本，请在“访达”中将其文件夹拖到废纸篓，或使用Microsoft的.NET Uninstall Tool。对于/usr/local中的版本，“访达”会要求输入管理员密码。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "若某個版本旁已有較新的版本，可在Finder中將其檔案夾拖到「垃圾桶」來移除它，或使用Microsoft的.NET Uninstall Tool移除。若版本位於/usr/local中，Finder會要求輸入管理者的密碼。"
-          }
-        }
-      }
-    },
-    "Remove a year you no longer use by dragging its folder to the Trash in Finder, which asks for an administrator’s password. TeX Live Utility chooses the year in use." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ročník, který už nepoužíváte, odstraňte přetažením jeho složky do koše ve Finderu, přičemž si Finder vyžádá heslo správce. Používaný ročník volí aplikace TeX Live Utility."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entferne eine Jahresversion, die du nicht mehr verwendest, indem du ihren Ordner im Finder in den Papierkorb ziehst. Der Finder fragt dabei nach dem Passwort eines Administrators. Die verwendete Jahresversion legst du in TeX Live Utility fest."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Para eliminar un año que ya no uses, arrastra su carpeta a la papelera en el Finder, que pide una contraseña de administrador. El año en uso se elige en TeX Live Utility."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprimez une année que vous n’utilisez plus en faisant glisser son dossier dans la corbeille depuis le Finder, qui demande le mot de passe d’un administrateur. TeX Live Utility choisit l’année utilisée."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rimuovi un’edizione che non usi più trascinandone la cartella nel Cestino dal Finder, che chiede la password di un amministratore. L’edizione in uso si sceglie con TeX Live Utility."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "使わなくなった年版は、Finderでそのフォルダをゴミ箱にドラッグして取り除いてください。その際、Finderが管理者のパスワードを求めます。使用中の年版はTeX Live Utilityで選択します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "더 이상 사용하지 않는 연도는 Finder에서 해당 폴더를 휴지통으로 드래그하여 제거하십시오. 이때 Finder가 관리자 암호를 요청합니다. 사용 중인 연도는 TeX Live Utility에서 선택합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verwijder een jaar dat je niet meer gebruikt door de map ervan in Finder naar de prullenmand te slepen. Finder vraagt daarbij om het wachtwoord van een beheerder. Met TeX Live Utility kies je welk jaar in gebruik is."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aby pozbyć się wersji, której już nie używasz, przeciągnij jej folder do Kosza w Finderze, który poprosi o hasło administratora. Używaną wersję wybiera się w aplikacji TeX Live Utility."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remova um ano que você não usa mais arrastando a pasta dele para o Lixo no Finder, que pede a senha de um administrador. O TeX Live Utility escolhe o ano em uso."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminați un an pe care nu îl mai folosiți, trăgându‑i dosarul în Coș din Finder, care cere parola unui administrator. Anul în uz se alege din TeX Live Utility."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удалите выпуск, который Вы больше не используете, перетащив его папку в Корзину в Finder, который запросит пароль администратора. Используемый выпуск выбирается в TeX Live Utility."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ta bort en årgång som du inte längre använder genom att dra dess mapp till papperskorgen i Finder, som ber om en administratörs lösenord. TeX Live Utility väljer vilken årgång som används."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Artık kullanmadığınız bir yılı, klasörünü Finder’da Çöp Sepeti’ne sürükleyerek kaldırın; Finder bunun için bir yönetici parolası ister. Kullanımdaki yıl TeX Live Utility’de seçilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Щоб вилучити рік, яким ви більше не користуєтеся, перетягніть його папку в Смітник у Finder, який запитає пароль адміністратора. Рік, що використовується, вибирається в TeX Live Utility."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "若要移除不再使用的年度版本，请在“访达”中将其文件夹拖到废纸篓，“访达”会要求输入管理员密码。可在TeX Live Utility中选取要使用的年度版本。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "若要移除你不再使用的年度版本，請在Finder中將其檔案夾拖到「垃圾桶」，Finder會要求輸入管理者的密碼。使用中的年度版本由TeX Live Utility選擇。"
+            "value" : "當沒有任何formula需要某個檔案夾時，在Finder中將它移除"
           }
         }
       }
@@ -222222,7 +222754,7 @@
         }
       }
     },
-    "Space does not touch this. How to free it, on this page, says what does." : {
+    "Space does not touch this. How to Free It, on this page, says what does." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -222281,13 +222813,13 @@
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A página Espaço não mexe nisso. A seção “Como liberar”, nesta página, diz o que libera esse espaço."
+            "value" : "A página Espaço não mexe nisso. A seção “Como Liberar”, nesta página, diz o que libera esse espaço."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pagina Spațiu nu se atinge de el. Pe această pagină, rândul „Cum eliberați spațiul” spune ce anume îl eliberează."
+            "value" : "Pagina Spațiu nu se atinge de el. Pe această pagină, secțiunea „Cum eliberați spațiul” spune ce anume îl eliberează."
           }
         },
         "ru" : {
@@ -222305,7 +222837,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Disk Alanı buna dokunmaz. Bunu neyin boşalttığını, bu sayfadaki “Nasıl boşaltılır” bölümü açıklar."
+            "value" : "Disk Alanı buna dokunmaz. Bunu neyin boşalttığını bu sayfadaki “Nasıl Boşaltılır” bölümü açıklar."
           }
         },
         "uk" : {
@@ -241449,109 +241981,108 @@
         }
       }
     },
-    "The iCloud Drive page in Peel removes the downloads of files of %@ or more that are already safe in iCloud" : {
-      "comment" : "%@ is a file size, such as 1 MB.",
+    "The iCloud Drive page in Peel" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stažené kopie souborů o velikosti alespoň %@, které už jsou bezpečně na iCloudu, odstraní vlastní stránka iCloud Drive v Peelu"
+            "value" : "Stránka iCloud Drive v Peelu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die Seite „iCloud Drive“ in Peel entfernt die Downloads von Dateien ab %@, die bereits sicher in iCloud liegen"
+            "value" : "Die Seite „iCloud Drive“ in Peel"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La propia página iCloud Drive de Peel elimina las descargas de los archivos de %@ o más que ya están a salvo en iCloud"
+            "value" : "La página iCloud Drive de Peel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La page iCloud Drive de Peel retire les téléchargements des fichiers de %@ ou plus déjà en sécurité dans iCloud"
+            "value" : "La page iCloud Drive de Peel"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La pagina iCloud Drive di Peel rimuove i download dei file di almeno %@ già al sicuro su iCloud"
+            "value" : "La pagina iCloud Drive di Peel"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelの“iCloud Drive”ページでは、すでにiCloudに安全に保存されている%@以上のファイルについて、ダウンロードしたものを削除できます"
+            "value" : "Peelの“iCloud Drive”ページ"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel의 iCloud Drive 페이지에서 크기가 %@ 이상이고 이미 iCloud에 안전하게 보관된 파일의 다운로드를 제거할 수 있음"
+            "value" : "Peel의 iCloud Drive 페이지"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De pagina 'iCloud Drive' van Peel zelf verwijdert de downloads van bestanden van %@ of meer die al veilig in iCloud staan"
+            "value" : "De pagina 'iCloud Drive' in Peel"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Strona iCloud Drive w Peel usuwa pobrane kopie plików o wielkości co najmniej %@, już bezpiecznych w iCloud"
+            "value" : "Strona iCloud Drive w Peel"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A própria página iCloud Drive do Peel remove os downloads dos arquivos de %@ ou mais que já estão seguros no iCloud"
+            "value" : "A página iCloud Drive do Peel"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pagina iCloud Drive din Peel elimină descărcările fișierelor de cel puțin %@ aflate deja în siguranță pe iCloud"
+            "value" : "Pagina iCloud Drive din Peel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Загрузки файлов размером %@ и более, которые уже надежно сохранены в iCloud, удаляет раздел «iCloud Drive» в самом Peel"
+            "value" : "Раздел «iCloud Drive» в Peel"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peels egen sida iCloud Drive tar bort hämtningarna av filer på %@ eller mer som redan är säkert lagrade i iCloud"
+            "value" : "Sidan iCloud Drive i Peel"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel’in kendi iCloud Drive sayfası, iCloud’da zaten güvende olan %@ veya daha büyük dosyaların indirilmiş kopyalarını kaldırır"
+            "value" : "Peel’in iCloud Drive sayfası"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Викачування файлів розміром від %@, уже надійно збережених в iCloud, вилучає власна сторінка Peel «iCloud Drive»"
+            "value" : "Сторінка Peel «iCloud Drive»"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel自己的“iCloud云盘”页面会移除大小为%@或以上、已安全储存在iCloud中的文件的下载副本"
+            "value" : "Peel中的“iCloud云盘”页面"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel自己的「iCloud雲碟」頁面可以為已安全存放在iCloud中、大小達%@或以上的檔案移除下載項目"
+            "value" : "Peel中的「iCloud雲碟」頁面"
           }
         }
       }

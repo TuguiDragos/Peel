@@ -11,6 +11,8 @@ nonisolated extension SpaceItem {
         let title: LocalizedStringResource
         let detail: LocalizedStringResource
         var hint: LocalizedStringResource?
+        /// What the hint does, in a circled i beside it.
+        var hintNote: LocalizedStringResource?
         /// The hint while the apps that manage the area are gone from this Mac.
         var hintWithoutItsApp: LocalizedStringResource?
         /// True for an area a page of Peel's own frees, which no other app or tool manages.
@@ -34,6 +36,10 @@ nonisolated extension SpaceItem {
 
     var howToFreeIt: LocalizedStringResource? {
         managingAppIsMissing ? words.hintWithoutItsApp ?? words.hint : words.hint
+    }
+
+    var howToFreeItNote: LocalizedStringResource? {
+        managingAppIsMissing && words.hintWithoutItsApp != nil ? nil : words.hintNote
     }
 
     private static let words: [String: Words] = [
@@ -183,7 +189,11 @@ nonisolated extension SpaceItem {
         "messages": Words(
             title: "Messages Attachments",
             detail: "Photos, videos, and files sent and received in Messages.",
-            hint: "Messages > Settings > Keep Messages, which deletes older conversations along with their attachments"
+            hint: LocalizedStringResource(
+                "Messages > Settings > General > Keep Messages",
+                comment: "The menu, settings, tab, and setting of Apple's Messages app, as macOS names them in each language."
+            ),
+            hintNote: "A shorter time deletes older conversations along with their attachments."
         ),
         "wallpapers": Words(
             title: "Aerial Wallpapers",
@@ -198,8 +208,9 @@ nonisolated extension SpaceItem {
         "icloud": Words(
             title: "iCloud Drive",
             detail: "All that iCloud Drive keeps downloaded on this Mac, small files and files not yet uploaded included.",
-            hint: LocalizedStringResource(
-                "The iCloud Drive page in Peel removes the downloads of files of \(CloudStorage.minimumSize.formatted(.byteCount(style: .file))) or more that are already safe in iCloud",
+            hint: "The iCloud Drive page in Peel",
+            hintNote: LocalizedStringResource(
+                "It removes the downloads of files of \(CloudStorage.minimumSize.formatted(.byteCount(style: .file))) or more that are already safe in iCloud.",
                 comment: "%@ is a file size, such as 1 MB."
             ),
             isFreedByPeel: true
@@ -235,17 +246,20 @@ nonisolated extension SpaceItem {
         "homebrew-data": Words(
             title: "Homebrew Data",
             detail: "What the formulae Homebrew installed keep in its var folder, such as the data of a database. Uninstalling with Homebrew leaves it, so it can outlive its formula. A folder that no installed formula names is marked. The logs of the services are listed apart, and the settings a formula keeps in the etc folder of Homebrew or in /etc stay where they are.",
-            hint: "Remove a folder in Finder once no formula needs it. Homebrew never removes it."
+            hint: "Remove a folder in Finder once no formula needs it",
+            hintNote: "Homebrew never removes it."
         ),
         "tex-live": Words(
             title: LocalizedStringResource("TeX Live", comment: "A product's name, never translated."),
             detail: "Each year of TeX Live in /usr/local/texlive, where MacTeX installs it. Installing a later year leaves the earlier ones as they were, and each year other than the one in use says so.",
-            hint: "Remove a year you no longer use by dragging its folder to the Trash in Finder, which asks for an administrator’s password. TeX Live Utility chooses the year in use."
+            hint: "Drag a year you no longer use to the Trash in Finder",
+            hintNote: "Finder asks for an administrator password. TeX Live Utility chooses the year in use."
         ),
         "dotnet-sdks": Words(
             title: ".NET SDKs",
             detail: "Each version of the .NET SDK installed on this Mac. Installing a newer one leaves the earlier ones, and Microsoft says you generally need only the newest.",
-            hint: "Remove a version with a newer one beside it by dragging its folder to the Trash in Finder, or with Microsoft’s .NET Uninstall Tool. Finder asks for an administrator’s password for a version in /usr/local."
+            hint: "Drag an older version to the Trash in Finder, or use the .NET Uninstall Tool",
+            hintNote: "Finder asks for an administrator password for a version in /usr/local."
         ),
         "homebrew-logs": Words(
             title: "Homebrew Service Logs",
