@@ -11,10 +11,8 @@ struct DeviceManagementTests {
         #expect(DeviceManagement.enrollment(in: nil) == nil)
     }
 
-    /// Any account may ask `profiles`, so this asks this Mac itself.
-    @Test func asksThisMac() async {
-        await DeviceManagement.ask()
-
-        #expect(DeviceManagement.enrollment != nil)
+    /// Any account may ask `profiles`, so this asks this Mac itself, and waits for its whole answer.
+    @Test func readsThisMac() async {
+        #expect(await DeviceManagement.read(within: nil) != nil)
     }
 }
