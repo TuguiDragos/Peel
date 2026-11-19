@@ -251120,108 +251120,108 @@
         }
       }
     },
-    "These kinds of files open with this app when you double-click one.\n\nOnce the app is gone, macOS opens each kind with another app that can read it, and Peel shows which app that would be. A kind under No app has nothing else on this Mac to open it.\n\nYour files stay where they are. Peel never changes which app opens what: you choose that in Finder, with Get Info." : {
+    "These kinds of files open with this app. Once it is gone, macOS opens each with the app Peel shows, and a kind under No app has nothing else to open it. Peel never changes which app opens what; you choose that in Finder, with Get Info." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tyto druhy souborů se otevírají v této aplikaci, když na soubor dvakrát kliknete.\n\nAž aplikace zmizí, systém macOS otevře každý druh v jiné aplikaci, která ho umí číst, a Peel ukazuje, která aplikace to bude. Druh uvedený pod „Žádná aplikace“ nemá v tomto Macu jinou aplikaci, která by ho otevřela.\n\nVaše soubory zůstanou tam, kde jsou. Peel nikdy nemění, která aplikace co otevírá: to zvolíte ve Finderu v okně Informace."
+            "value" : "Tyto druhy souborů se otevírají v této aplikaci. Až aplikace zmizí, systém macOS každý druh otevře v aplikaci, kterou ukazuje Peel, a druh uvedený pod „Žádná aplikace“ nemá nic jiného, co by ho otevřelo. Peel nikdy nemění, která aplikace co otevírá; to zvolíte ve Finderu v okně Informace."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Diese Dateiarten werden mit dieser App geöffnet, wenn du auf eine solche Datei doppelklickst.\n\nSobald die App entfernt ist, öffnet macOS jede Art mit einer anderen App, die sie lesen kann, und Peel zeigt, welche App das wäre. Für eine Art unter „Keine App“ gibt es auf diesem Mac nichts anderes, das sie öffnen kann.\n\nDeine Dateien bleiben, wo sie sind. Peel ändert nie, welche App was öffnet: Das legst du im Finder unter „Informationen“ fest."
+            "value" : "Diese Dateiarten werden mit dieser App geöffnet. Sobald sie entfernt ist, öffnet macOS jede Art mit der App, die Peel anzeigt, und für eine Art unter „Keine App“ gibt es nichts anderes, das sie öffnen kann. Peel ändert nie, welche App was öffnet; das legst du im Finder unter „Informationen“ fest."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Estos tipos de archivo se abren con esta app cuando haces doble clic en uno.\n\nCuando la app ya no esté, macOS abrirá cada tipo con otra app que pueda leerlo, y Peel muestra cuál sería esa app. Un tipo que aparece en “Ninguna app” no tiene ninguna otra app en este Mac que pueda abrirlo.\n\nTus archivos se quedan donde están. Peel nunca cambia qué app abre cada cosa: eso lo eliges tú en el Finder, con Obtener información."
+            "value" : "Estos tipos de archivo se abren con esta app. Cuando ya no esté, macOS abrirá cada uno con la app que muestra Peel, y un tipo que esté en “Ninguna app” no tiene nada más con qué abrirse. Peel nunca cambia qué app abre cada cosa; eso lo eliges en el Finder, con “Obtener información”."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les fichiers de ces types s’ouvrent avec cette app lorsque vous double-cliquez dessus.\n\nUne fois l’app supprimée, macOS ouvre chaque type de fichier avec une autre app capable de le lire, et Peel indique de quelle app il s’agirait. Pour un type classé sous « Aucune app », rien d’autre sur ce Mac ne peut l’ouvrir.\n\nVos fichiers restent à leur place. Peel ne modifie jamais l’app qui ouvre tel ou tel élément : vous faites ce choix dans le Finder, avec « Lire les informations »."
+            "value" : "Ces types de fichiers s’ouvrent avec cette app. Une fois qu’elle aura disparu, macOS ouvrira chacun d’eux avec l’app qu’indique Peel, et un type placé sous « Aucune app » n’a rien d’autre pour l’ouvrir. Peel ne change jamais l’app qui ouvre chaque type ; ce choix se fait dans le Finder, avec « Lire les informations »."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Questi tipi di file si aprono con questa app quando fai doppio clic su uno di questi file.\n\nUna volta rimossa l’app, macOS apre ogni tipo con un’altra app in grado di leggerlo, e Peel mostra quale app sarebbe. Per un tipo sotto “Nessuna app” non c’è nient’altro su questo Mac in grado di aprirlo.\n\nI tuoi file restano dove sono. Peel non cambia mai quale app apre cosa: lo scegli tu nel Finder, con “Ottieni informazioni”."
+            "value" : "Questi tipi di file si aprono con questa app. Una volta rimossa l’app, macOS apre ogni tipo con l’app che mostra Peel, e per un tipo sotto “Nessuna app” non c’è nient’altro in grado di aprirlo. Peel non cambia mai quale app apre cosa; lo scegli tu nel Finder, con “Ottieni informazioni”."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これらの種類のファイルは、ダブルクリックするとこのアプリで開きます。\n\nこのアプリがなくなった後は、macOSがそれぞれの種類を、読み込めるほかのアプリで開きます。それがどのアプリになるかはPeelに表示されます。“アプリなし”の下にある種類には、このMac上にそれを開けるほかのアプリがありません。\n\nファイルはそのままの場所に残ります。どのアプリで何を開くかを、Peelが変更することは決してありません。これは、Finderの“情報を見る”で選択します。"
+            "value" : "これらの種類のファイルは、このアプリで開きます。このアプリがなくなった後は、macOSがそれぞれをPeelに表示されるアプリで開きます。“アプリなし”の下にある種類には、ほかに開けるアプリがありません。どのアプリで何を開くかを、Peelが変更することは決してありません。これはFinderの“情報を見る”で選択します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이러한 종류의 파일은 이중 클릭하면 이 앱으로 열립니다.\n\n이 앱이 없어지면 macOS는 각 종류를 읽을 수 있는 다른 앱으로 열며, Peel은 그 앱이 무엇인지 보여 줍니다. ‘앱 없음’ 아래에 있는 종류는 이 Mac에 열 수 있는 다른 앱이 없습니다.\n\n파일은 그대로 남아 있습니다. Peel은 어떤 앱이 무엇을 여는지 절대 변경하지 않습니다. 이는 Finder의 정보 가져오기에서 직접 선택합니다."
+            "value" : "이러한 종류의 파일은 이 앱으로 열립니다. 이 앱이 없어지면 macOS는 각 종류를 Peel이 보여 주는 앱으로 열며, ‘앱 없음’ 아래에 있는 종류는 열 수 있는 다른 앱이 없습니다. Peel은 어떤 앱이 무엇을 여는지 절대 변경하지 않습니다. 이는 Finder의 정보 가져오기에서 선택합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bestanden van deze soorten worden met deze app geopend als je erop dubbelklikt.\n\nZodra de app weg is, opent macOS elke soort met een andere app die de bestanden kan lezen, en Peel toont welke app dat zou zijn. Voor een soort onder 'Geen app' is er op deze Mac niets anders om die te openen.\n\nJe bestanden blijven waar ze zijn. Peel wijzigt nooit welke app wat opent: dat kies je in Finder, met 'Toon info'."
+            "value" : "Bestanden van deze soorten worden met deze app geopend. Zodra de app weg is, opent macOS elke soort met de app die Peel toont, en voor een soort onder 'Geen app' is er niets anders waarmee die bestanden kunnen worden geopend. Peel wijzigt nooit welke app wat opent; dat kies je in Finder, met 'Toon info'."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pliki tych rodzajów otwierają się w tej aplikacji po dwukrotnym kliknięciu.\n\nGdy tej aplikacji nie będzie, macOS otworzy każdy rodzaj w innej aplikacji, która potrafi go odczytać, a Peel pokazuje, która to będzie. Rodzaju oznaczonego jako „Brak aplikacji” nie otworzy na tym Macu nic innego.\n\nTwoje pliki pozostaną tam, gdzie są. Peel nigdy nie zmienia, która aplikacja co otwiera: wybierasz to w Finderze, w oknie Informacje."
+            "value" : "Pliki tych rodzajów otwierają się w tej aplikacji. Gdy jej nie będzie, macOS otworzy każdy z nich w aplikacji, którą pokazuje Peel, a rodzaju oznaczonego jako „Brak aplikacji” nie otworzy nic innego. Peel nigdy nie zmienia, która aplikacja co otwiera; wybierasz to w Finderze, w oknie Informacje."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Estes tipos de arquivo abrem com este app quando você clica duas vezes em um deles.\n\nQuando o app for removido, o macOS abrirá cada tipo com outro app capaz de lê-lo, e o Peel mostra qual app será esse. Um tipo em “Nenhum app” não tem mais nada neste Mac que o abra.\n\nOs seus arquivos ficam onde estão. O Peel nunca muda qual app abre o quê: você escolhe isso no Finder, com Obter Informações."
+            "value" : "Estes tipos de arquivo abrem com este app. Quando ele for removido, o macOS abrirá cada um com o app que o Peel mostra, e um tipo em “Nenhum app” não tem mais nada que o abra. O Peel nunca altera qual app abre o quê; você escolhe isso no Finder, com Obter Informações."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fișierele de aceste tipuri se deschid cu această aplicație când faceți dublu clic pe unul.\n\nDupă ce aplicația dispare, macOS deschide fiecare tip cu altă aplicație care îl poate citi, iar Peel arată care ar fi aceasta. Un tip listat la „Nicio aplicație” nu are nimic altceva pe acest Mac care să îl deschidă.\n\nFișierele dvs. rămân unde se află. Peel nu schimbă niciodată ce aplicație deschide un anumit tip de fișier: faceți alegerea în Finder, cu Obțineți informații."
+            "value" : "Fișierele de aceste tipuri se deschid cu această aplicație. După ce aplicația dispare, macOS deschide fiecare tip cu aplicația pe care o arată Peel, iar un tip listat la „Nicio aplicație” nu are nimic altceva care să îl deschidă. Peel nu schimbă niciodată ce aplicație deschide un anumit tip de fișier; faceți alegerea în Finder, cu Obțineți informații."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Файлы этих типов открываются в этом приложении, когда Вы дважды нажимаете на такой файл.\n\nПосле удаления приложения macOS открывает каждый тип в другом приложении, которое может его прочитать, и Peel показывает, в каком именно. Для типов из списка «Нет приложения» на этом Mac больше нет приложений, которые могли бы их открыть.\n\nВаши файлы остаются на месте. Peel никогда не меняет, какое приложение что открывает: это выбирается в Finder, в окне «Свойства»."
+            "value" : "Файлы этих типов открываются в этом приложении. После его удаления macOS будет открывать каждый тип в приложении, которое показывает Peel, а для типа из списка «Нет приложения» больше нет приложений, которые могли бы его открыть. Peel никогда не меняет, какое приложение что открывает; это выбирается в Finder, в окне «Свойства»."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De här filtyperna öppnas med den här appen när du dubbelklickar på en sådan fil.\n\nNär appen är borta öppnar macOS varje typ med en annan app som kan läsa den, och Peel visar vilken app det skulle bli. En typ under ”Ingen app” har inget annat på den här datorn som kan öppna den.\n\nDina filer ligger kvar där de är. Peel ändrar aldrig vilken app som öppnar vad: det väljer du i Finder, med Visa info."
+            "value" : "De här filtyperna öppnas med den här appen. När den är borta öppnar macOS varje typ med den app som Peel visar, och en typ under ”Ingen app” har inget annat som kan öppna den. Peel ändrar aldrig vilken app som öppnar vad; det väljer du i Finder, med Visa info."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu türlerdeki bir dosyayı çift tıkladığınızda dosya bu uygulamayla açılır.\n\nUygulama gittikten sonra macOS her türü onu okuyabilen başka bir uygulamayla açar ve Peel bunun hangi uygulama olacağını gösterir. “Uygulama yok” altındaki bir türü bu Mac’te açabilecek başka bir şey yoktur.\n\nDosyalarınız oldukları yerde kalır. Peel hangi uygulamanın neyi açacağını asla değiştirmez: bunu Finder’da Bilgi Ver ile siz seçersiniz."
+            "value" : "Bu türlerdeki dosyalar bu uygulamayla açılır. Uygulama gittikten sonra macOS her birini Peel’in gösterdiği uygulamayla açar; “Uygulama yok” altındaki bir türü açabilecek başka bir şey yoktur. Peel hangi uygulamanın neyi açtığını hiçbir zaman değiştirmez; bunu Finder’da Bilgi Ver ile siz seçersiniz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Файли цих типів відкриваються в цій програмі, коли ви двічі клацаєте будь-який із них.\n\nЩойно програми не стане, macOS відкриватиме файли кожного типу в іншій програмі, яка може їх читати, і Peel показує, що це буде за програма. Файли типу з позначкою «Немає програми» на цьому Mac більше нічим не відкрити.\n\nВаші файли лишаються на своїх місцях. Peel ніколи не змінює, яка програма що відкриває: це можна вибрати у Finder, у вікні «Досьє»."
+            "value" : "Файли цих типів відкриваються в цій програмі. Щойно її не стане, macOS відкриватиме файли кожного типу в програмі, яку показує Peel, а тип під позначкою «Немає програми» більше ніщо не відкриє. Peel ніколи не змінює, яка програма що відкриває; це вибирають у Finder за допомогою команди «Досьє»."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "连按这些种类的文件时，它们会用此App打开。\n\n此App被移除后，macOS会用另一个能读取该种类文件的App打开每种文件，Peel会显示将使用哪个App。“无App”下的种类在这台Mac上没有其他App可以打开。\n\n你的文件会保留在原处。Peel绝不会更改由哪个App打开哪些内容：这由你在“访达”中通过“显示简介”选取。"
+            "value" : "这些种类的文件会用此App打开。此App被移除后，macOS会用Peel显示的App打开每种文件，而“无App”下的种类没有其他App可以打开。Peel绝不会更改由哪个App打开哪些内容；这由你在“访达”中通过“显示简介”选取。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "按兩下這些種類的檔案時，會以此App打開。\n\n此App移除後，macOS會以另一個能讀取的App打開每一種檔案，而Peel會顯示將由哪個App打開。列在「沒有App」下的種類，在這部Mac上沒有其他App能打開。\n\n你的檔案會保留在原處。Peel絕不會更改由哪個App打開哪些項目：你可以在Finder中使用「取得資訊」來選擇。"
+            "value" : "這些種類的檔案會以此App打開。此App移除後，macOS會以Peel顯示的App打開每一種檔案，而列在「沒有App」下的種類則沒有其他App能打開。Peel絕不會更改由哪個App打開哪些項目；你可以在Finder中使用「取得資訊」來選擇。"
           }
         }
       }
@@ -256253,108 +256253,108 @@
         }
       }
     },
-    "This disk holds a copy of macOS or a Time Machine backup, whose apps do not belong to this Mac, so Peel does not look for apps across all of it. Choose the folder there that holds only your own apps.\n\n%@" : {
+    "This disk holds a copy of macOS or a Time Machine backup, whose apps do not belong to this Mac. Choose the folder there that holds only your own apps.\n\n%@" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tento disk obsahuje kopii systému macOS nebo zálohu Time Machine, jejichž aplikace nepatří tomuto Macu, a proto Peel nehledá aplikace na celém disku. Zvolte na něm složku, ve které jsou jen vaše vlastní aplikace.\n\n%@"
+            "value" : "Tento disk obsahuje kopii systému macOS nebo zálohu Time Machine, jejichž aplikace nepatří tomuto Macu. Zvolte na něm složku, ve které jsou jen vaše vlastní aplikace.\n\n%@"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dieses Volume enthält eine Kopie von macOS oder ein Time Machine-Backup mit Apps, die nicht zu diesem Mac gehören, daher durchsucht Peel nicht das gesamte Volume nach Apps. Wähle dort den Ordner, der nur deine eigenen Apps enthält.\n\n%@"
+            "value" : "Dieses Volume enthält eine Kopie von macOS oder ein Time Machine-Backup mit Apps, die nicht zu diesem Mac gehören. Wähle dort den Ordner, der nur deine eigenen Apps enthält.\n\n%@"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Este disco contiene una copia de macOS o una copia de seguridad de Time Machine, cuyas apps no son de este Mac, así que Peel no busca apps en todo el disco. Elige la carpeta de ese disco que solo contiene tus propias apps.\n\n%@"
+            "value" : "Este disco contiene una copia de macOS o una copia de seguridad de Time Machine, cuyas apps no son de este Mac. Elige la carpeta de ese disco que solo contiene tus propias apps.\n\n%@"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce disque contient une copie de macOS ou une sauvegarde Time Machine, dont les apps ne sont pas celles de ce Mac : Peel ne recherche donc pas d’apps dans l’ensemble du disque. Choisissez sur ce disque le dossier qui ne contient que vos propres apps.\n\n%@"
+            "value" : "Ce disque contient une copie de macOS ou une sauvegarde Time Machine, dont les apps ne sont pas celles de ce Mac. Choisissez sur ce disque le dossier qui ne contient que vos propres apps.\n\n%@"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Questo disco contiene una copia di macOS o un backup di Time Machine, le cui app non sono di questo Mac, quindi Peel non cerca app nell’intero disco. Scegli, al suo interno, la cartella che contiene solo le tue app.\n\n%@"
+            "value" : "Questo disco contiene una copia di macOS o un backup di Time Machine, le cui app non sono di questo Mac. Scegli, al suo interno, la cartella che contiene solo le tue app.\n\n%@"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このディスクにはmacOSのコピーまたはTime Machineバックアップがあり、そこにあるアプリはこのMacのものではないため、Peelはディスク全体からアプリを探すことはしません。そのディスク上の、自分のアプリだけが入っているフォルダを選択してください。\n\n%@"
+            "value" : "このディスクにはmacOSのコピーまたはTime Machineバックアップがあり、そこにあるアプリはこのMacのものではありません。そのディスク上の、自分のアプリだけが入っているフォルダを選択してください。\n\n%@"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 디스크에는 macOS 복사본이나 Time Machine 백업이 들어 있으며, 그 안의 앱은 이 Mac의 앱이 아니므로 Peel은 디스크 전체에서 앱을 찾지 않습니다. 이 디스크에서 사용자의 앱만 들어 있는 폴더를 선택하십시오.\n\n%@"
+            "value" : "이 디스크에는 macOS 복사본이나 Time Machine 백업이 들어 있으며, 그 안의 앱은 이 Mac의 앱이 아닙니다. 이 디스크에서 사용자의 앱만 들어 있는 폴더를 선택하십시오.\n\n%@"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze schijf bevat een kopie van macOS of een Time Machine-back-up, waarvan de apps niet van deze Mac zijn, dus zoekt Peel niet op de hele schijf naar apps. Kies daar de map die alleen je eigen apps bevat.\n\n%@"
+            "value" : "Deze schijf bevat een kopie van macOS of een Time Machine-back-up, waarvan de apps niet van deze Mac zijn. Kies daar de map die alleen je eigen apps bevat.\n\n%@"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Na tym dysku jest kopia systemu macOS lub backup Time Machine, których aplikacje nie należą do tego Maca, więc Peel nie szuka aplikacji na całym dysku. Wybierz na nim folder, w którym są tylko Twoje własne aplikacje.\n\n%@"
+            "value" : "Na tym dysku jest kopia systemu macOS lub backup Time Machine, których aplikacje nie należą do tego Maca. Wybierz na nim folder, w którym są tylko Twoje własne aplikacje.\n\n%@"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Este disco contém uma cópia do macOS ou um backup do Time Machine, cujos apps não são deste Mac, então o Peel não procura apps no disco inteiro. Escolha a pasta desse disco que contém só os seus próprios apps.\n\n%@"
+            "value" : "Este disco contém uma cópia do macOS ou um backup do Time Machine, cujos apps não são deste Mac. Escolha a pasta desse disco que contém só os seus próprios apps.\n\n%@"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Acest disc conține o copie a sistemului macOS sau un backup Time Machine, cu aplicații care nu sunt ale acestui Mac, așa că Peel nu caută aplicații pe tot discul. Alegeți dosarul de pe acest disc care conține doar propriile dvs. aplicații.\n\n%@"
+            "value" : "Acest disc conține o copie a sistemului macOS sau un backup Time Machine, cu aplicații care nu sunt ale acestui Mac. Alegeți dosarul de pe acest disc care conține doar propriile dvs. aplicații.\n\n%@"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "На этом диске есть копия macOS или резервная копия Time Machine, приложения из которой не принадлежат этому Mac, поэтому Peel не ищет приложения по всему диску. Выберите на нем папку, в которой лежат только Ваши собственные приложения.\n\n%@"
+            "value" : "На этом диске есть копия macOS или резервная копия Time Machine, приложения из которой не принадлежат этому Mac. Выберите на нем папку, в которой лежат только Ваши собственные приложения.\n\n%@"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Den här skivan innehåller en kopia av macOS eller en Time Machine-säkerhetskopia, vars appar inte hör till den här datorn, så Peel letar inte efter appar på hela skivan. Välj den mapp på skivan som bara innehåller dina egna appar.\n\n%@"
+            "value" : "Den här skivan innehåller en kopia av macOS eller en Time Machine-säkerhetskopia, vars appar inte hör till den här datorn. Välj den mapp på skivan som bara innehåller dina egna appar.\n\n%@"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu disk, uygulamaları bu Mac’e ait olmayan bir macOS kopyası veya bir Time Machine yedeklemesi barındırıyor, bu yüzden Peel diskin tamamında uygulama aramaz. Orada yalnızca kendi uygulamalarınızı barındıran klasörü seçin.\n\n%@"
+            "value" : "Bu disk, uygulamaları bu Mac’e ait olmayan bir macOS kopyası veya bir Time Machine yedeklemesi barındırıyor. Orada yalnızca kendi uygulamalarınızı barındıran klasörü seçin.\n\n%@"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "На цьому диску є копія macOS або резервна копія Time Machine, програми в якій не належать цьому Mac, тож Peel не шукає програми на всьому диску. Виберіть на ньому папку, у якій лише ваші власні програми.\n\n%@"
+            "value" : "На цьому диску є копія macOS або резервна копія Time Machine, програми в якій не належать цьому Mac. Виберіть на ньому папку, у якій лише ваші власні програми.\n\n%@"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此磁盘上有macOS副本或时间机器备份，其中的App并不属于这台Mac，因此Peel不会在整个磁盘中查找App。请选取该磁盘上只存放你自己的App的文件夹。\n\n%@"
+            "value" : "此磁盘上有macOS副本或时间机器备份，其中的App并不属于这台Mac。请选取该磁盘上只存放你自己的App的文件夹。\n\n%@"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此磁碟存放著一套macOS系統或「時光機」備份，其中的App並不屬於這部Mac，因此Peel不會在整個磁碟上尋找App。請選擇該磁碟上只存放你自己App的檔案夾。\n\n%@"
+            "value" : "此磁碟存放著一套macOS系統或「時光機」備份，其中的App並不屬於這部Mac。請選擇該磁碟上只存放你自己App的檔案夾。\n\n%@"
           }
         }
       }

@@ -98,6 +98,10 @@ struct AppFoldersSection: View {
         }
     }
 
+    static func systemOrBackup(_ folders: String) -> LocalizedStringResource {
+        "This disk holds a copy of macOS or a Time Machine backup, whose apps do not belong to this Mac. Choose the folder there that holds only your own apps.\n\n\(folders)"
+    }
+
     /// Why each of `folders` isn't taken, a paragraph for each reason, with the folders it holds for.
     private static func message(for folders: [AppFolders.LeftOut]) -> Text {
         func paths(_ refusal: AppFolders.Refusal) -> [String] {
@@ -111,7 +115,7 @@ struct AppFoldersSection: View {
             (paths(.alreadyLookedIn), Text("Peel already looks in the Applications folders and in the folders inside them, three levels deep.\n\n\(named(.alreadyLookedIn))")),
             (paths(.inATrash), Text("The Trash holds what is on its way out, so Peel doesn’t look for apps there.\n\n\(named(.inATrash))")),
             (paths(.inTheCloud), Text("Reading a folder that iCloud or another cloud keeps can download what it holds, so Peel doesn’t look for apps there.\n\n\(named(.inTheCloud))")),
-            (paths(.holdsASystemOrABackup), Text("This disk holds a copy of macOS or a Time Machine backup, whose apps do not belong to this Mac, so Peel does not look for apps across all of it. Choose the folder there that holds only your own apps.\n\n\(named(.holdsASystemOrABackup))")),
+            (paths(.holdsASystemOrABackup), Text(systemOrBackup(named(.holdsASystemOrABackup)))),
         ]
             .filter { !$0.0.isEmpty }.map(\.1)
         return parts.dropFirst().reduce(parts.first ?? Text(verbatim: "")) { Text("\($0)\n\n\($1)") }

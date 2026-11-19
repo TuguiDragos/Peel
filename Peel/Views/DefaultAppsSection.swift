@@ -71,11 +71,12 @@ struct DefaultAppsSection: View {
 
     static func note(files: Bool, links: Bool) -> String {
         [
-            files ? String(localized: "These kinds of files open with this app when you double-click one.\n\nOnce the app is gone, macOS opens each kind with another app that can read it, and Peel shows which app that would be. A kind under No app has nothing else on this Mac to open it.\n\nYour files stay where they are. Peel never changes which app opens what: you choose that in Finder, with Get Info.") : nil,
+            files ? String(localized: filesNote) : nil,
             links ? String(localized: linksNote) : nil,
         ].compactMap(\.self).joined(separator: "\n\n")
     }
 
+    static let filesNote: LocalizedStringResource = "These kinds of files open with this app. Once it is gone, macOS opens each with the app Peel shows, and a kind under No app has nothing else to open it. Peel never changes which app opens what; you choose that in Finder, with Get Info."
     static let linksNote: LocalizedStringResource = "These links open with this app now. Once it is gone, they open with the app Peel shows; to choose another, use System Settings or that app."
 }
 
