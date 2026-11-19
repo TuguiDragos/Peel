@@ -54,13 +54,21 @@ struct InfoNote: View {
     }
 
     /// A notice's circled i. Its title is a sentence, so VoiceOver calls it More Info, as an info button is called.
-    init(about title: Text, detail: Text, link: URL? = nil, linkTitle: String? = nil, isAlbum: Bool) {
+    init(
+        about title: Text,
+        detail: Text,
+        link: URL? = nil,
+        linkTitle: String? = nil,
+        isAlbum: Bool,
+        isInRow: Bool = false
+    ) {
         heading = title
         label = Text("More Info")
         self.detail = { detail }
         self.link = link
         self.linkTitle = linkTitle
         self.isAlbum = isAlbum
+        self.isInRow = isInRow
     }
 
     private var isMarked: Bool {

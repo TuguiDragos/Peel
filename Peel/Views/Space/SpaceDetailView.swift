@@ -271,8 +271,16 @@ struct SpaceDetailView: View {
                 }
             }
         } trailing: {
-            let figure = figure
-            TotalLabel(total: figure.total, caption: figure.caption)
+            // Where macOS's privacy protection kept the whole area from Peel, what would measure it takes the figure's
+            // place; an area with a plan has the button in its plan's note.
+            if item.isReadOnly, item.whyUnknown == .needsFullDiskAccess {
+                VStack(alignment: .trailing, spacing: 6) {
+                    UnreadableFoldersActions(folders: [], needsFullDiskAccess: true)
+                }
+            } else {
+                let figure = figure
+                TotalLabel(total: figure.total, caption: figure.caption)
+            }
         }
     }
 

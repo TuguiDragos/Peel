@@ -22,6 +22,30 @@ struct SpaceInventoryTests {
         #expect(icloud.size.known >= 700_000)
     }
 
+    @Test func saysWhyNothingOfAnAreaIsKnown() async throws {
+        let directory = try TemporaryDirectory()
+        let messages = try directory.directory("Library/Messages/Attachments")
+        let tv = try directory.directory("Movies/TV")
+        let podcasts = try directory.directory("Library/Group Containers/243LU875E5.groups.com.apple.podcasts")
+        // macOS's privacy protection can't be turned on for a folder on demand, so a stand-in says which it closes.
+        let closedByPrivacy: @Sendable (URL) -> Bool = { $0.lastPathComponent == "Attachments" }
+        let closed = FolderContents(size: 0, holdsRepository: false, couldNotBeRead: true)
+
+        let report = await SpaceInventory.scan(
+            home: directory.url, root: directory.url.appending(path: "root"), minimumSize: 1,
+            measure: { url in
+                if url == messages || url == podcasts { return closed }
+                return url == tv ? nil : await LeftoverScanner.walk(url)
+            },
+            isClosedByPrivacy: closedByPrivacy
+        )
+
+        #expect(report.items.first { $0.id == "messages" }?.whyUnknown == .needsFullDiskAccess)
+        #expect(report.items.first { $0.id == "tv" }?.whyUnknown == .ranOutOfTime)
+        #expect(report.items.first { $0.id == "podcasts" }.map { $0.whyUnknown == nil } == true)
+        #expect(report.needsFullDiskAccess)
+    }
+
     @Test func aStoppedScanStops() async throws {
         let directory = try TemporaryDirectory()
         let paths = SpaceInventory.definitions.flatMap(\.paths)

@@ -297,8 +297,25 @@ private struct SpaceRow: View {
                 }
             }
         } trailing: {
-            Text(item.size.text)
-                .rowFigure()
+            switch item.whyUnknown {
+            case .needsFullDiskAccess:
+                Text("Needs Full Disk Access")
+                    .rowFigure()
+            case .ranOutOfTime:
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                    Text(item.size.text)
+                        .rowFigure()
+                    InfoNote(
+                        about: Text(item.words.title),
+                        detail: Text("Peel stopped measuring after ^[\(Int(FileSize.budget)) second](inflect: true)."),
+                        isAlbum: false,
+                        isInRow: true
+                    )
+                }
+            case nil:
+                Text(item.size.text)
+                    .rowFigure()
+            }
         }
     }
 }

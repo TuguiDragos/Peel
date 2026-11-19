@@ -52,6 +52,23 @@ public struct SpaceItem: Sendable, Hashable, Identifiable {
     public var placeSizes: [URL: SizeTotal] = [:]
     /// A fact about some of its places, which the app puts into words.
     public var placeNotes: [URL: PlaceNote] = [:]
+    /// True when a folder of the area did not answer within `FileSize.budget`, so nothing says how big it is.
+    public var ranOutOfTime = false
+    /// True when macOS's privacy protection kept part of the area from Peel, which Full Disk Access lifts.
+    public var needsFullDiskAccess = false
+
+    public enum Unmeasured: Sendable, Hashable {
+        case needsFullDiskAccess
+        case ranOutOfTime
+    }
+
+    /// Why nothing of the area's size is known, when that is so and Peel can say. Time comes first: Full Disk Access
+    /// would not have measured a folder that did not answer.
+    public var whyUnknown: Unmeasured? {
+        guard size.reading == .unknown else { return nil }
+        if ranOutOfTime { return .ranOutOfTime }
+        return needsFullDiskAccess ? .needsFullDiskAccess : nil
+    }
 
     public enum PlaceNote: Sendable, Hashable {
         /// A folder in Homebrew's `var` that no installed formula names in its own file.
@@ -733,7 +750,8 @@ public enum SpaceInventory {
         keeping: Set<String> = [],
         exclusions: Exclusions = .none,
         measure: @escaping LeftoverScanner.Measure,
-        simctlRuntimeHelp: @escaping @Sendable () async -> String? = { await Simctl.runtimeHelp() }
+        simctlRuntimeHelp: @escaping @Sendable () async -> String? = { await Simctl.runtimeHelp() },
+        isClosedByPrivacy: @escaping @Sendable (URL) -> Bool = { FullDiskAccess.canList($0) == .missing }
     ) async -> SpaceReport {
         let containers = appContainers(in: home)
         let groups = groupContainers(in: home)
@@ -785,15 +803,15 @@ public enum SpaceInventory {
                 item.placeSizes = measured.parts
                 item.placeNotes = definition.placeNotes?(urls) ?? [:]
             }
+            item.ranOutOfTime = measured.ranOutOfTime
+            item.needsFullDiskAccess = !measured.size.isComplete && urls.contains(where: isClosedByPrivacy)
             return item
         }
 
         return SpaceReport(
             items: items,
             snapshots: await DiskSpace.snapshots(home: home),
-            needsFullDiskAccess: items.contains {
-                !$0.size.isComplete && $0.urls.contains { FullDiskAccess.canList($0) == .missing }
-            }
+            needsFullDiskAccess: items.contains(where: \.needsFullDiskAccess)
         )
     }
 
