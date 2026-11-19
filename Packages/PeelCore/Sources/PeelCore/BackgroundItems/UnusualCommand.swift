@@ -126,10 +126,12 @@ public enum UnusualCommand: String, Sendable, Hashable {
         return ([program] + [script].compactMap(\.self) + java + opened.apps, opened.documents)
     }
 
-    /// The options of `java` whose value is the next word (`java(1)`).
+    /// The options of `java` whose value is the next word, as its launcher lists them (`IsWhiteSpaceOption`, `java.c`).
     private static let javaValued: Set = [
         "-cp", "-classpath", "--class-path", "-p", "--module-path", "--upgrade-module-path", "--add-modules",
         "--limit-modules", "--patch-module", "--add-reads", "--add-exports", "--add-opens", "--source",
+        "--enable-native-access", "--enable-final-field-mutation", "--illegal-native-access",
+        "--illegal-final-field-mutation", "--sun-misc-unsafe-memory-access", "--finalization",
     ]
 
     /// The jar `-jar` names, or a source file `java` runs as it is (`java(1)`). A main class, a module, and an argument
