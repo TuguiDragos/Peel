@@ -11,7 +11,7 @@ struct TweakTextTests {
     @Test func theCircledINotesAreShort() {
         #expect(TweakState.Elsewhere.thisMac.why.key == "This Mac has its own value for this setting, which macOS reads first. Peel does not change it.")
         #expect(TweakState.Elsewhere.everyAccount.why.key == "An administrator set this for every account on this Mac. Peel leaves it as it is.")
-        #expect(TweakState.Elsewhere.everyApp.why.key == "macOS sets this for every app at once, so a switch for one app would change nothing.")
+        #expect(TweakState.Elsewhere.everyApp.why.key == "This is set for every app at once, in the global settings of macOS, so this switch for one app would change nothing.")
         #expect(Tweak.Restart.relaunchApps.sentence?.key == "Apps already open keep the old setting until you reopen them.")
         #expect(TweakRow.followsMacOSsControl.key == "Changes made to it in macOS show here too.")
         #expect(TweakRow.leftToMacOS.key == "Screenshots now go to the Desktop")

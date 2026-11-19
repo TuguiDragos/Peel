@@ -321,7 +321,7 @@ extension TweakState.Elsewhere {
         case .everyAccount:
             "An administrator set this for every account on this Mac. Peel leaves it as it is."
         case .everyApp:
-            "macOS sets this for every app at once, so a switch for one app would change nothing."
+            "This is set for every app at once, in the global settings of macOS, so this switch for one app would change nothing."
         }
     }
 }
