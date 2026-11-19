@@ -29753,108 +29753,108 @@
         }
       }
     },
-    "Backups keep the project and skip the folders listed here, node_modules and Pods included. Installed packages such as .venv, and the .terraform folder, stay in backups, as do folders whose name could mean anything and folders Peel doesn’t select because of what is inside. The mark sits on the folder itself: it moves with the folder, and a folder that a build deletes and makes again comes back without it." : {
+    "Backups skip the folders listed here, such as node_modules and Pods, and keep the project. Installed packages, folders with a generic name, and folders Peel does not select stay in backups. A folder a build makes again comes back without the mark." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zálohy zachovají projekt a přeskočí zde uvedené složky, včetně node_modules a Pods. Nainstalované balíčky, jako je .venv, a složka .terraform v zálohách zůstanou, stejně jako složky, jejichž název může znamenat cokoli, a složky, které Peel nevybírá kvůli tomu, co obsahují. Značka je přímo na složce: přesouvá se s ní a složka, kterou sestavení smaže a vytvoří znovu, už ji mít nebude."
+            "value" : "Zálohy vynechávají složky uvedené zde, například node_modules a Pods, a projekt zachovávají. Nainstalované balíčky, složky s obecným názvem a složky, které Peel nevybírá, v zálohách zůstávají. Složka, kterou sestavení vytvoří znovu, se vrátí bez označení."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Backups enthalten das Projekt und überspringen die hier aufgeführten Ordner, einschließlich node_modules und Pods. Installierte Pakete wie .venv sowie der Ordner .terraform bleiben in Backups enthalten, ebenso Ordner, deren Name alles Mögliche bedeuten könnte, und Ordner, die Peel wegen ihres Inhalts nicht auswählt. Die Markierung sitzt am Ordner selbst: Sie wandert mit dem Ordner, und ein Ordner, den ein Build löscht und neu erstellt, kommt ohne sie zurück."
+            "value" : "Backups überspringen die hier aufgeführten Ordner, etwa node_modules und Pods, und enthalten das Projekt. Installierte Pakete, Ordner mit einem allgemeinen Namen und Ordner, die Peel nicht auswählt, bleiben in Backups enthalten. Ein Ordner, den ein Build neu erstellt, kommt ohne die Markierung zurück."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Las copias de seguridad conservan el proyecto y se saltan las carpetas de esta lista, incluidas node_modules y Pods. Los paquetes instalados como .venv, y la carpeta .terraform, siguen en las copias de seguridad, igual que las carpetas cuyo nombre podría significar cualquier cosa y las que Peel no selecciona por lo que hay dentro. La marca está en la propia carpeta: se mueve con ella, y una carpeta que una compilación borra y vuelve a crear reaparece sin ella."
+            "value" : "Las copias de seguridad se saltan las carpetas de esta lista, como node_modules y Pods, y conservan el proyecto. Los paquetes instalados, las carpetas con un nombre genérico y las que Peel no selecciona siguen en las copias de seguridad. Una carpeta que una compilación vuelve a crear reaparece sin la marca."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les sauvegardes conservent le projet et ignorent les dossiers listés ici, node_modules et Pods compris. Les paquets installés comme .venv, ainsi que le dossier .terraform, restent sauvegardés, de même que les dossiers dont le nom pourrait désigner n’importe quoi et ceux que Peel ne sélectionne pas en raison de ce qu’ils contiennent. La marque est posée sur le dossier lui-même : elle le suit s’il est déplacé, et un dossier qu’une compilation supprime puis recrée revient sans elle."
+            "value" : "Les sauvegardes ignorent les dossiers listés ici, comme node_modules et Pods, et conservent le projet. Les paquets installés, les dossiers au nom générique et les dossiers que Peel ne sélectionne pas restent dans les sauvegardes. Un dossier qu’une compilation recrée revient sans la marque d’exclusion."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I backup conservano il progetto e saltano le cartelle elencate qui, compresi node_modules e Pods. I pacchetti installati come .venv, e la cartella .terraform, restano nei backup, così come le cartelle il cui nome potrebbe significare qualsiasi cosa e quelle che Peel non seleziona per via di ciò che contengono. Il contrassegno sta sulla cartella stessa: si sposta con la cartella, e una cartella che una build elimina e ricrea torna senza contrassegno."
+            "value" : "I backup saltano le cartelle elencate qui, come node_modules e Pods, e conservano il progetto. I pacchetti installati, le cartelle con un nome generico e le cartelle che Peel non seleziona restano nei backup. Una cartella che una build ricrea torna senza contrassegno."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "バックアップにはプロジェクトが含まれ、ここに表示されているフォルダ（node_modulesやPodsを含む）はスキップされます。.venvなどのインストール済みのパッケージと.terraformフォルダは引き続きバックアップされます。名前が何を意味するかわからないフォルダや、中身を理由にPeelが選択しないフォルダも同様です。この印はフォルダ自体に付くため、フォルダと一緒に移動します。ビルドによって削除され再作成されたフォルダは、印のない状態に戻ります。"
+            "value" : "バックアップでは、node_modulesやPodsなど、ここに表示されているフォルダが除外され、プロジェクト自体はバックアップされます。インストール済みのパッケージ、一般的な名前のフォルダ、Peelが選択しないフォルダはバックアップに残ります。ビルドで再作成されたフォルダには、印は付いていません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "백업에는 프로젝트가 포함되지만, node_modules와 Pods를 포함하여 여기에 나열된 폴더는 건너뜁니다. 다만 .venv 같은 설치된 패키지와 .terraform 폴더, 이름만으로는 무엇인지 알 수 없는 폴더 및 안에 들어 있는 항목 때문에 Peel이 선택하지 않는 폴더는 계속 백업됩니다. 표시는 폴더 자체에 붙으므로 폴더와 함께 이동하며, 빌드가 삭제했다가 다시 만든 폴더에는 표시가 없습니다."
+            "value" : "백업에는 프로젝트가 포함되지만, node_modules와 Pods처럼 여기에 나열된 폴더는 건너뜁니다. 설치된 패키지, 일반적인 이름의 폴더 및 Peel이 선택하지 않는 폴더는 계속 백업됩니다. 빌드가 다시 만든 폴더에는 표시가 없습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Back-ups bevatten het project, maar slaan de mappen in deze lijst over, inclusief node_modules en Pods. Van geïnstalleerde pakketten zoals .venv, en van de map .terraform, wordt wel een back-up gemaakt, net als van mappen met een naam die van alles kan betekenen en van mappen die Peel niet selecteert vanwege wat erin zit. De markering zit op de map zelf: die verhuist mee met de map, en een map die een build verwijdert en opnieuw maakt, komt terug zonder markering."
+            "value" : "Back-ups slaan de mappen in deze lijst over, zoals node_modules en Pods, en bevatten het project. Geïnstalleerde pakketten, mappen met een algemene naam en mappen die Peel niet selecteert, blijven in back-ups staan. Een map die een build opnieuw maakt, komt terug zonder markering."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Backupy zachowują projekt i pomijają foldery z tej listy, łącznie z folderami node_modules i Pods. Zainstalowane pakiety, takie jak .venv, i folder .terraform pozostają w backupach, podobnie jak foldery o nazwie, która może oznaczać cokolwiek, oraz foldery, których Peel nie zaznacza ze względu na ich zawartość. Znacznik jest umieszczony na samym folderze: przenosi się razem z nim, a folder, który kompilacja usuwa i tworzy ponownie, pojawia się z powrotem bez niego."
+            "value" : "Backupy pomijają wymienione tu foldery, takie jak node_modules i Pods, i zachowują projekt. Zainstalowane pakiety, foldery o ogólnej nazwie i foldery, których Peel nie zaznacza, pozostają w backupach. Folder, który kompilacja tworzy ponownie, wraca bez oznaczenia."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Os backups mantêm o projeto e pulam as pastas listadas aqui, inclusive node_modules e Pods. Pacotes instalados como .venv, e a pasta .terraform, continuam nos backups, assim como pastas cujo nome poderia significar qualquer coisa e pastas que o Peel não seleciona por causa do que há dentro delas. A marca fica na própria pasta: ela acompanha a pasta, e uma pasta que uma compilação apaga e gera de novo volta sem ela."
+            "value" : "Os backups deixam de fora as pastas listadas aqui, como node_modules e Pods, e mantêm o projeto. Pacotes instalados, pastas com um nome genérico e pastas que o Peel não seleciona continuam nos backups. Uma pasta que uma compilação cria de novo volta sem a marca."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Backupurile păstrează proiectul și omit dosarele listate aici, inclusiv node_modules și Pods. Pachetele instalate, cum ar fi .venv, și dosarul .terraform rămân incluse în backupuri, la fel ca dosarele al căror nume ar putea însemna orice și cele pe care Peel nu le selectează din cauza a ceea ce conțin. Marcajul se află chiar pe dosar: se mută odată cu dosarul, iar un dosar pe care o compilare îl șterge și îl reface revine fără el."
+            "value" : "Backupurile omit dosarele listate aici, cum ar fi node_modules și Pods, și păstrează proiectul. Pachetele instalate, dosarele cu nume generic și cele pe care Peel nu le selectează rămân incluse în backupuri. Un dosar pe care o compilare îl reface revine fără marcaj."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Резервные копии сохраняют проект, но пропускают перечисленные здесь папки, включая node_modules и Pods. Установленные пакеты, например .venv, и папка .terraform остаются в резервных копиях, как и папки, имя которых может означать что угодно, и папки, которые Peel не выбирает из-за их содержимого. Отметка ставится на саму папку: она перемещается вместе с папкой, а папка, которую сборка удаляет и создает заново, возвращается без нее."
+            "value" : "Резервные копии пропускают перечисленные здесь папки, например node_modules и Pods, но сохраняют проект. Установленные пакеты, папки с именем, которое может означать что угодно, и папки, которые Peel не выбирает, остаются в резервных копиях. Папка, которую сборка создает заново, возвращается без отметки."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Säkerhetskopiorna tar med projektet men hoppar över mapparna som listas här, node_modules och Pods inräknade. Installerade paket som .venv, och mappen .terraform, finns kvar i säkerhetskopiorna, liksom mappar vars namn kan betyda vad som helst och mappar som Peel inte markerar på grund av vad de innehåller. Märkningen sitter på själva mappen: den följer med mappen, och en mapp som ett bygge raderar och skapar igen kommer tillbaka utan den."
+            "value" : "Säkerhetskopiorna hoppar över mapparna som listas här, till exempel node_modules och Pods, och tar med projektet. Installerade paket, mappar med ett allmänt namn och mappar som Peel inte markerar finns kvar i säkerhetskopiorna. En mapp som ett bygge skapar igen kommer tillbaka utan märkningen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yedeklemeler projeyi tutar ama node_modules ve Pods dahil burada listelenen klasörleri atlar. Yedeklemelerde ise .venv gibi yüklü paketler ve .terraform klasörü, adı her anlama gelebilecek klasörler ve içindekiler nedeniyle Peel’in seçmediği klasörler kalır. İşaret klasörün kendisinde durur: klasörle birlikte taşınır ve bir derlemenin silip yeniden oluşturduğu bir klasör bu işaret olmadan geri gelir."
+            "value" : "Yedeklemeler, node_modules ve Pods gibi burada listelenen klasörleri atlar ve projeyi tutar. Yüklü paketler, genel bir ada sahip klasörler ve Peel’in seçmediği klasörler yedeklemelerde kalır. Bir derlemenin yeniden oluşturduğu bir klasör işaretsiz olarak geri gelir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Резервні копії зберігають проєкт, але пропускають перелічені тут папки, зокрема node_modules і Pods. Інстальовані пакети, як-от .venv, і папка .terraform лишаються в резервних копіях, як і папки, назва яких може означати будь-що, та папки, які Peel не вибирає через їхній уміст. Позначка стоїть на самій папці: вона переміщується разом із папкою, а папка, яку збірка видаляє і створює знову, зʼявляється вже без неї."
+            "value" : "Резервні копії пропускають перелічені тут папки, як-от node_modules і Pods, і зберігають проєкт. Інстальовані пакети, папки із загальною назвою та папки, які Peel не вибирає, лишаються в резервних копіях. Папка, яку збірка створює знову, зʼявляється без позначки."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "备份会保留项目，并跳过此处列出的文件夹，包括node_modules和Pods。已安装的软件包（例如.venv）和.terraform文件夹、名称可能代表任何东西的文件夹，以及Peel因其中的内容而未选择的文件夹，都仍会被备份。这个标记位于文件夹本身：它会随文件夹一起移动；如果构建删除了某个文件夹后又重新生成，新文件夹将不带此标记。"
+            "value" : "备份会跳过此处列出的文件夹（例如node_modules和Pods），并保留项目。已安装的软件包、名称常见的文件夹以及Peel不会选择的文件夹仍会被备份。构建重新生成的文件夹将不带此标记。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "備份會保留計畫案，並略過此處列出的檔案夾，包括node_modules和Pods。「.venv」等已安裝的套件和「.terraform」檔案夾、名稱可能代表任何東西的檔案夾，以及Peel因其中的內容而不選取的檔案夾，仍會留在備份中。此標記設在檔案夾本身：它會跟著檔案夾移動，而建置時刪除後重新產生的檔案夾，將不再帶有此標記。"
+            "value" : "備份會略過這裡列出的檔案夾（例如node_modules和Pods），但仍會保留計畫案本身。已安裝的套件、名稱通用的檔案夾，以及Peel不會選取的檔案夾仍會保留在備份中。建置時重新產生的檔案夾不會帶有此標記。"
           }
         }
       }
@@ -183495,108 +183495,108 @@
         }
       }
     },
-    "Peel stopped after %@ folders in one of the folders you chose, so projects deeper inside may be missing. Choose the folder your projects are in to see them." : {
+    "Peel stopped after %@ folders in one of the folders you chose. Choose the folder your projects are in to see them." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel se zastavil po %@ složkách v jedné ze složek, které jste zvolili, takže projekty uložené hlouběji mohou chybět. Chcete-li je zobrazit, zvolte složku, ve které vaše projekty jsou."
+            "value" : "Peel se zastavil po %@ složkách v jedné ze složek, které jste zvolili. Chcete-li projekty zobrazit, zvolte složku, ve které jsou."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel hat in einem der von dir gewählten Ordner nach %@ Ordnern aufgehört zu suchen, daher fehlen möglicherweise Projekte, die tiefer darin liegen. Wähle den Ordner, in dem deine Projekte liegen, um sie zu sehen."
+            "value" : "Peel hat in einem der von dir gewählten Ordner nach %@ Ordnern aufgehört zu suchen. Wähle den Ordner, in dem deine Projekte liegen, um sie zu sehen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel se ha detenido tras revisar %@ carpetas de una de las carpetas que has seleccionado, así que pueden faltar proyectos que estén más adentro. Selecciona la carpeta donde están tus proyectos para verlos."
+            "value" : "Peel se ha detenido tras revisar %@ carpetas de una de las carpetas que has seleccionado. Selecciona la carpeta donde están tus proyectos para verlos."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel s’est arrêté après %@ dossiers dans l’un des dossiers que vous avez choisis : des projets situés plus en profondeur peuvent donc manquer. Choisissez le dossier où se trouvent vos projets pour les voir."
+            "value" : "Peel s’est arrêté après %@ dossiers dans l’un des dossiers que vous avez choisis. Choisissez le dossier où se trouvent vos projets pour les voir."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel si è fermato dopo %@ cartelle in una delle cartelle che hai scelto, quindi potrebbero mancare progetti più in profondità. Scegli la cartella in cui si trovano i tuoi progetti per vederli."
+            "value" : "Peel si è fermato dopo %@ cartelle in una delle cartelle che hai scelto. Per vedere i tuoi progetti, scegli la cartella in cui si trovano."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "選択したフォルダの1つで、Peelは%@個のフォルダを調べた時点で停止したため、それより深い場所にあるプロジェクトが表示されていない可能性があります。表示するには、プロジェクトがあるフォルダを選択してください。"
+            "value" : "選択したフォルダの1つで、Peelは%@個のフォルダを調べた時点で停止しました。表示するには、プロジェクトがあるフォルダを選択してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "선택한 폴더 중 하나에서 Peel이 폴더 %@개를 살펴본 후 중단했으므로, 그보다 깊은 곳에 있는 프로젝트가 누락되었을 수 있습니다. 프로젝트를 보려면 프로젝트가 들어 있는 폴더를 선택하십시오."
+            "value" : "선택한 폴더 중 하나에서 Peel이 폴더 %@개를 살펴본 후 중단했습니다. 프로젝트를 보려면 프로젝트가 들어 있는 폴더를 선택하십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel is gestopt na %@ mappen in een van de mappen die je hebt gekozen, dus projecten die dieper liggen, ontbreken misschien. Kies de map waarin je projecten staan om ze te zien."
+            "value" : "Peel is gestopt na %@ mappen in een van de mappen die je hebt gekozen. Kies de map waarin je projecten staan om ze te zien."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel zatrzymał się po %@ folderach w jednym z wybranych folderów, więc może brakować projektów położonych głębiej. Wybierz folder, w którym są Twoje projekty, aby je zobaczyć."
+            "value" : "Peel zatrzymał się po %@ folderach w jednym z wybranych folderów. Wybierz folder, w którym są Twoje projekty, aby je zobaczyć."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Peel parou depois de %@ pastas em uma das pastas que você escolheu, então os projetos que estão mais fundo nela podem não aparecer. Escolha a pasta em que estão os seus projetos para vê-los."
+            "value" : "O Peel parou depois de %@ pastas em uma das pastas que você escolheu. Escolha a pasta em que estão os seus projetos para vê-los."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel s‑a oprit după %@ de dosare într‑unul dintre dosarele alese de dvs., așa că este posibil să lipsească proiectele aflate mai în adâncime. Alegeți dosarul în care se află proiectele dvs. pentru a le vedea."
+            "value" : "Peel s‑a oprit după %@ de dosare într‑unul dintre dosarele alese de dvs. Alegeți dosarul în care se află proiectele dvs. pentru a le vedea."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel остановился, просмотрев %@ папок в одной из выбранных Вами папок, поэтому проекты, которые лежат глубже, могут не отображаться. Чтобы увидеть их, выберите папку, в которой находятся Ваши проекты."
+            "value" : "Peel остановился, просмотрев %@ папок в одной из выбранных Вами папок. Чтобы увидеть Ваши проекты, выберите папку, в которой они находятся."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel stannade efter %@ mappar i en av de mappar som du har valt, så projekt längre in kan saknas. Välj den mapp som dina projekt ligger i för att se dem."
+            "value" : "Peel stannade efter %@ mappar i en av de mappar som du har valt. Välj den mapp som dina projekt ligger i för att se dem."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel, seçtiğiniz klasörlerden birinde %@ klasörden sonra durdu, bu yüzden daha derindeki projeler eksik olabilir. Onları görmek için projelerinizin bulunduğu klasörü seçin."
+            "value" : "Peel, seçtiğiniz klasörlerden birinde %@ klasörden sonra durdu. Projelerinizi görmek için onların bulunduğu klasörü seçin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel зупинилася після %@ папок в одній із вибраних вами папок, тож проєктів, розташованих глибше, може бракувати. Виберіть папку, у якій лежать ваші проєкти, щоб їх побачити."
+            "value" : "Peel зупинилася після %@ папок в одній із вибраних вами папок. Виберіть папку, у якій лежать ваші проєкти, щоб їх побачити."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel在你选取的某个文件夹中查看了%@个文件夹后便停止了，因此更深层的项目可能未被列出。请选取你的项目所在的文件夹以查看它们。"
+            "value" : "Peel在你选取的某个文件夹中查看了%@个文件夹后便停止了。请选取你的项目所在的文件夹以查看它们。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel在你選擇的其中一個檔案夾中查看%@個檔案夾後就停止了，因此其中更深層的計畫案可能沒有列出。請選擇你的計畫案所在的檔案夾以查看它們。"
+            "value" : "Peel在你選擇的其中一個檔案夾中查看%@個檔案夾後就停止了。請選擇你的計畫案所在的檔案夾以查看它們。"
           }
         }
       }
@@ -223083,6 +223083,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "部分App的隱私權限未重置。"
+          }
+        }
+      }
+    },
+    "Some projects may be missing" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Některé projekty mohou chybět"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einige Projekte fehlen möglicherweise"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puede que falten algunos proyectos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il manque peut-être des projets"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Potrebbero mancare alcuni progetti"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一部のプロジェクトが表示されていない可能性があります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일부 프로젝트가 누락되었을 수 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sommige projecten ontbreken mogelijk"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Może brakować niektórych projektów"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alguns projetos podem estar faltando"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unele proiecte ar putea lipsi"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Некоторые проекты могут не отображаться"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vissa projekt kan saknas"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bazı projeler eksik olabilir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Може бракувати деяких проєктів"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可能缺少部分项目"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "部分計畫案可能沒有列出"
           }
         }
       }
@@ -274220,108 +274326,108 @@
         }
       }
     },
-    "What a build makes again, and what it installed. Nothing is selected for you: Select Recommended selects what Peel is sure about, and every other row says why." : {
+    "What a build makes again, and what it installed. Nothing is selected for you; Select Recommended selects what Peel is sure about." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Co sestavení vytvoří znovu a co nainstalovalo. Nic za vás není vybráno: příkaz Vybrat doporučené vybere to, čím si je Peel jistý, a u všech ostatních řádků je uvedeno proč."
+            "value" : "Co sestavení vytvoří znovu a co nainstalovalo. Nic za vás není vybráno; příkaz Vybrat doporučené vybere to, čím si je Peel jistý."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Was ein Build neu erstellt und was er installiert hat. Nichts wird für dich ausgewählt: „Empfohlene auswählen“ wählt aus, worüber Peel sich sicher ist, und jede andere Zeile nennt den Grund."
+            "value" : "Was ein Build neu erstellt und was er installiert hat. Nichts wird für dich ausgewählt; „Empfohlene auswählen“ wählt aus, worüber Peel sich sicher ist."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lo que una compilación vuelve a generar y lo que instaló. Peel no selecciona nada por ti: “Seleccionar recomendados” selecciona aquello de lo que Peel está seguro, y cada una de las demás filas indica por qué."
+            "value" : "Lo que una compilación vuelve a generar y lo que instaló. Peel no selecciona nada por ti; “Seleccionar recomendados” selecciona aquello de lo que Peel está seguro."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce qu’une compilation recrée, et ce qu’elle a installé. Rien n’est sélectionné à votre place : « Sélectionner les éléments recommandés » sélectionne ce dont Peel est sûr, et chacune des autres lignes indique pourquoi elle n’est pas sélectionnée."
+            "value" : "Ce qu’une compilation recrée, et ce qu’elle a installé. Rien n’est sélectionné à votre place ; « Sélectionner les éléments recommandés » sélectionne ce dont Peel est sûr."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ciò che una build ricrea e ciò che ha installato. Nulla viene selezionato al posto tuo: “Seleziona gli elementi consigliati” seleziona ciò di cui Peel è sicuro, e ogni altra riga spiega perché."
+            "value" : "Ciò che una build ricrea e ciò che ha installato. Nulla viene selezionato al posto tuo; “Seleziona gli elementi consigliati” seleziona ciò di cui Peel è sicuro."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ビルドで再作成されるものと、ビルドがインストールしたものです。自動では何も選択されません。“おすすめを選択”ではPeelが確信を持てるものが選択され、それ以外の行にはそれぞれ選択されない理由が表示されます。"
+            "value" : "ビルドで再作成されるものと、ビルドがインストールしたものです。自動では何も選択されません。“おすすめを選択”では、Peelが確信を持てるものが選択されます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "빌드할 때 다시 만들어지는 항목과 빌드가 설치한 항목입니다. 미리 선택된 항목은 없습니다. ‘추천 항목 선택’은 Peel이 확신하는 항목을 선택하며, 나머지 각 행에는 선택되지 않는 이유가 표시됩니다."
+            "value" : "빌드할 때 다시 만들어지는 항목과 빌드가 설치한 항목입니다. 미리 선택된 항목은 없으며, ‘추천 항목 선택’은 Peel이 확신하는 항목을 선택합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wat een build opnieuw maakt en wat die heeft geïnstalleerd. Er wordt niets voor je geselecteerd: 'Selecteer aanbevolen' selecteert waar Peel zeker van is, en bij elke andere rij staat waarom."
+            "value" : "Wat een build opnieuw maakt en wat die heeft geïnstalleerd. Er wordt niets voor je geselecteerd; 'Selecteer aanbevolen' selecteert waar Peel zeker van is."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To, co kompilacja tworzy ponownie, i to, co zainstalowała. Nic nie jest zaznaczane za Ciebie: polecenie Zaznacz zalecane zaznacza to, czego Peel jest pewien, a każdy inny wiersz podaje powód."
+            "value" : "To, co kompilacja tworzy ponownie, i to, co zainstalowała. Nic nie jest zaznaczane za Ciebie; polecenie Zaznacz zalecane zaznacza to, czego Peel jest pewien."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O que uma compilação gera de novo e o que ela instalou. O Peel não seleciona nada por você: Selecionar Recomendados seleciona aquilo de que o Peel tem certeza, e todas as outras linhas dizem o motivo."
+            "value" : "O que uma compilação gera de novo e o que ela instalou. O Peel não seleciona nada por você; Selecionar Recomendados seleciona aquilo de que o Peel tem certeza."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce reface o compilare și ce a instalat aceasta. Nimic nu este selectat pentru dvs.: „Selectați articolele recomandate” selectează articolele de care Peel este sigur, iar fiecare dintre celelalte rânduri își arată motivul."
+            "value" : "Ce reface o compilare și ce a instalat aceasta. Nimic nu este selectat pentru dvs.; „Selectați articolele recomandate” selectează articolele de care Peel este sigur."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "То, что сборка создает заново, и то, что она установила. Peel ничего не выбирает за Вас: пункт «Выбрать рекомендованные» выбирает то, в чем Peel уверен, а в остальных строках указано, почему они не выбраны."
+            "value" : "То, что сборка создает заново, и то, что она установила. Peel ничего не выбирает за Вас; пункт «Выбрать рекомендованные» выбирает то, в чем Peel уверен."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det som ett bygge skapar igen, och det som det installerade. Inget markeras åt dig: ”Markera rekommenderade” markerar det som Peel är säker på, och alla andra rader anger varför."
+            "value" : "Det som ett bygge skapar igen, och det som det installerade. Inget markeras åt dig; ”Markera rekommenderade” markerar det som Peel är säker på."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir derlemenin yeniden oluşturduğu ve yüklediği şeyler. Sizin yerinize hiçbir şey seçilmez: Önerilenleri Seç, Peel’in emin olduklarını seçer ve diğer satırların her birinde neden seçilmediği yazar."
+            "value" : "Bir derlemenin yeniden oluşturduğu ve yüklediği şeyler. Sizin yerinize hiçbir şey seçilmez; Önerilenleri Seç, Peel’in emin olduklarını seçer."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Те, що збірка створює знову, і те, що вона інсталювала. Peel нічого не вибирає за вас: «Вибрати рекомендовані» вибирає те, у чому Peel упевнена, а в кожному іншому рядку вказано причину."
+            "value" : "Те, що збірка створює знову, і те, що вона інсталювала. Peel нічого не вибирає за вас; «Вибрати рекомендовані» вибирає те, у чому Peel упевнена."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "构建会重新生成的内容，以及它安装的内容。Peel不会替你选择任何内容：“选择推荐项目”会选择Peel确定的项目，其他每一行都会说明原因。"
+            "value" : "构建会重新生成的内容，以及它安装的内容。Peel不会替你选择任何内容；“选择推荐项目”会选择Peel确定的项目。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "建置時會重新產生的項目，以及它安裝的項目。Peel不會替你選取任何項目：「選取建議項目」會選取Peel確定的項目，其他每一列都會說明原因。"
+            "value" : "建置時會重新產生的項目，以及它安裝的項目。Peel不會替你選取任何項目；「選取建議項目」會選取Peel確定的項目。"
           }
         }
       }

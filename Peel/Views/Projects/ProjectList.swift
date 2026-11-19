@@ -2,6 +2,12 @@ import PeelCore
 import SwiftUI
 
 struct ProjectList: View {
+    static let cutShortTitle: LocalizedStringResource = "Some projects may be missing"
+
+    static func cutShortNote(_ folders: String) -> LocalizedStringResource {
+        "Peel stopped after \(folders) folders in one of the folders you chose. Choose the folder your projects are in to see them."
+    }
+
     @Environment(ProjectLibrary.self) private var projects
     @State private var isRescanning = false
     @State private var searchText = ""
@@ -87,12 +93,19 @@ struct ProjectList: View {
         .edgeBar(.bottom) {
             Group {
                 if projects.wasCutShort {
-                    Text("Peel stopped after \(ProjectArtifacts.maximumFolders.formatted()) folders in one of the folders you chose, so projects deeper inside may be missing. Choose the folder your projects are in to see them.")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .padding(.horizontal, 12)
-                        .padding(.bottom, 8)
-                        .transition(.opacity)
+                    HStack(alignment: .firstTextBaseline, spacing: 4) {
+                        Text(Self.cutShortTitle)
+                        InfoNote(
+                            about: Text(Self.cutShortTitle),
+                            detail: Text(Self.cutShortNote(ProjectArtifacts.maximumFolders.formatted())),
+                            isAlbum: false
+                        )
+                    }
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 12)
+                    .padding(.bottom, 8)
+                    .transition(.opacity)
                 }
             }
             .motion(.settle, .movement, value: projects.wasCutShort)

@@ -2,6 +2,9 @@ import PeelCore
 import SwiftUI
 
 struct ProjectDetailView: View {
+    static let buildLeftNote: LocalizedStringResource = "What a build makes again, and what it installed. Nothing is selected for you; Select Recommended selects what Peel is sure about."
+    static let backupsNote: LocalizedStringResource = "Backups skip the folders listed here, such as node_modules and Pods, and keep the project. Installed packages, folders with a generic name, and folders Peel does not select stay in backups. A folder a build makes again comes back without the mark."
+
     @Environment(ProjectLibrary.self) private var projects
     let group: ProjectGroup
 
@@ -27,10 +30,7 @@ struct ProjectDetailView: View {
                 .listRowSeparator(.hidden)
             } header: {
                 SectionHeaderLine {
-                    heading(
-                        "What the Build Left",
-                        "What a build makes again, and what it installed. Nothing is selected for you: Select Recommended selects what Peel is sure about, and every other row says why."
-                    )
+                    heading("What the Build Left", Self.buildLeftNote)
                 } actions: {
                     SelectMenu(
                         list: group.artifacts.selectableRows,
@@ -42,7 +42,6 @@ struct ProjectDetailView: View {
 
             Section {
                 backupsCheckbox
-                    .disabled(!projects.canMarkForBackups(group))
                     .listRowSeparator(.hidden)
                 let failures = projects.backupMarkFailures(in: group)
                 if !failures.isEmpty {
@@ -79,7 +78,8 @@ struct ProjectDetailView: View {
             get: { projects.isExcludedFromBackups(group) },
             set: { isExcluded in Task { await projects.setExcludedFromBackups(isExcluded, in: group) } }
         )
-        let explanation = String(localized: "Backups keep the project and skip the folders listed here, node_modules and Pods included. Installed packages such as .venv, and the .terraform folder, stay in backups, as do folders whose name could mean anything and folders Peel doesn’t select because of what is inside. The mark sits on the folder itself: it moves with the folder, and a folder that a build deletes and makes again comes back without it.")
+        let canMark = projects.canMarkForBackups(group)
+        let explanation = String(localized: Self.backupsNote)
         let others = projects.markedByOthers(in: group).map(\.lastPathComponent)
         let othersNote = others.isEmpty ? nil : String(localized: "Time Machine already leaves out \(others.formatted(.list(type: .and))), which something other than Peel marked.")
         return HStack(alignment: .checkboxTitleLine, spacing: 5) {
@@ -88,23 +88,27 @@ struct ProjectDetailView: View {
                 label: String(localized: "Leave these out of Time Machine"),
                 hint: [explanation, othersNote].compactMap(\.self).joined(separator: " ")
             )
+            .disabled(!canMark)
             VStack(alignment: .leading, spacing: 2) {
-                Text("Leave these out of Time Machine")
-                    .checkboxTitleLine()
-                Text(verbatim: explanation)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                // The note stays open to read while the checkbox can't be used.
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                    Text("Leave these out of Time Machine")
+                        .checkboxTitleLine()
+                        .checkboxTitle()
+                        .contentShape(.rect)
+                        .onTapGesture { isOn.wrappedValue.toggle() }
+                        .disabled(!canMark)
+                        // The checkbox's label and hint already read the title and the note.
+                        .accessibilityHidden(true)
+                    InfoNote(about: Text("Leave these out of Time Machine"), detail: Text(Self.backupsNote), isAlbum: false)
+                }
                 if let othersNote {
                     Text(verbatim: othersNote)
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                        .accessibilityHidden(true)
                 }
             }
-            .checkboxTitle()
-            .contentShape(.rect)
-            .onTapGesture { isOn.wrappedValue.toggle() }
-            // The checkbox's label already reads them.
-            .accessibilityHidden(true)
         }
     }
 
