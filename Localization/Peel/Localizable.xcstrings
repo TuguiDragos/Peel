@@ -13655,112 +13655,6 @@
         }
       }
     },
-    "A backup is deleted in System Settings > General > Storage > iOS Files, or in Finder from a connected device’s General > Manage Backups. Peel doesn’t touch them: what is inside came off a device and may be the only copy." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Záloha se maže v Nastavení systému > Obecné > Úložiště > iOS soubory nebo ve Finderu u připojeného zařízení v části Obecné > Správa záloh. Peel se záloh nedotýká: jejich obsah pochází ze zařízení a může být jedinou kopií."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ein Backup wird unter „Systemeinstellungen“ > „Allgemein“ > „Speicher“ > „iOS-Dateien“ oder im Finder bei einem verbundenen Gerät unter „Allgemein“ > „Backups verwalten“ gelöscht. Peel rührt sie nicht an: Was sie enthalten, stammt von einem Gerät und ist möglicherweise die einzige Kopie."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Una copia de seguridad se elimina en Ajustes del Sistema > General > Almacenamiento > Archivos de iOS, o en el Finder, en General > Administrar copias de seguridad de un dispositivo conectado. Peel no las toca: lo que contienen viene de un dispositivo y puede ser la única copia."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Une sauvegarde se supprime dans Réglages Système > Général > Stockage > Fichiers iOS, ou dans le Finder, depuis Général > Gérer les sauvegardes d’un appareil connecté. Peel n’y touche pas : leur contenu provient d’un appareil et peut en être l’unique copie."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un backup si elimina in Impostazioni di Sistema > Generali > Spazio > File iOS, oppure nel Finder, da Generali > Gestisci backup di un dispositivo collegato. Peel non li tocca: ciò che contengono proviene da un dispositivo e potrebbe esserne l’unica copia."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "バックアップの削除は、“システム設定”＞“一般”＞“ストレージ”＞“iOSファイル”で行うか、Finderで接続中のデバイスの“一般”＞“バックアップを管理”から行います。中身はデバイスから取り込んだもので、唯一のコピーかもしれないため、Peelはバックアップに手を付けません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "백업은 시스템 설정 > 일반 > 저장 공간 > iOS 파일에서 삭제하거나, Finder에서 연결된 기기의 일반 > 백업 관리에서 삭제합니다. Peel은 백업을 건드리지 않습니다. 백업에 들어 있는 데이터는 기기에서 가져온 것으로, 유일한 복사본일 수 있기 때문입니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Een back-up verwijder je in Systeeminstellingen > Algemeen > Opslag > iOS-bestanden, of in Finder bij een aangesloten apparaat via Algemeen > Beheer back-ups. Peel komt er niet aan: wat erin zit, komt van een apparaat en is misschien de enige kopie."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Backup usuwa się w Ustawieniach systemowych > Ogólne > Miejsce > Pliki iOS albo w Finderze, wybierając dla podłączonego urządzenia Ogólne > Zarządzaj backupami. Peel ich nie dotyka: ich zawartość pochodzi z urządzenia i może być jedyną kopią."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Para apagar um backup, use Ajustes do Sistema > Geral > Armazenamento > Arquivos do iOS ou, no Finder, Geral > Gerenciar Backups de um dispositivo conectado. O Peel não mexe neles: o que há dentro veio de um dispositivo e pode ser a única cópia."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un backup se șterge din Configurări sistem > General > Stocare > Fișiere iOS sau din Finder, unde selectați un dispozitiv conectat, apoi General > Gestionați backupurile. Peel nu le atinge: ce conțin provine de pe un dispozitiv și poate fi singura copie."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Резервные копии удаляют в разделе «Системные настройки» > «Основные» > «Хранилище» > «Файлы iOS» или в Finder, выбрав подключенное устройство, а затем «Основные» > «Управлять резервными копиями». Peel их не трогает: их содержимое получено с устройства и может оказаться единственной копией."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En säkerhetskopia raderas i Systeminställningar > Allmänt > Lagring > iOS-filer, eller i Finder under Allmänt > Hantera säkerhetskopior för en ansluten enhet. Peel rör dem inte: innehållet kommer från en enhet och kan vara den enda kopian."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bir yedekleme, Sistem Ayarları > Genel > Saklama Alanı > iOS Dosyaları bölümünde veya Finder’da bağlı bir aygıtın Genel > Yedeklemeleri Yönet bölümünde silinir. Peel yedeklemelere dokunmaz: içindekiler bir aygıttan geldi ve tek kopya olabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Резервну копію видаляють у розділі Системні параметри > Загальні > Сховище > Файли iOS або у Finder у розділі Загальні > Керувати резервними копіями підʼєднаного пристрою. Peel їх не чіпає: те, що всередині, скопійовано з пристрою і може бути єдиною копією."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "备份可以在“系统设置”>“通用”>“储存空间”>“iOS文件”中删除，也可以在“访达”中通过已连接设备的“通用”>“管理备份”删除。Peel不会触碰它们：其中的内容来自设备，可能是唯一的副本。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "備份要在「系統設定」>「一般」>「儲存空間」>「iOS檔案」中刪除，或在Finder中從已連接裝置的「一般」>「管理備份」刪除。Peel不會動這些備份：其中的內容來自裝置，可能是唯一的副本。"
-          }
-        }
-      }
-    },
     "A brew.env file sets this, in %@." : {
       "localizations" : {
         "cs" : {
@@ -49540,108 +49434,108 @@
         }
       }
     },
-    "Disk images, packages, and archives holding an app or an installer, in Downloads, Desktop, Documents, Public, and Shared, and in the folders directly inside them, where installers are usually left, and the ones apps keep in Application Support or that Parallels Desktop and VMware Fusion keep for making virtual machines. A disk image can also be one you made to keep files in. What an installer installed stays where it is." : {
+    "Disk images, packages, and archives holding an app or an installer, in Downloads and the other places installers are usually left. A disk image can also be one you made to keep files in." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obrazy disků, balíčky a archivy obsahující aplikaci nebo instalátor, ve složkách Stahování, Plocha, Dokumenty, Veřejné a Sdílené a ve složkách, které jsou přímo v nich, kde instalátory obvykle zůstávají, a ty, které si aplikace uchovávají v Application Support nebo které si Parallels Desktop a VMware Fusion uchovávají k vytváření virtuálních počítačů. Obraz disku může být i takový, který jste si vytvořili k ukládání souborů. Co instalátor nainstaloval, zůstane, kde je."
+            "value" : "Obrazy disků, balíčky a archivy obsahující aplikaci nebo instalátor, ve složce Stahování a na dalších místech, kde instalátory obvykle zůstávají. Obraz disku může být i takový, který jste si vytvořili k ukládání souborů."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Image-Dateien, Pakete und Archive, die eine App oder einen Installer enthalten, in „Downloads“, „Schreibtisch“, „Dokumente“, „Öffentlich“ und „Geteilt“ sowie in den Ordnern direkt darin, wo Installer meist liegen bleiben, außerdem diejenigen, die Apps in „Application Support“ aufbewahren oder die Parallels Desktop und VMware Fusion zum Erstellen virtueller Maschinen aufbewahren. Eine Image-Datei kann auch eine sein, die du selbst erstellt hast, um Dateien darin aufzubewahren. Was ein Installer installiert hat, bleibt, wo es ist."
+            "value" : "Image-Dateien, Pakete und Archive, die eine App oder einen Installer enthalten, in „Downloads“ und an den anderen Orten, an denen Installer meist liegen bleiben. Eine Image-Datei kann auch eine sein, die du selbst erstellt hast, um Dateien darin aufzubewahren."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Imágenes de disco, paquetes y archivos comprimidos que contienen una app o un instalador, en Descargas, Escritorio, Documentos, Pública y Compartido, y en las carpetas que hay directamente dentro de ellas, donde suelen quedarse los instaladores, y los que las apps guardan en Application Support o los que Parallels Desktop y VMware Fusion guardan para crear máquinas virtuales. Una imagen de disco también puede ser una que hayas creado tú para guardar archivos. Lo que instaló un instalador se queda donde está."
+            "value" : "Imágenes de disco, paquetes y archivos comprimidos que contienen una app o un instalador, en Descargas y en los demás lugares donde suelen quedarse los instaladores. Una imagen de disco también puede ser una que hayas creado tú para guardar archivos."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Images disque, paquets et archives contenant une app ou un programme d’installation, situés dans les dossiers Téléchargements, Bureau, Documents, Public et Partagé, et dans les dossiers placés directement à l’intérieur de ceux-ci, là où les programmes d’installation restent en général, ainsi que ceux que les apps conservent dans Application Support ou que Parallels Desktop et VMware Fusion conservent pour créer des machines virtuelles. Une image disque peut aussi être une image que vous avez créée pour y conserver des fichiers. Ce qu’un programme d’installation a installé reste en place."
+            "value" : "Images disque, paquets et archives contenant une app ou un programme d’installation, dans Téléchargements et les autres emplacements où les programmes d’installation restent en général. Une image disque peut aussi être une image que vous avez créée pour y conserver des fichiers."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Immagini disco, pacchetti e archivi che contengono un’app o un installer, in Download, Scrivania, Documenti, Pubblica e Condivisa e nelle cartelle immediatamente al loro interno, dove di solito restano gli installer, e quelli che le app conservano in Application Support o che Parallels Desktop e VMware Fusion conservano per creare macchine virtuali. Un’immagine disco può anche essere una che hai creato tu per conservare dei file. Ciò che un installer ha installato resta dov’è."
+            "value" : "Immagini disco, pacchetti e archivi che contengono un’app o un installer, in Download e negli altri posti in cui di solito restano gli installer. Un’immagine disco può anche essere una che hai creato tu per conservare dei file."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“ダウンロード”、“デスクトップ”、“書類”、“パブリック”、“共有”の各フォルダと、その直下のフォルダにある、アプリまたはインストーラを含むディスクイメージ、パッケージ、アーカイブです。インストーラは通常ここに残されています。アプリがApplication Supportに保存している、またはParallels DesktopとVMware Fusionが仮想マシンを作成するために保存しているディスクイメージ、パッケージ、アーカイブも対象です。ディスクイメージには、ファイルを保管するために自分で作成したものもあります。インストーラがインストールしたものは、そのまま残ります。"
+            "value" : "“ダウンロード”など、インストーラが通常残されている場所にある、アプリまたはインストーラを含むディスクイメージ、パッケージ、アーカイブです。ディスクイメージには、ファイルを保管するために自分で作成したものもあります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "설치 프로그램이 흔히 남아 있는 다운로드, 데스크탑, 문서, 공용, 공유 폴더와 그 바로 아래 폴더에 있는 디스크 이미지, 패키지 및 아카이브 중 앱이나 설치 프로그램이 담긴 항목, 그리고 앱이 Application Support에 보관하거나 Parallels Desktop과 VMware Fusion이 가상 컴퓨터를 만들기 위해 보관하는 디스크 이미지, 패키지 및 아카이브입니다. 디스크 이미지는 사용자가 파일을 보관하려고 직접 만든 것일 수도 있습니다. 설치 프로그램이 설치한 항목은 그대로 남습니다."
+            "value" : "다운로드 폴더와 설치 프로그램이 흔히 남아 있는 다른 위치에 있는 디스크 이미지, 패키지 및 아카이브 중 앱이나 설치 프로그램이 담긴 항목입니다. 디스크 이미지는 사용자가 파일을 보관하려고 직접 만든 것일 수도 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Schijfkopieën, pakketten en archieven met een app of een installatieprogramma, in de mappen Downloads, Bureaublad, Documenten, Publiek en Gedeeld en in de mappen die er direct in staan, waar installatieprogramma's meestal achterblijven, en de schijfkopieën, pakketten en archieven die apps in Application Support bewaren of die Parallels Desktop en VMware Fusion bewaren om virtuele machines te maken. Een schijfkopie kan ook door jou zijn gemaakt om bestanden in te bewaren. Wat een installatieprogramma heeft geïnstalleerd, blijft waar het is."
+            "value" : "Schijfkopieën, pakketten en archieven met een app of een installatieprogramma, in Downloads en op de andere plekken waar installatieprogramma's meestal achterblijven. Een schijfkopie kan ook door jou zijn gemaakt om bestanden in te bewaren."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obrazy dysków, pakiety i archiwa zawierające aplikację lub instalator, w folderach Pobrane rzeczy, Biurko, Dokumenty, Publiczne i Wspólne oraz w folderach znajdujących się bezpośrednio w nich, gdzie zwykle zostają instalatory, a także te, które aplikacje przechowują w Application Support lub które Parallels Desktop i VMware Fusion przechowują do tworzenia maszyn wirtualnych. Może to być też obraz dysku utworzony przez Ciebie do przechowywania plików. To, co zainstalował instalator, zostaje na swoim miejscu."
+            "value" : "Obrazy dysków, pakiety i archiwa zawierające aplikację lub instalator, w folderze Pobrane rzeczy i w innych miejscach, w których zwykle zostają instalatory. Może to być też obraz dysku utworzony przez Ciebie do przechowywania plików."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Imagens de disco, pacotes e arquivos comprimidos que contêm um app ou um instalador, em Downloads, na Mesa, em Documentos, em Pública e em Compartilhado, e nas pastas que ficam diretamente dentro delas, onde os instaladores costumam ficar, e aqueles que os apps guardam em Application Support ou que o Parallels Desktop e o VMware Fusion guardam para criar máquinas virtuais. Uma imagem de disco também pode ser uma que você criou para guardar arquivos. O que um instalador instalou fica onde está."
+            "value" : "Imagens de disco, pacotes e arquivos comprimidos que contêm um app ou um instalador, em Downloads e nos outros locais onde os instaladores costumam ficar. Uma imagem de disco também pode ser uma que você criou para guardar arquivos."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Imagini de disc, pachete și arhive care conțin o aplicație sau un program de instalare, aflate în Descărcări, Desktop, Documente, Public și Partajat, precum și în dosarele aflate direct în acestea, unde rămân de obicei programele de instalare, și cele pe care aplicațiile le păstrează în Application Support sau pe care Parallels Desktop și VMware Fusion le păstrează pentru a crea mașini virtuale. O imagine de disc poate fi și una creată de dvs. pentru a păstra fișiere în ea. Ce a instalat un program de instalare rămâne unde se află."
+            "value" : "Imagini de disc, pachete și arhive care conțin o aplicație sau un program de instalare, aflate în Descărcări și în celelalte locuri în care rămân de obicei programele de instalare. O imagine de disc poate fi și una creată de dvs. pentru a păstra fișiere în ea."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Образы дисков, пакеты и архивы, содержащие приложение или установщик, в папках «Загрузки», «Рабочий стол», «Документы», «Общие» и «Общий доступ», а также в папках, лежащих прямо в них, где обычно остаются установщики, а кроме того, те, которые приложения хранят в Application Support или которые Parallels Desktop и VMware Fusion хранят для создания виртуальных машин. Образ диска может быть и Вашим собственным, созданным для хранения файлов. То, что было установлено с их помощью, остается на месте."
+            "value" : "Образы дисков, пакеты и архивы, содержащие приложение или установщик, в папке «Загрузки» и в других местах, где обычно остаются установщики. Образ диска может быть и Вашим собственным, созданным для хранения файлов."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skivavbilder, paket och arkiv som innehåller en app eller en installerare, i Hämtade filer, Skrivbord, Dokument och Delad i din hemmapp och i Delad under Användare, samt i mapparna som ligger direkt i dem, där installerare brukar bli liggande, och de som appar har i Application Support eller som Parallels Desktop och VMware Fusion sparar för att skapa virtuella maskiner. En skivavbild kan också vara en som du själv har skapat för att förvara filer i. Det som en installerare har installerat stannar där det är."
+            "value" : "Skivavbilder, paket och arkiv som innehåller en app eller en installerare, i Hämtade filer och på de andra platser där installerare brukar bli liggande. En skivavbild kan också vara en som du själv har skapat för att förvara filer i."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "İndirilenler, Masaüstü, Belgeler, Ortak ve Paylaşılan klasörlerinde ve doğrudan bunların içindeki klasörlerde, bir uygulama veya yükleyici içeren disk görüntüleri, paketler ve arşivler; yükleyiciler genellikle buralarda kalır. Ayrıca uygulamaların Application Support içinde tuttuğu veya Parallels Desktop ve VMware Fusion tarafından sanal makine oluşturmak için tutulan disk görüntüleri, paketler ve arşivler. Bir disk görüntüsü, dosya saklamak için sizin oluşturduğunuz bir görüntü de olabilir. Bir yükleyicinin yüklediği şeyler olduğu yerde kalır."
+            "value" : "İndirilenler klasöründe ve yükleyicilerin genellikle bırakıldığı diğer yerlerde bulunan, bir uygulama veya yükleyici içeren disk görüntüleri, paketler ve arşivler. Bir disk görüntüsü, dosya saklamak için sizin oluşturduğunuz bir görüntü de olabilir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Образи дисків, пакети й архіви, що містять програму або інсталятор, у папках «Викачане», «Робочий стіл», «Документи», «Спільна» і «Спільний», а також у папках безпосередньо всередині них, де зазвичай лишаються інсталятори, і ті, які програми зберігають в Application Support або які Parallels Desktop і VMware Fusion зберігають для створення віртуальних машин. Образом диска може бути й той, який ви створили для зберігання файлів. Те, що інсталятор інсталював, лишається на місці."
+            "value" : "Образи дисків, пакети й архіви, що містять програму або інсталятор, у папці «Викачане» та в інших місцях, де зазвичай лишаються інсталятори. Образом диска може бути й той, який ви створили для зберігання файлів."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“下载”、“桌面”、“文稿”、“公共”和“共享”文件夹及其下一层文件夹中（安装器通常就留在这些地方）含有App或安装器的磁盘映像、软件包和归档，以及App保存在Application Support中的，或Parallels Desktop和VMware Fusion为创建虚拟机而保存的此类文件。磁盘映像也可能是你为存放文件而制作的。安装器已安装的内容会保留在原处。"
+            "value" : "含有App或安装器的磁盘映像、软件包和归档，位于“下载”文件夹以及安装器通常会留下的其他位置。磁盘映像也可能是你为存放文件而制作的。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "含有App或安裝程式的磁碟映像檔、套件和封存檔，位於「下載項目」、「桌面」、「文件」、「公用」和「共享」中，以及直接位於這些檔案夾內的檔案夾中，也就是安裝程式通常留下的地方；另外還有App在Application Support中所保存的，或Parallels Desktop和VMware Fusion為建立虛擬機器而保存的這類檔案。磁碟映像檔也可能是你自己製作、用來存放檔案的。安裝程式所安裝的內容會保留在原處。"
+            "value" : "含有App或安裝程式的磁碟映像檔、套件和封存檔，位於「下載項目」和安裝程式通常留下的其他位置。磁碟映像檔也可能是你自己製作、用來存放檔案的。"
           }
         }
       }
@@ -50502,108 +50396,108 @@
         }
       }
     },
-    "Downloads never finished, still under the name a file has until its download ends: .crdownload for Chrome and the browsers built on Chromium, .part for Firefox and programs such as torrent clients, and .download for Safari." : {
+    "Downloads that never finished, still named .crdownload, .part, or .download." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stahování, která se nikdy nedokončila a která stále nesou název, jaký soubor má do konce stahování: .crdownload pro Chrome a prohlížeče založené na projektu Chromium, .part pro Firefox a programy, jako jsou torrentoví klienti, a .download pro Safari."
+            "value" : "Stahování, která se nikdy nedokončila a stále mají příponu .crdownload, .part nebo .download."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloads, die nie abgeschlossen wurden, noch unter dem Namen, den eine Datei bis zum Ende ihres Downloads trägt: .crdownload für Chrome und die auf Chromium basierenden Browser, .part für Firefox und Programme wie Torrent-Clients sowie .download für Safari."
+            "value" : "Downloads, die nie abgeschlossen wurden und noch auf .crdownload, .part oder .download enden."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Descargas que nunca terminaron, aún con el nombre que tiene un archivo hasta que acaba su descarga: .crdownload en Chrome y en los navegadores basados en Chromium, .part en Firefox y en programas como los clientes de torrent, y .download en Safari."
+            "value" : "Descargas que nunca terminaron, cuyo nombre aún termina en .crdownload, .part o .download."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les téléchargements jamais terminés, encore sous le nom que porte un fichier jusqu’à la fin de son téléchargement : .crdownload pour Chrome et les navigateurs basés sur Chromium, .part pour Firefox et des programmes comme les clients torrent, et .download pour Safari."
+            "value" : "Téléchargements jamais terminés, qui portent encore l’extension .crdownload, .part ou .download."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Download mai completati, ancora con il nome che un file ha finché il download non termina: .crdownload per Chrome e i browser basati su Chromium, .part per Firefox e per programmi come i client torrent, e .download per Safari."
+            "value" : "Download mai completati, il cui nome termina ancora in .crdownload, .part o .download."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "完了しなかったダウンロードです。ダウンロードが終わるまでファイルに付けられている名前のまま残っています。Chromeと、Chromiumをベースにしたブラウザでは.crdownload、Firefoxや、トレントクライアントなどのプログラムでは.part、Safariでは.downloadです。"
+            "value" : "完了しなかったダウンロードで、名前が.crdownload、.part、.downloadのままのものです。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "완료되지 않은 다운로드로, 다운로드가 끝날 때까지 파일에 붙는 이름이 아직 그대로 남아 있습니다. Chrome 및 Chromium 기반 브라우저는 .crdownload, Firefox와 토렌트 클라이언트 같은 프로그램은 .part, Safari는 .download입니다."
+            "value" : "이름이 아직 .crdownload, .part 또는 .download로 끝나는 완료되지 않은 다운로드입니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloads die nooit zijn voltooid, nog onder de naam die een bestand heeft tot de download klaar is: .crdownload voor Chrome en de browsers die op Chromium zijn gebouwd, .part voor Firefox en programma's zoals torrentclients, en .download voor Safari."
+            "value" : "Downloads die nooit zijn voltooid en nog op .crdownload, .part of .download eindigen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pliki, których pobieranie nigdy się nie zakończyło, wciąż pod nazwą, jaką plik ma do końca pobierania: .crdownload w Chrome i przeglądarkach opartych na Chromium, .part w przeglądarce Firefox i programach takich jak klienty torrentów oraz .download w Safari."
+            "value" : "Pliki, których pobieranie nigdy się nie zakończyło, nadal z rozszerzeniem .crdownload, .part lub .download."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloads nunca concluídos, ainda com o nome que um arquivo tem até o fim do download: .crdownload no Chrome e nos navegadores baseados no Chromium, .part no Firefox e em programas como clientes de torrent, e .download no Safari."
+            "value" : "Downloads que nunca terminaram, ainda com o nome terminado em .crdownload, .part ou .download."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Descărcări care nu s‑au terminat niciodată, încă sub numele pe care îl are un fișier până la încheierea descărcării: .crdownload pentru Chrome și browserele bazate pe Chromium, .part pentru Firefox și pentru programe precum clienții de torrent, iar .download pentru Safari."
+            "value" : "Descărcări care nu s‑au încheiat niciodată și au încă extensia .crdownload, .part sau .download."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Загрузки, которые так и не завершились. У таких файлов все еще временное имя, которое файл носит до окончания загрузки: .crdownload в Chrome и браузерах на основе Chromium, .part в Firefox и программах вроде торрент-клиентов, а .download в Safari."
+            "value" : "Незавершенные загрузки, имена которых все еще оканчиваются на .crdownload, .part или .download."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hämtningar som aldrig slutfördes, fortfarande under det namn som en fil har tills hämtningen är klar: .crdownload för Chrome och webbläsarna som bygger på Chromium, .part för Firefox och program som torrentklienter, och .download för Safari."
+            "value" : "Hämtningar som aldrig blev klara och som fortfarande slutar på .crdownload, .part eller .download."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hiç tamamlanmamış indirmeler; bir dosyanın, indirmesi bitene kadar taşıdığı adı hâlâ taşırlar: Chrome ve Chromium tabanlı tarayıcılar için .crdownload, Firefox ve torrent istemcileri gibi programlar için .part ve Safari için .download."
+            "value" : "Hiç tamamlanmamış, adları hâlâ .crdownload, .part veya .download ile biten indirmeler."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Викачування, які так і не завершилися. Файл досі має назву, яку отримує на час викачування: .crdownload у Chrome і браузерах на основі Chromium, .part у Firefox і таких програмах, як торент-клієнти, та .download у Safari."
+            "value" : "Незавершені викачування, назви яких досі закінчуються на .crdownload, .part або .download."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未完成的下载，仍使用文件在下载结束前的名称：Chrome及基于Chromium的浏览器为.crdownload，Firefox和种子客户端等程序为.part，Safari浏览器为.download。"
+            "value" : "从未完成的下载，名称仍以.crdownload、.part或.download结尾。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未完成的下載項目，仍使用檔案在下載結束前所用的名稱：Chrome及以Chromium為基礎的瀏覽器使用.crdownload，Firefox及torrent用戶端等程式使用.part，Safari使用.download。"
+            "value" : "從未完成的下載項目，名稱仍為.crdownload、.part或.download。"
           }
         }
       }
@@ -57400,108 +57294,108 @@
         }
       }
     },
-    "Firmware for restoring Apple devices, such as an iPhone, an iPad, or a Mac. It is downloaded again when a device needs it. What Apple Configurator keeps stays in its own container, and is deleted in System Settings > General > Storage > iOS Files." : {
+    "Firmware for restoring an iPhone, an iPad, or a Mac, downloaded again when a device needs it. What Apple Configurator keeps is deleted in System Settings > General > Storage > iOS Files." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Firmware pro obnovu zařízení Apple, jako je iPhone, iPad nebo Mac. Když ho zařízení potřebuje, stáhne se znovu. Co uchovává Apple Configurator, zůstává v jeho vlastním kontejneru a maže se v Nastavení systému > Obecné > Úložiště > iOS soubory."
+            "value" : "Firmware pro obnovu iPhonu, iPadu nebo Macu, který se znovu stáhne, když ho zařízení potřebuje. Co uchovává Apple Configurator, se maže v Nastavení systému > Obecné > Úložiště > iOS soubory."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Firmware zum Wiederherstellen von Apple-Geräten wie iPhone, iPad oder Mac. Sie wird erneut geladen, wenn ein Gerät sie benötigt. Was Apple Configurator aufbewahrt, bleibt in dessen eigenem Container und wird unter „Systemeinstellungen“ > „Allgemein“ > „Speicher“ > „iOS-Dateien“ gelöscht."
+            "value" : "Firmware zum Wiederherstellen eines iPhone, iPad oder Mac, die erneut geladen wird, wenn ein Gerät sie benötigt. Was Apple Configurator aufbewahrt, wird unter „Systemeinstellungen“ > „Allgemein“ > „Speicher“ > „iOS-Dateien“ gelöscht."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Firmware para restaurar dispositivos Apple, como un iPhone, un iPad o un Mac. Se vuelve a descargar cuando un dispositivo lo necesita. Lo que guarda Apple Configurator se queda en su propio contenedor y se elimina en Ajustes del Sistema > General > Almacenamiento > Archivos de iOS."
+            "value" : "Firmware para restaurar un iPhone, un iPad o un Mac, que se vuelve a descargar cuando un dispositivo lo necesita. Lo que guarda Apple Configurator se elimina en Ajustes del Sistema > General > Almacenamiento > Archivos de iOS."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Programme interne servant à restaurer des appareils Apple, comme un iPhone, un iPad ou un Mac. Il est téléchargé à nouveau lorsqu’un appareil en a besoin. Ce que conserve Apple Configurator reste dans son propre conteneur et se supprime dans Réglages Système > Général > Stockage > Fichiers iOS."
+            "value" : "Programme interne servant à restaurer un iPhone, un iPad ou un Mac, téléchargé à nouveau lorsqu’un appareil en a besoin. Ce que conserve Apple Configurator se supprime dans Réglages Système > Général > Stockage > Fichiers iOS."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Firmware per ripristinare i dispositivi Apple, come iPhone, iPad o Mac. Viene scaricato di nuovo quando un dispositivo ne ha bisogno. Ciò che Apple Configurator conserva resta nel suo contenitore e si elimina in Impostazioni di Sistema > Generali > Spazio > File iOS."
+            "value" : "Firmware per ripristinare un iPhone, un iPad o un Mac, che viene scaricato di nuovo quando un dispositivo ne ha bisogno. Ciò che Apple Configurator conserva si elimina in Impostazioni di Sistema > Generali > Spazio > File iOS."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iPhone、iPad、MacなどのAppleデバイスを復元するためのファームウェアです。デバイスが必要とするときに再びダウンロードされます。Apple Configuratorが保管しているものはApple Configurator自身のコンテナに残ります。削除は、“システム設定”＞“一般”＞“ストレージ”＞“iOSファイル”で行います。"
+            "value" : "iPhone、iPad、Macを復元するためのファームウェアです。デバイスが必要とするときに再びダウンロードされます。Apple Configuratorが保管しているものは、“システム設定”＞“一般”＞“ストレージ”＞“iOSファイル”で削除します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iPhone, iPad 또는 Mac 같은 Apple 기기를 복원하기 위한 펌웨어입니다. 기기에 필요할 때 다시 다운로드됩니다. Apple Configurator가 보관하는 항목은 자체 컨테이너에 남으며, 시스템 설정 > 일반 > 저장 공간 > iOS 파일에서 삭제합니다."
+            "value" : "iPhone, iPad 또는 Mac을 복원하기 위한 펌웨어로, 기기에 필요할 때 다시 다운로드됩니다. Apple Configurator가 보관하는 항목은 시스템 설정 > 일반 > 저장 공간 > iOS 파일에서 삭제합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Firmware om Apple-apparaten te herstellen, zoals een iPhone, iPad of Mac. Die wordt opnieuw gedownload wanneer een apparaat die nodig heeft. Wat Apple Configurator bewaart, blijft in zijn eigen container en wordt verwijderd in Systeeminstellingen > Algemeen > Opslag > iOS-bestanden."
+            "value" : "Firmware om een iPhone, iPad of Mac te herstellen, die opnieuw wordt gedownload wanneer een apparaat die nodig heeft. Wat Apple Configurator bewaart, verwijder je in Systeeminstellingen > Algemeen > Opslag > iOS-bestanden."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Oprogramowanie sprzętowe do odtwarzania urządzeń Apple, takich jak iPhone, iPad czy Mac. Jest pobierane ponownie, gdy urządzenie go potrzebuje. To, co zachowuje Apple Configurator, pozostaje w jego własnym kontenerze i usuwa się to w Ustawieniach systemowych > Ogólne > Miejsce > Pliki iOS."
+            "value" : "Oprogramowanie sprzętowe do odtwarzania iPhone’a, iPada lub Maca, pobierane ponownie, gdy urządzenie go potrzebuje. To, co zachowuje Apple Configurator, usuwa się w Ustawieniach systemowych > Ogólne > Miejsce > Pliki iOS."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Firmware para restaurar dispositivos Apple, como um iPhone, um iPad ou um Mac. Ele é baixado de novo quando um dispositivo precisa dele. O que o Apple Configurator guarda fica no contêiner dele e é apagado em Ajustes do Sistema > Geral > Armazenamento > Arquivos do iOS."
+            "value" : "Firmware para restaurar um iPhone, um iPad ou um Mac, baixado de novo quando um dispositivo precisa dele. O que o Apple Configurator guarda é apagado em Ajustes do Sistema > Geral > Armazenamento > Arquivos do iOS."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Firmware pentru restaurarea dispozitivelor Apple, cum ar fi un iPhone, un iPad sau un Mac. Se descarcă din nou când un dispozitiv are nevoie de el. Ce păstrează Apple Configurator rămâne în propriul său container și se șterge din Configurări sistem > General > Stocare > Fișiere iOS."
+            "value" : "Firmware pentru restaurarea unui iPhone, a unui iPad sau a unui Mac, care se descarcă din nou când un dispozitiv are nevoie de el. Ce păstrează Apple Configurator se șterge din Configurări sistem > General > Stocare > Fișiere iOS."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Прошивки для восстановления устройств Apple, например iPhone, iPad или Mac. Прошивка загружается снова, когда она нужна устройству. То, что хранит Apple Configurator, остается в его собственном контейнере и удаляется в разделе «Системные настройки» > «Основные» > «Хранилище» > «Файлы iOS»."
+            "value" : "Прошивки для восстановления iPhone, iPad или Mac, которые загружаются снова, когда они нужны устройству. То, что хранит Apple Configurator, удаляется в разделе «Системные настройки» > «Основные» > «Хранилище» > «Файлы iOS»."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fast programvara för att återställa Apple-enheter, till exempel en iPhone, en iPad eller en Mac. Den hämtas igen när en enhet behöver den. Det som Apple Configurator sparar stannar i appens egen behållare och raderas i Systeminställningar > Allmänt > Lagring > iOS-filer."
+            "value" : "Fast programvara för att återställa en iPhone, en iPad eller en Mac, som hämtas igen när en enhet behöver den. Det som Apple Configurator sparar raderas i Systeminställningar > Allmänt > Lagring > iOS-filer."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iPhone, iPad veya Mac gibi Apple aygıtlarını geri yüklemek için firmware. Bir aygıt ihtiyaç duyduğunda yeniden indirilir. Apple Configurator’ın tuttukları kendi kapsayıcısında kalır ve Sistem Ayarları > Genel > Saklama Alanı > iOS Dosyaları bölümünde silinir."
+            "value" : "iPhone, iPad veya Mac’i geri yüklemek için firmware; bir aygıt ihtiyaç duyduğunda yeniden indirilir. Apple Configurator’ın tuttukları Sistem Ayarları > Genel > Saklama Alanı > iOS Dosyaları bölümünde silinir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Прошивки для відновлення пристроїв Apple, як-от iPhone, iPad чи Mac. Їх буде викачано знову, коли пристрій цього потребуватиме. Те, що зберігає Apple Configurator, лишається в його власному контейнері, а видаляють це в розділі Системні параметри > Загальні > Сховище > Файли iOS."
+            "value" : "Прошивки для відновлення iPhone, iPad чи Mac, які викачуються знову, коли пристрій їх потребує. Те, що зберігає Apple Configurator, видаляють у розділі Системні параметри > Загальні > Сховище > Файли iOS."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用于恢复Apple设备（例如iPhone、iPad或Mac）的固件。设备需要时会重新下载。Apple Configurator保留的内容位于它自己的容器中，可在“系统设置”>“通用”>“储存空间”>“iOS文件”中删除。"
+            "value" : "用于恢复iPhone、iPad或Mac的固件，设备需要时会重新下载。Apple Configurator保留的内容可在“系统设置”>“通用”>“储存空间”>“iOS文件”中删除。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用於回復Apple裝置（例如iPhone、iPad或Mac）的韌體。裝置需要時會重新下載。Apple Configurator保留的項目會留在它自己的容器中，可在「系統設定」>「一般」>「儲存空間」>「iOS檔案」中刪除。"
+            "value" : "用於回復iPhone、iPad或Mac的韌體，裝置需要時會重新下載。Apple Configurator保留的項目可在「系統設定」>「一般」>「儲存空間」>「iOS檔案」中刪除。"
           }
         }
       }
@@ -268886,108 +268780,108 @@
         }
       }
     },
-    "Updates an app downloaded and keeps until it installs them. If one is gone, the app downloads it again the next time it updates. Peel knows the ones kept by Sparkle, Squirrel, and electron-updater, which most apps use." : {
+    "Updates an app downloaded and keeps until it installs them. If one is gone, the app downloads it again." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aktualizace, které aplikace stáhla a uchovává, dokud je nenainstaluje. Pokud některá z nich chybí, aplikace ji při příští aktualizaci stáhne znovu. Peel rozpozná aktualizace uložené nástroji Sparkle, Squirrel a electron-updater, které používá většina aplikací."
+            "value" : "Aktualizace, které aplikace stáhla a uchovává, dokud je nenainstaluje. Pokud některá z nich chybí, aplikace ji stáhne znovu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Updates, die eine App geladen hat und aufbewahrt, bis sie sie installiert. Fehlt eines, lädt die App es beim nächsten Update erneut. Peel erkennt die Updates von Sparkle, Squirrel und electron-updater, den Tools, die die meisten Apps verwenden."
+            "value" : "Updates, die eine App geladen hat und aufbewahrt, bis sie sie installiert. Fehlt eines, lädt die App es erneut."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Actualizaciones que una app ha descargado y guarda hasta instalarlas. Si falta alguna, la app la vuelve a descargar la próxima vez que se actualice. Peel conoce las que guardan Sparkle, Squirrel y electron-updater, que usan la mayoría de las apps."
+            "value" : "Actualizaciones que una app ha descargado y guarda hasta instalarlas. Si falta alguna, la app la vuelve a descargar."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mises à jour qu’une app a téléchargées et qu’elle conserve jusqu’à ce qu’elle les installe. Si l’une d’elles a disparu, l’app la télécharge à nouveau lors de sa prochaine mise à jour. Peel connaît celles que conservent Sparkle, Squirrel et electron-updater, qu’utilisent la plupart des apps."
+            "value" : "Mises à jour qu’une app a téléchargées et qu’elle conserve jusqu’à ce qu’elle les installe. Si l’une d’elles a disparu, l’app la télécharge à nouveau."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aggiornamenti che un’app ha scaricato e conserva finché non li installa. Se uno non c’è più, l’app lo scarica di nuovo al prossimo aggiornamento. Peel riconosce quelli conservati da Sparkle, Squirrel ed electron-updater, che la maggior parte delle app usa."
+            "value" : "Aggiornamenti che un’app ha scaricato e conserva finché non li installa. Se uno non c’è più, l’app lo scarica di nuovo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリがダウンロードし、インストールするまで保管しているアップデートです。なくなった場合は、アプリが次にアップデートするときに再びダウンロードします。Peelが認識するのは、ほとんどのアプリが使用しているSparkle、Squirrel、electron-updaterが保管しているものです。"
+            "value" : "アプリがダウンロードし、インストールするまで保管しているアップデートです。なくなった場合は、アプリが再びダウンロードします。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱이 다운로드하여 설치할 때까지 보관하는 업데이트입니다. 업데이트가 없어지면 앱이 다음에 업데이트할 때 다시 다운로드합니다. Peel은 대부분의 앱이 사용하는 Sparkle, Squirrel 및 electron-updater가 보관하는 업데이트를 인식합니다."
+            "value" : "앱이 다운로드하여 설치할 때까지 보관하는 업데이트입니다. 업데이트가 없어지면 앱이 다시 다운로드합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Updates die een app heeft gedownload en bewaart totdat de app ze installeert. Is er een verdwenen, dan downloadt de app die opnieuw bij de volgende update. Peel kent de updates die worden bewaard door Sparkle, Squirrel en electron-updater, de updaters die de meeste apps gebruiken."
+            "value" : "Updates die een app heeft gedownload en bewaart totdat de app ze installeert. Is er een verdwenen, dan downloadt de app die opnieuw."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uaktualnienia, które aplikacja pobrała i przechowuje, dopóki ich nie zainstaluje. Jeśli któregoś zabraknie, aplikacja pobierze je ponownie przy następnym uaktualnieniu. Peel rozpoznaje te przechowywane przez Sparkle, Squirrel i electron-updater, których używa większość aplikacji."
+            "value" : "Uaktualnienia, które aplikacja pobrała i przechowuje, dopóki ich nie zainstaluje. Jeśli któregoś zabraknie, aplikacja pobierze je ponownie."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atualizações que um app baixou e guarda até instalá-las. Se uma delas não estiver mais lá, o app a baixa novamente na próxima vez que se atualizar. O Peel conhece as que são guardadas pelo Sparkle, pelo Squirrel e pelo electron-updater, que a maioria dos apps usa."
+            "value" : "Atualizações que um app baixou e guarda até instalá-las. Se uma delas não estiver mais lá, o app a baixa novamente."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Actualizări pe care o aplicație le‑a descărcat și le păstrează până când le instalează. Dacă una lipsește, aplicația o descarcă din nou data viitoare când se actualizează. Peel le recunoaște pe cele păstrate de Sparkle, Squirrel și electron-updater, pe care le folosesc majoritatea aplicațiilor."
+            "value" : "Actualizări pe care o aplicație le‑a descărcat și le păstrează până când le instalează. Dacă una lipsește, aplicația o descarcă din nou."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Обновления, которые приложение загрузило и хранит, пока не установит их. Если какого-то из них больше нет, приложение снова загрузит его при следующем обновлении. Peel знает обновления, которые хранят Sparkle, Squirrel и electron-updater: ими пользуется большинство приложений."
+            "value" : "Обновления, которые приложение загрузило и хранит, пока не установит их. Если какого-то из них больше нет, приложение снова загрузит его."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uppdateringar som en app har hämtat och sparar tills den installerar dem. Om en av dem är borta hämtar appen den igen nästa gång den uppdateras. Peel känner till dem som sparas av Sparkle, Squirrel och electron-updater, som de flesta appar använder."
+            "value" : "Uppdateringar som en app har hämtat och sparar tills den installerar dem. Om en av dem är borta hämtar appen den igen."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir uygulamanın indirdiği ve yükleyene kadar tuttuğu güncellemeler. Biri artık yoksa, uygulama bir sonraki güncellemesinde onu yeniden indirir. Peel, uygulamaların çoğunun kullandığı Sparkle, Squirrel ve electron-updater araçlarının tuttuklarını tanır."
+            "value" : "Bir uygulamanın indirdiği ve yükleyene kadar tuttuğu güncellemeler. Biri artık yoksa uygulama onu yeniden indirir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Оновлення, які програма викачала й зберігає, доки не інсталює їх. Якщо одного з них немає, програма викачає його знову під час наступного оновлення. Peel знає ті, що зберігають Sparkle, Squirrel і electron-updater, якими користується більшість програм."
+            "value" : "Оновлення, які програма викачала й зберігає, доки не інсталює їх. Якщо одного з них немає, програма викачає його знову."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App下载、并在安装之前一直保留的更新。如果某个更新已不在，该App会在下次更新时重新下载它。Peel能识别由Sparkle、Squirrel和electron-updater保留的更新，大多数App都使用这些工具。"
+            "value" : "App下载、并在安装之前一直保留的更新。如果某个更新已不在，该App会重新下载它。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App下載並在安裝前保留的更新項目。如果某個更新項目已不存在，App會在下次更新時重新下載它。Peel能辨識由Sparkle、Squirrel和electron-updater保留的更新項目，大多數App都使用這些工具。"
+            "value" : "App下載並在安裝前保留的更新項目。如果某個更新項目已不存在，App會重新下載它。"
           }
         }
       }
@@ -274852,6 +274746,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "可移動的項目已丟到「垃圾桶」。在App於原處寫入新檔案之前，「歷史記錄」都可以將它們還原。"
+          }
+        }
+      }
+    },
+    "What is inside came off a device and may be the only copy. Delete a backup in System Settings > General > Storage > iOS Files." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obsah pochází ze zařízení a může být jedinou kopií. Zálohu smažte v Nastavení systému > Obecné > Úložiště > iOS soubory."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was darin liegt, stammt von einem Gerät und ist möglicherweise die einzige Kopie. Lösche ein Backup unter „Systemeinstellungen“ > „Allgemein“ > „Speicher“ > „iOS-Dateien“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que contiene viene de un dispositivo y puede ser la única copia. Elimina una copia de seguridad en Ajustes del Sistema > General > Almacenamiento > Archivos de iOS."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son contenu provient d’un appareil et peut en être la seule copie. Supprimez une sauvegarde dans Réglages Système > Général > Stockage > Fichiers iOS."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ciò che contiene proviene da un dispositivo e potrebbe esserne l’unica copia. Elimina un backup in Impostazioni di Sistema > Generali > Spazio > File iOS."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中身はデバイスから取り込まれたもので、唯一のコピーである可能性があります。バックアップは、“システム設定”＞“一般”＞“ストレージ”＞“iOSファイル”で削除してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "백업에 들어 있는 데이터는 기기에서 가져온 것으로, 유일한 복사본일 수 있습니다. 백업은 시스템 설정 > 일반 > 저장 공간 > iOS 파일에서 삭제하십시오."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat erin staat, komt van een apparaat en is misschien de enige kopie. Verwijder een back-up in Systeeminstellingen > Algemeen > Opslag > iOS-bestanden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To, co jest w środku, pochodzi z urządzenia i może być jedyną kopią. Usuń backup w Ustawieniach systemowych > Ogólne > Miejsce > Pliki iOS."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que há dentro veio de um dispositivo e pode ser a única cópia. Apague um backup em Ajustes do Sistema > Geral > Armazenamento > Arquivos do iOS."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conținutul provine de pe un dispozitiv și poate fi singura copie. Ștergeți un backup din Configurări sistem > General > Stocare > Fișiere iOS."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "То, что внутри, получено с устройства и может оказаться единственной копией. Резервную копию можно удалить в разделе «Системные настройки» > «Основные» > «Хранилище» > «Файлы iOS»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det som finns inuti kommer från en enhet och kan vara den enda kopian. Radera en säkerhetskopia i Systeminställningar > Allmänt > Lagring > iOS-filer."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İçindekiler bir aygıttan geldi ve tek kopya olabilir. Bir yedeklemeyi Sistem Ayarları > Genel > Saklama Alanı > iOS Dosyaları bölümünde silin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Те, що всередині, скопійовано з пристрою й може бути єдиною копією. Видаліть резервну копію в розділі Системні параметри > Загальні > Сховище > Файли iOS."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中的内容来自某台设备，可能是唯一的副本。请在“系统设置”>“通用”>“储存空间”>“iOS文件”中删除备份。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中的內容來自裝置，可能是唯一的副本。請在「系統設定」>「一般」>「儲存空間」>「iOS檔案」中刪除備份。"
           }
         }
       }

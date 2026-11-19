@@ -3,6 +3,8 @@ import PeelCore
 import SwiftUI
 
 struct InstallerDetailView: View {
+    static let deleteBackupNote: LocalizedStringResource = "What is inside came off a device and may be the only copy. Delete a backup in System Settings > General > Storage > iOS Files."
+
     @Environment(InstallerLibrary.self) private var installers
     @Environment(HelperModel.self) private var helper
     @Environment(SelectionCarrier.self) private var carrier
@@ -77,10 +79,7 @@ struct InstallerDetailView: View {
                 Section {
                 } header: {
                     HeadingWithActions {
-                        heading(
-                            "How to Delete a Backup",
-                            "A backup is deleted in System Settings > General > Storage > iOS Files, or in Finder from a connected device’s General > Manage Backups. Peel doesn’t touch them: what is inside came off a device and may be the only copy."
-                        )
+                        heading("How to Delete a Backup", Self.deleteBackupNote)
                     } actions: {
                         Button("Open System Settings") {
                             NSWorkspace.shared.open(Installers.storageSettingsURL)

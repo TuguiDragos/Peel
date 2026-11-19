@@ -167,12 +167,12 @@ nonisolated extension InstallerItem.Kind {
 
     var explanation: LocalizedStringResource {
         switch self {
-        case .appInstaller: "Disk images, packages, and archives holding an app or an installer, in Downloads, Desktop, Documents, Public, and Shared, and in the folders directly inside them, where installers are usually left, and the ones apps keep in Application Support or that Parallels Desktop and VMware Fusion keep for making virtual machines. A disk image can also be one you made to keep files in. What an installer installed stays where it is."
+        case .appInstaller: "Disk images, packages, and archives holding an app or an installer, in Downloads and the other places installers are usually left. A disk image can also be one you made to keep files in."
         case .macOSInstaller: "A full copy of macOS, ready to install. Apple offers the newest release again to any Mac that can run it."
-        case .firmware: "Firmware for restoring Apple devices, such as an iPhone, an iPad, or a Mac. It is downloaded again when a device needs it. What Apple Configurator keeps stays in its own container, and is deleted in System Settings > General > Storage > iOS Files."
+        case .firmware: "Firmware for restoring an iPhone, an iPad, or a Mac, downloaded again when a device needs it. What Apple Configurator keeps is deleted in System Settings > General > Storage > iOS Files."
         case .deviceBackup: "Almost all the data and settings of a device, backed up to this Mac. Peel shows what is here and never touches it."
-        case .incompleteDownload: "Downloads never finished, still under the name a file has until its download ends: .crdownload for Chrome and the browsers built on Chromium, .part for Firefox and programs such as torrent clients, and .download for Safari."
-        case .updateDownload: "Updates an app downloaded and keeps until it installs them. If one is gone, the app downloads it again the next time it updates. Peel knows the ones kept by Sparkle, Squirrel, and electron-updater, which most apps use."
+        case .incompleteDownload: "Downloads that never finished, still named .crdownload, .part, or .download."
+        case .updateDownload: "Updates an app downloaded and keeps until it installs them. If one is gone, the app downloads it again."
         }
     }
 
