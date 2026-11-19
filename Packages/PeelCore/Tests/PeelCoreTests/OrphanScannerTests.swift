@@ -1796,6 +1796,35 @@ struct OrphanScannerTests {
         #expect(Set(unclaimed.map(\.url.lastPathComponent)) == ["org.example.scripted", "org.example.launched"])
     }
 
+    @Test func whatALiveJobRunsThroughJavaOrOpensIsNeverAnOrphan() async throws {
+        let withJobs = try TemporaryDirectory()
+        let withoutJobs = try TemporaryDirectory()
+        func files(in directory: borrowing TemporaryDirectory) throws -> (jar: String, app: String) {
+            (
+                try directory.file("home/Library/Application Support/org.example.jarred/server.jar")
+                    .path(percentEncoded: false),
+                try directory.file("home/Library/Application Support/org.example.opened/Helper.app/Contents/Info.plist")
+                    .deletingLastPathComponent().deletingLastPathComponent().path(percentEncoded: false)
+            )
+        }
+        let (jar, app) = try files(in: withJobs)
+        _ = try files(in: withoutJobs)
+        try withJobs.file(
+            "home/Library/LaunchAgents/org.example.server.plist",
+            contents: job("org.example.server", runs: ["/usr/bin/java", "-Xmx256m", "-jar", jar])
+        )
+        try withJobs.file(
+            "home/Library/LaunchAgents/org.example.opener.plist",
+            contents: job("org.example.opener", runs: ["/usr/bin/open", "-g", "-a", app])
+        )
+
+        let scanned = await scanner(in: withJobs).scan(installedApps: installed).groups.flatMap(\.items)
+        let unclaimed = await scanner(in: withoutJobs).scan(installedApps: installed).groups.flatMap(\.items)
+
+        #expect(scanned.isEmpty, "\(scanned.map(\.url.path))")
+        #expect(Set(unclaimed.map(\.url.lastPathComponent)) == ["org.example.jarred", "org.example.opened"])
+    }
+
     @Test func listsTheJobAndTheProgramOfAnAppThatLeftUnderThatApp() async throws {
         let directory = try TemporaryDirectory()
         let program = try directory.file("root/Library/PrivilegedHelperTools/org.example.synchelper")

@@ -92,7 +92,7 @@ public enum UnusualCommand: String, Sendable, Hashable {
         guard let program = arguments.first else { return nil }
         let name = (program as NSString).lastPathComponent
         let given = Self.given(arguments, as: name)
-        let runs = [program] + [given.script].compactMap(\.self)
+        let runs = Self.executed(arguments).code
         if runs.contains(where: Self.isTemporary) {
             self = .runsFromATemporaryFolder
         } else if runs.contains(where: { PathComponents.isPath($0, inside: "/Users/Shared") }) {
@@ -108,11 +108,68 @@ public enum UnusualCommand: String, Sendable, Hashable {
         }
     }
 
-    /// What `arguments` run from disk: the program, past a launcher such as `env`, and the script an interpreter runs.
+    /// What `arguments` run or open from disk, which a job needs where it is.
     static func runs(_ arguments: [String]) -> [String] {
+        let executed = executed(arguments)
+        return executed.code + executed.documents
+    }
+
+    /// What `arguments` run as code: the program, past a launcher such as `env`, the script an interpreter runs, the
+    /// jar or source file `java` runs, and the apps `open` opens; and beside them the documents `open` opens.
+    private static func executed(_ arguments: [String]) -> (code: [String], documents: [String]) {
         let arguments = withoutLauncher(arguments)
-        guard let program = arguments.first else { return [] }
-        return [program] + [given(arguments, as: (program as NSString).lastPathComponent).script].compactMap(\.self)
+        guard let program = arguments.first else { return ([], []) }
+        let name = (program as NSString).lastPathComponent
+        let script = given(arguments, as: name).script
+        let opened = name == "open" ? opened(arguments) : (apps: [], documents: [])
+        let java = name == "java" ? javaRuns(arguments) : []
+        return ([program] + [script].compactMap(\.self) + java + opened.apps, opened.documents)
+    }
+
+    /// The options of `java` whose value is the next word (`java(1)`).
+    private static let javaValued: Set = [
+        "-cp", "-classpath", "--class-path", "-p", "--module-path", "--upgrade-module-path", "--add-modules",
+        "--limit-modules", "--patch-module", "--add-reads", "--add-exports", "--add-opens", "--source",
+    ]
+
+    /// The jar `-jar` names, or a source file `java` runs as it is (`java(1)`). A main class, a module, and an argument
+    /// file name no file Peel can follow.
+    private static func javaRuns(_ arguments: [String]) -> [String] {
+        var arguments = arguments.dropFirst()
+        while let argument = arguments.popFirst() {
+            if argument == "-jar" { return arguments.first.map { [$0] } ?? [] }
+            if ["-m", "--module", "-d", "--describe-module"].contains(argument) || argument.hasPrefix("@") { return [] }
+            if javaValued.contains(argument) {
+                _ = arguments.popFirst()
+                continue
+            }
+            if argument.hasPrefix("-") { continue }
+            return argument.hasSuffix(".java") ? [argument] : []
+        }
+        return []
+    }
+
+    /// What `open` opens (`man open`): the application `-a` names and the files it is given, up to `--args`, whose
+    /// words go to the application, an app among them opened as one. With `-h` its words are header names.
+    private static func opened(_ arguments: [String]) -> (apps: [String], documents: [String]) {
+        var opened: (apps: [String], documents: [String]) = ([], [])
+        var arguments = arguments.dropFirst()
+        while let argument = arguments.popFirst() {
+            switch argument {
+            case "--args": return opened
+            case "-h": return ([], [])
+            case "-a": opened.apps += arguments.popFirst().map { [$0] } ?? []
+            case "-b", "-u", "-s", "--env", "--stdin", "--stdout", "--stderr", "--arch": _ = arguments.popFirst()
+            case let file where !file.hasPrefix("-"):
+                if PathComponents.isNamedAsAnApp(file) {
+                    opened.apps.append(file)
+                } else {
+                    opened.documents.append(file)
+                }
+            default: continue
+            }
+        }
+        return opened
     }
 
     /// The command `env` or `nohup` runs (`man env`, `man nohup`): past `env`'s options, `-C`, `-P` and `-u` with their

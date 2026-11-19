@@ -59,6 +59,27 @@ struct UnusualCommandTests {
         }
     }
 
+    @Test func readsWhatJavaRunsAndWhatOpenOpens() {
+        let jar = "/Users/someone/Library/Application Support/Example/server.jar"
+        let app = "/Users/someone/Applications/Example.app"
+        let cases: [([String], [String])] = [
+            (["/usr/bin/java", "-Xmx512m", "-cp", "/opt/lib", "-jar", jar, "--port", "8080"], ["/usr/bin/java", jar]),
+            (["/usr/bin/java", "-cp", "/opt/lib", "org.example.Main", "-jar", "/opt/other.jar"], ["/usr/bin/java"]),
+            (["/usr/bin/java", "--source", "21", "/opt/example/Hello.java"], ["/usr/bin/java", "/opt/example/Hello.java"]),
+            (["/usr/bin/java", "-m", "org.example/org.example.Main"], ["/usr/bin/java"]),
+            (["/usr/bin/java", "@/opt/example/arguments"], ["/usr/bin/java"]),
+            (["/usr/bin/open", "-g", "-a", app, "/Users/someone/notes.txt", "--args", "/opt/not-opened"],
+             ["/usr/bin/open", app, "/Users/someone/notes.txt"]),
+            (["/usr/bin/open", "-b", "org.example.app", "--stdout", "/tmp/log", "-u", "https://example.com"], ["/usr/bin/open"]),
+            (["/usr/bin/open", "-h", "NSView.h"], ["/usr/bin/open"]),
+        ]
+        for (arguments, expected) in cases {
+            #expect(UnusualCommand.runs(arguments) == expected, "\(arguments)")
+        }
+        #expect(UnusualCommand(arguments: ["/usr/bin/java", "-jar", "/tmp/x.jar"]) == .runsFromATemporaryFolder)
+        #expect(UnusualCommand(arguments: ["/usr/bin/open", "-a", "/Users/Shared/Example.app"]) == .runsFromTheSharedFolder)
+    }
+
     @Test func anOptionsValueIsNeitherTheScriptNorMoreOptions() {
         let code: [[String]] = [
             ["/usr/bin/osascript", "-l", "JavaScript", "-e", "run()"],
