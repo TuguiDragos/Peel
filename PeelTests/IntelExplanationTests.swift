@@ -90,7 +90,7 @@ struct IntelExplanationTests {
         #expect(String(localized: app.badge.title) == String(localized: "Opens as Intel"))
         #expect(String(localized: app.withoutRosetta).contains("its Intel version can’t run here"))
         #expect(String(localized: intel.badge.title) == String(localized: "Intel only"))
-        #expect(String(localized: intel.withoutRosetta).contains("doesn’t run at all"))
+        #expect(String(localized: intel.withoutRosetta).contains("does not run at all"))
     }
 
     @Test func saysWhyAUniversalAppStillRunsThroughRosetta() {
