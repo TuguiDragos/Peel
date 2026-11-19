@@ -217,35 +217,35 @@ nonisolated extension SpaceItem {
         ),
         "logs": Words(
             title: "Logs",
-            detail: "Logs that apps wrote in your Library and in their containers, and the crash reports macOS keeps for your account. The crash reports are offered one by one, and the folder they sit in always stays."
+            detail: "Logs that apps wrote in your Library and their containers, and your crash reports, offered one by one."
         ),
         "caches": Words(
             title: "App Caches",
-            detail: "Everything that apps cached in your Library, each folder moved whole. Developer tools’ folders are left to the Developer page, which knows which part of each is only a cache."
+            detail: "What apps cached in your Library, each folder moved whole. The folders of developer tools are left to the Developer page."
         ),
         "user-caches": Words(
             title: "Hidden App Caches",
-            detail: "What apps cached in the folder macOS gives your account for caches, which Finder hides and macOS empties only when the Mac starts up in safe mode. What macOS keeps there for its own services isn’t listed, what an open app uses stays, and developer tools’ folders are left to the Developer page."
+            detail: "What apps cached in a folder macOS gives your account, which Finder hides. What an open app uses stays, and the folders of developer tools are left to the Developer page."
         ),
         "container-caches": Words(
             title: "Sandboxed App Caches",
-            detail: "What sandboxed apps, such as those from the App Store, cached or left as temporary files in their own containers, and cached in the ones they share with apps from the same maker. What an open app uses stays, and the caches of Apple’s own apps are listed but never selected."
+            detail: "What sandboxed apps, such as those from the App Store, cached in their containers. What an open app uses stays, and the caches of Apple apps are listed but never selected."
         ),
         "mail-downloads": Words(
             title: "Mail Downloads",
-            detail: "Copies of the attachments you opened in Mail. Unless you changed Mail’s Remove unedited downloads setting, Mail deletes each with its message, but one you edited or saved may be the only copy, so they are listed and never selected."
+            detail: "Copies of the attachments you opened in Mail. One you edited or saved may be the only copy, so they are listed and never selected."
         ),
         "system-caches": Words(
             title: "Caches for All Users",
-            detail: "What apps cached for every account on this Mac, in the Library at the top of the disk. What macOS keeps there for its own services isn’t listed, and what an open app uses or a service wrote in the last 15 minutes stays. What an administrator owns goes through Peel’s helper."
+            detail: "What apps cached for every account on this Mac. What an open app uses, or a service wrote in the last 15 minutes, stays."
         ),
         "system-logs": Words(
             title: "Logs for All Users",
-            detail: "Logs that apps and services wrote for every account on this Mac, and the crash reports macOS keeps, in the Library at the top of the disk. What macOS writes there for its own services isn’t listed, and what an open app uses or a service wrote in the last 15 minutes stays. Only the logs are offered, never the folders they sit in, since a service expects to find the folder it writes in. What an administrator owns goes through Peel’s helper."
+            detail: "Logs that apps and services wrote for every account, and the crash reports macOS keeps. Only the logs are offered, never their folders, and what a service wrote in the last 15 minutes stays."
         ),
         "homebrew-data": Words(
             title: "Homebrew Data",
-            detail: "What the formulae Homebrew installed keep in its var folder, such as the data of a database. Uninstalling with Homebrew leaves it, so it can outlive its formula. A folder that no installed formula names is marked. The logs of the services are listed apart, and the settings a formula keeps in the etc folder of Homebrew or in /etc stay where they are.",
+            detail: "What Homebrew formulae keep in its var folder, such as the data of a database. Uninstalling with Homebrew leaves it, and a folder no installed formula names is marked.",
             hint: "Remove a folder in Finder once no formula needs it",
             hintNote: "Homebrew never removes it."
         ),
@@ -263,11 +263,11 @@ nonisolated extension SpaceItem {
         ),
         "homebrew-logs": Words(
             title: "Homebrew Service Logs",
-            detail: "Logs that the services Homebrew runs, such as a database or a web server, write in Homebrew’s folder. Only the logs are offered, never the folders they sit in, since a service expects to find the folder it writes in."
+            detail: "Logs that the services Homebrew runs, such as a database, write in its folder. Only the logs are offered, never their folders."
         ),
         "battlenet-cache": Words(
             title: "Battle.net Cache",
-            detail: "What the Battle.net app caches for every account on this Mac. Blizzard says removing it doesn’t affect your games, and the app makes it again. Since it belongs to every account, it is listed and never selected."
+            detail: "What the Battle.net app caches for every account. Blizzard says removing it does not affect your games. It belongs to every account, so it is never selected."
         ),
     ]
 }

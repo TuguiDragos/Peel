@@ -2,6 +2,10 @@ import PeelCore
 import SwiftUI
 
 struct SpaceList: View {
+    static func deleteNote(_ command: String) -> LocalizedStringResource {
+        "Peel does not remove snapshots, since a deleted one cannot be put back. `\(command)` deletes Time Machine snapshots, if you are sure."
+    }
+
     @Environment(SpaceLibrary.self) private var space
     @Environment(HelperModel.self) private var helper
     @State private var isRescanning = false
@@ -239,7 +243,7 @@ private struct SnapshotNote: View {
             // Per `man tmutil`, this command deletes only Time Machine's snapshots, so it is shown only when
             // there is one.
             if snapshots.contains(where: { $0.kind == .timeMachine }) {
-                Text("Peel doesn’t remove them: a deleted snapshot can’t be put back, unlike what Peel moves to the Trash. `\(LocalSnapshots.deleteCommand(for: volume))` deletes Time Machine’s snapshots, if you are sure.")
+                Text(SpaceList.deleteNote(LocalSnapshots.deleteCommand(for: volume)))
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)

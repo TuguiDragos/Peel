@@ -22143,6 +22143,112 @@
         }
       }
     },
+    "An app keeps work there that exists nowhere else, such as the local history of an editor." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace tam uchovává práci, která neexistuje nikde jinde, například místní historii editoru."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine App bewahrt dort Arbeit auf, die es nirgendwo sonst gibt, etwa den lokalen Verlauf eines Editors."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una app guarda ahí trabajo que no existe en ningún otro sitio, como el historial local de un editor."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une app y conserve du travail qui n’existe nulle part ailleurs, comme l’historique local d’un éditeur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un’app vi conserva un lavoro che non esiste altrove, come la cronologia locale di un editor."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エディタのローカル履歴など、ほかのどこにも存在しない作業内容をアプリがそこに保管しています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "편집기의 로컬 기록처럼 다른 곳에는 없는 작업을 앱이 그곳에 보관합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een app bewaart daar werk dat nergens anders bestaat, zoals de lokale geschiedenis van een editor."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja przechowuje tam pracę, której nie ma nigdzie indziej, na przykład lokalną historię edytora."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um app guarda ali um trabalho que não existe em nenhum outro lugar, como o histórico local de um editor."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O aplicație păstrează acolo lucrări care nu există nicăieri altundeva, cum ar fi istoricul local al unui editor."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение хранит там результаты работы, которых больше нигде нет, например локальную историю редактора."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En app sparar arbete där som inte finns någon annanstans, till exempel en kodredigerares lokala historik."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir uygulama orada başka hiçbir yerde bulunmayan çalışmalar tutar, örneğin bir düzenleyicinin yerel geçmişi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програма зберігає там роботу, якої більше ніде немає, як-от локальну історію редактора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有App在其中保存了在其他任何地方都不存在的内容，例如编辑器的本地历史记录。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有App在那裡保存不存在於其他任何地方的工作成果，例如編輯器的本機歷史記錄。"
+          }
+        }
+      }
+    },
     "An app may be waiting for you, for example to save your work. Force Quit closes what is still open at once, and what isn’t saved is lost." : {
       "localizations" : {
         "cs" : {
@@ -42082,108 +42188,108 @@
         }
       }
     },
-    "Copies of the attachments you opened in Mail. Unless you changed Mail’s Remove unedited downloads setting, Mail deletes each with its message, but one you edited or saved may be the only copy, so they are listed and never selected." : {
+    "Copies of the attachments you opened in Mail. One you edited or saved may be the only copy, so they are listed and never selected." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kopie příloh, které jste otevřeli v aplikaci Mail. Pokud jste v aplikaci Mail nezměnili nastavení „Odstranit neupravená stahování“, aplikace Mail každou z nich smaže spolu s její zprávou. Kopie, kterou jste upravili nebo uložili, však může být jediná, proto se zobrazují, ale nikdy se nevybírají."
+            "value" : "Kopie příloh, které jste otevřeli v aplikaci Mail. Kopie, kterou jste upravili nebo uložili, může být jediná, proto se zobrazují, ale nikdy se nevybírají."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kopien der Anhänge, die du in Mail geöffnet hast. Sofern du die Einstellung „Nicht bearbeitete Downloads entfernen“ in Mail nicht geändert hast, löscht Mail jede Kopie zusammen mit ihrer E-Mail, doch eine Kopie, die du bearbeitet oder gesichert hast, ist möglicherweise die einzige, daher werden sie angezeigt, aber nie ausgewählt."
+            "value" : "Kopien der Anhänge, die du in Mail geöffnet hast. Eine Kopie, die du bearbeitet oder gesichert hast, ist möglicherweise die einzige, daher werden sie angezeigt, aber nie ausgewählt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copias de los archivos adjuntos que has abierto en Mail. Salvo que hayas cambiado en Mail el ajuste “Eliminar las descargas no editadas”, Mail borra cada una con su mensaje, pero una que hayas editado o guardado puede ser la única copia, por eso se muestran pero nunca se seleccionan."
+            "value" : "Copias de los archivos adjuntos que has abierto en Mail. Una que hayas editado o guardado puede ser la única copia, por eso se muestran pero nunca se seleccionan."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copies des pièces jointes que vous avez ouvertes dans Mail. Sauf si vous avez changé son réglage « Effacer les téléchargements non modifiés », Mail supprime chacune avec son message, mais celle que vous avez modifiée ou enregistrée peut être la seule copie : elles sont donc listées, mais jamais sélectionnées."
+            "value" : "Copies des pièces jointes que vous avez ouvertes dans Mail. Une pièce jointe que vous avez modifiée ou enregistrée peut en être la seule copie : elles sont donc listées, mais jamais sélectionnées."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copie degli allegati che hai aperto in Mail. A meno che tu non abbia modificato l’impostazione “Rimuovi download non modificati” di Mail, Mail elimina ognuna insieme al suo messaggio, ma una che hai modificato o salvato potrebbe essere l’unica copia, quindi sono elencate ma mai selezionate."
+            "value" : "Copie degli allegati che hai aperto in Mail. Una che hai modificato o salvato potrebbe essere l’unica copia, quindi sono elencate ma mai selezionate."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "メールで開いた添付ファイルのコピーです。メールの“未変更の添付ファイルの消去”設定を変更していない限り、メールはメッセージの削除時に各コピーも一緒に削除します。ただし、編集または保存したものは唯一のコピーである可能性があるため、一覧には表示されますが、自動で選択されることはありません。"
+            "value" : "メールで開いた添付ファイルのコピーです。編集または保存したものは唯一のコピーである可能性があるため、一覧には表示されますが、自動で選択されることはありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mail에서 연 첨부 파일의 복사본입니다. Mail의 ‘편집되지 않은 다운로드 제거’ 설정을 변경하지 않았다면 Mail은 각 복사본을 해당 메시지와 함께 삭제합니다. 하지만 사용자가 편집하거나 저장한 복사본은 유일한 복사본일 수 있으므로, 목록에 표시되지만 절대 미리 선택되지 않습니다."
+            "value" : "Mail에서 연 첨부 파일의 복사본입니다. 사용자가 편집하거나 저장한 복사본은 유일한 복사본일 수 있으므로, 목록에 표시되지만 절대 미리 선택되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kopieën van de bijlagen die je in Mail hebt geopend. Tenzij je de instelling 'Verwijder niet-bewerkte downloads' van Mail hebt gewijzigd, verwijdert Mail elke kopie samen met het bijbehorende bericht, maar een kopie die je hebt bewerkt of bewaard, is misschien de enige, dus ze worden getoond maar nooit geselecteerd."
+            "value" : "Kopieën van de bijlagen die je in Mail hebt geopend. Een kopie die je hebt bewerkt of bewaard, is misschien de enige, dus ze worden getoond maar nooit geselecteerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kopie załączników otwartych przez Ciebie w Poczcie. O ile nie zmieniono ustawienia Poczty „Usuwaj nieedytowane załączniki”, Poczta usuwa każdą z nich razem z jej wiadomością, jednak ta, którą edytowano lub zachowano, może być jedyną kopią, dlatego są na liście, ale nigdy nie są zaznaczane."
+            "value" : "Kopie załączników otwartych przez Ciebie w Poczcie. Ta, którą edytowano lub zachowano, może być jedyną kopią, dlatego są na liście, ale nigdy nie są zaznaczane."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cópias dos anexos que você abriu no Mail. A menos que você tenha alterado o ajuste “Remover downloads não editados” do Mail, o Mail apaga cada uma com a respectiva mensagem, mas uma que você editou ou salvou pode ser a única cópia, por isso elas são listadas e nunca selecionadas."
+            "value" : "Cópias dos anexos que você abriu no Mail. Uma que você editou ou salvou pode ser a única cópia, por isso elas são listadas e nunca selecionadas."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copii ale fișierelor atașate pe care le‑ați deschis în Mail. Dacă nu ați modificat configurarea „Eliminați descărcările needitate” din Mail, Mail șterge fiecare copie odată cu mesajul său, însă una pe care ați editat‑o sau ați salvat‑o poate fi singura copie, așa că sunt listate, dar nu sunt niciodată selectate."
+            "value" : "Copii ale fișierelor atașate pe care le‑ați deschis în Mail. Una pe care ați editat‑o sau ați salvat‑o poate fi singura copie, așa că sunt listate, dar nu sunt niciodată selectate."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Копии вложений, которые Вы открывали в Почте. Если Вы не меняли в Почте настройку «Удалять необработанные загрузки», Почта удаляет каждую из них вместе с ее письмом, однако отредактированная или сохраненная Вами копия может оказаться единственной, поэтому они показываются в списке, но никогда не выбираются."
+            "value" : "Копии вложений, которые Вы открывали в Почте. Отредактированная или сохраненная Вами копия может оказаться единственной, поэтому они показываются в списке, но никогда не выбираются."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kopior av bilagor som du har öppnat i Mail. Om du inte har ändrat inställningen ”Ta bort ej redigerade hämtningar” i Mail raderar Mail varje bilaga tillsammans med mejlet den hör till, men en bilaga som du har redigerat eller sparat kan vara den enda kopian, så de visas i listan men markeras aldrig."
+            "value" : "Kopior av bilagor som du har öppnat i Mail. En bilaga som du har redigerat eller sparat kan vara den enda kopian, så de visas i listan men markeras aldrig."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mail’de açtığınız ilişiklerin kopyaları. Mail’in “Düzenlenmemiş indirilenleri sil” ayarını değiştirmediyseniz Mail her birini iletisiyle birlikte siler, ancak düzenlediğiniz veya kaydettiğiniz bir kopya tek kopya olabilir; bu yüzden listelenir ama hiçbir zaman seçilmez."
+            "value" : "Mail’de açtığınız ilişiklerin kopyaları. Düzenlediğiniz veya kaydettiğiniz bir kopya tek kopya olabilir, bu yüzden listelenir ama hiçbir zaman seçilmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Копії вкладень, які ви відкривали в Пошті. Якщо ви не змінювали параметр Пошти «Видаляти нередаговані викачування», Пошта видаляє кожну копію разом із її листом, однак копія, яку ви редагували чи зберегли, може бути єдиною, тому вони показуються, але ніколи не вибираються."
+            "value" : "Копії вкладень, які ви відкривали в Пошті. Копія, яку ви редагували чи зберегли, може бути єдиною, тому вони показуються, але ніколи не вибираються."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你在“邮件”中打开的附件的副本。除非你更改了“邮件”的“移除未编辑的下载”设置，否则“邮件”会在删除邮件时一并删除每个副本。不过，你编辑或保存过的副本可能是唯一的副本，因此它们会列出，但绝不会被选择。"
+            "value" : "你在“邮件”中打开的附件的副本。你编辑或保存过的副本可能是唯一的副本，因此它们会列出，但绝不会被选择。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你在「郵件」中打開的附件副本。除非你更改過「郵件」的「移除尚未編輯的下載項目」設定，否則「郵件」會隨郵件一併刪除每個副本；不過，你編輯或儲存過的副本可能是唯一的一份，因此這些副本會列出，但絕不會選取。"
+            "value" : "你在「郵件」中打開的附件副本。你編輯或儲存過的副本可能是唯一的一份，因此這些副本會列出，但絕不會選取。"
           }
         }
       }
@@ -53466,112 +53572,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這裡選取的所有項目都會一起丟到「垃圾桶」。只要仍在「垃圾桶」中，「歷史記錄」就能將它還原。"
-          }
-        }
-      }
-    },
-    "Everything that apps cached in your Library, each folder moved whole. Developer tools’ folders are left to the Developer page, which knows which part of each is only a cache." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vše, co aplikace uložily do mezipaměti ve vaší Knihovně, přičemž se každá složka přesouvá celá. Složky vývojářských nástrojů jsou přenechány stránce Vývojář, která ví, která část každé z nich je jen mezipaměť."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alles, was Apps in deiner Library zwischengespeichert haben, wobei jeder Ordner als Ganzes verschoben wird. Ordner von Entwicklertools bleiben der Seite „Entwicklung“ überlassen, die weiß, welcher Teil davon jeweils nur ein Cache ist."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Todo lo que las apps guardan en caché en tu carpeta Biblioteca, y cada carpeta se traslada entera. Las carpetas de las herramientas para desarrolladores se dejan a la página Desarrollador, que sabe qué parte de cada una es solo caché."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tout ce que les apps ont mis en cache dans votre Bibliothèque, chaque dossier étant déplacé en entier. Les dossiers des outils de développement sont laissés à la page Développeur, qui sait quelle partie de chacun n’est qu’un cache."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tutto ciò che le app hanno messo in cache nella tua Libreria, e ogni cartella viene spostata per intero. Le cartelle degli strumenti per lo sviluppo sono lasciate alla pagina Sviluppo, che sa quale parte di ciascuna è solo cache."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アプリがユーザライブラリにキャッシュしたすべてのもので、フォルダごと移動します。デベロッパツールのフォルダは“デベロッパ”ページに任せています。そのページでは、各フォルダのどの部分がキャッシュにすぎないかを判断できます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "앱이 사용자의 라이브러리에 캐시한 모든 항목이며, 각 폴더는 통째로 이동합니다. 개발자 도구의 폴더는 각 폴더에서 어느 부분이 캐시일 뿐인지 아는 개발자 페이지에 맡깁니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alles wat apps in je bibliotheekmap in de cache hebben gezet, waarbij elke map in zijn geheel wordt verplaatst. De mappen van ontwikkeltools worden overgelaten aan de pagina 'Ontwikkelaar', die van elke map weet welk deel alleen cache is."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wszystko, co aplikacje zapisały w pamięci podręcznej w Twoim folderze Biblioteki; każdy folder jest przenoszony w całości. Foldery narzędzi dla deweloperów są pozostawione stronie Deweloper, która wie, jaka część każdego z nich to tylko pamięć podręczna."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tudo o que os apps guardaram em cache na sua Biblioteca, com cada pasta movida inteira. As pastas das ferramentas para desenvolvedores ficam para a página Desenvolvedor, que sabe qual parte de cada uma é só cache."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tot ce au păstrat aplicațiile în memoria tampon din dosarul dvs. Bibliotecă, fiecare dosar fiind mutat întreg. Dosarele instrumentelor pentru dezvoltatori sunt lăsate în seama paginii Dezvoltator, care știe ce parte din fiecare este doar memorie tampon."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Все, что приложения кэшировали в Вашей папке «Библиотека», причем каждая папка перемещается целиком. Папки инструментов разработчика оставлены разделу «Разработчик», который знает, какая часть каждой из них является лишь кэшем."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Allt som appar har cachat i din biblioteksmapp, där varje mapp flyttas i sin helhet. Utvecklarverktygens mappar lämnas åt sidan Utvecklare, som vet vilken del av varje mapp som bara är cache."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uygulamaların Kitaplık klasörünüzde önbelleğe aldığı her şey; her klasör bütün olarak taşınır. Geliştirici araçlarının klasörleri, her birinin hangi kısmının yalnızca önbellek olduğunu bilen Geliştirici sayfasına bırakılır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Усе, що програми кешували у вашій Бібліотеці, причому кожна папка переміщується цілком. Папки інструментів розробника залишено для сторінки «Розробник»: вона знає, яка частина кожної з них є лише кешем."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App在你的资源库中缓存的所有内容，每个文件夹都会整体移动。开发者工具的文件夹交给“开发者”页面处理，该页面知道每个文件夹中哪部分只是缓存。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App在你的「資源庫」中快取的所有內容，每個檔案夾都會整個移動。開發者工具的檔案夾交給「開發者」頁面處理，它知道每個檔案夾中哪些部分只是快取。"
           }
         }
       }
@@ -115263,321 +115263,320 @@
         }
       }
     },
-    "Logs that apps and services wrote for every account on this Mac, and the crash reports macOS keeps, in the Library at the top of the disk. What macOS writes there for its own services isn’t listed, and what an open app uses or a service wrote in the last 15 minutes stays. Only the logs are offered, never the folders they sit in, since a service expects to find the folder it writes in. What an administrator owns goes through Peel’s helper." : {
-      "comment" : "The description of a Space area. The helper is Peel's small tool with administrator rights.",
+    "Logs that apps and services wrote for every account, and the crash reports macOS keeps. Only the logs are offered, never their folders, and what a service wrote in the last 15 minutes stays." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Protokoly, které aplikace a služby zapsaly pro všechny účty v tomto Macu, a zprávy o haváriích, které uchovává systém macOS, v Knihovně na nejvyšší úrovni disku. Co tam systém macOS zapisuje pro vlastní služby, se nezobrazuje, a co používá otevřená aplikace nebo co služba zapsala za posledních 15 minut, zůstává na místě. Nabízejí se jen protokoly, nikdy složky, ve kterých jsou, protože služba očekává, že najde složku, do které zapisuje. Co patří správci, se přesouvá přes pomocníka Peelu."
+            "value" : "Protokoly, které aplikace a služby zapsaly pro všechny účty, a zprávy o haváriích, které uchovává systém macOS. Nabízejí se jen protokoly, nikdy jejich složky, a co služba zapsala za posledních 15 minut, zůstává na místě."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Protokolle, die Apps und Dienste für jeden Benutzeraccount auf diesem Mac geschrieben haben, und die Absturzberichte, die macOS aufbewahrt, in der Library auf der obersten Ebene des Volumes. Was macOS dort für seine eigenen Dienste schreibt, wird nicht angezeigt, und was eine geöffnete App verwendet oder ein Dienst in den letzten 15 Minuten geschrieben hat, bleibt erhalten. Angeboten werden nur die Protokolle, nie die Ordner, in denen sie liegen, da ein Dienst erwartet, den Ordner vorzufinden, in den er schreibt. Was einem Administrator gehört, wird über das Hilfsprogramm von Peel verschoben."
+            "value" : "Protokolle, die Apps und Dienste für alle Benutzeraccounts geschrieben haben, und die Absturzberichte, die macOS aufbewahrt. Angeboten werden nur die Protokolle, nie ihre Ordner, und was ein Dienst in den letzten 15 Minuten geschrieben hat, bleibt erhalten."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registros que las apps y los servicios han escrito para todas las cuentas de este Mac, y los informes de errores que guarda macOS, en la carpeta Biblioteca de la raíz del disco. Lo que macOS escribe ahí para sus propios servicios no se muestra, y lo que usa una app abierta o lo que un servicio ha escrito en los últimos 15 minutos se queda donde está. Solo se ofrecen los registros, nunca las carpetas en las que están, ya que un servicio espera encontrar la carpeta en la que escribe. Lo que pertenece a un administrador se traslada mediante el asistente de Peel."
+            "value" : "Registros que las apps y los servicios han escrito para todas las cuentas, y los informes de errores que guarda macOS. Solo se ofrecen los registros, nunca sus carpetas, y lo que un servicio ha escrito en los últimos 15 minutos se queda donde está."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les historiques que les apps et les services ont écrits pour tous les comptes de ce Mac, et les rapports de blocage que macOS conserve, dans le dossier Bibliothèque à la racine du disque. Ce que macOS y écrit pour ses propres services n’est pas listé, et ce qu’une app ouverte utilise ou ce qu’un service a écrit au cours des 15 dernières minutes reste en place. Seuls les historiques sont proposés, jamais les dossiers qui les contiennent, car un service s’attend à trouver le dossier dans lequel il écrit. Ce qui appartient à un administrateur passe par l’utilitaire de Peel."
+            "value" : "Les historiques que les apps et les services ont écrits pour tous les comptes, et les rapports de blocage que macOS conserve. Seuls les historiques sont proposés, jamais leurs dossiers, et ce qu’un service a écrit au cours des 15 dernières minutes reste en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Log che le app e i servizi hanno scritto per tutti gli account di questo Mac, e i resoconti dei blocchi che macOS conserva, nella cartella Libreria al livello principale del disco. Ciò che macOS scrive lì per i propri servizi non è elencato, e ciò che un’app aperta usa o che un servizio ha scritto negli ultimi 15 minuti resta al suo posto. Vengono proposti solo i log, mai le cartelle che li contengono, perché un servizio si aspetta di trovare la cartella in cui scrive. Ciò che appartiene a un amministratore viene spostato tramite l’assistente di Peel."
+            "value" : "Log che app e servizi hanno scritto per tutti gli account, e i resoconti dei blocchi che macOS conserva. Vengono proposti solo i log, mai le loro cartelle, e ciò che un servizio ha scritto negli ultimi 15 minuti resta al suo posto."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリやサービスがこのMacのすべてのアカウントのために書き込んだログと、macOSが保管しているクラッシュレポートで、ディスクの最上位にある“ライブラリ”フォルダにあります。macOSが自身のサービスのためにそこに書き込んでいるものは一覧に表示されず、開いているアプリが使用しているものや、過去15分以内にサービスが書き込んだものはそのまま残ります。ゴミ箱に入れる候補になるのはログだけで、ログが入っているフォルダは、サービスが書き込み先としてそこにあるものと想定しているため、決して候補になりません。管理者が所有するものは、Peelのヘルパーを通じてゴミ箱に入れます。"
+            "value" : "アプリとサービスがすべてのアカウントのために書き込んだログと、macOSが保管しているクラッシュレポートです。候補になるのはログだけで、ログが入っているフォルダは決して候補になりません。また、過去15分以内にサービスが書き込んだものはそのまま残ります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱과 서비스가 디스크 최상위에 있는 라이브러리에 이 Mac의 모든 계정을 위해 기록한 로그와 macOS가 보관하는 충돌 리포트입니다. macOS가 자체 서비스를 위해 그곳에 기록하는 항목은 목록에 표시되지 않으며, 열려 있는 앱이 사용하는 항목이나 최근 15분 이내에 서비스가 기록한 항목은 그대로 유지됩니다. 로그만 제안되며, 로그가 들어 있는 폴더는 절대 제안되지 않습니다. 서비스가 로그를 기록하는 폴더를 찾을 수 있어야 하기 때문입니다. 관리자가 소유한 항목은 Peel 보조 프로그램을 통해 이동합니다."
+            "value" : "앱과 서비스가 모든 계정을 위해 기록한 로그 및 macOS가 보관하는 충돌 리포트입니다. 로그만 제안되며 로그가 들어 있는 폴더는 절대 제안되지 않고, 최근 15분 이내에 서비스가 기록한 항목은 그대로 유지됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Logs die apps en diensten voor elke account op deze Mac hebben geschreven, en de crashrapporten die macOS bewaart, in de map 'Bibliotheek' op het hoogste niveau van de schijf. Wat macOS daar voor zijn eigen diensten schrijft, wordt niet getoond, en wat een geopende app gebruikt of een dienst in de afgelopen 15 minuten heeft geschreven, blijft staan. Alleen de logs worden aangeboden, nooit de mappen waarin ze staan, want een dienst verwacht de map te vinden waarin hij schrijft. Wat van een beheerder is, gaat via het hulpprogramma van Peel."
+            "value" : "Logs die apps en diensten voor elke account hebben geschreven, en de crashrapporten die macOS bewaart. Alleen de logs worden aangeboden, nooit de mappen ervan, en wat een dienst in de afgelopen 15 minuten heeft geschreven, blijft staan."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dzienniki zapisane przez aplikacje i usługi dla wszystkich kont na tym Macu oraz raporty o awariach przechowywane przez macOS, w folderze Biblioteki na najwyższym poziomie dysku. Tego, co macOS zapisuje tam na potrzeby własnych usług, nie ma na liście, a to, czego używa otwarta aplikacja, lub to, co usługa zapisała w ciągu ostatnich 15 minut, zostaje na miejscu. Proponowane są tylko dzienniki, nigdy foldery nadrzędne, ponieważ usługa spodziewa się znaleźć folder, w którym zapisuje dziennik. To, co należy do administratora, przenosi pomocnik Peel."
+            "value" : "Dzienniki zapisane przez aplikacje i usługi dla wszystkich kont oraz raporty o awariach przechowywane przez macOS. Proponowane są tylko dzienniki, nigdy ich foldery, a to, co usługa zapisała w ciągu ostatnich 15 minut, zostaje na miejscu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registros que os apps e os serviços gravaram para todas as contas deste Mac, e os relatórios de falha que o macOS mantém, na Biblioteca que fica no nível superior do disco. O que o macOS grava ali para os próprios serviços não é listado, e o que um app aberto usa ou o que um serviço gravou nos últimos 15 minutos permanece. Só os registros são oferecidos, nunca as pastas em que eles ficam, já que um serviço espera encontrar a pasta em que grava. O que pertence a um administrador passa pelo auxiliar do Peel."
+            "value" : "Registros que apps e serviços gravaram para todas as contas, e os relatórios de falha que o macOS guarda. Só os registros são oferecidos, nunca as pastas deles, e o que um serviço gravou nos últimos 15 minutos permanece."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jurnale scrise de aplicații și servicii pentru toate conturile de pe acest Mac și rapoartele de oprire subită pe care le păstrează macOS, în dosarul Bibliotecă de la rădăcina discului. Ce scrie macOS acolo pentru propriile servicii nu este listat, iar ce folosește o aplicație deschisă sau ce a scris un serviciu în ultimele 15 minute rămâne pe loc. Sunt propuse doar jurnalele, niciodată dosarele în care se află, deoarece un serviciu se așteaptă să găsească dosarul în care scrie. Ce deține un administrator este mutat prin instrumentul de ajutor Peel."
+            "value" : "Jurnale scrise de aplicații și servicii pentru toate conturile și rapoartele de oprire subită pe care le păstrează macOS. Sunt propuse doar jurnalele, niciodată dosarele lor, iar ce a scris un serviciu în ultimele 15 minute rămâne pe loc."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Журналы, которые приложения и службы записали для всех учетных записей на этом Mac, и отчеты о сбоях, которые хранит macOS, в папке «Библиотека» в корне диска. То, что macOS записывает там для своих служб, не показывается, а то, что использует открытое приложение или что служба записала за последние 15 минут, остается на месте. Предлагаются только сами журналы и никогда не папки, в которых они лежат, поскольку служба рассчитывает найти папку, в которую пишет. То, чем владеет администратор, перемещается через помощника Peel."
+            "value" : "Журналы, которые приложения и службы записали для всех учетных записей, а также отчеты о сбоях, которые хранит macOS. Предлагаются только журналы, но никогда не их папки, а то, что служба записала за последние 15 минут, остается на месте."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Loggar som appar och tjänster har skrivit för alla konton på den här datorn, och de kraschrapporter som macOS sparar, i mappen Bibliotek på skivans översta nivå. Det som macOS skriver där för sina egna tjänster visas inte, och det som en öppen app använder eller som en tjänst har skrivit under de senaste 15 minuterna stannar kvar. Bara loggarna erbjuds, aldrig mapparna som de ligger i, eftersom en tjänst förväntar sig att hitta mappen som den skriver i. Det som en administratör äger går via Peels hjälpprogram."
+            "value" : "Loggar som appar och tjänster har skrivit för alla konton, och de kraschrapporter som macOS sparar. Bara loggarna erbjuds, aldrig deras mappar, och det som en tjänst har skrivit under de senaste 15 minuterna stannar kvar."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulamaların ve hizmetlerin bu Mac’teki her hesap için, diskin en üstündeki Kitaplık klasörüne yazdığı günlükler ve macOS’in orada tuttuğu çökme raporları. macOS’in orada kendi hizmetleri için yazdıkları listelenmez; açık bir uygulamanın kullandıkları veya bir hizmetin son 15 dakika içinde yazdıkları yerinde kalır. Yalnızca günlükler sunulur; içinde bulundukları klasörler ise hiçbir zaman sunulmaz, çünkü bir hizmet, yazdığı klasörü orada bulmayı bekler. Bir yöneticinin sahip oldukları Peel’in yardımcısı aracılığıyla taşınır."
+            "value" : "Uygulamaların ve hizmetlerin her hesap için yazdığı günlükler ile macOS’in tuttuğu çökme raporları. Yalnızca günlükler sunulur, içinde bulundukları klasörler hiçbir zaman sunulmaz ve bir hizmetin son 15 dakika içinde yazdıkları yerinde kalır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Журнали, які програми та служби записали для всіх облікових записів на цьому Mac, і звіти про аварії, які зберігає macOS, у Бібліотеці на верхньому рівні диска. Те, що macOS записує там для власних служб, не показується, а те, чим користується відкрита програма, або те, що служба записала за останні 15 хвилин, лишається. Пропонуються лише самі журнали, ніколи не папки, у яких вони лежать, бо служба розраховує знайти папку, у яку записує. Те, що належить адміністратору, переміщується через помічника Peel."
+            "value" : "Журнали, які програми й служби записали для всіх облікових записів, і звіти про аварії, які зберігає macOS. Пропонуються лише журнали, але ніколи не їхні папки, а те, що служба записала за останні 15 хвилин, лишається."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App和服务在磁盘顶层的资源库中为这台Mac上的所有账户写入的日志，以及macOS在那里保留的崩溃报告。macOS为其自身服务在那里写入的内容不会列出，已打开的App正在使用的内容或服务在过去15分钟内写入的内容会保留。只会列出日志以供移除，绝不会列出它们所在的文件夹，因为服务需要它写入日志的文件夹存在。管理员拥有的内容会通过Peel的帮助程序移除。"
+            "value" : "App和服务为所有账户写入的日志，以及macOS保留的崩溃报告。只会列出日志以供移除，绝不会列出它们所在的文件夹，服务在过去15分钟内写入的内容会保留。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App和服務為這部Mac上的所有帳號寫入的記錄檔，以及macOS保留的當機報告，位於磁碟最上層的「資源庫」中。macOS為其自身服務寫入那裡的內容不會列出，打開中的App正在使用的內容，或服務在過去15分鐘內寫入的內容會保留。只會列出記錄檔供你移除，絕不會列出它們所在的檔案夾，因為服務預期它寫入的檔案夾存在。管理者擁有的項目會透過Peel的輔助程式移動。"
+            "value" : "App和服務為所有帳號寫入的記錄檔，以及macOS保留的當機報告。只會列出記錄檔供你移除，絕不會列出它們所在的檔案夾，而服務在過去15分鐘內寫入的內容會保留。"
           }
         }
       }
     },
-    "Logs that apps wrote in your Library and in their containers, and the crash reports macOS keeps for your account. The crash reports are offered one by one, and the folder they sit in always stays." : {
+    "Logs that apps wrote in your Library and their containers, and your crash reports, offered one by one." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Protokoly, které aplikace zapsaly do vaší Knihovny a do svých kontejnerů, a zprávy o haváriích, které systém macOS uchovává pro váš účet. Zprávy o haváriích se nabízejí jednotlivě a složka, ve které jsou, vždy zůstává."
+            "value" : "Protokoly, které aplikace zapsaly do vaší Knihovny a do svých kontejnerů, a vaše zprávy o haváriích, nabízené jednotlivě."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Protokolle, die Apps in deine Library und in ihre Container geschrieben haben, und die Absturzberichte, die macOS für deinen Benutzeraccount aufbewahrt. Die Absturzberichte werden einzeln angeboten, und der Ordner, in dem sie liegen, bleibt immer erhalten."
+            "value" : "Protokolle, die Apps in deine Library und ihre Container geschrieben haben, und deine Absturzberichte, die einzeln angeboten werden."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registros que las apps han escrito en tu carpeta Biblioteca y en sus contenedores, y los informes de errores que macOS guarda para tu cuenta. Los informes de errores se ofrecen uno por uno, y la carpeta en la que están siempre se queda."
+            "value" : "Registros que las apps han escrito en tu carpeta Biblioteca y en sus contenedores, y tus informes de errores, que se ofrecen uno por uno."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les historiques que les apps ont écrits dans votre Bibliothèque et dans leurs conteneurs, et les rapports de blocage que macOS conserve pour votre compte. Les rapports de blocage sont proposés un par un, et le dossier qui les contient reste toujours en place."
+            "value" : "Les historiques que les apps ont écrits dans votre Bibliothèque et dans leurs conteneurs, et vos rapports de blocage, proposés un par un."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Log che le app hanno scritto nella tua Libreria e nei loro contenitori, e i resoconti dei blocchi che macOS conserva per il tuo account. I resoconti vengono proposti uno per uno, e la cartella che li contiene resta sempre."
+            "value" : "Log che le app hanno scritto nella tua Libreria e nei loro contenitori, e i tuoi resoconti dei blocchi, proposti uno per uno."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリがユーザライブラリと自身のコンテナに書き込んだログと、macOSがお使いのアカウント用に保管しているクラッシュレポートです。クラッシュレポートは1つずつ候補になり、レポートが入っているフォルダは常に残ります。"
+            "value" : "アプリがユーザライブラリと自身のコンテナに書き込んだログと、お使いのアカウントのクラッシュレポートです。これらは1つずつ候補になります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱이 사용자의 라이브러리와 자체 컨테이너에 기록한 로그 및 macOS가 사용자 계정을 위해 보관하는 충돌 리포트입니다. 충돌 리포트는 하나씩 제안되며, 리포트가 들어 있는 폴더는 항상 그대로 남습니다."
+            "value" : "앱이 사용자의 라이브러리와 자체 컨테이너에 기록한 로그 및 사용자의 충돌 리포트로, 하나씩 제안됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Logs die apps in je bibliotheekmap en in hun containers hebben geschreven, en de crashrapporten die macOS voor je account bewaart. De crashrapporten worden één voor één aangeboden, en de map waarin ze zitten, blijft altijd staan."
+            "value" : "Logs die apps in je bibliotheekmap en hun containers hebben geschreven, en je crashrapporten, één voor één aangeboden."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dzienniki zapisane przez aplikacje w Twoim folderze Biblioteki i w ich kontenerach oraz raporty o awariach przechowywane przez macOS dla Twojego konta. Raporty o awariach są proponowane pojedynczo, a folder, w którym się znajdują, zawsze zostaje."
+            "value" : "Dzienniki zapisane przez aplikacje w Twoim folderze Biblioteki i w ich kontenerach oraz Twoje raporty o awariach, proponowane pojedynczo."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registros que os apps gravaram na sua Biblioteca e nos contêineres deles, e os relatórios de falha que o macOS guarda para a sua conta. Os relatórios de falha são oferecidos um a um, e a pasta em que eles ficam sempre permanece."
+            "value" : "Registros que os apps gravaram na sua Biblioteca e nos contêineres deles, e os seus relatórios de falha, oferecidos um a um."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jurnale scrise de aplicații în dosarul dvs. Bibliotecă și în containerele lor, precum și rapoartele de oprire subită pe care macOS le păstrează pentru contul dvs. Rapoartele de oprire subită sunt propuse unul câte unul, iar dosarul în care se află rămâne mereu pe loc."
+            "value" : "Jurnale scrise de aplicații în dosarul dvs. Bibliotecă și în containerele lor, precum și rapoartele dvs. de oprire subită, propuse unul câte unul."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Журналы, которые приложения записали в Вашу папку «Библиотека» и в свои контейнеры, а также отчеты о сбоях, которые macOS хранит для Вашей учетной записи. Отчеты о сбоях предлагаются по одному, а папка, в которой они лежат, всегда остается на месте."
+            "value" : "Журналы, которые приложения записали в Вашу папку «Библиотека» и в свои контейнеры, а также Ваши отчеты о сбоях, которые предлагаются по одному."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Loggar som appar har skrivit i din biblioteksmapp och i sina behållare, och de kraschrapporter som macOS sparar för ditt konto. Kraschrapporterna erbjuds en och en, och mappen som de ligger i blir alltid kvar."
+            "value" : "Loggar som appar har skrivit i din biblioteksmapp och i sina behållare, och dina kraschrapporter, som erbjuds en och en."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulamaların Kitaplık klasörünüze ve kendi kapsayıcılarına yazdığı günlükler ile macOS’in hesabınız için tuttuğu çökme raporları. Çökme raporları tek tek sunulur ve içinde bulundukları klasör her zaman yerinde kalır."
+            "value" : "Uygulamaların Kitaplık klasörünüze ve kendi kapsayıcılarına yazdığı günlükler ile çökme raporlarınız; tek tek sunulur."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Журнали, які програми записали у вашу Бібліотеку та у свої контейнери, і звіти про аварії, які macOS зберігає для вашого облікового запису. Звіти про аварії пропонуються по одному, а папка, у якій вони лежать, завжди лишається на місці."
+            "value" : "Журнали, які програми записали у вашу Бібліотеку та у свої контейнери, і ваші звіти про аварії, які пропонуються по одному."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App在你的资源库和它们自己的容器中写入的日志，以及macOS为你的账户保留的崩溃报告。崩溃报告会逐个列出以供移除，而它们所在的文件夹始终会保留。"
+            "value" : "App在你的资源库和它们自己的容器中写入的日志，以及你的崩溃报告，均逐个列出以供移除。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App寫入你的「資源庫」和其容器中的記錄檔，以及macOS為你的帳號保留的當機報告。當機報告會逐一列出供你移除，而它們所在的檔案夾一律會保留。"
+            "value" : "App寫入你的「資源庫」和其容器中的記錄檔，以及你的當機報告，會逐一列出供你移除。"
           }
         }
       }
     },
-    "Logs that the services Homebrew runs, such as a database or a web server, write in Homebrew’s folder. Only the logs are offered, never the folders they sit in, since a service expects to find the folder it writes in." : {
+    "Logs that the services Homebrew runs, such as a database, write in its folder. Only the logs are offered, never their folders." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Protokoly, které do složky Homebrew zapisují služby, jež Homebrew spouští, například databáze nebo webový server. Nabízejí se jen protokoly, nikdy složky, ve kterých leží, protože služba počítá s tím, že najde složku, do které zapisuje."
+            "value" : "Protokoly, které do složky Homebrew zapisují služby, jež Homebrew spouští, například databáze. Nabízejí se jen protokoly, nikdy jejich složky."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Protokolle, die von Homebrew ausgeführte Dienste, etwa eine Datenbank oder ein Webserver, in den Ordner von Homebrew schreiben. Angeboten werden nur die Protokolle, nie die Ordner, in denen sie liegen, da ein Dienst erwartet, den Ordner vorzufinden, in den er schreibt."
+            "value" : "Protokolle, die von Homebrew ausgeführte Dienste, etwa eine Datenbank, in den Ordner von Homebrew schreiben. Angeboten werden nur die Protokolle, nie ihre Ordner."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registros que los servicios que ejecuta Homebrew, como una base de datos o un servidor web, escriben en la carpeta de Homebrew. Solo se ofrecen los registros, nunca las carpetas en las que están, porque un servicio espera encontrar la carpeta en la que escribe."
+            "value" : "Registros que los servicios que ejecuta Homebrew, como una base de datos, escriben en la carpeta de Homebrew. Solo se ofrecen los registros, nunca sus carpetas."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les historiques que les services exécutés par Homebrew, comme une base de données ou un serveur web, écrivent dans le dossier de Homebrew. Seuls les historiques sont proposés, jamais les dossiers qui les contiennent, car un service s’attend à trouver le dossier dans lequel il écrit."
+            "value" : "Les historiques que les services exécutés par Homebrew, comme une base de données, écrivent dans son dossier. Seuls les historiques sont proposés, jamais leurs dossiers."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Log che i servizi eseguiti da Homebrew, come un database o un server web, scrivono nella cartella di Homebrew. Vengono proposti solo i log, mai le cartelle che li contengono, perché un servizio si aspetta di trovare la cartella in cui scrive."
+            "value" : "Log che i servizi eseguiti da Homebrew, come un database, scrivono nella sua cartella. Vengono proposti solo i log, mai le loro cartelle."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "データベースやWebサーバなど、Homebrewが実行するサービスが、Homebrewのフォルダに書き込むログです。ゴミ箱に入れる候補になるのはログだけで、ログが入っているフォルダは、サービスが書き込み先としてそこにあるものと想定しているため、決して候補になりません。"
+            "value" : "データベースなど、Homebrewが実行するサービスが、Homebrewのフォルダに書き込むログです。候補になるのはログだけで、ログが入っているフォルダは決して候補になりません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "데이터베이스나 웹 서버 등 Homebrew가 실행하는 서비스가 Homebrew의 폴더에 기록하는 로그입니다. 로그만 제안되며, 로그가 들어 있는 폴더는 절대 제안되지 않습니다. 서비스가 로그를 기록하는 폴더를 찾을 수 있어야 하기 때문입니다."
+            "value" : "데이터베이스 등 Homebrew가 실행하는 서비스가 Homebrew의 폴더에 기록하는 로그입니다. 로그만 제안되며, 로그가 들어 있는 폴더는 절대 제안되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Logs die in de map van Homebrew worden geschreven door de diensten die Homebrew uitvoert, zoals een database of een webserver. Alleen de logs worden aangeboden, nooit de mappen waarin ze staan, want een dienst verwacht de map te vinden waarin hij schrijft."
+            "value" : "Logs die in de map van Homebrew worden geschreven door de diensten die Homebrew uitvoert, zoals een database. Alleen de logs worden aangeboden, nooit de mappen ervan."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dzienniki zapisywane w folderze Homebrew przez usługi, które Homebrew uruchamia, na przykład bazę danych lub serwer www. Proponowane są tylko dzienniki, nigdy foldery nadrzędne, ponieważ usługa spodziewa się znaleźć folder, w którym zapisuje dziennik."
+            "value" : "Dzienniki zapisywane w folderze Homebrew przez usługi, które Homebrew uruchamia, na przykład bazę danych. Proponowane są tylko dzienniki, nigdy ich foldery."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registros que os serviços executados pelo Homebrew, como um banco de dados ou um servidor web, gravam na pasta do Homebrew. Só os registros são oferecidos, nunca as pastas onde eles ficam, porque um serviço espera encontrar a pasta em que grava."
+            "value" : "Registros que os serviços executados pelo Homebrew, como um banco de dados, gravam na pasta dele. Só os registros são oferecidos, nunca as pastas deles."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jurnale pe care serviciile rulate de Homebrew, cum ar fi o bază de date sau un server web, le scriu în dosarul Homebrew. Sunt propuse doar jurnalele, niciodată dosarele în care se află, deoarece un serviciu se așteaptă să găsească dosarul în care scrie."
+            "value" : "Jurnale pe care serviciile rulate de Homebrew, cum ar fi o bază de date, le scriu în dosarul acestuia. Sunt propuse doar jurnalele, niciodată dosarele lor."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Журналы, которые запускаемые Homebrew службы, например база данных или веб-сервер, записывают в папку Homebrew. Предлагаются только журналы, но никогда не папки, в которых они лежат, потому что служба ожидает найти папку, в которую записывает."
+            "value" : "Журналы, которые запускаемые Homebrew службы, например база данных, записывают в его папку. Предлагаются только журналы, но никогда не их папки."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Loggar som de tjänster Homebrew kör, till exempel en databas eller en webbserver, skriver i Homebrews mapp. Bara loggarna erbjuds, aldrig mapparna som de ligger i, eftersom en tjänst förväntar sig att hitta mappen som den skriver i."
+            "value" : "Loggar som de tjänster Homebrew kör, till exempel en databas, skriver i Homebrews mapp. Bara loggarna erbjuds, aldrig deras mappar."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew’un çalıştırdığı, veritabanı veya web sunucusu gibi hizmetlerin Homebrew’un klasörüne yazdığı günlükler. Yalnızca günlükler sunulur; içinde bulundukları klasörler ise hiçbir zaman sunulmaz, çünkü bir hizmet, yazdığı klasörü orada bulmayı bekler."
+            "value" : "Homebrew’un çalıştırdığı, veritabanı gibi hizmetlerin Homebrew’un klasörüne yazdığı günlükler. Yalnızca günlükler sunulur, içinde bulundukları klasörler hiçbir zaman sunulmaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Журнали, що їх записують у папку Homebrew служби, які він запускає, як-от база даних чи вебсервер. Пропонуються лише журнали, але ніколи не папки, у яких вони лежать, бо служба очікує знайти папку, у яку записує."
+            "value" : "Журнали, що їх записують у папку Homebrew служби, які він запускає, як-от база даних. Пропонуються лише журнали, але ніколи не їхні папки."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew运行的服务（例如数据库或网页服务器）在Homebrew的文件夹中写入的日志。只会列出日志以供移除，绝不会列出它们所在的文件夹，因为服务需要它写入日志的文件夹存在。"
+            "value" : "Homebrew运行的服务（例如数据库）在Homebrew的文件夹中写入的日志。只会列出日志以供移除，绝不会列出它们所在的文件夹。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Homebrew執行的服務（例如資料庫或網頁伺服器）寫入Homebrew的檔案夾中的記錄檔。只會列出記錄檔供你移除，絕不會列出它們所在的檔案夾，因為服務預期它寫入的檔案夾存在。"
+            "value" : "Homebrew執行的服務（例如資料庫）寫入Homebrew的檔案夾中的記錄檔。只會列出記錄檔供你移除，絕不會列出它們所在的檔案夾。"
           }
         }
       }
@@ -172953,6 +172952,112 @@
         }
       }
     },
+    "Peel does not remove snapshots, since a deleted one cannot be put back. `%@` deletes Time Machine snapshots, if you are sure." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel snímky neodstraňuje, protože smazaný snímek nelze vrátit zpět. Snímky Time Machine smaže příkaz `%@`, pokud jste si jistí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel entfernt keine Snapshots, da sich ein gelöschter Snapshot nicht zurücklegen lässt. `%@` löscht Snapshots von Time Machine, wenn du dir sicher bist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no elimina instantáneas, ya que una instantánea borrada no se puede recuperar. `%@` borra las instantáneas de Time Machine, si lo tienes claro."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne supprime pas les instantanés, car un instantané supprimé ne peut pas être récupéré. `%@` supprime les instantanés de Time Machine, si vous en êtes sûr."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non rimuove le istantanee, perché un’istantanea eliminata non si può ripristinare. `%@` elimina le istantanee di Time Machine, se non hai dubbi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "削除したスナップショットは戻せないため、Peelはスナップショットを取り除きません。確実に削除してよい場合は、`%@`でTime Machineのスナップショットを削除できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "삭제된 스냅샷은 되돌려 놓을 수 없으므로 Peel은 스냅샷을 제거하지 않습니다. 확실하다면 `%@` 명령으로 Time Machine 스냅샷을 삭제할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel verwijdert geen momentopnamen, omdat een verwijderde momentopname niet kan worden teruggezet. `%@` verwijdert de momentopnamen van Time Machine, als je het zeker weet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie usuwa migawek, ponieważ usuniętej migawki nie da się przywrócić. Jeśli masz pewność, migawki Time Machine usuwa polecenie `%@`."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não remove capturas, já que uma captura apagada não pode ser colocada de volta. `%@` apaga as capturas do Time Machine, se você tiver certeza."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu elimină instantaneele, deoarece unul șters nu poate fi pus înapoi. `%@` șterge instantaneele Time Machine, dacă sunteți sigur."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удаляет снимки, поскольку удаленный снимок нельзя восстановить. Если Вы уверены, снимки Time Machine можно удалить командой `%@`."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tar inte bort ögonblicksbilder, eftersom en raderad ögonblicksbild inte kan läggas tillbaka. `%@` raderar ögonblicksbilder från Time Machine, om du är säker."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel anlık görüntüleri kaldırmaz, çünkü silinen bir anlık görüntü geri getirilemez. Eminseniz `%@` komutu Time Machine anlık görüntülerini siler."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вилучає знімки, бо видалений знімок не можна повернути. Якщо ви впевнені, `%@` видалить знімки Time Machine."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会移除快照，因为删除的快照无法放回原处。如果你确定要删除，`%@`可以删除时间机器的快照。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會移除快照，因為刪除的快照無法還原。如果你確定，`%@`可以刪除「時光機」的快照。"
+          }
+        }
+      }
+    },
     "Peel does not run this Homebrew" : {
       "localizations" : {
         "cs" : {
@@ -173161,112 +173266,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會替你選取這些項目，「選取建議項目」也不會選取它們：每一列都會說明原因。你仍可以自行選取它們。"
-          }
-        }
-      }
-    },
-    "Peel doesn’t include folders an open app is still writing to: %@. Quit an app to include its folders. Peel can only tell a folder is an open app’s when it carries the app’s own name or identifier, not its maker’s." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nezahrnuje složky, do kterých otevřená aplikace stále zapisuje: %@. Chcete-li zahrnout složky aplikace, ukončete ji. Peel pozná, že složka patří otevřené aplikaci, jen když nese vlastní název nebo identifikátor aplikace, nikoli jejího výrobce."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel bezieht keine Ordner ein, in die eine geöffnete App noch schreibt: %@. Beende eine App, um ihre Ordner einzubeziehen. Peel erkennt einen Ordner nur dann als den einer geöffneten App, wenn er den eigenen Namen oder die ID der App trägt, nicht die ihres Herstellers."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel no incluye las carpetas en las que aún escribe una app abierta: %@. Sal de una app para incluir sus carpetas. Peel solo puede saber que una carpeta es de una app abierta cuando lleva el nombre o el identificador de la propia app, no el de su fabricante."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel n’inclut pas les dossiers dans lesquels une app ouverte écrit encore : %@. Quittez une app pour inclure ses dossiers. Peel ne peut savoir qu’un dossier appartient à une app ouverte que s’il porte le nom ou l’identifiant de l’app elle-même, et non ceux de son éditeur."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel non include le cartelle in cui un’app aperta sta ancora scrivendo: %@. Esci da un’app per includere le sue cartelle. Peel riesce a capire che una cartella appartiene a un’app aperta solo quando porta il nome o l’identificatore dell’app stessa, non quelli del suo produttore."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelは、開いているアプリ（%@）がまだ書き込んでいるフォルダを含めません。アプリを終了すると、そのフォルダも含められます。フォルダが開いているアプリのものだとPeelが判断できるのは、フォルダにアプリ自身の名前か識別子が付いている場合だけで、開発元の名前や識別子では判断できません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel은 열려 있는 앱(%@)이 아직 쓰고 있는 폴더를 포함하지 않습니다. 앱의 폴더를 포함하려면 해당 앱을 종료하십시오. Peel은 폴더에 제작자의 이름이나 식별자가 아닌 앱 자체의 이름이나 식별자가 있어야만 그 폴더가 열려 있는 앱의 것임을 알 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel neemt geen mappen mee waarin een geopende app nog schrijft: %@. Stop een app om de mappen ervan mee te nemen. Peel kan alleen zien dat een map van een geopende app is als de map de eigen naam of ID van die app draagt, niet die van de maker."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel pomija foldery, w których otwarta aplikacja nadal zapisuje dane: %@. Zakończ aplikację, aby uwzględnić jej foldery. Peel rozpozna, że folder należy do otwartej aplikacji, tylko wtedy, gdy nosi on własną nazwę lub identyfikator tej aplikacji, a nie jej producenta."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel não inclui pastas em que um app aberto ainda está gravando: %@. Encerre um app para incluir as pastas dele. O Peel só consegue saber que uma pasta é de um app aberto quando ela tem o nome ou o identificador do próprio app, não o do fabricante."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nu include dosarele în care încă scrie o aplicație deschisă: %@. Închideți o aplicație pentru a‑i include dosarele. Peel își poate da seama că un dosar aparține unei aplicații deschise doar când poartă numele sau identificatorul propriu al aplicației, nu pe cele ale producătorului."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не включает папки, в которые еще пишет открытое приложение: %@. Завершите приложение, чтобы включить его папки. Peel может понять, что папка принадлежит открытому приложению, только если она названа именем или идентификатором самого приложения, а не его производителя."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tar inte med mappar som en öppen app fortfarande skriver till: %@. Avsluta en app för att ta med dess mappar. Peel kan bara avgöra att en mapp tillhör en öppen app när mappen har appens eget namn eller identifierare, inte tillverkarens."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel, açık bir uygulamanın hâlâ yazdığı klasörleri dahil etmez: %@. Bir uygulamanın klasörlerini dahil etmek için o uygulamadan çıkın. Peel bir klasörün açık bir uygulamaya ait olduğunu ancak klasör, üreticinin değil uygulamanın kendi adını veya tanıtıcısını taşıyorsa anlayabilir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не враховує папки, у які ще записує відкрита програма: %@. Завершіть програму, щоб її папки враховувалися. Peel може визначити, що папка належить відкритій програмі, лише коли папка має назву чи ідентифікатор самої програми, а не її виробника."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel不会包括已打开的App仍在写入的文件夹：%@。退出App即可包括它的文件夹。只有当文件夹带有App自己的名称或标识符（而非其厂商的）时，Peel才能判断它属于某个已打开的App。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel不會納入已打開的App仍在寫入的檔案夾：%@。結束App即可納入它的檔案夾。只有當檔案夾帶有App本身的名稱或識別碼（而非其廠商的）時，Peel才能判斷它屬於已打開的App。"
           }
         }
       }
@@ -173697,112 +173696,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會在「資源庫」檔案夾或其中的任何項目中尋找計畫案，因為App會將資料存放在那裡。"
-          }
-        }
-      }
-    },
-    "Peel doesn’t remove them: a deleted snapshot can’t be put back, unlike what Peel moves to the Trash. `%@` deletes Time Machine’s snapshots, if you are sure." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel je neodstraňuje: smazaný snímek nelze vrátit zpět, na rozdíl od toho, co Peel přesouvá do koše. Snímky Time Machine smaže příkaz `%@`, pokud jste si jistí."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel entfernt sie nicht: Ein gelöschter Snapshot kann nicht zurückgelegt werden, anders als das, was Peel in den Papierkorb legt. `%@` löscht die Snapshots von Time Machine, wenn du dir sicher bist."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel no las elimina: una instantánea borrada no se puede recuperar, a diferencia de lo que Peel traslada a la papelera. `%@` borra las instantáneas de Time Machine, si lo tienes claro."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ne les supprime pas : un instantané supprimé ne peut pas être récupéré, contrairement à ce que Peel place dans la corbeille. `%@` supprime les instantanés de Time Machine, si vous en êtes sûr."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel non le rimuove: un’istantanea eliminata non si può ripristinare, a differenza di ciò che Peel sposta nel Cestino. `%@` elimina le istantanee di Time Machine, se non hai dubbi."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはスナップショットを取り除きません。Peelがゴミ箱に入れるものとは違い、削除したスナップショットは戻せないためです。確実に削除してよい場合は、`%@`でTime Machineのスナップショットを削除できます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel은 스냅샷을 제거하지 않습니다. Peel이 휴지통으로 이동하는 항목과 달리, 삭제된 스냅샷은 되돌려 놓을 수 없기 때문입니다. 확실하다면 `%@` 명령으로 Time Machine의 스냅샷을 삭제할 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel verwijdert ze niet: een verwijderde momentopname kan niet worden teruggezet, in tegenstelling tot wat Peel naar de prullenmand verplaatst. `%@` verwijdert de momentopnamen van Time Machine, als je het zeker weet."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ich nie usuwa: usuniętej migawki nie da się przywrócić, w przeciwieństwie do tego, co Peel przenosi do Kosza. Jeśli masz pewność, możesz usunąć migawki Time Machine poleceniem `%@`."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel não as remove: uma captura apagada não pode ser colocada de volta, ao contrário do que o Peel move para o Lixo. `%@` apaga as capturas do Time Machine, se você tiver certeza."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nu le elimină: un instantaneu șters nu poate fi pus înapoi, spre deosebire de ce mută Peel în Coș. `%@` șterge instantaneele Time Machine, dacă sunteți sigur."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel их не удаляет: удаленный снимок нельзя восстановить, в отличие от того, что Peel перемещает в Корзину. Если Вы уверены, снимки Time Machine можно удалить командой `%@`."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel tar inte bort dem: en raderad ögonblicksbild kan inte läggas tillbaka, till skillnad från det som Peel flyttar till papperskorgen. `%@` raderar Time Machines ögonblicksbilder, om du är säker."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel bunları kaldırmaz: Peel’in Çöp Sepeti’ne taşıdıklarının aksine, silinen bir anlık görüntü geri getirilemez. Eminseniz `%@` komutu Time Machine’in anlık görüntülerini siler."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel їх не вилучає: видалений знімок не можна повернути, на відміну від того, що Peel переміщує в Смітник. Якщо ви впевнені, `%@` видалить знімки Time Machine."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel不会移除它们：与Peel移到废纸篓的内容不同，删除的快照无法放回原处。如果你确定要删除，`%@`可以删除时间机器的快照。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel不會移除快照：刪除的快照無法還原，這與Peel丟到「垃圾桶」的項目不同。如果你確定，`%@`可以刪除「時光機」的快照。"
           }
         }
       }
@@ -177563,7 +177456,7 @@
         }
       }
     },
-    "Peel leaves ^[%lld folder](inflect: true) here alone because an app keeps work there that exists nowhere else, such as an editor’s local history." : {
+    "Peel leaves ^[%lld folder](inflect: true) here alone" : {
       "localizations" : {
         "cs" : {
           "variations" : {
@@ -177571,25 +177464,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zde %lld složky ponechává nedotčené, protože v nich aplikace uchovává práci, která neexistuje nikde jinde, například místní historii editoru."
+                  "value" : "Peel zde %lld složky ponechává nedotčené"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zde %lld složky ponechává nedotčené, protože v nich aplikace uchovává práci, která neexistuje nikde jinde, například místní historii editoru."
+                  "value" : "Peel zde %lld složky ponechává nedotčené"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zde %lld složku ponechává nedotčenou, protože v ní aplikace uchovává práci, která neexistuje nikde jinde, například místní historii editoru."
+                  "value" : "Peel zde %lld složku ponechává nedotčenou"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zde %lld složek ponechává nedotčených, protože v nich aplikace uchovává práci, která neexistuje nikde jinde, například místní historii editoru."
+                  "value" : "Peel zde %lld složek ponechává nedotčených"
                 }
               }
             }
@@ -177601,13 +177494,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lässt %lld Ordner hier unangetastet, weil eine App darin Arbeit aufbewahrt, die es nirgendwo sonst gibt, etwa den lokalen Verlauf eines Editors."
+                  "value" : "Peel lässt %lld Ordner hier unangetastet"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lässt %lld Ordner hier unangetastet, weil eine App darin Arbeit aufbewahrt, die es nirgendwo sonst gibt, etwa den lokalen Verlauf eines Editors."
+                  "value" : "Peel lässt %lld Ordner hier unangetastet"
                 }
               }
             }
@@ -177619,19 +177512,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel deja %lld de carpetas de aquí sin tocar porque una app guarda allí trabajo que no existe en ningún otro sitio, como el historial local de un editor."
+                  "value" : "Peel deja %lld de carpetas de aquí sin tocar"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel deja una carpeta de aquí sin tocar porque una app guarda allí trabajo que no existe en ningún otro sitio, como el historial local de un editor."
+                  "value" : "Peel deja una carpeta de aquí sin tocar"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel deja %lld carpetas de aquí sin tocar porque una app guarda allí trabajo que no existe en ningún otro sitio, como el historial local de un editor."
+                  "value" : "Peel deja %lld carpetas de aquí sin tocar"
                 }
               }
             }
@@ -177643,19 +177536,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Ici, Peel laisse %lld de dossiers en place, car une app y conserve du travail qui n’existe nulle part ailleurs, comme l’historique local d’un éditeur."
+                  "value" : "Ici, Peel laisse %lld de dossiers en place"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Ici, Peel laisse %lld dossier en place, car une app y conserve du travail qui n’existe nulle part ailleurs, comme l’historique local d’un éditeur."
+                  "value" : "Ici, Peel laisse %lld dossier en place"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Ici, Peel laisse %lld dossiers en place, car une app y conserve du travail qui n’existe nulle part ailleurs, comme l’historique local d’un éditeur."
+                  "value" : "Ici, Peel laisse %lld dossiers en place"
                 }
               }
             }
@@ -177667,19 +177560,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lascia dove sono %lld di queste cartelle, perché un’app vi conserva un lavoro che non esiste altrove, come la cronologia locale di un editor."
+                  "value" : "Peel lascia dove sono %lld di queste cartelle"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lascia dov’è una di queste cartelle, perché un’app vi conserva un lavoro che non esiste altrove, come la cronologia locale di un editor."
+                  "value" : "Peel lascia dov’è una di queste cartelle"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lascia dove sono %lld di queste cartelle, perché un’app vi conserva un lavoro che non esiste altrove, come la cronologia locale di un editor."
+                  "value" : "Peel lascia dove sono %lld di queste cartelle"
                 }
               }
             }
@@ -177688,13 +177581,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelは、ここにある%lld個のフォルダをそのままにしています。エディタのローカル履歴など、ほかのどこにも存在しない作業内容をアプリがそこに保管しているためです。"
+            "value" : "Peelは、ここにある%lld個のフォルダをそのままにしています"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel은 여기에 있는 폴더 %lld개를 그대로 둡니다. 편집기의 로컬 기록처럼 다른 곳에는 없는 작업을 앱이 그곳에 보관하기 때문입니다."
+            "value" : "Peel이 여기에 있는 폴더 %lld개를 그대로 둠"
           }
         },
         "nl" : {
@@ -177703,13 +177596,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel laat één map hier met rust, omdat een app daar werk bewaart dat nergens anders bestaat, zoals de lokale geschiedenis van een editor."
+                  "value" : "Peel laat hier %lld map met rust"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel laat %lld mappen hier met rust, omdat een app daar werk bewaart dat nergens anders bestaat, zoals de lokale geschiedenis van een editor."
+                  "value" : "Peel laat hier %lld mappen met rust"
                 }
               }
             }
@@ -177721,25 +177614,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zostawia %lld foldery z tego miejsca nietknięte, ponieważ aplikacja przechowuje w nich pracę, której nie ma nigdzie indziej, na przykład lokalną historię edytora."
+                  "value" : "Peel zostawia tu %lld foldery nietknięte"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zostawia %lld folderów z tego miejsca nietkniętych, ponieważ aplikacja przechowuje w nich pracę, której nie ma nigdzie indziej, na przykład lokalną historię edytora."
+                  "value" : "Peel zostawia tu %lld folderów nietkniętych"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zostawia %lld folder z tego miejsca nietknięty, ponieważ aplikacja przechowuje w nim pracę, której nie ma nigdzie indziej, na przykład lokalną historię edytora."
+                  "value" : "Peel zostawia tu %lld folder nietknięty"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel zostawia %lld folderu z tego miejsca nietkniętego, ponieważ aplikacja przechowuje w nich pracę, której nie ma nigdzie indziej, na przykład lokalną historię edytora."
+                  "value" : "Peel zostawia tu %lld folderu nietkniętego"
                 }
               }
             }
@@ -177751,19 +177644,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "O Peel deixa %lld de pastas daqui intocadas porque um app guarda nelas um trabalho que não existe em nenhum outro lugar, como o histórico local de um editor."
+                  "value" : "O Peel deixa %lld de pastas daqui intocadas"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "O Peel deixa %lld pasta daqui intocada porque um app guarda nela um trabalho que não existe em nenhum outro lugar, como o histórico local de um editor."
+                  "value" : "O Peel deixa %lld pasta daqui intocada"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "O Peel deixa %lld pastas daqui intocadas porque um app guarda nelas um trabalho que não existe em nenhum outro lugar, como o histórico local de um editor."
+                  "value" : "O Peel deixa %lld pastas daqui intocadas"
                 }
               }
             }
@@ -177775,19 +177668,19 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lasă %lld dosare de aici neatinse, deoarece o aplicație păstrează acolo lucrări care nu există nicăieri altundeva, cum ar fi istoricul local al unui editor."
+                  "value" : "Peel lasă %lld dosare de aici neatinse"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lasă %lld dosar de aici neatins, deoarece o aplicație păstrează acolo lucrări care nu există nicăieri altundeva, cum ar fi istoricul local al unui editor."
+                  "value" : "Peel lasă %lld dosar de aici neatins"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lasă %lld de dosare de aici neatinse, deoarece o aplicație păstrează acolo lucrări care nu există nicăieri altundeva, cum ar fi istoricul local al unui editor."
+                  "value" : "Peel lasă %lld de dosare de aici neatinse"
                 }
               }
             }
@@ -177799,25 +177692,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel оставляет здесь на месте %lld папки, потому что приложение хранит там результаты работы, которых больше нигде нет, например локальную историю редактора."
+                  "value" : "Peel оставляет здесь на месте %lld папки"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel оставляет здесь на месте %lld папок, потому что приложение хранит там результаты работы, которых больше нигде нет, например локальную историю редактора."
+                  "value" : "Peel оставляет здесь на месте %lld папок"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel оставляет здесь на месте %lld папку, потому что приложение хранит там результаты работы, которых больше нигде нет, например локальную историю редактора."
+                  "value" : "Peel оставляет здесь на месте %lld папку"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel оставляет здесь на месте %lld папки, потому что приложение хранит там результаты работы, которых больше нигде нет, например локальную историю редактора."
+                  "value" : "Peel оставляет здесь на месте %lld папки"
                 }
               }
             }
@@ -177829,13 +177722,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lämnar %lld mapp här orörd eftersom en app sparar arbete i den som inte finns någon annanstans, till exempel en kodredigerares lokala historik."
+                  "value" : "Peel lämnar %lld mapp här orörd"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel lämnar %lld mappar här orörda eftersom en app sparar arbete i dem som inte finns någon annanstans, till exempel en kodredigerares lokala historik."
+                  "value" : "Peel lämnar %lld mappar här orörda"
                 }
               }
             }
@@ -177847,13 +177740,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel buradaki %lld klasörü yerinde bırakır, çünkü bir uygulama orada başka hiçbir yerde bulunmayan çalışmalar tutar, örneğin bir düzenleyicinin yerel geçmişi."
+                  "value" : "Peel buradaki %lld klasörü yerinde bırakır"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel buradaki %lld klasörü yerinde bırakır, çünkü bir uygulama bu klasörlerde başka hiçbir yerde bulunmayan çalışmalar tutar, örneğin bir düzenleyicinin yerel geçmişi."
+                  "value" : "Peel buradaki %lld klasörü yerinde bırakır"
                 }
               }
             }
@@ -177865,25 +177758,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel не переміщує %lld папки звідси, бо програми зберігають у них роботу, якої більше ніде немає, як-от локальну історію редактора."
+                  "value" : "Peel не переміщує %lld папки звідси"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel не переміщує %lld папок звідси, бо програми зберігають у них роботу, якої більше ніде немає, як-от локальну історію редактора."
+                  "value" : "Peel не переміщує %lld папок звідси"
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel не переміщує %lld папку звідси, бо програма зберігає в ній роботу, якої більше ніде немає, як-от локальну історію редактора."
+                  "value" : "Peel не переміщує %lld папку звідси"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Peel не переміщує %lld папки звідси, бо програми зберігають у них роботу, якої більше ніде немає, як-от локальну історію редактора."
+                  "value" : "Peel не переміщує %lld папки звідси"
                 }
               }
             }
@@ -177892,353 +177785,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel不会触碰此处的%lld个文件夹，因为有App在其中保存了在其他任何地方都不存在的内容，例如编辑器的本地历史记录。"
+            "value" : "Peel不会触碰此处的%lld个文件夹"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peel將這裡的%lld個檔案夾原地保留，因為有App在其中保存不存在於其他任何地方的工作成果，例如編輯器的本機歷史記錄。"
-          }
-        }
-      }
-    },
-    "Peel leaves ^[%lld folder](inflect: true) here alone because it protects what is there, such as what iCloud keeps to stay in sync, a wallet, an app’s documents, or a library." : {
-      "localizations" : {
-        "cs" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel zde %lld složky ponechává nedotčené, protože chrání, co v nich je, například to, co iCloud uchovává pro synchronizaci, peněženku, dokumenty aplikace nebo knihovnu."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel zde %lld složky ponechává nedotčené, protože chrání, co v nich je, například to, co iCloud uchovává pro synchronizaci, peněženku, dokumenty aplikace nebo knihovnu."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel zde %lld složku ponechává nedotčenou, protože chrání, co v ní je, například to, co iCloud uchovává pro synchronizaci, peněženku, dokumenty aplikace nebo knihovnu."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel zde %lld složek ponechává nedotčených, protože chrání, co v nich je, například to, co iCloud uchovává pro synchronizaci, peněženku, dokumenty aplikace nebo knihovnu."
-                }
-              }
-            }
-          }
-        },
-        "de" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lässt %lld Ordner hier unangetastet, weil Peel schützt, was darin liegt, etwa das, was iCloud zum Synchronisieren aufbewahrt, eine Wallet, die Dokumente einer App oder eine Mediathek."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lässt %lld Ordner hier unangetastet, weil Peel schützt, was darin liegt, etwa das, was iCloud zum Synchronisieren aufbewahrt, eine Wallet, die Dokumente einer App oder eine Mediathek."
-                }
-              }
-            }
-          }
-        },
-        "es" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel deja %lld de carpetas de aquí sin tocar porque protege lo que hay dentro, como lo que iCloud guarda para mantenerse sincronizado, un monedero digital, los documentos de una app o una biblioteca."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel deja una carpeta de aquí sin tocar porque protege lo que hay dentro, como lo que iCloud guarda para mantenerse sincronizado, un monedero digital, los documentos de una app o una biblioteca."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel deja %lld carpetas de aquí sin tocar porque protege lo que hay dentro, como lo que iCloud guarda para mantenerse sincronizado, un monedero digital, los documentos de una app o una biblioteca."
-                }
-              }
-            }
-          }
-        },
-        "fr" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Ici, Peel laisse %lld de dossiers en place, car il protège ce qui s’y trouve, comme ce qu’iCloud conserve pour rester synchronisé, un portefeuille, les documents d’une app ou une bibliothèque."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Ici, Peel laisse %lld dossier en place, car il protège ce qui s’y trouve, comme ce qu’iCloud conserve pour rester synchronisé, un portefeuille, les documents d’une app ou une bibliothèque."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Ici, Peel laisse %lld dossiers en place, car il protège ce qui s’y trouve, comme ce qu’iCloud conserve pour rester synchronisé, un portefeuille, les documents d’une app ou une bibliothèque."
-                }
-              }
-            }
-          }
-        },
-        "it" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lascia dove sono %lld di queste cartelle, perché protegge ciò che contengono, come i dati che iCloud conserva per la sincronizzazione, un wallet, i documenti di un’app o una libreria."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lascia dov’è una di queste cartelle, perché protegge ciò che contiene, come i dati che iCloud conserva per la sincronizzazione, un wallet, i documenti di un’app o una libreria."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lascia dove sono %lld di queste cartelle, perché protegge ciò che contengono, come i dati che iCloud conserva per la sincronizzazione, un wallet, i documenti di un’app o una libreria."
-                }
-              }
-            }
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelは、ここにある%lld個のフォルダをそのままにしています。iCloudが同期のために保管しているデータ、ウォレット、アプリの書類、ライブラリなど、Peelが保護しているものが中にあるためです。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel은 여기에 있는 폴더 %lld개를 그대로 둡니다. iCloud가 동기화된 상태를 유지하기 위해 보관하는 데이터, 지갑, 앱의 문서 또는 보관함처럼 그곳에 있는 항목을 Peel이 보호하기 때문입니다."
-          }
-        },
-        "nl" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel laat één map hier met rust, omdat het beschermt wat erin zit, zoals wat iCloud bewaart om synchroon te blijven, een wallet, de documenten van een app of een bibliotheek."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel laat %lld mappen hier met rust, omdat het beschermt wat erin zit, zoals wat iCloud bewaart om synchroon te blijven, een wallet, de documenten van een app of een bibliotheek."
-                }
-              }
-            }
-          }
-        },
-        "pl" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel zostawia %lld foldery z tego miejsca nietknięte, ponieważ chroni to, co jest w środku, na przykład dane synchronizacji iCloud, portfel, dokumenty aplikacji lub bibliotekę."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel zostawia %lld folderów z tego miejsca nietkniętych, ponieważ chroni to, co jest w środku, na przykład dane synchronizacji iCloud, portfel, dokumenty aplikacji lub bibliotekę."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel zostawia %lld folder z tego miejsca nietknięty, ponieważ chroni to, co jest w środku, na przykład dane synchronizacji iCloud, portfel, dokumenty aplikacji lub bibliotekę."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel zostawia %lld folderu z tego miejsca nietkniętego, ponieważ chroni to, co jest w środku, na przykład dane synchronizacji iCloud, portfel, dokumenty aplikacji lub bibliotekę."
-                }
-              }
-            }
-          }
-        },
-        "pt" : {
-          "variations" : {
-            "plural" : {
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "O Peel deixa %lld de pastas daqui intocadas porque protege o que há nelas, como aquilo que o iCloud guarda para se manter sincronizado, uma carteira, os documentos de um app ou uma biblioteca."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "O Peel deixa %lld pasta daqui intocada porque protege o que há nela, como aquilo que o iCloud guarda para se manter sincronizado, uma carteira, os documentos de um app ou uma biblioteca."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "O Peel deixa %lld pastas daqui intocadas porque protege o que há nelas, como aquilo que o iCloud guarda para se manter sincronizado, uma carteira, os documentos de um app ou uma biblioteca."
-                }
-              }
-            }
-          }
-        },
-        "ro" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lasă %lld dosare de aici neatinse, deoarece protejează ce se află acolo, cum ar fi ceea ce păstrează iCloud pentru a rămâne sincronizat, un portofel, documentele unei aplicații sau o bibliotecă."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lasă %lld dosar de aici neatins, deoarece protejează ce se află acolo, cum ar fi ceea ce păstrează iCloud pentru a rămâne sincronizat, un portofel, documentele unei aplicații sau o bibliotecă."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lasă %lld de dosare de aici neatinse, deoarece protejează ce se află acolo, cum ar fi ceea ce păstrează iCloud pentru a rămâne sincronizat, un portofel, documentele unei aplicații sau o bibliotecă."
-                }
-              }
-            }
-          }
-        },
-        "ru" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel оставляет здесь на месте %lld папки, потому что защищает то, что там находится, например данные, которые iCloud хранит для синхронизации, кошелек, документы приложения или медиатеку."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel оставляет здесь на месте %lld папок, потому что защищает то, что там находится, например данные, которые iCloud хранит для синхронизации, кошелек, документы приложения или медиатеку."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel оставляет здесь на месте %lld папку, потому что защищает то, что там находится, например данные, которые iCloud хранит для синхронизации, кошелек, документы приложения или медиатеку."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel оставляет здесь на месте %lld папки, потому что защищает то, что там находится, например данные, которые iCloud хранит для синхронизации, кошелек, документы приложения или медиатеку."
-                }
-              }
-            }
-          }
-        },
-        "sv" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lämnar %lld mapp här orörd eftersom Peel skyddar det som ligger i den, till exempel det som iCloud sparar för att hålla allt synkroniserat, en plånbok, en apps dokument eller ett bibliotek."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel lämnar %lld mappar här orörda eftersom Peel skyddar det som ligger i dem, till exempel det som iCloud sparar för att hålla allt synkroniserat, en plånbok, en apps dokument eller ett bibliotek."
-                }
-              }
-            }
-          }
-        },
-        "tr" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel buradaki %lld klasörü yerinde bırakır, çünkü içindekileri korur: örneğin iCloud’un eşzamanlı kalmak için tuttukları, bir cüzdan, bir uygulamanın belgeleri veya bir fotoğraf, müzik ya da video arşivi."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel buradaki %lld klasörü yerinde bırakır, çünkü bu klasörlerin içindekileri korur: örneğin iCloud’un eşzamanlı kalmak için tuttukları, bir cüzdan, bir uygulamanın belgeleri veya bir fotoğraf, müzik ya da video arşivi."
-                }
-              }
-            }
-          }
-        },
-        "uk" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не переміщує %lld папки звідси, бо захищає те, що в них є, як-от дані, які iCloud зберігає для синхронізації, гаманець, документи програми або медіатеку."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не переміщує %lld папок звідси, бо захищає те, що в них є, як-от дані, які iCloud зберігає для синхронізації, гаманець, документи програми або медіатеку."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не переміщує %lld папку звідси, бо захищає те, що в ній є, як-от дані, які iCloud зберігає для синхронізації, гаманець, документи програми або медіатеку."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Peel не переміщує %lld папки звідси, бо захищає те, що в них є, як-от дані, які iCloud зберігає для синхронізації, гаманець, документи програми або медіатеку."
-                }
-              }
-            }
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel不会触碰此处的%lld个文件夹，因为其中的内容受Peel保护，例如iCloud为保持同步而保留的数据、钱包、App的文稿或资料库。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel將這裡的%lld個檔案夾原地保留，因為它會保護其中的內容，例如iCloud為保持同步而保存的資料、錢包、App的文件或資料庫。"
+            "value" : "Peel將這裡的%lld個檔案夾原地保留"
           }
         }
       }
@@ -178557,6 +178110,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會動它的設定。你可以在「排除項目」標籤頁中更改。"
+          }
+        }
+      }
+    },
+    "Peel leaves out the folders an open app is writing to. It can tell only by the name or identifier of the app." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel vynechává složky, do kterých otevřená aplikace zapisuje. Pozná je jen podle názvu nebo identifikátoru aplikace."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel lässt die Ordner aus, in die eine geöffnete App gerade schreibt. Das erkennt Peel nur am Namen oder an der ID der App."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel deja fuera las carpetas en las que está escribiendo una app abierta. Solo puede saberlo por el nombre o el identificador de la app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel laisse de côté les dossiers dans lesquels une app ouverte est en train d’écrire. Il ne peut les reconnaître que par le nom ou l’identifiant de l’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel lascia fuori le cartelle in cui un’app aperta sta scrivendo. Può riconoscerle solo dal nome o dall’identificatore dell’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、開いているアプリが書き込んでいるフォルダを対象から外します。判断の手がかりになるのは、アプリの名前または識別子だけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 열려 있는 앱이 기록 중인 폴더를 제외합니다. 앱의 이름이나 식별자로만 이를 알 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel laat de mappen weg waarin een geopende app aan het schrijven is. Peel kan dat alleen zien aan de naam of de ID van de app."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel pomija foldery, w których zapisuje otwarta aplikacja. Rozpoznaje je tylko po nazwie lub identyfikatorze aplikacji."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel deixa de fora as pastas em que um app aberto está gravando. Ele só consegue saber isso pelo nome ou pelo identificador do app."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu include dosarele în care scrie o aplicație deschisă. Își poate da seama de acest lucru doar după numele sau identificatorul aplicației."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не включает папки, в которые пишет открытое приложение. Он может определить это только по имени или идентификатору приложения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel utelämnar de mappar som en öppen app skriver till. Peel kan bara avgöra det utifrån appens namn eller identifierare."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, açık bir uygulamanın yazdığı klasörleri dışarıda bırakır. Bunu yalnızca uygulamanın adından veya tanıtıcısından anlayabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel пропускає папки, у які записує відкрита програма. Визначити це вона може лише за назвою чи ідентифікатором програми."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会包括已打开的App正在写入的文件夹。它只能通过App的名称或标识符来判断。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會列入已打開的App正在寫入的檔案夾。它只能依App的名稱或識別碼來判斷。"
           }
         }
       }
@@ -181605,6 +181264,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel會保護那裡的內容，絕不會移動它。"
+          }
+        }
+      }
+    },
+    "Peel protects what is there, such as what iCloud keeps to stay in sync, a wallet, the documents of an app, or a library." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel chrání to, co tam je, například to, co iCloud uchovává pro synchronizaci, peněženku, dokumenty aplikace nebo knihovnu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel schützt, was darin liegt, etwa das, was iCloud zum Synchronisieren aufbewahrt, eine Wallet, die Dokumente einer App oder eine Mediathek."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel protege lo que hay dentro, como lo que iCloud guarda para mantenerse sincronizado, un monedero digital, los documentos de una app o una biblioteca."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel protège ce qui s’y trouve, comme ce qu’iCloud conserve pour rester synchronisé, un portefeuille, les documents d’une app ou une bibliothèque."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel protegge ciò che vi si trova, come i dati che iCloud conserva per la sincronizzazione, un wallet, i documenti di un’app o una libreria."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloudが同期のために保管しているデータ、ウォレット、アプリの書類、ライブラリなど、Peelが保護しているものがそこにあります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel은 iCloud가 동기화된 상태를 유지하기 위해 보관하는 데이터, 지갑, 앱의 문서 또는 보관함처럼 그곳에 있는 항목을 보호합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel beschermt wat erin zit, zoals wat iCloud bewaart om synchroon te blijven, een wallet, de documenten van een app of een bibliotheek."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel chroni to, co jest w środku, na przykład dane synchronizacji iCloud, portfel, dokumenty aplikacji lub bibliotekę."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel protege o que há ali, como aquilo que o iCloud guarda para se manter sincronizado, uma carteira, os documentos de um app ou uma biblioteca."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel protejează ce se află acolo, cum ar fi ceea ce păstrează iCloud pentru a rămâne sincronizat, un portofel, documentele unei aplicații sau o bibliotecă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel защищает то, что там находится, например данные, которые iCloud хранит для синхронизации, кошелек, документы приложения или медиатеку."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel skyddar det som finns där, till exempel det som iCloud sparar för att hålla allt synkroniserat, en plånbok, en apps dokument eller ett bibliotek."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel oradakileri korur: örneğin iCloud’un eşzamanlı kalmak için tuttukları, bir cüzdan, bir uygulamanın belgeleri veya bir fotoğraf, müzik ya da video arşivi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel захищає те, що там є, як-от дані, які iCloud зберігає для синхронізації, гаманець, документи програми або медіатеку."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel会保护其中的内容，例如iCloud为保持同步而保留的数据、钱包、App的文稿或资料库。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel會保護其中的內容，例如iCloud為保持同步而保存的資料、錢包、App的文件或資料庫。"
           }
         }
       }
@@ -194789,6 +194554,218 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "請先結束「%@」，否則它可能會用自己的設定覆寫這些設定。"
+          }
+        }
+      }
+    },
+    "Quit %@ to include its folders" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcete-li zahrnout složky aplikace %@, ukončete ji"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beende „%@“, um die zugehörigen Ordner einzubeziehen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sal de %@ para incluir sus carpetas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quittez %@ pour inclure ses dossiers"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esci da %@ per includere le sue cartelle"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フォルダを含めるには、“%@”を終了してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "폴더를 포함하려면 ‘%@’ 종료"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop %@ om de mappen ervan mee te nemen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zakończ aplikację %@, aby uwzględnić jej foldery"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encerre %@ para incluir as pastas dele"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Închideți %@ pentru a‑i include dosarele"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершите %@, чтобы включить его папки"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avsluta %@ för att ta med dess mappar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ klasörlerini dahil etmek için uygulamadan çıkın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершіть програму «%@», щоб додати її папки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "退出“%@”即可包括它的文件夹"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結束「%@」以納入其檔案夾"
+          }
+        }
+      }
+    },
+    "Quit %@ to include their folders" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcete-li zahrnout složky aplikací %@, ukončete je"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beende %@, um die zugehörigen Ordner einzubeziehen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sal de %@ para incluir sus carpetas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quittez %@ pour inclure leurs dossiers"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esci da %@ per includere le loro cartelle"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フォルダを含めるには、%@を終了してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "폴더를 포함하려면 %@ 종료"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop %@ om hun mappen mee te nemen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zakończ aplikacje %@, aby uwzględnić ich foldery"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encerre %@ para incluir as pastas deles"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Închideți %@ pentru a le include dosarele"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершите %@, чтобы включить их папки"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avsluta %@ för att ta med deras mappar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ klasörlerini dahil etmek için uygulamalardan çıkın"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершіть програми %@, щоб додати їхні папки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "退出%@即可包括它们的文件夹"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結束%@以納入它們的檔案夾"
           }
         }
       }
@@ -273819,6 +273796,112 @@
         }
       }
     },
+    "What Homebrew formulae keep in its var folder, such as the data of a database. Uninstalling with Homebrew leaves it, and a folder no installed formula names is marked." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Co formulae Homebrew uchovávají v jeho složce var, například data databáze. Homebrew to při odinstalaci ponechává a složka, kterou neuvádí žádná nainstalovaná formula, je označená."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was Formulae von Homebrew in seinem Ordner „var“ aufbewahren, etwa die Daten einer Datenbank. Beim Deinstallieren lässt Homebrew es zurück, und ein Ordner, den keine installierte Formula nennt, wird gekennzeichnet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que las formulae de Homebrew guardan en su carpeta var, como los datos de una base de datos. Desinstalar con Homebrew no lo elimina, y se marca una carpeta que no menciona ninguna formula instalada."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce que les formulae de Homebrew conservent dans son dossier var, comme les données d’une base de données. Une désinstallation avec Homebrew le laisse en place, et un dossier qu’aucune formula installée ne mentionne est signalé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ciò che le formulae di Homebrew conservano nella sua cartella var, come i dati di un database. Disinstallare con Homebrew non lo rimuove, e una cartella non indicata da nessuna formula installata viene segnalata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrewのformulaeが、Homebrewのvarフォルダに保持しているもの（データベースのデータなど）です。Homebrewでアンインストールしても残ります。インストール済みのどのformulaにも記載されていないフォルダには、印が付きます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "데이터베이스의 데이터처럼 Homebrew의 formula가 Homebrew의 var 폴더에 보관하는 항목입니다. Homebrew로 제거해도 이 항목은 남으며, 설치된 어떤 formula도 지정하지 않는 폴더에는 표시가 붙습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat formulae van Homebrew bewaren in de map 'var' van Homebrew, zoals de gegevens van een database. Bij het deïnstalleren laat Homebrew dit achter, en een map die geen enkele geïnstalleerde formula noemt, wordt gemarkeerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To, co formulae Homebrew przechowują w jego folderze var, na przykład dane bazy danych. Homebrew nie usuwa tego przy dezinstalacji, a folder, którego nie wymienia żadna zainstalowana formula, jest oznaczony."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que as formulae do Homebrew guardam na pasta var dele, como os dados de um banco de dados. Desinstalar com o Homebrew mantém esse conteúdo, e uma pasta que nenhuma formula instalada menciona fica marcada."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce păstrează formulele Homebrew în dosarul var al acestuia, cum ar fi datele unei baze de date. Dezinstalarea prin Homebrew le lasă pe loc, iar un dosar pe care nicio formulă instalată nu îl menționează este marcat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "То, что formulae Homebrew хранят в его папке var, например содержимое базы данных. При удалении с помощью Homebrew это остается, а папка, которую не упоминает ни одна установленная formula, помечена."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det som formulae från Homebrew sparar i Homebrews var-mapp, till exempel data för en databas. Homebrews avinstallation lämnar det kvar, och en mapp som ingen installerad formula anger är märkt."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew formulae için Homebrew’un var klasöründe tutulanlar; örneğin bir veritabanının verileri. Homebrew ile yüklemeyi kaldırmak bunları yerinde bırakır ve yüklü hiçbir formula tanımında geçmeyen bir klasör işaretlenir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Те, що formulae Homebrew зберігають у його папці var, як-от дані бази даних. Під час деінсталювання Homebrew це залишає, а папку, яку не вказує жодна інстальована formula, позначено."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew的formulae在其var文件夹中保存的内容，例如数据库的数据。使用Homebrew卸载时会保留这些内容，没有任何已安装formula指明的文件夹会被标记出来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Homebrew的formulae在其var檔案夾中保存的內容，例如資料庫的資料。Homebrew解除安裝時會將其留下，而沒有任何已安裝formula提及的檔案夾會加上標示。"
+          }
+        }
+      }
+    },
     "What It Is" : {
       "localizations" : {
         "cs" : {
@@ -274243,215 +274326,320 @@
         }
       }
     },
-    "What apps cached for every account on this Mac, in the Library at the top of the disk. What macOS keeps there for its own services isn’t listed, and what an open app uses or a service wrote in the last 15 minutes stays. What an administrator owns goes through Peel’s helper." : {
-      "comment" : "The description of a Space area. The helper is Peel's small tool with administrator rights.",
+    "What apps cached for every account on this Mac. What an open app uses, or a service wrote in the last 15 minutes, stays." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Co aplikace uložily do mezipaměti pro všechny účty v tomto Macu, v Knihovně na nejvyšší úrovni disku. Co tam systém macOS uchovává pro vlastní služby, se nezobrazuje, a co používá otevřená aplikace nebo co služba zapsala za posledních 15 minut, zůstává na místě. Co patří správci, se přesouvá přes pomocníka Peelu."
+            "value" : "Co aplikace uložily do mezipaměti pro všechny účty v tomto Macu. Co používá otevřená aplikace nebo co služba zapsala za posledních 15 minut, zůstává na místě."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Was Apps für jeden Benutzeraccount auf diesem Mac zwischengespeichert haben, in der Library auf der obersten Ebene des Volumes. Was macOS dort für seine eigenen Dienste aufbewahrt, wird nicht angezeigt, und was eine geöffnete App verwendet oder ein Dienst in den letzten 15 Minuten geschrieben hat, bleibt erhalten. Was einem Administrator gehört, wird über das Hilfsprogramm von Peel verschoben."
+            "value" : "Was Apps für alle Benutzeraccounts auf diesem Mac zwischengespeichert haben. Was eine geöffnete App verwendet oder ein Dienst in den letzten 15 Minuten geschrieben hat, bleibt erhalten."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lo que las apps han guardado en caché para todas las cuentas de este Mac, en la carpeta Biblioteca de la raíz del disco. Lo que macOS guarda ahí para sus propios servicios no se muestra, y lo que usa una app abierta o lo que un servicio ha escrito en los últimos 15 minutos se queda donde está. Lo que pertenece a un administrador se traslada mediante el asistente de Peel."
+            "value" : "Lo que las apps han guardado en caché para todas las cuentas de este Mac. Lo que usa una app abierta, o lo que un servicio ha escrito en los últimos 15 minutos, se queda donde está."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce que les apps ont mis en cache pour tous les comptes de ce Mac, dans le dossier Bibliothèque à la racine du disque. Ce que macOS y conserve pour ses propres services n’est pas listé, et ce qu’une app ouverte utilise ou ce qu’un service a écrit au cours des 15 dernières minutes reste en place. Ce qui appartient à un administrateur passe par l’utilitaire de Peel."
+            "value" : "Ce que les apps ont mis en cache pour tous les comptes de ce Mac. Ce qu’une app ouverte utilise, ou ce qu’un service a écrit au cours des 15 dernières minutes, reste en place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ciò che le app hanno messo in cache per tutti gli account di questo Mac, nella cartella Libreria al livello principale del disco. Ciò che macOS conserva lì per i propri servizi non è elencato, e ciò che un’app aperta usa o che un servizio ha scritto negli ultimi 15 minuti resta al suo posto. Ciò che appartiene a un amministratore viene spostato tramite l’assistente di Peel."
+            "value" : "Ciò che le app hanno messo in cache per tutti gli account di questo Mac. Ciò che usa un’app aperta, o che un servizio ha scritto negli ultimi 15 minuti, resta al suo posto."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリがこのMacのすべてのアカウントのためにキャッシュしたもので、ディスクの最上位にある“ライブラリ”フォルダにあります。macOSが自身のサービスのためにそこに保管しているものは一覧に表示されず、開いているアプリが使用しているものや、過去15分以内にサービスが書き込んだものはそのまま残ります。管理者が所有するものは、Peelのヘルパーを通じてゴミ箱に入れます。"
+            "value" : "アプリがこのMacのすべてのアカウントのためにキャッシュしたものです。開いているアプリが使用しているものや、過去15分以内にサービスが書き込んだものはそのまま残ります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱이 디스크 최상위에 있는 라이브러리에 이 Mac의 모든 계정을 위해 캐시한 항목입니다. macOS가 자체 서비스를 위해 그곳에 보관하는 항목은 목록에 표시되지 않으며, 열려 있는 앱이 사용하는 항목이나 최근 15분 이내에 서비스가 기록한 항목은 그대로 유지됩니다. 관리자가 소유한 항목은 Peel 보조 프로그램을 통해 이동합니다."
+            "value" : "앱이 이 Mac의 모든 계정을 위해 캐시한 항목입니다. 열려 있는 앱이 사용하는 항목이나 최근 15분 이내에 서비스가 기록한 항목은 그대로 유지됩니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wat apps voor elke account op deze Mac in de cache hebben gezet, in de map 'Bibliotheek' op het hoogste niveau van de schijf. Wat macOS daar voor zijn eigen diensten bewaart, wordt niet getoond, en wat een geopende app gebruikt of een dienst in de afgelopen 15 minuten heeft geschreven, blijft staan. Wat van een beheerder is, gaat via het hulpprogramma van Peel."
+            "value" : "Wat apps voor elke account op deze Mac in de cache hebben gezet. Wat een geopende app gebruikt of een dienst in de afgelopen 15 minuten heeft geschreven, blijft staan."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To, co aplikacje zapisały w pamięci podręcznej dla wszystkich kont na tym Macu, w folderze Biblioteki na najwyższym poziomie dysku. Tego, co macOS przechowuje tam na potrzeby własnych usług, nie ma na liście, a to, czego używa otwarta aplikacja, lub to, co usługa zapisała w ciągu ostatnich 15 minut, zostaje na miejscu. To, co należy do administratora, przenosi pomocnik Peel."
+            "value" : "To, co aplikacje zapisały w pamięci podręcznej dla wszystkich kont na tym Macu. To, czego używa otwarta aplikacja, lub to, co usługa zapisała w ciągu ostatnich 15 minut, zostaje na miejscu."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O que os apps guardaram em cache para todas as contas deste Mac, na Biblioteca que fica no nível superior do disco. O que o macOS mantém ali para os próprios serviços não é listado, e o que um app aberto usa ou o que um serviço gravou nos últimos 15 minutos permanece. O que pertence a um administrador passa pelo auxiliar do Peel."
+            "value" : "O que os apps guardaram em cache para todas as contas deste Mac. O que um app aberto usa, ou o que um serviço gravou nos últimos 15 minutos, permanece."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tot ce au păstrat aplicațiile în memoria tampon pentru toate conturile de pe acest Mac, în dosarul Bibliotecă de la rădăcina discului. Ce păstrează macOS acolo pentru propriile servicii nu este listat, iar ce folosește o aplicație deschisă sau ce a scris un serviciu în ultimele 15 minute rămâne pe loc. Ce deține un administrator este mutat prin instrumentul de ajutor Peel."
+            "value" : "Ce au păstrat aplicațiile în memoria tampon pentru toate conturile de pe acest Mac. Ce folosește o aplicație deschisă sau ce a scris un serviciu în ultimele 15 minute rămâne pe loc."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Все, что приложения кэшировали для всех учетных записей на этом Mac, в папке «Библиотека» в корне диска. То, что macOS хранит там для своих служб, не показывается, а то, что использует открытое приложение или что служба записала за последние 15 минут, остается на месте. То, чем владеет администратор, перемещается через помощника Peel."
+            "value" : "Все, что приложения кэшировали для всех учетных записей на этом Mac. То, что использует открытое приложение или что служба записала за последние 15 минут, остается на месте."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det som appar har cachat för alla konton på den här datorn, i mappen Bibliotek på skivans översta nivå. Det som macOS sparar där för sina egna tjänster visas inte, och det som en öppen app använder eller som en tjänst har skrivit under de senaste 15 minuterna stannar kvar. Det som en administratör äger går via Peels hjälpprogram."
+            "value" : "Det som appar har cachat för alla konton på den här datorn. Det som en öppen app använder, eller som en tjänst har skrivit under de senaste 15 minuterna, stannar kvar."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulamaların bu Mac’teki her hesap için, diskin en üstündeki Kitaplık klasöründe önbelleğe aldıkları. macOS’in orada kendi hizmetleri için tuttukları listelenmez; açık bir uygulamanın kullandıkları veya bir hizmetin son 15 dakika içinde yazdıkları yerinde kalır. Bir yöneticinin sahip oldukları Peel’in yardımcısı aracılığıyla taşınır."
+            "value" : "Uygulamaların bu Mac’teki her hesap için önbelleğe aldıkları. Açık bir uygulamanın kullandıkları veya bir hizmetin son 15 dakika içinde yazdıkları yerinde kalır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Те, що програми кешували для всіх облікових записів на цьому Mac, у Бібліотеці на верхньому рівні диска. Те, що macOS зберігає там для власних служб, не показується, а те, чим користується відкрита програма, або те, що служба записала за останні 15 хвилин, лишається. Те, що належить адміністратору, переміщується через помічника Peel."
+            "value" : "Те, що програми кешували для всіх облікових записів на цьому Mac. Те, чим користується відкрита програма, або те, що служба записала за останні 15 хвилин, лишається."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App在磁盘顶层的资源库中为这台Mac上的所有账户缓存的内容。macOS为其自身服务保留在那里的内容不会列出，已打开的App正在使用的内容或服务在过去15分钟内写入的内容会保留。管理员拥有的内容会通过Peel的帮助程序移除。"
+            "value" : "App为这台Mac上的所有账户缓存的内容。已打开的App正在使用的内容或服务在过去15分钟内写入的内容会保留。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App為這部Mac上的所有帳號儲存的快取，位於磁碟最上層的「資源庫」中。macOS為其自身服務保留在那裡的內容不會列出，打開中的App正在使用的內容，或服務在過去15分鐘內寫入的內容會保留。管理者擁有的項目會透過Peel的輔助程式移動。"
+            "value" : "App為這部Mac上的所有帳號儲存的快取。已打開的App正在使用的內容，或服務在過去15分鐘內寫入的內容會保留。"
           }
         }
       }
     },
-    "What apps cached in the folder macOS gives your account for caches, which Finder hides and macOS empties only when the Mac starts up in safe mode. What macOS keeps there for its own services isn’t listed, what an open app uses stays, and developer tools’ folders are left to the Developer page." : {
+    "What apps cached in a folder macOS gives your account, which Finder hides. What an open app uses stays, and the folders of developer tools are left to the Developer page." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Co aplikace uložily do mezipaměti ve složce, kterou systém macOS přiděluje vašemu účtu pro mezipaměti. Finder tuto složku skrývá a systém macOS ji vyprazdňuje jen tehdy, když se Mac spustí v bezpečném režimu. Co tam systém macOS uchovává pro vlastní služby, se nezobrazuje, a co používá otevřená aplikace, zůstává na místě. Složky vývojářských nástrojů jsou přenechány stránce Vývojář."
+            "value" : "Co aplikace uložily do mezipaměti ve složce, kterou systém macOS přiděluje vašemu účtu a kterou Finder skrývá. Co používá otevřená aplikace, zůstává na místě, a složky vývojářských nástrojů jsou přenechány stránce Vývojář."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Was Apps in dem vom Finder ausgeblendeten Ordner zwischengespeichert haben, den macOS deinem Benutzeraccount für Caches zuweist und nur dann leert, wenn der Mac im sicheren Modus startet. Was macOS dort für seine eigenen Dienste aufbewahrt, wird nicht angezeigt; was eine geöffnete App verwendet, bleibt erhalten, und Ordner von Entwicklertools bleiben der Seite „Entwicklung“ überlassen."
+            "value" : "Was Apps in einem vom Finder ausgeblendeten Ordner zwischengespeichert haben, den macOS deinem Benutzeraccount zuweist. Was eine geöffnete App verwendet, bleibt erhalten, und die Ordner von Entwicklertools bleiben der Seite „Entwicklung“ überlassen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lo que las apps han guardado en caché en la carpeta que macOS asigna a tu cuenta para las cachés, una carpeta que el Finder oculta y que macOS vacía solo cuando el Mac arranca en modo seguro. Lo que macOS guarda ahí para sus propios servicios no se muestra, lo que usa una app abierta se queda donde está y las carpetas de las herramientas para desarrolladores se dejan a la página Desarrollador."
+            "value" : "Lo que las apps han guardado en caché en una carpeta que macOS asigna a tu cuenta y que el Finder oculta. Lo que usa una app abierta se queda donde está, y las carpetas de las herramientas para desarrolladores se dejan a la página Desarrollador."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce que les apps ont mis en cache dans le dossier que macOS attribue à votre compte pour les caches. Le Finder masque ce dossier, et macOS ne le vide que lorsque le Mac démarre en mode sans échec. Ce que macOS y conserve pour ses propres services n’est pas listé, ce qu’une app ouverte utilise reste en place, et les dossiers des outils de développement sont laissés à la page Développeur."
+            "value" : "Ce que les apps ont mis en cache dans un dossier que macOS attribue à votre compte et que le Finder masque. Ce qu’une app ouverte utilise reste en place, et les dossiers des outils de développement sont laissés à la page Développeur."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ciò che le app hanno messo in cache nella cartella che macOS assegna al tuo account per le cache, nascosta dal Finder e svuotata da macOS solo quando il Mac si avvia in modalità sicura. Ciò che macOS conserva lì per i propri servizi non è elencato, ciò che usa un’app aperta resta al suo posto, e le cartelle degli strumenti per lo sviluppo sono lasciate alla pagina Sviluppo."
+            "value" : "Ciò che le app hanno messo in cache in una cartella che macOS assegna al tuo account e che il Finder nasconde. Ciò che usa un’app aperta resta al suo posto, e le cartelle degli strumenti per lo sviluppo sono lasciate alla pagina Sviluppo."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリがキャッシュしたもので、macOSがお使いのアカウントにキャッシュ用として割り当てているフォルダにあります。このフォルダはFinderでは隠されており、macOSが空にするのは、Macをセーフモードで起動したときだけです。macOSが自身のサービスのためにそこに保管しているものは一覧に表示されず、開いているアプリが使用しているものはそのまま残ります。デベロッパツールのフォルダは“デベロッパ”ページに任せています。"
+            "value" : "アプリがキャッシュしたもので、macOSがお使いのアカウントに割り当てているフォルダにあります。このフォルダはFinderでは隠されています。開いているアプリが使用しているものはそのまま残り、デベロッパツールのフォルダは“デベロッパ”ページに任せています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS가 사용자 계정에 캐시용으로 제공하는 폴더에 앱이 캐시한 항목이며, 이 폴더는 Finder가 숨기고, Mac을 안전 모드로 시동할 때만 macOS가 비웁니다. macOS가 자체 서비스를 위해 그곳에 보관하는 항목은 목록에 표시되지 않으며, 열려 있는 앱이 사용하는 항목은 그대로 유지되고, 개발자 도구의 폴더는 개발자 페이지에 맡깁니다."
+            "value" : "macOS가 사용자 계정에 제공하는 폴더에 앱이 캐시한 항목이며, 이 폴더는 Finder에서 숨겨져 있습니다. 열려 있는 앱이 사용하는 항목은 그대로 유지되고, 개발자 도구의 폴더는 개발자 페이지에 맡깁니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wat apps in de cache hebben gezet, in de map die macOS voor caches aan je account toewijst. Finder verbergt deze map, en macOS maakt hem alleen leeg als de Mac in de veilige modus opstart. Wat macOS daar voor zijn eigen diensten bewaart, wordt niet getoond, en wat een geopende app gebruikt, blijft staan. De mappen van ontwikkeltools worden overgelaten aan de pagina 'Ontwikkelaar'."
+            "value" : "Wat apps in de cache hebben gezet in een map die macOS aan je account toewijst en die Finder verbergt. Wat een geopende app gebruikt, blijft staan, en de mappen van ontwikkeltools worden overgelaten aan de pagina 'Ontwikkelaar'."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To, co aplikacje zapisały w folderze pamięci podręcznej, który macOS przydziela Twojemu kontu i który Finder ukrywa, a macOS opróżnia tylko wtedy, gdy Mac uruchamia się w trybie bezpiecznym. Tego, co macOS przechowuje tam na potrzeby własnych usług, nie ma na liście; to, czego używa otwarta aplikacja, zostaje na miejscu, a foldery narzędzi dla deweloperów są pozostawione stronie Deweloper."
+            "value" : "To, co aplikacje zapisały w pamięci podręcznej w folderze, który macOS przydziela Twojemu kontu i który Finder ukrywa. To, czego używa otwarta aplikacja, zostaje na miejscu, a foldery narzędzi dla deweloperów są pozostawione stronie Deweloper."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O que os apps guardaram em cache na pasta que o macOS reserva para os caches da sua conta, uma pasta que o Finder oculta e que o macOS só esvazia quando o Mac é inicializado no modo seguro. O que o macOS mantém ali para os próprios serviços não é listado, o que um app aberto usa permanece, e as pastas das ferramentas para desenvolvedores ficam para a página Desenvolvedor."
+            "value" : "O que os apps guardaram em cache em uma pasta que o macOS reserva para a sua conta, e que o Finder oculta. O que um app aberto usa permanece, e as pastas das ferramentas para desenvolvedores ficam para a página Desenvolvedor."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce au păstrat aplicațiile în memoria tampon din dosarul atribuit de macOS contului dvs. pentru memoriile tampon, pe care Finder îl ascunde și macOS îl golește doar când Mac‑ul pornește în modul de siguranță. Ce păstrează macOS acolo pentru propriile servicii nu este listat, ce folosește o aplicație deschisă rămâne pe loc, iar dosarele instrumentelor pentru dezvoltatori sunt lăsate în seama paginii Dezvoltator."
+            "value" : "Ce au păstrat aplicațiile în memoria tampon dintr‑un dosar pe care macOS îl atribuie contului dvs. și pe care Finder îl ascunde. Ce folosește o aplicație deschisă rămâne pe loc, iar dosarele instrumentelor pentru dezvoltatori sunt lăsate în seama paginii Dezvoltator."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Все, что приложения кэшировали в папке, которую macOS выделяет Вашей учетной записи для кэшей. Finder скрывает эту папку, а macOS очищает ее только при загрузке Mac в безопасном режиме. То, что macOS хранит там для своих служб, не показывается, а то, что использует открытое приложение, остается на месте. Папки инструментов разработчика оставлены разделу «Разработчик»."
+            "value" : "Все, что приложения кэшировали в папке, которую macOS выделяет Вашей учетной записи и которую скрывает Finder. То, что использует открытое приложение, остается на месте, а папки инструментов разработчика оставлены разделу «Разработчик»."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det som appar har cachat i den mapp som macOS ger ditt konto för cachar. Finder gömmer mappen, och macOS tömmer den bara när datorn startas i säkert läge. Det som macOS sparar där för sina egna tjänster visas inte, det som en öppen app använder stannar kvar, och utvecklarverktygens mappar lämnas åt sidan Utvecklare."
+            "value" : "Det som appar har cachat i en mapp som macOS ger ditt konto och som Finder gömmer. Det som en öppen app använder stannar kvar, och utvecklarverktygens mappar lämnas åt sidan Utvecklare."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulamaların, macOS’in hesabınıza önbellekler için ayırdığı klasörde önbelleğe aldıkları; Finder bu klasörü gizler, macOS ise yalnızca Mac güvenli modda başlatıldığında boşaltır. macOS’in orada kendi hizmetleri için tuttukları listelenmez, açık bir uygulamanın kullandıkları yerinde kalır ve geliştirici araçlarının klasörleri Geliştirici sayfasına bırakılır."
+            "value" : "Uygulamaların, macOS’in hesabınıza ayırdığı ve Finder’ın gizlediği bir klasörde önbelleğe aldıkları. Açık bir uygulamanın kullandıkları yerinde kalır ve geliştirici araçlarının klasörleri Geliştirici sayfasına bırakılır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Те, що програми кешували в папці, яку macOS надає вашому обліковому запису для кешів і яку Finder приховує, а macOS очищає лише тоді, коли Mac запускається в безпечному режимі. Те, що macOS зберігає там для власних служб, не показується, те, чим користується відкрита програма, лишається, а папки інструментів розробника залишено для сторінки «Розробник»."
+            "value" : "Те, що програми кешували в папці, яку macOS надає вашому обліковому запису і яку Finder приховує. Те, чим користується відкрита програма, лишається, а папки інструментів розробника залишено для сторінки «Розробник»."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App在macOS为你的账户分配的缓存文件夹中缓存的内容，“访达”会隐藏该文件夹，macOS只会在Mac以安全模式启动时清空它。macOS为其自身服务保留在那里的内容不会列出，已打开的App正在使用的内容会保留，开发者工具的文件夹交给“开发者”页面处理。"
+            "value" : "App在macOS为你的账户分配的一个文件夹中缓存的内容，“访达”会隐藏该文件夹。已打开的App正在使用的内容会保留，开发者工具的文件夹交给“开发者”页面处理。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App在macOS為你的帳號提供的快取檔案夾中所快取的內容，Finder會隱藏此檔案夾，而且macOS只有在Mac以安全模式啟動時才會清空它。macOS為其自身服務保留在那裡的內容不會列出，已打開的App正在使用的內容會保留，而開發者工具的檔案夾交給「開發者」頁面處理。"
+            "value" : "App在macOS提供給你帳號的檔案夾中所快取的內容，Finder會隱藏此檔案夾。已打開的App正在使用的內容會保留，而開發者工具的檔案夾交給「開發者」頁面處理。"
+          }
+        }
+      }
+    },
+    "What apps cached in your Library, each folder moved whole. The folders of developer tools are left to the Developer page." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Co aplikace uložily do mezipaměti ve vaší Knihovně, přičemž se každá složka přesouvá celá. Složky vývojářských nástrojů jsou přenechány stránce Vývojář."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was Apps in deiner Library zwischengespeichert haben, wobei jeder Ordner als Ganzes verschoben wird. Die Ordner von Entwicklertools bleiben der Seite „Entwicklung“ überlassen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que las apps han guardado en caché en tu carpeta Biblioteca, y cada carpeta se traslada entera. Las carpetas de las herramientas para desarrolladores se dejan a la página Desarrollador."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce que les apps ont mis en cache dans votre Bibliothèque, chaque dossier étant déplacé en entier. Les dossiers des outils de développement sont laissés à la page Développeur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ciò che le app hanno messo in cache nella tua Libreria, e ogni cartella viene spostata per intero. Le cartelle degli strumenti per lo sviluppo sono lasciate alla pagina Sviluppo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリがユーザライブラリにキャッシュしたもので、フォルダごと移動します。デベロッパツールのフォルダは“デベロッパ”ページに任せています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱이 사용자의 라이브러리에 캐시한 항목이며, 각 폴더는 통째로 이동합니다. 개발자 도구의 폴더는 개발자 페이지에 맡깁니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wat apps in je bibliotheekmap in de cache hebben gezet, waarbij elke map in zijn geheel wordt verplaatst. De mappen van ontwikkeltools worden overgelaten aan de pagina 'Ontwikkelaar'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To, co aplikacje zapisały w pamięci podręcznej w Twoim folderze Biblioteki; każdy folder jest przenoszony w całości. Foldery narzędzi dla deweloperów są pozostawione stronie Deweloper."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que os apps guardaram em cache na sua Biblioteca, com cada pasta movida inteira. As pastas das ferramentas para desenvolvedores ficam para a página Desenvolvedor."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce au păstrat aplicațiile în memoria tampon din dosarul dvs. Bibliotecă, fiecare dosar fiind mutat întreg. Dosarele instrumentelor pentru dezvoltatori sunt lăsate în seama paginii Dezvoltator."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все, что приложения кэшировали в Вашей папке «Библиотека», причем каждая папка перемещается целиком. Папки инструментов разработчика оставлены разделу «Разработчик»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det som appar har cachat i din biblioteksmapp, där varje mapp flyttas i sin helhet. Utvecklarverktygens mappar lämnas åt sidan Utvecklare."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulamaların Kitaplık klasörünüzde önbelleğe aldıkları; her klasör bütün olarak taşınır. Geliştirici araçlarının klasörleri Geliştirici sayfasına bırakılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Те, що програми кешували у вашій Бібліотеці, причому кожна папка переміщується цілком. Папки інструментів розробника залишено для сторінки «Розробник»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App在你的资源库中缓存的内容，每个文件夹都会整体移动。开发者工具的文件夹交给“开发者”页面处理。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App在你的「資源庫」中快取的內容，每個檔案夾都會整個移動。開發者工具的檔案夾交給「開發者」頁面處理。"
           }
         }
       }
@@ -275198,108 +275386,108 @@
         }
       }
     },
-    "What sandboxed apps, such as those from the App Store, cached or left as temporary files in their own containers, and cached in the ones they share with apps from the same maker. What an open app uses stays, and the caches of Apple’s own apps are listed but never selected." : {
+    "What sandboxed apps, such as those from the App Store, cached in their containers. What an open app uses stays, and the caches of Apple apps are listed but never selected." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Co izolované aplikace, například ty z App Storu, uložily do mezipaměti nebo zanechaly jako dočasné soubory ve svých vlastních kontejnerech, a co uložily do mezipaměti v kontejnerech, které sdílejí s aplikacemi od stejného výrobce. Co používá otevřená aplikace, zůstává na místě, a mezipaměti vlastních aplikací společnosti Apple se zobrazují, ale nikdy se nevybírají."
+            "value" : "Co izolované aplikace, například ty z App Storu, uložily do mezipaměti ve svých kontejnerech. Co používá otevřená aplikace, zůstává na místě, a mezipaměti aplikací společnosti Apple se zobrazují, ale nikdy se nevybírají."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Was Sandbox-Apps, etwa die aus dem App Store, in ihren eigenen Containern zwischengespeichert oder als temporäre Dateien hinterlassen haben, und was sie in den Containern zwischengespeichert haben, die sie mit Apps desselben Herstellers teilen. Was eine geöffnete App verwendet, bleibt erhalten, und die Caches von Apples eigenen Apps werden angezeigt, aber nie ausgewählt."
+            "value" : "Was Sandbox-Apps, etwa die aus dem App Store, in ihren Containern zwischengespeichert haben. Was eine geöffnete App verwendet, bleibt erhalten, und die Caches von Apple-Apps werden angezeigt, aber nie ausgewählt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lo que las apps aisladas, como las de App Store, han guardado en caché o dejado como archivos temporales en sus propios contenedores, y lo que han guardado en caché en los que comparten con apps del mismo fabricante. Lo que usa una app abierta se queda donde está, y las cachés de las propias apps de Apple se muestran pero nunca se seleccionan."
+            "value" : "Lo que las apps aisladas, como las de App Store, han guardado en caché en sus contenedores. Lo que usa una app abierta se queda donde está, y las cachés de las apps de Apple se muestran pero nunca se seleccionan."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce que les apps en sandbox, comme celles de l’App Store, ont mis en cache ou laissé sous forme de fichiers temporaires dans leurs propres conteneurs, et mis en cache dans ceux qu’elles partagent avec les apps du même éditeur. Ce qu’utilise une app ouverte reste en place, et les caches des apps d’Apple sont listés mais jamais sélectionnés."
+            "value" : "Ce que les apps en sandbox, comme celles de l’App Store, ont mis en cache dans leurs conteneurs. Ce qu’une app ouverte utilise reste en place, et les caches des apps d’Apple sont listés mais jamais sélectionnés."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ciò che le app in sandbox, come quelle scaricate da App Store, hanno messo in cache o lasciato come file temporanei nei propri contenitori, e messo in cache in quelli che condividono con le app dello stesso produttore. Ciò che usa un’app aperta resta al suo posto, e le cache delle app di Apple sono elencate ma mai selezionate."
+            "value" : "Ciò che le app in sandbox, come quelle scaricate da App Store, hanno messo in cache nei loro contenitori. Ciò che usa un’app aperta resta al suo posto, e le cache delle app di Apple sono elencate ma mai selezionate."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Storeのアプリなど、サンドボックス化されたアプリが自身のコンテナにキャッシュしたものや一時ファイルとして残したもの、そして同じ開発元のアプリと共有するコンテナにキャッシュしたものです。開いているアプリが使用しているものはそのまま残り、Apple製のアプリのキャッシュは一覧には表示されますが、自動で選択されることはありません。"
+            "value" : "App Storeのアプリなど、サンドボックス化されたアプリが自身のコンテナにキャッシュしたものです。開いているアプリが使用しているものはそのまま残り、Apple製のアプリのキャッシュは一覧には表示されますが、自動で選択されることはありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store에서 받은 앱 등 샌드박스가 적용된 앱이 자체 컨테이너에 캐시하거나 임시 파일로 남긴 항목과, 같은 제작자의 앱과 공유하는 컨테이너에 캐시한 항목입니다. 열려 있는 앱이 사용하는 항목은 그대로 유지되며, Apple 자체 앱의 캐시는 목록에 표시되지만 절대 미리 선택되지 않습니다."
+            "value" : "App Store에서 받은 앱 등 샌드박스가 적용된 앱이 자체 컨테이너에 캐시한 항목입니다. 열려 있는 앱이 사용하는 항목은 그대로 유지되며, Apple 앱의 캐시는 목록에 표시되지만 절대 미리 선택되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wat apps in een sandbox, zoals die uit de App Store, in hun eigen containers in de cache hebben gezet of als tijdelijke bestanden hebben achtergelaten, en in de cache hebben gezet in de containers die ze delen met apps van dezelfde maker. Wat een geopende app gebruikt, blijft staan, en de caches van de eigen apps van Apple worden getoond maar nooit geselecteerd."
+            "value" : "Wat apps in een sandbox, zoals die uit de App Store, in hun containers in de cache hebben gezet. Wat een geopende app gebruikt, blijft staan, en de caches van apps van Apple worden getoond maar nooit geselecteerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To, co aplikacje działające w piaskownicy, takie jak te z App Store, zapisały w pamięci podręcznej lub pozostawiły jako pliki tymczasowe we własnych kontenerach, a także zapisały w pamięci podręcznej w tych, które współdzielą z aplikacjami tego samego producenta. To, czego używa otwarta aplikacja, zostaje na miejscu, a pamięć podręczna własnych aplikacji Apple jest na liście, ale nigdy nie jest zaznaczana."
+            "value" : "To, co aplikacje działające w piaskownicy, takie jak te z App Store, zapisały w pamięci podręcznej w swoich kontenerach. To, czego używa otwarta aplikacja, zostaje na miejscu, a pamięć podręczna aplikacji Apple jest na liście, ale nigdy nie jest zaznaczana."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O que os apps em sandbox, como os da App Store, guardaram em cache ou deixaram como arquivos temporários nos próprios contêineres, e guardaram em cache nos que compartilham com apps do mesmo fabricante. O que um app aberto usa permanece, e os caches dos apps da própria Apple são listados, mas nunca selecionados."
+            "value" : "O que os apps em sandbox, como os da App Store, guardaram em cache nos contêineres deles. O que um app aberto usa permanece, e os caches dos apps da Apple são listados, mas nunca selecionados."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce au păstrat aplicațiile izolate, cum sunt cele din App Store, în memoria tampon sau au lăsat ca fișiere temporare în propriile containere și ce au păstrat în memoria tampon din containerele pe care le partajează cu aplicații de la același producător. Ce folosește o aplicație deschisă rămâne pe loc, iar memoriile tampon ale aplicațiilor Apple sunt listate, dar nu sunt niciodată selectate."
+            "value" : "Ce au păstrat aplicațiile izolate, cum sunt cele din App Store, în memoria tampon din containerele lor. Ce folosește o aplicație deschisă rămâne pe loc, iar memoriile tampon ale aplicațiilor Apple sunt listate, dar nu sunt niciodată selectate."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Все, что приложения в песочнице, например из App Store, кэшировали или оставили в виде временных файлов в своих контейнерах, а также кэшировали в контейнерах, общих с приложениями того же производителя. То, что использует открытое приложение, остается на месте, а кэши собственных приложений Apple показываются в списке, но никогда не выбираются."
+            "value" : "Все, что приложения в песочнице, например из App Store, кэшировали в своих контейнерах. То, что использует открытое приложение, остается на месте, а кэши приложений Apple показываются в списке, но никогда не выбираются."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det som appar i sandlåda, till exempel de från App Store, har cachat eller lämnat som tillfälliga filer i sina egna behållare, och har cachat i de behållare de delar med appar från samma tillverkare. Det som en öppen app använder stannar kvar, och cacharna för Apples egna appar visas i listan men markeras aldrig."
+            "value" : "Det som appar i sandlåda, till exempel de från App Store, har cachat i sina behållare. Det som en öppen app använder stannar kvar, och cacharna för Apples appar visas i listan men markeras aldrig."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store’dan gelenler gibi Sandbox kullanan uygulamaların kendi kapsayıcılarında önbelleğe aldıkları veya geçici dosya olarak bıraktıkları ve aynı üreticinin uygulamalarıyla paylaştıkları kapsayıcılarda önbelleğe aldıkları. Açık bir uygulamanın kullandıkları yerinde kalır; Apple’ın kendi uygulamalarının önbellekleri ise listelenir ama hiçbir zaman seçilmez."
+            "value" : "App Store’dan gelenler gibi Sandbox kullanan uygulamaların kendi kapsayıcılarında önbelleğe aldıkları. Açık bir uygulamanın kullandıkları yerinde kalır; Apple uygulamalarının önbellekleri ise listelenir ama hiçbir zaman seçilmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Те, що ізольовані програми, як-от програми з App Store, кешували або залишили як тимчасові файли у власних контейнерах, а також кешували в контейнерах, спільних із програмами того самого виробника. Те, чим користується відкрита програма, лишається, а кеші власних програм Apple показуються, але ніколи не вибираються."
+            "value" : "Те, що ізольовані програми, як-от програми з App Store, кешували у своїх контейнерах. Те, чим користується відкрита програма, лишається, а кеші програм Apple показуються, але ніколи не вибираються."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "沙盒App（例如来自App Store的App）在各自容器中缓存或作为临时文件留下的内容，以及在与同一厂商的App共享的容器中缓存的内容。已打开的App正在使用的内容会保留；Apple自己的App的缓存会列出，但绝不会被选择。"
+            "value" : "沙盒App（例如来自App Store的App）在各自容器中缓存的内容。已打开的App正在使用的内容会保留；Apple App的缓存会列出，但绝不会被选择。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "沙盒App（例如來自App Store的App）在自己的容器中快取或留作暫存檔案的內容，以及在與同一廠商的App共用的容器中快取的內容。已打開的App正在使用的內容會保留，而Apple自家App的快取會列出，但絕不會選取。"
+            "value" : "沙盒App（例如來自App Store的App）在其容器中快取的內容。已打開的App正在使用的內容會保留，而Apple自家App的快取會列出，但絕不會選取。"
           }
         }
       }
@@ -275622,108 +275810,108 @@
         }
       }
     },
-    "What the Battle.net app caches for every account on this Mac. Blizzard says removing it doesn’t affect your games, and the app makes it again. Since it belongs to every account, it is listed and never selected." : {
+    "What the Battle.net app caches for every account. Blizzard says removing it does not affect your games. It belongs to every account, so it is never selected." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mezipaměť, kterou aplikace Battle.net ukládá pro všechny účty v tomto Macu. Společnost Blizzard uvádí, že její odstranění vaše hry neovlivní a aplikace ji vytvoří znovu. Protože patří všem účtům, zobrazuje se, ale nikdy se nevybírá."
+            "value" : "Mezipaměť, kterou aplikace Battle.net ukládá pro všechny účty. Společnost Blizzard uvádí, že její odstranění vaše hry neovlivní. Patří všem účtům, a proto se nikdy nevybírá."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Was die Battle.net-App für jeden Benutzeraccount auf diesem Mac zwischenspeichert. Laut Blizzard hat das Entfernen keine Auswirkung auf deine Spiele, und die App erstellt es erneut. Da es allen Benutzeraccounts gehört, wird es angezeigt, aber nie ausgewählt."
+            "value" : "Was die Battle.net-App für alle Benutzeraccounts zwischenspeichert. Laut Blizzard hat das Entfernen keine Auswirkung auf deine Spiele. Da es allen Benutzeraccounts gehört, wird es nie ausgewählt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lo que la app Battle.net guarda en caché para todas las cuentas de este Mac. Blizzard indica que eliminar esta caché no afecta a tus juegos, y la app la vuelve a crear. Como pertenece a todas las cuentas, se muestra pero nunca se selecciona."
+            "value" : "Lo que la app Battle.net guarda en caché para todas las cuentas. Blizzard indica que eliminarlo no afecta a tus juegos. Como pertenece a todas las cuentas, nunca se selecciona."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce que l’app Battle.net met en cache pour tous les comptes de ce Mac. Selon Blizzard, le supprimer n’a aucune incidence sur vos jeux, et l’app le recrée. Comme il appartient à tous les comptes, il est listé mais jamais sélectionné."
+            "value" : "Ce que l’app Battle.net met en cache pour tous les comptes. Selon Blizzard, le supprimer n’a aucune incidence sur vos jeux. Comme il appartient à tous les comptes, il n’est jamais sélectionné."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La cache che l’app Battle.net conserva per tutti gli account di questo Mac. Blizzard afferma che rimuoverla non ha effetti sui tuoi giochi, e l’app la ricrea. Poiché appartiene a tutti gli account, è elencata ma mai selezionata."
+            "value" : "La cache che l’app Battle.net conserva per tutti gli account. Blizzard afferma che rimuoverla non ha effetti sui tuoi giochi. Appartiene a tutti gli account, quindi non viene mai selezionata."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Battle.netアプリがこのMacのすべてのアカウントのためにキャッシュしているデータです。Blizzardによると、削除してもゲームに影響はなく、アプリが再作成します。すべてのアカウントのものであるため、一覧には表示されますが、自動で選択されることはありません。"
+            "value" : "Battle.netアプリがすべてのアカウントのためにキャッシュしているデータです。Blizzardによると、削除してもゲームに影響はありません。すべてのアカウントのものであるため、自動で選択されることはありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Battle.net 앱이 이 Mac의 모든 계정을 위해 저장하는 캐시입니다. Blizzard에 따르면 이를 제거해도 게임에는 영향이 없으며, 앱이 다시 만듭니다. 모든 계정에 속한 폴더이므로 목록에 표시되지만 절대 미리 선택되지 않습니다."
+            "value" : "Battle.net 앱이 모든 계정을 위해 저장하는 캐시입니다. Blizzard에 따르면 이를 제거해도 게임에는 영향이 없습니다. 모든 계정에 속한 폴더이므로 절대 미리 선택되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wat de Battle.net-app voor elke account op deze Mac in de cache bewaart. Volgens Blizzard heeft het verwijderen ervan geen invloed op je games, en de app maakt het opnieuw aan. Omdat het bij elke account hoort, wordt het getoond maar nooit geselecteerd."
+            "value" : "Wat de Battle.net-app voor elke account in de cache bewaart. Volgens Blizzard heeft het verwijderen ervan geen invloed op je games. Het hoort bij elke account, dus het wordt nooit geselecteerd."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pamięć podręczna aplikacji Battle.net dla wszystkich kont na tym Macu. Blizzard podaje, że jej usunięcie nie wpływa na Twoje gry, a aplikacja tworzy ją ponownie. Ponieważ należy do wszystkich kont, jest na liście, ale nigdy nie jest zaznaczana."
+            "value" : "Pamięć podręczna aplikacji Battle.net dla wszystkich kont. Blizzard podaje, że jej usunięcie nie wpływa na Twoje gry. Należy do wszystkich kont, więc nigdy nie jest zaznaczana."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O que o app Battle.net armazena em cache para todas as contas deste Mac. A Blizzard diz que remover esse cache não afeta seus jogos, e o app o cria novamente. Como ele pertence a todas as contas, é listado, mas nunca selecionado."
+            "value" : "O que o app Battle.net armazena em cache para todas as contas. A Blizzard diz que remover esse cache não afeta os seus jogos. Ele pertence a todas as contas, então nunca é selecionado."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Memoria tampon pe care aplicația Battle.net o păstrează pentru toate conturile de pe acest Mac. Blizzard spune că eliminarea ei nu vă afectează jocurile, iar aplicația o reface. Deoarece aparține tuturor conturilor, este listată, dar nu este niciodată selectată."
+            "value" : "Memoria tampon pe care aplicația Battle.net o păstrează pentru toate conturile. Blizzard spune că eliminarea ei nu vă afectează jocurile. Aparține tuturor conturilor, așa că nu este niciodată selectată."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "То, что приложение Battle.net кэширует для всех учетных записей на этом Mac. По словам Blizzard, удаление этого кэша не влияет на Ваши игры, а приложение создает его заново. Поскольку он принадлежит всем учетным записям, он показывается в списке, но никогда не выбирается."
+            "value" : "То, что приложение Battle.net кэширует для всех учетных записей. По словам Blizzard, удаление этого кэша не влияет на Ваши игры. Он принадлежит всем учетным записям, поэтому никогда не выбирается."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Det som appen Battle.net cachar för alla konton på den här datorn. Enligt Blizzard påverkas inte dina spel om du tar bort det, och appen skapar det igen. Eftersom det tillhör alla konton visas det i listan men markeras aldrig."
+            "value" : "Det som appen Battle.net cachar för alla konton. Enligt Blizzard påverkas inte dina spel om du tar bort det. Det tillhör alla konton, så det markeras aldrig."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Battle.net uygulamasının bu Mac’teki her hesap için önbelleğe aldıkları. Blizzard, bunu kaldırmanın oyunlarınızı etkilemediğini söylüyor ve uygulama onu yeniden oluşturur. Her hesaba ait olduğu için listelenir ama hiçbir zaman seçilmez."
+            "value" : "Battle.net uygulamasının her hesap için önbelleğe aldıkları. Blizzard, bunu kaldırmanın oyunlarınızı etkilemediğini söylüyor. Her hesaba ait olduğu için hiçbir zaman seçilmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Те, що програма Battle.net зберігає в кеші для всіх облікових записів на цьому Mac. За словами Blizzard, вилучення цього кешу не впливає на ваші ігри, а програма створює його знову. Оскільки він належить усім обліковим записам, він показується, але ніколи не вибирається."
+            "value" : "Те, що програма Battle.net зберігає в кеші для всіх облікових записів. За словами Blizzard, вилучення цього кешу не впливає на ваші ігри. Він належить усім обліковим записам, тож ніколи не вибирається."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Battle.net App为这台Mac上的所有账户缓存的内容。Blizzard表示移除它不会影响你的游戏，而且该App会重新生成它。由于它属于所有账户，因此它会列出，但绝不会被选择。"
+            "value" : "Battle.net App为所有账户缓存的内容。Blizzard表示移除它不会影响你的游戏。由于它属于所有账户，因此绝不会被选择。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Battle.net App為這部Mac上的所有帳號儲存的快取。Blizzard表示移除它不會影響你的遊戲，而且App會重新產生它。由於它屬於所有帳號，因此會列出，但絕不會選取。"
+            "value" : "Battle.net App為所有帳號儲存的快取。Blizzard表示移除它不會影響你的遊戲。由於它屬於所有帳號，因此絕不會選取。"
           }
         }
       }
@@ -275936,112 +276124,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "App為你保存的內容也已選取，其中可能包括你自己的工作成果。"
-          }
-        }
-      }
-    },
-    "What the formulae Homebrew installed keep in its var folder, such as the data of a database. Uninstalling with Homebrew leaves it, so it can outlive its formula. A folder that no installed formula names is marked. The logs of the services are listed apart, and the settings a formula keeps in the etc folder of Homebrew or in /etc stay where they are." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Co formulae nainstalované přes Homebrew uchovávají v jeho složce var, například data databáze. Homebrew to při odinstalaci ponechává, takže to může zůstat i poté, co formula zmizí. Složka, kterou neuvádí žádná nainstalovaná formula, je označená. Protokoly služeb se zobrazují zvlášť a nastavení, která formula uchovává ve složce etc v Homebrew nebo v /etc, zůstávají, kde jsou."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Was die Formulae, die Homebrew installiert hat, in seinem Ordner „var“ aufbewahren, etwa die Daten einer Datenbank. Beim Deinstallieren lässt Homebrew es zurück, daher kann es seine Formula überdauern. Ein Ordner, den keine installierte Formula nennt, wird gekennzeichnet. Die Protokolle der Dienste werden separat aufgeführt, und die Einstellungen, die eine Formula im Ordner „etc“ von Homebrew oder in /etc aufbewahrt, bleiben, wo sie sind."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lo que las formulae que instaló Homebrew guardan en su carpeta var, como los datos de una base de datos. Al desinstalar, Homebrew lo deja, así que puede seguir ahí aunque su formula ya no esté. Se marca una carpeta que no menciona ninguna formula instalada. Los registros de los servicios aparecen aparte, y los ajustes que una formula guarda en la carpeta etc de Homebrew o en /etc se quedan donde están."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce que les formulae installées par Homebrew conservent dans son dossier var, comme les données d’une base de données. Homebrew le laisse en place lorsqu’il désinstalle une formula : ce contenu peut donc survivre à sa formula. Un dossier qu’aucune formula installée ne mentionne est signalé. Les historiques des services sont listés à part, et les réglages qu’une formula conserve dans le dossier etc de Homebrew ou dans /etc restent là où ils sont."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ciò che le formulae installate da Homebrew conservano nella sua cartella var, come i dati di un database. Quando Homebrew disinstalla una formula, questi dati non vengono rimossi, quindi possono sopravvivere alla formula. Una cartella non indicata da nessuna formula installata viene segnalata. I log dei servizi sono elencati a parte, e le impostazioni che una formula conserva nella cartella etc di Homebrew o in /etc restano dove sono."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrewでインストールしたformulaeが、Homebrewのvarフォルダに保持しているもの（データベースのデータなど）です。Homebrewでアンインストールしても削除されないため、formulaがなくなった後も残ることがあります。インストール済みのどのformulaにも記載されていないフォルダには、印が付きます。サービスのログは別の項目に表示され、formulaがHomebrewのetcフォルダまたは/etcに保持している設定はそのまま残ります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "데이터베이스의 데이터처럼 Homebrew가 설치한 formula가 Homebrew의 var 폴더에 보관하는 항목입니다. Homebrew의 제거 명령은 이 항목을 그대로 두므로 formula가 사라진 후에도 남아 있을 수 있습니다. 설치된 어떤 formula도 지정하지 않는 폴더에는 표시가 붙습니다. 서비스 로그는 따로 나열되며, formula가 Homebrew의 etc 폴더나 /etc에 보관하는 설정은 그대로 남습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wat de formulae die Homebrew heeft geïnstalleerd, bewaren in de map 'var' van Homebrew, zoals de gegevens van een database. Bij het deïnstalleren laat Homebrew dit achter, dus het kan langer bestaan dan de formula zelf. Een map die geen enkele geïnstalleerde formula noemt, wordt gemarkeerd. De logs van de diensten worden apart getoond, en de instellingen die een formula in de map 'etc' van Homebrew of in /etc bewaart, blijven staan waar ze zijn."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "To, co formulae zainstalowane przez Homebrew przechowują w jego folderze var, na przykład dane bazy danych. Homebrew nie usuwa tego przy dezinstalacji, więc może to pozostać po odinstalowaniu formula. Folder, którego nie wymienia żadna zainstalowana formula, jest oznaczony. Dzienniki usług są wymienione osobno, a ustawienia, które formula przechowuje w folderze etc Homebrew lub w /etc, zostają na miejscu."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O que as formulae instaladas pelo Homebrew guardam na pasta var dele, como os dados de um banco de dados. Ao desinstalar uma formula, o Homebrew mantém esse conteúdo, então ele pode durar mais do que a própria formula. Uma pasta que nenhuma formula instalada menciona fica marcada. Os registros dos serviços são listados à parte, e os ajustes que uma formula guarda na pasta etc do Homebrew ou em /etc ficam onde estão."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ce păstrează formulele instalate de Homebrew în dosarul var al acestuia, cum ar fi datele unei baze de date. Dezinstalarea prin Homebrew le lasă pe loc, așa că pot rămâne și după ce formula lor a fost dezinstalată. Un dosar pe care nicio formulă instalată nu îl menționează este marcat. Jurnalele serviciilor sunt listate separat, iar configurările pe care o formulă le păstrează în dosarul etc al Homebrew sau în /etc rămân unde se află."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "То, что установленные через Homebrew formulae хранят в его папке var, например содержимое базы данных. Homebrew не удаляет это вместе с formula, поэтому оно может остаться и без нее. Папка, которую не упоминает ни одна установленная formula, помечена. Журналы служб показаны отдельно, а настройки, которые formula хранит в папке etc Homebrew или в /etc, остаются на месте."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det som de formulae som Homebrew har installerat sparar i Homebrews var-mapp, till exempel data för en databas. Homebrews avinstallation lämnar det kvar, så det kan överleva sin formula. En mapp som ingen installerad formula anger är märkt. Tjänsternas loggar listas separat, och de inställningar som en formula sparar i Homebrews etc-mapp eller i /etc stannar där de är."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew’un yüklediği formulae için Homebrew’un var klasöründe tutulanlar; örneğin bir veritabanının verileri. Homebrew yüklemeyi kaldırırken bunları yerinde bırakır, bu yüzden ait oldukları formula kaldırıldıktan sonra da kalabilirler. Yüklü hiçbir formula tanımında geçmeyen bir klasör işaretlenir. Hizmetlerin günlükleri ayrı olarak listelenir; bir formula için Homebrew’un etc klasöründe veya /etc içinde tutulan ayarlar ise olduğu yerde kalır."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Те, що інстальовані Homebrew formulae зберігають у його папці var, як-от дані бази даних. Під час деінсталювання Homebrew усе це залишає, тож воно може пережити свою formula. Папку, яку не вказує жодна інстальована formula, позначено. Журнали служб показано окремо, а налаштування, які formula зберігає в папці etc Homebrew або в /etc, лишаються на місці."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew安装的formulae在其var文件夹中保存的内容，例如数据库的数据。Homebrew卸载formula时会保留这些内容，因此它们可能在formula卸载后依然存在。没有任何已安装formula指明的文件夹会被标记出来。各服务的日志另行列出，formula保存在Homebrew的etc文件夹或/etc中的设置则会保留在原处。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Homebrew安裝的formulae在其var檔案夾中保存的內容，例如資料庫的資料。Homebrew解除安裝時會將其留下，因此它可能在其formula解除安裝後依然存在。沒有任何已安裝formula提及的檔案夾會加上標示。服務的記錄檔會另外列出，而formula保存在Homebrew的etc檔案夾或/etc中的設定則會留在原處。"
           }
         }
       }

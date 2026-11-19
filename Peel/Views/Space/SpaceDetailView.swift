@@ -33,14 +33,6 @@ struct SpaceDetailView: View {
                     .listRowSeparator(.hidden)
             }
 
-            Section {
-                Text(item.words.detail)
-                    .font(.callout)
-            } header: {
-                Text("What It Is")
-            }
-            .listRowSeparator(.hidden)
-
             if item.howToFreeIt != nil || !item.commands.isEmpty {
                 Section {
                     if let hint = item.howToFreeIt {
@@ -203,17 +195,53 @@ struct SpaceDetailView: View {
         if !plan.appsToQuit.isEmpty || !plan.refused.isEmpty {
             ListNotes {
                 if !plan.appsToQuit.isEmpty {
-                    Text("Peel doesn’t include folders an open app is still writing to: \(plan.appsToQuit.formatted(.list(type: .and))). Quit an app to include its folders. Peel can only tell a folder is an open app’s when it carries the app’s own name or identifier, not its maker’s.")
+                    let title = Self.quitToInclude(plan.appsToQuit)
+                    HStack(alignment: .firstTextBaseline, spacing: 4) {
+                        Text(title)
+                        InfoNote(about: Text(title), detail: Text(Self.openAppsNote), isAlbum: false)
+                    }
                 }
-                let keepingWork = plan.refused.values.count { $0 == .holdsWorkKeptInACache }
-                if keepingWork > 0 {
-                    Text("Peel leaves ^[\(keepingWork) folder](inflect: true) here alone because an app keeps work there that exists nowhere else, such as an editor’s local history.")
-                }
-                if plan.refused.count > keepingWork {
-                    Text("Peel leaves ^[\(plan.refused.count - keepingWork) folder](inflect: true) here alone because it protects what is there, such as what iCloud keeps to stay in sync, a wallet, an app’s documents, or a library.")
+                if !plan.refused.isEmpty {
+                    let title = Self.leftAlone(plan.refused.count)
+                    let keepingWork = plan.refused.values.count { $0 == .holdsWorkKeptInACache }
+                    let why = Self.whyLeftAlone(keepingWork: keepingWork, protected: plan.refused.count - keepingWork)
+                    HStack(alignment: .firstTextBaseline, spacing: 4) {
+                        Text(title)
+                        InfoNote(
+                            about: Text(title),
+                            detail: why.dropFirst().reduce(Text(why[0])) { Text("\($0)\n\n\(Text($1))") },
+                            isAlbum: false
+                        )
+                    }
                 }
             }
         }
+    }
+
+    static func quitToInclude(_ apps: [String]) -> LocalizedStringResource {
+        let names = apps.formatted(.list(type: .and))
+        if apps.count == 1 {
+            return "Quit \(names) to include its folders"
+        }
+        return "Quit \(names) to include their folders"
+    }
+
+    static let openAppsNote: LocalizedStringResource = "Peel leaves out the folders an open app is writing to. It can tell only by the name or identifier of the app."
+
+    static func leftAlone(_ count: Int) -> LocalizedStringResource {
+        "Peel leaves ^[\(count) folder](inflect: true) here alone"
+    }
+
+    /// Why the folders a note counts stay, a sentence for each reason that holds for any of them.
+    static func whyLeftAlone(keepingWork: Int, protected: Int) -> [LocalizedStringResource] {
+        var why: [LocalizedStringResource] = []
+        if keepingWork > 0 {
+            why.append("An app keeps work there that exists nowhere else, such as the local history of an editor.")
+        }
+        if protected > 0 {
+            why.append("Peel protects what is there, such as what iCloud keeps to stay in sync, a wallet, the documents of an app, or a library.")
+        }
+        return why
     }
 
     /// The notice comes with the plan, without its figures until they are measured, so it never pushes the rows down.
@@ -244,8 +272,19 @@ struct SpaceDetailView: View {
 
     private var header: some View {
         PageHeader(systemImage: item.category.systemImage) {
-            Text(item.words.title)
-                .pageHeading()
+            // Beside a title that takes one line, under one that takes more, so it never stands apart.
+            ViewThatFits(in: .horizontal) {
+                HStack(alignment: .firstTextBaseline, spacing: 6) {
+                    Text(item.words.title)
+                        .pageHeading()
+                    about
+                }
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(item.words.title)
+                        .pageHeading()
+                    about
+                }
+            }
         } details: {
             FlowLayout {
                 Badge(title: Text(item.category.title), systemImage: item.category.systemImage)
@@ -269,6 +308,10 @@ struct SpaceDetailView: View {
                 TotalLabel(total: figure.total, caption: figure.caption)
             }
         }
+    }
+
+    private var about: some View {
+        InfoNote(about: Text(item.words.title), detail: Text(item.words.detail), isAlbum: false)
     }
 
     /// The size of what can be moved to the Trash once the plan holds something to move, else of the item's folders.
