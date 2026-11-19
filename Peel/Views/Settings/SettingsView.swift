@@ -680,11 +680,14 @@ extension GeneralSettingsView {
 }
 
 extension GeneralSettingsView {
-    private var sidebarToolsSummary: String {
+    private var sidebarToolsSummary: LocalizedStringResource {
         let hidden = Tool.hidden(by: SidebarChoices(stored: sidebarTools), homebrew: homebrew)
-        let left = Tool.Group.allCases.flatMap(\.tools).filter(hidden.contains).map { String(localized: $0.title) }
-        guard !left.isEmpty else { return String(localized: "Every tool is in the sidebar.") }
-        return String(localized: "Left out: \(left.formatted(.list(type: .and))).")
+        return Self.sidebarSummary(hidden: Tool.Group.allCases.flatMap(\.tools).count(where: hidden.contains))
+    }
+
+    /// How many tools are off. Choose Tools… names them, and English agrees its verb through the catalog's variations.
+    static func sidebarSummary(hidden: Int) -> LocalizedStringResource {
+        hidden == 0 ? "Every tool is in the sidebar." : "\(hidden) more tools are available."
     }
 
     private var sidebarToolsChoice: some View {
