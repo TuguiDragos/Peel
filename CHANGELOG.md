@@ -527,8 +527,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - Resetting an app's privacy permissions, as an uninstall, the Reset sheet, or the More menu does, also works for an
   app macOS no longer knows, such as one kept outside the Applications folders: Peel tells macOS about the app first, as
   Finder does when it shows one, so macOS can find it.
-- Copy Uninstall Command on the page of Herd, GlobalProtect, Cloudflare WARP, or Background Music, and `peel uninstall`,
-  name the maker's script where the app is, such as `~/Applications`, not always in `/Applications`. A maker's script
+- Copy Command on the page of Herd, GlobalProtect, Cloudflare WARP, or Background Music, and `peel uninstall`, name
+  the maker's script where the app is, such as `~/Applications`, not always in `/Applications`. A maker's script
   or uninstaller that isn't on the Mac is no longer offered, and neither is one something other than its maker or the
   system could have changed: a script inside the app only while the app's whole seal holds, one elsewhere only while
   it, every folder above it, and what it leads to through a link are root's alone, and an uninstaller only when the
