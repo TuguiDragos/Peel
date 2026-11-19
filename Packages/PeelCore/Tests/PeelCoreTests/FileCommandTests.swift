@@ -377,6 +377,33 @@ struct FileCommandTests {
         #expect(files.first?["leadsTo"] as? String == "/Volumes/Archive/GoneData")
     }
 
+    /// The app's page gives the maker's step for what a gone app left, so `peel orphans` gives it under the group.
+    @Test func aGroupAnAppItsMakerRemovesLeftSaysTheMakersStep() throws {
+        let directory = try TemporaryDirectory()
+        var group = OrphanGroup(identifier: "com.example.gone", items: [try orphan("com.example.gone", in: directory)])
+        let page = try #require(URL(string: "https://example.com/uninstall"))
+        group.makersUninstaller = MakersUninstaller(
+            maker: "Example", step: .command("sudo /Library/Example/uninstall.sh"), instructions: page, removes: nil
+        )
+        let plain = OrphanGroup(identifier: "com.example.other", items: [try orphan("com.example.other", in: directory)])
+
+        let scan = OrphanScan(groups: [group, plain], unreadableLocations: [])
+        let json = try Output.jsonText(OrphansCommand.report(for: scan))
+        let report = try #require(JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any])
+        let groups = try #require(report["groups"] as? [[String: Any]])
+        let step = try #require(groups.first?["makersUninstaller"] as? [String: Any])
+
+        #expect(OrphansCommand.makersStep(for: group, isAdministrator: true) == "The uninstaller from Example also takes what the app kept in the system: run `sudo /Library/Example/uninstall.sh`. See https://example.com/uninstall")
+        let asked = OrphansCommand.makersStep(for: group, isAdministrator: false)
+        #expect(asked?.hasSuffix(UninstallCommand.administratorRunsIt) == true)
+        #expect(OrphansCommand.makersStep(for: plain, isAdministrator: true) == nil)
+        #expect(step["maker"] as? String == "Example")
+        #expect(step["command"] as? String == "sudo /Library/Example/uninstall.sh")
+        #expect(step["step"] as? String == "run `sudo /Library/Example/uninstall.sh`")
+        #expect(step["instructions"] as? String == "https://example.com/uninstall")
+        #expect(groups.last.map { $0["makersUninstaller"] is NSNull } == true)
+    }
+
     @Test func anOrphanWhoseSettingsAreDamagedSaysSo() throws {
         let directory = try TemporaryDirectory()
         var item = try orphan("com.example.gone", in: directory)

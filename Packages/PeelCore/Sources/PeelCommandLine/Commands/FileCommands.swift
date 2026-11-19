@@ -65,6 +65,55 @@ struct OrphansCommand: AsyncParsableCommand {
             let confidence: String
             let why: String
             let files: [File]
+            /// The uninstaller its maker documents for what the app left, or `null`.
+            let makersUninstaller: MakersStep?
+
+            private enum CodingKeys: String, CodingKey {
+                case identifier
+                case size
+                case movable
+                case confidence
+                case why
+                case files
+                case makersUninstaller
+            }
+
+            /// Encodes a missing step as `null`, for the reason `AppRecord` gives.
+            func encode(to encoder: any Encoder) throws {
+                var container = encoder.container(keyedBy: CodingKeys.self)
+                try container.encode(identifier, forKey: .identifier)
+                try container.encode(size, forKey: .size)
+                try container.encode(movable, forKey: .movable)
+                try container.encode(confidence, forKey: .confidence)
+                try container.encode(why, forKey: .why)
+                try container.encode(files, forKey: .files)
+                try container.encode(makersUninstaller, forKey: .makersUninstaller)
+            }
+        }
+
+        struct MakersStep: Encodable {
+            let maker: String
+            /// The command to run in Terminal, or `null` when the step is to open something or read the maker's page.
+            let command: String?
+            /// What to do, as the list says it.
+            let step: String
+            let instructions: String
+
+            private enum CodingKeys: String, CodingKey {
+                case maker
+                case command
+                case step
+                case instructions
+            }
+
+            /// Encodes a missing command as `null`, for the reason `AppRecord` gives.
+            func encode(to encoder: any Encoder) throws {
+                var container = encoder.container(keyedBy: CodingKeys.self)
+                try container.encode(maker, forKey: .maker)
+                try container.encode(command, forKey: .command)
+                try container.encode(step, forKey: .step)
+                try container.encode(instructions, forKey: .instructions)
+            }
         }
 
         struct File: Encodable {
@@ -147,6 +196,9 @@ struct OrphansCommand: AsyncParsableCommand {
             for group in scan.groups {
                 Output.line(Self.heading(for: group))
                 Output.table(Self.rows(for: group), indent: "  ")
+                if let step = Self.makersStep(for: group) {
+                    Output.line("  " + step)
+                }
             }
             if !scan.forAnAdministrator.isEmpty {
                 Output.line(Self.administratorHeading(for: scan))
@@ -218,6 +270,14 @@ struct OrphansCommand: AsyncParsableCommand {
                             path: Output.path(item.url), size: size, heldBack: whyItStays(item)?.name,
                             leadsTo: item.leadsTo.map(Output.path), damaged: item.holdsDamagedSettings
                         )
+                    },
+                    makersUninstaller: group.makersUninstaller.map { uninstaller in
+                        let command: String? = if case .command(let command) = uninstaller.step { command } else { nil }
+                        return Report.MakersStep(
+                            maker: uninstaller.maker, command: command,
+                            step: UninstallCommand.step(of: uninstaller, app: Output.plain(group.title)),
+                            instructions: uninstaller.instructions.absoluteString
+                        )
                     }
                 )
             },
@@ -276,6 +336,21 @@ struct OrphansCommand: AsyncParsableCommand {
     /// Why the app recommends nothing of an unsure group, said in the plan, since a script with -y reads no list first.
     static func unsureNote(for group: OrphanGroup) -> [String] {
         group.confidence.level == .unsure ? ["unsure: \(group.confidence.summary)"] : []
+    }
+
+    /// The maker's step for what a gone app left, which its uninstaller takes with what else it kept in the system.
+    static func makersStep(
+        for group: OrphanGroup, isAdministrator: Bool = PrivilegedHelper.isAdministrator
+    ) -> String? {
+        guard let uninstaller = group.makersUninstaller else { return nil }
+        let step = UninstallCommand.step(of: uninstaller, app: Output.plain(group.title))
+        let who = if case .command(let command) = uninstaller.step,
+                     AdministratorCommand.needsAnAdministrator(command, isAdministrator: isAdministrator) {
+            " " + UninstallCommand.administratorRunsIt
+        } else {
+            ""
+        }
+        return "The uninstaller from \(uninstaller.maker) also takes what the app kept in the system: \(step). See \(uninstaller.instructions.absoluteString)\(who)"
     }
 
     static func heading(for group: OrphanGroup) -> String {

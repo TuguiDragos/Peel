@@ -604,6 +604,20 @@ struct UninstallCommand: AsyncParsableCommand {
     }
 
     /// Said after a command that runs `sudo`, on an account that isn't an administrator's.
+    /// What the maker's step asks of the person, for `app`, as `peel uninstall` and `peel orphans` say it.
+    static func step(of uninstaller: MakersUninstaller, app: String) -> String {
+        switch uninstaller.step {
+        case .command(let command): "run `\(command)`"
+        case .uninstaller(let url): "open \(Output.plain(Output.path(url)))"
+        case .inTheApp: "use the uninstall command in \(app)"
+        case .onItsDiskImage: "use the uninstaller on the disk image it came on"
+        case .fromTheMakersPage: "download its uninstaller from \(uninstaller.maker)'s page"
+        case .notOnTheMac: "follow \(uninstaller.maker)'s instructions, since the uninstaller they name isn't on this Mac"
+        case .notTrusted:
+            "follow the instructions from \(uninstaller.maker): Peel cannot vouch for the uninstaller on this Mac, since programs not made by its maker could have changed it"
+        }
+    }
+
     static let administratorRunsIt = "This account is not an administrator, so an administrator runs this command, or you run it after `su` and the short name of an administrator."
 
     /// What the removal does that the Trash can't bring back, and what the app leaves behind, said before the question.
@@ -736,16 +750,7 @@ struct UninstallCommand: AsyncParsableCommand {
             let product = Output.plain(uninstaller.removes ?? "")
             return CommandFailure("\(Output.plain(target.name)) is \(uninstaller.maker)'s uninstaller for \(product): open it, and it removes \(product) and then itself. See \(uninstaller.instructions.absoluteString)")
         case .byItsMaker(let uninstaller):
-            let step = switch uninstaller.step {
-            case .command(let command): "run `\(command)`"
-            case .uninstaller(let url): "open \(Output.plain(Output.path(url)))"
-            case .inTheApp: "use the uninstall command in \(Output.plain(target.name))"
-            case .onItsDiskImage: "use the uninstaller on the disk image it came on"
-            case .fromTheMakersPage: "download its uninstaller from \(uninstaller.maker)'s page"
-            case .notOnTheMac: "follow \(uninstaller.maker)'s instructions, since the uninstaller they name isn't on this Mac"
-            case .notTrusted:
-                "follow the instructions from \(uninstaller.maker): Peel cannot vouch for the uninstaller on this Mac, since programs not made by its maker could have changed it"
-            }
+            let step = step(of: uninstaller, app: Output.plain(target.name))
             let who = if case .command(let command) = uninstaller.step,
                          AdministratorCommand.needsAnAdministrator(command, isAdministrator: isAdministrator) {
                 " " + administratorRunsIt
