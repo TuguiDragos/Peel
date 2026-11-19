@@ -15,8 +15,8 @@ struct HomeAllSetTests {
         let step = PrivilegedHelper.Standing.notThisAccount.whyItCannotAct(
             registeredByAnotherCopy: false, status: .notRegistered
         )
-        let said = String(localized: HomeModel.allSetDetail(.forThisAccount, helper: step))
-        #expect(said.hasSuffix(String(localized: step)))
-        #expect(HomeModel.allSetDetail(.everything, helper: step).key == "Peel can see everything it needs to.")
+        let note = HomeModel.allSetNote(.forThisAccount, helper: step).map { String(localized: $0) }
+        #expect(note == String(localized: step))
+        #expect(HomeModel.allSetNote(.everything, helper: step) == nil)
     }
 }

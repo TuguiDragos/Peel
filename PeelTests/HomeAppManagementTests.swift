@@ -52,7 +52,7 @@ struct HomeAppManagementTests {
         let frontmost = FrontmostApp(observing: false)
         let home = HomeModel(helper: .notAsking(), defaults: madeUp.defaults, frontmost: frontmost)
         await home.refresh()
-        #expect(home.status(of: .appManagement) == "Known once Peel moves another developer’s app")
+        #expect(home.status(of: .appManagement) == "Not known yet")
 
         frontmost.note("com.apple.systempreferences")
         frontmost.note("org.example.other")
@@ -60,7 +60,7 @@ struct HomeAppManagementTests {
         frontmost.note("com.apple.systempreferences")
         frontmost.note("com.tuguidragos.Peel")
         home.followSystemSettings()
-        #expect(home.status(of: .appManagement) == "Known again once Peel moves another developer’s app")
+        #expect(home.status(of: .appManagement) == "Not known yet")
     }
 
     @Test func neverHavingAskedIsNotWaiting() throws {

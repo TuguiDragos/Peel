@@ -199,17 +199,43 @@ extension PreferenceBackup.Restored {
 }
 
 extension MissingPermissionsNotice {
-    /// What Home's banner says under its title: what to set up below, named by `missing`, or what to do, with
-    /// `otherCopy` for another copy's helper, and why to reopen Peel while Peel offers it.
-    func detail(missing: String, otherCopy: String, reopens: Bool) -> String {
-        let said = switch self {
-        case .setUp: String(localized: "Set up \(missing) below.")
-        case .repairTheHelper: String(localized: "Repair it below. Until then, Peel can’t move anything that needs an administrator.")
-        case .setUpAndRepairTheHelper: String(localized: "Set up \(missing) below, and repair the helper.")
-        case .helperOfAnotherCopy: otherCopy
-        case .setUpWithHelperOfAnotherCopy: "\(String(localized: "Set up \(missing) below."))\n\n\(otherCopy)"
+    /// The title of Home's banner: the step, with what to set up below named by `missing`.
+    func title(missing: String) -> LocalizedStringResource {
+        switch self {
+        case .setUp, .setUpWithHelperOfAnotherCopy: "Set up \(missing) below"
+        case .setUpAndRepairTheHelper: "Set up \(missing) below and repair the Peel helper"
+        case .repairTheHelper: "The Peel helper is not answering"
+        case .helperOfAnotherCopy: "The Peel helper belongs to another copy"
         }
-        return reopens ? "\(said)\n\n\(HomeModel.reopenForFullDiskAccess)" : said
+    }
+
+    /// What its circled i says: `otherCopy` for another copy's helper, and why to reopen Peel while Peel offers it, or
+    /// nil when the title says it all.
+    func detail(otherCopy: String, reopens: Bool) -> String? {
+        let said: String? = switch self {
+        case .setUp, .setUpAndRepairTheHelper: nil
+        case .repairTheHelper: String(localized: "Until you repair it below, Peel cannot move anything that needs an administrator.")
+        case .helperOfAnotherCopy, .setUpWithHelperOfAnotherCopy: otherCopy
+        }
+        let parts = [said, reopens ? HomeModel.reopenForFullDiskAccess : nil].compactMap(\.self)
+        return parts.isEmpty ? nil : parts.joined(separator: "\n\n")
+    }
+}
+
+extension HomeModel.Permission.Waiting {
+    /// The title of Home's note while required permissions wait in System Settings: the step, with the others named
+    /// by `others`.
+    func title(others: String) -> LocalizedStringResource {
+        allowsPeel ? "Allow Peel in Login Items & Extensions" : "Check \(others) in System Settings"
+    }
+
+    /// What its circled i says while Peel waits there too: the whole path, and the others, or nil otherwise.
+    func detail(others: String) -> String? {
+        guard allowsPeel else { return nil }
+        return [
+            String(localized: "Allow Peel in System Settings > General > Login Items & Extensions."),
+            self.others.isEmpty ? nil : String(localized: "Check \(others) in System Settings."),
+        ].compactMap(\.self).joined(separator: "\n")
     }
 }
 

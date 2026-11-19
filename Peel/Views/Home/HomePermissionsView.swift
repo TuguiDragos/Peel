@@ -1,4 +1,5 @@
 import PeelCore
+import ServiceManagement
 import SwiftUI
 import UserNotifications
 
@@ -253,18 +254,15 @@ struct HomePermissionsContent: View {
             )
             let toSetUp = home.missingRequired.filter { notice == .setUp || $0 != .helper }
             let missing = toSetUp.map { String(localized: $0.title) }.formatted(.list(type: .and))
-            let detail = Text(verbatim: notice.detail(
-                missing: missing,
+            let detail = notice.detail(
                 otherCopy: String(
                     localized: helper.standing.whyItCannotAct(registeredByAnotherCopy: true, status: helper.status)
                 ),
                 reopens: home.needsRelaunchForFullDiskAccess
-            ))
+            )
             Notice(
-                title: notice == .repairTheHelper
-                    ? Text("Peel’s helper isn’t answering")
-                    : Text("Peel can’t see or remove everything yet"),
-                detail: detail,
+                title: Text(notice.title(missing: missing)),
+                detail: detail.map { Text(verbatim: $0) },
                 isAlbum: true
             ) {
                 if home.needsRelaunchForFullDiskAccess {
@@ -277,17 +275,17 @@ struct HomePermissionsContent: View {
             // approval cannot move anything that needs an administrator, so Home must not say "You're all set".
             let waiting = HomeModel.Permission.inSystemSettings(home.waitingRequired)
             let others = waiting.others.map { String(localized: $0.title) }.formatted(.list(type: .and))
-            let sentences = [
-                waiting.allowsPeel
-                    ? String(localized: "Allow Peel in System Settings > General > Login Items & Extensions.") : nil,
-                waiting.others.isEmpty ? nil : String(localized: "Check \(others) in System Settings."),
-            ]
             Notice(
-                title: Text("Almost there"),
-                detail: Text(verbatim: sentences.compactMap(\.self).joined(separator: "\n")),
+                title: Text(waiting.title(others: others)),
+                detail: waiting.detail(others: others).map { Text(verbatim: $0) },
                 kind: .note,
                 isAlbum: true
-            ) {}
+            ) {
+                if waiting.allowsPeel {
+                    Button("Open Login Items & Extensions") { SMAppService.openSystemSettingsLoginItems() }
+                        .buttonStyle(.stickerQuiet)
+                }
+            }
         } else {
             HStack(spacing: 12) {
                 Image(.peelGlyph)
@@ -295,15 +293,16 @@ struct HomePermissionsContent: View {
                     .renderingMode(.template)
                     .foregroundStyle(Album.orange)
                     .frame(width: 26, height: 26)
-                VStack(alignment: .leading, spacing: 1) {
-                    let hasLooked = home.hasChecked && !home.isStillChecking
-                    let allSet = HomeModel.allSet(helper: home.state(of: .helper))
-                    Text(!hasLooked ? "Checking what Peel can reach" : allSet == .forThisAccount ? "Set for this account" : "You’re all set")
+                let hasLooked = home.hasChecked && !home.isStillChecking
+                let allSet = HomeModel.allSet(helper: home.state(of: .helper))
+                let title = Text(!hasLooked ? "Checking what Peel can reach" : allSet == .forThisAccount ? "Set for this account" : "You’re all set")
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                    title
                         .font(.system(size: 12.5, weight: .bold, design: .rounded))
                         .foregroundStyle(Album.ink)
-                    Text(hasLooked ? HomeModel.allSetDetail(allSet, helper: helper.whyItCannotAct) : "Asking macOS what is allowed.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                    if hasLooked, let note = HomeModel.allSetNote(allSet, helper: helper.whyItCannotAct) {
+                        InfoNote(about: title, detail: Text(note), isAlbum: true)
+                    }
                 }
                 Spacer(minLength: 0)
             }
@@ -367,9 +366,7 @@ extension HomeModel {
         case (.openAtLogin, .off) where loginItem.failure != nil: "Couldn’t turn on"
         case (.openAtLogin, .off) where loginItem.needsApproval: "Turned off in Login Items & Extensions"
         case (_, .notThisAccount): "Needs an administrator"
-        case (.appManagement, .pending):
-            appManagementAwaitsARemoval
-                ? "Known again once Peel moves another developer’s app" : "Known once Peel moves another developer’s app"
+        case (.appManagement, .pending): "Not known yet"
         case (.commandLine, .on): "Installed"
         case (.commandLine, _):
             switch HomeModel.commandLineStanding {

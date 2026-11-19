@@ -52,9 +52,9 @@ final class HomeModel {
         var detail: LocalizedStringResource {
             switch self {
             case .fullDiskAccess: "Lets Peel look inside the Trash and the private folders where apps keep their data. Without it, Peel can’t find everything an app leaves behind."
-            case .helper: "Some leftovers sit in folders only an administrator can change. The helper moves those for Peel. macOS asks you to approve it once, in Login Items & Extensions. It belongs to the copy of Peel that installed it."
+            case .helper: "Moves the leftovers that sit in folders only an administrator can change. macOS asks you to approve it once, in Login Items & Extensions."
             case .appManagement: "macOS stops an app from moving an app by another developer to the Trash unless you allow it. Without this, macOS may refuse to move an app, and Peel then leaves the files of that app where they are too."
-            case .notifications: "Tells you when your apps have new updates and when a Homebrew upgrade finishes or runs into a problem. With “Watch the Trash” on in Settings, it also tells you when you move an app to the Trash yourself, so you can clear what it left behind. With “Warn when the disk is almost full” on, it tells you that too."
+            case .notifications: "Tells you about app updates and Homebrew upgrades and, if you turn them on in Settings, about apps you move to the Trash and a disk that is almost full."
             case .finderExtension: "Adds Uninstall with Peel to the menu you get when you Control-click an app in Finder."
             case .openAtLogin: "Starts Peel when you log in. “Watch the Trash” works only while Peel is running."
             case .commandLine: "Lets you uninstall apps and clear leftovers, caches, and duplicates from Terminal."
@@ -188,13 +188,10 @@ final class HomeModel {
         helper == .notThisAccount ? .forThisAccount : .everything
     }
 
-    /// What Home's banner says under its title once it has looked: on an account that isn't an administrator's, also
-    /// `helper`, where the helper stands and what an administrator does about it.
-    static func allSetDetail(_ allSet: AllSet, helper: LocalizedStringResource) -> LocalizedStringResource {
-        switch allSet {
-        case .everything: "Peel can see everything it needs to."
-        case .forThisAccount: "Peel can see everything it needs to. \(String(localized: helper))"
-        }
+    /// What the circled i beside Home's banner says once it has looked: on an account that isn't an administrator's,
+    /// `helper`, where the helper stands and what an administrator does about it. Nil when all is set.
+    static func allSetNote(_ allSet: AllSet, helper: LocalizedStringResource) -> LocalizedStringResource? {
+        allSet == .forThisAccount ? helper : nil
     }
 
     /// What the Command Line row's note says to do, which is what its button offers and what Settings says. Nil once
@@ -212,7 +209,7 @@ final class HomeModel {
             break
         }
         if state == .notThisAccount {
-            return "Putting it on the path takes an administrator, and Peel’s Settings gives a line for your shell that runs it from this account."
+            return "Only an administrator can put it on the path. Settings gives a line for your shell instead."
         }
         if case .somethingElse(let other) = standing { return inTheToolsPlace(other) }
         return "Copy the install command and run it in Terminal: it asks for your password."

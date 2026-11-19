@@ -20147,6 +20147,112 @@
         }
       }
     },
+    "Allow Peel in Login Items & Extensions" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Povolte Peel v části Aktivace položek a rozšíření při přihlášení"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erlaube Peel unter „Anmeldeobjekte & Erweiterungen“"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da permiso a Peel en Ítems de inicio y extensiones"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autorisez Peel dans Ouverture et extensions"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autorizza Peel in “Elementi login ed estensioni”"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“ログイン項目と機能拡張”でPeelを許可してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로그인 항목 및 확장 프로그램에서 Peel 허용"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sta Peel toe in 'Inlogonderdelen en extensies'"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pozwól na działanie Peel w panelu Rzeczy i rozszerzenia otwierane podczas logowania"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permita o Peel em Itens de Início de Sessão e Extensões"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permiteți Peel în Lansare la login și extensii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешите Peel в разделе «Объекты входа и расширения»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tillåt Peel i Startobjekt och tillägg"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oturum Açma Öğeleri ve Genişletmeler’de Peel’e izin verin"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дозвольте Peel у розділі «Автозапуск і розширення»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请在“登录项与扩展”中允许Peel"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「登入項目與延伸功能」中允許Peel"
+          }
+        }
+      }
+    },
     "Allow Peel in System Settings > General > Login Items & Extensions." : {
       "localizations" : {
         "cs" : {
@@ -20567,112 +20673,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "裝置幾乎所有的資料和設定，已備份到這部Mac上。Peel會顯示這裡有什麼，但絕不會動它。"
-          }
-        }
-      }
-    },
-    "Almost there" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Skoro hotovo"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fast geschafft"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ya casi está"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vous y êtes presque"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ci siamo quasi"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "あと少しです"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "거의 다 되었습니다"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bijna klaar"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prawie gotowe"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quase lá"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aproape gata"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Почти готово"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nästan klart"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neredeyse tamam"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Майже готово"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "即将就绪"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "就快完成了"
           }
         }
       }
@@ -27651,112 +27651,6 @@
         }
       }
     },
-    "Asking macOS what is allowed." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel se ptá systému macOS, co je povoleno."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS wird gefragt, was erlaubt ist."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preguntando a macOS qué está permitido."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel demande à macOS ce qui est autorisé."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chiedo a macOS cosa è consentito."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOSに許可の状況を問い合わせています。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS에 무엇이 허용되는지 확인하는 중입니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel vraagt macOS wat is toegestaan."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pytam macOS, na co pozwala."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Perguntando ao macOS o que é permitido."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel întreabă macOS ce este permis."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel спрашивает у macOS, что разрешено."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Frågar macOS vad som är tillåtet."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS’e nelere izin verildiği soruluyor."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel запитує macOS, що дозволено."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正在询问macOS允许了哪些权限。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正在詢問macOS允許哪些操作。"
-          }
-        }
-      }
-    },
     "Asks Homebrew to check itself and report anything out of place, such as a broken link. It only looks and changes nothing. It can’t see the PATH your Terminal uses, so problems there don’t show up here." : {
       "localizations" : {
         "cs" : {
@@ -32334,6 +32228,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "再次檢查「%@」的更新項目"
+          }
+        }
+      }
+    },
+    "Check %@ in System Settings" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkontrolujte v Nastavení systému: %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prüfe %@ in den Systemeinstellungen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisa %@ en Ajustes del Sistema"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérifiez %@ dans Réglages Système"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controlla in Impostazioni di Sistema: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "システム設定で%@を確認してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시스템 설정에서 %@ 확인"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controleer %@ in Systeeminstellingen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprawdź w Ustawieniach systemowych: %@"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verifique %@ nos Ajustes do Sistema"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verificați %@ în Configurări sistem"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверьте в Системных настройках: %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontrollera %@ i Systeminställningar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistem Ayarları’nda denetleyin: %@"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перевірте в Системних параметрах: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请在“系统设置”中检查%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「系統設定」中檢查%@"
           }
         }
       }
@@ -104082,218 +104082,6 @@
         }
       }
     },
-    "Known again once Peel moves another developer’s app" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Znovu bude známo, až Peel přesune aplikaci jiného vývojáře"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wieder bekannt, sobald Peel die App eines anderen Entwicklers verschiebt"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se volverá a saber cuando Peel traslade una app de otro desarrollador"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Connu à nouveau une fois que Peel aura déplacé l’app d’un autre développeur"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Si saprà di nuovo quando Peel sposterà un’app di un’altra azienda di sviluppo"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelがほかの開発元のアプリを移動すると再びわかります"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 다른 개발자의 앱을 이동하면 다시 알 수 있음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Weer bekend zodra Peel een app van een andere ontwikkelaar verplaatst"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Znów będzie wiadomo, gdy Peel przeniesie aplikację innego dewelopera"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Será conhecido de novo assim que o Peel mover um app de outro desenvolvedor"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se va ști din nou când Peel va muta aplicația altui dezvoltator"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Снова станет известно, когда Peel переместит приложение другого разработчика"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Blir känt på nytt när Peel flyttar en annan utvecklares app"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel başka bir geliştiricinin uygulamasını taşıdığında yeniden belli olur"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Знову стане відомо, щойно Peel перемістить програму іншого розробника"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel下次移动另一开发者的App后即可重新得知"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "待Peel移動其他開發者的App後即可再次得知"
-          }
-        }
-      }
-    },
-    "Known once Peel moves another developer’s app" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bude známo, až Peel přesune aplikaci jiného vývojáře"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bekannt, sobald Peel die App eines anderen Entwicklers verschiebt"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se sabrá cuando Peel traslade una app de otro desarrollador"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Connu une fois que Peel aura déplacé l’app d’un autre développeur"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Si saprà quando Peel sposterà un’app di un’altra azienda di sviluppo"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelがほかの開発元のアプリを移動するとわかります"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 다른 개발자의 앱을 이동하면 알 수 있음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bekend zodra Peel een app van een andere ontwikkelaar verplaatst"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Będzie wiadomo, gdy Peel przeniesie aplikację innego dewelopera"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Será conhecido assim que o Peel mover um app de outro desenvolvedor"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se va ști când Peel va muta aplicația altui dezvoltator"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Станет известно, когда Peel переместит приложение другого разработчика"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Blir känt när Peel flyttar en annan utvecklares app"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel başka bir geliştiricinin uygulamasını taşıdığında belli olur"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Стане відомо, щойно Peel перемістить програму іншого розробника"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel移动另一开发者的App后即可得知"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "待Peel移動其他開發者的App後即可得知"
-          }
-        }
-      }
-    },
     "Known vulnerabilities in ^[%lld package](inflect: true)." : {
       "localizations" : {
         "cs" : {
@@ -121584,6 +121372,112 @@
         }
       }
     },
+    "Moves the leftovers that sit in folders only an administrator can change. macOS asks you to approve it once, in Login Items & Extensions." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přesouvá zbytky, které leží ve složkách, jež může měnit jen správce. Systém macOS vás jednou požádá o jeho schválení v části Aktivace položek a rozšíření při přihlášení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verschiebt die Überreste, die in Ordnern liegen, die nur ein Administrator ändern kann. macOS bittet dich einmalig, es unter „Anmeldeobjekte & Erweiterungen“ zu erlauben."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traslada los restos que están en carpetas que solo un administrador puede modificar. macOS te pide que lo apruebes una vez, en Ítems de inicio y extensiones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déplace les fichiers résiduels situés dans des dossiers que seul un administrateur peut modifier. macOS vous demande de l’approuver une seule fois, dans Ouverture et extensions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sposta i residui che si trovano in cartelle che solo un amministratore può modificare. macOS ti chiede di approvarlo una volta, in “Elementi login ed estensioni”."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理者しか変更できないフォルダにある残存ファイルを移動します。macOSから、“ログイン項目と機能拡張”で一度だけ承認するよう求められます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관리자만 변경할 수 있는 폴더에 있는 잔여 파일을 이동합니다. macOS는 로그인 항목 및 확장 프로그램에서 이를 한 번 승인하도록 요청합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verplaatst de restbestanden die in mappen staan die alleen een beheerder kan wijzigen. macOS vraagt je één keer om het goed te keuren, in 'Inlogonderdelen en extensies'."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przenosi pozostałości z folderów, które może zmieniać tylko administrator. macOS raz poprosi Cię o jego zatwierdzenie w panelu Rzeczy i rozszerzenia otwierane podczas logowania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move as sobras guardadas em pastas que só um administrador pode alterar. O macOS pede que você o aprove uma vez, em Itens de Início de Sessão e Extensões."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mută fișierele rămase aflate în dosare pe care doar un administrator le poate modifica. macOS vă cere să îl aprobați o singură dată, în Lansare la login și extensii."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перемещает остатки из папок, которые может изменять только администратор. macOS один раз попросит Вас разрешить его в разделе «Объекты входа и расширения»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flyttar de kvarlämnade filer som ligger i mappar som bara en administratör kan ändra. macOS ber dig godkänna det en gång, under Startobjekt och tillägg."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yalnızca bir yöneticinin değiştirebileceği klasörlerdeki kalıntıları taşır. macOS onu bir kez, Oturum Açma Öğeleri ve Genişletmeler’de onaylamanızı ister."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переміщує залишки, що лежать у папках, які може змінювати лише адміністратор. macOS один раз попросить вас схвалити його в розділі «Автозапуск і розширення»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动位于只有管理员才能更改的文件夹中的残留文件。macOS会请你在“登录项与扩展”中批准它一次。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動位於只有管理者能更改的檔案夾中的殘留檔案。macOS會要求你在「登入項目與延伸功能」中核准它一次。"
+          }
+        }
+      }
+    },
     "Movies" : {
       "localizations" : {
         "cs" : {
@@ -134570,6 +134464,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "尚未安裝"
+          }
+        }
+      }
+    },
+    "Not known yet" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zatím není známo"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch unbekannt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún sin determinar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas encore connu"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non ancora noto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "まだ不明"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아직 알 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nog niet bekend"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeszcze nieznane"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainda desconhecido"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Încă necunoscut"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока неизвестно"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte känt än"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Henüz bilinmiyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ще невідомо"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂时未知"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未得知"
           }
         }
       }
@@ -149382,6 +149382,112 @@
         }
       }
     },
+    "Only an administrator can put it on the path. Settings gives a line for your shell instead." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zpřístupnit ho přes PATH může jen správce. Nastavení místo toho nabízí řádek pro váš shell."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur ein Administrator kann das Tool in den Suchpfad aufnehmen. Die Einstellungen bieten stattdessen eine Zeile für deine Shell."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo un administrador puede ponerla en el PATH. En su lugar, los ajustes de Peel ofrecen una línea para tu shell."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seul un administrateur peut le placer dans le PATH. À la place, les Réglages fournissent une ligne pour votre shell."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo un amministratore può inserirlo nel PATH. Nelle Impostazioni trovi invece una riga per la tua shell."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PATHの通った場所に置けるのは管理者だけです。代わりに、“設定”にシェル用の行が用意されています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "관리자만 PATH에 추가할 수 있습니다. 대신 설정에서 사용자의 셸에 추가할 줄을 제공합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen een beheerder kan het aan het zoekpad toevoegen. In Instellingen staat in plaats daarvan een regel voor je shell."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tylko administrator może dodać to narzędzie do zmiennej PATH. Zamiast tego w Ustawieniach znajdziesz wiersz dla swojej powłoki."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só um administrador pode colocar a ferramenta no PATH. Em vez disso, os Ajustes oferecem uma linha para o seu shell."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar un administrator îl poate adăuga în PATH. În schimb, în Configurări găsiți o linie pentru shellul dvs."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поместить его в PATH может только администратор. Вместо этого в Настройках есть строка для Вашей оболочки."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bara en administratör kan lägga till det i sökvägen. I Inställningar finns i stället en rad för din kommandotolk."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onu komut arama yoluna yalnızca bir yönetici ekleyebilir. Bunun yerine Ayarlar, kabuğunuz için bir satır sunar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додати інструмент до PATH може лише адміністратор. Натомість у Параметрах є рядок для вашої оболонки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有管理员才能将它放到PATH中。作为替代，“设置”会为你的shell提供一行代码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有管理者能將它加入PATH。「設定」會改為提供適用於你的Shell的一行設定。"
+          }
+        }
+      }
+    },
     "Only an administrator can remove Peel’s helper, so Peel can’t remove itself from this account. Log in as an administrator and choose Remove Peel there." : {
       "localizations" : {
         "cs" : {
@@ -158415,218 +158521,6 @@
         }
       }
     },
-    "Peel can see everything it needs to." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel vidí vše, co potřebuje."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel sieht alles, was nötig ist."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel puede ver todo lo que necesita."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel peut voir tout ce dont il a besoin."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel può vedere tutto ciò che gli serve."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelは必要なものをすべて確認できます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 필요한 모든 항목을 볼 수 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kan alles zien wat nodig is."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel widzi wszystko, czego potrzebuje."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel consegue ver tudo o que precisa."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel poate vedea tot ce îi trebuie."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel видит все, что нужно."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kan se allt som behövs."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel görmesi gereken her şeyi görebiliyor."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel бачить усе, що потрібно."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel可以查看它需要的所有内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel可以查看所需的一切。"
-          }
-        }
-      }
-    },
-    "Peel can see everything it needs to. %@" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel vidí vše, co potřebuje. %@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel sieht alles, was nötig ist. %@"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel puede ver todo lo que necesita. %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel peut voir tout ce dont il a besoin. %@"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel può vedere tutto ciò che gli serve. %@"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelは必要なものをすべて確認できます。%@"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 필요한 모든 항목을 볼 수 있습니다. %@"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kan alles zien wat nodig is. %@"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel widzi wszystko, czego potrzebuje. %@"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel consegue ver tudo o que precisa. %@"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel poate vedea tot ce îi trebuie. %@"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel видит все, что ему нужно. %@"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kan se allt som behövs. %@"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel görmesi gereken her şeyi görebiliyor. %@"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel бачить усе, що їй потрібно. %@"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel可以查看它需要的所有内容。%@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel可以查看所需的一切。%@"
-          }
-        }
-      }
-    },
     "Peel cannot read its list of app folders" : {
       "localizations" : {
         "cs" : {
@@ -161196,112 +161090,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法執行此檔案。"
-          }
-        }
-      }
-    },
-    "Peel can’t see or remove everything yet" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zatím nemůže vše vidět ani odstranit"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kann noch nicht alles sehen oder entfernen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel aún no puede verlo ni eliminarlo todo"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ne peut pas encore tout voir ni tout supprimer"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel non può ancora vedere o rimuovere tutto"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelがまだ確認できない項目や、ゴミ箱に入れられない項目があります"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 아직 모든 항목을 보거나 제거할 수 없음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kan nog niet alles zien of verwijderen"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nie może jeszcze wszystkiego zobaczyć ani przenieść do Kosza"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel ainda não consegue ver nem remover tudo"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel încă nu poate vedea sau elimina totul"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel пока не может видеть и удалять все"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kan ännu inte se eller ta bort allt"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel henüz her şeyi göremiyor veya kaldıramıyor"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ще не може все бачити й вилучати"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel还无法查看或移除所有内容"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel尚無法查看或移除所有項目"
           }
         }
       }
@@ -186432,112 +186220,6 @@
         }
       }
     },
-    "Peel’s helper isn’t answering" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocník Peelu neodpovídá"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Hilfsprogramm von Peel antwortet nicht"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El asistente de Peel no responde"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’utilitaire de Peel ne répond pas"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’assistente di Peel non risponde"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelのヘルパーが応答しません"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel 보조 프로그램이 응답하지 않음"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het hulpprogramma van Peel reageert niet"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocnik Peel nie odpowiada"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O auxiliar do Peel não está respondendo"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instrumentul de ajutor Peel nu răspunde"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помощник Peel не отвечает"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peels hjälpprogram svarar inte"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel’in yardımcısı yanıt vermiyor"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помічник Peel не відповідає"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel的帮助程序没有响应"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel的輔助程式沒有回應"
-          }
-        }
-      }
-    },
     "Peel’s helper isn’t answering. Repair it in Settings." : {
       "localizations" : {
         "cs" : {
@@ -192557,112 +192239,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正在還原⋯"
-          }
-        }
-      }
-    },
-    "Putting it on the path takes an administrator, and Peel’s Settings gives a line for your shell that runs it from this account." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aby byl dostupný přes PATH, je potřeba správce, a Nastavení Peelu nabízí pro váš shell řádek, díky kterému ho můžete spouštět z tohoto účtu."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Um das Tool in den Suchpfad aufzunehmen, wird ein Administrator benötigt, und die Peel-Einstellungen bieten eine Zeile für deine Shell, über die du es mit diesem Benutzeraccount verwenden kannst."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Para ponerla en el PATH hace falta un administrador, y los ajustes de Peel ofrecen una línea para tu shell que permite ejecutarla desde esta cuenta."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le placer dans le PATH nécessite un administrateur, et les Réglages de Peel fournissent une ligne pour votre shell afin de l’exécuter depuis ce compte."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Per inserirlo nel PATH serve un amministratore, e nelle Impostazioni di Peel trovi una riga per la tua shell con cui eseguirlo da questo account."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PATHの通った場所に置くには管理者が必要ですが、Peelの“設定”には、このアカウントから実行するためのシェル用の行が用意されています。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PATH에 추가하려면 관리자가 필요하며, Peel 설정에는 이 계정에서 이 도구를 실행할 수 있게 하는 셸용 줄이 있습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Om het aan het zoekpad toe te voegen, is een beheerder nodig, en in Peel-instellingen staat een regel voor je shell waarmee je het vanuit deze account kunt uitvoeren."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dodanie go do zmiennej PATH wymaga administratora, a w Ustawieniach Peel znajdziesz wiersz dla swojej powłoki, dzięki któremu uruchomisz go z tego konta."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Colocar a ferramenta no PATH requer um administrador, e os Ajustes do Peel oferecem uma linha para o seu shell que permite executá-la a partir desta conta."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pentru a‑l adăuga în PATH este nevoie de un administrator, iar în configurările Peel găsiți o linie pentru shellul dvs., cu care îl puteți rula din acest cont."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Поместить инструмент в PATH может только администратор, а в Настройках Peel есть строка для Вашей оболочки, с которой его можно запускать из этой учетной записи."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det krävs en administratör för att lägga till det i sökvägen, och i Peels inställningar finns en rad för din kommandotolk som gör att det kan köras från det här kontot."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Onu komut arama yoluna eklemek için bir yönetici gerekir; Peel Ayarları ise kabuğunuz için onu bu hesaptan çalıştıran bir satır sunar."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Додати інструмент до PATH може лише адміністратор, а в Параметрах Peel є рядок для вашої оболонки, завдяки якому його можна запускати з цього облікового запису."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "将它放到PATH中需要管理员，不过Peel的“设置”会为你的shell提供一行代码，让你能在此账户中运行它。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "將它加入PATH需要管理者，而Peel「設定」提供了適用於你的Shell的一行設定，讓你從此帳號執行它。"
           }
         }
       }
@@ -199036,112 +198612,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "修復taps"
-          }
-        }
-      }
-    },
-    "Repair it below. Until then, Peel can’t move anything that needs an administrator." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opravte ho níže. Do té doby Peel nemůže přesunout nic, co vyžaduje oprávnění správce."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Repariere es unten. Bis dahin kann Peel nichts verschieben, was einen Administrator benötigt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Repáralo más abajo. Hasta entonces, Peel no puede trasladar nada que necesite un administrador."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Réparez-le ci-dessous. En attendant, Peel ne peut déplacer aucun élément qui nécessite un administrateur."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Riparalo qui sotto. Fino a quel momento, Peel non può spostare nulla che richieda un amministratore."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "以下で修復してください。修復するまで、Peelは管理者が必要な項目を移動できません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "아래에서 복구하십시오. 복구하기 전까지 Peel은 관리자가 필요한 항목을 이동할 수 없습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Herstel het hieronder. Tot die tijd kan Peel niets verplaatsen waarvoor een beheerder nodig is."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Napraw go poniżej. Do tego czasu Peel nie może przenieść niczego, co wymaga uprawnień administratora."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Repare-o abaixo. Até lá, o Peel não consegue mover nada que requeira um administrador."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reparați‑l mai jos. Până atunci, Peel nu poate muta nimic din ce necesită un administrator."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Исправьте его ниже. До тех пор Peel не сможет перемещать ничего, для чего нужен администратор."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reparera det nedan. Innan dess kan Peel inte flytta något som kräver en administratör."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Onu aşağıdan onarın. O zamana kadar Peel, yönetici gerektiren hiçbir şeyi taşıyamaz."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Полагодьте його нижче. До того часу Peel не може перемістити нічого, для чого потрібен адміністратор."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请在下方修复。在此之前，Peel无法移动任何需要管理员权限的项目。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "請在下方修復。在此之前，Peel無法移動任何需要管理者權限的項目。"
           }
         }
       }
@@ -213566,214 +213036,214 @@
         }
       }
     },
-    "Set up %@ below, and repair the helper." : {
+    "Set up %@ below" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Níže nastavte: %@. Opravte také pomocníka."
+            "value" : "Níže nastavte: %@"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Richte unten %@ ein und repariere das Hilfsprogramm."
+            "value" : "Richte unten %@ ein"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configura %@ más abajo, y repara el asistente."
+            "value" : "Configura %@ más abajo"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configurez %@ ci-dessous, et réparez l’utilitaire."
+            "value" : "Configurez %@ ci-dessous"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configura qui sotto: %@. Ripara anche l’assistente."
+            "value" : "Configura qui sotto: %@"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "以下で%@を設定し、ヘルパーを修復してください。"
+            "value" : "以下で%@を設定してください"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "아래에서 %@을(를) 설정하고 보조 프로그램을 복구하십시오."
+            "value" : "아래에서 %@ 설정"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stel hieronder %@ in en herstel het hulpprogramma."
+            "value" : "Stel hieronder %@ in"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skonfiguruj poniżej: %@, a także napraw pomocnika."
+            "value" : "Skonfiguruj poniżej: %@"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configure %@ abaixo e repare o auxiliar."
+            "value" : "Configure %@ abaixo"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configurați %@ mai jos și reparați instrumentul de ajutor."
+            "value" : "Configurați %@ mai jos"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Настройте ниже: %@. Также исправьте помощника."
+            "value" : "Настройте ниже: %@"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ställ in %@ nedan och reparera hjälpprogrammet."
+            "value" : "Ställ in %@ nedan"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aşağıdan ayarlayın: %@. Yardımcıyı da onarın."
+            "value" : "Aşağıdan ayarlayın: %@"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Налаштуйте нижче: %@. Також полагодьте помічника."
+            "value" : "Налаштуйте нижче: %@"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "请在下方设置%@，并修复帮助程序。"
+            "value" : "请在下方设置%@"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "請在下方設定%@，並修復輔助程式。"
+            "value" : "在下方設定%@"
           }
         }
       }
     },
-    "Set up %@ below." : {
+    "Set up %@ below and repair the Peel helper" : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Níže nastavte: %@."
+            "value" : "Opravte pomocníka Peelu a níže nastavte: %@"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Richte unten %@ ein."
+            "value" : "Richte unten %@ ein und repariere das Hilfsprogramm von Peel"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configura %@ más abajo."
+            "value" : "Configura %@ más abajo y repara el asistente de Peel"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configurez %@ ci-dessous."
+            "value" : "Configurez %@ ci-dessous et réparez l’utilitaire de Peel"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configura qui sotto: %@."
+            "value" : "Ripara l’assistente di Peel e configura qui sotto: %@"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "以下で%@を設定してください。"
+            "value" : "以下で%@を設定し、Peelのヘルパーを修復してください"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "아래에서 %@을(를) 설정하십시오."
+            "value" : "아래에서 %@을(를) 설정하고 Peel 보조 프로그램 복구"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stel hieronder %@ in."
+            "value" : "Stel hieronder %@ in en herstel het hulpprogramma van Peel"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skonfiguruj poniżej: %@."
+            "value" : "Skonfiguruj poniżej: %@, a także napraw pomocnika Peel"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configure %@ abaixo."
+            "value" : "Configure %@ abaixo e repare o auxiliar do Peel"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configurați %@ mai jos."
+            "value" : "Configurați %@ mai jos și reparați instrumentul de ajutor Peel"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Настройте ниже: %@."
+            "value" : "Исправьте помощника Peel и настройте ниже: %@"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ställ in %@ nedan."
+            "value" : "Ställ in %@ nedan och reparera Peels hjälpprogram"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aşağıdan ayarlayın: %@."
+            "value" : "Peel’in yardımcısını onarın ve aşağıdan ayarlayın: %@"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Налаштуйте нижче: %@."
+            "value" : "Налаштуйте нижче: %@, а також полагодьте помічника Peel"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "请在下方设置%@。"
+            "value" : "请在下方设置%@，并修复Peel的帮助程序"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "請在下方設定%@。"
+            "value" : "在下方設定%@，並修復Peel的輔助程式"
           }
         }
       }
@@ -220351,113 +219821,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "部分項目仍留在原處，需由管理者移動。"
-          }
-        }
-      }
-    },
-    "Some leftovers sit in folders only an administrator can change. The helper moves those for Peel. macOS asks you to approve it once, in Login Items & Extensions. It belongs to the copy of Peel that installed it." : {
-      "comment" : "The note behind the circled i of the Helper row on Home. Login Items & Extensions is the part of System Settings > General where macOS asks for the approval: use the name your macOS gives it.",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Některé zbytky leží ve složkách, které může měnit jen správce. Pomocník je přesouvá za Peel. Systém macOS vás jednou požádá o jeho schválení v části Aktivace položek a rozšíření při přihlášení. Patří té kopii Peelu, která ho nainstalovala."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Manche Überreste liegen in Ordnern, die nur ein Administrator ändern kann. Das Hilfsprogramm verschiebt diese für Peel. macOS bittet dich einmal in „Anmeldeobjekte & Erweiterungen“, es zu genehmigen. Es gehört zu der Peel-Kopie, die es installiert hat."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Algunos restos están en carpetas que solo un administrador puede modificar. El asistente los traslada en nombre de Peel. macOS te pide que lo apruebes una vez, en Ítems de inicio y extensiones. Pertenece a la copia de Peel que lo instaló."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Certains fichiers résiduels se trouvent dans des dossiers que seul un administrateur peut modifier. L’utilitaire les déplace pour Peel. macOS vous demande de l’approuver une fois, dans Ouverture et extensions. Il appartient à la copie de Peel qui l’a installé."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alcuni residui si trovano in cartelle che solo un amministratore può modificare. L’assistente li sposta per Peel. macOS ti chiede di approvarlo una volta, in “Elementi login ed estensioni”. Appartiene alla copia di Peel che l’ha installato."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "残存ファイルの中には、管理者しか変更できないフォルダにあるものがあります。ヘルパーは、それらをPeelに代わって移動します。macOSから、“ログイン項目と機能拡張”で一度承認するよう求められます。ヘルパーは、それをインストールしたPeelのコピーに属します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "일부 잔여 파일은 관리자만 변경할 수 있는 폴더에 있습니다. 보조 프로그램이 Peel 대신 이러한 파일을 이동합니다. macOS는 로그인 항목 및 확장 프로그램에서 한 번 승인하도록 요청합니다. 보조 프로그램은 자신을 설치한 Peel 복사본에 속합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sommige restbestanden staan in mappen die alleen een beheerder kan wijzigen. Het hulpprogramma verplaatst die voor Peel. macOS vraagt je één keer om het goed te keuren, in 'Inlogonderdelen en extensies'. Het hoort bij de kopie van Peel die het heeft geïnstalleerd."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Niektóre pozostałości znajdują się w folderach, które może zmieniać tylko administrator. Pomocnik przenosi je w imieniu Peel. macOS raz poprosi Cię o jego zatwierdzenie w panelu Rzeczy i rozszerzenia otwierane podczas logowania. Pomocnik należy do kopii Peel, która go zainstalowała."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Algumas sobras ficam em pastas que só um administrador pode alterar. O auxiliar move esses itens em nome do Peel. O macOS pede que você o aprove uma vez, em Itens de Início de Sessão e Extensões. Ele pertence à cópia do Peel que o instalou."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unele fișiere rămase se află în dosare pe care doar un administrator le poate modifica. Instrumentul de ajutor le mută pentru Peel. macOS vă cere să îl aprobați o singură dată, în Lansare la login și extensii. Aparține copiei Peel care l‑a instalat."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Некоторые остатки лежат в папках, которые может изменять только администратор. Их перемещает для Peel помощник. macOS один раз попросит Вас разрешить его в разделе «Объекты входа и расширения». Помощник принадлежит той копии Peel, которая его установила."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En del kvarlämnade filer ligger i mappar som bara en administratör kan ändra. Hjälpprogrammet flyttar dem åt Peel. macOS ber dig godkänna det en gång, under Startobjekt och tillägg. Det hör till den kopia av Peel som installerade det."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bazı kalıntılar yalnızca bir yöneticinin değiştirebileceği klasörlerde durur. Yardımcı bunları Peel için taşır. macOS onu bir kez, Oturum Açma Öğeleri ve Genişletmeler’de onaylamanızı ister. Yardımcı, onu yükleyen Peel kopyasına aittir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Деякі залишки лежать у папках, які може змінювати лише адміністратор. Такі залишки переміщує для Peel помічник. macOS один раз попросить вас схвалити його в розділі «Автозапуск і розширення». Помічник належить тій копії Peel, яка його інсталювала."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "有些残留文件位于只有管理员才能更改的文件夹中，帮助程序会替Peel移动这些文件。macOS会在“登录项与扩展”中请你批准一次。帮助程序属于安装它的那个Peel副本。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "有些殘留檔案位於只有管理者才能更改的檔案夾中。輔助程式會替Peel移動這些檔案。macOS會在「登入項目與延伸功能」中請你核准一次。輔助程式屬於安裝它的那份Peel副本。"
           }
         }
       }
@@ -231411,108 +230774,108 @@
       "comment" : "A product's name, never translated.",
       "shouldTranslate" : false
     },
-    "Tells you when your apps have new updates and when a Homebrew upgrade finishes or runs into a problem. With “Watch the Trash” on in Settings, it also tells you when you move an app to the Trash yourself, so you can clear what it left behind. With “Warn when the disk is almost full” on, it tells you that too." : {
+    "Tells you about app updates and Homebrew upgrades and, if you turn them on in Settings, about apps you move to the Trash and a disk that is almost full." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upozorní vás, když jsou pro vaše aplikace nové aktualizace a když upgrade pomocí Homebrew skončí nebo narazí na problém. Když je v Nastavení zapnutá volba „Sledovat koš“, upozorní vás také, když sami přesunete aplikaci do koše, abyste mohli odstranit, co po ní zůstalo. Když je zapnutá volba „Upozornit, když je disk téměř plný“, upozorní vás i na to."
+            "value" : "Upozorňuje vás na aktualizace aplikací a upgrady Homebrew a po zapnutí v Nastavení také na aplikace, které přesunete do koše, a na téměř plný disk."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Informiert dich, wenn es neue Updates für deine Apps gibt und wenn ein Homebrew-Upgrade abgeschlossen ist oder auf ein Problem stößt. Ist „Papierkorb beobachten“ in den Einstellungen aktiviert, wirst du auch benachrichtigt, wenn du selbst eine App in den Papierkorb legst, damit du entfernen kannst, was sie hinterlassen hat. Ist „Warnen, wenn das Volume fast voll ist“ aktiviert, wirst du auch darüber benachrichtigt."
+            "value" : "Informiert dich über App-Updates und Homebrew-Upgrades und, wenn du diese Mitteilungen in den Einstellungen aktivierst, über Apps, die du in den Papierkorb legst, und über ein fast volles Volume."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Te avisa cuando tus apps tienen actualizaciones nuevas y cuando una actualización de paquetes de Homebrew termina o tiene un problema. Con “Vigilar la papelera” activado en Ajustes, también te avisa cuando trasladas una app a la papelera por tu cuenta, para que puedas eliminar lo que ha dejado. Con “Avisar cuando el disco esté casi lleno” activado, también te avisa de eso."
+            "value" : "Te avisa de las actualizaciones de apps y de paquetes de Homebrew y, si activas esos avisos en Ajustes, de las apps que trasladas a la papelera y de un disco casi lleno."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous prévient lorsque vos apps ont de nouvelles mises à jour, et lorsqu’une mise à niveau Homebrew se termine ou rencontre un problème. Si « Surveiller la corbeille » est activé dans les Réglages, les notifications vous préviennent aussi lorsque vous placez vous-même une app dans la corbeille, pour que vous puissiez supprimer ce qu’elle a laissé derrière elle. Si « Avertir lorsque le disque est presque plein » est activé, elles vous signalent aussi que le disque est presque plein."
+            "value" : "Vous informe des mises à jour d’apps et des mises à niveau de Homebrew et, si vous activez ces notifications dans les Réglages, des apps que vous placez dans la corbeille et d’un disque presque plein."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ti avvisa quando le tue app hanno nuovi aggiornamenti e quando un aggiornamento tramite Homebrew termina o riscontra un problema. Con “Monitora il Cestino” attivo nelle Impostazioni, ti avvisa anche quando sposti un’app nel Cestino per conto tuo, così puoi rimuovere ciò che si è lasciata dietro. Con “Avvisa quando il disco è quasi pieno” attivo, ti avvisa anche di questo."
+            "value" : "Ti avvisa degli aggiornamenti delle app e di Homebrew e, se attivi questi avvisi nelle Impostazioni, delle app che sposti nel Cestino e di un disco quasi pieno."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリに新しいアップデートがあるときと、Homebrewのアップグレードが完了したとき、または問題が発生したときに知らせます。“設定”で“ゴミ箱を監視”をオンにしていると、自分でアプリをゴミ箱に入れたときにも知らせるので、そのアプリが残したものを取り除けます。“ディスクの空きが少なくなったら警告”をオンにしていると、ディスクの空きが少なくなったときにも知らせます。"
+            "value" : "アプリのアップデートとHomebrewのアップグレードについて通知します。“設定”でオンにすると、ゴミ箱に入れたアプリや、空きが少なくなったディスクについても通知します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱에 새로운 업데이트가 있을 때와 Homebrew 업그레이드가 완료되거나 문제가 발생했을 때 알려 줍니다. 설정에서 ‘휴지통 지켜보기’가 켜져 있으면 사용자가 직접 앱을 휴지통으로 이동했을 때도 알려 주므로, 앱이 남긴 항목을 정리할 수 있습니다. ‘디스크가 거의 가득 차면 경고하기’가 켜져 있으면 디스크가 거의 가득 찼을 때도 알려 줍니다."
+            "value" : "앱 업데이트와 Homebrew 업그레이드를 알려 주며, 설정에서 켜면 사용자가 휴지통으로 이동한 앱과 거의 가득 찬 디스크에 대해서도 알려 줍니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Laat je weten wanneer er nieuwe updates voor je apps zijn en wanneer een Homebrew-upgrade is voltooid of tegen een probleem aanloopt. Als 'Houd prullenmand in de gaten' is ingeschakeld in Instellingen, laat Peel je ook weten wanneer je zelf een app naar de prullenmand verplaatst, zodat je kunt opruimen wat die heeft achtergelaten. Is 'Waarschuw als de schijf bijna vol is' ingeschakeld, dan laat Peel je ook weten wanneer je schijf bijna vol is."
+            "value" : "Houdt je op de hoogte van app-updates en Homebrew-upgrades en, als je dat in Instellingen inschakelt, van apps die je naar de prullenmand verplaatst en van een schijf die bijna vol is."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Informuje, gdy Twoje aplikacje mają nowe uaktualnienia oraz gdy uaktualnianie w Homebrew zakończy się lub napotka problem. Gdy w Ustawieniach jest włączona opcja „Obserwuj Kosz”, informuje też, gdy samodzielnie przeniesiesz aplikację do Kosza, aby można było pozbyć się także tego, co po sobie pozostawiła. Gdy jest włączona opcja „Ostrzegaj, gdy dysk jest prawie pełny”, informuje też o tym."
+            "value" : "Informuje o uaktualnieniach aplikacji i pakietów Homebrew, a jeśli włączysz je w Ustawieniach, także o aplikacjach przenoszonych przez Ciebie do Kosza i o prawie pełnym dysku."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avisa quando os seus apps têm novas atualizações e quando um upgrade do Homebrew termina ou encontra um problema. Com “Monitorar o Lixo” ativado nos Ajustes, também avisa quando você mesmo move um app para o Lixo, para que você possa limpar o que ele deixou para trás. Com “Avisar quando o disco estiver quase cheio” ativado, também avisa quando o disco está quase cheio."
+            "value" : "Avisa sobre atualizações de apps e upgrades do Homebrew e, se você ativar esses avisos nos Ajustes, sobre apps que você move para o Lixo e sobre um disco quase cheio."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vă anunță când aplicațiile dvs. au actualizări noi și când un upgrade Homebrew se termină sau întâmpină o problemă. Cu „Urmăriți Coșul” activat în Configurări, vă anunță și când mutați chiar dvs. o aplicație în Coș, ca să puteți elimina ce a lăsat în urmă. Cu „Avertizați când discul este aproape plin” activat, vă anunță și acest lucru."
+            "value" : "Vă anunță despre actualizările aplicațiilor și upgrade‑urile Homebrew și, dacă activați aceste opțiuni în Configurări, despre aplicațiile pe care le mutați în Coș și despre un disc aproape plin."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сообщает, когда для Ваших приложений выходят обновления, а также когда Homebrew завершает обновление или сталкивается с проблемой. Если в Настройках включен параметр «Следить за Корзиной», также сообщает, когда Вы сами перемещаете приложение в Корзину, чтобы Вы могли удалить его остатки. Если включен параметр «Предупреждать, когда диск почти заполнен», сообщает и об этом."
+            "value" : "Сообщает об обновлениях приложений и пакетов Homebrew, а если Вы включите такие уведомления в Настройках, то и о приложениях, которые Вы перемещаете в Корзину, и о почти заполненном диске."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Talar om när dina appar har nya uppdateringar och när en Homebrew-uppgradering blir klar eller stöter på ett problem. När ”Bevaka papperskorgen” är på i Inställningar får du också veta när du själv flyttar en app till papperskorgen, så att du kan rensa bort det som den lämnade kvar. När ”Varna när skivan är nästan full” är på får du också veta det."
+            "value" : "Meddelar dig om appuppdateringar och Homebrew-uppgraderingar och, om du slår på dem i Inställningar, om appar som du flyttar till papperskorgen och om en skiva som nästan är full."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulamalarınızın yeni güncellemeleri olduğunda ve bir Homebrew yükseltmesi bittiğinde veya bir sorunla karşılaştığında size bildirir. Ayarlar’da “Çöp Sepeti’ni izle” açıksa, bir uygulamayı kendiniz Çöp Sepeti’ne taşıdığınızda da bildirir; böylece geride bıraktıklarını temizleyebilirsiniz. “Disk neredeyse dolduğunda uyar” açıksa, diskiniz neredeyse dolduğunda da bildirir."
+            "value" : "Uygulama güncellemelerini ve Homebrew yükseltmelerini size bildirir; Ayarlar’da ilgili seçenekleri açarsanız Çöp Sepeti’ne taşıdığınız uygulamaları ve diskin neredeyse dolduğunu da bildirir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Повідомляє, коли для ваших програм зʼявляються нові оновлення і коли оновлення пакетів Homebrew завершується або натрапляє на проблему. Якщо в Параметрах увімкнено «Стежити за Смітником», також повідомляє, коли ви самі переміщуєте програму в Смітник, щоб ви могли вилучити те, що вона залишила по собі. Якщо увімкнено «Попереджати, коли диск майже заповнений», повідомляє й про це."
+            "value" : "Повідомляє про оновлення програм і пакетів Homebrew, а якщо ви ввімкнете такі сповіщення в Параметрах, то й про програми, які ви переміщуєте в Смітник, і про майже заповнений диск."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在你的App有新更新时，以及Homebrew升级完成或遇到问题时通知你。如果在“设置”中打开了“监视废纸篓”，你自己将App移到废纸篓时，它也会通知你，以便你清除该App留下的文件。如果打开了“磁盘快满时发出警告”，磁盘快满时它也会通知你。"
+            "value" : "通知你App更新和Homebrew升级；如果你在“设置”中打开了相应选项，还会在你将App移到废纸篓时以及磁盘快满时通知你。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在你的App有新的更新項目時，以及Homebrew升級完成或遇到問題時通知你。若在「設定」中開啟「監看垃圾桶」，當你自行將App丟到「垃圾桶」時也會通知你，讓你可以清除它留下的檔案。若開啟「磁碟幾乎已滿時發出警告」，也會在磁碟幾乎已滿時通知你。"
+            "value" : "通知你App的更新項目和Homebrew的升級；如果你在「設定」中開啟相關選項，也會通知你丟到「垃圾桶」的App，以及磁碟快滿的情況。"
           }
         }
       }
@@ -235970,6 +235333,112 @@
         }
       }
     },
+    "The Peel helper belongs to another copy" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocník Peelu patří jiné kopii"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel gehört zu einer anderen Kopie"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El asistente de Peel pertenece a otra copia"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire de Peel appartient à une autre copie"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente di Peel appartiene a un’altra copia"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーは別のコピーのものです"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램이 다른 복사본에 속해 있음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel hoort bij een andere kopie"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnik Peel należy do innej kopii"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar do Peel pertence a outra cópia"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel aparține altei copii Peel"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник Peel принадлежит другой копии"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram tillhör en annan kopia"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı başka bir kopyaya ait"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник Peel належить іншій копії"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的帮助程序属于另一个Peel副本"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的輔助程式屬於另一份副本"
+          }
+        }
+      }
+    },
     "The Peel helper could not be installed." : {
       "localizations" : {
         "cs" : {
@@ -236814,6 +236283,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel的輔助程式已安裝但尚未獲得允許，而只有管理者能允許它。請以管理者身分登入，在那裡打開Peel，然後允許輔助程式。之後此帳號就能使用它，每次都需輸入管理者的名稱和密碼。"
+          }
+        }
+      }
+    },
+    "The Peel helper is not answering" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocník Peelu neodpovídá"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Hilfsprogramm von Peel antwortet nicht"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El asistente de Peel no responde"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’utilitaire de Peel ne répond pas"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’assistente di Peel non risponde"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelのヘルパーが応答しません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel 보조 프로그램이 응답하지 않음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van Peel reageert niet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocnik Peel nie odpowiada"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O auxiliar do Peel não está respondendo"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instrumentul de ajutor Peel nu răspunde"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник Peel не отвечает"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peels hjälpprogram svarar inte"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel’in yardımcısı yanıt vermiyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник Peel не відповідає"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的帮助程序没有响应"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel的輔助程式沒有回應"
           }
         }
       }
@@ -265113,6 +264688,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在能儲存這份記錄之前，Peel可能無法在App的簽署者變更時提醒你。"
+          }
+        }
+      }
+    },
+    "Until you repair it below, Peel cannot move anything that needs an administrator." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dokud ho níže neopravíte, Peel nemůže přesunout nic, co vyžaduje oprávnění správce."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bis du es unten reparierst, kann Peel nichts verschieben, was einen Administrator benötigt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hasta que lo repares más abajo, Peel no puede trasladar nada que necesite un administrador."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tant que vous ne l’avez pas réparé ci-dessous, Peel ne peut déplacer aucun élément qui nécessite un administrateur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finché non lo ripari qui sotto, Peel non può spostare nulla che richieda un amministratore."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以下で修復するまで、Peelは管理者が必要な項目を移動できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아래에서 복구하기 전까지 Peel은 관리자가 필요한 항목을 이동할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Totdat je het hieronder herstelt, kan Peel niets verplaatsen waarvoor een beheerder nodig is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dopóki nie naprawisz go poniżej, Peel nie może przenieść niczego, co wymaga uprawnień administratora."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Até você repará-lo abaixo, o Peel não consegue mover nada que requeira um administrador."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Până când nu îl reparați mai jos, Peel nu poate muta nimic din ce necesită un administrator."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока Вы не исправите его ниже, Peel не сможет перемещать ничего, для чего нужен администратор."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tills du reparerar det nedan kan Peel inte flytta något som kräver en administratör."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siz onu aşağıdan onarana kadar Peel, yönetici gerektiren hiçbir şeyi taşıyamaz."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доки ви не полагодите його нижче, Peel не може перемістити нічого, для чого потрібен адміністратор."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在下方修复它之前，Peel无法移动任何需要管理员权限的项目。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在你於下方修復它之前，Peel無法移動任何需要管理者權限的項目。"
           }
         }
       }
