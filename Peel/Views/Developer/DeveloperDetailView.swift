@@ -8,6 +8,14 @@ struct DeveloperDetailView: View {
 
     static let keptNote: LocalizedStringResource = "Peel does not select these for you, and Select Recommended leaves them out: each row says why. You can still select them yourself."
 
+    static func modelsNote(_ tool: String) -> LocalizedStringResource {
+        "To remove one model, use the commands of \(tool) in Terminal. They delete for good, without the Trash, and Peel never runs them."
+    }
+
+    static func keptElsewhereNote(_ folders: String) -> LocalizedStringResource {
+        "Peel leaves out \(folders). It does not follow a link to a folder kept elsewhere."
+    }
+
     var body: some View {
         List {
             header
@@ -20,7 +28,7 @@ struct DeveloperDetailView: View {
             if !environment.modelCommands.isEmpty {
                 Section {
                     CopyableLines(
-                        caption: Text("To remove one model, use the commands that come with \(environment.name) in Terminal, which keep its store in step. What they remove is deleted for good, without the Trash, and Peel never runs them."),
+                        caption: Text(Self.modelsNote(environment.name)),
                         lines: environment.modelCommands
                     )
                 }
@@ -89,7 +97,11 @@ struct DeveloperDetailView: View {
                     NoteBadge(
                         title: Text("Kept elsewhere"), systemImage: "link",
                         name: String(localized: "Kept elsewhere"),
-                        detail: Text("Peel does not follow a link to a folder kept elsewhere, so it leaves out \(RemovalFailureAlert.listedFolders(environment.keptElsewhere.map(\.abbreviatedPath))). What is there belongs to the tool, on the disk the link leads to.")
+                        detail: Text(
+                            Self.keptElsewhereNote(
+                                RemovalFailureAlert.listedFolders(environment.keptElsewhere.map(\.abbreviatedPath))
+                            )
+                        )
                     )
                 }
                 if keptByDefault > 0 {
