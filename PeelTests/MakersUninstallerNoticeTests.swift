@@ -49,4 +49,9 @@ struct MakersUninstallerNoticeTests {
             #expect(MakersUninstallerNotice.actions(for: uninstaller(step)) == [.openWebsite(page)], "\(step)")
         }
     }
+
+    /// Voice Control finds a button by the words it shows, so its fuller name for VoiceOver begins with them.
+    @Test func openAppIsSpokenWithTheWordsItShowsFirst() {
+        #expect(OpenAppButton.spokenName(of: "Example") == "\(String(localized: "Open App")): Example")
+    }
 }

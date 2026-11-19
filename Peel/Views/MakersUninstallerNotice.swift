@@ -24,7 +24,6 @@ struct MakersUninstallerNotice: View {
                     OpenUninstallerButton(uninstaller: url, team: uninstaller.team)
                 case .copyCommand(let command):
                     CopyButton(text: command, title: "Copy Command")
-                        .accessibilityLabel(Text("Copy Uninstall Command"))
                 case .openTerminal:
                     OpenTerminalButton()
                 case .openApp(let url):

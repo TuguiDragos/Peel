@@ -79,6 +79,11 @@ struct OpenAppButton: View {
     let name: String
     @State private var why: String?
 
+    /// What VoiceOver calls it: the words it shows, which Voice Control goes by, then the app.
+    static func spokenName(of name: String) -> String {
+        String(localized: "\(String(localized: "Open App")): \(name)")
+    }
+
     var body: some View {
         Button("Open App") {
             Task {
@@ -91,7 +96,7 @@ struct OpenAppButton: View {
                 }
             }
         }
-        .accessibilityLabel(Text("Open \(name)"))
+        .accessibilityLabel(Text(verbatim: Self.spokenName(of: name)))
         .alert(
             Text("Peel could not open \(name)"), isPresented: Binding(get: { why != nil }, set: { if !$0 { why = nil } })
         ) {
