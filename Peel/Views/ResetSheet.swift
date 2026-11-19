@@ -25,7 +25,7 @@ struct ResetSheet: View {
         _changedFiles = changedFiles
     }
 
-    static let changeOfMindNote: LocalizedStringResource = "The old settings were saved before they were cleared. Put them back from here, or later from Settings > General > Saved Settings. History cannot put the old files back once the app writes new ones."
+    static let changeOfMindNote: LocalizedStringResource = "The old settings were saved before they were cleared. Put them back from here, or later from Settings > General > Saved Settings, where the copy stays until you move it to the Trash. History will not put the old files back once the app has written new ones in their place."
 
     static func privacyNote(_ app: String) -> LocalizedStringResource {
         "Peel clears what \(app) was allowed to access, such as the camera or the microphone, so it asks you again. History cannot bring that back."

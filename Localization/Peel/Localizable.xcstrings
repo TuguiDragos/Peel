@@ -246023,108 +246023,108 @@
         }
       }
     },
-    "The old settings were saved before they were cleared. Put them back from here, or later from Settings > General > Saved Settings. History cannot put the old files back once the app writes new ones." : {
+    "The old settings were saved before they were cleared. Put them back from here, or later from Settings > General > Saved Settings, where the copy stays until you move it to the Trash. History will not put the old files back once the app has written new ones in their place." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Původní nastavení byla před vymazáním uložena. Vraťte je zpět odsud, nebo později v Nastavení > Obecné > Uložená nastavení. Jakmile aplikace zapíše nové soubory, Historie už staré soubory nevrátí."
+            "value" : "Původní nastavení byla před vymazáním uložena. Vraťte je zpět odsud, nebo později v Nastavení > Obecné > Uložená nastavení, kde kopie zůstane, dokud ji nepřesunete do koše. Jakmile aplikace na jejich místo zapíše nové soubory, Historie už staré soubory nevrátí."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die alten Einstellungen wurden gesichert, bevor sie entfernt wurden. Lege sie von hier aus zurück oder später unter „Einstellungen“ > „Allgemein“ > „Gesicherte Einstellungen“. Der Verlauf kann die alten Dateien nicht mehr zurücklegen, sobald die App neue schreibt."
+            "value" : "Die alten Einstellungen wurden gesichert, bevor sie entfernt wurden. Lege sie von hier aus zurück oder später unter „Einstellungen“ > „Allgemein“ > „Gesicherte Einstellungen“, wo die Kopie bleibt, bis du sie in den Papierkorb legst. Der Verlauf legt die alten Dateien nicht mehr zurück, sobald die App an ihrer Stelle neue geschrieben hat."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Los ajustes antiguos se han guardado antes de borrarlos. Restáuralos desde aquí, o más adelante desde Ajustes > General > Ajustes guardados. Historial no puede restaurar los archivos antiguos cuando la app escribe otros nuevos."
+            "value" : "Los ajustes antiguos se han guardado antes de borrarlos. Restáuralos desde aquí, o más adelante desde Ajustes > General > Ajustes guardados, donde la copia se queda hasta que la traslades a la papelera. Historial no restaurará los archivos antiguos cuando la app haya escrito otros nuevos en su lugar."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les anciens réglages ont été enregistrés avant d’être effacés. Remettez-les en place d’ici, ou plus tard depuis Réglages > Général > Réglages enregistrés. L’Historique ne peut plus remettre les anciens fichiers en place une fois que l’app en a écrit de nouveaux."
+            "value" : "Les anciens réglages ont été enregistrés avant d’être effacés. Remettez-les en place d’ici, ou plus tard depuis Réglages > Général > Réglages enregistrés, où la copie reste jusqu’à ce que vous la placiez dans la corbeille. L’Historique ne remettra pas les anciens fichiers en place une fois que l’app en aura écrit de nouveaux à leur place."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le vecchie impostazioni sono state salvate prima di essere cancellate. Ripristinale da qui, o più tardi da Impostazioni > Generali > Impostazioni salvate. La Cronologia non può ripristinare i vecchi file dopo che l’app ne scrive di nuovi."
+            "value" : "Le vecchie impostazioni sono state salvate prima di essere cancellate. Ripristinale da qui, o più tardi da Impostazioni > Generali > Impostazioni salvate, dove la copia resta finché non la sposti nel Cestino. La Cronologia non ripristinerà i vecchi file dopo che l’app ne avrà scritti di nuovi al loro posto."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "古い設定は、消去する前に保存されています。ここから、または後で“設定”＞“一般”＞“保存された設定”から戻すことができます。アプリが新しいファイルを書き込むと、履歴では古いファイルを戻せなくなります。"
+            "value" : "古い設定は、消去する前に保存されています。ここから、または後で“設定”＞“一般”＞“保存された設定”から戻すことができます。コピーは、ゴミ箱に入れるまでそこに残ります。アプリが古いファイルの場所に新しいファイルを書き込むと、履歴では古いファイルを戻せなくなります。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이전 설정은 지워지기 전에 저장되었습니다. 여기에서 되돌려 놓거나, 나중에 설정 > 일반 > 저장된 설정에서 되돌려 놓으십시오. 앱이 새 파일을 쓰고 나면 기록에서 이전 파일을 되돌려 놓을 수 없습니다."
+            "value" : "이전 설정은 지워지기 전에 저장되었습니다. 여기에서 되돌려 놓거나, 나중에 설정 > 일반 > 저장된 설정에서 되돌려 놓으십시오. 복사본은 사용자가 휴지통으로 이동할 때까지 그곳에 남아 있습니다. 앱이 이전 파일의 자리에 새 파일을 쓰고 나면 기록은 이전 파일을 되돌려 놓지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De oude instellingen zijn bewaard voordat ze werden gewist. Zet ze hier terug, of later via Instellingen > Algemeen > Bewaarde instellingen. Geschiedenis kan de oude bestanden niet terugzetten zodra de app nieuwe schrijft."
+            "value" : "De oude instellingen zijn bewaard voordat ze werden gewist. Zet ze hier terug, of later via Instellingen > Algemeen > Bewaarde instellingen, waar de kopie blijft staan totdat je die naar de prullenmand verplaatst. Geschiedenis zet de oude bestanden niet terug zodra de app nieuwe bestanden op hun plek heeft geschreven."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stare ustawienia zostały zachowane, zanim je wyczyszczono. Przywróć je stąd albo później z Ustawień > Ogólne > Zachowane ustawienia. Historia nie przywróci starych plików, gdy aplikacja zapisze nowe."
+            "value" : "Stare ustawienia zostały zachowane, zanim je wyczyszczono. Przywróć je stąd albo później z Ustawień > Ogólne > Zachowane ustawienia, gdzie kopia pozostaje, dopóki nie przeniesiesz jej do Kosza. Historia nie przywróci starych plików, gdy aplikacja zapisze w ich miejscu nowe."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Os ajustes antigos foram salvos antes de serem limpos. Coloque-os de volta daqui ou, mais tarde, em Ajustes > Geral > Ajustes Salvos. O Histórico não pode colocar os arquivos antigos de volta depois que o app gravar arquivos novos."
+            "value" : "Os ajustes antigos foram salvos antes de serem limpos. Coloque-os de volta daqui ou, mais tarde, em Ajustes > Geral > Ajustes Salvos, onde a cópia fica até você movê-la para o Lixo. O Histórico não vai colocar os arquivos antigos de volta depois que o app gravar arquivos novos no lugar deles."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configurările vechi au fost salvate înainte de a fi eliminate. Puneți‑le înapoi de aici sau, mai târziu, din Configurări > General > Configurări salvate. Din Istoric nu mai puteți pune înapoi fișierele vechi după ce aplicația scrie altele noi."
+            "value" : "Configurările vechi au fost salvate înainte de a fi eliminate. Puneți‑le înapoi de aici sau, mai târziu, din Configurări > General > Configurări salvate, unde copia rămâne până când o mutați în Coș. Din Istoric nu veți mai putea pune fișierele vechi înapoi după ce aplicația a scris altele noi în locul lor."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Старые настройки были сохранены перед очисткой. Их можно восстановить отсюда или позже в разделе «Настройки» > «Основные» > «Сохраненные настройки». История не сможет вернуть старые файлы, когда приложение запишет новые."
+            "value" : "Старые настройки были сохранены перед очисткой. Их можно восстановить отсюда или позже в разделе «Настройки» > «Основные» > «Сохраненные настройки», где копия хранится, пока Вы не переместите ее в Корзину. История не станет возвращать старые файлы, если приложение уже записало на их место новые."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De gamla inställningarna sparades innan de rensades. Lägg tillbaka dem härifrån, eller senare från Inställningar > Allmänt > Sparade inställningar. Historik kan inte lägga tillbaka de gamla filerna när appen har skrivit nya."
+            "value" : "De gamla inställningarna sparades innan de rensades. Lägg tillbaka dem härifrån, eller senare från Inställningar > Allmänt > Sparade inställningar, där kopian finns kvar tills du flyttar den till papperskorgen. Historik lägger inte tillbaka de gamla filerna när appen har skrivit nya filer i deras ställe."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eski ayarlar temizlenmeden önce kaydedildi. Onları buradan ya da daha sonra Ayarlar > Genel > Kaydedilmiş Ayarlar bölümünden yerine koyun. Uygulama yeni dosyalar yazdıktan sonra Geçmiş eski dosyaları yerine koyamaz."
+            "value" : "Eski ayarlar temizlenmeden önce kaydedildi. Onları buradan ya da daha sonra Ayarlar > Genel > Kaydedilmiş Ayarlar bölümünden yerine koyun; kopya, siz onu Çöp Sepeti’ne taşıyana kadar orada kalır. Uygulama eski dosyaların yerine yenilerini yazdıktan sonra Geçmiş eski dosyaları geri koymaz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Старі налаштування було збережено перед очищенням. Поверніть їх звідси або пізніше в розділі Параметри > Загальні > Збережені налаштування. Історія не зможе повернути старі файли, щойно програма запише нові."
+            "value" : "Старі налаштування було збережено перед очищенням. Поверніть їх звідси або пізніше в розділі Параметри > Загальні > Збережені налаштування, де копія зберігається, доки ви не перемістите її в Смітник. Історія не поверне старі файли, щойно програма запише на їхнє місце нові."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "旧设置在清除前已被保存。请从这里将它们放回原处，或稍后在“设置”>“通用”>“已保存的设置”中放回。一旦App写入了新文件，“历史记录”就无法将旧文件放回原处。"
+            "value" : "旧设置在清除前已被保存。请从这里将它们放回原处，或稍后在“设置”>“通用”>“已保存的设置”中放回；副本会一直保留在那里，直到你将它移到废纸篓。一旦App在原位置写入了新文件，“历史记录”就不会再将旧文件放回原处。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "舊設定在清除前已先儲存。你可以從這裡還原它們，或稍後從「設定」>「一般」>「已儲存的設定」還原。App寫入新檔案後，「歷史記錄」就無法再還原舊檔案。"
+            "value" : "舊設定在清除前已先儲存。你可以從這裡還原它們，或稍後從「設定」>「一般」>「已儲存的設定」還原，副本會一直保留在那裡，直到你將它丟到「垃圾桶」。App在原位置寫入新檔案後，「歷史記錄」就不會再還原舊檔案。"
           }
         }
       }

@@ -27,7 +27,7 @@ struct AppPageTextTests {
     }
 
     @Test func theResetSheetIsShort() {
-        #expect(ResetSheet.changeOfMindNote.key == "The old settings were saved before they were cleared. Put them back from here, or later from Settings > General > Saved Settings. History cannot put the old files back once the app writes new ones.")
+        #expect(ResetSheet.changeOfMindNote.key == "The old settings were saved before they were cleared. Put them back from here, or later from Settings > General > Saved Settings, where the copy stays until you move it to the Trash. History will not put the old files back once the app has written new ones in their place.")
         #expect(ResetSheet.privacyNote("Example").key == "Peel clears what %@ was allowed to access, such as the camera or the microphone, so it asks you again. History cannot bring that back.")
         #expect(AppReset.Group.settings.explanation.key == "The app writes these again the next time it opens. A license key or an account it remembered here may go too.")
     }

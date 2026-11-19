@@ -182,7 +182,8 @@ its changes the way [Keep a Changelog](https://keepachangelog.com/) suggests.
 - The note on an app whose signer changed says these are teams, who signs the app now when Peel knows, that a maker can
   change its team, as after a sale, while a rebuilt copy looks the same, and to get the app again from its maker if you
   didn't expect it.
-- The Reset sheet says the old settings can also go back later from Settings > General > Saved Settings.
+- The Reset sheet says the old settings can also go back later from Settings > General > Saved Settings, where the copy
+  stays until you move it to the Trash.
 - The note on an app with a system extension reads the same on macOS 26 and 27: macOS removes the extension only when
   the app goes to the Trash in Finder, and Orphaned Files then lists what the app left. For a network extension still
   listed after that, only macOS 27 has a step in System Settings, and only there does the note give it.
