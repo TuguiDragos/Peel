@@ -168,19 +168,19 @@ extension Plugin {
     private var whatGoes: [LocalizedStringResource] {
         if !whenItLoads.isEmpty {
             return staysInTheTrash
-                ? whenItLoads + ["History can’t put it back, since Peel’s helper puts back into that folder only what is root’s alone, but you can drag it back out in Finder."]
+                ? whenItLoads + ["History cannot put it back, but you can drag it out of the Trash in Finder."]
                 : whenItLoads
         }
         return switch (isAQuickAction, staysInTheTrash) {
         case (true, true):
-            ["It leaves the Services menu and Quick Actions, and it may be one someone made in Automator on this Mac. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder."]
+            ["It leaves the Services menu and Quick Actions, and it may be one someone made in Automator. History cannot put it back, but you can drag it out of the Trash in Finder."]
         case (true, false):
             ["It leaves the Services menu and Quick Actions, and it may be one someone made in Automator on this Mac."]
         case (false, true):
             if case .installedApp(let name) = origin {
-                ["\(name) and other apps that use it may stop working. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder."]
+                ["\(name) and other apps that use it may stop working. History cannot put it back, but you can drag it out of the Trash in Finder."]
             } else {
-                ["Apps that use it may stop working. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder."]
+                ["Apps that use it may stop working. History cannot put it back, but you can drag it out of the Trash in Finder."]
             }
         case (false, false):
             if case .installedApp(let name) = origin {

@@ -90,7 +90,7 @@ struct PluginTextTests {
         ])
         #expect(flash.whenMoved.map { String(localized: $0) } == [
             String(localized: "macOS and today’s browsers no longer load plug-ins like this one, so moving it changes nothing."),
-            String(localized: "History can’t put it back, since Peel’s helper puts back into that folder only what is root’s alone, but you can drag it back out in Finder."),
+            String(localized: "History cannot put it back, but you can drag it out of the Trash in Finder."),
             String(localized: "Every account on this Mac has it, so moving it takes it from all of them."),
         ])
         #expect(echo.whenMoved.map { String(localized: $0) } == [String(localized: "Apps that use it may stop working.")])
@@ -106,9 +106,23 @@ struct PluginTextTests {
 
         #expect(menu.whenMoved.map { String(localized: $0) } == [
             String(localized: "macOS no longer loads contextual menu items like this one, so moving it changes nothing."),
-            String(localized: "History can’t put it back, since Peel’s helper puts back into that folder only what is root’s alone, but you can drag it back out in Finder."),
+            String(localized: "History cannot put it back, but you can drag it out of the Trash in Finder."),
             String(localized: "Every account on this Mac has it, so moving it takes it from all of them."),
         ])
+    }
+
+    @Test func aPlugInThatStaysInTheTrashSaysHowToGetItBack() {
+        var named = plugin("/Library/Audio/Plug-Ins/Components/Echo.component", name: "Echo", forAllUsers: true)
+        named.origin = .installedApp(name: "Example")
+        named.staysInTheTrash = true
+        var unnamed = plugin("/Library/Audio/Plug-Ins/Components/Echo.component", name: "Echo", forAllUsers: true)
+        unnamed.staysInTheTrash = true
+        var action = plugin("/Library/Services/Resize.workflow", name: "Resize", forAllUsers: true, category: .services)
+        action.staysInTheTrash = true
+
+        #expect(named.whenMoved.first?.key == "%@ and other apps that use it may stop working. History cannot put it back, but you can drag it out of the Trash in Finder.")
+        #expect(unnamed.whenMoved.first?.key == "Apps that use it may stop working. History cannot put it back, but you can drag it out of the Trash in Finder.")
+        #expect(action.whenMoved.first?.key == "It leaves the Services menu and Quick Actions, and it may be one someone made in Automator. History cannot put it back, but you can drag it out of the Trash in Finder.")
     }
 
     @Test func saysWhenMacOSLoadsACameraPlugIn() {
@@ -125,7 +139,7 @@ struct PluginTextTests {
         #expect(stays.whenMoved.map { String(localized: $0) } == [
             legacy,
             warning,
-            String(localized: "History can’t put it back, since Peel’s helper puts back into that folder only what is root’s alone, but you can drag it back out in Finder."),
+            String(localized: "History cannot put it back, but you can drag it out of the Trash in Finder."),
             everyAccount,
         ])
     }

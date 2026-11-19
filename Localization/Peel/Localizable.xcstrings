@@ -441,109 +441,108 @@
         }
       }
     },
-    "%@ and other apps that use it may stop working. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder." : {
-      "comment" : "In the question before a plug-in moves to the Trash through Peel’s helper. %@ is the installed app the plug-in came with.",
+    "%@ and other apps that use it may stop working. History cannot put it back, but you can drag it out of the Trash in Finder." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ a další aplikace, které ho používají, mohou přestat fungovat. Historie ho nemůže vrátit zpět, protože se z jeho složky načítá kód a sám nepatří výhradně uživateli root, ale ve Finderu ho můžete přetáhnout zpět ven."
+            "value" : "%@ a další aplikace, které ho používají, mohou přestat fungovat. Historie ho nemůže vrátit zpět, ale ve Finderu ho můžete přetáhnout z koše ven."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "„%@“ und andere Apps, die es verwenden, funktionieren möglicherweise nicht mehr. Im Verlauf lässt es sich nicht zurücklegen, da aus seinem Ordner Code geladen wird und es nicht ausschließlich root gehört, du kannst es aber im Finder wieder herausziehen."
+            "value" : "„%@“ und andere Apps, die es verwenden, funktionieren möglicherweise nicht mehr. Im Verlauf lässt es sich nicht zurücklegen, du kannst es aber im Finder aus dem Papierkorb ziehen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Puede que %@ y otras apps que lo usan dejen de funcionar. Historial no puede restaurarlo, ya que no pertenece solo a root y desde su carpeta se carga código, pero puedes sacarlo arrastrándolo en el Finder."
+            "value" : "Puede que %@ y otras apps que lo usan dejen de funcionar. Historial no puede restaurarlo, pero puedes sacarlo de la papelera arrastrándolo en el Finder."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ et les autres apps qui l’utilisent peuvent cesser de fonctionner. L’Historique ne peut pas le remettre en place, car du code est chargé depuis son dossier et cet élément n’appartient pas uniquement à root, mais vous pouvez le sortir de la corbeille dans le Finder, en le faisant glisser."
+            "value" : "%@ et les autres apps qui l’utilisent peuvent cesser de fonctionner. L’Historique ne peut pas le remettre en place, mais vous pouvez le sortir de la corbeille dans le Finder, en le faisant glisser."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ e altre app che lo usano potrebbero smettere di funzionare. La Cronologia non può ripristinarlo, perché dalla sua cartella viene caricato del codice e l’elemento non appartiene esclusivamente a root, ma puoi trascinarlo fuori nel Finder."
+            "value" : "%@ e altre app che lo usano potrebbero smettere di funzionare. La Cronologia non può ripristinarlo, ma puoi trascinarlo fuori dal Cestino nel Finder."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“%@”や、これを使用しているほかのアプリが動作しなくなる場合があります。これがあるフォルダからはコードが読み込まれ、rootだけが所有するものでもないため、履歴から戻すことはできません。ただし、Finderでドラッグして取り出せます。"
+            "value" : "“%@”や、これを使用しているほかのアプリが動作しなくなる場合があります。履歴から戻すことはできませんが、Finderでゴミ箱からドラッグして取り出せます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "‘%@’ 및 이 항목을 사용하는 다른 앱이 작동을 멈출 수 있습니다. 이 항목이 들어 있는 폴더에서 코드가 로드되고 이 항목은 Root 사용자 전용이 아니므로 기록에서 되돌려 놓을 수 없지만, Finder에서 드래그하여 꺼낼 수 있습니다."
+            "value" : "‘%@’ 및 이 항목을 사용하는 다른 앱이 작동을 멈출 수 있습니다. 기록에서 되돌려 놓을 수는 없지만, Finder에서 휴지통 밖으로 드래그하여 꺼낼 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ en andere apps die het gebruiken, werken misschien niet meer. Geschiedenis kan het niet terugzetten, omdat er vanuit de map ervan code wordt geladen en het niet uitsluitend van root is, maar je kunt het in Finder er weer uit slepen."
+            "value" : "%@ en andere apps die het gebruiken, werken misschien niet meer. Geschiedenis kan het niet terugzetten, maar je kunt het in Finder uit de prullenmand slepen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ i inne aplikacje, które z niej korzystają, mogą przestać działać. Historia nie może jej przywrócić, ponieważ z jej folderu wczytywany jest kod, a ona sama nie należy wyłącznie do użytkownika root, ale możesz przeciągnąć ją z Kosza w Finderze."
+            "value" : "%@ i inne aplikacje, które z niej korzystają, mogą przestać działać. Historia nie może jej przywrócić, ale możesz przeciągnąć ją z Kosza w Finderze."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ e outros apps que o usam podem parar de funcionar. O Histórico não pode colocá-lo de volta, porque a pasta em que ele está é usada para carregar código e ele não pertence só ao usuário root, mas você pode arrastá-lo para fora no Finder."
+            "value" : "%@ e outros apps que o usam podem parar de funcionar. O Histórico não pode colocá-lo de volta, mas você pode arrastá-lo para fora do Lixo no Finder."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ și alte aplicații care îl folosesc pot înceta să funcționeze. Nu îl puteți pune înapoi din Istoric, deoarece din dosarul său se încarcă cod și articolul nu aparține doar utilizatorului Root, însă, în Finder, îl puteți trage afară din Coș."
+            "value" : "%@ și alte aplicații care îl folosesc pot înceta să funcționeze. Nu îl puteți pune înapoi din Istoric, însă, în Finder, îl puteți trage afară din Coș."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Приложение «%@» и другие приложения, которые его используют, могут перестать работать. История не сможет его восстановить, поскольку из его папки загружается код, а он принадлежит не только пользователю root, но в Finder его можно перетащить из Корзины обратно."
+            "value" : "Приложение «%@» и другие приложения, которые его используют, могут перестать работать. История не сможет его восстановить, но в Finder его можно перетащить из Корзины обратно."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ och andra appar som använder den kan sluta fungera. Historik kan inte lägga tillbaka den, eftersom kod läses in från dess mapp och den inte enbart tillhör rotanvändaren, men du kan dra ut den igen i Finder."
+            "value" : "%@ och andra appar som använder den kan sluta fungera. Historik kan inte lägga tillbaka den, men du kan dra ut den ur papperskorgen i Finder."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ ve onu kullanan diğer uygulamalar çalışmayı durdurabilir. Geçmiş onu yerine koyamaz, çünkü klasöründen kod yüklenir ve tek sahibi root değildir; ancak onu Finder’da sürükleyerek dışarı çıkarabilirsiniz."
+            "value" : "%@ ve onu kullanan diğer uygulamalar çalışmayı durdurabilir. Geçmiş onu yerine koyamaz, ancak onu Finder’da sürükleyerek Çöp Sepeti’nden çıkarabilirsiniz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Програма «%@» та інші програми, які ним користуються, можуть перестати працювати. Історія не зможе його повернути, бо з його папки завантажується код, а він належить не лише користувачу root, але у Finder його можна перетягнути зі Смітника назад."
+            "value" : "Програма «%@» та інші програми, які ним користуються, можуть перестати працювати. Історія не зможе його повернути, але у Finder його можна перетягнути зі Смітника."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“%@”和其他使用它的App可能会停止工作。“历史记录”无法将它放回原处，因为系统会从它所在的文件夹载入代码，而且它并非仅归root所有，不过你可以在“访达”中将它拖出来。"
+            "value" : "“%@”和其他使用它的App可能会停止工作。“历史记录”无法将它放回原处，不过你可以在“访达”中将它从废纸篓里拖出来。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「%@」和其他使用它的App可能會停止運作。由於系統會從它所在的檔案夾載入程式碼，且它並非只屬於root，「歷史記錄」無法將它還原，但你可以在Finder中將它拖出來。"
+            "value" : "「%@」和其他使用它的App可能會停止運作。「歷史記錄」無法將它還原，但你可以在Finder中將它從「垃圾桶」中拖出來。"
           }
         }
       }
@@ -27633,108 +27632,108 @@
         }
       }
     },
-    "Apps that use it may stop working. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder." : {
+    "Apps that use it may stop working. History cannot put it back, but you can drag it out of the Trash in Finder." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplikace, které ho používají, mohou přestat fungovat. Historie ho nemůže vrátit zpět, protože se z jeho složky načítá kód a sám nepatří výhradně uživateli root, ale ve Finderu ho můžete přetáhnout zpět ven."
+            "value" : "Aplikace, které ho používají, mohou přestat fungovat. Historie ho nemůže vrátit zpět, ale ve Finderu ho můžete přetáhnout z koše ven."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apps, die es verwenden, funktionieren möglicherweise nicht mehr. Im Verlauf lässt es sich nicht zurücklegen, da aus seinem Ordner Code geladen wird und es nicht ausschließlich root gehört, du kannst es aber im Finder wieder herausziehen."
+            "value" : "Apps, die es verwenden, funktionieren möglicherweise nicht mehr. Im Verlauf lässt es sich nicht zurücklegen, du kannst es aber im Finder aus dem Papierkorb ziehen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Puede que las apps que lo usan dejen de funcionar. Historial no puede restaurarlo, ya que no pertenece solo a root y desde su carpeta se carga código, pero puedes sacarlo arrastrándolo en el Finder."
+            "value" : "Puede que las apps que lo usan dejen de funcionar. Historial no puede restaurarlo, pero puedes sacarlo de la papelera arrastrándolo en el Finder."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les apps qui l’utilisent peuvent cesser de fonctionner. L’Historique ne peut pas le remettre en place, car du code est chargé depuis son dossier et cet élément n’appartient pas uniquement à root, mais vous pouvez le sortir de la corbeille dans le Finder, en le faisant glisser."
+            "value" : "Les apps qui l’utilisent peuvent cesser de fonctionner. L’Historique ne peut pas le remettre en place, mais vous pouvez le sortir de la corbeille dans le Finder, en le faisant glisser."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le app che lo usano potrebbero smettere di funzionare. La Cronologia non può ripristinarlo, perché dalla sua cartella viene caricato del codice e l’elemento non appartiene esclusivamente a root, ma puoi trascinarlo fuori nel Finder."
+            "value" : "Le app che lo usano potrebbero smettere di funzionare. La Cronologia non può ripristinarlo, ma puoi trascinarlo fuori dal Cestino nel Finder."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "これを使用しているアプリが動作しなくなる場合があります。これがあるフォルダからはコードが読み込まれ、rootだけが所有するものでもないため、履歴から戻すことはできません。ただし、Finderでドラッグして取り出せます。"
+            "value" : "これを使用しているアプリが動作しなくなる場合があります。履歴から戻すことはできませんが、Finderでゴミ箱からドラッグして取り出せます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 항목을 사용하는 앱이 작동을 멈출 수 있습니다. 이 항목이 들어 있는 폴더에서 코드가 로드되고 이 항목은 Root 사용자 전용이 아니므로 기록에서 되돌려 놓을 수 없지만, Finder에서 드래그하여 꺼낼 수 있습니다."
+            "value" : "이 항목을 사용하는 앱이 작동을 멈출 수 있습니다. 기록에서 되돌려 놓을 수는 없지만, Finder에서 휴지통 밖으로 드래그하여 꺼낼 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apps die het gebruiken, werken misschien niet meer. Geschiedenis kan het niet terugzetten, omdat er vanuit de map ervan code wordt geladen en het niet uitsluitend van root is, maar je kunt het in Finder er weer uit slepen."
+            "value" : "Apps die het gebruiken, werken misschien niet meer. Geschiedenis kan het niet terugzetten, maar je kunt het in Finder uit de prullenmand slepen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplikacje, które jej używają, mogą przestać działać. Historia nie może jej przywrócić, ponieważ z jej folderu wczytywany jest kod, a ona sama nie należy wyłącznie do użytkownika root, ale możesz przeciągnąć ją z Kosza w Finderze."
+            "value" : "Aplikacje, które z niej korzystają, mogą przestać działać. Historia nie może jej przywrócić, ale możesz przeciągnąć ją z Kosza w Finderze."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Os apps que o usam podem parar de funcionar. O Histórico não pode colocá-lo de volta, porque a pasta em que ele está é usada para carregar código e ele não pertence só ao usuário root, mas você pode arrastá-lo para fora no Finder."
+            "value" : "Os apps que o usam podem parar de funcionar. O Histórico não pode colocá-lo de volta, mas você pode arrastá-lo para fora do Lixo no Finder."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplicațiile care îl folosesc pot înceta să funcționeze. Nu îl puteți pune înapoi din Istoric, deoarece din dosarul său se încarcă cod și articolul nu aparține doar utilizatorului Root, însă, în Finder, îl puteți trage afară din Coș."
+            "value" : "Aplicațiile care îl folosesc pot înceta să funcționeze. Nu îl puteți pune înapoi din Istoric, însă, în Finder, îl puteți trage afară din Coș."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Приложения, которые его используют, могут перестать работать. История не сможет его восстановить, поскольку из его папки загружается код, а он принадлежит не только пользователю root, но в Finder его можно перетащить из Корзины обратно."
+            "value" : "Приложения, которые его используют, могут перестать работать. История не сможет его восстановить, но в Finder его можно перетащить из Корзины обратно."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Appar som använder den kan sluta fungera. Historik kan inte lägga tillbaka den, eftersom kod läses in från dess mapp och den inte enbart tillhör rotanvändaren, men du kan dra ut den igen i Finder."
+            "value" : "Appar som använder den kan sluta fungera. Historik kan inte lägga tillbaka den, men du kan dra ut den ur papperskorgen i Finder."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Onu kullanan uygulamalar çalışmayı durdurabilir. Geçmiş onu yerine koyamaz, çünkü klasöründen kod yüklenir ve tek sahibi root değildir; ancak onu Finder’da sürükleyerek dışarı çıkarabilirsiniz."
+            "value" : "Onu kullanan uygulamalar çalışmayı durdurabilir. Geçmiş onu yerine koyamaz, ancak onu Finder’da sürükleyerek Çöp Sepeti’nden çıkarabilirsiniz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Програми, які ним користуються, можуть перестати працювати. Історія не зможе його повернути, бо з його папки завантажується код, а він належить не лише користувачу root, але у Finder його можна перетягнути зі Смітника назад."
+            "value" : "Програми, які ним користуються, можуть перестати працювати. Історія не зможе його повернути, але у Finder його можна перетягнути зі Смітника."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使用它的App可能会停止工作。“历史记录”无法将它放回原处，因为系统会从它所在的文件夹载入代码，而且它并非仅归root所有，不过你可以在“访达”中将它拖出来。"
+            "value" : "使用它的App可能会停止工作。“历史记录”无法将它放回原处，不过你可以在“访达”中将它从废纸篓里拖出来。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使用它的App可能會停止運作。由於系統會從它所在的檔案夾載入程式碼，且它並非只屬於root，「歷史記錄」無法將它還原，但你可以在Finder中將它拖出來。"
+            "value" : "使用它的App可能會停止運作。「歷史記錄」無法將它還原，但你可以在Finder中將它從「垃圾桶」中拖出來。"
           }
         }
       }
@@ -70023,108 +70022,108 @@
         }
       }
     },
-    "History can’t put it back, since Peel’s helper puts back into that folder only what is root’s alone, but you can drag it back out in Finder." : {
+    "History cannot put it back, but you can drag it out of the Trash in Finder." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Historie ho nemůže vrátit zpět, protože pomocník Peelu do této složky vrací zpět jen to, co patří výhradně uživateli root, ale ve Finderu ho můžete přetáhnout zpět ven."
+            "value" : "Historie ho nemůže vrátit zpět, ale ve Finderu ho můžete přetáhnout z koše ven."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Im Verlauf lässt es sich nicht zurücklegen, da das Hilfsprogramm von Peel in diesen Ordner nur zurücklegt, was ausschließlich root gehört, du kannst es aber im Finder wieder herausziehen."
+            "value" : "Im Verlauf lässt es sich nicht zurücklegen, du kannst es aber im Finder aus dem Papierkorb ziehen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Historial no puede restaurarlo, ya que el asistente de Peel solo restaura en esa carpeta lo que pertenece únicamente a root, pero puedes sacarlo arrastrándolo en el Finder."
+            "value" : "Historial no puede restaurarlo, pero puedes sacarlo de la papelera arrastrándolo en el Finder."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L’Historique ne peut pas le remettre en place, car l’utilitaire de Peel ne remet dans ce dossier que ce qui appartient uniquement à root, mais vous pouvez le sortir de la corbeille dans le Finder, en le faisant glisser."
+            "value" : "L’Historique ne peut pas le remettre en place, mais vous pouvez le sortir de la corbeille dans le Finder, en le faisant glisser."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La Cronologia non può ripristinarlo, perché l’assistente di Peel ripristina in quella cartella soltanto ciò che appartiene esclusivamente a root, ma puoi trascinarlo fuori nel Finder."
+            "value" : "La Cronologia non può ripristinarlo, ma puoi trascinarlo fuori dal Cestino nel Finder."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelのヘルパーはrootだけが所有するものしかそのフォルダに戻さないため、履歴から戻すことはできません。ただし、Finderでドラッグして取り出せます。"
+            "value" : "履歴から戻すことはできませんが、Finderでゴミ箱からドラッグして取り出せます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 항목이 들어 있는 폴더에는 Peel 보조 프로그램이 Root 사용자 전용인 항목만 되돌려 놓으므로 기록에서 되돌려 놓을 수 없지만, Finder에서 드래그하여 꺼낼 수 있습니다."
+            "value" : "기록에서 되돌려 놓을 수는 없지만, Finder에서 휴지통 밖으로 드래그하여 꺼낼 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geschiedenis kan het niet terugzetten, omdat het hulpprogramma van Peel in die map alleen terugzet wat uitsluitend van root is, maar je kunt het in Finder er weer uit slepen."
+            "value" : "Geschiedenis kan het niet terugzetten, maar je kunt het in Finder uit de prullenmand slepen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Historia nie może jej przywrócić, ponieważ pomocnik Peel przywraca do tego folderu tylko to, co należy wyłącznie do użytkownika root, ale możesz przeciągnąć ją z Kosza w Finderze."
+            "value" : "Historia nie może jej przywrócić, ale możesz przeciągnąć ją z Kosza w Finderze."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Histórico não pode colocá-lo de volta, porque o auxiliar do Peel só coloca de volta nessa pasta o que pertence apenas ao usuário root, mas você pode arrastá-lo para fora no Finder."
+            "value" : "O Histórico não pode colocá-lo de volta, mas você pode arrastá-lo para fora do Lixo no Finder."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nu îl puteți pune înapoi din Istoric, deoarece instrumentul de ajutor Peel pune înapoi în acel dosar doar ce aparține exclusiv utilizatorului Root, însă, în Finder, îl puteți trage afară din Coș."
+            "value" : "Nu îl puteți pune înapoi din Istoric, însă, în Finder, îl puteți trage afară din Coș."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "История не сможет его восстановить, поскольку помощник Peel восстанавливает в эту папку только то, что принадлежит исключительно пользователю root, но в Finder его можно перетащить из Корзины обратно."
+            "value" : "История не сможет его восстановить, но в Finder его можно перетащить из Корзины обратно."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Historik kan inte lägga tillbaka den, eftersom Peels hjälpprogram bara lägger tillbaka något i den mappen om det tillhör rotanvändaren och ingen annan, men du kan dra ut den igen i Finder."
+            "value" : "Historik kan inte lägga tillbaka den, men du kan dra ut den ur papperskorgen i Finder."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geçmiş onu yerine koyamaz, çünkü Peel’in yardımcısı o klasörde yalnızca tek sahibi root olan öğeleri yerine koyar; ancak onu Finder’da sürükleyerek dışarı çıkarabilirsiniz."
+            "value" : "Geçmiş onu yerine koyamaz, ancak onu Finder’da sürükleyerek Çöp Sepeti’nden çıkarabilirsiniz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Історія не зможе його повернути, бо помічник Peel повертає в ту папку лише те, що належить тільки користувачу root, але у Finder його можна перетягнути зі Смітника назад."
+            "value" : "Історія не зможе його повернути, але у Finder його можна перетягнути зі Смітника."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“历史记录”无法将它放回原处，因为Peel的帮助程序只会将仅归root所有的内容放回该文件夹，不过你可以在“访达”中将它拖出来。"
+            "value" : "“历史记录”无法将它放回原处，不过你可以在“访达”中将它从废纸篓里拖出来。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "由於Peel的輔助程式只會將只屬於root的項目還原到該檔案夾，「歷史記錄」無法將它還原，但你可以在Finder中將它拖出來。"
+            "value" : "「歷史記錄」無法將它還原，但你可以在Finder中將它從「垃圾桶」中拖出來。"
           }
         }
       }
@@ -97386,108 +97385,108 @@
         }
       }
     },
-    "It leaves the Services menu and Quick Actions, and it may be one someone made in Automator on this Mac. History can’t put it back, since code is loaded from its folder and it isn’t root’s alone, but you can drag it back out in Finder." : {
+    "It leaves the Services menu and Quick Actions, and it may be one someone made in Automator. History cannot put it back, but you can drag it out of the Trash in Finder." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zmizí z nabídky Služby i z Rychlých akcí a může to být rychlá akce, kterou někdo v tomto Macu vytvořil v Automatoru. Historie ji nemůže vrátit zpět, protože se z její složky načítá kód a sama nepatří výhradně uživateli root, ale ve Finderu ji můžete přetáhnout zpět ven."
+            "value" : "Zmizí z nabídky Služby i z Rychlých akcí a může to být rychlá akce, kterou někdo vytvořil v Automatoru. Historie ji nemůže vrátit zpět, ale ve Finderu ji můžete přetáhnout z koše ven."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Es verschwindet aus dem Menü „Dienste“ und aus den Schnellaktionen, und möglicherweise hat jemand es auf diesem Mac mit Automator erstellt. Im Verlauf lässt es sich nicht zurücklegen, da aus seinem Ordner Code geladen wird und es nicht ausschließlich root gehört, du kannst es aber im Finder wieder herausziehen."
+            "value" : "Es verschwindet aus dem Menü „Dienste“ und aus den Schnellaktionen, und möglicherweise hat jemand es mit Automator erstellt. Im Verlauf lässt es sich nicht zurücklegen, du kannst es aber im Finder aus dem Papierkorb ziehen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desaparece del menú Servicios y de Acciones rápidas, y puede que lo haya creado alguien en Automator en este Mac. Historial no puede restaurarlo, ya que no pertenece solo a root y desde su carpeta se carga código, pero puedes sacarlo arrastrándolo en el Finder."
+            "value" : "Desaparece del menú Servicios y de Acciones rápidas, y puede que lo haya creado alguien en Automator. Historial no puede restaurarlo, pero puedes sacarlo de la papelera arrastrándolo en el Finder."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il disparaît du menu Services et des Actions rapides, et il a peut-être été créé par quelqu’un dans Automator sur ce Mac. L’Historique ne peut pas le remettre en place, car du code est chargé depuis son dossier et cet élément n’appartient pas uniquement à root, mais vous pouvez le sortir de la corbeille dans le Finder, en le faisant glisser."
+            "value" : "Il disparaît du menu Services et des Actions rapides, et il a peut-être été créé par quelqu’un dans Automator. L’Historique ne peut pas le remettre en place, mais vous pouvez le sortir de la corbeille dans le Finder, en le faisant glisser."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scompare dal menu Servizi e da “Azioni rapide”, e potrebbe averlo creato qualcuno con Automator su questo Mac. La Cronologia non può ripristinarlo, perché dalla sua cartella viene caricato del codice e l’elemento non appartiene esclusivamente a root, ma puoi trascinarlo fuori nel Finder."
+            "value" : "Scompare dal menu Servizi e da “Azioni rapide”, e potrebbe averlo creato qualcuno con Automator. La Cronologia non può ripristinarlo, ma puoi trascinarlo fuori dal Cestino nel Finder."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“サービス”メニューとクイックアクションに表示されなくなります。また、このMacで誰かがAutomatorで作成したものである可能性があります。これがあるフォルダからはコードが読み込まれ、rootだけが所有するものでもないため、履歴から戻すことはできません。ただし、Finderでドラッグして取り出せます。"
+            "value" : "“サービス”メニューとクイックアクションに表示されなくなります。また、誰かがAutomatorで作成したものである可能性があります。履歴から戻すことはできませんが、Finderでゴミ箱からドラッグして取り出せます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "서비스 메뉴와 빠른 동작에서 사라지며, 누군가 이 Mac의 Automator에서 만든 항목일 수 있습니다. 이 항목이 들어 있는 폴더에서 코드가 로드되고 이 항목은 Root 사용자 전용이 아니므로 기록에서 되돌려 놓을 수 없지만, Finder에서 드래그하여 꺼낼 수 있습니다."
+            "value" : "서비스 메뉴와 빠른 동작에서 사라지며, 누군가 Automator에서 만든 항목일 수 있습니다. 기록에서 되돌려 놓을 수는 없지만, Finder에서 휴지통 밖으로 드래그하여 꺼낼 수 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Het verdwijnt uit het Voorzieningen-menu en uit 'Snelle taken', en het is misschien een takenreeks die iemand op deze Mac in Automator heeft gemaakt. Geschiedenis kan het niet terugzetten, omdat er vanuit de map ervan code wordt geladen en het niet uitsluitend van root is, maar je kunt het in Finder er weer uit slepen."
+            "value" : "Het verdwijnt uit het Voorzieningen-menu en uit 'Snelle taken', en het is misschien een takenreeks die iemand in Automator heeft gemaakt. Geschiedenis kan het niet terugzetten, maar je kunt het in Finder uit de prullenmand slepen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zniknie z menu Usługi i z szybkich czynności, a mógł ją utworzyć ktoś w Automatorze na tym Macu. Historia nie może jej przywrócić, ponieważ z jej folderu wczytywany jest kod, a ona sama nie należy wyłącznie do użytkownika root, ale możesz przeciągnąć ją z Kosza w Finderze."
+            "value" : "Zniknie z menu Usługi i z szybkich czynności, a mógł ją utworzyć ktoś w Automatorze. Historia nie może jej przywrócić, ale możesz przeciągnąć ją z Kosza w Finderze."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ele sai do menu Serviços e das Ações Rápidas, e pode ter sido criado por alguém no Automator neste Mac. O Histórico não pode colocá-lo de volta, porque a pasta em que ele está é usada para carregar código e ele não pertence só ao usuário root, mas você pode arrastá-lo para fora no Finder."
+            "value" : "Ele sai do menu Serviços e das Ações Rápidas, e pode ter sido criado por alguém no Automator. O Histórico não pode colocá-lo de volta, mas você pode arrastá-lo para fora do Lixo no Finder."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dispare din meniul Servicii și din Acțiuni rapide și poate să fi fost creat de cineva în Automator pe acest Mac. Nu îl puteți pune înapoi din Istoric, deoarece din dosarul său se încarcă cod și articolul nu aparține doar utilizatorului Root, însă, în Finder, îl puteți trage afară din Coș."
+            "value" : "Dispare din meniul Servicii și din Acțiuni rapide și poate să fi fost creat de cineva în Automator. Nu îl puteți pune înapoi din Istoric, însă, în Finder, îl puteți trage afară din Coș."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Это быстрое действие исчезнет из меню «Службы» и «Быстрые действия», и, возможно, его создал кто-то на этом Mac в Automator. История не сможет его восстановить, поскольку из его папки загружается код, а оно принадлежит не только пользователю root, но в Finder его можно перетащить из Корзины обратно."
+            "value" : "Это действие исчезнет из меню «Службы» и «Быстрые действия», и, возможно, его кто-то создал в Automator. История не сможет его восстановить, но в Finder его можно перетащить из Корзины обратно."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Den försvinner från menyn Tjänster och från Snabbåtgärder, och den kan ha skapats av någon i Automator på den här datorn. Historik kan inte lägga tillbaka den, eftersom kod läses in från dess mapp och den inte enbart tillhör rotanvändaren, men du kan dra ut den igen i Finder."
+            "value" : "Den försvinner från menyn Tjänster och från Snabbåtgärder, och den kan ha skapats av någon i Automator. Historik kan inte lägga tillbaka den, men du kan dra ut den ur papperskorgen i Finder."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Servisler menüsünden ve Hızlı Eylemler’den çıkar; ayrıca birinin bu Mac’te Automator’da oluşturduğu bir eylem olabilir. Geçmiş onu yerine koyamaz, çünkü klasöründen kod yüklenir ve tek sahibi root değildir; ancak onu Finder’da sürükleyerek dışarı çıkarabilirsiniz."
+            "value" : "Servisler menüsünden ve Hızlı Eylemler’den çıkar; ayrıca birinin Automator’da oluşturduğu bir eylem olabilir. Geçmiş onu yerine koyamaz, ancak onu Finder’da sürükleyerek Çöp Sepeti’nden çıkarabilirsiniz."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Він зникне з меню «Сервіси» і «Швидкі дії», і, можливо, його хтось створив в Automator на цьому Mac. Історія не зможе його повернути, бо з його папки завантажується код, а він належить не лише користувачу root, але у Finder його можна перетягнути зі Смітника назад."
+            "value" : "Він зникне з меню «Сервіси» і «Швидкі дії», і, можливо, його хтось створив в Automator. Історія не зможе його повернути, але у Finder його можна перетягнути зі Смітника."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它会从“服务”菜单和“快速操作”中消失，而且它可能是有人在这台Mac上用“自动操作”制作的。“历史记录”无法将它放回原处，因为系统会从它所在的文件夹载入代码，而且它并非仅归root所有，不过你可以在“访达”中将它拖出来。"
+            "value" : "它会从“服务”菜单和“快速操作”中消失，而且它可能是有人用“自动操作”制作的。“历史记录”无法将它放回原处，不过你可以在“访达”中将它从废纸篓里拖出来。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它將不再出現在「服務」選單和「快速動作」中，而且它可能是有人在這部Mac上用Automator製作的。由於系統會從它所在的檔案夾載入程式碼，且它並非只屬於root，「歷史記錄」無法將它還原，但你可以在Finder中將它拖出來。"
+            "value" : "它將不再出現在「服務」選單和「快速動作」中，而且它可能是有人用Automator製作的。「歷史記錄」無法將它還原，但你可以在Finder中將它從「垃圾桶」中拖出來。"
           }
         }
       }
