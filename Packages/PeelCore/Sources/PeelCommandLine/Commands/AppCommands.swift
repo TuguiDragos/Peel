@@ -603,7 +603,6 @@ struct UninstallCommand: AsyncParsableCommand {
             ?? AppInspector.knownName(forBundleIdentifier: identifier)
     }
 
-    /// Said after a command that runs `sudo`, on an account that isn't an administrator's.
     /// What the maker's step asks of the person, for `app`, as `peel uninstall` and `peel orphans` say it.
     static func step(of uninstaller: MakersUninstaller, app: String) -> String {
         switch uninstaller.step {
@@ -618,6 +617,7 @@ struct UninstallCommand: AsyncParsableCommand {
         }
     }
 
+    /// Said after a command that runs `sudo`, on an account that isn't an administrator's.
     static let administratorRunsIt = "This account is not an administrator, so an administrator runs this command, or you run it after `su` and the short name of an administrator."
 
     /// What the removal does that the Trash can't bring back, and what the app leaves behind, said before the question.

@@ -304,8 +304,6 @@ struct PackageDetailView: View {
         }
     }
 
-    /// The selected items of this receipt. `packages.selectedURLs` is one set shared by all receipts, so it is
-    /// filtered to this receipt's items.
     /// True when the receipt lists items and a click can select none of them: the page is then a list to read.
     static func isOnlyToRead(_ receipt: PackageReceipt, canUseHelper: Bool) -> Bool {
         !receipt.items.isEmpty && receipt.selectableRows(canUseHelper: canUseHelper).selectable.isEmpty
@@ -331,6 +329,8 @@ struct PackageDetailView: View {
         .listRowSeparator(.hidden)
     }
 
+    /// The selected items of this receipt. `packages.selectedURLs` is one set shared by all receipts, so it is
+    /// filtered to this receipt's items.
     private var selectedItems: [PackageReceipt.Item] {
         receipt.items.filter { packages.selectedURLs.contains($0.url) }
     }
