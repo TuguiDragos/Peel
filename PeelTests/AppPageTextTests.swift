@@ -23,10 +23,7 @@ struct AppPageTextTests {
 
     @Test func theUpdateBadgeSaysWhyInFewerWords() {
         #expect(UpdateStatusBadge.reason(.namesNoFeed, name: "Example", brew: "brew").key == "%@ does not say where it updates from in a way Peel can read. Look for an update inside the app. Peel does not ask Apple about every app, since that would send Apple a list of what you have.")
-        let store = UpdateStatusBadge.reason(.notInTheAppStore(store: "de"), name: "Example", brew: "brew")
-        let region = UpdateStatusBadge.reason(.notInTheAppStore(store: nil), name: "Example", brew: "brew")
-        #expect(store.key == region.key)
-        #expect(region.key == "The App Store gives Peel no version of %@ to compare, as for an app it no longer sells or does not sell in your region. The App Store app knows when there is an update.")
+        #expect(UpdateStatusBadge.reason(.notInTheAppStore, name: "Example", brew: "brew").key == "The App Store gives Peel no version of %@ to compare, as for an app it no longer sells or does not sell in your region. The App Store app knows when there is an update.")
     }
 
     @Test func theResetSheetIsShort() {

@@ -253,12 +253,7 @@ public struct UpdateChecker: Sendable {
         if app.isSystemProtected { return .cameWithMacOS }
         if app.isFromSetapp { return .cameFromSetapp }
         if app.version == nil { return .namesNoVersion }
-        if app.isFromAppStore {
-            guard case .appStore(.iPhoneAndiPad(_, let store?)) = app.updateFeed else {
-                return .notInTheAppStore(store: nil)
-            }
-            return .notInTheAppStore(store: store)
-        }
+        if app.isFromAppStore { return .notInTheAppStore }
         return .namesNoFeed
     }
 
@@ -721,9 +716,8 @@ public enum CannotCheck: Sendable, Hashable {
     /// It came from Setapp, which keeps it current.
     case cameFromSetapp
     case namesNoVersion
-    /// The App Store gave no version to compare: it doesn't sell the app in `store`, the country of the store an
-    /// iPhone or iPad app came from, or, when nil, in this Mac's region.
-    case notInTheAppStore(store: String?)
+    /// The App Store gave no version to compare, as for an app it no longer sells or doesn't sell in the region asked.
+    case notInTheAppStore
     case namesNoFeed
 }
 

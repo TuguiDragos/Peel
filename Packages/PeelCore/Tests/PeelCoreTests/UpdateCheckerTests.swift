@@ -478,8 +478,8 @@ private final class DroppedProtocol: URLProtocol, @unchecked Sendable {
             url: URL(filePath: "/Applications/Tool.app"), bundleIdentifier: "org.example.tool", name: "Tool"
         )
 
-        #expect(checker.whyItCannotCheck(iPad, preference: .automatic, casks: []) == .notInTheAppStore(store: "de"))
-        #expect(checker.whyItCannotCheck(mac, preference: .automatic, casks: []) == .notInTheAppStore(store: nil))
+        #expect(checker.whyItCannotCheck(iPad, preference: .automatic, casks: []) == .notInTheAppStore)
+        #expect(checker.whyItCannotCheck(mac, preference: .automatic, casks: []) == .notInTheAppStore)
         #expect(checker.whyItCannotCheck(feedlessApp, preference: .automatic, casks: []) == .namesNoFeed)
         #expect(checker.whyItCannotCheck(unversioned, preference: .automatic, casks: []) == .namesNoVersion)
         let stale = checking(at: homebrewChecked + 2 * Homebrew.autoUpdateInterval)
