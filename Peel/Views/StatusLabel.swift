@@ -23,11 +23,12 @@ struct StatusLabel: View {
 struct NotedStatus: View {
     let title: Text
     let note: Text?
+    var systemImage = "exclamationmark.triangle"
     var tint: Color = .orange
 
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 4) {
-            StatusLabel(title: title, tint: tint)
+            StatusLabel(title: title, systemImage: systemImage, tint: tint)
             if let note {
                 InfoNote(about: title, detail: note, isAlbum: false)
             }

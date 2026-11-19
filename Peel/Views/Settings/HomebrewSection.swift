@@ -5,6 +5,8 @@ import UniformTypeIdentifiers
 /// Which `brew` Peel runs: the one where Homebrew installs itself, or one the person chose for a Homebrew in a
 /// folder of its own.
 struct HomebrewSection: View {
+    static let note: LocalizedStringResource = "Peel runs the `brew` in /opt/homebrew or /usr/local. If your Homebrew is elsewhere, choose its `brew`: Peel and `peel` then run that one, and its upgrades and uninstalls go to Terminal."
+
     @Environment(HomebrewLibrary.self) private var homebrew
     @State private var choice = HomebrewChoice().load()
     @State private var isChoosing = false
@@ -54,7 +56,7 @@ struct HomebrewSection: View {
                 StatusLabel(title: Text(notSaved(whyNotSaved)))
             }
         } header: {
-            titled("Homebrew", "Peel runs the `brew` in /opt/homebrew or /usr/local. If your Homebrew is in a folder of its own, such as /opt/brew, choose its `brew`, and Peel and `peel` run that one. Its upgrades and uninstalls then go to Terminal.")
+            titled("Homebrew", Self.note)
         }
         .fileImporter(isPresented: $isChoosing, allowedContentTypes: [.item]) { result in
             guard let url = try? result.get() else { return }
@@ -68,7 +70,7 @@ struct HomebrewSection: View {
         .alert("Peel can’t run this file.", isPresented: isShowingRefusal) {
             Button("OK") {}
         } message: {
-            refusal?.explanation ?? Text(verbatim: "")
+            refusal?.alertMessage ?? Text(verbatim: "")
         }
         .alert("Use this brew?", isPresented: isConfirming, presenting: confirming) { brew in
             Button("Use It") { use(brew) }
@@ -98,17 +100,40 @@ struct HomebrewSection: View {
 }
 
 extension HomebrewChoice.Refusal {
-    var explanation: Text {
+    /// Why Peel does not run that `brew`, in a few words.
+    var reason: LocalizedStringResource {
         switch self {
-        case .notBrew: Text("Choose the file called `brew`, in the bin folder of your Homebrew.")
-        case .notAProgram: Text("It isn’t a program Peel can run.")
+        case .notBrew: "Choose the file called `brew`, in the bin folder of your Homebrew."
+        case .notAProgram: "It isn’t a program Peel can run."
+        case .ownedByAnotherAccount: "Another account owns this `brew`"
+        case .writableByEveryone: "Anyone on this Mac can change it, so Peel won’t run it."
+        case .unreadable: "Peel cannot read which `brew` you chose"
+        }
+    }
+
+    /// What more there is to know, for the circled i beside the reason.
+    var more: LocalizedStringResource? {
+        switch self {
         case .ownedByAnotherAccount(let owner?):
-            Text("The account \(owner) owns it, so that account could change what Peel would run. Peel runs only a brew your account or the system owns.")
+            "The account \(owner) owns it and could change what Peel runs, so Peel runs only a `brew` that your account or the system owns."
         case .ownedByAnotherAccount(nil):
-            Text("Another account owns it, so that account could change what Peel would run. Peel runs only a brew your account or the system owns.")
-        case .writableByEveryone: Text("Anyone on this Mac can change it, so Peel won’t run it.")
-        case .unreadable:
-            Text("Peel cannot read which `brew` you chose, so it runs none until you choose it again or use the usual places.")
+            "That account could change what Peel runs, so Peel runs only a `brew` that your account or the system owns."
+        case .unreadable: "It runs none until you choose it again or use the usual places."
+        case .notBrew, .notAProgram, .writableByEveryone: nil
+        }
+    }
+
+    /// The reason and what more there is, whole, for an alert, which has no circled i.
+    var alertMessage: Text {
+        more.map { Text("\(Text(reason))\n\n\(Text($0))") } ?? Text(reason)
+    }
+
+    var explanation: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 4) {
+            Text(reason)
+            if let more {
+                InfoNote(about: Text(reason), detail: Text(more), isAlbum: false)
+            }
         }
     }
 }

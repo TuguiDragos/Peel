@@ -47,31 +47,39 @@ struct ExclusionsSettingsView: View {
         }
     }
 
+    static let unreadableNote: LocalizedStringResource = "Peel removes and puts back nothing until it can read them or you start over. Adding or removing an entry starts over, keeping the old file beside the new one."
+
     private var unreadableDetail: String {
-        exclusions.exclusions.whyUnreadable.said(after: String(localized: "Until it can read them, or you start over, Peel removes nothing and puts nothing back, because it can’t tell what you asked it to leave alone. Adding or removing an entry below starts over too: the old file is kept beside the new one, but nothing in it counts anymore."), about: exclusions.file)
+        exclusions.exclusions.whyUnreadable.said(after: String(localized: Self.unreadableNote), about: exclusions.file)
     }
 
     private var notSavedDetail: String {
         exclusions.whyNotSaved.said(after: String(localized: "Your latest changes work in Peel until it quits. When it opens again, and in the peel command, the list is as it was last saved."), about: exclusions.file)
     }
 
+    static let ownersUnreadableTitle: LocalizedStringResource = "Peel cannot read this list"
+
+    static let ownersUnreadableNote: LocalizedStringResource = "Orphaned Files lists these files again until it can. Starting over keeps the old list beside the new one."
+
     private var ownersUnreadable: String {
-        orphans.whyOwnersUnreadable.said(after: String(localized: "Peel can’t read this list, so Orphaned Files lists these files again. Starting over keeps the old list beside a new one."), about: OrphanOwners.defaultURL)
+        orphans.whyOwnersUnreadable.said(
+            after: String(localized: Self.ownersUnreadableNote), about: OrphanOwners.defaultURL
+        )
     }
 
     /// What the tab says of the entries of the saved list Peel couldn't read, or nil when it read them all.
     static func unreadableEntriesNote(_ count: Int) -> String? {
         guard count > 0 else { return nil }
-        return String(inflecting: "Peel could not read ^[\(count) entry](inflect: true) of the saved list, so it does not leave alone what is written there. To keep something out of reach, add it again below. The next time the list changes, the old file is kept beside the new one.")
+        return String(inflecting: "Peel could not read ^[\(count) entry](inflect: true) of the saved list, so it does not protect what is written there. Add what you need again below.")
     }
 
     private var isShowingRefusal: Binding<Bool> {
         Binding(get: { !refused.isEmpty }, set: { if !$0 { refused = [] } })
     }
 
-    static let filesAndFoldersNote: LocalizedStringResource = "Peel never moves these, anything inside them, or a folder that holds one of them to the Trash, and never puts anything back into them. Its lists leave them out. Two pages still show them: Applications marks an app inside them as excluded, and Homebrew lists a package inside them but will not upgrade or uninstall it. History still shows what moved before. Clean Up on the Homebrew page keeps the formulae whose folder you exclude here, but this list does not cover what else it deletes, such as its downloads."
+    static let filesAndFoldersNote: LocalizedStringResource = "Peel never moves these, what is inside them, or a folder that holds one, and never puts anything back into them. Applications and Homebrew still list what is inside, but leave it alone. Clean Up on the Homebrew page still deletes the downloads Homebrew keeps."
 
-    static let appsNote: LocalizedStringResource = "Excluded apps still appear in Applications, but Peel will not offer to remove or reset them, and will not put one back from the Trash. A folder named exactly with the identifier of an excluded app, such as its caches or its container, and an update it downloaded are left out of every page and never moved. This list does not cover the other files of the app, such as plug-ins or a folder named after it. To protect those, add them to Files and Folders above."
+    static let appsNote: LocalizedStringResource = "Peel never removes, resets, or puts back an excluded app, nor the folders named with its identifier. Its other files, such as plug-ins, are protected only once you add them to Files and Folders above."
 
     var body: some View {
         Form {
@@ -248,8 +256,14 @@ struct ExclusionsSettingsView: View {
                     }
                 } else {
                     HStack(spacing: 8) {
-                        Text(verbatim: ownersUnreadable)
-                            .foregroundStyle(.secondary)
+                        HStack(alignment: .firstTextBaseline, spacing: 4) {
+                            Text(Self.ownersUnreadableTitle)
+                            InfoNote(
+                                about: Text(Self.ownersUnreadableTitle), detail: Text(verbatim: ownersUnreadable),
+                                isAlbum: false
+                            )
+                        }
+                        .foregroundStyle(.secondary)
                         Spacer(minLength: 8)
                         StartOverButton(
                             file: OrphanOwners.defaultURL,

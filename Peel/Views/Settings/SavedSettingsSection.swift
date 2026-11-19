@@ -5,6 +5,9 @@ import SwiftUI
 /// The section that lists the copies of settings that app resets kept, so the user can put one back later.
 /// A copy can hold a license key, so each can also be moved to the Trash.
 struct SavedSettingsSection: View {
+    static let unreadable: LocalizedStringResource = "Peel cannot read the saved copies"
+    static let unreadableNote: LocalizedStringResource = "None can be listed or put back until it can."
+
     @Environment(AppLibrary.self) private var library
     @Environment(RemovalHistoryStore.self) private var history
     @Environment(ExclusionsStore.self) private var exclusions
@@ -28,7 +31,7 @@ struct SavedSettingsSection: View {
                         }
                     } else {
                         HStack(spacing: 8) {
-                            StatusLabel(title: Text("Peel can’t read the folder that keeps the saved copies of settings, so none can be listed or put back."))
+                            NotedStatus(title: Text(Self.unreadable), note: Text(Self.unreadableNote))
                             Spacer(minLength: 8)
                             ShowInFinderButton(url: PreferenceBackup.defaultDirectory)
                         }

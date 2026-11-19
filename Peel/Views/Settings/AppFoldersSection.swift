@@ -3,6 +3,10 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct AppFoldersSection: View {
+    static let note: LocalizedStringResource = "Peel looks for apps in the Applications folders and in the folders on this list. Apps on a disk that is not connected still count as installed, so their files are not listed as orphaned."
+    static let unreadable: LocalizedStringResource = "Peel cannot read its list of app folders"
+    static let unreadableNote: LocalizedStringResource = "Orphaned Files lists nothing until it can. Starting over keeps the old list beside the new one."
+
     @Environment(AppLibrary.self) private var library
     @State private var isChoosing = false
     @State private var selected: Set<URL> = []
@@ -35,7 +39,12 @@ struct AppFoldersSection: View {
                     .foregroundStyle(.secondary)
             } else {
                 HStack(spacing: 8) {
-                    StatusLabel(title: Text(verbatim: library.unreadableListOfFolders(saying: String(localized: "Peel can’t read its list of app folders, so Orphaned Files lists nothing. Starting over keeps the old list beside a new one."))))
+                    NotedStatus(
+                        title: Text(Self.unreadable),
+                        note: Text(
+                            verbatim: library.unreadableListOfFolders(saying: String(localized: Self.unreadableNote))
+                        )
+                    )
                     Spacer(minLength: 8)
                     StartOverButton(file: library.foldersFile, startedOver: "Started the list of app folders over.") {
                         library.startFoldersOver()
@@ -68,7 +77,7 @@ struct AppFoldersSection: View {
                     .help(Text("Remove"))
             }
         } header: {
-            titled("App Folders", "Peel looks for apps in the Applications folders and in the folders on this list, such as one on another disk. While that disk isn’t connected, its apps still count as installed, so their files aren’t listed as orphaned.")
+            titled("App Folders", Self.note)
         }
         .fileImporter(
             isPresented: $isChoosing, allowedContentTypes: [.folder], allowsMultipleSelection: true

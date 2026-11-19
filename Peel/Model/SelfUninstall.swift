@@ -217,13 +217,13 @@ final class SelfUninstall {
         case .excluded:
             String(localized: "Peel won’t move itself: it is excluded in Settings > Exclusions. Take it off the list there, then choose Remove Peel again.")
         case .readOnlyCopy:
-            String(localized: "Peel is running from a copy macOS made because it is still marked as downloaded, or from its disk image, and that copy can’t be moved. Quit Peel, move it to the Applications folder, open it there, and choose Remove Peel again.")
+            String(localized: "Peel runs from a copy it cannot move. Quit Peel, move it to the Applications folder, open it there, and choose Remove Peel again.")
         case .needsAnAdministrator:
-            String(localized: "Peel will not move itself from here: its folder needs an administrator. Log in as an administrator and choose Remove Peel there. You can also drag Peel to the Trash in Finder, which asks for an administrator, but that leaves its helper, its login item, and its files behind.")
+            String(localized: "Peel will not move itself from here: its folder needs an administrator. Log in as an administrator and choose Remove Peel there. Dragging Peel to the Trash in Finder leaves its helper, its login item, and its files behind.")
         case .needsItsOwner(let owner):
-            String(localized: "Peel will not move itself from here: it belongs to the account \(owner). Log in to that account and choose Remove Peel there. You can also drag Peel to the Trash in Finder, which asks for an administrator, but that leaves its helper, its login item, and its files behind.")
+            String(localized: "Peel will not move itself from here: it belongs to the account \(owner). Log in to that account and choose Remove Peel there. Dragging Peel to the Trash in Finder leaves its helper, its login item, and its files behind.")
         case .leftToFinder:
-            String(localized: "Peel will not move itself from here: this account is not allowed to move it. You can drag Peel to the Trash in Finder, which asks for an administrator, but that leaves its helper, its login item, and its files behind.")
+            String(localized: "Peel will not move itself from here: this account is not allowed to move it. Dragging Peel to the Trash in Finder leaves its helper, its login item, and its files behind.")
         }
     }
 

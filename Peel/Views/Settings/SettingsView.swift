@@ -183,7 +183,31 @@ private func state(_ title: LocalizedStringResource, _ symbol: String, _ tint: C
 }
 
 struct GeneralSettingsView: View {
-    static let hidesFromDockNote: LocalizedStringResource = "While Peel shows in the menu bar, its icon leaves the Dock when you close its last window, and comes back when you open Peel again from the menu bar, Finder, or Spotlight. If the menu bar is full, macOS may hide Peel there, so open it from Finder or Spotlight."
+    static let hidesFromDockNote: LocalizedStringResource = "While Peel shows in the menu bar, its icon leaves the Dock when its last window closes, and comes back when you open Peel from the menu bar, Finder, or Spotlight. If the menu bar is full, macOS may hide Peel there."
+    static let checkForUpdatesNote: LocalizedStringResource = "Peel asks the feed of each app, the App Store, or Homebrew for the latest version, and never installs anything itself. With this off, Peel looks for its own updates only when you choose Check for Updates."
+    static let preferUpdatesNote: LocalizedStringResource = "Automatic asks Homebrew first about an app it installed, then the feed of the app or the App Store. Any other choice asks the source you prefer first. The catalog of Homebrew answers last, for an app Homebrew did not install."
+    static let diskAlmostFullNote: LocalizedStringResource = "While Peel runs, it sends a notification when less than a tenth of the disk with your home folder is free. Clicking it opens Space."
+    static let trashClosed: LocalizedStringResource = "Peel cannot read your Trash"
+    static let trashClosedNote: LocalizedStringResource = "The permissions of the folder keep this account out, so Peel is not watching it."
+    static let trashNotWatched: LocalizedStringResource = "Not watching the Trash right now"
+    static let trashNotWatchedNote: LocalizedStringResource = "Peel tries again each time you come back to it."
+    static let notificationsAreOff: LocalizedStringResource = "Notifications are off for Peel"
+    static let cannotOfferLeftovers: LocalizedStringResource = "So Peel cannot offer to remove what an app left behind."
+    static let cannotWarnDiskFull: LocalizedStringResource = "So Peel cannot warn you when the disk is almost full."
+    static let moveToApplicationsFirst: LocalizedStringResource = "Move Peel to the Applications folder first"
+    static let removedWithHomebrew: LocalizedStringResource = "Homebrew installed this copy of Peel, so remove it with Homebrew."
+    static let removedWithHomebrewNote: LocalizedStringResource = "Homebrew deletes the app instead of moving it to the Trash, and moves the Peel folder in Application Support to the Trash, with History, your exclusions, and the Terminal page settings. It also stops the Peel helper, asking for an administrator password, and deletes its record of what it moved, so History can no longer put those items back."
+    static let removePeelNote: LocalizedStringResource = "Peel removes its helper and login item, moves itself, its own files, and its folder in Application Support to the Trash, clears its settings, and quits. That folder holds History and your exclusions. What you set in Tweaks and on the Terminal page stays."
+    static let removePeelQuestion: LocalizedStringResource = "Peel, its own files, and its folder in Application Support go to the Trash, and its settings are cleared. That folder holds History, your exclusions, and your saved settings. What you set in Tweaks and on the Terminal page stays as it is."
+    static let waitingForHomebrew: LocalizedStringResource = "Waiting for Homebrew…"
+    static let homebrewSaidNothing: LocalizedStringResource = "Homebrew did not say what is installed"
+    static let homebrewMustUpdate: LocalizedStringResource = "Homebrew needs to update first"
+    static let homebrewNotRun: LocalizedStringResource = "Peel does not run this Homebrew"
+    static let removedWithHomebrewToo: LocalizedStringResource = "A copy Homebrew installed is removed with Homebrew."
+
+    static func linkBreaksIfPeelMoves(_ path: String) -> LocalizedStringResource {
+        "The link points at Peel where it is now, \(path), so it breaks if Peel moves."
+    }
 
     /// What the command-line tool's note says to do, as the row stands: nothing to run once `peel` is on the path,
     /// a line for the shell on an account that isn't an administrator's, and no command while none is offered.
@@ -254,8 +278,7 @@ struct GeneralSettingsView: View {
             }
 
             Section("Updates") {
-                toggle("Check for app updates", isOn: $checksForAppUpdates,
-                       "Peel asks each app’s update feed, the App Store, or Homebrew for the latest version. It never installs anything on its own. With this off, Peel doesn’t look for its own updates either, unless you choose Check for Updates in the Peel menu.")
+                toggle("Check for app updates", isOn: $checksForAppUpdates, Self.checkForUpdatesNote)
                 // The choices stay short, because a pop-up button that doesn't fit truncates its title. The note
                 // explains what Automatic does.
                 LabeledContent {
@@ -271,8 +294,7 @@ struct GeneralSettingsView: View {
                     .accessibilityLabel(Text("Prefer updates from"))
                     .disabled(!checksForAppUpdates)
                 } label: {
-                    titled("Prefer updates from",
-                           "Automatic asks Homebrew first about an app Homebrew installed, then the app’s own feed or the App Store. Any other choice puts the source you prefer first, then the app’s own feed, then Homebrew for an app it installed. Homebrew’s catalog answers last, for an app Homebrew didn’t install.")
+                    titled("Prefer updates from", Self.preferUpdatesNote)
                 }
                 .onChange(of: updateSource) { _, _ in
                     Task { await library.updateSourceChanged() }
@@ -322,17 +344,16 @@ struct GeneralSettingsView: View {
                         }
                     }
                 } else if watchesTrash, trashMonitor.status == .closedByPermissions {
-                    StatusLabel(title: Text("Peel cannot read your Trash folder, so it is not watching it. The permissions of the folder keep this account out."))
+                    NotedStatus(title: Text(Self.trashClosed), note: Text(Self.trashClosedNote))
                 } else if watchesTrash, trashMonitor.status == .unavailable {
-                    StatusLabel(title: Text("Peel isn’t watching the Trash right now. It tries again each time you come back to Peel."))
+                    NotedStatus(title: Text(Self.trashNotWatched), note: Text(Self.trashNotWatchedNote))
                 }
                 if watchesTrash, PeelNotifications.areTurnedOff(home.notificationStatus) {
-                    notificationsOff(Text("Peel isn’t allowed to send notifications, so it can’t offer to remove the files an app left behind."))
+                    notificationsOff(Text(Self.cannotOfferLeftovers))
                 }
-                toggle("Warn when the disk is almost full", isOn: $warnsWhenDiskIsNearlyFull,
-                       "When less than a tenth of the disk your home folder is on is available, Peel sends a notification. Clicking it opens Space, which shows what is using the disk. It checks only while it is running.")
+                toggle("Warn when the disk is almost full", isOn: $warnsWhenDiskIsNearlyFull, Self.diskAlmostFullNote)
                 if warnsWhenDiskIsNearlyFull, PeelNotifications.areTurnedOff(home.notificationStatus) {
-                    notificationsOff(Text("Peel isn’t allowed to send notifications, so it can’t warn you when the disk is almost full."))
+                    notificationsOff(Text(Self.cannotWarnDiskFull))
                 }
                 // A binding, not `onChange`: macOS's own answer landing in the model must not register again.
                 toggle("Open Peel at login", isOn: Binding(get: { home.loginItem.isOn }, set: { home.loginItem.set(on: $0) }),
@@ -406,9 +427,16 @@ struct GeneralSettingsView: View {
                         .foregroundStyle(.secondary)
                 case .elsewhere:
                     if commandLine == .installed || installCommand != nil, !isStandardAccount {
-                        Text("The link points at Peel where it is now, \(Text(verbatim: Bundle.main.bundleURL.abbreviatedPath)), so it breaks if Peel moves. Move Peel to the Applications folder first.")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                        HStack(alignment: .firstTextBaseline, spacing: 4) {
+                            Text(Self.moveToApplicationsFirst)
+                            InfoNote(
+                                about: Text(Self.moveToApplicationsFirst),
+                                detail: Text(Self.linkBreaksIfPeelMoves(Bundle.main.bundleURL.abbreviatedPath)),
+                                isAlbum: false
+                            )
+                        }
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                     }
                 }
                 if [.applications, .elsewhere].contains(Self.place), commandLine != .installed {
@@ -445,9 +473,11 @@ struct GeneralSettingsView: View {
                     LabeledContent {
                         CopyButton(text: command)
                     } label: {
-                        titled("Remove Peel",
-                               "Homebrew installed this copy of Peel, so remove it with Homebrew, or Homebrew goes on listing it as installed. Run the command in Terminal: Homebrew deletes the app rather than moving it to the Trash, and moves Peel’s files to the Trash, its folder in Application Support among them. That folder holds History, your exclusions, App Folders, and Saved Settings, among others, and the shell and ssh settings from the Terminal page, which zsh and ssh then stop reading. Homebrew also stops Peel’s helper, asking for an administrator’s password, and deletes the helper’s record of what it moved, which History needs to put those items back.")
+                        titled("Remove Peel", Self.removedWithHomebrewNote)
                     }
+                    Text(Self.removedWithHomebrew)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                     Text(verbatim: command)
                         .font(.caption.monospaced())
                         .foregroundStyle(.secondary)
@@ -456,8 +486,7 @@ struct GeneralSettingsView: View {
                     // The button is taller than a row, and `LabeledContent` would align the title with its top
                     // edge. An `HStack` centers the title and the button vertically.
                     HStack {
-                        titled("Remove Peel",
-                               "Peel removes its helper and login item, moves itself, the files that are certainly its own, and its folder in Application Support to the Trash, all but the Terminal settings zsh and ssh read, clears its settings, then quits. That folder holds History, your exclusions, App Folders, and Saved Settings, among others. What you set in Tweaks and on the Terminal page stays as it is. The Finder extension goes with the app.")
+                        titled("Remove Peel", Self.removePeelNote)
                         Spacer(minLength: 8)
                         Button("Remove Peel") {
                             isConfirmingSelfRemoval = true
@@ -501,23 +530,14 @@ struct GeneralSettingsView: View {
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     } else if way == .waitingForHomebrew {
-                        Text("Peel waits for Homebrew to say whether it installed this copy, since a copy Homebrew installed is removed with Homebrew.")
-                            .font(.callout)
-                            .foregroundStyle(.secondary)
+                        homebrewState(Self.waitingForHomebrew)
                     } else if case .homebrewDidNotAnswer(let why) = way {
                         HStack {
-                            Group {
-                                switch why {
-                                case .readingFailed:
-                                    Text("Homebrew didn’t say what is installed, so Peel can’t tell whether it installed this copy, which would then be removed with Homebrew.")
-                                case .hasToUpdate:
-                                    Text("Homebrew has to update before it can say whether it installed this copy, which would then be removed with Homebrew.")
-                                case .notRun:
-                                    Text("Peel doesn’t run the Homebrew on this Mac, so it can’t tell whether Homebrew installed this copy, which would then be removed with Homebrew.")
-                                }
+                            switch why {
+                            case .readingFailed: homebrewState(Self.homebrewSaidNothing)
+                            case .hasToUpdate: homebrewState(Self.homebrewMustUpdate)
+                            case .notRun: homebrewState(Self.homebrewNotRun)
                             }
-                            .font(.callout)
-                            .foregroundStyle(.secondary)
                             Spacer()
                             Button("Open \(String(localized: Tool.homebrew.title))") { Navigator.shared.show(.homebrew) }
                         }
@@ -569,7 +589,7 @@ struct GeneralSettingsView: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            let files = Text("Peel, the files that are certainly its own, and its folder in Application Support go to the Trash, all but the Terminal settings zsh and ssh read, and its settings are cleared. That folder holds History, your exclusions, App Folders, and Saved Settings, among others. What you set in Tweaks and on the Terminal page stays as it is. The space is freed when you empty the Trash.")
+            let files = Text(Self.removePeelQuestion)
             if let first = SelfUninstall.whatGoesFirst(
                 helperIsRegistered: helper.isRegistered, opensAtLogin: home.loginItem.isOn
             ) {
@@ -668,9 +688,19 @@ extension GeneralSettingsView {
         }
     }
 
-    fileprivate func notificationsOff(_ title: Text) -> some View {
+    /// Why Remove Peel waits for Homebrew, in a few words, with why that matters in a circled i.
+    fileprivate func homebrewState(_ state: LocalizedStringResource) -> some View {
+        HStack(alignment: .firstTextBaseline, spacing: 4) {
+            Text(state)
+            InfoNote(about: Text(state), detail: Text(Self.removedWithHomebrewToo), isAlbum: false)
+        }
+        .font(.callout)
+        .foregroundStyle(.secondary)
+    }
+
+    fileprivate func notificationsOff(_ note: Text) -> some View {
         HStack {
-            StatusLabel(title: title, systemImage: "bell.slash")
+            NotedStatus(title: Text(Self.notificationsAreOff), note: note, systemImage: "bell.slash")
             Spacer()
             Button("Open System Settings") {
                 home.openNotificationSettings()
@@ -727,7 +757,11 @@ extension GeneralSettingsView {
     }
 }
 
-private struct HelperSettingsView: View {
+struct HelperSettingsView: View {
+    static let about: LocalizedStringResource = "A small tool with administrator rights that moves items to the Trash and back, controls background items, and forgets installer receipts. It takes no other orders."
+    static let notAnswering: LocalizedStringResource = "The Peel helper is not answering"
+    static let notAnsweringNote: LocalizedStringResource = "Repair installs the Peel helper that matches this version of Peel."
+
     @Environment(HelperModel.self) private var helper
     @State private var failure: HelperModel.Failure?
     @State private var isConfirmingUninstall = false
@@ -746,7 +780,15 @@ private struct HelperSettingsView: View {
                         ActionRow { actions }
                     }
                 }
-                if let explanation {
+                // Several causes share this state: an older or newer helper, a signature that doesn't match, or a
+                // helper that didn't start.
+                if helper.standing == .notAnswering {
+                    HStack(alignment: .firstTextBaseline, spacing: 4) {
+                        Text(Self.notAnswering)
+                        InfoNote(about: Text(Self.notAnswering), detail: Text(Self.notAnsweringNote), isAlbum: false)
+                    }
+                    .font(.callout)
+                } else if let explanation {
                     explanation
                         .font(.callout)
                 }
@@ -772,7 +814,7 @@ private struct HelperSettingsView: View {
     private var status: some View {
         InfoNote(
             name: String(localized: "Helper"),
-            detail: Text("A small tool with administrator rights. It moves items to the Trash and puts them back, starts, stops, enables, or disables background items, and forgets installer receipts. It takes no other orders."),
+            detail: Text(Self.about),
             symbol: "lock.shield"
         )
         Text("Status")
@@ -823,9 +865,7 @@ private struct HelperSettingsView: View {
         case .notThisAccount:
             Text(helper.whyItCannotAct)
         case .notAnswering:
-            // Several causes share this message: an older or newer helper, a signature that doesn't
-            // match, or a helper that didn't start.
-            Text("Peel’s helper isn’t answering. Repairing it installs the one this version of Peel works with.")
+            nil
         case .ready:
             helper.isAdministrator
                 ? nil : Text("Peel asks for an administrator’s name and password each time this account needs the helper.")
