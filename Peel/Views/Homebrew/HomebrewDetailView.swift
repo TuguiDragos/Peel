@@ -464,7 +464,7 @@ struct HomebrewDetailView: View {
     /// which needs a terminal, and Peel runs it without one. `sudo` refuses an account that isn't an administrator's,
     /// so there it also says who can run the command.
     static func needsTerminal(isAdministrator: Bool) -> [LocalizedStringResource] {
-        let said: LocalizedStringResource = "Homebrew needs an administrator’s password for this, and only Terminal can ask for it. Copy the command, then run it in Terminal."
+        let said = AppPageHeader.homebrewNeedsTerminal
         if isAdministrator {
             return [said]
         }

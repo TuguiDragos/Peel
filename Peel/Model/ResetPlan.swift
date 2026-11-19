@@ -107,10 +107,6 @@ final class ResetPlan {
         outcome?.askedToMove ?? 0
     }
 
-    var didClearSettings: Bool {
-        outcome?.clearedSettings ?? false
-    }
-
     var privacy: PrivacyReset.Result? {
         outcome?.privacy
     }
@@ -221,7 +217,7 @@ extension AppReset.Group {
 
     var explanation: LocalizedStringResource {
         switch self {
-        case .settings: "The app writes all of this again the next time it opens. An app may also keep what it remembers about you here, such as a license key or an account you stayed signed in to, and then those go too."
+        case .settings: "The app writes these again the next time it opens. A license key or an account it remembered here may go too."
         case .webData: "Removing this signs you out of websites the app kept you signed in to."
         case .appData: "This is what the app keeps for you, which can include your own work. Peel never selects it for you."
         }

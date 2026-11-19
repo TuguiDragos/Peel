@@ -5,6 +5,8 @@ import SwiftUI
 /// own because what it shows of the update is read from dictionaries every app's check writes into: read in the
 /// page's body, any app's answer would build the whole page again.
 struct AppPageHeader: View {
+    static let homebrewNeedsTerminal: LocalizedStringResource = "Homebrew needs an administrator password for this, and only Terminal can ask for it. Copy the command and run it in Terminal."
+
     @Environment(AppLibrary.self) private var library
     @Environment(HomebrewLibrary.self) private var homebrew
     @Environment(\.notifications) private var notifications
@@ -186,7 +188,7 @@ struct AppPageHeader: View {
         case .homebrew where upgradeRefusal != nil:
             upgradeRefusal ?? .excludedApp
         case .homebrew where library.cask(for: plan.app)?.upgradeNeedsAnAdministrator == true:
-            "Homebrew needs an administrator’s password for this, and only Terminal can ask for it. Copy the command, then run it in Terminal."
+            Self.homebrewNeedsTerminal
         case .homebrew where homebrew.overrides.contains(.cleansUp):
             HomebrewLibrary.cleansUp
         case .homebrew where homebrew.leavesChangesToTerminal:

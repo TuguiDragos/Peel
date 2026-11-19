@@ -79,34 +79,37 @@ struct UpdateStatusBadge: View {
     /// preferred update source is never the reason: an app not sold by the App Store is checked through its
     /// own feed whatever that setting says.
     private var unsupportedReason: Text {
+        Text(Self.reason(cannotCheck, name: app.name, brew: brew))
+    }
+
+    /// Why Peel can't check the app named `name`, with `brew` the word that runs the person's Homebrew in Terminal.
+    static func reason(_ cannotCheck: CannotCheck, name: String, brew: String) -> LocalizedStringResource {
         switch cannotCheck {
         case .homebrewCannotTell(let silence):
             switch silence.reason {
             case .notCheckedRecently:
                 if let checked = silence.cask.lastUpdateCheck {
-                    Text("Only Homebrew can say whether \(app.name) is up to date, and Homebrew last checked for new versions \(checked, format: .relative(presentation: .named)). Peel counts what Homebrew says only for a day after it checks. Update Homebrew on the Homebrew page, or run `\("\(brew) update")` in Terminal, and Peel can tell again.")
+                    "Only Homebrew can say whether \(name) is up to date, and it last checked \(checked, format: .relative(presentation: .named)). Peel trusts that answer for a day. Update Homebrew on the Homebrew page, or run `\("\(brew) update")` in Terminal."
                 } else {
-                    Text("Only Homebrew can say whether \(app.name) is up to date, but Peel cannot tell when Homebrew last checked for new versions, so it does not count what Homebrew says. Update Homebrew on the Homebrew page, or run `\("\(brew) update")` in Terminal, and Peel can tell again.")
+                    "Only Homebrew can say whether \(name) is up to date, but Peel cannot tell when it last checked. Update Homebrew on the Homebrew page, or run `\("\(brew) update")` in Terminal."
                 }
             case .installsTheNewest:
-                Text("Only Homebrew could say whether \(app.name) is up to date, but it installs whatever is newest each time, so it has no version to compare this copy with. Look for an update inside the app.")
+                "Homebrew installs whatever is newest each time, so it has no version to compare with this copy. Look for an update inside \(name)."
             case .leftToTheApp:
-                Text("Only Homebrew could say whether \(app.name) is up to date, but Homebrew’s settings leave apps that update themselves to their own updates, so it doesn’t compare their versions. Look for an update inside the app.")
+                "Homebrew leaves apps that update themselves to their own updates, so it does not compare their versions. Look for an update inside \(name)."
             case .disabled:
-                Text("Only Homebrew could say whether \(app.name) is up to date, but Homebrew has disabled it and no longer upgrades it. Look for an update inside the app, or on its maker’s website.")
+                "Homebrew has disabled \(name) and no longer upgrades it. Look for an update inside the app or on the website of its maker."
             }
         case .cameWithMacOS:
-            Text("\(app.name) came with macOS. Software Update is what keeps it current, so Peel has nothing to ask.")
+            "\(name) came with macOS. Software Update is what keeps it current, so Peel has nothing to ask."
         case .cameFromSetapp:
-            Text("\(app.name) came from Setapp. Setapp is what keeps it current, so Peel has nothing to ask.")
+            "\(name) came from Setapp. Setapp is what keeps it current, so Peel has nothing to ask."
         case .namesNoVersion:
-            Text("\(app.name) doesn’t say which version it is, so Peel has nothing to compare an update with. Look for an update inside the app.")
-        case .notInTheAppStore(store: nil):
-            Text("The App Store gives Peel no version of \(app.name) to compare, as for an app it doesn’t sell in your Mac’s region or doesn’t sell anymore. The App Store app itself knows when there is an update.")
+            "\(name) doesn’t say which version it is, so Peel has nothing to compare an update with. Look for an update inside the app."
         case .notInTheAppStore:
-            Text("The App Store \(app.name) came from gives Peel no version of it to compare, as for an app that store doesn’t sell anymore. The App Store app itself knows when there is an update.")
+            "The App Store gives Peel no version of \(name) to compare, as for an app it no longer sells or does not sell in your region. The App Store app knows when there is an update."
         case .namesNoFeed:
-            Text("\(app.name) doesn’t say where it updates from in a way Peel can read. Peel reads an app’s update feed from the app’s own files, and asking Apple about every app instead would send Apple a list of what is installed on this Mac. Look for an update inside the app.")
+            "\(name) does not say where it updates from in a way Peel can read. Look for an update inside the app. Peel does not ask Apple about every app, since that would send Apple a list of what you have."
         }
     }
 

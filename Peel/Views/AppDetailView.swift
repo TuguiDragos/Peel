@@ -2,6 +2,14 @@ import PeelCore
 import SwiftUI
 
 struct AppDetailView: View {
+    static let recommendedNote: LocalizedStringResource = "Everything selected here goes to the Trash together. History can put it back while it is in the Trash."
+    static let reviewNote: LocalizedStringResource = "Peel is less sure about these, another app uses them too, or a row says why Peel held it back. Nothing here is selected for you."
+    static let removesItselfNote: LocalizedStringResource = "Remove Peel, in Settings > General, also removes its helper and login item, which a move from here would leave behind."
+
+    static func webAppNote(_ browser: String) -> LocalizedStringResource {
+        "Moving it to the Trash takes away only this shortcut, and the app stays in \(browser). To remove the app itself, uninstall it in \(browser)."
+    }
+
     @Environment(AppLibrary.self) private var library
     @Environment(HelperModel.self) private var helper
     @Environment(HomeModel.self) private var home
@@ -152,7 +160,7 @@ struct AppDetailView: View {
             if plan.removedElsewhere == .byRemovePeel {
                 Notice(
                     title: Text(Self.removesItselfTitle),
-                    detail: Text("Remove Peel, in Settings > General, removes its helper and login item as well. Moved from here, Peel would leave them behind."),
+                    detail: Text(Self.removesItselfNote),
                     kind: .note
                 ) {
                     Button("Open Peel Settings") { SettingsPane.general.open(with: openSettings) }
@@ -189,7 +197,7 @@ struct AppDetailView: View {
                 let browser = library.name(forReference: identifier)
                 Notice(
                     title: Text("A web app of \(browser)"),
-                    detail: Text("Moving it to the Trash takes away only this shortcut, and the app stays in \(browser), which can make the shortcut again. To remove the app itself, uninstall it in \(browser), which takes the shortcut away too."),
+                    detail: Text(Self.webAppNote(browser)),
                     kind: .note
                 ) {}
                 .listRowSeparator(.hidden)
@@ -334,10 +342,7 @@ struct AppDetailView: View {
             .listRowSeparator(.hidden)
         } header: {
             sectionHeader(
-                heading(
-                    "Recommended",
-                    "Everything selected here goes to the Trash together when you click Move to Trash. Nothing is deleted outright: History can put it back while it’s in the Trash."
-                ),
+                heading("Recommended", Self.recommendedNote),
                 movable: plan.recommendedMovable,
                 list: plan.selectableRows(recommendedRows),
                 place: Text("Recommended")
@@ -360,10 +365,7 @@ struct AppDetailView: View {
                 .listRowSeparator(.hidden)
             } header: {
                 sectionHeader(
-                    heading(
-                        "Review Before Removing",
-                        "These are here because Peel is less sure about them, another app on this Mac uses them too, or Peel held them back for the reason each row gives. Nothing here is selected for you: read each one and select only what you recognize."
-                    ),
+                    heading("Review Before Removing", Self.reviewNote),
                     movable: plan.reviewMovable,
                     list: plan.selectableRows(plan.needsReview.map(\.url)),
                     place: Text("Review Before Removing")

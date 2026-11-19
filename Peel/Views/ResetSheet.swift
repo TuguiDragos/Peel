@@ -25,7 +25,11 @@ struct ResetSheet: View {
         _changedFiles = changedFiles
     }
 
-    static let changeOfMindNote: LocalizedStringResource = "The old settings were saved before they were cleared. Put them back from here, or later from Settings > General > Saved Settings, where the copy stays until you move it to the Trash. History will not put the old files back once the app has written new ones in their place."
+    static let changeOfMindNote: LocalizedStringResource = "The old settings were saved before they were cleared. Put them back from here, or later from Settings > General > Saved Settings. History cannot put the old files back once the app writes new ones."
+
+    static func privacyNote(_ app: String) -> LocalizedStringResource {
+        "Peel clears what \(app) was allowed to access, such as the camera or the microphone, so it asks you again. History cannot bring that back."
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -180,7 +184,7 @@ struct ResetSheet: View {
             if plan.canResetPrivacy {
                 PrivacyResetRow(
                     isOn: $plan.resetsPrivacy,
-                    detail: Text("macOS remembers what an app was allowed to access, such as the camera or the microphone. If this is selected, Peel clears that too, so \(plan.app.name) asks you again the next time it needs them. History can’t bring them back.")
+                    detail: Text(Self.privacyNote(plan.app.name))
                 )
             }
 
@@ -436,16 +440,9 @@ struct ResetSheet: View {
         guard plan.movedCount > 0 else {
             return Text("None of what you selected could be moved to the Trash. The reasons are below.")
         }
-        switch (plan.failures.isEmpty, plan.didClearSettings) {
-        case (true, false):
-            return Text("Everything went to the Trash. History can put it back until the app writes new files in its place.")
-        case (true, true):
-            return Text("Everything went to the Trash. History can put it back until the app writes new files in its place. Peel also told macOS to drop any copy of these settings it still held.")
-        case (false, false):
-            return Text("What could be moved went to the Trash. History can put it back until the app writes new files in its place.")
-        case (false, true):
-            return Text("What could be moved went to the Trash. History can put it back until the app writes new files in its place. Peel also told macOS to drop any copy of these settings it still held.")
-        }
+        return plan.failures.isEmpty
+            ? Text("Everything went to the Trash. History can put it back until the app writes new files in its place.")
+            : Text("What could be moved went to the Trash. History can put it back until the app writes new files in its place.")
     }
 
     private var sizes: [URL: Int64] {

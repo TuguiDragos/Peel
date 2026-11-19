@@ -33,18 +33,18 @@ struct DockTileOption: View {
                 Text("Also remove from the Dock")
             }
             .toggleStyle(.checkbox)
-            InfoNote(name: String(localized: "Remove from the Dock"), detail: detail)
+            InfoNote(name: String(localized: "Remove from the Dock"), detail: Text(Self.note(for: apps)))
         }
     }
 
-    private var detail: Text {
+    static func note(for apps: Apps) -> LocalizedStringResource {
         switch apps {
         case .moved:
-            Text("The Dock keeps an app’s icon after the app is gone, as a question mark. If this is selected, Peel takes the icon out once the app is in the Trash, and the Dock restarts. Putting the app back from History puts its icon back where it was.")
+            "The Dock keeps the icon of a gone app as a question mark. Peel takes it out once the app is in the Trash, and the Dock restarts. Put back from History, the app gets its icon back."
         case .alreadyInTheTrash:
-            Text("The Dock keeps an app’s icon after the app is gone, as a question mark. If this is selected, Peel takes the icon out once the files the app left behind are in the Trash, and the Dock restarts. The app was already in the Trash, so History doesn’t put its icon back.")
+            "The Dock keeps the icon of a gone app as a question mark. Peel takes it out once what the app left is in the Trash, and the Dock restarts. The app was already in the Trash, so History does not bring its icon back."
         case .both:
-            Text("The Dock keeps an app’s icon after the app is gone, as a question mark. If this is selected, Peel takes the icon out once the app is in the Trash, and the Dock restarts. Putting the app back from History puts its icon back where it was, but an app that was already in the Trash doesn’t get its icon back.")
+            "The Dock keeps the icon of a gone app as a question mark. Peel takes it out once the app is in the Trash, and the Dock restarts. Put back from History, the app gets its icon back, unless it was already in the Trash."
         }
     }
 }

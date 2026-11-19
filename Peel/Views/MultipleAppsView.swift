@@ -221,7 +221,7 @@ struct MultipleAppsView: View {
                 SectionHeaderLine {
                     heading(
                         "Review Before Removing",
-                        "These are here because Peel is less sure about them, another app on this Mac uses them too, or Peel held them back for the reason each row gives. Nothing here is selected for you: read each one and select only what you recognize."
+                        AppDetailView.reviewNote
                     )
                 } actions: {
                     SelectMenu(
@@ -361,7 +361,7 @@ struct MultipleAppsView: View {
         if item.isApplication, let app = plan.apps.first(where: { $0.url == item.url }) {
             if case .browser(let identifier) = app.webApp {
                 let browser = library.name(forReference: identifier)
-                lines.append(String(localized: "Moving it to the Trash takes away only this shortcut, and the app stays in \(browser), which can make the shortcut again. To remove the app itself, uninstall it in \(browser), which takes the shortcut away too."))
+                lines.append(String(localized: AppDetailView.webAppNote(browser)))
             }
             if let change = app.bundleIdentifier.flatMap({ library.teamChanges[$0] }) {
                 if change.current.isEmpty {

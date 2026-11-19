@@ -22,41 +22,31 @@ struct SystemExtensionNotice: View {
         }
     }
 
-    /// What the note says on macOS 27: how macOS removes the extensions, then what Peel leaves. Each sentence is a
-    /// literal of its own, so the string catalog finds every one.
-    static func saidOn27(
+    /// What the note says: how macOS removes the extensions, and, where macOS 27 deletes a network extension in System
+    /// Settings (`systemSettingsDeletesThem`), the step for one it keeps. Each sentence is a literal of its own, so the
+    /// string catalog finds every one.
+    static func said(
         names: String, app: String, isOne: Bool, systemSettingsDeletesThem: Bool
     ) -> [LocalizedStringResource] {
-        let removal: LocalizedStringResource = switch (isOne, systemSettingsDeletesThem) {
-        case (true, true):
-            "macOS installed \(names) with \(app), and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too. If it is still listed afterward, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside it and choose Delete Extension."
-        case (false, true):
-            "macOS installed \(names) with \(app), and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too. If they are still listed afterward, open System Settings > General > Login Items & Extensions, choose By Category, click the Info button beside Network Extensions, then click the More button beside each and choose Delete Extension."
-        case (true, false):
-            "macOS installed \(names) with \(app), and only macOS can remove it. Move the app to the Trash in Finder, which asks macOS to remove the extension too."
-        case (false, false):
-            "macOS installed \(names) with \(app), and only macOS can remove them. Move the app to the Trash in Finder, which asks macOS to remove the extensions too."
-        }
-        return [removal, "Peel leaves the app and its files where they are: Orphaned Files lists what it left once the app is in the Trash."]
+        let removal: LocalizedStringResource = isOne
+            ? "macOS installed \(names), which came with \(app), and removes it only when the app goes to the Trash in Finder, sometimes at the next restart. Orphaned Files then lists what the app left."
+            : "macOS installed \(names), which came with \(app), and removes them only when the app goes to the Trash in Finder, sometimes at the next restart. Orphaned Files then lists what the app left."
+        guard systemSettingsDeletesThem else { return [removal] }
+        let step: LocalizedStringResource = isOne
+            ? "If it is still listed afterward, delete it in System Settings > General > Login Items & Extensions > By Category > Network Extensions."
+            : "If they are still listed afterward, delete them in System Settings > General > Login Items & Extensions > By Category > Network Extensions."
+        return [removal, step]
     }
 
-    // Each sentence is a literal of its own, so the string catalog finds every one.
     private var detail: Text {
         guard extensions.isKnown else {
-            return Text("Peel can’t look inside \(app.name) to see which system extensions it carries, and macOS removes those only when the app goes to the Trash in Finder. So Peel leaves the app and its files where they are: move it to the Trash in Finder, and Orphaned Files then lists what it left.")
+            return Text("Peel cannot see which system extensions \(app.name) carries, and macOS removes those only when the app goes to the Trash in Finder. Move it there in Finder, and Orphaned Files then lists what it left.")
         }
-        let names = extensions.names.formatted(.list(type: .and))
-        let isOne = extensions.names.count == 1
-        if #available(macOS 27, *) {
-            let said = Self.saidOn27(
-                names: names, app: app.name, isOne: isOne,
-                systemSettingsDeletesThem: extensions.systemSettingsDeletesThem
-            )
-            return Text(verbatim: said.map { String(localized: $0) }.joined(separator: "\n\n"))
-        }
-        return isOne
-            ? Text("macOS installed \(names), a system extension that came with \(app.name), and removes it only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves the app and its files where they are: move it to the Trash in Finder, and Orphaned Files then lists what it left.")
-            : Text("macOS installed \(names), system extensions that came with \(app.name), and removes them only when the app goes to the Trash in Finder, sometimes at the next restart. So Peel leaves the app and its files where they are: move it to the Trash in Finder, and Orphaned Files then lists what it left.")
+        let said = Self.said(
+            names: extensions.names.formatted(.list(type: .and)), app: app.name, isOne: extensions.names.count == 1,
+            systemSettingsDeletesThem: extensions.systemSettingsDeletesThem
+        )
+        return Text(verbatim: said.map { String(localized: $0) }.joined(separator: "\n\n"))
     }
 }
 
@@ -79,17 +69,19 @@ struct SystemExtensionInsideNotice: View {
     private var detail: Text {
         let names = extensions.inAnAppInside.formatted(.list(type: .and))
         return if extensions.inAnAppInside.count > 1 {
-            Text("macOS runs \(names) for an app bundled inside \(app.name), and no move of the app removes them: Finder asks macOS to remove only the extensions in the folder of the app it moves. Turn them off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extensions, turned off.")
+            Text("macOS runs \(names) for an app inside \(app.name), and moving the app does not remove them. Turn them off in System Settings > General > Login Items & Extensions, and Peel then moves the app and its files.")
         } else if extensions.keepsTheAppInPlace {
-            Text("While \(names) runs, it keeps \(app.name) from being moved, by Finder, by Peel, or by an administrator. Turn it off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extension, turned off.")
+            Text("While \(names) runs, it keeps \(app.name) from being moved, even by Finder. Turn it off in System Settings > General > Login Items & Extensions, and Peel then moves the app and its files.")
         } else {
-            Text("macOS runs \(names) for an app bundled inside \(app.name), and no move of the app removes it: Finder asks macOS to remove only the extensions in the folder of the app it moves. Turn it off first in System Settings > General > Login Items & Extensions. Peel then moves the app and its files, and macOS keeps the extension, turned off.")
+            Text("macOS runs \(names) for an app inside \(app.name), and moving the app does not remove it. Turn it off in System Settings > General > Login Items & Extensions, and Peel then moves the app and its files.")
         }
     }
 }
 
 /// What an installer put outside the app, according to the receipt macOS kept.
 struct PackageReceiptSection: View {
+    static let note: LocalizedStringResource = "macOS keeps a receipt of the files a package installed. The ones outside the app are listed only to show them, since other software may rely on them. Forgetting the receipt, from the More menu, moves it to the Trash and leaves the files in place."
+
     /// How many files are listed per receipt. The rest are counted, and the Package Receipts page lists them all.
     private static let mostListed = 12
 
@@ -102,10 +94,7 @@ struct PackageReceiptSection: View {
                     rows(for: receipt)
                 }
             } header: {
-                heading(
-                    "Installed by a Package",
-                    "macOS keeps a receipt of the files a package installed. The ones outside the app are listed here only to show them: other software may rely on them. If Peel also found one of them for this app, it appears in the lists above as well, and may be selected there. Forgetting a receipt, from the page’s More menu, moves it to the Trash: macOS stops counting the package as installed, and the files stay where they are."
-                )
+                heading("Installed by a Package", Self.note)
             }
         }
     }
