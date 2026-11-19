@@ -24443,108 +24443,108 @@
         }
       }
     },
-    "Another file declares the same job, and macOS did not say which of the two it loaded, so Peel does not start, stop, enable, or disable it here." : {
+    "Another file declares the same job, and macOS did not say which one it loaded." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stejnou úlohu uvádí i jiný soubor a systém macOS nesdělil, který z obou načetl, a proto ji tu Peel nespouští, nezastavuje, nezapíná ani nevypíná."
+            "value" : "Stejnou úlohu uvádí i jiný soubor a systém macOS nesdělil, který z nich načetl."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eine andere Datei definiert denselben Job, und macOS hat nicht mitgeteilt, welche der beiden Dateien geladen ist, daher startet, stoppt, aktiviert oder deaktiviert Peel ihn hier nicht."
+            "value" : "Eine andere Datei definiert denselben Job, und macOS hat nicht mitgeteilt, welche davon geladen ist."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otro archivo declara la misma tarea, y macOS no ha indicado cuál de los dos ha cargado, así que aquí Peel no la inicia, no la detiene, no la activa ni la desactiva."
+            "value" : "Otro archivo declara la misma tarea, y macOS no ha indicado cuál de los dos ha cargado."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un autre fichier déclare la même tâche, et macOS n’a pas indiqué lequel des deux il a chargé : Peel ne la démarre donc pas, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
+            "value" : "Un autre fichier déclare la même tâche, et macOS n’a pas indiqué lequel il a chargé."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un altro file dichiara lo stesso elemento, e macOS non ha indicato quale dei due ha caricato, quindi qui Peel non lo avvia, non lo interrompe, non lo abilita e non lo disabilita."
+            "value" : "Un altro file dichiara lo stesso elemento, e macOS non ha indicato quale dei due ha caricato."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "別のファイルが同じジョブを宣言していて、macOSはそのどちらを読み込んだかを示さなかったため、Peelはここで開始、停止、有効化、無効化を行いません。"
+            "value" : "別のファイルが同じジョブを宣言しており、macOSはどちらを読み込んだかを示しませんでした。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "다른 파일이 같은 작업을 지정하고 있으며 macOS가 둘 중 어느 파일을 로드했는지 알려 주지 않았으므로, Peel은 여기에서 이 항목을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
+            "value" : "다른 파일이 같은 작업을 지정하고 있으며 macOS가 어느 파일을 로드했는지 알려 주지 않았습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een ander bestand vermeldt dezelfde taak, en macOS heeft niet gemeld welke van de twee het heeft geladen, dus Peel start het hier niet, stopt het niet en schakelt het niet in of uit."
+            "value" : "Een ander bestand vermeldt dezelfde taak, en macOS heeft niet gemeld welk bestand het heeft geladen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inny plik deklaruje to samo zadanie, a macOS nie podał, który z tych dwóch plików wczytał, więc Peel tutaj tego zadania nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+            "value" : "Inny plik deklaruje to samo zadanie, a macOS nie podał, który z nich wczytał."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Outro arquivo declara a mesma tarefa, e o macOS não disse qual dos dois carregou, por isso o Peel não a inicia, não a interrompe, não a ativa nem a desativa aqui."
+            "value" : "Outro arquivo declara a mesma tarefa, e o macOS não disse qual dos dois carregou."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alt fișier declară aceeași sarcină, iar macOS nu a spus pe care dintre cele două fișiere l‑a încărcat, așa că Peel nu pornește, nu oprește, nu activează și nu dezactivează sarcina de aici."
+            "value" : "Alt fișier declară aceeași sarcină, iar macOS nu a spus pe care dintre ele l‑a încărcat."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "То же задание объявлено в другом файле, и macOS не сообщила, какой из двух файлов она загрузила, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает его."
+            "value" : "То же задание объявлено в другом файле, и macOS не сообщила, какой из них она загрузила."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En annan fil anger samma jobb, och macOS sa inte vilken av de två som lästes in, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här."
+            "value" : "En annan fil anger samma jobb, och macOS sa inte vilken av dem som lästes in."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aynı işi başka bir dosya da tanımlıyor ve macOS ikisinden hangisini yüklediğini söylemedi, bu yüzden Peel onu burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
+            "value" : "Aynı işi başka bir dosya da tanımlıyor ve macOS hangisini yüklediğini söylemedi."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Те саме завдання оголошує інший файл, а macOS не повідомила, який із двох завантажила, тож Peel тут його не запускає, не зупиняє, не вмикає й не вимикає."
+            "value" : "Те саме завдання оголошує інший файл, а macOS не повідомила, який із них завантажила."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "另一个文件声明了相同的任务，而macOS没有说明它载入的是两者中的哪一个，因此Peel不会在此处启动、停止、启用或停用它。"
+            "value" : "另一个文件声明了相同的任务，而macOS没有说明它载入的是哪一个。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "另一個檔案宣告了相同的工作，而macOS沒有說明它載入的是這兩個檔案中的哪一個，因此Peel不會在這裡啟動、停止、啟用或停用它。"
+            "value" : "另一個檔案宣告了相同的工作，而macOS沒有說明它載入的是哪一個。"
           }
         }
       }
@@ -102384,426 +102384,320 @@
         }
       }
     },
-    "Its name could reach another job" : {
+    "Its name has a control character, which Peel never passes to launchctl." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Její název by mohl mířit na jinou úlohu"
+            "value" : "Její název obsahuje řídicí znak, který Peel příkazu launchctl nikdy nepředává."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sein Name könnte einen anderen Job treffen"
+            "value" : "Sein Name enthält ein Steuerzeichen, das Peel nie an launchctl übergibt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Su nombre podría afectar a otra tarea"
+            "value" : "Su nombre tiene un carácter de control, que Peel nunca pasa a launchctl."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Son nom pourrait désigner une autre tâche"
+            "value" : "Son nom contient un caractère de contrôle, que Peel ne transmet jamais à launchctl."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il suo nome potrebbe portare a un altro elemento"
+            "value" : "Il suo nome contiene un carattere di controllo, che Peel non passa mai a launchctl."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "名前が別のジョブを指す可能性があります"
+            "value" : "名前に制御文字が含まれています。Peelが制御文字をlaunchctlに渡すことは決してありません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이름이 다른 작업을 가리킬 수 있음"
+            "value" : "이름에 제어 문자가 있으며, Peel은 이러한 문자를 launchctl에 절대 전달하지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De naam kan naar een andere taak verwijzen"
+            "value" : "De naam bevat een besturingsteken, en Peel geeft dat nooit aan launchctl door."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nazwa tej rzeczy mogłaby wskazać inne zadanie"
+            "value" : "Nazwa tej rzeczy zawiera znak sterujący, którego Peel nigdy nie przekazuje do launchctl."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O nome dele poderia atingir outra tarefa"
+            "value" : "O nome dele tem um caractere de controle, que o Peel nunca passa ao launchctl."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Numele său ar putea viza altă sarcină"
+            "value" : "Numele său conține un caracter de control, pe care Peel nu îl transmite niciodată către launchctl."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Его имя может указывать на другое задание"
+            "value" : "В его имени есть управляющий символ, а Peel никогда не передает такие символы launchctl."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Namnet kan nå ett annat jobb"
+            "value" : "Namnet innehåller ett kontrolltecken, som Peel aldrig skickar vidare till launchctl."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adı başka bir işe ulaşabilir"
+            "value" : "Adında, Peel’in launchctl komutuna hiçbir zaman iletmediği bir kontrol karakteri var."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Його назва може привести до іншого завдання"
+            "value" : "Його назва містить керівний символ, який Peel ніколи не передає launchctl."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的名称可能会指向另一个任务"
+            "value" : "它的名称中含有控制字符，Peel绝不会将其传给launchctl。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的名稱可能會指向另一項工作"
+            "value" : "它的名稱含有控制字元，而Peel絕不會將這類字元傳給launchctl。"
           }
         }
       }
     },
-    "Its name has characters the helper doesn’t take" : {
+    "Its name has characters the Peel helper never passes to launchctl." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Její název obsahuje znaky, které pomocník nepřijímá"
+            "value" : "Její název obsahuje znaky, které pomocník Peelu příkazu launchctl nikdy nepředává."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sein Name enthält Zeichen, die das Hilfsprogramm nicht annimmt"
+            "value" : "Sein Name enthält Zeichen, die das Hilfsprogramm von Peel nie an launchctl übergibt."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Su nombre tiene caracteres que el asistente no acepta"
+            "value" : "Su nombre tiene caracteres que el asistente de Peel nunca pasa a launchctl."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Son nom contient des caractères que l’utilitaire n’accepte pas"
+            "value" : "Son nom contient des caractères que l’utilitaire de Peel ne transmet jamais à launchctl."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il suo nome contiene caratteri che l’assistente non accetta"
+            "value" : "Il suo nome contiene caratteri che l’assistente di Peel non passa mai a launchctl."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "名前に、ヘルパーが受け付けない文字が含まれています"
+            "value" : "名前に、Peelのヘルパーが決してlaunchctlに渡さない文字が含まれています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이름에 보조 프로그램이 허용하지 않는 문자가 있음"
+            "value" : "이름에 Peel 보조 프로그램이 launchctl에 절대 전달하지 않는 문자가 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De naam bevat tekens die het hulpprogramma niet accepteert"
+            "value" : "De naam bevat tekens die het hulpprogramma van Peel nooit aan launchctl doorgeeft."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nazwa tej rzeczy zawiera znaki, których pomocnik nie przyjmuje"
+            "value" : "Nazwa tej rzeczy zawiera znaki, których pomocnik Peel nigdy nie przekazuje do launchctl."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O nome dele tem caracteres que o auxiliar não aceita"
+            "value" : "O nome dele tem caracteres que o auxiliar do Peel nunca passa ao launchctl."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Numele său conține caractere pe care instrumentul de ajutor nu le acceptă"
+            "value" : "Numele său conține caractere pe care instrumentul de ajutor Peel nu le transmite niciodată către launchctl."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В его имени есть символы, которые не принимает помощник"
+            "value" : "В его имени есть символы, которые помощник Peel никогда не передает launchctl."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Namnet innehåller tecken som hjälpprogrammet inte tar emot"
+            "value" : "Namnet innehåller tecken som Peels hjälpprogram aldrig skickar vidare till launchctl."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adında yardımcının kabul etmediği karakterler var"
+            "value" : "Adında, Peel’in yardımcısının launchctl komutuna hiçbir zaman iletmediği karakterler var."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Його назва містить символи, яких помічник не приймає"
+            "value" : "Його назва містить символи, яких помічник Peel ніколи не передає launchctl."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的名称中含有帮助程序不接受的字符"
+            "value" : "它的名称中含有Peel的帮助程序绝不会传给launchctl的字符。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的名稱含有輔助程式不接受的字元"
+            "value" : "它的名稱含有Peel的輔助程式絕不會傳給launchctl的字元。"
           }
         }
       }
     },
-    "Its name holds a control character" : {
+    "Its name says Apple, but macOS did not install it. Look at the file to see what put it there." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Její název obsahuje řídicí znak"
+            "value" : "Její název uvádí Apple, ale nenainstaloval ji systém macOS. Podívejte se do souboru, abyste zjistili, co ji tam umístilo."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sein Name enthält ein Steuerzeichen"
+            "value" : "Sein Name verweist auf Apple, aber macOS hat es nicht installiert. Sieh in der Datei nach, welche Software es dort abgelegt hat."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Su nombre contiene un carácter de control"
+            "value" : "Su nombre menciona a Apple, pero no lo instaló macOS. Mira el archivo para saber qué lo puso ahí."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Son nom contient un caractère de contrôle"
+            "value" : "Son nom mentionne Apple, mais ce n’est pas macOS qui l’a installé. Examinez le fichier pour savoir ce qui l’a placé là."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il suo nome contiene un carattere di controllo"
+            "value" : "Il suo nome indica Apple, ma non l’ha installato macOS. Guarda il file per capire cosa l’ha messo lì."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "名前に制御文字が含まれています"
+            "value" : "名前はAppleを示していますが、macOSがインストールしたものではありません。何がこれを置いたのかは、ファイルを見て確認してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이름에 제어 문자가 있음"
+            "value" : "이름에 Apple이 들어 있지만 macOS가 설치한 항목이 아닙니다. 무엇이 이 항목을 넣어 두었는지 파일을 살펴보십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De naam bevat een besturingsteken"
+            "value" : "De naam noemt Apple, maar macOS heeft het niet geïnstalleerd. Bekijk het bestand om te zien welke software het daar heeft neergezet."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nazwa tej rzeczy zawiera znak sterujący"
+            "value" : "Jej nazwa wskazuje na Apple, ale nie zainstalował jej macOS. Zajrzyj do pliku, aby sprawdzić, co ją tam umieściło."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O nome dele contém um caractere de controle"
+            "value" : "O nome dele indica a Apple, mas não foi o macOS que o instalou. Veja no arquivo o que o colocou ali."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Numele său conține un caracter de control"
+            "value" : "Numele său indică Apple, dar macOS nu l‑a instalat. Examinați fișierul pentru a vedea ce l‑a pus acolo."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В его имени есть управляющий символ"
+            "value" : "Его имя указывает на Apple, но установила его не macOS. Загляните в файл, чтобы узнать, что его туда поместило."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Namnet innehåller ett kontrolltecken"
+            "value" : "Namnet tyder på Apple, men macOS har inte installerat det. Titta i filen för att se vad som har lagt det där."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adında bir kontrol karakteri var"
+            "value" : "Adında Apple geçiyor ama onu macOS yüklemedi. Onu oraya neyin koyduğunu görmek için dosyaya bakın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Його назва містить керівний символ"
+            "value" : "Його назва вказує на Apple, але macOS його не інсталювала. Перегляньте файл, щоб дізнатися, що його туди поклало."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的名称中含有控制字符"
+            "value" : "它的名称表明它属于Apple，但它并非由macOS安装。请查看该文件，了解是什么将它放到了那里。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "它的名稱含有控制字元"
-          }
-        }
-      }
-    },
-    "Its name starts with com.apple, but macOS didn’t install it, so Peel doesn’t start, stop, or remove it here. Look at the file to see what put it there." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Její název začíná na com.apple, ale nenainstaloval ji systém macOS, a proto ji tu Peel nespouští, nezastavuje ani neodstraňuje. Podívejte se do souboru, abyste zjistili, co ji tam umístilo."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sein Name beginnt mit com.apple, aber macOS hat es nicht installiert, daher startet, stoppt oder entfernt Peel es hier nicht. Sieh in der Datei nach, welche Software es dort abgelegt hat."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Su nombre empieza por com.apple, pero no lo instaló macOS, así que aquí Peel no lo inicia, no lo detiene ni lo elimina. Mira el archivo para saber qué lo puso ahí."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Son nom commence par com.apple, mais ce n’est pas macOS qui l’a installé : Peel ne le démarre donc pas, ne l’arrête pas et ne le supprime pas ici. Examinez le fichier pour savoir ce qui l’a placé là."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il suo nome inizia con com.apple, ma non l’ha installato macOS, quindi qui Peel non lo avvia, non lo interrompe e non lo rimuove. Guarda il file per capire cosa l’ha messo lì."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "名前がcom.appleで始まっていますが、macOSがインストールしたものではないため、Peelはここで開始、停止、ゴミ箱への移動を行いません。何がこれを置いたのかは、ファイルを見て確認してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이름이 com.apple로 시작하지만 macOS가 설치한 항목이 아니므로 Peel은 여기에서 이 항목을 시작, 중단 또는 제거하지 않습니다. 무엇이 이 항목을 넣어 두었는지 파일을 살펴보십시오."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "De naam begint met com.apple, maar macOS heeft het niet geïnstalleerd, dus Peel start, stopt of verwijdert het hier niet. Bekijk het bestand om te zien welke software het daar heeft neergezet."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jej nazwa zaczyna się od com.apple, ale nie zainstalował jej macOS, więc Peel jej tutaj nie uruchamia, nie zatrzymuje ani nie przenosi do Kosza. Zajrzyj do pliku, aby sprawdzić, co ją tam umieściło."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O nome dele começa com com.apple, mas não foi o macOS que o instalou, por isso o Peel não o inicia, não o interrompe nem o remove aqui. Veja no arquivo o que o colocou ali."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Numele său începe cu com.apple, dar macOS nu l‑a instalat, așa că Peel nu îl pornește, nu îl oprește și nu îl elimină de aici. Examinați fișierul pentru a vedea ce l‑a pus acolo."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Его имя начинается с com.apple, но установила его не macOS, поэтому Peel здесь не запускает, не останавливает и не удаляет его. Загляните в файл, чтобы узнать, что его туда поместило."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Namnet börjar med com.apple, men macOS har inte installerat det, så Peel varken startar, stoppar eller tar bort det här. Titta i filen för att se vad som har lagt det där."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adı com.apple ile başlıyor ama onu macOS yüklemedi, bu yüzden Peel onu burada başlatmaz, durdurmaz veya kaldırmaz. Onu oraya neyin koyduğunu görmek için dosyaya bakın."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Його назва починається з com.apple, але macOS його не інсталювала, тож Peel тут його не запускає, не зупиняє й не вилучає. Перегляньте файл, щоб дізнатися, що його туди поклало."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它的名称以com.apple开头，但并非由macOS安装，因此Peel不会在此处启动、停止或移除它。请查看该文件，了解是什么将它放到了那里。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它的名稱以com.apple開頭，但不是由macOS安裝的，因此Peel不會在這裡啟動、停止或移除它。請查看該檔案，瞭解是什麼將它放在那裡。"
+            "value" : "它的名稱表示屬於Apple，但不是由macOS安裝的。請查看該檔案，瞭解是什麼將它放在那裡。"
           }
         }
       }
@@ -136800,6 +136694,112 @@
         }
       }
     },
+    "Not installed by macOS" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenainstalováno systémem macOS"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht von macOS installiert"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No instalado por macOS"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non installé par macOS"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non installato da macOS"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがインストールしたものではありません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 설치하지 않음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet geïnstalleerd door macOS"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niezainstalowany przez macOS"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não instalado pelo macOS"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neinstalat de macOS"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установлено не macOS"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inte installerat av macOS"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS tarafından yüklenmedi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інстальовано не macOS"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "并非由macOS安装"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "非由macOS安裝"
+          }
+        }
+      }
+    },
     "Not known yet" : {
       "localizations" : {
         "cs" : {
@@ -151184,6 +151184,112 @@
         }
       }
     },
+    "Only System Settings > General > Login Items & Extensions changes it." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Měnit ho lze jen v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ändern lässt sie sich nur unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo se puede cambiar en Ajustes del Sistema > General > Ítems de inicio y extensiones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il ne peut être modifié que dans Réglages Système > Général > Ouverture et extensions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si può modificare solo in Impostazioni di Sistema > Generali > Elementi login ed estensioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これを変更できるのは、“システム設定”＞“一般”＞“ログイン項目と機能拡張”だけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서만 변경할 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies kan het worden gewijzigd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zmienić je można tylko w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só é possível alterar isto em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poate fi modificată doar din Configurări sistem > General > Lansare la login și extensii."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить его можно только в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det kan bara ändras i Systeminställningar > Allmänt > Startobjekt och tillägg."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yalnızca Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünden değiştirilebilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Змінити його можна лише в розділі Системні параметри > Загальні > Автозапуск і розширення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有“系统设置”>“通用”>“登录项与扩展”可以更改它。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有「系統設定」>「一般」>「登入項目與延伸功能」能更改它。"
+          }
+        }
+      }
+    },
     "Only an administrator can change the Peel helper." : {
       "localizations" : {
         "cs" : {
@@ -159899,112 +160005,6 @@
         }
       }
     },
-    "Peel asked macOS about it and got no answer it could read, so Peel doesn’t start, stop, enable, or disable it here." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel se na ni zeptal systému macOS a nedostal odpověď, kterou by dokázal přečíst, a proto ji tu Peel nespouští, nezastavuje, nezapíná ani nevypíná."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel hat macOS danach gefragt und keine lesbare Antwort erhalten, daher startet, stoppt, aktiviert oder deaktiviert Peel es hier nicht."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel se lo ha preguntado a macOS y no ha obtenido ninguna respuesta que pueda leer, así que aquí Peel no lo inicia, no lo detiene, no lo activa ni lo desactiva."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel a interrogé macOS à son sujet, sans obtenir de réponse lisible : Peel ne le démarre donc pas, ne l’arrête pas, ne l’active pas et ne le désactive pas ici."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel l’ha chiesto a macOS e non ha ricevuto una risposta leggibile, quindi qui Peel non lo avvia, non lo interrompe, non lo abilita e non lo disabilita."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PeelはmacOSに問い合わせましたが、読み取れる応答がなかったため、ここでは開始、停止、有効化、無効化を行いません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 macOS에 물었지만 읽을 수 있는 응답을 받지 못했으므로 Peel은 여기에서 이 항목을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel heeft het aan macOS gevraagd, maar kreeg geen antwoord dat Peel kon lezen, dus Peel start het hier niet, stopt het niet en schakelt het niet in of uit."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel zapytał o to macOS i nie otrzymał odpowiedzi, którą mógłby odczytać, więc Peel tego tutaj nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel perguntou ao macOS sobre ele e não obteve uma resposta que conseguisse ler, por isso o Peel não o inicia, não o interrompe, não o ativa nem o desativa aqui."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel a întrebat macOS despre el și nu a primit niciun răspuns pe care să îl poată citi, așa că Peel nu îl pornește, nu îl oprește, nu îl activează și nu îl dezactivează de aici."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel спросил macOS о нем, но не получил ответа, который смог бы прочитать, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает его."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel frågade macOS om det och fick inget svar som gick att läsa, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel bunu macOS’e sordu ve okuyabileceği bir yanıt alamadı, bu yüzden Peel onu burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel запитала macOS про нього, але не отримала відповіді, яку могла б прочитати, тож Peel тут його не запускає, не зупиняє, не вмикає й не вимикає."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel向macOS查询了它的状态，但没有得到可读取的回应，因此Peel不会在此处启动、停止、启用或停用它。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel向macOS詢問了它的狀態，但沒有得到它能讀取的回應，因此Peel不會在這裡啟動、停止、啟用或停用它。"
-          }
-        }
-      }
-    },
     "Peel asked macOS which extensions apps have added and got no answer, so it cannot list them. Rescan to try again." : {
       "localizations" : {
         "cs" : {
@@ -165484,6 +165484,112 @@
         }
       }
     },
+    "Peel could not read from launchctl which jobs are loaded or turned off." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl z příkazu launchctl zjistit, které úlohy jsou načtené nebo vypnuté."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte über launchctl nicht lesen, welche Jobs geladen oder deaktiviert sind."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer en launchctl qué tareas están cargadas o desactivadas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu savoir, par launchctl, quelles tâches sont chargées ou désactivées."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere da launchctl quali elementi sono caricati o disattivati."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、どのジョブが読み込まれているか、またはオフになっているかを、launchctlから読み取れませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 launchctl에서 어떤 작업이 로드되었거나 꺼져 있는지 읽을 수 없었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon via launchctl niet lezen welke taken zijn geladen of uitgeschakeld."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać z launchctl, które zadania są wczytane lub wyłączone."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler no launchctl quais tarefas estão carregadas ou desativadas."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi de la launchctl ce sarcini sunt încărcate sau dezactivate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось узнать у launchctl, какие задания загружены или выключены."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa från launchctl vilka jobb som är inlästa eller avstängda."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, hangi işlerin yüklü veya kapalı olduğunu launchctl komutundan okuyamadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося прочитати з launchctl, які завдання завантажено або вимкнено."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能从launchctl读取哪些任务已载入或已关闭。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法從launchctl讀取哪些工作已載入或已關閉。"
+          }
+        }
+      }
+    },
     "Peel could not read the Terminal profiles" : {
       "localizations" : {
         "cs" : {
@@ -165586,6 +165692,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法讀取「終端機」的描述檔"
+          }
+        }
+      }
+    },
+    "Peel could not read what macOS answered about this job." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nemohl přečíst, co systém macOS o této úloze odpověděl."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel konnte nicht lesen, was macOS zu diesem Job geantwortet hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no ha podido leer lo que macOS ha respondido sobre esta tarea."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel n’a pas pu lire la réponse de macOS au sujet de cette tâche."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non è riuscito a leggere la risposta di macOS su questo elemento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelは、このジョブについてのmacOSの応答を読み取れませんでした。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 작업에 대한 macOS의 응답을 읽을 수 없었습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kon niet lezen wat macOS over deze taak antwoordde."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie mógł odczytać odpowiedzi macOS dotyczącej tego zadania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não conseguiu ler o que o macOS respondeu sobre esta tarefa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu a putut citi ce a răspuns macOS despre această sarcină."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не удалось прочитать ответ macOS об этом задании."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel kunde inte läsa vad macOS svarade om det här jobbet."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel, macOS’in bu iş hakkında verdiği yanıtı okuyamadı."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не вдалося прочитати, що macOS відповіла про це завдання."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel未能读取macOS对此任务的回应。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel無法讀取macOS對此工作的回應。"
           }
         }
       }
@@ -167198,218 +167410,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel無法及時讀取它，因此無法判斷它在Peel查看後是否有所變更。請重新掃描以檢查。"
-          }
-        }
-      }
-    },
-    "Peel couldn’t read launchctl’s list of the jobs turned off, so it doesn’t start, stop, enable, or disable this one here." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nemohl přečíst seznam vypnutých úloh, který vypisuje launchctl, a proto tuto úlohu zde nespouští, nezastavuje, nezapíná ani nevypíná."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel konnte die Liste der deaktivierten Jobs von launchctl nicht lesen, daher startet, stoppt, aktiviert oder deaktiviert Peel diesen Job hier nicht."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel no ha podido leer la lista de tareas desactivadas de launchctl, así que aquí no inicia, no detiene, no activa ni desactiva esta tarea."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel n’a pas pu lire la liste des tâches désactivées fournie par launchctl : il ne démarre donc pas cette tâche, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel non è riuscito a leggere l’elenco di launchctl degli elementi disattivati, quindi qui non avvia, non interrompe, non abilita e non disabilita questo elemento."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelは、オフにされているジョブを示すlaunchctlのリストを読み取れなかったため、ここではこのジョブの開始、停止、有効化、無効化を行いません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 launchctl의 꺼진 작업 목록을 읽을 수 없었으므로, 여기에서 이 작업을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kon de lijst van launchctl met uitgeschakelde taken niet lezen, dus Peel start deze taak hier niet, stopt die niet en schakelt die niet in of uit."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nie mógł odczytać listy wyłączonych zadań podawanej przez launchctl, więc tutaj tego zadania nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel não conseguiu ler a lista do launchctl com as tarefas desativadas, por isso não inicia, não interrompe, não ativa nem desativa esta tarefa aqui."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nu a putut citi lista launchctl cu sarcinile dezactivate, așa că nu pornește, nu oprește, nu activează și nu dezactivează această sarcină de aici."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не удалось прочитать список выключенных заданий, полученный от launchctl, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает это задание."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kunde inte läsa launchctls lista över avstängda jobb, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här jobbet härifrån."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel, launchctl komutunun kapatılmış işler listesini okuyamadı, bu yüzden bu işi burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не вдалося прочитати список вимкнених завдань launchctl, тож Peel тут не запускає, не зупиняє, не вмикає й не вимикає це завдання."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel未能读取launchctl的已停用任务列表，因此不会在此处启动、停止、启用或停用此任务。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel無法讀取launchctl的已停用工作列表，因此不會在這裡啟動、停止、啟用或停用此工作。"
-          }
-        }
-      }
-    },
-    "Peel couldn’t read launchctl’s list of the loaded jobs, so it doesn’t start, stop, enable, or disable this one here." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nemohl přečíst seznam načtených úloh, který vypisuje launchctl, a proto tuto úlohu zde nespouští, nezastavuje, nezapíná ani nevypíná."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel konnte die Liste der geladenen Jobs von launchctl nicht lesen, daher startet, stoppt, aktiviert oder deaktiviert Peel diesen Job hier nicht."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel no ha podido leer la lista de tareas cargadas de launchctl, así que aquí no inicia, no detiene, no activa ni desactiva esta tarea."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel n’a pas pu lire la liste des tâches chargées fournie par launchctl : il ne démarre donc pas cette tâche, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel non è riuscito a leggere l’elenco di launchctl degli elementi caricati, quindi qui non avvia, non interrompe, non abilita e non disabilita questo elemento."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelは、読み込まれているジョブを示すlaunchctlのリストを読み取れなかったため、ここではこのジョブの開始、停止、有効化、無効化を行いません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel이 launchctl의 로드된 작업 목록을 읽을 수 없었으므로, 여기에서 이 작업을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kon de lijst van launchctl met geladen taken niet lezen, dus Peel start deze taak hier niet, stopt die niet en schakelt die niet in of uit."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nie mógł odczytać listy wczytanych zadań podawanej przez launchctl, więc tutaj tego zadania nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel não conseguiu ler a lista do launchctl com as tarefas carregadas, por isso não inicia, não interrompe, não ativa nem desativa esta tarefa aqui."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nu a putut citi lista launchctl cu sarcinile încărcate, așa că nu pornește, nu oprește, nu activează și nu dezactivează această sarcină de aici."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не удалось прочитать список загруженных заданий, полученный от launchctl, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает это задание."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel kunde inte läsa launchctls lista över inlästa jobb, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här jobbet härifrån."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel, launchctl komutunun yüklü işler listesini okuyamadı, bu yüzden bu işi burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel не вдалося прочитати список завантажених завдань launchctl, тож Peel тут не запускає, не зупиняє, не вмикає й не вимикає це завдання."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel未能读取launchctl的已载入任务列表，因此不会在此处启动、停止、启用或停用此任务。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel無法讀取launchctl的已載入工作列表，因此不會在這裡啟動、停止、啟用或停用此工作。"
           }
         }
       }
@@ -172630,6 +172630,112 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel不會更改這些設定。每個按鈕都會打開Apple指出可關閉該功能的位置。"
+          }
+        }
+      }
+    },
+    "Peel does not change this job" : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel tuto úlohu nemění"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ändert diesen Job nicht"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel no cambia esta tarea"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ne modifie pas cette tâche"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel non modifica questo elemento"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peelはこのジョブを変更しません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel이 이 작업을 변경하지 않음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel wijzigt deze taak niet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nie zmienia tego zadania"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Peel não altera esta tarefa"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel nu modifică această sarcină"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не меняет это задание"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel ändrar inte det här jobbet"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel bu işi değiştirmez"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel не змінює це завдання"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不会更改此任务"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peel不會更改此工作"
           }
         }
       }
@@ -180309,112 +180415,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel絕不會提議移除「%@」為你保存的內容，無論是郵件、訊息、備忘錄還是照片。"
-          }
-        }
-      }
-    },
-    "Peel never passes a control character to launchctl, so it doesn’t start, stop, enable, or disable this job here." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nikdy nepředává příkazu launchctl řídicí znaky, a proto tuto úlohu zde nespouští, nezastavuje, nezapíná ani nevypíná."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel übergibt nie ein Steuerzeichen an launchctl, daher startet, stoppt, aktiviert oder deaktiviert Peel diesen Job hier nicht."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nunca pasa un carácter de control a launchctl, así que aquí no inicia, no detiene, no activa ni desactiva esta tarea."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ne transmet jamais de caractère de contrôle à launchctl : il ne démarre donc pas cette tâche, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel non passa mai un carattere di controllo a launchctl, quindi qui non avvia, non interrompe, non abilita e non disabilita questo elemento."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelはlaunchctlに制御文字を決して渡さないため、ここではこのジョブの開始、停止、有効化、無効化を行いません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel은 launchctl에 제어 문자를 절대 전달하지 않으므로, 여기에서 이 작업을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel geeft nooit een besturingsteken aan launchctl door, dus Peel start deze taak hier niet, stopt die niet en schakelt die niet in of uit."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nigdy nie przekazuje do launchctl znaku sterującego, więc tutaj tego zadania nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Peel nunca passa um caractere de controle para o launchctl, por isso não inicia, não interrompe, não ativa nem desativa esta tarefa aqui."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel nu transmite niciodată un caracter de control către launchctl, așa că nu pornește, nu oprește, nu activează și nu dezactivează această sarcină de aici."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel никогда не передает launchctl управляющие символы, поэтому здесь не запускает, не останавливает, не включает и не выключает это задание."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel skickar aldrig ett kontrolltecken till launchctl, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här jobbet härifrån."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel, launchctl komutuna hiçbir zaman kontrol karakteri aktarmaz, bu yüzden bu işi burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel ніколи не передає launchctl жодного керівного символу, тож Peel тут не запускає, не зупиняє, не вмикає й не вимикає це завдання."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel绝不会将控制字符传递给launchctl，因此不会在此处启动、停止、启用或停用此任务。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel絕不會將控制字元傳遞給launchctl，因此不會在這裡啟動、停止、啟用或停用此工作。"
           }
         }
       }
@@ -220543,112 +220543,6 @@
         }
       }
     },
-    "Since launchctl reads a job’s name only up to a slash, a command for this one could reach another job. Peel doesn’t start, stop, enable, or disable it here." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Protože launchctl čte název úlohy jen po lomítko, příkaz pro tuto úlohu by mohl zasáhnout jinou úlohu. Peel ji tu nespouští, nezastavuje, nezapíná ani nevypíná."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Da launchctl den Namen eines Jobs nur bis zu einem Schrägstrich liest, könnte ein Befehl für diesen Job einen anderen treffen. Peel startet, stoppt, aktiviert oder deaktiviert ihn hier nicht."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Como launchctl lee el nombre de una tarea solo hasta que encuentra una barra, un comando para esta tarea podría afectar a otra. Aquí Peel no la inicia, no la detiene, no la activa ni la desactiva."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comme launchctl ne lit le nom d’une tâche que jusqu’à une barre oblique, une commande destinée à cette tâche pourrait en atteindre une autre. Peel ne la démarre pas, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Poiché launchctl legge il nome di un elemento solo fino a una barra, un comando per questo potrebbe arrivare a un altro elemento. Qui Peel non lo avvia, non lo interrompe, non lo abilita e non lo disabilita."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchctlはジョブの名前をスラッシュの手前までしか読み取らないため、このジョブに対するコマンドが別のジョブに及ぶ可能性があります。Peelはここで開始、停止、有効化、無効化を行いません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchctl은 작업 이름을 슬래시 앞까지만 읽으므로, 이 작업에 대한 명령이 다른 작업에 전달될 수 있습니다. Peel은 여기에서 이 항목을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Omdat launchctl de naam van een taak alleen tot aan een schuine streep leest, kan een commando voor deze taak bij een andere taak terechtkomen. Peel start het hier niet, stopt het niet en schakelt het niet in of uit."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ponieważ launchctl odczytuje nazwę zadania tylko do ukośnika, polecenie dla tego zadania mogłoby trafić do innego zadania. Peel go tutaj nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Como o launchctl lê o nome de uma tarefa só até uma barra, um comando para esta tarefa poderia atingir outra. O Peel não a inicia, não a interrompe, não a ativa nem a desativa aqui."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deoarece launchctl citește numele unei sarcini doar până la o bară oblică, o comandă pentru aceasta ar putea viza altă sarcină. Peel nu o pornește, nu o oprește, nu o activează și nu o dezactivează de aici."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Поскольку launchctl читает имя задания только до косой черты, команда для этого задания может затронуть другое задание. Peel здесь не запускает, не останавливает, не включает и не выключает его."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eftersom launchctl bara läser ett jobbs namn fram till ett snedstreck kan ett kommando för det här jobbet nå ett annat jobb. Peel varken startar, stoppar, aktiverar eller avaktiverar det här."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "launchctl bir işin adını yalnızca eğik çizgiye kadar okuduğu için, bu iş için verilen bir komut başka bir işe ulaşabilir. Peel onu burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Оскільки launchctl читає назву завдання лише до скісної риски, команда для цього завдання може потрапити до іншого завдання. Peel тут його не запускає, не зупиняє, не вмикає й не вимикає."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "由于launchctl读取任务名称时只会读到斜杠为止，针对此任务的命令可能会作用到另一个任务上。Peel不会在此处启动、停止、启用或停用它。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "由於launchctl讀取工作名稱時只會讀到斜線為止，針對此工作的指令可能會作用到另一項工作。Peel不會在這裡啟動、停止、啟用或停用它。"
-          }
-        }
-      }
-    },
     "Siri AI (Beta)" : {
       "localizations" : {
         "cs" : {
@@ -239863,112 +239757,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Peel的輔助程式正在等待你在「系統設定」>「一般」>「登入項目與延伸功能」中允許。"
-          }
-        }
-      }
-    },
-    "The Peel helper passes launchctl only a name of ASCII letters, digits, dots, hyphens, underscores, @ and +, not starting with a dot or a hyphen, so Peel does not start, stop, enable, or disable this job here." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocník Peelu předává příkazu launchctl jen název složený z písmen ASCII, číslic, teček, spojovníků, podtržítek, @ a +, který nezačíná tečkou ani spojovníkem, a proto Peel tuto úlohu zde nespouští, nezastavuje, nezapíná ani nevypíná."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Das Hilfsprogramm von Peel übergibt an launchctl nur Namen aus ASCII-Buchstaben, Ziffern, Punkten, Bindestrichen, Unterstrichen, @ und +, die nicht mit einem Punkt oder Bindestrich beginnen, daher startet, stoppt, aktiviert oder deaktiviert Peel diesen Job hier nicht."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El asistente de Peel solo pasa a launchctl un nombre formado por letras ASCII, dígitos, puntos, guiones, guiones bajos, @ y +, que no empiece por un punto ni por un guion, así que aquí Peel no inicia, no detiene, no activa ni desactiva esta tarea."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’utilitaire de Peel ne transmet à launchctl qu’un nom composé de lettres ASCII, de chiffres, de points, de traits d’union, de traits de soulignement, de @ et de +, qui ne commence ni par un point ni par un trait d’union : Peel ne démarre donc pas cette tâche, ne l’arrête pas, ne l’active pas et ne la désactive pas ici."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "L’assistente di Peel passa a launchctl solo un nome composto da lettere ASCII, cifre, punti, trattini, trattini bassi, @ e +, che non inizi con un punto o un trattino, quindi qui Peel non avvia, non interrompe, non abilita e non disabilita questo elemento."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peelのヘルパーがlaunchctlに渡すのは、ASCII英字、数字、ピリオド、ハイフン、アンダースコア、@、+だけで構成され、ピリオドやハイフンで始まらない名前に限られるため、Peelはここでこのジョブの開始、停止、有効化、無効化を行いません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel 보조 프로그램은 ASCII 영문자, 숫자, 마침표, 하이픈, 밑줄, @ 및 +로만 이루어지고 마침표나 하이픈으로 시작하지 않는 이름만 launchctl에 전달하므로, Peel은 여기에서 이 작업을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Het hulpprogramma van Peel geeft aan launchctl alleen namen door die bestaan uit ASCII-letters, cijfers, punten, koppeltekens, onderstrepingstekens, @ en +, en die niet met een punt of een koppelteken beginnen, dus Peel start deze taak hier niet, stopt die niet en schakelt die niet in of uit."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pomocnik Peel przekazuje do launchctl tylko nazwę złożoną z liter ASCII, cyfr, kropek, łączników, podkreślników, @ i +, która nie zaczyna się od kropki ani od łącznika, więc Peel tutaj tego zadania nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O auxiliar do Peel só passa para o launchctl um nome formado por letras ASCII, dígitos, pontos, hifens, sublinhados, @ e +, que não comece com ponto nem com hífen, por isso o Peel não inicia, não interrompe, não ativa nem desativa esta tarefa aqui."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Instrumentul de ajutor Peel transmite către launchctl doar un nume format din litere ASCII, cifre, puncte, cratime, liniuțe de subliniere, @ și +, care nu începe cu un punct sau cu o cratimă, așa că Peel nu pornește, nu oprește, nu activează și nu dezactivează această sarcină de aici."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помощник Peel передает launchctl только имена из букв ASCII, цифр, точек, дефисов, подчеркиваний, @ и +, которые не начинаются с точки или дефиса, поэтому Peel здесь не запускает, не останавливает, не включает и не выключает это задание."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peels hjälpprogram skickar bara sådana namn till launchctl som består av ASCII-bokstäver, siffror, punkter, bindestreck, understreck, @ och + och som inte börjar med en punkt eller ett bindestreck, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här jobbet härifrån."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel’in yardımcısı, launchctl komutuna yalnızca ASCII harf, rakam, nokta, kısa çizgi, alt çizgi, @ ve + karakterlerinden oluşan ve nokta ya da kısa çizgiyle başlamayan bir ad aktarır, bu yüzden Peel bu işi burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Помічник Peel передає launchctl лише назву з літер ASCII, цифр, крапок, дефісів, знаків підкреслення, @ і +, яка не починається з крапки чи дефіса, тож Peel тут не запускає, не зупиняє, не вмикає й не вимикає це завдання."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel的帮助程序只会将由ASCII字母、数字、点、连字符、下划线、@和+组成且不以点或连字符开头的名称传递给launchctl，因此Peel不会在此处启动、停止、启用或停用此任务。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Peel的輔助程式只會將由ASCII字母、數字、句點、連字號、底線、@和+組成，且不以句點或連字號開頭的名稱傳遞給launchctl，因此Peel不會在這裡啟動、停止、啟用或停用此工作。"
           }
         }
       }
@@ -260535,218 +260323,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此更新沒有附帶任何附註。"
-          }
-        }
-      }
-    },
-    "This uses one of Apple’s names" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Používá jeden z názvů společnosti Apple"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dieses Objekt verwendet einen Namen von Apple"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usa uno de los nombres de Apple"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cet élément utilise un nom d’Apple"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usa uno dei nomi di Apple"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apple固有の名前を使用しています"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apple의 이름 중 하나를 사용하는 항목입니다"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dit gebruikt een naam van Apple"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ta rzecz używa jednej z nazw Apple"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Este item usa um dos nomes da Apple"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Acesta folosește unul dintre numele Apple"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Этот объект использует одно из имен Apple"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det här använder ett av Apples namn"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu, Apple’ın adlarından birini kullanıyor"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Цей елемент використовує одну з назв Apple"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此项使用了Apple的名称"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此項目使用Apple的名稱"
-          }
-        }
-      }
-    },
-    "This uses the name of one of macOS’s jobs" : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Používá název jedné z úloh systému macOS"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dieses Objekt verwendet den Namen eines Jobs von macOS"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usa el nombre de una de las tareas de macOS"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cet élément utilise le nom d’une tâche de macOS"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usa il nome di uno degli elementi di macOS"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS固有のジョブの名前を使用しています"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS의 작업 이름 중 하나를 사용하는 항목입니다"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dit gebruikt de naam van een taak van macOS"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ta rzecz używa nazwy jednego z zadań macOS"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Este item usa o nome de uma das tarefas do macOS"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Acesta folosește numele uneia dintre sarcinile macOS"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Этот объект использует имя одного из заданий macOS"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Det här använder namnet på ett av macOS egna jobb"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu, macOS’in işlerinden birinin adını kullanıyor"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Цей елемент використовує назву одного із завдань macOS"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此项使用了macOS某个任务的名称"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此項目使用macOS某個工作的名稱"
           }
         }
       }
@@ -303255,6 +302831,112 @@
         }
       }
     },
+    "launchctl reads its name only up to a slash, so a command for it could reach another job." : {
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl čte její název jen po lomítko, takže příkaz pro ni by mohl zasáhnout jinou úlohu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl liest seinen Namen nur bis zu einem Schrägstrich, daher könnte ein Befehl dafür einen anderen Job treffen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl solo lee su nombre hasta una barra, así que un comando para esta tarea podría afectar a otra."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl ne lit son nom que jusqu’à une barre oblique : une commande qui lui est destinée pourrait donc atteindre une autre tâche."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl legge il suo nome solo fino a una barra, quindi un comando per questo elemento potrebbe arrivare a un altro elemento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctlはジョブの名前をスラッシュの手前までしか読み取らないため、このジョブに対するコマンドが別のジョブに及ぶ可能性があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl은 작업 이름을 슬래시 앞까지만 읽으므로, 이 작업에 대한 명령이 다른 작업에 전달될 수 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl leest de naam alleen tot aan een schuine streep, dus een commando voor deze taak kan bij een andere taak terechtkomen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl odczytuje jego nazwę tylko do ukośnika, więc polecenie dla niego mogłoby trafić do innego zadania."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O launchctl lê o nome dele só até uma barra, então um comando para ele poderia atingir outra tarefa."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl îi citește numele doar până la o bară oblică, așa că o comandă pentru ea ar putea viza altă sarcină."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl читает его имя только до косой черты, поэтому команда для него может затронуть другое задание."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl läser bara namnet fram till ett snedstreck, så ett kommando för det här jobbet kan nå ett annat jobb."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl onun adını yalnızca eğik çizgiye kadar okur, bu yüzden bu iş için verilen bir komut başka bir işe ulaşabilir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl читає його назву лише до скісної риски, тож команда для нього може потрапити до іншого завдання."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl读取它的名称时只会读到斜杠为止，因此针对它的命令可能会作用到另一个任务上。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "launchctl讀取它的名稱時只會讀到斜線為止，因此針對它的指令可能會作用到另一項工作。"
+          }
+        }
+      }
+    },
     "macOS" : {
       "comment" : "The system's name, never translated.",
       "shouldTranslate" : false
@@ -311913,214 +311595,108 @@
         }
       }
     },
-    "macOS runs a job by this name, but it didn’t install this file, so Peel doesn’t start, stop, or remove it here. Look at the file to see what put it there." : {
+    "macOS runs a job by this name, but it did not install this file. Look at the file to see what put it there." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS spouští úlohu s tímto názvem, ale tento soubor nenainstaloval, a proto ji tu Peel nespouští, nezastavuje ani neodstraňuje. Podívejte se do souboru, abyste zjistili, co ji tam umístilo."
+            "value" : "Systém macOS spouští úlohu s tímto názvem, ale tento soubor nenainstaloval. Podívejte se do souboru, abyste zjistili, co ho tam umístilo."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS führt einen Job mit diesem Namen aus, hat diese Datei aber nicht installiert, daher startet, stoppt oder entfernt Peel ihn hier nicht. Sieh in der Datei nach, welche Software sie dort abgelegt hat."
+            "value" : "macOS führt einen Job mit diesem Namen aus, hat diese Datei aber nicht installiert. Sieh in der Datei nach, welche Software sie dort abgelegt hat."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS ejecuta una tarea con este nombre, pero no instaló este archivo, así que aquí Peel no la inicia, no la detiene ni la elimina. Mira el archivo para saber qué lo puso ahí."
+            "value" : "macOS ejecuta una tarea con este nombre, pero no instaló este archivo. Mira el archivo para saber qué lo puso ahí."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS exécute une tâche portant ce nom, mais ce n’est pas macOS qui a installé ce fichier : Peel ne le démarre donc pas, ne l’arrête pas et ne le supprime pas ici. Examinez le fichier pour savoir ce qui l’a placé là."
+            "value" : "macOS exécute une tâche portant ce nom, mais ce n’est pas macOS qui a installé ce fichier. Examinez le fichier pour savoir ce qui l’a placé là."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS esegue un elemento con questo nome, ma non ha installato questo file, quindi qui Peel non lo avvia, non lo interrompe e non lo rimuove. Guarda il file per capire cosa l’ha messo lì."
+            "value" : "macOS esegue un elemento con questo nome, ma non ha installato questo file. Guarda il file per capire cosa l’ha messo lì."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSはこの名前のジョブを実行しますが、このファイルはmacOSがインストールしたものではないため、Peelはここで開始、停止、ゴミ箱への移動を行いません。何がこれを置いたのかは、ファイルを見て確認してください。"
+            "value" : "macOSはこの名前のジョブを実行しますが、このファイルはmacOSがインストールしたものではありません。何がこれを置いたのかは、ファイルを見て確認してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS가 이 이름으로 작업을 실행하지만 이 파일은 macOS가 설치한 것이 아니므로 Peel은 여기에서 이 항목을 시작, 중단 또는 제거하지 않습니다. 무엇이 이 항목을 넣어 두었는지 파일을 살펴보십시오."
+            "value" : "macOS가 이 이름으로 작업을 실행하지만 이 파일은 macOS가 설치한 것이 아닙니다. 무엇이 이 항목을 넣어 두었는지 파일을 살펴보십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS voert een taak met deze naam uit, maar heeft dit bestand niet geïnstalleerd, dus Peel start, stopt of verwijdert het hier niet. Bekijk het bestand om te zien welke software het daar heeft neergezet."
+            "value" : "macOS voert een taak met deze naam uit, maar heeft dit bestand niet geïnstalleerd. Bekijk het bestand om te zien welke software het daar heeft neergezet."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS uruchamia zadanie o tej nazwie, ale nie zainstalował tego pliku, więc Peel go tutaj nie uruchamia, nie zatrzymuje ani nie przenosi do Kosza. Zajrzyj do pliku, aby sprawdzić, co go tam umieściło."
+            "value" : "macOS uruchamia zadanie o tej nazwie, ale nie zainstalował tego pliku. Zajrzyj do pliku, aby sprawdzić, co go tam umieściło."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS executa uma tarefa com este nome, mas não foi ele que instalou este arquivo, por isso o Peel não a inicia, não a interrompe nem a remove aqui. Veja no arquivo o que o colocou ali."
+            "value" : "O macOS executa uma tarefa com este nome, mas não foi ele que instalou este arquivo. Veja no arquivo o que o colocou ali."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS rulează o sarcină cu acest nume, dar nu a instalat acest fișier, așa că Peel nu o pornește, nu o oprește și nu o elimină de aici. Examinați fișierul pentru a vedea ce l‑a pus acolo."
+            "value" : "macOS rulează o sarcină cu acest nume, dar nu a instalat acest fișier. Examinați fișierul pentru a vedea ce l‑a pus acolo."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS запускает задание с таким именем, но этот файл установила не она, поэтому Peel здесь не запускает, не останавливает и не удаляет его. Загляните в файл, чтобы узнать, что его туда поместило."
+            "value" : "macOS запускает задание с таким именем, но этот файл установила не она. Загляните в файл, чтобы узнать, что его туда поместило."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS kör ett jobb med det här namnet, men har inte installerat den här filen, så Peel varken startar, stoppar eller tar bort det här. Titta i filen för att se vad som har lagt den där."
+            "value" : "macOS kör ett jobb med det här namnet, men har inte installerat den här filen. Titta i filen för att se vad som har lagt den där."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bu adla bir iş çalıştırıyor ama bu dosyayı kendisi yüklemedi, bu yüzden Peel onu burada başlatmaz, durdurmaz veya kaldırmaz. Onu oraya neyin koyduğunu görmek için dosyaya bakın."
+            "value" : "macOS bu adla bir iş çalıştırıyor ama bu dosyayı kendisi yüklemedi. Onu oraya neyin koyduğunu görmek için dosyaya bakın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS виконує завдання з такою назвою, але цей файл вона не інсталювала, тож Peel тут його не запускає, не зупиняє й не вилучає. Перегляньте файл, щоб дізнатися, що його туди поклало."
+            "value" : "macOS виконує завдання з такою назвою, але цей файл вона не інсталювала. Перегляньте файл, щоб дізнатися, що його туди поклало."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS会运行使用此名称的任务，但此文件并非由macOS安装，因此Peel不会在此处启动、停止或移除它。请查看该文件，了解是什么将它放到了那里。"
+            "value" : "macOS会运行使用此名称的任务，但此文件并非由macOS安装。请查看该文件，了解是什么将它放到了那里。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS會執行使用此名稱的工作，但這個檔案不是由macOS安裝的，因此Peel不會在這裡啟動、停止或移除它。請查看該檔案，瞭解是什麼將它放在那裡。"
-          }
-        }
-      }
-    },
-    "macOS runs it, and only System Settings > General > Login Items & Extensions changes it, so Peel doesn’t start, stop, enable, or disable it here." : {
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spouští ho systém macOS a měnit ho lze jen v Nastavení systému > Obecné > Aktivace položek a rozšíření při přihlášení, a proto ho tu Peel nespouští, nezastavuje, nezapíná ani nevypíná."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS führt sie aus, und ändern lässt sie sich nur unter „Systemeinstellungen“ > „Allgemein“ > „Anmeldeobjekte & Erweiterungen“, daher startet, stoppt, aktiviert oder deaktiviert Peel sie hier nicht."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS la ejecuta, y solo se puede cambiar en Ajustes del Sistema > General > Ítems de inicio y extensiones, así que aquí Peel no la inicia, no la detiene, no la activa ni la desactiva."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS l’exécute, et il ne peut être modifié que dans Réglages Système > Général > Ouverture et extensions : Peel ne le démarre donc pas, ne l’arrête pas, ne l’active pas et ne le désactive pas ici."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS la esegue, e si può modificare solo in Impostazioni di Sistema > Generali > Elementi login ed estensioni, quindi qui Peel non la avvia, non la interrompe, non la abilita e non la disabilita."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "これはmacOSが実行しているもので、変更できるのは“システム設定”＞“一般”＞“ログイン項目と機能拡張”だけのため、Peelはここで開始、停止、有効化、無効化を行いません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS가 이 항목을 실행하며 시스템 설정 > 일반 > 로그인 항목 및 확장 프로그램에서만 변경할 수 있으므로, Peel은 여기에서 이 항목을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS voert het uit, en het kan alleen worden gewijzigd in Systeeminstellingen > Algemeen > Inlogonderdelen en extensies, dus Peel start het hier niet, stopt het niet en schakelt het niet in of uit."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS je uruchamia, a zmienić je można tylko w Ustawieniach systemowych > Ogólne > Rzeczy i rozszerzenia otwierane podczas logowania, więc Peel go tutaj nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O macOS a executa, e ela só pode ser alterada em Ajustes do Sistema > Geral > Itens de Início de Sessão e Extensões, por isso o Peel não a inicia, não a interrompe, não a ativa nem a desativa aqui."
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS o rulează și poate fi modificată doar din Configurări sistem > General > Lansare la login și extensii, așa că Peel nu o pornește, nu o oprește, nu o activează și nu o dezactivează de aici."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Его запускает macOS, а изменить его можно только в разделе «Системные настройки» > «Основные» > «Объекты входа и расширения», поэтому Peel здесь не запускает, не останавливает, не включает и не выключает его."
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS kör det, och det kan bara ändras i Systeminställningar > Allmänt > Startobjekt och tillägg, så Peel varken startar, stoppar, aktiverar eller avaktiverar det här."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Onu macOS çalıştırır ve yalnızca Sistem Ayarları > Genel > Oturum Açma Öğeleri ve Genişletmeler bölümünden değiştirilebilir, bu yüzden Peel onu burada başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Його виконує macOS, і змінити його можна лише в розділі Системні параметри > Загальні > Автозапуск і розширення, тож Peel тут його не запускає, не зупиняє, не вмикає й не вимикає."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "它由macOS运行，并且只有“系统设置”>“通用”>“登录项与扩展”可以更改它，因此Peel不会在此处启动、停止、启用或停用它。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS會執行它，而且只有「系統設定」>「一般」>「登入項目與延伸功能」能更改它，因此Peel不會在這裡啟動、停止、啟用或停用它。"
+            "value" : "macOS會執行使用此名稱的工作，但這個檔案不是由macOS安裝的。請查看該檔案，瞭解是什麼將它放在那裡。"
           }
         }
       }
@@ -312231,108 +311807,108 @@
         }
       }
     },
-    "macOS runs this job from another file that declares the same name, so this file is not loaded. Peel does not start, stop, enable, or disable it from here." : {
+    "macOS runs this job from another file with the same name, so this file is not loaded." : {
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systém macOS spouští tuto úlohu z jiného souboru, který uvádí stejný název, takže tento soubor není načtený. Peel ji odtud nespouští, nezastavuje, nezapíná ani nevypíná."
+            "value" : "Systém macOS spouští tuto úlohu z jiného souboru se stejným názvem, takže tento soubor není načtený."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS führt diesen Job aus einer anderen Datei aus, die denselben Namen angibt, daher ist diese Datei nicht geladen. Peel startet, stoppt, aktiviert oder deaktiviert ihn nicht von hier aus."
+            "value" : "macOS führt diesen Job aus einer anderen Datei mit demselben Namen aus, daher ist diese Datei nicht geladen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS ejecuta esta tarea desde otro archivo que declara el mismo nombre, así que este archivo no está cargado. Desde aquí, Peel no la inicia, no la detiene, no la activa ni la desactiva."
+            "value" : "macOS ejecuta esta tarea desde otro archivo con el mismo nombre, así que este archivo no está cargado."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS exécute cette tâche à partir d’un autre fichier qui déclare le même nom : ce fichier-ci n’est donc pas chargé. Peel ne démarre pas cet élément, ne l’arrête pas, ne l’active pas et ne le désactive pas d’ici."
+            "value" : "macOS exécute cette tâche à partir d’un autre fichier portant le même nom : ce fichier-ci n’est donc pas chargé."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS esegue questo elemento da un altro file che dichiara lo stesso nome, quindi questo file non è caricato. Da qui Peel non lo avvia, non lo interrompe, non lo abilita e non lo disabilita."
+            "value" : "macOS esegue questo elemento da un altro file con lo stesso nome, quindi questo file non è caricato."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSは、同じ名前を宣言している別のファイルからこのジョブを実行しているため、このファイルは読み込まれていません。Peelはここから開始、停止、有効化、無効化を行いません。"
+            "value" : "macOSは、同じ名前の別のファイルからこのジョブを実行しているため、このファイルは読み込まれていません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS가 같은 이름을 지정하는 다른 파일에서 이 작업을 실행하므로 이 파일은 로드되지 않습니다. Peel은 여기에서 이 항목을 시작, 중단, 활성화 또는 비활성화하지 않습니다."
+            "value" : "macOS가 같은 이름의 다른 파일에서 이 작업을 실행하므로 이 파일은 로드되지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS voert deze taak uit vanuit een ander bestand dat dezelfde naam vermeldt, dus dit bestand is niet geladen. Peel start het van hieruit niet, stopt het niet en schakelt het niet in of uit."
+            "value" : "macOS voert deze taak uit vanuit een ander bestand met dezelfde naam, dus dit bestand is niet geladen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS uruchamia to zadanie z innego pliku, który deklaruje tę samą nazwę, więc ten plik nie jest wczytany. Peel go stąd nie uruchamia, nie zatrzymuje, nie włącza ani nie wyłącza."
+            "value" : "macOS uruchamia to zadanie z innego pliku o tej samej nazwie, więc ten plik nie jest wczytany."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS executa esta tarefa a partir de outro arquivo que declara o mesmo nome, então este arquivo não está carregado. O Peel não a inicia, não a interrompe, não a ativa nem a desativa daqui."
+            "value" : "O macOS executa esta tarefa a partir de outro arquivo com o mesmo nome, então este arquivo não está carregado."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS rulează această sarcină dintr‑un alt fișier care declară același nume, așa că acest fișier nu este încărcat. Peel nu îl pornește, nu îl oprește, nu îl activează și nu îl dezactivează de aici."
+            "value" : "macOS rulează această sarcină dintr‑un alt fișier cu același nume, așa că acest fișier nu este încărcat."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS запускает это задание из другого файла, в котором объявлено то же имя, поэтому этот файл не загружен. Peel не запускает, не останавливает, не включает и не выключает его отсюда."
+            "value" : "macOS запускает это задание из другого файла с тем же именем, поэтому этот файл не загружен."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS kör det här jobbet från en annan fil som anger samma namn, så den här filen är inte inläst. Peel varken startar, stoppar, aktiverar eller avaktiverar det härifrån."
+            "value" : "macOS kör det här jobbet från en annan fil med samma namn, så den här filen är inte inläst."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS bu işi aynı adı tanımlayan başka bir dosyadan çalıştırıyor, bu yüzden bu dosya yüklü değil. Peel onu buradan başlatmaz, durdurmaz, etkinleştirmez veya etkisizleştirmez."
+            "value" : "macOS bu işi aynı ada sahip başka bir dosyadan çalıştırıyor, bu yüzden bu dosya yüklü değil."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS виконує це завдання з іншого файлу, який оголошує таку саму назву, тож цей файл не завантажено. Peel не запускає, не зупиняє, не вмикає й не вимикає його звідси."
+            "value" : "macOS виконує це завдання з іншого файлу з такою самою назвою, тож цей файл не завантажено."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS从另一个声明了相同名称的文件运行此任务，因此此文件未载入。Peel不会从此处启动、停止、启用或停用它。"
+            "value" : "macOS从另一个具有相同名称的文件运行此任务，因此此文件未载入。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS會從另一個宣告相同名稱的檔案執行此工作，因此這個檔案未載入。Peel不會從這裡啟動、停止、啟用或停用它。"
+            "value" : "macOS會從另一個名稱相同的檔案執行此工作，因此這個檔案未載入。"
           }
         }
       }

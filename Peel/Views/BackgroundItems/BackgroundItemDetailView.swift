@@ -172,19 +172,11 @@ struct BackgroundItemDetailView: View {
                 }
             }
 
-            if item.declaresAnAppleLabel {
+            if item.declaresAnAppleLabel || item.usesALabelOfMacOS {
                 Section {
                     Notice(
-                        title: Text("This uses one of Apple’s names"),
-                        detail: Text("Its name starts with com.apple, but macOS didn’t install it, so Peel doesn’t start, stop, or remove it here. Look at the file to see what put it there."),
-                        kind: .caution
-                    ) {}
-                }
-            } else if item.usesALabelOfMacOS {
-                Section {
-                    Notice(
-                        title: Text("This uses the name of one of macOS’s jobs"),
-                        detail: Text("macOS runs a job by this name, but it didn’t install this file, so Peel doesn’t start, stop, or remove it here. Look at the file to see what put it there."),
+                        title: Text(Self.notInstalledByMacOS),
+                        detail: Text(item.declaresAnAppleLabel ? Self.appleNameNote : Self.macOSJobNameNote),
                         kind: .caution
                     ) {}
                 }
@@ -194,7 +186,7 @@ struct BackgroundItemDetailView: View {
                 Section {
                     Notice(
                         title: Text("Another file with this name is loaded"),
-                        detail: Text("macOS runs this job from another file that declares the same name, so this file is not loaded. Peel does not start, stop, enable, or disable it from here."),
+                        detail: Text(Self.anotherFileNote),
                         kind: .note
                     ) {}
                 }
@@ -202,26 +194,11 @@ struct BackgroundItemDetailView: View {
 
             if let unusable = item.unusableLabel, !item.canBeControlled {
                 Section {
-                    switch unusable {
-                    case .holdsASlash:
-                        Notice(
-                            title: Text("Its name could reach another job"),
-                            detail: Text("Since launchctl reads a job’s name only up to a slash, a command for this one could reach another job. Peel doesn’t start, stop, enable, or disable it here."),
-                            kind: .note
-                        ) {}
-                    case .holdsAControlCharacter:
-                        Notice(
-                            title: Text("Its name holds a control character"),
-                            detail: Text("Peel never passes a control character to launchctl, so it doesn’t start, stop, enable, or disable this job here."),
-                            kind: .note
-                        ) {}
-                    case .notTakenByTheHelper:
-                        Notice(
-                            title: Text("Its name has characters the helper doesn’t take"),
-                            detail: Text("The Peel helper passes launchctl only a name of ASCII letters, digits, dots, hyphens, underscores, @ and +, not starting with a dot or a hyphen, so Peel does not start, stop, enable, or disable this job here."),
-                            kind: .note
-                        ) {}
-                    }
+                    Notice(
+                        title: Text(Self.doesNotChangeIt),
+                        detail: Text(Self.whyItsNameIsUnusable(unusable)),
+                        kind: .note
+                    ) {}
                 }
             }
 
@@ -229,7 +206,7 @@ struct BackgroundItemDetailView: View {
                 Section {
                     Notice(
                         title: Text("This is a system extension"),
-                        detail: Text("macOS runs it, and only System Settings > General > Login Items & Extensions changes it, so Peel doesn’t start, stop, enable, or disable it here."),
+                        detail: Text(Self.systemExtensionNote),
                         kind: .note
                     ) {
                         Button("Open Extensions") { Navigator.shared.requestedTool = .extensions }
@@ -669,16 +646,32 @@ extension BackgroundItem {
 }
 
 extension BackgroundItemDetailView {
+    static let notInstalledByMacOS: LocalizedStringResource = "Not installed by macOS"
+    static let appleNameNote: LocalizedStringResource = "Its name says Apple, but macOS did not install it. Look at the file to see what put it there."
+    static let macOSJobNameNote: LocalizedStringResource = "macOS runs a job by this name, but it did not install this file. Look at the file to see what put it there."
+    static let anotherFileNote: LocalizedStringResource = "macOS runs this job from another file with the same name, so this file is not loaded."
+    static let systemExtensionNote: LocalizedStringResource = "Only System Settings > General > Login Items & Extensions changes it."
+    static let doesNotChangeIt: LocalizedStringResource = "Peel does not change this job"
+
+    static func whyItsNameIsUnusable(_ unusable: BackgroundItem.UnusableLabel) -> LocalizedStringResource {
+        switch unusable {
+        case .holdsASlash:
+            "launchctl reads its name only up to a slash, so a command for it could reach another job."
+        case .holdsAControlCharacter:
+            "Its name has a control character, which Peel never passes to launchctl."
+        case .notTakenByTheHelper:
+            "Its name has characters the Peel helper never passes to launchctl."
+        }
+    }
+
     static func whyStateIsNotKnown(_ reason: BackgroundItem.StateNotKnown?) -> LocalizedStringResource {
         switch reason {
-        case .jobsNotListed:
-            "Peel couldn’t read launchctl’s list of the loaded jobs, so it doesn’t start, stop, enable, or disable this one here."
-        case .disabledNotListed:
-            "Peel couldn’t read launchctl’s list of the jobs turned off, so it doesn’t start, stop, enable, or disable this one here."
+        case .jobsNotListed, .disabledNotListed:
+            "Peel could not read from launchctl which jobs are loaded or turned off."
         case .whichFileNotSaid:
-            "Another file declares the same job, and macOS did not say which of the two it loaded, so Peel does not start, stop, enable, or disable it here."
+            "Another file declares the same job, and macOS did not say which one it loaded."
         case nil:
-            "Peel asked macOS about it and got no answer it could read, so Peel doesn’t start, stop, enable, or disable it here."
+            "Peel could not read what macOS answered about this job."
         }
     }
 }
