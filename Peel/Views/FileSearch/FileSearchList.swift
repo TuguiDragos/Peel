@@ -334,7 +334,7 @@ struct LeftOutLines: View {
         case .excluded:
             "Left out: ^[\(count) file](inflect: true) among what you excluded in Settings."
         case .exclusionsNotKnown:
-            "Left out: ^[\(count) file](inflect: true) until Peel can read your exclusions"
+            "Left out: ^[\(count) file](inflect: true) until Peel can read your exclusions."
         case .protected:
             "Left out: ^[\(count) file](inflect: true) in places Peel never moves from"
         case .couldNotBeRead:

@@ -112043,7 +112043,7 @@
         }
       }
     },
-    "Left out: ^[%lld file](inflect: true) until Peel can read your exclusions" : {
+    "Left out: ^[%lld file](inflect: true) until Peel can read your exclusions." : {
       "localizations" : {
         "cs" : {
           "variations" : {
@@ -112051,25 +112051,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Vynecháno: %lld soubory, dokud Peel nedokáže přečíst vaše výjimky"
+                  "value" : "Vynecháno: %lld soubory, dokud Peel nedokáže přečíst vaše výjimky."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Vynecháno: %lld souboru, dokud Peel nedokáže přečíst vaše výjimky"
+                  "value" : "Vynecháno: %lld souboru, dokud Peel nedokáže přečíst vaše výjimky."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Vynecháno: %lld soubor, dokud Peel nedokáže přečíst vaše výjimky"
+                  "value" : "Vynecháno: %lld soubor, dokud Peel nedokáže přečíst vaše výjimky."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Vynecháno: %lld souborů, dokud Peel nedokáže přečíst vaše výjimky"
+                  "value" : "Vynecháno: %lld souborů, dokud Peel nedokáže přečíst vaše výjimky."
                 }
               }
             }
@@ -112081,13 +112081,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Ausgelassen: %lld Datei, bis Peel deine Ausschlüsse lesen kann"
+                  "value" : "Ausgelassen: %lld Datei, bis Peel deine Ausschlüsse lesen kann."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Ausgelassen: %lld Dateien, bis Peel deine Ausschlüsse lesen kann"
+                  "value" : "Ausgelassen: %lld Dateien, bis Peel deine Ausschlüsse lesen kann."
                 }
               }
             }
@@ -112099,19 +112099,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Se han dejado fuera %lld de archivos hasta que Peel pueda leer tus exclusiones"
+                  "value" : "Se han dejado fuera %lld de archivos hasta que Peel pueda leer tus exclusiones."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Se ha dejado fuera %lld archivo hasta que Peel pueda leer tus exclusiones"
+                  "value" : "Se ha dejado fuera %lld archivo hasta que Peel pueda leer tus exclusiones."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Se han dejado fuera %lld archivos hasta que Peel pueda leer tus exclusiones"
+                  "value" : "Se han dejado fuera %lld archivos hasta que Peel pueda leer tus exclusiones."
                 }
               }
             }
@@ -112123,19 +112123,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Écartés : %lld de fichiers tant que Peel ne peut pas lire vos exclusions"
+                  "value" : "Écartés : %lld de fichiers tant que Peel ne peut pas lire vos exclusions."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Écarté : %lld fichier tant que Peel ne peut pas lire vos exclusions"
+                  "value" : "Écarté : %lld fichier tant que Peel ne peut pas lire vos exclusions."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Écartés : %lld fichiers tant que Peel ne peut pas lire vos exclusions"
+                  "value" : "Écartés : %lld fichiers tant que Peel ne peut pas lire vos exclusions."
                 }
               }
             }
@@ -112147,19 +112147,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Omessi: %lld di file finché Peel non riesce a leggere le tue esclusioni"
+                  "value" : "Omessi: %lld di file finché Peel non riesce a leggere le tue esclusioni."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Omesso: %lld file finché Peel non riesce a leggere le tue esclusioni"
+                  "value" : "Omesso: %lld file finché Peel non riesce a leggere le tue esclusioni."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Omessi: %lld file finché Peel non riesce a leggere le tue esclusioni"
+                  "value" : "Omessi: %lld file finché Peel non riesce a leggere le tue esclusioni."
                 }
               }
             }
@@ -112168,13 +112168,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Peelが除外リストを読み取れるようになるまで、%lld個のファイルは表示対象外です"
+            "value" : "Peelが除外リストを読み取れるようになるまで、%lld個のファイルは表示対象外です。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "표시되지 않음: Peel이 제외 항목을 읽을 수 있을 때까지 파일 %lld개"
+            "value" : "표시되지 않음: Peel이 제외 항목을 읽을 수 있을 때까지 파일 %lld개."
           }
         },
         "nl" : {
@@ -112183,13 +112183,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Weggelaten: %lld bestand totdat Peel je uitsluitingen kan lezen"
+                  "value" : "Weggelaten: %lld bestand totdat Peel je uitsluitingen kan lezen."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Weggelaten: %lld bestanden totdat Peel je uitsluitingen kan lezen"
+                  "value" : "Weggelaten: %lld bestanden totdat Peel je uitsluitingen kan lezen."
                 }
               }
             }
@@ -112201,25 +112201,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Pominięto: %lld pliki, dopóki Peel nie będzie mógł odczytać Twoich wykluczeń"
+                  "value" : "Pominięto: %lld pliki, dopóki Peel nie będzie mógł odczytać Twoich wykluczeń."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Pominięto: %lld plików, dopóki Peel nie będzie mógł odczytać Twoich wykluczeń"
+                  "value" : "Pominięto: %lld plików, dopóki Peel nie będzie mógł odczytać Twoich wykluczeń."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Pominięto: %lld plik, dopóki Peel nie będzie mógł odczytać Twoich wykluczeń"
+                  "value" : "Pominięto: %lld plik, dopóki Peel nie będzie mógł odczytać Twoich wykluczeń."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Pominięto: %lld pliku, dopóki Peel nie będzie mógł odczytać Twoich wykluczeń"
+                  "value" : "Pominięto: %lld pliku, dopóki Peel nie będzie mógł odczytać Twoich wykluczeń."
                 }
               }
             }
@@ -112231,19 +112231,19 @@
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Ficaram de fora: %lld de arquivos até o Peel conseguir ler as suas exclusões"
+                  "value" : "Ficaram de fora: %lld de arquivos até o Peel conseguir ler as suas exclusões."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Ficou de fora: %lld arquivo até o Peel conseguir ler as suas exclusões"
+                  "value" : "Ficou de fora: %lld arquivo até o Peel conseguir ler as suas exclusões."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Ficaram de fora: %lld arquivos até o Peel conseguir ler as suas exclusões"
+                  "value" : "Ficaram de fora: %lld arquivos até o Peel conseguir ler as suas exclusões."
                 }
               }
             }
@@ -112255,19 +112255,19 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Omise: %lld fișiere cât timp Peel nu vă poate citi excluderile"
+                  "value" : "Omise: %lld fișiere cât timp Peel nu vă poate citi excluderile."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Omis: %lld fișier cât timp Peel nu vă poate citi excluderile"
+                  "value" : "Omis: %lld fișier cât timp Peel nu vă poate citi excluderile."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Omise: %lld de fișiere cât timp Peel nu vă poate citi excluderile"
+                  "value" : "Omise: %lld de fișiere cât timp Peel nu vă poate citi excluderile."
                 }
               }
             }
@@ -112279,25 +112279,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Не показано: %lld файла, пока Peel не сможет прочитать Ваши исключения"
+                  "value" : "Не показано: %lld файла, пока Peel не сможет прочитать Ваши исключения."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Не показано: %lld файлов, пока Peel не сможет прочитать Ваши исключения"
+                  "value" : "Не показано: %lld файлов, пока Peel не сможет прочитать Ваши исключения."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Не показано: %lld файл, пока Peel не сможет прочитать Ваши исключения"
+                  "value" : "Не показано: %lld файл, пока Peel не сможет прочитать Ваши исключения."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Не показано: %lld файла, пока Peel не сможет прочитать Ваши исключения"
+                  "value" : "Не показано: %lld файла, пока Peel не сможет прочитать Ваши исключения."
                 }
               }
             }
@@ -112309,13 +112309,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Visas inte: %lld fil förrän Peel kan läsa dina undantag"
+                  "value" : "Visas inte: %lld fil förrän Peel kan läsa dina undantag."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Visas inte: %lld filer förrän Peel kan läsa dina undantag"
+                  "value" : "Visas inte: %lld filer förrän Peel kan läsa dina undantag."
                 }
               }
             }
@@ -112327,13 +112327,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Dışarıda bırakılanlar: Peel hariç tutulanlar listenizi okuyabilene kadar %lld dosya"
+                  "value" : "Dışarıda bırakılanlar: Peel hariç tutulanlar listenizi okuyabilene kadar %lld dosya."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Dışarıda bırakılanlar: Peel hariç tutulanlar listenizi okuyabilene kadar %lld dosya"
+                  "value" : "Dışarıda bırakılanlar: Peel hariç tutulanlar listenizi okuyabilene kadar %lld dosya."
                 }
               }
             }
@@ -112345,25 +112345,25 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Не показано: %lld файли, доки Peel не зможе прочитати ваші винятки"
+                  "value" : "Не показано: %lld файли, доки Peel не зможе прочитати ваші винятки."
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Не показано: %lld файлів, доки Peel не зможе прочитати ваші винятки"
+                  "value" : "Не показано: %lld файлів, доки Peel не зможе прочитати ваші винятки."
                 }
               },
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Не показано: %lld файл, доки Peel не зможе прочитати ваші винятки"
+                  "value" : "Не показано: %lld файл, доки Peel не зможе прочитати ваші винятки."
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Не показано: %lld файла, доки Peel не зможе прочитати ваші винятки"
+                  "value" : "Не показано: %lld файла, доки Peel не зможе прочитати ваші винятки."
                 }
               }
             }
@@ -112372,13 +112372,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "未列出：%lld个文件，直到Peel能够读取你的排除项为止"
+            "value" : "未列出：%lld个文件，直到Peel能够读取你的排除项为止。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已略過：%lld個檔案，直到Peel能讀取你的排除項目為止"
+            "value" : "已略過：%lld個檔案，直到Peel能讀取你的排除項目為止。"
           }
         }
       }

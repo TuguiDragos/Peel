@@ -13,7 +13,7 @@ struct FileSearchTextTests {
         #expect(LeftOutLines.note(for: .syncs)?.key == "Peel never moves what syncs, since moving it to the Trash would also remove it from your other devices.")
         #expect(LeftOutLines.title(for: .protected, count: 3).key == "Left out: ^[%lld file](inflect: true) in places Peel never moves from")
         #expect(LeftOutLines.note(for: .protected)?.key == "Such as macOS itself, Mail, Messages, or a photo library.")
-        #expect(LeftOutLines.title(for: .exclusionsNotKnown, count: 3).key == "Left out: ^[%lld file](inflect: true) until Peel can read your exclusions")
+        #expect(LeftOutLines.title(for: .exclusionsNotKnown, count: 3).key == "Left out: ^[%lld file](inflect: true) until Peel can read your exclusions.")
         #expect(LeftOutLines.note(for: .exclusionsNotKnown) == nil)
         #expect(LeftOutLines.note(for: .excluded) == nil)
     }
