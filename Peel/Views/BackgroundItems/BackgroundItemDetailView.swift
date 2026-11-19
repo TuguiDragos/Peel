@@ -356,7 +356,7 @@ struct BackgroundItemDetailView: View {
             let warning = item.ownerBundleIdentifier.flatMap { owner in
                 item.trashWarning(ownerName: item.ownerName ?? library.name(forReference: owner))
             }
-            let maker = Self.makersWarning(for: Self.makersUninstaller(of: item, among: library.apps))
+            let maker = Self.makersLine(beforeMoving: Self.makersUninstaller(of: item, among: library.apps))
             Text(verbatim: ([warning, item.whenTrashed].compactMap { $0.map { String(localized: $0) } } + [maker])
                 .compactMap(\.self).joined(separator: "\n\n"))
         }
@@ -390,6 +390,13 @@ struct BackgroundItemDetailView: View {
     static func makersWarning(for found: MakersStep?) -> String? {
         guard let found, !found.isForWhatIsLeft else { return nil }
         return String(localized: "\(found.name) is removed with the uninstaller from its maker, which knows everything that goes with it. Changing its job here can keep it from working.")
+    }
+
+    /// What the question before Move to Trash adds: the warning for an installed app, or, for what an app left, that
+    /// the maker's uninstaller takes more than this job.
+    static func makersLine(beforeMoving found: MakersStep?) -> String? {
+        guard let found, found.isForWhatIsLeft else { return makersWarning(for: found) }
+        return String(localized: "The uninstaller from \(found.uninstaller.maker) also takes what the app kept in the system, which may not all be listed here.")
     }
 
     private var needsHelper: Bool { item.waitsForTheHelper && !helper.canAct }

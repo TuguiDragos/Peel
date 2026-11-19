@@ -30,6 +30,7 @@ struct BackgroundItemMakersTests {
         #expect(found.isForWhatIsLeft)
         #expect(found.uninstaller.step == .fromTheMakersPage)
         #expect(BackgroundItemDetailView.makersWarning(for: found) == nil)
+        #expect(BackgroundItemDetailView.makersLine(beforeMoving: found) == String(localized: "The uninstaller from \(found.uninstaller.maker) also takes what the app kept in the system, which may not all be listed here."))
     }
 
     @Test func aJobOfAnAppItsMakerRemovesSaysSo() {
@@ -51,5 +52,8 @@ struct BackgroundItemMakersTests {
         #expect(BackgroundItemDetailView.makersUninstaller(of: backup, among: apps) == nil)
         #expect(BackgroundItemDetailView.makersWarning(for: found)?.contains("Kaspersky") == true)
         #expect(BackgroundItemDetailView.makersWarning(for: nil) == nil)
+        let line = BackgroundItemDetailView.makersLine(beforeMoving: found)
+        #expect(line == BackgroundItemDetailView.makersWarning(for: found))
+        #expect(BackgroundItemDetailView.makersLine(beforeMoving: nil) == nil)
     }
 }
